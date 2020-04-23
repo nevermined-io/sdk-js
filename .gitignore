@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.nyc_output/
+coverage/
+doc/
+test/**/*.js
+src/**/*.js
+
+src/metadata\.json

@@ -1,0 +1,140 @@
+{
+  "name": "@keyko-io/nevermind-sdk-js",
+  "version": "0.1.0",
+  "description": "Nevermind implementation of JavaScript client library for Ocean Protocol",
+  "main": "./dist/node/squid.js",
+  "typings": "./dist/node/squid.d.ts",
+  "unpkg": "./dist/browser/squid.cjs2.min.js",
+  "scripts": {
+    "start": "npm link @keyko-io/nevermind-contracts @oceanprotocol/secret-store-client && npm run build:watch",
+    "build": "npm run clean && npm run build:tsc && npm run build:dist",
+    "build:tsc": "tsc --sourceMap",
+    "build:metadata": "./scripts/get-metadata.js > src/metadata.json",
+    "build:dist": "cross-env NODE_ENV=production webpack",
+    "build:watch": "tsc -w",
+    "test": "mocha",
+    "test:watch": "mocha -w --watch-extensions js,ts,json",
+    "test:cover": "nyc --report-dir coverage/unit mocha",
+    "integration": "mocha --opts integration/mocha.opts",
+    "integration:pacific": "export NETWORK_NAME=pacific; mocha --opts integration/mocha.opts",
+    "integration:nile": "export NETWORK_NAME=nile; mocha --opts integration/mocha.opts",
+    "integration:duero": "export NETWORK_NAME=duero; mocha --opts integration/mocha.opts",
+    "integration:watch": "mocha -w --watch-extensions js,ts,json  --opts integration/mocha.opts",
+    "integration:cover": "nyc --report-dir coverage/integration mocha --opts integration/mocha.opts",
+    "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
+    "lint": "eslint --ignore-path .gitignore --ext .ts,.tsx .",
+    "format": "prettier --parser typescript --ignore-path .gitignore --write '**/*.{js,jsx,ts,tsx}'",
+    "doc": "typedoc --mode modules --out ./doc/ ./src/",
+    "doc:json": "./scripts/typedoc.js",
+    "merge-coverages": "npx lcov-result-merger \"coverage/*/lcov.info\" coverage/lcov.info",
+    "report-coverage": "npm run report-coverage:unit && npm run report-coverage:integration",
+    "report-coverage:unit": "cat coverage/unit/lcov.info | codacy-coverage --token 71ef0d15f6f04ac29b31d704b28f866a",
+    "report-coverage:integration": "cat coverage/integration/lcov.info | codacy-coverage --token 71ef0d15f6f04ac29b31d704b28f866a",
+    "run": "ts-node",
+    "release": "release-it --non-interactive",
+    "changelog": "auto-changelog -p",
+    "prepublishOnly": "npm run build",
+    "prebuild": "npm run build:metadata",
+    "prepare": "npm run build:metadata"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keyko-io/nevermind-sdk-js.git"
+  },
+  "keywords": [],
+  "author": "Keyko<info@keyko.io>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/keyko-io/nevermind-sdk-js/issues"
+  },
+  "homepage": "https://github.com/keyko-io/nevermind-sdk-js#readme",
+  "peerDependencies": {
+    "web3": "^1.2.3"
+  },
+  "dependencies": {
+    "@keyko-io/nevermind-contracts": "^0.1.1",
+    "@oceanprotocol/secret-store-client": "^0.0.15",
+    "bignumber.js": "^9.0.0",
+    "deprecated-decorator": "^0.1.6",
+    "node-fetch": "^2.6.0",
+    "save-file": "^2.3.1",
+    "uuid": "^3.3.3",
+    "web3": "^1.2.4",
+    "whatwg-url": "^7.1.0"
+  },
+  "devDependencies": {
+    "@release-it/bumper": "^1.0.5",
+    "@truffle/hdwallet-provider": "^1.0.26",
+    "@types/chai": "^4.2.6",
+    "@types/chai-spies": "^1.0.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.14",
+    "@types/node-fetch": "^2.5.4",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
+    "auto-changelog": "^1.16.2",
+    "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
+    "cross-env": "^6.0.3",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "lcov-result-merger": "^3.1.0",
+    "mocha": "^6.2.2",
+    "mock-local-storage": "^1.1.11",
+    "nyc": "^14.1.1",
+    "ora": "^4.0.2",
+    "prettier": "^1.19.1",
+    "source-map-support": "^0.5.16",
+    "ts-node": "^8.5.4",
+    "typedoc": "^0.15.3",
+    "typescript": "^3.7.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-merge": "^4.2.2"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "lcov",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  },
+  "release-it": {
+    "hooks": {
+      "after:bump": "npm run changelog && npm run doc:json"
+    },
+    "plugins": {
+      "@release-it/bumper": {
+        "out": [
+          "package.json",
+          "package-lock.json"
+        ]
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "assets": [
+        "dist/squid-js.json"
+      ]
+    },
+    "npm": {
+      "publish": false
+    }
+  }
+}

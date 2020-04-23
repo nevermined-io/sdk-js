@@ -1,0 +1,54 @@
+dist: xenial
+sudo: required
+language: node_js
+node_js:
+  - '12'
+
+services:
+  - docker
+
+cache: npm
+
+matrix:
+  fast_finish: true
+
+before_install:
+  - npm install -g npm
+  - npm install -g codacy-coverage release-it greenkeeper-lockfile ganache-cli@~6.5.1
+
+before_script:
+  - greenkeeper-lockfile-update
+  - ganache-cli --port 18545 > ganache-cli.log &
+  - git clone https://github.com/oceanprotocol/barge
+  - cd barge
+  - export AQUARIUS_VERSION=v1.0.5
+  - export BRIZO_VERSION=v0.7.2
+  - export KEEPER_VERSION=v0.12.7
+  - export EVENTS_HANDLER_VERSION=v0.3.4
+  - export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+  - rm -rf "${HOME}/.ocean/keeper-contracts/artifacts"
+  - bash -x start_ocean.sh --no-commons --no-dashboard 2>&1 > start_ocean.log &
+  - cd ..
+
+script:
+  - npm run lint
+  - ./scripts/keeper.sh
+  - export ETH_PORT=18545; npm run test:cover
+  - npm run build
+  - npm run doc
+  - npm run integration:cover
+  - npm run report-coverage
+
+after_script:
+  - greenkeeper-lockfile-upload
+
+notifications:
+  email: false
+
+deploy:
+  - provider: npm
+    email: 'devops@oceanprotocol.com'
+    api_key: ${NPM_TOKEN}
+    skip_cleanup: true
+    on:
+      tags: true
