@@ -1,35 +1,33 @@
-[![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
+[![banner](https://raw.githubusercontent.com/keyko-io/assets/master/images/logo/small/keyko_logo@2x-100.jpg)](https://keyko.io)
 
-<h1 align="center">Squid-js</h1>
+# Javascript/Typescript API for Nevermind Data platform
 
-> 🦑 JavaScript client library for Ocean Protocol
-> [oceanprotocol.com](https://oceanprotocol.com)
+> Javascript SDK for connecting with Nevermind Data Platform
+> [keyko.io](https://keyko.io)
 
-[![npm](https://img.shields.io/npm/v/@oceanprotocol/squid.svg)](https://www.npmjs.com/package/@oceanprotocol/squid)
-[![Travis (.com)](https://img.shields.io/travis/com/oceanprotocol/squid-js.svg)](https://travis-ci.com/oceanprotocol/squid-js)
-[![GitHub contributors](https://img.shields.io/github/contributors/oceanprotocol/squid-js.svg)](https://github.com/oceanprotocol/squid-js/graphs/contributors)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8508313231b44b0997ec84898cd6f9db)](https://app.codacy.com/app/ocean-protocol/squid-js?utm_source=github.com&utm_medium=referral&utm_content=oceanprotocol/squid-js&utm_campaign=Badge_Grade_Settings)
-[![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol)
-[![Greenkeeper badge](https://badges.greenkeeper.io/oceanprotocol/squid-js.svg)](https://greenkeeper.io/)
+![CI Build](https://github.com/keyko-io/nevermind-sdk-js/workflows/Build/badge.svg)
 
 ---
 
-**🐲🦑 THERE COULD BE DRAGONS AND SQUIDS. If you run into problems, please open up [a new issue](https://github.com/oceanprotocol/squid-js/issues). 🦑🐲**
+## Table of Contents
 
----
 
-- [Get started](#get-started)
-  - [Examples](#examples)
-- [Documentation](#documentation)
-  - [Migration Guide](#migration-guide)
-- [Development](#development)
-- [Testing](#testing)
-  - [Unit Tests](#unit-tests)
-  - [Integration Tests](#integration-tests)
-- [Code Style](#code-style)
-- [Production build](#production-build)
-- [Releases](#releases)
-- [License](#license)
+   * [Javascript/Typescript API for Nevermind Data platform](#javascripttypescript-api-for-nevermind-data-platform)
+      * [Table of Contents](#table-of-contents)
+      * [Get started](#get-started)
+         * [Examples](#examples)
+      * [Documentation](#documentation)
+         * [Migration Guide](#migration-guide)
+      * [Development](#development)
+      * [Testing](#testing)
+         * [Unit Tests](#unit-tests)
+         * [Integration Tests](#integration-tests)
+      * [Code Style](#code-style)
+      * [Production build](#production-build)
+      * [Releases](#releases)
+      * [Attribution](#attribution)
+      * [License](#license)
+
 
 ---
 
@@ -38,20 +36,20 @@
 Start by adding the package to your dependencies:
 
 ```bash
-npm i @oceanprotocol/squid
+npm i @keyko-io/nevermind-sdk-js
 ```
 
 The package exposes `Ocean` and `Logger` which you can import in your code like this:
 
 ```js
 // ES6
-import { Ocean, Logger } from '@oceanprotocol/squid'
+import { Ocean, Logger } from '@keyko-io/nevermind-sdk-js'
 
 // ES2015
-const { Ocean, Logger } = require('@oceanprotocol/squid')
+const { Ocean, Logger } = require('@keyko-io/nevermind-sdk-js')
 ```
 
-You can then connect to running [Keeper](https://github.com/oceanprotocol/keeper-contracts), [Aquarius](https://github.com/oceanprotocol/aquarius), [Brizo](https://github.com/oceanprotocol/brizo) instances, e.g.:
+You can then connect to the [Smart Contracts](https://github.com/keyko-io/nevermind-contracts), [Metadata API](https://github.com/keyko-io/nevermind-metadata), [Brizo](https://github.com/keyko-io/nevermind-gateway) instances, e.g.:
 
 ```js
 const ocean: Ocean = await Ocean.getInstance({
@@ -70,21 +68,17 @@ const ocean: Ocean = await Ocean.getInstance({
 })
 ```
 
-For an overview of endpoint configurations making up various Ocean networks, please refer to [`.env.local.example`](https://github.com/oceanprotocol/commons/blob/master/client/.env.local.example) from commons.
+For an overview of endpoint configurations making up various Nevermind networks, please refer to [`.env.local.example`](https://github.com/oceanprotocol/commons/blob/master/client/.env.local.example) from commons.
 
 ### Examples
 
-You can see how `squid-js` is used on:
+You can see how `nevermind-sdk-js` is used on:
 
-- [Docs: React Tutorial](https://docs.oceanprotocol.com/tutorials/react-setup/)
 - [Integration test](/src/integration/ocean/)
-- [Tuna](https://github.com/oceanprotocol/tuna/tree/develop/node)
 
 ## Documentation
 
-**[Docs: squid-js API Reference →](https://docs.oceanprotocol.com/references/squid-js/)**
-
-Alternatively, you can generate the raw TypeDoc documentation locally by running:
+You can generate the raw TypeDoc documentation locally by running:
 
 ```bash
 # will output to ./doc folder
@@ -110,7 +104,7 @@ npm start
 
 ### Unit Tests
 
-For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in Barge:
+For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermind Tools](https://github.com/keyko-io/nevermind-tools):
 
 ```bash
 npm i -g ganache-cli
@@ -138,13 +132,13 @@ npm run test:cover
 
 ### Integration Tests
 
-Besides a running `ganache-cli` instance, a locally running Ocean network is required. To do so before running the tests, use [Barge](https://github.com/oceanprotocol/barge):
+Besides a running `ganache-cli` instance, a locally running Nevermind network is required. To do so before running the tests, use [Nevermind Tools](https://github.com/keyko-io/nevermind-tools):
 
 ```bash
-git clone https://github.com/oceanprotocol/barge
-cd barge
+git clone https://github.com/keyko-io/nevermind-tools
+cd nevermind-tools
 
-./start_ocean.sh --no-commons
+./start_nevermind.sh --no-commons
 ```
 
 In another terminal window, run this script and export the seed phrase:
@@ -171,7 +165,7 @@ npm run integration:cover
 
 ## Code Style
 
-Project follows [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol). For linting and auto-formatting you can use:
+For linting and auto-formatting you can use:
 
 ```bash
 # lint all ts with eslint
@@ -208,10 +202,18 @@ You can execute the script using arguments to bump the version accordingly:
 
 For the GitHub releases steps a GitHub personal access token, exported as `GITHUB_TOKEN` is required. [Setup](https://github.com/release-it/release-it#github-releases)
 
+
+## Attribution
+
+This library is based in the [Ocean Protocol](https://oceanprotocol.com) [Squid JS](https://github.com/oceanprotocol/squid-js) library.
+It keeps the same Apache v2 License and adds some improvements. See [NOTICE file](NOTICE).
+
 ## License
 
-```text
-Copyright 2019 Ocean Protocol Foundation Ltd.
+```
+Copyright 2020 Keyko GmbH
+This product includes software developed at
+BigchainDB GmbH and Ocean Protocol (https://www.oceanprotocol.com/)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
