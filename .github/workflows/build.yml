@@ -12,10 +12,36 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-    - name: Pre-install
+    - name: Install dependencies
       run: |
         npm i
-    - name: Run tests
+        npm install -g npm
+        npm install -g ganache-cli@~6.5.1
+    - name: Run tools (network)
       run: |
-        npm test
-
+        ganache-cli --port 18545 > ganache-cli.log &
+        sudo chmod go+r /etc/hosts
+        sudo echo "127.0.0.1  nevermind-metadata" | sudo tee -a /etc/hosts
+        git clone https://github.com/keyko-io/nevermind-tools
+        cd nevermind-tools
+        export METADATA_VERSION=unstable
+        export GATEWAY_VERSION=v0.9.5
+        export KEEPER_VERSION=v0.13.2
+        export EVENTS_HANDLER_VERSION=v0.4.7
+        export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+        rm -rf "${HOME}/.nevermind/nevermind-contracts/artifacts"
+        sudo bash -x ./start_nevermind.sh  --no-commons --no-faucet --no-dashboard --latest 2>&1 > start_nevermind.log &
+        cd ..
+    - name: Run linters
+      run: npm run lint
+    # - name: Run unit tests
+    #   run: export ETH_PORT=18545; npm run test:cover
+    - name: Run integration tests
+      env:
+        SEED_WORDS: ${{ secrets.seedWords }}
+      run: |
+        ./scripts/wait-nevermind.sh
+        npm run integration:cover
+    - name: Print logs
+      if: ${{ always() }}
+      run: cat nevermind-tools/start_nevermind.log

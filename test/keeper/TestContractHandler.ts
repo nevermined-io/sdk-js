@@ -160,7 +160,6 @@ export default class TestContractHandler extends ContractHandler {
                 gas: 3000000,
                 gasPrice: '10000000000'
             }
-            // eslint-disable-next-line security/detect-non-literal-require
             const artifact = require(`@keyko-io/nevermind-contracts/artifacts/${name}.development.json`)
             const tempContract = new web3.eth.Contract(artifact.abi, artifact.address)
             const isZos = !!tempContract.methods.initialize
