@@ -3,7 +3,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Ocean, Account } from '../../src' // @oceanprotocol/squid
 
-describe.only('Asset Owners', () => {
+describe('Asset Owners', () => {
     let ocean: Ocean
 
     let account1: Account
@@ -12,7 +12,7 @@ describe.only('Asset Owners', () => {
     let metadata = getMetadata()
 
     before(async () => {
-        ocean = await Ocean.getInstance(config.forceVerbose)
+        ocean = await Ocean.getInstance(config)
 
         // Accounts
         ;[account1, account2] = await ocean.accounts.list()
