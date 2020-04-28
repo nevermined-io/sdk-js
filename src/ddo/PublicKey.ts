@@ -5,7 +5,7 @@ export interface PublicKey {
     /**
      * ID of the key.
      * @type {string}
-     * @example "did:op:123456789abcdefghi#keys-1"
+     * @example "did:nv:123456789abcdefghi#keys-1"
      */
     id: string
 
@@ -22,7 +22,7 @@ export interface PublicKey {
     /**
      * Key owner.
      * @type {string}
-     * @example "did:op:123456789abcdefghi"
+     * @example "did:nv:123456789abcdefghi"
      */
     owner: string
 

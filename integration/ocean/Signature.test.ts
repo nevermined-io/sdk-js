@@ -43,7 +43,7 @@ describe('Signature', () => {
     it('signServiceAgreement should generate the correct signature', async () => {
         const { templates } = ocean.keeper
 
-        const did = `did:op:${'c'.repeat(64)}`
+        const did = `did:nv:${'c'.repeat(64)}`
         const templateId = `0x${'f'.repeat(40)}`
         const agreementId = `0x${'e'.repeat(64)}`
 

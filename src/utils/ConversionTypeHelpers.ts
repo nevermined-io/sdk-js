@@ -12,19 +12,19 @@ export function zeroXTransformer(input: string = '', zeroOutput: boolean) {
     return (zeroOutput && valid ? '0x' : '') + output
 }
 
-// did:op: transformer
+// did:nv: transformer
 export const didPrefixed = (input: string) => didTransformer(input, true)
 export const noDidPrefixed = (input: string) => didTransformer(input, false)
 export function didTransformer(input: string = '', prefixOutput: boolean) {
     const { valid, output } = inputMatch(
         input,
-        /^(?:0x|did:op:)*([a-f0-9]{64})$/i,
+        /^(?:0x|did:nv:)*([a-f0-9]{64})$/i,
         'didTransformer'
     )
-    return (prefixOutput && valid ? 'did:op:' : '') + output
+    return (prefixOutput && valid ? 'did:nv:' : '') + output
 }
 
-// 0x + did:op: transformer
+// 0x + did:nv: transformer
 export const didZeroX = (input: string) => zeroX(didTransformer(input, false))
 
 // Shared functions

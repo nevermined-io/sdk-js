@@ -1,6 +1,6 @@
 import { generateId } from '../utils/GeneratorHelpers'
 
-const prefix = 'did:op:'
+const prefix = 'did:nv:'
 
 /**
  * Decentralized ID.
@@ -16,7 +16,7 @@ export default class DID {
             didString = didString.getDid()
         }
         let did: DID
-        const didMatch = didString.match(/^did:op:([a-f0-9]{64})$/i)
+        const didMatch = didString.match(/^did:nv:([a-f0-9]{64})$/i)
 
         if (didMatch) {
             did = new DID(didMatch[1])
