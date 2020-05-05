@@ -204,7 +204,7 @@ export class Aquarius extends Instantiable {
     }
 
     public getServiceEndpoint(did: DID) {
-        return `${this.url}${apiPath}/did:op:${did.getId()}`
+        return `${this.url}${apiPath}/did:nv:${did.getId()}`
     }
 
     private transformResult(

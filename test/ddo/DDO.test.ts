@@ -14,29 +14,29 @@ use(spies)
 
 describe('DDO', () => {
     const testDDO: DDO = new DDO({
-        id: `did:op:${'a'.repeat(64)}`,
+        id: `did:nv:${'a'.repeat(64)}`,
         publicKey: [
             {
-                id: 'did:op:123456789abcdefghi#keys-1',
+                id: 'did:nv:123456789abcdefghi#keys-1',
                 type: 'RsaVerificationKey2018',
-                owner: 'did:op:123456789abcdefghi',
+                owner: 'did:nv:123456789abcdefghi',
                 publicKeyPem: '-----BEGIN PUBLIC KEY...END PUBLIC KEY-----\r\n'
             },
             {
-                id: 'did:op:123456789abcdefghi#keys-2',
+                id: 'did:nv:123456789abcdefghi#keys-2',
                 type: 'Ed25519VerificationKey2018',
-                owner: 'did:op:123456789abcdefghi',
+                owner: 'did:nv:123456789abcdefghi',
                 publicKeyBase58: 'H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV'
             }
         ],
         authentication: [
             {
                 type: 'RsaSignatureAuthentication2018',
-                publicKey: 'did:op:123456789abcdefghi#keys-1'
+                publicKey: 'did:nv:123456789abcdefghi#keys-1'
             },
             {
                 type: 'ieee2410Authentication2018',
-                publicKey: 'did:op:123456789abcdefghi#keys-2'
+                publicKey: 'did:nv:123456789abcdefghi#keys-2'
             }
         ],
         service: [
@@ -55,7 +55,7 @@ describe('DDO', () => {
             {
                 type: 'HubService',
                 serviceEndpoint:
-                    'https://hub.example.com/.identity/did:op:0123456789abcdef/'
+                    'https://hub.example.com/.identity/did:nv:0123456789abcdef/'
             },
             {
                 type: 'MessagingService',
@@ -71,7 +71,7 @@ describe('DDO', () => {
                 }
             } as any,
             {
-                id: 'did:op:123456789abcdefghi;bops',
+                id: 'did:nv:123456789abcdefghi;bops',
                 type: 'BopsService',
                 serviceEndpoint: 'https://bops.example.com/enterprise/'
             },

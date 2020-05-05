@@ -42,19 +42,19 @@ describe('ConversionTypeHelpers', () => {
             assert.equal(result3, 'Test 3')
         })
 
-        it('should return the value with did:op: prefix', async () => {
+        it('should return the value with did:nv: prefix', async () => {
             const result1 = didPrefixed(`0x${did}`)
             const result2 = didPrefixed(did)
-            const result3 = didPrefixed(`did:op:${did}`)
-            assert.equal(result1, `did:op:${did}`)
-            assert.equal(result2, `did:op:${did}`)
-            assert.equal(result3, `did:op:${did}`)
+            const result3 = didPrefixed(`did:nv:${did}`)
+            assert.equal(result1, `did:nv:${did}`)
+            assert.equal(result2, `did:nv:${did}`)
+            assert.equal(result3, `did:nv:${did}`)
         })
 
-        it('should return the value without did:op: prefix', async () => {
+        it('should return the value without did:nv: prefix', async () => {
             const result1 = noDidPrefixed(`0x${did}`)
             const result2 = noDidPrefixed(did)
-            const result3 = noDidPrefixed(`did:op:${did}`)
+            const result3 = noDidPrefixed(`did:nv:${did}`)
             assert.equal(result1, did)
             assert.equal(result2, did)
             assert.equal(result3, did)

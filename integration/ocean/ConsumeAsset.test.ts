@@ -35,7 +35,7 @@ describe('Consume Asset', () => {
         ddo = await ocean.assets.create(metadata as any, publisher)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
-        assert.match(ddo.id, /^did:op:[a-f0-9]{64}$/, 'DDO id is not valid')
+        assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
         assert.isAtLeast(ddo.authentication.length, 1, 'Default authentication not added')
         assert.isDefined(
             ddo.findServiceByType('access'),

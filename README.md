@@ -1,18 +1,18 @@
 [![banner](https://raw.githubusercontent.com/keyko-io/assets/master/images/logo/small/keyko_logo@2x-100.jpg)](https://keyko.io)
 
-# Javascript/Typescript API for Nevermind Data platform
+# Javascript/Typescript API for Nevermined Data platform
 
-> Javascript SDK for connecting with Nevermind Data Platform
+> Javascript SDK for connecting with Nevermined Data Platform
 > [keyko.io](https://keyko.io)
 
-![CI Build](https://github.com/keyko-io/nevermind-sdk-js/workflows/Build/badge.svg)
+![CI Build](https://github.com/keyko-io/nevermined-sdk-js/workflows/Build/badge.svg)
 
 ---
 
 ## Table of Contents
 
 
-   * [Javascript/Typescript API for Nevermind Data platform](#javascripttypescript-api-for-nevermind-data-platform)
+   * [Javascript/Typescript API for Nevermined Data platform](#javascripttypescript-api-for-nevermined-data-platform)
       * [Table of Contents](#table-of-contents)
       * [Get started](#get-started)
          * [Examples](#examples)
@@ -36,20 +36,20 @@
 Start by adding the package to your dependencies:
 
 ```bash
-npm i @keyko-io/nevermind-sdk-js
+npm i @keyko-io/nevermined-sdk-js
 ```
 
 The package exposes `Ocean` and `Logger` which you can import in your code like this:
 
 ```js
 // ES6
-import { Ocean, Logger } from '@keyko-io/nevermind-sdk-js'
+import { Ocean, Logger } from '@keyko-io/nevermined-sdk-js'
 
 // ES2015
-const { Ocean, Logger } = require('@keyko-io/nevermind-sdk-js')
+const { Ocean, Logger } = require('@keyko-io/nevermined-sdk-js')
 ```
 
-You can then connect to the [Smart Contracts](https://github.com/keyko-io/nevermind-contracts), [Metadata API](https://github.com/keyko-io/nevermind-metadata), [Brizo](https://github.com/keyko-io/nevermind-gateway) instances, e.g.:
+You can then connect to the [Smart Contracts](https://github.com/keyko-io/nevermined-contracts), [Metadata API](https://github.com/keyko-io/nevermined-metadata), [Gateway](https://github.com/keyko-io/nevermined-gateway) instances, e.g.:
 
 ```js
 const ocean: Ocean = await Ocean.getInstance({
@@ -68,11 +68,11 @@ const ocean: Ocean = await Ocean.getInstance({
 })
 ```
 
-For an overview of endpoint configurations making up various Nevermind networks, please refer to [`.env.local.example`](https://github.com/oceanprotocol/commons/blob/master/client/.env.local.example) from commons.
+For an overview of endpoint configurations making up various Nevermined networks, please refer to [`.env.local.example`](https://github.com/oceanprotocol/commons/blob/master/client/.env.local.example) from commons.
 
 ### Examples
 
-You can see how `nevermind-sdk-js` is used on:
+You can see how `nevermined-sdk-js` is used on:
 
 - [Integration test](/src/integration/ocean/)
 
@@ -104,7 +104,7 @@ npm start
 
 ### Unit Tests
 
-For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermind Tools](https://github.com/keyko-io/nevermind-tools):
+For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
 
 ```bash
 npm i -g ganache-cli
@@ -132,13 +132,13 @@ npm run test:cover
 
 ### Integration Tests
 
-Besides a running `ganache-cli` instance, a locally running Nevermind network is required. To do so before running the tests, use [Nevermind Tools](https://github.com/keyko-io/nevermind-tools):
+Besides a running `ganache-cli` instance, a locally running Nevermined network is required. To do so before running the tests, use [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
 
 ```bash
-git clone https://github.com/keyko-io/nevermind-tools
-cd nevermind-tools
+git clone https://github.com/keyko-io/nevermined-tools
+cd nevermined-tools
 
-./start_nevermind.sh --no-commons
+./start_nevermined.sh --no-commons
 ```
 
 In another terminal window, run this script and export the seed phrase:

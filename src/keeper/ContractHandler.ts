@@ -51,7 +51,7 @@ export default class ContractHandler extends Instantiable {
         networkId: number
     ): Promise<Contract> {
         this.logger.debug('Loading', what, 'from', where)
-        const artifact = require(`@keyko-io/nevermind-contracts/artifacts/${what}.${where}.json`)
+        const artifact = require(`@keyko-io/nevermined-contracts/artifacts/${what}.${where}.json`)
         // Logger.log('Loaded artifact', artifact)
         const code = await this.web3.eth.getCode(artifact.address)
         if (code === '0x0') {

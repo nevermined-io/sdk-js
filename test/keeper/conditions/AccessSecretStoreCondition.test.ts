@@ -8,7 +8,7 @@ let condition: AccessSecretStoreCondition
 
 describe('AccessSecretStoreCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
-    const did = `did:op:${'a'.repeat(64)}`
+    const did = `did:nv:${'a'.repeat(64)}`
     const address = `0x${'a'.repeat(40)}`
 
     before(async () => {

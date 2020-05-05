@@ -56,7 +56,7 @@ export class DDO {
     }
 
     public shortId(): string {
-        return this.id.replace('did:op:', '')
+        return this.id.replace('did:nv:', '')
     }
 
     /**
