@@ -1,8 +1,8 @@
 [![banner](https://raw.githubusercontent.com/keyko-io/assets/master/images/logo/small/keyko_logo@2x-100.jpg)](https://keyko.io)
 
-# Javascript/Typescript API for Nevermind Data platform
+# Javascript/Typescript API for Nevermined Data platform
 
-> Javascript SDK for connecting with Nevermind Data Platform
+> Javascript SDK for connecting with Nevermined Data Platform
 > [keyko.io](https://keyko.io)
 
 ![CI Build](https://github.com/keyko-io/nevermined-sdk-js/workflows/Build/badge.svg)
@@ -12,7 +12,7 @@
 ## Table of Contents
 
 
-   * [Javascript/Typescript API for Nevermind Data platform](#javascripttypescript-api-for-nevermined-data-platform)
+   * [Javascript/Typescript API for Nevermined Data platform](#javascripttypescript-api-for-nevermined-data-platform)
       * [Table of Contents](#table-of-contents)
       * [Get started](#get-started)
          * [Examples](#examples)
@@ -68,7 +68,7 @@ const ocean: Ocean = await Ocean.getInstance({
 })
 ```
 
-For an overview of endpoint configurations making up various Nevermind networks, please refer to [`.env.local.example`](https://github.com/oceanprotocol/commons/blob/master/client/.env.local.example) from commons.
+For an overview of endpoint configurations making up various Nevermined networks, please refer to [`.env.local.example`](https://github.com/oceanprotocol/commons/blob/master/client/.env.local.example) from commons.
 
 ### Examples
 
@@ -104,7 +104,7 @@ npm start
 
 ### Unit Tests
 
-For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermind Tools](https://github.com/keyko-io/nevermined-tools):
+For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
 
 ```bash
 npm i -g ganache-cli
@@ -132,7 +132,7 @@ npm run test:cover
 
 ### Integration Tests
 
-Besides a running `ganache-cli` instance, a locally running Nevermind network is required. To do so before running the tests, use [Nevermind Tools](https://github.com/keyko-io/nevermined-tools):
+Besides a running `ganache-cli` instance, a locally running Nevermined network is required. To do so before running the tests, use [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
 
 ```bash
 git clone https://github.com/keyko-io/nevermined-tools

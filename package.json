@@ -1,7 +1,7 @@
 {
   "name": "@keyko-io/nevermined-sdk-js",
   "version": "0.1.0",
-  "description": "Nevermind implementation of JavaScript client library for Ocean Protocol",
+  "description": "Nevermined implementation of JavaScript client library for Ocean Protocol",
   "main": "./dist/node/squid.js",
   "typings": "./dist/node/squid.d.ts",
   "unpkg": "./dist/browser/squid.cjs2.min.js",
