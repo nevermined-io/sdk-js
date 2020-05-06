@@ -5,6 +5,7 @@ import { MetaData } from '../ddo/MetaData'
 import { Service } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
+import { ConditionState } from '../keeper/contracts/conditions'
 import { fillConditionsWithDDO, SubscribablePromise, generateId, zeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
@@ -334,7 +335,27 @@ export class OceanAssets extends Instantiable {
                     reject(new Error('Error on payment'))
                 }
 
-                await accessGranted
+                const accessFulfilled = new Promise((resolve, reject) => {
+                    const interval = setInterval(async () => {
+                        const status = await template.getAgreementStatus(agreementId)
+                        if (
+                            status &&
+                            status.accessSecretStore.state === ConditionState.Fulfilled
+                        ) {
+                            clearInterval(interval)
+                            resolve()
+                        }
+                    }, 100)
+                    setTimeout(() => {
+                        clearInterval(interval)
+                        reject('Timeout')
+                    }, 10000)
+                })
+
+                await new Promise(resolve => {
+                    accessGranted.then(resolve)
+                    accessFulfilled.then(resolve).catch(() => 'Timeout')
+                })
 
                 this.logger.log('Access granted')
                 resolve()
