@@ -12,7 +12,7 @@ describe('DID', () => {
     describe('#parse()', () => {
         it('should parse a valid did', () => {
             const id = 'a'.repeat(64)
-            const did: DID = DID.parse(`did:op:${id}`)
+            const did: DID = DID.parse(`did:nv:${id}`)
             assert(did)
 
             assert(did.getId() === id, did.getId())
@@ -31,7 +31,7 @@ describe('DID', () => {
         it('should throw if id does not match', done => {
             const id = 'xyz'
             try {
-                const did: DID = DID.parse(`did:op:${id}`)
+                const did: DID = DID.parse(`did:nv:${id}`)
                 assert(!did)
             } catch {
                 done()
@@ -44,14 +44,14 @@ describe('DID', () => {
             const did: DID = DID.generate()
             assert(did)
 
-            assert(did.getDid().startsWith('did:op:'))
+            assert(did.getDid().startsWith('did:nv:'))
         })
     })
 
     describe('#getDid()', () => {
         it('should return only the id part of the did', () => {
             const id = 'a'.repeat(64)
-            const did: DID = DID.parse(`did:op:${id}`)
+            const did: DID = DID.parse(`did:nv:${id}`)
             assert(did)
 
             assert(did.getId() === id)
