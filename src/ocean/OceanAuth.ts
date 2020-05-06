@@ -1,7 +1,7 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
-const defaultAuthMessage = 'Ocean Protocol Authentication'
+const defaultAuthMessage = 'Nevermined Protocol Authentication'
 const defaultExpirationTime = 30 * 24 * 60 * 60 * 1000 // 30 days
 const localStorageKey = 'SquidTokens'
 
