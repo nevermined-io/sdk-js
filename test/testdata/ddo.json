@@ -1,34 +1,34 @@
 {
   "@context": "https://w3id.org/future-method/v1",
-  "id": "did:op:08a429b8529856d59867503f8056903a680935a76950bb9649785cc97869a43d",
+  "id": "did:nv:08a429b8529856d59867503f8056903a680935a76950bb9649785cc97869a43d",
   "publicKey": [
     {
-      "id": "did:op:123456789abcdefghi#keys-1",
+      "id": "did:nv:123456789abcdefghi#keys-1",
       "type": "RsaVerificationKey2018",
-      "owner": "did:op:123456789abcdefghi",
+      "owner": "did:nv:123456789abcdefghi",
       "publicKeyPem": "-----BEGIN PUBLIC KEY...END PUBLIC KEY-----\r\n"
     },
     {
-      "id": "did:op:123456789abcdefghi#keys-2",
+      "id": "did:nv:123456789abcdefghi#keys-2",
       "type": "Ed25519VerificationKey2018",
-      "owner": "did:op:123456789abcdefghi",
+      "owner": "did:nv:123456789abcdefghi",
       "publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
     },
     {
-      "id": "did:op:123456789abcdefghi#keys-3",
+      "id": "did:nv:123456789abcdefghi#keys-3",
       "type": "RsaPublicKeyExchangeKey2018",
-      "owner": "did:op:123456789abcdefghi",
+      "owner": "did:nv:123456789abcdefghi",
       "publicKeyPem": "-----BEGIN PUBLIC KEY...END PUBLIC KEY-----\r\n"
     }
   ],
   "authentication": [
     {
       "type": "RsaSignatureAuthentication2018",
-      "publicKey": "did:op:123456789abcdefghi#keys-1"
+      "publicKey": "did:nv:123456789abcdefghi#keys-1"
     },
     {
       "type": "ieee2410Authentication2018",
-      "publicKey": "did:op:123456789abcdefghi#keys-2"
+      "publicKey": "did:nv:123456789abcdefghi#keys-2"
     }
   ],
   "proof": {
