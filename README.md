@@ -49,7 +49,7 @@ import { Ocean, Logger } from '@keyko-io/nevermined-sdk-js'
 const { Ocean, Logger } = require('@keyko-io/nevermined-sdk-js')
 ```
 
-You can then connect to the [Smart Contracts](https://github.com/keyko-io/nevermined-contracts), [Metadata API](https://github.com/keyko-io/nevermined-metadata), [Brizo](https://github.com/keyko-io/nevermined-gateway) instances, e.g.:
+You can then connect to the [Smart Contracts](https://github.com/keyko-io/nevermined-contracts), [Metadata API](https://github.com/keyko-io/nevermined-metadata), [Gateway](https://github.com/keyko-io/nevermined-gateway) instances, e.g.:
 
 ```js
 const ocean: Ocean = await Ocean.getInstance({
@@ -57,9 +57,9 @@ const ocean: Ocean = await Ocean.getInstance({
     nodeUri: 'http://localhost:8545',
     // the uri of metadata
     metadataUri: 'http://localhost:5000',
-    // the uri of brizo
+    // the uri of gateway
     gatewayUri: 'http://localhost:8030',
-    // address that brizo uses
+    // address that gateway uses
     gatewayAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
     // the uri to the parity node you want to use for encryption and decryption
     parityUri: 'http://localhost:9545',
