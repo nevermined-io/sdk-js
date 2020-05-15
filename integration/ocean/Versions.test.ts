@@ -11,12 +11,12 @@ describe('Versions', () => {
         ocean = await Ocean.getInstance(config)
     })
 
-    // TODO: enable again after new versions of Brizo
+    // TODO: enable again after new versions of Gateway
     xit('should return the versions', async () => {
         const versions = await ocean.versions.get()
 
         assert.equal(versions.metadata.status, OceanPlatformTechStatus.Working)
-        assert.equal(versions.brizo.status, OceanPlatformTechStatus.Working)
+        assert.equal(versions.gateway.status, OceanPlatformTechStatus.Working)
         assert.equal(versions.squid.status, OceanPlatformTechStatus.Working)
 
         assert.deepEqual(versions.status, {

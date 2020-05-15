@@ -106,7 +106,7 @@ export class OceanAssets extends Instantiable {
                 service: [
                     {
                         type: 'access',
-                        serviceEndpoint: this.ocean.brizo.getConsumeEndpoint(),
+                        serviceEndpoint: this.ocean.gateway.getConsumeEndpoint(),
                         templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
                         attributes: {
                             main: {
@@ -248,7 +248,7 @@ export class OceanAssets extends Instantiable {
             : undefined
 
         if (!useSecretStore) {
-            await this.ocean.brizo.consumeService(
+            await this.ocean.gateway.consumeService(
                 agreementId,
                 serviceEndpoint,
                 consumerAccount,
@@ -280,7 +280,7 @@ export class OceanAssets extends Instantiable {
 
     /**
      * Start the purchase/order of an asset's service. Starts by signing the service agreement
-     * then sends the request to the publisher via the service endpoint (Brizo http service).
+     * then sends the request to the publisher via the service endpoint (Gateway http service).
      * @param  {string} did Decentralized ID.
      * @param  {number} index Service index.
      * @param  {Account} consumer Consumer account.
