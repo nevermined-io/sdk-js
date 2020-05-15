@@ -152,7 +152,7 @@
     {
       "type": "metadata",
       "index": 2,
-      "serviceEndpoint": "http://myaquarius.org/api/v1/provider/assets/metadata/{did}",
+      "serviceEndpoint": "http://mymetadata.org/api/v1/provider/assets/metadata/{did}",
       "attributes": {
         "main": {
           "name": "UK Weather information 2011",

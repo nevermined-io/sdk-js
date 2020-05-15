@@ -1,5 +1,5 @@
 import { TransactionReceipt } from 'web3-core'
-import { SearchQuery } from '../aquarius/Aquarius'
+import { SearchQuery } from '../metadata/Metadata'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
 import { Service } from '../ddo/Service'
@@ -51,7 +51,7 @@ export class OceanAssets extends Instantiable {
         const {
             serviceEndpoint
         } = await this.ocean.keeper.didRegistry.getAttributesByDid(did)
-        return this.ocean.aquarius.retrieveDDOByUrl(serviceEndpoint)
+        return this.ocean.metadata.retrieveDDOByUrl(serviceEndpoint)
     }
 
     /**
@@ -84,7 +84,7 @@ export class OceanAssets extends Instantiable {
 
             const serviceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
 
-            const serviceEndpoint = this.ocean.aquarius.getServiceEndpoint(did)
+            const serviceEndpoint = this.ocean.metadata.getServiceEndpoint(did)
 
             let indexCount = 0
             // create ddo itself
@@ -189,7 +189,7 @@ export class OceanAssets extends Instantiable {
 
             this.logger.log('Storing DDO')
             observer.next(CreateProgressStep.StoringDdo)
-            const storedDdo = await this.ocean.aquarius.storeDDO(ddo)
+            const storedDdo = await this.ocean.metadata.storeDDO(ddo)
             this.logger.log('DDO stored')
             observer.next(CreateProgressStep.DdoStored)
 
@@ -448,7 +448,7 @@ export class OceanAssets extends Instantiable {
      * @return {Promise<DDO[]>}
      */
     public async query(query: SearchQuery) {
-        return this.ocean.aquarius.queryMetadata(query)
+        return this.ocean.metadata.queryMetadata(query)
     }
 
     /**
@@ -457,7 +457,7 @@ export class OceanAssets extends Instantiable {
      * @return {Promise<DDO[]>}
      */
     public async search(text: string) {
-        return this.ocean.aquarius.queryMetadataByText({
+        return this.ocean.metadata.queryMetadataByText({
             text,
             page: 1,
             offset: 100,

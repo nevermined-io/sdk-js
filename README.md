@@ -55,8 +55,8 @@ You can then connect to the [Smart Contracts](https://github.com/keyko-io/neverm
 const ocean: Ocean = await Ocean.getInstance({
     // the node of the blockchain to connect to, could also be infura
     nodeUri: 'http://localhost:8545',
-    // the uri of aquarius
-    aquariusUri: 'http://localhost:5000',
+    // the uri of metadata
+    metadataUri: 'http://localhost:5000',
     // the uri of brizo
     brizoUri: 'http://localhost:8030',
     // address that brizo uses

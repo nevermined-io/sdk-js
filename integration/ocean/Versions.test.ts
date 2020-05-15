@@ -15,7 +15,7 @@ describe('Versions', () => {
     xit('should return the versions', async () => {
         const versions = await ocean.versions.get()
 
-        assert.equal(versions.aquarius.status, OceanPlatformTechStatus.Working)
+        assert.equal(versions.metadata.status, OceanPlatformTechStatus.Working)
         assert.equal(versions.brizo.status, OceanPlatformTechStatus.Working)
         assert.equal(versions.squid.status, OceanPlatformTechStatus.Working)
 

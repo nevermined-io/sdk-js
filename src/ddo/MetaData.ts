@@ -162,7 +162,7 @@ export interface MetaDataMain {
 
     /**
      * The date on which the asset DDO was registered into the metadata store.
-     * This value is created automatically by Aquarius upon registering,
+     * This value is created automatically by Metadata upon registering,
      * so this value can't be set.
      * @type {string}
      * @example "2019-01-31T08:38:32Z"

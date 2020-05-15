@@ -25,7 +25,7 @@ export interface OceanPlatformKeeperTech extends OceanPlatformTech {
 
 export interface OceanPlatformVersions {
     squid: OceanPlatformKeeperTech
-    aquarius: OceanPlatformTech
+    metadata: OceanPlatformTech
     brizo: OceanPlatformKeeperTech
     status: {
         ok: boolean
@@ -95,17 +95,17 @@ export class OceanVersions extends Instantiable {
             }
         }
 
-        // Aquarius
+        // Metadata
         try {
-            const { software: name, version } = await this.ocean.aquarius.getVersionInfo()
-            versions.aquarius = {
+            const { software: name, version } = await this.ocean.metadata.getVersionInfo()
+            versions.metadata = {
                 name,
                 status: OceanPlatformTechStatus.Working,
                 version
             }
         } catch {
-            versions.aquarius = {
-                name: 'Aquarius',
+            versions.metadata = {
+                name: 'Metadata',
                 status: OceanPlatformTechStatus.Stopped
             }
         }

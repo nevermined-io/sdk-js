@@ -89,7 +89,7 @@ describe('DDO', () => {
                 type: 'metadata',
                 index: 0,
                 serviceEndpoint:
-                    'http://myaquarius.org/api/v1/provider/assets/metadata/{did}',
+                    'http://mymetadata.org/api/v1/provider/assets/metadata/{did}',
                 attributes: {
                     main: {
                         name: 'UK Weather information 2011',
