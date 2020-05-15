@@ -118,7 +118,7 @@ describe('Consume Asset', () => {
         assert.isTrue(paid, 'The asset has not been paid correctly')
     })
 
-    // The test will fail because Brizo grants the access faster
+    // The test will fail because Gateway grants the access faster
     it('should grant the access by the publisher', async () => {
         try {
             const granted = await ocean.agreements.conditions.grantAccess(

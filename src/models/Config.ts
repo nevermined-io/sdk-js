@@ -9,16 +9,16 @@ export class Config {
     public metadataUri: string
 
     /**
-     * Brizo URL.
+     * Gateway URL.
      * @type {string}
      */
-    public brizoUri: string
+    public gatewayUri: string
 
     /**
-     * Address of Brizo.
+     * Address of Gateway.
      * @type {string}
      */
-    public brizoAddress?: string
+    public gatewayAddress?: string
 
     /**
      * Ethereum node URL.

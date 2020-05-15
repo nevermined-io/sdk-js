@@ -41,8 +41,8 @@
     {
       "type": "access",
       "index": 0,
-      "serviceEndpoint": "http://mybrizo.org/api/v1/brizo/services/consume?pubKey=${pubKey}&serviceId={serviceId}&url={url}",
-      "purchaseEndpoint": "http://mybrizo.org/api/v1/brizo/services/access/purchase?",
+      "serviceEndpoint": "http://mygateway.org/api/v1/gateway/services/consume?pubKey=${pubKey}&serviceId={serviceId}&url={url}",
+      "purchaseEndpoint": "http://mygateway.org/api/v1/gateway/services/access/purchase?",
       "templateId": "044852b2a670ade5407e78fb2863c51000000000000000000000000000000000",
       "conditions": [
         {
@@ -146,7 +146,7 @@
     {
       "type": "compute",
       "index": 1,
-      "serviceEndpoint": "http://mybrizo.org/api/v1/brizo/services/compute?pubKey=${pubKey}&serviceId={serviceId}&algo={algo}&container={container}",
+      "serviceEndpoint": "http://mygateway.org/api/v1/gateway/services/compute?pubKey=${pubKey}&serviceId={serviceId}&algo={algo}&container={container}",
       "templateId": "044852b2a670ade5407e78fb2863c51000000000000000000000000000000002"
     },
     {

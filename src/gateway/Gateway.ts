@@ -6,12 +6,12 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 const apiPath = '/api/v1/gateway/services'
 
 /**
- * Provides a interface with Brizo.
- * Brizo is the technical component executed by the Publishers allowing to them to provide extended data services.
+ * Provides a interface with Gateway.
+ * Gateway is the technical component executed by the Publishers allowing to them to provide extended data services.
  */
-export class Brizo extends Instantiable {
+export class Gateway extends Instantiable {
     private get url() {
-        return this.config.brizoUri
+        return this.config.gatewayUri
     }
 
     constructor(config: InstantiableConfig) {

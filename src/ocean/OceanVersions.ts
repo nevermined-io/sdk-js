@@ -26,7 +26,7 @@ export interface OceanPlatformKeeperTech extends OceanPlatformTech {
 export interface OceanPlatformVersions {
     squid: OceanPlatformKeeperTech
     metadata: OceanPlatformTech
-    brizo: OceanPlatformKeeperTech
+    gateway: OceanPlatformKeeperTech
     status: {
         ok: boolean
         contracts: boolean
@@ -71,7 +71,7 @@ export class OceanVersions extends Instantiable {
                 )
         }
 
-        // Brizo
+        // Gateway
         try {
             const {
                 contracts,
@@ -79,8 +79,8 @@ export class OceanVersions extends Instantiable {
                 network,
                 software: name,
                 version
-            } = await this.ocean.brizo.getVersionInfo()
-            versions.brizo = {
+            } = await this.ocean.gateway.getVersionInfo()
+            versions.gateway = {
                 name,
                 status: OceanPlatformTechStatus.Working,
                 version,
@@ -89,8 +89,8 @@ export class OceanVersions extends Instantiable {
                 keeperVersion: keeperVersion.replace(/^v/, '')
             }
         } catch {
-            versions.brizo = {
-                name: 'Brizo',
+            versions.gateway = {
+                name: 'Gateway',
                 status: OceanPlatformTechStatus.Stopped
             }
         }

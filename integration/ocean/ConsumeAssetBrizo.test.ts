@@ -6,7 +6,7 @@ import { getMetadata } from '../utils'
 
 import { Ocean, Account, DDO } from '../../src' // @oceanprotocol/squid
 
-describe('Consume Asset (Brizo)', () => {
+describe('Consume Asset (Gateway)', () => {
     let ocean: Ocean
 
     let publisher: Account
