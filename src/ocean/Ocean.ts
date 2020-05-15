@@ -8,7 +8,7 @@ import { OceanVersions } from './OceanVersions'
 import { OceanUtils } from './utils/OceanUtils'
 
 import { Metadata } from '../metadata/Metadata'
-import { Brizo } from '../brizo/Brizo'
+import { Gateway } from '../gateway/Gateway'
 
 import Keeper from '../keeper/Keeper'
 
@@ -39,7 +39,7 @@ export class Ocean extends Instantiable {
 
         instance.keeper = await Keeper.getInstance(instanceConfig)
 
-        instance.brizo = new Brizo(instanceConfig)
+        instance.gateway = new Gateway(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)
 
         instance.accounts = await OceanAccounts.getInstance(instanceConfig)
@@ -62,10 +62,10 @@ export class Ocean extends Instantiable {
     public keeper: Keeper
 
     /**
-     * Brizo instance.
-     * @type {Brizo}
+     * Gateway instance.
+     * @type {Gateway}
      */
-    public brizo: Brizo
+    public gateway: Gateway
 
     /**
      * Metadata instance.

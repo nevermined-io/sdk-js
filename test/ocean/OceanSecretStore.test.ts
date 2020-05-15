@@ -28,7 +28,7 @@ describe('OceanSecretStore', () => {
     describe('#encrypt()', () => {
         it('should encrypt a content', async () => {
             const secretStoreEncryptSpy = spy.on(
-                ocean.brizo,
+                ocean.gateway,
                 'encrypt',
                 () => 'encryptedResult'
             )

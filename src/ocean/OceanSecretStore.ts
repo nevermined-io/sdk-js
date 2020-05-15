@@ -43,7 +43,7 @@ export class OceanSecretStore extends Instantiable {
                 publisher.getPassword()
             ))
 
-        return this.ocean.brizo.encrypt(
+        return this.ocean.gateway.encrypt(
             noDidPrefixed(did),
             signature,
             document,

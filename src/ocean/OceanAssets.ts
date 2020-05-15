@@ -180,7 +180,7 @@ export class OceanAssets extends Instantiable {
             await didRegistry.registerAttribute(
                 did.getId(),
                 ddo.getChecksum(),
-                [this.config.brizoAddress],
+                [this.config.gatewayAddress],
                 serviceEndpoint,
                 publisher.getId()
             )

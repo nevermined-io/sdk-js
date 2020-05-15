@@ -1,6 +1,6 @@
-import { Brizo } from '../../src/brizo/Brizo'
+import { Gateway } from '../../src/gateway/Gateway'
 
-export default class BrizoMock extends Brizo {
+export default class GatewayMock extends Gateway {
     public async initializeServiceAgreement(
         did: string,
         serviceAgreementId: string,

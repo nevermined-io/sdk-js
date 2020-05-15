@@ -84,7 +84,7 @@ export class OceanAgreements extends Instantiable {
         signature: string,
         consumer: Account
     ): Promise<void> {
-        const result = await this.ocean.brizo.initializeServiceAgreement(
+        const result = await this.ocean.gateway.initializeServiceAgreement(
             didPrefixed(did),
             zeroX(agreementId),
             index,

@@ -34,7 +34,7 @@ describe('Asset Owners', () => {
 
         const isProvider = await ocean.keeper.didRegistry.isDIDProvider(
             ddo.id,
-            config.brizoAddress
+            config.gatewayAddress
         )
 
         assert.isTrue(isProvider)
