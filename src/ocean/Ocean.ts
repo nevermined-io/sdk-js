@@ -7,7 +7,7 @@ import { OceanTokens } from './OceanTokens'
 import { OceanVersions } from './OceanVersions'
 import { OceanUtils } from './utils/OceanUtils'
 
-import { Aquarius } from '../aquarius/Aquarius'
+import { Metadata } from '../metadata/Metadata'
 import { Brizo } from '../brizo/Brizo'
 
 import Keeper from '../keeper/Keeper'
@@ -40,7 +40,7 @@ export class Ocean extends Instantiable {
         instance.keeper = await Keeper.getInstance(instanceConfig)
 
         instance.brizo = new Brizo(instanceConfig)
-        instance.aquarius = new Aquarius(instanceConfig)
+        instance.metadata = new Metadata(instanceConfig)
 
         instance.accounts = await OceanAccounts.getInstance(instanceConfig)
         instance.auth = await OceanAuth.getInstance(instanceConfig)
@@ -68,10 +68,10 @@ export class Ocean extends Instantiable {
     public brizo: Brizo
 
     /**
-     * Aquarius instance.
-     * @type {Aquarius}
+     * Metadata instance.
+     * @type {Metadata}
      */
-    public aquarius: Aquarius
+    public metadata: Metadata
 
     /**
      * Ocean account submodule

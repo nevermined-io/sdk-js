@@ -26,7 +26,7 @@ old:
   "service": [
     {
       "serviceDefinitionId": "0",
-      "serviceEndpoint": "http://localhost:5000/api/v1/aquarius/assets/ddo/{did}",
+      "serviceEndpoint": "http://localhost:5000/api/v1/metadata/assets/ddo/{did}",
       "type": "Metadata",
       "metadata": {
         "base": {
@@ -68,7 +68,7 @@ NEW. Where `main` now holds the non-changable attributes only, everything else h
   "service": [
     {
       "index": 0,
-      "serviceEndpoint": "http://localhost:5000/api/v1/aquarius/assets/ddo/{did}",
+      "serviceEndpoint": "http://localhost:5000/api/v1/metadata/assets/ddo/{did}",
       "type": "metadata",
       "attributes": {
         "main": {
@@ -105,7 +105,7 @@ NEW. Where `main` now holds the non-changable attributes only, everything else h
 
 Those changes require updates to your code whenever you fetch or create a new DDO as outlined below.
 
-Likewise, you have to migrate the DDOs of existing registered assets to the new structure. For this you can run our migration script on your respective Aquarius instance.
+Likewise, you have to migrate the DDOs of existing registered assets to the new structure. For this you can run our migration script on your respective Metadata instance.
 
 - [script: CHANGEME](https://github.com/oceanprotocol/CHANGEME)
 

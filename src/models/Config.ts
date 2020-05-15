@@ -3,10 +3,10 @@ export { LogLevel } from '../utils/Logger'
 
 export class Config {
     /**
-     * Aquarius URL.
+     * Metadata URL.
      * @type {string}
      */
-    public aquariusUri: string
+    public metadataUri: string
 
     /**
      * Brizo URL.

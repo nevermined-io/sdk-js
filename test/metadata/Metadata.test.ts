@@ -1,7 +1,7 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 import { Ocean } from '../../src/ocean/Ocean'
-import { Aquarius, SearchQuery } from '../../src/aquarius/Aquarius'
+import { Metadata, SearchQuery } from '../../src/metadata/Metadata'
 import { DDO } from '../../src/ddo/DDO'
 import DID from '../../src/ocean/DID'
 import config from '../config'
@@ -13,9 +13,9 @@ const reponsify = async data => ({
     json: () => Promise.resolve(data)
 })
 
-describe('Aquarius', () => {
+describe('Metadata', () => {
     let ocean: Ocean
-    let aquarius: Aquarius
+    let metadata: Metadata
     /* eslint-disable @typescript-eslint/camelcase */
     const getResults = (
         results: DDO[],
@@ -32,7 +32,7 @@ describe('Aquarius', () => {
 
     beforeEach(async () => {
         ocean = await Ocean.getInstance(config)
-        aquarius = ocean.aquarius // eslint-disable-line prefer-destructuring
+        metadata = ocean.metadata // eslint-disable-line prefer-destructuring
     })
 
     afterEach(() => {
@@ -55,7 +55,7 @@ describe('Aquarius', () => {
         it('should query metadata', async () => {
             spy.on(ocean.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
 
-            const result = await aquarius.queryMetadata(query)
+            const result = await metadata.queryMetadata(query)
             assert.typeOf(result.results, 'array')
             assert.lengthOf(result.results, 1)
             assert.equal(result.page, 0)
@@ -66,7 +66,7 @@ describe('Aquarius', () => {
         it('should query metadata and return real ddo', async () => {
             spy.on(ocean.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
 
-            const result = await aquarius.queryMetadata(query)
+            const result = await metadata.queryMetadata(query)
             assert.typeOf(result.results, 'array')
             assert.lengthOf(result.results, 1)
             assert.isDefined(result.results[0].findServiceById)
@@ -89,7 +89,7 @@ describe('Aquarius', () => {
         it('should query metadata by text', async () => {
             spy.on(ocean.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
 
-            const result = await aquarius.queryMetadataByText(query)
+            const result = await metadata.queryMetadataByText(query)
             assert.typeOf(result.results, 'array')
             assert.lengthOf(result.results, 1)
             assert.equal(result.page, 0)
@@ -100,7 +100,7 @@ describe('Aquarius', () => {
         it('should query metadata and return real ddo', async () => {
             spy.on(ocean.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
 
-            const result = await aquarius.queryMetadataByText(query)
+            const result = await metadata.queryMetadataByText(query)
             assert.typeOf(result.results, 'array')
             assert.lengthOf(result.results, 1)
             assert.isDefined(result.results[0].findServiceById)
@@ -116,7 +116,7 @@ describe('Aquarius', () => {
 
             spy.on(ocean.utils.fetch, 'post', () => reponsify(ddo))
 
-            const result: DDO = await aquarius.storeDDO(ddo)
+            const result: DDO = await metadata.storeDDO(ddo)
             assert(result)
             assert(result.id === ddo.id)
         })
@@ -132,12 +132,12 @@ describe('Aquarius', () => {
             spy.on(ocean.utils.fetch, 'post', () => reponsify(ddo))
             spy.on(ocean.utils.fetch, 'get', () => reponsify(ddo))
 
-            const storageResult: DDO = await aquarius.storeDDO(ddo)
+            const storageResult: DDO = await metadata.storeDDO(ddo)
             assert(storageResult)
 
             assert(storageResult.id === did.getId())
 
-            const restrieveResult: DDO = await aquarius.retrieveDDO(did)
+            const restrieveResult: DDO = await metadata.retrieveDDO(did)
             assert(restrieveResult)
 
             assert(restrieveResult.id === did.getId())

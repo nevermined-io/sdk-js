@@ -21,12 +21,12 @@ export interface SearchQuery {
 }
 
 /**
- * Provides a interface with Aquarius.
- * Aquarius provides an off-chain database store for metadata about data assets.
+ * Provides a interface with Metadata.
+ * Metadata provides an off-chain database store for metadata about data assets.
  */
-export class Aquarius extends Instantiable {
+export class Metadata extends Instantiable {
     private get url() {
-        return this.config.aquariusUri
+        return this.config.metadataUri
     }
 
     constructor(config: InstantiableConfig) {
@@ -132,7 +132,7 @@ export class Aquarius extends Instantiable {
     }
 
     /**
-     * Stores a DDO in Aquarius.
+     * Stores a DDO in Metadata.
      * @param  {DDO} ddo DDO to be stored.
      * @return {Promise<DDO>} Final DDO.
      */
