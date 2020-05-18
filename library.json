@@ -1,8 +1,8 @@
 {
-  "name": "Squid JavaScript",
+  "name": "Nevermined sdk JavaScript",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oceanprotocol/squid-js.git"
+    "url": "https://github.com/keyko-io/nevermined-sdk-js.git"
   },
   "dependencies": [
     {

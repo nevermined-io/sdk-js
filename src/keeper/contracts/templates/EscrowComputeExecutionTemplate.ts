@@ -94,7 +94,7 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
         amount: number | string,
         consumer: string
     ) {
-        const { didRegistry, conditions } = this.ocean.keeper
+        const { didRegistry, conditions } = this.nevermined.keeper
 
         const {
             computeExecutionCondition,

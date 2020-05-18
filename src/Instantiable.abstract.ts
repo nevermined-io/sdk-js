@@ -2,10 +2,10 @@ import Web3 from 'web3'
 import Config from './models/Config'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import Web3Provider from './keeper/Web3Provider'
-import { Ocean } from './ocean/Ocean'
+import { Nevermined } from './nevermined/Nevermined'
 
 export interface InstantiableConfig {
-    ocean: Ocean
+    nevermined: Nevermined
     config?: Config
     web3?: Web3
     logger?: Logger
@@ -28,11 +28,11 @@ export function generateIntantiableConfigFromConfig(
 }
 
 export abstract class Instantiable {
-    protected get ocean() {
-        if (!this._ocean) {
-            this.logger.error('Ocean instance is not defined.')
+    protected get nevermined() {
+        if (!this._nevermined) {
+            this.logger.error('Nevermined instance is not defined.')
         }
-        return this._ocean
+        return this._nevermined
     }
 
     protected get web3() {
@@ -61,8 +61,8 @@ export abstract class Instantiable {
     }
 
     protected get instanceConfig(): InstantiableConfig {
-        const { ocean, web3, config, logger } = this
-        return { ocean, web3, config, logger }
+        const { nevermined, web3, config, logger } = this
+        return { nevermined, web3, config, logger }
     }
 
     public static async getInstance(...args: any[]): Promise<any>
@@ -73,15 +73,15 @@ export abstract class Instantiable {
 
     protected static setInstanceConfig<T extends Instantiable>(
         instance: T,
-        { ocean, config, web3, logger }: InstantiableConfig
+        { nevermined, config, web3, logger }: InstantiableConfig
     ) {
-        instance._ocean = ocean
+        instance._nevermined = nevermined
         instance._config = config
         instance._web3 = web3
         instance._logger = logger
     }
 
-    private _ocean: Ocean
+    private _nevermined: Nevermined
 
     private _web3: Web3
 

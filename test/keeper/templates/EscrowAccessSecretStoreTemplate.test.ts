@@ -2,15 +2,15 @@ import { assert } from 'chai'
 import { EscrowAccessSecretStoreTemplate } from '../../../src/keeper/contracts/templates'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Ocean } from '../../../src/ocean/Ocean'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
 
 let condition: EscrowAccessSecretStoreTemplate
 
 describe('EscrowAccessSecretStoreTemplate', () => {
     before(async () => {
-        const ocean: Ocean = await Ocean.getInstance(config)
+        const nevermined: Nevermined = await Nevermined.getInstance(config)
         await TestContractHandler.prepareContracts()
-        condition = ocean.keeper.templates.escrowAccessSecretStoreTemplate
+        condition = nevermined.keeper.templates.escrowAccessSecretStoreTemplate
     })
 
     // describe("#hashValues()", () => {

@@ -1,9 +1,9 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
-import { Ocean } from '../../src/ocean/Ocean'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import { Metadata, SearchQuery } from '../../src/metadata/Metadata'
 import { DDO } from '../../src/ddo/DDO'
-import DID from '../../src/ocean/DID'
+import DID from '../../src/nevermined/DID'
 import config from '../config'
 
 use(spies)
@@ -14,7 +14,7 @@ const reponsify = async data => ({
 })
 
 describe('Metadata', () => {
-    let ocean: Ocean
+    let nevermined: Nevermined
     let metadata: Metadata
     /* eslint-disable @typescript-eslint/camelcase */
     const getResults = (
@@ -31,8 +31,8 @@ describe('Metadata', () => {
     /* eslint-enable @typescript-eslint/camelcase */
 
     beforeEach(async () => {
-        ocean = await Ocean.getInstance(config)
-        metadata = ocean.metadata // eslint-disable-line prefer-destructuring
+        nevermined = await Nevermined.getInstance(config)
+        metadata = nevermined.metadata // eslint-disable-line prefer-destructuring
     })
 
     afterEach(() => {
@@ -53,7 +53,7 @@ describe('Metadata', () => {
         } as SearchQuery
 
         it('should query metadata', async () => {
-            spy.on(ocean.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
 
             const result = await metadata.queryMetadata(query)
             assert.typeOf(result.results, 'array')
@@ -64,7 +64,7 @@ describe('Metadata', () => {
         })
 
         it('should query metadata and return real ddo', async () => {
-            spy.on(ocean.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
 
             const result = await metadata.queryMetadata(query)
             assert.typeOf(result.results, 'array')
@@ -87,7 +87,7 @@ describe('Metadata', () => {
         } as SearchQuery
 
         it('should query metadata by text', async () => {
-            spy.on(ocean.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
 
             const result = await metadata.queryMetadataByText(query)
             assert.typeOf(result.results, 'array')
@@ -98,7 +98,7 @@ describe('Metadata', () => {
         })
 
         it('should query metadata and return real ddo', async () => {
-            spy.on(ocean.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
 
             const result = await metadata.queryMetadataByText(query)
             assert.typeOf(result.results, 'array')
@@ -114,7 +114,7 @@ describe('Metadata', () => {
                 id: did.getId()
             })
 
-            spy.on(ocean.utils.fetch, 'post', () => reponsify(ddo))
+            spy.on(nevermined.utils.fetch, 'post', () => reponsify(ddo))
 
             const result: DDO = await metadata.storeDDO(ddo)
             assert(result)
@@ -129,8 +129,8 @@ describe('Metadata', () => {
                 id: did.getId()
             })
 
-            spy.on(ocean.utils.fetch, 'post', () => reponsify(ddo))
-            spy.on(ocean.utils.fetch, 'get', () => reponsify(ddo))
+            spy.on(nevermined.utils.fetch, 'post', () => reponsify(ddo))
+            spy.on(nevermined.utils.fetch, 'get', () => reponsify(ddo))
 
             const storageResult: DDO = await metadata.storeDDO(ddo)
             assert(storageResult)

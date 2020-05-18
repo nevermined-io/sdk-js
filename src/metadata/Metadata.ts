@@ -1,6 +1,6 @@
 import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
-import DID from '../ocean/DID'
+import DID from '../nevermined/DID'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
@@ -35,11 +35,11 @@ export class Metadata extends Instantiable {
     }
 
     public async getVersionInfo() {
-        return (await this.ocean.utils.fetch.get(this.url)).json()
+        return (await this.nevermined.utils.fetch.get(this.url)).json()
     }
 
     public async getAccessUrl(accessToken: any, payload: any): Promise<string> {
-        const accessUrl: string = await this.ocean.utils.fetch
+        const accessUrl: string = await this.nevermined.utils.fetch
             .post(`${accessToken.service_endpoint}/${accessToken.resource_id}`, payload)
             .then((response: any): string => {
                 if (response.ok) {
@@ -69,7 +69,7 @@ export class Metadata extends Instantiable {
      * @return {Promise<QueryResult>}
      */
     public async queryMetadata(query: SearchQuery): Promise<QueryResult> {
-        const result: QueryResult = await this.ocean.utils.fetch
+        const result: QueryResult = await this.nevermined.utils.fetch
             .post(`${this.url}${apiPath}/query`, JSON.stringify(query))
             .then((response: any) => {
                 if (response.ok) {
@@ -107,7 +107,7 @@ export class Metadata extends Instantiable {
         )
         fullUrl.searchParams.append('offset', query.offset.toString())
         fullUrl.searchParams.append('page', query.page.toString())
-        const result: QueryResult = await this.ocean.utils.fetch
+        const result: QueryResult = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
                 if (response.ok) {
@@ -138,7 +138,7 @@ export class Metadata extends Instantiable {
      */
     public async storeDDO(ddo: DDO): Promise<DDO> {
         const fullUrl = `${this.url}${apiPath}`
-        const result: DDO = await this.ocean.utils.fetch
+        const result: DDO = await this.nevermined.utils.fetch
             .post(fullUrl, DDO.serialize(ddo))
             .then((response: any) => {
                 if (response.ok) {
@@ -174,7 +174,7 @@ export class Metadata extends Instantiable {
     ): Promise<DDO> {
         did = did && DID.parse(did)
         const fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
-        const result = await this.ocean.utils.fetch
+        const result = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
                 if (response.ok) {

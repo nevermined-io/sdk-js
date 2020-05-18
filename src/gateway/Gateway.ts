@@ -1,5 +1,5 @@
 import { File } from '../ddo/MetaData'
-import Account from '../ocean/Account'
+import Account from '../nevermined/Account'
 import { noZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
@@ -20,7 +20,7 @@ export class Gateway extends Instantiable {
     }
 
     public async getVersionInfo() {
-        return (await this.ocean.utils.fetch.get(this.url)).json()
+        return (await this.nevermined.utils.fetch.get(this.url)).json()
     }
 
     public getPurchaseEndpoint() {
@@ -60,7 +60,7 @@ export class Gateway extends Instantiable {
         }
 
         try {
-            return await this.ocean.utils.fetch.post(
+            return await this.nevermined.utils.fetch.post(
                 this.getPurchaseEndpoint(),
                 decodeURI(JSON.stringify(args))
             )
@@ -80,7 +80,7 @@ export class Gateway extends Instantiable {
     ): Promise<string> {
         const signature =
             (await account.getToken()) ||
-            (await this.ocean.utils.signature.signText(
+            (await this.nevermined.utils.signature.signText(
                 noZeroX(agreementId),
                 account.getId()
             ))
@@ -94,7 +94,7 @@ export class Gateway extends Instantiable {
                 consumeUrl += `&signature=${signature}`
 
                 try {
-                    await this.ocean.utils.fetch.downloadFile(consumeUrl, destination, i)
+                    await this.nevermined.utils.fetch.downloadFile(consumeUrl, destination, i)
                 } catch (e) {
                     this.logger.error('Error consuming assets')
                     this.logger.error(e)
@@ -119,7 +119,7 @@ export class Gateway extends Instantiable {
         }
 
         try {
-            const response = await this.ocean.utils.fetch.post(
+            const response = await this.nevermined.utils.fetch.post(
                 this.getEncryptEndpoint(),
                 decodeURI(JSON.stringify(args))
             )

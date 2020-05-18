@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import Account from '../../src/ocean/Account'
-import { Ocean } from '../../src/ocean/Ocean'
+import Account from '../../src/nevermined/Account'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
@@ -11,9 +11,9 @@ let accounts: Account[]
 describe('ContractWrapperBase', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
-        const ocean: Ocean = await Ocean.getInstance(config)
-        accounts = await ocean.accounts.list()
-        await wrappedContract.initMock((ocean as any).instanceConfig)
+        const nevermined: Nevermined = await Nevermined.getInstance(config)
+        accounts = await nevermined.accounts.list()
+        await wrappedContract.initMock((nevermined as any).instanceConfig)
     })
 
     describe('#call()', () => {

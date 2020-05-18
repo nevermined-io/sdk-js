@@ -4,7 +4,7 @@ import Web3 from 'web3'
 
 import { DDO } from '../../src/ddo/DDO'
 import { Service } from '../../src/ddo/Service'
-import { Ocean } from '../../src/ocean/Ocean'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 import TestContractHandler from '../keeper/TestContractHandler'
 
@@ -165,12 +165,12 @@ describe('DDO', () => {
     })
 
     let web3: Web3
-    let ocean: Ocean
+    let nevermined: Nevermined
 
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
-        ocean = await Ocean.getInstance(config)
-        ;({ web3 } = ocean as any)
+        nevermined = await Nevermined.getInstance(config)
+        ;({ web3 } = nevermined as any)
     })
 
     afterEach(() => {
@@ -252,10 +252,10 @@ describe('DDO', () => {
         const signature = `0x${'a'.repeat(130)}`
 
         it('should properly generate the proof', async () => {
-            const signTextSpy = spy.on(ocean.utils.signature, 'signText', () => signature)
+            const signTextSpy = spy.on(nevermined.utils.signature, 'signText', () => signature)
             const ddo = new DDO(testDDO)
             const checksum = ddo.getChecksum()
-            const proof = await ddo.generateProof(ocean, publicKey)
+            const proof = await ddo.generateProof(nevermined, publicKey)
 
             assert.include(proof as any, {
                 creator: publicKey,
@@ -278,7 +278,7 @@ describe('DDO', () => {
             } as any
             const ddo = new DDO(testDDO)
             const generateProofSpy = spy.on(ddo, 'generateProof', () => fakeProof)
-            await ddo.addProof(ocean, publicKey)
+            await ddo.addProof(nevermined, publicKey)
 
             assert.equal(ddo.proof, fakeProof)
             expect(generateProofSpy).to.have.been.called.with(publicKey)

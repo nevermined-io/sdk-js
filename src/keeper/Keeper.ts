@@ -27,10 +27,10 @@ import { EventHandler } from './EventHandler'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 /**
- * Interface with Ocean Keeper contracts.
- * Ocean Keeper implementation where we put the following modules together:
+ * Interface with Nevermined contracts.
+ * Nevermined Keeper implementation where we put the following modules together:
  * - TCRs: users create challenges and resolve them through voting to maintain registries.
- * - Ocean Tokens: the intrinsic tokens circulated inside Ocean network, which is used in the voting of TCRs.
+ * - Ocean Tokens: the intrinsic tokens circulated inside Nevermined network, which is used in the voting of TCRs.
  * - Marketplace: the core marketplace where people can transact with each other with Ocean tokens.
  */
 export class Keeper extends Instantiable {
@@ -42,8 +42,8 @@ export class Keeper extends Instantiable {
         const keeper = new Keeper()
         keeper.setInstanceConfig(config)
 
-        // Adding keeper inside Ocean to prevent `Keeper not defined yet` error
-        config.ocean.keeper = keeper
+        // Adding keeper inside to prevent `Keeper not defined yet` error
+        config.nevermined.keeper = keeper
 
         keeper.instances = {}
         try {
@@ -128,7 +128,7 @@ export class Keeper extends Instantiable {
     public token: OceanToken
 
     /**
-     * Ocean Market smart contract instance.
+     * Market smart contract instance.
      * @type {Dispenser}
      */
     public dispenser: Dispenser
