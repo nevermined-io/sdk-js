@@ -21,9 +21,9 @@ describe('Accounts', () => {
 
     describe('#list()', () => {
         it('should return the list of accounts', async () => {
-            const accounts = await accounts.list()
+            const accountsList = await accounts.list()
 
-            accounts.map(account => assert.instanceOf(account, Account))
+            accountsList.map(account => assert.instanceOf(account, Account))
         })
     })
 

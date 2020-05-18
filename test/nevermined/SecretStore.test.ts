@@ -3,13 +3,13 @@ import spies from 'chai-spies'
 
 import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
-import { SecretStore } from '../../src/nevermined/SecretStore'
+import { NeverminedSecretStore } from '../../src/nevermined/NeverminedSecretStore'
 import config from '../config'
 
 use(spies)
 
 describe('SecretStore', () => {
-    let secretStore: SecretStore
+    let secretStore: NeverminedSecretStore
     let accounts: Account[]
 
     let nevermined: Nevermined
