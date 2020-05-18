@@ -2,7 +2,7 @@ import { Accounts } from './Accounts'
 import { Agreements } from './Agreements'
 import { Assets } from './Assets'
 import { Auth } from './Auth'
-import { SecretStore } from './SecretStore'
+import { NeverminedSecretStore } from './NeverminedSecretStore'
 import { OceanTokens } from './OceanTokens'
 import { Versions } from './Versions'
 import { Utils } from './utils/Utils'
@@ -46,7 +46,7 @@ export class Nevermined extends Instantiable {
         instance.auth = await Auth.getInstance(instanceConfig)
         instance.assets = await Assets.getInstance(instanceConfig)
         instance.agreements = await Agreements.getInstance(instanceConfig)
-        instance.secretStore = await SecretStore.getInstance(instanceConfig)
+        instance.secretStore = await NeverminedSecretStore.getInstance(instanceConfig)
         instance.tokens = await OceanTokens.getInstance(instanceConfig)
         instance.versions = await Versions.getInstance(instanceConfig)
 
@@ -101,7 +101,7 @@ export class Nevermined extends Instantiable {
      * SecretStore submodule
      * @type {SecretStore}
      */
-    public secretStore: SecretStore
+    public secretStore: NeverminedSecretStore
 
     /**
      * Ocean tokens submodule
