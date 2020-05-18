@@ -8,15 +8,15 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 /**
  * SecretStore submodule of Nevermined.
  */
-export class SecretStore extends Instantiable {
+export class NeverminedSecretStore extends Instantiable {
     /**
      * Returns the instance of SecretStore.
-     * @return {Promise<SecretStore>}
+     * @return {Promise<NeverminedSecretStore>}
      */
     public static async getInstance(
         config: InstantiableConfig
-    ): Promise<SecretStore> {
-        const instance = new SecretStore()
+    ): Promise<NeverminedSecretStore> {
+        const instance = new NeverminedSecretStore()
         instance.setInstanceConfig(config)
 
         return instance
