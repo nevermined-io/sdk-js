@@ -80,7 +80,7 @@ export abstract class AgreementTemplate extends ContractBase {
      */
     public async getConditions(): Promise<Condition[]> {
         return (await this.getConditionTypes()).map(address =>
-            this.ocean.keeper.getConditionByAddress(address)
+            this.nevermined.keeper.getConditionByAddress(address)
         )
     }
 
@@ -141,8 +141,8 @@ export abstract class AgreementTemplate extends ContractBase {
     public async getAgreementStatus(
         agreementId: string
     ): Promise<AgreementConditionsStatus | false> {
-        const agreementStore = this.ocean.keeper.agreementStoreManager
-        const conditionStore = this.ocean.keeper.conditionStoreManager
+        const agreementStore = this.nevermined.keeper.agreementStoreManager
+        const conditionStore = this.nevermined.keeper.conditionStoreManager
 
         const dependencies = await this.getServiceAgreementTemplateDependencies()
         const { conditionIds } = await agreementStore.getAgreement(agreementId)

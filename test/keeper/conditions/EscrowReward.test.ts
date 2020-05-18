@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { EscrowReward } from '../../../src/keeper/contracts/conditions'
-import { Ocean } from '../../../src/ocean/Ocean'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -16,7 +16,7 @@ describe('EscrowReward', () => {
     let releaseCondition
 
     before(async () => {
-        const { keeper } = await Ocean.getInstance(config)
+        const { keeper } = await Nevermined.getInstance(config)
 
         await TestContractHandler.prepareContracts()
         condition = keeper.conditions.escrowReward

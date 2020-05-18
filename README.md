@@ -39,20 +39,20 @@ Start by adding the package to your dependencies:
 npm i @keyko-io/nevermined-sdk-js
 ```
 
-The package exposes `Ocean` and `Logger` which you can import in your code like this:
+The package exposes `Nevermined` and `Logger` which you can import in your code like this:
 
 ```js
 // ES6
-import { Ocean, Logger } from '@keyko-io/nevermined-sdk-js'
+import { Nevermined, Logger } from '@keyko-io/nevermined-sdk-js'
 
 // ES2015
-const { Ocean, Logger } = require('@keyko-io/nevermined-sdk-js')
+const { Nevermined, Logger } = require('@keyko-io/nevermined-sdk-js')
 ```
 
 You can then connect to the [Smart Contracts](https://github.com/keyko-io/nevermined-contracts), [Metadata API](https://github.com/keyko-io/nevermined-metadata), [Gateway](https://github.com/keyko-io/nevermined-gateway) instances, e.g.:
 
 ```js
-const ocean: Ocean = await Ocean.getInstance({
+const nevermined: Nevermined = await Nevermined.getInstance({
     // the node of the blockchain to connect to, could also be infura
     nodeUri: 'http://localhost:8545',
     // the uri of metadata
@@ -74,7 +74,7 @@ For an overview of endpoint configurations making up various Nevermined networks
 
 You can see how `nevermined-sdk-js` is used on:
 
-- [Integration test](/src/integration/ocean/)
+- [Integration test](/src/integration/nevermined/)
 
 ## Documentation
 
@@ -144,7 +144,7 @@ cd nevermined-tools
 In another terminal window, run this script and export the seed phrase:
 
 ```bash
-# copies the contract artifacts once the local Ocean network is up and running
+# copies the contract artifacts once the local Nevermined network is up and running
 ./scripts/keeper.sh
 
 # export Spree accounts seed phrase

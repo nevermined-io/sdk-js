@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { AccessSecretStoreCondition } from '../../../src/keeper/contracts/conditions'
-import { Ocean } from '../../../src/ocean/Ocean'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -13,7 +13,7 @@ describe('AccessSecretStoreCondition', () => {
 
     before(async () => {
         await TestContractHandler.prepareContracts()
-        condition = (await Ocean.getInstance(config)).keeper.conditions
+        condition = (await Nevermined.getInstance(config)).keeper.conditions
             .accessSecretStoreCondition
     })
 

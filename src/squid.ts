@@ -1,7 +1,7 @@
 import Config from './models/Config'
-import Account from './ocean/Account'
-import DID from './ocean/DID'
-import { Ocean } from './ocean/Ocean'
+import Account from './nevermined/Account'
+import DID from './nevermined/DID'
+import { Nevermined } from './nevermined/Nevermined'
 import { LoggerInstance as Logger } from './utils/Logger'
 import Keeper from './keeper/Keeper'
 
@@ -13,15 +13,15 @@ import * as utils from './utils'
 export * from './ddo/DDO'
 export * from './ddo/MetaData'
 
-export { OrderProgressStep, CreateProgressStep } from './ocean/OceanAssets'
+export { OrderProgressStep, CreateProgressStep } from './nevermined/Assets'
 export {
-    OceanPlatformTechStatus,
-    OceanPlatformTech,
-    OceanPlatformKeeperTech,
-    OceanPlatformVersions
-} from './ocean/OceanVersions'
+    PlatformTechStatus,
+    PlatformTech,
+    PlatformKeeperTech,
+    PlatformVersions
+} from './nevermined/Versions'
 
 export { AgreementTemplate } from './keeper/contracts/templates'
 export { Condition, ConditionState } from './keeper/contracts/conditions'
 
-export { Ocean, Account, Config, DID, Logger, Keeper, conditions, templates, utils }
+export { Nevermined, Account, Config, DID, Logger, Keeper, conditions, templates, utils }

@@ -1,24 +1,24 @@
 import { assert } from 'chai'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import Account from '../../src/ocean/Account'
-import { Ocean } from '../../src/ocean/Ocean'
+import Account from '../../src/nevermined/Account'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import { generateId } from '../../src/utils/GeneratorHelpers'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 
-let ocean: Ocean
+let nevermined: Nevermined
 let didRegistry: DIDRegistry
 
 describe('DIDRegistry', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
-        ocean = await Ocean.getInstance(config)
-        ;({ didRegistry } = ocean.keeper)
+        nevermined = await Nevermined.getInstance(config)
+        ;({ didRegistry } = nevermined.keeper)
     })
 
     describe('#registerAttribute()', () => {
         it('should register an attribute in a new did', async () => {
-            const ownerAccount: Account = (await ocean.accounts.list())[0]
+            const ownerAccount: Account = (await nevermined.accounts.list())[0]
             const did = generateId()
             const data = 'my nice provider, is nice'
             const receipt = await didRegistry.registerAttribute(
@@ -33,7 +33,7 @@ describe('DIDRegistry', () => {
         })
 
         it('should register another attribute in the same did', async () => {
-            const ownerAccount: Account = (await ocean.accounts.list())[0]
+            const ownerAccount: Account = (await nevermined.accounts.list())[0]
             const did = generateId()
             {
                 // register the first attribute
@@ -64,7 +64,7 @@ describe('DIDRegistry', () => {
 
     describe('#getDIDOwner()', () => {
         it('should get the owner of a did properly', async () => {
-            const ownerAccount: Account = (await ocean.accounts.list())[0]
+            const ownerAccount: Account = (await nevermined.accounts.list())[0]
             const did = generateId()
             const data = 'my nice provider, is nice'
             await didRegistry.registerAttribute(
@@ -93,7 +93,7 @@ describe('DIDRegistry', () => {
     describe('#transferDIDOwnership()', () => {
         it('should be able to transfer ownership', async () => {
             // create and register DID
-            const ownerAccount: Account = (await ocean.accounts.list())[0]
+            const ownerAccount: Account = (await nevermined.accounts.list())[0]
             const did = generateId()
             const data = 'my nice provider, is nice'
             await didRegistry.registerAttribute(
@@ -105,7 +105,7 @@ describe('DIDRegistry', () => {
             )
 
             // transfer
-            const newOwnerAccount: Account = (await ocean.accounts.list())[1]
+            const newOwnerAccount: Account = (await nevermined.accounts.list())[1]
             await didRegistry.transferDIDOwnership(
                 did,
                 newOwnerAccount.getId(),

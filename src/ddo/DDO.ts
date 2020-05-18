@@ -1,5 +1,5 @@
 import Web3Provider from '../keeper/Web3Provider'
-import { Ocean } from '../ocean/Ocean'
+import { Nevermined } from '../nevermined/Nevermined'
 import { Authentication } from './Authentication'
 import { Proof } from './Proof'
 import { PublicKey } from './PublicKey'
@@ -110,19 +110,19 @@ export class DDO {
 
     /**
      * Generates proof using personal sing.
-     * @param  {Ocean}          ocean     Ocean instance.
+     * @param  {Nevermined}     nevermined Nevermined instance.
      * @param  {string}         publicKey Public key to be used on personal sign.
      * @param  {string}         password  Password if it's required.
      * @return {Promise<Proof>}           Proof object.
      */
     public async generateProof(
-        ocean: Ocean,
+        nevermined: Nevermined,
         publicKey: string,
         password?: string
     ): Promise<Proof> {
         const checksum = this.getChecksum()
 
-        const signature = await ocean.utils.signature.signText(
+        const signature = await nevermined.utils.signature.signText(
             checksum,
             publicKey,
             password
@@ -138,19 +138,19 @@ export class DDO {
 
     /**
      * Generates and adds a proof using personal sing on the DDO.
-     * @param  {Ocean}          ocean     Ocean instance.
+     * @param  {Nevermined}     nevermined     Nevermined instance.
      * @param  {string}         publicKey Public key to be used on personal sign.
      * @param  {string}         password  Password if it's required.
      * @return {Promise<Proof>}           Proof object.
      */
     public async addProof(
-        ocean: Ocean,
+        nevermined: Nevermined,
         publicKey: string,
         password?: string
     ): Promise<void> {
         if (this.proof) {
             throw new Error('Proof already exists')
         }
-        this.proof = await this.generateProof(ocean, publicKey, password)
+        this.proof = await this.generateProof(nevermined, publicKey, password)
     }
 }

@@ -141,7 +141,7 @@ export abstract class ContractBase extends Instantiable {
                 `Event ${eventName} is not part of contract ${this.contractName}`
             )
         }
-        return this.ocean.keeper.utils.eventHandler.getEvent(this, eventName, filter)
+        return this.nevermined.keeper.utils.eventHandler.getEvent(this, eventName, filter)
     }
 
     private searchMethod(methodName: string, args: any[] = []) {

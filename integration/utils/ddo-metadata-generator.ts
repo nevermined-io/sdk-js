@@ -1,4 +1,4 @@
-import { MetaData } from '../../src' // @oceanprotocol/squid
+import { MetaData } from '../../src' // @nevermined/squid
 
 const metadata: Partial<MetaData> = {
     main: {

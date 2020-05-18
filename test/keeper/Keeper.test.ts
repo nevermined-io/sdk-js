@@ -2,15 +2,15 @@ import { assert } from 'chai'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import Keeper from '../../src/keeper/Keeper'
-import { Ocean } from '../../src/ocean/Ocean'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 
 let keeper: Keeper
 
 describe('Keeper', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
-        const ocean = await Ocean.getInstance(config)
-        keeper = ocean.keeper
+        const nevermined = await Nevermined.getInstance(config)
+        keeper = nevermined.keeper
     })
 
     describe('public interface', () => {

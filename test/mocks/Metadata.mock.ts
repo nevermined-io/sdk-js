@@ -1,6 +1,6 @@
 import { Metadata } from '../../src/metadata/Metadata'
 import { DDO } from '../../src/ddo/DDO'
-import DID from '../../src/ocean/DID'
+import DID from '../../src/nevermined/DID'
 
 const ddoStore: Map<string, any> = new Map<string, any>()
 

@@ -1,28 +1,28 @@
 import { assert } from 'chai'
 import { EventHandler } from '../../src/keeper/EventHandler'
 import { ContractEventSubscription } from '../../src/keeper/ContractEvent'
-import { Ocean } from '../../src/ocean/Ocean'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 
 describe('ContractEvent', () => {
-    let ocean: Ocean
+    let nevermined: Nevermined
     let account: string
     let eventHandler: EventHandler
     let executeTransaction: () => Promise<any>
 
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
-        ocean = await Ocean.getInstance(config)
-        eventHandler = new EventHandler((ocean as any).instanceConfig)
-        account = (await ocean.accounts.list())[0].getId()
+        nevermined = await Nevermined.getInstance(config)
+        eventHandler = new EventHandler((nevermined as any).instanceConfig)
+        account = (await nevermined.accounts.list())[0].getId()
 
-        executeTransaction = () => ocean.keeper.dispenser.requestTokens(10, account)
+        executeTransaction = () => nevermined.keeper.dispenser.requestTokens(10, account)
     })
 
     describe('#subscribe()', () => {
         it('should be able to listen to events', async () => {
-            const event = eventHandler.getEvent(ocean.keeper.token, 'Transfer', {
+            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
                 to: account
             })
             let validResolve = false
@@ -54,7 +54,7 @@ describe('ContractEvent', () => {
     describe('#once()', () => {
         it('should listen to event only once', async () => {
             const to = account
-            const event = eventHandler.getEvent(ocean.keeper.token, 'Transfer', { to })
+            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', { to })
             let canBeRejected = false
 
             const waitUntilEvent = new Promise((resolve, reject) => {
@@ -78,7 +78,7 @@ describe('ContractEvent', () => {
 
         it('should get the event like a promise', async () => {
             const to = account
-            const event = eventHandler.getEvent(ocean.keeper.token, 'Transfer', { to })
+            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', { to })
 
             const waitUntilEvent = event.once()
 

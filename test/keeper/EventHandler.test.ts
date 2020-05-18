@@ -1,18 +1,18 @@
 import { assert, expect, spy, use } from 'chai'
 import spies from 'chai-spies'
 import { EventHandler } from '../../src/keeper/EventHandler'
-import { Ocean } from '../../src/ocean/Ocean'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 
 use(spies)
 
 describe('EventHandler', () => {
-    let ocean: Ocean
+    let nevermined: Nevermined
     let eventHandler: EventHandler
 
     before(async () => {
-        ocean = await Ocean.getInstance(config)
-        eventHandler = new EventHandler((ocean as any).instanceConfig)
+        nevermined = await Nevermined.getInstance(config)
+        eventHandler = new EventHandler((nevermined as any).instanceConfig)
     })
 
     afterEach(() => {
@@ -63,7 +63,7 @@ describe('EventHandler', () => {
             let blockNumber = 100000000000
             const callbackSpy = spy()
 
-            spy.on((ocean as any).web3.eth, 'getBlockNumber', () => blockNumber)
+            spy.on((nevermined as any).web3.eth, 'getBlockNumber', () => blockNumber)
 
             const subscription = eventHandler.subscribe(callbackSpy)
 

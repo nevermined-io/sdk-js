@@ -30,8 +30,8 @@ export default class ContractHandler extends Instantiable {
     }
 
     public async get(what: string, optional: boolean = false): Promise<Contract> {
-        const where = (await this.ocean.keeper.getNetworkName()).toLowerCase()
-        const networkId = await this.ocean.keeper.getNetworkId()
+        const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
+        const networkId = await this.nevermined.keeper.getNetworkId()
         try {
             return (
                 ContractHandler.getContract(what, networkId) ||

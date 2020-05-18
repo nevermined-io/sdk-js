@@ -1,13 +1,13 @@
 import { assert } from 'chai'
 import ContractHandler from '../../src/keeper/ContractHandler'
-import { Ocean } from '../../src/ocean/Ocean'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 
 describe('ContractHandler', () => {
     let contractHandler: ContractHandler
 
     before(async () => {
-        const { instanceConfig } = (await Ocean.getInstance(config)) as any
+        const { instanceConfig } = (await Nevermined.getInstance(config)) as any
 
         contractHandler = new ContractHandler(instanceConfig)
     })
