@@ -43,7 +43,7 @@ export class NeverminedSecretStore extends Instantiable {
                 publisher.getPassword()
             ))
 
-        return this.nevermined.gateway.encrypt(
+        return this.nevermined.gateway.oldEncrypt(
             noDidPrefixed(did),
             signature,
             document,

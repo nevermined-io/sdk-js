@@ -31,8 +31,30 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/consume`
     }
 
-    public getEncryptEndpoint() {
+    public getAccessEndpoint() {
+        return `${this.url}${apiPath}/access`
+    }
+
+    public getExecuteEndpoint() {
+        return `${this.url}${apiPath}/execute`
+    }
+
+    public getOldEncryptEndpoint() {
         return `${this.url}${apiPath}/publish`
+    }
+
+    public getEncryptEndpoint() {
+        return `${this.url}${apiPath}/encrypt`
+    }
+
+    public async getRsaPublicKey() {
+        const json = await this.nevermined.utils.fetch.get(`${this.url}`)
+        return JSON.stringify(json)['rsa-public-key']
+    }
+
+    public async getEcdsaPublicKey() {
+        const json = await this.nevermined.utils.fetch.get(`${this.url}`)
+        return JSON.stringify(json)['ecdsa-public-key']
     }
 
     public getComputeEndpoint(
@@ -105,7 +127,7 @@ export class Gateway extends Instantiable {
         return destination
     }
 
-    public async encrypt(
+    public async oldEncrypt(
         did: string,
         signature: string,
         document: any,
@@ -120,7 +142,7 @@ export class Gateway extends Instantiable {
 
         try {
             const response = await this.nevermined.utils.fetch.post(
-                this.getEncryptEndpoint(),
+                this.getOldEncryptEndpoint(),
                 decodeURI(JSON.stringify(args))
             )
             if (!response.ok) {
@@ -128,6 +150,28 @@ export class Gateway extends Instantiable {
             }
             return await response.text()
         } catch (e) {
+            this.logger.error(e)
+            throw new Error('HTTP request failed')
+        }
+    }
+
+    public async encrypt(did, document, method): Promise<any> {
+        const payload = {
+            'did': did,
+            'message':document,
+            'method': method
+        }
+        try {
+            const response = await this.nevermined.utils.fetch.post(
+                this.getEncryptEndpoint(),
+                decodeURI(JSON.stringify(payload))
+            )
+            if (!response.ok) {
+                throw new Error('HTTP request failed')
+            }
+            return await response.text()
+        }
+        catch (e){
             this.logger.error(e)
             throw new Error('HTTP request failed')
         }
