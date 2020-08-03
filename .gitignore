@@ -7,3 +7,5 @@ test/**/*.js
 src/**/*.js
 
 src/metadata\.json
+.idea
+*.log
