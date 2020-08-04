@@ -24,10 +24,6 @@ jobs:
         sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
         git clone https://github.com/keyko-io/nevermined-tools
         cd nevermined-tools
-        export METADATA_VERSION=unstable
-        export GATEWAY_VERSION=v0.9.5
-        export KEEPER_VERSION=v0.13.2
-        export EVENTS_HANDLER_VERSION=v0.4.7
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
         sudo bash -x ./start_nevermined.sh  --no-commons --no-faucet --no-dashboard --latest 2>&1 > start_nevermined.log &
