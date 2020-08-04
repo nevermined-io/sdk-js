@@ -252,7 +252,11 @@ describe('DDO', () => {
         const signature = `0x${'a'.repeat(130)}`
 
         it('should properly generate the proof', async () => {
-            const signTextSpy = spy.on(nevermined.utils.signature, 'signText', () => signature)
+            const signTextSpy = spy.on(
+                nevermined.utils.signature,
+                'signText',
+                () => signature
+            )
             const ddo = new DDO(testDDO)
             const checksum = ddo.getChecksum()
             const proof = await ddo.generateProof(nevermined, publicKey)

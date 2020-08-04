@@ -21,9 +21,7 @@ export class Agreements extends Instantiable {
      * Returns the instance of Agreements.
      * @return {Promise<Agreements>}
      */
-    public static async getInstance(
-        config: InstantiableConfig
-    ): Promise<Agreements> {
+    public static async getInstance(config: InstantiableConfig): Promise<Agreements> {
         const instance = new Agreements()
         instance.setInstanceConfig(config)
         instance.conditions = await AgreementsConditions.getInstance(config)
@@ -146,9 +144,9 @@ export class Agreements extends Instantiable {
     ): Promise<AgreementConditionsStatus>
 
     public async status(agreementId: string, extended: boolean = false) {
-        const { templateId } = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-            agreementId
-        )
+        const {
+            templateId
+        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const fullStatus = await this.nevermined.keeper
             .getTemplateByAddress(templateId)
             .getAgreementStatus(agreementId)

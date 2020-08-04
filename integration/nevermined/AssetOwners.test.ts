@@ -59,14 +59,18 @@ describe('Asset Owners', () => {
     })
 
     it('should get the assets owned by a user', async () => {
-        const { length: initialLength } = await nevermined.assets.ownerAssets(account2.getId())
+        const { length: initialLength } = await nevermined.assets.ownerAssets(
+            account2.getId()
+        )
 
         await nevermined.assets.create(metadata as any, account1)
         await nevermined.assets.create(metadata as any, account1)
 
         await nevermined.assets.create(metadata as any, account2)
 
-        const { length: finalLength } = await nevermined.assets.ownerAssets(account2.getId())
+        const { length: finalLength } = await nevermined.assets.ownerAssets(
+            account2.getId()
+        )
 
         assert.equal(finalLength - initialLength, 1)
     })

@@ -97,7 +97,10 @@ export class Versions extends Instantiable {
 
         // Metadata
         try {
-            const { software: name, version } = await this.nevermined.metadata.getVersionInfo()
+            const {
+                software: name,
+                version
+            } = await this.nevermined.metadata.getVersionInfo()
             versions.metadata = {
                 name,
                 status: PlatformTechStatus.Working,

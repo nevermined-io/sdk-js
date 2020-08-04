@@ -53,7 +53,9 @@ describe('Metadata', () => {
         } as SearchQuery
 
         it('should query metadata', async () => {
-            spy.on(nevermined.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'post', () =>
+                reponsify(getResults([new DDO()]))
+            )
 
             const result = await metadata.queryMetadata(query)
             assert.typeOf(result.results, 'array')
@@ -64,7 +66,9 @@ describe('Metadata', () => {
         })
 
         it('should query metadata and return real ddo', async () => {
-            spy.on(nevermined.utils.fetch, 'post', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'post', () =>
+                reponsify(getResults([new DDO()]))
+            )
 
             const result = await metadata.queryMetadata(query)
             assert.typeOf(result.results, 'array')
@@ -87,7 +91,9 @@ describe('Metadata', () => {
         } as SearchQuery
 
         it('should query metadata by text', async () => {
-            spy.on(nevermined.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'get', () =>
+                reponsify(getResults([new DDO()]))
+            )
 
             const result = await metadata.queryMetadataByText(query)
             assert.typeOf(result.results, 'array')
@@ -98,7 +104,9 @@ describe('Metadata', () => {
         })
 
         it('should query metadata and return real ddo', async () => {
-            spy.on(nevermined.utils.fetch, 'get', () => reponsify(getResults([new DDO()])))
+            spy.on(nevermined.utils.fetch, 'get', () =>
+                reponsify(getResults([new DDO()]))
+            )
 
             const result = await metadata.queryMetadataByText(query)
             assert.typeOf(result.results, 'array')

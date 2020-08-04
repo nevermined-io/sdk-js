@@ -38,7 +38,11 @@ describe('SignatureUtils', () => {
         })
 
         it('should sign a text as expected using password', async () => {
-            const signed = await nevermined.utils.signature.signText(text, publicKey, 'test')
+            const signed = await nevermined.utils.signature.signText(
+                text,
+                publicKey,
+                'test'
+            )
 
             assert.equal(signed, signature)
             expect(personalSignSpy).to.have.been.called.with(text, publicKey, 'test')
