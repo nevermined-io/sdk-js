@@ -10,33 +10,33 @@ const configJson: Config = {
     verbose: false
 }
 
-if (process.env.NETWORK_NAME === 'pacific') {
+if (process.env.NETWORK_NAME === 'production') {
     Object.assign(configJson, {
-        nodeUri: 'https://pacific.oceanprotocol.com',
-        metadataUri: 'https://metadata.commons.oceanprotocol.com',
-        gatewayUri: 'https://gateway.commons.oceanprotocol.com',
-        secretStoreUri: 'https://secret-store.oceanprotocol.com',
-        gatewayAddress: '0x008c25ed3594e094db4592f4115d5fa74c4f41ea'
+      nodeUri: 'http://localhost:8545',
+      metadataUri: 'http://nevermined-metadata:5000',
+      gatewayUri: 'http://localhost:8030',
+      secretStoreUri: 'http://localhost:12001',
+      gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     })
 }
 
-if (process.env.NETWORK_NAME === 'nile') {
+if (process.env.NETWORK_NAME === 'integration') {
     Object.assign(configJson, {
-        nodeUri: 'https://nile.dev-ocean.com',
-        metadataUri: 'https://metadata.nile.dev-ocean.com',
-        gatewayUri: 'https://gateway.nile.dev-ocean.com',
-        secretStoreUri: 'https://secret-store.nile.dev-ocean.com',
-        gatewayAddress: '0x413c9ba0a05b8a600899b41b0c62dd661e689354'
+      nodeUri: 'http://localhost:8545',
+      metadataUri: 'http://nevermined-metadata:5000',
+      gatewayUri: 'http://localhost:8030',
+      secretStoreUri: 'http://localhost:12001',
+      gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     })
 }
 
-if (process.env.NETWORK_NAME === 'duero') {
+if (process.env.NETWORK_NAME === 'testing') {
     Object.assign(configJson, {
-        nodeUri: 'https://duero.dev-ocean.com',
-        metadataUri: 'https://metadata.duero.dev-ocean.com',
-        gatewayUri: 'https://gateway.duero.dev-ocean.com',
-        secretStoreUri: 'https://secret-store.duero.dev-ocean.com',
-        gatewayAddress: '0x9d4ed58293f71122ad6a733c1603927a150735d0'
+      nodeUri: 'http://localhost:8545',
+      metadataUri: 'http://nevermined-metadata:5000',
+      gatewayUri: 'http://localhost:8030',
+      secretStoreUri: 'http://localhost:12001',
+      gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     })
 }
 
