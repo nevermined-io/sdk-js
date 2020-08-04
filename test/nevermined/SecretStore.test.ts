@@ -13,11 +13,10 @@ describe('Encrypt', () => {
     let accounts: Account[]
 
     let nevermined: Nevermined
-    const digits = [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f']
+    const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f']
     let didHash = ''
-    while( didHash.length < 64 ){
-
-      didHash += digits[ Math.round( Math.random() * (digits.length-1) ) ]
+    while (didHash.length < 64) {
+        didHash += digits[Math.round(Math.random() * (digits.length - 1))]
     }
     const did = 'did:nv:' + didHash
 
@@ -39,10 +38,14 @@ describe('Encrypt', () => {
                 () => 'encryptedResult'
             )
 
-            const document = [{"url": "https://nevermined.io"}]
+            const document = [{ url: 'https://nevermined.io' }]
             const result = await nevermined.gateway.encrypt(did, document, 'SecretStore')
 
-            expect(secretStoreEncryptSpy).to.have.been.called.with(did, document, 'SecretStore')
+            expect(secretStoreEncryptSpy).to.have.been.called.with(
+                did,
+                document,
+                'SecretStore'
+            )
 
             assert.equal(result, 'encryptedResult', "Result doesn't match")
         })
@@ -63,5 +66,4 @@ describe('Encrypt', () => {
             assert.equal(result, 'encryptedResult', "Result doesn't match")
         })
     })
-
 })

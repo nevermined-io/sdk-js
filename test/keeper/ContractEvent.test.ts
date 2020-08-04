@@ -54,7 +54,9 @@ describe('ContractEvent', () => {
     describe('#once()', () => {
         it('should listen to event only once', async () => {
             const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', { to })
+            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
+                to
+            })
             let canBeRejected = false
 
             const waitUntilEvent = new Promise((resolve, reject) => {
@@ -78,7 +80,9 @@ describe('ContractEvent', () => {
 
         it('should get the event like a promise', async () => {
             const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', { to })
+            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
+                to
+            })
 
             const waitUntilEvent = event.once()
 

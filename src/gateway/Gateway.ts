@@ -117,7 +117,12 @@ export class Gateway extends Instantiable {
             .map(async ({ index: i }) => {
                 const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
                 try {
-                    await this.nevermined.utils.fetch.downloadFile(consumeUrl, destination, i, headers)
+                    await this.nevermined.utils.fetch.downloadFile(
+                        consumeUrl,
+                        destination,
+                        i,
+                        headers
+                    )
                 } catch (e) {
                     this.logger.error('Error consuming assets')
                     this.logger.error(e)
@@ -158,9 +163,9 @@ export class Gateway extends Instantiable {
 
     public async encrypt(did, document, method): Promise<any> {
         const payload = {
-            'did': did,
-            'message':document,
-            'method': method
+            did: did,
+            message: document,
+            method: method
         }
         try {
             const response = await this.nevermined.utils.fetch.post(
@@ -171,8 +176,7 @@ export class Gateway extends Instantiable {
                 throw new Error('HTTP request failed')
             }
             return await response.text()
-        }
-        catch (e){
+        } catch (e) {
             this.logger.error(e)
             throw new Error('HTTP request failed')
         }

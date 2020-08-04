@@ -76,16 +76,20 @@ export class Assets extends Instantiable {
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
 
-            var encryptedFiles 
-            if (method == 'SecretStore')  {
-              // TODO- Continue keeping the support for the secret-store client
-              encryptedFiles = await this.nevermined.secretStore.encrypt(
-                  did.getId(),
-                  metadata.main.files,
-                  publisher
-              )
+            let encryptedFiles
+            if (method == 'SecretStore') {
+                // TODO- Continue keeping the support for the secret-store client
+                encryptedFiles = await this.nevermined.secretStore.encrypt(
+                    did.getId(),
+                    metadata.main.files,
+                    publisher
+                )
             } else {
-              encryptedFiles = await this.nevermined.gateway.encrypt(did.getId(), metadata.main.files, method)
+                encryptedFiles = await this.nevermined.gateway.encrypt(
+                    did.getId(),
+                    metadata.main.files,
+                    method
+                )
             }
 
             this.logger.log('Files encrypted')
@@ -180,7 +184,11 @@ export class Assets extends Instantiable {
 
             this.logger.log('Generating proof')
             observer.next(CreateProgressStep.GeneratingProof)
-            await ddo.addProof(this.nevermined, publisher.getId(), publisher.getPassword())
+            await ddo.addProof(
+                this.nevermined,
+                publisher.getId(),
+                publisher.getPassword()
+            )
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
 
@@ -302,7 +310,7 @@ export class Assets extends Instantiable {
         consumer: Account
     ): SubscribablePromise<OrderProgressStep, string> {
         return new SubscribablePromise(async observer => {
-            const {agreements} = this.nevermined
+            const { agreements } = this.nevermined
 
             const agreementId = zeroX(generateId())
             const ddo = await this.resolve(did)
@@ -436,7 +444,11 @@ export class Assets extends Instantiable {
         newOwner: string
     ): Promise<TransactionReceipt> {
         const owner = await this.nevermined.assets.owner(did)
-        return this.nevermined.keeper.didRegistry.transferDIDOwnership(did, newOwner, owner)
+        return this.nevermined.keeper.didRegistry.transferDIDOwnership(
+            did,
+            newOwner,
+            owner
+        )
     }
 
     /**

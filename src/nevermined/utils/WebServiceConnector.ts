@@ -36,9 +36,7 @@ export class WebServiceConnector extends Instantiable {
     public getWithHeaders(url: string, headers?: any): Promise<Response> {
         return this.fetch(url, {
             method: 'GET',
-            headers: {...headers,
-                'Content-type': 'application/json',
-            }
+            headers: { ...headers, 'Content-type': 'application/json' }
         })
     }
 

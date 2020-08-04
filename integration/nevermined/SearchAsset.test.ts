@@ -64,12 +64,14 @@ describe('Search Asset', () => {
 
     it('should search by text and see the increment of DDOs', async () => {
         assert.equal(
-            (await nevermined.assets.search(`Test2${testHash}`)).results.length - test2length,
+            (await nevermined.assets.search(`Test2${testHash}`)).results.length -
+                test2length,
             2,
             'Something was wrong searching the assets'
         )
         assert.equal(
-            (await nevermined.assets.search(`Test3${testHash}`)).results.length - test3length,
+            (await nevermined.assets.search(`Test3${testHash}`)).results.length -
+                test3length,
             1,
             'Something was wrong searching the assets'
         )

@@ -21,7 +21,11 @@ describe('Secret Store', () => {
     })
 
     it('should encrypt a text', async () => {
-        encryptedContent = await nevermined.secretStore.encrypt(did.getId(), content, account)
+        encryptedContent = await nevermined.secretStore.encrypt(
+            did.getId(),
+            content,
+            account
+        )
 
         assert.isDefined(encryptedContent)
         assert.match(encryptedContent, /^0x[a-f0-9]{76}$/i)
