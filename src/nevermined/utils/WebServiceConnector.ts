@@ -33,6 +33,15 @@ export class WebServiceConnector extends Instantiable {
         })
     }
 
+    public getWithHeaders(url: string, headers?: any): Promise<Response> {
+        return this.fetch(url, {
+            method: 'GET',
+            headers: {...headers,
+                'Content-type': 'application/json',
+            }
+        })
+    }
+
     public put(url: string, payload: BodyInit): Promise<Response> {
         return this.fetch(url, {
             method: 'PUT',
@@ -46,9 +55,10 @@ export class WebServiceConnector extends Instantiable {
     public async downloadFile(
         url: string,
         destination?: string,
-        index?: number
+        index?: number,
+        headers?: any
     ): Promise<string> {
-        const response = await this.get(url)
+        const response = await this.getWithHeaders(url, headers)
         if (!response.ok) {
             throw new Error('Response error.')
         }

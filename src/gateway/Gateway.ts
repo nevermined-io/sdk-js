@@ -93,6 +93,7 @@ export class Gateway extends Instantiable {
     }
 
     public async consumeService(
+        did: string,
         agreementId: string,
         serviceEndpoint: string,
         account: Account,
@@ -106,17 +107,17 @@ export class Gateway extends Instantiable {
                 noZeroX(agreementId),
                 account.getId()
             ))
+        const headers = {
+            'X-Consumer-Address': account.getId(),
+            'X-Signature': signature,
+            'X-DID': did
+        }
         const filesPromises = files
             .filter((_, i) => index === -1 || i === index)
             .map(async ({ index: i }) => {
-                let consumeUrl = serviceEndpoint
-                consumeUrl += `?index=${i}`
-                consumeUrl += `&serviceAgreementId=${noZeroX(agreementId)}`
-                consumeUrl += `&consumerAddress=${account.getId()}`
-                consumeUrl += `&signature=${signature}`
-
+                const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
                 try {
-                    await this.nevermined.utils.fetch.downloadFile(consumeUrl, destination, i)
+                    await this.nevermined.utils.fetch.downloadFile(consumeUrl, destination, i, headers)
                 } catch (e) {
                     this.logger.error('Error consuming assets')
                     this.logger.error(e)
