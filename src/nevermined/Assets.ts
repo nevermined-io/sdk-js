@@ -75,13 +75,19 @@ export class Assets extends Instantiable {
 
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
-            // TODO- Continue keeping the support for the secret-store client
-            // const encryptedFiles = await this.nevermined.secretStore.encrypt(
-            //     did.getId(),
-            //     metadata.main.files,
-            //     publisher
-            // )
-            const encryptedFiles = await this.nevermined.gateway.encrypt(did.getId(), metadata.main.files, method)
+
+            var encryptedFiles 
+            if (method == 'SecretStore')  {
+              // TODO- Continue keeping the support for the secret-store client
+              encryptedFiles = await this.nevermined.secretStore.encrypt(
+                  did.getId(),
+                  metadata.main.files,
+                  publisher
+              )
+            } else {
+              encryptedFiles = await this.nevermined.gateway.encrypt(did.getId(), metadata.main.files, method)
+            }
+
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 

@@ -39,7 +39,7 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/execute`
     }
 
-    public getOldEncryptEndpoint() {
+    public getSecretStoreEncryptEndpoint() {
         return `${this.url}${apiPath}/publish`
     }
 
@@ -128,7 +128,7 @@ export class Gateway extends Instantiable {
         return destination
     }
 
-    public async oldEncrypt(
+    public async secretStoreEncrypt(
         did: string,
         signature: string,
         document: any,
@@ -143,7 +143,7 @@ export class Gateway extends Instantiable {
 
         try {
             const response = await this.nevermined.utils.fetch.post(
-                this.getOldEncryptEndpoint(),
+                this.getSecretStoreEncryptEndpoint(),
                 decodeURI(JSON.stringify(args))
             )
             if (!response.ok) {

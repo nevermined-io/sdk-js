@@ -1,9 +1,9 @@
-[![banner](https://raw.githubusercontent.com/keyko-io/assets/master/images/logo/small/keyko_logo@2x-100.jpg)](https://keyko.io)
+[![banner](https://raw.githubusercontent.com/keyko-io/assets/master/images/logo/nevermined_logo_1.png)](https://nevermined.io)
 
 # Javascript/Typescript API for Nevermined Data platform
 
 > Javascript SDK for connecting with Nevermined Data Platform
-> [keyko.io](https://keyko.io)
+> [nevermined.io](https://nevermined.io)
 
 ![CI Build](https://github.com/keyko-io/nevermined-sdk-js/workflows/Build/badge.svg)
 
@@ -132,7 +132,8 @@ npm run test:cover
 
 ### Integration Tests
 
-Besides a running `ganache-cli` instance, a locally running Nevermined network is required. To do so before running the tests, use [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
+Besides a running `ganache-cli` instance, a locally running Nevermined network is required.
+To do so before running the tests, use [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
 
 ```bash
 git clone https://github.com/keyko-io/nevermined-tools
