@@ -87,7 +87,7 @@ export class Assets extends Instantiable {
             } else {
                 encryptedFiles = await this.nevermined.gateway.encrypt(
                     did.getId(),
-                    metadata.main.files,
+                    JSON.stringify(metadata.main.files),
                     method
                 )
             }
