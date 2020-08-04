@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@release-it/bumper": "^1.1.1",
-    "@truffle/hdwallet-provider": "^1.0.35",
+    "@truffle/hdwallet-provider": "^1.0.40",
     "@types/chai": "^4.2.6",
     "@types/chai-spies": "^1.0.1",
     "@types/mocha": "^5.2.7",
