@@ -63,7 +63,8 @@ export class Assets extends Instantiable {
     public create(
         metadata: MetaData,
         publisher: Account,
-        services: Service[] = []
+        services: Service[] = [],
+        method: string = 'PSK-RSA'
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -74,11 +75,13 @@ export class Assets extends Instantiable {
 
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
-            const encryptedFiles = await this.nevermined.secretStore.encrypt(
-                did.getId(),
-                metadata.main.files,
-                publisher
-            )
+            // TODO- Continue keeping the support for the secret-store client
+            // const encryptedFiles = await this.nevermined.secretStore.encrypt(
+            //     did.getId(),
+            //     metadata.main.files,
+            //     publisher
+            // )
+            const encryptedFiles = await this.nevermined.gateway.encrypt(did.getId(), metadata.main.files, method)
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
@@ -249,6 +252,7 @@ export class Assets extends Instantiable {
 
         if (!useSecretStore) {
             await this.nevermined.gateway.consumeService(
+                did,
                 agreementId,
                 serviceEndpoint,
                 consumerAccount,
@@ -292,7 +296,7 @@ export class Assets extends Instantiable {
         consumer: Account
     ): SubscribablePromise<OrderProgressStep, string> {
         return new SubscribablePromise(async observer => {
-            const agreements = this.nevermined.agreements
+            const {agreements} = this.nevermined
 
             const agreementId = zeroX(generateId())
             const ddo = await this.resolve(did)
