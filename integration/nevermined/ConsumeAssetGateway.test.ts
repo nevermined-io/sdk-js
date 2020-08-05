@@ -34,6 +34,11 @@ describe('Consume Asset (Gateway)', () => {
         } catch {}
     })
 
+    it('should fetch the RSA publicKey from the gateway', async () => {
+        const rsaPublicKey = await nevermined.gateway.getRsaPublicKey()
+        assert.isDefined(rsaPublicKey)
+    })
+
     it('should authenticate the accounts', async () => {
         await publisher.authenticate()
         await consumer.authenticate()
@@ -70,13 +75,15 @@ describe('Consume Asset (Gateway)', () => {
     it('should consume and store the assets', async () => {
         const accessService = ddo.findServiceByType('access')
 
-        const folder = '/tmp/nevermined/squid-js'
+        const folder = '/tmp/nevermined/sdk-js'
         const path = await nevermined.assets.consume(
             agreementId,
             ddo.id,
             accessService.index,
             consumer,
-            folder
+            folder,
+            -1,
+            false
         )
 
         assert.include(path, folder, 'The storage path is not correct.')

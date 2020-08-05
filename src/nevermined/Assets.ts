@@ -68,7 +68,7 @@ export class Assets extends Instantiable {
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
-            const { secretStoreUri } = this.config
+            const { secretStoreUri, gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
             const did: DID = DID.generate()
@@ -85,11 +85,12 @@ export class Assets extends Instantiable {
                     publisher
                 )
             } else {
-                encryptedFiles = await this.nevermined.gateway.encrypt(
+                const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
                     did.getId(),
                     JSON.stringify(metadata.main.files),
                     method
                 )
+                encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
             }
 
             this.logger.log('Files encrypted')
@@ -119,7 +120,7 @@ export class Assets extends Instantiable {
                 service: [
                     {
                         type: 'access',
-                        serviceEndpoint: this.nevermined.gateway.getConsumeEndpoint(),
+                        serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
                         templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
                         attributes: {
                             main: {
@@ -134,9 +135,12 @@ export class Assets extends Instantiable {
                     },
                     {
                         type: 'authorization',
-                        service: 'SecretStore',
-                        serviceEndpoint: secretStoreUri,
-                        attributes: { main: {} }
+                        serviceEndpoint: gatewayUri,
+                        attributes: {
+                          main: {
+                            publicKey: await this.nevermined.gateway.getRsaPublicKey(),
+                            service: 'PSK-RSA'
+                          } }
                     },
                     {
                         type: 'metadata',
@@ -177,6 +181,7 @@ export class Assets extends Instantiable {
                     })) as Service[]
             })
 
+            // console.log('DDO: ' + JSON.stringify(ddo))
             // Overwrite initial service agreement conditions
             const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
             const conditions = fillConditionsWithDDO(rawConditions, ddo)

@@ -47,14 +47,19 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/encrypt`
     }
 
+    public async getGatewayInfo() {
+        return this.nevermined.utils.fetch.get(`${this.url}`)
+          .then(res => res.json())
+    }
+
     public async getRsaPublicKey() {
-        const json = await this.nevermined.utils.fetch.get(`${this.url}`)
-        return JSON.stringify(json)['rsa-public-key']
+        const json = await this.getGatewayInfo()
+        return json['rsa-public-key']
     }
 
     public async getEcdsaPublicKey() {
-        const json = await this.nevermined.utils.fetch.get(`${this.url}`)
-        return JSON.stringify(json)['ecdsa-public-key']
+        const json = await this.getGatewayInfo()
+        return json['ecdsa-public-key']
     }
 
     public getComputeEndpoint(
