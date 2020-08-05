@@ -9,3 +9,5 @@ src/**/*.js
 src/metadata\.json
 .idea
 *.log
+
+package-lock.json
