@@ -98,7 +98,7 @@ describe('DIDRegistry', () => {
             const data = 'my nice provider, is nice'
             await didRegistry.registerAttribute(
                 did,
-                '0123456789abcdef',
+                '12345678',
                 [],
                 data,
                 ownerAccount.getId()
@@ -106,6 +106,7 @@ describe('DIDRegistry', () => {
 
             // transfer
             const newOwnerAccount: Account = (await nevermined.accounts.list())[1]
+            console.log('New Owner Account: ' + newOwnerAccount.getId())
             await didRegistry.transferDIDOwnership(
                 did,
                 newOwnerAccount.getId(),
@@ -114,6 +115,8 @@ describe('DIDRegistry', () => {
 
             // check
             const newOwner = await didRegistry.getDIDOwner(did)
+            console.log('DID Owner Account: ' + newOwner)
+
             assert.equal(
                 newOwner,
                 newOwnerAccount.getId(),
