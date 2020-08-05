@@ -66,7 +66,7 @@ xdescribe('Consume Asset (Large size)', () => {
     it('should consume and store the assets', async () => {
         const accessService = ddo.findServiceByType('access')
 
-        const folder = '/tmp/nevermined/squid-js'
+        const folder = '/tmp/nevermined/sdk-js'
         const path = await nevermined.assets.consume(
             agreementId,
             ddo.id,

@@ -154,7 +154,7 @@ describe('Consume Asset', () => {
     it('should consume and store the assets', async () => {
         const accessService = ddo.findServiceByType('access')
 
-        const folder = '/tmp/nevermined/squid-js-1'
+        const folder = '/tmp/nevermined/sdk-js-1'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
@@ -181,7 +181,7 @@ describe('Consume Asset', () => {
     it('should consume and store one asset', async () => {
         const accessService = ddo.findServiceByType('access')
 
-        const folder = '/tmp/nevermined/squid-js-2'
+        const folder = '/tmp/nevermined/sdk-js-2'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
