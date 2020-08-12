@@ -16,7 +16,7 @@ jobs:
       run: |
         npm i
         npm install -g npm
-        npm install -g ganache-cli@~6.5.1
+        npm install -g ganache-cli@~6.9.1
     - name: Run tools (network)
       run: |
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
