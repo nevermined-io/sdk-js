@@ -84,7 +84,7 @@ export default class DIDRegistry extends ContractBase {
     ): Promise<TransactionReceipt> {
         return this.send('transferDIDOwnership', ownerAddress, [
             didZeroX(did),
-            noZeroX(newOwnerAddress)
+            zeroX(newOwnerAddress)
         ])
     }
 }
