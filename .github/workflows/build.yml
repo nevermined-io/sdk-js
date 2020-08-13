@@ -27,6 +27,8 @@ jobs:
         cd nevermined-tools
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
+        export KEEPER_VERSION="v0.3.1"
+        export METADATA_VERSION="v0.2.0"
         sudo bash -x ./start_nevermined.sh  --no-commons --no-faucet --no-dashboard 2>&1 > start_nevermined.log &
         cd ..
     - name: Run linters
