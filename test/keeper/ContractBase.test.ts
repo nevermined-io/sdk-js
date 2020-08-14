@@ -5,7 +5,7 @@ import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
 
-const wrappedContract = new ContractBaseMock('OceanToken')
+const wrappedContract = new ContractBaseMock('NeverminedToken')
 let accounts: Account[]
 
 describe('ContractWrapperBase', () => {

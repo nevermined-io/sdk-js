@@ -52,7 +52,7 @@
     "web3": "^1.2.3"
   },
   "dependencies": {
-    "@keyko-io/nevermined-contracts": "0.3.1",
+    "@keyko-io/nevermined-contracts": "0.4.1",
     "@oceanprotocol/secret-store-client": "^0.0.15",
     "bignumber.js": "^9.0.0",
     "deprecated-decorator": "^0.1.6",

@@ -4,13 +4,13 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 /**
  * Tokens submodule of Nevermined.
  */
-export class OceanTokens extends Instantiable {
+export class Token extends Instantiable {
     /**
-     * Returns the instance of OceanTokens.
-     * @return {Promise<OceanTokens>}
+     * Returns the instance of Token.
+     * @return {Promise<Token>}
      */
-    public static async getInstance(config: InstantiableConfig): Promise<OceanTokens> {
-        const instance = new OceanTokens()
+    public static async getInstance(config: InstantiableConfig): Promise<Token> {
+        const instance = new Token()
         instance.setInstanceConfig(config)
 
         return instance
