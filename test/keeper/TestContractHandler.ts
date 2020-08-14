@@ -36,7 +36,7 @@ export default class TestContractHandler extends ContractHandler {
 
         // Contracts
         const token = await TestContractHandler.deployContract(
-            'OceanToken',
+            'NeverminedToken',
             deployerAddress,
             [deployerAddress, deployerAddress]
         )

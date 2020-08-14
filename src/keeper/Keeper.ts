@@ -2,7 +2,7 @@ import { ContractBase } from './contracts/ContractBase'
 
 import DIDRegistry from './contracts/DIDRegistry'
 import Dispenser from './contracts/Dispenser'
-import OceanToken from './contracts/Token'
+import Token from './contracts/Token'
 import {
     Condition,
     LockRewardCondition,
@@ -50,7 +50,7 @@ export class Keeper extends Instantiable {
             keeper.instances = await objectPromiseAll({
                 // Main contracts
                 dispenser: undefined, // Optional
-                token: OceanToken.getInstance(config),
+                token: Token.getInstance(config),
                 didRegistry: DIDRegistry.getInstance(config),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(config),
@@ -123,9 +123,9 @@ export class Keeper extends Instantiable {
 
     /**
      * Ocean Token smart contract instance.
-     * @type {OceanToken}
+     * @type {Token}
      */
-    public token: OceanToken
+    public token: Token
 
     /**
      * Market smart contract instance.

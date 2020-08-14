@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js'
 import ContractBase from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 
-export default class OceanToken extends ContractBase {
-    public static async getInstance(config: InstantiableConfig): Promise<OceanToken> {
-        const token: OceanToken = new OceanToken('OceanToken')
+export default class Token extends ContractBase {
+    public static async getInstance(config: InstantiableConfig): Promise<Token> {
+        const token: Token = new Token('NeverminedToken')
         await token.init(config)
         return token
     }

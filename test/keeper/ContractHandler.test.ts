@@ -13,12 +13,12 @@ describe('ContractHandler', () => {
     })
 
     describe('#get()', () => {
-        it('should load and get OceanToken correctly', async () => {
-            assert(await contractHandler.get('OceanToken'))
+        it('should load and get NeverminedToken correctly', async () => {
+            assert(await contractHandler.get('NeverminedToken'))
         })
 
         it('should fail to load an unknown contract', done => {
-            contractHandler.get('OceanXXX').catch(() => {
+            contractHandler.get('NeverminedXXX').catch(() => {
                 done()
             })
         })
