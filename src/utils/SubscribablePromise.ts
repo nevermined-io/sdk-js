@@ -39,17 +39,18 @@ export class SubscribablePromise<T extends any, P extends any> {
     }
 
     private init(executor: (observer: SubscribableObserver<T, P>) => void | Promise<P>) {
-        const execution = executor(this.observer)
+        const execution: void | Promise<P> = executor(this.observer)
+        const e = execution as Promise<P>
 
-        Promise.resolve(execution as any)
-            .then(result => {
-                if (typeof (execution as any).then === 'function') {
+        Promise.resolve(e)
+            .then((result) => {
+                if (e && e.then) {
                     this.observer.complete(result)
                 }
             })
-            .catch(result => {
-                if (typeof (execution as any).then === 'function') {
-                    this.observer.error(result)
+            .catch((err) => {
+                if (e && e.then) {
+                    this.observer.error(err)
                 }
             })
     }

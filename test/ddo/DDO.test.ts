@@ -1,6 +1,5 @@
 import { assert, expect, spy, use } from 'chai'
 import spies from 'chai-spies'
-import Web3 from 'web3'
 
 import { DDO } from '../../src/ddo/DDO'
 import { Service } from '../../src/ddo/Service'
@@ -164,13 +163,11 @@ describe('DDO', () => {
         ]
     })
 
-    let web3: Web3
     let nevermined: Nevermined
 
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;({ web3 } = nevermined as any)
     })
 
     afterEach(() => {

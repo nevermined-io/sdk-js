@@ -4,7 +4,7 @@ import ContractBase from './contracts/ContractBase'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 export class EventHandler extends Instantiable {
-    get count() {
+    get count(): number {
         return this.events.size
     }
 
