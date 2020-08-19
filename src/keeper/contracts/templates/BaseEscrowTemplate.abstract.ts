@@ -1,9 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { DDO } from '../../../ddo/DDO'
-import { generateId, zeroX } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-
-// import { EscrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
+import { zeroX } from '../../../utils'
 
 export abstract class BaseEscrowTemplate extends AgreementTemplate {
     /**

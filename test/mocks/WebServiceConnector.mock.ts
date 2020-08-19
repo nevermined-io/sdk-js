@@ -1,9 +1,10 @@
-import WebServiceConnector from '../../src/utils/WebServiceConnector'
+import { WebServiceConnector } from '../../src/nevermined/utils/WebServiceConnector'
+import { InstantiableConfig } from "../../src/Instantiable.abstract"
 
 // @ts-ignore
 export default class WebServiceConnectorMock extends WebServiceConnector {
-    constructor(private returnData: any) {
-        super()
+    constructor(config: InstantiableConfig, private returnData: any) {
+        super(config)
     }
 
     // @ts-ignore

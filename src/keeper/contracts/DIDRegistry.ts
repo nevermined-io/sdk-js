@@ -1,6 +1,6 @@
 import { TransactionReceipt } from 'web3-core'
 import ContractBase from './ContractBase'
-import { zeroX, noZeroX, didPrefixed, didZeroX } from '../../utils'
+import { zeroX, didPrefixed, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 
 export default class DIDRegistry extends ContractBase {
