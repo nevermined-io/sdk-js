@@ -5,6 +5,7 @@ import { Nevermined } from '../../src/nevermined/Nevermined'
 import { generateId } from '../../src/utils/GeneratorHelpers'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
+import { Logger, LogLevel } from "../../src/utils"
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -106,7 +107,8 @@ describe('DIDRegistry', () => {
 
             // transfer
             const newOwnerAccount: Account = (await nevermined.accounts.list())[1]
-            console.log('New Owner Account: ' + newOwnerAccount.getId())
+            const logger = new Logger(LogLevel.Error)
+            logger.log('New Owner Account: ' + newOwnerAccount.getId())
             await didRegistry.transferDIDOwnership(
                 did,
                 newOwnerAccount.getId(),
@@ -115,7 +117,7 @@ describe('DIDRegistry', () => {
 
             // check
             const newOwner = await didRegistry.getDIDOwner(did)
-            console.log('DID Owner Account: ' + newOwner)
+            logger.log('DID Owner Account: ' + newOwner)
 
             assert.equal(
                 newOwner,

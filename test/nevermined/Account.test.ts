@@ -62,7 +62,7 @@ describe('Account', () => {
 
     describe('#requestTokens()', () => {
         it('should return the amount of tokens granted', async () => {
-            const tokens = '500'
+            const tokens = '5'
             const account: Account = accounts[0]
             const tokensGranted: string = await account.requestTokens(tokens)
 

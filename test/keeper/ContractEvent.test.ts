@@ -17,7 +17,11 @@ describe('ContractEvent', () => {
         eventHandler = new EventHandler((nevermined as any).instanceConfig)
         account = (await nevermined.accounts.list())[0].getId()
 
-        executeTransaction = () => nevermined.keeper.dispenser.requestTokens(10, account)
+        executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account)
+    })
+
+    afterEach(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50))
     })
 
     describe('#subscribe()', () => {
@@ -70,7 +74,7 @@ describe('ContractEvent', () => {
 
             await executeTransaction()
 
-            await new Promise(resolve => setTimeout(resolve, 2000))
+            await new Promise((resolve) => setTimeout(resolve, 2000))
             canBeRejected = true
 
             await executeTransaction()
@@ -86,7 +90,7 @@ describe('ContractEvent', () => {
 
             const waitUntilEvent = event.once()
 
-            await new Promise(resolve => setTimeout(resolve, 400))
+            await new Promise((resolve) => setTimeout(resolve, 400))
 
             await executeTransaction()
 

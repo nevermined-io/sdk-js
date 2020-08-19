@@ -87,12 +87,12 @@ export abstract class ContractBase extends Instantiable {
         const method = this.contract.methods[name]
         try {
             const methodInstance = method(...args)
-            const estimatedGas = await methodInstance.estimateGas(args, {
+            const gas = await methodInstance.estimateGas(args, {
                 from
             })
             const tx = methodInstance.send({
                 from,
-                gas: estimatedGas
+                gas
             })
             return tx
         } catch (err) {
