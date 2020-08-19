@@ -11,7 +11,7 @@
       "DOM"
     ],
     "declaration": true,
-    "module": "commonjs",
+    "module": "CommonJS",
     "target": "ES5",
     "noImplicitAny": false,
     "removeComments": true,

@@ -1,16 +1,12 @@
 import { assert, expect, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
-import { NeverminedSecretStore } from '../../src/nevermined/NeverminedSecretStore'
 import config from '../config'
 
 use(spies)
 
 describe('Encrypt', () => {
-    let secretStore: NeverminedSecretStore
-    let accounts: Account[]
 
     let nevermined: Nevermined
     const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f']
@@ -22,8 +18,6 @@ describe('Encrypt', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        secretStore = nevermined.secretStore
-        accounts = await nevermined.accounts.list()
     })
 
     afterEach(() => {

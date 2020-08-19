@@ -1,5 +1,5 @@
 import { Condition } from './Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '../../../utils'
+import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 export class ComputeExecutionCondition extends Condition {

@@ -68,7 +68,7 @@ export class Assets extends Instantiable {
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
-            const { secretStoreUri, gatewayUri } = this.config
+            const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
             const did: DID = DID.generate()
