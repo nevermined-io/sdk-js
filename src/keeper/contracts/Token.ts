@@ -4,7 +4,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
-        const token: Token = new Token('NeverminedToken')
+        const token: Token = new Token('NeverminedToken', true)
         await token.init(config)
         return token
     }
