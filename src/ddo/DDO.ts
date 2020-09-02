@@ -153,4 +153,9 @@ export class DDO {
         }
         this.proof = await this.generateProof(nevermined, publicKey, password)
     }
+
+    public async addService(nevermined: Nevermined, service: any): Promise<void>
+    {
+        this.service.push(service)
+    }
 }
