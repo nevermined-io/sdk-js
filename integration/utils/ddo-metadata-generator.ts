@@ -1,4 +1,5 @@
 import { MetaData } from '../../src' // @nevermined/squid
+const fetch = require('node-fetch').default
 
 const metadata: Partial<MetaData> = {
     main: {
@@ -46,7 +47,13 @@ const metadata: Partial<MetaData> = {
     }
 }
 
-export const generateMetadata = (name: string, price?: number): Partial<MetaData> => ({
+export const getCommonMetadata = (async() => JSON.parse(await fetch('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-access.json').then(res => res.text())
+    )['service'][0]['attributes']
+)
+
+
+export const generateMetadata = (name: string, price?: number): Partial<MetaData> => (
+    {
     ...metadata,
     main: {
         ...metadata.main,

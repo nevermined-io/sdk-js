@@ -92,11 +92,15 @@ export class Assets extends Instantiable {
                 )
                 encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
             }
+            let publicKey =  await this.nevermined.gateway.getRsaPublicKey()
+            if(method == 'PSK_ECDSA'){publicKey = this.nevermined.gateway.getEcdsaPublicKey()}
 
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
-            const serviceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+            const serviceAgreementTemplate = (metadata.main.type === 'compute')?
+                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate():
+                await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
 
             const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(did)
 
@@ -121,7 +125,7 @@ export class Assets extends Instantiable {
                     {
                         type: 'access',
                         serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
-                        templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
+                        templateId: (metadata.main.type === 'compute')? templates.escrowComputeExecutionTemplate.getAddress(): templates.escrowAccessSecretStoreTemplate.getAddress(),
                         attributes: {
                             main: {
                                 creator: publisher.getId(),
@@ -138,8 +142,9 @@ export class Assets extends Instantiable {
                         serviceEndpoint: gatewayUri,
                         attributes: {
                           main: {
-                            publicKey: await this.nevermined.gateway.getRsaPublicKey(),
-                            service: 'PSK-RSA'
+                            publicKey: publicKey,
+                            service: method!,
+                            threshold: 0
                           } }
                     },
                     {
@@ -183,7 +188,11 @@ export class Assets extends Instantiable {
 
             // console.log('DDO: ' + JSON.stringify(ddo))
             // Overwrite initial service agreement conditions
-            const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
+            const rawConditions = (metadata.main.type === 'compute') ?
+                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions() :
+                await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
+
+
             const conditions = fillConditionsWithDDO(rawConditions, ddo)
             serviceAgreementTemplate.conditions = conditions
 
