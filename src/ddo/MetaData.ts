@@ -150,7 +150,7 @@ export interface MetaDataMain {
      * @type {string}
      * @example "dataset"
      */
-    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'other'
+    type: 'dataset' | 'algorithm' | 'compute' | 'workflow'
 
     /**
      * The date on which the asset was created by the originator in

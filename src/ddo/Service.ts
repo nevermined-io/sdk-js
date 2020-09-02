@@ -7,8 +7,7 @@ export type ServiceType =
     | 'metadata'
     | 'access'
     | 'compute'
-    | 'computing'
-    | 'fitchainCompute'
+    | 'workflow'
 
 export interface ServiceCommon {
     type: ServiceType
@@ -47,12 +46,6 @@ export interface ServiceAccess extends ServiceCommon {
     }
 }
 
-export interface ServiceComputing extends ServiceCommon {
-    type: 'computing'
-    templateId?: string
-    provider?: Provider
-    serviceAgreementTemplate?: ServiceAgreementTemplate
-}
 
 export interface ServiceCompute extends ServiceCommon {
     templateId?: string
@@ -64,8 +57,6 @@ export type Service<
     ? ServiceAuthorization
     : T extends 'metadata'
     ? ServiceMetadata
-    : T extends 'computing'
-    ? ServiceComputing
     : T extends 'access'
     ? ServiceAccess
     : T extends 'compute'

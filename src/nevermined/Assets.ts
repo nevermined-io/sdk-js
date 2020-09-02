@@ -92,19 +92,21 @@ export class Assets extends Instantiable {
                 )
                 encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
             }
-            let publicKey =  await this.nevermined.gateway.getRsaPublicKey()
-            if(method == 'PSK_ECDSA'){publicKey = this.nevermined.gateway.getEcdsaPublicKey()}
+            let publicKey = await this.nevermined.gateway.getRsaPublicKey()
+            if (method == 'PSK_ECDSA') {
+                publicKey = this.nevermined.gateway.getEcdsaPublicKey()
+            }
 
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
-            const serviceAgreementTemplate = (metadata.main.type === 'compute')?
-                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate():
+            const serviceAgreementTemplate = (metadata.main.type === 'compute') ?
+                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate() :
                 await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
 
             const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(did)
 
-            let indexCount = 0
+            // let indexCount = 0
             // create ddo itself
             const ddo: DDO = new DDO({
                 id: did.getDid(),
@@ -123,22 +125,8 @@ export class Assets extends Instantiable {
                 ],
                 service: [
                     {
-                        type: 'access',
-                        serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
-                        templateId: (metadata.main.type === 'compute')? templates.escrowComputeExecutionTemplate.getAddress(): templates.escrowAccessSecretStoreTemplate.getAddress(),
-                        attributes: {
-                            main: {
-                                creator: publisher.getId(),
-                                datePublished: metadata.main.datePublished,
-                                name: 'dataAssetAccessServiceAgreement',
-                                price: metadata.main.price,
-                                timeout: 3600
-                            },
-                            serviceAgreementTemplate
-                        }
-                    },
-                    {
                         type: 'authorization',
+                        index: 2,
                         serviceEndpoint: gatewayUri,
                         attributes: {
                           main: {
@@ -149,6 +137,7 @@ export class Assets extends Instantiable {
                     },
                     {
                         type: 'metadata',
+                        index: 0,
                         serviceEndpoint,
                         attributes: {
                             // Default values
@@ -171,20 +160,90 @@ export class Assets extends Instantiable {
                         }
                     },
                     ...services
-                ]
-                    // Remove duplications
-                    .reverse()
-                    .filter(
-                        ({ type }, i, list) =>
-                            list.findIndex(({ type: t }) => t === type) === i
-                    )
-                    .reverse()
-                    // Adding index
-                    .map(_ => ({
-                        ..._,
-                        index: indexCount++
-                    })) as Service[]
+                ].reverse() as Service[]
             })
+            console.log(metadata)
+            if (metadata.main.type === 'compute') {
+                await ddo.addService(this.nevermined, {
+                    type: 'compute',
+                    index: 4,
+                    serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
+                    templateId: templates.escrowComputeExecutionTemplate.getAddress(),
+                    attributes: {
+                        main: {
+                            name: 'dataAssetComputeServiceAgreement',
+                            creator: publisher.getId(),
+                            datePublished: metadata.main.datePublished,
+                            price: metadata.main.price,
+                            timeout: 86400,
+                            provider: {
+                                'type': 'Azure',
+                                'description': '',
+                                'environment': {
+                                    'cluster': {
+                                        'type': 'Kubernetes',
+                                        'url': 'http://10.0.0.17/xxx'
+                                    },
+                                    'supportedContainers': [
+                                        {
+                                            'image': 'tensorflow/tensorflow',
+                                            'tag': 'latest',
+                                            'checksum':
+                                                'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
+                                        },
+                                        {
+                                            'image': 'tensorflow/tensorflow',
+                                            'tag': 'latest',
+                                            'checksum':
+                                                'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
+                                        }
+                                    ],
+                                    'supportedServers': [
+                                        {
+                                            'serverId': '1',
+                                            'serverType': 'xlsize',
+                                            'price': '50',
+                                            'cpu': '16',
+                                            'gpu': '0',
+                                            'memory': '128gb',
+                                            'disk': '160gb',
+                                            'maxExecutionTime': 86400
+                                        },
+                                        {
+                                            'serverId': '2',
+                                            'serverType': 'medium',
+                                            'price': '10',
+                                            'cpu': '2',
+                                            'gpu': '0',
+                                            'memory': '8gb',
+                                            'disk': '80gb',
+                                            'maxExecutionTime': 86400
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                } as Service)
+            }
+            else {
+                await ddo.addService(this.nevermined, {
+                    type: 'access',
+                    index: 3,
+                    serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
+                    templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
+                    attributes: {
+                        main: {
+                            creator: publisher.getId(),
+                            datePublished: metadata.main.datePublished,
+                            name: 'dataAssetAccessServiceAgreement',
+                            price: metadata.main.price,
+                            timeout: 3600
+                        },
+                        serviceAgreementTemplate
+                    }
+                } as Service)
+            }
 
             // console.log('DDO: ' + JSON.stringify(ddo))
             // Overwrite initial service agreement conditions
@@ -195,7 +254,6 @@ export class Assets extends Instantiable {
 
             const conditions = fillConditionsWithDDO(rawConditions, ddo)
             serviceAgreementTemplate.conditions = conditions
-
             this.logger.log('Generating proof')
             observer.next(CreateProgressStep.GeneratingProof)
             await ddo.addProof(
