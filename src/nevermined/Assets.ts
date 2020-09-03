@@ -58,6 +58,8 @@ export class Assets extends Instantiable {
      * Creates a new DDO.
      * @param  {MetaData} metadata DDO metadata.
      * @param  {Account} publisher Publisher account.
+     * @param services
+     * @param method
      * @return {Promise<DDO>}
      */
     public create(
@@ -77,20 +79,23 @@ export class Assets extends Instantiable {
             observer.next(CreateProgressStep.EncryptingFiles)
 
             let encryptedFiles
-            if (method == 'SecretStore') {
-                // TODO- Continue keeping the support for the secret-store client
-                encryptedFiles = await this.nevermined.secretStore.encrypt(
-                    did.getId(),
-                    metadata.main.files,
-                    publisher
-                )
-            } else {
-                const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
-                    did.getId(),
-                    JSON.stringify(metadata.main.files),
-                    method
-                )
-                encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
+            console.log(metadata.main.type)
+            if (metadata.main.type != 'workflow') {
+                if (method == 'SecretStore') {
+                    // TODO- Continue keeping the support for the secret-store client
+                    encryptedFiles = await this.nevermined.secretStore.encrypt(
+                        did.getId(),
+                        metadata.main.files,
+                        publisher
+                    )
+                } else {
+                    const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
+                        did.getId(),
+                        JSON.stringify(metadata.main.files),
+                        method
+                    )
+                    encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
+                }
             }
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
@@ -105,8 +110,6 @@ export class Assets extends Instantiable {
                 await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
 
             const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(did)
-
-            // let indexCount = 0
             // create ddo itself
             const ddo: DDO = new DDO({
                 id: did.getDid(),
@@ -129,11 +132,12 @@ export class Assets extends Instantiable {
                         index: 2,
                         serviceEndpoint: gatewayUri,
                         attributes: {
-                          main: {
-                            publicKey: publicKey,
-                            service: method!,
-                            threshold: 0
-                          } }
+                            main: {
+                                publicKey: publicKey,
+                                service: method!,
+                                threshold: 0
+                            }
+                        }
                     },
                     {
                         type: 'metadata',
@@ -151,7 +155,7 @@ export class Assets extends Instantiable {
                             // Cleaning not needed information
                             main: {
                                 ...metadata.main,
-                                files: metadata.main.files.map((file, index) => ({
+                                files: metadata.main.files?.map((file, index) => ({
                                     ...file,
                                     index,
                                     url: undefined
@@ -162,7 +166,6 @@ export class Assets extends Instantiable {
                     ...services
                 ].reverse() as Service[]
             })
-            console.log(metadata)
             if (metadata.main.type === 'compute') {
                 await ddo.addService(this.nevermined, {
                     type: 'compute',
@@ -222,11 +225,15 @@ export class Assets extends Instantiable {
                                     ]
                                 }
                             }
-                        }
+                        },
+                        serviceAgreementTemplate
                     }
                 } as Service)
+                const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
+                const conditions = fillConditionsWithDDO(rawConditions, ddo)
+                serviceAgreementTemplate.conditions = conditions
             }
-            else {
+            else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
                 await ddo.addService(this.nevermined, {
                     type: 'access',
                     index: 3,
@@ -243,17 +250,17 @@ export class Assets extends Instantiable {
                         serviceAgreementTemplate
                     }
                 } as Service)
+                const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
+                const conditions = fillConditionsWithDDO(rawConditions, ddo)
+                serviceAgreementTemplate.conditions = conditions
             }
-
             // console.log('DDO: ' + JSON.stringify(ddo))
             // Overwrite initial service agreement conditions
-            const rawConditions = (metadata.main.type === 'compute') ?
-                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions() :
-                await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
-
-
-            const conditions = fillConditionsWithDDO(rawConditions, ddo)
-            serviceAgreementTemplate.conditions = conditions
+            // const rawConditions = (metadata.main.type === 'compute') ?
+            //     await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions() :
+            //     await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
+            // const conditions = fillConditionsWithDDO(rawConditions, ddo)
+            // serviceAgreementTemplate.conditions = conditions
             this.logger.log('Generating proof')
             observer.next(CreateProgressStep.GeneratingProof)
             await ddo.addProof(

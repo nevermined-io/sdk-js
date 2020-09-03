@@ -51,6 +51,14 @@ export const getCommonMetadata = (async() => JSON.parse(await fetch('https://raw
     )['service'][0]['attributes']
 )
 
+export const getAlgorithmMetadata = (async() => JSON.parse(await fetch('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-algorithm.json').then(res => res.text())
+    )['service'][0]['attributes']
+)
+
+export const getWorkflowMetadata = (async() => JSON.parse(await fetch('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-workflow.json').then(res => res.text())
+    )['service'][0]['attributes']
+)
+
 
 export const generateMetadata = (name: string, price?: number): Partial<MetaData> => (
     {
