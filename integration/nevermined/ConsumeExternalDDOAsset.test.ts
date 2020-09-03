@@ -4,10 +4,9 @@ import * as fs from 'fs'
 import { config } from '../config'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
-import { getCommonMetadata } from '../utils' // @nevermined/squid
-// const fetch = require('node-fetch').default
+import { getDocsMetadata } from '../utils' // @nevermined/squid
 
-describe('Consume external DDO Asset', () => {
+describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
 
     let publisher: Account
@@ -27,7 +26,7 @@ describe('Consume external DDO Asset', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
-        metadata = await getCommonMetadata()
+        metadata = await getDocsMetadata()
     })
 
     it('should register an asset', async () => {
@@ -54,7 +53,7 @@ describe('Consume external DDO Asset', () => {
         assert.equal(
             (await consumer.getBalance()).ocn,
             initialBalance + claimedTokens,
-            'OCN Tokens not delivered'
+            'Tokens not delivered'
         )
     })
 

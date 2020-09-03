@@ -2,7 +2,7 @@ import { assert } from 'chai'
 // import * as fs from 'fs'
 
 import { config } from '../config'
-import { getAlgorithmMetadata, getMetadata, getWorkflowMetadata } from '../utils'
+import { getDocsAlgorithmMetadata, getMetadata, getDocsWorkflowMetadata } from '../utils'
 
 import { Nevermined, DDO, Account,  } from '../../src' // @nevermined/squid
 
@@ -33,8 +33,8 @@ describe('Compute Asset', () => {
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
         }
-        algorithmMetadata = await getAlgorithmMetadata()
-        workflowMetadata = await getWorkflowMetadata()
+        algorithmMetadata = await getDocsAlgorithmMetadata()
+        workflowMetadata = await getDocsWorkflowMetadata()
     })
 
     it('should register an asset', async () => {
