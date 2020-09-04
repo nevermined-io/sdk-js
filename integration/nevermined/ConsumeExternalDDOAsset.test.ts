@@ -171,7 +171,7 @@ describe('Consume Asset (Documentation example)', () => {
 
         assert.deepEqual(
             files,
-            ['README.md','CHANGELOG.md'],
+            ['README.md','package.json'],
             'Stored files are not correct.'
         )
     })
@@ -197,6 +197,6 @@ describe('Consume Asset (Documentation example)', () => {
             })
         })
 
-        assert.deepEqual(files, ['README.md'], 'Stored files are not correct.')
+        assert.deepEqual(files, ['package.json'], 'Stored files are not correct.')
     })
 })
