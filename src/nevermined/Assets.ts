@@ -79,7 +79,6 @@ export class Assets extends Instantiable {
             observer.next(CreateProgressStep.EncryptingFiles)
 
             let encryptedFiles
-            console.log(metadata.main.type)
             if (metadata.main.type != 'workflow') {
                 if (method == 'SecretStore') {
                     // TODO- Continue keeping the support for the secret-store client
