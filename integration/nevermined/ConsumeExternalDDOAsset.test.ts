@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { config } from '../config'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
-import { getDocsMetadata } from '../utils' // @nevermined/squid
+import { getDocsCommonMetadata } from '../utils' // @nevermined/squid
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -26,7 +26,7 @@ describe('Consume Asset (Documentation example)', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
-        metadata = await getDocsMetadata()
+        metadata = await getDocsCommonMetadata()
     })
 
     it('should register an asset', async () => {
