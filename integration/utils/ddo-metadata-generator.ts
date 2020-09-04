@@ -53,7 +53,11 @@ const getMetadataFromUrl = (url: string) => async () =>
         .service[0]
         .attributes
 
-export const getDocsCommonMetadata = getMetadataFromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-access.json')
+const getMetadata1FromUrl = (url: string) => async () =>
+    JSON.parse(await fetch(url).then(res => res.text()))
+
+
+export const getDocsCommonMetadata = getMetadata1FromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/metadata1.json')
 export const getDocsAlgorithmMetadata = getMetadataFromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-algorithm.json')
 export const getDocsWorkflowMetadata = getMetadataFromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-workflow.json')
 
