@@ -41,8 +41,9 @@ export interface Algorithm {
     version?: string
     entrypoint: string
     requirements: {
-        requirement: string
-        version: string
+        requirement?: string
+        version?: string
+        container?: any
     }
 }
 
@@ -146,11 +147,11 @@ export interface MetaDataMain {
 
     /**
      * Type of the Asset. Helps to filter by the type of asset,
-     * initially ("dataset", "algorithm", "compute", "workflow", "other").
+     * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
      * @type {string}
      * @example "dataset"
      */
-    type: 'dataset' | 'algorithm' | 'compute' | 'workflow'
+    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute'
 
     /**
      * The date on which the asset was created by the originator in
@@ -195,7 +196,7 @@ export interface MetaDataMain {
      * Array of File objects including the encrypted file urls and some additional information.
      * @type {File[]}
      */
-    files: File[]
+    files?: File[]
 
     encryptedService?: any
 

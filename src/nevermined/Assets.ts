@@ -420,8 +420,8 @@ export class Assets extends Instantiable {
             const ddo = await this.resolve(did)
 
             const { keeper } = this.nevermined
-            const templateName = ddo.findServiceByType('access').attributes
-                .serviceAgreementTemplate.contractName
+            const templateName = ddo.findServiceById(index)
+                .attributes.serviceAgreementTemplate.contractName
             const template = keeper.getTemplateByName(templateName)
             const accessCondition = keeper.conditions.accessSecretStoreCondition
 

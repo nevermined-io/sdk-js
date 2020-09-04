@@ -1,5 +1,4 @@
 import { MetaData } from '../../src' // @nevermined/squid
-const fetch = require('node-fetch').default
 
 const metadata: Partial<MetaData> = {
     main: {
@@ -14,14 +13,12 @@ const metadata: Partial<MetaData> = {
             {
                 index: 0,
                 contentType: 'application/json',
-                url:
-                    'https://raw.githubusercontent.com/oceanprotocol/squid-js/master/package.json'
+                url: 'https://raw.githubusercontent.com/oceanprotocol/squid-js/master/package.json'
             },
             {
                 index: 1,
                 contentType: 'text/plain',
-                url:
-                    'https://raw.githubusercontent.com/oceanprotocol/squid-js/master/README.md'
+                url: 'https://raw.githubusercontent.com/oceanprotocol/squid-js/master/README.md'
             }
         ]
     },
