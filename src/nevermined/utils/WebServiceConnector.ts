@@ -14,38 +14,34 @@ export class WebServiceConnector extends Instantiable {
         this.setInstanceConfig(config)
     }
 
-    public post(url: string, payload: BodyInit): Promise<Response> {
+    public post(url: string, payload: BodyInit, headers: {[header: string]: string} = {}): Promise<Response> {
         return this.fetch(url, {
             method: 'POST',
             body: payload,
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                ...headers,
             }
         })
     }
 
-    public get(url: string): Promise<Response> {
+    public get(url: string, headers: {[header: string]: string} = {}): Promise<Response> {
         return this.fetch(url, {
             method: 'GET',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                ...headers,
             }
         })
     }
 
-    public getWithHeaders(url: string, headers?: any): Promise<Response> {
-        return this.fetch(url, {
-            method: 'GET',
-            headers: { ...headers, 'Content-type': 'application/json' }
-        })
-    }
-
-    public put(url: string, payload: BodyInit): Promise<Response> {
+    public put(url: string, payload: BodyInit, headers: {[header: string]: string} = {}): Promise<Response> {
         return this.fetch(url, {
             method: 'PUT',
             body: payload,
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                ...headers,
             }
         })
     }
@@ -56,7 +52,7 @@ export class WebServiceConnector extends Instantiable {
         index?: number,
         headers?: any
     ): Promise<string> {
-        const response = await this.getWithHeaders(url, headers)
+        const response = await this.get(url, headers)
         if (!response.ok) {
             throw new Error('Response error.')
         }
