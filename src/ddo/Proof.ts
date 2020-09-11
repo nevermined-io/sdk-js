@@ -3,4 +3,5 @@ export interface Proof {
     created: string
     creator: string
     signatureValue: string
+    checksum: any
 }

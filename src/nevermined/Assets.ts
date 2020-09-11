@@ -73,8 +73,47 @@ export class Assets extends Instantiable {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
-            const did: DID = DID.generate()
+            const serviceAgreementTemplate = (metadata.main.type === 'compute') ?
+                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate() :
+                await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
 
+            // create ddo itself
+            const ddo: DDO = new DDO({
+                id: '',
+                authentication: [
+                    {
+                        type: 'RsaSignatureAuthentication2018',
+                        publicKey: ''
+                    }
+                ],
+                publicKey: [
+                    {
+                        id: '',
+                        type: 'EthereumECDSAKey',
+                        owner: publisher.getId()
+                    }
+                ],
+                service: [,
+                    ...services
+                ].reverse() as Service[]
+            })
+
+            this.logger.log('Generating proof')
+            observer.next(CreateProgressStep.GeneratingProof)
+            await ddo.addProof(
+                this.nevermined,
+                publisher.getId(),
+                publisher.getPassword()
+            )
+            await ddo.assignDid(ddo.proof.checksum)
+            await ddo.addSignature(
+                this.nevermined,
+                publisher.getId(),
+                publisher.getPassword()
+            )
+
+            this.logger.log('Proof generated')
+            observer.next(CreateProgressStep.ProofGenerated)
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
 
@@ -83,13 +122,13 @@ export class Assets extends Instantiable {
                 if (method == 'SecretStore') {
                     // TODO- Continue keeping the support for the secret-store client
                     encryptedFiles = await this.nevermined.secretStore.encrypt(
-                        did.getId(),
+                        ddo.id,
                         metadata.main.files,
                         publisher
                     )
                 } else {
                     const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
-                        did.getId(),
+                        ddo.id,
                         JSON.stringify(metadata.main.files),
                         method
                     )
@@ -100,71 +139,44 @@ export class Assets extends Instantiable {
             if (method == 'PSK_ECDSA') {
                 publicKey = this.nevermined.gateway.getEcdsaPublicKey()
             }
+            const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(DID.parse(ddo.id))
 
-            this.logger.log('Files encrypted')
-            observer.next(CreateProgressStep.FilesEncrypted)
-
-            const serviceAgreementTemplate = (metadata.main.type === 'compute') ?
-                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate() :
-                await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
-
-            const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(did)
-            // create ddo itself
-            const ddo: DDO = new DDO({
-                id: did.getDid(),
-                authentication: [
-                    {
-                        type: 'RsaSignatureAuthentication2018',
-                        publicKey: did.getDid()
+            await ddo.addService(this.nevermined, {
+                type: 'authorization',
+                index: 2,
+                serviceEndpoint: gatewayUri,
+                attributes: {
+                    main: {
+                        publicKey: publicKey,
+                        service: method!,
+                        threshold: 0
                     }
-                ],
-                publicKey: [
-                    {
-                        id: did.getDid(),
-                        type: 'EthereumECDSAKey',
-                        owner: publisher.getId()
-                    }
-                ],
-                service: [
-                    {
-                        type: 'authorization',
-                        index: 2,
-                        serviceEndpoint: gatewayUri,
-                        attributes: {
-                            main: {
-                                publicKey: publicKey,
-                                service: method!,
-                                threshold: 0
-                            }
-                        }
+                }
+            } as Service)
+            await ddo.addService(this.nevermined, {
+                type: 'metadata',
+                index: 0,
+                serviceEndpoint,
+                attributes: {
+                    // Default values
+                    curation: {
+                        rating: 0,
+                        numVotes: 0
                     },
-                    {
-                        type: 'metadata',
-                        index: 0,
-                        serviceEndpoint,
-                        attributes: {
-                            // Default values
-                            curation: {
-                                rating: 0,
-                                numVotes: 0
-                            },
-                            // Overwrites defaults
-                            ...metadata,
-                            encryptedFiles,
-                            // Cleaning not needed information
-                            main: {
-                                ...metadata.main,
-                                files: metadata.main.files?.map((file, index) => ({
-                                    ...file,
-                                    index,
-                                    url: undefined
-                                }))
-                            } as any
-                        }
-                    },
-                    ...services
-                ].reverse() as Service[]
-            })
+                    // Overwrites defaults
+                    ...metadata,
+                    encryptedFiles,
+                    // Cleaning not needed information
+                    main: {
+                        ...metadata.main,
+                        files: metadata.main.files?.map((file, index) => ({
+                            ...file,
+                            index,
+                            url: undefined
+                        }))
+                    } as any
+                }
+            } as Service)
             if (metadata.main.type === 'compute') {
                 await ddo.addService(this.nevermined, {
                     type: 'compute',
@@ -253,28 +265,15 @@ export class Assets extends Instantiable {
                 const conditions = fillConditionsWithDDO(rawConditions, ddo)
                 serviceAgreementTemplate.conditions = conditions
             }
-            // console.log('DDO: ' + JSON.stringify(ddo))
-            // Overwrite initial service agreement conditions
-            // const rawConditions = (metadata.main.type === 'compute') ?
-            //     await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions() :
-            //     await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
-            // const conditions = fillConditionsWithDDO(rawConditions, ddo)
-            // serviceAgreementTemplate.conditions = conditions
-            this.logger.log('Generating proof')
-            observer.next(CreateProgressStep.GeneratingProof)
-            await ddo.addProof(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
-            this.logger.log('Proof generated')
-            observer.next(CreateProgressStep.ProofGenerated)
 
+            this.logger.log('Files encrypted')
+            observer.next(CreateProgressStep.FilesEncrypted)
+            console.log(ddo)
             this.logger.log('Registering DID')
             observer.next(CreateProgressStep.RegisteringDid)
             await didRegistry.registerAttribute(
-                did.getId(),
-                ddo.getChecksum(),
+                ddo.shortId(),
+                ddo.checksum(ddo.shortId()),
                 [this.config.gatewayAddress],
                 serviceEndpoint,
                 publisher.getId()
@@ -486,7 +485,7 @@ export class Assets extends Instantiable {
      */
     public async owner(did: string): Promise<string> {
         const ddo = await this.resolve(did)
-        const checksum = ddo.getChecksum()
+        const checksum = ddo.checksum(zeroX(did))
         const { creator, signatureValue } = ddo.proof
         const signer = await this.nevermined.utils.signature.verifyText(
             checksum,
