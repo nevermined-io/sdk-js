@@ -4,6 +4,7 @@ import { Authentication } from './Authentication'
 import { Proof } from './Proof'
 import { PublicKey } from './PublicKey'
 import { Service, ServiceType } from './Service'
+import { didPrefixed, zeroX } from '../utils'
 
 /**
  * DID Descriptor Object.
@@ -91,10 +92,8 @@ export class DDO {
      * Generate the checksum using the current content.
      * @return {string[]} DDO checksum.
      */
-    public getChecksum(): string {
-        const { attributes } = this.findServiceByType('metadata')
+    public getChecksum(attributes): string {
         const { files, name, author, license } = attributes.main
-
         const values = [
             ...(files || []).map(({ checksum }) => checksum).filter(_ => !!_),
             name,
@@ -102,9 +101,12 @@ export class DDO {
             license,
             this.id
         ]
+        return this.checksum(values)
+    }
 
+    public checksum(seed): string {
         return Web3Provider.getWeb3()
-            .utils.sha3(values.join(''))
+            .utils.sha3(seed)
             .replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
     }
 
@@ -120,19 +122,16 @@ export class DDO {
         publicKey: string,
         password?: string
     ): Promise<Proof> {
-        const checksum = this.getChecksum()
-
-        const signature = await nevermined.utils.signature.signText(
-            checksum,
-            publicKey,
-            password
-        )
-
+        const checksum = {}
+        for (const svc of this.service){
+            checksum[svc.index] = this.checksum(JSON.stringify(this.findServiceByType(svc.type).attributes.main))
+        }
         return {
             created: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
             creator: publicKey,
             type: 'DDOIntegritySignature',
-            signatureValue: signature
+            signatureValue: 'signature',
+            checksum: checksum
         }
     }
 
@@ -157,5 +156,26 @@ export class DDO {
     public async addService(nevermined: Nevermined, service: any): Promise<void>
     {
         this.service.push(service)
+    }
+
+    public async assignDid(id){
+        const didFromChecksum = await this.generateDid(id)
+        this.id = didFromChecksum
+        this.authentication[0].publicKey = didFromChecksum
+        this.publicKey[0].id = didFromChecksum
+    }
+
+    public async generateDid(seed){
+        return didPrefixed(zeroX(this.checksum(JSON.stringify(seed))))
+    }
+
+    public async addSignature(nevermined: Nevermined,
+                              publicKey: string,
+                              password?: string){
+        this.proof.signatureValue = await nevermined.utils.signature.signText(
+            this.shortId(),
+            publicKey,
+            password
+        )
     }
 }
