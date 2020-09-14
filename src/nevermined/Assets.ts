@@ -27,6 +27,13 @@ export enum OrderProgressStep {
     LockedPayment
 }
 
+export enum ExecuteProgressStep {
+    CreatingAgreement,
+    AgreementInitialized,
+    LockingPayment,
+    LockedPayment,
+}
+
 /**
  * Assets submodule of Nevermined.
  */
@@ -457,13 +464,11 @@ export class Assets extends Instantiable {
                     reject(new Error('Error on payment'))
                 }
 
+                // Checking with a loop the status to speed up the detection
                 const accessFulfilled = new Promise((resolve, reject) => {
                     const interval = setInterval(async () => {
                         const status = await template.getAgreementStatus(agreementId)
-                        if (
-                            status &&
-                            status.accessSecretStore.state === ConditionState.Fulfilled
-                        ) {
+                        if (status && status?.accessSecretStore?.state === ConditionState.Fulfilled) {
                             clearInterval(interval)
                             resolve()
                         }
@@ -487,6 +492,86 @@ export class Assets extends Instantiable {
             this.logger.log('Creating agreement')
             await agreements.create(
                 did,
+                agreementId,
+                index,
+                undefined,
+                consumer,
+                consumer
+            )
+            this.logger.log('Agreement created')
+
+            try {
+                await paymentFlow
+            } catch (e) {
+                throw new Error('Error paying the asset.')
+            }
+
+            return agreementId
+        })
+    }
+
+    /**
+     * @param  {string} did Decentralized ID.
+     * @param  {number} index Service index.
+     * @param  {Account} consumer Consumer account.
+     * @return {Promise<string>} Returns Agreement ID
+     */
+    public execute(
+        computeDid: string,
+        index: number,
+        workflowDid: string,
+        consumer: Account
+    ): SubscribablePromise<ExecuteProgressStep, string> {
+        return new SubscribablePromise(async observer => {
+            const { agreements, gateway } = this.nevermined
+
+            const agreementId = zeroX(generateId())
+            const ddo = await this.resolve(computeDid)
+
+            const { keeper } = this.nevermined
+            const templateName = ddo.findServiceById(index)
+                .attributes.serviceAgreementTemplate.contractName
+            const template = keeper.getTemplateByName(templateName)
+
+            // eslint-disable-next-line no-async-promise-executor
+            const paymentFlow = new Promise(async (resolve, reject) => {
+                await template.getAgreementCreatedEvent(agreementId).once()
+
+                this.logger.log('Agreement initialized')
+                observer.next(ExecuteProgressStep.AgreementInitialized)
+
+                const { attributes } = ddo.findServiceByType('metadata')
+
+                this.logger.log('Locking payment')
+
+
+                observer.next(ExecuteProgressStep.LockingPayment)
+                const paid = await agreements.conditions.lockReward(
+                    agreementId,
+                    attributes.main.price,
+                    consumer
+                )
+                observer.next(ExecuteProgressStep.LockedPayment)
+
+                if (paid) {
+                    this.logger.log('Payment was OK')
+                } else {
+                    this.logger.error('Payment was KO')
+                    this.logger.error('Agreement ID: ', agreementId)
+                    this.logger.error('DID: ', ddo.id)
+                    reject(new Error('Error on payment'))
+                }
+
+                await gateway.execute(agreementId, computeDid, workflowDid, consumer)
+
+                this.logger.log('Access granted')
+                resolve()
+            })
+
+            observer.next(ExecuteProgressStep.CreatingAgreement)
+            this.logger.log('Creating agreement')
+            await agreements.create(
+                computeDid,
                 agreementId,
                 index,
                 undefined,
