@@ -35,8 +35,8 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/access`
     }
 
-    public getExecuteEndpoint() {
-        return `${this.url}${apiPath}/execute`
+    public getExecuteEndpoint(serviceAgreementId: string) {
+        return `${this.url}${apiPath}/execute/${serviceAgreementId}`
     }
 
     public getSecretStoreEncryptEndpoint() {
@@ -177,6 +177,38 @@ export class Gateway extends Instantiable {
                 this.getEncryptEndpoint(),
                 decodeURI(JSON.stringify(payload))
             )
+            if (!response.ok) {
+                throw new Error('HTTP request failed')
+            }
+            return await response.text()
+        } catch (e) {
+            this.logger.error(e)
+            throw new Error('HTTP request failed')
+        }
+    }
+
+    public async execute(
+        agreementId: string,
+        computeDid: string,
+        workflowDid: string,
+        account: Account,
+    ): Promise<any> {
+        try {
+            const signedAgreementId = await this.nevermined.utils.signature
+                .signText(noZeroX(agreementId), account.getId(), account.getPassword())
+
+            const headers = {
+                'X-Consumer-Address': account.getId(),
+                'X-Signature': signedAgreementId,
+                'X-Workflow-DID': workflowDid,
+            }
+
+            const response = await this.nevermined.utils.fetch.post(
+                this.getExecuteEndpoint(noZeroX(agreementId)),
+                undefined,
+                headers,
+            )
+
             if (!response.ok) {
                 throw new Error('HTTP request failed')
             }
