@@ -282,7 +282,6 @@ export class Assets extends Instantiable {
                     } as any
                 }
             } as Service)
-            console.log(ddo)
             //Fulfill conditions
             if (metadata.main.type === 'compute') {
                 const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()

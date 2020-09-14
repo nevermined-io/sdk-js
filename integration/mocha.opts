@@ -4,4 +4,4 @@
 --full-trace
 --exit
 --timeout 300000
-integration/**/ComputeAsset.test.ts
+integration/**/*.test.ts

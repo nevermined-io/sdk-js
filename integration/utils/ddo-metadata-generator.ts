@@ -60,6 +60,8 @@ const getMetadata1FromUrl = (url: string) => async () =>
 export const getDocsCommonMetadata = getMetadata1FromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/metadata1.json')
 export const getDocsAlgorithmMetadata = getMetadataFromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-algorithm.json')
 export const getDocsWorkflowMetadata = getMetadataFromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-workflow.json')
+export const getDocsComputeMetadata = getMetadata1FromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/computing-metadata.json')
+
 
 export const generateMetadata = (name: string, price?: number): Partial<MetaData> => (
     {
