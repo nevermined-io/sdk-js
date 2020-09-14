@@ -158,6 +158,11 @@ export class DDO {
         this.service.push(service)
     }
 
+    public async updateService(nevermined: Nevermined, service: any): Promise<void>
+    {
+        this.service[0] = service
+    }
+
     public async assignDid(id){
         const didFromChecksum = await this.generateDid(id)
         this.id = didFromChecksum
