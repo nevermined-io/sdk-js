@@ -1,12 +1,11 @@
 import { assert } from 'chai'
-// import * as fs from 'fs'
 
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
 import { Nevermined, DDO, Account,  } from '../../src' // @nevermined/squid
 
-describe.only('Compute Asset', () => {
+describe('Compute Asset', () => {
     let nevermined: Nevermined
 
     let publisher: Account
@@ -18,7 +17,7 @@ describe.only('Compute Asset', () => {
     let workflowDdo: DDO
 
     before(async () => {
-        nevermined = await Nevermined.getInstance(config.forceVerbose)
+        nevermined = await Nevermined.getInstance(config)
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
@@ -33,9 +32,13 @@ describe.only('Compute Asset', () => {
     })
 
     it('should order the compute service', async () => {
-        const r = await nevermined.assets.order(computeDdo.id, computeDdo.findServiceByType('compute').index, consumer)
-        console.log(r)
+        const agreementId = await nevermined.assets.execute(
+            computeDdo.id,
+            computeDdo.findServiceByType('compute').index,
+            workflowDdo.id,
+            consumer,
+        )
+
+        assert.isDefined(agreementId)
     })
-
-
 })
