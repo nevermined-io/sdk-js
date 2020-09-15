@@ -18,7 +18,7 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string
     ) {
         return this.send('registerAttribute', ownerAddress, [
-            zeroX(did),
+            didZeroX(did),
             zeroX(checksum),
             providers.map(zeroX),
             value
