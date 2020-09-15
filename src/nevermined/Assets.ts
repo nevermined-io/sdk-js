@@ -6,7 +6,7 @@ import { Service } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
 import { ConditionState } from '../keeper/contracts/conditions'
-import { fillConditionsWithDDO, SubscribablePromise, generateId, zeroX } from '../utils'
+import { fillConditionsWithDDO, SubscribablePromise, generateId, zeroX, didZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 export enum CreateProgressStep {
@@ -222,7 +222,7 @@ export class Assets extends Instantiable {
                     } as any
                 }
             } as Service)
-            
+
             ddo.service.sort((a, b) => (a.index > b.index) ? 1 : -1)
 
             this.logger.log('Generating proof')
@@ -238,9 +238,9 @@ export class Assets extends Instantiable {
                 publisher.getId(),
                 publisher.getPassword()
             )
-
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
+
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
 
