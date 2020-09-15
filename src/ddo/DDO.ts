@@ -51,8 +51,7 @@ export class DDO {
 
     public constructor(ddo: Partial<DDO> = {}) {
         Object.assign(this, ddo, {
-            created:
-                (ddo && ddo.created) || new Date().toISOString().replace(/\.[0-9]{3}/, '')
+            created: (ddo && ddo.created) || new Date().toISOString().replace(/\.[0-9]{3}/, ''),
         })
     }
 
@@ -115,7 +114,7 @@ export class DDO {
             creator: publicKey,
             type: 'DDOIntegritySignature',
             signatureValue: '',
-            checksum: checksum
+            checksum,
         }
     }
 
@@ -137,30 +136,30 @@ export class DDO {
         this.proof = await this.generateProof(nevermined, publicKey, password)
     }
 
-    public async addService(nevermined: Nevermined, service: any): Promise<void>
-    {
+    public async addService(nevermined: Nevermined, service: any): Promise<void> {
         this.service.push(service)
     }
 
-    public async updateService(nevermined: Nevermined, service: any): Promise<void>
-    {
+    public async updateService(nevermined: Nevermined, service: any): Promise<void> {
         this.service[0] = service
     }
 
-    public async assignDid(id){
+    public async assignDid(id) {
         const didFromChecksum = await this.generateDid(id)
         this.id = didFromChecksum
         this.authentication[0].publicKey = didFromChecksum
         this.publicKey[0].id = didFromChecksum
     }
 
-    public async generateDid(seed){
+    public async generateDid(seed) {
         return didPrefixed(zeroX(this.checksum(JSON.stringify(seed))))
     }
 
-    public async addSignature(nevermined: Nevermined,
-                              publicKey: string,
-                              password?: string){
+    public async addSignature(
+        nevermined: Nevermined,
+        publicKey: string,
+        password?: string,
+    ) {
         this.proof.signatureValue = await nevermined.utils.signature.signText(
             this.shortId(),
             publicKey,
