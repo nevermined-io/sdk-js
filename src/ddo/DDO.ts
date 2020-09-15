@@ -88,22 +88,6 @@ export class DDO {
         return this.service.find(s => s.type === serviceType) as Service<T>
     }
 
-    /**
-     * Generate the checksum using the current content.
-     * @return {string[]} DDO checksum.
-     */
-    public getChecksum(attributes): string {
-        const { files, name, author, license } = attributes.main
-        const values = [
-            ...(files || []).map(({ checksum }) => checksum).filter(_ => !!_),
-            name,
-            author,
-            license,
-            this.id
-        ]
-        return this.checksum(values)
-    }
-
     public checksum(seed): string {
         return Web3Provider.getWeb3()
             .utils.sha3(seed)
@@ -130,7 +114,7 @@ export class DDO {
             created: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
             creator: publicKey,
             type: 'DDOIntegritySignature',
-            signatureValue: 'signature',
+            signatureValue: '',
             checksum: checksum
         }
     }

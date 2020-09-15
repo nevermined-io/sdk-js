@@ -40,49 +40,20 @@ describe('DDO', () => {
         ],
         service: [
             {
-                type: 'OpenIdConnectVersion1.0Service',
-                serviceEndpoint: 'https://openid.example.com/'
-            },
-            {
-                type: 'CredentialRepositoryService',
-                serviceEndpoint: 'https://repository.example.com/service/8377464'
-            },
-            {
-                type: 'XdiService',
-                serviceEndpoint: 'https://xdi.example.com/8377464'
-            },
-            {
-                type: 'HubService',
-                serviceEndpoint:
-                    'https://hub.example.com/.identity/did:nv:0123456789abcdef/'
-            },
-            {
-                type: 'MessagingService',
-                serviceEndpoint: 'https://example.com/messages/8377464'
-            },
-            {
-                type: 'SocialWebInboxService',
-                serviceEndpoint: 'https://social.example.com/83hfh37dj',
-                description: 'My public social inbox',
-                spamCost: {
-                    amount: '0.50',
-                    currency: 'USD'
-                }
-            } as any,
-            {
-                id: 'did:nv:123456789abcdefghi;bops',
-                type: 'BopsService',
-                serviceEndpoint: 'https://bops.example.com/enterprise/'
-            },
-            {
-                type: 'consume',
-                serviceEndpoint:
-                    'http://mygateway.org/api/v1/gateway/services/consume?pubKey={pubKey}&serviceId={serviceId}&url={url}'
-            },
-            {
-                type: 'compute',
-                serviceEndpoint:
-                    'http://mygateway.org/api/v1/gateway/services/compute?pubKey={pubKey}&serviceId={serviceId}&algo={algo}&container={container}'
+                attributes: {
+                    additionalInformation: {
+                    links: []
+                    },
+                    main: {
+                    files: [],
+                    publicKey: "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC2qIisJyMd6YXJNzs23zKLajtPC7w6aO9mXq+Ukr6d3cVmPCx8XJRTT3IV7PmHb3o4XFc8ZGX5/SSg7tp5/cfAIg9XF13yjssJttaDTa4srhLJvxyjR8cHEJ39GevFTgrtbYzXTZ723ROJP4NEDxtp8a0f5l7W3NTH8v39k3G50QIDAQAB",
+                    service: "PSK-RSA"
+                    }
+                    },
+                    index: 2,
+                    serviceEndpoint: "http://localhost:8030",
+                    type: "authorization"
+                    
             },
             {
                 type: 'metadata',
@@ -235,35 +206,32 @@ describe('DDO', () => {
     describe('#getChecksum()', () => {
         it('should properly generate a the checksum DDO', async () => {
             const ddo = new DDO(testDDO)
-            const checksum = ddo.getChecksum()
-
+            const checksum = {}    
+            for (const svc of ddo.service){
+                checksum[svc.index] = ddo.checksum(JSON.stringify(testDDO.findServiceByType(svc.type).attributes.main))
+            }
             assert.equal(
-                checksum,
-                '0x2e5ce7d48341008fcd22e5f1611720650c4454b495e3065ca7f1138d1b09d2e1'
+                ddo.checksum(JSON.stringify(checksum)),
+                '0x7c55033a661cd6d08edeacfc6fe6644d2c96d07be43f6e6e38af56bd2a10d57f'
             )
         })
     })
 
     describe('#generateProof()', () => {
         const publicKey = `0x${'a'.repeat(40)}`
-        const signature = `0x${'a'.repeat(130)}`
 
         it('should properly generate the proof', async () => {
-            const signTextSpy = spy.on(
-                nevermined.utils.signature,
-                'signText',
-                () => signature
-            )
             const ddo = new DDO(testDDO)
-            const checksum = ddo.getChecksum()
+            const checksum = {}    
+            for (const svc of ddo.service){
+                checksum[svc.index] = ddo.checksum(JSON.stringify(ddo.findServiceByType(svc.type).attributes.main))
+            }
             const proof = await ddo.generateProof(nevermined, publicKey)
-
             assert.include(proof as any, {
                 creator: publicKey,
                 type: 'DDOIntegritySignature',
-                signatureValue: signature
+                signatureValue: ''
             })
-            expect(signTextSpy).to.have.been.called.with(checksum, publicKey)
         })
     })
 
