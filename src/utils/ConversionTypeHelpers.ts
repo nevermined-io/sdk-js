@@ -25,7 +25,7 @@ export function didTransformer(input: string = '', prefixOutput: boolean) {
 }
 
 // 0x + did:nv: transformer
-export const didZeroX = (input: string) => zeroX(didTransformer(input, false))
+export const didZeroX = (input: string) => zeroX(noDidPrefixed(input))
 
 // Shared functions
 function inputMatch(

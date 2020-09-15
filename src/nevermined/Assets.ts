@@ -597,7 +597,7 @@ export class Assets extends Instantiable {
      */
     public async owner(did: string): Promise<string> {
         const ddo = await this.resolve(did)
-        const checksum = ddo.checksum(zeroX(did))
+        const checksum = ddo.checksum(didZeroX(did))
         const { creator, signatureValue } = ddo.proof
         const signer = await this.nevermined.utils.signature.verifyText(
             checksum,
