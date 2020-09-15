@@ -45,8 +45,7 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).ocn
-        const claimedTokens =
-            +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
+        const claimedTokens = +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
 
         try {
             await consumer.requestTokens(claimedTokens)
@@ -55,7 +54,7 @@ describe('Consume Asset', () => {
         assert.equal(
             (await consumer.getBalance()).ocn,
             initialBalance + claimedTokens,
-            'OCN Tokens not delivered'
+            'Tokens not delivered'
         )
     })
 

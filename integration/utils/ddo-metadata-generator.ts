@@ -44,33 +44,17 @@ const metadata: Partial<MetaData> = {
     }
 }
 
-
-const getMetadataFromUrl = (url: string) => async () =>
-    JSON.parse(await fetch(url).then(res => res.text()))
-        .service[0]
-        .attributes
-
-const getMetadata1FromUrl = (url: string) => async () =>
-    JSON.parse(await fetch(url).then(res => res.text()))
-
-
-export const getDocsCommonMetadata = getMetadata1FromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/metadata1.json')
-export const getDocsAlgorithmMetadata = getMetadataFromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-algorithm.json')
-export const getDocsWorkflowMetadata = getMetadataFromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/ddo-example-workflow.json')
-export const getDocsComputeMetadata = getMetadata1FromUrl('https://raw.githubusercontent.com/keyko-io/nevermined-docs/master/docs/architecture/specs/examples/metadata/v0.1/computing-metadata.json')
-
-
-export const generateMetadata = (name: string, price?: number): Partial<MetaData> => (
-    {
+export const generateMetadata = (name: string, price?: number, nonce: string | number = Math.random()): Partial<MetaData> => ({
     ...metadata,
     main: {
         ...metadata.main,
-        name,
-        price: (price || 21) + '0'.repeat(18)
+        name: name,
+        price: (price || 21) + '0'.repeat(18),
+        ...({nonce} as any),
     },
     additionalInformation: {
         ...metadata.additionalInformation
     }
 })
 
-export const getMetadata = (price?: number) => generateMetadata('TestAsset', price)
+export const getMetadata = (price?: number, nonce: string | number = Math.random()) => generateMetadata('TestAsset', price, nonce)

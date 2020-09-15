@@ -144,8 +144,8 @@ export class DDO {
         this.service[0] = service
     }
 
-    public async assignDid(id) {
-        const didFromChecksum = await this.generateDid(id)
+    public async assignDid(checksum) {
+        const didFromChecksum = await this.generateDid(checksum)
         this.id = didFromChecksum
         this.authentication[0].publicKey = didFromChecksum
         this.publicKey[0].id = didFromChecksum
