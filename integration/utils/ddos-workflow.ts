@@ -1,7 +1,8 @@
 import { MetaData } from '../../src' // @nevermined/squid
+import { transformMetadata } from './utils'
 
 export const workflowMetadatas = {
-  metadata: (): MetaData => ({
+  metadata: (): MetaData => transformMetadata({
     main: {
       name: 'Nevermined protocol white paper',
       dateCreated: '2012-02-01T10:55:11Z',
@@ -22,7 +23,7 @@ export const workflowMetadatas = {
     }
   }),
 
-  algorithm: (): MetaData => ({
+  algorithm: (): MetaData => transformMetadata({
     main: {
       author: 'John Doe',
       dateCreated: '2019-02-08T08:13:49Z',
@@ -56,7 +57,7 @@ export const workflowMetadatas = {
     }
   }),
 
-  compute: (price: string = '21' + '0'.repeat(18)): MetaData => ({
+  compute: (price: string = '21' + '0'.repeat(18)): MetaData => transformMetadata({
     main: {
       name: '10 Monkey Species Small',
       dateCreated: '2012-02-01T10:55:11Z',
@@ -67,7 +68,7 @@ export const workflowMetadatas = {
     }
   }),
 
-  workflow: (dataDid: string, transformDid: string): MetaData => ({
+  workflow: (dataDid: string, transformDid: string): MetaData => transformMetadata({
     main: {
       author: 'John Doe',
       dateCreated: '2019-02-08T08:13:49Z',
