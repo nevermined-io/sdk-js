@@ -16,6 +16,8 @@ describe('Compute Asset', () => {
     let computeDdo: DDO
     let workflowDdo: DDO
 
+    let agreementId: string
+
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
@@ -32,13 +34,23 @@ describe('Compute Asset', () => {
     })
 
     it('should order the compute service', async () => {
-        const agreementId = await nevermined.assets.execute(
+        agreementId = await nevermined.assets.order(
             computeDdo.id,
             computeDdo.findServiceByType('compute').index,
-            workflowDdo.id,
             consumer,
         )
 
         assert.isDefined(agreementId)
+    })
+
+    it('should execute the compute service', async () => {
+        const workflowId = await nevermined.assets.execute(
+            agreementId,
+            computeDdo.id,
+            workflowDdo.id,
+            consumer,
+        )
+
+        assert.isDefined(workflowId)
     })
 })
