@@ -1,11 +1,6 @@
-const fetch = require('node-fetch').default
+import { transformMetadata } from './utils'
 
-const transformMetadata = (metadata: any): any => {
-    try {
-        metadata.main.nonce += Math.random()
-    } catch { }
-    return metadata
-}
+const fetch = require('node-fetch').default
 
 const getMetadataFromUrl = (url: string) => async () =>
     transformMetadata(
