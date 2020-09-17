@@ -71,6 +71,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/compute`
     }
 
+    public getDownloadEndpoint() {
+        return `${this.url}${apiPath}/download`
+    }
+
     public async initializeServiceAgreement(
         did: string,
         serviceAgreementId: string,
@@ -217,5 +221,44 @@ export class Gateway extends Instantiable {
             this.logger.error(e)
             throw new Error('HTTP request failed')
         }
+    }
+
+    public async downloadService(
+        did: string,
+        account: Account,
+        files: File[],
+        destination: string,
+        index: number = -1
+    ): Promise<string> {
+        const signature =
+            (await account.getToken()) ||
+            (await this.nevermined.utils.signature.signText(
+                noZeroX(did),
+                account.getId()
+            ))
+        const headers = {
+            'X-Consumer-Address': account.getId(),
+            'X-Signature': signature,
+            'X-DID': did
+        }
+        const filesPromises = files
+            .filter((_, i) => index === -1 || i === index)
+            .map(async ({ index: i }) => {
+                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                try {
+                    await this.nevermined.utils.fetch.downloadFile(
+                        consumeUrl,
+                        destination,
+                        i,
+                        headers
+                    )
+                } catch (e) {
+                    this.logger.error('Error consuming assets')
+                    this.logger.error(e)
+                    throw e
+                }
+            })
+        await Promise.all(filesPromises)
+        return destination
     }
 }

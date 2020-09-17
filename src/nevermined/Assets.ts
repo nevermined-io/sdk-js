@@ -596,4 +596,82 @@ export class Assets extends Instantiable {
             }
         } as SearchQuery)
     }
+
+    public async download(
+        did: string,
+        serviceIndex: number,
+        ownerAccount: Account,
+        resultPath: string,
+        index?: number,
+        useSecretStore?: boolean
+    ): Promise<string>
+
+    public async download(
+        did: string,
+        serviceIndex: number,
+        ownerAccount: Account,
+        resultPath?: undefined | null,
+        index?: number,
+        useSecretStore?: boolean
+    ): Promise<true>
+
+
+    public async download(
+        did: string,
+        serviceIndex: number,
+        ownerAccount: Account,
+        resultPath?: string,
+        index: number = -1,
+        useSecretStore?: boolean
+    ): Promise<string | boolean> {
+        const ddo = await this.resolve(did)
+        const { attributes } = ddo.findServiceByType('metadata')
+
+        const accessService = ddo.findServiceById(serviceIndex)
+
+        const { files } = attributes.main
+
+        const { serviceEndpoint } = accessService
+
+        if (!serviceEndpoint) {
+            throw new Error(
+                'Consume asset failed, service definition is missing the `serviceEndpoint`.'
+            )
+        }
+
+        this.logger.log('Consuming files')
+
+        resultPath = resultPath
+            ? `${resultPath}/datafile.${ddo.shortId()}.${serviceIndex}/`
+            : undefined
+
+        if (!useSecretStore) {
+            await this.nevermined.gateway.downloadService(
+                did,
+                ownerAccount,
+                files,
+                resultPath,
+                index
+            )
+        } else {
+            const files = await this.nevermined.secretStore.decrypt(
+                did,
+                ddo.findServiceByType('metadata').attributes.encryptedFiles,
+                ownerAccount,
+                ddo.findServiceByType('authorization').serviceEndpoint
+            )
+            const downloads = files
+                .filter(({ index: i }) => index === -1 || index === i)
+                .map(({ url, index: i }) =>
+                    this.nevermined.utils.fetch.downloadFile(url, resultPath, i)
+                )
+            await Promise.all(downloads)
+        }
+        this.logger.log('Files consumed')
+
+        if (resultPath) {
+            return resultPath
+        }
+        return true
+    }
 }
