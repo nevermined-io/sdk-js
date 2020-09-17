@@ -4,21 +4,16 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, DDO, Account, ConditionState } from '../../src' // @nevermined/squid
+import { Nevermined, DDO, Account } from '../../src'
 
 describe('Publisher Download Asset', () => {
     let nevermined: Nevermined
 
     let publisher: Account
-    // let consumer: Account
 
     let metadata = getMetadata()
 
     let ddo: DDO
-    let serviceAgreementSignatureResult: {
-        agreementId: string
-        signature: string
-    }
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
