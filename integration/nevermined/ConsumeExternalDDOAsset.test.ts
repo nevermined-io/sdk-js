@@ -27,6 +27,7 @@ describe('Consume Asset (Documentation example)', () => {
         ;[publisher, consumer] = await nevermined.accounts.list()
 
         metadata = await getDocsCommonMetadata()
+        metadata.main.price = 0
     })
 
     it('should register an asset', async () => {

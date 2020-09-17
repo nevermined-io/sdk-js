@@ -43,13 +43,15 @@ describe('Compute Asset', () => {
         assert.isDefined(agreementId)
     })
 
-    it('should execute the compute service', async () => {
+    //Ignore because the minikube setup is not ready in actions yet.np
+    xit('should execute the compute service', async () => {
         const workflowId = await nevermined.assets.execute(
             agreementId,
             computeDdo.id,
             workflowDdo.id,
             consumer,
         )
+        console.log(workflowId)
 
         assert.isDefined(workflowId)
     })
