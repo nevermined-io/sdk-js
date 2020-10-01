@@ -17,6 +17,7 @@ describe('Compute Asset', () => {
     let workflowDdo: DDO
 
     let agreementId: string
+    let workflowId: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -44,8 +45,8 @@ describe('Compute Asset', () => {
     })
 
     //Ignore because the minikube setup is not ready in actions yet.np
-    xit('should execute the compute service', async () => {
-        const workflowId = await nevermined.assets.execute(
+    it('should execute the compute service', async () => {
+        workflowId = await nevermined.assets.execute(
             agreementId,
             computeDdo.id,
             workflowDdo.id,
@@ -54,5 +55,11 @@ describe('Compute Asset', () => {
         console.log(workflowId)
 
         assert.isDefined(workflowId)
+    })
+
+    it('should return the status of the current execution', async() => {
+        const status = await nevermined.assets.computeStatus(agreementId, workflowId, consumer)
+
+        console.log(status)
     })
 })

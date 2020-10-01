@@ -35,6 +35,14 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/access`
     }
 
+    public getComputeLogsEndpoint(serviceAgreementId: string, executionId: string) {
+        return `${this.url}${apiPath}/compute/logs/${serviceAgreementId}/${executionId}`
+    }
+
+    public getComputeStatusEndpoint(serviceAgreementId: string, executionId: string) {
+        return `${this.url}${apiPath}/compute/status/${serviceAgreementId}/${executionId}`
+    }
+
     public getExecuteEndpoint(serviceAgreementId: string) {
         return `${this.url}${apiPath}/execute/${serviceAgreementId}`
     }
@@ -206,13 +214,14 @@ export class Gateway extends Instantiable {
                 'X-Signature': signedAgreementId,
                 'X-Workflow-DID': workflowDid,
             }
-
+            console.log(headers)
+            console.log(noZeroX(agreementId))
             const response = await this.nevermined.utils.fetch.post(
                 this.getExecuteEndpoint(noZeroX(agreementId)),
                 undefined,
                 headers,
             )
-
+            console.log(response)
             if (!response.ok) {
                 throw new Error('HTTP request failed')
             }
@@ -261,4 +270,64 @@ export class Gateway extends Instantiable {
         await Promise.all(filesPromises)
         return destination
     }
+
+    public async computeLogs(
+        agreementId: string,
+        executionId: string,
+        account: Account
+        ): Promise<any> {
+            try {
+                const signedAgreementId = await this.nevermined.utils.signature
+                    .signText(noZeroX(executionId), account.getId(), account.getPassword())
+    
+                const headers = {
+                    'X-Consumer-Address': account.getId(),
+                    'X-Signature': signedAgreementId
+                }
+    
+                const response = await this.nevermined.utils.fetch.post(
+                    this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                    undefined,
+                    headers,
+                )
+    
+                if (!response.ok) {
+                    throw new Error('HTTP request failed')
+                }
+                return await response.text()
+            } catch (e) {
+                this.logger.error(e)
+                throw new Error('HTTP request failed')
+            }
+        }
+
+    public async computeStatus(
+        agreementId: string,
+        executionId: string,
+        account: Account
+        ): Promise<any> {
+            try {
+                const signedAgreementId = await this.nevermined.utils.signature
+                    .signText(noZeroX(executionId), account.getId(), account.getPassword())
+    
+                const headers = {
+                    'X-Consumer-Address': account.getId(),
+                    'X-Signature': signedAgreementId
+                }
+    
+                const response = await this.nevermined.utils.fetch.post(
+                    this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                    undefined,
+                    headers,
+                )
+    
+                if (!response.ok) {
+                    throw new Error('HTTP request failed')
+                }
+                return await response.text()
+            } catch (e) {
+                this.logger.error(e)
+                throw new Error('HTTP request failed')
+            }
+        }
 }
