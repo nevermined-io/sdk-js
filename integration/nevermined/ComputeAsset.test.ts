@@ -52,14 +52,17 @@ describe('Compute Asset', () => {
             workflowDdo.id,
             consumer,
         )
-        console.log(workflowId)
 
         assert.isDefined(workflowId)
     })
 
+    it('should return the logs of the current execution', async() => {
+        const logs = await nevermined.assets.computeLogs(agreementId, workflowId, consumer)
+        assert.isDefined(logs)
+    })
+
     it('should return the status of the current execution', async() => {
         const status = await nevermined.assets.computeStatus(agreementId, workflowId, consumer)
-
-        console.log(status)
+        assert.isDefined(status)
     })
 })
