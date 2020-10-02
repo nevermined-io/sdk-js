@@ -3,11 +3,11 @@ import HDWalletProvider from '@truffle/hdwallet-provider'
 
 const configJson: Config = {
     nodeUri: 'http://localhost:8545',
-    metadataUri: 'http://nevermined-metadata:5000',
+    metadataUri: 'http://172.17.0.1:5000',
     gatewayUri: 'http://localhost:8030',
     secretStoreUri: 'http://localhost:12001',
     gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
-    verbose: false
+    verbose: true
 }
 
 if (process.env.NETWORK_NAME === 'production') {

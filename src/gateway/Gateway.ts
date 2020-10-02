@@ -207,25 +207,22 @@ export class Gateway extends Instantiable {
     ): Promise<any> {
         try {
             const signedAgreementId = await this.nevermined.utils.signature
-                .signText(noZeroX(agreementId), account.getId(), account.getPassword())
+                .signText(noZeroX(agreementId), account.getId())
 
             const headers = {
                 'X-Consumer-Address': account.getId(),
                 'X-Signature': signedAgreementId,
                 'X-Workflow-DID': workflowDid,
             }
-            console.log(headers)
-            console.log(noZeroX(agreementId))
             const response = await this.nevermined.utils.fetch.post(
                 this.getExecuteEndpoint(noZeroX(agreementId)),
                 undefined,
                 headers,
             )
-            console.log(response)
             if (!response.ok) {
                 throw new Error('HTTP request failed')
             }
-            return await response.text()
+            return await response.json()
         } catch (e) {
             this.logger.error(e)
             throw new Error('HTTP request failed')
@@ -278,16 +275,15 @@ export class Gateway extends Instantiable {
         ): Promise<any> {
             try {
                 const signedAgreementId = await this.nevermined.utils.signature
-                    .signText(noZeroX(executionId), account.getId(), account.getPassword())
+                    .signText(noZeroX(executionId), account.getId())
     
                 const headers = {
                     'X-Consumer-Address': account.getId(),
                     'X-Signature': signedAgreementId
                 }
     
-                const response = await this.nevermined.utils.fetch.post(
+                const response = await this.nevermined.utils.fetch.get(
                     this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
-                    undefined,
                     headers,
                 )
     
@@ -308,16 +304,16 @@ export class Gateway extends Instantiable {
         ): Promise<any> {
             try {
                 const signedAgreementId = await this.nevermined.utils.signature
-                    .signText(noZeroX(executionId), account.getId(), account.getPassword())
+                    .signText(noZeroX(executionId), account.getId())
     
                 const headers = {
                     'X-Consumer-Address': account.getId(),
                     'X-Signature': signedAgreementId
                 }
+                console.log(headers)
     
-                const response = await this.nevermined.utils.fetch.post(
+                const response = await this.nevermined.utils.fetch.get(
                     this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
-                    undefined,
                     headers,
                 )
     

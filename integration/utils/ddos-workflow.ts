@@ -89,10 +89,10 @@ export const workflowMetadatas = {
                 checksum:'sha256:53ad3a03b2fb240b6c494339821e6638cd44c989bcf26ec4d51a6a52f7518c1d'
               }
             },
-            input: {
+            input: [{
               index: 0,
               id: dataDid,
-            },
+            }],
             transformation: {
               id: transformDid,
             },
