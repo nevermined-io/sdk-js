@@ -56,7 +56,7 @@ describe('Compute Asset', () => {
         assert.isDefined(workflowId)
     })
 
-    it('should return the logs of the current execution', async() => {
+    xit('should return the logs of the current execution', async() => {
         const logs = await nevermined.assets.computeLogs(agreementId, workflowId, consumer)
         assert.isDefined(logs)
     })
