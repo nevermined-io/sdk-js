@@ -675,11 +675,11 @@ export class Assets extends Instantiable {
         return true
     }
 
-    public async computeLogs(agreementId:string, executionId: string, account: Account){
+    public async computeLogs(agreementId: string, executionId: string, account: Account){
         return await this.nevermined.gateway.computeLogs(agreementId, executionId, account)
     }
 
-    public async computeStatus(agreementId:string, executionId: string, account: Account){
+    public async computeStatus(agreementId: string, executionId: string, account: Account){
         return await this.nevermined.gateway.computeStatus(agreementId, executionId, account)
     }
 }
