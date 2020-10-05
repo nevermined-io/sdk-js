@@ -27,8 +27,9 @@ jobs:
         cd nevermined-tools
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
-        bash -x ./start_nevermined.sh --no-commons --no-faucet --compute --latest 2>&1 > start_nevermined.log &
+        bash -x ./start_nevermined.sh --no-commons --local-spree-node --compute --latest 2>&1 > start_nevermined.log &
         bash -x ./scripts/wait-for_compute_api.sh
+        bash -x ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         cd ..
     - name: Run linters
       run: npm run lint
