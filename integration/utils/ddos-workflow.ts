@@ -37,7 +37,7 @@ export const workflowMetadatas = {
           checksum: `0000000000000000000000000000000`,
           checksumType: 'MD5',
           contentLength: '12057507',
-          url: 'https://raw.githubusercontent.com/keyko-io/nevermined-sdk-py/ce8a73c5c2392df8ae45ac57d323d41c5e47f9a0/examples/word_count.py?token=AANVZI3RNAIEFA5JRVYWU5C7LH35O'
+          url: 'https://raw.githubusercontent.com/keyko-io/nevermined-docs/515d4f5da771dae0a4827ba757ce9b018e66276f/resources/word_count.py'
         }
       ],
       type: 'algorithm',
@@ -59,11 +59,21 @@ export const workflowMetadatas = {
 
   compute: (price: string = '21' + '0'.repeat(18)): MetaData => transformMetadata({
     main: {
-      name: '10 Monkey Species Small',
+      name: 'Nevermined protocol white paper',
       dateCreated: '2012-02-01T10:55:11Z',
       author: 'Mario',
       license: 'CC0: Public Domain',
-      price,
+      price: '0',
+      files: [
+        {
+          index: 0,
+          contentType: 'text/text',
+          checksum: `0000000000000000000000000000000`,
+          checksumType: 'MD5',
+          contentLength: '12057507',
+          url: 'https://raw.githubusercontent.com/keyko-io/nevermined-tools/master/README.md'
+        }
+      ],
       type: 'compute'
     }
   }),

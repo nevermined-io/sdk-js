@@ -47,6 +47,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/execute/${serviceAgreementId}`
     }
 
+    public getExecutionEndpoint() {
+        return `${this.url}${apiPath}/execute/`
+    }
+
     public getSecretStoreEncryptEndpoint() {
         return `${this.url}${apiPath}/publish`
     }
@@ -68,15 +72,6 @@ export class Gateway extends Instantiable {
     public async getEcdsaPublicKey() {
         const json = await this.getGatewayInfo()
         return json['ecdsa-public-key']
-    }
-
-    public getComputeEndpoint(
-        pubKey: string,
-        serviceIndex: number,
-        _notUsed: string,
-        container: string
-    ) {
-        return `${this.url}${apiPath}/compute`
     }
 
     public getDownloadEndpoint() {
