@@ -11,7 +11,6 @@ describe('Compute Asset', () => {
     let publisher: Account
     let consumer: Account
 
-    let metadataDdo: DDO
     let algorithmDdo: DDO
     let computeDdo: DDO
     let workflowDdo: DDO
@@ -28,10 +27,9 @@ describe('Compute Asset', () => {
     })
 
     it('should register the assets', async () => {
-        metadataDdo = await nevermined.assets.create(workflowMetadatas.metadata(), publisher)
         algorithmDdo = await nevermined.assets.create(workflowMetadatas.algorithm(), publisher)
-        computeDdo = await nevermined.assets.create(workflowMetadatas.compute('0'), publisher)
-        workflowDdo = await nevermined.assets.create(workflowMetadatas.workflow(metadataDdo.id, algorithmDdo.id), publisher)
+        computeDdo = await nevermined.assets.create(workflowMetadatas.compute(), publisher)
+        workflowDdo = await nevermined.assets.create(workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id), publisher)
     })
 
     it('should order the compute service', async () => {
@@ -56,12 +54,12 @@ describe('Compute Asset', () => {
         assert.isDefined(workflowId)
     })
 
-    xit('should return the logs of the current execution', async() => {
+    it('should return the logs of the current execution', async() => {
         const logs = await nevermined.assets.computeLogs(agreementId, workflowId, consumer)
         assert.isDefined(logs)
     })
 
-    xit('should return the status of the current execution', async() => {
+    it('should return the status of the current execution', async() => {
         const status = await nevermined.assets.computeStatus(agreementId, workflowId, consumer)
         assert.isDefined(status)
     })

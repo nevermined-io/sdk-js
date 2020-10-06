@@ -106,104 +106,18 @@ export class Assets extends Instantiable {
             })
 
             if (metadata.main.type === 'compute') {
-                await ddo.addService(this.nevermined, {
-                    type: 'compute',
-                    index: 4,
-                    serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
-                    templateId: templates.escrowComputeExecutionTemplate.getAddress(),
-                    attributes: {
-                        main: {
-                            name: 'dataAssetComputeServiceAgreement',
-                            creator: publisher.getId(),
-                            datePublished: metadata.main.datePublished,
-                            price: metadata.main.price,
-                            timeout: 86400,
-                            provider: {
-                                'type': 'Azure',
-                                'description': '',
-                                'environment': {
-                                    'cluster': {
-                                        'type': 'Kubernetes',
-                                        'url': 'http://10.0.0.17/xxx'
-                                    },
-                                    'supportedContainers': [
-                                        {
-                                            'image': 'tensorflow/tensorflow',
-                                            'tag': 'latest',
-                                            'checksum':
-                                                'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
-                                        },
-                                        {
-                                            'image': 'tensorflow/tensorflow',
-                                            'tag': 'latest',
-                                            'checksum':
-                                                'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
-                                        }
-                                    ],
-                                    'supportedServers': [
-                                        {
-                                            'serverId': '1',
-                                            'serverType': 'xlsize',
-                                            'price': '50',
-                                            'cpu': '16',
-                                            'gpu': '0',
-                                            'memory': '128gb',
-                                            'disk': '160gb',
-                                            'maxExecutionTime': 86400
-                                        },
-                                        {
-                                            'serverId': '2',
-                                            'serverType': 'medium',
-                                            'price': '10',
-                                            'cpu': '2',
-                                            'gpu': '0',
-                                            'memory': '8gb',
-                                            'disk': '80gb',
-                                            'maxExecutionTime': 86400
-                                        }
-                                    ]
-                                }
-                            }
-                        },
-                        serviceAgreementTemplate
-                    }
-                } as Service)
+                await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata,serviceAgreementTemplate))
             }
             else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
-                await ddo.addService(this.nevermined, {
-                    type: 'access',
-                    index: 3,
-                    serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
-                    templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
-                    attributes: {
-                        main: {
-                            creator: publisher.getId(),
-                            datePublished: metadata.main.datePublished,
-                            name: 'dataAssetAccessServiceAgreement',
-                            price: metadata.main.price,
-                            timeout: 3600
-                        },
-                        serviceAgreementTemplate
-                    }
-                } as Service)
+                await ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata,serviceAgreementTemplate))
+      
             }
 
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
                 publicKey = this.nevermined.gateway.getEcdsaPublicKey()
             }
-            await ddo.addService(this.nevermined, {
-                type: 'authorization',
-                index: 2,
-                serviceEndpoint: gatewayUri,
-                attributes: {
-                    main: {
-                        publicKey: publicKey,
-                        service: method!,
-                        threshold: 0
-                    }
-                }
-            } as Service)
+            await ddo.addService(this.nevermined, this.createAuthorizationService(gatewayUri, publicKey, method))
             await ddo.addService(this.nevermined, {
                 type: 'metadata',
                 index: 0,
@@ -245,7 +159,7 @@ export class Assets extends Instantiable {
             observer.next(CreateProgressStep.EncryptingFiles)
 
             let encryptedFiles
-            if (!['workflow', 'compute'].includes(metadata.main.type)) {
+            if (!['workflow'].includes(metadata.main.type)) {
                 if (method === 'SecretStore') {
                     // TODO- Continue keeping the support for the secret-store client
                     encryptedFiles = await this.nevermined.secretStore.encrypt(
@@ -323,6 +237,32 @@ export class Assets extends Instantiable {
 
             return storedDdo
         })
+    }
+
+    public createCompute(
+        metadata: MetaData, 
+        publisher: Account, 
+        service: Service[] = [], 
+        method: string = 'PSK-RSA'
+        ): SubscribablePromise<CreateProgressStep, DDO> {
+            return new SubscribablePromise(async observer => {
+                const computeService = {main: {
+                    name: "dataAssetComputeServiceAgreement",
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.dateCreated,
+                    price: metadata.main.price,
+                    timeout: 86400,
+                    provider: this.providerConfig()
+                    }
+                }
+
+                return this.create(metadata, publisher, [   {
+                    type: 'compute',
+                    index: 4,
+                    serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
+                    attributes: computeService
+                } as Service], method )
+            })
     }
 
     public async consume(
@@ -681,5 +621,110 @@ export class Assets extends Instantiable {
 
     public async computeStatus(agreementId: string, executionId: string, account: Account){
         return await this.nevermined.gateway.computeStatus(agreementId, executionId, account)
+    }
+
+    private async providerConfig(){
+        return  {
+            'type': 'Azure',
+            'description': '',
+            'environment': {
+                'cluster': {
+                    'type': 'Kubernetes',
+                    'url': 'http://10.0.0.17/xxx'
+                },
+                'supportedContainers': [
+                    {
+                        'image': 'tensorflow/tensorflow',
+                        'tag': 'latest',
+                        'checksum':
+                            'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
+                    },
+                    {
+                        'image': 'tensorflow/tensorflow',
+                        'tag': 'latest',
+                        'checksum':
+                            'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
+                    }
+                ],
+                'supportedServers': [
+                    {
+                        'serverId': '1',
+                        'serverType': 'xlsize',
+                        'price': '50',
+                        'cpu': '16',
+                        'gpu': '0',
+                        'memory': '128gb',
+                        'disk': '160gb',
+                        'maxExecutionTime': 86400
+                    },
+                    {
+                        'serverId': '2',
+                        'serverType': 'medium',
+                        'price': '10',
+                        'cpu': '2',
+                        'gpu': '0',
+                        'memory': '8gb',
+                        'disk': '80gb',
+                        'maxExecutionTime': 86400
+                    }
+                ]
+            }
+        }
+    }
+
+    private createAccessService(templates, publisher, metadata: MetaData, serviceAgreementTemplate){
+        return {
+            type: 'access',
+            index: 3,
+            serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
+            templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
+            attributes: {
+                main: {
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.datePublished,
+                    name: 'dataAssetAccessServiceAgreement',
+                    price: metadata.main.price,
+                    timeout: 3600
+                },
+                serviceAgreementTemplate
+            }
+        } as Service
+
+    }
+
+    private createComputeService(templates, publisher, metadata: MetaData, serviceAgreementTemplate){
+        return {
+            type: 'compute',
+            index: 4,
+            serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
+            templateId: templates.escrowComputeExecutionTemplate.getAddress(),
+            attributes: {
+                main: {
+                    name: 'dataAssetComputeServiceAgreement',
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.datePublished,
+                    price: metadata.main.price,
+                    timeout: 86400,
+                    provider: this.providerConfig()
+                },
+                serviceAgreementTemplate
+            }
+        } as Service
+    }
+
+    private createAuthorizationService(gatewayUri: string, publicKey: string, method: string){
+        return {
+            type: 'authorization',
+            index: 2,
+            serviceEndpoint: gatewayUri,
+            attributes: {
+                main: {
+                    publicKey: publicKey,
+                    service: method!,
+                    threshold: 0
+                }
+            }
+        } as Service
+
     }
 }
