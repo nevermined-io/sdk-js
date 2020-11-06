@@ -28,6 +28,6 @@ if [ $COMMAND_STATUS -ne 0 ]; then
   exit 1
 fi
 
-cp -r ~/.nevermined/nevermined-contracts/artifacts/. node_modules/@keyko-io/nevermined-contracts/artifacts/
+cp -r ~/.nevermined/nevermined-contracts/artifacts/. node_modules/@nevermined-io/contracts/artifacts/
 
 printf '\e[32m✔ Copied new contract artifacts.\e[0m\n'

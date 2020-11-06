@@ -30,8 +30,8 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
  * Interface with Nevermined contracts.
  * Nevermined Keeper implementation where we put the following modules together:
  * - TCRs: users create challenges and resolve them through voting to maintain registries.
- * - Ocean Tokens: the intrinsic tokens circulated inside Nevermined network, which is used in the voting of TCRs.
- * - Marketplace: the core marketplace where people can transact with each other with Ocean tokens.
+ * - Nevermined Tokens: the intrinsic tokens circulated inside Nevermined network, which is used in the voting of TCRs.
+ * - Marketplace: the core marketplace where people can transact with each other with Nevermined tokens.
  */
 export class Keeper extends Instantiable {
     /**
@@ -128,7 +128,7 @@ export class Keeper extends Instantiable {
     public connected: boolean = false
 
     /**
-     * Ocean Token smart contract instance.
+     * Nevermined Token smart contract instance.
      * @type {Token}
      */
     public token: Token

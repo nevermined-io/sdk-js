@@ -1,4 +1,4 @@
-import * as keeperPackageJson from '@keyko-io/nevermined-contracts/package.json'
+import * as keeperPackageJson from '@nevermined-io/contracts/package.json'
 import * as metadata from '../metadata.json'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'

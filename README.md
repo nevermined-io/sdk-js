@@ -1,11 +1,11 @@
-[![banner](https://raw.githubusercontent.com/keyko-io/assets/master/images/logo/nevermined_logo_1.png)](https://nevermined.io)
+[![banner](https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/nevermined_logo_1.png)](https://nevermined.io)
 
 # Javascript/Typescript API for Nevermined Data platform
 
 > Javascript SDK for connecting with Nevermined Data Platform
 > [nevermined.io](https://nevermined.io)
 
-![CI Build](https://github.com/keyko-io/nevermined-sdk-js/workflows/Build/badge.svg)
+![CI Build](https://github.com/nevermined-io/sdk-js/workflows/Build/badge.svg)
 
 ---
 
@@ -36,20 +36,20 @@
 Start by adding the package to your dependencies:
 
 ```bash
-npm i @keyko-io/nevermined-sdk-js
+npm i @nevermined-io/nevermined-sdk-js
 ```
 
 The package exposes `Nevermined` and `Logger` which you can import in your code like this:
 
 ```js
 // ES6
-import { Nevermined, Logger } from '@keyko-io/nevermined-sdk-js'
+import { Nevermined, Logger } from '@nevermined-io/nevermined-sdk-js'
 
 // ES2015
-const { Nevermined, Logger } = require('@keyko-io/nevermined-sdk-js')
+const { Nevermined, Logger } = require('@nevermined-io/nevermined-sdk-js')
 ```
 
-You can then connect to the [Smart Contracts](https://github.com/keyko-io/nevermined-contracts), [Metadata API](https://github.com/keyko-io/nevermined-metadata), [Gateway](https://github.com/keyko-io/nevermined-gateway) instances, e.g.:
+You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Metadata API](https://github.com/nevermined-io/metadata), [Gateway](https://github.com/nevermined-io/gateway) instances, e.g.:
 
 ```js
 const nevermined: Nevermined = await Nevermined.getInstance({
@@ -67,8 +67,6 @@ const nevermined: Nevermined = await Nevermined.getInstance({
     secretStoreUri: 'http://localhost:12001'
 })
 ```
-
-For an overview of endpoint configurations making up various Nevermined networks, please refer to [`.env.local.example`](https://github.com/oceanprotocol/commons/blob/master/client/.env.local.example) from commons.
 
 ### Examples
 
@@ -104,7 +102,7 @@ npm start
 
 ### Unit Tests
 
-For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
+For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermined Tools](https://github.com/nevermined-io/tools):
 
 ```bash
 npm i -g ganache-cli
@@ -133,11 +131,11 @@ npm run test:cover
 ### Integration Tests
 
 Besides a running `ganache-cli` instance, a locally running Nevermined network is required.
-To do so before running the tests, use [Nevermined Tools](https://github.com/keyko-io/nevermined-tools):
+To do so before running the tests, use [Nevermined Tools](https://github.com/nevermined-io/tools):
 
 ```bash
-git clone https://github.com/keyko-io/nevermined-tools
-cd nevermined-tools
+git clone https://github.com/nevermined-io/tools
+cd tools
 
 ./start_nevermined.sh --no-commons
 ```

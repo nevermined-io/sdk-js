@@ -15,9 +15,9 @@ describe('Account', () => {
         accounts = await nevermined.accounts.list()
     })
 
-    describe('#getOceanBalance()', () => {
+    describe('#getNeverminedBalance()', () => {
         it('should get initial nevermined balance', async () => {
-            const balance = await accounts[8].getOceanBalance()
+            const balance = await accounts[8].getNeverminedBalance()
 
             assert.equal(0, balance, `Expected 0 got ${balance}`)
         })
@@ -25,9 +25,9 @@ describe('Account', () => {
         it('should get the correct balance', async () => {
             const amount = 100
             const account: Account = accounts[0]
-            const initialBalance = await account.getOceanBalance()
+            const initialBalance = await account.getNeverminedBalance()
             await account.requestTokens(amount)
-            const balance = await account.getOceanBalance()
+            const balance = await account.getNeverminedBalance()
 
             assert.equal(balance, initialBalance + amount)
         })

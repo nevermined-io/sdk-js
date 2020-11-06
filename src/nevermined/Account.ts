@@ -74,10 +74,10 @@ export default class Account extends Instantiable {
     }
 
     /**
-     * Balance of Ocean Token.
+     * Balance of Nevermined Token.
      * @return {Promise<number>}
      */
-    public async getOceanBalance(): Promise<number> {
+    public async getNeverminedBalance(): Promise<number> {
         const { token } = this.nevermined.keeper
         return (await token.balanceOf(this.id)) / 10 ** (await token.decimals())
     }
@@ -95,18 +95,18 @@ export default class Account extends Instantiable {
     }
 
     /**
-     * Balances of Ether and Ocean Token.
+     * Balances of Ether and Nevermined Token.
      * @return {Promise<Balance>}
      */
     public async getBalance(): Promise<Balance> {
         return {
             eth: await this.getEtherBalance(),
-            ocn: await this.getOceanBalance()
+            ocn: await this.getNeverminedBalance()
         }
     }
 
     /**
-     * Request Ocean Tokens.
+     * Request Nevermined Tokens.
      * @param  {number} amount Tokens to be requested.
      * @return {Promise<number>}
      */
