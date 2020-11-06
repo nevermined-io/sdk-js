@@ -39,7 +39,7 @@ const generateJson = () => {
             title: 'Squid-js',
             description,
             version,
-            sourceUrl: 'https://github.com/keyko-io/nevermined-sdk-js/blob/master/'
+            sourceUrl: 'https://github.com/nevermined-io/sdk-js/blob/master/'
         },
         ...jsonOrig
     }

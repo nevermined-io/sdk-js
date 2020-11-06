@@ -135,7 +135,7 @@ export interface File {
 
 /**
  * Main attributes of assets metadata.
- * @see https://github.com/oceanprotocol/OEPs/tree/master/8
+ * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md
  */
 export interface MetaDataMain {
     /**
@@ -209,7 +209,7 @@ export interface MetaDataMain {
 
 /**
  * Curation attributes of Assets Metadata.
- * @see https://github.com/oceanprotocol/OEPs/tree/master/8
+ * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md#curation-attributes
  */
 export interface Curation {
     /**
@@ -243,7 +243,7 @@ export interface Curation {
 
 /**
  * Additional Information of Assets Metadata.
- * @see https://github.com/oceanprotocol/OEPs/tree/master/8#additional-information
+ * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md#additional-attributes
  */
 export interface AdditionalInformation {
     /**
@@ -272,7 +272,7 @@ export interface AdditionalInformation {
     /**
      * Mapping of links for data samples, or links to find out more information.
      * Links may be to either a URL or another Asset. We expect marketplaces to
-     * converge on agreements of typical formats for linked data: The Ocean Protocol
+     * converge on agreements of typical formats for linked data: Nevermined
      * itself does not mandate any specific formats as these requirements are likely
      * to be domain-specific.
      * @type {any[]}

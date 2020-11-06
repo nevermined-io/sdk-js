@@ -1,5 +1,5 @@
-import SecretStore from '@oceanprotocol/secret-store-client'
-import SecretStoreConfig from '@oceanprotocol/secret-store-client/dist/models/SecretStoreConfig'
+import SecretStore from '@nevermined-io/secret-store-client'
+import SecretStoreConfig from '@nevermined-io/secret-store-client/dist/models/SecretStoreConfig'
 
 import Account from './Account'
 import { noDidPrefixed } from '../utils'

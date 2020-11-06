@@ -2,7 +2,7 @@
   "name": "Nevermined sdk JavaScript",
   "repository": {
     "type": "git",
-    "url": "https://github.com/keyko-io/nevermined-sdk-js.git"
+    "url": "https://github.com/nevermined-io/sdk-js.git"
   },
   "dependencies": [
     {

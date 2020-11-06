@@ -31,8 +31,8 @@ jobs:
         ganache-cli --port 18545 > ganache-cli.log &
         sudo chmod go+r /etc/hosts
         sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-        git clone https://github.com/keyko-io/nevermined-tools
-        cd nevermined-tools
+        git clone https://github.com/nevermined-io/tools
+        cd tools
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
         ./start_nevermined.sh --latest --no-commons --local-spree-node --no-faucet --compute & 
