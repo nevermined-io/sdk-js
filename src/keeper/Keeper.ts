@@ -25,6 +25,7 @@ import { objectPromiseAll } from '../utils'
 import { EventHandler } from './EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import ProvenanceRegistry from "./contracts/ProvenanceRegistry";
 
 /**
  * Interface with Nevermined contracts.
@@ -52,6 +53,7 @@ export class Keeper extends Instantiable {
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
                 didRegistry: DIDRegistry.getInstance(config),
+                provenanceRegistry: ProvenanceRegistry.getInstance(config),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(config),
                 agreementStoreManager: AgreementStoreManager.getInstance(config),
@@ -95,6 +97,7 @@ export class Keeper extends Instantiable {
         keeper.dispenser = keeper.instances.dispenser
         keeper.token = keeper.instances.token
         keeper.didRegistry = keeper.instances.didRegistry
+        keeper.provenanceRegistry = keeper.instances.provenanceRegistry
         // Managers
         keeper.templateStoreManager = keeper.instances.templateStoreManager
         keeper.agreementStoreManager = keeper.instances.agreementStoreManager
@@ -144,6 +147,12 @@ export class Keeper extends Instantiable {
      * @type {DIDRegistry}
      */
     public didRegistry: DIDRegistry
+
+    /**
+     * Provenance registry smart contract instance.
+     * @type {ProvenanceRegistry}
+     */
+    public provenanceRegistry: ProvenanceRegistry
 
     /**
      * Template store manager smart contract instance.
