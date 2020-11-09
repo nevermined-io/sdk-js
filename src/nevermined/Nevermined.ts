@@ -104,7 +104,7 @@ export class Nevermined extends Instantiable {
     public secretStore: NeverminedSecretStore
 
     /**
-     * Ocean tokens submodule
+     * Nevermined tokens submodule
      * @type {Token}
      */
     public token: Token

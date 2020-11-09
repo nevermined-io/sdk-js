@@ -96,7 +96,7 @@ describe('Consume Asset (Gateway)', () => {
 
         assert.deepEqual(
             files,
-            ['README.md', 'package.json'],
+            ['README.md', 'ddo-example.json'],
             'Stored files are not correct.'
         )
     })

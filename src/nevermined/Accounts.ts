@@ -34,7 +34,7 @@ export class Accounts extends Instantiable {
     /**
      * Return account balance.
      * @param  {Account}          account Account instance.
-     * @return {Promise<Balance>}         Ether and Ocean Token balance.
+     * @return {Promise<Balance>}         Ether and Nevermined Token balance.
      */
     public balance(account: Account): Promise<Balance> {
         return account.getBalance()

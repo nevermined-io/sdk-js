@@ -1,12 +1,12 @@
 {
-  "name": "@keyko-io/nevermined-sdk-js",
-  "version": "0.4.0",
-  "description": "Nevermined implementation of JavaScript client library for Ocean Protocol",
+  "name": "@nevermined-io/nevermined-sdk-js",
+  "version": "0.4.1",
+  "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/squid.js",
   "typings": "./dist/node/squid.d.ts",
   "unpkg": "./dist/browser/squid.cjs2.min.js",
   "scripts": {
-    "start": "npm link @nevermined-io/contracts @oceanprotocol/secret-store-client && npm run build:watch",
+    "start": "npm link @nevermined-io/contracts @nevermined-io/secret-store-client && npm run build:watch",
     "build": "npm run clean && npm run build:tsc && npm run build:dist",
     "build:tsc": "tsc --sourceMap",
     "build:metadata": "./scripts/get-metadata.js > src/metadata.json",
@@ -39,23 +39,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/keyko-io/nevermined-sdk-js.git"
+    "url": "git+https://github.com/nevermined-io/sdk-js.git"
   },
   "keywords": [],
-  "author": "Keyko<info@keyko.io>",
+  "author": "Nevermined <root@nevermined.io>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/keyko-io/nevermined-sdk-js/issues"
+    "url": "https://github.com/nevermined-io/sdk-js/issues"
   },
-  "homepage": "https://github.com/keyko-io/nevermined-sdk-js#readme",
+  "homepage": "https://github.com/nevermined-io/sdk-js#readme",
   "peerDependencies": {
     "web3": "^1.2.3"
   },
   "dependencies": {
     "@nevermined-io/contracts": "0.5.0",
-    "@oceanprotocol/secret-store-client": "^0.0.15",
+    "@nevermined-io/secret-store-client": "^0.0.16",
     "bignumber.js": "^9.0.0",
     "deprecated-decorator": "^0.1.6",
+    "ganache-cli": "^6.9.1",
     "node-fetch": "^2.6.1",
     "save-file": "^2.3.1",
     "uuid": "^3.4.0",

@@ -1,4 +1,4 @@
-import SecretStore from '@oceanprotocol/secret-store-client'
+import SecretStore from '@nevermined-io/secret-store-client'
 
 export default class SecretStoreMock extends SecretStore {
     public async encryptDocument(documentId, document: any) {
