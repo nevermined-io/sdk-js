@@ -34,9 +34,8 @@ jobs:
         git clone https://github.com/nevermined-io/tools
         cd tools
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-        export KEEPER_VERSION="v0.5.0"
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
-        ./start_nevermined.sh --latest --no-commons --local-spree-node --no-faucet --compute &
+        KEEPER_VERSION="v0.5.0" && ./start_nevermined.sh --latest --no-commons --local-spree-node --no-faucet --compute &
         ./scripts/wait_for_compute_api.sh
         cd ..
     - name: Run linters
