@@ -24,7 +24,6 @@ describe('Provenance Supply-Chain Test', () => {
 
         // Accounts
         ;[manufacturer, transportGround, transportAir, recipient] = await nevermined.accounts.list()
-        console.log(transportGround.getId())
     })
 
     it('should get an instance of nevermined and ProvenanceRegistry', async () => {
@@ -38,7 +37,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('manufacturer generates entity [wasGeneratedBy]', async () => {
-        let receipt = await provenanceRegistry.wasGeneratedBy(
+        const receipt = await provenanceRegistry.wasGeneratedBy(
             cargoDdo.id,
             manufacturer.getId(),
             Activities.GENERATED,
@@ -50,7 +49,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('manufacturer assigns responsibility for manufacturing [wasAssociatedWith]', async () => {
-        let receipt = await provenanceRegistry.wasAssociatedWith(
+        const receipt = await provenanceRegistry.wasAssociatedWith(
             cargoDdo.id,
             manufacturer.getId(),
             Activities.MANUFACTURING,
@@ -62,7 +61,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('manufacturer delegates to trasportGround [actedOnBehalfOf]', async () => {
-        let receipt = await provenanceRegistry.actedOnBehalfOf(
+        const receipt = await provenanceRegistry.actedOnBehalfOf(
             cargoDdo.id,
             transportGround.getId(),
             manufacturer.getId(),
@@ -75,7 +74,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('transportGround assigns responsibility for ground transportation [wasAssociatedWith]', async () => {
-        let receipt = await provenanceRegistry.wasAssociatedWith(
+        const receipt = await provenanceRegistry.wasAssociatedWith(
             cargoDdo.id,
             transportGround.getId(),
             Activities.TRANSPORTATION,
@@ -87,7 +86,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('transportGround begins transportation [used]', async () => {
-        let receipt = await provenanceRegistry.used(
+        const receipt = await provenanceRegistry.used(
             cargoDdo.id,
             transportGround.getId(),
             Activities.TRANSPORTATION,
@@ -98,7 +97,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('transportGround delegates to transportAir [actedOnBehalfOf]', async () => {
-        let receipt = await provenanceRegistry.actedOnBehalfOf(
+        const receipt = await provenanceRegistry.actedOnBehalfOf(
             cargoDdo.id,
             transportAir.getId(),
             transportGround.getId(),
@@ -111,7 +110,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('transportAir assigns responsibility for air transportation [wasAssociatedWith]', async () => {
-        let receipt = await provenanceRegistry.wasAssociatedWith(
+        const receipt = await provenanceRegistry.wasAssociatedWith(
             cargoDdo.id,
             transportAir.getId(),
             Activities.TRANSPORTATION,
@@ -123,7 +122,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('transportAir begins transportation [used]', async () => {
-        let receipt = await provenanceRegistry.used(
+        const receipt = await provenanceRegistry.used(
             cargoDdo.id,
             transportAir.getId(),
             Activities.TRANSPORTATION,
@@ -134,7 +133,7 @@ describe('Provenance Supply-Chain Test', () => {
     })
 
     it('transportAir delegates to recipient [actedOnBehalfOf]', async () => {
-        let receipt = await provenanceRegistry.actedOnBehalfOf(
+        const receipt = await provenanceRegistry.actedOnBehalfOf(
             cargoDdo.id,
             recipient.getId(),
             transportAir.getId(),
