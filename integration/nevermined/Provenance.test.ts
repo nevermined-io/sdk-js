@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 
-import { config } from '../config'
+import config from '../configRinkeby'
 import { Nevermined, Account, DDO } from '../../src'
 import { getMetadata } from '../utils'
 import ProvenanceRegistry, { Activities } from '../../src/keeper/contracts/ProvenanceRegistry'
@@ -14,6 +14,7 @@ describe('Provenance Supply-Chain Test', () => {
     let transportGround: Account
     let transportAir: Account
     let recipient: Account
+    let customs: Account
 
     let cargoDdo: DDO
 
@@ -23,7 +24,12 @@ describe('Provenance Supply-Chain Test', () => {
         provenanceRegistry = nevermined.keeper.provenanceRegistry
 
         // Accounts
-        ;[manufacturer, transportGround, transportAir, recipient] = await nevermined.accounts.list()
+        ;[manufacturer, transportGround, transportAir, recipient, customs] = await nevermined.accounts.list()
+        console.log(manufacturer.getId())
+        console.log(transportGround.getId())
+        console.log(transportAir.getId())
+        console.log(recipient.getId())
+        console.log(customs.getId())
     })
 
     it('should get an instance of nevermined and ProvenanceRegistry', async () => {
