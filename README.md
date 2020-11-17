@@ -1,4 +1,5 @@
-[![banner](https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/nevermined_logo_1.png)](https://nevermined.io)
+[![banner](https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/banner_logo.png)](https://nevermined.io)
+
 
 # Javascript/Typescript API for Nevermined Data platform
 
