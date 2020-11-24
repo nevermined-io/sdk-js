@@ -24,7 +24,7 @@ export interface PlatformKeeperTech extends PlatformTech {
 }
 
 export interface PlatformVersions {
-    squid: PlatformKeeperTech
+    sdk: PlatformKeeperTech
     metadata: PlatformTech
     gateway: PlatformKeeperTech
     status: {
@@ -53,8 +53,8 @@ export class Versions extends Instantiable {
         const versions = {} as PlatformVersions
 
         // Squid
-        versions.squid = {
-            name: 'Squid-js',
+        versions.sdk = {
+            name: 'SDK',
             version: metadata.version,
             commit: metadata.commit,
             status: PlatformTechStatus.Working,
