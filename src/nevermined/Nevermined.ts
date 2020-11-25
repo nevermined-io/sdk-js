@@ -5,6 +5,7 @@ import { Auth } from './Auth'
 import { NeverminedSecretStore } from './NeverminedSecretStore'
 import { Token } from './Token'
 import { Versions } from './Versions'
+import { Provenance } from './Provenance'
 import { Utils } from './utils/Utils'
 
 import { Metadata } from '../metadata/Metadata'
@@ -49,6 +50,7 @@ export class Nevermined extends Instantiable {
         instance.secretStore = await NeverminedSecretStore.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
         instance.versions = await Versions.getInstance(instanceConfig)
+        instance.provenance = await Provenance.getInstance(instanceConfig)
 
         instance.utils = await Utils.getInstance(instanceConfig)
 
@@ -114,6 +116,12 @@ export class Nevermined extends Instantiable {
      * @type {Versions}
      */
     public versions: Versions
+
+    /**
+     * Provenance submodule
+     * @type {Provenance}
+     */
+    public provenance: Provenance
 
     /**
      * Utils submodule

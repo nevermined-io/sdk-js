@@ -3,10 +3,10 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 const defaultAuthMessage = 'Nevermined Protocol Authentication'
 const defaultExpirationTime = 30 * 24 * 60 * 60 * 1000 // 30 days
-const localStorageKey = 'SquidTokens'
+const localStorageKey = 'NeverminedTokens'
 
 /**
- * Tokens submodule of Nevermined.
+ * Auth submodule of Nevermined.
  */
 export class Auth extends Instantiable {
     /**
