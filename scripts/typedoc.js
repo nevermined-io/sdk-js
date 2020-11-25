@@ -6,13 +6,13 @@ const fs = require('fs')
 const typedoc = require('typedoc')
 const typescript = require('typescript')
 const ora = require('ora')
-const squidJsPackage = require('../package.json')
+const sdkJsPackage = require('../package.json')
 
-const { description, version } = squidJsPackage
+const { description, version } = sdkJsPackage
 
 // Setup our paths, relative to project root
-const outPath = './dist/squid-js.json'
-const files = ['./src/squid.ts']
+const outPath = './dist/sdk-js.json'
+const files = ['./src/sdk.ts']
 
 // specifically point to tsconfig, otherwise TypeDoc fails
 const config = typescript.findConfigFile('./tsconfig.js', typescript.sys.fileExists)

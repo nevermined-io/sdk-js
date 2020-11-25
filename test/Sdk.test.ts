@@ -1,10 +1,10 @@
 import assert from 'assert'
-import * as squid from '../src/squid'
+import * as sdk from '../src/sdk'
 
-describe('Squid', () => {
+describe('Sdk', () => {
     describe('interface', () => {
         it('should expose Nevermined', async () => {
-            assert(squid.Nevermined)
+            assert(sdk.Nevermined)
         })
     })
 })

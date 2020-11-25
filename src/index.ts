@@ -1,1 +1,1 @@
-export * from './squid'
+export * from './sdk'
