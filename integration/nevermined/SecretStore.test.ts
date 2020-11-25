@@ -2,7 +2,7 @@ import { assert } from 'chai'
 
 import { config } from '../config'
 
-import { Nevermined, Account, DID } from '../../src' // @nevermined/squid
+import { Nevermined, Account, DID } from '../../src'
 
 describe('Secret Store', () => {
     let nevermined: Nevermined

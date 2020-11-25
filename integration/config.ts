@@ -40,6 +40,15 @@ if (process.env.NETWORK_NAME === 'testing') {
     })
 }
 
+if (process.env.NETWORK_NAME === 'rinkeby') {
+    Object.assign(configJson, {
+      metadataUri: 'http://metadata.keyko.rocks',
+      gatewayUri: 'http://gateway.keyko.rocks/',
+      nodeUri: `https://rinkeby.infura.io/v3/6a91d92ed84f457a9e54f808a60417a1`,
+      gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0',
+    })
+}
+
 if (process.env.SEED_WORDS) {
     const seedphrase = process.env.SEED_WORDS
 

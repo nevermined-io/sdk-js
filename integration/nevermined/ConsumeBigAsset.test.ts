@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src' // @nevermined/squid
+import { Nevermined, Account, DDO } from '../../src'
 
 // Ensure that your network is fast enought and you have some free ram before run it.
 xdescribe('Consume Asset (Large size)', () => {

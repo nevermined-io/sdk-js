@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src' // @nevermined/squid
+import { Nevermined, Account, DDO } from '../../src'
 
 describe('Consume Asset (Gateway)', () => {
     let nevermined: Nevermined
