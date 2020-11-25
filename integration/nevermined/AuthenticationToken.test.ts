@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account } from '../../src' // @nevermined/squid
+import { Nevermined, Account } from '../../src'
 
 describe('Authentication Token', () => {
     let nevermined: Nevermined

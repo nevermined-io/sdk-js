@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account } from '../../src' // @nevermined/squid
+import { Nevermined, Account } from '../../src'
 
 describe('Asset Owners', () => {
     let nevermined: Nevermined

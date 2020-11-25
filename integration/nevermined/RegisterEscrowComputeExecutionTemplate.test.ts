@@ -2,7 +2,7 @@ import { assert } from 'chai'
 
 import { config } from '../config'
 
-import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src' // @nevermined/squid
+import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
 
 const { LockRewardCondition, EscrowReward, ComputeExecutionCondition } = conditions
 

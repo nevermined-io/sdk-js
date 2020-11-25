@@ -3,9 +3,9 @@ import { assert } from 'chai'
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
-import { Nevermined, DDO, Account,  } from '../../src' // @nevermined/squid
+import { Nevermined, DDO, Account,  } from '../../src'
 
-describe('Compute Asset', () => {
+xdescribe('Compute Asset', () => {
     let nevermined: Nevermined
 
     let publisher: Account

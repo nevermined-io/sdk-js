@@ -1,4 +1,4 @@
-import { MetaData } from '../../src' // @nevermined/squid
+import { MetaData } from '../../src'
 import { transformMetadata } from './utils'
 
 export const workflowMetadatas = {

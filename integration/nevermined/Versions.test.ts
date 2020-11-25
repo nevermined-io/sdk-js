@@ -2,7 +2,7 @@ import { assert } from 'chai'
 
 import { config } from '../config'
 
-import { Nevermined, PlatformTechStatus } from '../../src' // @nevermined/squid
+import { Nevermined, PlatformTechStatus } from '../../src'
 
 describe('Versions', () => {
     let nevermined: Nevermined
@@ -17,7 +17,7 @@ describe('Versions', () => {
 
         assert.equal(versions.metadata.status, PlatformTechStatus.Working)
         assert.equal(versions.gateway.status, PlatformTechStatus.Working)
-        assert.equal(versions.squid.status, PlatformTechStatus.Working)
+        assert.equal(versions.sdk.status, PlatformTechStatus.Working)
 
         assert.deepEqual(versions.status, {
             ok: true,

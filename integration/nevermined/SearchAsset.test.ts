@@ -4,7 +4,7 @@ import { config } from '../config'
 
 import { generateMetadata } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src' // @nevermined/squid
+import { Nevermined, Account, DDO } from '../../src'
 
 describe('Search Asset', () => {
     let nevermined: Nevermined
