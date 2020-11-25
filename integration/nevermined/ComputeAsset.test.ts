@@ -23,7 +23,6 @@ xdescribe('Compute Asset', () => {
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
-
     })
 
     it('should register the assets', async () => {

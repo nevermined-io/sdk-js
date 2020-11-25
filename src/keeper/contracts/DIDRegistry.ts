@@ -25,6 +25,25 @@ export default class DIDRegistry extends ContractBase {
         ])
     }
 
+    public async registerDID(
+        did: string,
+        checksum: string,
+        providers: string[],
+        value: string,
+        activityId: string,
+        attributes: string,
+        ownerAddress: string
+    ) {
+        return this.send('registerDID', ownerAddress, [
+            didZeroX(did),
+            zeroX(checksum),
+            providers.map(zeroX),
+            value,
+            zeroX(activityId),
+            attributes
+        ])
+    }
+
     public async getDIDOwner(did: string): Promise<string> {
         return this.call('getDIDOwner', [didZeroX(did)])
     }
@@ -49,7 +68,7 @@ export default class DIDRegistry extends ContractBase {
 
     public async getAttributesByDid(
         did: string
-    ): Promise<{ did: string; serviceEndpoint: string; checksum: string }> {
+    ): Promise<{ did: string, serviceEndpoint: string, checksum: string }> {
         return (
             await this.getPastEvents('DIDAttributeRegistered', {
                 _did: didZeroX(did)
@@ -85,6 +104,100 @@ export default class DIDRegistry extends ContractBase {
         return this.send('transferDIDOwnership', ownerAddress, [
             didZeroX(did),
             zeroX(newOwnerAddress)
+        ])
+    }
+
+    // Provenance
+    public async wasGeneratedBy(
+        provId: string,
+        did: string,
+        agentId: string,
+        activityId: string,
+        attributes: string,
+        ownerAddress: string
+    ) {
+        return this.send('wasGeneratedBy', ownerAddress, [
+            zeroX(provId),
+            didZeroX(did),
+            zeroX(agentId),
+            zeroX(activityId),
+            attributes
+        ])
+    }
+
+    public async used(
+        provId: string,
+        did: string,
+        agentId: string,
+        activityId: string,
+        signatureUsing: string,
+        attributes: string,
+        ownerAddress: string
+    ) {
+        return this.send('used', ownerAddress, [
+            zeroX(provId),
+            didZeroX(did),
+            zeroX(agentId),
+            zeroX(activityId),
+            zeroX(signatureUsing),
+            attributes
+        ])
+    }
+
+    public async wasDerivedFrom(
+        provId: string,
+        newEntityDid: string,
+        usedEntityDid: string,
+        agentId: string,
+        activityId: string,
+        attributes: string,
+        ownerAddress: string
+    ) {
+        return this.send('wasDerivedFrom', ownerAddress, [
+            zeroX(provId),
+            zeroX(newEntityDid),
+            zeroX(usedEntityDid),
+            zeroX(agentId),
+            zeroX(activityId),
+            attributes
+        ])
+    }
+
+    public async wasAssociatedWith(
+        provId: string,
+        did: string,
+        agentId: string,
+        activityId: string,
+        attributes: string,
+        ownerAddress: string
+    ) {
+        return this.send('wasAssociatedWith', ownerAddress, [
+            zeroX(provId),
+            didZeroX(did),
+            zeroX(agentId),
+            zeroX(activityId),
+            attributes
+        ])
+    }
+
+    public async actedOnBehalf(
+        provId: string,
+        did: string,
+        delegateAgentId: string,
+        responsibleAgentId: string,
+        activityId: string,
+        signatureDelegate: string,
+        attributes: string,
+        ownerAddress: string
+    ) {
+        return this.send('actedOnBehalf', ownerAddress, [
+            zeroX(provId),
+            didZeroX(did),
+            zeroX(delegateAgentId),
+            zeroX(responsibleAgentId),
+            zeroX(activityId),
+            zeroX(signatureDelegate),
+            attributes
         ])
     }
 }
