@@ -2,9 +2,9 @@
   "name": "@nevermined-io/nevermined-sdk-js",
   "version": "0.5.1",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
-  "main": "./dist/node/squid.js",
-  "typings": "./dist/node/squid.d.ts",
-  "unpkg": "./dist/browser/squid.cjs2.min.js",
+  "main": "./dist/node/sdk.js",
+  "typings": "./dist/node/sdk.d.ts",
+  "unpkg": "./dist/browser/sdk.cjs2.min.js",
   "scripts": {
     "start": "npm link @nevermined-io/contracts @nevermined-io/secret-store-client && npm run build:watch",
     "build": "npm run clean && npm run build:tsc && npm run build:dist",
@@ -132,7 +132,7 @@
     "github": {
       "release": true,
       "assets": [
-        "dist/squid-js.json"
+        "dist/sdk-js.json"
       ]
     },
     "npm": {
