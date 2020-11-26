@@ -3,6 +3,35 @@ import ContractBase from './ContractBase'
 import { zeroX, didPrefixed, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 
+
+export enum ProvenanceMethod {
+    ENTITY = '0',
+    ACTIVITY = '1',
+    WAS_GENERATED_BY = '2',
+    USED = '3',
+    WAS_INFORMED_BY = '4',
+    WAS_STARTED_BY = '5',
+    WAS_ENDED_BY = '6',
+    WAS_INVALIDATED_BY = '7',
+    WAS_DERIVED_FROM = '8',
+    AGENT = '9',
+    WAS_ATTRIBUTED_TO = '10',
+    WAS_ASSOCIATED_WITH = '11',
+    ACTED_ON_BEHALF = '12',
+}
+
+export interface ProvenanceRegistry {
+    did: string
+    relatedDid: string
+    agentId: string
+    activityId: string
+    agentInvolvedId: string
+    method: ProvenanceMethod
+    createdBy: string
+    blockNumberUpdated: number
+    signatureDelegate: string
+}
+
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
         const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')
@@ -108,6 +137,14 @@ export default class DIDRegistry extends ContractBase {
     }
 
     // Provenance
+    public async getProvenanceEntry(provId: string) {
+        const provenance: ProvenanceRegistry = await this.call('getProvenanceEntry', [zeroX(provId)])
+        if (provenance.did.match(/^0x0+$/)) {
+            return
+        }
+        return provenance
+    }
+
     public async used(
         provId: string,
         did: string,

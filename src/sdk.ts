@@ -13,6 +13,7 @@ import * as utils from './utils'
 export * from './ddo/DDO'
 export * from './ddo/MetaData'
 
+export { ProvenanceRegistry, ProvenanceMethod } from './keeper/contracts/DIDRegistry'
 export { OrderProgressStep, CreateProgressStep } from './nevermined/Assets'
 export {
     PlatformTechStatus,
