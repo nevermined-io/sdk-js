@@ -108,4 +108,14 @@ describe('Provenance', () => {
         assert.equal(utils.zeroX(provenance.agentId), utils.zeroX(intermediary.getId()))
         assert.equal(provenance.method, ProvenanceMethod.USED)
     })
+
+    it('should return the events associated to DID', async () => {
+        const pm = ProvenanceMethod
+        const events = await nevermined.provenance.getDIDProvenanceEvents(ddo.shortId())
+
+        assert.deepEqual(
+            events.map(_ => _.method),
+            [pm.WAS_GENERATED_BY, pm.WAS_ASSOCIATED_WITH, pm.ACTED_ON_BEHALF, pm.WAS_ASSOCIATED_WITH, pm.USED],
+        )
+    })
 })
