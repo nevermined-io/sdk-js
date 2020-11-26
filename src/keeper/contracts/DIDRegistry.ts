@@ -108,23 +108,6 @@ export default class DIDRegistry extends ContractBase {
     }
 
     // Provenance
-    public async wasGeneratedBy(
-        provId: string,
-        did: string,
-        agentId: string,
-        activityId: string,
-        attributes: string,
-        ownerAddress: string
-    ) {
-        return this.send('wasGeneratedBy', ownerAddress, [
-            zeroX(provId),
-            didZeroX(did),
-            zeroX(agentId),
-            zeroX(activityId),
-            attributes
-        ])
-    }
-
     public async used(
         provId: string,
         did: string,
