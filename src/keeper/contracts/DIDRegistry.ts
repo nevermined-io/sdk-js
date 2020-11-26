@@ -1,8 +1,7 @@
 import { TransactionReceipt } from 'web3-core'
 import ContractBase from './ContractBase'
-import { zeroX, didPrefixed, didZeroX } from '../../utils'
+import { zeroX, didPrefixed, didZeroX, eventToObject } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-
 
 export enum ProvenanceMethod {
     ENTITY = '0',
@@ -30,6 +29,18 @@ export interface ProvenanceRegistry {
     createdBy: string
     blockNumberUpdated: number
     signatureDelegate: string
+}
+
+export interface ProvenanceAttributeRegisteredEvent {
+    provId: string
+    did: string
+    agentId: string
+    activityId: string
+    relatedDid: string
+    agentInvolvedId: string
+    method: ProvenanceMethod,
+    attributes: string
+    blockNumberUpdated: number
 }
 
 export default class DIDRegistry extends ContractBase {
@@ -137,6 +148,11 @@ export default class DIDRegistry extends ContractBase {
     }
 
     // Provenance
+    public async getDIDProvenanceEvents(did: string) {
+        return (await this.getPastEvents('ProvenanceAttributeRegistered', {_did: didZeroX(did)}))
+            .map(({returnValues}) => eventToObject(returnValues) as ProvenanceAttributeRegisteredEvent)
+    }
+
     public async getProvenanceEntry(provId: string) {
         const provenance: ProvenanceRegistry = await this.call('getProvenanceEntry', [zeroX(provId)])
         if (provenance.did.match(/^0x0+$/)) {
