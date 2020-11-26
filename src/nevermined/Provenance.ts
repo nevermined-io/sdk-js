@@ -1,5 +1,6 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { ProvenanceMethod } from '../keeper/contracts/DIDRegistry'
 
 /**
  * Provenance submodule of Nevermined.
@@ -147,4 +148,23 @@ export class Provenance extends Instantiable {
         )
         return true
     }
+
+    /**
+     * Search for ProvenanceAttributeRegistered events related with a specific DID
+     * @param  {string}           provenanceId          Provenance ID
+     * @param  {string}           method                Method
+     * @return {Promise<ProvenanceAttributeRegisteredEvent>}
+     */
+    public async getDIDProvenanceEvents(did: string) {
+        return this.nevermined.keeper.didRegistry.getDIDProvenanceEvents(did)
+    }
+
+    /**
+     * Search for ProvenanceAttributeRegistered events related with a specific DID
+     * @param  {string}           method                Method
+     * @param  {string}           provenanceId          Provenance ID
+     * @return {Promise<>}
+     */
+    // public async getProvenanceMethodEvents(method: ProvenanceMethod, did: string) {
+    // }
 }
