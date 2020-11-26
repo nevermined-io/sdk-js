@@ -38,7 +38,7 @@ export interface ProvenanceAttributeRegisteredEvent {
     activityId: string
     relatedDid: string
     agentInvolvedId: string
-    method: ProvenanceMethod,
+    method: ProvenanceMethod
     attributes: string
     blockNumberUpdated: number
 }
@@ -108,7 +108,7 @@ export default class DIDRegistry extends ContractBase {
 
     public async getAttributesByDid(
         did: string
-    ): Promise<{ did: string, serviceEndpoint: string, checksum: string }> {
+    ): Promise<{ did: string; serviceEndpoint: string; checksum: string }> {
         return (
             await this.getPastEvents('DIDAttributeRegistered', {
                 _did: didZeroX(did)
