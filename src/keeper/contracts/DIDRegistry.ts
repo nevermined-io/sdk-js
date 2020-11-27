@@ -4,19 +4,19 @@ import { zeroX, didPrefixed, didZeroX, eventToObject } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 
 export enum ProvenanceMethod {
-    ENTITY = '0',
-    ACTIVITY = '1',
-    WAS_GENERATED_BY = '2',
-    USED = '3',
-    WAS_INFORMED_BY = '4',
-    WAS_STARTED_BY = '5',
-    WAS_ENDED_BY = '6',
-    WAS_INVALIDATED_BY = '7',
-    WAS_DERIVED_FROM = '8',
-    AGENT = '9',
-    WAS_ATTRIBUTED_TO = '10',
-    WAS_ASSOCIATED_WITH = '11',
-    ACTED_ON_BEHALF = '12',
+    ENTITY = 0,
+    ACTIVITY = 1,
+    WAS_GENERATED_BY = 2,
+    USED = 3,
+    WAS_INFORMED_BY = 4,
+    WAS_STARTED_BY = 5,
+    WAS_ENDED_BY = 6,
+    WAS_INVALIDATED_BY = 7,
+    WAS_DERIVED_FROM = 8,
+    AGENT = 9,
+    WAS_ATTRIBUTED_TO = 10,
+    WAS_ASSOCIATED_WITH = 11,
+    ACTED_ON_BEHALF = 12,
 }
 
 export interface ProvenanceRegistry {
@@ -42,6 +42,44 @@ export interface ProvenanceAttributeRegisteredEvent {
     attributes: string
     blockNumberUpdated: number
 }
+
+interface ProvenanceBaseEvent {
+    event: string
+    method: ProvenanceMethod
+    activityId: string
+    provId: string
+    attributes: string
+    blockNumberUpdated: number
+}
+export interface WasGeneratedByEvent extends ProvenanceBaseEvent {
+    did: string,
+    agentId: string,
+}
+export interface UsedEvent extends ProvenanceBaseEvent {
+    did: string,
+    agentId: string,
+}
+export interface WasDerivedFromEvent extends ProvenanceBaseEvent {
+    newEntityDid: string,
+    usedEntityDid: string,
+    agentId: string,
+}
+export interface WasAssociatedWithEvent extends ProvenanceBaseEvent {
+    entityDid: string,
+    agentId: string,
+}
+export interface ActedOnBehalfEvent extends ProvenanceBaseEvent {
+    entityDid: string,
+    delegateAgentId: string,
+    responsibleAgentId: string,
+}
+export type ProvenanceEvent<T extends ProvenanceMethod | any = any> =
+    T extends ProvenanceMethod.WAS_GENERATED_BY ? WasGeneratedByEvent :
+    T extends ProvenanceMethod.USED ? UsedEvent :
+    T extends ProvenanceMethod.WAS_DERIVED_FROM ? WasDerivedFromEvent :
+    T extends ProvenanceMethod.WAS_ASSOCIATED_WITH ? WasAssociatedWithEvent :
+    T extends ProvenanceMethod.ACTED_ON_BEHALF ? ActedOnBehalfEvent :
+        WasGeneratedByEvent | UsedEvent | WasDerivedFromEvent | WasAssociatedWithEvent | ActedOnBehalfEvent
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -151,6 +189,24 @@ export default class DIDRegistry extends ContractBase {
     public async getDIDProvenanceEvents(did: string) {
         return (await this.getPastEvents('ProvenanceAttributeRegistered', {_did: didZeroX(did)}))
             .map(({returnValues}) => eventToObject(returnValues) as ProvenanceAttributeRegisteredEvent)
+            .map(event => ({...event, method: +event.method}))
+    }
+
+    public async getDIDProvenanceMethodEvents<T extends ProvenanceMethod>(did: string, method: T): Promise<ProvenanceEvent<T>[]> {
+        const capitalize = string => string
+            .replace(/([a-z]+)(?:_|$)/ig, (_, w) => w.charAt(0).toUpperCase() + w.toLowerCase().slice(1))
+        let filter: any = {_did: didZeroX(did)}
+        switch (method) {
+            case ProvenanceMethod.ACTED_ON_BEHALF:
+            case ProvenanceMethod.WAS_ASSOCIATED_WITH:
+                filter = {_entityDid: didZeroX(did)}
+                break
+            case ProvenanceMethod.WAS_DERIVED_FROM:
+                filter = {_usedEntityDid: didZeroX(did)}
+                break
+        }
+        return (await this.getPastEvents(capitalize(ProvenanceMethod[method as any]), filter))
+            .map(({returnValues}) => eventToObject(returnValues))
     }
 
     public async getProvenanceEntry(provId: string) {
