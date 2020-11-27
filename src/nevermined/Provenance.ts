@@ -165,6 +165,7 @@ export class Provenance extends Instantiable {
      * @param  {string}           provenanceId          Provenance ID
      * @return {Promise<>}
      */
-    // public async getProvenanceMethodEvents(method: ProvenanceMethod, did: string) {
-    // }
+    public async getProvenanceMethodEvents<T extends ProvenanceMethod>(method: T, did: string) {
+        return this.nevermined.keeper.didRegistry.getDIDProvenanceMethodEvents<T>(did, method)
+    }
 }

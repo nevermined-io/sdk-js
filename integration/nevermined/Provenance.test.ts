@@ -118,4 +118,22 @@ describe('Provenance', () => {
             [pm.WAS_GENERATED_BY, pm.WAS_ASSOCIATED_WITH, pm.ACTED_ON_BEHALF, pm.WAS_ASSOCIATED_WITH, pm.USED],
         )
     })
+
+    it('should return the events of an specific method by DID', async () => {
+        const events = await Promise.all(
+            ['WAS_GENERATED_BY', 'USED', 'WAS_DERIVED_FROM', 'WAS_ASSOCIATED_WITH', 'ACTED_ON_BEHALF']
+                .map(async _ => [
+                    _,
+                    (await nevermined.provenance.getProvenanceMethodEvents(ProvenanceMethod[_] as any, ddo.shortId())).length,
+                ])
+        )
+        const expected = [
+          ['WAS_GENERATED_BY', 1],
+          ['USED', 1],
+          ['WAS_DERIVED_FROM', 0],
+          ['WAS_ASSOCIATED_WITH', 2],
+          ['ACTED_ON_BEHALF', 1],
+        ]
+        assert.deepEqual(events, expected)
+    })
 })
