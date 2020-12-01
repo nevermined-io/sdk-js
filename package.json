@@ -32,7 +32,7 @@
     "report-coverage:integration": "cat coverage/integration/lcov.info | codacy-coverage --token 71ef0d15f6f04ac29b31d704b28f866a",
     "run": "ts-node",
     "release": "release-it --non-interactive",
-    "changelog": "auto-changelog -p",
+    "changelog": "auto-changelog --commit-limit false && sed -i 's/keyko-io/nevermind-/nevermined-io//' CHANGELOG.md",
     "prepublishOnly": "npm run build",
     "prebuild": "npm run build:metadata",
     "prepare": "npm run build:metadata"
