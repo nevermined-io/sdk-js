@@ -52,26 +52,26 @@ interface ProvenanceBaseEvent {
     blockNumberUpdated: number
 }
 export interface WasGeneratedByEvent extends ProvenanceBaseEvent {
-    did: string,
-    agentId: string,
+    did: string
+    agentId: string
 }
 export interface UsedEvent extends ProvenanceBaseEvent {
-    did: string,
-    agentId: string,
+    did: string
+    agentId: string
 }
 export interface WasDerivedFromEvent extends ProvenanceBaseEvent {
-    newEntityDid: string,
-    usedEntityDid: string,
-    agentId: string,
+    newEntityDid: string
+    usedEntityDid: string
+    agentId: string
 }
 export interface WasAssociatedWithEvent extends ProvenanceBaseEvent {
-    entityDid: string,
-    agentId: string,
+    entityDid: string
+    agentId: string
 }
 export interface ActedOnBehalfEvent extends ProvenanceBaseEvent {
-    entityDid: string,
-    delegateAgentId: string,
-    responsibleAgentId: string,
+    entityDid: string
+    delegateAgentId: string
+    responsibleAgentId: string
 }
 export type ProvenanceEvent<T extends ProvenanceMethod | any = any> =
     T extends ProvenanceMethod.WAS_GENERATED_BY ? WasGeneratedByEvent :
