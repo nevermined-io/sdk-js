@@ -9,14 +9,14 @@ const production = require('./webpack.production.js')
 const AddVendorsPlugin = require('./plugins/add-vendors-plugin')
 
 const paths = {
-    entry: path.resolve(__dirname, './dist/node/squid.js'),
+    entry: path.resolve(__dirname, './dist/node/sdk.js'),
     bundle: path.resolve(__dirname, 'dist/browser')
 }
 
 const outputs = (base, env, mapping, overrides) => {
     const collection = []
-    const library = 'squid'
-    const windowLibrary = 'Squid'
+    const library = 'sdk'
+    const windowLibrary = 'NeverminedSDK'
 
     let environment = development
     let ext = 'js'
