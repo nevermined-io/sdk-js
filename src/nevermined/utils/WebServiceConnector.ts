@@ -85,7 +85,7 @@ export class WebServiceConnector extends Instantiable {
         }
     }
 
-    private async fetch(url: string, opts: RequestInit): Promise<Response> {
+    public async fetch(url: string, opts: RequestInit): Promise<Response> {
         const result = await fetch(url, opts)
         if (!result.ok) {
             this.logger.error(`Error requesting [${opts.method}] ${url}`)

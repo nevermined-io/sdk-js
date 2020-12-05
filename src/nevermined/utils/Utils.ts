@@ -1,4 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { JwtUtils } from './JwtUtils'
 
 import { ServiceAgreement } from './ServiceAgreement'
 import { SignatureUtils } from './SignatureUtils'
@@ -19,6 +20,7 @@ export class Utils extends Instantiable {
         instance.agreements = new ServiceAgreement(config)
         instance.signature = new SignatureUtils(config)
         instance.fetch = new WebServiceConnector(config)
+        instance.jwt = new JwtUtils(config)
 
         return instance
     }
@@ -40,4 +42,10 @@ export class Utils extends Instantiable {
      * @type {WebServiceConnector}
      */
     public fetch: WebServiceConnector
+
+    /**
+     * Jwt utils.
+     * @type {JwtUtils}
+     */
+    public jwt: JwtUtils
 }

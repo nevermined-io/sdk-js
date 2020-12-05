@@ -62,7 +62,8 @@
     "uuid": "^3.4.0",
     "web3": "1.2.11",
     "web3-eth-contract": "^1.2.11",
-    "whatwg-url": "^7.1.0"
+    "whatwg-url": "^7.1.0",
+    "jose": "^3.2.0"
   },
   "devDependencies": {
     "@release-it/bumper": "^1.4.1",

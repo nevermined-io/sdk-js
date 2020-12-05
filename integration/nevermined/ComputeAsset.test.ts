@@ -5,7 +5,7 @@ import { workflowMetadatas } from '../utils'
 
 import { Nevermined, DDO, Account,  } from '../../src'
 
-xdescribe('Compute Asset', () => {
+describe('Compute Asset', () => {
     let nevermined: Nevermined
 
     let publisher: Account
@@ -53,12 +53,12 @@ xdescribe('Compute Asset', () => {
         assert.isDefined(workflowId)
     })
 
-    xit('should return the logs of the current execution', async() => {
+    it('should return the logs of the current execution', async() => {
         const logs = await nevermined.assets.computeLogs(agreementId, workflowId, consumer)
         assert.isDefined(logs)
     })
 
-    xit('should return the status of the current execution', async() => {
+    it('should return the status of the current execution', async() => {
         const status = await nevermined.assets.computeStatus(agreementId, workflowId, consumer)
         assert.isDefined(status)
     })
