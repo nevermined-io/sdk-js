@@ -45,9 +45,9 @@ export class JwtUtils extends Instantiable {
         account: Account,
         serviceAgreementId: string,
         did: string): Promise<string> {
-            let jwk = await this.accountToJwk(account)
+            const jwk = await this.accountToJwk(account)
 
-            let token = new SignJWT({
+            return new SignJWT({
                 iss: account.getId(),
                 aud: this.BASE_AUD + '/access',
                 sub: serviceAgreementId,
@@ -57,13 +57,12 @@ export class JwtUtils extends Instantiable {
             .setIssuedAt()
             .setExpirationTime('1h')
             .sign(jwk)
-            return token
         }
 
     public async generateDownloadGrantToken(
         account: Account,
         did: string): Promise<string> {
-            let jwk = await this.accountToJwk(account)
+            const jwk = await this.accountToJwk(account)
 
             return new SignJWT({
                 iss: account.getId(),
@@ -81,7 +80,7 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         workflowId: string
     ): Promise<string> {
-        let jwk = await this.accountToJwk(account)
+        const jwk = await this.accountToJwk(account)
 
         return new SignJWT({
             iss: account.getId(),
@@ -100,13 +99,13 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         executionId: string
     ): Promise<string> {
-        let jwk = await this.accountToJwk(account)
+        const jwk = await this.accountToJwk(account)
 
         return new SignJWT({
             iss: account.getId(),
             aud: this.BASE_AUD + '/compute',
             sub: serviceAgreementId,
-            execution_id: executionId
+            'execution_id': executionId
         })
         .setProtectedHeader({ alg: 'ES256K' })
         .setIssuedAt()

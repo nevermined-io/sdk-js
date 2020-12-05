@@ -360,8 +360,8 @@ export class Gateway extends Instantiable {
         grantToken: string,
     ): Promise<string> {
         const params = new URLSearchParams({
-            grant_type: this.nevermined.utils.jwt.GRANT_TYPE,
-            assertion: grantToken
+            'grant_type': this.nevermined.utils.jwt.GRANT_TYPE,
+            'assertion': grantToken
         });
 
         // we need to use “application/x-www-form-urlencoded” format
@@ -378,7 +378,7 @@ export class Gateway extends Instantiable {
             throw new Error(await response.text())
         }
 
-        const json_payload = await response.json()
-        return json_payload.access_token
+        const jsonPayload = await response.json()
+        return jsonPayload.access_token
     }
 }
