@@ -59,7 +59,8 @@ describe('Compute Asset', () => {
         assert.isDefined(logs)
     })
 
-    it('should return the status of the current execution', async() => {
+    // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
+    it.skip('should return the status of the current execution', async() => {
         const status = await nevermined.assets.computeStatus(agreementId, workflowId, consumer)
         assert.isDefined(status)
     })
