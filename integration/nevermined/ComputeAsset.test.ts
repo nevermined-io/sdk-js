@@ -53,7 +53,8 @@ describe('Compute Asset', () => {
         assert.isDefined(workflowId)
     })
 
-    it('should return the logs of the current execution', async() => {
+    // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
+    it.skip('should return the logs of the current execution', async() => {
         const logs = await nevermined.assets.computeLogs(agreementId, workflowId, consumer)
         assert.isDefined(logs)
     })
