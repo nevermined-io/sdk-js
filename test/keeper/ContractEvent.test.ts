@@ -56,7 +56,8 @@ describe('ContractEvent', () => {
     })
 
     describe('#once()', () => {
-        it('should listen to event only once', async () => {
+        // Skipping this test for now. Check https://github.com/nevermined-io/sdk-js/issues/32
+        it.skip('should listen to event only once', async () => {
             const to = account
             const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
                 to

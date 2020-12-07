@@ -1,3 +1,5 @@
+import { URLSearchParams } from 'url'
+
 import { File } from '../ddo/MetaData'
 import Account from '../nevermined/Account'
 import { noZeroX } from '../utils'
@@ -59,6 +61,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/encrypt`
     }
 
+    public getFetchTokenEndpoint() {
+        return `${this.url}${apiPath}/oauth/token`
+    }
+
     public async getGatewayInfo() {
         return this.nevermined.utils.fetch.get(`${this.url}`)
           .then(res => res.json())
@@ -113,17 +119,21 @@ export class Gateway extends Instantiable {
         destination: string,
         index: number = -1
     ): Promise<string> {
-        const signature =
-            (await account.getToken()) ||
-            (await this.nevermined.utils.signature.signText(
-                noZeroX(agreementId),
-                account.getId()
-            ))
-        const headers = {
-            'X-Consumer-Address': account.getId(),
-            'X-Signature': signature,
-            'X-DID': did
+        const jwt = this.nevermined.utils.jwt
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, did)
+
+        if (!jwt.tokenCache.has(cacheKey)) {
+            const grantToken = await jwt.generateAccessGrantToken(account, agreementId, did)
+            accessToken = await this.fetchToken(grantToken)
+            jwt.tokenCache.set(cacheKey, accessToken)
+        } else {
+            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
         }
+        const headers = {
+            Authorization: "Bearer " + accessToken
+        }
+
         const filesPromises = files
             .filter((_, i) => index === -1 || i === index)
             .map(async ({ index: i }) => {
@@ -200,15 +210,22 @@ export class Gateway extends Instantiable {
         workflowDid: string,
         account: Account,
     ): Promise<any> {
-        try {
-            const signedAgreementId = await this.nevermined.utils.signature
-                .signText(noZeroX(agreementId), account.getId())
+        const jwt = this.nevermined.utils.jwt
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, workflowDid)
 
-            const headers = {
-                'X-Consumer-Address': account.getId(),
-                'X-Signature': signedAgreementId,
-                'X-Workflow-DID': workflowDid,
+        try {
+            if (!jwt.tokenCache.has(cacheKey)) {
+                const grantToken = await jwt.generateExecuteGrantToken(account, agreementId, workflowDid)
+                accessToken = await this.fetchToken(grantToken)
+                jwt.tokenCache.set(cacheKey, accessToken)
+            } else {
+                accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
             }
+            const headers = {
+                Authorization: "Bearer " + accessToken
+            }
+
             const response = await this.nevermined.utils.fetch.post(
                 this.getExecuteEndpoint(noZeroX(agreementId)),
                 undefined,
@@ -231,17 +248,21 @@ export class Gateway extends Instantiable {
         destination: string,
         index: number = -1
     ): Promise<string> {
-        const signature =
-            (await account.getToken()) ||
-            (await this.nevermined.utils.signature.signText(
-                noZeroX(did),
-                account.getId()
-            ))
-        const headers = {
-            'X-Consumer-Address': account.getId(),
-            'X-Signature': signature,
-            'X-DID': did
+        const jwt = this.nevermined.utils.jwt
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), did)
+
+        if (!jwt.tokenCache.has(cacheKey)) {
+            const grantToken = await jwt.generateDownloadGrantToken(account, did)
+            accessToken = await this.fetchToken(grantToken)
+            jwt.tokenCache.set(cacheKey, accessToken)
+        } else {
+            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
         }
+        const headers = {
+            Authorization: "Bearer " + accessToken
+        }
+
         const filesPromises = files
             .filter((_, i) => index === -1 || i === index)
             .map(async ({ index: i }) => {
@@ -268,20 +289,27 @@ export class Gateway extends Instantiable {
         executionId: string,
         account: Account
         ): Promise<any> {
+            const jwt = this.nevermined.utils.jwt
+            let accessToken: string
+            const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
+
             try {
-                const signedAgreementId = await this.nevermined.utils.signature
-                    .signText(noZeroX(executionId), account.getId())
-    
-                const headers = {
-                    'X-Consumer-Address': account.getId(),
-                    'X-Signature': signedAgreementId
+                if (!jwt.tokenCache.has(cacheKey)) {
+                    const grantToken = await jwt.generateComputeGrantToken(account, agreementId, executionId)
+                    accessToken = await this.fetchToken(grantToken)
+                    jwt.tokenCache.set(cacheKey, accessToken)
+                } else {
+                    accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
                 }
-    
+                const headers = {
+                    Authorization: "Bearer " + accessToken
+                }
+
                 const response = await this.nevermined.utils.fetch.get(
                     this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
                     headers,
                 )
-    
+
                 if (!response.ok) {
                     throw new Error('HTTP request failed')
                 }
@@ -297,21 +325,27 @@ export class Gateway extends Instantiable {
         executionId: string,
         account: Account
         ): Promise<any> {
+            const jwt = this.nevermined.utils.jwt
+            let accessToken: string
+            const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
+
             try {
-                const signedAgreementId = await this.nevermined.utils.signature
-                    .signText(noZeroX(executionId), account.getId())
-    
-                const headers = {
-                    'X-Consumer-Address': account.getId(),
-                    'X-Signature': signedAgreementId
+                if (!jwt.tokenCache.has(cacheKey)) {
+                    const grantToken = await jwt.generateComputeGrantToken(account, agreementId, executionId)
+                    accessToken = await this.fetchToken(grantToken)
+                    jwt.tokenCache.set(cacheKey, accessToken)
+                } else {
+                    accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
                 }
-                console.log(headers)
-    
+                const headers = {
+                    Authorization: "Bearer " + accessToken
+                }
+
                 const response = await this.nevermined.utils.fetch.get(
                     this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
                     headers,
                 )
-    
+
                 if (!response.ok) {
                     throw new Error('HTTP request failed')
                 }
@@ -321,4 +355,30 @@ export class Gateway extends Instantiable {
                 throw new Error('HTTP request failed')
             }
         }
+
+    public async fetchToken(
+        grantToken: string,
+    ): Promise<string> {
+        const params = new URLSearchParams({
+            'grant_type': this.nevermined.utils.jwt.GRANT_TYPE,
+            'assertion': grantToken
+        });
+
+        // we need to use “application/x-www-form-urlencoded” format
+        // as per https://tools.ietf.org/html/rfc6749#section-4.1.3
+        const response = await this.nevermined.utils.fetch.fetch(
+            this.getFetchTokenEndpoint(),
+            {
+                method: 'POST',
+                body: params
+            }
+        )
+
+        if (!response.ok) {
+            throw new Error(await response.text())
+        }
+
+        const jsonPayload = await response.json()
+        return jsonPayload.access_token
+    }
 }
