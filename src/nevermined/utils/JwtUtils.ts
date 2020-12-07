@@ -3,7 +3,6 @@ import SignJWT from 'jose/jwt/sign'
 
 import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract";
 import { Account } from "../../../src"
-import { sign } from 'crypto';
 
 export class JwtUtils extends Instantiable {
     GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer'

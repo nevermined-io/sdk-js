@@ -57,13 +57,13 @@
     "bignumber.js": "^9.0.0",
     "deprecated-decorator": "^0.1.6",
     "ganache-cli": "^6.9.1",
+    "jose": "^3.3.1",
     "node-fetch": "^2.6.1",
     "save-file": "^2.3.1",
     "uuid": "^3.4.0",
     "web3": "1.2.11",
     "web3-eth-contract": "^1.2.11",
-    "whatwg-url": "^7.1.0",
-    "jose": "^3.2.0"
+    "whatwg-url": "^7.1.0"
   },
   "devDependencies": {
     "@release-it/bumper": "^1.4.1",
@@ -71,7 +71,7 @@
     "@types/chai": "^4.2.12",
     "@types/chai-spies": "^1.0.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.54",
+    "@types/node": "^12.19.8",
     "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
