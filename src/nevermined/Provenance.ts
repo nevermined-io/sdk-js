@@ -150,6 +150,55 @@ export class Provenance extends Instantiable {
     }
 
     /**
+     * Add new DID provenance delegate. 
+     * @param  {string}           did                   Identifier of the entity created 
+     * @param  {string}           delegate              Delegate Address
+     * @param  {Account}          from                  Sender account address.
+     * @return {Promise<boolean>}    
+     */
+    public async addDidProvenanceDelegate(did:string, delegated:string, from: Account): Promise<boolean>{
+        await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
+            did,
+            delegated,
+            from.getId()
+            )
+        return true
+    }
+
+    /**
+     * Remove an existing DID delegate.
+     * @param  {string}           did                   Identifier of the entity created
+     * @param  {string}           delegate              Delegate Address
+     * @param  {Account}          from                  Sender account address.
+     * @return {Promise<boolean>}    
+     */
+    public async removeDidProvenanceDelegate(did:string, delegated:string, from: Account): Promise<boolean>{
+        await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(
+            did,
+            delegated,
+            from.getId()
+            )
+        return true
+    }
+
+    /**
+     * Check whether a given DID delegate exists
+     * @param did 
+     * @param delegated 
+     */
+    public async isProvenanceDelegate(did:string, delegated:string){
+        return this.nevermined.keeper.didRegistry.isProvenanceDelegate(did, delegated)
+    }
+
+    /**
+     * Retrieve the owner of the provenance record.
+     * @param  {string}           did                   Identifier of the entity created 
+     */
+    public async getProvenanceOwner(did:string){
+        return this.nevermined.keeper.didRegistry.getProvenanceOwner(did)
+    }
+
+    /**
      * Search for ProvenanceAttributeRegistered events related with a specific DID
      * @param  {string}           provenanceId          Provenance ID
      * @param  {string}           method                Method
