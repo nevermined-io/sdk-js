@@ -292,4 +292,47 @@ export default class DIDRegistry extends ContractBase {
             attributes
         ])
     }
+
+    public async addDidProvenanceDelegate(
+        did: string,
+        delegateAddress: string,
+        ownerAddress: string
+    ) {
+        return this.send('addDIDProvenanceDelegate', ownerAddress, [
+            didZeroX(did),
+            zeroX(delegateAddress)
+        ])
+    }
+
+
+    public async removeDidProvenanceDelegate(
+        did: string,
+        delegateAddress: string,
+        ownerAddress: string
+    ) {
+        return this.send('removeDIDProvenanceDelegate', ownerAddress, [
+            didZeroX(did),
+            zeroX(delegateAddress)
+        ])
+    }
+    
+
+    public async isProvenanceDelegate(
+        did: string,
+        delegateAddress: string
+    ) {
+        return this.call('isProvenanceDelegate', [
+            didZeroX(did),
+            zeroX(delegateAddress)
+        ])
+    }
+
+    public async getProvenanceOwner(
+        did: string,
+    ) {
+        return this.call('getProvenanceOwner', [
+            didZeroX(did)
+        ])
+    }
+
 }
