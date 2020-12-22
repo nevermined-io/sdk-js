@@ -15,6 +15,12 @@ export class Config {
     public gatewayUri: string
 
     /**
+     * Faucet URL.
+     * @type {string}
+     */
+    public faucetUri: string
+
+    /**
      * Address of Gateway.
      * @type {string}
      */
