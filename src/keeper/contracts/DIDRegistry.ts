@@ -359,4 +359,24 @@ export default class DIDRegistry extends ContractBase {
         return this.call('balanceOf', [zeroX(address), didZeroX(did)])
     }
 
+
+    public async addProvider(did: string, provider: string, from: string){
+        return await this.send('addDIDProvider', from, [
+            didZeroX(did),
+            zeroX(provider)
+        ])
+    }
+
+    public async removeProvider(did: string, provider: string, from: string){
+        return await this.send('removeDIDProvider', from, [
+            didZeroX(did),
+            zeroX(provider)
+        ])
+    }
+
+    public async getProviders(did: string){
+        const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
+        return registeredValues[5].filter((x: string) => x != '0x0000000000000000000000000000000000000000')
+    }
+
 }
