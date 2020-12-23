@@ -307,7 +307,7 @@ export class Assets extends Instantiable {
         if (!serviceEndpoint) {
             throw new Error(
                 'Consume asset failed, service definition is missing the `serviceEndpoint`.'
-            )bueno
+            )
         }
 
         this.logger.log('Consuming files')
