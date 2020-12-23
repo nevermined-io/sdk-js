@@ -6,6 +6,7 @@ LoggerInstance.setLevel(LogLevel.Error)
 export default {
     metadataUri: 'http://localhost:5000',
     gatewayUri: 'http://localhost:8030',
+    faucetUri: 'http://localhost:3001',
     nodeUri: `http://localhost:${process.env.ETH_PORT || 8545}`,
     parityUri: 'http://localhost:9545',
     secretStoreUri: 'http://localhost:12001',

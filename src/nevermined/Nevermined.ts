@@ -19,6 +19,7 @@ import {
     Instantiable,
     generateIntantiableConfigFromConfig
 } from '../Instantiable.abstract'
+import { Faucet } from '../faucet/Faucet'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -42,6 +43,7 @@ export class Nevermined extends Instantiable {
 
         instance.gateway = new Gateway(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)
+        instance.faucet = new Faucet(instanceConfig)
 
         instance.accounts = await Accounts.getInstance(instanceConfig)
         instance.auth = await Auth.getInstance(instanceConfig)
@@ -74,6 +76,12 @@ export class Nevermined extends Instantiable {
      * @type {Metadata}
      */
     public metadata: Metadata
+
+    /**
+     * Metadata instance.
+     * @type {Metadata}
+     */
+    public faucet: Faucet
 
     /**
      * Accounts submodule
