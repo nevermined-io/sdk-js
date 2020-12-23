@@ -73,7 +73,8 @@ export class Assets extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         services: Service[] = [],
-        method: string = 'PSK-RSA'
+        method: string = 'PSK-RSA',
+        providers?: string[]
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -222,7 +223,7 @@ export class Assets extends Instantiable {
             await didRegistry.registerAttribute(
                 ddo.shortId(),
                 ddo.checksum(ddo.shortId()),
-                [this.config.gatewayAddress],
+                providers || [ this.config.gatewayAddress],
                 serviceEndpoint,
                 publisher.getId()
             )
@@ -306,7 +307,7 @@ export class Assets extends Instantiable {
         if (!serviceEndpoint) {
             throw new Error(
                 'Consume asset failed, service definition is missing the `serviceEndpoint`.'
-            )
+            )bueno
         }
 
         this.logger.log('Consuming files')
