@@ -623,6 +623,26 @@ export class Assets extends Instantiable {
         return await this.nevermined.gateway.computeStatus(agreementId, executionId, account)
     }
 
+    public async mint(did: string, amount: number, account: Account){
+        return await this.nevermined.keeper.didRegistry.mint(did, amount, account.getId())
+
+    }
+
+    public async burn(did: string, amount: number, account: Account){
+        return await this.nevermined.keeper.didRegistry.burn(did, amount, account.getId())
+
+    }
+
+    public async transferNft(did: string, to:string,  amount: number, account: Account){
+        return await this.nevermined.keeper.didRegistry.transferNft(did, to,  amount, account.getId())
+
+    }
+
+    public async balance(address: string, did: string, ){
+        return await this.nevermined.keeper.didRegistry.balance(address, did)
+
+    }
+
     private async providerConfig(){
         return  {
             'type': 'Azure',
