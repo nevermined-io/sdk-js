@@ -404,7 +404,7 @@ export class Assets extends Instantiable {
                     reject(new Error('Error on payment'))
                 }
 
-                resolve()
+                resolve(did)
             })
 
             observer.next(OrderProgressStep.CreatingAgreement)
@@ -537,6 +537,10 @@ export class Assets extends Instantiable {
         } as SearchQuery)
     }
 
+    public async retire(did: string) { 
+        return this.nevermined.metadata.delete(did)
+    }
+
     public async download(
         did: string,
         serviceIndex: number,
@@ -633,7 +637,7 @@ export class Assets extends Instantiable {
 
     }
 
-    public async transferNft(did: string, to:string,  amount: number, account: Account){
+    public async transferNft(did: string, to: string,  amount: number, account: Account){
         return await this.nevermined.keeper.didRegistry.transferNft(did, to,  amount, account.getId())
 
     }
