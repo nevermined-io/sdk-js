@@ -156,7 +156,7 @@ export class Provenance extends Instantiable {
      * @param  {Account}          from                  Sender account address.
      * @return {Promise<boolean>}    
      */
-    public async addDidProvenanceDelegate(did:string, delegated:string, from: Account): Promise<boolean>{
+    public async addDidProvenanceDelegate(did: string, delegated: string, from: Account): Promise<boolean>{
         await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
             did,
             delegated,
@@ -172,7 +172,7 @@ export class Provenance extends Instantiable {
      * @param  {Account}          from                  Sender account address.
      * @return {Promise<boolean>}    
      */
-    public async removeDidProvenanceDelegate(did:string, delegated:string, from: Account): Promise<boolean>{
+    public async removeDidProvenanceDelegate(did: string, delegated: string, from: Account): Promise<boolean>{
         await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(
             did,
             delegated,
@@ -186,7 +186,7 @@ export class Provenance extends Instantiable {
      * @param did 
      * @param delegated 
      */
-    public async isProvenanceDelegate(did:string, delegated:string){
+    public async isProvenanceDelegate(did: string, delegated: string){
         return this.nevermined.keeper.didRegistry.isProvenanceDelegate(did, delegated)
     }
 
@@ -194,7 +194,7 @@ export class Provenance extends Instantiable {
      * Retrieve the owner of the provenance record.
      * @param  {string}           did                   Identifier of the entity created 
      */
-    public async getProvenanceOwner(did:string){
+    public async getProvenanceOwner(did: string){
         return this.nevermined.keeper.didRegistry.getProvenanceOwner(did)
     }
 

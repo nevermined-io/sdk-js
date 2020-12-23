@@ -404,7 +404,7 @@ export class Assets extends Instantiable {
                     reject(new Error('Error on payment'))
                 }
 
-                resolve()
+                resolve(did)
             })
 
             observer.next(OrderProgressStep.CreatingAgreement)
