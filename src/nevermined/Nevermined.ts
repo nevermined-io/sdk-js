@@ -20,6 +20,7 @@ import {
     generateIntantiableConfigFromConfig
 } from '../Instantiable.abstract'
 import { Faucet } from '../faucet/Faucet'
+import { Provider } from './Provider'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -53,6 +54,7 @@ export class Nevermined extends Instantiable {
         instance.token = await Token.getInstance(instanceConfig)
         instance.versions = await Versions.getInstance(instanceConfig)
         instance.provenance = await Provenance.getInstance(instanceConfig)
+        instance.provider = await Provider.getInstance(instanceConfig)
 
         instance.utils = await Utils.getInstance(instanceConfig)
 
@@ -112,6 +114,13 @@ export class Nevermined extends Instantiable {
      * @type {NeverminedSecretStore}
      */
     public secretStore: NeverminedSecretStore
+
+
+    /**
+     * Nevermined probiders submodule
+     * @type {Provider}
+     */
+    public provider: Provider
 
     /**
      * Nevermined tokens submodule
