@@ -63,18 +63,28 @@ export class TemplateStoreManager extends ContractBase {
         return this.sendFrom('revokeTemplate', [zeroX(address)], from)
     }
 
-    public async getTemplate(address: string) {
+    public async getTemplate(templateId: string) {
         const {
             state,
             owner,
             lastUpdatedBy,
             blockNumberUpdated
-        } = await this.call('getTemplate', [zeroX(address)])
+        } = await this.call('getTemplate', [zeroX(templateId)])
         return {
             state: +state,
             owner,
             lastUpdatedBy,
             blockNumberUpdated: +blockNumberUpdated
         } as TemplateMetadata
+    }
+
+    public async isApproved(templateId: string){
+        return await this.call('isTemplateApproved',[templateId])
+
+    }
+
+    public async getListSize(){
+        return await this.call('getListSize',[])
+        
     }
 }
