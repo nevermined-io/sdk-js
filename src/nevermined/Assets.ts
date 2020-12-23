@@ -619,6 +619,18 @@ export class Assets extends Instantiable {
         return true
     }
 
+    public async delegatePermissions(did: string, address: string, account:Account){
+        return await this.nevermined.keeper.didRegistry.grantPermission(did, address, account.getId())
+    }
+
+    public async revokePermissions(did: string, address: string, account: Account){
+        return await this.nevermined.keeper.didRegistry.revokePermission(did, address, account.getId())
+    }
+
+    public async getPermissions(did: string, address: string){
+        return await this.nevermined.keeper.didRegistry.getPermission(did, address)
+    }
+
     public async computeLogs(agreementId: string, executionId: string, account: Account){
         return await this.nevermined.gateway.computeLogs(agreementId, executionId, account)
     }
