@@ -46,6 +46,17 @@ export class WebServiceConnector extends Instantiable {
         })
     }
 
+    public delete(url: string, payload?: BodyInit, headers: {[header: string]: string} = {}): Promise<Response> {
+        return this.fetch(url, {
+            method: 'DELETE',
+            body: payload,
+            headers: {
+                'Content-type': 'application/json',
+                ...headers,
+            }
+        })
+    }
+
     public async downloadFile(
         url: string,
         destination?: string,

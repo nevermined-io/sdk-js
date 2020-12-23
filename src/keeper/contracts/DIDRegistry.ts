@@ -2,6 +2,8 @@ import { TransactionReceipt } from 'web3-core'
 import ContractBase from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import { encode } from 'querystring'
+import { randomBytes } from 'crypto'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -333,6 +335,28 @@ export default class DIDRegistry extends ContractBase {
         return this.call('getProvenanceOwner', [
             didZeroX(did)
         ])
+    }
+
+    public async mint(did: string, amount: number, from: string){
+        return this.send('mint', from, [
+            didZeroX(did),
+            amount
+        ])
+    }
+    
+    public async burn(did: string, amount: number, from: string){
+        return this.send('burn', from, [
+            didZeroX(did),
+            amount
+        ])
+    }
+
+    public async transferNft(did: string, to: string, amount: number, from: string){
+        return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, randomBytes])
+    }
+
+    public async balance(address: string, did: string): Promise<number>{
+        return this.call('balanceOf', [zeroX(address), didZeroX(did)])
     }
 
 }

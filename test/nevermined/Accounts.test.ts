@@ -46,4 +46,15 @@ describe('Accounts', () => {
             assert.isTrue(success)
         })
     })
+
+    describe('#requestEthFromFaucet()', () => {
+        it('should get eth in the account', async () => {
+            const [account] = await accounts.list()
+            console.log(account)
+            spy.on(account, 'requestEthFromFaucet', () => true)
+            const success = await accounts.requestEthFromFaucet(account.getId())
+
+            assert.isTrue(success)
+        })
+    })
 })

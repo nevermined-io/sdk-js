@@ -199,6 +199,13 @@ export class Metadata extends Instantiable {
         return result
     }
 
+
+    public async delete(did: DID | string){
+        did = did && DID.parse(did)
+        const result = await this.nevermined.utils.fetch.delete(`${this.url}${apiPath}//${did.getDid()}`)
+        return result
+    }
+
     public async retrieveDDOByUrl(metadataServiceEndpoint?: string) {
         return this.retrieveDDO(undefined, metadataServiceEndpoint)
     }
