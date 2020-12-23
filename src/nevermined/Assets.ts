@@ -619,7 +619,7 @@ export class Assets extends Instantiable {
         return true
     }
 
-    public async delegatePermissions(did: string, address: string, account:Account){
+    public async delegatePermissions(did: string, address: string, account: Account){
         return await this.nevermined.keeper.didRegistry.grantPermission(did, address, account.getId())
     }
 
