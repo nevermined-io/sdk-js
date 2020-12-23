@@ -654,7 +654,7 @@ export class Assets extends Instantiable {
 
     }
 
-    public async balance(address: string, did: string, ){
+    public async balance(address: string, did: string, ): Promise<number>{
         return await this.nevermined.keeper.didRegistry.balance(address, did)
 
     }

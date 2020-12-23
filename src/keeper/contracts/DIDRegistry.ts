@@ -3,6 +3,7 @@ import ContractBase from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { encode } from 'querystring'
+import { randomBytes } from 'crypto'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -351,10 +352,10 @@ export default class DIDRegistry extends ContractBase {
     }
 
     public async transferNft(did: string, to: string, amount: number, from: string){
-        return this.send('safeTransferFrom', from, [from, to, Number(didZeroX(did)), amount])
+        return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, randomBytes])
     }
 
-    public async balance(address: string, did: string){
+    public async balance(address: string, did: string): Promise<number>{
         return this.call('balanceOf', [zeroX(address), didZeroX(did)])
     }
 
