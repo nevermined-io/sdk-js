@@ -73,7 +73,8 @@ export class Assets extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         services: Service[] = [],
-        method: string = 'PSK-RSA'
+        method: string = 'PSK-RSA',
+        providers?: string[]
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -222,7 +223,7 @@ export class Assets extends Instantiable {
             await didRegistry.registerAttribute(
                 ddo.shortId(),
                 ddo.checksum(ddo.shortId()),
-                [this.config.gatewayAddress],
+                providers || [ this.config.gatewayAddress],
                 serviceEndpoint,
                 publisher.getId()
             )
@@ -537,6 +538,10 @@ export class Assets extends Instantiable {
         } as SearchQuery)
     }
 
+    public async retire(did: string) { 
+        return this.nevermined.metadata.delete(did)
+    }
+
     public async download(
         did: string,
         serviceIndex: number,
@@ -615,12 +620,44 @@ export class Assets extends Instantiable {
         return true
     }
 
+    public async delegatePermissions(did: string, address: string, account: Account){
+        return await this.nevermined.keeper.didRegistry.grantPermission(did, address, account.getId())
+    }
+
+    public async revokePermissions(did: string, address: string, account: Account){
+        return await this.nevermined.keeper.didRegistry.revokePermission(did, address, account.getId())
+    }
+
+    public async getPermissions(did: string, address: string){
+        return await this.nevermined.keeper.didRegistry.getPermission(did, address)
+    }
+
     public async computeLogs(agreementId: string, executionId: string, account: Account){
         return await this.nevermined.gateway.computeLogs(agreementId, executionId, account)
     }
 
     public async computeStatus(agreementId: string, executionId: string, account: Account){
         return await this.nevermined.gateway.computeStatus(agreementId, executionId, account)
+    }
+
+    public async mint(did: string, amount: number, account: Account){
+        return await this.nevermined.keeper.didRegistry.mint(did, amount, account.getId())
+
+    }
+
+    public async burn(did: string, amount: number, account: Account){
+        return await this.nevermined.keeper.didRegistry.burn(did, amount, account.getId())
+
+    }
+
+    public async transferNft(did: string, to: string,  amount: number, account: Account){
+        return await this.nevermined.keeper.didRegistry.transferNft(did, to,  amount, account.getId())
+
+    }
+
+    public async balance(address: string, did: string, ): Promise<number>{
+        return await this.nevermined.keeper.didRegistry.balance(address, did)
+
     }
 
     private async providerConfig(){
