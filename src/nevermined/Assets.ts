@@ -414,7 +414,6 @@ export class Assets extends Instantiable {
                 did,
                 agreementId,
                 index,
-                undefined,
                 consumer,
                 consumer
             )
