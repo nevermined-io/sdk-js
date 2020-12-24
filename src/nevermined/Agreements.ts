@@ -68,32 +68,6 @@ export class Agreements extends Instantiable {
         return { agreementId, signature }
     }
 
-    /**
-     * Submit a service agreement to the publisher to create the agreement on-chain.
-     * @param  {string} did Decentralized ID.
-     * @param  {number} index Service index.
-     * @param  {Account} consumer Consumer account.
-     * @return {Promise<void>}
-     */
-    public async send(
-        did: string,
-        agreementId: string,
-        index: number,
-        signature: string,
-        consumer: Account
-    ): Promise<void> {
-        const result = await this.nevermined.gateway.initializeServiceAgreement(
-            didPrefixed(did),
-            zeroX(agreementId),
-            index,
-            zeroX(signature),
-            consumer.getId()
-        )
-
-        if (!result.ok) {
-            throw new Error('Error on initialize agreement: ' + (await result.text()))
-        }
-    }
 
     /**
      * Create a service agreement on-chain. This should be called by the publisher of the asset.
@@ -111,7 +85,6 @@ export class Agreements extends Instantiable {
         did: string,
         agreementId: string,
         index: number,
-        signature: string,
         consumer: Account,
         publisher: Account
     ) {
@@ -162,5 +135,14 @@ export class Agreements extends Instantiable {
             simpleStatus[condition] = state
         })
         return simpleStatus as any
+    }
+
+    public async isAccessGranted(agreementId: string, did: string, consumer:string, account: Account): Promise<boolean> {
+        const consumerAddress = this.nevermined.keeper.templates.escrowAccessSecretStoreTemplate.getAgreementData(agreementId)[0]
+        if(!consumer.includes(consumerAddress)){
+            console.log(`This address [${consumer}] has not access granted`)
+            return false
+        }
+        return await this.nevermined.keeper.conditions.accessSecretStoreCondition.checkPermissions(consumerAddress, did, account.getId())
     }
 }
