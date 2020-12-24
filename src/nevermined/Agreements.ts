@@ -137,7 +137,7 @@ export class Agreements extends Instantiable {
         return simpleStatus as any
     }
 
-    public async isAccessGranted(agreementId: string, did: string, consumer:string, account: Account): Promise<boolean> {
+    public async isAccessGranted(agreementId: string, did: string, consumer: string, account: Account): Promise<boolean> {
         const consumerAddress = this.nevermined.keeper.templates.escrowAccessSecretStoreTemplate.getAgreementData(agreementId)[0]
         if(!consumer.includes(consumerAddress)){
             console.log(`This address [${consumer}] has not access granted`)
