@@ -87,7 +87,6 @@ describe('Consume Asset', () => {
             ddo.id,
             serviceAgreementSignatureResult.agreementId,
             accessService.index,
-            serviceAgreementSignatureResult.signature,
             consumer,
             publisher
         )
