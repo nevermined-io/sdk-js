@@ -30,10 +30,10 @@ describe('Accounts', () => {
     describe('#balance()', () => {
         it('should return the balance of an account', async () => {
             const [account] = await accounts.list()
-            spy.on(account, 'getBalance', () => ({ eth: 1, ocn: 5 }))
+            spy.on(account, 'getBalance', () => ({ eth: 1, nevermined: 5 }))
             const balance = await accounts.balance(account)
 
-            assert.deepEqual(balance, { eth: 1, ocn: 5 })
+            assert.deepEqual(balance, { eth: 1, nevermined: 5 })
         })
     })
 
