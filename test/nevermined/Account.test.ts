@@ -56,7 +56,7 @@ describe('Account', () => {
                 Number(web3.utils.toWei('100', 'ether')) === balance.eth,
                 `ether did not match ${balance.eth}`
             )
-            assert(balance.ocn === 0, `tokens did not match ${balance.ocn}`)
+            assert(balance.nevermined === 0, `tokens did not match ${balance.nevermined}`)
         })
     })
 

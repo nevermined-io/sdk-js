@@ -101,7 +101,7 @@ export default class Account extends Instantiable {
     public async getBalance(): Promise<Balance> {
         return {
             eth: await this.getEtherBalance(),
-            ocn: await this.getNeverminedBalance()
+            nevermined: await this.getNeverminedBalance()
         }
     }
 
