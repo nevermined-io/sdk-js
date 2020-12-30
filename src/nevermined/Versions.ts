@@ -54,7 +54,7 @@ export class Versions extends Instantiable {
 
         // Squid
         versions.sdk = {
-            name: 'SDK',
+            name: 'SDK-JS',
             version: metadata.version,
             commit: metadata.commit,
             status: PlatformTechStatus.Working,
