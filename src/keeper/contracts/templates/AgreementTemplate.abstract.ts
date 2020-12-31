@@ -112,7 +112,7 @@ export abstract class AgreementTemplate extends ContractBase {
         from?: string
     ): Promise<boolean>
 
-    public abstract async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
+    public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
 
     public async getServiceAgreementTemplateConditions() {
         const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
