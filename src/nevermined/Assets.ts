@@ -523,16 +523,16 @@ export class Assets extends Instantiable {
      * @param  {SearchQuery} text Text to filter the assets.
      * @return {Promise<DDO[]>}
      */
-    public async search(text: string) {
+    public async search(text: string, offset: number=100, page: number=1 ,sort: number=1) {
         return this.nevermined.metadata.queryMetadataByText({
             text,
-            page: 1,
-            offset: 100,
+            page: page,
+            offset: offset,
             query: {
                 value: 1
             },
             sort: {
-                value: 1
+                value: sort
             }
         } as SearchQuery)
     }
