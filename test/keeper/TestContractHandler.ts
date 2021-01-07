@@ -14,12 +14,13 @@ export default class TestContractHandler extends ContractHandler {
         const web3 = Web3Provider.getWeb3(config)
         const deployerAddress = (await web3.eth.getAccounts())[0]
         this.networkId = await web3.eth.net.getId()
-
+        this.minter = await web3.utils.toHex("minter")
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
     }
 
     private static networkId: number
+    private static minter: string
 
     private static async deployContracts(deployerAddress: string) {
         Logger.log('Trying to deploy contracts')
@@ -50,7 +51,7 @@ export default class TestContractHandler extends ContractHandler {
         // Add dispenser as Token minter
         if (!token.$initialized) {
             await token.methods
-                .addMinter(dispenser.options.address)
+                .grantRole(this.minter, dispenser.options.address)
                 .send({ from: deployerAddress })
         }
 
@@ -157,8 +158,8 @@ export default class TestContractHandler extends ContractHandler {
             Logger.log('Deploying', name)
             const sendConfig = {
                 from,
-                gas: 3000000,
-                gasPrice: '10000000000'
+                gas: 6000000,
+                gasPrice: '10000'
             }
             const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
             const tempContract = new web3.eth.Contract(artifact.abi, artifact.address)

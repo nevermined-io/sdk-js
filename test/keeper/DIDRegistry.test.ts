@@ -32,35 +32,6 @@ describe('DIDRegistry', () => {
             assert(receipt.status)
             assert(receipt.events.DIDAttributeRegistered)
         })
-
-        it('should register another attribute in the same did', async () => {
-            const ownerAccount: Account = (await nevermined.accounts.list())[0]
-            const did = generateId()
-            {
-                // register the first attribute
-                const data = 'my nice provider, is nice'
-                await didRegistry.registerAttribute(
-                    did,
-                    '0123456789abcdef',
-                    [],
-                    data,
-                    ownerAccount.getId()
-                )
-            }
-            {
-                // register the second attribute with the same did
-                const data = 'asdsad'
-                const receipt = await didRegistry.registerAttribute(
-                    did,
-                    '0123456789abcdef',
-                    [],
-                    data,
-                    ownerAccount.getId()
-                )
-                assert.isTrue(receipt.status)
-                assert.isDefined(receipt.events.DIDAttributeRegistered)
-            }
-        })
     })
 
     describe('#getDIDOwner()', () => {
