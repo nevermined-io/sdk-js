@@ -52,7 +52,7 @@
     "web3": "^1.2.3"
   },
   "dependencies": {
-    "@nevermined-io/contracts": "0.5.0",
+    "@nevermined-io/contracts": "0.6.1",
     "@nevermined-io/secret-store-client": "^0.0.16",
     "bignumber.js": "^9.0.0",
     "deprecated-decorator": "^0.1.6",

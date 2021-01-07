@@ -10,12 +10,12 @@ import { fillConditionsWithDDO, SubscribablePromise, generateId, zeroX, didZeroX
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 export enum CreateProgressStep {
-    EncryptingFiles,
-    FilesEncrypted,
     GeneratingProof,
     ProofGenerated,
+    EncryptingFiles,
+    FilesEncrypted,
     RegisteringDid,
-    DidRegistred,
+    DidRegistered,
     StoringDdo,
     DdoStored
 }
@@ -228,7 +228,7 @@ export class Assets extends Instantiable {
                 publisher.getId()
             )
             this.logger.log('DID registred')
-            observer.next(CreateProgressStep.DidRegistred)
+            observer.next(CreateProgressStep.DidRegistered)
 
             this.logger.log('Storing DDO')
             observer.next(CreateProgressStep.StoringDdo)
