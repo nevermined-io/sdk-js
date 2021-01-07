@@ -1,7 +1,7 @@
 import parseJwk from 'jose/jwk/parse'
 import SignJWT from 'jose/jwt/sign'
 
-import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract";
+import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract"
 import { Account } from "../../../src"
 
 export class JwtUtils extends Instantiable {
@@ -37,25 +37,37 @@ export class JwtUtils extends Instantiable {
             x: publicKey.slice(0, 32).toString('base64'),
             y: publicKey.slice(32, 64).toString('base64')
         })
-
     }
 
     public async generateAccessGrantToken(
         account: Account,
         serviceAgreementId: string,
         did: string): Promise<string> {
-            const jwk = await this.accountToJwk(account)
+            // const jwk = await this.accountToJwk(account)
 
-            return new SignJWT({
+            const encoder = new TextEncoder()
+
+            const header = JSON.stringify({ alg: 'ES256K' })
+            const jwt = JSON.stringify({
                 iss: account.getId(),
                 aud: this.BASE_AUD + '/access',
                 sub: serviceAgreementId,
-                did: did
+                did: did,
+                exp: Math.floor(new Date().getTime() / 1000),
+                iat: Math.floor(new Date().getTime() / 1000)
             })
-            .setProtectedHeader({ alg: 'ES256K' })
-            .setIssuedAt()
-            .setExpirationTime('1h')
-            .sign(jwk)
+
+            const encodedPayload = Buffer.from(jwt).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+            const encodedHeader = Buffer.from(header).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+            // const data = concat(encodedHeader, encoder.encode('.'), encodedPayload)
+
+            const sign = await this.nevermined.utils.signature.signText(`${encodedHeader}.${encodedPayload}`, account.getId())
+   
+            const signed = Buffer.from(this.web3.utils.hexToBytes(sign)).slice(0,64).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+
+            console.log(`${encodedHeader}.${encodedPayload}.${signed}`)
+
+            return `${encodedHeader}.${encodedPayload}.${signed}`
         }
 
     public async generateDownloadGrantToken(

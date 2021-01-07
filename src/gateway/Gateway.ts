@@ -374,6 +374,8 @@ export class Gateway extends Instantiable {
             }
         )
 
+        console.log(await response.text())
+
         if (!response.ok) {
             throw new Error(await response.text())
         }

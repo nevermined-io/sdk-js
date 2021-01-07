@@ -44,7 +44,7 @@ describe('Consume Asset (Gateway)', () => {
         await consumer.authenticate()
     })
 
-    it('should regiester an asset', async () => {
+    it('should register an asset', async () => {
         const steps = []
         ddo = await nevermined.assets
             .create(metadata as any, publisher)
