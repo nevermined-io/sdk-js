@@ -35,7 +35,7 @@ class EthSignJWT extends SignJWT {
         return grantToken
     }
 
-    base64url(input: Uint8Array | string) : string {
+    base64url(input: Uint8Array | string): string {
         return Buffer.from(input).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     }
 
@@ -201,7 +201,7 @@ export class JwtUtils extends Instantiable {
             aud: this.BASE_AUD + '/compute',
             sub: serviceAgreementId,
             eths: 'personal',
-            execution_id: executionId
+            'execution_id': executionId
         })
         .setProtectedHeader({ alg: 'ES256K' })
         .setIssuedAt()
