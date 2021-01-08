@@ -1,8 +1,55 @@
 import parseJwk from 'jose/jwk/parse'
-import SignJWT from 'jose/jwt/sign'
+import SignJWT, { JWSHeaderParameters, JWTPayload } from 'jose/jwt/sign'
 
 import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract"
 import { Account } from "../../../src"
+import { Nevermined } from '../../sdk'
+import { SignatureUtils } from './SignatureUtils'
+import Web3 from 'web3'
+
+
+class EthSignJWT extends SignJWT {
+    protectedHeader: JWSHeaderParameters
+
+    // constructor(payload: JWTPayload) {
+    //     super(payload)
+    // }
+
+    setProtectedHeader(protectedHeader: JWSHeaderParameters) {
+        this.protectedHeader = protectedHeader
+        return this
+    }
+
+    async ethSign(account: Account, signatureUtils: SignatureUtils, web3: Web3): Promise<string> {
+        const encoder = new TextEncoder()
+        const decoder = new TextDecoder()
+
+        const encodedPayload = encoder.encode(this.base64url(JSON.stringify(this._payload)))
+        const encodedHeader = encoder.encode(this.base64url(JSON.stringify(this.protectedHeader)))
+        const data = this.concat(encodedHeader, encoder.encode('.'), encodedPayload)
+
+        const sign = await signatureUtils.signText(decoder.decode(data), account.getId())
+        const signed = this.base64url(Uint8Array.from(web3.utils.hexToBytes(sign).slice(0, 64)))
+        const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(encodedPayload)}.${signed}`
+
+        return grantToken
+    }
+
+    base64url(input: Uint8Array | string) : string {
+        return Buffer.from(input).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+    }
+
+    concat(...buffers: Uint8Array[]): Uint8Array {
+        const size = buffers.reduce((acc, { length }) => acc + length, 0)
+        const buf = new Uint8Array(size)
+        let i = 0
+        buffers.forEach((buffer) => {
+          buf.set(buffer, i)
+          i += buffer.length
+        })
+        return buf
+      }
+}
 
 export class JwtUtils extends Instantiable {
     GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer'
@@ -45,29 +92,64 @@ export class JwtUtils extends Instantiable {
         did: string): Promise<string> {
             // const jwk = await this.accountToJwk(account)
 
-            const encoder = new TextEncoder()
+            // const encoder = new TextEncoder()
+            // const decoder = new TextDecoder()
 
-            const header = JSON.stringify({ alg: 'ES256K' })
-            const jwt = JSON.stringify({
+            // const header = JSON.stringify({ alg: 'ES256K' })
+            // const jwt = JSON.stringify({
+            //     iss: account.getId(),
+            //     aud: this.BASE_AUD + '/access',
+            //     sub: serviceAgreementId,
+            //     did: did,
+            //     eths: 'personal',
+            //     exp: Math.floor((new Date().getTime() + 3600) / 1000),
+            //     iat: Math.floor(new Date().getTime() / 1000)
+            // })
+
+            // const base64url = (input: Uint8Array | string) =>
+            //     Buffer.from(input).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+
+            // // const encodedPayload = Buffer.from(jwt).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+            // // const encodedHeader = Buffer.from(header).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+            // // // const data = concat(encodedHeader, encoder.encode('.'), encodedPayload)
+
+            // // const sign = await this.nevermined.utils.signature.signText(`${encodedHeader}.${encodedPayload}`, account.getId())
+
+            // // const signed = Buffer.from(this.web3.utils.hexToBytes(sign).slice(1,65)).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+
+            // // console.log(`${encodedHeader}.${encodedPayload}.${signed}`)
+
+            // const encodedPayload = encoder.encode(base64url(jwt))
+            // console.log(encodedPayload)
+            // const encodedHeader = encoder.encode(base64url(header))
+            // console.log(encodedHeader)
+            // const data = concat(encodedHeader, encoder.encode('.'), encodedPayload)
+            // console.log(data)
+            // const sign = await this.nevermined.utils.signature.signText(decoder.decode(data), account.getId())
+            // console.log(Uint8Array.from(this.web3.utils.hexToBytes(sign)))
+            // const signed = base64url(Uint8Array.from(this.web3.utils.hexToBytes(sign).slice(0, 64)))
+
+            // const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(encodedPayload)}.${signed}`
+            // console.log(grantToken)
+
+            // const jwk = await this.accountToJwk(account)
+
+            return new EthSignJWT({
                 iss: account.getId(),
                 aud: this.BASE_AUD + '/access',
                 sub: serviceAgreementId,
                 did: did,
-                exp: Math.floor(new Date().getTime() / 1000),
-                iat: Math.floor(new Date().getTime() / 1000)
+                eths: 'personal'
             })
+            .setProtectedHeader({ alg: 'ES256K' })
+            .setIssuedAt()
+            .setExpirationTime('1h')
+            .ethSign(account, this.nevermined.utils.signature, this.web3)
 
-            const encodedPayload = Buffer.from(jwt).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
-            const encodedHeader = Buffer.from(header).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
-            // const data = concat(encodedHeader, encoder.encode('.'), encodedPayload)
+            // const grantToken2 = await jwt2.sign(jwk)
+            // console.log(grantToken2)
 
-            const sign = await this.nevermined.utils.signature.signText(`${encodedHeader}.${encodedPayload}`, account.getId())
-   
-            const signed = Buffer.from(this.web3.utils.hexToBytes(sign)).slice(0,64).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
-
-            console.log(`${encodedHeader}.${encodedPayload}.${signed}`)
-
-            return `${encodedHeader}.${encodedPayload}.${signed}`
+            // return grantToken
         }
 
     public async generateDownloadGrantToken(
@@ -75,15 +157,16 @@ export class JwtUtils extends Instantiable {
         did: string): Promise<string> {
             const jwk = await this.accountToJwk(account)
 
-            return new SignJWT({
+            return new EthSignJWT({
                 iss: account.getId(),
                 aud: this.BASE_AUD + '/download',
-                did: did
+                did: did,
+                eths: 'personal'
             })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .sign(jwk)
+            .ethSign(account, this.nevermined.utils.signature, this.web3)
         }
 
     public async generateExecuteGrantToken(

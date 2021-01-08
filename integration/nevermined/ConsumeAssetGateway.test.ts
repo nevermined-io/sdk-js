@@ -22,6 +22,8 @@ describe('Consume Asset (Gateway)', () => {
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
+        console.log(publisher.getId())
+        console.log(consumer.getId())
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
