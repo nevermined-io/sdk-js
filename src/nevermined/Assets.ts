@@ -101,9 +101,9 @@ export class Assets extends Instantiable {
                         owner: publisher.getId()
                     }
                 ],
-                service: [,
-                    ...services
-                ].reverse() as Service[]
+                // service: [,
+                //     ...services
+                // ].reverse() as Service[]
             })
 
             if (metadata.main.type === 'compute') {
@@ -111,7 +111,7 @@ export class Assets extends Instantiable {
             }
             else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
                 await ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata,serviceAgreementTemplate))
-      
+
             }
 
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
@@ -241,9 +241,9 @@ export class Assets extends Instantiable {
     }
 
     public createCompute(
-        metadata: MetaData, 
-        publisher: Account, 
-        service: Service[] = [], 
+        metadata: MetaData,
+        publisher: Account,
+        service: Service[] = [],
         method: string = 'PSK-RSA'
         ): SubscribablePromise<CreateProgressStep, DDO> {
             return new SubscribablePromise(async observer => {
@@ -537,7 +537,7 @@ export class Assets extends Instantiable {
         } as SearchQuery)
     }
 
-    public async retire(did: string) { 
+    public async retire(did: string) {
         return this.nevermined.metadata.delete(did)
     }
 

@@ -176,16 +176,17 @@ export class JwtUtils extends Instantiable {
     ): Promise<string> {
         const jwk = await this.accountToJwk(account)
 
-        return new SignJWT({
+        return new EthSignJWT({
             iss: account.getId(),
             aud: this.BASE_AUD + '/execute',
             sub: serviceAgreementId,
-            did: workflowId
+            did: workflowId,
+            eths: 'personal'
         })
         .setProtectedHeader({ alg: 'ES256K' })
         .setIssuedAt()
         .setExpirationTime('1h')
-        .sign(jwk)
+        .ethSign(account, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateComputeGrantToken(
@@ -195,15 +196,16 @@ export class JwtUtils extends Instantiable {
     ): Promise<string> {
         const jwk = await this.accountToJwk(account)
 
-        return new SignJWT({
+        return new EthSignJWT({
             iss: account.getId(),
             aud: this.BASE_AUD + '/compute',
             sub: serviceAgreementId,
-            'execution_id': executionId
+            eths: 'personal',
+            execution_id: executionId
         })
         .setProtectedHeader({ alg: 'ES256K' })
         .setIssuedAt()
         .setExpirationTime('1h')
-        .sign(jwk)
+        .ethSign(account, this.nevermined.utils.signature, this.web3)
     }
 }
