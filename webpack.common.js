@@ -18,6 +18,7 @@ module.exports = {
         modules: ['node_modules'],
         alias: {
             'jose/jwk/parse': path.resolve(__dirname, 'node_modules/jose/dist/node/esm/jwk/parse.js'),
+            'jose/jwt/sign': path.resolve(__dirname, 'node_modules/jose/dist/node/esm/jwt/sign.js'),
             'jose/jwt/sign': path.resolve(__dirname, 'node_modules/jose/dist/node/esm/jwt/sign.js')
         }
     }

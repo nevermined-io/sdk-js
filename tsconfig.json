@@ -13,7 +13,7 @@
     ],
     "declaration": true,
     "module": "CommonJS",
-    "target": "ES5",
+    "target": "ES6",
     "noImplicitAny": false,
     "removeComments": true,
     "experimentalDecorators": true,

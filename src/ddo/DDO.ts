@@ -106,9 +106,9 @@ export class DDO {
         password?: string
     ): Promise<Proof> {
         const checksum = {}
-        for (const svc of this.service){
+        this.service.forEach(svc => {
             checksum[svc.index] = this.checksum(JSON.stringify(this.findServiceByType(svc.type).attributes.main))
-        }
+        })
         return {
             created: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
             creator: publicKey,
