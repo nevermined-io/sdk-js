@@ -1,5 +1,3 @@
-import { URLSearchParams } from 'url'
-
 import { File } from '../ddo/MetaData'
 import Account from '../nevermined/Account'
 import { noZeroX } from '../utils'
@@ -359,19 +357,18 @@ export class Gateway extends Instantiable {
     public async fetchToken(
         grantToken: string,
     ): Promise<string> {
-        const params = new URLSearchParams({
-            'grant_type': this.nevermined.utils.jwt.GRANT_TYPE,
-            'assertion': grantToken
-        });
-
-        // we need to use “application/x-www-form-urlencoded” format
+        // we need to use "application/x-www-form-urlencoded" format
         // as per https://tools.ietf.org/html/rfc6749#section-4.1.3
         const response = await this.nevermined.utils.fetch.fetch(
             this.getFetchTokenEndpoint(),
             {
                 method: 'POST',
-                body: params
+                body: `grant_type=${encodeURI(this.nevermined.utils.jwt.GRANT_TYPE)}&assertion=${encodeURI(grantToken)}`,
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                }
             }
+              
         )
 
         //console.log(await response.text())
