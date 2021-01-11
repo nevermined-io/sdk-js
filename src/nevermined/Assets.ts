@@ -101,10 +101,11 @@ export class Assets extends Instantiable {
                         owner: publisher.getId()
                     }
                 ],
-                // service: [,
-                //     ...services
-                // ].reverse() as Service[]
             })
+
+            if (services.length > 0) {
+                ddo.service = [, ...services].reverse() as Service[]
+            }
 
             if (metadata.main.type === 'compute') {
                 await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata,serviceAgreementTemplate))
