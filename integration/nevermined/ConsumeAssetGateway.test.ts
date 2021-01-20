@@ -72,6 +72,33 @@ describe('Consume Asset (Gateway)', () => {
         assert.deepEqual(steps, [0, 1, 2, 3])
     })
 
+    it('should be able to download the asset if you are the owner', async()=> {
+        const accessService = ddo.findServiceByType('access')
+
+        const folder = '/tmp/nevermined/sdk-js'
+        const path = await nevermined.assets.download(
+            ddo.id,
+            accessService.index,
+            publisher,
+            folder,
+            -1,
+            false
+        )
+        assert.include(path, folder, 'The storage path is not correct.')
+        const files = await new Promise<string[]>(resolve => {
+            fs.readdir(path, (e, fileList) => {
+                resolve(fileList)
+            })
+        })
+
+        assert.deepEqual(
+            files,
+            ['README.md', 'ddo-example.json'],
+            'Stored files are not correct.'
+        )
+
+    })
+
     it('should consume and store the assets', async () => {
         const accessService = ddo.findServiceByType('access')
 

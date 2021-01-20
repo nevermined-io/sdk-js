@@ -46,10 +46,10 @@ if (process.env.NETWORK_NAME === 'testing') {
 
 if (process.env.NETWORK_NAME === 'rinkeby') {
     Object.assign(configJson, {
-      metadataUri: 'http://metadata.keyko.rocks',
-      faucetUri: 'http://faucet.keyko.rocks',
-      gatewayUri: 'http://gateway.keyko.rocks/',
-      nodeUri: `https://rinkeby.infura.io/v3/6a91d92ed84f457a9e54f808a60417a1`,
+      metadataUri: 'https://metadata.rinkeby.nevermined.rocks',
+      faucetUri: 'https://faucet.rinkeby.nevermined.rocks',
+      gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
+      nodeUri: `https://rinkeby.infura.io/v3/52b6d403f7de4757ab9ed23c3778a35b`,
       gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0',
     })
 }
