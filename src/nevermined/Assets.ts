@@ -372,7 +372,6 @@ export class Assets extends Instantiable {
             const templateName = ddo.findServiceById(index)
                 .attributes.serviceAgreementTemplate.contractName
             const template = keeper.getTemplateByName(templateName)
-            const accessCondition = keeper.conditions.accessSecretStoreCondition
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
@@ -384,10 +383,6 @@ export class Assets extends Instantiable {
                 const { attributes } = ddo.findServiceByType('metadata')
 
                 this.logger.log('Locking payment')
-
-                const accessGranted = accessCondition
-                    .getConditionFulfilledEvent(agreementId)
-                    .once()
 
                 observer.next(OrderProgressStep.LockingPayment)
                 const paid = await agreements.conditions.lockReward(
