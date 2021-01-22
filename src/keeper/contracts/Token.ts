@@ -4,7 +4,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
-        const token: Token = new Token('NeverminedToken', true)
+        const token: Token = new Token(process.env.TOKEN_CONTRACT_NAME || 'NeverminedToken', true)
         await token.init(config)
         return token
     }
@@ -21,6 +21,18 @@ export default class Token extends ContractBase {
         return this.call('balanceOf', [address]).then((balance: string) =>
             new BigNumber(balance).toNumber()
         )
+    }
+
+    public async symbol(): Promise<string> {
+        return this.call('symbol', [])
+    }
+
+    public async name(): Promise<string> {
+        return this.call('name', [])
+    }
+
+    public async totalSupply(): Promise<number>{
+        return this.call('totalSupply', [])
     }
 
     public async transfer(to: string, amount: number, from: string) {

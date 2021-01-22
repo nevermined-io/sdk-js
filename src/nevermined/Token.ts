@@ -17,6 +17,27 @@ export class Token extends Instantiable {
     }
 
     /**
+     * Get token symbol.
+     */
+    public async getSymbol(): Promise<string> {
+        return await this.nevermined.keeper.token.symbol()
+    }
+
+    /**
+     * Get token name.
+     */
+    public async getName(): Promise<string> {
+        return await this.nevermined.keeper.token.name()
+    }
+
+    /**
+     * Get token total supply
+     */
+    public async getTotalSupply(): Promise<number> {
+        return await this.nevermined.keeper.token.totalSupply()
+    }
+
+    /**
      * Transfer a number of tokens to the mentioned account.
      * @param  {string}           to     Address that receives the tokens.
      * @param  {number}           amount Tokens to transfer.
