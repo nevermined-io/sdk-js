@@ -115,7 +115,8 @@ export class AgreementsConditions extends Instantiable {
      * If the AccessSecretStoreCondition already timed out, this function will do a refund by transferring
      * the token amount to the original consumer.
      * @param {string}  agreementId Agreement ID.
-     * @param {number}  amount      Asset amount.
+     * @param {number[]}  amounts   Asset amounts to distribute.
+     * @param {string[]} receivers Receivers of the rewards
      * @param {string}  did         Asset ID.
      * @param {string}  consumer    Consumer address.
      * @param {string}  publisher   Publisher address.
@@ -123,7 +124,8 @@ export class AgreementsConditions extends Instantiable {
      */
     public async releaseReward(
         agreementId: string,
-        amount: number,
+        amounts: number[],
+        receivers: string[],
         did: string,
         consumer: string,
         publisher: string,
@@ -136,6 +138,8 @@ export class AgreementsConditions extends Instantiable {
                 lockRewardCondition
             } = this.nevermined.keeper.conditions
 
+            const totalAmount = amounts.reduce((a, b) => a + b, 0)
+
             const conditionIdAccess = await accessSecretStoreCondition.generateIdHash(
                 agreementId,
                 did,
@@ -144,14 +148,14 @@ export class AgreementsConditions extends Instantiable {
             const conditionIdLock = await lockRewardCondition.generateIdHash(
                 agreementId,
                 escrowReward.getAddress(),
-                amount
+                totalAmount
             )
 
             const receipt = await escrowReward.fulfill(
                 agreementId,
-                amount,
+                amounts,
+                receivers,
                 publisher,
-                consumer,
                 conditionIdLock,
                 conditionIdAccess,
                 from && from.getId()
