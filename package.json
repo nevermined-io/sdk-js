@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/nevermined-sdk-js",
-  "version": "0.7.5",
+  "version": "0.8.0",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -23,6 +23,7 @@
     "integration:cover": "nyc --report-dir coverage/integration mocha --opts integration/mocha.opts",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint --ignore-path .gitignore --ext .ts,.tsx .",
+    "lint:fix": "eslint --fix --ignore-path .gitignore --ext .ts,.tsx .",
     "format": "prettier --parser typescript --ignore-path .gitignore --write '**/*.{js,jsx,ts,tsx}'",
     "doc": "typedoc --mode modules --out ./doc/ ./src/",
     "doc:json": "./scripts/typedoc.js",
@@ -52,7 +53,7 @@
     "web3": "^1.2.3"
   },
   "dependencies": {
-    "@nevermined-io/contracts": "0.6.1",
+    "@nevermined-io/contracts": "0.6.2",
     "@nevermined-io/secret-store-client": "^0.0.16",
     "bignumber.js": "^9.0.0",
     "deprecated-decorator": "^0.1.6",
@@ -139,5 +140,15 @@
     "npm": {
       "publish": false
     }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "jose/(.*)": "<rootDir>/node_modules/jose/dist/node/cjs/$1"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/serviceWorker.ts",
+      "!src/**/*.d.ts"
+    ]
   }
 }
