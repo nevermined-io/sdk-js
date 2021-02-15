@@ -14,11 +14,14 @@ describe('Register Escrow Compute Execution Template', () => {
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
-    let escrowAmount = 12
+    let totalAmount = 12
+    const amounts = [10, 2]
 
     let templateManagerOwner: Account
     let publisher: Account
     let consumer: Account
+    let provider: Account
+    let receivers: string[]    
 
     let computeExecutionCondition: conditions.ComputeExecutionCondition
     let lockRewardCondition: conditions.LockRewardCondition
@@ -34,6 +37,8 @@ describe('Register Escrow Compute Execution Template', () => {
         templateManagerOwner = (await nevermined.accounts.list())[0]
         publisher = (await nevermined.accounts.list())[1]
         consumer = (await nevermined.accounts.list())[2]
+        provider = (await nevermined.accounts.list())[3]
+        receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
         computeExecutionCondition = keeper.conditions.computeExecutionCondition
@@ -41,7 +46,7 @@ describe('Register Escrow Compute Execution Template', () => {
         escrowReward = keeper.conditions.escrowReward
 
         if (!nevermined.keeper.dispenser) {
-            escrowAmount = 0
+            totalAmount = 0
         }
     })
 
@@ -94,13 +99,13 @@ describe('Register Escrow Compute Execution Template', () => {
             conditionIdLock = await lockRewardCondition.generateIdHash(
                 agreementId,
                 await escrowReward.getAddress(),
-                escrowAmount
+                totalAmount
             )
             conditionIdEscrow = await escrowReward.generateIdHash(
                 agreementId,
-                escrowAmount,
+                amounts,
+                receivers,
                 publisher.getId(),
-                consumer.getId(),
                 conditionIdLock,
                 conditionIdCompute
             )
@@ -169,19 +174,19 @@ describe('Register Escrow Compute Execution Template', () => {
 
         it('should fulfill LockRewardCondition', async () => {
             try {
-                await consumer.requestTokens(escrowAmount)
+                await consumer.requestTokens(totalAmount)
             } catch {}
 
             await keeper.token.approve(
                 lockRewardCondition.getAddress(),
-                escrowAmount,
+                totalAmount,
                 consumer.getId()
             )
 
             const fulfill = await lockRewardCondition.fulfill(
                 agreementId,
                 escrowReward.getAddress(),
-                escrowAmount,
+                totalAmount,
                 consumer.getId()
             )
 
@@ -202,9 +207,9 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill EscrowReward', async () => {
             const fulfill = await escrowReward.fulfill(
                 agreementId,
-                escrowAmount,
+                amounts,
+                receivers,
                 publisher.getId(),
-                consumer.getId(),
                 conditionIdLock,
                 conditionIdCompute,
                 consumer.getId()
@@ -242,7 +247,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should create a new agreement (short way)', async () => {
             agreementId = await template.createFullAgreement(
                 did,
-                escrowAmount,
+                totalAmount,
                 consumer.getId(),
                 publisher.getId()
             )
@@ -261,12 +266,12 @@ describe('Register Escrow Compute Execution Template', () => {
 
         it('should fulfill the conditions from consumer side', async () => {
             try {
-                await consumer.requestTokens(escrowAmount)
+                await consumer.requestTokens(totalAmount)
             } catch {}
 
             await nevermined.agreements.conditions.lockReward(
                 agreementId,
-                escrowAmount,
+                totalAmount,
                 consumer
             )
         })
@@ -280,7 +285,8 @@ describe('Register Escrow Compute Execution Template', () => {
             )
             await nevermined.agreements.conditions.releaseReward(
                 agreementId,
-                escrowAmount,
+                amounts,
+                receivers,
                 did,
                 consumer.getId(),
                 publisher.getId(),
