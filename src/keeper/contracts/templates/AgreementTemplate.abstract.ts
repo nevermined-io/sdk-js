@@ -8,6 +8,7 @@ import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import AssetRewards from '../../../models/AssetRewards'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -88,12 +89,14 @@ export abstract class AgreementTemplate extends ContractBase {
      * Get agreement conditions IDs.
      * @param  {string}            agreementId Agreement ID.
      * @param  {DDO}               ddo         DDO.
+     * @param  {AssetRewards}      assetRewards Asset Rewards distribution
      * @param  {string}            from        Consumer address.
      * @return {Promise<string[]>}             Condition IDs.
      */
     public abstract getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
+        assetRewards: AssetRewards,
         consumer: string,
         from?: string
     ): Promise<string[]>
@@ -108,6 +111,7 @@ export abstract class AgreementTemplate extends ContractBase {
     public abstract createAgreementFromDDO(
         agreementId: string,
         ddo: DDO,
+        assetRewards: AssetRewards,
         consumer: string,
         from?: string
     ): Promise<boolean>

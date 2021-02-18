@@ -46,6 +46,7 @@
     "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-useless-constructor": "warn",
     "no-dupe-class-members": [
       "warn"
     ],
@@ -56,7 +57,7 @@
       }
     ],
     "no-useless-constructor": [
-      "warn"
+      "off"
     ],
     "prefer-destructuring": [
       "warn"

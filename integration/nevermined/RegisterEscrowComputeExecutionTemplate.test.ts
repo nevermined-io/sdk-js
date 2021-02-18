@@ -3,6 +3,7 @@ import { assert } from 'chai'
 import { config } from '../config'
 
 import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
+import AssetRewards from '../../src/models/AssetRewards'
 
 const { LockRewardCondition, EscrowReward, ComputeExecutionCondition } = conditions
 
@@ -247,7 +248,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should create a new agreement (short way)', async () => {
             agreementId = await template.createFullAgreement(
                 did,
-                totalAmount,
+                new AssetRewards(),
                 consumer.getId(),
                 publisher.getId()
             )

@@ -4,6 +4,7 @@ import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
 import { Nevermined, DDO, Account,  } from '../../src'
+import AssetRewards from '../../src/models/AssetRewards'
 
 describe('Compute Asset', () => {
     let nevermined: Nevermined
@@ -27,7 +28,7 @@ describe('Compute Asset', () => {
 
     it('should register the assets', async () => {
         algorithmDdo = await nevermined.assets.create(workflowMetadatas.algorithm(), publisher)
-        computeDdo = await nevermined.assets.create(workflowMetadatas.compute(), publisher)
+        computeDdo = await nevermined.assets.create(workflowMetadatas.compute(), publisher, new AssetRewards(), ['compute'])
         workflowDdo = await nevermined.assets.create(workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id), publisher)
     })
 

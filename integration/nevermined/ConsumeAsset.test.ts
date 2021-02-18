@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import * as fs from 'fs'
 
 import { config } from '../config'
-import { getMetadata } from '../utils'
+import { getAssetRewards, getMetadata } from '../utils'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
 
@@ -28,11 +28,12 @@ describe('Consume Asset', () => {
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
-        }
+        }        
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        const assetRewards = getAssetRewards(publisher.getId())
+        ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
@@ -112,7 +113,7 @@ describe('Consume Asset', () => {
             ddo.findServiceByType('metadata').attributes.main.price,
             consumer
         )
-
+        console.log(`Price ${ddo.findServiceByType('metadata').attributes.main.price}`)
         assert.isTrue(paid, 'The asset has not been paid correctly')
     })
 

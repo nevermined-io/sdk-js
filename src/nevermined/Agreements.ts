@@ -1,7 +1,7 @@
 import { generateId } from '../utils/GeneratorHelpers'
 import Account from './Account'
 import DID from './DID'
-import { zeroX, didPrefixed } from '../utils'
+import { zeroX, didPrefixed, getAssetRewardsFromDDO } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { AgreementConditionsStatus } from '../keeper/contracts/templates/AgreementTemplate.abstract'
 import { ConditionState } from '../keeper/contracts/conditions/Condition.abstract'
@@ -53,9 +53,11 @@ export class Agreements extends Instantiable {
 
         const templateName = ddo.findServiceByType('access').attributes
             .serviceAgreementTemplate.contractName
+        const assetRewards = getAssetRewardsFromDDO(ddo, index)
+        
         const agreementConditionsIds = await this.nevermined.keeper
             .getTemplateByName(templateName)
-            .getAgreementIdsFromDDO(agreementId, ddo, consumer.getId(), consumer.getId())
+            .getAgreementIdsFromDDO(agreementId, ddo, assetRewards, consumer.getId(), consumer.getId())
 
         const signature = await this.nevermined.utils.agreements.signServiceAgreement(
             ddo,
@@ -93,9 +95,11 @@ export class Agreements extends Instantiable {
 
         const templateName = ddo.findServiceById<'access'>(index).attributes
             .serviceAgreementTemplate.contractName
+        const assetRewards = getAssetRewardsFromDDO(ddo, index)
+        
         await this.nevermined.keeper
             .getTemplateByName(templateName)
-            .createAgreementFromDDO(agreementId, ddo, consumer.getId(), publisher.getId())
+            .createAgreementFromDDO(agreementId, ddo, assetRewards, consumer.getId(), publisher.getId())
 
         return true
     }

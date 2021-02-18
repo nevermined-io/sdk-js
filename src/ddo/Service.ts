@@ -48,7 +48,21 @@ export interface ServiceAccess extends ServiceCommon {
 
 
 export interface ServiceCompute extends ServiceCommon {
+    type: 'compute'
     templateId?: string
+    attributes: {
+        main: {
+            creator: string
+            name: string
+            datePublished: string
+            price: string
+            timeout: number
+        }
+        serviceAgreementTemplate?: ServiceAgreementTemplate
+        additionalInformation: {
+            description: string
+        }
+    }
 }
 
 export type Service<
@@ -63,4 +77,4 @@ export type Service<
     ? ServiceCompute
     : T extends 'default'
     ? ServiceCommon
-    : ServiceCommon
+    : ServiceCommon 

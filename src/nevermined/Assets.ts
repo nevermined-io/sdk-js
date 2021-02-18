@@ -2,12 +2,13 @@ import { TransactionReceipt } from 'web3-core'
 import { SearchQuery } from '../metadata/Metadata'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
-import { Service } from '../ddo/Service'
+import { Service, ServiceType } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
 import { ConditionState } from '../keeper/contracts/conditions'
-import { fillConditionsWithDDO, SubscribablePromise, generateId, zeroX, didZeroX } from '../utils'
+import { fillConditionsWithDDO, getLockRewardTotalAmount, SubscribablePromise, generateId, zeroX, didZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import AssetRewards from '../models/AssetRewards'
 
 export enum CreateProgressStep {
     GeneratingProof,
@@ -72,18 +73,22 @@ export class Assets extends Instantiable {
     public create(
         metadata: MetaData,
         publisher: Account,
+        assetRewards: AssetRewards=new AssetRewards(),
+        serviceTypes: ServiceType[]= ['access'],
         services: Service[] = [],
         method: string = 'PSK-RSA',
-        providers?: string[]
+        providers?: string[]        
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
-            const serviceAgreementTemplate = (metadata.main.type === 'compute') ?
-                await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate() :
-                await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+            const accessServiceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+            const computeServiceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+            // const serviceAgreementTemplate = (metadata.main.type === 'compute') ?
+            //     await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate() :
+            //     await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
 
             // create ddo itself
             const ddo: DDO = new DDO({
@@ -107,13 +112,18 @@ export class Assets extends Instantiable {
                 ddo.service = [, ...services].reverse() as Service[]
             }
 
-            if (metadata.main.type === 'compute') {
-                await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata,serviceAgreementTemplate))
-            }
-            else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
-                await ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata,serviceAgreementTemplate))
+            
+            if (serviceTypes.includes('access'))
+                ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata, accessServiceAgreementTemplate))
+            if (serviceTypes.includes('compute'))
+                await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata, computeServiceAgreementTemplate))
 
-            }
+            // if (metadata.main.type === 'compute') {
+            //     await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata,serviceAgreementTemplate))
+            // }
+            // else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
+            //     await ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata,serviceAgreementTemplate))
+
 
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
@@ -205,17 +215,28 @@ export class Assets extends Instantiable {
                     } as any
                 }
             } as Service)
+
             //Fulfill conditions
-            if (metadata.main.type === 'compute') {
-                const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
-                const conditions = fillConditionsWithDDO(rawConditions, ddo)
-                serviceAgreementTemplate.conditions = conditions
-            }
-            else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
+            if (serviceTypes.includes('access'))    {
                 const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
-                const conditions = fillConditionsWithDDO(rawConditions, ddo)
-                serviceAgreementTemplate.conditions = conditions
+                const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
+                accessServiceAgreementTemplate.conditions = conditions
             }
+            if (serviceTypes.includes('compute'))    {
+                const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
+                const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
+                computeServiceAgreementTemplate.conditions = conditions
+            }
+            // if (metadata.main.type === 'compute') {
+            //     const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
+            //     const conditions = fillConditionsWithDDO(rawConditions, ddo)
+            //     computeServiceAgreementTemplate.conditions = conditions
+            // }
+            // else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
+            //     const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
+            //     const conditions = fillConditionsWithDDO(rawConditions, ddo)
+            //     accessServiceAgreementTemplate.conditions = conditions
+            // }
 
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
@@ -244,6 +265,7 @@ export class Assets extends Instantiable {
     public createCompute(
         metadata: MetaData,
         publisher: Account,
+        assetRewards: AssetRewards=new AssetRewards(),
         service: Service[] = [],
         method: string = 'PSK-RSA'
         ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -258,7 +280,7 @@ export class Assets extends Instantiable {
                     }
                 }
 
-                return this.create(metadata, publisher, [   {
+                return this.create(metadata, publisher, assetRewards, ['compute'], [   {
                     type: 'compute',
                     index: 4,
                     serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
@@ -369,9 +391,10 @@ export class Assets extends Instantiable {
             const ddo = await this.resolve(did)
 
             const { keeper } = this.nevermined
-            const templateName = ddo.findServiceById(index)
-                .attributes.serviceAgreementTemplate.contractName
+            const service = ddo.findServiceById(index)
+            const templateName = service.attributes.serviceAgreementTemplate.contractName
             const template = keeper.getTemplateByName(templateName)
+            const totalAmount = getLockRewardTotalAmount(ddo, index)
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
@@ -387,7 +410,7 @@ export class Assets extends Instantiable {
                 observer.next(OrderProgressStep.LockingPayment)
                 const paid = await agreements.conditions.lockReward(
                     agreementId,
-                    attributes.main.price,
+                    totalAmount,
                     consumer
                 )
                 observer.next(OrderProgressStep.LockedPayment)

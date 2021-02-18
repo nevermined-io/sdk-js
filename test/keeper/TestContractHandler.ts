@@ -158,7 +158,7 @@ export default class TestContractHandler extends ContractHandler {
             Logger.log('Deploying', name)
             const sendConfig = {
                 from,
-                gas: 8000000,
+                gas: 6721975,
                 gasPrice: '10000'
                 // gas: 6000000,
                 // gasPrice: '10000'
