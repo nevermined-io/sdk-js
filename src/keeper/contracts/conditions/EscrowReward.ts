@@ -8,22 +8,22 @@ export class EscrowReward extends Condition {
     }
 
     public hashValues(
-        amount: number,
-        receiver: string,
+        amounts: number[],
+        receivers: string[],
         sender: string,
         lockCondition: string,
         releaseCondition: string
     ) {
         return super.hashValues(
-            amount,
-            ...[receiver, sender, lockCondition, releaseCondition].map(zeroX)
+            amounts, receivers, 
+            ...[sender, lockCondition, releaseCondition].map(zeroX)
         )
     }
 
     public fulfill(
         agreementId: string,
-        amount: number,
-        receiver: string,
+        amounts: number[],
+        receivers: string[],
         sender: string,
         lockCondition: string,
         releaseCondition: string,
@@ -31,7 +31,7 @@ export class EscrowReward extends Condition {
     ) {
         return super.fulfill(
             agreementId,
-            [amount, ...[receiver, sender, lockCondition, releaseCondition].map(zeroX)],
+            [amounts, receivers, ...[sender, lockCondition, releaseCondition].map(zeroX)],
             from
         )
     }

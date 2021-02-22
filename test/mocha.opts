@@ -4,5 +4,5 @@
 --full-trace
 --bail
 --exit
---timeout 40000
+--timeout 60000
 test/config.ts test/**/*.test.ts

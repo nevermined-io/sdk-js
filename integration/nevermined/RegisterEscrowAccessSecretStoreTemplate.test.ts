@@ -3,6 +3,7 @@ import { assert } from 'chai'
 import { config } from '../config'
 
 import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
+import AssetRewards from '../../src/models/AssetRewards'
 
 const { LockRewardCondition, EscrowReward, AccessSecretStoreCondition } = conditions
 
@@ -14,11 +15,14 @@ describe('Register Escrow Access Secret Store Template', () => {
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
-    let escrowAmount = 12
+    let totalAmount = 12
+    const amounts = [10, 2]
 
     let templateManagerOwner: Account
     let publisher: Account
     let consumer: Account
+    let provider: Account
+    let receivers: string[]
 
     let accessSecretStoreCondition: conditions.AccessSecretStoreCondition
     let lockRewardCondition: conditions.LockRewardCondition
@@ -34,6 +38,8 @@ describe('Register Escrow Access Secret Store Template', () => {
         templateManagerOwner = (await nevermined.accounts.list())[0]
         publisher = (await nevermined.accounts.list())[1]
         consumer = (await nevermined.accounts.list())[2]
+        provider = (await nevermined.accounts.list())[3]
+        receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
         accessSecretStoreCondition = keeper.conditions.accessSecretStoreCondition
@@ -41,7 +47,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         escrowReward = keeper.conditions.escrowReward
 
         if (!nevermined.keeper.dispenser) {
-            escrowAmount = 0
+            totalAmount = 0
         }
     })
 
@@ -94,13 +100,13 @@ describe('Register Escrow Access Secret Store Template', () => {
             conditionIdLock = await lockRewardCondition.generateIdHash(
                 agreementId,
                 await escrowReward.getAddress(),
-                escrowAmount
+                totalAmount
             )
             conditionIdEscrow = await escrowReward.generateIdHash(
                 agreementId,
-                escrowAmount,
-                publisher.getId(),
-                consumer.getId(),
+                amounts,
+                receivers,
+                publisher.getId(),                
                 conditionIdLock,
                 conditionIdAccess
             )
@@ -169,19 +175,19 @@ describe('Register Escrow Access Secret Store Template', () => {
 
         it('should fulfill LockRewardCondition', async () => {
             try {
-                await consumer.requestTokens(escrowAmount)
+                await consumer.requestTokens(totalAmount)
             } catch {}
 
             await keeper.token.approve(
                 lockRewardCondition.getAddress(),
-                escrowAmount,
+                totalAmount,
                 consumer.getId()
             )
 
             const fulfill = await lockRewardCondition.fulfill(
                 agreementId,
                 escrowReward.getAddress(),
-                escrowAmount,
+                totalAmount,
                 consumer.getId()
             )
 
@@ -202,9 +208,9 @@ describe('Register Escrow Access Secret Store Template', () => {
         it('should fulfill EscrowReward', async () => {
             const fulfill = await escrowReward.fulfill(
                 agreementId,
-                escrowAmount,
-                publisher.getId(),
-                consumer.getId(),
+                amounts,
+                receivers,
+                publisher.getId(),                
                 conditionIdLock,
                 conditionIdAccess,
                 consumer.getId()
@@ -242,7 +248,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         it('should create a new agreement (short way)', async () => {
             agreementId = await template.createFullAgreement(
                 did,
-                escrowAmount,
+                new AssetRewards(),
                 consumer.getId(),
                 publisher.getId()
             )
@@ -261,12 +267,12 @@ describe('Register Escrow Access Secret Store Template', () => {
 
         it('should fulfill the conditions from consumer side', async () => {
             try {
-                await consumer.requestTokens(escrowAmount)
+                await consumer.requestTokens(totalAmount)
             } catch {}
 
             await nevermined.agreements.conditions.lockReward(
                 agreementId,
-                escrowAmount,
+                totalAmount,
                 consumer
             )
         })
@@ -280,7 +286,8 @@ describe('Register Escrow Access Secret Store Template', () => {
             )
             await nevermined.agreements.conditions.releaseReward(
                 agreementId,
-                escrowAmount,
+                amounts,
+                receivers,
                 did,
                 consumer.getId(),
                 publisher.getId(),

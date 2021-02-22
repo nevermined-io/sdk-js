@@ -5,6 +5,7 @@ import { generateId, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
+import AssetRewards from '../../../models/AssetRewards'
 
 export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
     public static async getInstance(
@@ -24,12 +25,13 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
     public async createAgreementFromDDO(
         agreementId: string,
         ddo: DDO,
-        consumer: string,
+        assetRewards: AssetRewards,
+        consumer: string,        
         from?: string
     ) {
         return !!(await this.createFullAgreement(
             ddo.shortId(),
-            ddo.findServiceByType('metadata').attributes.main.price,
+            assetRewards,
             consumer,
             from,
             agreementId
@@ -39,6 +41,7 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
     public async getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
+        assetRewards: AssetRewards,
         consumer: string,
         from?: string
     ) {
@@ -49,7 +52,7 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
         } = await this.createFullAgreementData(
             agreementId,
             ddo.shortId(),
-            ddo.findServiceByType('metadata').attributes.main.price,
+            assetRewards,
             consumer
         )
         return [computeExecutionConditionId, lockRewardConditionId, escrowRewardId]
@@ -58,13 +61,13 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
     /**
      * Create a agreement using EscrowAccess____SecretStoreTemplate using only the most important information.
      * @param  {string}          did    Asset DID.
-     * @param  {number}          amount Asset price.
+     * @param  {AssetRewards}    assetRewards Asset rewards
      * @param  {string}          from   Consumer address.
      * @return {Promise<string>}        Agreement ID.
      */
     public async createFullAgreement(
         did: string,
-        amount: number | string,
+        assetRewards: AssetRewards,
         consumer: string,
         from?: string,
         agreementId: string = generateId()
@@ -73,7 +76,7 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
             computeExecutionConditionId,
             lockRewardConditionId,
             escrowRewardId
-        } = await this.createFullAgreementData(agreementId, did, amount, consumer)
+        } = await this.createFullAgreementData(agreementId, did, assetRewards, consumer)
 
         await this.createAgreement(
             agreementId,
@@ -91,7 +94,7 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
     private async createFullAgreementData(
         agreementId: string,
         did: string,
-        amount: number | string,
+        assetRewards: AssetRewards,
         consumer: string
     ) {
         const { didRegistry, conditions } = this.nevermined.keeper
@@ -107,7 +110,7 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
         const lockRewardConditionId = await lockRewardCondition.generateIdHash(
             agreementId,
             await escrowReward.getAddress(),
-            amount
+            assetRewards.getTotalPrice()
         )
         const computeExecutionConditionId = await computeExecutionCondition.generateIdHash(
             agreementId,
@@ -116,7 +119,8 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
         )
         const escrowRewardId = await escrowReward.generateIdHash(
             agreementId,
-            String(amount),
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
             publisher,
             consumer,
             lockRewardConditionId,

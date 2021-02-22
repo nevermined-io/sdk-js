@@ -117,7 +117,7 @@ export class Gateway extends Instantiable {
         destination: string,
         index: number = -1
     ): Promise<string> {
-        const jwt = this.nevermined.utils.jwt
+        const {jwt} = this.nevermined.utils
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, did)
 
@@ -208,7 +208,7 @@ export class Gateway extends Instantiable {
         workflowDid: string,
         account: Account,
     ): Promise<any> {
-        const jwt = this.nevermined.utils.jwt
+        const {jwt} = this.nevermined.utils
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, workflowDid)
 
@@ -246,7 +246,7 @@ export class Gateway extends Instantiable {
         destination: string,
         index: number = -1
     ): Promise<string> {
-        const jwt = this.nevermined.utils.jwt
+        const {jwt} = this.nevermined.utils
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(account.getId(), did)
 
@@ -287,7 +287,7 @@ export class Gateway extends Instantiable {
         executionId: string,
         account: Account
         ): Promise<any> {
-            const jwt = this.nevermined.utils.jwt
+            const {jwt} = this.nevermined.utils
             let accessToken: string
             const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
 
@@ -323,7 +323,7 @@ export class Gateway extends Instantiable {
         executionId: string,
         account: Account
         ): Promise<any> {
-            const jwt = this.nevermined.utils.jwt
+            const {jwt} = this.nevermined.utils
             let accessToken: string
             const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
 

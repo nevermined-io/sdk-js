@@ -9,9 +9,12 @@ let condition: EscrowReward
 describe('EscrowReward', () => {
     const agreementId = `0x${'a'.repeat(64)}`
     const did = `0x${'a'.repeat(64)}`
-    const amount = 15
+    const amounts = [15, 3]
+    const totalAmount = amounts[0] + amounts[1]
     const publisher = `0x${'a'.repeat(40)}`
     const consumer = `0x${'b'.repeat(40)}`
+    const provider = `0x${'b'.repeat(40)}`
+    const receivers = [publisher, provider]
     let lockCondition
     let releaseCondition
 
@@ -24,7 +27,7 @@ describe('EscrowReward', () => {
         lockCondition = await keeper.conditions.lockRewardCondition.generateIdHash(
             agreementId,
             publisher,
-            amount
+            totalAmount
         )
         releaseCondition = await keeper.conditions.accessSecretStoreCondition.generateIdHash(
             agreementId,
@@ -36,8 +39,8 @@ describe('EscrowReward', () => {
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const hash = await condition.hashValues(
-                amount,
-                consumer,
+                amounts,
+                receivers,
                 publisher,
                 lockCondition,
                 releaseCondition
@@ -50,8 +53,8 @@ describe('EscrowReward', () => {
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
             const hash = await condition.hashValues(
-                amount,
-                consumer,
+                amounts,
+                receivers,
                 publisher,
                 lockCondition,
                 releaseCondition

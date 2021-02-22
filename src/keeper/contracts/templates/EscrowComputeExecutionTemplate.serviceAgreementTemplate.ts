@@ -101,13 +101,13 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
             functionName: 'fulfill',
             parameters: [
                 {
-                    name: '_amount',
-                    type: 'uint256',
+                    name: '_amounts',
+                    type: 'uint256[]',
                     value: ''
                 },
                 {
-                    name: '_receiver',
-                    type: 'address',
+                    name: '_receivers',
+                    type: 'address[]',
                     value: ''
                 },
                 {

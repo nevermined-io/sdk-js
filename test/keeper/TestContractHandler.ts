@@ -158,8 +158,10 @@ export default class TestContractHandler extends ContractHandler {
             Logger.log('Deploying', name)
             const sendConfig = {
                 from,
-                gas: 6000000,
+                gas: 6721975,
                 gasPrice: '10000'
+                // gas: 6000000,
+                // gasPrice: '10000'
             }
             const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
             const tempContract = new web3.eth.Contract(artifact.abi, artifact.address)

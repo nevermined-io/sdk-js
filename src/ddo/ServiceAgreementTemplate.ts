@@ -1,7 +1,7 @@
 export interface ServiceAgreementTemplateParameter {
     name: string
     type: string
-    value: string | number
+    value: string | number | string[]
 }
 
 export interface ServiceAgreementTemplateEvent {
