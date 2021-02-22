@@ -77,7 +77,7 @@ export class Assets extends Instantiable {
         serviceTypes: ServiceType[]= ['access'],
         services: Service[] = [],
         method: string = 'PSK-RSA',
-        providers?: string[]        
+        providers?: string[]
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -85,7 +85,7 @@ export class Assets extends Instantiable {
             const { didRegistry, templates } = this.nevermined.keeper
 
             const accessServiceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
-            const computeServiceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+            const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
             // const serviceAgreementTemplate = (metadata.main.type === 'compute') ?
             //     await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate() :
             //     await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
@@ -112,7 +112,7 @@ export class Assets extends Instantiable {
                 ddo.service = [, ...services].reverse() as Service[]
             }
 
-            
+
             if (serviceTypes.includes('access'))
                 ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata, accessServiceAgreementTemplate))
             if (serviceTypes.includes('compute'))

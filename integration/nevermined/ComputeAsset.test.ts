@@ -6,7 +6,7 @@ import { workflowMetadatas } from '../utils'
 import { Nevermined, DDO, Account,  } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 
-describe.skip('Compute Asset', () => {
+describe('Compute Asset', () => {
     let nevermined: Nevermined
 
     let publisher: Account
