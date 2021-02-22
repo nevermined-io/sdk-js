@@ -5,7 +5,6 @@ import { MetaData } from '../ddo/MetaData'
 import { Service, ServiceType } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
-import { ConditionState } from '../keeper/contracts/conditions'
 import { fillConditionsWithDDO, getLockRewardTotalAmount, SubscribablePromise, generateId, zeroX, didZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
@@ -86,9 +85,6 @@ export class Assets extends Instantiable {
 
             const accessServiceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
-            // const serviceAgreementTemplate = (metadata.main.type === 'compute') ?
-            //     await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate() :
-            //     await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
 
             // create ddo itself
             const ddo: DDO = new DDO({
@@ -117,13 +113,6 @@ export class Assets extends Instantiable {
                 ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata, accessServiceAgreementTemplate))
             if (serviceTypes.includes('compute'))
                 await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata, computeServiceAgreementTemplate))
-
-            // if (metadata.main.type === 'compute') {
-            //     await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata,serviceAgreementTemplate))
-            // }
-            // else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
-            //     await ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata,serviceAgreementTemplate))
-
 
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
@@ -227,16 +216,6 @@ export class Assets extends Instantiable {
                 const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
                 computeServiceAgreementTemplate.conditions = conditions
             }
-            // if (metadata.main.type === 'compute') {
-            //     const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
-            //     const conditions = fillConditionsWithDDO(rawConditions, ddo)
-            //     computeServiceAgreementTemplate.conditions = conditions
-            // }
-            // else if (metadata.main.type === 'algorithm' || metadata.main.type === 'dataset') {
-            //     const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
-            //     const conditions = fillConditionsWithDDO(rawConditions, ddo)
-            //     accessServiceAgreementTemplate.conditions = conditions
-            // }
 
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
