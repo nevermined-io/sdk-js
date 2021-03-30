@@ -109,7 +109,6 @@ export class WebServiceConnector extends Instantiable {
             {
                 method: 'POST',
                 body: form,
-                headers: form.getHeaders()
             }
         )
     }
