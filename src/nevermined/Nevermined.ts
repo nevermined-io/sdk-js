@@ -21,6 +21,7 @@ import {
 } from '../Instantiable.abstract'
 import { Faucet } from '../faucet/Faucet'
 import { Provider } from './Provider'
+import { Files } from './Files'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -49,6 +50,7 @@ export class Nevermined extends Instantiable {
         instance.accounts = await Accounts.getInstance(instanceConfig)
         instance.auth = await Auth.getInstance(instanceConfig)
         instance.assets = await Assets.getInstance(instanceConfig)
+        instance.files = await Files.getInstance(instanceConfig)
         instance.agreements = await Agreements.getInstance(instanceConfig)
         instance.secretStore = await NeverminedSecretStore.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
@@ -102,6 +104,12 @@ export class Nevermined extends Instantiable {
      * @type {Assets}
      */
     public assets: Assets
+
+    /**
+     * Files submodule
+     * @type {Files}
+     */
+     public files: Files
 
     /**
      * Agreements submodule

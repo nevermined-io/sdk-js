@@ -1,7 +1,8 @@
-import { File } from '../ddo/MetaData'
+import { File as MetaDataFile } from '../ddo/MetaData'
 import Account from '../nevermined/Account'
 import { noZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { ReadStream } from 'fs'
 
 const apiPath = '/api/v1/gateway/services'
 
@@ -63,6 +64,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/oauth/token`
     }
 
+    public getUploadFilecoinEndpoint() {
+        return `${this.url}${apiPath}/upload/filecoin`
+    }
+
     public async getGatewayInfo() {
         return this.nevermined.utils.fetch.get(`${this.url}`)
           .then(res => res.json())
@@ -113,7 +118,7 @@ export class Gateway extends Instantiable {
         agreementId: string,
         serviceEndpoint: string,
         account: Account,
-        files: File[],
+        files: MetaDataFile[],
         destination: string,
         index: number = -1
     ): Promise<string> {
@@ -242,7 +247,7 @@ export class Gateway extends Instantiable {
     public async downloadService(
         did: string,
         account: Account,
-        files: File[],
+        files: MetaDataFile[],
         destination: string,
         index: number = -1
     ): Promise<string> {
@@ -368,7 +373,7 @@ export class Gateway extends Instantiable {
                     'Content-type': 'application/x-www-form-urlencoded',
                 }
             }
-              
+
         )
 
         if (!response.ok) {
@@ -377,5 +382,13 @@ export class Gateway extends Instantiable {
 
         const jsonPayload = await response.json()
         return jsonPayload.access_token
+    }
+
+    public async uploadFilecoin(stream: ReadStream): Promise<any> {
+        const response = await this.nevermined.utils.fetch.uploadFile(
+            this.getUploadFilecoinEndpoint(),
+            stream
+        )
+        return response.json()
     }
 }

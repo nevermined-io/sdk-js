@@ -1,9 +1,10 @@
 import { BodyInit, RequestInit, Response } from 'node-fetch'
-import fs from 'fs'
+import fs, { ReadStream } from 'fs'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 
-const fetch = require('node-fetch')
-import save = require('save-file')
+import fetch from 'node-fetch'
+import save from 'save-file'
+import FormData from 'form-data'
 
 /**
  * Provides a common interface to web services.
@@ -94,6 +95,22 @@ export class WebServiceConnector extends Instantiable {
         } else {
             save(await response.arrayBuffer(), filename)
         }
+    }
+
+    public async uploadFile(
+        url: string,
+        stream: ReadStream
+    ): Promise<any> {
+        const form = new FormData()
+        form.append('file', stream)
+
+        return this.fetch(
+            url,
+            {
+                method: 'POST',
+                body: form,
+            }
+        )
     }
 
     public async fetch(url: string, opts: RequestInit): Promise<Response> {

@@ -74,6 +74,7 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.19.8",
     "@types/node-fetch": "^2.5.7",
+    "@types/temp": "^0.8.34",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "auto-changelog": "^1.16.4",
