@@ -8,7 +8,7 @@ import { getMetadata } from '../utils'
 describe.skip('Filecoin Integration', () => {
     let nevermined: Nevermined
     let publisher: Account
-    let metadata = getMetadata()
+    const metadata = getMetadata()
     let ddo: DDO
 
     const testPath = '/tmp/test.txt'
