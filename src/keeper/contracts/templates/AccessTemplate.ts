@@ -1,32 +1,32 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseEscrowTemplate } from './BaseEscrowTemplate.abstract'
+import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
 import { generateId, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
-import { escrowAccessSecretStoreTemplateServiceAgreementTemplate } from './EscrowAccessSecretStoreTemplate.serviceAgreementTemplate'
+import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
 import AssetRewards from '../../../models/AssetRewards'
 
-export class EscrowAccessSecretStoreTemplate extends BaseEscrowTemplate {
+export class AccessTemplate extends BaseTemplate {
     public static async getInstance(
         config: InstantiableConfig
-    ): Promise<EscrowAccessSecretStoreTemplate> {
+    ): Promise<AccessTemplate> {
         return AgreementTemplate.getInstance(
             config,
-            'EscrowAccessSecretStoreTemplate',
-            EscrowAccessSecretStoreTemplate
+            'AccessTemplate',
+            AccessTemplate
         )
     }
 
     public async getServiceAgreementTemplate() {
-        return escrowAccessSecretStoreTemplateServiceAgreementTemplate
+        return accessTemplateServiceAgreementTemplate
     }
 
     public async createAgreementFromDDO(
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,        
+        consumer: string,
         from?: string
     ) {
         return !!(await this.createFullAgreement(
@@ -59,7 +59,7 @@ export class EscrowAccessSecretStoreTemplate extends BaseEscrowTemplate {
     }
 
     /**
-     * Create a agreement using EscrowAccessSecretStoreTemplate using only the most important information.
+     * Create a agreement using AccessTemplate using only the most important information.
      * @param  {string}          did    Asset DID.
      * @param  {AssetRewards}    assetRewards Asset rewards
      * @param  {string}          from   Consumer address.

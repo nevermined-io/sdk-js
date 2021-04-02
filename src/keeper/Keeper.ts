@@ -12,7 +12,7 @@ import {
 } from './contracts/conditions'
 import {
     AgreementTemplate,
-    EscrowAccessSecretStoreTemplate,
+    AccessTemplate,
     EscrowComputeExecutionTemplate
 } from './contracts/templates'
 import {
@@ -64,7 +64,7 @@ export class Keeper extends Instantiable {
                 ),
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
                 // Templates
-                escrowAccessSecretStoreTemplate: EscrowAccessSecretStoreTemplate.getInstance(
+                accessTemplate: AccessTemplate.getInstance(
                     config
                 ),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
@@ -108,8 +108,8 @@ export class Keeper extends Instantiable {
         }
         // Conditions
         keeper.templates = {
-            escrowAccessSecretStoreTemplate:
-                keeper.instances.escrowAccessSecretStoreTemplate,
+            accessTemplate:
+                keeper.instances.accessTemplate,
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate
         }
@@ -177,7 +177,7 @@ export class Keeper extends Instantiable {
      * Templates instances.
      */
     public templates: {
-        escrowAccessSecretStoreTemplate: EscrowAccessSecretStoreTemplate
+        accessTemplate: AccessTemplate
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
     }
 

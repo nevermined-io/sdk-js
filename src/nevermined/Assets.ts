@@ -83,7 +83,7 @@ export class Assets extends Instantiable {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
-            const accessServiceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+            const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
 
             // create ddo itself
@@ -207,7 +207,7 @@ export class Assets extends Instantiable {
 
             //Fulfill conditions
             if (serviceTypes.includes('access'))    {
-                const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
+                const rawConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
                 const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
                 accessServiceAgreementTemplate.conditions = conditions
             }
@@ -711,7 +711,7 @@ export class Assets extends Instantiable {
             type: 'access',
             index: 3,
             serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
-            templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
+            templateId: templates.accessTemplate.getAddress(),
             attributes: {
                 main: {
                     creator: publisher.getId(),

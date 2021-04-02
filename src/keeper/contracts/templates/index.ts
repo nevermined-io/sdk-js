@@ -1,4 +1,4 @@
 export * from './AgreementTemplate.abstract'
-export { BaseEscrowTemplate } from './BaseEscrowTemplate.abstract'
-export { EscrowAccessSecretStoreTemplate } from './EscrowAccessSecretStoreTemplate'
+export { BaseTemplate } from './BaseTemplate.abstract'
+export { AccessTemplate } from './AccessTemplate'
 export { EscrowComputeExecutionTemplate } from './EscrowComputeExecutionTemplate'

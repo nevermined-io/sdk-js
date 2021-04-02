@@ -54,7 +54,7 @@ export class Agreements extends Instantiable {
         const templateName = ddo.findServiceByType('access').attributes
             .serviceAgreementTemplate.contractName
         const assetRewards = getAssetRewardsFromDDO(ddo, index)
-        
+
         const agreementConditionsIds = await this.nevermined.keeper
             .getTemplateByName(templateName)
             .getAgreementIdsFromDDO(agreementId, ddo, assetRewards, consumer.getId(), consumer.getId())
@@ -96,7 +96,7 @@ export class Agreements extends Instantiable {
         const templateName = ddo.findServiceById<'access'>(index).attributes
             .serviceAgreementTemplate.contractName
         const assetRewards = getAssetRewardsFromDDO(ddo, index)
-        
+
         await this.nevermined.keeper
             .getTemplateByName(templateName)
             .createAgreementFromDDO(agreementId, ddo, assetRewards, consumer.getId(), publisher.getId())
@@ -142,7 +142,7 @@ export class Agreements extends Instantiable {
     }
 
     public async isAccessGranted(agreementId: string, did: string, consumer: string, account: Account): Promise<boolean> {
-        const consumerAddress = this.nevermined.keeper.templates.escrowAccessSecretStoreTemplate.getAgreementData(agreementId)[0]
+        const consumerAddress = this.nevermined.keeper.templates.accessTemplate.getAgreementData(agreementId)[0]
         if(!consumer.includes(consumerAddress)){
             console.log(`This address [${consumer}] has not access granted`)
             return false

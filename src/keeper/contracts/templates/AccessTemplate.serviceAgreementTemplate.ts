@@ -1,13 +1,13 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 
-export const escrowAccessSecretStoreTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
-    contractName: 'EscrowAccessSecretStoreTemplate',
+export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
+    contractName: 'AccessTemplate',
     events: [
         {
             name: 'AgreementCreated',
             actorType: 'consumer',
             handler: {
-                moduleName: 'escrowAccessSecretStoreTemplate',
+                moduleName: 'accessTemplate',
                 functionName: 'fulfillLockRewardCondition',
                 version: '0.1'
             }

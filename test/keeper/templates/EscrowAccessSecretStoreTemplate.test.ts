@@ -1,18 +1,18 @@
 import { assert } from 'chai'
-import { EscrowAccessSecretStoreTemplate } from '../../../src/keeper/contracts/templates'
+import { AccessTemplate } from '../../../src/keeper/contracts/templates'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import { Condition } from "../../../src"
 
-let template: EscrowAccessSecretStoreTemplate
+let template: AccessTemplate
 let condition: Condition
 
-describe('EscrowAccessSecretStoreTemplate', () => {
+describe('AccessTemplate', () => {
     before(async () => {
         const nevermined: Nevermined = await Nevermined.getInstance(config)
         await TestContractHandler.prepareContracts()
-        template = nevermined.keeper.templates.escrowAccessSecretStoreTemplate
+        template = nevermined.keeper.templates.accessTemplate
         const conditions = await template.getConditions()
         condition = conditions.find(
             (condition) => condition.contractName === 'LockRewardCondition'

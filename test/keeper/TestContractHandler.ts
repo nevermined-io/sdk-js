@@ -122,7 +122,7 @@ export default class TestContractHandler extends ContractHandler {
 
         // Templates
         await TestContractHandler.deployContract(
-            'EscrowAccessSecretStoreTemplate',
+            'AccessTemplate',
             deployerAddress,
             [
                 deployerAddress,

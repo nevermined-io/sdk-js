@@ -11,7 +11,7 @@ describe('Register Escrow Access Secret Store Template', () => {
     let nevermined: Nevermined
     let keeper: Keeper
 
-    let template: templates.EscrowAccessSecretStoreTemplate
+    let template: templates.AccessTemplate
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
@@ -32,7 +32,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         nevermined = await Nevermined.getInstance(config)
         keeper = nevermined.keeper
 
-        template = keeper.templates.escrowAccessSecretStoreTemplate
+        template = keeper.templates.accessTemplate
 
         // Accounts
         templateManagerOwner = (await nevermined.accounts.list())[0]
@@ -106,7 +106,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 agreementId,
                 amounts,
                 receivers,
-                publisher.getId(),                
+                publisher.getId(),
                 conditionIdLock,
                 conditionIdAccess
             )
@@ -210,7 +210,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 agreementId,
                 amounts,
                 receivers,
-                publisher.getId(),                
+                publisher.getId(),
                 conditionIdLock,
                 conditionIdAccess,
                 consumer.getId()

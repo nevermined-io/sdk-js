@@ -1,5 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseEscrowTemplate } from './BaseEscrowTemplate.abstract'
+import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
 import { generateId, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
@@ -7,7 +7,7 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
 import AssetRewards from '../../../models/AssetRewards'
 
-export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
+export class EscrowComputeExecutionTemplate extends BaseTemplate {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<EscrowComputeExecutionTemplate> {
@@ -26,7 +26,7 @@ export class EscrowComputeExecutionTemplate extends BaseEscrowTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,        
+        consumer: string,
         from?: string
     ) {
         return !!(await this.createFullAgreement(
