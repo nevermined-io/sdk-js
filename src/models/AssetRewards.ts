@@ -9,6 +9,8 @@ export default class AssetRewards {
 
   public constructor(address: string, amount: string)
 
+  public constructor(address: string, amount: Number)
+
   public constructor(..._params: any[]) {
     this.totalPrice = '0'
     this.rewards = new Map()
@@ -20,7 +22,7 @@ export default class AssetRewards {
       )
     } else if (_params.length === 2) {
       this.rewards.set(_params[0], _params[1])
-      this.totalPrice = _params[1]
+      this.totalPrice = String(_params[1])
     }
   }
 

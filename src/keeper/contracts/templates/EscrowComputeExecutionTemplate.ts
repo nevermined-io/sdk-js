@@ -47,7 +47,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
     ) {
         const {
             computeExecutionConditionId,
-            lockRewardConditionId,
+            lockPaymentConditionId,
             escrowRewardId
         } = await this.createFullAgreementData(
             agreementId,
@@ -55,7 +55,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             assetRewards,
             consumer
         )
-        return [computeExecutionConditionId, lockRewardConditionId, escrowRewardId]
+        return [computeExecutionConditionId, lockPaymentConditionId, escrowRewardId]
     }
 
     /**
@@ -74,14 +74,14 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
     ): Promise<string> {
         const {
             computeExecutionConditionId,
-            lockRewardConditionId,
+            lockPaymentConditionId,
             escrowRewardId
         } = await this.createFullAgreementData(agreementId, did, assetRewards, consumer)
 
         await this.createAgreement(
             agreementId,
             did,
-            [computeExecutionConditionId, lockRewardConditionId, escrowRewardId],
+            [computeExecutionConditionId, lockPaymentConditionId, escrowRewardId],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -101,13 +101,13 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
 
         const {
             computeExecutionCondition,
-            lockRewardCondition,
+            lockPaymentCondition,
             escrowReward
         } = conditions
 
         const publisher = await didRegistry.getDIDOwner(did)
 
-        const lockRewardConditionId = await lockRewardCondition.generateIdHash(
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
             await escrowReward.getAddress(),
             assetRewards.getTotalPrice()
@@ -123,12 +123,12 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             assetRewards.getReceivers(),
             publisher,
             consumer,
-            lockRewardConditionId,
+            lockPaymentConditionId,
             computeExecutionConditionId
         )
 
         return {
-            lockRewardConditionId,
+            lockPaymentConditionId,
             computeExecutionConditionId,
             escrowRewardId
         }

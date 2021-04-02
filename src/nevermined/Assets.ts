@@ -5,7 +5,7 @@ import { MetaData } from '../ddo/MetaData'
 import { Service, ServiceType } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
-import { fillConditionsWithDDO, getLockRewardTotalAmount, SubscribablePromise, generateId, zeroX, didZeroX } from '../utils'
+import { fillConditionsWithDDO, getLockPaymentTotalAmount, SubscribablePromise, generateId, zeroX, didZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 
@@ -373,7 +373,7 @@ export class Assets extends Instantiable {
             const service = ddo.findServiceById(index)
             const templateName = service.attributes.serviceAgreementTemplate.contractName
             const template = keeper.getTemplateByName(templateName)
-            const totalAmount = getLockRewardTotalAmount(ddo, index)
+            const totalAmount = getLockPaymentTotalAmount(ddo, index)
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
@@ -387,7 +387,7 @@ export class Assets extends Instantiable {
                 this.logger.log('Locking payment')
 
                 observer.next(OrderProgressStep.LockingPayment)
-                const paid = await agreements.conditions.lockReward(
+                const paid = await agreements.conditions.lockPayment(
                     agreementId,
                     totalAmount,
                     consumer

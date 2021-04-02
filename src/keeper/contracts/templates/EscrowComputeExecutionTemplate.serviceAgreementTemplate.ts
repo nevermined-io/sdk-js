@@ -8,27 +8,27 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
             actorType: 'consumer',
             handler: {
                 moduleName: 'serviceExecutionTemplate',
-                functionName: 'fulfillLockRewardCondition',
+                functionName: 'fulfillLockPaymentCondition',
                 version: '0.1'
             }
         }
     ],
     fulfillmentOrder: [
-        'lockReward.fulfill',
+        'lockPayment.fulfill',
         'serviceExecution.fulfill',
         'escrowReward.fulfill'
     ],
     conditionDependency: {
-        lockReward: [],
+        lockPayment: [],
         serviceExecution: [],
-        escrowReward: ['lockReward', 'serviceExecution']
+        escrowReward: ['lockPayment', 'serviceExecution']
     },
     conditions: [
         {
-            name: 'lockReward',
+            name: 'lockPayment',
             timelock: 0,
             timeout: 0,
-            contractName: 'LockRewardCondition',
+            contractName: 'LockPaymentCondition',
             functionName: 'fulfill',
             parameters: [
                 {
@@ -47,7 +47,7 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
                     name: 'Fulfilled',
                     actorType: 'publisher',
                     handler: {
-                        moduleName: 'lockRewardCondition',
+                        moduleName: 'lockPaymentCondition',
                         functionName: 'fulfillServiceExecutionCondition',
                         version: '0.1'
                     }

@@ -24,7 +24,7 @@ describe('EscrowReward', () => {
         await TestContractHandler.prepareContracts()
         condition = keeper.conditions.escrowReward
 
-        lockCondition = await keeper.conditions.lockRewardCondition.generateIdHash(
+        lockCondition = await keeper.conditions.lockPaymentCondition.generateIdHash(
             agreementId,
             publisher,
             totalAmount

@@ -28,7 +28,7 @@ describe('Consume Asset', () => {
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
-        }        
+        }
     })
 
     it('should register an asset', async () => {
@@ -101,14 +101,14 @@ describe('Consume Asset', () => {
         )
 
         assert.deepEqual(status, {
-            lockReward: ConditionState.Unfulfilled,
+            lockPayment: ConditionState.Unfulfilled,
             accessSecretStore: ConditionState.Unfulfilled,
             escrowReward: ConditionState.Unfulfilled
         })
     })
 
     it('should lock the payment by the consumer', async () => {
-        const paid = await nevermined.agreements.conditions.lockReward(
+        const paid = await nevermined.agreements.conditions.lockPayment(
             serviceAgreementSignatureResult.agreementId,
             ddo.findServiceByType('metadata').attributes.main.price,
             consumer
@@ -144,7 +144,7 @@ describe('Consume Asset', () => {
         )
 
         assert.deepEqual(status, {
-            lockReward: ConditionState.Fulfilled,
+            lockPayment: ConditionState.Fulfilled,
             accessSecretStore: ConditionState.Fulfilled,
             escrowReward: ConditionState.Unfulfilled
         })

@@ -90,8 +90,8 @@ export default class TestContractHandler extends ContractHandler {
         )
 
         // Conditions
-        const lockRewardCondition = await TestContractHandler.deployContract(
-            'LockRewardCondition',
+        const lockPaymentCondition = await TestContractHandler.deployContract(
+            'LockPaymentCondition',
             deployerAddress,
             [
                 deployerAddress,
@@ -129,7 +129,7 @@ export default class TestContractHandler extends ContractHandler {
                 agreementStoreManager.options.address,
                 didRegistry.options.address,
                 accessSecretStoreCondition.options.address,
-                lockRewardCondition.options.address,
+                lockPaymentCondition.options.address,
                 escrowReward.options.address
             ]
         )

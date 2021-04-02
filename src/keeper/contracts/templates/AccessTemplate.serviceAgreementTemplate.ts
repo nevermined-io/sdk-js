@@ -8,27 +8,27 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             actorType: 'consumer',
             handler: {
                 moduleName: 'accessTemplate',
-                functionName: 'fulfillLockRewardCondition',
+                functionName: 'fulfillLockPaymentCondition',
                 version: '0.1'
             }
         }
     ],
     fulfillmentOrder: [
-        'lockReward.fulfill',
+        'lockPayment.fulfill',
         'accessSecretStore.fulfill',
         'escrowReward.fulfill'
     ],
     conditionDependency: {
-        lockReward: [],
+        lockPayment: [],
         accessSecretStore: [],
-        escrowReward: ['lockReward', 'accessSecretStore']
+        escrowReward: ['lockPayment', 'accessSecretStore']
     },
     conditions: [
         {
-            name: 'lockReward',
+            name: 'lockPayment',
             timelock: 0,
             timeout: 0,
-            contractName: 'LockRewardCondition',
+            contractName: 'LockPaymentCondition',
             functionName: 'fulfill',
             parameters: [
                 {
@@ -47,7 +47,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     name: 'Fulfilled',
                     actorType: 'publisher',
                     handler: {
-                        moduleName: 'lockRewardCondition',
+                        moduleName: 'lockPaymentCondition',
                         functionName: 'fulfillAccessSecretStoreCondition',
                         version: '0.1'
                     }

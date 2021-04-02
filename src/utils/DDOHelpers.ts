@@ -18,7 +18,7 @@ function fillParameterWithDDO(
                 return assetRewards.getAmounts()
             case 'receivers':
                 return assetRewards.getReceivers()
-            case 'amount':                
+            case 'amount':
             case 'price':
                 return assetRewards.getTotalPrice()
                 // return String(ddo.findServiceByType('metadata').attributes.main.price)
@@ -41,7 +41,7 @@ function fillParameterWithDDO(
  * Fill some static parameters that depends on the metadata.
  * @param  {ServiceAgreementTemplateCondition[]} conditions Conditions to fill.
  * @param  {DDO}                                 ddo        DDO related to this conditions.
- * @param  {AssetRewards}                      assetRewards Rewards distribution  
+ * @param  {AssetRewards}                      assetRewards Rewards distribution
  * @return {ServiceAgreementTemplateCondition[]}            Filled conditions.
  */
 export function fillConditionsWithDDO(
@@ -65,16 +65,16 @@ function findServiceConditionByName(
                 .conditions.find(c => c.name === name)
 }
 
-export function getLockRewardTotalAmount(
+export function getLockPaymentTotalAmount(
     ddo: DDO,
     index: number
 ): string {
 
     try {
-        const lockRewardCondition = findServiceConditionByName(
-            ddo.findServiceById(index), 'lockReward')
+        const lockPaymentCondition = findServiceConditionByName(
+            ddo.findServiceById(index), 'lockPayment')
         return String(
-            lockRewardCondition.parameters.find(p => p.name === '_amount').value)        
+            lockPaymentCondition.parameters.find(p => p.name === '_amount').value)
     } catch (error) {
         return "0"
     }

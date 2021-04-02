@@ -15,7 +15,7 @@ describe('AccessTemplate', () => {
         template = nevermined.keeper.templates.accessTemplate
         const conditions = await template.getConditions()
         condition = conditions.find(
-            (condition) => condition.contractName === 'LockRewardCondition'
+            (condition) => condition.contractName === 'LockPaymentCondition'
         )
     })
 

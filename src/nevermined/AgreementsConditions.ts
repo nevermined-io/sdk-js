@@ -25,21 +25,21 @@ export class AgreementsConditions extends Instantiable {
      * @param {number}  amount      Asset amount.
      * @param {Account} from        Account of sender.
      */
-    public async lockReward(
+    public async lockPayment(
         agreementId: string,
         amount: number | string,
         from?: Account
     ) {
-        const { lockRewardCondition, escrowReward } = this.nevermined.keeper.conditions
+        const { lockPaymentCondition, escrowReward } = this.nevermined.keeper.conditions
 
         try {
             await this.nevermined.keeper.token.approve(
-                lockRewardCondition.getAddress(),
+                lockPaymentCondition.getAddress(),
                 amount,
                 from.getId()
             )
 
-            const receipt = await lockRewardCondition.fulfill(
+            const receipt = await lockPaymentCondition.fulfill(
                 agreementId,
                 escrowReward.getAddress(),
                 amount,
@@ -109,7 +109,7 @@ export class AgreementsConditions extends Instantiable {
     }
 
     /**
-     * Transfer the escrow or locked tokens from the LockRewardCondition contract to the publisher's account.
+     * Transfer the escrow or locked tokens from the LockPaymentCondition contract to the publisher's account.
      * This should be allowed after access has been given to the consumer and the asset data is downloaded.
      *
      * If the AccessSecretStoreCondition already timed out, this function will do a refund by transferring
@@ -135,7 +135,7 @@ export class AgreementsConditions extends Instantiable {
             const {
                 escrowReward,
                 accessSecretStoreCondition,
-                lockRewardCondition
+                lockPaymentCondition
             } = this.nevermined.keeper.conditions
 
             const totalAmount = amounts.reduce((a, b) => a + b, 0)
@@ -145,7 +145,7 @@ export class AgreementsConditions extends Instantiable {
                 did,
                 consumer
             )
-            const conditionIdLock = await lockRewardCondition.generateIdHash(
+            const conditionIdLock = await lockPaymentCondition.generateIdHash(
                 agreementId,
                 escrowReward.getAddress(),
                 totalAmount

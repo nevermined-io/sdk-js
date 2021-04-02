@@ -1,16 +1,16 @@
 import { Condition } from './Condition.abstract'
-import { zeroX } from '../../../utils'
+import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
-export class LockRewardCondition extends Condition {
+export class LockPaymentCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
-    ): Promise<LockRewardCondition> {
-        return Condition.getInstance(config, 'LockRewardCondition', LockRewardCondition)
+    ): Promise<LockPaymentCondition> {
+        return Condition.getInstance(config, 'LockPaymentCondition', LockPaymentCondition)
     }
 
-    public hashValues(rewardAddress: string, amount: number | string) {
-        return super.hashValues(zeroX(rewardAddress), String(amount))
+    public hashValues(did: string, rewardAddress: string, amount: string[], receivers: string[]) {
+        return super.hashValues(didZeroX(did), zeroX(rewardAddress), amount, receivers)
     }
 
     public fulfill(

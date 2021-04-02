@@ -47,7 +47,7 @@ export class AccessTemplate extends BaseTemplate {
     ) {
         const {
             accessSecretStoreConditionId,
-            lockRewardConditionId,
+            lockPaymentConditionId,
             escrowRewardId
         } = await this.createFullAgreementData(
             agreementId,
@@ -55,7 +55,7 @@ export class AccessTemplate extends BaseTemplate {
             assetRewards,
             consumer
         )
-        return [accessSecretStoreConditionId, lockRewardConditionId, escrowRewardId]
+        return [accessSecretStoreConditionId, lockPaymentConditionId, escrowRewardId]
     }
 
     /**
@@ -74,14 +74,14 @@ export class AccessTemplate extends BaseTemplate {
     ): Promise<string> {
         const {
             accessSecretStoreConditionId,
-            lockRewardConditionId,
+            lockPaymentConditionId,
             escrowRewardId
         } = await this.createFullAgreementData(agreementId, did, assetRewards, consumer)
 
         await this.createAgreement(
             agreementId,
             did,
-            [accessSecretStoreConditionId, lockRewardConditionId, escrowRewardId],
+            [accessSecretStoreConditionId, lockPaymentConditionId, escrowRewardId],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -101,16 +101,18 @@ export class AccessTemplate extends BaseTemplate {
 
         const {
             accessSecretStoreCondition,
-            lockRewardCondition,
+            lockPaymentCondition,
             escrowReward
         } = conditions
 
         const publisher = await didRegistry.getDIDOwner(did)
 
-        const lockRewardConditionId = await lockRewardCondition.generateIdHash(
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
+            did,
             await escrowReward.getAddress(),
-            assetRewards.getTotalPrice()
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers()
         )
         const accessSecretStoreConditionId = await accessSecretStoreCondition.generateIdHash(
             agreementId,
@@ -123,12 +125,12 @@ export class AccessTemplate extends BaseTemplate {
             assetRewards.getReceivers(),
             publisher,
             consumer,
-            lockRewardConditionId,
+            lockPaymentConditionId,
             accessSecretStoreConditionId
         )
 
         return {
-            lockRewardConditionId,
+            lockPaymentConditionId,
             accessSecretStoreConditionId,
             escrowRewardId
         }
