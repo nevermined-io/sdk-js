@@ -7,7 +7,7 @@ import {
     Condition,
     LockPaymentCondition,
     EscrowReward,
-    AccessSecretStoreCondition,
+    AccessCondition,
     ComputeExecutionCondition
 } from './contracts/conditions'
 import {
@@ -59,7 +59,7 @@ export class Keeper extends Instantiable {
                 // Conditions
                 lockPaymentCondition: LockPaymentCondition.getInstance(config),
                 escrowReward: EscrowReward.getInstance(config),
-                accessSecretStoreCondition: AccessSecretStoreCondition.getInstance(
+                accessCondition: AccessCondition.getInstance(
                     config
                 ),
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
@@ -103,7 +103,7 @@ export class Keeper extends Instantiable {
         keeper.conditions = {
             lockPaymentCondition: keeper.instances.lockPaymentCondition,
             escrowReward: keeper.instances.escrowReward,
-            accessSecretStoreCondition: keeper.instances.accessSecretStoreCondition,
+            accessCondition: keeper.instances.accessCondition,
             computeExecutionCondition: keeper.instances.computeExecutionCondition
         }
         // Conditions
@@ -169,7 +169,7 @@ export class Keeper extends Instantiable {
     public conditions: {
         lockPaymentCondition: LockPaymentCondition
         escrowReward: EscrowReward
-        accessSecretStoreCondition: AccessSecretStoreCondition
+        accessCondition: AccessCondition
         computeExecutionCondition: ComputeExecutionCondition
     }
 

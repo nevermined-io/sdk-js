@@ -46,7 +46,7 @@ export class AccessTemplate extends BaseTemplate {
         from?: string
     ) {
         const {
-            accessSecretStoreConditionId,
+            accessConditionId,
             lockPaymentConditionId,
             escrowRewardId
         } = await this.createFullAgreementData(
@@ -55,7 +55,7 @@ export class AccessTemplate extends BaseTemplate {
             assetRewards,
             consumer
         )
-        return [accessSecretStoreConditionId, lockPaymentConditionId, escrowRewardId]
+        return [accessConditionId, lockPaymentConditionId, escrowRewardId]
     }
 
     /**
@@ -73,7 +73,7 @@ export class AccessTemplate extends BaseTemplate {
         agreementId: string = generateId()
     ): Promise<string> {
         const {
-            accessSecretStoreConditionId,
+            accessConditionId,
             lockPaymentConditionId,
             escrowRewardId
         } = await this.createFullAgreementData(agreementId, did, assetRewards, consumer)
@@ -81,7 +81,7 @@ export class AccessTemplate extends BaseTemplate {
         await this.createAgreement(
             agreementId,
             did,
-            [accessSecretStoreConditionId, lockPaymentConditionId, escrowRewardId],
+            [accessConditionId, lockPaymentConditionId, escrowRewardId],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -100,7 +100,7 @@ export class AccessTemplate extends BaseTemplate {
         const { didRegistry, conditions } = this.nevermined.keeper
 
         const {
-            accessSecretStoreCondition,
+            accessCondition,
             lockPaymentCondition,
             escrowReward
         } = conditions
@@ -114,7 +114,7 @@ export class AccessTemplate extends BaseTemplate {
             assetRewards.getAmounts(),
             assetRewards.getReceivers()
         )
-        const accessSecretStoreConditionId = await accessSecretStoreCondition.generateIdHash(
+        const accessConditionId = await accessCondition.generateIdHash(
             agreementId,
             did,
             consumer
@@ -126,12 +126,12 @@ export class AccessTemplate extends BaseTemplate {
             publisher,
             consumer,
             lockPaymentConditionId,
-            accessSecretStoreConditionId
+            accessConditionId
         )
 
         return {
             lockPaymentConditionId,
-            accessSecretStoreConditionId,
+            accessConditionId,
             escrowRewardId
         }
     }

@@ -48,7 +48,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     actorType: 'publisher',
                     handler: {
                         moduleName: 'lockPaymentCondition',
-                        functionName: 'fulfillAccessSecretStoreCondition',
+                        functionName: 'fulfillAccessCondition',
                         version: '0.1'
                     }
                 }
@@ -58,7 +58,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             name: 'accessSecretStore',
             timelock: 0,
             timeout: 0,
-            contractName: 'AccessSecretStoreCondition',
+            contractName: 'AccessCondition',
             functionName: 'fulfill',
             parameters: [
                 {

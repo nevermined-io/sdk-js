@@ -29,7 +29,7 @@ describe('EscrowReward', () => {
             publisher,
             totalAmount
         )
-        releaseCondition = await keeper.conditions.accessSecretStoreCondition.generateIdHash(
+        releaseCondition = await keeper.conditions.accessCondition.generateIdHash(
             agreementId,
             did,
             consumer

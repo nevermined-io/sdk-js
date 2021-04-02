@@ -1,12 +1,12 @@
 import { assert } from 'chai'
-import { AccessSecretStoreCondition } from '../../../src/keeper/contracts/conditions'
+import { AccessCondition } from '../../../src/keeper/contracts/conditions'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
-let condition: AccessSecretStoreCondition
+let condition: AccessCondition
 
-describe('AccessSecretStoreCondition', () => {
+describe('AccessCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
     const did = `did:nv:${'a'.repeat(64)}`
     const address = `0x${'a'.repeat(40)}`
@@ -14,7 +14,7 @@ describe('AccessSecretStoreCondition', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         condition = (await Nevermined.getInstance(config)).keeper.conditions
-            .accessSecretStoreCondition
+            .accessCondition
     })
 
     describe('#hashValues()', () => {

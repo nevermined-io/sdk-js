@@ -1,5 +1,5 @@
 export * from './Condition.abstract'
-export { AccessSecretStoreCondition } from './AccessSecretStoreCondition'
+export { AccessCondition } from './AccessCondition'
 export { EscrowReward } from './EscrowReward'
 export { LockPaymentCondition } from './LockPaymentCondition'
 export { ComputeExecutionCondition } from './ComputeExecutionCondition'

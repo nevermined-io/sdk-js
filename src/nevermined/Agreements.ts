@@ -147,6 +147,6 @@ export class Agreements extends Instantiable {
             console.log(`This address [${consumer}] has not access granted`)
             return false
         }
-        return await this.nevermined.keeper.conditions.accessSecretStoreCondition.checkPermissions(consumerAddress, did, account.getId())
+        return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(consumerAddress, did, account.getId())
     }
 }

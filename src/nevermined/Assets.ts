@@ -501,7 +501,7 @@ export class Assets extends Instantiable {
      */
     public async consumerAssets(consumer: string): Promise<string[]> {
         return (
-            await this.nevermined.keeper.conditions.accessSecretStoreCondition.getGrantedDidByConsumer(
+            await this.nevermined.keeper.conditions.accessCondition.getGrantedDidByConsumer(
                 consumer
             )
         ).map(({ did }) => did)

@@ -128,7 +128,7 @@ describe('Consume Asset (Documentation example)', () => {
 
             assert.isTrue(granted, 'The asset has not been granted correctly')
 
-            const accessGranted = await nevermined.keeper.conditions.accessSecretStoreCondition.checkPermissions(
+            const accessGranted = await nevermined.keeper.conditions.accessCondition.checkPermissions(
                 consumer.getId(),
                 ddo.id
             )

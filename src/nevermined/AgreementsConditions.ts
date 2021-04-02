@@ -66,9 +66,9 @@ export class AgreementsConditions extends Instantiable {
         from?: Account
     ) {
         try {
-            const { accessSecretStoreCondition } = this.nevermined.keeper.conditions
+            const { accessCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await accessSecretStoreCondition.fulfill(
+            const receipt = await accessCondition.fulfill(
                 agreementId,
                 did,
                 grantee,
@@ -112,7 +112,7 @@ export class AgreementsConditions extends Instantiable {
      * Transfer the escrow or locked tokens from the LockPaymentCondition contract to the publisher's account.
      * This should be allowed after access has been given to the consumer and the asset data is downloaded.
      *
-     * If the AccessSecretStoreCondition already timed out, this function will do a refund by transferring
+     * If the AccessCondition already timed out, this function will do a refund by transferring
      * the token amount to the original consumer.
      * @param {string}  agreementId Agreement ID.
      * @param {number[]}  amounts   Asset amounts to distribute.
@@ -134,13 +134,13 @@ export class AgreementsConditions extends Instantiable {
         try {
             const {
                 escrowReward,
-                accessSecretStoreCondition,
+                accessCondition,
                 lockPaymentCondition
             } = this.nevermined.keeper.conditions
 
             const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
-            const conditionIdAccess = await accessSecretStoreCondition.generateIdHash(
+            const conditionIdAccess = await accessCondition.generateIdHash(
                 agreementId,
                 did,
                 consumer
