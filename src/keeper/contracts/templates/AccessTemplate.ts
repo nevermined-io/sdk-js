@@ -48,14 +48,14 @@ export class AccessTemplate extends BaseTemplate {
         const {
             accessConditionId,
             lockPaymentConditionId,
-            escrowRewardId
+            escrowPaymentConditionId
         } = await this.createFullAgreementData(
             agreementId,
             ddo.shortId(),
             assetRewards,
             consumer
         )
-        return [accessConditionId, lockPaymentConditionId, escrowRewardId]
+        return [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId]
     }
 
     /**
@@ -75,13 +75,13 @@ export class AccessTemplate extends BaseTemplate {
         const {
             accessConditionId,
             lockPaymentConditionId,
-            escrowRewardId
+            escrowPaymentConditionId
         } = await this.createFullAgreementData(agreementId, did, assetRewards, consumer)
 
         await this.createAgreement(
             agreementId,
             did,
-            [accessConditionId, lockPaymentConditionId, escrowRewardId],
+            [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -102,7 +102,7 @@ export class AccessTemplate extends BaseTemplate {
         const {
             accessCondition,
             lockPaymentCondition,
-            escrowReward
+            escrowPaymentCondition
         } = conditions
 
         const publisher = await didRegistry.getDIDOwner(did)
@@ -110,7 +110,7 @@ export class AccessTemplate extends BaseTemplate {
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
             did,
-            await escrowReward.getAddress(),
+            await escrowPaymentCondition.getAddress(),
             assetRewards.getAmounts(),
             assetRewards.getReceivers()
         )
@@ -119,7 +119,7 @@ export class AccessTemplate extends BaseTemplate {
             did,
             consumer
         )
-        const escrowRewardId = await escrowReward.generateIdHash(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
             agreementId,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
@@ -132,7 +132,7 @@ export class AccessTemplate extends BaseTemplate {
         return {
             lockPaymentConditionId,
             accessConditionId,
-            escrowRewardId
+            escrowPaymentConditionId
         }
     }
 }

@@ -2,9 +2,9 @@ import { Condition } from './Condition.abstract'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
-export class EscrowReward extends Condition {
-    public static async getInstance(config: InstantiableConfig): Promise<EscrowReward> {
-        return Condition.getInstance(config, 'EscrowReward', EscrowReward)
+export class EscrowPaymentCondition extends Condition {
+    public static async getInstance(config: InstantiableConfig): Promise<EscrowPaymentCondition> {
+        return Condition.getInstance(config, 'EscrowPaymentCondition', EscrowPaymentCondition)
     }
 
     public hashValues(
@@ -15,7 +15,7 @@ export class EscrowReward extends Condition {
         releaseCondition: string
     ) {
         return super.hashValues(
-            amounts, receivers, 
+            amounts, receivers,
             ...[sender, lockCondition, releaseCondition].map(zeroX)
         )
     }

@@ -5,7 +5,7 @@ import { config } from '../config'
 import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 
-const { LockPaymentCondition, EscrowReward, AccessCondition } = conditions
+const { LockPaymentCondition, EscrowPaymentCondition, AccessCondition } = conditions
 
 describe('Register Escrow Access Secret Store Template', () => {
     let nevermined: Nevermined
@@ -26,7 +26,7 @@ describe('Register Escrow Access Secret Store Template', () => {
 
     let accessCondition: conditions.AccessCondition
     let lockPaymentCondition: conditions.LockPaymentCondition
-    let escrowReward: conditions.EscrowReward
+    let escrowPaymentCondition: conditions.EscrowPaymentCondition
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -44,7 +44,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         // Conditions
         accessCondition = keeper.conditions.accessCondition
         lockPaymentCondition = keeper.conditions.lockPaymentCondition
-        escrowReward = keeper.conditions.escrowReward
+        escrowPaymentCondition = keeper.conditions.escrowPaymentCondition
 
         if (!nevermined.keeper.dispenser) {
             totalAmount = 0
@@ -99,10 +99,10 @@ describe('Register Escrow Access Secret Store Template', () => {
             )
             conditionIdLock = await lockPaymentCondition.generateIdHash(
                 agreementId,
-                await escrowReward.getAddress(),
+                await escrowPaymentCondition.getAddress(),
                 totalAmount
             )
-            conditionIdEscrow = await escrowReward.generateIdHash(
+            conditionIdEscrow = await escrowPaymentCondition.generateIdHash(
                 agreementId,
                 amounts,
                 receivers,
@@ -120,7 +120,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 [...conditionTypes].sort(),
                 [
                     accessCondition.getAddress(),
-                    escrowReward.getAddress(),
+                    escrowPaymentCondition.getAddress(),
                     lockPaymentCondition.getAddress()
                 ].sort(),
                 "The conditions doesn't match"
@@ -134,7 +134,7 @@ describe('Register Escrow Access Secret Store Template', () => {
 
             const conditionClasses = [
                 AccessCondition,
-                EscrowReward,
+                EscrowPaymentCondition,
                 LockPaymentCondition
             ]
             conditionClasses.forEach(conditionClass => {
@@ -186,7 +186,7 @@ describe('Register Escrow Access Secret Store Template', () => {
 
             const fulfill = await lockPaymentCondition.fulfill(
                 agreementId,
-                escrowReward.getAddress(),
+                escrowPaymentCondition.getAddress(),
                 totalAmount,
                 consumer.getId()
             )
@@ -205,8 +205,8 @@ describe('Register Escrow Access Secret Store Template', () => {
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
         })
 
-        it('should fulfill EscrowReward', async () => {
-            const fulfill = await escrowReward.fulfill(
+        it('should fulfill EscrowPaymentCondition', async () => {
+            const fulfill = await escrowPaymentCondition.fulfill(
                 agreementId,
                 amounts,
                 receivers,

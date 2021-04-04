@@ -102,7 +102,7 @@ describe('Consume Asset (Documentation example)', () => {
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
             accessSecretStore: ConditionState.Unfulfilled,
-            escrowReward: ConditionState.Unfulfilled
+            escrowPaymentCondition: ConditionState.Unfulfilled
         })
     })
 
@@ -145,7 +145,7 @@ describe('Consume Asset (Documentation example)', () => {
         assert.deepEqual(status, {
             lockPayment: ConditionState.Fulfilled,
             accessSecretStore: ConditionState.Fulfilled,
-            escrowReward: ConditionState.Unfulfilled
+            escrowPaymentCondition: ConditionState.Unfulfilled
         })
     })
 

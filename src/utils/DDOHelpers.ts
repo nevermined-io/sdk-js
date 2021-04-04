@@ -86,10 +86,10 @@ export function getAssetRewardsFromDDO(
 ): AssetRewards {
 
     try {
-        const escrowRewardCondition = findServiceConditionByName(
-            ddo.findServiceById(index), 'escrowReward')
-        const amounts = escrowRewardCondition.parameters.find(p => p.name === '_amounts').value as string[]
-        const receivers = escrowRewardCondition.parameters.find(p => p.name === '_receivers').value as string[]
+        const escrowPaymentCondition = findServiceConditionByName(
+            ddo.findServiceById(index), 'escrowPaymentCondition')
+        const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts').value as string[]
+        const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers').value as string[]
 
         const rewardsMap = new Map()
         let i = 0

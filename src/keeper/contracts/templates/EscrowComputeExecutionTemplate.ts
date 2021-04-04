@@ -48,14 +48,14 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         const {
             computeExecutionConditionId,
             lockPaymentConditionId,
-            escrowRewardId
+            escrowPaymentConditionId
         } = await this.createFullAgreementData(
             agreementId,
             ddo.shortId(),
             assetRewards,
             consumer
         )
-        return [computeExecutionConditionId, lockPaymentConditionId, escrowRewardId]
+        return [computeExecutionConditionId, lockPaymentConditionId, escrowPaymentConditionId]
     }
 
     /**
@@ -75,13 +75,13 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         const {
             computeExecutionConditionId,
             lockPaymentConditionId,
-            escrowRewardId
+            escrowPaymentConditionId
         } = await this.createFullAgreementData(agreementId, did, assetRewards, consumer)
 
         await this.createAgreement(
             agreementId,
             did,
-            [computeExecutionConditionId, lockPaymentConditionId, escrowRewardId],
+            [computeExecutionConditionId, lockPaymentConditionId, escrowPaymentConditionId],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -102,14 +102,14 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         const {
             computeExecutionCondition,
             lockPaymentCondition,
-            escrowReward
+            escrowPaymentCondition
         } = conditions
 
         const publisher = await didRegistry.getDIDOwner(did)
 
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
-            await escrowReward.getAddress(),
+            await escrowPaymentCondition.getAddress(),
             assetRewards.getTotalPrice()
         )
         const computeExecutionConditionId = await computeExecutionCondition.generateIdHash(
@@ -117,7 +117,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             did,
             consumer
         )
-        const escrowRewardId = await escrowReward.generateIdHash(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
             agreementId,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
@@ -130,7 +130,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         return {
             lockPaymentConditionId,
             computeExecutionConditionId,
-            escrowRewardId
+            escrowPaymentConditionId
         }
     }
 }

@@ -16,12 +16,12 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
     fulfillmentOrder: [
         'lockPayment.fulfill',
         'serviceExecution.fulfill',
-        'escrowReward.fulfill'
+        'escrowPaymentCondition.fulfill'
     ],
     conditionDependency: {
         lockPayment: [],
         serviceExecution: [],
-        escrowReward: ['lockPayment', 'serviceExecution']
+        escrowPaymentCondition: ['lockPayment', 'serviceExecution']
     },
     conditions: [
         {
@@ -94,10 +94,10 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
             ]
         },
         {
-            name: 'escrowReward',
+            name: 'escrowPaymentCondition',
             timelock: 0,
             timeout: 0,
-            contractName: 'EscrowReward',
+            contractName: 'EscrowPaymentCondition',
             functionName: 'fulfill',
             parameters: [
                 {
@@ -131,7 +131,7 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
                     name: 'Fulfilled',
                     actorType: 'publisher',
                     handler: {
-                        moduleName: 'escrowRewardCondition',
+                        moduleName: 'escrowPaymentCondition',
                         functionName: 'verifyRewardTokens',
                         version: '0.1'
                     }

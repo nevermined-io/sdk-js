@@ -16,12 +16,12 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
     fulfillmentOrder: [
         'lockPayment.fulfill',
         'accessSecretStore.fulfill',
-        'escrowReward.fulfill'
+        'escrowPaymentCondition.fulfill'
     ],
     conditionDependency: {
         lockPayment: [],
         accessSecretStore: [],
-        escrowReward: ['lockPayment', 'accessSecretStore']
+        escrowPaymentCondition: ['lockPayment', 'accessSecretStore']
     },
     conditions: [
         {
@@ -78,7 +78,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     actorType: 'publisher',
                     handler: {
                         moduleName: 'accessSecretStore',
-                        functionName: 'fulfillEscrowRewardCondition',
+                        functionName: 'fulfillEscrowPaymentCondition',
                         version: '0.1'
                     }
                 },
@@ -87,17 +87,17 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     actorType: 'consumer',
                     handler: {
                         moduleName: 'accessSecretStore',
-                        functionName: 'fulfillEscrowRewardCondition',
+                        functionName: 'fulfillEscrowPaymentCondition',
                         version: '0.1'
                     }
                 }
             ]
         },
         {
-            name: 'escrowReward',
+            name: 'escrowPaymentCondition',
             timelock: 0,
             timeout: 0,
-            contractName: 'EscrowReward',
+            contractName: 'EscrowPaymentCondition',
             functionName: 'fulfill',
             parameters: [
                 {
@@ -131,7 +131,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     name: 'Fulfilled',
                     actorType: 'publisher',
                     handler: {
-                        moduleName: 'escrowRewardCondition',
+                        moduleName: 'escrowPaymentCondition',
                         functionName: 'verifyRewardTokens',
                         version: '0.1'
                     }

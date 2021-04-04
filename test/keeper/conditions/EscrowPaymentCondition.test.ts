@@ -1,12 +1,12 @@
 import { assert } from 'chai'
-import { EscrowReward } from '../../../src/keeper/contracts/conditions'
+import { EscrowPaymentCondition } from '../../../src/keeper/contracts/conditions'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
-let condition: EscrowReward
+let condition: EscrowPaymentCondition
 
-describe('EscrowReward', () => {
+describe('EscrowPaymentCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
     const did = `0x${'a'.repeat(64)}`
     const amounts = [15, 3]
@@ -22,7 +22,7 @@ describe('EscrowReward', () => {
         const { keeper } = await Nevermined.getInstance(config)
 
         await TestContractHandler.prepareContracts()
-        condition = keeper.conditions.escrowReward
+        condition = keeper.conditions.escrowPaymentCondition
 
         lockCondition = await keeper.conditions.lockPaymentCondition.generateIdHash(
             agreementId,

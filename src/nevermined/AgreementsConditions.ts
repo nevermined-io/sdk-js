@@ -19,7 +19,7 @@ export class AgreementsConditions extends Instantiable {
     }
 
     /**
-     * Transfers tokens to the EscrowRewardCondition contract as an escrow payment.
+     * Transfers tokens to the EscrowPaymentCondition contract as an escrow payment.
      * This is required before access can be given to the asset data.
      * @param {string}  agreementId Agreement ID.
      * @param {number}  amount      Asset amount.
@@ -30,7 +30,7 @@ export class AgreementsConditions extends Instantiable {
         amount: number | string,
         from?: Account
     ) {
-        const { lockPaymentCondition, escrowReward } = this.nevermined.keeper.conditions
+        const { lockPaymentCondition, escrowPaymentCondition } = this.nevermined.keeper.conditions
 
         try {
             await this.nevermined.keeper.token.approve(
@@ -41,7 +41,7 @@ export class AgreementsConditions extends Instantiable {
 
             const receipt = await lockPaymentCondition.fulfill(
                 agreementId,
-                escrowReward.getAddress(),
+                escrowPaymentCondition.getAddress(),
                 amount,
                 from && from.getId()
             )
@@ -133,7 +133,7 @@ export class AgreementsConditions extends Instantiable {
     ) {
         try {
             const {
-                escrowReward,
+                escrowPaymentCondition,
                 accessCondition,
                 lockPaymentCondition
             } = this.nevermined.keeper.conditions
@@ -147,11 +147,11 @@ export class AgreementsConditions extends Instantiable {
             )
             const conditionIdLock = await lockPaymentCondition.generateIdHash(
                 agreementId,
-                escrowReward.getAddress(),
+                escrowPaymentCondition.getAddress(),
                 totalAmount
             )
 
-            const receipt = await escrowReward.fulfill(
+            const receipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 amounts,
                 receivers,
