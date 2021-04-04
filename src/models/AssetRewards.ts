@@ -9,7 +9,7 @@ export default class AssetRewards {
 
   public constructor(address: string, amount: string)
 
-  public constructor(address: string, amount: Number)
+  public constructor(address: string, amount: number)
 
   public constructor(..._params: any[]) {
     this.totalPrice = '0'
