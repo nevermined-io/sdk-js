@@ -121,9 +121,9 @@ export class AccessTemplate extends BaseTemplate {
         )
         const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
             agreementId,
+            did,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            publisher,
             consumer,
             lockPaymentConditionId,
             accessConditionId

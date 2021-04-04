@@ -1,5 +1,5 @@
 import { Condition } from './Condition.abstract'
-import { zeroX } from '../../../utils'
+import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 export class EscrowPaymentCondition extends Condition {
@@ -8,6 +8,7 @@ export class EscrowPaymentCondition extends Condition {
     }
 
     public hashValues(
+        did: string,
         amounts: number[],
         receivers: string[],
         sender: string,
@@ -15,7 +16,7 @@ export class EscrowPaymentCondition extends Condition {
         releaseCondition: string
     ) {
         return super.hashValues(
-            amounts, receivers,
+            didZeroX(did), amounts, receivers,
             ...[sender, lockCondition, releaseCondition].map(zeroX)
         )
     }

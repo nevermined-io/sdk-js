@@ -39,6 +39,7 @@ describe('EscrowPaymentCondition', () => {
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const hash = await condition.hashValues(
+                did,
                 amounts,
                 receivers,
                 publisher,
@@ -53,6 +54,7 @@ describe('EscrowPaymentCondition', () => {
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
             const hash = await condition.hashValues(
+                did,
                 amounts,
                 receivers,
                 publisher,
