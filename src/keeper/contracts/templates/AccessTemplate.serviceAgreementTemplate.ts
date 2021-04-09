@@ -7,21 +7,21 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             name: 'AgreementCreated',
             actorType: 'consumer',
             handler: {
-                moduleName: 'accessTemplate',
+                moduleName: 'escrowAccessTemplate',
                 functionName: 'fulfillLockPaymentCondition',
                 version: '0.1'
             }
         }
     ],
     fulfillmentOrder: [
+        'access.fulfill',
         'lockPayment.fulfill',
-        'accessSecretStore.fulfill',
-        'escrowPaymentCondition.fulfill'
+        'escrowPayment.fulfill'
     ],
     conditionDependency: {
         lockPayment: [],
-        accessSecretStore: [],
-        escrowPaymentCondition: ['lockPayment', 'accessSecretStore']
+        access: [],
+        escrowPayment: ['lockPayment', 'access']
     },
     conditions: [
         {
@@ -32,14 +32,24 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             functionName: 'fulfill',
             parameters: [
                 {
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
+                },
+                {
                     name: '_rewardAddress',
                     type: 'address',
                     value: ''
                 },
                 {
-                    name: '_amount',
-                    type: 'uint256',
-                    value: ''
+                    name: '_amounts',
+                    type: 'uint256[]',
+                    value: []
+                },
+                {
+                    name: '_receivers',
+                    type: 'address[]',
+                    value: []
                 }
             ],
             events: [
@@ -55,7 +65,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             ]
         },
         {
-            name: 'accessSecretStore',
+            name: 'access',
             timelock: 0,
             timeout: 0,
             contractName: 'AccessCondition',
@@ -77,7 +87,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     name: 'Fulfilled',
                     actorType: 'publisher',
                     handler: {
-                        moduleName: 'accessSecretStore',
+                        moduleName: 'access',
                         functionName: 'fulfillEscrowPaymentCondition',
                         version: '0.1'
                     }
@@ -86,7 +96,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     name: 'TimedOut',
                     actorType: 'consumer',
                     handler: {
-                        moduleName: 'accessSecretStore',
+                        moduleName: 'access',
                         functionName: 'fulfillEscrowPaymentCondition',
                         version: '0.1'
                     }
@@ -94,12 +104,17 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             ]
         },
         {
-            name: 'escrowPaymentCondition',
+            name: 'escrowPayment',
             timelock: 0,
             timeout: 0,
             contractName: 'EscrowPaymentCondition',
             functionName: 'fulfill',
             parameters: [
+                {
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
+                },
                 {
                     name: '_amounts',
                     type: 'uint256[]',

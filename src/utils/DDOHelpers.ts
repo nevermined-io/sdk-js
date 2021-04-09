@@ -15,12 +15,12 @@ function fillParameterWithDDO(
     const getValue = name => {
         switch (name) {
             case 'amounts':
-                return assetRewards.getAmounts()
+                return Array.from(assetRewards.getAmounts(), v => String(v))
             case 'receivers':
                 return assetRewards.getReceivers()
             case 'amount':
             case 'price':
-                return assetRewards.getTotalPrice()
+                return String(assetRewards.getTotalPrice())
                 // return String(ddo.findServiceByType('metadata').attributes.main.price)
             case 'assetId':
             case 'documentId':

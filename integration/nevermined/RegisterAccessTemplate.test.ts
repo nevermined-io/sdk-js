@@ -99,11 +99,14 @@ describe('Register Escrow Access Secret Store Template', () => {
             )
             conditionIdLock = await lockPaymentCondition.generateIdHash(
                 agreementId,
-                await escrowPaymentCondition.getAddress(),
-                totalAmount
+                did,
+                escrowPaymentCondition.getAddress(),
+                amounts,
+                receivers
             )
             conditionIdEscrow = await escrowPaymentCondition.generateIdHash(
                 agreementId,
+                did,
                 amounts,
                 receivers,
                 publisher.getId(),
@@ -186,9 +189,11 @@ describe('Register Escrow Access Secret Store Template', () => {
 
             const fulfill = await lockPaymentCondition.fulfill(
                 agreementId,
+                did,
                 escrowPaymentCondition.getAddress(),
-                totalAmount,
-                consumer.getId()
+                amounts,
+                receivers,
+                consumer.getId(),
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -208,6 +213,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         it('should fulfill EscrowPaymentCondition', async () => {
             const fulfill = await escrowPaymentCondition.fulfill(
                 agreementId,
+                did,
                 amounts,
                 receivers,
                 publisher.getId(),
@@ -272,7 +278,9 @@ describe('Register Escrow Access Secret Store Template', () => {
 
             await nevermined.agreements.conditions.lockPayment(
                 agreementId,
-                totalAmount,
+                did,
+                amounts,
+                receivers,
                 consumer
             )
         })

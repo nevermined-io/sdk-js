@@ -22,7 +22,8 @@ describe('AccessTemplate', () => {
     describe("#hashValues()", () => {
         it("should hash the values", async () => {
             const address = `0x${"a".repeat(40)}`
-            const hash = await condition.hashValues(address, 15)
+            const did = `0x${"a".repeat(64)}`
+            const hash = await condition.hashValues(did, address, [15], [address])
 
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
         })

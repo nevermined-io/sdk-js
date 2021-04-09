@@ -42,8 +42,7 @@ export class AccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
-        from?: string
+        consumer: string
     ) {
         const {
             accessConditionId,
@@ -110,7 +109,7 @@ export class AccessTemplate extends BaseTemplate {
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
             did,
-            await escrowPaymentCondition.getAddress(),
+            escrowPaymentCondition.getAddress(),
             assetRewards.getAmounts(),
             assetRewards.getReceivers()
         )
@@ -124,14 +123,14 @@ export class AccessTemplate extends BaseTemplate {
             did,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            consumer,
+            escrowPaymentCondition.getAddress(),
             lockPaymentConditionId,
             accessConditionId
         )
 
         return {
-            lockPaymentConditionId,
             accessConditionId,
+            lockPaymentConditionId,
             escrowPaymentConditionId
         }
     }

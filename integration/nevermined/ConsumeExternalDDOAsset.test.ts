@@ -5,6 +5,7 @@ import { config } from '../config'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
+import AssetRewards from '../../src/models/AssetRewards'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -107,9 +108,14 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should lock the payment by the consumer', async () => {
+        const price = ddo.findServiceByType('metadata').attributes.main.price
+        const assetRewards = new AssetRewards(publisher.getId(), Number(price))
+
         const paid = await nevermined.agreements.conditions.lockPayment(
             serviceAgreementSignatureResult.agreementId,
-            ddo.findServiceByType('metadata').attributes.main.price,
+            ddo.id,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
             consumer
         )
 

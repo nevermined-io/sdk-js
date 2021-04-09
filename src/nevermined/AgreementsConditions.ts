@@ -21,33 +21,40 @@ export class AgreementsConditions extends Instantiable {
     /**
      * Transfers tokens to the EscrowPaymentCondition contract as an escrow payment.
      * This is required before access can be given to the asset data.
-     * @param {string}  agreementId Agreement ID.
-     * @param {number}  amount      Asset amount.
-     * @param {Account} from        Account of sender.
+     * @param {string}      agreementId Agreement ID.
+     * @param {string}      did         The Asset ID.
+     * @param {number[]}    amounts     Asset amounts to distribute.
+     * @param {string[]}    receivers   Receivers of the rewards
+     * @param {Account}     from        Account of sender.
      */
     public async lockPayment(
         agreementId: string,
-        amount: number | string,
+        did: string,
+        amounts: number[],
+        receivers: string[],
         from?: Account
     ) {
         const { lockPaymentCondition, escrowPaymentCondition } = this.nevermined.keeper.conditions
+        const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
         try {
             await this.nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
-                amount,
-                from.getId()
+                totalAmount,
+                from && from.getId()
             )
 
             const receipt = await lockPaymentCondition.fulfill(
                 agreementId,
+                did,
                 escrowPaymentCondition.getAddress(),
-                amount,
-                from && from.getId()
+                amounts,
+                receivers,
+                from && from.getId(),
             )
 
             return !!receipt.events.Fulfilled
-        } catch {
+        } catch (err) {
             return false
         }
     }
@@ -153,6 +160,7 @@ export class AgreementsConditions extends Instantiable {
 
             const receipt = await escrowPaymentCondition.fulfill(
                 agreementId,
+                did,
                 amounts,
                 receivers,
                 publisher,

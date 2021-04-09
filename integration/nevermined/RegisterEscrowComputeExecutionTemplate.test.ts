@@ -186,9 +186,10 @@ describe('Register Escrow Compute Execution Template', () => {
 
             const fulfill = await lockPaymentCondition.fulfill(
                 agreementId,
-                escrowPaymentCondition.getAddress(),
-                totalAmount,
-                consumer.getId()
+                did,
+                consumer.getId(),
+                amounts,
+                receivers
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -208,6 +209,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill EscrowPaymentCondition', async () => {
             const fulfill = await escrowPaymentCondition.fulfill(
                 agreementId,
+                did,
                 amounts,
                 receivers,
                 publisher.getId(),
@@ -272,7 +274,9 @@ describe('Register Escrow Compute Execution Template', () => {
 
             await nevermined.agreements.conditions.lockPayment(
                 agreementId,
-                totalAmount,
+                did,
+                amounts,
+                receivers,
                 consumer
             )
         })

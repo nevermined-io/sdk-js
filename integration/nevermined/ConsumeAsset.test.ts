@@ -5,6 +5,7 @@ import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
+import AssetRewards from '../../src/models/AssetRewards'
 
 describe('Consume Asset', () => {
     let nevermined: Nevermined
@@ -102,15 +103,22 @@ describe('Consume Asset', () => {
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
-            accessSecretStore: ConditionState.Unfulfilled,
-            escrowPaymentCondition: ConditionState.Unfulfilled
+            access: ConditionState.Unfulfilled,
+            escrowPayment: ConditionState.Unfulfilled
         })
     })
 
     it('should lock the payment by the consumer', async () => {
+        const price = ddo.findServiceByType('metadata').attributes.main.price
+        //const assetRewards = new AssetRewards(publisher.getId(), Number(price))
+        const assetRewards = new AssetRewards(publisher.getId(), 1)
+
+
         const paid = await nevermined.agreements.conditions.lockPayment(
             serviceAgreementSignatureResult.agreementId,
-            ddo.findServiceByType('metadata').attributes.main.price,
+            ddo.id,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
             consumer
         )
         console.log(`Price ${ddo.findServiceByType('metadata').attributes.main.price}`)

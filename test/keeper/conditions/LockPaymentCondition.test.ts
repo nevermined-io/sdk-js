@@ -29,7 +29,7 @@ describe('LockPaymentCondition', () => {
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
             assert.equal(
                 hash,
-                '0x2543c2ea4b9403bb3e5df1145c70731454748e72a37acc80d025f85e03267973',
+                '0x90017f7a3934ca45209e8edd22488c446d115b4353109804e62caf90471328a2',
                 'The hash is not the expected.'
             )
         })

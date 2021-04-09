@@ -96,7 +96,8 @@ export default class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                token.options.address
+                token.options.address,
+                didRegistry.options.address
             ]
         )
         const accessCondition = await TestContractHandler.deployContract(

@@ -23,16 +23,17 @@ export class EscrowPaymentCondition extends Condition {
 
     public fulfill(
         agreementId: string,
+        did: string,
         amounts: number[],
         receivers: string[],
-        sender: string,
+        lockPaymentAddress: string,
         lockCondition: string,
         releaseCondition: string,
         from?: string
     ) {
         return super.fulfill(
             agreementId,
-            [amounts, receivers, ...[sender, lockCondition, releaseCondition].map(zeroX)],
+            [didZeroX(did), amounts, receivers, ...[lockPaymentAddress, lockCondition, releaseCondition].map(zeroX)],
             from
         )
     }

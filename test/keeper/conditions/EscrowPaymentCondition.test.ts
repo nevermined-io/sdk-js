@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { EscrowPaymentCondition } from '../../../src/keeper/contracts/conditions'
+import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '../../../src/keeper/contracts/conditions'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
@@ -10,13 +10,12 @@ describe('EscrowPaymentCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
     const did = `0x${'a'.repeat(64)}`
     const amounts = [15, 3]
-    const totalAmount = amounts[0] + amounts[1]
     const publisher = `0x${'a'.repeat(40)}`
     const consumer = `0x${'b'.repeat(40)}`
     const provider = `0x${'b'.repeat(40)}`
     const receivers = [publisher, provider]
     let lockCondition
-    let releaseCondition
+    let releaseCondition: string
 
     before(async () => {
         const { keeper } = await Nevermined.getInstance(config)
@@ -26,9 +25,18 @@ describe('EscrowPaymentCondition', () => {
 
         lockCondition = await keeper.conditions.lockPaymentCondition.generateIdHash(
             agreementId,
-            publisher,
-            totalAmount
+            did,
+            condition.address,
+            amounts,
+            receivers
         )
+        .catch(e => {
+            console.log(e)
+            throw e
+        })
+        .then(v => {
+            return v
+        })
         releaseCondition = await keeper.conditions.accessCondition.generateIdHash(
             agreementId,
             did,
