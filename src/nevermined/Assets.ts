@@ -1,5 +1,5 @@
 import { TransactionReceipt } from 'web3-core'
-import { SearchQuery } from '../metadata/Metadata'
+import { Metadata, SearchQuery } from '../metadata/Metadata'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
 import { Service, ServiceType } from '../ddo/Service'
@@ -61,12 +61,39 @@ export class Assets extends Instantiable {
         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
     }
 
+    public createMintable(
+        metadata: MetaData,
+        publisher: Account,
+        cap: number,
+        royalties: number = 0,
+        assetRewards: AssetRewards=new AssetRewards(),
+        serviceTypes: ServiceType[]= ['access'],
+        services: Service[] = [],
+        method: string = 'PSK-RSA',
+        providers?: string[],
+    ): SubscribablePromise<CreateProgressStep, DDO> {
+        return this.create(
+            metadata,
+            publisher,
+            assetRewards,
+            serviceTypes,
+            services,
+            method,
+            providers,
+            cap,
+            royalties
+        )
+    }
+
     /**
      * Creates a new DDO.
      * @param  {MetaData} metadata DDO metadata.
      * @param  {Account} publisher Publisher account.
-     * @param services
-     * @param method
+     * @param {ServiceType[]} serviceTypes List of service types to associate with the asset.
+     * @param {String} method Method used to encrypt the urls.
+     * @param {String[]} providers List of provider addresses of this asset.
+     * @param {Number} cap Max cap of nfts that can be minted for the asset.
+     * @param {Number} royalties royalties in the secondary market going to the original creator
      * @return {Promise<DDO>}
      */
     public create(
@@ -76,7 +103,9 @@ export class Assets extends Instantiable {
         serviceTypes: ServiceType[]= ['access'],
         services: Service[] = [],
         method: string = 'PSK-RSA',
-        providers?: string[]
+        providers?: string[],
+        cap?: number,
+        royalties?: number,
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -228,6 +257,17 @@ export class Assets extends Instantiable {
                 serviceEndpoint,
                 publisher.getId()
             )
+
+            if (cap || royalties) {
+                await didRegistry.enableAndMintDidNft(
+                    ddo.shortId(),
+                    cap,
+                    royalties,
+                    false,
+                    publisher.getId()
+                )
+            }
+
             this.logger.log('DID registred')
             observer.next(CreateProgressStep.DidRegistered)
 

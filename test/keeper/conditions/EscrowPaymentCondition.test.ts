@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '../../../src/keeper/contracts/conditions'
+import { EscrowPaymentCondition } from '../../../src/keeper/contracts/conditions'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'

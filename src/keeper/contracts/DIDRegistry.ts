@@ -124,6 +124,44 @@ export default class DIDRegistry extends ContractBase {
         ])
     }
 
+    public async registerMintableDID(
+        did: string,
+        checksum: string,
+        providers: string[],
+        value: string,
+        activityId: string,
+        attributes: string,
+        cap: number,
+        royalties: number,
+        ownerAddress: string,
+    ) {
+        return this.send('registerMintableDID', ownerAddress, [
+            didZeroX(did),
+            zeroX(checksum),
+            providers.map(zeroX),
+            value,
+            cap,
+            royalties,
+            zeroX(activityId),
+            attributes
+        ])
+    }
+
+    public async enableAndMintDidNft(
+        did: string,
+        cap: number,
+        royalties: number,
+        preMint: boolean,
+        ownerAddress: string
+    ) {
+        return this.send('enableAndMintDidNft', ownerAddress, [
+            didZeroX(did),
+            cap,
+            royalties,
+            preMint
+        ])
+    }
+
     public async getDIDOwner(did: string): Promise<string> {
         return this.call('getDIDOwner', [didZeroX(did)])
     }
@@ -317,7 +355,7 @@ export default class DIDRegistry extends ContractBase {
             zeroX(delegateAddress)
         ])
     }
-    
+
 
     public async isProvenanceDelegate(
         did: string,
@@ -343,7 +381,7 @@ export default class DIDRegistry extends ContractBase {
             amount
         ])
     }
-    
+
     public async burn(did: string, amount: number, from: string){
         return this.send('burn', from, [
             didZeroX(did),
@@ -352,7 +390,7 @@ export default class DIDRegistry extends ContractBase {
     }
 
     public async transferNft(did: string, to: string, amount: number, from: string){
-        return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, randomBytes])
+        return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, randomBytes(1)])
     }
 
     public async balance(address: string, did: string): Promise<number>{
