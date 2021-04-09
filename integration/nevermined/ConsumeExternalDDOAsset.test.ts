@@ -20,6 +20,7 @@ describe('Consume Asset (Documentation example)', () => {
         agreementId: string
         signature: string
     }
+    let assetRewards: AssetRewards
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -29,10 +30,11 @@ describe('Consume Asset (Documentation example)', () => {
 
         metadata = await getDocsCommonMetadata()
         metadata.main.price = 0
+        assetRewards = new AssetRewards(publisher.getId(), metadata.main.price)
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
@@ -102,8 +104,8 @@ describe('Consume Asset (Documentation example)', () => {
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
-            accessSecretStore: ConditionState.Unfulfilled,
-            escrowPaymentCondition: ConditionState.Unfulfilled
+            access: ConditionState.Unfulfilled,
+            escrowPayment: ConditionState.Unfulfilled
         })
     })
 
@@ -150,8 +152,8 @@ describe('Consume Asset (Documentation example)', () => {
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Fulfilled,
-            accessSecretStore: ConditionState.Fulfilled,
-            escrowPaymentCondition: ConditionState.Unfulfilled
+            access: ConditionState.Fulfilled,
+            escrowPayment: ConditionState.Unfulfilled
         })
     })
 

@@ -20,6 +20,7 @@ describe('Consume Asset', () => {
         agreementId: string
         signature: string
     }
+    let assetRewards: AssetRewards
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -27,13 +28,14 @@ describe('Consume Asset', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
+        assetRewards = getAssetRewards(publisher.getId())
+
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
         }
     })
 
     it('should register an asset', async () => {
-        const assetRewards = getAssetRewards(publisher.getId())
         ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
@@ -47,7 +49,7 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens = +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
+        const claimedTokens = +assetRewards.getTotalPrice() * 10 ** -(await nevermined.keeper.token.decimals())
 
         try {
             await consumer.requestTokens(claimedTokens)
@@ -109,10 +111,6 @@ describe('Consume Asset', () => {
     })
 
     it('should lock the payment by the consumer', async () => {
-        const price = ddo.findServiceByType('metadata').attributes.main.price
-        //const assetRewards = new AssetRewards(publisher.getId(), Number(price))
-        const assetRewards = new AssetRewards(publisher.getId(), 1)
-
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             serviceAgreementSignatureResult.agreementId,
@@ -121,7 +119,6 @@ describe('Consume Asset', () => {
             assetRewards.getReceivers(),
             consumer
         )
-        console.log(`Price ${ddo.findServiceByType('metadata').attributes.main.price}`)
         assert.isTrue(paid, 'The asset has not been paid correctly')
     })
 
@@ -153,8 +150,8 @@ describe('Consume Asset', () => {
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Fulfilled,
-            accessSecretStore: ConditionState.Fulfilled,
-            escrowPaymentCondition: ConditionState.Unfulfilled
+            access: ConditionState.Fulfilled,
+            escrowPayment: ConditionState.Unfulfilled
         })
     })
 

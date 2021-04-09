@@ -216,7 +216,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 did,
                 amounts,
                 receivers,
-                publisher.getId(),
+                escrowPaymentCondition.getAddress(),
                 conditionIdLock,
                 conditionIdAccess,
                 consumer.getId()
