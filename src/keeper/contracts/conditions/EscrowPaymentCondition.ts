@@ -31,9 +31,10 @@ export class EscrowPaymentCondition extends Condition {
         releaseCondition: string,
         from?: string
     ) {
+        const amountsString = amounts.map(v => String(v))
         return super.fulfill(
             agreementId,
-            [didZeroX(did), amounts, receivers, ...[lockPaymentAddress, lockCondition, releaseCondition].map(zeroX)],
+            [didZeroX(did), amountsString, receivers, ...[lockPaymentAddress, lockCondition, releaseCondition].map(zeroX)],
             from
         )
     }

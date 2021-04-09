@@ -26,7 +26,7 @@ describe('EscrowPaymentCondition', () => {
         lockCondition = await keeper.conditions.lockPaymentCondition.generateIdHash(
             agreementId,
             did,
-            condition.address,
+            condition.getAddress(),
             amounts,
             receivers
         )

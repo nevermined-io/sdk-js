@@ -97,7 +97,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string
     ) {
-        const { didRegistry, conditions } = this.nevermined.keeper
+        const { conditions } = this.nevermined.keeper
 
         const {
             computeExecutionCondition,
@@ -105,12 +105,12 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             escrowPaymentCondition
         } = conditions
 
-        const publisher = await didRegistry.getDIDOwner(did)
-
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
-            await escrowPaymentCondition.getAddress(),
-            assetRewards.getTotalPrice()
+            did,
+            escrowPaymentCondition.getAddress(),
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
         )
         const computeExecutionConditionId = await computeExecutionCondition.generateIdHash(
             agreementId,
@@ -119,10 +119,10 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         )
         const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
             agreementId,
+            did,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            publisher,
-            consumer,
+            escrowPaymentCondition.getAddress(),
             lockPaymentConditionId,
             computeExecutionConditionId
         )
