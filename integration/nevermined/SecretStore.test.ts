@@ -4,7 +4,7 @@ import { config } from '../config'
 
 import { Nevermined, Account, DID } from '../../src'
 
-describe('Secret Store', () => {
+describe.skip('Secret Store', () => {
     let nevermined: Nevermined
 
     let account: Account
