@@ -99,14 +99,17 @@ describe('Register Escrow Compute Execution Template', () => {
             )
             conditionIdLock = await lockPaymentCondition.generateIdHash(
                 agreementId,
-                await escrowPaymentCondition.getAddress(),
-                totalAmount
+                did,
+                escrowPaymentCondition.getAddress(),
+                amounts,
+                receivers
             )
             conditionIdEscrow = await escrowPaymentCondition.generateIdHash(
                 agreementId,
+                did,
                 amounts,
                 receivers,
-                publisher.getId(),
+                escrowPaymentCondition.getAddress(),
                 conditionIdLock,
                 conditionIdCompute
             )
@@ -187,9 +190,10 @@ describe('Register Escrow Compute Execution Template', () => {
             const fulfill = await lockPaymentCondition.fulfill(
                 agreementId,
                 did,
-                consumer.getId(),
+                escrowPaymentCondition.getAddress(),
                 amounts,
-                receivers
+                receivers,
+                consumer.getId(),
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -212,7 +216,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 did,
                 amounts,
                 receivers,
-                publisher.getId(),
+                escrowPaymentCondition.getAddress(),
                 conditionIdLock,
                 conditionIdCompute,
                 consumer.getId()
