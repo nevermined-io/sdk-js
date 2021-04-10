@@ -140,8 +140,8 @@ export default class DIDRegistry extends ContractBase {
             zeroX(checksum),
             providers.map(zeroX),
             value,
-            cap,
-            royalties,
+            String(cap),
+            String(royalties),
             zeroX(activityId),
             attributes
         ])

@@ -8,7 +8,8 @@ import {
     LockPaymentCondition,
     EscrowPaymentCondition,
     AccessCondition,
-    ComputeExecutionCondition
+    ComputeExecutionCondition,
+    NFTHolderCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -69,7 +70,8 @@ export class Keeper extends Instantiable {
                 ),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
                     config
-                )
+                ),
+                nftHolderCondition: NFTHolderCondition.getInstance(config)
             })
 
             keeper.connected = true
@@ -104,7 +106,8 @@ export class Keeper extends Instantiable {
             lockPaymentCondition: keeper.instances.lockPaymentCondition,
             escrowPaymentCondition: keeper.instances.escrowPaymentCondition,
             accessCondition: keeper.instances.accessCondition,
-            computeExecutionCondition: keeper.instances.computeExecutionCondition
+            computeExecutionCondition: keeper.instances.computeExecutionCondition,
+            nftHolderCondition: keeper.instances.nftHolderCondition
         }
         // Conditions
         keeper.templates = {
@@ -171,6 +174,7 @@ export class Keeper extends Instantiable {
         escrowPaymentCondition: EscrowPaymentCondition
         accessCondition: AccessCondition
         computeExecutionCondition: ComputeExecutionCondition
+        nftHolderCondition: NFTHolderCondition
     }
 
     /**

@@ -24,6 +24,18 @@ export class ConditionStoreManager extends ContractBase {
         return templateStoreManeger
     }
 
+    public createCondition(
+        id: string,
+        typeRef: string,
+        from?: string
+    ) {
+        return this.send('createCondition', zeroX(from), [zeroX(id), zeroX(typeRef)])
+    }
+
+    public delegateCreateRole(delegatee: string, owner: string) {
+        return this.send('delegateCreateRole', zeroX(owner), [zeroX(delegatee)])
+    }
+
     public getOwner(): Promise<string> {
         return this.call('owner', [])
     }

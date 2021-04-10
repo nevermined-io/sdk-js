@@ -96,15 +96,13 @@ export class AccessTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string
     ) {
-        const { didRegistry, conditions } = this.nevermined.keeper
+        const { conditions } = this.nevermined.keeper
 
         const {
             accessCondition,
             lockPaymentCondition,
             escrowPaymentCondition
         } = conditions
-
-        const publisher = await didRegistry.getDIDOwner(did)
 
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,

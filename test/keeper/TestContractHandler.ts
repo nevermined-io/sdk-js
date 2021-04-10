@@ -12,7 +12,7 @@ interface ContractTest extends Contract {
 export default class TestContractHandler extends ContractHandler {
     public static async prepareContracts() {
         const web3 = Web3Provider.getWeb3(config)
-        const deployerAddress = (await web3.eth.getAccounts())[0]
+        const [deployerAddress] = (await web3.eth.getAccounts())
         this.networkId = await web3.eth.net.getId()
         this.minter = await web3.utils.toHex("minter")
         // deploy contracts
@@ -100,6 +100,7 @@ export default class TestContractHandler extends ContractHandler {
                 didRegistry.options.address
             ]
         )
+
         const accessCondition = await TestContractHandler.deployContract(
             'AccessCondition',
             deployerAddress,
@@ -107,6 +108,16 @@ export default class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 agreementStoreManager.options.address
+            ]
+        )
+
+        await TestContractHandler.deployContract(
+            'NFTHolderCondition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address,
+                didRegistry.options.address
             ]
         )
 
