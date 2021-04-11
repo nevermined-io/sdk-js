@@ -30,21 +30,16 @@ describe('Register Escrow Access Secret Store Template', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        keeper = nevermined.keeper
+        ;({ keeper } = nevermined)
 
         template = keeper.templates.accessTemplate
 
         // Accounts
-        templateManagerOwner = (await nevermined.accounts.list())[0]
-        publisher = (await nevermined.accounts.list())[1]
-        consumer = (await nevermined.accounts.list())[2]
-        provider = (await nevermined.accounts.list())[3]
+        ;[templateManagerOwner, publisher, consumer, provider] = (await nevermined.accounts.list())
         receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
-        accessCondition = keeper.conditions.accessCondition
-        lockPaymentCondition = keeper.conditions.lockPaymentCondition
-        escrowPaymentCondition = keeper.conditions.escrowPaymentCondition
+        ;({ accessCondition, lockPaymentCondition, escrowPaymentCondition } = keeper.conditions)
 
         if (!nevermined.keeper.dispenser) {
             totalAmount = 0

@@ -24,7 +24,11 @@ describe('LockPaymentCondition', () => {
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const hash = await condition.hashValues(
-                did, address, assetRewards.getAmounts(), assetRewards.getReceivers())
+                did,
+                address,
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
 
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
             assert.equal(
@@ -38,7 +42,11 @@ describe('LockPaymentCondition', () => {
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
             const hash = await condition.hashValues(
-                did, address, assetRewards.getAmounts(), assetRewards.getReceivers())
+                did,
+                address,
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
             const id = await condition.generateId(agreementId, hash)
 
             assert.match(id, /^0x[a-f0-9]{64}$/i)

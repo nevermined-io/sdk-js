@@ -9,7 +9,8 @@ import {
     EscrowPaymentCondition,
     AccessCondition,
     ComputeExecutionCondition,
-    NFTHolderCondition
+    NFTHolderCondition,
+    NFTLockCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -60,18 +61,15 @@ export class Keeper extends Instantiable {
                 // Conditions
                 lockPaymentCondition: LockPaymentCondition.getInstance(config),
                 escrowPaymentCondition: EscrowPaymentCondition.getInstance(config),
-                accessCondition: AccessCondition.getInstance(
-                    config
-                ),
+                accessCondition: AccessCondition.getInstance(config),
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
+                nftHolderCondition: NFTHolderCondition.getInstance(config),
+                nftLockCondition: NFTLockCondition.getInstance(config),
                 // Templates
-                accessTemplate: AccessTemplate.getInstance(
-                    config
-                ),
+                accessTemplate: AccessTemplate.getInstance(config),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
                     config
-                ),
-                nftHolderCondition: NFTHolderCondition.getInstance(config)
+                )
             })
 
             keeper.connected = true
@@ -107,12 +105,12 @@ export class Keeper extends Instantiable {
             escrowPaymentCondition: keeper.instances.escrowPaymentCondition,
             accessCondition: keeper.instances.accessCondition,
             computeExecutionCondition: keeper.instances.computeExecutionCondition,
-            nftHolderCondition: keeper.instances.nftHolderCondition
+            nftHolderCondition: keeper.instances.nftHolderCondition,
+            nftLockCondition: keeper.instances.nftLockCondition
         }
         // Conditions
         keeper.templates = {
-            accessTemplate:
-                keeper.instances.accessTemplate,
+            accessTemplate: keeper.instances.accessTemplate,
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate
         }
@@ -175,6 +173,7 @@ export class Keeper extends Instantiable {
         accessCondition: AccessCondition
         computeExecutionCondition: ComputeExecutionCondition
         nftHolderCondition: NFTHolderCondition
+        nftLockCondition: NFTLockCondition
     }
 
     /**
