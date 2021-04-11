@@ -1,7 +1,7 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '../../../utils'
 
-export abstract class BaseEscrowTemplate extends AgreementTemplate {
+export abstract class BaseTemplate extends AgreementTemplate {
     /**
      * Create a agreement using EscrowComputeExecutionTemplate.
      * @param {string}   agreementId    Generated agreement ID.

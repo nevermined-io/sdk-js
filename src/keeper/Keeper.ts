@@ -5,14 +5,14 @@ import Dispenser from './contracts/Dispenser'
 import Token from './contracts/Token'
 import {
     Condition,
-    LockRewardCondition,
-    EscrowReward,
-    AccessSecretStoreCondition,
+    LockPaymentCondition,
+    EscrowPaymentCondition,
+    AccessCondition,
     ComputeExecutionCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
-    EscrowAccessSecretStoreTemplate,
+    AccessTemplate,
     EscrowComputeExecutionTemplate
 } from './contracts/templates'
 import {
@@ -57,14 +57,14 @@ export class Keeper extends Instantiable {
                 agreementStoreManager: AgreementStoreManager.getInstance(config),
                 conditionStoreManager: ConditionStoreManager.getInstance(config),
                 // Conditions
-                lockRewardCondition: LockRewardCondition.getInstance(config),
-                escrowReward: EscrowReward.getInstance(config),
-                accessSecretStoreCondition: AccessSecretStoreCondition.getInstance(
+                lockPaymentCondition: LockPaymentCondition.getInstance(config),
+                escrowPaymentCondition: EscrowPaymentCondition.getInstance(config),
+                accessCondition: AccessCondition.getInstance(
                     config
                 ),
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
                 // Templates
-                escrowAccessSecretStoreTemplate: EscrowAccessSecretStoreTemplate.getInstance(
+                accessTemplate: AccessTemplate.getInstance(
                     config
                 ),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
@@ -101,15 +101,15 @@ export class Keeper extends Instantiable {
         keeper.conditionStoreManager = keeper.instances.conditionStoreManager
         // Conditions
         keeper.conditions = {
-            lockRewardCondition: keeper.instances.lockRewardCondition,
-            escrowReward: keeper.instances.escrowReward,
-            accessSecretStoreCondition: keeper.instances.accessSecretStoreCondition,
+            lockPaymentCondition: keeper.instances.lockPaymentCondition,
+            escrowPaymentCondition: keeper.instances.escrowPaymentCondition,
+            accessCondition: keeper.instances.accessCondition,
             computeExecutionCondition: keeper.instances.computeExecutionCondition
         }
         // Conditions
         keeper.templates = {
-            escrowAccessSecretStoreTemplate:
-                keeper.instances.escrowAccessSecretStoreTemplate,
+            accessTemplate:
+                keeper.instances.accessTemplate,
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate
         }
@@ -167,9 +167,9 @@ export class Keeper extends Instantiable {
      * Conditions instances.
      */
     public conditions: {
-        lockRewardCondition: LockRewardCondition
-        escrowReward: EscrowReward
-        accessSecretStoreCondition: AccessSecretStoreCondition
+        lockPaymentCondition: LockPaymentCondition
+        escrowPaymentCondition: EscrowPaymentCondition
+        accessCondition: AccessCondition
         computeExecutionCondition: ComputeExecutionCondition
     }
 
@@ -177,7 +177,7 @@ export class Keeper extends Instantiable {
      * Templates instances.
      */
     public templates: {
-        escrowAccessSecretStoreTemplate: EscrowAccessSecretStoreTemplate
+        accessTemplate: AccessTemplate
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
     }
 

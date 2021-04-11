@@ -2,14 +2,14 @@ import { Condition } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
-export class AccessSecretStoreCondition extends Condition {
+export class AccessCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
-    ): Promise<AccessSecretStoreCondition> {
+    ): Promise<AccessCondition> {
         return Condition.getInstance(
             config,
-            'AccessSecretStoreCondition',
-            AccessSecretStoreCondition
+            'AccessCondition',
+            AccessCondition
         )
     }
 

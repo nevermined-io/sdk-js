@@ -90,17 +90,18 @@ export default class TestContractHandler extends ContractHandler {
         )
 
         // Conditions
-        const lockRewardCondition = await TestContractHandler.deployContract(
-            'LockRewardCondition',
+        const lockPaymentCondition = await TestContractHandler.deployContract(
+            'LockPaymentCondition',
             deployerAddress,
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                token.options.address
+                token.options.address,
+                didRegistry.options.address
             ]
         )
-        const accessSecretStoreCondition = await TestContractHandler.deployContract(
-            'AccessSecretStoreCondition',
+        const accessCondition = await TestContractHandler.deployContract(
+            'AccessCondition',
             deployerAddress,
             [
                 deployerAddress,
@@ -110,8 +111,8 @@ export default class TestContractHandler extends ContractHandler {
         )
 
         // Conditions rewards
-        const escrowReward = await TestContractHandler.deployContract(
-            'EscrowReward',
+        const escrowPaymentCondition = await TestContractHandler.deployContract(
+            'EscrowPaymentCondition',
             deployerAddress,
             [
                 deployerAddress,
@@ -122,15 +123,15 @@ export default class TestContractHandler extends ContractHandler {
 
         // Templates
         await TestContractHandler.deployContract(
-            'EscrowAccessSecretStoreTemplate',
+            'AccessTemplate',
             deployerAddress,
             [
                 deployerAddress,
                 agreementStoreManager.options.address,
                 didRegistry.options.address,
-                accessSecretStoreCondition.options.address,
-                lockRewardCondition.options.address,
-                escrowReward.options.address
+                accessCondition.options.address,
+                lockPaymentCondition.options.address,
+                escrowPaymentCondition.options.address
             ]
         )
     }

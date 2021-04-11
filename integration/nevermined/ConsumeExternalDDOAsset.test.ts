@@ -5,6 +5,7 @@ import { config } from '../config'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
+import AssetRewards from '../../src/models/AssetRewards'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -19,6 +20,7 @@ describe('Consume Asset (Documentation example)', () => {
         agreementId: string
         signature: string
     }
+    let assetRewards: AssetRewards
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -28,10 +30,11 @@ describe('Consume Asset (Documentation example)', () => {
 
         metadata = await getDocsCommonMetadata()
         metadata.main.price = 0
+        assetRewards = new AssetRewards(publisher.getId(), metadata.main.price)
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
@@ -100,16 +103,21 @@ describe('Consume Asset (Documentation example)', () => {
         )
 
         assert.deepEqual(status, {
-            lockReward: ConditionState.Unfulfilled,
-            accessSecretStore: ConditionState.Unfulfilled,
-            escrowReward: ConditionState.Unfulfilled
+            lockPayment: ConditionState.Unfulfilled,
+            access: ConditionState.Unfulfilled,
+            escrowPayment: ConditionState.Unfulfilled
         })
     })
 
     it('should lock the payment by the consumer', async () => {
-        const paid = await nevermined.agreements.conditions.lockReward(
+        const price = ddo.findServiceByType('metadata').attributes.main.price
+        const assetRewards = new AssetRewards(publisher.getId(), Number(price))
+
+        const paid = await nevermined.agreements.conditions.lockPayment(
             serviceAgreementSignatureResult.agreementId,
-            ddo.findServiceByType('metadata').attributes.main.price,
+            ddo.id,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
             consumer
         )
 
@@ -128,7 +136,7 @@ describe('Consume Asset (Documentation example)', () => {
 
             assert.isTrue(granted, 'The asset has not been granted correctly')
 
-            const accessGranted = await nevermined.keeper.conditions.accessSecretStoreCondition.checkPermissions(
+            const accessGranted = await nevermined.keeper.conditions.accessCondition.checkPermissions(
                 consumer.getId(),
                 ddo.id
             )
@@ -143,9 +151,9 @@ describe('Consume Asset (Documentation example)', () => {
         )
 
         assert.deepEqual(status, {
-            lockReward: ConditionState.Fulfilled,
-            accessSecretStore: ConditionState.Fulfilled,
-            escrowReward: ConditionState.Unfulfilled
+            lockPayment: ConditionState.Fulfilled,
+            access: ConditionState.Fulfilled,
+            escrowPayment: ConditionState.Unfulfilled
         })
     })
 

@@ -5,7 +5,7 @@ import { config } from '../config'
 import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 
-const { LockRewardCondition, EscrowReward, ComputeExecutionCondition } = conditions
+const { LockPaymentCondition, EscrowPaymentCondition, ComputeExecutionCondition } = conditions
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -22,11 +22,11 @@ describe('Register Escrow Compute Execution Template', () => {
     let publisher: Account
     let consumer: Account
     let provider: Account
-    let receivers: string[]    
+    let receivers: string[]
 
     let computeExecutionCondition: conditions.ComputeExecutionCondition
-    let lockRewardCondition: conditions.LockRewardCondition
-    let escrowReward: conditions.EscrowReward
+    let lockPaymentCondition: conditions.LockPaymentCondition
+    let escrowPaymentCondition: conditions.EscrowPaymentCondition
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -43,8 +43,8 @@ describe('Register Escrow Compute Execution Template', () => {
 
         // Conditions
         computeExecutionCondition = keeper.conditions.computeExecutionCondition
-        lockRewardCondition = keeper.conditions.lockRewardCondition
-        escrowReward = keeper.conditions.escrowReward
+        lockPaymentCondition = keeper.conditions.lockPaymentCondition
+        escrowPaymentCondition = keeper.conditions.escrowPaymentCondition
 
         if (!nevermined.keeper.dispenser) {
             totalAmount = 0
@@ -97,16 +97,19 @@ describe('Register Escrow Compute Execution Template', () => {
                 did,
                 consumer.getId()
             )
-            conditionIdLock = await lockRewardCondition.generateIdHash(
+            conditionIdLock = await lockPaymentCondition.generateIdHash(
                 agreementId,
-                await escrowReward.getAddress(),
-                totalAmount
+                did,
+                escrowPaymentCondition.getAddress(),
+                amounts,
+                receivers
             )
-            conditionIdEscrow = await escrowReward.generateIdHash(
+            conditionIdEscrow = await escrowPaymentCondition.generateIdHash(
                 agreementId,
+                did,
                 amounts,
                 receivers,
-                publisher.getId(),
+                escrowPaymentCondition.getAddress(),
                 conditionIdLock,
                 conditionIdCompute
             )
@@ -120,8 +123,8 @@ describe('Register Escrow Compute Execution Template', () => {
                 [...conditionTypes].sort(),
                 [
                     computeExecutionCondition.getAddress(),
-                    escrowReward.getAddress(),
-                    lockRewardCondition.getAddress()
+                    escrowPaymentCondition.getAddress(),
+                    lockPaymentCondition.getAddress()
                 ].sort(),
                 "The conditions doesn't match"
             )
@@ -134,8 +137,8 @@ describe('Register Escrow Compute Execution Template', () => {
 
             const conditionClasses = [
                 ComputeExecutionCondition,
-                EscrowReward,
-                LockRewardCondition
+                EscrowPaymentCondition,
+                LockPaymentCondition
             ]
             conditionClasses.forEach(conditionClass => {
                 if (
@@ -173,22 +176,24 @@ describe('Register Escrow Compute Execution Template', () => {
             assert.isFalse(computeTriggered, 'Compute has been triggered.')
         })
 
-        it('should fulfill LockRewardCondition', async () => {
+        it('should fulfill LockPaymentCondition', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
             } catch {}
 
             await keeper.token.approve(
-                lockRewardCondition.getAddress(),
+                lockPaymentCondition.getAddress(),
                 totalAmount,
                 consumer.getId()
             )
 
-            const fulfill = await lockRewardCondition.fulfill(
+            const fulfill = await lockPaymentCondition.fulfill(
                 agreementId,
-                escrowReward.getAddress(),
-                totalAmount,
-                consumer.getId()
+                did,
+                escrowPaymentCondition.getAddress(),
+                amounts,
+                receivers,
+                consumer.getId(),
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -205,12 +210,13 @@ describe('Register Escrow Compute Execution Template', () => {
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
         })
 
-        it('should fulfill EscrowReward', async () => {
-            const fulfill = await escrowReward.fulfill(
+        it('should fulfill EscrowPaymentCondition', async () => {
+            const fulfill = await escrowPaymentCondition.fulfill(
                 agreementId,
+                did,
                 amounts,
                 receivers,
-                publisher.getId(),
+                escrowPaymentCondition.getAddress(),
                 conditionIdLock,
                 conditionIdCompute,
                 consumer.getId()
@@ -270,9 +276,11 @@ describe('Register Escrow Compute Execution Template', () => {
                 await consumer.requestTokens(totalAmount)
             } catch {}
 
-            await nevermined.agreements.conditions.lockReward(
+            await nevermined.agreements.conditions.lockPayment(
                 agreementId,
-                totalAmount,
+                did,
+                amounts,
+                receivers,
                 consumer
             )
         })

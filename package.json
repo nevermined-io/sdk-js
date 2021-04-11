@@ -53,7 +53,7 @@
     "web3": "^1.2.3"
   },
   "dependencies": {
-    "@nevermined-io/contracts": "0.6.2",
+    "@nevermined-io/contracts": "1.0.0-rc1",
     "@nevermined-io/secret-store-client": "^0.0.16",
     "bignumber.js": "^9.0.0",
     "deprecated-decorator": "^0.1.6",
@@ -62,7 +62,7 @@
     "node-fetch": "^2.6.1",
     "save-file": "^2.3.1",
     "uuid": "^3.4.0",
-    "web3": "1.2.11",
+    "web3": "^1.2.3",
     "web3-eth-contract": "^1.2.11",
     "whatwg-url": "^7.1.0"
   },

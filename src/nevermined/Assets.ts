@@ -1,11 +1,11 @@
 import { TransactionReceipt } from 'web3-core'
-import { SearchQuery } from '../metadata/Metadata'
+import { Metadata, SearchQuery } from '../metadata/Metadata'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
 import { Service, ServiceType } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
-import { fillConditionsWithDDO, getLockRewardTotalAmount, SubscribablePromise, generateId, zeroX, didZeroX } from '../utils'
+import { fillConditionsWithDDO, getLockPaymentTotalAmount, SubscribablePromise, generateId, zeroX, didZeroX, getAssetRewardsFromDDO } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 
@@ -61,12 +61,39 @@ export class Assets extends Instantiable {
         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
     }
 
+    public createMintable(
+        metadata: MetaData,
+        publisher: Account,
+        cap: number,
+        royalties: number = 0,
+        assetRewards: AssetRewards=new AssetRewards(),
+        serviceTypes: ServiceType[]= ['access'],
+        services: Service[] = [],
+        method: string = 'PSK-RSA',
+        providers?: string[],
+    ): SubscribablePromise<CreateProgressStep, DDO> {
+        return this.create(
+            metadata,
+            publisher,
+            assetRewards,
+            serviceTypes,
+            services,
+            method,
+            providers,
+            cap,
+            royalties
+        )
+    }
+
     /**
      * Creates a new DDO.
      * @param  {MetaData} metadata DDO metadata.
      * @param  {Account} publisher Publisher account.
-     * @param services
-     * @param method
+     * @param {ServiceType[]} serviceTypes List of service types to associate with the asset.
+     * @param {String} method Method used to encrypt the urls.
+     * @param {String[]} providers List of provider addresses of this asset.
+     * @param {Number} cap Max cap of nfts that can be minted for the asset.
+     * @param {Number} royalties royalties in the secondary market going to the original creator
      * @return {Promise<DDO>}
      */
     public create(
@@ -76,14 +103,16 @@ export class Assets extends Instantiable {
         serviceTypes: ServiceType[]= ['access'],
         services: Service[] = [],
         method: string = 'PSK-RSA',
-        providers?: string[]
+        providers?: string[],
+        cap?: number,
+        royalties?: number,
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
-            const accessServiceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+            const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
 
             // create ddo itself
@@ -207,7 +236,7 @@ export class Assets extends Instantiable {
 
             //Fulfill conditions
             if (serviceTypes.includes('access'))    {
-                const rawConditions = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplateConditions()
+                const rawConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
                 const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
                 accessServiceAgreementTemplate.conditions = conditions
             }
@@ -228,6 +257,17 @@ export class Assets extends Instantiable {
                 serviceEndpoint,
                 publisher.getId()
             )
+
+            if (cap || royalties) {
+                await didRegistry.enableAndMintDidNft(
+                    ddo.shortId(),
+                    cap,
+                    royalties,
+                    false,
+                    publisher.getId()
+                )
+            }
+
             this.logger.log('DID registred')
             observer.next(CreateProgressStep.DidRegistered)
 
@@ -373,7 +413,7 @@ export class Assets extends Instantiable {
             const service = ddo.findServiceById(index)
             const templateName = service.attributes.serviceAgreementTemplate.contractName
             const template = keeper.getTemplateByName(templateName)
-            const totalAmount = getLockRewardTotalAmount(ddo, index)
+            const assetRewards = getAssetRewardsFromDDO(ddo, index)
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
@@ -387,9 +427,11 @@ export class Assets extends Instantiable {
                 this.logger.log('Locking payment')
 
                 observer.next(OrderProgressStep.LockingPayment)
-                const paid = await agreements.conditions.lockReward(
+                const paid = await agreements.conditions.lockPayment(
                     agreementId,
-                    totalAmount,
+                    ddo.id,
+                    assetRewards.getAmounts(),
+                    assetRewards.getReceivers(),
                     consumer
                 )
                 observer.next(OrderProgressStep.LockedPayment)
@@ -501,7 +543,7 @@ export class Assets extends Instantiable {
      */
     public async consumerAssets(consumer: string): Promise<string[]> {
         return (
-            await this.nevermined.keeper.conditions.accessSecretStoreCondition.getGrantedDidByConsumer(
+            await this.nevermined.keeper.conditions.accessCondition.getGrantedDidByConsumer(
                 consumer
             )
         ).map(({ did }) => did)
@@ -711,7 +753,7 @@ export class Assets extends Instantiable {
             type: 'access',
             index: 3,
             serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
-            templateId: templates.escrowAccessSecretStoreTemplate.getAddress(),
+            templateId: templates.accessTemplate.getAddress(),
             attributes: {
                 main: {
                     creator: publisher.getId(),

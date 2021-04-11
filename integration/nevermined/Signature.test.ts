@@ -47,7 +47,7 @@ describe('Signature', () => {
         const templateId = `0x${'f'.repeat(40)}`
         const agreementId = `0x${'e'.repeat(64)}`
 
-        const serviceAgreementTemplate = await templates.escrowAccessSecretStoreTemplate.getServiceAgreementTemplate()
+        const serviceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
 
         const ddo = new DDO({
             id: did,
