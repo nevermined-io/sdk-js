@@ -123,6 +123,19 @@ export default class TestContractHandler extends ContractHandler {
             didRegistry.options.address
         ])
 
+        const transferNftCondition = await TestContractHandler.deployContract(
+            'TransferNFTCondition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address,
+                agreementStoreManager.options.address
+            ]
+        )
+        await didRegistry.methods
+            .setProxyApproval(transferNftCondition.options.address, true)
+            .send({ from: deployerAddress })
+
         // Conditions rewards
         const escrowPaymentCondition = await TestContractHandler.deployContract(
             'EscrowPaymentCondition',
