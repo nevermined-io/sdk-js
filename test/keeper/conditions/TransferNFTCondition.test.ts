@@ -7,9 +7,7 @@ import {
     TransferNFTCondition
 } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
-import Dispenser from '../../../src/keeper/contracts/Dispenser'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import { Token } from '../../../src/nevermined/Token'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'

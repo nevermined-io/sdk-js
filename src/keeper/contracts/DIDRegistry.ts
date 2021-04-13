@@ -436,4 +436,8 @@ export default class DIDRegistry extends ContractBase {
     public async setProxyApproval(operator: string, approved: boolean, from: string) {
         return await this.send('setProxyApproval', from, [zeroX(operator), approved])
     }
+
+    public async getDIDRegister(did: string) {
+        return this.call('getDIDRegister', [didZeroX(did)])
+    }
 }

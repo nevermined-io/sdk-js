@@ -11,7 +11,8 @@ import {
     ComputeExecutionCondition,
     NFTHolderCondition,
     NFTLockCondition,
-    TransferNFTCondition
+    TransferNFTCondition,
+    TransferDIDOwnershipCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -67,6 +68,9 @@ export class Keeper extends Instantiable {
                 nftHolderCondition: NFTHolderCondition.getInstance(config),
                 nftLockCondition: NFTLockCondition.getInstance(config),
                 transferNftCondition: TransferNFTCondition.getInstance(config),
+                transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
+                    config
+                ),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(config),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
@@ -109,7 +113,8 @@ export class Keeper extends Instantiable {
             computeExecutionCondition: keeper.instances.computeExecutionCondition,
             nftHolderCondition: keeper.instances.nftHolderCondition,
             nftLockCondition: keeper.instances.nftLockCondition,
-            transferNftCondition: keeper.instances.transferNftCondition
+            transferNftCondition: keeper.instances.transferNftCondition,
+            transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition
         }
         // Conditions
         keeper.templates = {
@@ -178,6 +183,7 @@ export class Keeper extends Instantiable {
         nftHolderCondition: NFTHolderCondition
         nftLockCondition: NFTLockCondition
         transferNftCondition: TransferNFTCondition
+        transferDidOwnershipCondition: TransferDIDOwnershipCondition
     }
 
     /**
