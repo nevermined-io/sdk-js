@@ -195,6 +195,14 @@ export default class TestContractHandler extends ContractHandler {
             nftHolderCondition.options.address,
             nftAcessCondition.options.address
         ])
+
+        await TestContractHandler.deployContract('NFTSalesTemplate', deployerAddress, [
+            deployerAddress,
+            agreementStoreManager.options.address,
+            lockPaymentCondition.options.address,
+            transferNftCondition.options.address,
+            escrowPaymentCondition.options.address
+        ])
     }
 
     private static async deployContract(

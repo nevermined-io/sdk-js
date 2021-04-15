@@ -20,7 +20,8 @@ import {
     AccessTemplate,
     EscrowComputeExecutionTemplate,
     DIDSalesTemplate,
-    NFTAccessTemplate
+    NFTAccessTemplate,
+    NFTSalesTemplate
 } from './contracts/templates'
 import {
     TemplateStoreManager,
@@ -81,7 +82,8 @@ export class Keeper extends Instantiable {
                     config
                 ),
                 nftAccessTemplate: NFTAccessTemplate.getInstance(config),
-                didSalesTemplate: DIDSalesTemplate.getInstance(config)
+                didSalesTemplate: DIDSalesTemplate.getInstance(config),
+                nftSalesTemplate: NFTSalesTemplate.getInstance(config)
             })
 
             keeper.connected = true
@@ -129,7 +131,8 @@ export class Keeper extends Instantiable {
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate,
             didSalesTemplate: keeper.instances.didSalesTemplate,
-            nftAccessTemplate: keeper.instances.nftAccessTemplate
+            nftAccessTemplate: keeper.instances.nftAccessTemplate,
+            nftSalesTemplate: keeper.instances.nftSalesTemplate
         }
         // Utils
         keeper.utils = {
@@ -204,6 +207,7 @@ export class Keeper extends Instantiable {
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
         didSalesTemplate: DIDSalesTemplate
         nftAccessTemplate: NFTAccessTemplate
+        nftSalesTemplate: NFTSalesTemplate
     }
 
     /**
