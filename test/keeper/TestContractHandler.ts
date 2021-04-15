@@ -123,6 +123,12 @@ export default class TestContractHandler extends ContractHandler {
             didRegistry.options.address
         ])
 
+        await TestContractHandler.deployContract('NFTAccessCondition', deployerAddress, [
+            deployerAddress,
+            conditionStoreManager.options.address,
+            agreementStoreManager.options.address
+        ])
+
         const transferNftCondition = await TestContractHandler.deployContract(
             'TransferNFTCondition',
             deployerAddress,
@@ -136,7 +142,7 @@ export default class TestContractHandler extends ContractHandler {
             .setProxyApproval(transferNftCondition.options.address, true)
             .send({ from: deployerAddress })
 
-        await TestContractHandler.deployContract(
+        const transferDidOwnershipCondition = await TestContractHandler.deployContract(
             'TransferDIDOwnershipCondition',
             deployerAddress,
             [
@@ -166,6 +172,18 @@ export default class TestContractHandler extends ContractHandler {
             lockPaymentCondition.options.address,
             escrowPaymentCondition.options.address
         ])
+
+        const didSalesTemplate = await TestContractHandler.deployContract(
+            'DIDSalesTemplate',
+            deployerAddress,
+            [
+                deployerAddress,
+                agreementStoreManager.options.address,
+                lockPaymentCondition.options.address,
+                transferDidOwnershipCondition.options.address,
+                escrowPaymentCondition.options.address
+            ]
+        )
     }
 
     private static async deployContract(

@@ -11,13 +11,15 @@ import {
     ComputeExecutionCondition,
     NFTHolderCondition,
     NFTLockCondition,
+    NFTAccessCondition,
     TransferNFTCondition,
     TransferDIDOwnershipCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
     AccessTemplate,
-    EscrowComputeExecutionTemplate
+    EscrowComputeExecutionTemplate,
+    DIDSalesTemplate
 } from './contracts/templates'
 import {
     TemplateStoreManager,
@@ -67,6 +69,7 @@ export class Keeper extends Instantiable {
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
                 nftHolderCondition: NFTHolderCondition.getInstance(config),
                 nftLockCondition: NFTLockCondition.getInstance(config),
+                nftAccessCondition: NFTAccessCondition.getInstance(config),
                 transferNftCondition: TransferNFTCondition.getInstance(config),
                 transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
                     config
@@ -75,7 +78,8 @@ export class Keeper extends Instantiable {
                 accessTemplate: AccessTemplate.getInstance(config),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
                     config
-                )
+                ),
+                didSalesTemplate: DIDSalesTemplate.getInstance(config)
             })
 
             keeper.connected = true
@@ -113,6 +117,7 @@ export class Keeper extends Instantiable {
             computeExecutionCondition: keeper.instances.computeExecutionCondition,
             nftHolderCondition: keeper.instances.nftHolderCondition,
             nftLockCondition: keeper.instances.nftLockCondition,
+            nftAccessCondition: keeper.instances.nftAccessCondition,
             transferNftCondition: keeper.instances.transferNftCondition,
             transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition
         }
@@ -120,7 +125,8 @@ export class Keeper extends Instantiable {
         keeper.templates = {
             accessTemplate: keeper.instances.accessTemplate,
             escrowComputeExecutionTemplate:
-                keeper.instances.escrowComputeExecutionTemplate
+                keeper.instances.escrowComputeExecutionTemplate,
+            didSalesTemplate: keeper.instances.didSalesTemplate
         }
         // Utils
         keeper.utils = {
@@ -182,6 +188,7 @@ export class Keeper extends Instantiable {
         computeExecutionCondition: ComputeExecutionCondition
         nftHolderCondition: NFTHolderCondition
         nftLockCondition: NFTLockCondition
+        nftAccessCondition: NFTAccessCondition
         transferNftCondition: TransferNFTCondition
         transferDidOwnershipCondition: TransferDIDOwnershipCondition
     }
@@ -192,6 +199,7 @@ export class Keeper extends Instantiable {
     public templates: {
         accessTemplate: AccessTemplate
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
+        didSalesTemplate: DIDSalesTemplate
     }
 
     /**
