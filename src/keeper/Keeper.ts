@@ -19,7 +19,8 @@ import {
     AgreementTemplate,
     AccessTemplate,
     EscrowComputeExecutionTemplate,
-    DIDSalesTemplate
+    DIDSalesTemplate,
+    NFTAccessTemplate
 } from './contracts/templates'
 import {
     TemplateStoreManager,
@@ -79,6 +80,7 @@ export class Keeper extends Instantiable {
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
                     config
                 ),
+                nftAccessTemplate: NFTAccessTemplate.getInstance(config),
                 didSalesTemplate: DIDSalesTemplate.getInstance(config)
             })
 
@@ -126,7 +128,8 @@ export class Keeper extends Instantiable {
             accessTemplate: keeper.instances.accessTemplate,
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate,
-            didSalesTemplate: keeper.instances.didSalesTemplate
+            didSalesTemplate: keeper.instances.didSalesTemplate,
+            nftAccessTemplate: keeper.instances.nftAccessTemplate
         }
         // Utils
         keeper.utils = {
@@ -200,6 +203,7 @@ export class Keeper extends Instantiable {
         accessTemplate: AccessTemplate
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
         didSalesTemplate: DIDSalesTemplate
+        nftAccessTemplate: NFTAccessTemplate
     }
 
     /**

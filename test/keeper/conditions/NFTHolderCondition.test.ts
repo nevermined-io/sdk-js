@@ -1,6 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, ConditionState, Nevermined, utils } from '../../../src'
+import { Account, conditions, ConditionState, Nevermined, utils } from '../../../src'
 import { NFTHolderCondition } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
@@ -30,6 +30,8 @@ describe('NFTHolderCondition', () => {
         ;({ nftHolderCondition } = nevermined.keeper.conditions)
         ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
         ;[owner, holder] = await nevermined.accounts.list()
+
+        await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
     })
 
     beforeEach(async () => {

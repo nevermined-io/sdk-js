@@ -7,16 +7,16 @@ import {
     ConditionStoreManager,
     TemplateStoreManager
 } from '../../../src/keeper/contracts/managers'
-import { DIDSalesTemplate } from '../../../src/keeper/contracts/templates'
+import { NFTAccessTemplate } from '../../../src/keeper/contracts/templates'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
 chai.use(chaiAsPromised)
 
-describe('DIDSalesTemplate', () => {
+describe('NFTAccessTemplate', () => {
     let nevermined: Nevermined
-    let didSalesTemplate: DIDSalesTemplate
+    let nftAccessTemplate: NFTAccessTemplate
     let templateStoreManager: TemplateStoreManager
     let didRegistry: DIDRegistry
     let conditionStoreManager: ConditionStoreManager
@@ -34,7 +34,7 @@ describe('DIDSalesTemplate', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;({ didSalesTemplate } = nevermined.keeper.templates)
+        ;({ nftAccessTemplate } = nevermined.keeper.templates)
         ;({
             templateStoreManager,
             didRegistry,
@@ -42,8 +42,8 @@ describe('DIDSalesTemplate', () => {
             agreementStoreManager
         } = nevermined.keeper)
         ;[sender, receiver] = await nevermined.accounts.list()
-        timeLocks = [0, 0, 0]
-        timeOuts = [0, 0, 0]
+        timeLocks = [0, 0]
+        timeOuts = [0, 0]
 
         await conditionStoreManager.delegateCreateRole(
             agreementStoreManager.getAddress(),
@@ -53,11 +53,7 @@ describe('DIDSalesTemplate', () => {
 
     beforeEach(async () => {
         agreementId = zeroX(utils.generateId())
-        conditionIds = [
-            zeroX(utils.generateId()),
-            zeroX(utils.generateId()),
-            zeroX(utils.generateId())
-        ]
+        conditionIds = [zeroX(utils.generateId()), zeroX(utils.generateId())]
         did = `did:nv:${utils.generateId()}`
         checksum = utils.generateId()
     })
@@ -65,7 +61,7 @@ describe('DIDSalesTemplate', () => {
     describe('create agreement', () => {
         it('should fail if template is not approve', async () => {
             await assert.isRejected(
-                didSalesTemplate.createAgreement(
+                nftAccessTemplate.createAgreement(
                     agreementId,
                     didZeroX(did),
                     conditionIds,
@@ -80,11 +76,11 @@ describe('DIDSalesTemplate', () => {
 
         it('should fail if DID is not registered', async () => {
             // propose and approve template
-            await templateStoreManager.proposeTemplate(didSalesTemplate.getAddress())
-            await templateStoreManager.approveTemplate(didSalesTemplate.getAddress())
+            await templateStoreManager.proposeTemplate(nftAccessTemplate.getAddress())
+            await templateStoreManager.approveTemplate(nftAccessTemplate.getAddress())
 
             await assert.isRejected(
-                didSalesTemplate.createAgreement(
+                nftAccessTemplate.createAgreement(
                     agreementId,
                     didZeroX(did),
                     conditionIds,
@@ -100,7 +96,7 @@ describe('DIDSalesTemplate', () => {
         it('should create agreement', async () => {
             await didRegistry.registerAttribute(did, checksum, [], url, sender.getId())
 
-            const agreement = await didSalesTemplate.createAgreement(
+            const agreement = await nftAccessTemplate.createAgreement(
                 agreementId,
                 didZeroX(did),
                 conditionIds,
@@ -123,7 +119,7 @@ describe('DIDSalesTemplate', () => {
             assert.equal(_accessProvider, sender.getId())
             assert.equal(_accessConsumer, receiver.getId())
 
-            const storedAgreementData = await didSalesTemplate.getAgreementData(
+            const storedAgreementData = await nftAccessTemplate.getAgreementData(
                 agreementId
             )
             assert.equal(storedAgreementData.accessConsumer, receiver.getId())
@@ -131,9 +127,12 @@ describe('DIDSalesTemplate', () => {
 
             const storedAgreement = await agreementStoreManager.getAgreement(agreementId)
             assert.deepEqual(storedAgreement.conditionIds, conditionIds)
-            assert.deepEqual(storedAgreement.lastUpdatedBy, didSalesTemplate.getAddress())
+            assert.deepEqual(
+                storedAgreement.lastUpdatedBy,
+                nftAccessTemplate.getAddress()
+            )
 
-            const conditionTypes = await didSalesTemplate.getConditionTypes()
+            const conditionTypes = await nftAccessTemplate.getConditionTypes()
             conditionIds.forEach(async (conditionId, i) => {
                 const storedCondition = await conditionStoreManager.getCondition(
                     conditionId
