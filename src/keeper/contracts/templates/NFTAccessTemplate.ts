@@ -21,19 +21,54 @@ export class NFTAccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
-        from?: string
+        holder: string,
+        from?: string,
+        nftAmount?: number
     ): Promise<boolean> {
-        throw new Error('Not implemented')
+        const [
+            nftHolderConditionId,
+            nftAccessConditionId
+        ] = await this.getAgreementIdsFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            holder,
+            from,
+            nftAmount
+        )
+        return !!(await this.createAgreement(
+            agreementId,
+            ddo.shortId(),
+            [nftHolderConditionId, nftAccessConditionId],
+            [0, 0],
+            [0, 0],
+            from
+        ))
     }
 
     public async getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string
+        holder: string,
+        from?: string,
+        nftAmount?: number
     ): Promise<string[]> {
-        throw new Error('Not implemented')
+        const {
+            nftHolderCondition,
+            nftAccessCondition
+        } = this.nevermined.keeper.conditions
+
+        const nftHolderConditionId = await nftHolderCondition.generateId(
+            agreementId,
+            await nftHolderCondition.hashValues(ddo.shortId(), holder, nftAmount)
+        )
+        const nftAccessConditionId = await nftAccessCondition.generateId(
+            agreementId,
+            await nftAccessCondition.hashValues(ddo.shortId(), holder)
+        )
+
+        return [nftHolderConditionId, nftAccessConditionId]
     }
 
     public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {

@@ -117,7 +117,7 @@ export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
             name: 'escrowPayment',
             timelock: 0,
             timeout: 0,
-            contractName: 'EscrowPayment',
+            contractName: 'EscrowPaymentCondition',
             functionName: 'fulfill',
             parameters: [
                 {

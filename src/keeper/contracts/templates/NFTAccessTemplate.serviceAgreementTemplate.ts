@@ -16,7 +16,7 @@ export const nftAccessTemplateServiceAgreementTemplate: ServiceAgreementTemplate
     fulfillmentOrder: ['nftHolder.fulfill', 'nftAccess.fulfill'],
     conditionDependency: {
         nftHolder: [],
-        access: []
+        nftAccess: []
     },
     conditions: [
         {
