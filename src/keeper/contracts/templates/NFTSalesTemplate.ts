@@ -18,18 +18,77 @@ export class NFTSalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        from?: string
+        from?: string,
+        nftAmount?: number
     ): Promise<boolean> {
-        throw new Error('Not implemented')
+        const [
+            lockPaymentConditionId,
+            transferNftConditionId,
+            escrowPaymentConditionId
+        ] = await this.getAgreementIdsFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumer,
+            from,
+            nftAmount
+        )
+        return !!(await this.createAgreement(
+            agreementId,
+            ddo.shortId(),
+            [lockPaymentConditionId, transferNftConditionId, escrowPaymentConditionId],
+            [0, 0, 0],
+            [0, 0, 0],
+            consumer,
+            from
+        ))
     }
 
     public async getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string
+        consumer: string,
+        _from?: string,
+        nftAmount?: number
     ): Promise<string[]> {
-        throw new Error('Not implemented')
+        const {
+            lockPaymentCondition,
+            transferNftCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
+
+        const lockPaymentConditionId = await lockPaymentCondition.generateId(
+            agreementId,
+            await lockPaymentCondition.hashValues(
+                ddo.shortId(),
+                escrowPaymentCondition.address,
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
+        )
+        const transferNftConditionId = await transferNftCondition.generateId(
+            agreementId,
+            await transferNftCondition.hashValues(
+                ddo.shortId(),
+                consumer,
+                nftAmount,
+                lockPaymentConditionId
+            )
+        )
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
+            agreementId,
+            await escrowPaymentCondition.hashValues(
+                ddo.shortId(),
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers(),
+                escrowPaymentCondition.getAddress(),
+                lockPaymentConditionId,
+                transferNftConditionId
+            )
+        )
+
+        return [lockPaymentConditionId, transferNftConditionId, escrowPaymentConditionId]
     }
 
     public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {

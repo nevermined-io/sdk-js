@@ -1,17 +1,21 @@
 import { assert } from 'chai'
-import { Account, Nevermined, utils } from '../../src'
+import { Account, DDO, Nevermined, utils } from '../../src'
 import {
     ConditionState,
-    EscrowPaymentCondition,
+    EscrowPayment,
     LockPaymentCondition,
     NFTAccessCondition,
     NFTHolderCondition,
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
+import {
+    AgreementStoreManager,
+    ConditionStoreManager
+} from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
+import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 
 describe('NFTTemplates E2E', () => {
@@ -24,9 +28,10 @@ describe('NFTTemplates E2E', () => {
     let token: Token
     let didRegistry: DIDRegistry
     let conditionStoreManager: ConditionStoreManager
+    let agreementStoreManager: AgreementStoreManager
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
-    let escrowPaymentCondition: EscrowPaymentCondition
+    let escrowPaymentCondition: EscrowPayment
     let nftHolderCondition: NFTHolderCondition
     let nftAccessCondition: NFTAccessCondition
     let nftSalesTemplate: NFTSalesTemplate
@@ -40,15 +45,16 @@ describe('NFTTemplates E2E', () => {
     let conditionIdLockPayment2: string
     let conditionIdTransferNFT2: string
     let conditionIdEscrow2: string
+    let ddo: DDO
 
     const royalties = 10 // 10% of royalties in the secondary market
     const cappedAmount = 5
-    const did = utils.generateId()
-    const agreementId = utils.generateId()
-    const agreementAccessId = utils.generateId()
-    const agreementId2 = utils.generateId()
-    const checksum = utils.generateId()
-    const activityId = utils.generateId()
+    let did: string
+    let agreementId: string
+    let agreementAccessId: string
+    let agreementId2: string
+    let checksum: string
+    let activityId: string
     const url =
         'https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/banner_logo.png'
 
@@ -58,6 +64,7 @@ describe('NFTTemplates E2E', () => {
     let nftPrice = 20
     let amounts = [15, 5]
     let receivers: string[]
+    let assetRewards1: AssetRewards
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
@@ -65,6 +72,8 @@ describe('NFTTemplates E2E', () => {
     let nftPrice2 = 100
     let amounts2 = [90, 10]
     let receivers2: string[]
+    let assetRewards2: AssetRewards
+
     let initialBalances: any
     let scale: number
 
@@ -82,7 +91,12 @@ describe('NFTTemplates E2E', () => {
         receivers2 = [collector1.getId(), artist.getId()]
 
         // components
-        ;({ didRegistry, conditionStoreManager, token } = nevermined.keeper)
+        ;({
+            didRegistry,
+            conditionStoreManager,
+            agreementStoreManager,
+            token
+        } = nevermined.keeper)
 
         // conditions
         ;({
@@ -96,29 +110,47 @@ describe('NFTTemplates E2E', () => {
         // templates
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
-        // initial balances
-        initialBalances = {
-            artist: await token.balanceOf(artist.getId()),
-            collector1: await token.balanceOf(collector1.getId()),
-            collector2: await token.balanceOf(collector2.getId()),
-            gallery: await token.balanceOf(gallery.getId()),
-            owner: await token.balanceOf(owner.getId()),
-            lockPaymentCondition: Number(
-                await token.balanceOf(lockPaymentCondition.getAddress())
-            ),
-            escrowPaymentCondition: Number(
-                await token.balanceOf(escrowPaymentCondition.getAddress())
-            )
-        }
         scale = 10 ** (await token.decimals())
 
         nftPrice = nftPrice * scale
         amounts = amounts.map(v => v * scale)
         nftPrice2 = nftPrice2 * scale
         amounts2 = amounts2.map(v => v * scale)
+
+        assetRewards1 = new AssetRewards(
+            new Map([
+                [receivers[0], amounts[0]],
+                [receivers[1], amounts[1]]
+            ])
+        )
+
+        assetRewards2 = new AssetRewards(
+            new Map([
+                [receivers2[0], amounts2[0]],
+                [receivers2[1], amounts2[1]]
+            ])
+        )
     })
 
     describe('Full flow', () => {
+        before(async () => {
+            // initial balances
+            initialBalances = {
+                artist: await token.balanceOf(artist.getId()),
+                collector1: await token.balanceOf(collector1.getId()),
+                collector2: await token.balanceOf(collector2.getId()),
+                gallery: await token.balanceOf(gallery.getId()),
+                escrowPaymentCondition: Number(
+                    await token.balanceOf(escrowPaymentCondition.getAddress())
+                )
+            }
+            did = utils.generateId()
+            agreementId = utils.generateId()
+            agreementAccessId = utils.generateId()
+            agreementId2 = utils.generateId()
+            checksum = utils.generateId()
+            activityId = utils.generateId()
+        })
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
                 await didRegistry.registerMintableDID(
@@ -592,8 +624,204 @@ describe('NFTTemplates E2E', () => {
     })
 
     describe('Short flow', () => {
-        it('true', async () => {
-            assert.isTrue(true)
+        before(async () => {
+            // initial balances
+            initialBalances = {
+                artist: await token.balanceOf(artist.getId()),
+                collector1: await token.balanceOf(collector1.getId()),
+                collector2: await token.balanceOf(collector2.getId()),
+                gallery: await token.balanceOf(gallery.getId()),
+                escrowPaymentCondition: Number(
+                    await token.balanceOf(escrowPaymentCondition.getAddress())
+                )
+            }
+            did = utils.generateId()
+            agreementId = utils.generateId()
+            agreementAccessId = utils.generateId()
+            agreementId2 = utils.generateId()
+            checksum = utils.generateId()
+            activityId = utils.generateId()
+            ddo = new DDO({ id: `did:nv:${did}` })
+        })
+
+        describe('As an artist I want to register a new artwork', () => {
+            it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
+                await didRegistry.registerMintableDID(
+                    did,
+                    checksum,
+                    [],
+                    url,
+                    activityId,
+                    '',
+                    cappedAmount,
+                    royalties,
+                    artist.getId()
+                )
+
+                await didRegistry.mint(did, 5, artist.getId())
+                await didRegistry.setApprovalForAll(
+                    transferNftCondition.getAddress(),
+                    true,
+                    artist.getId()
+                )
+
+                const balance = await didRegistry.balance(artist.getId(), did)
+                assert.equal(balance, 5)
+            })
+        })
+
+        describe('As a collector I want to buy some art', () => {
+            it('I am setting an agreement for buying a NFT', async () => {
+                const result = await nftSalesTemplate.createAgreementFromDDO(
+                    agreementId,
+                    ddo,
+                    assetRewards1,
+                    collector1.getId(),
+                    undefined,
+                    numberNFTs
+                )
+                assert.isTrue(result)
+
+                const agreementData = await nftSalesTemplate.getAgreementData(agreementId)
+                const storedAgreement = await agreementStoreManager.getAgreement(
+                    agreementId
+                )
+                const status = await nftSalesTemplate.getAgreementStatus(agreementId)
+                console.log()
+                // assert.isTrue(result.status)
+                // assert.nestedProperty(result, 'events.AgreementCreated')
+
+                // assert.equal(
+                //     (await conditionStoreManager.getCondition(conditionIdLockPayment))
+                //         .state,
+                //     ConditionState.Unfulfilled
+                // )
+                // assert.equal(
+                //     (await conditionStoreManager.getCondition(conditionIdEscrow)).state,
+                //     ConditionState.Unfulfilled
+                // )
+                // assert.equal(
+                //     (await conditionStoreManager.getCondition(conditionIdTransferNFT))
+                //         .state,
+                //     ConditionState.Unfulfilled
+                // )
+            })
+
+            // it('I am locking the payment', async () => {
+            //     await collector1.requestTokens(nftPrice / scale)
+            //     const collector1BalanceBefore = await token.balanceOf(collector1.getId())
+            //     assert.equal(
+            //         collector1BalanceBefore,
+            //         initialBalances.collector1 + nftPrice
+            //     )
+
+            //     await token.approve(
+            //         lockPaymentCondition.getAddress(),
+            //         nftPrice,
+            //         collector1.getId()
+            //     )
+            //     await lockPaymentCondition.fulfill(
+            //         agreementId,
+            //         did,
+            //         escrowPaymentCondition.getAddress(),
+            //         amounts,
+            //         receivers,
+            //         collector1.getId()
+            //     )
+
+            //     const { state } = await conditionStoreManager.getCondition(
+            //         conditionIdLockPayment
+            //     )
+            //     assert.equal(state, ConditionState.Fulfilled)
+
+            //     const collector1BalanceAfter = await token.balanceOf(collector1.getId())
+            //     const escrowPaymentConditionBalance = await token.balanceOf(
+            //         escrowPaymentCondition.getAddress()
+            //     )
+            //     assert.equal(collector1BalanceAfter - initialBalances.collector1, 0)
+            //     assert.equal(
+            //         escrowPaymentConditionBalance -
+            //             initialBalances.escrowPaymentCondition,
+            //         nftPrice
+            //     )
+            // })
+
+            // it('The artist can check the payment and transfer the NFT to the collector', async () => {
+            //     const nftBalanceArtistBefore = await didRegistry.balance(
+            //         artist.getId(),
+            //         did
+            //     )
+            //     const nftBalanceCollectorBefore = await didRegistry.balance(
+            //         collector1.getId(),
+            //         did
+            //     )
+
+            //     await transferNftCondition.fulfill(
+            //         agreementId,
+            //         did,
+            //         collector1.getId(),
+            //         numberNFTs,
+            //         conditionIdLockPayment,
+            //         artist.getId()
+            //     )
+
+            //     const { state } = await conditionStoreManager.getCondition(
+            //         conditionIdTransferNFT
+            //     )
+            //     assert.equal(state, ConditionState.Fulfilled)
+
+            //     const nftBalanceArtistAfter = await didRegistry.balance(
+            //         artist.getId(),
+            //         did
+            //     )
+            //     const nftBalanceCollectorAfter = await didRegistry.balance(
+            //         collector1.getId(),
+            //         did
+            //     )
+
+            //     assert.equal(
+            //         Number(nftBalanceArtistAfter),
+            //         Number(nftBalanceArtistBefore) - numberNFTs
+            //     )
+            //     assert.equal(
+            //         Number(nftBalanceCollectorAfter),
+            //         Number(nftBalanceCollectorBefore) + numberNFTs
+            //     )
+            // })
+
+            // it('the artist asks and receives the payment', async () => {
+            //     await escrowPaymentCondition.fulfill(
+            //         agreementId,
+            //         did,
+            //         amounts,
+            //         receivers,
+            //         escrowPaymentCondition.getAddress(),
+            //         conditionIdLockPayment,
+            //         conditionIdTransferNFT,
+            //         artist.getId()
+            //     )
+
+            //     const { state } = await conditionStoreManager.getCondition(
+            //         conditionIdEscrow
+            //     )
+            //     assert.equal(state, ConditionState.Fulfilled)
+
+            //     const escrowPaymentConditionBalance = await token.balanceOf(
+            //         escrowPaymentCondition.getAddress()
+            //     )
+            //     const receiver0Balance = await token.balanceOf(receivers[0])
+            //     const receiver1Balance = await token.balanceOf(receivers[1])
+            //     const collectorBalance = await token.balanceOf(collector1.getId())
+
+            //     assert.equal(receiver0Balance, initialBalances.artist + amounts[0])
+            //     assert.equal(receiver1Balance, initialBalances.gallery + amounts[1])
+            //     assert.equal(collectorBalance - initialBalances.collector1, 0)
+            //     assert.equal(
+            //         escrowPaymentConditionBalance -
+            //             initialBalances.escrowPaymentCondition,
+            //         0
+            //     )
+            // })
         })
     })
 })
