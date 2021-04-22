@@ -51,7 +51,8 @@ export class DDO {
 
     public constructor(ddo: Partial<DDO> = {}) {
         Object.assign(this, ddo, {
-            created: (ddo && ddo.created) || new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+            created:
+                (ddo && ddo.created) || new Date().toISOString().replace(/\.[0-9]{3}/, '')
         })
     }
 
@@ -70,6 +71,9 @@ export class DDO {
         }
 
         const service = this.service.find(s => s.index === index)
+        if (service === undefined) {
+            throw new Error(`No service with index ${index} found on DDO.`)
+        }
 
         return service as Service<T>
     }
@@ -83,7 +87,7 @@ export class DDO {
         if (!serviceType) {
             throw new Error('serviceType not set')
         }
-        
+
         return this.service.find(s => s.type === serviceType) as Service<T>
     }
 
@@ -107,14 +111,16 @@ export class DDO {
     ): Promise<Proof> {
         const checksum = {}
         this.service.forEach(svc => {
-            checksum[svc.index] = this.checksum(JSON.stringify(this.findServiceByType(svc.type).attributes.main))
+            checksum[svc.index] = this.checksum(
+                JSON.stringify(this.findServiceByType(svc.type).attributes.main)
+            )
         })
         return {
             created: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
             creator: publicKey,
             type: 'DDOIntegritySignature',
             signatureValue: '',
-            checksum,
+            checksum
         }
     }
 
@@ -158,7 +164,7 @@ export class DDO {
     public async addSignature(
         nevermined: Nevermined,
         publicKey: string,
-        password?: string,
+        password?: string
     ) {
         this.proof.signatureValue = await nevermined.utils.signature.signText(
             this.shortId(),

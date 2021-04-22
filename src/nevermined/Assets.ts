@@ -5,7 +5,15 @@ import { MetaData } from '../ddo/MetaData'
 import { Service, ServiceType } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
-import { fillConditionsWithDDO, getLockPaymentTotalAmount, SubscribablePromise, generateId, zeroX, didZeroX, getAssetRewardsFromDDO } from '../utils'
+import {
+    fillConditionsWithDDO,
+    getLockPaymentTotalAmount,
+    SubscribablePromise,
+    generateId,
+    zeroX,
+    didZeroX,
+    getAssetRewardsFromDDO
+} from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 
@@ -31,7 +39,7 @@ export enum ExecuteProgressStep {
     CreatingAgreement,
     AgreementInitialized,
     LockingPayment,
-    LockedPayment,
+    LockedPayment
 }
 
 /**
@@ -66,11 +74,11 @@ export class Assets extends Instantiable {
         publisher: Account,
         cap: number,
         royalties: number = 0,
-        assetRewards: AssetRewards=new AssetRewards(),
-        serviceTypes: ServiceType[]= ['access'],
+        assetRewards: AssetRewards = new AssetRewards(),
+        serviceTypes: ServiceType[] = ['access'],
         services: Service[] = [],
         method: string = 'PSK-RSA',
-        providers?: string[],
+        providers?: string[]
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.create(
             metadata,
@@ -99,13 +107,14 @@ export class Assets extends Instantiable {
     public create(
         metadata: MetaData,
         publisher: Account,
-        assetRewards: AssetRewards=new AssetRewards(),
-        serviceTypes: ServiceType[]= ['access'],
+        assetRewards: AssetRewards = new AssetRewards(),
+        serviceTypes: ServiceType[] = ['access'],
         services: Service[] = [],
         method: string = 'PSK-RSA',
         providers?: string[],
         cap?: number,
         royalties?: number,
+        nftAmount?: number
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -114,6 +123,8 @@ export class Assets extends Instantiable {
 
             const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
+            const nftSalesServiceAgreementTemplate = await templates.nftSalesTemplate.getServiceAgreementTemplate()
+            const nftAccessServiceAgreementTemplate = await templates.nftAccessTemplate.getServiceAgreementTemplate()
 
             // create ddo itself
             const ddo: DDO = new DDO({
@@ -130,24 +141,52 @@ export class Assets extends Instantiable {
                         type: 'EthereumECDSAKey',
                         owner: publisher.getId()
                     }
-                ],
+                ]
             })
 
             if (services.length > 0) {
                 ddo.service = [, ...services].reverse() as Service[]
             }
 
-
             if (serviceTypes.includes('access'))
-                ddo.addService(this.nevermined, this.createAccessService(templates, publisher, metadata, accessServiceAgreementTemplate))
+                ddo.addService(
+                    this.nevermined,
+                    this.createAccessService(
+                        templates,
+                        publisher,
+                        metadata,
+                        accessServiceAgreementTemplate
+                    )
+                )
             if (serviceTypes.includes('compute'))
-                await ddo.addService(this.nevermined, this.createComputeService(templates, publisher, metadata, computeServiceAgreementTemplate))
+                await ddo.addService(
+                    this.nevermined,
+                    this.createComputeService(
+                        templates,
+                        publisher,
+                        metadata,
+                        computeServiceAgreementTemplate
+                    )
+                )
+            if (serviceTypes.includes('nft-sales'))
+                await ddo.addService(
+                    this.nevermined,
+                    await this.createNftSalesService(metadata, publisher)
+                )
+            if (serviceTypes.includes('nft-access'))
+                await ddo.addService(
+                    this.nevermined,
+                    await this.createNftAccessService(metadata, publisher)
+                )
 
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
                 publicKey = this.nevermined.gateway.getEcdsaPublicKey()
             }
-            await ddo.addService(this.nevermined, this.createAuthorizationService(gatewayUri, publicKey, method))
+            await ddo.addService(
+                this.nevermined,
+                this.createAuthorizationService(gatewayUri, publicKey, method)
+            )
             await ddo.addService(this.nevermined, {
                 type: 'metadata',
                 index: 0,
@@ -162,12 +201,12 @@ export class Assets extends Instantiable {
                     ...metadata,
                     // Cleaning not needed information
                     main: {
-                        ...metadata.main,
+                        ...metadata.main
                     } as any
                 }
             } as Service)
 
-            ddo.service.sort((a, b) => (a.index > b.index) ? 1 : -1)
+            ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
 
             this.logger.log('Generating proof')
             observer.next(CreateProgressStep.GeneratingProof)
@@ -207,7 +246,9 @@ export class Assets extends Instantiable {
                 }
             }
 
-            const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(DID.parse(ddo.id))
+            const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
+                DID.parse(ddo.id)
+            )
 
             await ddo.updateService(this.nevermined, {
                 type: 'metadata',
@@ -235,15 +276,30 @@ export class Assets extends Instantiable {
             } as Service)
 
             //Fulfill conditions
-            if (serviceTypes.includes('access'))    {
+            if (serviceTypes.includes('access')) {
                 const rawConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
                 const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
                 accessServiceAgreementTemplate.conditions = conditions
             }
-            if (serviceTypes.includes('compute'))    {
+            if (serviceTypes.includes('compute')) {
                 const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
                 const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
                 computeServiceAgreementTemplate.conditions = conditions
+            }
+            if (serviceTypes.includes('nft-access')) {
+                const rawConditions = await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
+                const conditions = fillConditionsWithDDO(
+                    rawConditions,
+                    ddo,
+                    assetRewards,
+                    nftAmount
+                )
+                nftAccessServiceAgreementTemplate.conditions = conditions
+            }
+            if (serviceTypes.includes('nft-sales')) {
+                const rawConditions = await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
+                const conditions = fillConditionsWithDDO(rawConditions, ddo, assetRewards)
+                nftSalesServiceAgreementTemplate.conditions = conditions
             }
 
             this.logger.log('Files encrypted')
@@ -253,7 +309,7 @@ export class Assets extends Instantiable {
             await didRegistry.registerAttribute(
                 ddo.shortId(),
                 ddo.checksum(ddo.shortId()),
-                providers || [ this.config.gatewayAddress],
+                providers || [this.config.gatewayAddress],
                 serviceEndpoint,
                 publisher.getId()
             )
@@ -284,28 +340,38 @@ export class Assets extends Instantiable {
     public createCompute(
         metadata: MetaData,
         publisher: Account,
-        assetRewards: AssetRewards=new AssetRewards(),
+        assetRewards: AssetRewards = new AssetRewards(),
         service: Service[] = [],
         method: string = 'PSK-RSA'
-        ): SubscribablePromise<CreateProgressStep, DDO> {
-            return new SubscribablePromise(async observer => {
-                const computeService = {main: {
-                    name: "dataAssetComputeServiceAgreement",
+    ): SubscribablePromise<CreateProgressStep, DDO> {
+        return new SubscribablePromise(async observer => {
+            const computeService = {
+                main: {
+                    name: 'dataAssetComputeServiceAgreement',
                     creator: publisher.getId(),
                     datePublished: metadata.main.dateCreated,
                     price: metadata.main.price,
                     timeout: 86400,
                     provider: this.providerConfig()
-                    }
                 }
+            }
 
-                return this.create(metadata, publisher, assetRewards, ['compute'], [   {
-                    type: 'compute',
-                    index: 4,
-                    serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
-                    attributes: computeService
-                } as Service], method )
-            })
+            return this.create(
+                metadata,
+                publisher,
+                assetRewards,
+                ['compute'],
+                [
+                    {
+                        type: 'compute',
+                        index: 4,
+                        serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
+                        attributes: computeService
+                    } as Service
+                ],
+                method
+            )
+        })
     }
 
     public async consume(
@@ -450,13 +516,7 @@ export class Assets extends Instantiable {
 
             observer.next(OrderProgressStep.CreatingAgreement)
             this.logger.log('Creating agreement')
-            await agreements.create(
-                did,
-                agreementId,
-                index,
-                consumer,
-                consumer
-            )
+            await agreements.create(did, agreementId, index, consumer, consumer)
             this.logger.log('Agreement created')
 
             try {
@@ -483,7 +543,8 @@ export class Assets extends Instantiable {
     ): Promise<string> {
         const { gateway } = this.nevermined
 
-        return (await gateway.execute(agreementId, computeDid, workflowDid, consumer)).workflowId
+        return (await gateway.execute(agreementId, computeDid, workflowDid, consumer))
+            .workflowId
     }
 
     /**
@@ -563,7 +624,12 @@ export class Assets extends Instantiable {
      * @param  {SearchQuery} text Text to filter the assets.
      * @return {Promise<DDO[]>}
      */
-    public async search(text: string, offset: number=100, page: number=1 ,sort: number=1) {
+    public async search(
+        text: string,
+        offset: number = 100,
+        page: number = 1,
+        sort: number = 1
+    ) {
         return this.nevermined.metadata.queryMetadataByText({
             text,
             page: page,
@@ -598,7 +664,6 @@ export class Assets extends Instantiable {
         index?: number,
         useSecretStore?: boolean
     ): Promise<true>
-
 
     public async download(
         did: string,
@@ -659,96 +724,101 @@ export class Assets extends Instantiable {
         return true
     }
 
-    public async delegatePermissions(did: string, address: string, account: Account){
-        return await this.nevermined.keeper.didRegistry.grantPermission(did, address, account.getId())
+    public async delegatePermissions(did: string, address: string, account: Account) {
+        return await this.nevermined.keeper.didRegistry.grantPermission(
+            did,
+            address,
+            account.getId()
+        )
     }
 
-    public async revokePermissions(did: string, address: string, account: Account){
-        return await this.nevermined.keeper.didRegistry.revokePermission(did, address, account.getId())
+    public async revokePermissions(did: string, address: string, account: Account) {
+        return await this.nevermined.keeper.didRegistry.revokePermission(
+            did,
+            address,
+            account.getId()
+        )
     }
 
-    public async getPermissions(did: string, address: string){
+    public async getPermissions(did: string, address: string) {
         return await this.nevermined.keeper.didRegistry.getPermission(did, address)
     }
 
-    public async computeLogs(agreementId: string, executionId: string, account: Account){
-        return await this.nevermined.gateway.computeLogs(agreementId, executionId, account)
+    public async computeLogs(agreementId: string, executionId: string, account: Account) {
+        return await this.nevermined.gateway.computeLogs(
+            agreementId,
+            executionId,
+            account
+        )
     }
 
-    public async computeStatus(agreementId: string, executionId: string, account: Account){
-        return await this.nevermined.gateway.computeStatus(agreementId, executionId, account)
+    public async computeStatus(
+        agreementId: string,
+        executionId: string,
+        account: Account
+    ) {
+        return await this.nevermined.gateway.computeStatus(
+            agreementId,
+            executionId,
+            account
+        )
     }
 
-    public async mint(did: string, amount: number, account: Account){
-        return await this.nevermined.keeper.didRegistry.mint(did, amount, account.getId())
-
-    }
-
-    public async burn(did: string, amount: number, account: Account){
-        return await this.nevermined.keeper.didRegistry.burn(did, amount, account.getId())
-
-    }
-
-    public async transferNft(did: string, to: string,  amount: number, account: Account){
-        return await this.nevermined.keeper.didRegistry.transferNft(did, to,  amount, account.getId())
-
-    }
-
-    public async balance(address: string, did: string, ): Promise<number>{
-        return await this.nevermined.keeper.didRegistry.balance(address, did)
-
-    }
-
-    private async providerConfig(){
-        return  {
-            'type': 'Azure',
-            'description': '',
-            'environment': {
-                'cluster': {
-                    'type': 'Kubernetes',
-                    'url': 'http://10.0.0.17/xxx'
+    private async providerConfig() {
+        return {
+            type: 'Azure',
+            description: '',
+            environment: {
+                cluster: {
+                    type: 'Kubernetes',
+                    url: 'http://10.0.0.17/xxx'
                 },
-                'supportedContainers': [
+                supportedContainers: [
                     {
-                        'image': 'tensorflow/tensorflow',
-                        'tag': 'latest',
-                        'checksum':
+                        image: 'tensorflow/tensorflow',
+                        tag: 'latest',
+                        checksum:
                             'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
                     },
                     {
-                        'image': 'tensorflow/tensorflow',
-                        'tag': 'latest',
-                        'checksum':
+                        image: 'tensorflow/tensorflow',
+                        tag: 'latest',
+                        checksum:
                             'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
                     }
                 ],
-                'supportedServers': [
+                supportedServers: [
                     {
-                        'serverId': '1',
-                        'serverType': 'xlsize',
-                        'price': '50',
-                        'cpu': '16',
-                        'gpu': '0',
-                        'memory': '128gb',
-                        'disk': '160gb',
-                        'maxExecutionTime': 86400
+                        serverId: '1',
+                        serverType: 'xlsize',
+                        price: '50',
+                        cpu: '16',
+                        gpu: '0',
+                        memory: '128gb',
+                        disk: '160gb',
+                        maxExecutionTime: 86400
                     },
                     {
-                        'serverId': '2',
-                        'serverType': 'medium',
-                        'price': '10',
-                        'cpu': '2',
-                        'gpu': '0',
-                        'memory': '8gb',
-                        'disk': '80gb',
-                        'maxExecutionTime': 86400
+                        serverId: '2',
+                        serverType: 'medium',
+                        price: '10',
+                        cpu: '2',
+                        gpu: '0',
+                        memory: '8gb',
+                        disk: '80gb',
+                        maxExecutionTime: 86400
                     }
                 ]
             }
         }
     }
 
-    private createAccessService(templates, publisher, metadata: MetaData, serviceAgreementTemplate){
+    private createAccessService(
+        templates,
+        publisher,
+        metadata: MetaData,
+        serviceAgreementTemplate
+    ) {
         return {
             type: 'access',
             index: 3,
@@ -765,10 +835,14 @@ export class Assets extends Instantiable {
                 serviceAgreementTemplate
             }
         } as Service
-
     }
 
-    private createComputeService(templates, publisher, metadata: MetaData, serviceAgreementTemplate){
+    private createComputeService(
+        templates,
+        publisher,
+        metadata: MetaData,
+        serviceAgreementTemplate
+    ) {
         return {
             type: 'compute',
             index: 4,
@@ -788,7 +862,11 @@ export class Assets extends Instantiable {
         } as Service
     }
 
-    private createAuthorizationService(gatewayUri: string, publicKey: string, method: string){
+    private createAuthorizationService(
+        gatewayUri: string,
+        publicKey: string,
+        method: string
+    ) {
         return {
             type: 'authorization',
             index: 2,
@@ -801,6 +879,59 @@ export class Assets extends Instantiable {
                 }
             }
         } as Service
+    }
 
+    private async createNftAccessService(
+        metadata: MetaData,
+        publisher: Account
+    ): Promise<Service> {
+        const { nftAccessTemplate } = this.nevermined.keeper.templates
+        const serviceAgreementTemplate = await nftAccessTemplate.getServiceAgreementTemplate()
+        return {
+            type: 'nft-access',
+            index: 7,
+            serviceEndpoint: this.nevermined.gateway.getNftAccessEndpoint(),
+            templateId: nftAccessTemplate.getAddress(),
+            attributes: {
+                main: {
+                    name: 'nftAccessAgreement',
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.datePublished,
+                    price: metadata.main.price,
+                    timeout: 86400
+                },
+                additionalInformation: {
+                    description: ''
+                },
+                serviceAgreementTemplate
+            }
+        }
+    }
+
+    private async createNftSalesService(
+        metadata: MetaData,
+        publisher: Account
+    ): Promise<Service> {
+        const { nftSalesTemplate } = this.nevermined.keeper.templates
+        const serviceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
+        return {
+            type: 'nft-sales',
+            index: 6,
+            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
+            templateId: nftSalesTemplate.getAddress(),
+            attributes: {
+                main: {
+                    name: 'nftSalesAgreement',
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.datePublished,
+                    price: metadata.main.price,
+                    timeout: 86400
+                },
+                additionalInformation: {
+                    description: ''
+                },
+                serviceAgreementTemplate
+            }
+        }
     }
 }

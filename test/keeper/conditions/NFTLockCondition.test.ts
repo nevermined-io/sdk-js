@@ -107,8 +107,7 @@ describe('NFTLockCondition', () => {
             )
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
-
-            const nftBalance = await nevermined.assets.balance(
+            const nftBalance = await didRegistry.balance(
                 nftLockCondition.getAddress(),
                 did
             )

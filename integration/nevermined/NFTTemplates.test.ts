@@ -9,10 +9,7 @@ import {
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import {
-    AgreementStoreManager,
-    ConditionStoreManager
-} from '../../src/keeper/contracts/managers'
+import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
