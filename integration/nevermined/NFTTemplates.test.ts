@@ -176,6 +176,7 @@ describe('NFTTemplates E2E', () => {
                     await lockPaymentCondition.hashValues(
                         did,
                         escrowPaymentCondition.address,
+                        token.getAddress(),
                         amounts,
                         receivers
                     )
@@ -196,6 +197,7 @@ describe('NFTTemplates E2E', () => {
                         amounts,
                         receivers,
                         escrowPaymentCondition.getAddress(),
+                        token.getAddress(),
                         conditionIdLockPayment,
                         conditionIdTransferNFT
                     )
@@ -245,6 +247,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId,
                     did,
                     escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
                     amounts,
                     receivers,
                     collector1.getId()
@@ -317,6 +320,7 @@ describe('NFTTemplates E2E', () => {
                     amounts,
                     receivers,
                     escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
                     conditionIdLockPayment,
                     conditionIdTransferNFT,
                     artist.getId()
@@ -441,6 +445,7 @@ describe('NFTTemplates E2E', () => {
                     await lockPaymentCondition.hashValues(
                         did,
                         escrowPaymentCondition.address,
+                        token.getAddress(),
                         amounts2,
                         receivers2
                     )
@@ -461,6 +466,7 @@ describe('NFTTemplates E2E', () => {
                         amounts2,
                         receivers2,
                         escrowPaymentCondition.getAddress(),
+                        token.getAddress(),
                         conditionIdLockPayment2,
                         conditionIdTransferNFT2
                     )
@@ -514,6 +520,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId2,
                     did,
                     escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
                     amounts2,
                     receivers2,
                     collector2.getId()
@@ -586,6 +593,7 @@ describe('NFTTemplates E2E', () => {
                     amounts2,
                     receivers2,
                     escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
                     conditionIdLockPayment2,
                     conditionIdTransferNFT2,
                     collector1.getId()

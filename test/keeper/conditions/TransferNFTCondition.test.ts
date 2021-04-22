@@ -8,6 +8,7 @@ import {
 } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
+import Token from '../../../src/keeper/contracts/Token'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
@@ -21,6 +22,7 @@ describe('TransferNFTCondition', () => {
     let escrowPaymentCondition: EscrowPaymentCondition
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
+    let token: Token
     let nftReceiver: Account
     let owner: Account
     let other: Account
@@ -42,7 +44,7 @@ describe('TransferNFTCondition', () => {
             lockPaymentCondition,
             escrowPaymentCondition
         } = nevermined.keeper.conditions)
-        ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
+        ;({ conditionStoreManager, didRegistry, token } = nevermined.keeper)
         ;[owner, nftReceiver, other] = await nevermined.accounts.list()
         receivers = [nftReceiver.getId()]
     })
@@ -87,6 +89,7 @@ describe('TransferNFTCondition', () => {
             const hashValuesPayment = await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers
             )
@@ -125,6 +128,7 @@ describe('TransferNFTCondition', () => {
                 agreementId,
                 did,
                 escrowPaymentCondition.address,
+                token.getAddress(),
                 amounts,
                 receivers,
                 nftReceiver.getId()
@@ -181,6 +185,7 @@ describe('TransferNFTCondition', () => {
             const hashValuesPayment = await lockPaymentCondition.hashValues(
                 did,
                 lockPaymentCondition.address,
+                token.getAddress(),
                 amounts,
                 receivers
             )
@@ -219,6 +224,7 @@ describe('TransferNFTCondition', () => {
                 agreementId,
                 did,
                 lockPaymentCondition.address,
+                token.getAddress(),
                 amounts,
                 receivers,
                 nftReceiver.getId()

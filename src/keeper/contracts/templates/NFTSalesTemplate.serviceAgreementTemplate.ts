@@ -42,6 +42,11 @@ export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                     value: ''
                 },
                 {
+                    name: '_tokenAddress',
+                    type: 'address',
+                    value: ''
+                },
+                {
                     name: '_amounts',
                     type: 'uint256[]',
                     value: []
@@ -137,6 +142,11 @@ export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                 },
                 {
                     name: '_sender',
+                    type: 'address',
+                    value: ''
+                },
+                {
+                    name: '_tokenAddress',
                     type: 'address',
                     value: ''
                 },

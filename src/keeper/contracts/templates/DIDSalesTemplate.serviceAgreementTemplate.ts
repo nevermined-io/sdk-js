@@ -42,6 +42,11 @@ export const didSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                     value: ''
                 },
                 {
+                    name: '_tokenAddress',
+                    type: 'address',
+                    value: ''
+                },
+                {
                     name: '_amounts',
                     type: 'uint256[]',
                     value: []
@@ -127,6 +132,11 @@ export const didSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                 },
                 {
                     name: '_sender',
+                    type: 'address',
+                    value: ''
+                },
+                {
+                    name: '_tokenAddress',
                     type: 'address',
                     value: ''
                 },

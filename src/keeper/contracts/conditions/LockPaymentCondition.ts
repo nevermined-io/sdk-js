@@ -12,6 +12,7 @@ export class LockPaymentCondition extends Condition {
     public hashValues(
         did: string,
         rewardAddress: string,
+        tokenAddress: string,
         amounts: number[],
         receivers: string[]
     ) {
@@ -19,6 +20,7 @@ export class LockPaymentCondition extends Condition {
         return super.hashValues(
             didZeroX(did),
             zeroX(rewardAddress),
+            zeroX(tokenAddress),
             amountsString,
             receivers
         )
@@ -28,6 +30,7 @@ export class LockPaymentCondition extends Condition {
         agreementId: string,
         did: string,
         rewardAddress: string,
+        tokenAddress: string,
         amounts: number[],
         receivers: string[],
         from?: string
@@ -35,7 +38,13 @@ export class LockPaymentCondition extends Condition {
         const amountsString = amounts.map(v => String(v))
         return super.fulfill(
             agreementId,
-            [didZeroX(did), zeroX(rewardAddress), amountsString, receivers],
+            [
+                didZeroX(did),
+                zeroX(rewardAddress),
+                zeroX(tokenAddress),
+                amountsString,
+                receivers
+            ],
             from
         )
     }

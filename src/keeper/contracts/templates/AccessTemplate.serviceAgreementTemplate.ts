@@ -13,11 +13,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             }
         }
     ],
-    fulfillmentOrder: [
-        'access.fulfill',
-        'lockPayment.fulfill',
-        'escrowPayment.fulfill'
-    ],
+    fulfillmentOrder: ['access.fulfill', 'lockPayment.fulfill', 'escrowPayment.fulfill'],
     conditionDependency: {
         lockPayment: [],
         access: [],
@@ -38,6 +34,11 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                 },
                 {
                     name: '_rewardAddress',
+                    type: 'address',
+                    value: ''
+                },
+                {
+                    name: '_tokenAddress',
                     type: 'address',
                     value: ''
                 },
@@ -127,6 +128,11 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                 },
                 {
                     name: '_sender',
+                    type: 'address',
+                    value: ''
+                },
+                {
+                    name: '_tokenAddress',
                     type: 'address',
                     value: ''
                 },

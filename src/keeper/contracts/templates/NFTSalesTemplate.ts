@@ -57,12 +57,14 @@ export class NFTSalesTemplate extends BaseTemplate {
             transferNftCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
+        const { token } = this.nevermined.keeper
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
-                escrowPaymentCondition.address,
+                escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers()
             )
@@ -83,6 +85,7 @@ export class NFTSalesTemplate extends BaseTemplate {
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers(),
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 lockPaymentConditionId,
                 transferNftConditionId
             )

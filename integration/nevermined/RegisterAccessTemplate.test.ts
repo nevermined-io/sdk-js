@@ -4,6 +4,7 @@ import { config } from '../config'
 
 import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
+import Token from '../../src/keeper/contracts/Token'
 
 const { LockPaymentCondition, EscrowPaymentCondition, AccessCondition } = conditions
 
@@ -27,19 +28,30 @@ describe('Register Escrow Access Secret Store Template', () => {
     let accessCondition: conditions.AccessCondition
     let lockPaymentCondition: conditions.LockPaymentCondition
     let escrowPaymentCondition: conditions.EscrowPaymentCondition
+    let token: Token
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ keeper } = nevermined)
 
         template = keeper.templates.accessTemplate
+        ;({ token } = keeper)
 
         // Accounts
-        ;[templateManagerOwner, publisher, consumer, provider] = (await nevermined.accounts.list())
+        ;[
+            templateManagerOwner,
+            publisher,
+            consumer,
+            provider
+        ] = await nevermined.accounts.list()
         receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
-        ;({ accessCondition, lockPaymentCondition, escrowPaymentCondition } = keeper.conditions)
+        ;({
+            accessCondition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = keeper.conditions)
 
         if (!nevermined.keeper.dispenser) {
             totalAmount = 0
@@ -96,6 +108,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers
             )
@@ -105,6 +118,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 amounts,
                 receivers,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 conditionIdLock,
                 conditionIdAccess
             )
@@ -186,9 +200,10 @@ describe('Register Escrow Access Secret Store Template', () => {
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers,
-                consumer.getId(),
+                consumer.getId()
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -212,6 +227,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 amounts,
                 receivers,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 conditionIdLock,
                 conditionIdAccess,
                 consumer.getId()

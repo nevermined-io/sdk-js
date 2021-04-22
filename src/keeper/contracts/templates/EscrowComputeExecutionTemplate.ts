@@ -55,7 +55,11 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             assetRewards,
             consumer
         )
-        return [computeExecutionConditionId, lockPaymentConditionId, escrowPaymentConditionId]
+        return [
+            computeExecutionConditionId,
+            lockPaymentConditionId,
+            escrowPaymentConditionId
+        ]
     }
 
     /**
@@ -81,7 +85,11 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         await this.createAgreement(
             agreementId,
             did,
-            [computeExecutionConditionId, lockPaymentConditionId, escrowPaymentConditionId],
+            [
+                computeExecutionConditionId,
+                lockPaymentConditionId,
+                escrowPaymentConditionId
+            ],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -97,7 +105,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string
     ) {
-        const { conditions } = this.nevermined.keeper
+        const { conditions, token } = this.nevermined.keeper
 
         const {
             computeExecutionCondition,
@@ -109,8 +117,9 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             agreementId,
             did,
             escrowPaymentCondition.getAddress(),
+            token.getAddress(),
             assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
+            assetRewards.getReceivers()
         )
         const computeExecutionConditionId = await computeExecutionCondition.generateIdHash(
             agreementId,
@@ -123,6 +132,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             escrowPaymentCondition.getAddress(),
+            token.getAddress(),
             lockPaymentConditionId,
             computeExecutionConditionId
         )

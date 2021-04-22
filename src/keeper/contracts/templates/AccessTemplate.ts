@@ -8,14 +8,8 @@ import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.service
 import AssetRewards from '../../../models/AssetRewards'
 
 export class AccessTemplate extends BaseTemplate {
-    public static async getInstance(
-        config: InstantiableConfig
-    ): Promise<AccessTemplate> {
-        return AgreementTemplate.getInstance(
-            config,
-            'AccessTemplate',
-            AccessTemplate
-        )
+    public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
+        return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessTemplate)
     }
 
     public async getServiceAgreementTemplate() {
@@ -96,7 +90,7 @@ export class AccessTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string
     ) {
-        const { conditions } = this.nevermined.keeper
+        const { conditions, token } = this.nevermined.keeper
 
         const {
             accessCondition,
@@ -108,6 +102,7 @@ export class AccessTemplate extends BaseTemplate {
             agreementId,
             did,
             escrowPaymentCondition.getAddress(),
+            token.getAddress(),
             assetRewards.getAmounts(),
             assetRewards.getReceivers()
         )
@@ -122,6 +117,7 @@ export class AccessTemplate extends BaseTemplate {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             escrowPaymentCondition.getAddress(),
+            token.getAddress(),
             lockPaymentConditionId,
             accessConditionId
         )

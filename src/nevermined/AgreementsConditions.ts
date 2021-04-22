@@ -38,6 +38,7 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
+        const { token } = this.nevermined.keeper
         const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
         try {
@@ -51,6 +52,7 @@ export class AgreementsConditions extends Instantiable {
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers,
                 from && from.getId()
@@ -147,6 +149,7 @@ export class AgreementsConditions extends Instantiable {
                 accessCondition,
                 lockPaymentCondition
             } = this.nevermined.keeper.conditions
+            const { token } = this.nevermined.keeper
 
             const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
@@ -167,6 +170,7 @@ export class AgreementsConditions extends Instantiable {
                 amounts,
                 receivers,
                 publisher,
+                token.getAddress(),
                 conditionIdLock,
                 conditionIdAccess,
                 from && from.getId()
@@ -203,12 +207,14 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             transferNftCondition
         } = this.nevermined.keeper.conditions
+        const { token } = this.nevermined.keeper
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers
             )
@@ -230,6 +236,7 @@ export class AgreementsConditions extends Instantiable {
             amounts,
             receivers,
             escrowPaymentCondition.getAddress(),
+            token.getAddress(),
             lockPaymentConditionId,
             transferNftConditionId,
             from.getId()
@@ -314,12 +321,14 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
+        const { token } = this.nevermined.keeper
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers
             )

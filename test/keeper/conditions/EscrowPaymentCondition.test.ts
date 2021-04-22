@@ -1,10 +1,12 @@
 import { assert } from 'chai'
 import { EscrowPaymentCondition } from '../../../src/keeper/contracts/conditions'
+import Token from '../../../src/keeper/contracts/Token'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
 let condition: EscrowPaymentCondition
+let token: Token
 
 describe('EscrowPaymentCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
@@ -22,21 +24,24 @@ describe('EscrowPaymentCondition', () => {
 
         await TestContractHandler.prepareContracts()
         condition = keeper.conditions.escrowPaymentCondition
+        ;({ token } = keeper)
 
-        lockCondition = await keeper.conditions.lockPaymentCondition.generateIdHash(
-            agreementId,
-            did,
-            condition.getAddress(),
-            amounts,
-            receivers
-        )
-        .catch(e => {
-            console.log(e)
-            throw e
-        })
-        .then(v => {
-            return v
-        })
+        lockCondition = await keeper.conditions.lockPaymentCondition
+            .generateIdHash(
+                agreementId,
+                did,
+                condition.getAddress(),
+                token.getAddress(),
+                amounts,
+                receivers
+            )
+            .catch(e => {
+                console.log(e)
+                throw e
+            })
+            .then(v => {
+                return v
+            })
         releaseCondition = await keeper.conditions.accessCondition.generateIdHash(
             agreementId,
             did,
@@ -51,6 +56,7 @@ describe('EscrowPaymentCondition', () => {
                 amounts,
                 receivers,
                 publisher,
+                token.getAddress(),
                 lockCondition,
                 releaseCondition
             )
@@ -66,6 +72,7 @@ describe('EscrowPaymentCondition', () => {
                 amounts,
                 receivers,
                 publisher,
+                token.getAddress(),
                 lockCondition,
                 releaseCondition
             )
