@@ -2,7 +2,6 @@ import { TransactionReceipt } from 'web3-core'
 import ContractBase from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { encode } from 'querystring'
 import { randomBytes } from 'crypto'
 
 export enum ProvenanceMethod {
@@ -18,7 +17,7 @@ export enum ProvenanceMethod {
     AGENT = 9,
     WAS_ATTRIBUTED_TO = 10,
     WAS_ASSOCIATED_WITH = 11,
-    ACTED_ON_BEHALF = 12,
+    ACTED_ON_BEHALF = 12
 }
 
 export interface ProvenanceRegistry {
@@ -75,13 +74,24 @@ export interface ActedOnBehalfEvent extends ProvenanceBaseEvent {
     delegateAgentId: string
     responsibleAgentId: string
 }
-export type ProvenanceEvent<T extends ProvenanceMethod | any = any> =
-    T extends ProvenanceMethod.WAS_GENERATED_BY ? WasGeneratedByEvent :
-    T extends ProvenanceMethod.USED ? UsedEvent :
-    T extends ProvenanceMethod.WAS_DERIVED_FROM ? WasDerivedFromEvent :
-    T extends ProvenanceMethod.WAS_ASSOCIATED_WITH ? WasAssociatedWithEvent :
-    T extends ProvenanceMethod.ACTED_ON_BEHALF ? ActedOnBehalfEvent :
-        WasGeneratedByEvent | UsedEvent | WasDerivedFromEvent | WasAssociatedWithEvent | ActedOnBehalfEvent
+export type ProvenanceEvent<
+    T extends ProvenanceMethod | any = any
+> = T extends ProvenanceMethod.WAS_GENERATED_BY
+    ? WasGeneratedByEvent
+    : T extends ProvenanceMethod.USED
+    ? UsedEvent
+    : T extends ProvenanceMethod.WAS_DERIVED_FROM
+    ? WasDerivedFromEvent
+    : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
+    ? WasAssociatedWithEvent
+    : T extends ProvenanceMethod.ACTED_ON_BEHALF
+    ? ActedOnBehalfEvent
+    :
+          | WasGeneratedByEvent
+          | UsedEvent
+          | WasDerivedFromEvent
+          | WasAssociatedWithEvent
+          | ActedOnBehalfEvent
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -133,15 +143,15 @@ export default class DIDRegistry extends ContractBase {
         attributes: string,
         cap: number,
         royalties: number,
-        ownerAddress: string,
+        ownerAddress: string
     ) {
         return this.send('registerMintableDID', ownerAddress, [
             didZeroX(did),
             zeroX(checksum),
             providers.map(zeroX),
             value,
-            cap,
-            royalties,
+            String(cap),
+            String(royalties),
             zeroX(activityId),
             attributes
         ])
@@ -227,30 +237,46 @@ export default class DIDRegistry extends ContractBase {
 
     // Provenance
     public async getDIDProvenanceEvents(did: string) {
-        return (await this.getPastEvents('ProvenanceAttributeRegistered', {_did: didZeroX(did)}))
-            .map(({returnValues}) => eventToObject(returnValues) as ProvenanceAttributeRegisteredEvent)
-            .map(event => ({...event, method: +event.method}))
+        return (
+            await this.getPastEvents('ProvenanceAttributeRegistered', {
+                _did: didZeroX(did)
+            })
+        )
+            .map(
+                ({ returnValues }) =>
+                    eventToObject(returnValues) as ProvenanceAttributeRegisteredEvent
+            )
+            .map(event => ({ ...event, method: +event.method }))
     }
 
-    public async getDIDProvenanceMethodEvents<T extends ProvenanceMethod>(did: string, method: T): Promise<ProvenanceEvent<T>[]> {
-        const capitalize = string => string
-            .replace(/([a-z]+)(?:_|$)/ig, (_, w) => w.charAt(0).toUpperCase() + w.toLowerCase().slice(1))
-        let filter: any = {_did: didZeroX(did)}
+    public async getDIDProvenanceMethodEvents<T extends ProvenanceMethod>(
+        did: string,
+        method: T
+    ): Promise<ProvenanceEvent<T>[]> {
+        const capitalize = string =>
+            string.replace(
+                /([a-z]+)(?:_|$)/gi,
+                (_, w) => w.charAt(0).toUpperCase() + w.toLowerCase().slice(1)
+            )
+        let filter: any = { _did: didZeroX(did) }
         switch (method) {
             case ProvenanceMethod.ACTED_ON_BEHALF:
             case ProvenanceMethod.WAS_ASSOCIATED_WITH:
-                filter = {_entityDid: didZeroX(did)}
+                filter = { _entityDid: didZeroX(did) }
                 break
             case ProvenanceMethod.WAS_DERIVED_FROM:
-                filter = {_usedEntityDid: didZeroX(did)}
+                filter = { _usedEntityDid: didZeroX(did) }
                 break
         }
-        return (await this.getPastEvents(capitalize(ProvenanceMethod[method as any]), filter))
-            .map(({returnValues}) => eventToObject(returnValues))
+        return (
+            await this.getPastEvents(capitalize(ProvenanceMethod[method as any]), filter)
+        ).map(({ returnValues }) => eventToObject(returnValues))
     }
 
     public async getProvenanceEntry(provId: string) {
-        const provenance: ProvenanceRegistry = await this.call('getProvenanceEntry', [zeroX(provId)])
+        const provenance: ProvenanceRegistry = await this.call('getProvenanceEntry', [
+            zeroX(provId)
+        ])
         if (provenance.did.match(/^0x0+$/)) {
             return
         }
@@ -344,7 +370,6 @@ export default class DIDRegistry extends ContractBase {
         ])
     }
 
-
     public async removeDidProvenanceDelegate(
         did: string,
         delegateAddress: string,
@@ -356,65 +381,63 @@ export default class DIDRegistry extends ContractBase {
         ])
     }
 
+    public async isProvenanceDelegate(did: string, delegateAddress: string) {
+        return this.call('isProvenanceDelegate', [didZeroX(did), zeroX(delegateAddress)])
+    }
 
-    public async isProvenanceDelegate(
-        did: string,
-        delegateAddress: string
-    ) {
-        return this.call('isProvenanceDelegate', [
+    public async getProvenanceOwner(did: string) {
+        return this.call('getProvenanceOwner', [didZeroX(did)])
+    }
+
+    public async mint(did: string, amount: number, from: string) {
+        return this.send('mint', from, [didZeroX(did), amount])
+    }
+
+    public async burn(did: string, amount: number, from: string) {
+        return this.send('burn', from, [didZeroX(did), amount])
+    }
+
+    public async transferNft(did: string, to: string, amount: number, from: string) {
+        return this.send('safeTransferFrom', from, [
+            from,
+            to,
             didZeroX(did),
-            zeroX(delegateAddress)
+            amount,
+            randomBytes(1)
         ])
     }
 
-    public async getProvenanceOwner(
-        did: string,
-    ) {
-        return this.call('getProvenanceOwner', [
-            didZeroX(did)
-        ])
-    }
-
-    public async mint(did: string, amount: number, from: string){
-        return this.send('mint', from, [
-            didZeroX(did),
-            amount
-        ])
-    }
-
-    public async burn(did: string, amount: number, from: string){
-        return this.send('burn', from, [
-            didZeroX(did),
-            amount
-        ])
-    }
-
-    public async transferNft(did: string, to: string, amount: number, from: string){
-        return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, randomBytes(1)])
-    }
-
-    public async balance(address: string, did: string): Promise<number>{
+    public async balance(address: string, did: string): Promise<number> {
         return this.call('balanceOf', [zeroX(address), didZeroX(did)])
     }
 
-
-    public async addProvider(did: string, provider: string, from: string){
-        return await this.send('addDIDProvider', from, [
-            didZeroX(did),
-            zeroX(provider)
-        ])
+    public async addProvider(did: string, provider: string, from: string) {
+        return await this.send('addDIDProvider', from, [didZeroX(did), zeroX(provider)])
     }
 
-    public async removeProvider(did: string, provider: string, from: string){
+    public async removeProvider(did: string, provider: string, from: string) {
         return await this.send('removeDIDProvider', from, [
             didZeroX(did),
             zeroX(provider)
         ])
     }
 
-    public async getProviders(did: string){
+    public async getProviders(did: string) {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
-        return registeredValues[5].filter((x: string) => x != '0x0000000000000000000000000000000000000000')
+        return registeredValues[5].filter(
+            (x: string) => x != '0x0000000000000000000000000000000000000000'
+        )
     }
 
+    public async setApprovalForAll(operator: string, approved: boolean, from: string) {
+        return await this.send('setApprovalForAll', from, [zeroX(operator), approved])
+    }
+
+    public async setProxyApproval(operator: string, approved: boolean, from: string) {
+        return await this.send('setProxyApproval', from, [zeroX(operator), approved])
+    }
+
+    public async getDIDRegister(did: string) {
+        return this.call('getDIDRegister', [didZeroX(did)])
+    }
 }

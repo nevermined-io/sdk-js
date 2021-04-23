@@ -16,7 +16,7 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
     fulfillmentOrder: [
         'lockPayment.fulfill',
         'serviceExecution.fulfill',
-        'escrowPaymentCondition.fulfill'
+        'escrowPayment.fulfill'
     ],
     conditionDependency: {
         lockPayment: [],
@@ -32,14 +32,29 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
             functionName: 'fulfill',
             parameters: [
                 {
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
+                },
+                {
                     name: '_rewardAddress',
                     type: 'address',
                     value: ''
                 },
                 {
-                    name: '_amount',
-                    type: 'uint256',
+                    name: '_tokenAddress',
+                    type: 'address',
                     value: ''
+                },
+                {
+                    name: '_amounts',
+                    type: 'uint256[]',
+                    value: []
+                },
+                {
+                    name: '_receivers',
+                    type: 'address[]',
+                    value: []
                 }
             ],
             events: [
@@ -94,7 +109,7 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
             ]
         },
         {
-            name: 'escrowPaymentCondition',
+            name: 'escrowPayment',
             timelock: 0,
             timeout: 0,
             contractName: 'EscrowPaymentCondition',
@@ -112,6 +127,11 @@ export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgre
                 },
                 {
                     name: '_sender',
+                    type: 'address',
+                    value: ''
+                },
+                {
+                    name: '_tokenAddress',
                     type: 'address',
                     value: ''
                 },

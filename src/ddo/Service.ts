@@ -8,11 +8,14 @@ export type ServiceType =
     | 'access'
     | 'compute'
     | 'workflow'
+    | 'nft-access'
+    | 'nft-sales'
 
 export interface ServiceCommon {
     type: ServiceType
     index: number
     serviceEndpoint?: string
+    templateId?: string
     attributes: any & {
         main: { [key: string]: any }
     }
@@ -46,7 +49,6 @@ export interface ServiceAccess extends ServiceCommon {
     }
 }
 
-
 export interface ServiceCompute extends ServiceCommon {
     type: 'compute'
     templateId?: string
@@ -65,6 +67,8 @@ export interface ServiceCompute extends ServiceCommon {
     }
 }
 
+export type ServiceNftSales = ServiceCommon
+
 export type Service<
     T extends ServiceType | 'default' = 'default'
 > = T extends 'authorization'
@@ -77,4 +81,4 @@ export type Service<
     ? ServiceCompute
     : T extends 'default'
     ? ServiceCommon
-    : ServiceCommon 
+    : ServiceCommon

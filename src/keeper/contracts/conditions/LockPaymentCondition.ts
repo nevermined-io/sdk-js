@@ -9,20 +9,43 @@ export class LockPaymentCondition extends Condition {
         return Condition.getInstance(config, 'LockPaymentCondition', LockPaymentCondition)
     }
 
-    public hashValues(did: string, rewardAddress: string, amounts: number[], receivers: string[]) {
+    public hashValues(
+        did: string,
+        rewardAddress: string,
+        tokenAddress: string,
+        amounts: number[],
+        receivers: string[]
+    ) {
         const amountsString = amounts.map(v => String(v))
-        return super.hashValues(didZeroX(did), zeroX(rewardAddress), amountsString, receivers)
+        return super.hashValues(
+            didZeroX(did),
+            zeroX(rewardAddress),
+            zeroX(tokenAddress),
+            amountsString,
+            receivers
+        )
     }
 
     public fulfill(
         agreementId: string,
         did: string,
         rewardAddress: string,
+        tokenAddress: string,
         amounts: number[],
         receivers: string[],
-        from?: string,
+        from?: string
     ) {
         const amountsString = amounts.map(v => String(v))
-        return super.fulfill(agreementId, [didZeroX(did), zeroX(rewardAddress), amountsString, receivers], from)
+        return super.fulfill(
+            agreementId,
+            [
+                didZeroX(did),
+                zeroX(rewardAddress),
+                zeroX(tokenAddress),
+                amountsString,
+                receivers
+            ],
+            from
+        )
     }
 }

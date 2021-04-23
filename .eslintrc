@@ -5,10 +5,10 @@
     "mocha": true
   },
   "extends": [
-    # "prettier/standard",
-    # "plugin:prettier/recommended",
+    "prettier/standard",
+    "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
-    # "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -24,7 +24,7 @@
   },
   "plugins": [
     "@typescript-eslint",
-    # "prettier"
+    "prettier"
   ],
   "rules": {
     "@typescript-eslint/ban-ts-ignore": "off",
@@ -61,6 +61,7 @@
     ],
     "prefer-destructuring": [
       "warn"
-    ]
+    ],
+    "prettier/prettier": "warn"
   }
 }

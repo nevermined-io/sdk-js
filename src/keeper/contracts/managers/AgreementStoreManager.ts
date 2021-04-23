@@ -1,5 +1,5 @@
 import ContractBase from '../ContractBase'
-import { zeroX } from '../../../utils'
+import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 export interface AgreementData {
@@ -43,5 +43,24 @@ export class AgreementStoreManager extends ContractBase {
             lastUpdatedBy,
             blockNumberUpdated: +blockNumberUpdated
         } as AgreementData
+    }
+
+    public async createAgreement(
+        agreementId: string,
+        did: string,
+        conditionTypes: string[],
+        conditionIds: string[],
+        timeLocks: number[],
+        timeOuts: number[],
+        from?: string
+    ) {
+        return this.send('createAgreement', from, [
+            zeroX(agreementId),
+            didZeroX(did),
+            conditionTypes.map(zeroX),
+            conditionIds,
+            timeLocks,
+            timeOuts
+        ])
     }
 }

@@ -1,23 +1,27 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 
-export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
-    contractName: 'AccessTemplate',
+export const didSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
+    contractName: 'DIDSalesTemplate',
     events: [
         {
             name: 'AgreementCreated',
             actorType: 'consumer',
             handler: {
-                moduleName: 'escrowAccessTemplate',
+                moduleName: 'didSalesTemplate',
                 functionName: 'fulfillLockPaymentCondition',
                 version: '0.1'
             }
         }
     ],
-    fulfillmentOrder: ['access.fulfill', 'lockPayment.fulfill', 'escrowPayment.fulfill'],
+    fulfillmentOrder: [
+        'lockPayment.fulfill',
+        'transferDID.fulfill',
+        'escrowPayment.fulfill'
+    ],
     conditionDependency: {
         lockPayment: [],
-        access: [],
-        escrowPayment: ['lockPayment', 'access']
+        transferDID: [],
+        escrowPayment: ['lockPayment', 'transferNFT']
     },
     conditions: [
         {
@@ -59,17 +63,17 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     actorType: 'publisher',
                     handler: {
                         moduleName: 'lockPaymentCondition',
-                        functionName: 'fulfillAccessCondition',
+                        functionName: 'fulfillTransferDIDCondition',
                         version: '0.1'
                     }
                 }
             ]
         },
         {
-            name: 'access',
+            name: 'transferDID',
             timelock: 0,
             timeout: 0,
-            contractName: 'AccessCondition',
+            contractName: 'TransferDIDCondition',
             functionName: 'fulfill',
             parameters: [
                 {
@@ -78,7 +82,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     value: ''
                 },
                 {
-                    name: '_grantee',
+                    name: '_receiver',
                     type: 'address',
                     value: ''
                 }
@@ -88,7 +92,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                     name: 'Fulfilled',
                     actorType: 'publisher',
                     handler: {
-                        moduleName: 'access',
+                        moduleName: 'transferDID',
                         functionName: 'fulfillEscrowPaymentCondition',
                         version: '0.1'
                     }
@@ -108,7 +112,7 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
             name: 'escrowPayment',
             timelock: 0,
             timeout: 0,
-            contractName: 'EscrowPaymentCondition',
+            contractName: 'EscrowPayment',
             functionName: 'fulfill',
             parameters: [
                 {
@@ -119,12 +123,12 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
                 {
                     name: '_amounts',
                     type: 'uint256[]',
-                    value: ''
+                    value: []
                 },
                 {
                     name: '_receivers',
                     type: 'address[]',
-                    value: ''
+                    value: []
                 },
                 {
                     name: '_sender',

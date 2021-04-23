@@ -4,8 +4,13 @@ import { config } from '../config'
 
 import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
+import Token from '../../src/keeper/contracts/Token'
 
-const { LockPaymentCondition, EscrowPaymentCondition, ComputeExecutionCondition } = conditions
+const {
+    LockPaymentCondition,
+    EscrowPaymentCondition,
+    ComputeExecutionCondition
+} = conditions
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -27,12 +32,14 @@ describe('Register Escrow Compute Execution Template', () => {
     let computeExecutionCondition: conditions.ComputeExecutionCondition
     let lockPaymentCondition: conditions.LockPaymentCondition
     let escrowPaymentCondition: conditions.EscrowPaymentCondition
+    let token: Token
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         keeper = nevermined.keeper
 
         template = keeper.templates.escrowComputeExecutionTemplate
+        ;({ token } = keeper)
 
         // Accounts
         templateManagerOwner = (await nevermined.accounts.list())[0]
@@ -101,6 +108,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers
             )
@@ -110,6 +118,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 amounts,
                 receivers,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 conditionIdLock,
                 conditionIdCompute
             )
@@ -191,9 +200,10 @@ describe('Register Escrow Compute Execution Template', () => {
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 amounts,
                 receivers,
-                consumer.getId(),
+                consumer.getId()
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -217,6 +227,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 amounts,
                 receivers,
                 escrowPaymentCondition.getAddress(),
+                token.getAddress(),
                 conditionIdLock,
                 conditionIdCompute,
                 consumer.getId()

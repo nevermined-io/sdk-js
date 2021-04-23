@@ -3,8 +3,14 @@ import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 export class EscrowPaymentCondition extends Condition {
-    public static async getInstance(config: InstantiableConfig): Promise<EscrowPaymentCondition> {
-        return Condition.getInstance(config, 'EscrowPaymentCondition', EscrowPaymentCondition)
+    public static async getInstance(
+        config: InstantiableConfig
+    ): Promise<EscrowPaymentCondition> {
+        return Condition.getInstance(
+            config,
+            'EscrowPaymentCondition',
+            EscrowPaymentCondition
+        )
     }
 
     public hashValues(
@@ -12,12 +18,16 @@ export class EscrowPaymentCondition extends Condition {
         amounts: number[],
         receivers: string[],
         sender: string,
+        tokenAddress: string,
         lockCondition: string,
         releaseCondition: string
     ) {
+        const amountsString = amounts.map(v => String(v))
         return super.hashValues(
-            didZeroX(did), amounts, receivers,
-            ...[sender, lockCondition, releaseCondition].map(zeroX)
+            didZeroX(did),
+            amountsString,
+            receivers,
+            ...[sender, tokenAddress, lockCondition, releaseCondition].map(zeroX)
         )
     }
 
@@ -27,6 +37,7 @@ export class EscrowPaymentCondition extends Condition {
         amounts: number[],
         receivers: string[],
         lockPaymentAddress: string,
+        tokenAddress: string,
         lockCondition: string,
         releaseCondition: string,
         from?: string
@@ -34,7 +45,17 @@ export class EscrowPaymentCondition extends Condition {
         const amountsString = amounts.map(v => String(v))
         return super.fulfill(
             agreementId,
-            [didZeroX(did), amountsString, receivers, ...[lockPaymentAddress, lockCondition, releaseCondition].map(zeroX)],
+            [
+                didZeroX(did),
+                amountsString,
+                receivers,
+                ...[
+                    lockPaymentAddress,
+                    tokenAddress,
+                    lockCondition,
+                    releaseCondition
+                ].map(zeroX)
+            ],
             from
         )
     }

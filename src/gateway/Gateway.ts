@@ -68,9 +68,16 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/upload/filecoin`
     }
 
+    public getNftEndpoint() {
+        return `${this.url}${apiPath}/nft`
+    }
+
+    public getNftAccessEndpoint() {
+        return `${this.url}${apiPath}/nft-access`
+    }
+
     public async getGatewayInfo() {
-        return this.nevermined.utils.fetch.get(`${this.url}`)
-          .then(res => res.json())
+        return this.nevermined.utils.fetch.get(`${this.url}`).then(res => res.json())
     }
 
     public async getRsaPublicKey() {
@@ -122,19 +129,23 @@ export class Gateway extends Instantiable {
         destination: string,
         index: number = -1
     ): Promise<string> {
-        const {jwt} = this.nevermined.utils
+        const { jwt } = this.nevermined.utils
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, did)
 
         if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateAccessGrantToken(account, agreementId, did)
+            const grantToken = await jwt.generateAccessGrantToken(
+                account,
+                agreementId,
+                did
+            )
             accessToken = await this.fetchToken(grantToken)
             jwt.tokenCache.set(cacheKey, accessToken)
         } else {
             accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
         }
         const headers = {
-            Authorization: "Bearer " + accessToken
+            Authorization: 'Bearer ' + accessToken
         }
 
         const filesPromises = files
@@ -211,28 +222,32 @@ export class Gateway extends Instantiable {
         agreementId: string,
         computeDid: string,
         workflowDid: string,
-        account: Account,
+        account: Account
     ): Promise<any> {
-        const {jwt} = this.nevermined.utils
+        const { jwt } = this.nevermined.utils
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, workflowDid)
 
         try {
             if (!jwt.tokenCache.has(cacheKey)) {
-                const grantToken = await jwt.generateExecuteGrantToken(account, agreementId, workflowDid)
+                const grantToken = await jwt.generateExecuteGrantToken(
+                    account,
+                    agreementId,
+                    workflowDid
+                )
                 accessToken = await this.fetchToken(grantToken)
                 jwt.tokenCache.set(cacheKey, accessToken)
             } else {
                 accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
             }
             const headers = {
-                Authorization: "Bearer " + accessToken
+                Authorization: 'Bearer ' + accessToken
             }
 
             const response = await this.nevermined.utils.fetch.post(
                 this.getExecuteEndpoint(noZeroX(agreementId)),
                 undefined,
-                headers,
+                headers
             )
             if (!response.ok) {
                 throw new Error('HTTP request failed')
@@ -251,7 +266,7 @@ export class Gateway extends Instantiable {
         destination: string,
         index: number = -1
     ): Promise<string> {
-        const {jwt} = this.nevermined.utils
+        const { jwt } = this.nevermined.utils
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(account.getId(), did)
 
@@ -263,7 +278,7 @@ export class Gateway extends Instantiable {
             accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
         }
         const headers = {
-            Authorization: "Bearer " + accessToken
+            Authorization: 'Bearer ' + accessToken
         }
 
         const filesPromises = files
@@ -291,89 +306,96 @@ export class Gateway extends Instantiable {
         agreementId: string,
         executionId: string,
         account: Account
-        ): Promise<any> {
-            const {jwt} = this.nevermined.utils
-            let accessToken: string
-            const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
+    ): Promise<any> {
+        const { jwt } = this.nevermined.utils
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
 
-            try {
-                if (!jwt.tokenCache.has(cacheKey)) {
-                    const grantToken = await jwt.generateComputeGrantToken(account, agreementId, executionId)
-                    accessToken = await this.fetchToken(grantToken)
-                    jwt.tokenCache.set(cacheKey, accessToken)
-                } else {
-                    accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-                }
-                const headers = {
-                    Authorization: "Bearer " + accessToken
-                }
-
-                const response = await this.nevermined.utils.fetch.get(
-                    this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
-                    headers,
+        try {
+            if (!jwt.tokenCache.has(cacheKey)) {
+                const grantToken = await jwt.generateComputeGrantToken(
+                    account,
+                    agreementId,
+                    executionId
                 )
+                accessToken = await this.fetchToken(grantToken)
+                jwt.tokenCache.set(cacheKey, accessToken)
+            } else {
+                accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+            }
+            const headers = {
+                Authorization: 'Bearer ' + accessToken
+            }
 
-                if (!response.ok) {
-                    throw new Error('HTTP request failed')
-                }
-                return await response.text()
-            } catch (e) {
-                this.logger.error(e)
+            const response = await this.nevermined.utils.fetch.get(
+                this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                headers
+            )
+
+            if (!response.ok) {
                 throw new Error('HTTP request failed')
             }
+            return await response.text()
+        } catch (e) {
+            this.logger.error(e)
+            throw new Error('HTTP request failed')
         }
+    }
 
     public async computeStatus(
         agreementId: string,
         executionId: string,
         account: Account
-        ): Promise<any> {
-            const {jwt} = this.nevermined.utils
-            let accessToken: string
-            const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
+    ): Promise<any> {
+        const { jwt } = this.nevermined.utils
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, executionId)
 
-            try {
-                if (!jwt.tokenCache.has(cacheKey)) {
-                    const grantToken = await jwt.generateComputeGrantToken(account, agreementId, executionId)
-                    accessToken = await this.fetchToken(grantToken)
-                    jwt.tokenCache.set(cacheKey, accessToken)
-                } else {
-                    accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-                }
-                const headers = {
-                    Authorization: "Bearer " + accessToken
-                }
-
-                const response = await this.nevermined.utils.fetch.get(
-                    this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
-                    headers,
+        try {
+            if (!jwt.tokenCache.has(cacheKey)) {
+                const grantToken = await jwt.generateComputeGrantToken(
+                    account,
+                    agreementId,
+                    executionId
                 )
+                accessToken = await this.fetchToken(grantToken)
+                jwt.tokenCache.set(cacheKey, accessToken)
+            } else {
+                accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+            }
+            const headers = {
+                Authorization: 'Bearer ' + accessToken
+            }
 
-                if (!response.ok) {
-                    throw new Error('HTTP request failed')
-                }
-                return await response.text()
-            } catch (e) {
-                this.logger.error(e)
+            const response = await this.nevermined.utils.fetch.get(
+                this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                headers
+            )
+
+            if (!response.ok) {
                 throw new Error('HTTP request failed')
             }
+            return await response.text()
+        } catch (e) {
+            this.logger.error(e)
+            throw new Error('HTTP request failed')
         }
+    }
 
-    public async fetchToken(
-        grantToken: string,
-    ): Promise<string> {
+    public async fetchToken(grantToken: string): Promise<string> {
         // we need to use "application/x-www-form-urlencoded" format
         // as per https://tools.ietf.org/html/rfc6749#section-4.1.3
         const response = await this.nevermined.utils.fetch.fetch(
             this.getFetchTokenEndpoint(),
             {
                 method: 'POST',
-                body: `grant_type=${encodeURI(this.nevermined.utils.jwt.GRANT_TYPE)}&assertion=${encodeURI(grantToken)}`,
+                body: `grant_type=${encodeURI(
+                    this.nevermined.utils.jwt.GRANT_TYPE
+                )}&assertion=${encodeURI(grantToken)}`,
                 headers: {
-                    'Content-type': 'application/x-www-form-urlencoded',
+                    'Content-type': 'application/x-www-form-urlencoded'
                 }
             }
-
         )
 
         if (!response.ok) {

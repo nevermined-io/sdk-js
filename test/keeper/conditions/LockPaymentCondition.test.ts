@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import { LockPaymentCondition } from '../../../src/keeper/contracts/conditions'
+import Token from '../../../src/keeper/contracts/Token'
 import AssetRewards from '../../../src/models/AssetRewards'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
@@ -7,6 +8,7 @@ import TestContractHandler from '../TestContractHandler'
 
 let condition: LockPaymentCondition
 let assetRewards: AssetRewards
+let token: Token
 
 describe('LockPaymentCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
@@ -16,29 +18,36 @@ describe('LockPaymentCondition', () => {
 
     before(async () => {
         await TestContractHandler.prepareContracts()
-        condition = (await Nevermined.getInstance(config)).keeper.conditions
-            .lockPaymentCondition
+
+        const nevermined = await Nevermined.getInstance(config)
+        condition = nevermined.keeper.conditions.lockPaymentCondition
+        ;({ token } = nevermined.keeper)
         assetRewards = new AssetRewards(address, amount)
     })
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const hash = await condition.hashValues(
-                did, address, assetRewards.getAmounts(), assetRewards.getReceivers())
+                did,
+                address,
+                token.getAddress(),
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
 
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
-            assert.equal(
-                hash,
-                '0x90017f7a3934ca45209e8edd22488c446d115b4353109804e62caf90471328a2',
-                'The hash is not the expected.'
-            )
         })
     })
 
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
             const hash = await condition.hashValues(
-                did, address, assetRewards.getAmounts(), assetRewards.getReceivers())
+                did,
+                address,
+                token.getAddress(),
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
             const id = await condition.generateId(agreementId, hash)
 
             assert.match(id, /^0x[a-f0-9]{64}$/i)
