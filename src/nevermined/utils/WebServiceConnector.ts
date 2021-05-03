@@ -1,10 +1,8 @@
 import { BodyInit, RequestInit, Response } from 'node-fetch'
-import fs from 'fs'
+import fs, { ReadStream } from 'fs'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-
-// import fetch from 'node-fetch'
 import save from 'save-file'
-//import FormData from 'form-data'
+import FormData from 'form-data'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -119,18 +117,16 @@ export class WebServiceConnector extends Instantiable {
         }
     }
 
-    public async uploadFile(url: string, stream: any): Promise<any> {
-        // const form = new FormData()
-        // form.append('file', stream)
-        // return this.fetch(url, {
-        //     method: 'POST',
-        //     body: form
-        // })
+    public async uploadFile(url: string, stream: ReadStream): Promise<any> {
+        const form = new FormData()
+        form.append('file', stream)
+        return this.fetch(url, {
+            method: 'POST',
+            body: form
+        })
     }
 
     public async fetchToken(url: string, grantToken: string): Promise<Response> {
-        // we need to use "application/x-www-form-urlencoded" format
-        // as per https://tools.ietf.org/html/rfc6749#section-4.1.3
         return await this.nevermined.utils.fetch.fetch(url, {
             method: 'POST',
             body: `grant_type=${encodeURI(
