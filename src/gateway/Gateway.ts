@@ -385,17 +385,9 @@ export class Gateway extends Instantiable {
     public async fetchToken(grantToken: string): Promise<string> {
         // we need to use "application/x-www-form-urlencoded" format
         // as per https://tools.ietf.org/html/rfc6749#section-4.1.3
-        const response = await this.nevermined.utils.fetch.fetch(
+        const response = await this.nevermined.utils.fetch.fetchToken(
             this.getFetchTokenEndpoint(),
-            {
-                method: 'POST',
-                body: `grant_type=${encodeURI(
-                    this.nevermined.utils.jwt.GRANT_TYPE
-                )}&assertion=${encodeURI(grantToken)}`,
-                headers: {
-                    'Content-type': 'application/x-www-form-urlencoded'
-                }
-            }
+            grantToken
         )
 
         if (!response.ok) {
