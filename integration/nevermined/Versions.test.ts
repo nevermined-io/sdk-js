@@ -12,7 +12,7 @@ describe('Versions', () => {
     })
 
     // TODO: enable again after new versions of Gateway
-    xit('should return the versions', async () => {
+    it('should return the versions', async () => {
         const versions = await nevermined.versions.get()
 
         assert.equal(versions.metadata.status, PlatformTechStatus.Working)
