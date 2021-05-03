@@ -1,10 +1,17 @@
 import { BodyInit, RequestInit, Response } from 'node-fetch'
-import fs, { ReadStream } from 'fs'
+import fs from 'fs'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 
-import fetch from 'node-fetch'
+// import fetch from 'node-fetch'
 import save from 'save-file'
-import FormData from 'form-data'
+//import FormData from 'form-data'
+
+let fetch
+if (typeof window !== 'undefined') {
+    fetch = window.fetch.bind(window)
+} else {
+    fetch = require('node-fetch')
+}
 
 /**
  * Provides a common interface to web services.
@@ -15,45 +22,60 @@ export class WebServiceConnector extends Instantiable {
         this.setInstanceConfig(config)
     }
 
-    public post(url: string, payload: BodyInit, headers: {[header: string]: string} = {}): Promise<Response> {
+    public post(
+        url: string,
+        payload: BodyInit,
+        headers: { [header: string]: string } = {}
+    ): Promise<Response> {
         return this.fetch(url, {
             method: 'POST',
             body: payload,
             headers: {
                 'Content-type': 'application/json',
-                ...headers,
+                ...headers
             }
         })
     }
 
-    public get(url: string, headers: {[header: string]: string} = {}): Promise<Response> {
+    public get(
+        url: string,
+        headers: { [header: string]: string } = {}
+    ): Promise<Response> {
         return this.fetch(url, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
-                ...headers,
+                ...headers
             }
         })
     }
 
-    public put(url: string, payload: BodyInit, headers: {[header: string]: string} = {}): Promise<Response> {
+    public put(
+        url: string,
+        payload: BodyInit,
+        headers: { [header: string]: string } = {}
+    ): Promise<Response> {
         return this.fetch(url, {
             method: 'PUT',
             body: payload,
             headers: {
                 'Content-type': 'application/json',
-                ...headers,
+                ...headers
             }
         })
     }
 
-    public delete(url: string, payload?: BodyInit, headers: {[header: string]: string} = {}): Promise<Response> {
+    public delete(
+        url: string,
+        payload?: BodyInit,
+        headers: { [header: string]: string } = {}
+    ): Promise<Response> {
         return this.fetch(url, {
             method: 'DELETE',
             body: payload,
             headers: {
                 'Content-type': 'application/json',
-                ...headers,
+                ...headers
             }
         })
     }
@@ -97,23 +119,30 @@ export class WebServiceConnector extends Instantiable {
         }
     }
 
-    public async uploadFile(
-        url: string,
-        stream: ReadStream
-    ): Promise<any> {
-        const form = new FormData()
-        form.append('file', stream)
-
-        return this.fetch(
-            url,
-            {
-                method: 'POST',
-                body: form,
-            }
-        )
+    public async uploadFile(url: string, stream: any): Promise<any> {
+        // const form = new FormData()
+        // form.append('file', stream)
+        // return this.fetch(url, {
+        //     method: 'POST',
+        //     body: form
+        // })
     }
 
-    public async fetch(url: string, opts: RequestInit): Promise<Response> {
+    public async fetchToken(url: string, grantToken: string): Promise<Response> {
+        // we need to use "application/x-www-form-urlencoded" format
+        // as per https://tools.ietf.org/html/rfc6749#section-4.1.3
+        return await this.nevermined.utils.fetch.fetch(url, {
+            method: 'POST',
+            body: `grant_type=${encodeURI(
+                this.nevermined.utils.jwt.GRANT_TYPE
+            )}&assertion=${encodeURI(grantToken)}`,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        })
+    }
+
+    private async fetch(url: string, opts: RequestInit): Promise<Response> {
         const result = await fetch(url, opts)
         if (!result.ok) {
             this.logger.error(`Error requesting [${opts.method}] ${url}`)
