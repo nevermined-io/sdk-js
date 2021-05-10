@@ -136,7 +136,7 @@ export class Metadata extends Instantiable {
      * @param  {DDO} ddo DDO to be stored.
      * @return {Promise<DDO>} Final DDO.
      */
-     public async updateDDO(did: string, ddo: DDO): Promise<DDO> {
+     public async updateDDO(did: DID, ddo: DDO): Promise<DDO> {
         const fullUrl = `${this.url}${apiPath}`
         const result: DDO = await this.nevermined.utils.fetch
             .put(fullUrl, DDO.serialize(ddo))

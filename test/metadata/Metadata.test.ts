@@ -130,6 +130,34 @@ describe('Metadata', () => {
         })
     })
 
+    describe('#updateDDO()', () => {
+        it('should update a ddo', async () => {
+            const did: DID = DID.generate()
+            const ddo: DDO = new DDO({
+                id: did.getId(),
+                created: '0'
+            })
+
+            spy.on(nevermined.utils.fetch, 'post', () => reponsify(ddo))
+
+            const result: DDO = await metadata.storeDDO(ddo)
+            assert(result)
+            assert(result.id === ddo.id)
+
+            const updatedDdo: DDO = new DDO({
+                id: did.getId(),
+                created: '1'
+            })
+
+            spy.on(nevermined.utils.fetch, 'put', () => reponsify(updatedDdo))
+            const updatedResult: DDO = await metadata.updateDDO(did, ddo)
+
+            assert(updatedResult)
+            assert(updatedResult.id === ddo.id)
+            assert(updatedResult.created === '1')
+        })
+    })
+
     describe('#retrieveDDO()', () => {
         it('should store a ddo', async () => {
             const did: DID = DID.generate()
