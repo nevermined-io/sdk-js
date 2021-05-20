@@ -47,8 +47,14 @@ describe('TransferDIDOwnershipCondition', () => {
             owner.getId()
         )
 
-        await templateStoreManager.proposeTemplate(templateId.getId())
-        await templateStoreManager.approveTemplate(templateId.getId())
+        try {
+            await templateStoreManager.proposeTemplate(templateId.getId())
+            await templateStoreManager.approveTemplate(templateId.getId())
+        } catch (err) {
+            if (!err.toString().includes('Template already exist')) {
+                throw err
+            }
+        }
 
         await didRegistry.setManager(
             transferDidOwnershipCondition.getAddress(),

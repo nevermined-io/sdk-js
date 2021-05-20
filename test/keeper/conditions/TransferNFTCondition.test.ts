@@ -47,6 +47,8 @@ describe('TransferNFTCondition', () => {
         ;({ conditionStoreManager, didRegistry, token } = nevermined.keeper)
         ;[owner, nftReceiver, other] = await nevermined.accounts.list()
         receivers = [nftReceiver.getId()]
+
+        await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
     })
 
     beforeEach(async () => {
