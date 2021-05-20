@@ -96,7 +96,6 @@ export default class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                token.options.address,
                 didRegistry.options.address
             ]
         )
@@ -133,7 +132,7 @@ export default class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                agreementStoreManager.options.address
+                didRegistry.options.address
             ]
         )
 
@@ -143,7 +142,7 @@ export default class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                agreementStoreManager.options.address
+                didRegistry.options.address
             ]
         )
         await didRegistry.methods
@@ -156,7 +155,7 @@ export default class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                agreementStoreManager.options.address
+                didRegistry.options.address
             ]
         )
 
@@ -164,11 +163,7 @@ export default class TestContractHandler extends ContractHandler {
         const escrowPaymentCondition = await TestContractHandler.deployContract(
             'EscrowPaymentCondition',
             deployerAddress,
-            [
-                deployerAddress,
-                conditionStoreManager.options.address,
-                token.options.address
-            ]
+            [deployerAddress, conditionStoreManager.options.address]
         )
 
         // Templates

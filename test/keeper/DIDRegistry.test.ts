@@ -1,11 +1,10 @@
 import { assert } from 'chai'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import { generateId } from '../../src/utils/GeneratorHelpers'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
-import { Logger, LogLevel } from "../../src/utils"
+import { Logger, LogLevel } from '../../src/utils'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -19,7 +18,7 @@ describe('DIDRegistry', () => {
 
     describe('#registerAttribute()', () => {
         it('should register an attribute in a new did', async () => {
-            const ownerAccount: Account = (await nevermined.accounts.list())[0]
+            const [ownerAccount] = await nevermined.accounts.list()
             const did = generateId()
             const data = 'my nice provider, is nice'
             const receipt = await didRegistry.registerAttribute(
@@ -36,16 +35,17 @@ describe('DIDRegistry', () => {
 
     describe('#getDIDOwner()', () => {
         it('should get the owner of a did properly', async () => {
-            const ownerAccount: Account = (await nevermined.accounts.list())[0]
-            const did = generateId()
+            const [ownerAccount] = await nevermined.accounts.list()
+            const didSeed = generateId()
             const data = 'my nice provider, is nice'
             await didRegistry.registerAttribute(
-                did,
+                didSeed,
                 '0123456789abcdef',
                 [],
                 data,
                 ownerAccount.getId()
             )
+            const did = await didRegistry.hashDID(didSeed, ownerAccount.getId())
 
             const owner = await didRegistry.getDIDOwner(did)
 
@@ -65,19 +65,20 @@ describe('DIDRegistry', () => {
     describe('#transferDIDOwnership()', () => {
         it('should be able to transfer ownership', async () => {
             // create and register DID
-            const ownerAccount: Account = (await nevermined.accounts.list())[0]
-            const did = generateId()
+            const [ownerAccount] = await nevermined.accounts.list()
+            const didSeed = generateId()
             const data = 'my nice provider, is nice'
             await didRegistry.registerAttribute(
-                did,
+                didSeed,
                 '12345678',
                 [],
                 data,
                 ownerAccount.getId()
             )
+            const did = await didRegistry.hashDID(didSeed, ownerAccount.getId())
 
             // transfer
-            const newOwnerAccount: Account = (await nevermined.accounts.list())[1]
+            const [, newOwnerAccount] = await nevermined.accounts.list()
             const logger = new Logger(LogLevel.Error)
             logger.log('New Owner Account: ' + newOwnerAccount.getId())
             await didRegistry.transferDIDOwnership(

@@ -27,7 +27,7 @@ describe('NFTSalesTemplate', () => {
     let timeOuts: number[]
     let sender: Account
     let receiver: Account
-    let did: string
+    let didSeed: string
     let checksum: string
     const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
@@ -58,12 +58,13 @@ describe('NFTSalesTemplate', () => {
             zeroX(utils.generateId()),
             zeroX(utils.generateId())
         ]
-        did = `did:nv:${utils.generateId()}`
+        didSeed = `did:nv:${utils.generateId()}`
         checksum = utils.generateId()
     })
 
     describe('create agreement', () => {
         it('should fail if template is not approve', async () => {
+            const did = await didRegistry.hashDID(didSeed, sender.getId())
             await assert.isRejected(
                 nftSalesTemplate.createAgreement(
                     agreementId,
@@ -82,6 +83,7 @@ describe('NFTSalesTemplate', () => {
             // propose and approve template
             await templateStoreManager.proposeTemplate(nftSalesTemplate.getAddress())
             await templateStoreManager.approveTemplate(nftSalesTemplate.getAddress())
+            const did = await didRegistry.hashDID(didSeed, sender.getId())
 
             await assert.isRejected(
                 nftSalesTemplate.createAgreement(
@@ -98,7 +100,14 @@ describe('NFTSalesTemplate', () => {
         })
 
         it('should create agreement', async () => {
-            await didRegistry.registerAttribute(did, checksum, [], url, sender.getId())
+            await didRegistry.registerAttribute(
+                didSeed,
+                checksum,
+                [],
+                url,
+                sender.getId()
+            )
+            const did = await didRegistry.hashDID(didSeed, sender.getId())
 
             const agreement = await nftSalesTemplate.createAgreement(
                 agreementId,

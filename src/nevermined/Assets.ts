@@ -215,7 +215,10 @@ export class Assets extends Instantiable {
                 publisher.getId(),
                 publisher.getPassword()
             )
-            await ddo.assignDid(ddo.proof.checksum)
+
+            const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
+            await ddo.assignDid(didSeed, didRegistry, publisher)
+
             await ddo.addSignature(
                 this.nevermined,
                 publisher.getId(),
@@ -307,7 +310,7 @@ export class Assets extends Instantiable {
             this.logger.log('Registering DID')
             observer.next(CreateProgressStep.RegisteringDid)
             await didRegistry.registerAttribute(
-                ddo.shortId(),
+                didSeed,
                 ddo.checksum(ddo.shortId()),
                 providers || [this.config.gatewayAddress],
                 serviceEndpoint,

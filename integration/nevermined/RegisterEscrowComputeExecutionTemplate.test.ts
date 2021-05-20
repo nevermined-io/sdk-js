@@ -81,16 +81,23 @@ describe('Register Escrow Compute Execution Template', () => {
     })
 
     describe('Full flow', () => {
-        const agreementId = `0x${utils.generateId()}`
-        const did = `0x${utils.generateId()}`
+        let agreementId: string
+        let didSeed: string
+        let did: string
 
         let conditionIdCompute: string
         let conditionIdLock: string
         let conditionIdEscrow: string
 
+        before(async () => {
+            agreementId = utils.generateId()
+            didSeed = utils.generateId()
+            did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
+        })
+
         it('should register a DID', async () => {
             await keeper.didRegistry.registerAttribute(
-                did,
+                didSeed,
                 checksum,
                 [],
                 url,
@@ -247,14 +254,19 @@ describe('Register Escrow Compute Execution Template', () => {
     })
 
     describe('Short flow', () => {
-        const did = utils.generateId()
+        let didSeed: string
+        let did: string
+        let agreementId: string
 
-        let agreementId
+        before(async () => {
+            didSeed = utils.generateId()
+            did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
+        })
 
         it('should register a DID', async () => {
             // This part is executed inside Nevermined.assets.create()
             await keeper.didRegistry.registerAttribute(
-                did,
+                didSeed,
                 checksum,
                 [],
                 url,

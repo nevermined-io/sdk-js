@@ -29,7 +29,7 @@ describe('TransferNFTCondition', () => {
 
     let agreementId: string
     let checksum: string
-    let did: string
+    let didSeed: string
     let receivers: string[]
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
@@ -52,12 +52,13 @@ describe('TransferNFTCondition', () => {
     beforeEach(async () => {
         agreementId = utils.generateId()
         checksum = utils.generateId()
-        did = `did:nv:${utils.generateId()}`
+        didSeed = `did:nv:${utils.generateId()}`
     })
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const conditionId = utils.generateId()
+            const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
             const hash = await transferNftCondition.hashValues(
                 did,
                 nftReceiver.getId(),
@@ -72,6 +73,7 @@ describe('TransferNFTCondition', () => {
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
             const conditionId = utils.generateId()
+            const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
             const hash = await transferNftCondition.hashValues(
                 did,
                 nftReceiver.getId(),
@@ -86,6 +88,7 @@ describe('TransferNFTCondition', () => {
 
     describe('fulfill correctly', () => {
         it('should fulfill if condition exist', async () => {
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             const hashValuesPayment = await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
@@ -105,7 +108,7 @@ describe('TransferNFTCondition', () => {
             )
 
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
@@ -182,6 +185,7 @@ describe('TransferNFTCondition', () => {
 
     describe('trying to fulfill invalid conditions', () => {
         it('should not fulfill if condition does not exist or account is invalid', async () => {
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             const hashValuesPayment = await lockPaymentCondition.hashValues(
                 did,
                 lockPaymentCondition.address,
@@ -201,7 +205,7 @@ describe('TransferNFTCondition', () => {
             )
 
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
