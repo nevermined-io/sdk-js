@@ -13,6 +13,7 @@ import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
+import { noZeroX } from '../../src/utils'
 import { config } from '../config'
 
 describe('NFTTemplates E2E', () => {
@@ -46,6 +47,7 @@ describe('NFTTemplates E2E', () => {
 
     const royalties = 10 // 10% of royalties in the secondary market
     const cappedAmount = 5
+    let didSeed: string
     let did: string
     let agreementId: string
     let agreementAccessId: string
@@ -136,7 +138,8 @@ describe('NFTTemplates E2E', () => {
                     await token.balanceOf(escrowPaymentCondition.getAddress())
                 )
             }
-            did = utils.generateId()
+            didSeed = utils.generateId()
+            did = await didRegistry.hashDID(didSeed, artist.getId())
             agreementId = utils.generateId()
             agreementAccessId = utils.generateId()
             agreementId2 = utils.generateId()
@@ -146,7 +149,7 @@ describe('NFTTemplates E2E', () => {
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
                 await didRegistry.registerMintableDID(
-                    did,
+                    didSeed,
                     checksum,
                     [],
                     url,
@@ -240,6 +243,11 @@ describe('NFTTemplates E2E', () => {
 
                 await token.approve(
                     lockPaymentCondition.getAddress(),
+                    nftPrice,
+                    collector1.getId()
+                )
+                await token.approve(
+                    escrowPaymentCondition.getAddress(),
                     nftPrice,
                     collector1.getId()
                 )
@@ -635,19 +643,20 @@ describe('NFTTemplates E2E', () => {
                     await token.balanceOf(escrowPaymentCondition.getAddress())
                 )
             }
-            did = utils.generateId()
+            didSeed = utils.generateId()
+            did = await didRegistry.hashDID(didSeed, artist.getId())
             agreementId = utils.generateId()
             agreementAccessId = utils.generateId()
             agreementId2 = utils.generateId()
             checksum = utils.generateId()
             activityId = utils.generateId()
-            ddo = new DDO({ id: `did:nv:${did}` })
+            ddo = new DDO({ id: `did:nv:${noZeroX(did)}` })
         })
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
                 await didRegistry.registerMintableDID(
-                    did,
+                    didSeed,
                     checksum,
                     [],
                     url,

@@ -5,6 +5,8 @@ import { Proof } from './Proof'
 import { PublicKey } from './PublicKey'
 import { Service, ServiceType } from './Service'
 import { didPrefixed, zeroX } from '../utils'
+import DIDRegistry from '../keeper/contracts/DIDRegistry'
+import Account from '../nevermined/Account'
 
 /**
  * DID Descriptor Object.
@@ -150,15 +152,15 @@ export class DDO {
         this.service[0] = service
     }
 
-    public async assignDid(checksum) {
-        const didFromChecksum = await this.generateDid(checksum)
-        this.id = didFromChecksum
-        this.authentication[0].publicKey = didFromChecksum
-        this.publicKey[0].id = didFromChecksum
+    public async assignDid(didSeed, didRegistry: DIDRegistry, publisher: Account) {
+        const did = didPrefixed(await didRegistry.hashDID(didSeed, publisher.getId()))
+        this.id = did
+        this.authentication[0].publicKey = did
+        this.publicKey[0].id = did
     }
 
-    public async generateDid(seed) {
-        return didPrefixed(zeroX(this.checksum(JSON.stringify(seed))))
+    public async generateDidSeed(seed) {
+        return zeroX(this.checksum(JSON.stringify(seed)))
     }
 
     public async addSignature(

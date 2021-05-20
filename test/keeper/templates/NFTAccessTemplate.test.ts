@@ -27,7 +27,7 @@ describe('NFTAccessTemplate', () => {
     let timeOuts: number[]
     let sender: Account
     let receiver: Account
-    let did: string
+    let didSeed: string
     let checksum: string
     const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
@@ -54,12 +54,13 @@ describe('NFTAccessTemplate', () => {
     beforeEach(async () => {
         agreementId = zeroX(utils.generateId())
         conditionIds = [zeroX(utils.generateId()), zeroX(utils.generateId())]
-        did = `did:nv:${utils.generateId()}`
+        didSeed = `did:nv:${utils.generateId()}`
         checksum = utils.generateId()
     })
 
     describe('create agreement', () => {
         it('should fail if template is not approve', async () => {
+            const did = await didRegistry.hashDID(didSeed, sender.getId())
             await assert.isRejected(
                 nftAccessTemplate.createAgreement(
                     agreementId,
@@ -78,6 +79,7 @@ describe('NFTAccessTemplate', () => {
             // propose and approve template
             await templateStoreManager.proposeTemplate(nftAccessTemplate.getAddress())
             await templateStoreManager.approveTemplate(nftAccessTemplate.getAddress())
+            const did = await didRegistry.hashDID(didSeed, sender.getId())
 
             await assert.isRejected(
                 nftAccessTemplate.createAgreement(
@@ -94,7 +96,14 @@ describe('NFTAccessTemplate', () => {
         })
 
         it('should create agreement', async () => {
-            await didRegistry.registerAttribute(did, checksum, [], url, sender.getId())
+            await didRegistry.registerAttribute(
+                didSeed,
+                checksum,
+                [],
+                url,
+                sender.getId()
+            )
+            const did = await didRegistry.hashDID(didSeed, sender.getId())
 
             const agreement = await nftAccessTemplate.createAgreement(
                 agreementId,

@@ -440,4 +440,12 @@ export default class DIDRegistry extends ContractBase {
     public async getDIDRegister(did: string) {
         return this.call('getDIDRegister', [didZeroX(did)])
     }
+
+    public async hashDID(didSeed: string, creator: string): Promise<string> {
+        return this.call('hashDID', [didZeroX(didSeed), zeroX(creator)])
+    }
+
+    public async setManager(manager: string, from: string) {
+        return await this.send('setManager', from, [zeroX(manager)])
+    }
 }
