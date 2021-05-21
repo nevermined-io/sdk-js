@@ -20,7 +20,7 @@ describe('NFTLockCondition', () => {
 
     let agreementId: string
     let checksum: string
-    let did: string
+    let didSeed: string
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const amount = 10
@@ -36,11 +36,12 @@ describe('NFTLockCondition', () => {
     beforeEach(async () => {
         agreementId = utils.generateId()
         checksum = utils.generateId()
-        did = `did:nv:${utils.generateId()}`
+        didSeed = `did:nv:${utils.generateId()}`
     })
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
+            const did = await didRegistry.hashDID(didSeed, rewardAddress.getId())
             const hash = await nftLockCondition.hashValues(
                 did,
                 rewardAddress.getId(),
@@ -53,6 +54,7 @@ describe('NFTLockCondition', () => {
 
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
+            const did = await didRegistry.hashDID(didSeed, rewardAddress.getId())
             const hash = await nftLockCondition.hashValues(
                 did,
                 rewardAddress.getId(),
@@ -68,7 +70,7 @@ describe('NFTLockCondition', () => {
         it('should fulfill if conditions exist for account address', async () => {
             // register DID
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
@@ -78,6 +80,7 @@ describe('NFTLockCondition', () => {
                 0,
                 owner.getId()
             )
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
 
             await didRegistry.setApprovalForAll(
@@ -133,7 +136,7 @@ describe('NFTLockCondition', () => {
         it('should not fulfill if conditions do not exist', async () => {
             // register DID
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
@@ -143,6 +146,7 @@ describe('NFTLockCondition', () => {
                 0,
                 owner.getId()
             )
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
             await didRegistry.setApprovalForAll(
                 nftLockCondition.getAddress(),
@@ -159,7 +163,7 @@ describe('NFTLockCondition', () => {
         it('out of balance should fail to fulfill', async () => {
             // register DID
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
@@ -169,6 +173,7 @@ describe('NFTLockCondition', () => {
                 0,
                 owner.getId()
             )
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
             await didRegistry.setApprovalForAll(
                 nftLockCondition.getAddress(),
@@ -203,7 +208,7 @@ describe('NFTLockCondition', () => {
         it('right transfer should fail to fulfill if conditions already fulfilled', async () => {
             // register DID
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
@@ -213,6 +218,7 @@ describe('NFTLockCondition', () => {
                 0,
                 owner.getId()
             )
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
             await didRegistry.setApprovalForAll(
                 nftLockCondition.getAddress(),

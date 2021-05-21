@@ -3,6 +3,10 @@ import chaiAsPromised from 'chai-as-promised'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { TransferDIDOwnershipCondition } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import {
+    AgreementStoreManager,
+    TemplateStoreManager
+} from '../../../src/keeper/contracts/managers'
 
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers/ConditionStoreManager'
 import { didZeroX, zeroX } from '../../../src/utils'
@@ -14,31 +18,59 @@ chai.use(chaiAsPromised)
 describe('TransferDIDOwnershipCondition', () => {
     let transferDidOwnershipCondition: TransferDIDOwnershipCondition
     let conditionStoreManager: ConditionStoreManager
+    let templateStoreManager: TemplateStoreManager
+    let agreementStoreManager: AgreementStoreManager
     let didRegistry: DIDRegistry
     let receiver: Account
     let owner: Account
+    let templateId: Account
 
     let agreementId: string
     let checksum: string
-    let did: string
+    let didSeed: string
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
     before(async () => {
         await TestContractHandler.prepareContracts()
         const nevermined = await Nevermined.getInstance(config)
         ;({ transferDidOwnershipCondition } = nevermined.keeper.conditions)
-        ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
-        ;[owner, receiver] = await nevermined.accounts.list()
+        ;({
+            conditionStoreManager,
+            didRegistry,
+            templateStoreManager,
+            agreementStoreManager
+        } = nevermined.keeper)
+        ;[owner, receiver, templateId] = await nevermined.accounts.list()
+
+        await conditionStoreManager.delegateCreateRole(
+            agreementStoreManager.getAddress(),
+            owner.getId()
+        )
+
+        try {
+            await templateStoreManager.proposeTemplate(templateId.getId())
+            await templateStoreManager.approveTemplate(templateId.getId())
+        } catch (err) {
+            if (!err.toString().includes('Template already exist')) {
+                throw err
+            }
+        }
+
+        await didRegistry.setManager(
+            transferDidOwnershipCondition.getAddress(),
+            owner.getId()
+        )
     })
 
     beforeEach(async () => {
         agreementId = utils.generateId()
         checksum = utils.generateId()
-        did = `did:nv:${utils.generateId()}`
+        didSeed = `did:nv:${utils.generateId()}`
     })
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
+            const did = await didRegistry.hashDID(didSeed, receiver.getId())
             const hash = await transferDidOwnershipCondition.hashValues(
                 did,
                 receiver.getId()
@@ -49,6 +81,7 @@ describe('TransferDIDOwnershipCondition', () => {
 
         describe('#generateId()', () => {
             it('should generate an ID', async () => {
+                const did = await didRegistry.hashDID(didSeed, receiver.getId())
                 const hash = await transferDidOwnershipCondition.hashValues(
                     did,
                     receiver.getId()
@@ -65,6 +98,7 @@ describe('TransferDIDOwnershipCondition', () => {
 
     describe('trying to fulfill invalid conditions', () => {
         it('should not fulfill if condition does not exist', async () => {
+            const did = await didRegistry.hashDID(didSeed, receiver.getId())
             await assert.isRejected(
                 transferDidOwnershipCondition.fulfill(
                     agreementId,
@@ -72,21 +106,21 @@ describe('TransferDIDOwnershipCondition', () => {
                     receiver.getId(),
                     receiver.getId()
                 ),
-                /Only DID Owner allowed/
-            )
-        })
-
-        it('should not fulfill if condition does not exist', async () => {
-            await assert.isRejected(
-                transferDidOwnershipCondition.fulfill(agreementId, did, receiver.getId()),
-                /Only DID Owner allowed/
+                /Only owner/
             )
         })
     })
 
     describe('fulfill existing condition', () => {
         it('should fulfill if condition exist', async () => {
-            await didRegistry.registerAttribute(did, checksum, [], value, owner.getId())
+            await didRegistry.registerAttribute(
+                didSeed,
+                checksum,
+                [],
+                value,
+                owner.getId()
+            )
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
 
             const hashValues = await transferDidOwnershipCondition.hashValues(
                 did,
@@ -97,10 +131,14 @@ describe('TransferDIDOwnershipCondition', () => {
                 hashValues
             )
 
-            await conditionStoreManager.createCondition(
-                conditionId,
-                transferDidOwnershipCondition.address,
-                owner.getId()
+            await agreementStoreManager.createAgreement(
+                agreementId,
+                did,
+                [transferDidOwnershipCondition.getAddress()],
+                [conditionId],
+                [0],
+                [2],
+                templateId.getId()
             )
 
             await assert.isRejected(
@@ -110,7 +148,7 @@ describe('TransferDIDOwnershipCondition', () => {
                     receiver.getId(),
                     receiver.getId()
                 ),
-                'Only DID Owner allowed'
+                'Only owner'
             )
 
             const storedDIDRegister: any = await didRegistry.getDIDRegister(did)

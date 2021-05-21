@@ -49,7 +49,9 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens = +assetRewards.getTotalPrice() * 10 ** -(await nevermined.keeper.token.decimals())
+        const claimedTokens =
+            +assetRewards.getTotalPrice() *
+            10 ** -(await nevermined.keeper.token.decimals())
 
         try {
             await consumer.requestTokens(claimedTokens)
@@ -111,7 +113,6 @@ describe('Consume Asset', () => {
     })
 
     it('should lock the payment by the consumer', async () => {
-
         const paid = await nevermined.agreements.conditions.lockPayment(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,

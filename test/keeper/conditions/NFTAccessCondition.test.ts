@@ -28,7 +28,7 @@ describe('NFTAccessCondition', () => {
 
     let agreementId: string
     let checksum: string
-    let did: string
+    let didSeed: string
     const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
     before(async () => {
@@ -55,11 +55,12 @@ describe('NFTAccessCondition', () => {
     beforeEach(async () => {
         agreementId = utils.generateId()
         checksum = utils.generateId()
-        did = `did:nv:${utils.generateId()}`
+        didSeed = `did:nv:${utils.generateId()}`
     })
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
+            const did = await didRegistry.hashDID(didSeed, grantee.getId())
             const hash = await nftAccessCondition.hashValues(did, grantee.getId())
 
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
@@ -68,6 +69,7 @@ describe('NFTAccessCondition', () => {
 
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
+            const did = await didRegistry.hashDID(didSeed, grantee.getId())
             const hash = await nftAccessCondition.hashValues(did, grantee.getId())
             const id = await nftAccessCondition.generateId(agreementId, hash)
 
@@ -77,6 +79,8 @@ describe('NFTAccessCondition', () => {
 
     describe('fulfill non existing condition', () => {
         it('should not fulfill if condition does not exist', async () => {
+            const did = await didRegistry.hashDID(didSeed, grantee.getId())
+
             await assert.isRejected(
                 nftAccessCondition.fulfill(agreementId, did, grantee.getId()),
                 'Invalid DID owner/provider'
@@ -86,7 +90,8 @@ describe('NFTAccessCondition', () => {
 
     describe('fulfill existing condition', () => {
         it('should fulfill if condition exist', async () => {
-            await didRegistry.registerAttribute(did, checksum, [], url, owner.getId())
+            await didRegistry.registerAttribute(didSeed, checksum, [], url, owner.getId())
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
 
             const hashValues = await nftAccessCondition.hashValues(did, grantee.getId())
             const conditionId = await nftAccessCondition.generateId(
@@ -129,7 +134,8 @@ describe('NFTAccessCondition', () => {
 
     describe('fail to fulfill existing condition', () => {
         it('wrong did owner should fail to fulfill if conditions exist', async () => {
-            await didRegistry.registerAttribute(did, checksum, [], url, owner.getId())
+            await didRegistry.registerAttribute(didSeed, checksum, [], url, owner.getId())
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
 
             const hashValues = await nftAccessCondition.hashValues(did, grantee.getId())
             const conditionId = await nftAccessCondition.generateId(
@@ -159,7 +165,8 @@ describe('NFTAccessCondition', () => {
         })
 
         it('right did owner should fail to fulfill if conditions already fulfilled', async () => {
-            await didRegistry.registerAttribute(did, checksum, [], url, owner.getId())
+            await didRegistry.registerAttribute(didSeed, checksum, [], url, owner.getId())
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
 
             const hashValues = await nftAccessCondition.hashValues(did, grantee.getId())
             const conditionId = await nftAccessCondition.generateId(

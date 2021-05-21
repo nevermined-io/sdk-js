@@ -1,6 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, conditions, ConditionState, Nevermined, utils } from '../../../src'
+import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { NFTHolderCondition } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
@@ -19,7 +19,7 @@ describe('NFTHolderCondition', () => {
 
     let agreementId: string
     let checksum: string
-    let did: string
+    let didSeed: string
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const amount = 10
@@ -37,11 +37,12 @@ describe('NFTHolderCondition', () => {
     beforeEach(async () => {
         agreementId = utils.generateId()
         checksum = utils.generateId()
-        did = `did:nv:${utils.generateId()}`
+        didSeed = `did:nv:${utils.generateId()}`
     })
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
+            const did = await didRegistry.hashDID(didSeed, holder.getId())
             const hash = await nftHolderCondition.hashValues(did, holder.getId(), amount)
 
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
@@ -50,6 +51,7 @@ describe('NFTHolderCondition', () => {
 
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
+            const did = await didRegistry.hashDID(didSeed, holder.getId())
             const hash = await nftHolderCondition.hashValues(did, holder.getId(), amount)
             const id = await nftHolderCondition.generateId(agreementId, hash)
 
@@ -59,6 +61,7 @@ describe('NFTHolderCondition', () => {
 
     describe('fulfill existing condition', () => {
         it('should fulfill if conditions exist for account address', async () => {
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             const hashValues = await nftHolderCondition.hashValues(
                 did,
                 holder.getId(),
@@ -76,7 +79,7 @@ describe('NFTHolderCondition', () => {
             )
 
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
@@ -116,7 +119,7 @@ describe('NFTHolderCondition', () => {
     describe('fulfill non existing condition', () => {
         it('should not fulfill if conditions do not exist', async () => {
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
@@ -126,6 +129,7 @@ describe('NFTHolderCondition', () => {
                 0,
                 owner.getId()
             )
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, 10, owner.getId())
             await didRegistry.transferNft(did, holder.getId(), 10, owner.getId())
 
@@ -138,6 +142,7 @@ describe('NFTHolderCondition', () => {
 
     describe('fail to fulfill existing condition', () => {
         it('out of balance should fail to fulfill if conditions exist', async () => {
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
             const hashValues = await nftHolderCondition.hashValues(
                 did,
                 holder.getId(),
@@ -155,7 +160,7 @@ describe('NFTHolderCondition', () => {
             )
 
             await didRegistry.registerMintableDID(
-                did,
+                didSeed,
                 checksum,
                 [],
                 value,
