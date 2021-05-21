@@ -132,6 +132,38 @@ export class Metadata extends Instantiable {
     }
 
     /**
+     * Update a DDO in Metadata.
+     * @param  {DDO} ddo DDO to be stored.
+     * @return {Promise<DDO>} Final DDO.
+     */
+     public async updateDDO(did: DID, ddo: DDO): Promise<DDO> {
+        const fullUrl = `${this.url}${apiPath}`
+        const result: DDO = await this.nevermined.utils.fetch
+            .put(fullUrl, DDO.serialize(ddo))
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json()
+                }
+                this.logger.error(
+                    'updateDDO failed:',
+                    response.status,
+                    response.statusText,
+                    ddo
+                )
+                return null as DDO
+            })
+            .then((response: DDO) => {
+                return new DDO(response) as DDO
+            })
+            .catch(error => {
+                this.logger.error('Error fetching querying metadata: ', error)
+                return null as DDO
+            })
+
+        return result
+    }
+
+    /**
      * Stores a DDO in Metadata.
      * @param  {DDO} ddo DDO to be stored.
      * @return {Promise<DDO>} Final DDO.
