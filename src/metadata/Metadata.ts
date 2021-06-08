@@ -136,8 +136,9 @@ export class Metadata extends Instantiable {
      * @param  {DDO} ddo DDO to be stored.
      * @return {Promise<DDO>} Final DDO.
      */
-     public async updateDDO(did: DID, ddo: DDO): Promise<DDO> {
-        const fullUrl = `${this.url}${apiPath}`
+    public async updateDDO(did: DID | string, ddo: DDO): Promise<DDO> {
+        did = did && DID.parse(did)
+        const fullUrl = `${this.url}${apiPath}/${did.getDid()}`
         const result: DDO = await this.nevermined.utils.fetch
             .put(fullUrl, DDO.serialize(ddo))
             .then((response: any) => {
@@ -231,10 +232,11 @@ export class Metadata extends Instantiable {
         return result
     }
 
-
-    public async delete(did: DID | string){
+    public async delete(did: DID | string) {
         did = did && DID.parse(did)
-        const result = await this.nevermined.utils.fetch.delete(`${this.url}${apiPath}//${did.getDid()}`)
+        const result = await this.nevermined.utils.fetch.delete(
+            `${this.url}${apiPath}//${did.getDid()}`
+        )
         return result
     }
 
