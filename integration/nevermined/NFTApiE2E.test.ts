@@ -92,6 +92,14 @@ describe('NFTs Api End-to-End', () => {
     })
 
     describe('As a collector I want to buy some art', () => {
+        it('I check the details of the NFT', async () => {
+            const details = await nevermined.nfts.details(ddo.id)
+            assert.equal(details.mintCap, 5)
+            assert.equal(details.nftSupply, 5)
+            assert.equal(details.royalties, 10)
+            assert.equal(details.owner, artist.getId())
+        })
+
         it('I am ordering the NFT', async () => {
             await collector1.requestTokens(nftPrice / scale)
 
