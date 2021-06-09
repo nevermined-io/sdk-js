@@ -251,8 +251,36 @@ export class Nfts extends Instantiable {
         return await this.dowloadFiles('0x', ddo, consumer, destination, index)
     }
 
+    /**
+     * Get the NFT balance for a particular did
+     *
+     * @param {String} did The Decentralized Identifier of the NFT asset.
+     * @param {Account} account The account to check the balance of.
+     * @returns {Number} The ammount of NFTs owned by the account.
+     */
     public async balance(did: string, account: Account) {
         return await this.nevermined.keeper.didRegistry.balance(account.getId(), did)
+    }
+
+    /**
+     * Get the details of an NFT
+     *
+     * @param {String} did The Decentralized Identifier of the NFT asset.
+     * @returns The details of the NFT.
+     */
+    public async details(did: string) {
+        const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
+        return {
+            owner: details[0],
+            lastChecksum: details[1],
+            url: details[2],
+            lastUpdatedBy: details[3],
+            blockNumberUpdated: Number(details[4]),
+            providers: details[5],
+            nftSupply: Number(details[6]),
+            mintCap: Number(details[7]),
+            royalties: Number(details[8])
+        }
     }
 
     private async dowloadFiles(
