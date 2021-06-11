@@ -18,6 +18,7 @@ export interface SearchQuery {
     page?: number
     query: { [property: string]: string | number | string[] | number[] }
     sort?: { [jsonPath: string]: number }
+    show_unlisted?: boolean
 }
 
 /**
