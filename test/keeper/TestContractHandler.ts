@@ -207,6 +207,7 @@ export default class TestContractHandler extends ContractHandler {
         tokens: { [name: string]: string } = {}
     ): Promise<ContractTest> {
         const where = this.networkId
+        console.log(name, where)
 
         // dont redeploy if there is already something loaded
         if (TestContractHandler.hasContract(name, where)) {
@@ -228,7 +229,7 @@ export default class TestContractHandler extends ContractHandler {
                 // gas: 6000000,
                 // gasPrice: '10000'
             }
-            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
+            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.spree.json`)
             const tempContract = new web3.eth.Contract(artifact.abi, artifact.address)
             const isZos = !!tempContract.methods.initialize
 

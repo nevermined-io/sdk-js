@@ -7,11 +7,11 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 
 describe('NFTs Api End-to-End', () => {
-    let owner: Account
     let artist: Account
     let collector1: Account
     let collector2: Account
     let gallery: Account
+    let market: Account
 
     let nevermined: Nevermined
     let token: Token
@@ -37,11 +37,11 @@ describe('NFTs Api End-to-End', () => {
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[
-            owner,
             artist,
             collector1,
             collector2,
-            gallery
+            gallery,
+            market
         ] = await nevermined.accounts.list()
 
         // conditions
@@ -76,7 +76,7 @@ describe('NFTs Api End-to-End', () => {
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
             ddo = await nevermined.nfts.create(
-                metadata as any,
+                getMetadata() as any,
                 artist,
                 cappedAmount,
                 royalties,
@@ -192,6 +192,66 @@ describe('NFTs Api End-to-End', () => {
         it('The collector access the files', async () => {
             const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
+        })
+    })
+
+    describe('As a market I want to be able to transfer nfts and release rewards on behalf of the artist', () => {
+        it('Artist registers a new artwork and tokenize (via NFT)', async () => {
+            ddo = await nevermined.nfts.create(
+                metadata as any,
+                artist,
+                cappedAmount,
+                royalties,
+                assetRewards1
+            )
+            assert.isDefined(ddo)
+
+            await nevermined.nfts.mint(ddo.id, 5, artist)
+
+            const balance = await nevermined.nfts.balance(ddo.id, artist)
+            assert.equal(balance, 5)
+        })
+
+        it('Collector orders the NFT', async () => {
+            await collector1.requestTokens(nftPrice / scale)
+
+            const collector1BalanceBefore = await token.balanceOf(collector1.getId())
+            assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
+
+            agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
+            assert.isDefined(agreementId)
+
+            const collector1BalanceAfter = await token.balanceOf(collector1.getId())
+            const escrowPaymentConditionBalance = await token.balanceOf(
+                escrowPaymentCondition.getAddress()
+            )
+            assert.equal(collector1BalanceAfter - initialBalances.collector1, 0)
+            assert.equal(
+                escrowPaymentConditionBalance - initialBalances.escrowPaymentCondition,
+                nftPrice
+            )
+        })
+
+        it('The market can check the payment and transfer the NFT to the collector', async () => {
+            const receipt = await nevermined.nfts.transfer(
+                agreementId,
+                ddo.id,
+                numberNFTs,
+                collector1,
+                market
+            )
+            assert.isTrue(receipt)
+        })
+
+        it('The market can check the payment and release the rewards to the artist', async () => {
+            const receipt = await nevermined.nfts.releaseRewards(
+                agreementId,
+                ddo.id,
+                numberNFTs,
+                collector1,
+                market
+            )
+            assert.isTrue(receipt)
         })
     })
 })
