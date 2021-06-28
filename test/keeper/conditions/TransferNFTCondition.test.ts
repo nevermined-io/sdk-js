@@ -26,6 +26,7 @@ describe('TransferNFTCondition', () => {
     let nftReceiver: Account
     let owner: Account
     let other: Account
+    let artist: Account
 
     let agreementId: string
     let checksum: string
@@ -34,6 +35,7 @@ describe('TransferNFTCondition', () => {
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const nftAmount = 2
+    const mintCap = 10
     const amounts = [10]
 
     before(async () => {
@@ -45,10 +47,8 @@ describe('TransferNFTCondition', () => {
             escrowPaymentCondition
         } = nevermined.keeper.conditions)
         ;({ conditionStoreManager, didRegistry, token } = nevermined.keeper)
-        ;[owner, nftReceiver, other] = await nevermined.accounts.list()
-        receivers = [nftReceiver.getId()]
-
-        await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
+        ;[owner, artist, nftReceiver, other] = await nevermined.accounts.list()
+        receivers = [artist.getId()]
     })
 
     beforeEach(async () => {
@@ -90,7 +90,7 @@ describe('TransferNFTCondition', () => {
 
     describe('fulfill correctly', () => {
         it('should fulfill if condition exist', async () => {
-            const did = await didRegistry.hashDID(didSeed, owner.getId())
+            const did = await didRegistry.hashDID(didSeed, artist.getId())
             const hashValuesPayment = await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
@@ -116,11 +116,11 @@ describe('TransferNFTCondition', () => {
                 value,
                 activityId,
                 '',
-                nftAmount,
+                mintCap,
                 0,
-                owner.getId()
+                artist.getId()
             )
-            await didRegistry.mint(did, nftAmount, owner.getId())
+            await didRegistry.mint(did, mintCap, artist.getId())
 
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
@@ -164,7 +164,104 @@ describe('TransferNFTCondition', () => {
                 did,
                 nftReceiver.getId(),
                 nftAmount,
+                conditionIdPayment,
+                artist.getId()
+            )
+            ;({ state } = await conditionStoreManager.getCondition(conditionId))
+            assert.equal(state, ConditionState.Fulfilled)
+
+            const {
+                _agreementId,
+                _did,
+                _receiver,
+                _conditionId,
+                _amount
+            } = result.events.Fulfilled.returnValues
+
+            assert.equal(_agreementId, zeroX(agreementId))
+            assert.equal(_did, didZeroX(did))
+            assert.equal(_conditionId, conditionId)
+            assert.equal(_receiver, nftReceiver.getId())
+            assert.equal(Number(_amount), nftAmount)
+        })
+
+        it('anyone should be able to fulfill if condition exist', async () => {
+            const did = await didRegistry.hashDID(didSeed, artist.getId())
+            const hashValuesPayment = await lockPaymentCondition.hashValues(
+                did,
+                escrowPaymentCondition.getAddress(),
+                token.getAddress(),
+                amounts,
+                receivers
+            )
+            const conditionIdPayment = await lockPaymentCondition.generateId(
+                agreementId,
+                hashValuesPayment
+            )
+
+            await conditionStoreManager.createCondition(
+                conditionIdPayment,
+                lockPaymentCondition.address,
+                owner.getId()
+            )
+
+            await didRegistry.registerMintableDID(
+                didSeed,
+                checksum,
+                [],
+                value,
+                activityId,
+                '',
+                mintCap,
+                0,
+                artist.getId()
+            )
+            await didRegistry.mint(did, mintCap, artist.getId())
+
+            await nftReceiver.requestTokens(10)
+            await nevermined.keeper.token.approve(
+                lockPaymentCondition.getAddress(),
+                10,
+                nftReceiver.getId()
+            )
+
+            await lockPaymentCondition.fulfill(
+                agreementId,
+                did,
+                escrowPaymentCondition.address,
+                token.getAddress(),
+                amounts,
+                receivers,
+                nftReceiver.getId()
+            )
+
+            let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
+            assert.equal(state, ConditionState.Fulfilled)
+
+            const hashValues = await transferNftCondition.hashValues(
+                did,
+                nftReceiver.getId(),
+                nftAmount,
                 conditionIdPayment
+            )
+            const conditionId = await transferNftCondition.generateId(
+                agreementId,
+                hashValues
+            )
+
+            await conditionStoreManager.createCondition(
+                conditionId,
+                transferNftCondition.address,
+                owner.getId()
+            )
+
+            const result = await transferNftCondition.fulfill(
+                agreementId,
+                did,
+                nftReceiver.getId(),
+                nftAmount,
+                conditionIdPayment,
+                other.getId()
             )
             ;({ state } = await conditionStoreManager.getCondition(conditionId))
             assert.equal(state, ConditionState.Fulfilled)
@@ -213,11 +310,11 @@ describe('TransferNFTCondition', () => {
                 value,
                 activityId,
                 '',
-                nftAmount,
+                mintCap,
                 0,
                 owner.getId()
             )
-            await didRegistry.mint(did, nftAmount, owner.getId())
+            await didRegistry.mint(did, mintCap, owner.getId())
 
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
@@ -253,18 +350,6 @@ describe('TransferNFTCondition', () => {
                 conditionId,
                 transferNftCondition.address,
                 owner.getId()
-            )
-
-            // Invalid user executing the fulfill
-            await assert.isRejected(
-                transferNftCondition.fulfill(
-                    agreementId,
-                    did,
-                    nftReceiver.getId(),
-                    nftAmount,
-                    conditionIdPayment,
-                    other.getId()
-                )
             )
 
             // Invalid reward address
