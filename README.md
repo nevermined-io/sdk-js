@@ -140,7 +140,7 @@ To do so before running the tests, use [Nevermined Tools](https://github.com/nev
 git clone https://github.com/nevermined-io/tools
 cd tools
 
-./start_nevermined.sh --no-commons
+KEEPER_VERSION=latest ./start_nevermined.sh
 ```
 
 In another terminal window, run this script and export the seed phrase:

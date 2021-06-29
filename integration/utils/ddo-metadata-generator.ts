@@ -60,4 +60,11 @@ export const generateMetadata = (name: string, price?: number, nonce: string | n
 
 export const getMetadata = (price?: number, nonce: string | number = Math.random()) => generateMetadata('TestAsset', price, nonce)
 
-export const getAssetRewards = (receiver: string) => new AssetRewards(receiver, Number(21 + '0'.repeat(18)))
+export const getAssetRewards = (receiver: string) =>
+    new AssetRewards(receiver, Number(21 + '0'.repeat(18)))
+export const getSplitAssetRewards = (receiver: string, receiverValue: string, marketplace: string, marketplaceValue: string) => {
+    const rewardsMap = new Map()
+    rewardsMap.set(receiver, Number(receiverValue))
+    rewardsMap.set(marketplace, Number(marketplaceValue))
+    return new AssetRewards(rewardsMap)
+}
