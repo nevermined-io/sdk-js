@@ -9,20 +9,20 @@ export default class AssetRewards {
 
     public constructor(address: string, amount: number)
 
-  public constructor(..._params: any[]) {
-    this.totalPrice = 0
-    this.rewards = new Map()
+    public constructor(..._params: any[]) {
+        this.totalPrice = 0
+        this.rewards = new Map()
 
-    if (_params.length === 1) {
-      this.rewards = _params[0]
-      this.rewards.forEach(
-        (v, k) => (this.totalPrice = v + this.totalPrice)
-      )
-    } else if (_params.length === 2) {
-      this.rewards.set(_params[0], _params[1])
-      this.totalPrice = _params[1]
+        if (_params.length === 1) {
+            this.rewards = _params[0]
+            this.rewards.forEach(
+                (v, k) => (this.totalPrice = v + this.totalPrice)
+            )
+        } else if (_params.length === 2) {
+            this.rewards.set(_params[0], _params[1])
+            this.totalPrice = _params[1]
+        }
     }
-  }
 
     public getTotalPrice(): number {
         return this.totalPrice
