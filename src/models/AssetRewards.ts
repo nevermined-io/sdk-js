@@ -1,13 +1,13 @@
 export default class AssetRewards {
-  private totalPrice: number
+    private totalPrice: number
 
-  private rewards: Map<string, number>
+    private rewards: Map<string, number>
 
-  public constructor()
+    public constructor()
 
-  public constructor(_rewards: Map<string, number>)
+    public constructor(_rewards: Map<string, number>)
 
-  public constructor(address: string, amount: number)
+    public constructor(address: string, amount: number)
 
   public constructor(..._params: any[]) {
     this.totalPrice = 0
@@ -24,29 +24,29 @@ export default class AssetRewards {
     }
   }
 
-  public getTotalPrice(): number {
-    return this.totalPrice
-  }
+    public getTotalPrice(): number {
+        return this.totalPrice
+    }
 
-  public getRewards(): Map<string, number> {
-    return this.rewards
-  }
+    public getRewards(): Map<string, number> {
+        return this.rewards
+    }
 
-  public getAmounts(): number[] {
-    return [...this.rewards.values()]
-  }
+    public getAmounts(): number[] {
+        return [...this.rewards.values()]
+    }
 
-  public getReceivers(): string[] {
-    return [...this.rewards.keys()]
-  }
+    public getReceivers(): string[] {
+        return [...this.rewards.keys()]
+    }
 
-  public getAmountsString(): string {
-    if (this.rewards.size == 0) return '[]'
-    return '["' + Array.from(this.rewards.values()).join('","') + '"]'
-  }
+    public getAmountsString(): string {
+        if (this.rewards.size == 0) return '[]'
+        return '["' + Array.from(this.rewards.values()).join('","') + '"]'
+    }
 
-  public getReceiversString(): string {
-    if (this.rewards.size == 0) return '[]'
-    return '["' + Array.from(this.rewards.keys()).join('","') + '"]'
-  }
+    public getReceiversString(): string {
+        if (this.rewards.size == 0) return '[]'
+        return '["' + Array.from(this.rewards.keys()).join('","') + '"]'
+    }
 }
