@@ -142,7 +142,8 @@ export default class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                didRegistry.options.address
+                didRegistry.options.address,
+                "0x0000000000000000000000000000000000000000"
             ]
         )
         await didRegistry.methods
