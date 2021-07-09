@@ -5,3 +5,4 @@ export { EscrowComputeExecutionTemplate } from './EscrowComputeExecutionTemplate
 export { DIDSalesTemplate } from './DIDSalesTemplate'
 export { NFTAccessTemplate } from './NFTAccessTemplate'
 export { NFTSalesTemplate } from './NFTSalesTemplate'
+export { NFT721SalesTemplate } from './NFT721SalesTemplate'

@@ -136,6 +136,17 @@ export default class TestContractHandler extends ContractHandler {
             ]
         )
 
+        const transferNft721Condition = await TestContractHandler.deployContract(
+            'TransferNFT721Condition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address,
+                didRegistry.options.address,
+                "0x0000000000000000000000000000000000000000"
+            ]
+        )
+
         const transferNftCondition = await TestContractHandler.deployContract(
             'TransferNFTCondition',
             deployerAddress,
@@ -197,6 +208,14 @@ export default class TestContractHandler extends ContractHandler {
             agreementStoreManager.options.address,
             lockPaymentCondition.options.address,
             transferNftCondition.options.address,
+            escrowPaymentCondition.options.address
+        ])
+
+        await TestContractHandler.deployContract('NFT721SalesTemplate', deployerAddress, [
+            deployerAddress,
+            agreementStoreManager.options.address,
+            lockPaymentCondition.options.address,
+            transferNft721Condition.options.address,
             escrowPaymentCondition.options.address
         ])
     }
