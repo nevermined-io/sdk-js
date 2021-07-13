@@ -6,11 +6,7 @@ export class AccessCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessCondition> {
-        return Condition.getInstance(
-            config,
-            'AccessCondition',
-            AccessCondition
-        )
+        return Condition.getInstance(config, 'AccessCondition', AccessCondition)
     }
 
     public hashValues(did: string, grantee: string) {

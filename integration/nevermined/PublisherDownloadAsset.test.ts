@@ -38,8 +38,6 @@ describe('Publisher Download Asset', () => {
         )
     })
 
-
-
     it('should consume and store the assets', async () => {
         const accessService = ddo.findServiceByType('access')
 

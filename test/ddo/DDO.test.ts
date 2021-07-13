@@ -42,18 +42,18 @@ describe('DDO', () => {
             {
                 attributes: {
                     additionalInformation: {
-                    links: []
+                        links: []
                     },
                     main: {
-                    files: [],
-                    publicKey: "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC2qIisJyMd6YXJNzs23zKLajtPC7w6aO9mXq+Ukr6d3cVmPCx8XJRTT3IV7PmHb3o4XFc8ZGX5/SSg7tp5/cfAIg9XF13yjssJttaDTa4srhLJvxyjR8cHEJ39GevFTgrtbYzXTZ723ROJP4NEDxtp8a0f5l7W3NTH8v39k3G50QIDAQAB",
-                    service: "PSK-RSA"
+                        files: [],
+                        publicKey:
+                            'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC2qIisJyMd6YXJNzs23zKLajtPC7w6aO9mXq+Ukr6d3cVmPCx8XJRTT3IV7PmHb3o4XFc8ZGX5/SSg7tp5/cfAIg9XF13yjssJttaDTa4srhLJvxyjR8cHEJ39GevFTgrtbYzXTZ723ROJP4NEDxtp8a0f5l7W3NTH8v39k3G50QIDAQAB',
+                        service: 'PSK-RSA'
                     }
-                    },
-                    index: 2,
-                    serviceEndpoint: "http://localhost:8030",
-                    type: "authorization"
-                    
+                },
+                index: 2,
+                serviceEndpoint: 'http://localhost:8030',
+                type: 'authorization'
             },
             {
                 type: 'metadata',
@@ -206,9 +206,11 @@ describe('DDO', () => {
     describe('#getChecksum()', () => {
         it('should properly generate a the checksum DDO', async () => {
             const ddo = new DDO(testDDO)
-            const checksum = {}    
-            for (const svc of ddo.service){
-                checksum[svc.index] = ddo.checksum(JSON.stringify(testDDO.findServiceByType(svc.type).attributes.main))
+            const checksum = {}
+            for (const svc of ddo.service) {
+                checksum[svc.index] = ddo.checksum(
+                    JSON.stringify(testDDO.findServiceByType(svc.type).attributes.main)
+                )
             }
             assert.equal(
                 ddo.checksum(JSON.stringify(checksum)),
@@ -222,9 +224,11 @@ describe('DDO', () => {
 
         it('should properly generate the proof', async () => {
             const ddo = new DDO(testDDO)
-            const checksum = {}    
-            for (const svc of ddo.service){
-                checksum[svc.index] = ddo.checksum(JSON.stringify(ddo.findServiceByType(svc.type).attributes.main))
+            const checksum = {}
+            for (const svc of ddo.service) {
+                checksum[svc.index] = ddo.checksum(
+                    JSON.stringify(ddo.findServiceByType(svc.type).attributes.main)
+                )
             }
             const proof = await ddo.generateProof(nevermined, publicKey)
             assert.include(proof as any, {

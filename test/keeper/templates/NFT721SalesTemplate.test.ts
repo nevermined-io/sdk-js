@@ -1,16 +1,16 @@
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { Account, ConditionState, Nevermined, utils } from "../../../src";
-import DIDRegistry from "../../../src/keeper/contracts/DIDRegistry";
+import chai, { assert } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+import { Account, ConditionState, Nevermined, utils } from '../../../src'
+import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import {
     AgreementStoreManager,
     ConditionStoreManager,
     TemplateStoreManager
-} from "../../../src/keeper/contracts/managers";
-import { NFT721SalesTemplate } from "../../../src/keeper/contracts/templates";
-import { didZeroX, zeroX } from "../../../src/utils";
-import config from "../../config";
-import TestContractHandler from "../TestContractHandler";
+} from '../../../src/keeper/contracts/managers'
+import { NFT721SalesTemplate } from '../../../src/keeper/contracts/templates'
+import { didZeroX, zeroX } from '../../../src/utils'
+import config from '../../config'
+import TestContractHandler from '../TestContractHandler'
 
 chai.use(chaiAsPromised)
 
@@ -140,7 +140,10 @@ describe('NFT721SalesTemplate', () => {
 
             const storedAgreement = await agreementStoreManager.getAgreement(agreementId)
             assert.deepEqual(storedAgreement.conditionIds, conditionIds)
-            assert.deepEqual(storedAgreement.lastUpdatedBy, nft721SalesTemplate.getAddress())
+            assert.deepEqual(
+                storedAgreement.lastUpdatedBy,
+                nft721SalesTemplate.getAddress()
+            )
 
             const conditionTypes = await nft721SalesTemplate.getConditionTypes()
             conditionIds.forEach(async (conditionId, i) => {

@@ -10,7 +10,11 @@ export class NFT721SalesTemplate extends BaseTemplate {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721SalesTemplate> {
-        return AgreementTemplate.getInstance(config, 'NFT721SalesTemplate', NFT721SalesTemplate)
+        return AgreementTemplate.getInstance(
+            config,
+            'NFT721SalesTemplate',
+            NFT721SalesTemplate
+        )
     }
 
     public async createAgreementFromDDO(
