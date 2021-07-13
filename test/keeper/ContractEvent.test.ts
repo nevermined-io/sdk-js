@@ -21,7 +21,7 @@ describe('ContractEvent', () => {
     })
 
     afterEach(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 50))
+        await new Promise(resolve => setTimeout(resolve, 50))
     })
 
     describe('#subscribe()', () => {
@@ -75,7 +75,7 @@ describe('ContractEvent', () => {
 
             await executeTransaction()
 
-            await new Promise((resolve) => setTimeout(resolve, 2000))
+            await new Promise(resolve => setTimeout(resolve, 2000))
             canBeRejected = true
 
             await executeTransaction()
@@ -91,7 +91,7 @@ describe('ContractEvent', () => {
 
             const waitUntilEvent = event.once()
 
-            await new Promise((resolve) => setTimeout(resolve, 400))
+            await new Promise(resolve => setTimeout(resolve, 400))
 
             await executeTransaction()
 

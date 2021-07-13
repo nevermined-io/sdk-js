@@ -72,7 +72,7 @@ describe('Consume Asset (Gateway)', () => {
         assert.deepEqual(steps, [0, 1, 2, 3])
     })
 
-    it('should be able to download the asset if you are the owner', async()=> {
+    it('should be able to download the asset if you are the owner', async () => {
         const accessService = ddo.findServiceByType('access')
 
         const folder = '/tmp/nevermined/sdk-js'
@@ -96,7 +96,6 @@ describe('Consume Asset (Gateway)', () => {
             ['README.md', 'ddo-example.json'],
             'Stored files are not correct.'
         )
-
     })
 
     it('should consume and store the assets', async () => {

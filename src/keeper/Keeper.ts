@@ -16,7 +16,7 @@ import {
     TransferDIDOwnershipCondition,
     TransferNFT721Condition,
     NFT721HolderCondition
-} from "./contracts/conditions";
+} from './contracts/conditions'
 import {
     AgreementTemplate,
     AccessTemplate,
@@ -26,7 +26,7 @@ import {
     NFT721AccessTemplate,
     NFTSalesTemplate,
     NFT721SalesTemplate
-} from "./contracts/templates";
+} from './contracts/templates'
 import {
     TemplateStoreManager,
     AgreementStoreManager,
@@ -95,8 +95,12 @@ export class Keeper extends Instantiable {
             })
 
             keeper.connected = true
-        } catch {
+        } catch (err) {
             keeper.connected = false
+            keeper.logger.warn(
+                `'Keeper could not connect to: ${await keeper.getNetworkName()}`,
+                err.message
+            )
             return
         }
 

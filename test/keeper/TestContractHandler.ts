@@ -123,10 +123,7 @@ export default class TestContractHandler extends ContractHandler {
         const nft721HolderCondition = await TestContractHandler.deployContract(
             'NFT721HolderCondition',
             deployerAddress,
-            [
-                deployerAddress,
-                conditionStoreManager.options.address
-            ]
+            [deployerAddress, conditionStoreManager.options.address]
         )
 
         await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
@@ -152,7 +149,7 @@ export default class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 didRegistry.options.address,
-                "0x0000000000000000000000000000000000000000"
+                '0x0000000000000000000000000000000000000000'
             ]
         )
 
@@ -163,7 +160,7 @@ export default class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 didRegistry.options.address,
-                "0x0000000000000000000000000000000000000000"
+                '0x0000000000000000000000000000000000000000'
             ]
         )
         await didRegistry.methods
@@ -212,12 +209,16 @@ export default class TestContractHandler extends ContractHandler {
             nftAcessCondition.options.address
         ])
 
-        await TestContractHandler.deployContract('NFT721AccessTemplate', deployerAddress, [
+        await TestContractHandler.deployContract(
+            'NFT721AccessTemplate',
             deployerAddress,
-            agreementStoreManager.options.address,
-            nft721HolderCondition.options.address,
-            nftAcessCondition.options.address
-        ])
+            [
+                deployerAddress,
+                agreementStoreManager.options.address,
+                nft721HolderCondition.options.address,
+                nftAcessCondition.options.address
+            ]
+        )
 
         await TestContractHandler.deployContract('NFTSalesTemplate', deployerAddress, [
             deployerAddress,

@@ -78,13 +78,11 @@ export class TemplateStoreManager extends ContractBase {
         } as TemplateMetadata
     }
 
-    public async isApproved(templateId: string){
-        return await this.call('isTemplateApproved',[templateId])
-
+    public async isApproved(templateId: string) {
+        return await this.call('isTemplateApproved', [templateId])
     }
 
-    public async getListSize(){
-        return await this.call('getListSize',[])
-        
+    public async getListSize() {
+        return await this.call('getListSize', [])
     }
 }

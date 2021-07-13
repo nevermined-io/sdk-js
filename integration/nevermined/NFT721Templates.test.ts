@@ -7,10 +7,13 @@ import {
     NFT721HolderCondition,
     NFTAccessCondition,
     TransferNFT721Condition
-} from "../../src/keeper/contracts/conditions";
+} from '../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
-import { NFTAccessTemplate, NFT721SalesTemplate } from '../../src/keeper/contracts/templates'
+import {
+    NFTAccessTemplate,
+    NFT721SalesTemplate
+} from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { noZeroX } from '../../src/utils'

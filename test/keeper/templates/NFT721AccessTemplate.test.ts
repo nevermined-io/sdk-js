@@ -10,7 +10,7 @@ import {
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { NFT721AccessTemplate } from "../../../src/keeper/contracts/templates/NFT721AccessTemplate";
+import { NFT721AccessTemplate } from '../../../src/keeper/contracts/templates/NFT721AccessTemplate'
 
 chai.use(chaiAsPromised)
 

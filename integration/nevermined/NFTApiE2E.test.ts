@@ -7,7 +7,6 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 
 describe('NFTs Api End-to-End', () => {
-    let owner: Account
     let artist: Account
     let collector1: Account
     let collector2: Account
@@ -36,13 +35,7 @@ describe('NFTs Api End-to-End', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[
-            owner,
-            artist,
-            collector1,
-            collector2,
-            gallery
-        ] = await nevermined.accounts.list()
+        ;[, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
 
         // conditions
         ;({ escrowPaymentCondition } = nevermined.keeper.conditions)

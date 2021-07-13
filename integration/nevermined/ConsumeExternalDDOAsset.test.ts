@@ -110,7 +110,7 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should lock the payment by the consumer', async () => {
-        const price = ddo.findServiceByType('metadata').attributes.main.price
+        const { price } = ddo.findServiceByType('metadata').attributes.main
         const assetRewards = new AssetRewards(publisher.getId(), Number(price))
 
         const paid = await nevermined.agreements.conditions.lockPayment(
@@ -179,7 +179,7 @@ describe('Consume Asset (Documentation example)', () => {
 
         assert.deepEqual(
             files,
-            ['README.md','package.json'],
+            ['README.md', 'package.json'],
             'Stored files are not correct.'
         )
     })

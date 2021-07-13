@@ -57,7 +57,13 @@ export class Agreements extends Instantiable {
 
         const agreementConditionsIds = await this.nevermined.keeper
             .getTemplateByName(templateName)
-            .getAgreementIdsFromDDO(agreementId, ddo, assetRewards, consumer.getId(), consumer.getId())
+            .getAgreementIdsFromDDO(
+                agreementId,
+                ddo,
+                assetRewards,
+                consumer.getId(),
+                consumer.getId()
+            )
 
         const signature = await this.nevermined.utils.agreements.signServiceAgreement(
             ddo,
@@ -69,7 +75,6 @@ export class Agreements extends Instantiable {
 
         return { agreementId, signature }
     }
-
 
     /**
      * Create a service agreement on-chain. This should be called by the publisher of the asset.
@@ -99,7 +104,13 @@ export class Agreements extends Instantiable {
 
         await this.nevermined.keeper
             .getTemplateByName(templateName)
-            .createAgreementFromDDO(agreementId, ddo, assetRewards, consumer.getId(), publisher.getId())
+            .createAgreementFromDDO(
+                agreementId,
+                ddo,
+                assetRewards,
+                consumer.getId(),
+                publisher.getId()
+            )
 
         return true
     }
@@ -141,12 +152,23 @@ export class Agreements extends Instantiable {
         return simpleStatus as any
     }
 
-    public async isAccessGranted(agreementId: string, did: string, consumer: string, account: Account): Promise<boolean> {
-        const consumerAddress = this.nevermined.keeper.templates.accessTemplate.getAgreementData(agreementId)[0]
-        if(!consumer.includes(consumerAddress)){
+    public async isAccessGranted(
+        agreementId: string,
+        did: string,
+        consumer: string,
+        account: Account
+    ): Promise<boolean> {
+        const consumerAddress = this.nevermined.keeper.templates.accessTemplate.getAgreementData(
+            agreementId
+        )[0]
+        if (!consumer.includes(consumerAddress)) {
             console.log(`This address [${consumer}] has not access granted`)
             return false
         }
-        return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(consumerAddress, did, account.getId())
+        return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(
+            consumerAddress,
+            did,
+            account.getId()
+        )
     }
 }

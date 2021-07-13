@@ -9,7 +9,11 @@ export class NFT721HolderCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721HolderCondition> {
-        return Condition.getInstance(config, 'NFT721HolderCondition', NFT721HolderCondition)
+        return Condition.getInstance(
+            config,
+            'NFT721HolderCondition',
+            NFT721HolderCondition
+        )
     }
 
     /**
