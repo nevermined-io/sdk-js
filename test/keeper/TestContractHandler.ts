@@ -120,6 +120,12 @@ export default class TestContractHandler extends ContractHandler {
             ]
         )
 
+        const nft721HolderCondition = await TestContractHandler.deployContract(
+            'NFT721HolderCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+
         await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
             deployerAddress,
             conditionStoreManager.options.address,
@@ -136,13 +142,25 @@ export default class TestContractHandler extends ContractHandler {
             ]
         )
 
+        const transferNft721Condition = await TestContractHandler.deployContract(
+            'TransferNFT721Condition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address,
+                didRegistry.options.address,
+                '0x0000000000000000000000000000000000000000'
+            ]
+        )
+
         const transferNftCondition = await TestContractHandler.deployContract(
             'TransferNFTCondition',
             deployerAddress,
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                didRegistry.options.address
+                didRegistry.options.address,
+                '0x0000000000000000000000000000000000000000'
             ]
         )
         await didRegistry.methods
@@ -191,11 +209,30 @@ export default class TestContractHandler extends ContractHandler {
             nftAcessCondition.options.address
         ])
 
+        await TestContractHandler.deployContract(
+            'NFT721AccessTemplate',
+            deployerAddress,
+            [
+                deployerAddress,
+                agreementStoreManager.options.address,
+                nft721HolderCondition.options.address,
+                nftAcessCondition.options.address
+            ]
+        )
+
         await TestContractHandler.deployContract('NFTSalesTemplate', deployerAddress, [
             deployerAddress,
             agreementStoreManager.options.address,
             lockPaymentCondition.options.address,
             transferNftCondition.options.address,
+            escrowPaymentCondition.options.address
+        ])
+
+        await TestContractHandler.deployContract('NFT721SalesTemplate', deployerAddress, [
+            deployerAddress,
+            agreementStoreManager.options.address,
+            lockPaymentCondition.options.address,
+            transferNft721Condition.options.address,
             escrowPaymentCondition.options.address
         ])
     }

@@ -36,7 +36,7 @@ export class ContractEvent {
     }
 
     public once(callback?: (events: any[]) => void) {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             const subscription = this.subscribe(events => {
                 subscription.unsubscribe()
                 if (callback) {

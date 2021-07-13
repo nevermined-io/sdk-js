@@ -1,5 +1,5 @@
 import { WebServiceConnector } from '../../src/nevermined/utils/WebServiceConnector'
-import { InstantiableConfig } from "../../src/Instantiable.abstract"
+import { InstantiableConfig } from '../../src/Instantiable.abstract'
 
 // @ts-ignore
 export default class WebServiceConnectorMock extends WebServiceConnector {

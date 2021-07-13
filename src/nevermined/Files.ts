@@ -1,5 +1,5 @@
-import { ReadStream } from 'fs';
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract';
+import { ReadStream } from 'fs'
+import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 export class Files extends Instantiable {
     /**

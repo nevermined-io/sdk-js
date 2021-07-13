@@ -1,9 +1,6 @@
 import { assert } from 'chai'
-
 import { config } from '../config'
-
 import { generateMetadata } from '../utils'
-
 import { Nevermined, Account, DDO } from '../../src'
 
 describe('Search Asset', () => {
@@ -44,10 +41,22 @@ describe('Search Asset', () => {
     })
 
     it('should register an asset', async () => {
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test1') as any, publisher), DDO)
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test2') as any, publisher), DDO)
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test2') as any, publisher), DDO)
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test3') as any, publisher), DDO)
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test1') as any, publisher),
+            DDO
+        )
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test2') as any, publisher),
+            DDO
+        )
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test2') as any, publisher),
+            DDO
+        )
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test3') as any, publisher),
+            DDO
+        )
     })
 
     it('should search by text and see the increment of DDOs', async () => {

@@ -13,44 +13,44 @@ const configJson: Config = {
 
 if (process.env.NETWORK_NAME === 'production') {
     Object.assign(configJson, {
-      nodeUri: 'http://localhost:8545',
-      metadataUri: 'http://nevermined-metadata:5000',
-      faucetUri: 'http://localhost:3001',
-      gatewayUri: 'http://localhost:8030',
-      secretStoreUri: 'http://localhost:12001',
-      gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+        nodeUri: 'http://localhost:8545',
+        metadataUri: 'http://nevermined-metadata:5000',
+        faucetUri: 'http://localhost:3001',
+        gatewayUri: 'http://localhost:8030',
+        secretStoreUri: 'http://localhost:12001',
+        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
     })
 }
 
 if (process.env.NETWORK_NAME === 'integration') {
     Object.assign(configJson, {
-      nodeUri: 'http://localhost:8545',
-      metadataUri: 'http://nevermined-metadata:5000',
-      faucetUri: 'http://localhost:3001',
-      gatewayUri: 'http://localhost:8030',
-      secretStoreUri: 'http://localhost:12001',
-      gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+        nodeUri: 'http://localhost:8545',
+        metadataUri: 'http://nevermined-metadata:5000',
+        faucetUri: 'http://localhost:3001',
+        gatewayUri: 'http://localhost:8030',
+        secretStoreUri: 'http://localhost:12001',
+        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
     })
 }
 
 if (process.env.NETWORK_NAME === 'testing') {
     Object.assign(configJson, {
-      nodeUri: 'http://localhost:8545',
-      metadataUri: 'http://nevermined-metadata:5000',
-      faucetUri: 'http://localhost:3001',
-      gatewayUri: 'http://localhost:8030',
-      secretStoreUri: 'http://localhost:12001',
-      gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+        nodeUri: 'http://localhost:8545',
+        metadataUri: 'http://nevermined-metadata:5000',
+        faucetUri: 'http://localhost:3001',
+        gatewayUri: 'http://localhost:8030',
+        secretStoreUri: 'http://localhost:12001',
+        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
     })
 }
 
 if (process.env.NETWORK_NAME === 'rinkeby') {
     Object.assign(configJson, {
-      metadataUri: 'https://metadata.rinkeby.nevermined.rocks',
-      faucetUri: 'https://faucet.rinkeby.nevermined.rocks',
-      gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
-      nodeUri: `https://rinkeby.infura.io/v3/52b6d403f7de4757ab9ed23c3778a35b`,
-      gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0',
+        metadataUri: 'https://metadata.rinkeby.nevermined.rocks',
+        faucetUri: 'https://faucet.rinkeby.nevermined.rocks',
+        gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
+        nodeUri: `https://rinkeby.infura.io/v3/52b6d403f7de4757ab9ed23c3778a35b`,
+        gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
     })
 }
 

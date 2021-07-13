@@ -5,7 +5,7 @@ import config from '../config'
 import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import { Auth } from '../../src/nevermined/Auth'
-import Web3 from "web3"
+import Web3 from 'web3'
 
 use(spies)
 
@@ -38,11 +38,7 @@ describe('Auth', () => {
         it('should return the account of a signature', async () => {
             const token = await auth.get(account)
 
-            spy.on(
-                web3.eth.personal,
-                'ecRecover',
-                () => account.getId()
-            )
+            spy.on(web3.eth.personal, 'ecRecover', () => account.getId())
 
             const address = await auth.check(token)
 

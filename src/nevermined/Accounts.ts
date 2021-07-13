@@ -56,7 +56,7 @@ export class Accounts extends Instantiable {
     }
 
     public async requestEthFromFaucet(address: string): Promise<boolean> {
-        try{
+        try {
             await this.nevermined.faucet.requestEth(address)
             return true
         } catch (e) {

@@ -3,7 +3,7 @@ import { assert } from 'chai'
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
-import { Nevermined, DDO, Account,  } from '../../src'
+import { Nevermined, DDO, Account } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 
 describe('Compute Asset', () => {
@@ -27,16 +27,27 @@ describe('Compute Asset', () => {
     })
 
     it('should register the assets', async () => {
-        algorithmDdo = await nevermined.assets.create(workflowMetadatas.algorithm(), publisher)
-        computeDdo = await nevermined.assets.create(workflowMetadatas.compute(), publisher, new AssetRewards(), ['compute'])
-        workflowDdo = await nevermined.assets.create(workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id), publisher)
+        algorithmDdo = await nevermined.assets.create(
+            workflowMetadatas.algorithm(),
+            publisher
+        )
+        computeDdo = await nevermined.assets.create(
+            workflowMetadatas.compute(),
+            publisher,
+            new AssetRewards(),
+            ['compute']
+        )
+        workflowDdo = await nevermined.assets.create(
+            workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id),
+            publisher
+        )
     })
 
     it('should order the compute service', async () => {
         agreementId = await nevermined.assets.order(
             computeDdo.id,
             computeDdo.findServiceByType('compute').index,
-            consumer,
+            consumer
         )
 
         assert.isDefined(agreementId)
@@ -48,21 +59,29 @@ describe('Compute Asset', () => {
             agreementId,
             computeDdo.id,
             workflowDdo.id,
-            consumer,
+            consumer
         )
 
         assert.isDefined(workflowId)
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
-    it.skip('should return the logs of the current execution', async() => {
-        const logs = await nevermined.assets.computeLogs(agreementId, workflowId, consumer)
+    it.skip('should return the logs of the current execution', async () => {
+        const logs = await nevermined.assets.computeLogs(
+            agreementId,
+            workflowId,
+            consumer
+        )
         assert.isDefined(logs)
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
-    it.skip('should return the status of the current execution', async() => {
-        const status = await nevermined.assets.computeStatus(agreementId, workflowId, consumer)
+    it.skip('should return the status of the current execution', async () => {
+        const status = await nevermined.assets.computeStatus(
+            agreementId,
+            workflowId,
+            consumer
+        )
         assert.isDefined(status)
     })
 })

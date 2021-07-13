@@ -43,12 +43,12 @@ export class SubscribablePromise<T extends any, P extends any> {
         const e = execution as Promise<P>
 
         Promise.resolve(e)
-            .then((result) => {
+            .then(result => {
                 if (e && e.then) {
                     this.observer.complete(result)
                 }
             })
-            .catch((err) => {
+            .catch(err => {
                 if (e && e.then) {
                     this.observer.error(err)
                 }

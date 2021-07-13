@@ -17,7 +17,7 @@ export class Faucet extends Instantiable {
     public async requestEth(address: string): Promise<string> {
         const args = {
             address: address,
-            agent: 'sdk-js',
+            agent: 'sdk-js'
         }
 
         try {
@@ -33,12 +33,9 @@ export class Faucet extends Instantiable {
             this.logger.error(e)
             throw new Error('HTTP request failed')
         }
-
     }
 
     public getFaucetEndpoint() {
         return `${this.url}/faucet`
     }
-
-
 }

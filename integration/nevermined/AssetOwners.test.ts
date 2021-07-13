@@ -91,7 +91,8 @@ describe('Asset Owners', () => {
         // Granting access
         try {
             await account2.requestTokens(
-                +newMetadata().main.price * 10 ** -(await nevermined.keeper.token.decimals())
+                +newMetadata().main.price *
+                    10 ** -(await nevermined.keeper.token.decimals())
             )
         } catch {}
 

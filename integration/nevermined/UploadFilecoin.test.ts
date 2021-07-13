@@ -16,7 +16,6 @@ describe.skip('Filecoin Integration', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-
         ;[publisher] = await nevermined.accounts.list()
     })
 
