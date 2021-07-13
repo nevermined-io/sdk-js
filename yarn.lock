@@ -361,10 +361,10 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
   integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
-"@nevermined-io/contracts@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.1.0.tgz#ced695a68619570d9a5de5461bc8eccb9c6283d2"
-  integrity sha512-1XkdWyOZWjLh6S/5Obnmn0sVoK4x/k1T8G0dON30OaEou6we3tYKRG6POGgLPTA0vgkL7CHvj4z3DXBbJK3uKw==
+"@nevermined-io/contracts@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.1.1.tgz#9ea079ab0ce714e1ed4b170e1d5951d16375da14"
+  integrity sha512-VaAnDov/ywmdThS53ptOa6mpJC2u+9OFT5IDIcHHRRbBgHVbSD+YTX90rRe4+TnDoZMLkVWm3khJEyzlQTlSzw==
 
 "@nevermined-io/secret-store-client@^0.0.16":
   version "0.0.16"

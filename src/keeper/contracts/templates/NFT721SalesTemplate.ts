@@ -54,7 +54,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
     ): Promise<string[]> {
         const {
             lockPaymentCondition,
-            transferNftCondition,
+            transferNft721Condition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
         const { token } = this.nevermined.keeper
@@ -69,9 +69,9 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 assetRewards.getReceivers()
             )
         )
-        const transferNftConditionId = await transferNftCondition.generateId(
+        const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
-            await transferNftCondition.hashValues(
+            await transferNft721Condition.hashValues(
                 ddo.shortId(),
                 consumer,
                 nftAmount,

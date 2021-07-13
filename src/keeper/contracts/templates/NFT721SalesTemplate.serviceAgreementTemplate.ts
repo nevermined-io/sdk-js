@@ -73,7 +73,7 @@ export const nft721SalesTemplateServiceAgreementTemplate: ServiceAgreementTempla
             name: 'transferNFT',
             timelock: 0,
             timeout: 0,
-            contractName: 'TransferNFTCondition',
+            contractName: 'TransferNFT721Condition',
             functionName: 'fulfill',
             parameters: [
                 {

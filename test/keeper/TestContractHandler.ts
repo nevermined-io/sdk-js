@@ -120,6 +120,15 @@ export default class TestContractHandler extends ContractHandler {
             ]
         )
 
+        const nft721HolderCondition = await TestContractHandler.deployContract(
+            'NFT721HolderCondition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address
+            ]
+        )
+
         await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
             deployerAddress,
             conditionStoreManager.options.address,
@@ -200,6 +209,13 @@ export default class TestContractHandler extends ContractHandler {
             deployerAddress,
             agreementStoreManager.options.address,
             nftHolderCondition.options.address,
+            nftAcessCondition.options.address
+        ])
+
+        await TestContractHandler.deployContract('NFT721AccessTemplate', deployerAddress, [
+            deployerAddress,
+            agreementStoreManager.options.address,
+            nft721HolderCondition.options.address,
             nftAcessCondition.options.address
         ])
 

@@ -23,7 +23,9 @@ import {
     EscrowComputeExecutionTemplate,
     DIDSalesTemplate,
     NFTAccessTemplate,
-    NFTSalesTemplate, NFT721SalesTemplate
+    NFT721AccessTemplate,
+    NFTSalesTemplate,
+    NFT721SalesTemplate
 } from "./contracts/templates";
 import {
     TemplateStoreManager,
@@ -86,6 +88,7 @@ export class Keeper extends Instantiable {
                     config
                 ),
                 nftAccessTemplate: NFTAccessTemplate.getInstance(config),
+                nft721AccessTemplate: NFT721AccessTemplate.getInstance(config),
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config)
@@ -132,13 +135,14 @@ export class Keeper extends Instantiable {
             transferNft721Condition: keeper.instances.transferNft721Condition,
             transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition
         }
-        // Conditions
+        // Templates
         keeper.templates = {
             accessTemplate: keeper.instances.accessTemplate,
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate,
             didSalesTemplate: keeper.instances.didSalesTemplate,
             nftAccessTemplate: keeper.instances.nftAccessTemplate,
+            nft721AccessTemplate: keeper.instances.nft721AccessTemplate,
             nftSalesTemplate: keeper.instances.nftSalesTemplate,
             nft721SalesTemplate: keeper.instances.nft721SalesTemplate
         }
@@ -217,6 +221,7 @@ export class Keeper extends Instantiable {
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
         didSalesTemplate: DIDSalesTemplate
         nftAccessTemplate: NFTAccessTemplate
+        nft721AccessTemplate: NFT721AccessTemplate
         nftSalesTemplate: NFTSalesTemplate
         nft721SalesTemplate: NFT721SalesTemplate
     }
