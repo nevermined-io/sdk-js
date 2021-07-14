@@ -22,6 +22,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
+        tokenAddress: string,
         from?: string,
         nftAmount?: number
     ): Promise<boolean> {
@@ -33,6 +34,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             holder,
+            tokenAddress,
             from,
             nftAmount
         )
@@ -51,6 +53,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
+        tokenAddress: string,
         from?: string,
         nftAmount?: number
     ): Promise<string[]> {
@@ -61,7 +64,12 @@ export class NFT721AccessTemplate extends BaseTemplate {
 
         const nftHolderConditionId = await nft721HolderCondition.generateId(
             agreementId,
-            await nft721HolderCondition.hashValues(ddo.shortId(), holder, nftAmount)
+            await nft721HolderCondition.hashValues(
+                ddo.shortId(),
+                holder,
+                nftAmount,
+                tokenAddress
+            )
         )
         const nftAccessConditionId = await nftAccessCondition.generateId(
             agreementId,

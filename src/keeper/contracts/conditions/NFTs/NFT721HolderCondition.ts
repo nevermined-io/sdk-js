@@ -22,10 +22,21 @@ export class NFT721HolderCondition extends Condition {
      * @param {String} did The Decentralized Identifier of the asset.
      * @param {String} holderAddress The address of the NFT holder .
      * @param {Number} amount The amouunt of NFTs that need to be hold by the holder
+     * @param {String} tokenAddress The address of the nft 721 token to use
      * @returns hash of all the values
      */
-    public hashValues(did: string, holderAddress: string, amount: number) {
-        return super.hashValues(didZeroX(did), zeroX(holderAddress), String(amount))
+    public hashValues(
+        did: string,
+        holderAddress: string,
+        amount: number,
+        tokenAddress: string
+    ) {
+        return super.hashValues(
+            didZeroX(did),
+            zeroX(holderAddress),
+            String(amount),
+            tokenAddress
+        )
     }
 
     /**
@@ -34,6 +45,7 @@ export class NFT721HolderCondition extends Condition {
      * @param {String} agreementId SEA agreement identifier.
      * @param {String} did The Decentralized Identifier of the asset.
      * @param {String} holderAddress The contract address where the reward is locked.
+     * @param {String} tokenAddress The contract address of the nft to use.
      * @param {Number} amount The amount of NFT to be hold
      * @param {String} from
      * @returns condition state
@@ -42,12 +54,13 @@ export class NFT721HolderCondition extends Condition {
         agreementId: string,
         did: string,
         holderAddress: string,
+        tokenAddress: string,
         amount: number,
         from?: string
     ) {
         return super.fulfill(
             agreementId,
-            [didZeroX(did), zeroX(holderAddress), String(amount)],
+            [didZeroX(did), zeroX(holderAddress), String(amount), tokenAddress],
             from
         )
     }
