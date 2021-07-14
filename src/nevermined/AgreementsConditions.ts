@@ -274,6 +274,27 @@ export class AgreementsConditions extends Instantiable {
         return !!receipt.events.Fulfilled
     }
 
+    public async holderNft721(
+        agreementId: string,
+        did: string,
+        holder: string,
+        tokenAddress: string,
+        nftAmount: number,
+        from?: Account
+    ) {
+        const { nft721HolderCondition } = this.nevermined.keeper.conditions
+
+        const receipt = await nft721HolderCondition.fulfill(
+            agreementId,
+            did,
+            holder,
+            tokenAddress,
+            nftAmount,
+            from && from.getId()
+        )
+        return !!receipt.events.Fulfilled
+    }
+
     /**
      * Fulfills the access condition required to give access to the underliying files of an nft.
      *

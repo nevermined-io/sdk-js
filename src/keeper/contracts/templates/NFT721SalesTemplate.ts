@@ -22,6 +22,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
+        tokenAddress: string,
         from?: string,
         nftAmount?: number
     ): Promise<boolean> {
@@ -34,6 +35,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             consumer,
+            tokenAddress,
             from,
             nftAmount
         )
@@ -53,6 +55,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
+        tokenAddress: string,
         _from?: string,
         nftAmount?: number
     ): Promise<string[]> {
@@ -79,7 +82,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 ddo.shortId(),
                 consumer,
                 nftAmount,
-                lockPaymentConditionId
+                lockPaymentConditionId,
+                tokenAddress
             )
         )
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(

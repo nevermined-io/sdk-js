@@ -28,13 +28,15 @@ export class TransferNFT721Condition extends Condition {
         did: string,
         nftReceiver: string,
         nftAmount: number,
-        lockCondition: string
+        lockCondition: string,
+        tokenAddress: string
     ) {
         return super.hashValues(
             didZeroX(did),
             zeroX(nftReceiver),
             String(nftAmount),
-            lockCondition
+            lockCondition,
+            tokenAddress
         )
     }
 
@@ -47,6 +49,7 @@ export class TransferNFT721Condition extends Condition {
      * @param {String} nftReceiver The address of the account to receive the NFT.
      * @param {Number[]} nftAmount amount of NFTs to transfer.
      * @param {String} lockPaymentCondition lock payment condition identifier.
+     * @param {String} tokenAddress address of the nft token to use.
      * @param {String} from
      * @returns Condition state.
      */
@@ -56,11 +59,18 @@ export class TransferNFT721Condition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockPaymentCondition: string,
+        tokenAddress: string,
         from?: string
     ) {
         return super.fulfill(
             agreementId,
-            [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition],
+            [
+                didZeroX(did),
+                zeroX(nftReceiver),
+                String(nftAmount),
+                lockPaymentCondition,
+                tokenAddress
+            ],
             from
         )
     }

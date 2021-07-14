@@ -11,15 +11,17 @@ import {
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import {
-    NFTAccessTemplate,
+    NFT721AccessTemplate,
     NFT721SalesTemplate
 } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { noZeroX } from '../../src/utils'
 import { config } from '../config'
+import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { Contract } from 'web3-eth-contract'
 
-describe('NFTT721emplates E2E', () => {
+describe('NFT721Templates E2E', () => {
     let owner: Account
     let artist: Account
     let collector1: Account
@@ -28,15 +30,18 @@ describe('NFTT721emplates E2E', () => {
 
     let nevermined: Nevermined
     let token: Token
+    let nft: Contract
     let didRegistry: DIDRegistry
     let conditionStoreManager: ConditionStoreManager
-    let transferNftCondition: TransferNFT721Condition
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition
-    let nft721HolderCondition: NFT721HolderCondition
+
     let nftAccessCondition: NFTAccessCondition
-    let nftSalesTemplate: NFT721SalesTemplate
-    let nftAccessTemplate: NFTAccessTemplate
+
+    let transferNft721Condition: TransferNFT721Condition
+    let nft721HolderCondition: NFT721HolderCondition
+    let nft721SalesTemplate: NFT721SalesTemplate
+    let nft721AccessTemplate: NFT721AccessTemplate
 
     let conditionIdLockPayment: string
     let conditionIdTransferNFT: string
@@ -80,6 +85,9 @@ describe('NFTT721emplates E2E', () => {
     let scale: number
 
     before(async () => {
+        TestContractHandler.setConfig(config)
+        nft = await TestContractHandler.deployArtifact(require('./NFT721.json'))
+
         nevermined = await Nevermined.getInstance(config)
         ;[
             owner,
@@ -97,7 +105,7 @@ describe('NFTT721emplates E2E', () => {
 
         // conditions
         ;({
-            transferNftCondition,
+            transferNft721Condition,
             lockPaymentCondition,
             escrowPaymentCondition,
             nft721HolderCondition,
@@ -105,7 +113,7 @@ describe('NFTT721emplates E2E', () => {
         } = nevermined.keeper.conditions)
 
         // templates
-        ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
+        ;({ nft721SalesTemplate, nft721AccessTemplate } = nevermined.keeper.templates)
 
         scale = 10 ** (await token.decimals())
 
@@ -163,15 +171,10 @@ describe('NFTT721emplates E2E', () => {
                     artist.getId()
                 )
 
-                await didRegistry.mint(did, 5, artist.getId())
-                await didRegistry.setApprovalForAll(
-                    transferNftCondition.getAddress(),
-                    true,
-                    artist.getId()
-                )
+                await nft.methods.mint(did).send({ from: artist.getId() })
 
-                const balance = await didRegistry.balance(artist.getId(), did)
-                assert.equal(balance, 5)
+                const balance = await nft.methods.balanceOf(artist.getId()).call()
+                assert.equal(balance, 1)
             })
         })
 
@@ -187,13 +190,14 @@ describe('NFTT721emplates E2E', () => {
                         receivers
                     )
                 )
-                conditionIdTransferNFT = await transferNftCondition.generateId(
+                conditionIdTransferNFT = await transferNft721Condition.generateId(
                     agreementId,
-                    await transferNftCondition.hashValues(
+                    await transferNft721Condition.hashValues(
                         did,
                         collector1.getId(),
                         numberNFTs,
-                        conditionIdLockPayment
+                        conditionIdLockPayment,
+                        nft.options.address
                     )
                 )
                 conditionIdEscrow = await escrowPaymentCondition.generateId(
@@ -209,7 +213,7 @@ describe('NFTT721emplates E2E', () => {
                     )
                 )
 
-                const result = await nftSalesTemplate.createAgreement(
+                const result = await nft721SalesTemplate.createAgreement(
                     agreementId,
                     did,
                     [conditionIdLockPayment, conditionIdTransferNFT, conditionIdEscrow],
@@ -282,46 +286,33 @@ describe('NFTT721emplates E2E', () => {
             })
 
             it('The artist can check the payment and transfer the NFT to the collector', async () => {
-                const nftBalanceArtistBefore = await didRegistry.balance(
-                    artist.getId(),
-                    did
-                )
-                const nftBalanceCollectorBefore = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
+                const ownerBefore = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerBefore, artist.getId())
 
-                await transferNftCondition.fulfill(
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, true)
+                    .send({ from: artist.getId() })
+
+                await transferNft721Condition.fulfill(
                     agreementId,
                     did,
                     collector1.getId(),
                     numberNFTs,
                     conditionIdLockPayment,
+                    nft.options.address,
                     artist.getId()
                 )
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, false)
+                    .send({ from: artist.getId() })
 
                 const { state } = await conditionStoreManager.getCondition(
                     conditionIdTransferNFT
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const nftBalanceArtistAfter = await didRegistry.balance(
-                    artist.getId(),
-                    did
-                )
-                const nftBalanceCollectorAfter = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
-
-                assert.equal(
-                    Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
-                )
-                assert.equal(
-                    Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
-                )
+                const ownerAfter = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerAfter, collector1.getId())
             })
 
             it('the artist asks and receives the payment', async () => {
@@ -368,7 +359,8 @@ describe('NFTT721emplates E2E', () => {
                     await nft721HolderCondition.hashValues(
                         did,
                         collector1.getId(),
-                        numberNFTs
+                        numberNFTs,
+                        nft.options.address
                     )
                 )
                 conditionIdNFTAccess = await nftAccessCondition.generateId(
@@ -376,7 +368,7 @@ describe('NFTT721emplates E2E', () => {
                     await nftAccessCondition.hashValues(did, collector1.getId())
                 )
 
-                const result = await nftAccessTemplate.createAgreement(
+                const result = await nft721AccessTemplate.createAgreement(
                     agreementAccessId,
                     did,
                     [conditionIdNFTHolder, conditionIdNFTAccess],
@@ -407,6 +399,7 @@ describe('NFTT721emplates E2E', () => {
                     agreementAccessId,
                     did,
                     collector1.getId(),
+                    nft.options.address,
                     numberNFTs
                 )
 
@@ -461,13 +454,14 @@ describe('NFTT721emplates E2E', () => {
                         receivers2
                     )
                 )
-                conditionIdTransferNFT2 = await transferNftCondition.generateId(
+                conditionIdTransferNFT2 = await transferNft721Condition.generateId(
                     agreementId2,
-                    await transferNftCondition.hashValues(
+                    await transferNft721Condition.hashValues(
                         did,
                         collector2.getId(),
                         numberNFTs2,
-                        conditionIdLockPayment2
+                        conditionIdLockPayment2,
+                        nft.options.address
                     )
                 )
                 conditionIdEscrow2 = await escrowPaymentCondition.generateId(
@@ -483,7 +477,7 @@ describe('NFTT721emplates E2E', () => {
                     )
                 )
 
-                const result = await nftSalesTemplate.createAgreement(
+                const result = await nft721SalesTemplate.createAgreement(
                     agreementId2,
                     did,
                     [
@@ -555,46 +549,34 @@ describe('NFTT721emplates E2E', () => {
             })
 
             it('As collector1 I can check the payment and transfer the NFT to collector2', async () => {
-                const nftBalanceCollector1Before = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
-                const nftBalanceCollector2Before = await didRegistry.balance(
-                    collector2.getId(),
-                    did
-                )
+                const ownerBefore = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerBefore, collector1.getId())
 
-                await transferNftCondition.fulfill(
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, true)
+                    .send({ from: collector1.getId() })
+
+                await transferNft721Condition.fulfill(
                     agreementId2,
                     did,
                     collector2.getId(),
                     numberNFTs2,
                     conditionIdLockPayment2,
+                    nft.options.address,
                     collector1.getId()
                 )
+
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, true)
+                    .send({ from: collector1.getId() })
 
                 const { state } = await conditionStoreManager.getCondition(
                     conditionIdTransferNFT2
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const nftBalanceCollector1After = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
-                const nftBalanceCollector2After = await didRegistry.balance(
-                    collector2.getId(),
-                    did
-                )
-
-                assert.equal(
-                    Number(nftBalanceCollector1After),
-                    Number(nftBalanceCollector1Before) - numberNFTs2
-                )
-                assert.equal(
-                    Number(nftBalanceCollector2After),
-                    Number(nftBalanceCollector2Before) + numberNFTs
-                )
+                const ownerAfter = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerAfter, collector2.getId())
             })
 
             it('Collector1 and Artist get the payment', async () => {
@@ -670,12 +652,10 @@ describe('NFTT721emplates E2E', () => {
                     artist.getId()
                 )
 
-                await didRegistry.mint(did, 5, artist.getId())
-                await didRegistry.setApprovalForAll(
-                    transferNftCondition.getAddress(),
-                    true,
-                    artist.getId()
-                )
+                await nft.methods.mint(did).send({ from: artist.getId() })
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, true)
+                    .send({ from: artist.getId() })
 
                 const balance = await didRegistry.balance(artist.getId(), did)
                 assert.equal(balance, 5)
@@ -684,17 +664,18 @@ describe('NFTT721emplates E2E', () => {
 
         describe('As a collector I want to buy some art', () => {
             it('I am setting an agreement for buying a NFT', async () => {
-                const result = await nftSalesTemplate.createAgreementFromDDO(
+                const result = await nft721SalesTemplate.createAgreementFromDDO(
                     agreementId,
                     ddo,
                     assetRewards1,
                     collector1.getId(),
+                    nft.options.address,
                     undefined,
                     numberNFTs
                 )
                 assert.isTrue(result)
 
-                const status = await nftSalesTemplate.getAgreementStatus(agreementId)
+                const status = await nft721SalesTemplate.getAgreementStatus(agreementId)
                 assert.equal(
                     status && status.lockPayment.state,
                     ConditionState.Unfulfilled
@@ -812,17 +793,18 @@ describe('NFTT721emplates E2E', () => {
         describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
             it('The collector sets up the NFT access agreement', async () => {
                 // Collector1: Create NFT access agreement
-                const result = await nftAccessTemplate.createAgreementFromDDO(
+                const result = await nft721AccessTemplate.createAgreementFromDDO(
                     agreementAccessId,
                     ddo,
                     new AssetRewards(),
                     collector1.getId(),
+                    nft.options.address,
                     collector1.getId(),
                     numberNFTs
                 )
                 assert.isTrue(result)
 
-                const status = await nftAccessTemplate.getAgreementStatus(
+                const status = await nft721AccessTemplate.getAgreementStatus(
                     agreementAccessId
                 )
                 assert.equal(status && status.nftHolder.state, ConditionState.Unfulfilled)
@@ -833,10 +815,11 @@ describe('NFTT721emplates E2E', () => {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
-                const result = await nevermined.agreements.conditions.holderNft(
+                const result = await nevermined.agreements.conditions.holderNft721(
                     agreementAccessId,
                     did,
                     collector1.getId(),
+                    nft.options.address,
                     numberNFTs
                 )
                 assert.isTrue(result)
@@ -871,17 +854,18 @@ describe('NFTT721emplates E2E', () => {
                 }
             })
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
-                const result = await nftSalesTemplate.createAgreementFromDDO(
+                const result = await nft721SalesTemplate.createAgreementFromDDO(
                     agreementId2,
                     ddo,
                     assetRewards2,
                     collector2.getId(),
+                    nft.options.address,
                     undefined,
                     numberNFTs2
                 )
                 assert.isTrue(result)
 
-                const status = await nftSalesTemplate.getAgreementStatus(agreementId2)
+                const status = await nft721SalesTemplate.getAgreementStatus(agreementId2)
                 assert.equal(
                     status && status.lockPayment.state,
                     ConditionState.Unfulfilled
