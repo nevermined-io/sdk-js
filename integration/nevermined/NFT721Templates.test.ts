@@ -19,7 +19,7 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { noZeroX } from '../../src/utils'
 import { config } from '../config'
 
-describe('NFTTemplates E2E', () => {
+describe('NFTT721emplates E2E', () => {
     let owner: Account
     let artist: Account
     let collector1: Account
