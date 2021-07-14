@@ -1,5 +1,8 @@
 import { Config } from '../src'
 import HDWalletProvider from '@truffle/hdwallet-provider'
+import { LoggerInstance, LogLevel } from '../src/utils'
+
+LoggerInstance.setLevel(LogLevel.Error)
 
 const configJson: Config = {
     nodeUri: 'http://localhost:8545',
@@ -8,7 +11,7 @@ const configJson: Config = {
     gatewayUri: 'http://localhost:8030',
     secretStoreUri: 'http://localhost:12001',
     gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
-    verbose: false
+    verbose: LogLevel.Error
 }
 
 if (process.env.NETWORK_NAME === 'production') {
