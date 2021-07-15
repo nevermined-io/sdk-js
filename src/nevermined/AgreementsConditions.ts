@@ -244,6 +244,59 @@ export class AgreementsConditions extends Instantiable {
         return !!receipt.events.Fulfilled
     }
 
+    public async releaseNft721Reward(
+        agreementId: string,
+        did: string,
+        amounts: number[],
+        receivers: string[],
+        nftReceiver: string,
+        nftAmount: number,
+        tokenAddress: string,
+        from?: Account
+    ) {
+        const {
+            escrowPaymentCondition,
+            lockPaymentCondition,
+            transferNft721Condition
+        } = this.nevermined.keeper.conditions
+        const { token } = this.nevermined.keeper
+
+        const lockPaymentConditionId = await lockPaymentCondition.generateId(
+            agreementId,
+            await lockPaymentCondition.hashValues(
+                did,
+                escrowPaymentCondition.getAddress(),
+                token.getAddress(),
+                amounts,
+                receivers
+            )
+        )
+
+        const transferNftConditionId = await transferNft721Condition.generateId(
+            agreementId,
+            await transferNft721Condition.hashValues(
+                did,
+                nftReceiver,
+                nftAmount,
+                lockPaymentConditionId,
+                tokenAddress
+            )
+        )
+
+        const receipt = await escrowPaymentCondition.fulfill(
+            agreementId,
+            did,
+            amounts,
+            receivers,
+            escrowPaymentCondition.getAddress(),
+            token.getAddress(),
+            lockPaymentConditionId,
+            transferNftConditionId,
+            from.getId()
+        )
+        return !!receipt.events.Fulfilled
+    }
+
     /**
      * Allows an nft holder to prove ownership of a certain number of nfts.
      * Used as an access condition to the underlying files.
@@ -361,6 +414,47 @@ export class AgreementsConditions extends Instantiable {
             nftReceiver,
             nftAmount,
             lockPaymentConditionId,
+            from.getId()
+        )
+
+        return !!receipt.events.Fulfilled
+    }
+
+    public async transferNft721(
+        agreementId: string,
+        did: string,
+        amounts: number[],
+        receivers: string[],
+        nftReceiver: string,
+        nftAmount: number,
+        tokenAddress: string,
+        from?: Account
+    ) {
+        const {
+            transferNft721Condition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
+        const { token } = this.nevermined.keeper
+
+        const lockPaymentConditionId = await lockPaymentCondition.generateId(
+            agreementId,
+            await lockPaymentCondition.hashValues(
+                did,
+                escrowPaymentCondition.getAddress(),
+                token.getAddress(),
+                amounts,
+                receivers
+            )
+        )
+
+        const receipt = await transferNft721Condition.fulfill(
+            agreementId,
+            did,
+            nftReceiver,
+            nftAmount,
+            lockPaymentConditionId,
+            tokenAddress,
             from.getId()
         )
 
