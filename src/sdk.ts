@@ -8,6 +8,8 @@ import Keeper from './keeper/Keeper'
 import * as templates from './keeper/contracts/templates'
 import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
+import { Nft721 } from './nevermined/Nft721'
+import { Accounts } from './nevermined/Accounts'
 
 // Exports
 export * from './ddo/DDO'
@@ -25,4 +27,16 @@ export {
 export { AgreementTemplate } from './keeper/contracts/templates'
 export { Condition, ConditionState } from './keeper/contracts/conditions'
 
-export { Nevermined, Account, Config, DID, Logger, Keeper, conditions, templates, utils }
+export {
+    Nevermined,
+    Account,
+    Accounts,
+    Nft721,
+    Config,
+    DID,
+    Logger,
+    Keeper,
+    conditions,
+    templates,
+    utils
+}

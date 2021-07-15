@@ -9,7 +9,7 @@ export abstract class ContractBase extends Instantiable {
 
     public contractName: string
 
-    private contract: Contract = null
+    protected contract: Contract = null
 
     get address() {
         return this.contract.options.address
