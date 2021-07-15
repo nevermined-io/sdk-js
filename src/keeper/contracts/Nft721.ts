@@ -1,6 +1,7 @@
 import ContractBase from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
+import { abi } from './../../artifacts/NFT721.json'
 
 export default class Nft721 extends ContractBase {
     public static async getInstance(
@@ -11,14 +12,14 @@ export default class Nft721 extends ContractBase {
 
         nft.setInstanceConfig(config)
 
-        const artifact = require(`./../../artifacts/NFT721.json`)
-
         const code = await nft.web3.eth.getCode(address)
         if (code === '0x0') {
             // no code in the blockchain dude
             throw new Error(`No code deployed at address ${address}, sorry.`)
         }
-        nft.contract = new nft.web3.eth.Contract(artifact.abi, address)
+
+        // @ts-ignore
+        nft.contract = new nft.web3.eth.Contract(abi, address)
 
         return nft
     }
