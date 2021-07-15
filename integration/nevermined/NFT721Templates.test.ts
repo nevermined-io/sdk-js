@@ -567,7 +567,7 @@ describe('NFT721Templates E2E', () => {
                 )
 
                 await nft.methods
-                    .setApprovalForAll(transferNft721Condition.address, true)
+                    .setApprovalForAll(transferNft721Condition.address, false)
                     .send({ from: collector1.getId() })
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -657,8 +657,8 @@ describe('NFT721Templates E2E', () => {
                     .setApprovalForAll(transferNft721Condition.address, true)
                     .send({ from: artist.getId() })
 
-                const balance = await didRegistry.balance(artist.getId(), did)
-                assert.equal(balance, 5)
+                const balance = await nft.methods.balanceOf(artist.getId()).call()
+                assert.equal(balance, 1)
             })
         })
 
@@ -721,53 +721,42 @@ describe('NFT721Templates E2E', () => {
             })
 
             it('The artist can check the payment and transfer the NFT to the collector', async () => {
-                const nftBalanceArtistBefore = await didRegistry.balance(
-                    artist.getId(),
-                    did
-                )
-                const nftBalanceCollectorBefore = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
+                const ownerBefore = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerBefore, artist.getId())
 
-                const receipt = await nevermined.agreements.conditions.transferNft(
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, true)
+                    .send({ from: artist.getId() })
+
+                const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId,
                     did,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
                     collector1.getId(),
                     numberNFTs,
+                    nft.options.address,
                     artist
                 )
                 assert.isTrue(receipt)
 
-                const nftBalanceArtistAfter = await didRegistry.balance(
-                    artist.getId(),
-                    did
-                )
-                const nftBalanceCollectorAfter = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, false)
+                    .send({ from: artist.getId() })
 
-                assert.equal(
-                    Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
-                )
-                assert.equal(
-                    Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
-                )
+                const ownerAfter = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerAfter, collector1.getId())
             })
 
             it('the artist asks and receives the payment', async () => {
-                const receipt = await nevermined.agreements.conditions.releaseNftReward(
+                const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
                     agreementId,
                     did,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
                     collector1.getId(),
                     numberNFTs,
+                    nft.options.address,
                     artist
                 )
                 assert.isTrue(receipt)
@@ -911,53 +900,42 @@ describe('NFT721Templates E2E', () => {
             })
 
             it('As collector1 I can check the payment and transfer the NFT to collector2', async () => {
-                const nftBalanceCollector1Before = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
-                const nftBalanceCollector2Before = await didRegistry.balance(
-                    collector2.getId(),
-                    did
-                )
+                const ownerBefore = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerBefore, collector1.getId())
 
-                const receipt = await nevermined.agreements.conditions.transferNft(
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, true)
+                    .send({ from: collector1.getId() })
+
+                const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId2,
                     did,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
                     collector2.getId(),
                     numberNFTs2,
+                    nft.options.address,
                     collector1
                 )
                 assert.isTrue(receipt)
 
-                const nftBalanceCollector1After = await didRegistry.balance(
-                    collector1.getId(),
-                    did
-                )
-                const nftBalanceCollector2After = await didRegistry.balance(
-                    collector2.getId(),
-                    did
-                )
+                await nft.methods
+                    .setApprovalForAll(transferNft721Condition.address, false)
+                    .send({ from: collector1.getId() })
 
-                assert.equal(
-                    Number(nftBalanceCollector1After),
-                    Number(nftBalanceCollector1Before) - numberNFTs2
-                )
-                assert.equal(
-                    Number(nftBalanceCollector2After),
-                    Number(nftBalanceCollector2Before) + numberNFTs
-                )
+                const ownerAfter = await nft.methods.ownerOf(did).call()
+                assert.equal(ownerAfter, collector2.getId())
             })
 
             it('Collector1 and Artist get the payment', async () => {
-                const receipt = await nevermined.agreements.conditions.releaseNftReward(
+                const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
                     agreementId2,
                     did,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
                     collector2.getId(),
                     numberNFTs2,
+                    nft.options.address,
                     collector1
                 )
                 assert.isTrue(receipt)
