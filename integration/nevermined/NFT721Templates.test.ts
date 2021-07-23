@@ -19,7 +19,8 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { noZeroX } from '../../src/utils'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Nft721 } from '../../src/nevermined/Nft721'
+import { Nft721 } from '../../src'
+import ERC721 from '../../src/artifacts/ERC721.json'
 
 describe('NFT721Templates E2E', () => {
     let owner: Account
@@ -88,9 +89,7 @@ describe('NFT721Templates E2E', () => {
         TestContractHandler.setConfig(config)
 
         // deploy a nft contract we can use
-        const nftContract = await TestContractHandler.deployArtifact(
-            require('./../../src/artifacts/NFT721.json')
-        )
+        const nftContract = await TestContractHandler.deployArtifact(ERC721)
 
         nevermined = await Nevermined.getInstance(config)
         ;[
@@ -125,9 +124,9 @@ describe('NFT721Templates E2E', () => {
         scale = 10 ** (await token.decimals())
 
         nftPrice = nftPrice * scale
-        amounts = amounts.map(v => v * scale)
+        amounts = amounts.map((v) => v * scale)
         nftPrice2 = nftPrice2 * scale
-        amounts2 = amounts2.map(v => v * scale)
+        amounts2 = amounts2.map((v) => v * scale)
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -401,7 +400,7 @@ describe('NFT721Templates E2E', () => {
             it('The collector demonstrates it onws the NFT', async () => {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise(r => setTimeout(r, 10000))
+                await new Promise((r) => setTimeout(r, 10000))
                 await nft721HolderCondition.fulfill(
                     agreementAccessId,
                     did,
@@ -788,8 +787,8 @@ describe('NFT721Templates E2E', () => {
                     new AssetRewards(),
                     collector1.getId(),
                     nft.address,
-                    collector1.getId(),
-                    numberNFTs
+                    numberNFTs,
+                    collector1.getId()
                 )
                 assert.isTrue(result)
 
@@ -803,7 +802,7 @@ describe('NFT721Templates E2E', () => {
             it('The collector demonstrates it onws the NFT', async () => {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise(r => setTimeout(r, 10000))
+                await new Promise((r) => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft721(
                     agreementAccessId,
                     did,

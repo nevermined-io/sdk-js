@@ -5,6 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
+import { zeroX } from '../../../utils'
 
 export class NFT721AccessTemplate extends BaseTemplate {
     public static async getInstance(
@@ -22,9 +23,9 @@ export class NFT721AccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
-        tokenAddress: string,
-        from?: string,
-        nftAmount?: number
+        nftTokenAddress: string,
+        nftAmount?: number,
+        from?: string
     ): Promise<boolean> {
         const [
             nftHolderConditionId,
@@ -34,8 +35,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             holder,
-            tokenAddress,
-            from,
+            nftTokenAddress,
             nftAmount
         )
         return !!(await this.createAgreement(
@@ -53,8 +53,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
-        tokenAddress: string,
-        from?: string,
+        nftTokenAddress: string,
         nftAmount?: number
     ): Promise<string[]> {
         const {
@@ -65,10 +64,10 @@ export class NFT721AccessTemplate extends BaseTemplate {
         const nftHolderConditionId = await nft721HolderCondition.generateId(
             agreementId,
             await nft721HolderCondition.hashValues(
-                ddo.shortId(),
+                zeroX(ddo.shortId()),
                 holder,
                 nftAmount,
-                tokenAddress
+                nftTokenAddress
             )
         )
         const nftAccessConditionId = await nftAccessCondition.generateId(

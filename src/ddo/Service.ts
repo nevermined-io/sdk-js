@@ -10,6 +10,8 @@ export type ServiceType =
     | 'workflow'
     | 'nft-access'
     | 'nft-sales'
+    | 'nft721-access'
+    | 'nft721-sales'
 
 export interface ServiceCommon {
     type: ServiceType

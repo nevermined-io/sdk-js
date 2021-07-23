@@ -53,6 +53,26 @@ export class Nfts extends Instantiable {
         )
     }
 
+    public create721(
+        metadata: MetaData,
+        publisher: Account,
+        assetRewards: AssetRewards,
+        nftAmount: number = 1,
+        royalties?: number
+    ): SubscribablePromise<CreateProgressStep, DDO> {
+        return this.nevermined.assets.create(
+            metadata,
+            publisher,
+            assetRewards,
+            ['nft721-sales', 'nft721-access'],
+            [],
+            'PSK-RSA',
+            [],
+            nftAmount,
+            royalties
+        )
+    }
+
     /**
      * Mint NFTs associated with an asset.
      *
@@ -145,6 +165,51 @@ export class Nfts extends Instantiable {
         return agreementId
     }
 
+    public async order721(
+        did: string,
+        nftAmount: number,
+        nftTokenAddress: string,
+        consumer: Account
+    ): Promise<string> {
+        let result: boolean
+        const { nft721SalesTemplate } = this.nevermined.keeper.templates
+        const { agreements } = this.nevermined
+
+        const agreementId = zeroX(generateId())
+        const ddo = await this.nevermined.assets.resolve(did)
+
+        // TODO: Remove hardcoded index value
+        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+
+        this.logger.log('Creating nft721-sales agreement')
+        result = await nft721SalesTemplate.createAgreementFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumer.getId(),
+            nftTokenAddress,
+            undefined,
+            nftAmount
+        )
+        if (!result) {
+            throw Error('Error creating nft721-sales agreement')
+        }
+
+        this.logger.log('Locking payment')
+        result = await agreements.conditions.lockPayment(
+            agreementId,
+            ddo.id,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            consumer
+        )
+        if (!result) {
+            throw Error('Error locking payment')
+        }
+
+        return agreementId
+    }
+
     /**
      * Transfer NFTs to the consumer.
      *
@@ -180,7 +245,37 @@ export class Nfts extends Instantiable {
             publisher
         )
         if (!result) {
-            throw Error('Error transfering nft.')
+            throw Error('Error transferring nft.')
+        }
+
+        return true
+    }
+
+    public async transfer721(
+        agreementId: string,
+        did: string,
+        nftAmount: number,
+        nftTokenAddress: string,
+        consumer: Account,
+        publisher: Account
+    ): Promise<boolean> {
+        const { agreements } = this.nevermined
+
+        const ddo = await this.nevermined.assets.resolve(did)
+        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+
+        const result = await agreements.conditions.transferNft721(
+            agreementId,
+            did,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            consumer.getId(),
+            nftAmount,
+            nftTokenAddress,
+            publisher
+        )
+        if (!result) {
+            throw Error('Error transferring nft.')
         }
 
         return true
@@ -226,6 +321,37 @@ export class Nfts extends Instantiable {
         return true
     }
 
+    public async release721Rewards(
+        agreementId: string,
+        did: string,
+        nftAmount: number,
+        nftTokenAddress: string,
+        consumer: Account,
+        publisher: Account
+    ): Promise<boolean> {
+        const { agreements } = this.nevermined
+
+        const ddo = await this.nevermined.assets.resolve(did)
+        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+
+        const result = await agreements.conditions.releaseNft721Reward(
+            agreementId,
+            did,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            consumer.getId(),
+            nftAmount,
+            nftTokenAddress,
+            publisher
+        )
+
+        if (!result) {
+            throw Error('Error releasing the rewards.')
+        }
+
+        return true
+    }
+
     /**
      * Access the files associated with an NFT.
      *
@@ -248,7 +374,7 @@ export class Nfts extends Instantiable {
 
         // Download the files
         this.logger.log('Downloading the files')
-        return await this.dowloadFiles('0x', ddo, consumer, destination, index)
+        return await this.downloadFiles('0x', ddo, consumer, destination, index)
     }
 
     /**
@@ -260,6 +386,10 @@ export class Nfts extends Instantiable {
      */
     public async balance(did: string, account: Account) {
         return await this.nevermined.keeper.didRegistry.balance(account.getId(), did)
+    }
+
+    public async ownerOf(did: string, nftTokenAddress: string) {
+        return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(did)
     }
 
     /**
@@ -283,14 +413,15 @@ export class Nfts extends Instantiable {
         }
     }
 
-    private async dowloadFiles(
+    private async downloadFiles(
         agreementId: string,
         ddo: DDO,
         consumer: Account,
         destination?: string,
         index?: number
     ) {
-        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
+        const { serviceEndpoint } =
+            ddo.findServiceByType('nft-access') || ddo.findServiceByType('nft721-access')
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
         const { jwt } = this.nevermined.utils
@@ -313,7 +444,7 @@ export class Nfts extends Instantiable {
         }
 
         if (index === undefined) {
-            files.forEach(async (_, i) => {
+            for (let i = 0; i < files.length; i++) {
                 const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
                 await this.nevermined.utils.fetch.downloadFile(
                     url,
@@ -321,7 +452,7 @@ export class Nfts extends Instantiable {
                     i,
                     headers
                 )
-            })
+            }
         } else {
             const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
             await this.nevermined.utils.fetch.downloadFile(
@@ -331,6 +462,7 @@ export class Nfts extends Instantiable {
                 headers
             )
         }
+
         return true
     }
 }

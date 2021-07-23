@@ -4,7 +4,7 @@ import { LoggerInstance, LogLevel } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
-const configJson: Config = {
+const configBase: Config = {
     nodeUri: 'http://localhost:8545',
     metadataUri: 'http://172.17.0.1:5000',
     faucetUri: 'http://localhost:3001',
@@ -15,7 +15,7 @@ const configJson: Config = {
 }
 
 if (process.env.NETWORK_NAME === 'production') {
-    Object.assign(configJson, {
+    Object.assign(configBase, {
         nodeUri: 'http://localhost:8545',
         metadataUri: 'http://nevermined-metadata:5000',
         faucetUri: 'http://localhost:3001',
@@ -26,7 +26,7 @@ if (process.env.NETWORK_NAME === 'production') {
 }
 
 if (process.env.NETWORK_NAME === 'integration') {
-    Object.assign(configJson, {
+    Object.assign(configBase, {
         nodeUri: 'http://localhost:8545',
         metadataUri: 'http://nevermined-metadata:5000',
         faucetUri: 'http://localhost:3001',
@@ -37,7 +37,7 @@ if (process.env.NETWORK_NAME === 'integration') {
 }
 
 if (process.env.NETWORK_NAME === 'testing') {
-    Object.assign(configJson, {
+    Object.assign(configBase, {
         nodeUri: 'http://localhost:8545',
         metadataUri: 'http://nevermined-metadata:5000',
         faucetUri: 'http://localhost:3001',
@@ -48,7 +48,7 @@ if (process.env.NETWORK_NAME === 'testing') {
 }
 
 if (process.env.NETWORK_NAME === 'rinkeby') {
-    Object.assign(configJson, {
+    Object.assign(configBase, {
         metadataUri: 'https://metadata.rinkeby.nevermined.rocks',
         faucetUri: 'https://faucet.rinkeby.nevermined.rocks',
         gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
@@ -61,8 +61,8 @@ if (process.env.SEED_WORDS) {
     const seedphrase = process.env.SEED_WORDS
 
     // @ts-ignore
-    configJson.web3Provider = new HDWalletProvider(seedphrase, configJson.nodeUri, 0, 5)
+    configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 5)
 }
 
-export const config: Config & { forceVerbose: Config } = configJson as any
-;(config as any).forceVerbose = { ...configJson, verbose: true }
+export const config: Config & { forceVerbose: Config } = configBase as any
+;(config as any).forceVerbose = { ...configBase, verbose: true }

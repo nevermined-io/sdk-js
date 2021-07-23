@@ -454,7 +454,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {String} nftReceiver The address of the receiver of the nfts.
      * @param {Number} nftAmount The amount of nfts to transfer.
-     * @param {String} tokenAddress The address of the nft token to use.
+     * @param {String} nftTokenAddress The address of the nft token to use.
      * @param from
      * @returns {Boolean} True if the transfer is successfull
      */
@@ -465,7 +465,7 @@ export class AgreementsConditions extends Instantiable {
         receivers: string[],
         nftReceiver: string,
         nftAmount: number,
-        tokenAddress: string,
+        nftTokenAddress: string,
         from?: Account
     ) {
         const {
@@ -474,7 +474,7 @@ export class AgreementsConditions extends Instantiable {
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
         const { token } = this.nevermined.keeper
-        const nft = await this.nevermined.contracts.loadNft721(tokenAddress)
+        const nft = await this.nevermined.contracts.loadNft721(nftTokenAddress)
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -495,7 +495,7 @@ export class AgreementsConditions extends Instantiable {
             nftReceiver,
             nftAmount,
             lockPaymentConditionId,
-            tokenAddress,
+            nftTokenAddress,
             from.getId()
         )
 
