@@ -5,6 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
+import { zeroX } from '../../../utils'
 
 export class NFT721SalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -22,7 +23,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        tokenAddress: string,
+        nftTokenAddress: string,
         from?: string,
         nftAmount?: number
     ): Promise<boolean> {
@@ -35,8 +36,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             consumer,
-            tokenAddress,
-            from,
+            nftTokenAddress,
             nftAmount
         )
         return !!(await this.createAgreement(
@@ -55,8 +55,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        tokenAddress: string,
-        _from?: string,
+        nftTokenAddress: string,
         nftAmount?: number
     ): Promise<string[]> {
         const {
@@ -79,11 +78,11 @@ export class NFT721SalesTemplate extends BaseTemplate {
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
             await transferNft721Condition.hashValues(
-                ddo.shortId(),
+                zeroX(ddo.shortId()),
                 consumer,
                 nftAmount,
                 lockPaymentConditionId,
-                tokenAddress
+                nftTokenAddress
             )
         )
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(

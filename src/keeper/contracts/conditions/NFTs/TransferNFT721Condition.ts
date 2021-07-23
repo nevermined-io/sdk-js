@@ -22,7 +22,7 @@ export class TransferNFT721Condition extends Condition {
      * @param {String} nftReceiver The address of the granted user or the DID provider.
      * @param {Number} nftAmount Amount of NFTs to transfer.
      * @param {String} lockCondition Lock condition identifier.
-     * @param {String} tokenAddress The address of the NFT token to use.
+     * @param {String} nftTokenAddress The address of the NFT token to use.
      * @returns Hash of all the values
      */
     public hashValues(
@@ -30,14 +30,14 @@ export class TransferNFT721Condition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockCondition: string,
-        tokenAddress: string
+        nftTokenAddress: string
     ) {
         return super.hashValues(
             didZeroX(did),
             zeroX(nftReceiver),
             String(nftAmount),
             lockCondition,
-            tokenAddress
+            nftTokenAddress
         )
     }
 
@@ -50,7 +50,7 @@ export class TransferNFT721Condition extends Condition {
      * @param {String} nftReceiver The address of the account to receive the NFT.
      * @param {Number[]} nftAmount amount of NFTs to transfer.
      * @param {String} lockPaymentCondition lock payment condition identifier.
-     * @param {String} tokenAddress address of the nft token to use.
+     * @param {String} nftTokenAddress address of the nft token to use.
      * @param {String} from
      * @returns Condition state.
      */
@@ -60,7 +60,7 @@ export class TransferNFT721Condition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockPaymentCondition: string,
-        tokenAddress: string,
+        nftTokenAddress: string,
         from?: string
     ) {
         return super.fulfill(
@@ -70,7 +70,7 @@ export class TransferNFT721Condition extends Condition {
                 zeroX(nftReceiver),
                 String(nftAmount),
                 lockPaymentCondition,
-                tokenAddress
+                nftTokenAddress
             ],
             from
         )

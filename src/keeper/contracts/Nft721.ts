@@ -1,7 +1,7 @@
 import ContractBase from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
-import { abi } from './../../artifacts/NFT721.json'
+import { abi } from './../../artifacts/ERC721.json'
 
 export default class Nft721 extends ContractBase {
     public static async getInstance(

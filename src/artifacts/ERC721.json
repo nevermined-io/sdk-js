@@ -1,5 +1,5 @@
 {
-  "name": "NFT721",
+  "name": "ERC721",
   "abi": [
     {
       "anonymous": false,
