@@ -124,9 +124,9 @@ describe('NFT721Templates E2E', () => {
         scale = 10 ** (await token.decimals())
 
         nftPrice = nftPrice * scale
-        amounts = amounts.map((v) => v * scale)
+        amounts = amounts.map(v => v * scale)
         nftPrice2 = nftPrice2 * scale
-        amounts2 = amounts2.map((v) => v * scale)
+        amounts2 = amounts2.map(v => v * scale)
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -163,6 +163,7 @@ describe('NFT721Templates E2E', () => {
             checksum = utils.generateId()
             activityId = utils.generateId()
         })
+
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
                 await didRegistry.registerMintableDID(
@@ -400,7 +401,7 @@ describe('NFT721Templates E2E', () => {
             it('The collector demonstrates it onws the NFT', async () => {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 await nft721HolderCondition.fulfill(
                     agreementAccessId,
                     did,
@@ -676,8 +677,7 @@ describe('NFT721Templates E2E', () => {
                     ddo,
                     assetRewards1,
                     collector1.getId(),
-                    nft.address,
-                    undefined,
+                    token.getAddress(),
                     numberNFTs
                 )
                 assert.isTrue(result)
@@ -739,6 +739,7 @@ describe('NFT721Templates E2E', () => {
                     collector1.getId(),
                     numberNFTs,
                     nft.address,
+                    token.getAddress(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -786,8 +787,6 @@ describe('NFT721Templates E2E', () => {
                     ddo,
                     new AssetRewards(),
                     collector1.getId(),
-                    nft.address,
-                    numberNFTs,
                     collector1.getId()
                 )
                 assert.isTrue(result)
@@ -802,7 +801,7 @@ describe('NFT721Templates E2E', () => {
             it('The collector demonstrates it onws the NFT', async () => {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft721(
                     agreementAccessId,
                     did,
@@ -847,8 +846,7 @@ describe('NFT721Templates E2E', () => {
                     ddo,
                     assetRewards2,
                     collector2.getId(),
-                    nft.address,
-                    undefined,
+                    token.getAddress(),
                     numberNFTs2
                 )
                 assert.isTrue(result)
@@ -910,6 +908,7 @@ describe('NFT721Templates E2E', () => {
                     collector2.getId(),
                     numberNFTs2,
                     nft.address,
+                    token.getAddress(),
                     collector1
                 )
                 assert.isTrue(receipt)

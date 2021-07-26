@@ -23,9 +23,9 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        nftTokenAddress: string,
-        from?: string,
-        nftAmount?: number
+        erc20TokenAddress: string,
+        nftAmount: number = 1,
+        from?: string
     ): Promise<boolean> {
         const [
             lockPaymentConditionId,
@@ -36,7 +36,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             consumer,
-            nftTokenAddress,
+            erc20TokenAddress,
             nftAmount
         )
         return !!(await this.createAgreement(
@@ -55,26 +55,30 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        nftTokenAddress: string,
-        nftAmount?: number
+        erc20TokenAddress?: string,
+        nftAmount: number = 1
     ): Promise<string[]> {
         const {
             lockPaymentCondition,
             transferNft721Condition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-        const { token } = this.nevermined.keeper
+
+        const salesService = ddo.findServiceByType('nft721-sales')
+
+        if (!salesService) throw 'Service nft721-sales not found!'
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                erc20TokenAddress,
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers()
             )
         )
+
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
             await transferNft721Condition.hashValues(
@@ -82,7 +86,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 consumer,
                 nftAmount,
                 lockPaymentConditionId,
-                nftTokenAddress
+                salesService.attributes.main.nftTokenAddress
             )
         )
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
@@ -92,7 +96,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers(),
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                erc20TokenAddress,
                 lockPaymentConditionId,
                 transferNftConditionId
             )
