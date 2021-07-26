@@ -646,7 +646,44 @@ describe('NFT721Templates E2E', () => {
             agreementId2 = utils.generateId()
             checksum = utils.generateId()
             activityId = utils.generateId()
-            ddo = new DDO({ id: `did:nv:${noZeroX(did)}` })
+
+            ddo = new DDO({
+                id: `did:nv:${noZeroX(did)}`,
+                service: [
+                    {
+                        type: 'nft721-sales',
+                        index: 6,
+                        templateId: nft721SalesTemplate.getAddress(),
+                        attributes: {
+                            main: {
+                                name: 'nft721SalesAgreement',
+                                creator: artist.getId(),
+                                nftTokenAddress: nft.address,
+                                timeout: 86400
+                            },
+                            additionalInformation: {
+                                description: 'NFT721 Sales Service Definition'
+                            }
+                        }
+                    },
+                    {
+                        type: 'nft721-access',
+                        index: 7,
+                        templateId: nft721AccessTemplate.getAddress(),
+                        attributes: {
+                            main: {
+                                name: 'nft721AccessAgreement',
+                                creator: artist.getId(),
+                                nftTokenAddress: nft.address,
+                                timeout: 86400
+                            },
+                            additionalInformation: {
+                                description: 'NFT721 Access Service Definition'
+                            }
+                        }
+                    }
+                ]
+            })
         })
 
         describe('As an artist I want to register a new artwork', () => {

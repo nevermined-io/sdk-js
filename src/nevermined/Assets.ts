@@ -1357,7 +1357,7 @@ export class Assets extends Instantiable {
         return {
             type: 'nft721-access',
             index: 7,
-            serviceEndpoint: this.nevermined.gateway.getNftAccessEndpoint(),
+            serviceEndpoint: this.nevermined.gateway.getNft721AccessEndpoint(),
             templateId: nft721AccessTemplate.getAddress(),
             attributes: {
                 main: {
@@ -1368,7 +1368,7 @@ export class Assets extends Instantiable {
                     timeout: 86400
                 },
                 additionalInformation: {
-                    description: ''
+                    description: 'NFT721 Access Service Definition'
                 },
                 serviceAgreementTemplate
             }
@@ -1397,7 +1397,7 @@ export class Assets extends Instantiable {
                     timeout: 86400
                 },
                 additionalInformation: {
-                    description: ''
+                    description: 'NFT721 Sales Service Definition'
                 },
                 serviceAgreementTemplate
             }

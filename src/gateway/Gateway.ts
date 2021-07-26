@@ -76,6 +76,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/nft-access`
     }
 
+    public getNft721AccessEndpoint() {
+        return `${this.url}${apiPath}/nft721-access`
+    }
+
     public async getGatewayInfo() {
         return this.nevermined.utils.fetch.get(`${this.url}`).then(res => res.json())
     }
