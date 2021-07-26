@@ -7,6 +7,7 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { Contract } from 'web3-eth-contract'
 import { zeroX } from '../../src/utils'
+import { Token } from '../../src/nevermined/Token'
 
 describe('Nfts721 operations', () => {
     let nevermined: Nevermined
@@ -17,6 +18,7 @@ describe('Nfts721 operations', () => {
     let account2: Account
     let ddo: DDO
 
+    let token: Token
     let newMetadata = () => getMetadata()
 
     before(async () => {
@@ -29,6 +31,7 @@ describe('Nfts721 operations', () => {
 
         // Accounts
         ;[account1, account2] = await nevermined.accounts.list()
+        ;({ token } = nevermined)
 
         if (!nevermined.keeper.dispenser) {
             newMetadata = () => getMetadata(0)
@@ -37,7 +40,8 @@ describe('Nfts721 operations', () => {
         ddo = await nevermined.nfts.create721(
             newMetadata() as any,
             account1,
-            new AssetRewards()
+            new AssetRewards(),
+            nftContract.options.address
         )
     })
 
@@ -59,7 +63,7 @@ describe('Nfts721 operations', () => {
         const agreementId = await nevermined.nfts.order721(
             ddo.id,
             1,
-            nftContract.options.address,
+            token.getAddress(),
             account2
         )
 
@@ -68,6 +72,7 @@ describe('Nfts721 operations', () => {
             ddo.id,
             1,
             nftContract.options.address,
+            token.getAddress(),
             account2,
             account1
         )

@@ -42,10 +42,10 @@ function fillParameterWithDDO(
 
 /**
  * Fill some static parameters that depends on the metadata.
- * @param  {ServiceAgreementTemplateCondition[]} conditions Conditions to fill.
- * @param  {DDO}                                 ddo        DDO related to this conditions.
- * @param  {AssetRewards}                      assetRewards Rewards distribution
- * @return {ServiceAgreementTemplateCondition[]}            Filled conditions.
+ * @param  {ServiceAgreementTemplateCondition[]} conditions     Conditions to fill.
+ * @param  {DDO}                                 ddo            DDO related to this conditions.
+ * @param  {AssetRewards}                        assetRewards   Rewards distribution
+ * @return {ServiceAgreementTemplateCondition[]}                Filled conditions.
  */
 export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],

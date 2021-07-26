@@ -466,6 +466,7 @@ export class AgreementsConditions extends Instantiable {
         nftReceiver: string,
         nftAmount: number,
         nftTokenAddress: string,
+        erc20TokenAddress: string,
         from?: Account
     ) {
         const {
@@ -473,7 +474,6 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-        const { token } = this.nevermined.keeper
         const nft = await this.nevermined.contracts.loadNft721(nftTokenAddress)
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
@@ -481,7 +481,7 @@ export class AgreementsConditions extends Instantiable {
             await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                erc20TokenAddress,
                 amounts,
                 receivers
             )

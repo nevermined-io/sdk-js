@@ -13,7 +13,6 @@ import { zeroX } from '../../src/utils'
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
     let collector1: Account
-    let collector2: Account
     let gallery: Account
 
     let nevermined: Nevermined
@@ -40,10 +39,11 @@ describe('NFTs721 Api End-to-End', () => {
     before(async () => {
         TestContractHandler.setConfig(config)
 
+        console.log(metadata)
         nftContract = await TestContractHandler.deployArtifact(ERC721)
 
         nevermined = await Nevermined.getInstance(config)
-        ;[, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
+        ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
 
         // conditions
         ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
@@ -66,7 +66,6 @@ describe('NFTs721 Api End-to-End', () => {
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
             collector1: await token.balanceOf(collector1.getId()),
-            collector2: await token.balanceOf(collector2.getId()),
             gallery: await token.balanceOf(gallery.getId()),
             escrowPaymentCondition: Number(
                 await token.balanceOf(escrowPaymentCondition.getAddress())
@@ -76,7 +75,12 @@ describe('NFTs721 Api End-to-End', () => {
 
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-            ddo = await nevermined.nfts.create721(metadata as any, artist, assetRewards1)
+            ddo = await nevermined.nfts.create721(
+                metadata as any,
+                artist,
+                assetRewards1,
+                nftContract.options.address
+            )
             assert.isDefined(ddo)
 
             await nftContract.methods
@@ -106,7 +110,7 @@ describe('NFTs721 Api End-to-End', () => {
             agreementId = await nevermined.nfts.order721(
                 ddo.id,
                 numberNFTs,
-                nftContract.options.address,
+                token.getAddress(),
                 collector1
             )
 
@@ -134,6 +138,7 @@ describe('NFTs721 Api End-to-End', () => {
                 ddo.id,
                 numberNFTs,
                 nftContract.options.address,
+                token.getAddress(),
                 collector1,
                 artist
             )

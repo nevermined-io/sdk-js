@@ -5,6 +5,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../../src'
 import { SignatureUtils } from './SignatureUtils'
 import Web3 from 'web3'
+import { ServiceType } from '../../ddo/Service'
 
 class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -169,11 +170,12 @@ export class JwtUtils extends Instantiable {
     public async generateNftAccessGrantToken(
         agreementId: string,
         did: string,
+        serviceType: ServiceType,
         account: Account
     ): Promise<string> {
         return new EthSignJWT({
             iss: account.getId(),
-            aud: this.BASE_AUD + '/nft-access',
+            aud: this.BASE_AUD + '/' + serviceType,
             sub: agreementId,
             did: did,
             eths: 'personal'

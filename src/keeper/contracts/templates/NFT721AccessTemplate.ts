@@ -23,21 +23,12 @@ export class NFT721AccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
-        nftTokenAddress: string,
-        nftAmount?: number,
         from?: string
     ): Promise<boolean> {
         const [
             nftHolderConditionId,
             nftAccessConditionId
-        ] = await this.getAgreementIdsFromDDO(
-            agreementId,
-            ddo,
-            assetRewards,
-            holder,
-            nftTokenAddress,
-            nftAmount
-        )
+        ] = await this.getAgreementIdsFromDDO(agreementId, ddo, assetRewards, holder)
         return !!(await this.createAgreement(
             agreementId,
             ddo.shortId(),
@@ -52,22 +43,23 @@ export class NFT721AccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        holder: string,
-        nftTokenAddress: string,
-        nftAmount?: number
+        holder: string
     ): Promise<string[]> {
         const {
             nft721HolderCondition,
             nftAccessCondition
         } = this.nevermined.keeper.conditions
 
+        const accessService = ddo.findServiceByType('nft721-access')
+        if (!accessService) throw 'Service nft721-access not found!'
+
         const nftHolderConditionId = await nft721HolderCondition.generateId(
             agreementId,
             await nft721HolderCondition.hashValues(
                 zeroX(ddo.shortId()),
                 holder,
-                nftAmount,
-                nftTokenAddress
+                1,
+                accessService.attributes.main.nftTokenAddress
             )
         )
         const nftAccessConditionId = await nftAccessCondition.generateId(

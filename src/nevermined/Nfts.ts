@@ -25,31 +25,27 @@ export class Nfts extends Instantiable {
      *
      * @param {MetaData} metadata The metadata associated with the NFT.
      * @param {Account} publisher The account of the creator od the NFT.
-     * @param {Number} cap The maximum amount of NFTs that can be minted for this asset. Set it to zero for unlimited.
+     * @param {Number} nftAmount The maximum amount of NFTs that can be minted for this asset. Set it to zero for unlimited.
      * @param {Number} royalties The percentage that the `publisher` should get on secondary market sales. A number between 0 and 100.
      * @param {AssetRewards} assetRewards The sales reward distribution.
-     * @param {Number} nftAmount The amount of nfts a consumer needs to hold in order to gain access to the files.
      * @returns {DDO} The newly registered DDO.
      */
     public create(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
+        nftAmount: number,
         royalties: number,
-        assetRewards: AssetRewards,
-        nftAmount: number = 1
+        assetRewards: AssetRewards
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.create(
+        return this.nevermined.assets.createNft(
             metadata,
             publisher,
             assetRewards,
-            ['nft-sales', 'nft-access'],
             [],
             'PSK-RSA',
             [],
-            cap,
-            royalties,
-            nftAmount
+            nftAmount,
+            royalties
         )
     }
 
@@ -57,18 +53,17 @@ export class Nfts extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         assetRewards: AssetRewards,
-        nftAmount: number = 1,
+        nftTokenAddress: string,
         royalties?: number
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.create(
+        return this.nevermined.assets.createNft721(
             metadata,
             publisher,
             assetRewards,
-            ['nft721-sales', 'nft721-access'],
             [],
             'PSK-RSA',
+            nftTokenAddress,
             [],
-            nftAmount,
             royalties
         )
     }
@@ -168,8 +163,9 @@ export class Nfts extends Instantiable {
     public async order721(
         did: string,
         nftAmount: number,
-        nftTokenAddress: string,
-        consumer: Account
+        erc20TokenAddress: string,
+        consumer: Account,
+        from?: string
     ): Promise<string> {
         let result: boolean
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
@@ -187,9 +183,9 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards,
             consumer.getId(),
-            nftTokenAddress,
-            undefined,
-            nftAmount
+            erc20TokenAddress,
+            nftAmount,
+            from
         )
         if (!result) {
             throw Error('Error creating nft721-sales agreement')
@@ -256,6 +252,7 @@ export class Nfts extends Instantiable {
         did: string,
         nftAmount: number,
         nftTokenAddress: string,
+        erc20TokenAddress: string,
         consumer: Account,
         publisher: Account
     ): Promise<boolean> {
@@ -272,6 +269,7 @@ export class Nfts extends Instantiable {
             consumer.getId(),
             nftAmount,
             nftTokenAddress,
+            erc20TokenAddress,
             publisher
         )
         if (!result) {
@@ -420,7 +418,7 @@ export class Nfts extends Instantiable {
         destination?: string,
         index?: number
     ) {
-        const { serviceEndpoint } =
+        const { serviceEndpoint, type } =
             ddo.findServiceByType('nft-access') || ddo.findServiceByType('nft721-access')
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
@@ -428,10 +426,12 @@ export class Nfts extends Instantiable {
 
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(agreementId, consumer.getId(), ddo.id)
+
         if (!jwt.tokenCache.has(cacheKey)) {
             const grantToken = await jwt.generateNftAccessGrantToken(
                 agreementId,
                 ddo.id,
+                type,
                 consumer
             )
             accessToken = await this.nevermined.gateway.fetchToken(grantToken)
@@ -439,6 +439,7 @@ export class Nfts extends Instantiable {
         } else {
             accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
         }
+
         const headers = {
             Authorization: 'Bearer ' + accessToken
         }
