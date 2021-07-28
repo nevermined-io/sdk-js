@@ -152,7 +152,7 @@ export abstract class AgreementTemplate extends ContractBase {
         const { conditionIds } = await agreementStore.getAgreement(agreementId)
 
         if (!conditionIds.length) {
-            this.logger.error(`Agreement not creeated yet: "${agreementId}"`)
+            this.logger.error(`Agreement not created yet: "${agreementId}"`)
             return false
         }
 
