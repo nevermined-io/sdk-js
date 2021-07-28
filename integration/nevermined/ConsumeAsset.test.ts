@@ -144,6 +144,17 @@ describe('Consume Asset', () => {
         } catch {}
     })
 
+    it('should return true on access granted', async () => {
+        const accessGranted = await nevermined.agreements.isAccessGranted(
+            serviceAgreementSignatureResult.agreementId,
+            ddo.id,
+            consumer.getId(),
+            publisher
+        )
+
+        assert.deepEqual(accessGranted, true)
+    })
+
     it('should get the agreement conditions status fulfilled', async () => {
         const status = await nevermined.agreements.status(
             serviceAgreementSignatureResult.agreementId
