@@ -25,7 +25,6 @@ describe('NFTs721 Api End-to-End', () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
     let nftPrice = 20
     let amounts = [15, 5]
     let receivers: string[]
@@ -39,7 +38,6 @@ describe('NFTs721 Api End-to-End', () => {
     before(async () => {
         TestContractHandler.setConfig(config)
 
-        console.log(metadata)
         nftContract = await TestContractHandler.deployArtifact(ERC721)
 
         nevermined = await Nevermined.getInstance(config)
@@ -109,7 +107,6 @@ describe('NFTs721 Api End-to-End', () => {
 
             agreementId = await nevermined.nfts.order721(
                 ddo.id,
-                numberNFTs,
                 token.getAddress(),
                 collector1
             )
@@ -136,10 +133,7 @@ describe('NFTs721 Api End-to-End', () => {
             const receipt = await nevermined.nfts.transfer721(
                 agreementId,
                 ddo.id,
-                numberNFTs,
-                nftContract.options.address,
                 token.getAddress(),
-                collector1,
                 artist
             )
             assert.isTrue(receipt)
@@ -154,9 +148,6 @@ describe('NFTs721 Api End-to-End', () => {
             const receipt = await nevermined.nfts.release721Rewards(
                 agreementId,
                 ddo.id,
-                numberNFTs,
-                nftContract.options.address,
-                collector1,
                 artist
             )
 

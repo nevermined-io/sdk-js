@@ -68,7 +68,6 @@ describe('NFT721Templates E2E', () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
     let nftPrice = 20
     let amounts = [15, 5]
     let receivers: string[]
@@ -76,7 +75,6 @@ describe('NFT721Templates E2E', () => {
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
-    const numberNFTs2 = 1
     let nftPrice2 = 100
     let amounts2 = [90, 10]
     let receivers2: string[]
@@ -202,7 +200,6 @@ describe('NFT721Templates E2E', () => {
                     await transferNft721Condition.hashValues(
                         did,
                         collector1.getId(),
-                        numberNFTs,
                         conditionIdLockPayment,
                         nft.address
                     )
@@ -302,10 +299,9 @@ describe('NFT721Templates E2E', () => {
                     agreementId,
                     did,
                     collector1.getId(),
-                    numberNFTs,
                     conditionIdLockPayment,
                     nft.address,
-                    artist.getId()
+                    artist
                 )
                 await nft.setApprovalForAll(
                     transferNft721Condition.address,
@@ -366,7 +362,6 @@ describe('NFT721Templates E2E', () => {
                     await nft721HolderCondition.hashValues(
                         did,
                         collector1.getId(),
-                        numberNFTs,
                         nft.address
                     )
                 )
@@ -407,7 +402,7 @@ describe('NFT721Templates E2E', () => {
                     did,
                     collector1.getId(),
                     nft.address,
-                    numberNFTs
+                    collector1
                 )
 
                 assert.equal(
@@ -466,7 +461,6 @@ describe('NFT721Templates E2E', () => {
                     await transferNft721Condition.hashValues(
                         did,
                         collector2.getId(),
-                        numberNFTs2,
                         conditionIdLockPayment2,
                         nft.address
                     )
@@ -569,10 +563,9 @@ describe('NFT721Templates E2E', () => {
                     agreementId2,
                     did,
                     collector2.getId(),
-                    numberNFTs2,
                     conditionIdLockPayment2,
                     nft.address,
-                    collector1.getId()
+                    collector1
                 )
 
                 await nft.setApprovalForAll(
@@ -713,9 +706,9 @@ describe('NFT721Templates E2E', () => {
                     agreementId,
                     ddo,
                     assetRewards1,
-                    collector1.getId(),
                     token.getAddress(),
-                    numberNFTs
+                    collector1.getId(),
+                    collector1
                 )
                 assert.isTrue(result)
 
@@ -773,9 +766,6 @@ describe('NFT721Templates E2E', () => {
                     did,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
-                    numberNFTs,
-                    nft.address,
                     token.getAddress(),
                     artist
                 )
@@ -791,9 +781,6 @@ describe('NFT721Templates E2E', () => {
                     did,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
-                    numberNFTs,
-                    nft.address,
                     artist
                 )
                 assert.isTrue(receipt)
@@ -844,7 +831,7 @@ describe('NFT721Templates E2E', () => {
                     did,
                     collector1.getId(),
                     nft.address,
-                    numberNFTs
+                    collector1
                 )
                 assert.isTrue(result)
             })
@@ -882,9 +869,9 @@ describe('NFT721Templates E2E', () => {
                     agreementId2,
                     ddo,
                     assetRewards2,
-                    collector2.getId(),
                     token.getAddress(),
-                    numberNFTs2
+                    collector2.getId(),
+                    collector2
                 )
                 assert.isTrue(result)
 
@@ -942,9 +929,6 @@ describe('NFT721Templates E2E', () => {
                     did,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
-                    numberNFTs2,
-                    nft.address,
                     token.getAddress(),
                     collector1
                 )
@@ -960,9 +944,6 @@ describe('NFT721Templates E2E', () => {
                     did,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
-                    numberNFTs2,
-                    nft.address,
                     collector1
                 )
                 assert.isTrue(receipt)

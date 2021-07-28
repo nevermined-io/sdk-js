@@ -1,6 +1,7 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
+import Account from '../../../../nevermined/Account'
 
 /**
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
@@ -21,20 +22,14 @@ export class NFT721HolderCondition extends Condition {
      *
      * @param {String} did The Decentralized Identifier of the asset.
      * @param {String} holderAddress The address of the NFT holder .
-     * @param {Number} nftAmount The amouunt of NFTs that need to be hold by the holder
      * @param {String} nftTokenAddress The address of the nft 721 token to use
      * @returns hash of all the values
      */
-    public hashValues(
-        did: string,
-        holderAddress: string,
-        nftAmount: number,
-        nftTokenAddress: string
-    ) {
+    public hashValues(did: string, holderAddress: string, nftTokenAddress: string) {
         return super.hashValues(
             didZeroX(did),
             zeroX(holderAddress),
-            String(nftAmount),
+            String(1),
             nftTokenAddress
         )
     }
@@ -46,7 +41,6 @@ export class NFT721HolderCondition extends Condition {
      * @param {String} did The Decentralized Identifier of the asset.
      * @param {String} holderAddress The contract address where the reward is locked.
      * @param {String} nftTokenAddress The contract address of the nft to use.
-     * @param {Number} nftAmount The amount of NFT to be hold
      * @param {String} from
      * @returns condition state
      */
@@ -55,13 +49,12 @@ export class NFT721HolderCondition extends Condition {
         did: string,
         holderAddress: string,
         nftTokenAddress: string,
-        nftAmount: number,
-        from?: string
+        from?: Account
     ) {
         return super.fulfill(
             agreementId,
-            [didZeroX(did), zeroX(holderAddress), String(nftAmount), nftTokenAddress],
-            from
+            [didZeroX(did), zeroX(holderAddress), String(1), nftTokenAddress],
+            from && from.getId()
         )
     }
 }

@@ -274,7 +274,7 @@ export class Assets extends Instantiable {
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
-            this.logger.log('Registering DID')
+            this.logger.log('Registering DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
 
             await didRegistry.registerAttribute(
@@ -301,7 +301,7 @@ export class Assets extends Instantiable {
             this.logger.log('DID registred')
             observer.next(CreateProgressStep.DidRegistered)
 
-            this.logger.log('Storing DDO')
+            this.logger.log('Storing DDO', ddo.id)
             observer.next(CreateProgressStep.StoringDdo)
             const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
 
@@ -495,7 +495,7 @@ export class Assets extends Instantiable {
 
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
-            this.logger.log('Registering DID')
+            this.logger.log('Registering DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
             await didRegistry.registerAttribute(
                 didSeed,
@@ -517,7 +517,7 @@ export class Assets extends Instantiable {
             this.logger.log('DID registred')
             observer.next(CreateProgressStep.DidRegistered)
 
-            this.logger.log('Storing DDO')
+            this.logger.log('Storing DDO', ddo.id)
             observer.next(CreateProgressStep.StoringDdo)
             const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
 
@@ -724,7 +724,7 @@ export class Assets extends Instantiable {
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
-            this.logger.log('Registering DID')
+            this.logger.log('Registering DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
 
             await didRegistry.registerAttribute(
@@ -738,7 +738,7 @@ export class Assets extends Instantiable {
             this.logger.log('DID registred')
             observer.next(CreateProgressStep.DidRegistered)
 
-            this.logger.log('Storing DDO')
+            this.logger.log('Storing DDO', ddo.id)
             observer.next(CreateProgressStep.StoringDdo)
             const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
 
@@ -899,8 +899,6 @@ export class Assets extends Instantiable {
 
                 this.logger.log('Agreement initialized')
                 observer.next(OrderProgressStep.AgreementInitialized)
-
-                const { attributes } = ddo.findServiceByType('metadata')
 
                 this.logger.log('Locking payment')
 

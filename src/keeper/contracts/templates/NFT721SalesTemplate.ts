@@ -6,6 +6,7 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
 import { zeroX } from '../../../utils'
+import Account from '../../../nevermined/Account'
 
 export class NFT721SalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -22,10 +23,9 @@ export class NFT721SalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
         erc20TokenAddress: string,
-        nftAmount: number = 1,
-        from?: string
+        consumerAddress: string,
+        from?: Account
     ): Promise<boolean> {
         const [
             lockPaymentConditionId,
@@ -35,18 +35,18 @@ export class NFT721SalesTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
-            consumer,
-            erc20TokenAddress,
-            nftAmount
+            consumerAddress,
+            erc20TokenAddress
         )
+
         return !!(await this.createAgreement(
             agreementId,
             ddo.shortId(),
             [lockPaymentConditionId, transferNftConditionId, escrowPaymentConditionId],
             [0, 0, 0],
             [0, 0, 0],
-            consumer,
-            from
+            consumerAddress,
+            from.getId()
         ))
     }
 
@@ -55,8 +55,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        erc20TokenAddress?: string,
-        nftAmount: number = 1
+        erc20TokenAddress?: string
     ): Promise<string[]> {
         const {
             lockPaymentCondition,
@@ -84,7 +83,6 @@ export class NFT721SalesTemplate extends BaseTemplate {
             await transferNft721Condition.hashValues(
                 zeroX(ddo.shortId()),
                 consumer,
-                nftAmount,
                 lockPaymentConditionId,
                 salesService.attributes.main.nftTokenAddress
             )
