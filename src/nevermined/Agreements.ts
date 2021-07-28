@@ -158,15 +158,17 @@ export class Agreements extends Instantiable {
         consumer: string,
         account: Account
     ): Promise<boolean> {
-        const consumerAddress = this.nevermined.keeper.templates.accessTemplate.getAgreementData(
+        const {
+            accessConsumer
+        } = await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
             agreementId
-        )[0]
-        if (!consumer.includes(consumerAddress)) {
+        )
+        if (!consumer.includes(accessConsumer)) {
             console.log(`This address [${consumer}] has not access granted`)
             return false
         }
         return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(
-            consumerAddress,
+            accessConsumer,
             did,
             account.getId()
         )
