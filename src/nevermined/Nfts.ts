@@ -322,7 +322,7 @@ export class Nfts extends Instantiable {
 
         const result = await agreements.conditions.releaseNft721Reward(
             agreementId,
-            did,
+            ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             publisher

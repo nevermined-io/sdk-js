@@ -54,7 +54,7 @@ class EthSignJWT extends SignJWT {
         const size = buffers.reduce((acc, { length }) => acc + length, 0)
         const buf = new Uint8Array(size)
         let i = 0
-        buffers.forEach(buffer => {
+        buffers.forEach((buffer) => {
             buf.set(buffer, i)
             i += buffer.length
         })
@@ -173,13 +173,17 @@ export class JwtUtils extends Instantiable {
         serviceType: ServiceType,
         account: Account
     ): Promise<string> {
-        return new EthSignJWT({
+        const params = {
             iss: account.getId(),
             aud: this.BASE_AUD + '/' + serviceType,
             sub: agreementId,
-            did: did,
+            did,
             eths: 'personal'
-        })
+        }
+
+        this.logger.debug(params)
+
+        return new EthSignJWT(params)
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
