@@ -152,6 +152,14 @@ export class Agreements extends Instantiable {
         return simpleStatus as any
     }
 
+    public async getAgreement(agreementId: string) {
+        return this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+    }
+
+    public async getAgreements(did: string) {
+        return this.nevermined.keeper.agreementStoreManager.getAgreements(did)
+    }
+
     public async isAccessGranted(
         agreementId: string,
         did: string,
