@@ -251,9 +251,6 @@ export class AgreementsConditions extends Instantiable {
      * @param {String} did The decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
-     * @param {String} nftReceiver The address of the buyer of the nft.
-     * @param {Number} nftAmount Number of nfts bought.
-     * @param {String} tokenAddress The address of the nft token to use.
      * @param from
      * @returns {Boolean} True if the funds were released successfully.
      */
@@ -262,9 +259,6 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         amounts: number[],
         receivers: string[],
-        nftReceiver: string,
-        nftAmount: number,
-        tokenAddress: string,
         from?: Account
     ) {
         const {
@@ -272,7 +266,17 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             transferNft721Condition
         } = this.nevermined.keeper.conditions
+
+        const ddo = await this.nevermined.assets.resolve(did)
+        const salesService = ddo.findServiceByType('nft721-sales')
+
         const { token } = this.nevermined.keeper
+
+        const {
+            accessConsumer
+        } = await this.nevermined.keeper.templates.nft721SalesTemplate.getAgreementData(
+            agreementId
+        )
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -289,10 +293,9 @@ export class AgreementsConditions extends Instantiable {
             agreementId,
             await transferNft721Condition.hashValues(
                 did,
-                nftReceiver,
-                nftAmount,
+                accessConsumer,
                 lockPaymentConditionId,
-                tokenAddress
+                salesService.attributes.main.nftTokenAddress
             )
         )
 
@@ -348,7 +351,6 @@ export class AgreementsConditions extends Instantiable {
      * @param {String} did The decentralized identifier of the asset containing the nfts.
      * @param {String} holder The address of the holder (recipient of a previous nft transfer with `agreementId`).
      * @param {String} tokenAddress The address of the nft token to use.
-     * @param {String} nftAmount The amount of nfts that the `holder` needs to have to fulfill the access condition.
      * @param from
      * @returns {Boolean} True if the holder is able to fulfill the condition
      */
@@ -357,7 +359,6 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         holder: string,
         tokenAddress: string,
-        nftAmount: number,
         from?: Account
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
@@ -367,8 +368,7 @@ export class AgreementsConditions extends Instantiable {
             did,
             holder,
             tokenAddress,
-            nftAmount,
-            from && from.getId()
+            from
         )
         return !!receipt.events.Fulfilled
     }
@@ -449,12 +449,10 @@ export class AgreementsConditions extends Instantiable {
      * Transfers a certain amount of nfts after payment as been made.
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did he decentralized identifier of the asset containing the nfts.
+     * @param {String} did the decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param {String} nftReceiver The address of the receiver of the nfts.
-     * @param {Number} nftAmount The amount of nfts to transfer.
-     * @param {String} nftTokenAddress The address of the nft token to use.
+     * @param {String} erc20TokenAddress The address of the erc20 token to use.
      * @param from
      * @returns {Boolean} True if the transfer is successfull
      */
@@ -463,9 +461,6 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         amounts: number[],
         receivers: string[],
-        nftReceiver: string,
-        nftAmount: number,
-        nftTokenAddress: string,
         erc20TokenAddress: string,
         from?: Account
     ) {
@@ -474,12 +469,19 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-        const nft = await this.nevermined.contracts.loadNft721(nftTokenAddress)
+
+        const ddo = await this.nevermined.assets.resolve(did)
+
+        const salesService = ddo.findServiceByType('nft721-sales')
+
+        const nft = await this.nevermined.contracts.loadNft721(
+            salesService.attributes.main.nftTokenAddress
+        )
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
-                did,
+                ddo.id,
                 escrowPaymentCondition.getAddress(),
                 erc20TokenAddress,
                 amounts,
@@ -489,14 +491,21 @@ export class AgreementsConditions extends Instantiable {
 
         await nft.setApprovalForAll(transferNft721Condition.address, true, from)
 
+        const {
+            accessConsumer
+        } = await this.nevermined.keeper.templates.nft721SalesTemplate.getAgreementData(
+            agreementId
+        )
+
+        this.logger.debug('Access consumer:', accessConsumer)
+
         const receipt = await transferNft721Condition.fulfill(
             agreementId,
-            did,
-            nftReceiver,
-            nftAmount,
+            ddo.id,
+            accessConsumer,
             lockPaymentConditionId,
-            nftTokenAddress,
-            from.getId()
+            salesService.attributes.main.nftTokenAddress,
+            from
         )
 
         await nft.setApprovalForAll(transferNft721Condition.address, false, from)

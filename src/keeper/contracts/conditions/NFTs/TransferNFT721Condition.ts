@@ -1,6 +1,7 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
+import Account from '../../../../nevermined/Account'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -20,7 +21,6 @@ export class TransferNFT721Condition extends Condition {
      * Generates the ash of condition inputs.
      * @param {String} did The DID of the asset with NFTs.
      * @param {String} nftReceiver The address of the granted user or the DID provider.
-     * @param {Number} nftAmount Amount of NFTs to transfer.
      * @param {String} lockCondition Lock condition identifier.
      * @param {String} nftTokenAddress The address of the NFT token to use.
      * @returns Hash of all the values
@@ -28,14 +28,13 @@ export class TransferNFT721Condition extends Condition {
     public hashValues(
         did: string,
         nftReceiver: string,
-        nftAmount: number,
         lockCondition: string,
         nftTokenAddress: string
     ) {
         return super.hashValues(
             didZeroX(did),
             zeroX(nftReceiver),
-            String(nftAmount),
+            String(1),
             lockCondition,
             nftTokenAddress
         )
@@ -48,7 +47,6 @@ export class TransferNFT721Condition extends Condition {
      * @param {String} agreementId The agreement identifier.
      * @param {String} did The DID of the asset with NFTs.
      * @param {String} nftReceiver The address of the account to receive the NFT.
-     * @param {Number[]} nftAmount amount of NFTs to transfer.
      * @param {String} lockPaymentCondition lock payment condition identifier.
      * @param {String} nftTokenAddress address of the nft token to use.
      * @param {String} from
@@ -58,21 +56,20 @@ export class TransferNFT721Condition extends Condition {
         agreementId: string,
         did: string,
         nftReceiver: string,
-        nftAmount: number,
         lockPaymentCondition: string,
         nftTokenAddress: string,
-        from?: string
+        from?: Account
     ) {
         return super.fulfill(
             agreementId,
             [
                 didZeroX(did),
                 zeroX(nftReceiver),
-                String(nftAmount),
+                String(1),
                 lockPaymentCondition,
                 nftTokenAddress
             ],
-            from
+            from && from.getId()
         )
     }
 }

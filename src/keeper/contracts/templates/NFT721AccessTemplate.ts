@@ -58,7 +58,6 @@ export class NFT721AccessTemplate extends BaseTemplate {
             await nft721HolderCondition.hashValues(
                 zeroX(ddo.shortId()),
                 holder,
-                1,
                 accessService.attributes.main.nftTokenAddress
             )
         )

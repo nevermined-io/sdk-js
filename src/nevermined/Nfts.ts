@@ -162,10 +162,8 @@ export class Nfts extends Instantiable {
 
     public async order721(
         did: string,
-        nftAmount: number,
         erc20TokenAddress: string,
-        consumer: Account,
-        from?: string
+        from?: Account
     ): Promise<string> {
         let result: boolean
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
@@ -182,9 +180,8 @@ export class Nfts extends Instantiable {
             agreementId,
             ddo,
             assetRewards,
-            consumer.getId(),
             erc20TokenAddress,
-            nftAmount,
+            from.getId(),
             from
         )
         if (!result) {
@@ -197,7 +194,7 @@ export class Nfts extends Instantiable {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            consumer
+            from
         )
         if (!result) {
             throw Error('Error locking payment')
@@ -250,11 +247,8 @@ export class Nfts extends Instantiable {
     public async transfer721(
         agreementId: string,
         did: string,
-        nftAmount: number,
-        nftTokenAddress: string,
         erc20TokenAddress: string,
-        consumer: Account,
-        publisher: Account
+        from: Account
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
@@ -266,11 +260,8 @@ export class Nfts extends Instantiable {
             did,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            consumer.getId(),
-            nftAmount,
-            nftTokenAddress,
             erc20TokenAddress,
-            publisher
+            from
         )
         if (!result) {
             throw Error('Error transferring nft.')
@@ -322,9 +313,6 @@ export class Nfts extends Instantiable {
     public async release721Rewards(
         agreementId: string,
         did: string,
-        nftAmount: number,
-        nftTokenAddress: string,
-        consumer: Account,
         publisher: Account
     ): Promise<boolean> {
         const { agreements } = this.nevermined
@@ -337,9 +325,6 @@ export class Nfts extends Instantiable {
             did,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            consumer.getId(),
-            nftAmount,
-            nftTokenAddress,
             publisher
         )
 
