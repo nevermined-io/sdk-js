@@ -4,6 +4,7 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 export interface AgreementData {
     did: string
+    agreementId: string
     didOwner: string
     templateId: string
     conditionIds: string[]
@@ -37,12 +38,23 @@ export class AgreementStoreManager extends ContractBase {
         } = await this.call('getAgreement', [zeroX(agreementId)])
         return {
             did,
+            agreementId,
             didOwner,
             templateId,
             conditionIds,
             lastUpdatedBy,
             blockNumberUpdated: +blockNumberUpdated
         } as AgreementData
+    }
+
+    public async getAgreements(did: string): Promise<AgreementData[]> {
+        const agreementIds: string[] = await this.call('getAgreementIdsForDID', [
+            zeroX(did)
+        ])
+
+        return Promise.all(
+            agreementIds.map((agreementId) => this.getAgreement(agreementId))
+        )
     }
 
     public async createAgreement(
