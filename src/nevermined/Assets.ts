@@ -18,8 +18,10 @@ import AssetRewards from '../models/AssetRewards'
 import { ServiceAgreementTemplate } from '../ddo/ServiceAgreementTemplate'
 
 export enum CreateProgressStep {
+    ServicesAdded,
     GeneratingProof,
     ProofGenerated,
+    ConditionsFilled,
     EncryptingFiles,
     FilesEncrypted,
     RegisteringDid,
@@ -85,8 +87,8 @@ export class Assets extends Instantiable {
             assetRewards,
             services,
             method,
-            providers,
             cap,
+            providers,
             royalties
         )
     }
@@ -128,46 +130,6 @@ export class Assets extends Instantiable {
                 ddo.service = [, ...services].reverse() as Service[]
             }
 
-            this.logger.debug('NTF721 Sales Template')
-            const nft721SalesServiceAgreementTemplate = await templates.nft721SalesTemplate.getServiceAgreementTemplate()
-
-            const nft721SalesTemplateConditions = await templates.nft721SalesTemplate.getServiceAgreementTemplateConditions()
-            nft721SalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nft721SalesTemplateConditions,
-                ddo,
-                assetRewards
-            )
-
-            await ddo.addService(
-                this.nevermined,
-                await this.createNft721SalesService(
-                    metadata,
-                    publisher,
-                    nft721SalesServiceAgreementTemplate,
-                    nftTokenAddress
-                )
-            )
-
-            const nft721AccessServiceAgreementTemplate = await templates.nft721AccessTemplate.getServiceAgreementTemplate()
-
-            this.logger.debug('NTF721 Access Template')
-            const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
-            nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nft721AccessTemplateConditions,
-                ddo,
-                assetRewards
-            )
-
-            await ddo.addService(
-                this.nevermined,
-                await this.createNft721AccessService(
-                    metadata,
-                    publisher,
-                    nft721AccessServiceAgreementTemplate,
-                    nftTokenAddress
-                )
-            )
-
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
                 publicKey = this.nevermined.gateway.getEcdsaPublicKey()
@@ -197,6 +159,35 @@ export class Assets extends Instantiable {
                 }
             } as Service)
 
+            this.logger.debug('NTF721 Sales Template')
+            const nft721SalesServiceAgreementTemplate = await templates.nft721SalesTemplate.getServiceAgreementTemplate()
+
+            await ddo.addService(
+                this.nevermined,
+                await this.createNft721SalesService(
+                    metadata,
+                    publisher,
+                    nft721SalesServiceAgreementTemplate,
+                    nftTokenAddress
+                )
+            )
+
+            this.logger.debug('NTF721 Access Template')
+            const nft721AccessServiceAgreementTemplate = await templates.nft721AccessTemplate.getServiceAgreementTemplate()
+
+            await ddo.addService(
+                this.nevermined,
+                await this.createNft721AccessService(
+                    metadata,
+                    publisher,
+                    nft721AccessServiceAgreementTemplate,
+                    nftTokenAddress
+                )
+            )
+
+            console.log('Services Added')
+            observer.next(CreateProgressStep.ServicesAdded)
+
             ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
 
             this.logger.log('Generating proof')
@@ -219,6 +210,23 @@ export class Assets extends Instantiable {
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
+
+            const nft721SalesTemplateConditions = await templates.nft721SalesTemplate.getServiceAgreementTemplateConditions()
+            nft721SalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                nft721SalesTemplateConditions,
+                ddo,
+                assetRewards
+            )
+
+            const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
+            nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                nft721AccessTemplateConditions,
+                ddo,
+                assetRewards
+            )
+
+            this.logger.log('Conditions filled')
+            observer.next(CreateProgressStep.ConditionsFilled)
 
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
@@ -318,6 +326,7 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards = new AssetRewards(),
         services: Service[] = [],
         method: string = 'PSK-RSA',
+        cap?: number,
         providers?: string[],
         nftAmount?: number,
         royalties?: number
@@ -349,48 +358,6 @@ export class Assets extends Instantiable {
                 ddo.service = [, ...services].reverse() as Service[]
             }
 
-            this.logger.debug('NTF Sales Template')
-
-            const nftSalesServiceAgreementTemplate = await templates.nftSalesTemplate.getServiceAgreementTemplate()
-
-            const nftSalesTemplateConditions = await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
-            nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nftSalesTemplateConditions,
-                ddo,
-                assetRewards,
-                nftAmount
-            )
-
-            await ddo.addService(
-                this.nevermined,
-                await this.createNftSalesService(
-                    metadata,
-                    publisher,
-                    nftSalesServiceAgreementTemplate
-                )
-            )
-
-            this.logger.debug('NTF Access Template')
-
-            const nftAccessServiceAgreementTemplate = await templates.nftAccessTemplate.getServiceAgreementTemplate()
-
-            const nftAccessTemplateConditions = await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
-            nftAccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nftAccessTemplateConditions,
-                ddo,
-                assetRewards,
-                nftAmount
-            )
-
-            await ddo.addService(
-                this.nevermined,
-                await this.createNftAccessService(
-                    metadata,
-                    publisher,
-                    nftAccessServiceAgreementTemplate
-                )
-            )
-
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
                 publicKey = this.nevermined.gateway.getEcdsaPublicKey()
@@ -420,6 +387,33 @@ export class Assets extends Instantiable {
                 }
             } as Service)
 
+            this.logger.debug('NTF Sales Template')
+            const nftSalesServiceAgreementTemplate = await templates.nftSalesTemplate.getServiceAgreementTemplate()
+
+            await ddo.addService(
+                this.nevermined,
+                await this.createNftSalesService(
+                    metadata,
+                    publisher,
+                    nftSalesServiceAgreementTemplate
+                )
+            )
+
+            this.logger.debug('NTF Access Template')
+            const nftAccessServiceAgreementTemplate = await templates.nftAccessTemplate.getServiceAgreementTemplate()
+
+            await ddo.addService(
+                this.nevermined,
+                await this.createNftAccessService(
+                    metadata,
+                    publisher,
+                    nftAccessServiceAgreementTemplate
+                )
+            )
+
+            console.log('Services Added')
+            observer.next(CreateProgressStep.ServicesAdded)
+
             ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
 
             this.logger.log('Generating proof')
@@ -442,6 +436,26 @@ export class Assets extends Instantiable {
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
+
+            this.logger.log('Filling Conditions')
+            const nftAccessTemplateConditions = await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
+            nftAccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                nftAccessTemplateConditions,
+                ddo,
+                assetRewards,
+                nftAmount
+            )
+
+            const nftSalesTemplateConditions = await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
+            nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                nftSalesTemplateConditions,
+                ddo,
+                assetRewards,
+                nftAmount
+            )
+
+            this.logger.log('Conditions filled')
+            observer.next(CreateProgressStep.ConditionsFilled)
 
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
@@ -509,7 +523,7 @@ export class Assets extends Instantiable {
             this.logger.debug('Enabling Minting on DID')
             await didRegistry.enableAndMintDidNft(
                 ddo.shortId(),
-                nftAmount,
+                cap,
                 royalties,
                 false,
                 publisher.getId()
@@ -605,6 +619,36 @@ export class Assets extends Instantiable {
                 }
             } as Service)
 
+            const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
+            const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
+
+            if (serviceTypes.includes('access')) {
+                await ddo.addService(
+                    this.nevermined,
+                    this.createAccessService(
+                        templates,
+                        publisher,
+                        metadata,
+                        accessServiceAgreementTemplate
+                    )
+                )
+            }
+
+            if (serviceTypes.includes('compute')) {
+                await ddo.addService(
+                    this.nevermined,
+                    this.createComputeService(
+                        templates,
+                        publisher,
+                        metadata,
+                        computeServiceAgreementTemplate
+                    )
+                )
+            }
+
+            console.log('Services Added')
+            observer.next(CreateProgressStep.ServicesAdded)
+
             ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
 
             this.logger.log('Generating proof')
@@ -627,6 +671,27 @@ export class Assets extends Instantiable {
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
+
+            if (serviceTypes.includes('access')) {
+                const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
+                accessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    accessTemplateConditions,
+                    ddo,
+                    assetRewards
+                )
+            }
+
+            if (serviceTypes.includes('compute')) {
+                const escrowComputeExecutionTemplateConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
+                computeServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    escrowComputeExecutionTemplateConditions,
+                    ddo,
+                    assetRewards
+                )
+            }
+
+            this.logger.log('Conditions filled')
+            observer.next(CreateProgressStep.ConditionsFilled)
 
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
@@ -678,49 +743,6 @@ export class Assets extends Instantiable {
                     } as any
                 }
             } as Service)
-
-            // Fulfill conditions
-            if (serviceTypes.includes('access')) {
-                const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
-
-                await ddo.addService(
-                    this.nevermined,
-                    this.createAccessService(
-                        templates,
-                        publisher,
-                        metadata,
-                        accessServiceAgreementTemplate
-                    )
-                )
-
-                const rawConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
-                accessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    rawConditions,
-                    ddo,
-                    assetRewards
-                )
-            }
-
-            if (serviceTypes.includes('compute')) {
-                const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
-
-                await ddo.addService(
-                    this.nevermined,
-                    this.createComputeService(
-                        templates,
-                        publisher,
-                        metadata,
-                        computeServiceAgreementTemplate
-                    )
-                )
-
-                const rawConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
-                computeServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    rawConditions,
-                    ddo,
-                    assetRewards
-                )
-            }
 
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
