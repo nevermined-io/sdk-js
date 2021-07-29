@@ -39,15 +39,8 @@ describe('Publisher Download Asset', () => {
     })
 
     it('should consume and store the assets', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-1'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            accessService.index,
-            publisher,
-            folder
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder)
 
         assert.include(path, folder, 'The storage path is not correct.')
 
@@ -65,16 +58,8 @@ describe('Publisher Download Asset', () => {
     })
 
     it('should consume and store one asset', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-2'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            accessService.index,
-            publisher,
-            folder,
-            1
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder, 1)
 
         assert.include(path, folder, 'The storage path is not correct.')
 

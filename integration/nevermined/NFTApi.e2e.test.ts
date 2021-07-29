@@ -35,7 +35,7 @@ describe('NFTs Api End-to-End', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
+        ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
 
         // conditions
         ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
