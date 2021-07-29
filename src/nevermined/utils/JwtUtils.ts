@@ -181,8 +181,6 @@ export class JwtUtils extends Instantiable {
             eths: 'personal'
         }
 
-        this.logger.debug(params)
-
         return new EthSignJWT(params)
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
