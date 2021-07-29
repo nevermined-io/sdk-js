@@ -1,6 +1,6 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { DDO } from "../ddo/DDO";
+import { DDO } from '../ddo/DDO'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -449,7 +449,7 @@ export class AgreementsConditions extends Instantiable {
      * Transfers a certain amount of nfts after payment as been made.
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did the decentralized identifier of the asset containing the nfts.
+     * @param {DDO} ddo the decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {String} erc20TokenAddress The address of the erc20 token to use.
@@ -458,7 +458,7 @@ export class AgreementsConditions extends Instantiable {
      */
     public async transferNft721(
         agreementId: string,
-        did: string,
+        ddo: DDO,
         amounts: number[],
         receivers: string[],
         erc20TokenAddress: string,
@@ -469,8 +469,6 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-
-        const ddo = await this.nevermined.assets.resolve(did)
 
         const salesService = ddo.findServiceByType('nft721-sales')
 

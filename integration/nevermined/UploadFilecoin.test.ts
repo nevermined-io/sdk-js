@@ -44,15 +44,8 @@ describe.skip('Filecoin Integration', () => {
     })
 
     it('should download an asset with a cid://', async () => {
-        const accessService = ddo.findServiceByType('access')
         const folder = '/tmp/output'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            accessService.index,
-            publisher,
-            folder,
-            0
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder, 0)
 
         assert.include(path, folder)
         const data = fs.readFileSync(`${path}0`)

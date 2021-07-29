@@ -1,6 +1,6 @@
 import { ServiceAgreementTemplateCondition } from '../../ddo/ServiceAgreementTemplate'
 import { DDO } from '../../ddo/DDO'
-import { ServiceAccess } from '../../ddo/Service'
+import { ServiceAccess, ServiceType } from '../../ddo/Service'
 import Account from '../Account'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
@@ -13,12 +13,12 @@ export class ServiceAgreement extends Instantiable {
 
     public async signServiceAgreement(
         ddo: DDO,
-        index: number,
+        serviceType: ServiceType,
         serviceAgreementId: string,
         agreementConditionsIds: string[],
         consumer: Account
     ): Promise<string> {
-        const service = ddo.findServiceById<'access'>(index)
+        const service = ddo.findServiceByType(serviceType) as ServiceAccess
         const timelockValues: number[] = this.getTimeValuesFromService(
             service,
             'timelock'

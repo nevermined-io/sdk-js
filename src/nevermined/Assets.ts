@@ -1,5 +1,5 @@
 import { TransactionReceipt } from 'web3-core'
-import { Metadata, SearchQuery } from '../metadata/Metadata'
+import { SearchQuery } from '../metadata/Metadata'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
 import { Service, ServiceType } from '../ddo/Service'
@@ -11,7 +11,7 @@ import {
     generateId,
     zeroX,
     didZeroX,
-    getAssetRewardsFromDDO
+    getAssetRewardsFromDDOByService
 } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
@@ -357,7 +357,8 @@ export class Assets extends Instantiable {
             nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                 nftSalesTemplateConditions,
                 ddo,
-                assetRewards
+                assetRewards,
+                nftAmount
             )
 
             await ddo.addService(
@@ -789,40 +790,33 @@ export class Assets extends Instantiable {
     public async consume(
         agreementId: string,
         did: string,
-        serviceIndex: number,
         consumerAccount: Account,
         resultPath: string,
-        index?: number,
+        fileIndex?: number,
         useSecretStore?: boolean
     ): Promise<string>
 
     public async consume(
         agreementId: string,
         did: string,
-        serviceIndex: number,
         consumerAccount: Account,
         resultPath?: undefined | null,
-        index?: number,
+        fileIndex?: number,
         useSecretStore?: boolean
     ): Promise<true>
 
     public async consume(
         agreementId: string,
         did: string,
-        serviceIndex: number,
         consumerAccount: Account,
         resultPath?: string,
-        index: number = -1,
+        fileIndex: number = -1,
         useSecretStore?: boolean
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
-
-        const accessService = ddo.findServiceById(serviceIndex)
-
+        const { serviceEndpoint, index } = ddo.findServiceByType('access')
         const { files } = attributes.main
-
-        const { serviceEndpoint } = accessService
 
         if (!serviceEndpoint) {
             throw new Error(
@@ -833,7 +827,7 @@ export class Assets extends Instantiable {
         this.logger.log('Consuming files')
 
         resultPath = resultPath
-            ? `${resultPath}/datafile.${ddo.shortId()}.${serviceIndex}/`
+            ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
         if (!useSecretStore) {
@@ -844,7 +838,7 @@ export class Assets extends Instantiable {
                 consumerAccount,
                 files,
                 resultPath,
-                index
+                fileIndex
             )
         } else {
             const files = await this.nevermined.secretStore.decrypt(
@@ -854,7 +848,7 @@ export class Assets extends Instantiable {
                 ddo.findServiceByType('authorization').serviceEndpoint
             )
             const downloads = files
-                .filter(({ index: i }) => index === -1 || index === i)
+                .filter(({ index: i }) => fileIndex === -1 || fileIndex === i)
                 .map(({ url, index: i }) =>
                     this.nevermined.utils.fetch.downloadFile(url, resultPath, i)
                 )
@@ -872,13 +866,13 @@ export class Assets extends Instantiable {
      * Start the purchase/order of an asset's service. Starts by signing the service agreement
      * then sends the request to the publisher via the service endpoint (Gateway http service).
      * @param  {string} did Decentralized ID.
-     * @param  {number} index Service index.
+     * @param  {ServiceType} serviceType Service.
      * @param  {Account} consumer Consumer account.
      * @return {Promise<string>} Returns Agreement ID
      */
     public order(
         did: string,
-        index: number,
+        serviceType: ServiceType,
         consumer: Account
     ): SubscribablePromise<OrderProgressStep, string> {
         return new SubscribablePromise(async observer => {
@@ -888,10 +882,10 @@ export class Assets extends Instantiable {
             const ddo = await this.resolve(did)
 
             const { keeper } = this.nevermined
-            const service = ddo.findServiceById(index)
+            const service = ddo.findServiceByType(serviceType)
             const templateName = service.attributes.serviceAgreementTemplate.contractName
             const template = keeper.getTemplateByName(templateName)
-            const assetRewards = getAssetRewardsFromDDO(ddo, index)
+            const assetRewards = getAssetRewardsFromDDOByService(ddo, serviceType)
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
@@ -926,7 +920,7 @@ export class Assets extends Instantiable {
 
             observer.next(OrderProgressStep.CreatingAgreement)
             this.logger.log('Creating agreement')
-            await agreements.create(did, agreementId, index, consumer, consumer)
+            await agreements.create(did, agreementId, serviceType, consumer, consumer)
             this.logger.log('Agreement created')
 
             try {
@@ -1059,38 +1053,32 @@ export class Assets extends Instantiable {
 
     public async download(
         did: string,
-        serviceIndex: number,
         ownerAccount: Account,
         resultPath: string,
-        index?: number,
+        fileIndex?: number,
         useSecretStore?: boolean
     ): Promise<string>
 
     public async download(
         did: string,
-        serviceIndex: number,
         ownerAccount: Account,
         resultPath?: undefined | null,
-        index?: number,
+        fileIndex?: number,
         useSecretStore?: boolean
     ): Promise<true>
 
     public async download(
         did: string,
-        serviceIndex: number,
         ownerAccount: Account,
         resultPath?: string,
-        index: number = -1,
+        fileIndex: number = -1,
         useSecretStore?: boolean
     ): Promise<string | boolean> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
-
-        const accessService = ddo.findServiceById(serviceIndex)
-
         const { files } = attributes.main
 
-        const { serviceEndpoint } = accessService
+        const { serviceEndpoint, index } = ddo.findServiceByType('access')
 
         if (!serviceEndpoint) {
             throw new Error(
@@ -1101,7 +1089,7 @@ export class Assets extends Instantiable {
         this.logger.log('Consuming files')
 
         resultPath = resultPath
-            ? `${resultPath}/datafile.${ddo.shortId()}.${serviceIndex}/`
+            ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
         if (!useSecretStore) {
@@ -1110,7 +1098,7 @@ export class Assets extends Instantiable {
                 ownerAccount,
                 files,
                 resultPath,
-                index
+                fileIndex
             )
         } else {
             const files = await this.nevermined.secretStore.decrypt(
@@ -1120,7 +1108,7 @@ export class Assets extends Instantiable {
                 ddo.findServiceByType('authorization').serviceEndpoint
             )
             const downloads = files
-                .filter(({ index: i }) => index === -1 || index === i)
+                .filter(({ index: i }) => fileIndex === -1 || fileIndex === i)
                 .map(({ url, index: i }) =>
                     this.nevermined.utils.fetch.downloadFile(url, resultPath, i)
                 )
@@ -1284,7 +1272,7 @@ export class Assets extends Instantiable {
             attributes: {
                 main: {
                     publicKey: publicKey,
-                    service: method!,
+                    service: method,
                     threshold: 0
                 }
             }
@@ -1307,7 +1295,6 @@ export class Assets extends Instantiable {
                     name: 'nftAccessAgreement',
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
-                    price: metadata.main.price,
                     timeout: 86400
                 },
                 additionalInformation: {
@@ -1354,7 +1341,7 @@ export class Assets extends Instantiable {
         const { nft721AccessTemplate } = this.nevermined.keeper.templates
         return {
             type: 'nft721-access',
-            index: 7,
+            index: 9,
             serviceEndpoint: this.nevermined.gateway.getNft721AccessEndpoint(),
             templateId: nft721AccessTemplate.getAddress(),
             attributes: {
@@ -1382,8 +1369,8 @@ export class Assets extends Instantiable {
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
         return {
             type: 'nft721-sales',
-            index: 6,
-            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
+            index: 8,
+            serviceEndpoint: this.nevermined.gateway.getNft721Endpoint(),
             templateId: nft721SalesTemplate.getAddress(),
             attributes: {
                 main: {

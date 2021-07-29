@@ -53,7 +53,7 @@ export class AgreementStoreManager extends ContractBase {
         ])
 
         return Promise.all(
-            agreementIds.map((agreementId) => this.getAgreement(agreementId))
+            agreementIds.map(agreementId => this.getAgreement(agreementId))
         )
     }
 

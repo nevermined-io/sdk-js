@@ -62,11 +62,9 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should sign the service agreement', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         serviceAgreementSignatureResult = await nevermined.agreements.prepare(
             ddo.id,
-            accessService.index,
+            'access',
             consumer
         )
 
@@ -84,12 +82,10 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should execute the service agreement', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const success = await nevermined.agreements.create(
             ddo.id,
             serviceAgreementSignatureResult.agreementId,
-            accessService.index,
+            'access',
             consumer,
             publisher
         )
@@ -158,13 +154,10 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should consume and store the assets', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-1'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder
         )
@@ -185,13 +178,10 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should consume and store one asset', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-2'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder,
             0

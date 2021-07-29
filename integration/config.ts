@@ -61,7 +61,7 @@ if (process.env.SEED_WORDS) {
     const seedphrase = process.env.SEED_WORDS
 
     // @ts-ignore
-    configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 5)
+    configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 10)
 }
 
 export const config: Config & { forceVerbose: Config } = configBase as any

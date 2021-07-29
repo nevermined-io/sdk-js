@@ -64,7 +64,7 @@ export class DDO {
 
     /**
      * Finds a service of a DDO by index.
-     * @param  {number} Service index.
+     * @param  {number} index index.
      * @return {Service} Service.
      */
     public findServiceById<T extends ServiceType>(index: number): Service<T> {
