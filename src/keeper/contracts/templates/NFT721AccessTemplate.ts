@@ -5,7 +5,8 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
-import { zeroX } from '../../../utils'
+import { findServiceConditionByName, zeroX } from '../../../utils'
+import Account from '../../../nevermined/Account'
 
 export class NFT721AccessTemplate extends BaseTemplate {
     public static async getInstance(
@@ -22,19 +23,25 @@ export class NFT721AccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        holder: string,
-        from?: string
+        holderAddress: string,
+        from?: Account
     ): Promise<boolean> {
         const [
             nftHolderConditionId,
             nftAccessConditionId
-        ] = await this.getAgreementIdsFromDDO(agreementId, ddo, assetRewards, holder)
+        ] = await this.getAgreementIdsFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            holderAddress
+        )
         return !!(await this.createAgreement(
             agreementId,
             ddo.shortId(),
             [nftHolderConditionId, nftAccessConditionId],
             [0, 0],
             [0, 0],
+            holderAddress,
             from
         ))
     }
@@ -43,7 +50,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        holder: string
+        holderAddress: string
     ): Promise<string[]> {
         const {
             nft721HolderCondition,
@@ -53,17 +60,19 @@ export class NFT721AccessTemplate extends BaseTemplate {
         const accessService = ddo.findServiceByType('nft721-access')
         if (!accessService) throw 'Service nft721-access not found!'
 
+        const holder = findServiceConditionByName(accessService, 'nftHolder')
+
         const nftHolderConditionId = await nft721HolderCondition.generateId(
             agreementId,
             await nft721HolderCondition.hashValues(
                 zeroX(ddo.shortId()),
-                holder,
-                accessService.attributes.main.nftTokenAddress
+                holderAddress,
+                holder.parameters.find(p => p.name === '_contractAddress').value as string
             )
         )
         const nftAccessConditionId = await nftAccessCondition.generateId(
             agreementId,
-            await nftAccessCondition.hashValues(ddo.shortId(), holder)
+            await nftAccessCondition.hashValues(ddo.shortId(), holderAddress)
         )
 
         return [nftHolderConditionId, nftAccessConditionId]

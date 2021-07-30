@@ -1,6 +1,7 @@
 import ContractBase from '../ContractBase'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export interface AgreementData {
     did: string
@@ -64,9 +65,9 @@ export class AgreementStoreManager extends ContractBase {
         conditionIds: string[],
         timeLocks: number[],
         timeOuts: number[],
-        from?: string
+        from?: Account
     ) {
-        return this.send('createAgreement', from, [
+        return this.send('createAgreement', from && from.getId(), [
             zeroX(agreementId),
             didZeroX(did),
             conditionTypes.map(zeroX),

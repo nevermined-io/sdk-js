@@ -69,7 +69,7 @@ describe('NFT721AccessTemplate', () => {
                     timeLocks,
                     timeOuts,
                     receiver.getId(),
-                    sender.getId()
+                    sender
                 ),
                 /Template not Approved/
             )
@@ -89,7 +89,7 @@ describe('NFT721AccessTemplate', () => {
                     timeLocks,
                     timeOuts,
                     receiver.getId(),
-                    sender.getId()
+                    sender
                 ),
                 /DID not registered/
             )
@@ -112,7 +112,7 @@ describe('NFT721AccessTemplate', () => {
                 timeLocks,
                 timeOuts,
                 receiver.getId(),
-                sender.getId()
+                sender
             )
             assert.isTrue(agreement.status)
             assert.nestedProperty(agreement, 'events.AgreementCreated')

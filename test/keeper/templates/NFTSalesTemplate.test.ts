@@ -73,7 +73,7 @@ describe('NFTSalesTemplate', () => {
                     timeLocks,
                     timeOuts,
                     receiver.getId(),
-                    sender.getId()
+                    sender
                 ),
                 /Template not Approved/
             )
@@ -93,7 +93,7 @@ describe('NFTSalesTemplate', () => {
                     timeLocks,
                     timeOuts,
                     receiver.getId(),
-                    sender.getId()
+                    sender
                 ),
                 /DID not registered/
             )
@@ -116,7 +116,7 @@ describe('NFTSalesTemplate', () => {
                 timeLocks,
                 timeOuts,
                 receiver.getId(),
-                sender.getId()
+                sender
             )
             assert.isTrue(agreement.status)
             assert.nestedProperty(agreement, 'events.AgreementCreated')

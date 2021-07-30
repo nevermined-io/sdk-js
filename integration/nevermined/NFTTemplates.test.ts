@@ -244,12 +244,12 @@ describe('NFTTemplates E2E', () => {
                 await token.approve(
                     lockPaymentCondition.getAddress(),
                     nftPrice,
-                    collector1.getId()
+                    collector1
                 )
                 await token.approve(
                     escrowPaymentCondition.getAddress(),
                     nftPrice,
-                    collector1.getId()
+                    collector1
                 )
                 await lockPaymentCondition.fulfill(
                     agreementId,
@@ -258,7 +258,7 @@ describe('NFTTemplates E2E', () => {
                     token.getAddress(),
                     amounts,
                     receivers,
-                    collector1.getId()
+                    collector1
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -294,7 +294,7 @@ describe('NFTTemplates E2E', () => {
                     collector1.getId(),
                     numberNFTs,
                     conditionIdLockPayment,
-                    artist.getId()
+                    artist
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -331,7 +331,7 @@ describe('NFTTemplates E2E', () => {
                     token.getAddress(),
                     conditionIdLockPayment,
                     conditionIdTransferNFT,
-                    artist.getId()
+                    artist
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -419,7 +419,7 @@ describe('NFTTemplates E2E', () => {
                     agreementAccessId,
                     did,
                     collector1.getId(),
-                    artist.getId()
+                    artist
                 )
 
                 assert.equal(
@@ -522,7 +522,7 @@ describe('NFTTemplates E2E', () => {
                 await token.approve(
                     lockPaymentCondition.getAddress(),
                     nftPrice2,
-                    collector2.getId()
+                    collector2
                 )
                 await lockPaymentCondition.fulfill(
                     agreementId2,
@@ -531,7 +531,7 @@ describe('NFTTemplates E2E', () => {
                     token.getAddress(),
                     amounts2,
                     receivers2,
-                    collector2.getId()
+                    collector2
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -567,7 +567,7 @@ describe('NFTTemplates E2E', () => {
                     collector2.getId(),
                     numberNFTs2,
                     conditionIdLockPayment2,
-                    collector1.getId()
+                    collector1
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -604,7 +604,7 @@ describe('NFTTemplates E2E', () => {
                     token.getAddress(),
                     conditionIdLockPayment2,
                     conditionIdTransferNFT2,
-                    collector1.getId()
+                    collector1
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -814,7 +814,7 @@ describe('NFTTemplates E2E', () => {
                     ddo,
                     new AssetRewards(),
                     collector1.getId(),
-                    collector1.getId(),
+                    collector1,
                     numberNFTs
                 )
                 assert.isTrue(result)
@@ -844,7 +844,7 @@ describe('NFTTemplates E2E', () => {
                     agreementAccessId,
                     did,
                     collector1.getId(),
-                    artist.getId()
+                    artist
                 )
                 assert.isTrue(result)
             })

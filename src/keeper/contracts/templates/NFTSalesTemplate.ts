@@ -5,6 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
+import Account from '../../../nevermined/Account'
 
 export class NFTSalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -18,7 +19,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        from?: string,
+        from?: Account,
         nftAmount?: number
     ): Promise<boolean> {
         const [
@@ -49,7 +50,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        _from?: string,
+        from?: Account,
         nftAmount?: number
     ): Promise<string[]> {
         const {

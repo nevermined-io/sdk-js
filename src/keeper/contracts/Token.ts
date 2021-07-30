@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import ContractBase from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import Account from '../../nevermined/Account'
 
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
@@ -12,7 +13,7 @@ export default class Token extends ContractBase {
         return token
     }
 
-    public async approve(to: string, price: number | string, from?: string) {
+    public async approve(to: string, price: number | string, from?: Account) {
         return this.sendFrom('approve', [to, String(price)], from)
     }
 

@@ -5,6 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
+import Account from '../../../nevermined/Account'
 
 export class NFTAccessTemplate extends BaseTemplate {
     public static async getInstance(
@@ -21,8 +22,8 @@ export class NFTAccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        holder: string,
-        from?: string,
+        holderAddress: string,
+        from?: Account,
         nftAmount?: number
     ): Promise<boolean> {
         const [
@@ -32,7 +33,7 @@ export class NFTAccessTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
-            holder,
+            holderAddress,
             from,
             nftAmount
         )
@@ -42,6 +43,7 @@ export class NFTAccessTemplate extends BaseTemplate {
             [nftHolderConditionId, nftAccessConditionId],
             [0, 0],
             [0, 0],
+            holderAddress,
             from
         ))
     }
@@ -51,7 +53,7 @@ export class NFTAccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
-        from?: string,
+        from?: Account,
         nftAmount?: number
     ): Promise<string[]> {
         const {

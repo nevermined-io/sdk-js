@@ -1,5 +1,6 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '../../../utils'
+import Account from '../../../nevermined/Account'
 
 export abstract class BaseTemplate extends AgreementTemplate {
     /**
@@ -20,7 +21,7 @@ export abstract class BaseTemplate extends AgreementTemplate {
         timeLocks: number[],
         timeOuts: number[],
         accessConsumer: string,
-        from?: string
+        from?: Account
     ) {
         return super.createAgreement(
             agreementId,

@@ -1,6 +1,7 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { Condition } from './Condition.abstract'
+import Account from '../../../nevermined/Account'
 
 /**
  * Condition allowing to transfer the ownership between the original owner and a receiver.
@@ -37,7 +38,7 @@ export class TransferDIDOwnershipCondition extends Condition {
      * @param from
      * @returns Condition state.
      */
-    public fulfill(agreementId: string, did: string, receiver: string, from?: string) {
+    public fulfill(agreementId: string, did: string, receiver: string, from?: Account) {
         return super.fulfill(agreementId, [didZeroX(did), zeroX(receiver)], from)
     }
 }
