@@ -96,9 +96,7 @@ describe('Asset Owners', () => {
             )
         } catch {}
 
-        const { index } = ddo.findServiceByType('access')
-
-        await nevermined.assets.order(ddo.id, index, account2)
+        await nevermined.assets.order(ddo.id, 'access', account2)
         // Access granted
 
         const { length: finalLength2 } = await nevermined.assets.consumerAssets(

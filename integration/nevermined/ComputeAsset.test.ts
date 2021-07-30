@@ -44,11 +44,7 @@ describe('Compute Asset', () => {
     })
 
     it('should order the compute service', async () => {
-        agreementId = await nevermined.assets.order(
-            computeDdo.id,
-            computeDdo.findServiceByType('compute').index,
-            consumer
-        )
+        agreementId = await nevermined.assets.order(computeDdo.id, 'compute', consumer)
 
         assert.isDefined(agreementId)
     })

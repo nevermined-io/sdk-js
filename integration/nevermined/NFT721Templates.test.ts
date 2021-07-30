@@ -645,7 +645,7 @@ describe('NFT721Templates E2E', () => {
                 service: [
                     {
                         type: 'nft721-sales',
-                        index: 6,
+                        index: 8,
                         templateId: nft721SalesTemplate.getAddress(),
                         attributes: {
                             main: {
@@ -661,7 +661,7 @@ describe('NFT721Templates E2E', () => {
                     },
                     {
                         type: 'nft721-access',
-                        index: 7,
+                        index: 9,
                         templateId: nft721AccessTemplate.getAddress(),
                         attributes: {
                             main: {
@@ -763,7 +763,7 @@ describe('NFT721Templates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId,
-                    did,
+                    ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
                     token.getAddress(),
@@ -926,7 +926,7 @@ describe('NFT721Templates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId2,
-                    did,
+                    ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
                     token.getAddress(),

@@ -4,7 +4,7 @@ import AssetRewards from '../models/AssetRewards'
 import { DDO } from '../sdk'
 import {
     generateId,
-    getAssetRewardsFromDDO,
+    getAssetRewardsFromDDOByService,
     noZeroX,
     SubscribablePromise,
     zeroX
@@ -24,18 +24,20 @@ export class Nfts extends Instantiable {
      * Create a new NFT Nevermined Asset.
      *
      * @param {MetaData} metadata The metadata associated with the NFT.
+     * @param {number} cap The max number of nfts.
      * @param {Account} publisher The account of the creator od the NFT.
-     * @param {Number} nftAmount The maximum amount of NFTs that can be minted for this asset. Set it to zero for unlimited.
-     * @param {Number} royalties The percentage that the `publisher` should get on secondary market sales. A number between 0 and 100.
+     * @param {number} nftAmount The maximum amount of NFTs that can be minted for this asset. Set it to zero for unlimited.
+     * @param {number} royalties The percentage that the `publisher` should get on secondary market sales. A number between 0 and 100.
      * @param {AssetRewards} assetRewards The sales reward distribution.
      * @returns {DDO} The newly registered DDO.
      */
     public create(
         metadata: MetaData,
         publisher: Account,
-        nftAmount: number,
+        cap: number,
         royalties: number,
-        assetRewards: AssetRewards
+        assetRewards: AssetRewards,
+        nftAmount: number = 1
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft(
             metadata,
@@ -43,6 +45,7 @@ export class Nfts extends Instantiable {
             assetRewards,
             [],
             'PSK-RSA',
+            cap,
             [],
             nftAmount,
             royalties
@@ -129,8 +132,7 @@ export class Nfts extends Instantiable {
         const agreementId = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
 
-        // TODO: Remove hardcoded index value
-        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft-sales')
 
         this.logger.log('Creating nft-sales agreement')
         result = await nftSalesTemplate.createAgreementFromDDO(
@@ -172,8 +174,7 @@ export class Nfts extends Instantiable {
         const agreementId = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
 
-        // TODO: Remove hardcoded index value
-        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft721-sales')
 
         this.logger.log('Creating nft721-sales agreement')
         result = await nft721SalesTemplate.createAgreementFromDDO(
@@ -226,7 +227,7 @@ export class Nfts extends Instantiable {
         const { agreements } = this.nevermined
 
         const ddo = await this.nevermined.assets.resolve(did)
-        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft-sales')
 
         const result = await agreements.conditions.transferNft(
             agreementId,
@@ -253,11 +254,11 @@ export class Nfts extends Instantiable {
         const { agreements } = this.nevermined
 
         const ddo = await this.nevermined.assets.resolve(did)
-        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft721-sales')
 
         const result = await agreements.conditions.transferNft721(
             agreementId,
-            did,
+            ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             erc20TokenAddress,
@@ -292,7 +293,7 @@ export class Nfts extends Instantiable {
         const { agreements } = this.nevermined
 
         const ddo = await this.nevermined.assets.resolve(did)
-        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft-sales')
 
         const result = await agreements.conditions.releaseNftReward(
             agreementId,
@@ -318,7 +319,7 @@ export class Nfts extends Instantiable {
         const { agreements } = this.nevermined
 
         const ddo = await this.nevermined.assets.resolve(did)
-        const assetRewards = getAssetRewardsFromDDO(ddo, 6)
+        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft721-sales')
 
         const result = await agreements.conditions.releaseNft721Reward(
             agreementId,
