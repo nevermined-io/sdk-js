@@ -1370,7 +1370,7 @@ export class Assets extends Instantiable {
         return {
             type: 'nft721-access',
             index: 9,
-            serviceEndpoint: this.nevermined.gateway.getNft721AccessEndpoint(),
+            serviceEndpoint: this.nevermined.gateway.getNftAccessEndpoint(),
             templateId: nft721AccessTemplate.getAddress(),
             attributes: {
                 main: {

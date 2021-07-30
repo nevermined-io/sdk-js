@@ -170,12 +170,11 @@ export class JwtUtils extends Instantiable {
     public async generateNftAccessGrantToken(
         agreementId: string,
         did: string,
-        serviceType: ServiceType,
         account: Account
     ): Promise<string> {
         const params = {
             iss: account.getId(),
-            aud: this.BASE_AUD + '/' + serviceType,
+            aud: this.BASE_AUD + '/nft-access',
             sub: agreementId,
             did,
             eths: 'personal'
