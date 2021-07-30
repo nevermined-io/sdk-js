@@ -403,7 +403,7 @@ export class Nfts extends Instantiable {
         destination?: string,
         index?: number
     ) {
-        const { serviceEndpoint, type } =
+        const { serviceEndpoint } =
             ddo.findServiceByType('nft-access') || ddo.findServiceByType('nft721-access')
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
@@ -416,7 +416,6 @@ export class Nfts extends Instantiable {
             const grantToken = await jwt.generateNftAccessGrantToken(
                 agreementId,
                 ddo.id,
-                type,
                 consumer
             )
             accessToken = await this.nevermined.gateway.fetchToken(grantToken)

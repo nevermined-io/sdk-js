@@ -10,7 +10,8 @@ function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,
     ddo: DDO,
     assetRewards: AssetRewards = new AssetRewards(),
-    nftAmount: number = 1
+    nftAmount: number = 1,
+    contractAddress?: string
 ): ServiceAgreementTemplateParameter {
     const getValue = name => {
         switch (name) {
@@ -31,6 +32,8 @@ function fillParameterWithDDO(
                 return ddo.publicKey[0].owner
             case 'numberNfts':
                 return String(nftAmount)
+            case 'contractAddress':
+                return contractAddress
         }
 
         return ''
@@ -51,12 +54,19 @@ export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],
     ddo: DDO,
     assetRewards: AssetRewards = new AssetRewards(),
-    nftAmount?: number
+    nftAmount?: number,
+    contractAddress?: string
 ): ServiceAgreementTemplateCondition[] {
     return conditions.map(condition => ({
         ...condition,
         parameters: condition.parameters.map(parameter => ({
-            ...fillParameterWithDDO(parameter, ddo, assetRewards, nftAmount)
+            ...fillParameterWithDDO(
+                parameter,
+                ddo,
+                assetRewards,
+                nftAmount,
+                contractAddress
+            )
         }))
     }))
 }

@@ -54,7 +54,7 @@ class EthSignJWT extends SignJWT {
         const size = buffers.reduce((acc, { length }) => acc + length, 0)
         const buf = new Uint8Array(size)
         let i = 0
-        buffers.forEach((buffer) => {
+        buffers.forEach(buffer => {
             buf.set(buffer, i)
             i += buffer.length
         })
@@ -170,12 +170,11 @@ export class JwtUtils extends Instantiable {
     public async generateNftAccessGrantToken(
         agreementId: string,
         did: string,
-        serviceType: ServiceType,
         account: Account
     ): Promise<string> {
         const params = {
             iss: account.getId(),
-            aud: this.BASE_AUD + '/' + serviceType,
+            aud: this.BASE_AUD + '/nft-access',
             sub: agreementId,
             did,
             eths: 'personal'

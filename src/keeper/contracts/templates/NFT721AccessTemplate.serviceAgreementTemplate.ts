@@ -40,6 +40,11 @@ export const nft721AccessTemplateServiceAgreementTemplate: ServiceAgreementTempl
                     name: '_numberNfts',
                     type: 'uint256',
                     value: ''
+                },
+                {
+                    name: '_contractAddress',
+                    type: 'address',
+                    value: ''
                 }
             ],
             events: [

@@ -155,7 +155,9 @@ export class Assets extends Instantiable {
             nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                 nft721AccessTemplateConditions,
                 ddo,
-                assetRewards
+                assetRewards,
+                1,
+                nftTokenAddress
             )
 
             await ddo.addService(
@@ -1355,7 +1357,7 @@ export class Assets extends Instantiable {
         return {
             type: 'nft721-access',
             index: 7,
-            serviceEndpoint: this.nevermined.gateway.getNft721AccessEndpoint(),
+            serviceEndpoint: this.nevermined.gateway.getNftAccessEndpoint(),
             templateId: nft721AccessTemplate.getAddress(),
             attributes: {
                 main: {
