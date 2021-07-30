@@ -10,6 +10,8 @@ function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,
     ddo: DDO,
     assetRewards: AssetRewards = new AssetRewards(),
+    erc20TokenContract?: string,
+    nftTokenContract?: string,
     nftAmount: number = 1
 ): ServiceAgreementTemplateParameter {
     const getValue = name => {
@@ -21,7 +23,6 @@ function fillParameterWithDDO(
             case 'amount':
             case 'price':
                 return String(assetRewards.getTotalPrice())
-            // return String(ddo.findServiceByType('metadata').attributes.main.price)
             case 'assetId':
             case 'documentId':
             case 'documentKeyId':
@@ -31,6 +32,11 @@ function fillParameterWithDDO(
                 return ddo.publicKey[0].owner
             case 'numberNfts':
                 return String(nftAmount)
+            case 'tokenAddress':
+                return erc20TokenContract ? erc20TokenContract : ''
+            case 'contract':
+            case 'contractAddress':
+                return nftTokenContract ? nftTokenContract : ''
         }
 
         return ''
@@ -52,17 +58,26 @@ export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],
     ddo: DDO,
     assetRewards: AssetRewards = new AssetRewards(),
+    erc20TokenContract?: string,
+    nftTokenContract?: string,
     nftAmount?: number
 ): ServiceAgreementTemplateCondition[] {
     return conditions.map(condition => ({
         ...condition,
         parameters: condition.parameters.map(parameter => ({
-            ...fillParameterWithDDO(parameter, ddo, assetRewards, nftAmount)
+            ...fillParameterWithDDO(
+                parameter,
+                ddo,
+                assetRewards,
+                erc20TokenContract,
+                nftTokenContract,
+                nftAmount
+            )
         }))
     }))
 }
 
-function findServiceConditionByName(
+export function findServiceConditionByName(
     service: Service,
     name: string
 ): ServiceAgreementTemplateCondition {
@@ -86,8 +101,10 @@ function getAssetRewardsFromService(service: Service): AssetRewards {
     const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
         .value as string[]
 
-    const rewardsMap = new Map()
-    let i = 0
-    for (i = 0; i < amounts.length; i++) rewardsMap.set(receivers[i], amounts[i])
+    const rewardsMap = new Map<string, number>()
+
+    for (let i = 0; i < amounts.length; i++)
+        rewardsMap.set(receivers[i], Number(amounts[i]))
+
     return new AssetRewards(rewardsMap)
 }

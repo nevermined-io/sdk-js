@@ -3,6 +3,7 @@ import { TransactionReceipt } from 'web3-core'
 import ContractHandler from '../ContractHandler'
 
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import Account from '../../nevermined/Account'
 
 export abstract class ContractBase extends Instantiable {
     protected static instance = null
@@ -67,10 +68,10 @@ export abstract class ContractBase extends Instantiable {
     protected async sendFrom(
         name: string,
         args: any[],
-        from?: string
+        from?: Account
     ): Promise<TransactionReceipt> {
-        from = await this.getFromAddress(from)
-        return this.send(name, from, args)
+        const fromAddress = await this.getFromAddress(from && from.getId())
+        return this.send(name, fromAddress, args)
     }
 
     protected async send(

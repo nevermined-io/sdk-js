@@ -42,7 +42,8 @@ describe('Nfts721 operations', () => {
             newMetadata() as any,
             artist,
             new AssetRewards(),
-            nftContract.options.address
+            nftContract.options.address,
+            token.getAddress()
         )
     })
 
@@ -63,14 +64,10 @@ describe('Nfts721 operations', () => {
         )
 
         // collector orders the nft
-        const agreementId = await nevermined.nfts.order721(
-            ddo.id,
-            token.getAddress(),
-            collector
-        )
+        const agreementId = await nevermined.nfts.order721(ddo.id, collector)
 
         // artists sends the nft
-        await nevermined.nfts.transfer721(agreementId, ddo.id, token.getAddress(), artist)
+        await nevermined.nfts.transfer721(agreementId, ddo.id, artist)
 
         assert.equal(
             await nevermined.nfts.ownerOf(

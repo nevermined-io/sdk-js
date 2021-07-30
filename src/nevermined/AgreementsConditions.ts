@@ -1,6 +1,7 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { DDO } from '../ddo/DDO'
+import { findServiceConditionByName } from '../utils'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -46,7 +47,7 @@ export class AgreementsConditions extends Instantiable {
             await this.nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
                 totalAmount,
-                from && from.getId()
+                from
             )
 
             const receipt = await lockPaymentCondition.fulfill(
@@ -56,7 +57,7 @@ export class AgreementsConditions extends Instantiable {
                 token.getAddress(),
                 amounts,
                 receivers,
-                from && from.getId()
+                from
             )
 
             return !!receipt.events.Fulfilled
@@ -81,12 +82,7 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { accessCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await accessCondition.fulfill(
-                agreementId,
-                did,
-                grantee,
-                from && from.getId()
-            )
+            const receipt = await accessCondition.fulfill(agreementId, did, grantee, from)
             return !!receipt.events.Fulfilled
         } catch {
             return false
@@ -113,7 +109,7 @@ export class AgreementsConditions extends Instantiable {
                 agreementId,
                 did,
                 grantee,
-                from && from.getId()
+                from
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -174,7 +170,7 @@ export class AgreementsConditions extends Instantiable {
                 token.getAddress(),
                 conditionIdLock,
                 conditionIdAccess,
-                from && from.getId()
+                from
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -240,7 +236,7 @@ export class AgreementsConditions extends Instantiable {
             token.getAddress(),
             lockPaymentConditionId,
             transferNftConditionId,
-            from.getId()
+            from
         )
         return !!receipt.events.Fulfilled
     }
@@ -270,24 +266,26 @@ export class AgreementsConditions extends Instantiable {
 
         const salesService = ddo.findServiceByType('nft721-sales')
 
-        const { token } = this.nevermined.keeper
-
         const {
             accessConsumer
         } = await this.nevermined.keeper.templates.nft721SalesTemplate.getAgreementData(
             agreementId
         )
 
+        const payment = findServiceConditionByName(salesService, 'lockPayment')
+
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
                 amounts,
                 receivers
             )
         )
+
+        const transfer = findServiceConditionByName(salesService, 'transferNFT')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
@@ -295,9 +293,11 @@ export class AgreementsConditions extends Instantiable {
                 ddo.shortId(),
                 accessConsumer,
                 lockPaymentConditionId,
-                salesService.attributes.main.nftTokenAddress
+                transfer.parameters.find(p => p.name === '_contract').value as string
             )
         )
+
+        const escrow = findServiceConditionByName(salesService, 'escrowPayment')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
@@ -305,10 +305,10 @@ export class AgreementsConditions extends Instantiable {
             amounts,
             receivers,
             escrowPaymentCondition.getAddress(),
-            token.getAddress(),
+            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             transferNftConditionId,
-            from.getId()
+            from
         )
         return !!receipt.events.Fulfilled
     }
@@ -338,7 +338,7 @@ export class AgreementsConditions extends Instantiable {
             did,
             holder,
             nftAmount,
-            from && from.getId()
+            from
         )
         return !!receipt.events.Fulfilled
     }
@@ -348,26 +348,27 @@ export class AgreementsConditions extends Instantiable {
      * Used as an access condition to the underlying files.
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did The decentralized identifier of the asset containing the nfts.
-     * @param {String} holder The address of the holder (recipient of a previous nft transfer with `agreementId`).
-     * @param {String} tokenAddress The address of the nft token to use.
+     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
+     * @param {String} holderAddress The address of the holder (recipient of a previous nft transfer with `agreementId`).
      * @param from
      * @returns {Boolean} True if the holder is able to fulfill the condition
      */
     public async holderNft721(
         agreementId: string,
-        did: string,
-        holder: string,
-        tokenAddress: string,
+        ddo: DDO,
+        holderAddress: string,
         from?: Account
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
+        const accessService = ddo.findServiceByType('nft721-access')
+
+        const holder = findServiceConditionByName(accessService, 'nftHolder')
 
         const receipt = await nft721HolderCondition.fulfill(
             agreementId,
-            did,
-            holder,
-            tokenAddress,
+            ddo.shortId(),
+            holderAddress,
+            holder.parameters.find(p => p.name === '_contractAddress').value as string,
             from
         )
         return !!receipt.events.Fulfilled
@@ -386,7 +387,7 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         grantee: string,
-        from?: string
+        from?: Account
     ) {
         const { nftAccessCondition } = this.nevermined.keeper.conditions
 
@@ -439,7 +440,7 @@ export class AgreementsConditions extends Instantiable {
             nftReceiver,
             nftAmount,
             lockPaymentConditionId,
-            from.getId()
+            from
         )
 
         return !!receipt.events.Fulfilled
@@ -452,7 +453,6 @@ export class AgreementsConditions extends Instantiable {
      * @param {DDO} ddo the decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param {String} erc20TokenAddress The address of the erc20 token to use.
      * @param from
      * @returns {Boolean} True if the transfer is successfull
      */
@@ -461,7 +461,6 @@ export class AgreementsConditions extends Instantiable {
         ddo: DDO,
         amounts: number[],
         receivers: string[],
-        erc20TokenAddress: string,
         from?: Account
     ) {
         const {
@@ -472,19 +471,23 @@ export class AgreementsConditions extends Instantiable {
 
         const salesService = ddo.findServiceByType('nft721-sales')
 
-        const nft = await this.nevermined.contracts.loadNft721(
-            salesService.attributes.main.nftTokenAddress
-        )
+        const payment = findServiceConditionByName(salesService, 'lockPayment')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.id,
                 escrowPaymentCondition.getAddress(),
-                erc20TokenAddress,
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
                 amounts,
                 receivers
             )
+        )
+
+        const transfer = findServiceConditionByName(salesService, 'transferNFT')
+
+        const nft = await this.nevermined.contracts.loadNft721(
+            transfer.parameters.find(p => p.name === '_contract').value as string
         )
 
         await nft.setApprovalForAll(transferNft721Condition.address, true, from)
@@ -502,7 +505,7 @@ export class AgreementsConditions extends Instantiable {
             ddo.id,
             accessConsumer,
             lockPaymentConditionId,
-            salesService.attributes.main.nftTokenAddress,
+            transfer.parameters.find(p => p.name === '_contract').value as string,
             from
         )
 

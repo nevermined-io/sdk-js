@@ -57,6 +57,7 @@ export class Nfts extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards,
         nftTokenAddress: string,
+        erc20tokenAddress: string,
         royalties?: number
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft721(
@@ -65,6 +66,7 @@ export class Nfts extends Instantiable {
             assetRewards,
             [],
             'PSK-RSA',
+            erc20tokenAddress,
             nftTokenAddress,
             [],
             royalties
@@ -162,11 +164,7 @@ export class Nfts extends Instantiable {
         return agreementId
     }
 
-    public async order721(
-        did: string,
-        erc20TokenAddress: string,
-        from?: Account
-    ): Promise<string> {
+    public async order721(did: string, from?: Account): Promise<string> {
         let result: boolean
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
         const { agreements } = this.nevermined
@@ -181,7 +179,6 @@ export class Nfts extends Instantiable {
             agreementId,
             ddo,
             assetRewards,
-            erc20TokenAddress,
             from.getId(),
             from
         )
@@ -248,7 +245,6 @@ export class Nfts extends Instantiable {
     public async transfer721(
         agreementId: string,
         did: string,
-        erc20TokenAddress: string,
         from: Account
     ): Promise<boolean> {
         const { agreements } = this.nevermined
@@ -261,7 +257,6 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            erc20TokenAddress,
             from
         )
         if (!result) {

@@ -99,7 +99,7 @@ describe('NFTLockCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionId,
                 nftLockCondition.address,
-                owner.getId()
+                owner
             )
 
             const result = await nftLockCondition.fulfill(
@@ -191,7 +191,7 @@ describe('NFTLockCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionId,
                 nftLockCondition.address,
-                owner.getId()
+                owner
             )
 
             await assert.isRejected(
@@ -236,7 +236,7 @@ describe('NFTLockCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionId,
                 nftLockCondition.address,
-                owner.getId()
+                owner
             )
 
             await nftLockCondition.fulfill(

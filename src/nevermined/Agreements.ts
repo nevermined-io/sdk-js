@@ -63,7 +63,7 @@ export class Agreements extends Instantiable {
                 ddo,
                 assetRewards,
                 consumer.getId(),
-                consumer.getId()
+                consumer
             )
 
         const signature = await this.nevermined.utils.agreements.signServiceAgreement(
@@ -109,7 +109,7 @@ export class Agreements extends Instantiable {
                 ddo,
                 assetRewards,
                 consumer.getId(),
-                publisher.getId()
+                publisher
             )
 
         return true
@@ -178,7 +178,7 @@ export class Agreements extends Instantiable {
         return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(
             accessConsumer,
             did,
-            account.getId()
+            account
         )
     }
 }

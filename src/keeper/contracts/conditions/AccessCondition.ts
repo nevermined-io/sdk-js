@@ -1,6 +1,7 @@
 import { Condition } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export class AccessCondition extends Condition {
     public static async getInstance(
@@ -13,15 +14,15 @@ export class AccessCondition extends Condition {
         return super.hashValues(didZeroX(did), zeroX(grantee))
     }
 
-    public fulfill(agreementId: string, did: string, grantee: string, from?: string) {
+    public fulfill(agreementId: string, did: string, grantee: string, from?: Account) {
         return super.fulfill(agreementId, [didZeroX(did), grantee].map(zeroX), from)
     }
 
-    public checkPermissions(grantee: string, did: string, from?: string) {
+    public checkPermissions(grantee: string, did: string, from?: Account) {
         return this.call<boolean>(
             'checkPermissions',
             [grantee, didZeroX(did)].map(zeroX),
-            from
+            from && from.getId()
         )
     }
 

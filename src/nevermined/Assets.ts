@@ -99,9 +99,10 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards = new AssetRewards(),
         services: Service[] = [],
         method: string = 'PSK-RSA',
+        erc20TokenAddress: string,
         nftTokenAddress: string,
         providers?: string[],
-        royalties?: number
+        royalties: number = 0
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')
         return new SubscribablePromise(async observer => {
@@ -167,8 +168,7 @@ export class Assets extends Instantiable {
                 await this.createNft721SalesService(
                     metadata,
                     publisher,
-                    nft721SalesServiceAgreementTemplate,
-                    nftTokenAddress
+                    nft721SalesServiceAgreementTemplate
                 )
             )
 
@@ -180,12 +180,11 @@ export class Assets extends Instantiable {
                 await this.createNft721AccessService(
                     metadata,
                     publisher,
-                    nft721AccessServiceAgreementTemplate,
-                    nftTokenAddress
+                    nft721AccessServiceAgreementTemplate
                 )
             )
 
-            console.log('Services Added')
+            this.logger.log('Services Added')
             observer.next(CreateProgressStep.ServicesAdded)
 
             ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
@@ -215,14 +214,18 @@ export class Assets extends Instantiable {
             nft721SalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                 nft721SalesTemplateConditions,
                 ddo,
-                assetRewards
+                assetRewards,
+                erc20TokenAddress,
+                nftTokenAddress
             )
 
             const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
             nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                 nft721AccessTemplateConditions,
                 ddo,
-                assetRewards
+                assetRewards,
+                erc20TokenAddress,
+                nftTokenAddress
             )
 
             this.logger.log('Conditions filled')
@@ -302,7 +305,7 @@ export class Assets extends Instantiable {
                 '0x1',
                 '',
                 1,
-                royalties || 0,
+                royalties,
                 publisher.getId()
             )
 
@@ -411,7 +414,7 @@ export class Assets extends Instantiable {
                 )
             )
 
-            console.log('Services Added')
+            this.logger.log('Services Added')
             observer.next(CreateProgressStep.ServicesAdded)
 
             ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
@@ -443,6 +446,8 @@ export class Assets extends Instantiable {
                 nftAccessTemplateConditions,
                 ddo,
                 assetRewards,
+                undefined,
+                undefined,
                 nftAmount
             )
 
@@ -451,6 +456,8 @@ export class Assets extends Instantiable {
                 nftSalesTemplateConditions,
                 ddo,
                 assetRewards,
+                undefined,
+                undefined,
                 nftAmount
             )
 
@@ -646,7 +653,7 @@ export class Assets extends Instantiable {
                 )
             }
 
-            console.log('Services Added')
+            this.logger.log('Services Added')
             observer.next(CreateProgressStep.ServicesAdded)
 
             ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
@@ -1357,8 +1364,7 @@ export class Assets extends Instantiable {
     private async createNft721AccessService(
         metadata: MetaData,
         publisher: Account,
-        serviceAgreementTemplate: ServiceAgreementTemplate,
-        nftTokenAddress: string
+        serviceAgreementTemplate: ServiceAgreementTemplate
     ): Promise<Service> {
         const { nft721AccessTemplate } = this.nevermined.keeper.templates
         return {
@@ -1371,7 +1377,6 @@ export class Assets extends Instantiable {
                     name: 'nft721AccessAgreement',
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
-                    nftTokenAddress,
                     timeout: 86400
                 },
                 additionalInformation: {
@@ -1385,8 +1390,7 @@ export class Assets extends Instantiable {
     private async createNft721SalesService(
         metadata: MetaData,
         publisher: Account,
-        serviceAgreementTemplate: ServiceAgreementTemplate,
-        nftTokenAddress: string
+        serviceAgreementTemplate: ServiceAgreementTemplate
     ): Promise<Service> {
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
         return {
@@ -1399,8 +1403,6 @@ export class Assets extends Instantiable {
                     name: 'nft721SalesAgreement',
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
-                    price: metadata.main.price,
-                    nftTokenAddress,
                     timeout: 86400
                 },
                 additionalInformation: {

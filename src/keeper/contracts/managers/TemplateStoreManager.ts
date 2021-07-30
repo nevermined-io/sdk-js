@@ -1,6 +1,7 @@
 import ContractBase from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export enum TemplateState {
     Uninitialized = 0,
@@ -31,7 +32,11 @@ export class TemplateStoreManager extends ContractBase {
         return this.call('owner', [])
     }
 
-    public async proposeTemplate(address: string, from?: string, ignoreExists?: boolean) {
+    public async proposeTemplate(
+        address: string,
+        from?: Account,
+        ignoreExists?: boolean
+    ) {
         const template = await this.getTemplate(address)
         if (template.blockNumberUpdated !== 0) {
             this.logger.warn(`Template "${address}" already exist.`)
@@ -45,7 +50,7 @@ export class TemplateStoreManager extends ContractBase {
 
     public async approveTemplate(
         address: string,
-        from?: string,
+        from?: Account,
         ignoreApproved?: boolean
     ) {
         const template = await this.getTemplate(address)
@@ -59,7 +64,7 @@ export class TemplateStoreManager extends ContractBase {
         }
     }
 
-    public revokeTemplate(address: string, from?: string) {
+    public revokeTemplate(address: string, from?: Account) {
         return this.sendFrom('revokeTemplate', [zeroX(address)], from)
     }
 

@@ -15,7 +15,7 @@ export default class AssetRewards {
 
         if (_params.length === 1) {
             this.rewards = _params[0]
-            this.rewards.forEach((v, k) => (this.totalPrice = v + this.totalPrice))
+            this.rewards.forEach(v => (this.totalPrice += v))
         } else if (_params.length === 2) {
             this.rewards.set(_params[0], _params[1])
             this.totalPrice = _params[1]

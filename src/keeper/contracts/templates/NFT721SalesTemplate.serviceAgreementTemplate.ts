@@ -1,13 +1,13 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 
 export const nft721SalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
-    contractName: 'NFTSalesTemplate',
+    contractName: 'NFT721SalesTemplate',
     events: [
         {
             name: 'AgreementCreated',
             actorType: 'consumer',
             handler: {
-                moduleName: 'nftSalesTemplate',
+                moduleName: 'nft721SalesTemplate',
                 functionName: 'fulfillLockPaymentCondition',
                 version: '0.1'
             }
@@ -94,6 +94,11 @@ export const nft721SalesTemplateServiceAgreementTemplate: ServiceAgreementTempla
                 {
                     name: '_conditionId',
                     type: 'bytes32',
+                    value: ''
+                },
+                {
+                    name: '_contract',
+                    type: 'address',
                     value: ''
                 }
             ],

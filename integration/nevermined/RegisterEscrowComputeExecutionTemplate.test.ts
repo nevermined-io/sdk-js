@@ -62,7 +62,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should propose the template', async () => {
             await keeper.templateStoreManager.proposeTemplate(
                 template.getAddress(),
-                consumer.getId(),
+                consumer,
                 true
             )
             // TODO: Use a event to detect template mined
@@ -72,7 +72,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should approve the template', async () => {
             await keeper.templateStoreManager.approveTemplate(
                 template.getAddress(),
-                templateManagerOwner.getId(),
+                templateManagerOwner,
                 true
             )
             // TODO: Use a event to detect template mined
@@ -177,7 +177,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 [0, 0, 0],
                 [0, 0, 0],
                 consumer.getId(),
-                publisher.getId()
+                publisher
             )
 
             assert.isTrue(agreement.status)
@@ -200,7 +200,7 @@ describe('Register Escrow Compute Execution Template', () => {
             await keeper.token.approve(
                 lockPaymentCondition.getAddress(),
                 totalAmount,
-                consumer.getId()
+                consumer
             )
 
             const fulfill = await lockPaymentCondition.fulfill(
@@ -210,7 +210,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 token.getAddress(),
                 amounts,
                 receivers,
-                consumer.getId()
+                consumer
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -221,7 +221,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 agreementId,
                 did,
                 consumer.getId(),
-                publisher.getId()
+                publisher
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -237,7 +237,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 token.getAddress(),
                 conditionIdLock,
                 conditionIdCompute,
-                consumer.getId()
+                consumer
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -279,7 +279,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 did,
                 new AssetRewards(),
                 consumer.getId(),
-                publisher.getId()
+                publisher
             )
 
             assert.match(agreementId, /^0x[a-f0-9]{64}$/i)

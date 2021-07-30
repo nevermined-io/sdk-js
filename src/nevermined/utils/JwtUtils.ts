@@ -1,5 +1,5 @@
 import parseJwk from 'jose/jwk/parse'
-import SignJWT, { JWSHeaderParameters, JWTPayload } from 'jose/jwt/sign'
+import SignJWT, { JWSHeaderParameters } from 'jose/jwt/sign'
 
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../../src'

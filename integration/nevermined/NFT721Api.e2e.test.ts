@@ -77,7 +77,8 @@ describe('NFTs721 Api End-to-End', () => {
                 metadata as any,
                 artist,
                 assetRewards1,
-                nftContract.options.address
+                nftContract.options.address,
+                token.getAddress()
             )
             assert.isDefined(ddo)
 
@@ -105,11 +106,7 @@ describe('NFTs721 Api End-to-End', () => {
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
             assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
 
-            agreementId = await nevermined.nfts.order721(
-                ddo.id,
-                token.getAddress(),
-                collector1
-            )
+            agreementId = await nevermined.nfts.order721(ddo.id, collector1)
 
             assert.isDefined(agreementId)
 
@@ -130,12 +127,7 @@ describe('NFTs721 Api End-to-End', () => {
                 artist.getId()
             )
 
-            const receipt = await nevermined.nfts.transfer721(
-                agreementId,
-                ddo.id,
-                token.getAddress(),
-                artist
-            )
+            const receipt = await nevermined.nfts.transfer721(agreementId, ddo.id, artist)
             assert.isTrue(receipt)
 
             assert.equal(

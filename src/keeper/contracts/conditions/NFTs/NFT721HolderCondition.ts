@@ -54,7 +54,7 @@ export class NFT721HolderCondition extends Condition {
         return super.fulfill(
             agreementId,
             [didZeroX(did), zeroX(holderAddress), String(1), nftTokenAddress],
-            from && from.getId()
+            from
         )
     }
 }

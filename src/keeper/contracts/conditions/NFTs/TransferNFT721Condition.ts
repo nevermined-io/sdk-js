@@ -69,7 +69,7 @@ export class TransferNFT721Condition extends Condition {
                 lockPaymentCondition,
                 nftTokenAddress
             ],
-            from && from.getId()
+            from
         )
     }
 }

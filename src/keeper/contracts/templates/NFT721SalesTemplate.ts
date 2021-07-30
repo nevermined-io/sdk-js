@@ -5,7 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { zeroX } from '../../../utils'
+import { findServiceConditionByName, zeroX } from '../../../utils'
 import Account from '../../../nevermined/Account'
 
 export class NFT721SalesTemplate extends BaseTemplate {
@@ -23,7 +23,6 @@ export class NFT721SalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        erc20TokenAddress: string,
         consumerAddress: string,
         from?: Account
     ): Promise<boolean> {
@@ -35,8 +34,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
-            consumerAddress,
-            erc20TokenAddress
+            consumerAddress
         )
 
         return !!(await this.createAgreement(
@@ -46,7 +44,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             [0, 0, 0],
             [0, 0, 0],
             consumerAddress,
-            from.getId()
+            from
         ))
     }
 
@@ -54,8 +52,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
-        erc20TokenAddress?: string
+        consumer: string
     ): Promise<string[]> {
         const {
             lockPaymentCondition,
@@ -67,16 +64,20 @@ export class NFT721SalesTemplate extends BaseTemplate {
 
         if (!salesService) throw 'Service nft721-sales not found!'
 
+        const payment = findServiceConditionByName(salesService, 'lockPayment')
+
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
                 escrowPaymentCondition.getAddress(),
-                erc20TokenAddress,
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers()
             )
         )
+
+        const transfer = findServiceConditionByName(salesService, 'transferNFT')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
@@ -84,9 +85,12 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 zeroX(ddo.shortId()),
                 consumer,
                 lockPaymentConditionId,
-                salesService.attributes.main.nftTokenAddress
+                transfer.parameters.find(p => p.name === '_contract').value as string
             )
         )
+
+        const escrow = findServiceConditionByName(salesService, 'escrowPayment')
+
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
             agreementId,
             await escrowPaymentCondition.hashValues(
@@ -94,7 +98,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers(),
                 escrowPaymentCondition.getAddress(),
-                erc20TokenAddress,
+                escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
                 lockPaymentConditionId,
                 transferNftConditionId
             )
