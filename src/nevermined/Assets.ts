@@ -97,7 +97,6 @@ export class Assets extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
-        services: Service[] = [],
         method: string = 'PSK-RSA',
         erc20TokenAddress: string,
         nftTokenAddress: string,
@@ -126,10 +125,6 @@ export class Assets extends Instantiable {
                     }
                 ]
             })
-
-            if (services.length > 0) {
-                ddo.service = [, ...services].reverse() as Service[]
-            }
 
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
@@ -517,8 +512,10 @@ export class Assets extends Instantiable {
 
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
+
             this.logger.log('Registering DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
+
             await didRegistry.registerAttribute(
                 didSeed,
                 ddo.checksum(ddo.shortId()),
