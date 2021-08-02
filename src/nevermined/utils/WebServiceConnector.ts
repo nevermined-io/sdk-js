@@ -3,6 +3,7 @@ import fs, { ReadStream } from 'fs'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import save from 'save-file'
 import FormData from 'form-data'
+import * as path from 'path'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -110,11 +111,15 @@ export class WebServiceConnector extends Instantiable {
                 response.body.on('error', reject)
                 fileStream.on('finish', resolve)
             })
-
-            return destination
         } else {
-            save(await response.arrayBuffer(), filename)
+            await save(await response.arrayBuffer(), filename)
+            destination = process.cwd()
         }
+
+        const d = path.join(destination, filename)
+        this.logger.log(`Downloaded: ${d}`)
+
+        return d
     }
 
     public async uploadFile(url: string, stream: ReadStream): Promise<any> {

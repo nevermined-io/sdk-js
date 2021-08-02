@@ -64,11 +64,10 @@ export class Nfts extends Instantiable {
             metadata,
             publisher,
             assetRewards,
-            [],
             'PSK-RSA',
             erc20tokenAddress,
             nftTokenAddress,
-            [],
+            undefined,
             royalties
         )
     }
