@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
@@ -10,7 +10,7 @@ import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import utils from 'web3-utils'
 
-describe('Nfts721 operations', () => {
+describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
 
     let nft: Contract
@@ -20,7 +20,6 @@ describe('Nfts721 operations', () => {
     let ddo: DDO
 
     let token: Token
-    let newMetadata = () => getMetadata()
 
     before(async () => {
         TestContractHandler.setConfig(config)
@@ -33,15 +32,13 @@ describe('Nfts721 operations', () => {
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
         ;({ token } = nevermined)
-
-        newMetadata = () => getMetadata(0)
     })
 
     describe('with default token', async () => {
         before(async () => {
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                newMetadata() as any,
+                getMetadata() as MetaData,
                 artist,
                 new AssetRewards(),
                 nft.options.address
@@ -79,7 +76,7 @@ describe('Nfts721 operations', () => {
         before(async () => {
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                newMetadata() as any,
+                getMetadata() as MetaData,
                 artist,
                 new AssetRewards(),
                 nft.options.address,
@@ -118,7 +115,7 @@ describe('Nfts721 operations', () => {
         before(async () => {
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                newMetadata() as any,
+                getMetadata() as MetaData,
                 artist,
                 new AssetRewards(artist.getId(), Number(utils.toWei('0.1', 'ether'))),
                 nft.options.address,
@@ -129,6 +126,10 @@ describe('Nfts721 operations', () => {
         it('should mint an nft token', async () => {
             // artist mints the nft
             await nft.methods.mint(zeroX(ddo.shortId())).send({ from: artist.getId() })
+            assert.equal(
+                await nft.methods.ownerOf(zeroX(ddo.shortId())).call(),
+                artist.getId()
+            )
         })
 
         xit('should transfer an nft token with ether', async () => {

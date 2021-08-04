@@ -94,18 +94,21 @@ export abstract class ContractBase extends Instantiable {
                 `Method "${name}" is not part of contract "${this.contractName}"`
             )
         }
+
         // Logger.log(name, args)
         const method = this.contract.methods[name]
         try {
-            const methodInstance = method(...args)
-            const gas = await methodInstance.estimateGas(args, {
+            const tx = method(...args)
+            const gas = await tx.estimateGas(args, {
                 from
             })
-            const tx = methodInstance.send({
+
+            const receipt = await tx.send({
                 from,
                 gas
             })
-            return tx
+
+            return receipt
         } catch (err) {
             const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
                 return {
@@ -136,7 +139,7 @@ export abstract class ContractBase extends Instantiable {
         // Logger.log(name)
         try {
             const method = this.contract.methods[name](...args)
-            return method.call(from ? { from } : null)
+            return await method.call(from ? { from } : null)
         } catch (err) {
             this.logger.error(
                 `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args}`,
