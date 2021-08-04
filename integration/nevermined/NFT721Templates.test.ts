@@ -149,7 +149,7 @@ describe('NFT721Templates E2E', () => {
             agreementId2 = utils.generateId()
 
             ddo = await nevermined.assets.createNft721(
-                getMetadata() as MetaData,
+                getMetadata(),
                 artist,
                 assetRewards1,
                 'PSK-RSA',
@@ -623,7 +623,7 @@ describe('NFT721Templates E2E', () => {
             agreementId2 = utils.generateId()
 
             ddo = await nevermined.assets.createNft721(
-                getMetadata() as MetaData,
+                getMetadata(),
                 artist,
                 assetRewards2,
                 'PSK-RSA',

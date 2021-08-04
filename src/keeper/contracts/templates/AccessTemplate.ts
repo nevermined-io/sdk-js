@@ -1,7 +1,7 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
-import { generateId, zeroX } from '../../../utils'
+import { findServiceConditionByName, generateId, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
@@ -25,11 +25,11 @@ export class AccessTemplate extends BaseTemplate {
         from?: Account
     ) {
         return !!(await this.createFullAgreement(
-            ddo.shortId(),
+            ddo,
             assetRewards,
             consumer,
-            from,
-            agreementId
+            agreementId,
+            from
         ))
     }
 
@@ -43,38 +43,35 @@ export class AccessTemplate extends BaseTemplate {
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(
-            agreementId,
-            ddo.shortId(),
-            assetRewards,
-            consumer
-        )
+        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer)
         return [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId]
     }
 
     /**
      * Create a agreement using AccessTemplate using only the most important information.
-     * @param  {string}          did    Asset DID.
-     * @param  {AssetRewards}    assetRewards Asset rewards
-     * @param  {string}          from   Consumer address.
-     * @return {Promise<string>}        Agreement ID.
+     * @param  {DDO}             ddo            Asset DID.
+     * @param  {AssetRewards}    assetRewards   Asset rewards
+     * @param  {string}          from           Consumer address.
+     * @param  {string}          consumer       Consumer address.
+     * @param  {string}          agreementId    Consumer address.
+     * @return {Promise<string>}                Agreement ID.
      */
     public async createFullAgreement(
-        did: string,
+        ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        from?: Account,
-        agreementId: string = generateId()
+        agreementId: string = generateId(),
+        from?: Account
     ): Promise<string> {
         const {
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, did, assetRewards, consumer)
+        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer)
 
         await this.createAgreement(
             agreementId,
-            did,
+            ddo.shortId(),
             [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId],
             [0, 0, 0],
             [0, 0, 0],
@@ -87,11 +84,11 @@ export class AccessTemplate extends BaseTemplate {
 
     private async createFullAgreementData(
         agreementId: string,
-        did: string,
+        ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string
     ) {
-        const { conditions, token } = this.nevermined.keeper
+        const { conditions } = this.nevermined.keeper
 
         const {
             accessCondition,
@@ -99,26 +96,36 @@ export class AccessTemplate extends BaseTemplate {
             escrowPaymentCondition
         } = conditions
 
+        const accessService = ddo.findServiceByType('access')
+
+        const payment = findServiceConditionByName(accessService, 'lockPayment')
+        if (!payment) throw new Error('Payment Condition not found!')
+
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
-            did,
+            ddo.shortId(),
             escrowPaymentCondition.getAddress(),
-            token.getAddress(),
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             assetRewards.getAmounts(),
             assetRewards.getReceivers()
         )
+
         const accessConditionId = await accessCondition.generateIdHash(
             agreementId,
-            did,
+            ddo.shortId(),
             consumer
         )
+
+        const escrow = findServiceConditionByName(accessService, 'escrowPayment')
+        if (!escrow) throw new Error('Escrow Condition not found!')
+
         const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
             agreementId,
-            did,
+            ddo.shortId(),
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             escrowPaymentCondition.getAddress(),
-            token.getAddress(),
+            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             accessConditionId
         )

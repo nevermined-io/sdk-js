@@ -95,8 +95,7 @@ export class Agreements extends Instantiable {
         consumer: Account,
         publisher: Account
     ) {
-        const d: DID = DID.parse(did)
-        const ddo = await this.nevermined.metadata.retrieveDDO(d)
+        const ddo = await this.nevermined.assets.resolve(did)
 
         const templateName = ddo.findServiceByType(serviceType).attributes
             .serviceAgreementTemplate.contractName

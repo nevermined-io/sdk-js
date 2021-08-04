@@ -26,7 +26,7 @@ describe('Nfts operations', () => {
     describe('with default token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
-                getMetadata() as MetaData,
+                getMetadata(),
                 account1,
                 10,
                 0,
@@ -56,7 +56,7 @@ describe('Nfts operations', () => {
     describe('with custom token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
-                getMetadata() as MetaData,
+                getMetadata(),
                 account1,
                 10,
                 0,
@@ -88,7 +88,7 @@ describe('Nfts operations', () => {
     describe('with ether', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
-                getMetadata() as MetaData,
+                getMetadata(),
                 account1,
                 10,
                 0,

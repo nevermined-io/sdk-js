@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, MetaData } from '../../src'
+import { Nevermined, Account, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
@@ -38,7 +38,7 @@ describe('Nfts721 operations', async () => {
         before(async () => {
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata() as MetaData,
+                getMetadata(),
                 artist,
                 new AssetRewards(),
                 nft.options.address
@@ -76,7 +76,7 @@ describe('Nfts721 operations', async () => {
         before(async () => {
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata() as MetaData,
+                getMetadata(),
                 artist,
                 new AssetRewards(),
                 nft.options.address,
@@ -115,7 +115,7 @@ describe('Nfts721 operations', async () => {
         before(async () => {
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata() as MetaData,
+                getMetadata(),
                 artist,
                 new AssetRewards(artist.getId(), Number(utils.toWei('0.1', 'ether'))),
                 nft.options.address,

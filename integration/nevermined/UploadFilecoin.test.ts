@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 
@@ -39,7 +39,7 @@ describe.skip('Filecoin Integration', () => {
                 url: url
             }
         ]
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        ddo = await nevermined.assets.create(metadata as MetaData, publisher)
         assert.isDefined(ddo)
     })
 

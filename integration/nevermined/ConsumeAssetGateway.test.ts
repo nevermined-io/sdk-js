@@ -47,7 +47,7 @@ describe('Consume Asset (Gateway)', () => {
     it('should register an asset', async () => {
         const steps = []
         ddo = await nevermined.assets
-            .create(metadata as any, publisher)
+            .create(metadata, publisher)
             .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)

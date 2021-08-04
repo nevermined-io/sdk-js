@@ -1,13 +1,14 @@
 import { transformMetadata } from './utils'
+import { MetaData } from '../../src'
 
 const fetch = require('node-fetch').default
 
-const getMetadataFromUrl = (url: string) => async () =>
+const getMetadataFromUrl = (url: string) => async (): Promise<MetaData> =>
     transformMetadata(
         JSON.parse(await fetch(url).then(res => res.text())).service[0].attributes
     )
 
-const getFromUrl = (url: string) => async () =>
+const getFromUrl = (url: string) => async (): Promise<MetaData> =>
     transformMetadata(JSON.parse(await fetch(url).then(res => res.text())))
 
 export const getDocsCommonMetadata = getFromUrl(

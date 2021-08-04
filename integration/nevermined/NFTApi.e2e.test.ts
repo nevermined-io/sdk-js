@@ -69,7 +69,7 @@ describe('NFTs Api End-to-End', () => {
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
             ddo = await nevermined.nfts.create(
-                metadata as any,
+                metadata,
                 artist,
                 cappedAmount,
                 royalties,

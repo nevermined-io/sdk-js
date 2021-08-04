@@ -1,8 +1,9 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
+import { Nevermined, templates, conditions, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
+import { getMetadata } from '../utils'
 
 const {
     LockPaymentCondition,
@@ -252,29 +253,16 @@ describe('Register Escrow Compute Execution Template', () => {
     })
 
     describe('Short flow', () => {
-        let didSeed: string
-        let did: string
         let agreementId: string
+        let ddo: DDO
 
         before(async () => {
-            didSeed = utils.generateId()
-            did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
-        })
-
-        it('should register a DID', async () => {
-            // This part is executed inside Nevermined.assets.create()
-            await keeper.didRegistry.registerAttribute(
-                didSeed,
-                checksum,
-                [],
-                url,
-                publisher.getId()
-            )
+            ddo = await nevermined.assets.create(getMetadata(), publisher)
         })
 
         it('should create a new agreement (short way)', async () => {
             agreementId = await template.createFullAgreement(
-                did,
+                ddo,
                 new AssetRewards(),
                 consumer.getId(),
                 publisher
@@ -285,7 +273,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
         it('should not grant the access to the consumer', async () => {
             const computeTriggered = await computeExecutionCondition.wasComputeTriggered(
-                did,
+                ddo.shortId(),
                 consumer.getId()
             )
 
@@ -299,7 +287,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
             await nevermined.agreements.conditions.lockPayment(
                 agreementId,
-                did,
+                ddo.shortId(),
                 amounts,
                 receivers,
                 undefined,
@@ -310,7 +298,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill the conditions from computing side', async () => {
             await nevermined.agreements.conditions.grantServiceExecution(
                 agreementId,
-                did,
+                ddo.shortId(),
                 consumer.getId(),
                 publisher
             )
@@ -318,7 +306,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 agreementId,
                 amounts,
                 receivers,
-                did,
+                ddo.shortId(),
                 consumer.getId(),
                 publisher.getId(),
                 undefined,
@@ -328,7 +316,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
         it('should grant the access to the consumer', async () => {
             const computeTriggered = await computeExecutionCondition.wasComputeTriggered(
-                did,
+                ddo.shortId(),
                 consumer.getId()
             )
 

@@ -74,11 +74,10 @@ describe('NFTs721 Api End-to-End', () => {
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
             ddo = await nevermined.nfts.create721(
-                metadata as any,
+                metadata,
                 artist,
                 assetRewards1,
-                nftContract.options.address,
-                token.getAddress()
+                nftContract.options.address
             )
             assert.isDefined(ddo)
 

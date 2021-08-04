@@ -36,7 +36,7 @@ describe('Consume Asset', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
+        ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')

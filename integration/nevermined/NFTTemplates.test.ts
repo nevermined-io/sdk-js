@@ -144,7 +144,7 @@ describe('NFTTemplates E2E', () => {
             activityId = utils.generateId()
 
             ddo = await nevermined.assets.createNft(
-                getMetadata() as MetaData,
+                getMetadata(),
                 artist,
                 assetRewards1,
                 undefined,
@@ -659,7 +659,7 @@ describe('NFTTemplates E2E', () => {
             checksum = utils.generateId()
             activityId = utils.generateId()
             ddo = await nevermined.assets.createNft(
-                getMetadata() as MetaData,
+                getMetadata(),
                 artist,
                 assetRewards2,
                 undefined,

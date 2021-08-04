@@ -63,8 +63,10 @@ export const generateMetadata = (
     }
 })
 
-export const getMetadata = (price?: number, nonce: string | number = Math.random()) =>
-    generateMetadata('TestAsset', price, nonce)
+export const getMetadata = (
+    price?: number,
+    nonce: string | number = Math.random()
+): MetaData => generateMetadata('TestAsset', price, nonce) as MetaData
 
 export const getAssetRewards = (receiver: string) =>
     new AssetRewards(receiver, Number(21 + '0'.repeat(18)))
