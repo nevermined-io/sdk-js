@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { Token } from '../../src/nevermined/Token'
 import { ZeroAddress } from '../../src/utils'
@@ -15,22 +15,18 @@ describe('Nfts operations', () => {
 
     let token: Token
 
-    let newMetadata = () => getMetadata()
-
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ token } = nevermined)
 
         // Accounts
         ;[account1, account2] = await nevermined.accounts.list()
-
-        newMetadata = () => getMetadata()
     })
 
     describe('with default token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
-                newMetadata() as any,
+                getMetadata() as MetaData,
                 account1,
                 10,
                 0,
@@ -40,7 +36,6 @@ describe('Nfts operations', () => {
 
         it('should mint 10 nft tokens', async () => {
             await nevermined.nfts.mint(ddo.id, 10, account1)
-
             assert.equal(10, await nevermined.nfts.balance(ddo.id, account1))
         })
 
@@ -54,7 +49,6 @@ describe('Nfts operations', () => {
 
         it('should burn nft tokens', async () => {
             await nevermined.nfts.burn(ddo.id, 6, account1)
-
             assert.equal(2, await nevermined.nfts.balance(ddo.id, account1))
         })
     })
@@ -62,7 +56,7 @@ describe('Nfts operations', () => {
     describe('with custom token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
-                newMetadata() as any,
+                getMetadata() as MetaData,
                 account1,
                 10,
                 0,
@@ -74,7 +68,6 @@ describe('Nfts operations', () => {
 
         it('should mint 10 nft tokens', async () => {
             await nevermined.nfts.mint(ddo.id, 10, account1)
-
             assert.equal(10, await nevermined.nfts.balance(ddo.id, account1))
         })
 
@@ -88,7 +81,6 @@ describe('Nfts operations', () => {
 
         it('should burn nft tokens', async () => {
             await nevermined.nfts.burn(ddo.id, 6, account1)
-
             assert.equal(2, await nevermined.nfts.balance(ddo.id, account1))
         })
     })
@@ -96,7 +88,7 @@ describe('Nfts operations', () => {
     describe('with ether', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
-                newMetadata() as any,
+                getMetadata() as MetaData,
                 account1,
                 10,
                 0,
@@ -108,7 +100,6 @@ describe('Nfts operations', () => {
 
         it('should mint 10 nft tokens', async () => {
             await nevermined.nfts.mint(ddo.id, 10, account1)
-
             assert.equal(10, await nevermined.nfts.balance(ddo.id, account1))
         })
 
