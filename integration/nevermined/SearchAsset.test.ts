@@ -42,11 +42,11 @@ describe('Search Asset', () => {
 
     it('should register an asset', async () => {
         assert.instanceOf(
-            nevermined.assets.create(await metadataGenerator('Test1'), publisher),
+            await nevermined.assets.create(metadataGenerator('Test1'), publisher),
             DDO
         )
         assert.instanceOf(
-            nevermined.assets.create(await metadataGenerator('Test2'), publisher),
+            await nevermined.assets.create(metadataGenerator('Test2'), publisher),
             DDO
         )
         assert.instanceOf(
