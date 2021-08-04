@@ -172,7 +172,7 @@ export class Agreements extends Instantiable {
             agreementId
         )
         if (!consumer.includes(accessConsumer)) {
-            console.log(`This address [${consumer}] has not access granted`)
+            this.logger.log(`This address [${consumer}] has not access granted`)
             return false
         }
         return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(

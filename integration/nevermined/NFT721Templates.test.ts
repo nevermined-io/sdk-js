@@ -153,8 +153,8 @@ describe('NFT721Templates E2E', () => {
                 artist,
                 assetRewards1,
                 'PSK-RSA',
-                token.getAddress(),
                 nft.address,
+                token.getAddress(),
                 [],
                 royalties
             )
@@ -627,8 +627,8 @@ describe('NFT721Templates E2E', () => {
                 artist,
                 assetRewards2,
                 'PSK-RSA',
-                token.getAddress(),
                 nft.address,
+                token.getAddress(),
                 [],
                 royalties
             )
@@ -683,6 +683,7 @@ describe('NFT721Templates E2E', () => {
                     ddo.shortId(),
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
+                    token.getAddress(),
                     collector1
                 )
                 assert.isTrue(receipt)
@@ -843,6 +844,7 @@ describe('NFT721Templates E2E', () => {
                     ddo.shortId(),
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
+                    token.getAddress(),
                     collector2
                 )
                 assert.isTrue(receipt)

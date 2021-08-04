@@ -1,7 +1,9 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { DDO } from '../ddo/DDO'
-import { findServiceConditionByName } from '../utils'
+import { findServiceConditionByName, ZeroAddress } from '../utils'
+import Token from '../keeper/contracts/Token'
+import CustomToken from '../keeper/contracts/CustomToken'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -23,38 +25,52 @@ export class AgreementsConditions extends Instantiable {
     /**
      * Transfers tokens to the EscrowPaymentCondition contract as an escrow payment.
      * This is required before access can be given to the asset data.
-     * @param {string}      agreementId Agreement ID.
-     * @param {string}      did         The Asset ID.
-     * @param {number[]}    amounts     Asset amounts to distribute.
-     * @param {string[]}    receivers   Receivers of the rewards
-     * @param {Account}     from        Account of sender.
+     * @param {string}      agreementId         Agreement ID.
+     * @param {string}      did                 The Asset ID.
+     * @param {number[]}    amounts             Asset amounts to distribute.
+     * @param {string[]}    receivers           Receivers of the rewards
+     * @param {string}      erc20TokenAddress   Account of sender.
+     * @param {Account}     from                Account of sender.
      */
     public async lockPayment(
         agreementId: string,
         did: string,
         amounts: number[],
         receivers: string[],
+        erc20TokenAddress?: string,
         from?: Account
     ) {
         const {
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-        const { token } = this.nevermined.keeper
+
+        let token: Token
+
+        if (!erc20TokenAddress) {
+            ;({ token } = this.nevermined.keeper)
+        } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
+            token = await CustomToken.getInstanceByAddress(
+                {
+                    nevermined: this.nevermined,
+                    web3: this.web3
+                },
+                erc20TokenAddress
+            )
+        }
+
         const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
         try {
-            await this.nevermined.keeper.token.approve(
-                lockPaymentCondition.getAddress(),
-                totalAmount,
-                from
-            )
+            if (token) {
+                await token.approve(lockPaymentCondition.getAddress(), totalAmount, from)
+            }
 
             const receipt = await lockPaymentCondition.fulfill(
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                token ? token.getAddress() : erc20TokenAddress,
                 amounts,
                 receivers,
                 from
@@ -62,6 +78,7 @@ export class AgreementsConditions extends Instantiable {
 
             return !!receipt.events.Fulfilled
         } catch (err) {
+            this.logger.error(err)
             return false
         }
     }
@@ -123,13 +140,14 @@ export class AgreementsConditions extends Instantiable {
      *
      * If the AccessCondition already timed out, this function will do a refund by transferring
      * the token amount to the original consumer.
-     * @param {string}  agreementId Agreement ID.
-     * @param {number[]}  amounts   Asset amounts to distribute.
-     * @param {string[]} receivers Receivers of the rewards
-     * @param {string}  did         Asset ID.
-     * @param {string}  consumer    Consumer address.
-     * @param {string}  publisher   Publisher address.
-     * @param {Account} from        Account of sender.
+     * @param {string}      agreementId         Agreement ID.
+     * @param {number[]}    amounts             Asset amounts to distribute.
+     * @param {string[]}    receivers           Receivers of the rewards
+     * @param {string}      did                 Asset ID.
+     * @param {string}      consumer            Consumer address.
+     * @param {string}      publisher           Publisher address.
+     * @param {string}      erc20TokenAddress   Publisher address.
+     * @param {Account}     from                Account of sender.
      */
     public async releaseReward(
         agreementId: string,
@@ -138,6 +156,7 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         consumer: string,
         publisher: string,
+        erc20TokenAddress?: string,
         from?: Account
     ) {
         try {
@@ -146,7 +165,19 @@ export class AgreementsConditions extends Instantiable {
                 accessCondition,
                 lockPaymentCondition
             } = this.nevermined.keeper.conditions
-            const { token } = this.nevermined.keeper
+            let token
+
+            if (!erc20TokenAddress) {
+                ;({ token } = this.nevermined.keeper)
+            } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
+                token = await CustomToken.getInstanceByAddress(
+                    {
+                        nevermined: this.nevermined,
+                        web3: this.web3
+                    },
+                    erc20TokenAddress
+                )
+            }
 
             const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
@@ -167,7 +198,7 @@ export class AgreementsConditions extends Instantiable {
                 amounts,
                 receivers,
                 publisher,
-                token.getAddress(),
+                token ? token.getAddress() : erc20TokenAddress,
                 conditionIdLock,
                 conditionIdAccess,
                 from
@@ -187,6 +218,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {String[]} receivers The addresses that should receive the amounts.
      * @param {String} nftReceiver The address of the buyer of the nft.
      * @param {Number} nftAmount Number of nfts bought.
+     * @param {string} erc20TokenAddress Number of nfts bought.
      * @param from
      * @returns {Boolean} True if the funds were released successfully.
      */
@@ -197,6 +229,7 @@ export class AgreementsConditions extends Instantiable {
         receivers: string[],
         nftReceiver: string,
         nftAmount: number,
+        erc20TokenAddress?: string,
         from?: Account
     ) {
         const {
@@ -204,14 +237,27 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             transferNftCondition
         } = this.nevermined.keeper.conditions
-        const { token } = this.nevermined.keeper
+
+        let token
+
+        if (!erc20TokenAddress) {
+            ;({ token } = this.nevermined.keeper)
+        } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
+            token = await CustomToken.getInstanceByAddress(
+                {
+                    nevermined: this.nevermined,
+                    web3: this.web3
+                },
+                erc20TokenAddress
+            )
+        }
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                token ? token.getAddress() : erc20TokenAddress,
                 amounts,
                 receivers
             )
@@ -233,7 +279,7 @@ export class AgreementsConditions extends Instantiable {
             amounts,
             receivers,
             escrowPaymentCondition.getAddress(),
-            token.getAddress(),
+            token ? token.getAddress() : erc20TokenAddress,
             lockPaymentConditionId,
             transferNftConditionId,
             from
@@ -273,6 +319,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
+        if (!payment) throw new Error('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -286,6 +333,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
+        if (!transfer) throw new Error('transfer condition not found!')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
@@ -298,6 +346,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
+        if (!escrow) throw new Error('Escrow condition not found!')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
@@ -404,6 +453,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {String} nftReceiver The address of the receiver of the nfts.
      * @param {Number} nftAmount The amount of nfts to transfer.
+     * @param {string} erc20TokenAddress The amount of nfts to transfer.
      * @param from
      * @returns {Boolean} True if the transfer is successfull
      */
@@ -414,6 +464,7 @@ export class AgreementsConditions extends Instantiable {
         receivers: string[],
         nftReceiver: string,
         nftAmount: number,
+        erc20TokenAddress?: string,
         from?: Account
     ) {
         const {
@@ -421,14 +472,27 @@ export class AgreementsConditions extends Instantiable {
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-        const { token } = this.nevermined.keeper
+
+        let token
+
+        if (!erc20TokenAddress) {
+            ;({ token } = this.nevermined.keeper)
+        } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
+            token = await CustomToken.getInstanceByAddress(
+                {
+                    nevermined: this.nevermined,
+                    web3: this.web3
+                },
+                erc20TokenAddress
+            )
+        }
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 did,
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                token ? token.getAddress() : erc20TokenAddress,
                 amounts,
                 receivers
             )

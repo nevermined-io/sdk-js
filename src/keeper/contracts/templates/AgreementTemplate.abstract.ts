@@ -87,30 +87,29 @@ export abstract class AgreementTemplate extends ContractBase {
      * @param  {string}            agreementId Agreement ID.
      * @param  {DDO}               ddo         DDO.
      * @param  {AssetRewards}      assetRewards Asset Rewards distribution
-     * @param  {string}            from        Consumer address.
+     * @param  parameters
      * @return {Promise<string[]>}             Condition IDs.
      */
     public abstract getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumerAddress: string,
-        from?: Account
+        ...parameters: (string | number | Account)[]
     ): Promise<string[]>
 
     /**
      * Create a new agreement using the data of a DDO.
      * @param  {string}            agreementId Agreement ID.
      * @param  {DDO}               ddo         DDO.
-     * @param  {string}            from        Creator address.
+     * @param  {AssetRewards}      assetRewards Asset Rewards distribution
+     * @param  parameters
      * @return {Promise<boolean>}              Success.
      */
     public abstract createAgreementFromDDO(
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumerAddress: string,
-        from?: Account
+        ...parameters: (string | number | Account)[]
     ): Promise<boolean>
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>

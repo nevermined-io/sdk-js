@@ -61,6 +61,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
         if (!accessService) throw 'Service nft721-access not found!'
 
         const holder = findServiceConditionByName(accessService, 'nftHolder')
+        if (!holder) throw new Error('Holder condition not found!')
 
         const nftHolderConditionId = await nft721HolderCondition.generateId(
             agreementId,

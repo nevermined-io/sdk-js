@@ -1,7 +1,5 @@
 import { assert } from 'chai'
-
 import { config } from '../config'
-
 import { Nevermined, templates, conditions, utils, Account, Keeper } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
@@ -304,6 +302,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 did,
                 amounts,
                 receivers,
+                undefined,
                 consumer
             )
         })
@@ -322,6 +321,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 did,
                 consumer.getId(),
                 publisher.getId(),
+                undefined,
                 publisher
             )
         })
