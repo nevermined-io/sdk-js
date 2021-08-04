@@ -257,7 +257,10 @@ describe('Register Escrow Compute Execution Template', () => {
         let ddo: DDO
 
         before(async () => {
-            ddo = await nevermined.assets.create(getMetadata(), publisher)
+            ddo = await nevermined.assets.create(getMetadata(), publisher, undefined, [
+                'access',
+                'compute'
+            ])
         })
 
         it('should create a new agreement (short way)', async () => {
@@ -291,7 +294,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 ddo.shortId(),
                 amounts,
                 receivers,
-                undefined,
+                token.getAddress(),
                 consumer
             )
         })
@@ -303,6 +306,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 consumer.getId(),
                 publisher
             )
+
             await nevermined.agreements.conditions.releaseReward(
                 agreementId,
                 amounts,
@@ -310,7 +314,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 ddo.shortId(),
                 consumer.getId(),
                 publisher.getId(),
-                undefined,
+                token.getAddress(),
                 publisher
             )
         })
