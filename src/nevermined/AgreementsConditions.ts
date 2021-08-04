@@ -61,26 +61,21 @@ export class AgreementsConditions extends Instantiable {
 
         const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
-        try {
-            if (token) {
-                await token.approve(lockPaymentCondition.getAddress(), totalAmount, from)
-            }
-
-            const receipt = await lockPaymentCondition.fulfill(
-                agreementId,
-                did,
-                escrowPaymentCondition.getAddress(),
-                token ? token.getAddress() : erc20TokenAddress,
-                amounts,
-                receivers,
-                from
-            )
-
-            return !!receipt.events.Fulfilled
-        } catch (err) {
-            this.logger.error(err)
-            return false
+        if (token) {
+            await token.approve(lockPaymentCondition.getAddress(), totalAmount, from)
         }
+
+        const receipt = await lockPaymentCondition.fulfill(
+            agreementId,
+            did,
+            escrowPaymentCondition.getAddress(),
+            token ? token.getAddress() : erc20TokenAddress,
+            amounts,
+            receivers,
+            from
+        )
+
+        return !!receipt.events.Fulfilled
     }
 
     /**

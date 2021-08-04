@@ -1253,7 +1253,6 @@ export class Assets extends Instantiable {
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
                     name: 'dataAssetAccessServiceAgreement',
-                    price: metadata.main.price,
                     timeout: 3600
                 },
                 serviceAgreementTemplate
@@ -1347,7 +1346,6 @@ export class Assets extends Instantiable {
                     name: 'nftSalesAgreement',
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
-                    price: metadata.main.price,
                     timeout: 86400
                 },
                 additionalInformation: {

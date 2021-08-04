@@ -25,12 +25,13 @@ export class Nfts extends Instantiable {
     /**
      * Create a new NFT Nevermined Asset.
      *
-     * @param {MetaData} metadata The metadata associated with the NFT.
-     * @param {number} cap The max number of nfts.
-     * @param {Account} publisher The account of the creator od the NFT.
-     * @param {number} nftAmount The maximum amount of NFTs that can be minted for this asset. Set it to zero for unlimited.
-     * @param {number} royalties The percentage that the `publisher` should get on secondary market sales. A number between 0 and 100.
-     * @param {AssetRewards} assetRewards The sales reward distribution.
+     * @param {MetaData}        metadata The metadata associated with the NFT.
+     * @param {number}          cap The max number of nfts.
+     * @param {Account}         publisher The account of the creator od the NFT.
+     * @param {number}          nftAmount The maximum amount of NFTs that can be minted for this asset. Set it to zero for unlimited.
+     * @param {number}          royalties The percentage that the `publisher` should get on secondary market sales. A number between 0 and 100.
+     * @param {AssetRewards}    assetRewards The sales reward distribution.
+     * @param {string}          erc20TokenAddress The sales reward distribution.
      * @returns {DDO} The newly registered DDO.
      */
     public create(
