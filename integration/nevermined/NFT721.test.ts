@@ -53,7 +53,7 @@ describe('Nfts721 operations', () => {
             await nft.methods.mint(zeroX(ddo.shortId())).send({ from: artist.getId() })
         })
 
-        it('should transfer an nft token', async () => {
+        it('should transfer an nft token with default token', async () => {
             assert.equal(
                 await nevermined.nfts.ownerOf(zeroX(ddo.shortId()), nft.options.address),
                 artist.getId()
@@ -92,7 +92,7 @@ describe('Nfts721 operations', () => {
             await nft.methods.mint(zeroX(ddo.shortId())).send({ from: artist.getId() })
         })
 
-        it('should transfer an nft token', async () => {
+        it('should transfer an nft token with custom token', async () => {
             assert.equal(
                 await nevermined.nfts.ownerOf(zeroX(ddo.shortId()), nft.options.address),
                 artist.getId()
@@ -131,7 +131,7 @@ describe('Nfts721 operations', () => {
             await nft.methods.mint(zeroX(ddo.shortId())).send({ from: artist.getId() })
         })
 
-        it('should transfer an nft token', async () => {
+        xit('should transfer an nft token with ether', async () => {
             assert.equal(
                 await nevermined.nfts.ownerOf(zeroX(ddo.shortId()), nft.options.address),
                 artist.getId()
