@@ -34,8 +34,8 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             consumer,
-            from,
-            agreementId
+            agreementId,
+            from
         ))
     }
 
@@ -70,8 +70,8 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        from?: Account,
-        agreementId: string = generateId()
+        agreementId: string = generateId(),
+        from?: Account
     ): Promise<string> {
         const {
             computeExecutionConditionId,
@@ -81,7 +81,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
 
         await this.createAgreement(
             agreementId,
-            ddo.id,
+            ddo.shortId(),
             [
                 computeExecutionConditionId,
                 lockPaymentConditionId,
@@ -110,14 +110,14 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
             escrowPaymentCondition
         } = conditions
 
-        const accessService = ddo.findServiceByType('access')
+        const accessService = ddo.findServiceByType('compute')
 
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
-            ddo.id,
+            ddo.shortId(),
             escrowPaymentCondition.getAddress(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             assetRewards.getAmounts(),
@@ -126,7 +126,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
 
         const computeExecutionConditionId = await computeExecutionCondition.generateIdHash(
             agreementId,
-            ddo.id,
+            ddo.shortId(),
             consumer
         )
 
@@ -135,7 +135,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
 
         const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
             agreementId,
-            ddo.id,
+            ddo.shortId(),
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             escrowPaymentCondition.getAddress(),

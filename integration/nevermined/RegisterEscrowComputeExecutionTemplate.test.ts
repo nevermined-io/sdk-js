@@ -265,6 +265,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 ddo,
                 new AssetRewards(),
                 consumer.getId(),
+                undefined,
                 publisher
             )
 

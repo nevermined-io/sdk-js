@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Account, DDO, MetaData, Nevermined, utils } from '../../src'
+import { Account, DDO, Nevermined, utils } from '../../src'
 import {
     ConditionState,
     EscrowPaymentCondition,
