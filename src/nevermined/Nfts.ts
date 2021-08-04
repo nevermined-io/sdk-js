@@ -161,7 +161,7 @@ export class Nfts extends Instantiable {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             consumer
         )
         if (!result) {
@@ -203,7 +203,7 @@ export class Nfts extends Instantiable {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             consumer
         )
         if (!result) {
@@ -249,7 +249,7 @@ export class Nfts extends Instantiable {
             assetRewards.getReceivers(),
             consumer.getId(),
             nftAmount,
-            payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             publisher
         )
 
@@ -317,7 +317,7 @@ export class Nfts extends Instantiable {
             assetRewards.getReceivers(),
             consumer.getId(),
             nftAmount,
-            payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             publisher
         )
         if (!result) {
