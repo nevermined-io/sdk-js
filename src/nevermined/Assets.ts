@@ -103,7 +103,7 @@ export class Assets extends Instantiable {
         royalties: number = 0
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')
-        return new SubscribablePromise(async (observer) => {
+        return new SubscribablePromise(async observer => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
@@ -329,7 +329,7 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
-        return new SubscribablePromise(async (observer) => {
+        return new SubscribablePromise(async observer => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
@@ -563,7 +563,7 @@ export class Assets extends Instantiable {
         providers?: string[]
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
-        return new SubscribablePromise(async (observer) => {
+        return new SubscribablePromise(async observer => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
@@ -778,7 +778,7 @@ export class Assets extends Instantiable {
         service: Service[] = [],
         method: string = 'PSK-RSA'
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return new SubscribablePromise(async (observer) => {
+        return new SubscribablePromise(async observer => {
             const computeService = {
                 main: {
                     name: 'dataAssetComputeServiceAgreement',
@@ -896,7 +896,7 @@ export class Assets extends Instantiable {
         serviceType: ServiceType,
         consumer: Account
     ): SubscribablePromise<OrderProgressStep, string> {
-        return new SubscribablePromise(async (observer) => {
+        return new SubscribablePromise(async observer => {
             const { agreements } = this.nevermined
 
             const agreementId = zeroX(generateId())
@@ -926,7 +926,7 @@ export class Assets extends Instantiable {
                     ddo.id,
                     assetRewards.getAmounts(),
                     assetRewards.getReceivers(),
-                    payment.parameters.find((p) => p.name === '_tokenAddress')
+                    payment.parameters.find(p => p.name === '_tokenAddress')
                         .value as string,
                     consumer
                 )

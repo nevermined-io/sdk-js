@@ -157,7 +157,7 @@ export abstract class ContractBase extends Instantiable {
 
     private searchMethod(methodName: string, args: any[] = []) {
         const methods = this.contract.options.jsonInterface
-            .map((method) => ({
+            .map(method => ({
                 ...method,
                 signature: (method as any).signature
             }))
