@@ -6,6 +6,7 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
+import { findServiceConditionByName } from '../../../utils'
 
 export class NFTSalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -19,8 +20,8 @@ export class NFTSalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        from?: Account,
-        nftAmount?: number
+        nftAmount?: number,
+        from?: Account
     ): Promise<boolean> {
         const [
             lockPaymentConditionId,
@@ -31,7 +32,6 @@ export class NFTSalesTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             consumer,
-            from,
             nftAmount
         )
         return !!(await this.createAgreement(
@@ -50,7 +50,6 @@ export class NFTSalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        from?: Account,
         nftAmount?: number
     ): Promise<string[]> {
         const {
@@ -58,18 +57,23 @@ export class NFTSalesTemplate extends BaseTemplate {
             transferNftCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-        const { token } = this.nevermined.keeper
+
+        const salesService = ddo.findServiceByType('nft-sales')
+
+        const payment = findServiceConditionByName(salesService, 'lockPayment')
+        if (!payment) throw new Error('Payment Condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers()
             )
         )
+
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
             await transferNftCondition.hashValues(
@@ -79,6 +83,10 @@ export class NFTSalesTemplate extends BaseTemplate {
                 lockPaymentConditionId
             )
         )
+
+        const escrow = findServiceConditionByName(salesService, 'escrowPayment')
+        if (!escrow) throw new Error('Escrow Condition not found!')
+
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
             agreementId,
             await escrowPaymentCondition.hashValues(
@@ -86,7 +94,7 @@ export class NFTSalesTemplate extends BaseTemplate {
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers(),
                 escrowPaymentCondition.getAddress(),
-                token.getAddress(),
+                escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
                 lockPaymentConditionId,
                 transferNftConditionId
             )

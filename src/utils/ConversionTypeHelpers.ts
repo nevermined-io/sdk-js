@@ -3,6 +3,7 @@ import { LoggerInstance } from './Logger'
 // Ox transformer
 export const zeroX = (input: string) => zeroXTransformer(input, true)
 export const noZeroX = (input: string) => zeroXTransformer(input, false)
+
 export function zeroXTransformer(input: string = '', zeroOutput: boolean) {
     const { valid, output } = inputMatch(
         input,
@@ -15,6 +16,7 @@ export function zeroXTransformer(input: string = '', zeroOutput: boolean) {
 // did:nv: transformer
 export const didPrefixed = (input: string) => didTransformer(input, true)
 export const noDidPrefixed = (input: string) => didTransformer(input, false)
+
 export function didTransformer(input: string = '', prefixOutput: boolean) {
     const { valid, output } = inputMatch(
         input,
@@ -45,3 +47,5 @@ function inputMatch(
     }
     return { valid: true, output: match[1] }
 }
+
+export const ZeroAddress = '0x0000000000000000000000000000000000000000'

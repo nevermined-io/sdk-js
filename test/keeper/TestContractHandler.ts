@@ -3,6 +3,7 @@ import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
+import { ZeroAddress } from '../../src/utils'
 
 interface ContractTest extends Contract {
     testContract?: boolean
@@ -156,7 +157,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 didRegistry.options.address,
-                '0x0000000000000000000000000000000000000000'
+                ZeroAddress
             ]
         )
 
@@ -167,7 +168,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 didRegistry.options.address,
-                '0x0000000000000000000000000000000000000000'
+                ZeroAddress
             ]
         )
         await didRegistry.methods

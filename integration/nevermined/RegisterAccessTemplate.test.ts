@@ -304,6 +304,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 did,
                 amounts,
                 receivers,
+                undefined,
                 consumer
             )
         })
@@ -322,6 +323,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 did,
                 consumer.getId(),
                 publisher.getId(),
+                undefined,
                 publisher
             )
         })

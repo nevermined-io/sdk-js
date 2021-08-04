@@ -114,6 +114,7 @@ describe('Consume Asset (Documentation example)', () => {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            undefined,
             consumer
         )
 

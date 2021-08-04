@@ -11,7 +11,8 @@ import {
     generateId,
     zeroX,
     didZeroX,
-    getAssetRewardsFromDDOByService
+    getAssetRewardsFromService,
+    findServiceConditionByName
 } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
@@ -77,7 +78,6 @@ export class Assets extends Instantiable {
         cap: number,
         royalties: number = 0,
         assetRewards: AssetRewards = new AssetRewards(),
-        services: Service[] = [],
         method: string = 'PSK-RSA',
         providers?: string[]
     ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -85,7 +85,6 @@ export class Assets extends Instantiable {
             metadata,
             publisher,
             assetRewards,
-            services,
             method,
             cap,
             providers,
@@ -98,13 +97,13 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         method: string = 'PSK-RSA',
-        erc20TokenAddress: string,
         nftTokenAddress: string,
+        erc20TokenAddress?: string,
         providers?: string[],
         royalties: number = 0
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')
-        return new SubscribablePromise(async observer => {
+        return new SubscribablePromise(async (observer) => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
@@ -210,7 +209,7 @@ export class Assets extends Instantiable {
                 nft721SalesTemplateConditions,
                 ddo,
                 assetRewards,
-                erc20TokenAddress,
+                erc20TokenAddress || this.nevermined.token.getAddress(),
                 nftTokenAddress
             )
 
@@ -219,7 +218,7 @@ export class Assets extends Instantiable {
                 nft721AccessTemplateConditions,
                 ddo,
                 assetRewards,
-                erc20TokenAddress,
+                erc20TokenAddress || this.nevermined.token.getAddress(),
                 nftTokenAddress
             )
 
@@ -322,15 +321,15 @@ export class Assets extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
-        services: Service[] = [],
         method: string = 'PSK-RSA',
         cap?: number,
         providers?: string[],
         nftAmount?: number,
-        royalties?: number
+        royalties?: number,
+        erc20TokenAddress?: string
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
-        return new SubscribablePromise(async observer => {
+        return new SubscribablePromise(async (observer) => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
@@ -351,10 +350,6 @@ export class Assets extends Instantiable {
                     }
                 ]
             })
-
-            if (services.length > 0) {
-                ddo.service = [, ...services].reverse() as Service[]
-            }
 
             let publicKey = await this.nevermined.gateway.getRsaPublicKey()
             if (method == 'PSK_ECDSA') {
@@ -441,7 +436,7 @@ export class Assets extends Instantiable {
                 nftAccessTemplateConditions,
                 ddo,
                 assetRewards,
-                undefined,
+                erc20TokenAddress || this.nevermined.token.getAddress(),
                 undefined,
                 nftAmount
             )
@@ -451,7 +446,7 @@ export class Assets extends Instantiable {
                 nftSalesTemplateConditions,
                 ddo,
                 assetRewards,
-                undefined,
+                erc20TokenAddress || this.nevermined.token.getAddress(),
                 undefined,
                 nftAmount
             )
@@ -568,7 +563,7 @@ export class Assets extends Instantiable {
         providers?: string[]
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
-        return new SubscribablePromise(async observer => {
+        return new SubscribablePromise(async (observer) => {
             const { gatewayUri } = this.config
             const { didRegistry, templates } = this.nevermined.keeper
 
@@ -783,7 +778,7 @@ export class Assets extends Instantiable {
         service: Service[] = [],
         method: string = 'PSK-RSA'
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return new SubscribablePromise(async observer => {
+        return new SubscribablePromise(async (observer) => {
             const computeService = {
                 main: {
                     name: 'dataAssetComputeServiceAgreement',
@@ -901,7 +896,7 @@ export class Assets extends Instantiable {
         serviceType: ServiceType,
         consumer: Account
     ): SubscribablePromise<OrderProgressStep, string> {
-        return new SubscribablePromise(async observer => {
+        return new SubscribablePromise(async (observer) => {
             const { agreements } = this.nevermined
 
             const agreementId = zeroX(generateId())
@@ -911,7 +906,7 @@ export class Assets extends Instantiable {
             const service = ddo.findServiceByType(serviceType)
             const templateName = service.attributes.serviceAgreementTemplate.contractName
             const template = keeper.getTemplateByName(templateName)
-            const assetRewards = getAssetRewardsFromDDOByService(ddo, serviceType)
+            const assetRewards = getAssetRewardsFromService(service)
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
@@ -921,13 +916,18 @@ export class Assets extends Instantiable {
                 observer.next(OrderProgressStep.AgreementInitialized)
 
                 this.logger.log('Locking payment')
-
                 observer.next(OrderProgressStep.LockingPayment)
+
+                const payment = findServiceConditionByName(service, 'lockPayment')
+                if (!payment) throw new Error('Payment condition not found!')
+
                 const paid = await agreements.conditions.lockPayment(
                     agreementId,
                     ddo.id,
                     assetRewards.getAmounts(),
                     assetRewards.getReceivers(),
+                    payment.parameters.find((p) => p.name === '_tokenAddress')
+                        .value as string,
                     consumer
                 )
                 observer.next(OrderProgressStep.LockedPayment)

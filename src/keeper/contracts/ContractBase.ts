@@ -71,7 +71,17 @@ export abstract class ContractBase extends Instantiable {
         from?: Account
     ): Promise<TransactionReceipt> {
         const fromAddress = await this.getFromAddress(from && from.getId())
-        return this.send(name, fromAddress, args)
+        const receipt = await this.send(name, fromAddress, args)
+        if (!receipt.status) {
+            this.logger.error(
+                'Transaction failed!',
+                this.contractName,
+                name,
+                args,
+                fromAddress
+            )
+        }
+        return receipt
     }
 
     protected async send(
@@ -147,7 +157,7 @@ export abstract class ContractBase extends Instantiable {
 
     private searchMethod(methodName: string, args: any[] = []) {
         const methods = this.contract.options.jsonInterface
-            .map(method => ({
+            .map((method) => ({
                 ...method,
                 signature: (method as any).signature
             }))

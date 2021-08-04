@@ -65,6 +65,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         if (!salesService) throw 'Service nft721-sales not found!'
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
+        if (!payment) throw new Error('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -78,6 +79,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
+        if (!transfer) throw new Error('Transfer condition not found!')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
@@ -90,6 +92,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
+        if (!escrow) throw new Error('Escrow condition not found!')
 
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
             agreementId,
