@@ -23,14 +23,14 @@ describe('Asset Owners', () => {
     })
 
     it('should set the owner of an asset', async () => {
-        const ddo = await nevermined.assets.create(newMetadata() as any, account1)
+        const ddo = await nevermined.assets.create(newMetadata(), account1)
         const owner = await nevermined.assets.owner(ddo.id)
 
         assert.equal(owner, account1.getId())
     })
 
     it('should set the provider of an asset', async () => {
-        const ddo = await nevermined.assets.create(newMetadata() as any, account1)
+        const ddo = await nevermined.assets.create(newMetadata(), account1)
 
         const isProvider = await nevermined.keeper.didRegistry.isDIDProvider(
             ddo.id,
@@ -41,7 +41,7 @@ describe('Asset Owners', () => {
     })
 
     it('should be added correctly a permission on an asset', async () => {
-        const ddo = await nevermined.assets.create(newMetadata() as any, account1)
+        const ddo = await nevermined.assets.create(newMetadata(), account1)
 
         assert.isFalse(
             await nevermined.keeper.didRegistry.getPermission(ddo.id, account2.getId())
@@ -63,10 +63,9 @@ describe('Asset Owners', () => {
             account2.getId()
         )
 
-        await nevermined.assets.create(newMetadata() as any, account1)
-        await nevermined.assets.create(newMetadata() as any, account1)
-
-        await nevermined.assets.create(newMetadata() as any, account2)
+        await nevermined.assets.create(newMetadata(), account1)
+        await nevermined.assets.create(newMetadata(), account1)
+        await nevermined.assets.create(newMetadata(), account2)
 
         const { length: finalLength } = await nevermined.assets.ownerAssets(
             account2.getId()
@@ -81,7 +80,7 @@ describe('Asset Owners', () => {
             account2.getId()
         )
 
-        const ddo = await nevermined.assets.create(newMetadata() as any, account1)
+        const ddo = await nevermined.assets.create(newMetadata(), account1)
 
         const { length: finalLength1 } = await nevermined.assets.consumerAssets(
             account2.getId()
@@ -106,7 +105,7 @@ describe('Asset Owners', () => {
     })
 
     it('should be able to transfer ownership', async () => {
-        const { id } = await nevermined.assets.create(newMetadata() as any, account1)
+        const { id } = await nevermined.assets.create(newMetadata(), account1)
 
         // transfer
         await nevermined.assets.transferOwnership(id, account2.getId())

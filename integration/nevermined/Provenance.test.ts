@@ -9,7 +9,7 @@ describe('Provenance', () => {
     let publisher: Account
     let intermediary: Account
 
-    let newMetadata = () => getMetadata() as any
+    let newMetadata = () => getMetadata()
     let ddo: DDO
 
     const activitiesIds = {

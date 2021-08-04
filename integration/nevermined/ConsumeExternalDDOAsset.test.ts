@@ -1,9 +1,7 @@
 import { assert } from 'chai'
 import * as fs from 'fs'
-
 import { config } from '../config'
-
-import { Nevermined, DDO, Account, ConditionState } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 
@@ -13,7 +11,7 @@ describe('Consume Asset (Documentation example)', () => {
     let publisher: Account
     let consumer: Account
 
-    let metadata
+    let metadata: MetaData
 
     let ddo: DDO
     let serviceAgreementSignatureResult: {
@@ -29,12 +27,12 @@ describe('Consume Asset (Documentation example)', () => {
         ;[publisher, consumer] = await nevermined.accounts.list()
 
         metadata = await getDocsCommonMetadata()
-        metadata.main.price = 0
-        assetRewards = new AssetRewards(publisher.getId(), metadata.main.price)
+        metadata.main.price = '0'
+        assetRewards = new AssetRewards(publisher.getId(), Number(metadata.main.price))
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
+        ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')

@@ -44,7 +44,7 @@ xdescribe('Consume Asset (Large size)', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        ddo = await nevermined.assets.create(metadata, publisher)
 
         assert.instanceOf(ddo, DDO)
     })

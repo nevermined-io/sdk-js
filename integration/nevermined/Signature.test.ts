@@ -1,6 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { Nevermined, Account, DDO } from '../../src'
+import { Service } from '../../src/ddo/Service'
 
 // WARN: not integration test. It has been done here because constant values
 // depends on the first account on spree (only accessible from integration test)
@@ -59,7 +60,7 @@ describe('Signature', () => {
                     attributes: {
                         serviceAgreementTemplate
                     }
-                } as any,
+                } as Service,
                 {
                     type: 'metadata',
                     index: 1,
@@ -68,7 +69,7 @@ describe('Signature', () => {
                             price: 10
                         }
                     }
-                } as any
+                } as Service
             ]
         })
 

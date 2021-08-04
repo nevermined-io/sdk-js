@@ -62,6 +62,7 @@ export class AgreementsConditions extends Instantiable {
         const totalAmount = amounts.reduce((a, b) => a + b, 0)
 
         if (token) {
+            this.logger.debug('Approving tokens')
             await token.approve(lockPaymentCondition.getAddress(), totalAmount, from)
         }
 

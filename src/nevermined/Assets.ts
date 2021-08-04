@@ -622,6 +622,7 @@ export class Assets extends Instantiable {
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
 
             if (serviceTypes.includes('access')) {
+                this.logger.log('Access service Added')
                 await ddo.addService(
                     this.nevermined,
                     this.createAccessService(
@@ -634,6 +635,7 @@ export class Assets extends Instantiable {
             }
 
             if (serviceTypes.includes('compute')) {
+                this.logger.log('Compute service Added')
                 await ddo.addService(
                     this.nevermined,
                     this.createComputeService(
@@ -676,7 +678,8 @@ export class Assets extends Instantiable {
                 accessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                     accessTemplateConditions,
                     ddo,
-                    assetRewards
+                    assetRewards,
+                    this.nevermined.token.getAddress()
                 )
             }
 
@@ -685,7 +688,8 @@ export class Assets extends Instantiable {
                 computeServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                     escrowComputeExecutionTemplateConditions,
                     ddo,
-                    assetRewards
+                    assetRewards,
+                    this.nevermined.token.getAddress()
                 )
             }
 

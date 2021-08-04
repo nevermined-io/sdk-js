@@ -20,7 +20,7 @@ describe('Providers operations', () => {
         if (!nevermined.keeper.dispenser) {
             newMetadata = () => getMetadata(0)
         }
-        ddo = await nevermined.assets.create(newMetadata() as any, account1)
+        ddo = await nevermined.assets.create(newMetadata(), account1)
     })
 
     it('should add and remove providers addresses', async () => {
