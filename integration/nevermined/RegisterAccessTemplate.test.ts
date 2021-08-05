@@ -2,22 +2,26 @@ import { assert } from 'chai'
 
 import { config } from '../config'
 
-import { Nevermined, templates, conditions, utils, Account, Keeper, DDO } from '../../src'
+import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
-
-const { LockPaymentCondition, EscrowPaymentCondition, AccessCondition } = conditions
+import {
+    AccessCondition,
+    EscrowPaymentCondition,
+    LockPaymentCondition
+} from '../../src/keeper/contracts/conditions'
+import { AccessTemplate } from '../../src/keeper/contracts/templates'
 
 describe('Register Escrow Access Secret Store Template', () => {
     let nevermined: Nevermined
     let keeper: Keeper
 
-    let template: templates.AccessTemplate
+    let accessTemplate: AccessTemplate
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
-    let totalAmount = 12
+    const totalAmount = 12
     const amounts = [10, 2]
 
     let templateManagerOwner: Account
@@ -26,16 +30,15 @@ describe('Register Escrow Access Secret Store Template', () => {
     let provider: Account
     let receivers: string[]
 
-    let accessCondition: conditions.AccessCondition
-    let lockPaymentCondition: conditions.LockPaymentCondition
-    let escrowPaymentCondition: conditions.EscrowPaymentCondition
+    let accessCondition: AccessCondition
+    let lockPaymentCondition: LockPaymentCondition
+    let escrowPaymentCondition: EscrowPaymentCondition
     let token: Token
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ keeper } = nevermined)
-
-        template = keeper.templates.accessTemplate
+        ;({ accessTemplate } = keeper.templates)
         ;({ token } = keeper)
 
         // Accounts
@@ -45,6 +48,7 @@ describe('Register Escrow Access Secret Store Template', () => {
             consumer,
             provider
         ] = await nevermined.accounts.list()
+
         receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
@@ -53,16 +57,12 @@ describe('Register Escrow Access Secret Store Template', () => {
             lockPaymentCondition,
             escrowPaymentCondition
         } = keeper.conditions)
-
-        if (!nevermined.keeper.dispenser) {
-            totalAmount = 0
-        }
     })
 
     describe('Propose and approve template', () => {
         it('should propose the template', async () => {
             await keeper.templateStoreManager.proposeTemplate(
-                template.getAddress(),
+                accessTemplate.getAddress(),
                 consumer,
                 true
             )
@@ -72,7 +72,7 @@ describe('Register Escrow Access Secret Store Template', () => {
 
         it('should approve the template', async () => {
             await keeper.templateStoreManager.approveTemplate(
-                template.getAddress(),
+                accessTemplate.getAddress(),
                 templateManagerOwner,
                 true
             )
@@ -81,7 +81,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         })
     })
 
-    xdescribe('Full flow', () => {
+    describe('Full flow', () => {
         let agreementId: string
         let didSeed: string
         let did: string
@@ -133,7 +133,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         })
 
         it('should have conditions types', async () => {
-            const conditionTypes = await template.getConditionTypes()
+            const conditionTypes = await accessTemplate.getConditionTypes()
 
             assert.equal(conditionTypes.length, 3, 'Expected 3 conditions.')
             assert.deepEqual(
@@ -148,7 +148,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         })
 
         it('should have condition instances asociated', async () => {
-            const conditionInstances = await template.getConditions()
+            const conditionInstances = await accessTemplate.getConditions()
 
             assert.equal(conditionInstances.length, 3, 'Expected 3 conditions.')
 
@@ -171,7 +171,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         })
 
         it('should create a new agreement', async () => {
-            const agreement = await template.createAgreement(
+            const agreement = await accessTemplate.createAgreement(
                 agreementId,
                 did,
                 [conditionIdAccess, conditionIdLock, conditionIdEscrow],
@@ -263,9 +263,14 @@ describe('Register Escrow Access Secret Store Template', () => {
         })
 
         it('should create a new agreement (short way)', async () => {
-            agreementId = await template.createFullAgreement(
+            agreementId = await accessTemplate.createFullAgreement(
                 ddo,
-                new AssetRewards(),
+                new AssetRewards(
+                    new Map([
+                        [receivers[0], amounts[0]],
+                        [receivers[1], amounts[1]]
+                    ])
+                ),
                 consumer.getId(),
                 undefined,
                 publisher
