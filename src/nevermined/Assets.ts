@@ -560,7 +560,8 @@ export class Assets extends Instantiable {
         serviceTypes: ServiceType[] = ['access'],
         services: Service[] = [],
         method: string = 'PSK-RSA',
-        providers?: string[]
+        providers?: string[],
+        erc20TokenAddress?: string
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -679,7 +680,7 @@ export class Assets extends Instantiable {
                     accessTemplateConditions,
                     ddo,
                     assetRewards,
-                    this.nevermined.token.getAddress()
+                    erc20TokenAddress || this.nevermined.token.getAddress()
                 )
             }
 
@@ -689,7 +690,7 @@ export class Assets extends Instantiable {
                     escrowComputeExecutionTemplateConditions,
                     ddo,
                     assetRewards,
-                    this.nevermined.token.getAddress()
+                    erc20TokenAddress || this.nevermined.token.getAddress()
                 )
             }
 

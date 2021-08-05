@@ -1,25 +1,26 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, templates, conditions, utils, Account, Keeper, DDO } from '../../src'
+import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
-
-const {
-    LockPaymentCondition,
+import { EscrowComputeExecutionTemplate } from '../../src/keeper/contracts/templates'
+import {
+    ComputeExecutionCondition,
     EscrowPaymentCondition,
-    ComputeExecutionCondition
-} = conditions
+    LockPaymentCondition
+} from '../../src/keeper/contracts/conditions'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
     let keeper: Keeper
 
-    let template: templates.EscrowComputeExecutionTemplate
+    let escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
-    let totalAmount = 12
+
+    const totalAmount = 12
     const amounts = [10, 2]
 
     let templateManagerOwner: Account
@@ -28,39 +29,39 @@ describe('Register Escrow Compute Execution Template', () => {
     let provider: Account
     let receivers: string[]
 
-    let computeExecutionCondition: conditions.ComputeExecutionCondition
-    let lockPaymentCondition: conditions.LockPaymentCondition
-    let escrowPaymentCondition: conditions.EscrowPaymentCondition
+    let computeExecutionCondition: ComputeExecutionCondition
+    let lockPaymentCondition: LockPaymentCondition
+    let escrowPaymentCondition: EscrowPaymentCondition
     let token: Token
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        keeper = nevermined.keeper
-
-        template = keeper.templates.escrowComputeExecutionTemplate
+        ;({ keeper } = nevermined)
+        ;({ escrowComputeExecutionTemplate } = keeper.templates)
         ;({ token } = keeper)
 
         // Accounts
-        templateManagerOwner = (await nevermined.accounts.list())[0]
-        publisher = (await nevermined.accounts.list())[1]
-        consumer = (await nevermined.accounts.list())[2]
-        provider = (await nevermined.accounts.list())[3]
+        ;[
+            templateManagerOwner,
+            publisher,
+            consumer,
+            provider
+        ] = await nevermined.accounts.list()
+
         receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
-        computeExecutionCondition = keeper.conditions.computeExecutionCondition
-        lockPaymentCondition = keeper.conditions.lockPaymentCondition
-        escrowPaymentCondition = keeper.conditions.escrowPaymentCondition
-
-        if (!nevermined.keeper.dispenser) {
-            totalAmount = 0
-        }
+        ;({
+            computeExecutionCondition,
+            computeExecutionCondition,
+            escrowPaymentCondition
+        } = keeper.conditions)
     })
 
     describe('Propose and approve template', () => {
         it('should propose the template', async () => {
             await keeper.templateStoreManager.proposeTemplate(
-                template.getAddress(),
+                escrowComputeExecutionTemplate.getAddress(),
                 consumer,
                 true
             )
@@ -70,7 +71,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
         it('should approve the template', async () => {
             await keeper.templateStoreManager.approveTemplate(
-                template.getAddress(),
+                escrowComputeExecutionTemplate.getAddress(),
                 templateManagerOwner,
                 true
             )
@@ -131,7 +132,7 @@ describe('Register Escrow Compute Execution Template', () => {
         })
 
         it('should have conditions types', async () => {
-            const conditionTypes = await template.getConditionTypes()
+            const conditionTypes = await escrowComputeExecutionTemplate.getConditionTypes()
 
             assert.equal(conditionTypes.length, 3, 'Expected 3 conditions.')
             assert.deepEqual(
@@ -145,8 +146,8 @@ describe('Register Escrow Compute Execution Template', () => {
             )
         })
 
-        it('should have condition instances asociated', async () => {
-            const conditionInstances = await template.getConditions()
+        it('should have condition instances associated', async () => {
+            const conditionInstances = await escrowComputeExecutionTemplate.getConditions()
 
             assert.equal(conditionInstances.length, 3, 'Expected 3 conditions.')
 
@@ -155,6 +156,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 EscrowPaymentCondition,
                 LockPaymentCondition
             ]
+
             conditionClasses.forEach(conditionClass => {
                 if (
                     !conditionInstances.find(
@@ -169,7 +171,7 @@ describe('Register Escrow Compute Execution Template', () => {
         })
 
         it('should create a new agreement', async () => {
-            const agreement = await template.createAgreement(
+            const agreement = await escrowComputeExecutionTemplate.createAgreement(
                 agreementId,
                 did,
                 [conditionIdCompute, conditionIdLock, conditionIdEscrow],
@@ -257,16 +259,27 @@ describe('Register Escrow Compute Execution Template', () => {
         let ddo: DDO
 
         before(async () => {
-            ddo = await nevermined.assets.create(getMetadata(), publisher, undefined, [
-                'access',
-                'compute'
-            ])
+            ddo = await nevermined.assets.create(
+                getMetadata(),
+                publisher,
+                undefined,
+                ['access', 'compute'],
+                undefined,
+                undefined,
+                undefined,
+                token.getAddress()
+            )
         })
 
         it('should create a new agreement (short way)', async () => {
-            agreementId = await template.createFullAgreement(
+            agreementId = await escrowComputeExecutionTemplate.createFullAgreement(
                 ddo,
-                new AssetRewards(),
+                new AssetRewards(
+                    new Map([
+                        [receivers[0], amounts[0]],
+                        [receivers[1], amounts[1]]
+                    ])
+                ),
                 consumer.getId(),
                 undefined,
                 publisher
