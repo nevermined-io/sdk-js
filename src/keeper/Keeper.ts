@@ -13,7 +13,9 @@ import {
     NFTLockCondition,
     NFTAccessCondition,
     TransferNFTCondition,
-    TransferDIDOwnershipCondition
+    TransferDIDOwnershipCondition,
+    TransferNFT721Condition,
+    NFT721HolderCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -21,7 +23,9 @@ import {
     EscrowComputeExecutionTemplate,
     DIDSalesTemplate,
     NFTAccessTemplate,
-    NFTSalesTemplate
+    NFT721AccessTemplate,
+    NFTSalesTemplate,
+    NFT721SalesTemplate
 } from './contracts/templates'
 import {
     TemplateStoreManager,
@@ -70,9 +74,11 @@ export class Keeper extends Instantiable {
                 accessCondition: AccessCondition.getInstance(config),
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
                 nftHolderCondition: NFTHolderCondition.getInstance(config),
+                nft721HolderCondition: NFT721HolderCondition.getInstance(config),
                 nftLockCondition: NFTLockCondition.getInstance(config),
                 nftAccessCondition: NFTAccessCondition.getInstance(config),
                 transferNftCondition: TransferNFTCondition.getInstance(config),
+                transferNft721Condition: TransferNFT721Condition.getInstance(config),
                 transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
                     config
                 ),
@@ -82,13 +88,19 @@ export class Keeper extends Instantiable {
                     config
                 ),
                 nftAccessTemplate: NFTAccessTemplate.getInstance(config),
+                nft721AccessTemplate: NFT721AccessTemplate.getInstance(config),
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
-                nftSalesTemplate: NFTSalesTemplate.getInstance(config)
+                nftSalesTemplate: NFTSalesTemplate.getInstance(config),
+                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config)
             })
 
             keeper.connected = true
-        } catch {
+        } catch (err) {
             keeper.connected = false
+            keeper.logger.warn(
+                `'Keeper could not connect to: ${await keeper.getNetworkName()}`,
+                err.message
+            )
             return
         }
 
@@ -120,19 +132,23 @@ export class Keeper extends Instantiable {
             accessCondition: keeper.instances.accessCondition,
             computeExecutionCondition: keeper.instances.computeExecutionCondition,
             nftHolderCondition: keeper.instances.nftHolderCondition,
+            nft721HolderCondition: keeper.instances.nft721HolderCondition,
             nftLockCondition: keeper.instances.nftLockCondition,
             nftAccessCondition: keeper.instances.nftAccessCondition,
             transferNftCondition: keeper.instances.transferNftCondition,
+            transferNft721Condition: keeper.instances.transferNft721Condition,
             transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition
         }
-        // Conditions
+        // Templates
         keeper.templates = {
             accessTemplate: keeper.instances.accessTemplate,
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate,
             didSalesTemplate: keeper.instances.didSalesTemplate,
             nftAccessTemplate: keeper.instances.nftAccessTemplate,
-            nftSalesTemplate: keeper.instances.nftSalesTemplate
+            nft721AccessTemplate: keeper.instances.nft721AccessTemplate,
+            nftSalesTemplate: keeper.instances.nftSalesTemplate,
+            nft721SalesTemplate: keeper.instances.nft721SalesTemplate
         }
         // Utils
         keeper.utils = {
@@ -193,9 +209,11 @@ export class Keeper extends Instantiable {
         accessCondition: AccessCondition
         computeExecutionCondition: ComputeExecutionCondition
         nftHolderCondition: NFTHolderCondition
+        nft721HolderCondition: NFT721HolderCondition
         nftLockCondition: NFTLockCondition
         nftAccessCondition: NFTAccessCondition
         transferNftCondition: TransferNFTCondition
+        transferNft721Condition: TransferNFT721Condition
         transferDidOwnershipCondition: TransferDIDOwnershipCondition
     }
 
@@ -207,7 +225,9 @@ export class Keeper extends Instantiable {
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
         didSalesTemplate: DIDSalesTemplate
         nftAccessTemplate: NFTAccessTemplate
+        nft721AccessTemplate: NFT721AccessTemplate
         nftSalesTemplate: NFTSalesTemplate
+        nft721SalesTemplate: NFT721SalesTemplate
     }
 
     /**

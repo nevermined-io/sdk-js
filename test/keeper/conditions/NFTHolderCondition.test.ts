@@ -75,7 +75,7 @@ describe('NFTHolderCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionId,
                 nftHolderCondition.getAddress(),
-                owner.getId()
+                owner
             )
 
             await didRegistry.registerMintableDID(
@@ -156,7 +156,7 @@ describe('NFTHolderCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionId,
                 nftHolderCondition.getAddress(),
-                owner.getId()
+                owner
             )
 
             await didRegistry.registerMintableDID(

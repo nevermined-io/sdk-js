@@ -106,7 +106,7 @@ describe('NFTAccessCondition', () => {
                 [conditionId],
                 [0],
                 [2],
-                templateId.getId()
+                templateId
             )
 
             const result = await nftAccessCondition.fulfill(
@@ -150,16 +150,11 @@ describe('NFTAccessCondition', () => {
                 [conditionId],
                 [0],
                 [2],
-                templateId.getId()
+                templateId
             )
 
             await assert.isRejected(
-                nftAccessCondition.fulfill(
-                    agreementId,
-                    did,
-                    grantee.getId(),
-                    other.getId()
-                ),
+                nftAccessCondition.fulfill(agreementId, did, grantee.getId(), other),
                 /Invalid DID owner\/provider/
             )
         })
@@ -181,7 +176,7 @@ describe('NFTAccessCondition', () => {
                 [conditionId],
                 [0],
                 [2],
-                templateId.getId()
+                templateId
             )
 
             await nftAccessCondition.fulfill(agreementId, did, grantee.getId())

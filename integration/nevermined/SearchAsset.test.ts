@@ -1,10 +1,7 @@
 import { assert } from 'chai'
-
 import { config } from '../config'
-
 import { generateMetadata } from '../utils'
-
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 
 describe('Search Asset', () => {
     let nevermined: Nevermined
@@ -16,7 +13,7 @@ describe('Search Asset', () => {
         .substr(2)
     let price
     const metadataGenerator = (name: string) =>
-        generateMetadata(`${name}${testHash}`, price)
+        generateMetadata(`${name}${testHash}`, price) as MetaData
 
     let test1length
     let test2length
@@ -44,10 +41,22 @@ describe('Search Asset', () => {
     })
 
     it('should register an asset', async () => {
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test1') as any, publisher), DDO)
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test2') as any, publisher), DDO)
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test2') as any, publisher), DDO)
-        assert.instanceOf(await nevermined.assets.create(metadataGenerator('Test3') as any, publisher), DDO)
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test1'), publisher),
+            DDO
+        )
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test2'), publisher),
+            DDO
+        )
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test2'), publisher),
+            DDO
+        )
+        assert.instanceOf(
+            await nevermined.assets.create(metadataGenerator('Test3'), publisher),
+            DDO
+        )
     })
 
     it('should search by text and see the increment of DDOs', async () => {

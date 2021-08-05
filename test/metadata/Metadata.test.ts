@@ -73,7 +73,7 @@ describe('Metadata', () => {
             const result = await metadata.queryMetadata(query)
             assert.typeOf(result.results, 'array')
             assert.lengthOf(result.results, 1)
-            assert.isDefined(result.results[0].findServiceById)
+            assert.isDefined(result.results[0].findServiceByType)
         })
     })
 
@@ -111,7 +111,7 @@ describe('Metadata', () => {
             const result = await metadata.queryMetadataByText(query)
             assert.typeOf(result.results, 'array')
             assert.lengthOf(result.results, 1)
-            assert.isDefined(result.results[0].findServiceById)
+            assert.isDefined(result.results[0].findServiceByType)
         })
     })
 

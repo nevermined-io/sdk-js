@@ -5,6 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
+import Account from '../../../nevermined/Account'
 
 export class NFTAccessTemplate extends BaseTemplate {
     public static async getInstance(
@@ -21,9 +22,9 @@ export class NFTAccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        holder: string,
-        from?: string,
-        nftAmount?: number
+        holderAddress: string,
+        nftAmount?: number,
+        from?: Account
     ): Promise<boolean> {
         const [
             nftHolderConditionId,
@@ -32,16 +33,17 @@ export class NFTAccessTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
-            holder,
-            from,
+            holderAddress,
             nftAmount
         )
+
         return !!(await this.createAgreement(
             agreementId,
             ddo.shortId(),
             [nftHolderConditionId, nftAccessConditionId],
             [0, 0],
             [0, 0],
+            holderAddress,
             from
         ))
     }
@@ -51,7 +53,6 @@ export class NFTAccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
-        from?: string,
         nftAmount?: number
     ): Promise<string[]> {
         const {
@@ -63,6 +64,7 @@ export class NFTAccessTemplate extends BaseTemplate {
             agreementId,
             await nftHolderCondition.hashValues(ddo.shortId(), holder, nftAmount)
         )
+
         const nftAccessConditionId = await nftAccessCondition.generateId(
             agreementId,
             await nftAccessCondition.hashValues(ddo.shortId(), holder)

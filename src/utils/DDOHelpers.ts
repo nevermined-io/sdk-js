@@ -1,5 +1,5 @@
 import { DDO } from '../ddo/DDO'
-import { Service } from '../ddo/Service'
+import { ConditionType, Service, ServiceType } from '../ddo/Service'
 import {
     ServiceAgreementTemplateCondition,
     ServiceAgreementTemplateParameter
@@ -10,6 +10,8 @@ function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,
     ddo: DDO,
     assetRewards: AssetRewards = new AssetRewards(),
+    erc20TokenContract?: string,
+    nftTokenContract?: string,
     nftAmount: number = 1
 ): ServiceAgreementTemplateParameter {
     const getValue = name => {
@@ -21,7 +23,6 @@ function fillParameterWithDDO(
             case 'amount':
             case 'price':
                 return String(assetRewards.getTotalPrice())
-            // return String(ddo.findServiceByType('metadata').attributes.main.price)
             case 'assetId':
             case 'documentId':
             case 'documentKeyId':
@@ -31,6 +32,11 @@ function fillParameterWithDDO(
                 return ddo.publicKey[0].owner
             case 'numberNfts':
                 return String(nftAmount)
+            case 'tokenAddress':
+                return erc20TokenContract ? erc20TokenContract : ''
+            case 'contract':
+            case 'contractAddress':
+                return nftTokenContract ? nftTokenContract : ''
         }
 
         return ''
@@ -42,60 +48,65 @@ function fillParameterWithDDO(
 
 /**
  * Fill some static parameters that depends on the metadata.
- * @param  {ServiceAgreementTemplateCondition[]} conditions Conditions to fill.
- * @param  {DDO}                                 ddo        DDO related to this conditions.
- * @param  {AssetRewards}                      assetRewards Rewards distribution
- * @return {ServiceAgreementTemplateCondition[]}            Filled conditions.
+ * @param  {ServiceAgreementTemplateCondition[]} conditions         Conditions to fill.
+ * @param  {DDO}                                 ddo                DDO related to this conditions.
+ * @param  {AssetRewards}                        assetRewards       Rewards distribution
+ * @param  {number}                              nftAmount          Number of nfts to handle
+ * @param  {string}                              erc20TokenContract Number of nfts to handle
+ * @param  {string}                              nftTokenContract   Number of nfts to handle
+ * @return {ServiceAgreementTemplateCondition[]}                    Filled conditions.
  */
 export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],
     ddo: DDO,
     assetRewards: AssetRewards = new AssetRewards(),
+    erc20TokenContract?: string,
+    nftTokenContract?: string,
     nftAmount?: number
 ): ServiceAgreementTemplateCondition[] {
     return conditions.map(condition => ({
         ...condition,
         parameters: condition.parameters.map(parameter => ({
-            ...fillParameterWithDDO(parameter, ddo, assetRewards, nftAmount)
+            ...fillParameterWithDDO(
+                parameter,
+                ddo,
+                assetRewards,
+                erc20TokenContract,
+                nftTokenContract,
+                nftAmount
+            )
         }))
     }))
 }
 
-function findServiceConditionByName(
+export function findServiceConditionByName(
     service: Service,
-    name: string
+    name: ConditionType
 ): ServiceAgreementTemplateCondition {
     return service.attributes.serviceAgreementTemplate.conditions.find(
         c => c.name === name
     )
 }
 
-export function getLockPaymentTotalAmount(ddo: DDO, index: number): string {
-    try {
-        const lockPaymentCondition = findServiceConditionByName(
-            ddo.findServiceById(index),
-            'lockPayment'
-        )
-        return String(
-            lockPaymentCondition.parameters.find(p => p.name === '_amount').value
-        )
-    } catch (error) {
-        return '0'
-    }
+export function getAssetRewardsFromDDOByService(
+    ddo: DDO,
+    service: ServiceType
+): AssetRewards {
+    return getAssetRewardsFromService(ddo.findServiceByType(service))
 }
 
-export function getAssetRewardsFromDDO(ddo: DDO, index: number): AssetRewards {
-    const escrowPaymentCondition = findServiceConditionByName(
-        ddo.findServiceById(index),
-        'escrowPayment'
-    )
+export function getAssetRewardsFromService(service: Service): AssetRewards {
+    const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
+
     const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts')
         .value as string[]
     const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
         .value as string[]
 
-    const rewardsMap = new Map()
-    let i = 0
-    for (i = 0; i < amounts.length; i++) rewardsMap.set(receivers[i], amounts[i])
+    const rewardsMap = new Map<string, number>()
+
+    for (let i = 0; i < amounts.length; i++)
+        rewardsMap.set(receivers[i], Number(amounts[i]))
+
     return new AssetRewards(rewardsMap)
 }

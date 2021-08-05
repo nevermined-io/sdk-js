@@ -102,7 +102,7 @@ export class Metadata extends Instantiable {
                 return this.transformResult(results)
             })
             .catch(error => {
-                this.logger.error('Error fetching querying metadata: ', error)
+                this.logger.error('Error querying metadata: ', error)
                 return this.transformResult()
             })
 
@@ -140,7 +140,7 @@ export class Metadata extends Instantiable {
                 return this.transformResult(results)
             })
             .catch(error => {
-                this.logger.error('Error fetching querying metadata by text: ', error)
+                this.logger.error('Error querying metadata by text: ', error)
                 return this.transformResult()
             })
 
@@ -173,7 +173,7 @@ export class Metadata extends Instantiable {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error fetching querying metadata: ', error)
+                this.logger.error('Error updating metadata: ', error)
                 return null as DDO
             })
 
@@ -205,7 +205,7 @@ export class Metadata extends Instantiable {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error fetching querying metadata: ', error)
+                this.logger.error('Error storing metadata: ', error)
                 return null as DDO
             })
 
@@ -241,7 +241,7 @@ export class Metadata extends Instantiable {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error fetching querying metadata: ', error)
+                this.logger.error('Error retrieving metadata: ', error)
                 return null as DDO
             })
 

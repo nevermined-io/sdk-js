@@ -36,7 +36,11 @@ export class Provider extends Instantiable {
      * @return {Promise<boolean>}         Success,
      */
     public async remove(did: string, address: string, from: Account): Promise<boolean> {
-        await this.nevermined.keeper.didRegistry.removeProvider(did, address, from.getId())
+        await this.nevermined.keeper.didRegistry.removeProvider(
+            did,
+            address,
+            from.getId()
+        )
         return true
     }
 
@@ -47,5 +51,4 @@ export class Provider extends Instantiable {
     public async list(did: string) {
         return await this.nevermined.keeper.didRegistry.getProviders(did)
     }
-
 }

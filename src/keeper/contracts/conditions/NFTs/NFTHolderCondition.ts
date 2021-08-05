@@ -1,6 +1,7 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
+import Account from '../../../../nevermined/Account'
 
 /**
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
@@ -39,7 +40,7 @@ export class NFTHolderCondition extends Condition {
         did: string,
         holderAddress: string,
         amount: number,
-        from?: string
+        from?: Account
     ) {
         return super.fulfill(
             agreementId,

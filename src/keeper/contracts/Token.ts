@@ -1,15 +1,19 @@
 import BigNumber from 'bignumber.js'
 import ContractBase from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import Account from '../../nevermined/Account'
 
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
-        const token: Token = new Token(process.env.TOKEN_CONTRACT_NAME || 'NeverminedToken', true)
+        const token: Token = new Token(
+            process.env.TOKEN_CONTRACT_NAME || 'NeverminedToken',
+            true
+        )
         await token.init(config)
         return token
     }
 
-    public async approve(to: string, price: number | string, from?: string) {
+    public async approve(to: string, price: number | string, from?: Account) {
         return this.sendFrom('approve', [to, String(price)], from)
     }
 
@@ -31,7 +35,7 @@ export default class Token extends ContractBase {
         return this.call('name', [])
     }
 
-    public async totalSupply(): Promise<number>{
+    public async totalSupply(): Promise<number> {
         return this.call('totalSupply', [])
     }
 

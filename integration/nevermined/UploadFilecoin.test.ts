@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 
@@ -16,7 +16,6 @@ describe.skip('Filecoin Integration', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-
         ;[publisher] = await nevermined.accounts.list()
     })
 
@@ -40,20 +39,13 @@ describe.skip('Filecoin Integration', () => {
                 url: url
             }
         ]
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        ddo = await nevermined.assets.create(metadata as MetaData, publisher)
         assert.isDefined(ddo)
     })
 
     it('should download an asset with a cid://', async () => {
-        const accessService = ddo.findServiceByType('access')
         const folder = '/tmp/output'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            accessService.index,
-            publisher,
-            folder,
-            0
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder, 0)
 
         assert.include(path, folder)
         const data = fs.readFileSync(`${path}0`)

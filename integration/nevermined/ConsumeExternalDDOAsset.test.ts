@@ -1,9 +1,7 @@
 import { assert } from 'chai'
 import * as fs from 'fs'
-
 import { config } from '../config'
-
-import { Nevermined, DDO, Account, ConditionState } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 
@@ -13,7 +11,7 @@ describe('Consume Asset (Documentation example)', () => {
     let publisher: Account
     let consumer: Account
 
-    let metadata
+    let metadata: MetaData
 
     let ddo: DDO
     let serviceAgreementSignatureResult: {
@@ -29,12 +27,12 @@ describe('Consume Asset (Documentation example)', () => {
         ;[publisher, consumer] = await nevermined.accounts.list()
 
         metadata = await getDocsCommonMetadata()
-        metadata.main.price = 0
-        assetRewards = new AssetRewards(publisher.getId(), metadata.main.price)
+        metadata.main.price = '0'
+        assetRewards = new AssetRewards(publisher.getId(), Number(metadata.main.price))
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
+        ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
@@ -62,11 +60,9 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should sign the service agreement', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         serviceAgreementSignatureResult = await nevermined.agreements.prepare(
             ddo.id,
-            accessService.index,
+            'access',
             consumer
         )
 
@@ -84,12 +80,10 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should execute the service agreement', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const success = await nevermined.agreements.create(
             ddo.id,
             serviceAgreementSignatureResult.agreementId,
-            accessService.index,
+            'access',
             consumer,
             publisher
         )
@@ -110,7 +104,7 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should lock the payment by the consumer', async () => {
-        const price = ddo.findServiceByType('metadata').attributes.main.price
+        const { price } = ddo.findServiceByType('metadata').attributes.main
         const assetRewards = new AssetRewards(publisher.getId(), Number(price))
 
         const paid = await nevermined.agreements.conditions.lockPayment(
@@ -118,6 +112,7 @@ describe('Consume Asset (Documentation example)', () => {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            undefined,
             consumer
         )
 
@@ -158,13 +153,10 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should consume and store the assets', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-1'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder
         )
@@ -179,19 +171,16 @@ describe('Consume Asset (Documentation example)', () => {
 
         assert.deepEqual(
             files,
-            ['README.md','package.json'],
+            ['README.md', 'package.json'],
             'Stored files are not correct.'
         )
     })
 
     it('should consume and store one asset', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-2'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder,
             0

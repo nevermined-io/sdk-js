@@ -1,6 +1,7 @@
 import { Condition } from './Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export class ComputeExecutionCondition extends Condition {
     public static async getInstance(
@@ -21,7 +22,7 @@ export class ComputeExecutionCondition extends Condition {
         agreementId: string,
         did: string,
         computeConsumer: string,
-        from?: string
+        from?: Account
     ) {
         return super.fulfill(
             agreementId,
@@ -30,11 +31,11 @@ export class ComputeExecutionCondition extends Condition {
         )
     }
 
-    public wasComputeTriggered(did: string, computeConsumer: string, from?: string) {
+    public wasComputeTriggered(did: string, computeConsumer: string, from?: Account) {
         return this.call<boolean>(
             'wasComputeTriggered',
             [didZeroX(did), computeConsumer].map(zeroX),
-            from
+            from && from.getId()
         )
     }
 }

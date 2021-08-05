@@ -4,4 +4,3 @@
 --full-trace
 --exit
 --timeout 300000
-integration/**/*.test.ts

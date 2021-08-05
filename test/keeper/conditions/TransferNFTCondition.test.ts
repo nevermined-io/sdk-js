@@ -106,7 +106,7 @@ describe('TransferNFTCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionIdPayment,
                 lockPaymentCondition.address,
-                owner.getId()
+                owner
             )
 
             await didRegistry.registerMintableDID(
@@ -126,7 +126,7 @@ describe('TransferNFTCondition', () => {
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
                 10,
-                nftReceiver.getId()
+                nftReceiver
             )
 
             await lockPaymentCondition.fulfill(
@@ -136,7 +136,7 @@ describe('TransferNFTCondition', () => {
                 token.getAddress(),
                 amounts,
                 receivers,
-                nftReceiver.getId()
+                nftReceiver
             )
 
             let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
@@ -156,7 +156,7 @@ describe('TransferNFTCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionId,
                 transferNftCondition.address,
-                owner.getId()
+                owner
             )
 
             const result = await transferNftCondition.fulfill(
@@ -203,7 +203,7 @@ describe('TransferNFTCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionIdPayment,
                 lockPaymentCondition.address,
-                owner.getId()
+                owner
             )
 
             await didRegistry.registerMintableDID(
@@ -223,7 +223,7 @@ describe('TransferNFTCondition', () => {
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
                 10,
-                nftReceiver.getId()
+                nftReceiver
             )
 
             await lockPaymentCondition.fulfill(
@@ -233,7 +233,7 @@ describe('TransferNFTCondition', () => {
                 token.getAddress(),
                 amounts,
                 receivers,
-                nftReceiver.getId()
+                nftReceiver
             )
             const { state } = await conditionStoreManager.getCondition(conditionIdPayment)
             assert.equal(state, ConditionState.Fulfilled)
@@ -252,7 +252,7 @@ describe('TransferNFTCondition', () => {
             await conditionStoreManager.createCondition(
                 conditionId,
                 transferNftCondition.address,
-                owner.getId()
+                owner
             )
 
             // Invalid user executing the fulfill
@@ -263,7 +263,7 @@ describe('TransferNFTCondition', () => {
                     nftReceiver.getId(),
                     nftAmount,
                     conditionIdPayment,
-                    other.getId()
+                    other
                 )
             )
 

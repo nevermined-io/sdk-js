@@ -1,7 +1,8 @@
 import ContractBase from '../ContractBase'
-import { ConditionState } from '../conditions/Condition.abstract'
+import { ConditionState } from '../conditions'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export interface ConditionData {
     typeRef: string
@@ -24,8 +25,11 @@ export class ConditionStoreManager extends ContractBase {
         return templateStoreManeger
     }
 
-    public async createCondition(id: string, typeRef: string, from?: string) {
-        return this.send('createCondition', zeroX(from), [zeroX(id), zeroX(typeRef)])
+    public async createCondition(id: string, typeRef: string, from?: Account) {
+        return this.send('createCondition', from && from.getId(), [
+            zeroX(id),
+            zeroX(typeRef)
+        ])
     }
 
     public async delegateCreateRole(delegatee: string, owner: string) {

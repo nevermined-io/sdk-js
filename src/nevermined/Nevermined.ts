@@ -23,6 +23,7 @@ import { Faucet } from '../faucet/Faucet'
 import { Provider } from './Provider'
 import { Files } from './Files'
 import { Nfts } from './Nfts'
+import { Nft721 } from './Nft721'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -56,6 +57,7 @@ export class Nevermined extends Instantiable {
         instance.agreements = await Agreements.getInstance(instanceConfig)
         instance.secretStore = await NeverminedSecretStore.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
+
         instance.versions = await Versions.getInstance(instanceConfig)
         instance.provenance = await Provenance.getInstance(instanceConfig)
         instance.provider = await Provider.getInstance(instanceConfig)
@@ -70,6 +72,16 @@ export class Nevermined extends Instantiable {
      * @type {Keeper}
      */
     public keeper: Keeper
+
+    /**
+     * Nevermind very own contract reflector.
+     * @type {Keeper}
+     */
+    public contracts = {
+        loadNft721: async (address: string): Promise<Nft721> => {
+            return await Nft721.getInstance(this.instanceConfig, address)
+        }
+    }
 
     /**
      * Gateway instance.

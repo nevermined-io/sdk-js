@@ -1,6 +1,6 @@
 import { TransactionReceipt } from 'web3-core'
 import ContractBase from './ContractBase'
-import { zeroX, didPrefixed, didZeroX, eventToObject } from '../../utils'
+import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { randomBytes } from 'crypto'
 
@@ -424,9 +424,7 @@ export default class DIDRegistry extends ContractBase {
 
     public async getProviders(did: string) {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
-        return registeredValues[5].filter(
-            (x: string) => x != '0x0000000000000000000000000000000000000000'
-        )
+        return registeredValues[5].filter((x: string) => x != ZeroAddress)
     }
 
     public async setApprovalForAll(operator: string, approved: boolean, from: string) {

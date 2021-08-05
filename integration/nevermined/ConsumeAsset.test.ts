@@ -36,7 +36,7 @@ describe('Consume Asset', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher, assetRewards)
+        ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
@@ -65,11 +65,9 @@ describe('Consume Asset', () => {
     })
 
     it('should sign the service agreement', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         serviceAgreementSignatureResult = await nevermined.agreements.prepare(
             ddo.id,
-            accessService.index,
+            'access',
             consumer
         )
 
@@ -87,12 +85,10 @@ describe('Consume Asset', () => {
     })
 
     it('should execute the service agreement', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const success = await nevermined.agreements.create(
             ddo.id,
             serviceAgreementSignatureResult.agreementId,
-            accessService.index,
+            'access',
             consumer,
             publisher
         )
@@ -118,6 +114,7 @@ describe('Consume Asset', () => {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            undefined,
             consumer
         )
         assert.isTrue(paid, 'The asset has not been paid correctly')
@@ -144,6 +141,17 @@ describe('Consume Asset', () => {
         } catch {}
     })
 
+    it('should return true on access granted', async () => {
+        const accessGranted = await nevermined.agreements.isAccessGranted(
+            serviceAgreementSignatureResult.agreementId,
+            ddo.id,
+            consumer.getId(),
+            publisher
+        )
+
+        assert.deepEqual(accessGranted, true)
+    })
+
     it('should get the agreement conditions status fulfilled', async () => {
         const status = await nevermined.agreements.status(
             serviceAgreementSignatureResult.agreementId
@@ -157,13 +165,10 @@ describe('Consume Asset', () => {
     })
 
     it('should consume and store the assets', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-1'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder
         )
@@ -184,13 +189,10 @@ describe('Consume Asset', () => {
     })
 
     it('should consume and store one asset', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-2'
         const path = await nevermined.assets.consume(
             serviceAgreementSignatureResult.agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder,
             1

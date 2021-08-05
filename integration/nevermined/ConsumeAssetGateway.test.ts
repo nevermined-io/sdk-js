@@ -47,16 +47,14 @@ describe('Consume Asset (Gateway)', () => {
     it('should register an asset', async () => {
         const steps = []
         ddo = await nevermined.assets
-            .create(metadata as any, publisher)
+            .create(metadata, publisher)
             .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
-        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7])
+        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     })
 
     it('should order the asset', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         try {
             await consumer.requestTokens(
                 +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
@@ -65,20 +63,17 @@ describe('Consume Asset (Gateway)', () => {
 
         const steps = []
         agreementId = await nevermined.assets
-            .order(ddo.id, accessService.index, consumer)
+            .order(ddo.id, 'access', consumer)
             .next(step => steps.push(step))
 
         assert.isDefined(agreementId)
         assert.deepEqual(steps, [0, 1, 2, 3])
     })
 
-    it('should be able to download the asset if you are the owner', async()=> {
-        const accessService = ddo.findServiceByType('access')
-
+    it('should be able to download the asset if you are the owner', async () => {
         const folder = '/tmp/nevermined/sdk-js'
         const path = await nevermined.assets.download(
             ddo.id,
-            accessService.index,
             publisher,
             folder,
             -1,
@@ -96,17 +91,13 @@ describe('Consume Asset (Gateway)', () => {
             ['README.md', 'ddo-example.json'],
             'Stored files are not correct.'
         )
-
     })
 
     it('should consume and store the assets', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js'
         const path = await nevermined.assets.consume(
             agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder,
             -1,

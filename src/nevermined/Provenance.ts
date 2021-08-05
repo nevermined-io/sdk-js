@@ -39,7 +39,7 @@ export class Provenance extends Instantiable {
         activityId: string,
         signature: string,
         attributes: string,
-        from: Account,
+        from: Account
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.used(
             provenanceId,
@@ -48,7 +48,7 @@ export class Provenance extends Instantiable {
             activityId,
             signature,
             attributes,
-            from.getId(),
+            from.getId()
         )
         return true
     }
@@ -71,7 +71,7 @@ export class Provenance extends Instantiable {
         agentId: string,
         activityId: string,
         attributes: string,
-        from: Account,
+        from: Account
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.wasDerivedFrom(
             provenanceId,
@@ -80,7 +80,7 @@ export class Provenance extends Instantiable {
             agentId,
             activityId,
             attributes,
-            from.getId(),
+            from.getId()
         )
         return true
     }
@@ -101,7 +101,7 @@ export class Provenance extends Instantiable {
         agentId: string,
         activityId: string,
         attributes: string,
-        from: Account,
+        from: Account
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.wasAssociatedWith(
             provenanceId,
@@ -109,7 +109,7 @@ export class Provenance extends Instantiable {
             agentId,
             activityId,
             attributes,
-            from.getId(),
+            from.getId()
         )
         return true
     }
@@ -134,7 +134,7 @@ export class Provenance extends Instantiable {
         activityId: string,
         signature: string,
         attributes: string,
-        from: Account,
+        from: Account
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.actedOnBehalf(
             provenanceId,
@@ -144,24 +144,28 @@ export class Provenance extends Instantiable {
             activityId,
             signature,
             attributes,
-            from.getId(),
+            from.getId()
         )
         return true
     }
 
     /**
-     * Add new DID provenance delegate. 
-     * @param  {string}           did                   Identifier of the entity created 
+     * Add new DID provenance delegate.
+     * @param  {string}           did                   Identifier of the entity created
      * @param  {string}           delegate              Delegate Address
      * @param  {Account}          from                  Sender account address.
-     * @return {Promise<boolean>}    
+     * @return {Promise<boolean>}
      */
-    public async addDidProvenanceDelegate(did: string, delegated: string, from: Account): Promise<boolean>{
+    public async addDidProvenanceDelegate(
+        did: string,
+        delegated: string,
+        from: Account
+    ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
             did,
             delegated,
             from.getId()
-            )
+        )
         return true
     }
 
@@ -170,31 +174,35 @@ export class Provenance extends Instantiable {
      * @param  {string}           did                   Identifier of the entity created
      * @param  {string}           delegate              Delegate Address
      * @param  {Account}          from                  Sender account address.
-     * @return {Promise<boolean>}    
+     * @return {Promise<boolean>}
      */
-    public async removeDidProvenanceDelegate(did: string, delegated: string, from: Account): Promise<boolean>{
+    public async removeDidProvenanceDelegate(
+        did: string,
+        delegated: string,
+        from: Account
+    ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(
             did,
             delegated,
             from.getId()
-            )
+        )
         return true
     }
 
     /**
      * Check whether a given DID delegate exists
-     * @param did 
-     * @param delegated 
+     * @param did
+     * @param delegated
      */
-    public async isProvenanceDelegate(did: string, delegated: string){
+    public async isProvenanceDelegate(did: string, delegated: string) {
         return this.nevermined.keeper.didRegistry.isProvenanceDelegate(did, delegated)
     }
 
     /**
      * Retrieve the owner of the provenance record.
-     * @param  {string}           did                   Identifier of the entity created 
+     * @param  {string}           did                   Identifier of the entity created
      */
-    public async getProvenanceOwner(did: string){
+    public async getProvenanceOwner(did: string) {
         return this.nevermined.keeper.didRegistry.getProvenanceOwner(did)
     }
 
@@ -214,7 +222,13 @@ export class Provenance extends Instantiable {
      * @param  {string}           provenanceId          Provenance ID
      * @return {Promise<>}
      */
-    public async getProvenanceMethodEvents<T extends ProvenanceMethod>(method: T, did: string) {
-        return this.nevermined.keeper.didRegistry.getDIDProvenanceMethodEvents<T>(did, method)
+    public async getProvenanceMethodEvents<T extends ProvenanceMethod>(
+        method: T,
+        did: string
+    ) {
+        return this.nevermined.keeper.didRegistry.getDIDProvenanceMethodEvents<T>(
+            did,
+            method
+        )
     }
 }

@@ -23,6 +23,10 @@ export class Token extends Instantiable {
         return await this.nevermined.keeper.token.symbol()
     }
 
+    public getAddress(): string {
+        return this.nevermined.keeper.token.getAddress()
+    }
+
     /**
      * Get token name.
      */

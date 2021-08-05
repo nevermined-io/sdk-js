@@ -1,10 +1,11 @@
 import parseJwk from 'jose/jwk/parse'
-import SignJWT, { JWSHeaderParameters, JWTPayload } from 'jose/jwt/sign'
+import SignJWT, { JWSHeaderParameters } from 'jose/jwt/sign'
 
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../../src'
 import { SignatureUtils } from './SignatureUtils'
 import Web3 from 'web3'
+import { ServiceType } from '../../ddo/Service'
 
 class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -171,13 +172,15 @@ export class JwtUtils extends Instantiable {
         did: string,
         account: Account
     ): Promise<string> {
-        return new EthSignJWT({
+        const params = {
             iss: account.getId(),
             aud: this.BASE_AUD + '/nft-access',
             sub: agreementId,
-            did: did,
+            did,
             eths: 'personal'
-        })
+        }
+
+        return new EthSignJWT(params)
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')

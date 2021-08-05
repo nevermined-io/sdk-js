@@ -3,24 +3,32 @@ import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
+import { ZeroAddress } from '../../src/utils'
 
 interface ContractTest extends Contract {
     testContract?: boolean
     $initialized?: boolean
 }
 
-export default class TestContractHandler extends ContractHandler {
+export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts() {
-        const web3 = Web3Provider.getWeb3(config)
-        const [deployerAddress] = await web3.eth.getAccounts()
-        this.networkId = await web3.eth.net.getId()
-        this.minter = await web3.utils.toHex('minter')
+        TestContractHandler.setConfig(config)
+        const [deployerAddress] = await TestContractHandler.web3.eth.getAccounts()
+        TestContractHandler.networkId = await TestContractHandler.web3.eth.net.getId()
+        TestContractHandler.minter = await TestContractHandler.web3.utils.toHex('minter')
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
     }
 
     private static networkId: number
     private static minter: string
+    private static config = config
+    private static web3 = Web3Provider.getWeb3(config)
+
+    public static setConfig(config) {
+        TestContractHandler.config = config
+        TestContractHandler.web3 = Web3Provider.getWeb3(TestContractHandler.config)
+    }
 
     private static async deployContracts(deployerAddress: string) {
         Logger.log('Trying to deploy contracts')
@@ -51,7 +59,7 @@ export default class TestContractHandler extends ContractHandler {
         // Add dispenser as Token minter
         if (!token.$initialized) {
             await token.methods
-                .grantRole(this.minter, dispenser.options.address)
+                .grantRole(TestContractHandler.minter, dispenser.options.address)
                 .send({ from: deployerAddress })
         }
 
@@ -120,6 +128,12 @@ export default class TestContractHandler extends ContractHandler {
             ]
         )
 
+        const nft721HolderCondition = await TestContractHandler.deployContract(
+            'NFT721HolderCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+
         await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
             deployerAddress,
             conditionStoreManager.options.address,
@@ -136,13 +150,25 @@ export default class TestContractHandler extends ContractHandler {
             ]
         )
 
+        const transferNft721Condition = await TestContractHandler.deployContract(
+            'TransferNFT721Condition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address,
+                didRegistry.options.address,
+                ZeroAddress
+            ]
+        )
+
         const transferNftCondition = await TestContractHandler.deployContract(
             'TransferNFTCondition',
             deployerAddress,
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                didRegistry.options.address
+                didRegistry.options.address,
+                ZeroAddress
             ]
         )
         await didRegistry.methods
@@ -191,11 +217,30 @@ export default class TestContractHandler extends ContractHandler {
             nftAcessCondition.options.address
         ])
 
+        await TestContractHandler.deployContract(
+            'NFT721AccessTemplate',
+            deployerAddress,
+            [
+                deployerAddress,
+                agreementStoreManager.options.address,
+                nft721HolderCondition.options.address,
+                nftAcessCondition.options.address
+            ]
+        )
+
         await TestContractHandler.deployContract('NFTSalesTemplate', deployerAddress, [
             deployerAddress,
             agreementStoreManager.options.address,
             lockPaymentCondition.options.address,
             transferNftCondition.options.address,
+            escrowPaymentCondition.options.address
+        ])
+
+        await TestContractHandler.deployContract('NFT721SalesTemplate', deployerAddress, [
+            deployerAddress,
+            agreementStoreManager.options.address,
+            lockPaymentCondition.options.address,
+            transferNft721Condition.options.address,
             escrowPaymentCondition.options.address
         ])
     }
@@ -206,7 +251,7 @@ export default class TestContractHandler extends ContractHandler {
         args: any[] = [],
         tokens: { [name: string]: string } = {}
     ): Promise<ContractTest> {
-        const where = this.networkId
+        const where = TestContractHandler.networkId
 
         // dont redeploy if there is already something loaded
         if (TestContractHandler.hasContract(name, where)) {
@@ -216,49 +261,18 @@ export default class TestContractHandler extends ContractHandler {
             }
         }
 
-        const web3 = Web3Provider.getWeb3(config)
-
         let contractInstance: ContractTest
         try {
             Logger.log('Deploying', name)
-            const sendConfig = {
-                from,
-                gas: 6721975,
-                gasPrice: '10000'
-                // gas: 6000000,
-                // gasPrice: '10000'
-            }
             const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
-            const tempContract = new web3.eth.Contract(artifact.abi, artifact.address)
-            const isZos = !!tempContract.methods.initialize
-
-            Logger.debug({
-                name,
+            contractInstance = await TestContractHandler.deployArtifact(
+                artifact,
                 from,
-                isZos,
                 args,
-                libraries: artifact.bytecode
-                    .replace(/(0x)?[a-f0-9]{8}/gi, '')
-                    .replace(/__([^_]+)_*[0-9a-f]{2}/g, '|$1')
-                    .split('|')
-                    .splice(1)
-            })
-
-            contractInstance = await tempContract
-                .deploy({
-                    data: TestContractHandler.replaceTokens(
-                        artifact.bytecode.toString(),
-                        tokens
-                    ),
-                    arguments: isZos ? undefined : args
-                })
-                .send(sendConfig)
-            if (isZos) {
-                await contractInstance.methods.initialize(...args).send(sendConfig)
-            }
+                tokens
+            )
             contractInstance.testContract = true
             ContractHandler.setContract(name, where, contractInstance)
-            // Logger.log('Deployed', name, 'at', contractInstance.options.address)
         } catch (err) {
             Logger.error(
                 'Deployment failed for',
@@ -269,6 +283,57 @@ export default class TestContractHandler extends ContractHandler {
             )
             throw err
         }
+
+        return contractInstance
+    }
+
+    public static async deployArtifact(
+        artifact,
+        from?: string,
+        args = [],
+        tokens = {}
+    ): Promise<Contract> {
+        if (!from) {
+            from = (await TestContractHandler.web3.eth.getAccounts())[0]
+        }
+
+        const sendConfig = {
+            from,
+            gas: 6721975,
+            gasPrice: '10000'
+        }
+
+        const tempContract = new TestContractHandler.web3.eth.Contract(
+            artifact.abi,
+            artifact.address
+        )
+        const isZos = !!tempContract.methods.initialize
+
+        Logger.debug({
+            name: artifact.name,
+            from,
+            isZos,
+            args,
+            libraries: artifact.bytecode
+                .replace(/(0x)?[a-f0-9]{8}/gi, '')
+                .replace(/__([^_]+)_*[0-9a-f]{2}/g, '|$1')
+                .split('|')
+                .splice(1)
+        })
+
+        const contractInstance: Contract = await tempContract
+            .deploy({
+                data: TestContractHandler.replaceTokens(
+                    artifact.bytecode.toString(),
+                    tokens
+                ),
+                arguments: isZos ? undefined : args
+            })
+            .send(sendConfig)
+        if (isZos) {
+            await contractInstance.methods.initialize(...args).send(sendConfig)
+        }
+        // Logger.log('Deployed', name, 'at', contractInstance.options.address)
 
         return contractInstance
     }

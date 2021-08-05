@@ -9,12 +9,12 @@ describe('Provenance', () => {
     let publisher: Account
     let intermediary: Account
 
-    let newMetadata = () => getMetadata() as any
+    let newMetadata = () => getMetadata()
     let ddo: DDO
 
     const activitiesIds = {
         publisher: utils.generateId(),
-        intermediary: utils.generateId(),
+        intermediary: utils.generateId()
     }
 
     before(async () => {
@@ -45,7 +45,7 @@ describe('Provenance', () => {
             publisher.getId(),
             activitiesIds.publisher,
             'PublisherStuff',
-            publisher,
+            publisher
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
@@ -64,13 +64,16 @@ describe('Provenance', () => {
             activitiesIds.intermediary,
             '0x0',
             'FirstIntermediaryStuff',
-            publisher,
+            publisher
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
         assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))
         assert.equal(utils.zeroX(provenance.agentId), utils.zeroX(intermediary.getId()))
-        assert.equal(utils.zeroX(provenance.agentInvolvedId), utils.zeroX(publisher.getId()))
+        assert.equal(
+            utils.zeroX(provenance.agentInvolvedId),
+            utils.zeroX(publisher.getId())
+        )
         assert.equal(provenance.method, ProvenanceMethod.ACTED_ON_BEHALF)
     })
 
@@ -82,7 +85,7 @@ describe('Provenance', () => {
             intermediary.getId(),
             activitiesIds.intermediary,
             'FirstIntermediaryStuff',
-            intermediary,
+            intermediary
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
@@ -100,7 +103,7 @@ describe('Provenance', () => {
             activitiesIds.intermediary,
             '0x0',
             'FirstIntermediaryStuff',
-            intermediary,
+            intermediary
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
@@ -115,24 +118,40 @@ describe('Provenance', () => {
 
         assert.deepEqual(
             events.map(_ => _.method),
-            [pm.WAS_GENERATED_BY, pm.WAS_ASSOCIATED_WITH, pm.ACTED_ON_BEHALF, pm.WAS_ASSOCIATED_WITH, pm.USED],
+            [
+                pm.WAS_GENERATED_BY,
+                pm.WAS_ASSOCIATED_WITH,
+                pm.ACTED_ON_BEHALF,
+                pm.WAS_ASSOCIATED_WITH,
+                pm.USED
+            ]
         )
     })
 
     it('should return the events of an specific method by DID', async () => {
         const events = await Promise.all(
-            ['WAS_GENERATED_BY', 'USED', 'WAS_DERIVED_FROM', 'WAS_ASSOCIATED_WITH', 'ACTED_ON_BEHALF']
-                .map(async _ => [
-                    _,
-                    (await nevermined.provenance.getProvenanceMethodEvents(ProvenanceMethod[_] as any, ddo.shortId())).length,
-                ])
+            [
+                'WAS_GENERATED_BY',
+                'USED',
+                'WAS_DERIVED_FROM',
+                'WAS_ASSOCIATED_WITH',
+                'ACTED_ON_BEHALF'
+            ].map(async _ => [
+                _,
+                (
+                    await nevermined.provenance.getProvenanceMethodEvents(
+                        ProvenanceMethod[_] as any,
+                        ddo.shortId()
+                    )
+                ).length
+            ])
         )
         const expected = [
-          ['WAS_GENERATED_BY', 1],
-          ['USED', 1],
-          ['WAS_DERIVED_FROM', 0],
-          ['WAS_ASSOCIATED_WITH', 2],
-          ['ACTED_ON_BEHALF', 1],
+            ['WAS_GENERATED_BY', 1],
+            ['USED', 1],
+            ['WAS_DERIVED_FROM', 0],
+            ['WAS_ASSOCIATED_WITH', 2],
+            ['ACTED_ON_BEHALF', 1]
         ]
         assert.deepEqual(events, expected)
     })

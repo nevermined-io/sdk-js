@@ -27,7 +27,7 @@ describe('Publisher Download Asset', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        ddo = await nevermined.assets.create(metadata, publisher)
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
@@ -38,18 +38,9 @@ describe('Publisher Download Asset', () => {
         )
     })
 
-
-
     it('should consume and store the assets', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-1'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            accessService.index,
-            publisher,
-            folder
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder)
 
         assert.include(path, folder, 'The storage path is not correct.')
 
@@ -67,16 +58,8 @@ describe('Publisher Download Asset', () => {
     })
 
     it('should consume and store one asset', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js-2'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            accessService.index,
-            publisher,
-            folder,
-            1
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder, 1)
 
         assert.include(path, folder, 'The storage path is not correct.')
 

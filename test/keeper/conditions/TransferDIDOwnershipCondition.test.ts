@@ -104,7 +104,7 @@ describe('TransferDIDOwnershipCondition', () => {
                     agreementId,
                     did,
                     receiver.getId(),
-                    receiver.getId()
+                    receiver
                 ),
                 /Only owner/
             )
@@ -138,7 +138,7 @@ describe('TransferDIDOwnershipCondition', () => {
                 [conditionId],
                 [0],
                 [2],
-                templateId.getId()
+                templateId
             )
 
             await assert.isRejected(
@@ -146,7 +146,7 @@ describe('TransferDIDOwnershipCondition', () => {
                     agreementId,
                     did,
                     receiver.getId(),
-                    receiver.getId()
+                    receiver
                 ),
                 'Only owner'
             )
@@ -158,7 +158,7 @@ describe('TransferDIDOwnershipCondition', () => {
                 agreementId,
                 did,
                 receiver.getId(),
-                owner.getId()
+                owner
             )
 
             const { state } = await conditionStoreManager.getCondition(conditionId)

@@ -1,9 +1,11 @@
 import ContractBase from '../ContractBase'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export interface AgreementData {
     did: string
+    agreementId: string
     didOwner: string
     templateId: string
     conditionIds: string[]
@@ -37,12 +39,23 @@ export class AgreementStoreManager extends ContractBase {
         } = await this.call('getAgreement', [zeroX(agreementId)])
         return {
             did,
+            agreementId,
             didOwner,
             templateId,
             conditionIds,
             lastUpdatedBy,
             blockNumberUpdated: +blockNumberUpdated
         } as AgreementData
+    }
+
+    public async getAgreements(did: string): Promise<AgreementData[]> {
+        const agreementIds: string[] = await this.call('getAgreementIdsForDID', [
+            zeroX(did)
+        ])
+
+        return Promise.all(
+            agreementIds.map(agreementId => this.getAgreement(agreementId))
+        )
     }
 
     public async createAgreement(
@@ -52,9 +65,9 @@ export class AgreementStoreManager extends ContractBase {
         conditionIds: string[],
         timeLocks: number[],
         timeOuts: number[],
-        from?: string
+        from?: Account
     ) {
-        return this.send('createAgreement', from, [
+        return this.send('createAgreement', from && from.getId(), [
             zeroX(agreementId),
             didZeroX(did),
             conditionTypes.map(zeroX),

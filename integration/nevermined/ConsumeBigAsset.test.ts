@@ -44,33 +44,28 @@ xdescribe('Consume Asset (Large size)', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata as any, publisher)
+        ddo = await nevermined.assets.create(metadata, publisher)
 
         assert.instanceOf(ddo, DDO)
     })
 
     it('should order the asset', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         try {
             await consumer.requestTokens(
                 +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
             )
         } catch {}
 
-        agreementId = await nevermined.assets.order(ddo.id, accessService.index, consumer)
+        agreementId = await nevermined.assets.order(ddo.id, 'access', consumer)
 
         assert.isDefined(agreementId)
     })
 
     it('should consume and store the assets', async () => {
-        const accessService = ddo.findServiceByType('access')
-
         const folder = '/tmp/nevermined/sdk-js'
         const path = await nevermined.assets.consume(
             agreementId,
             ddo.id,
-            accessService.index,
             consumer,
             folder
         )

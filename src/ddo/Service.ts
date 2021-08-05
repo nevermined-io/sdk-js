@@ -1,6 +1,7 @@
 import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
-import { Provider } from './ComputingProvider'
+
+export type ConditionType = 'lockPayment' | 'escrowPayment' | 'nftHolder' | 'transferNFT'
 
 export type ServiceType =
     | 'authorization'
@@ -10,6 +11,8 @@ export type ServiceType =
     | 'workflow'
     | 'nft-access'
     | 'nft-sales'
+    | 'nft721-access'
+    | 'nft721-sales'
 
 export interface ServiceCommon {
     type: ServiceType

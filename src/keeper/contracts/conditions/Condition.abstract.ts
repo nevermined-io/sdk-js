@@ -1,6 +1,7 @@
 import ContractBase from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export enum ConditionState {
     Uninitialized = 0,
@@ -37,7 +38,7 @@ export abstract class Condition extends ContractBase {
 
     public fulfill(agreementId: string, ...args: any[])
 
-    public fulfill(agreementId: string, args: any[], from?: string) {
+    public fulfill(agreementId: string, args: any[], from?: Account) {
         return this.sendFrom('fulfill', [zeroX(agreementId), ...args], from)
     }
 
@@ -49,7 +50,7 @@ export abstract class Condition extends ContractBase {
         return this.call<string>('generateId', [zeroX(agreementId), valueHash])
     }
 
-    public abortByTimeOut(agreementId: string, from?: string) {
+    public abortByTimeOut(agreementId: string, from?: Account) {
         return this.sendFrom('abortByTimeOut', [zeroX(agreementId)], from)
     }
 

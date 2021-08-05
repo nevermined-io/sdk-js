@@ -3,13 +3,14 @@ import { TransactionReceipt } from 'web3-core'
 import ContractHandler from '../ContractHandler'
 
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import Account from '../../nevermined/Account'
 
 export abstract class ContractBase extends Instantiable {
     protected static instance = null
 
     public contractName: string
 
-    private contract: Contract = null
+    protected contract: Contract = null
 
     get address() {
         return this.contract.options.address
@@ -59,7 +60,7 @@ export abstract class ContractBase extends Instantiable {
 
     protected async getFromAddress(from?: string): Promise<string> {
         if (!from) {
-            [from] = (await this.web3.eth.getAccounts())
+            ;[from] = await this.web3.eth.getAccounts()
         }
         return from
     }
@@ -67,10 +68,20 @@ export abstract class ContractBase extends Instantiable {
     protected async sendFrom(
         name: string,
         args: any[],
-        from?: string
+        from?: Account
     ): Promise<TransactionReceipt> {
-        from = await this.getFromAddress(from)
-        return this.send(name, from, args)
+        const fromAddress = await this.getFromAddress(from && from.getId())
+        const receipt = await this.send(name, fromAddress, args)
+        if (!receipt.status) {
+            this.logger.error(
+                'Transaction failed!',
+                this.contractName,
+                name,
+                args,
+                fromAddress
+            )
+        }
+        return receipt
     }
 
     protected async send(
@@ -83,18 +94,21 @@ export abstract class ContractBase extends Instantiable {
                 `Method "${name}" is not part of contract "${this.contractName}"`
             )
         }
+
         // Logger.log(name, args)
         const method = this.contract.methods[name]
         try {
-            const methodInstance = method(...args)
-            const gas = await methodInstance.estimateGas(args, {
+            const tx = method(...args)
+            const gas = await tx.estimateGas(args, {
                 from
             })
-            const tx = methodInstance.send({
+
+            const receipt = await tx.send({
                 from,
                 gas
             })
-            return tx
+
+            return receipt
         } catch (err) {
             const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
                 return {
@@ -125,7 +139,7 @@ export abstract class ContractBase extends Instantiable {
         // Logger.log(name)
         try {
             const method = this.contract.methods[name](...args)
-            return method.call(from ? { from } : null)
+            return await method.call(from ? { from } : null)
         } catch (err) {
             this.logger.error(
                 `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args}`,

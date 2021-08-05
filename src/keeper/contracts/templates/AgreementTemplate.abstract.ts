@@ -1,14 +1,11 @@
 import ContractBase from '../ContractBase'
-import {
-    Condition,
-    ConditionState,
-    conditionStateNames
-} from '../conditions/Condition.abstract'
+import { Condition, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
+import Account from '../../../nevermined/Account'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -51,7 +48,7 @@ export abstract class AgreementTemplate extends ContractBase {
         timeLocks: number[],
         timeOuts: number[],
         extraArgs: any[],
-        from?: string
+        from?: Account
     ) {
         return this.sendFrom(
             'createAgreement',
@@ -90,30 +87,29 @@ export abstract class AgreementTemplate extends ContractBase {
      * @param  {string}            agreementId Agreement ID.
      * @param  {DDO}               ddo         DDO.
      * @param  {AssetRewards}      assetRewards Asset Rewards distribution
-     * @param  {string}            from        Consumer address.
+     * @param  parameters
      * @return {Promise<string[]>}             Condition IDs.
      */
     public abstract getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
-        from?: string
+        ...parameters: (string | number | Account)[]
     ): Promise<string[]>
 
     /**
      * Create a new agreement using the data of a DDO.
      * @param  {string}            agreementId Agreement ID.
      * @param  {DDO}               ddo         DDO.
-     * @param  {string}            from        Creator address.
+     * @param  {AssetRewards}      assetRewards Asset Rewards distribution
+     * @param  parameters
      * @return {Promise<boolean>}              Success.
      */
     public abstract createAgreementFromDDO(
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
-        from?: string
+        ...parameters: (string | number | Account)[]
     ): Promise<boolean>
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
@@ -152,7 +148,7 @@ export abstract class AgreementTemplate extends ContractBase {
         const { conditionIds } = await agreementStore.getAgreement(agreementId)
 
         if (!conditionIds.length) {
-            this.logger.error(`Agreement not creeated yet: "${agreementId}"`)
+            this.logger.error(`Agreement not created yet: "${agreementId}"`)
             return false
         }
 

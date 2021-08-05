@@ -14,7 +14,8 @@ const metadata: Partial<MetaData> = {
             {
                 index: 0,
                 contentType: 'application/json',
-                url: 'https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/examples/ddo-example.json'
+                url:
+                    'https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/examples/ddo-example.json'
             },
             {
                 index: 1,
@@ -45,19 +46,27 @@ const metadata: Partial<MetaData> = {
     }
 }
 
-export const generateMetadata = (name: string, price?: number, nonce: string | number = Math.random()): Partial<MetaData> => ({
+export const generateMetadata = (
+    name: string,
+    price?: number,
+    nonce: string | number = Math.random()
+): Partial<MetaData> => ({
     ...metadata,
     main: {
         ...metadata.main,
         name: name,
         price: (price || 21) + '0'.repeat(18),
-        ...({nonce} as any),
+        ...({ nonce } as any)
     },
     additionalInformation: {
         ...metadata.additionalInformation
     }
 })
 
-export const getMetadata = (price?: number, nonce: string | number = Math.random()) => generateMetadata('TestAsset', price, nonce)
+export const getMetadata = (
+    price?: number,
+    nonce: string | number = Math.random()
+): MetaData => generateMetadata('TestAsset', price, nonce) as MetaData
 
-export const getAssetRewards = (receiver: string) => new AssetRewards(receiver, Number(21 + '0'.repeat(18)))
+export const getAssetRewards = (receiver: string) =>
+    new AssetRewards(receiver, Number(21 + '0'.repeat(18)))
