@@ -29,9 +29,10 @@ describe('Register Escrow Compute Execution Template', () => {
     let provider: Account
     let receivers: string[]
 
-    let computeExecutionCondition: ComputeExecutionCondition
     let lockPaymentCondition: LockPaymentCondition
+    let computeExecutionCondition: ComputeExecutionCondition
     let escrowPaymentCondition: EscrowPaymentCondition
+
     let token: Token
 
     before(async () => {
@@ -52,7 +53,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
         // Conditions
         ;({
-            computeExecutionCondition,
+            lockPaymentCondition,
             computeExecutionCondition,
             escrowPaymentCondition
         } = keeper.conditions)
