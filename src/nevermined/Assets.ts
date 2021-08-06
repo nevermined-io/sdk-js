@@ -25,10 +25,10 @@ export enum CreateProgressStep {
     ConditionsFilled,
     EncryptingFiles,
     FilesEncrypted,
-    RegisteringDid,
-    DidRegistered,
     StoringDdo,
-    DdoStored
+    DdoStored,
+    RegisteringDid,
+    DidRegistered
 }
 
 export enum OrderProgressStep {
