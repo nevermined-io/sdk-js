@@ -247,7 +247,7 @@ export class Assets extends Instantiable {
                 }
             }
 
-            const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
+            let serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
                 DID.parse(ddo.id)
             )
 
@@ -279,6 +279,17 @@ export class Assets extends Instantiable {
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
+            this.logger.log('Storing DDO', ddo.id)
+            observer.next(CreateProgressStep.StoringDdo)
+            const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
+            this.logger.log('DDO stored')
+            observer.next(CreateProgressStep.DdoStored)
+
+            const ddoStatus = await this.nevermined.metadata.status(storedDdo.id)
+            if (ddoStatus.external) {
+                serviceEndpoint = ddoStatus.external.url
+            }
+
             this.logger.log('Registering DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
 
@@ -305,13 +316,6 @@ export class Assets extends Instantiable {
 
             this.logger.log('DID registred')
             observer.next(CreateProgressStep.DidRegistered)
-
-            this.logger.log('Storing DDO', ddo.id)
-            observer.next(CreateProgressStep.StoringDdo)
-            const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
-
-            this.logger.log('DDO stored')
-            observer.next(CreateProgressStep.DdoStored)
 
             return storedDdo
         })
@@ -476,7 +480,7 @@ export class Assets extends Instantiable {
                 }
             }
 
-            const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
+            let serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
                 DID.parse(ddo.id)
             )
 
@@ -508,6 +512,17 @@ export class Assets extends Instantiable {
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
+            this.logger.log('Storing DDO', ddo.id)
+            observer.next(CreateProgressStep.StoringDdo)
+            const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
+            this.logger.log('DDO stored')
+            observer.next(CreateProgressStep.DdoStored)
+
+            const ddoStatus = await this.nevermined.metadata.status(storedDdo.id)
+            if (ddoStatus.external) {
+                serviceEndpoint = ddoStatus.external.url
+            }
+
             this.logger.log('Registering DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
 
@@ -530,13 +545,6 @@ export class Assets extends Instantiable {
 
             this.logger.log('DID registred')
             observer.next(CreateProgressStep.DidRegistered)
-
-            this.logger.log('Storing DDO', ddo.id)
-            observer.next(CreateProgressStep.StoringDdo)
-            const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
-
-            this.logger.log('DDO stored')
-            observer.next(CreateProgressStep.DdoStored)
 
             return storedDdo
         })
