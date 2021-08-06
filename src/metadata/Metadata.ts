@@ -21,6 +21,21 @@ export interface SearchQuery {
     show_unlisted?: boolean
 }
 
+export interface DDOStatus {
+    internal: {
+        id: string
+        type: string
+        status: string
+        url: string
+    }
+    external: {
+        id: string
+        type: string
+        status: string
+        url: string
+    }
+}
+
 /**
  * Provides a interface with Metadata.
  * Metadata provides an off-chain database store for metadata about data assets.
@@ -243,6 +258,43 @@ export class Metadata extends Instantiable {
 
     public async retrieveDDOByUrl(metadataServiceEndpoint?: string) {
         return this.retrieveDDO(undefined, metadataServiceEndpoint)
+    }
+
+    /**
+     * Retrieves a DDO by DID.
+     * @param  {DID | string} did DID of the asset.
+     * @return {Promise<DDO>} DDO of the asset.
+     */
+    public async status(
+        did: DID | string,
+        metadataServiceEndpoint?: string
+    ): Promise<DDOStatus> {
+        did = did && DID.parse(did)
+        const fullUrl =
+            metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}/status`
+        const result = await this.nevermined.utils.fetch
+            .get(fullUrl)
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json()
+                }
+                this.logger.log(
+                    'retrieve DDO status failed:',
+                    response.status,
+                    response.statusText,
+                    did
+                )
+                return null as DDOStatus
+            })
+            .then((response: DDOStatus) => {
+                return response as DDOStatus
+            })
+            .catch(error => {
+                this.logger.error('Error fetching status of DDO: ', error)
+                return null as DDOStatus
+            })
+
+        return result
     }
 
     public getServiceEndpoint(did: DID) {
