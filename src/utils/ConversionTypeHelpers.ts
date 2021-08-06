@@ -42,7 +42,9 @@ function inputMatch(
     }
     const match = input.match(regexp)
     if (!match) {
-        LoggerInstance.warn(`[${conversorName}] Input transformation failed.`)
+        LoggerInstance.debug(
+            `[${conversorName}] Input transformation failed for input ${input}.`
+        )
         return { valid: false, output: input }
     }
     return { valid: true, output: match[1] }
