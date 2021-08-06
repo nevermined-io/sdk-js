@@ -24,7 +24,7 @@ describe('Nfts operations', () => {
         ;[artist, collector] = await nevermined.accounts.list()
     })
 
-    describe('with default token', async () => {
+    xdescribe('with default token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
                 getMetadata(),
@@ -54,7 +54,7 @@ describe('Nfts operations', () => {
         })
     })
 
-    describe('with custom token', async () => {
+    xdescribe('with custom token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
                 getMetadata(),
@@ -104,7 +104,7 @@ describe('Nfts operations', () => {
             assert.equal(10, await nevermined.nfts.balance(ddo.id, artist))
         })
 
-        xit('should transfer 2 nft tokens with ether', async () => {
+        it('should transfer 2 nft tokens with ether', async () => {
             const agreementId = await nevermined.nfts.order(ddo.id, 2, collector)
             await nevermined.nfts.transfer(agreementId, ddo.id, 2, collector, artist)
 

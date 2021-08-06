@@ -34,7 +34,8 @@ export class LockPaymentCondition extends Condition {
         tokenAddress: string,
         amounts: number[],
         receivers: string[],
-        from?: Account
+        from?: Account,
+        value?: string
     ) {
         const amountsString = amounts.map(v => String(v))
         return super.fulfill(
@@ -46,7 +47,8 @@ export class LockPaymentCondition extends Condition {
                 amountsString,
                 receivers
             ],
-            from
+            from,
+            value
         )
     }
 }

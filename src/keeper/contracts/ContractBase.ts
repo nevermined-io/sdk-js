@@ -68,10 +68,11 @@ export abstract class ContractBase extends Instantiable {
     protected async sendFrom(
         name: string,
         args: any[],
-        from?: Account
+        from?: Account,
+        value?: string
     ): Promise<TransactionReceipt> {
         const fromAddress = await this.getFromAddress(from && from.getId())
-        const receipt = await this.send(name, fromAddress, args)
+        const receipt = await this.send(name, fromAddress, args, value)
         if (!receipt.status) {
             this.logger.error(
                 'Transaction failed!',
@@ -87,7 +88,8 @@ export abstract class ContractBase extends Instantiable {
     protected async send(
         name: string,
         from: string,
-        args: any[]
+        args: any[],
+        value?: string
     ): Promise<TransactionReceipt> {
         if (!this.contract.methods[name]) {
             throw new Error(
@@ -100,11 +102,13 @@ export abstract class ContractBase extends Instantiable {
         try {
             const tx = method(...args)
             const gas = await tx.estimateGas(args, {
-                from
+                from,
+                value
             })
 
             const receipt = await tx.send({
                 from,
+                value,
                 gas
             })
 
@@ -123,6 +127,7 @@ export abstract class ContractBase extends Instantiable {
             this.logger.error(`Error: ${err.message}`)
             this.logger.error(`From: ${from}`)
             this.logger.error(`Parameters: ${JSON.stringify(mappedArgs, null, 2)}`)
+            if (value) this.logger.error(`Value: ${value}`)
             this.logger.error('-'.repeat(40))
             throw err
         }

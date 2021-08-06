@@ -38,8 +38,8 @@ export abstract class Condition extends ContractBase {
 
     public fulfill(agreementId: string, ...args: any[])
 
-    public fulfill(agreementId: string, args: any[], from?: Account) {
-        return this.sendFrom('fulfill', [zeroX(agreementId), ...args], from)
+    public fulfill(agreementId: string, args: any[], from?: Account, value?: string) {
+        return this.sendFrom('fulfill', [zeroX(agreementId), ...args], from, value)
     }
 
     public async generateIdHash(agreementId: string, ...values: any[]) {
