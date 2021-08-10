@@ -458,6 +458,7 @@ describe('NFTTemplates E2E', () => {
                     )
                 }
             })
+
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 conditionIdLockPayment2 = await lockPaymentCondition.generateId(
                     agreementId2,
@@ -875,6 +876,7 @@ describe('NFTTemplates E2E', () => {
                     )
                 }
             })
+
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2,
