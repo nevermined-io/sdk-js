@@ -81,13 +81,17 @@ export class NFT721SalesTemplate extends BaseTemplate {
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
         if (!transfer) throw new Error('Transfer condition not found!')
 
+        const nftTokenAddress = transfer.parameters.find(p => p.name === '_contract')
+            .value as string
+
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
             await transferNft721Condition.hashValues(
                 zeroX(ddo.shortId()),
+                await this.nevermined.nfts.ownerOf(ddo.shortId(), nftTokenAddress),
                 consumer,
                 lockPaymentConditionId,
-                transfer.parameters.find(p => p.name === '_contract').value as string
+                nftTokenAddress
             )
         )
 

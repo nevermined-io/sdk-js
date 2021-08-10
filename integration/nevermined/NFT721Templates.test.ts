@@ -185,6 +185,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
+                        artist.getId(),
                         collector1.getId(),
                         conditionIdLockPayment,
                         nft.address
@@ -446,6 +447,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId2,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
+                        collector1.getId(),
                         collector2.getId(),
                         conditionIdLockPayment2,
                         nft.address

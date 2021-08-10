@@ -47,7 +47,7 @@ export class Nfts extends Instantiable {
             metadata,
             publisher,
             assetRewards,
-            'PSK-RSA',
+            undefined,
             cap,
             [],
             nftAmount,
@@ -68,7 +68,7 @@ export class Nfts extends Instantiable {
             metadata,
             publisher,
             assetRewards,
-            'PSK-RSA',
+            undefined,
             nftTokenAddress,
             erc20tokenAddress,
             undefined,
@@ -173,6 +173,7 @@ export class Nfts extends Instantiable {
 
     public async order721(did: string, consumer: Account): Promise<string> {
         let result: boolean
+
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
         const { agreements } = this.nevermined
 
@@ -222,7 +223,6 @@ export class Nfts extends Instantiable {
      * @param {String} agreementId The NFT sales agreement id.
      * @param {String} did The Decentralized identifier of the NFT asset.
      * @param {Number} nftAmount The number of NFTs to transfer.
-     * @param {Account} consumer The recipient of the NFTs.
      * @param {Account} publisher The current owner of the NFTs.
      * @returns {Boolean} True if the transfer was successfull.
      */
@@ -230,7 +230,6 @@ export class Nfts extends Instantiable {
         agreementId: string,
         did: string,
         nftAmount: number,
-        consumer: Account,
         publisher: Account
     ): Promise<boolean> {
         const { agreements } = this.nevermined
@@ -247,7 +246,6 @@ export class Nfts extends Instantiable {
             did,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            consumer.getId(),
             nftAmount,
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             publisher
@@ -278,7 +276,7 @@ export class Nfts extends Instantiable {
             from
         )
         if (!result) {
-            throw Error('Error transferring nft.')
+            throw Error('Error transferring nft721.')
         }
 
         return true
@@ -315,11 +313,11 @@ export class Nfts extends Instantiable {
             did,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            consumer.getId(),
             nftAmount,
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             publisher
         )
+
         if (!result) {
             throw Error('Error releasing the rewards.')
         }
@@ -346,7 +344,7 @@ export class Nfts extends Instantiable {
         )
 
         if (!result) {
-            throw Error('Error releasing the rewards.')
+            throw Error('Error releasing the 721 rewards.')
         }
 
         return true

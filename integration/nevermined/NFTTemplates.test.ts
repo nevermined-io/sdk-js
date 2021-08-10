@@ -198,6 +198,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId,
                     await transferNftCondition.hashValues(
                         ddo.id,
+                        artist.getId(),
                         collector1.getId(),
                         numberNFTs,
                         conditionIdLockPayment
@@ -472,6 +473,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId2,
                     await transferNftCondition.hashValues(
                         ddo.id,
+                        collector1.getId(),
                         collector2.getId(),
                         numberNFTs2,
                         conditionIdLockPayment2
@@ -757,7 +759,6 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
                     token.getAddress(),
                     artist
@@ -789,7 +790,6 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
                     token.getAddress(),
                     artist
@@ -946,11 +946,11 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
                     token.getAddress(),
                     collector1
                 )
+
                 assert.isTrue(receipt)
 
                 const nftBalanceCollector1After = await didRegistry.balance(
@@ -978,7 +978,6 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
                     token.getAddress(),
                     collector1

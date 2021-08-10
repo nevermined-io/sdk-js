@@ -78,6 +78,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             agreementId,
             await transferNftCondition.hashValues(
                 ddo.shortId(),
+                await this.nevermined.keeper.didRegistry.getDIDOwner(ddo.shortId()),
                 consumer,
                 nftAmount,
                 lockPaymentConditionId

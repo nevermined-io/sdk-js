@@ -212,10 +212,9 @@ export class AgreementsConditions extends Instantiable {
      * @param {String} did The decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
-     * @param {String} nftReceiver The address of the buyer of the nft.
      * @param {Number} nftAmount Number of nfts bought.
      * @param {string} erc20TokenAddress Number of nfts bought.
-     * @param from
+     * @param publisher
      * @returns {Boolean} True if the funds were released successfully.
      */
     public async releaseNftReward(
@@ -223,10 +222,9 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         amounts: number[],
         receivers: string[],
-        nftReceiver: string,
         nftAmount: number,
-        erc20TokenAddress?: string,
-        from?: Account
+        erc20TokenAddress: string = undefined,
+        publisher: Account
     ) {
         const {
             escrowPaymentCondition,
@@ -248,6 +246,12 @@ export class AgreementsConditions extends Instantiable {
             )
         }
 
+        const {
+            accessConsumer
+        } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
+            agreementId
+        )
+
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
@@ -263,7 +267,8 @@ export class AgreementsConditions extends Instantiable {
             agreementId,
             await transferNftCondition.hashValues(
                 did,
-                nftReceiver,
+                publisher.getId(),
+                accessConsumer,
                 nftAmount,
                 lockPaymentConditionId
             )
@@ -278,8 +283,13 @@ export class AgreementsConditions extends Instantiable {
             token ? token.getAddress() : erc20TokenAddress,
             lockPaymentConditionId,
             transferNftConditionId,
-            from
+            publisher
         )
+
+        if (!receipt.events.Fulfilled) {
+            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+        }
+
         return !!receipt.events.Fulfilled
     }
 
@@ -290,7 +300,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
-     * @param from
+     * @param publisher
      * @returns {Boolean} True if the funds were released successfully.
      */
     public async releaseNft721Reward(
@@ -298,7 +308,7 @@ export class AgreementsConditions extends Instantiable {
         ddo: DDO,
         amounts: number[],
         receivers: string[],
-        from?: Account
+        publisher: Account
     ) {
         const {
             escrowPaymentCondition,
@@ -335,6 +345,7 @@ export class AgreementsConditions extends Instantiable {
             agreementId,
             await transferNft721Condition.hashValues(
                 ddo.shortId(),
+                publisher.getId(),
                 accessConsumer,
                 lockPaymentConditionId,
                 transfer.parameters.find(p => p.name === '_contract').value as string
@@ -353,8 +364,13 @@ export class AgreementsConditions extends Instantiable {
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             transferNftConditionId,
-            from
+            publisher
         )
+
+        if (!receipt.events.Fulfilled) {
+            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+        }
+
         return !!receipt.events.Fulfilled
     }
 
@@ -416,6 +432,7 @@ export class AgreementsConditions extends Instantiable {
             holder.parameters.find(p => p.name === '_contractAddress').value as string,
             from
         )
+
         return !!receipt.events.Fulfilled
     }
 
@@ -447,7 +464,6 @@ export class AgreementsConditions extends Instantiable {
      * @param {String} did he decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param {String} nftReceiver The address of the receiver of the nfts.
      * @param {Number} nftAmount The amount of nfts to transfer.
      * @param {string} erc20TokenAddress The amount of nfts to transfer.
      * @param from
@@ -458,7 +474,6 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         amounts: number[],
         receivers: string[],
-        nftReceiver: string,
         nftAmount: number,
         erc20TokenAddress?: string,
         from?: Account
@@ -483,6 +498,12 @@ export class AgreementsConditions extends Instantiable {
             )
         }
 
+        const {
+            accessConsumer
+        } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
+            agreementId
+        )
+
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
@@ -494,10 +515,12 @@ export class AgreementsConditions extends Instantiable {
             )
         )
 
+        this.logger.debug('Access consumer:', accessConsumer)
+
         const receipt = await transferNftCondition.fulfill(
             agreementId,
             did,
-            nftReceiver,
+            accessConsumer,
             nftAmount,
             lockPaymentConditionId,
             from
