@@ -757,11 +757,10 @@ describe('NFTTemplates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId,
-                    ddo.id,
+                    ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
                     numberNFTs,
-                    token.getAddress(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -788,11 +787,10 @@ describe('NFTTemplates E2E', () => {
             it('the artist asks and receives the payment', async () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
-                    ddo.id,
+                    ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
                     numberNFTs,
-                    token.getAddress(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -945,11 +943,10 @@ describe('NFTTemplates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId2,
-                    ddo.id,
+                    ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
                     numberNFTs2,
-                    token.getAddress(),
                     collector1
                 )
 
@@ -977,11 +974,10 @@ describe('NFTTemplates E2E', () => {
             it('Collector1 and Artist get the payment', async () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId2,
-                    ddo.id,
+                    ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
                     numberNFTs2,
-                    token.getAddress(),
                     collector1
                 )
                 assert.isTrue(receipt)

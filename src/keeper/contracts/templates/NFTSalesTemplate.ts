@@ -74,11 +74,14 @@ export class NFTSalesTemplate extends BaseTemplate {
             )
         )
 
+        const transfer = findServiceConditionByName(salesService, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
             await transferNftCondition.hashValues(
                 ddo.shortId(),
-                await this.nevermined.keeper.didRegistry.getDIDOwner(ddo.shortId()),
+                transfer.parameters.find(p => p.name === '_nftHolder').value as string,
                 consumer,
                 nftAmount,
                 lockPaymentConditionId

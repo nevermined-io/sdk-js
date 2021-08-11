@@ -161,6 +161,7 @@ export class AgreementsConditions extends Instantiable {
                 accessCondition,
                 lockPaymentCondition
             } = this.nevermined.keeper.conditions
+
             let token
 
             if (!erc20TokenAddress) {
@@ -209,21 +210,19 @@ export class AgreementsConditions extends Instantiable {
      * Releases the payment in escrow to the provider(s) of the sale
      *
      * @param {String} agreementId The service agreement id for the nft sale.
-     * @param {String} did The decentralized identifier of the asset containing the nfts.
+     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
      * @param {Number} nftAmount Number of nfts bought.
-     * @param {string} erc20TokenAddress Number of nfts bought.
      * @param publisher
      * @returns {Boolean} True if the funds were released successfully.
      */
     public async releaseNftReward(
         agreementId: string,
-        did: string,
+        ddo: DDO,
         amounts: number[],
         receivers: string[],
         nftAmount: number,
-        erc20TokenAddress: string = undefined,
         publisher: Account
     ) {
         const {
@@ -232,19 +231,7 @@ export class AgreementsConditions extends Instantiable {
             transferNftCondition
         } = this.nevermined.keeper.conditions
 
-        let token
-
-        if (!erc20TokenAddress) {
-            ;({ token } = this.nevermined.keeper)
-        } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
-            token = await CustomToken.getInstanceByAddress(
-                {
-                    nevermined: this.nevermined,
-                    web3: this.web3
-                },
-                erc20TokenAddress
-            )
-        }
+        const salesService = ddo.findServiceByType('nft-sales')
 
         const {
             accessConsumer
@@ -252,35 +239,44 @@ export class AgreementsConditions extends Instantiable {
             agreementId
         )
 
+        const payment = findServiceConditionByName(salesService, 'lockPayment')
+        if (!payment) throw new Error('Payment condition not found!')
+
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
-                did,
+                ddo.shortId(),
                 escrowPaymentCondition.getAddress(),
-                token ? token.getAddress() : erc20TokenAddress,
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
                 amounts,
                 receivers
             )
         )
 
+        const transfer = findServiceConditionByName(salesService, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
             await transferNftCondition.hashValues(
-                did,
-                publisher.getId(),
+                ddo.shortId(),
+                transfer.parameters.find(p => p.name === '_nftHolder').value as string,
                 accessConsumer,
                 nftAmount,
                 lockPaymentConditionId
             )
         )
 
+        const escrow = findServiceConditionByName(salesService, 'escrowPayment')
+        if (!escrow) throw new Error('Escrow condition not found!')
+
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
-            did,
+            ddo.shortId(),
             amounts,
             receivers,
             escrowPaymentCondition.getAddress(),
-            token ? token.getAddress() : erc20TokenAddress,
+            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             transferNftConditionId,
             publisher
@@ -339,13 +335,13 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('transfer condition not found!')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
             await transferNft721Condition.hashValues(
                 ddo.shortId(),
-                publisher.getId(),
+                transfer.parameters.find(p => p.name === '_nftHolder').value as string,
                 accessConsumer,
                 lockPaymentConditionId,
                 transfer.parameters.find(p => p.name === '_contract').value as string
@@ -461,21 +457,19 @@ export class AgreementsConditions extends Instantiable {
      * Transfers a certain amount of nfts after payment as been made.
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did he decentralized identifier of the asset containing the nfts.
+     * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {Number} nftAmount The amount of nfts to transfer.
-     * @param {string} erc20TokenAddress The amount of nfts to transfer.
      * @param from
      * @returns {Boolean} True if the transfer is successfull
      */
     public async transferNft(
         agreementId: string,
-        did: string,
+        ddo: DDO,
         amounts: number[],
         receivers: string[],
         nftAmount: number,
-        erc20TokenAddress?: string,
         from?: Account
     ) {
         const {
@@ -484,32 +478,23 @@ export class AgreementsConditions extends Instantiable {
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        let token
-
-        if (!erc20TokenAddress) {
-            ;({ token } = this.nevermined.keeper)
-        } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
-            token = await CustomToken.getInstanceByAddress(
-                {
-                    nevermined: this.nevermined,
-                    web3: this.web3
-                },
-                erc20TokenAddress
-            )
-        }
-
         const {
             accessConsumer
         } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
             agreementId
         )
 
+        const salesService = ddo.findServiceByType('nft-sales')
+
+        const payment = findServiceConditionByName(salesService, 'lockPayment')
+        if (!payment) throw new Error('Payment condition not found!')
+
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
-                did,
+                ddo.shortId(),
                 escrowPaymentCondition.getAddress(),
-                token ? token.getAddress() : erc20TokenAddress,
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
                 amounts,
                 receivers
             )
@@ -519,7 +504,7 @@ export class AgreementsConditions extends Instantiable {
 
         const receipt = await transferNftCondition.fulfill(
             agreementId,
-            did,
+            ddo.shortId(),
             accessConsumer,
             nftAmount,
             lockPaymentConditionId,
@@ -536,7 +521,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {DDO} ddo the decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param from
+     * @param publisher
      * @returns {Boolean} True if the transfer is successfull
      */
     public async transferNft721(
@@ -544,7 +529,7 @@ export class AgreementsConditions extends Instantiable {
         ddo: DDO,
         amounts: number[],
         receivers: string[],
-        from?: Account
+        publisher: Account
     ) {
         const {
             transferNft721Condition,
@@ -568,17 +553,23 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
 
         const nft = await this.nevermined.contracts.loadNft721(
             transfer.parameters.find(p => p.name === '_contract').value as string
         )
 
-        await nft.setApprovalForAll(transferNft721Condition.address, true, from)
+        await nft.setApprovalForAll(transferNft721Condition.address, true, publisher)
 
         const {
             accessConsumer
         } = await this.nevermined.keeper.templates.nft721SalesTemplate.getAgreementData(
             agreementId
+        )
+
+        console.log(
+            publisher.getId(),
+            transfer.parameters.find(p => p.name === '_nftHolder').value as string
         )
 
         this.logger.debug('Access consumer:', accessConsumer)
@@ -589,10 +580,10 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             lockPaymentConditionId,
             transfer.parameters.find(p => p.name === '_contract').value as string,
-            from
+            publisher
         )
 
-        await nft.setApprovalForAll(transferNft721Condition.address, false, from)
+        await nft.setApprovalForAll(transferNft721Condition.address, false, publisher)
 
         return !!receipt.events.Fulfilled
     }

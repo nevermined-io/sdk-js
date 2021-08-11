@@ -238,16 +238,12 @@ export class Nfts extends Instantiable {
         const salesService = ddo.findServiceByType('nft-sales')
         const assetRewards = getAssetRewardsFromService(salesService)
 
-        const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
-
         const result = await agreements.conditions.transferNft(
             agreementId,
-            did,
+            ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             publisher
         )
 
@@ -307,14 +303,12 @@ export class Nfts extends Instantiable {
         const salesService = ddo.findServiceByType('nft-sales')
         const assetRewards = getAssetRewardsFromService(salesService)
 
-        const payment = findServiceConditionByName(salesService, 'lockPayment')
         const result = await agreements.conditions.releaseNftReward(
             agreementId,
-            did,
+            ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             publisher
         )
 
