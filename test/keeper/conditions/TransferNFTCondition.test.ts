@@ -57,7 +57,7 @@ describe('TransferNFTCondition', () => {
         didSeed = `did:nv:${utils.generateId()}`
     })
 
-    xdescribe('#hashValues()', () => {
+    describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const conditionId = utils.generateId()
             const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
@@ -72,7 +72,7 @@ describe('TransferNFTCondition', () => {
         })
     })
 
-    xdescribe('#generateId()', () => {
+    describe('#generateId()', () => {
         it('should generate an ID', async () => {
             const conditionId = utils.generateId()
             const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
@@ -88,7 +88,7 @@ describe('TransferNFTCondition', () => {
         })
     })
 
-    xdescribe('fulfill correctly', () => {
+    describe('fulfill correctly', () => {
         it('should fulfill if condition exist', async () => {
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             const hashValuesPayment = await lockPaymentCondition.hashValues(
@@ -277,7 +277,7 @@ describe('TransferNFTCondition', () => {
         })
     })
 
-    xdescribe('trying to fulfill invalid conditions', () => {
+    describe('trying to fulfill invalid conditions', () => {
         it('should not fulfill if condition does not exist or account is invalid', async () => {
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             const hashValuesPayment = await lockPaymentCondition.hashValues(

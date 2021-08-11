@@ -24,7 +24,7 @@ describe('Nfts operations', () => {
         ;[artist, collector] = await nevermined.accounts.list()
     })
 
-    xdescribe('with default token', async () => {
+    describe('with default token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
                 getMetadata(),
@@ -54,7 +54,7 @@ describe('Nfts operations', () => {
         })
     })
 
-    xdescribe('with custom token', async () => {
+    describe('with custom token', async () => {
         before(async () => {
             ddo = await nevermined.nfts.create(
                 getMetadata(),
