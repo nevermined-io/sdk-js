@@ -21,18 +21,21 @@ export class TransferNFT721Condition extends Condition {
      * Generates the ash of condition inputs.
      * @param {String} did The DID of the asset with NFTs.
      * @param {String} nftReceiver The address of the granted user or the DID provider.
+     * @param {String} nftHolder The address of the Holder of the NFT.
      * @param {String} lockCondition Lock condition identifier.
      * @param {String} nftTokenAddress The address of the NFT token to use.
      * @returns Hash of all the values
      */
     public hashValues(
         did: string,
+        nftHolder: string,
         nftReceiver: string,
         lockCondition: string,
         nftTokenAddress: string
     ) {
         return super.hashValues(
             didZeroX(did),
+            zeroX(nftHolder),
             zeroX(nftReceiver),
             String(1),
             lockCondition,
