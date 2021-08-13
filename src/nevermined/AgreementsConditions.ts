@@ -223,7 +223,8 @@ export class AgreementsConditions extends Instantiable {
         amounts: number[],
         receivers: string[],
         nftAmount: number,
-        publisher: Account
+        publisher: Account,
+        from?: Account
     ) {
         const {
             escrowPaymentCondition,
@@ -260,7 +261,7 @@ export class AgreementsConditions extends Instantiable {
             agreementId,
             await transferNftCondition.hashValues(
                 ddo.shortId(),
-                transfer.parameters.find(p => p.name === '_nftHolder').value as string,
+                publisher.getId(),
                 accessConsumer,
                 nftAmount,
                 lockPaymentConditionId
@@ -279,7 +280,7 @@ export class AgreementsConditions extends Instantiable {
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             transferNftConditionId,
-            publisher
+            from || publisher
         )
 
         if (!receipt.events.Fulfilled) {
@@ -304,7 +305,8 @@ export class AgreementsConditions extends Instantiable {
         ddo: DDO,
         amounts: number[],
         receivers: string[],
-        publisher: Account
+        publisher: Account,
+        from?: Account
     ) {
         const {
             escrowPaymentCondition,
@@ -341,7 +343,7 @@ export class AgreementsConditions extends Instantiable {
             agreementId,
             await transferNft721Condition.hashValues(
                 ddo.shortId(),
-                transfer.parameters.find(p => p.name === '_nftHolder').value as string,
+                publisher.getId(),
                 accessConsumer,
                 lockPaymentConditionId,
                 transfer.parameters.find(p => p.name === '_contract').value as string
@@ -360,7 +362,7 @@ export class AgreementsConditions extends Instantiable {
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             transferNftConditionId,
-            publisher
+            from || publisher
         )
 
         if (!receipt.events.Fulfilled) {
@@ -565,11 +567,6 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer
         } = await this.nevermined.keeper.templates.nft721SalesTemplate.getAgreementData(
             agreementId
-        )
-
-        console.log(
-            publisher.getId(),
-            transfer.parameters.find(p => p.name === '_nftHolder').value as string
         )
 
         this.logger.debug('Access consumer:', accessConsumer)

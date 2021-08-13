@@ -664,11 +664,11 @@ describe('NFTTemplates E2E', () => {
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
                 artist,
-                assetRewards2,
+                assetRewards1,
                 undefined,
                 cappedAmount,
                 undefined,
-                numberNFTs2,
+                numberNFTs,
                 royalties,
                 token.getAddress()
             )
@@ -881,7 +881,8 @@ describe('NFTTemplates E2E', () => {
                     ddo,
                     assetRewards2,
                     collector2.getId(),
-                    numberNFTs2
+                    numberNFTs2,
+                    collector1.getId()
                 )
                 assert.isTrue(result)
 
