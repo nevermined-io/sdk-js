@@ -26,7 +26,8 @@ describe('Keeper', () => {
     describe('#getNetworkName()', () => {
         it('should get development as default', async () => {
             const networkName: string = await keeper.getNetworkName()
-            assert(networkName === 'Spree')
+            console.log(networkName)
+            assert(networkName === 'Development')
         })
     })
 })
