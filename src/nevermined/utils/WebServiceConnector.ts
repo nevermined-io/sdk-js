@@ -43,7 +43,6 @@ export class WebServiceConnector extends Instantiable {
         return this.fetch(url, {
             method: 'GET',
             headers: {
-                'Content-type': 'application/json',
                 ...headers
             }
         })
