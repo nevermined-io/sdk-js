@@ -1,4 +1,3 @@
-import { abi } from '@nevermined-io/contracts/artifacts/NeverminedToken.development.json'
 import Token from './Token'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 
@@ -8,6 +7,9 @@ export default class CustomToken extends Token {
         address: string
     ): Promise<CustomToken> {
         const token: CustomToken = new Token('Custom-Token')
+        const where = (await config.nevermined.keeper.getNetworkName()).toLowerCase()
+        const artifact = require(`@nevermined-io/contracts/artifacts/NeverminedToken.${where}.json`)
+        const { abi } = artifact
 
         token.setInstanceConfig(config)
 
