@@ -74,13 +74,17 @@ export function secretToPublic(secret: string): BabyjubPublicKey {
     return new BabyjubPublicKey(toHex(x), toHex(y))
 }
 
-// generate hash from plain text key
-// Buffer should have 32 elems
-export function hashKey(a: Buffer) {
+function split(a: Buffer)  {
     let str = a.toString('hex')
     let left = BigInt('0x'+str.substr(0, 32))
     let right = BigInt('0x'+str.substr(32, 64))
-    let hash = poseidon([left, right])
+    return [left, right]
+}
+
+// generate hash from plain text key
+// Buffer should have 32 elems
+export function hashKey(a: Buffer) {
+    let hash = poseidon(split(a))
     return toHex(hash)
 }
 
@@ -90,9 +94,7 @@ export function ecdh(secret: string, pub: BabyjubPublicKey): string {
 }
 
 export function encryptKey(a: Buffer, secret: string): MimcCipher {
-    let str = a.toString('hex')
-    let left = BigInt('0x'+str.substr(0, 32))
-    let right = BigInt('0x'+str.substr(32, 64))
+    let [left, right] = split(a)
     let {xL, xR} = mimcjs.hash(left, right, BigInt(secret))
     return new MimcCipher(toHex(xL), toHex(xR))
 }
@@ -102,4 +104,47 @@ export function decryptKey(a: MimcCipher, secret: string): Buffer {
     return Buffer.from(toHex(xL).substr(34) + toHex(xR).substr(34), 'hex')
 }
 
+export async function prove(buyerPub: BabyjubPublicKey, providerPub: BabyjubPublicKey, providerK: string, data: Buffer): Promise<string> {
+    let [orig1, orig2] = split(data)
+
+    const k = ecdh(providerK, buyerPub)
+    const cipher = mimcjs.hash(orig1, orig2, k)
+    const origHash = poseidon([orig1, orig2])
+
+    const snarkParams = {
+        buyer_x: BigInt(buyerPub.x),
+        buyer_y: BigInt(buyerPub.y),
+        provider_x: BigInt(providerPub.x),
+        provider_y: BigInt(providerPub.y),
+        xL_in: orig1,
+        xR_in: orig2,
+        cipher_xL_in: cipher.xL,
+        cipher_xR_in: cipher.xR,
+        provider_k: providerK,
+        hash_plain: origHash
+    }
+
+    // console.log(snark_params)
+
+    const { proof } = await snarkjs.plonk.fullProve(
+        snarkParams,
+        'circuits/keytransfer.wasm',
+        'circuits/keytransfer.zkey'
+    )
+
+    const signals = [
+        buyerPub.x,
+        buyerPub.y,
+        providerPub.x,
+        providerPub.y,
+        cipher.xL,
+        cipher.xR,
+        origHash
+    ]
+
+    const proofSolidity = (await snarkjs.plonk.exportSolidityCallData(unstringifyBigInts(proof), signals))
+
+    const proofData = proofSolidity.split(',')[0]
+    return proofData
+}
 

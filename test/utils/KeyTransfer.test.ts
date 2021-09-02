@@ -4,7 +4,7 @@ import {
     ecdh,
     encryptKey,
     hashKey,
-    makeKey, secretToPublic
+    makeKey, prove, secretToPublic
 } from '../../src/utils/KeyTransfer'
 
 describe.only('KeyTransfer', () => {
@@ -28,6 +28,9 @@ describe.only('KeyTransfer', () => {
             console.log('cipher', cipher)
 
             console.log('decrypted', decryptKey(cipher, mimc_secret).toString())
+
+            console.log(await prove(buyerPub, providerPub, providerK, data))
+
         })
 
     })
