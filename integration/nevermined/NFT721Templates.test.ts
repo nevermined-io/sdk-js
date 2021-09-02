@@ -185,6 +185,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
+                        artist.getId(),
                         collector1.getId(),
                         conditionIdLockPayment,
                         nft.address
@@ -446,6 +447,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId2,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
+                        collector1.getId(),
                         collector2.getId(),
                         conditionIdLockPayment2,
                         nft.address
@@ -622,10 +624,13 @@ describe('NFT721Templates E2E', () => {
             agreementAccessId = utils.generateId()
             agreementId2 = utils.generateId()
 
+            const nftContract = await TestContractHandler.deployArtifact(ERC721)
+            nft = await nevermined.contracts.loadNft721(nftContract.options.address)
+
             ddo = await nevermined.assets.createNft721(
                 getMetadata(),
                 artist,
-                assetRewards2,
+                assetRewards1,
                 'PSK-RSA',
                 nft.address,
                 token.getAddress(),

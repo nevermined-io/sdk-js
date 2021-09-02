@@ -23,6 +23,7 @@ describe('TransferNFTCondition', () => {
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
     let token: Token
+
     let nftReceiver: Account
     let owner: Account
     let other: Account
@@ -31,6 +32,7 @@ describe('TransferNFTCondition', () => {
     let checksum: string
     let didSeed: string
     let receivers: string[]
+
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const nftAmount = 2
@@ -63,6 +65,7 @@ describe('TransferNFTCondition', () => {
             const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
             const hash = await transferNftCondition.hashValues(
                 did,
+                owner.getId(),
                 nftReceiver.getId(),
                 nftAmount,
                 zeroX(conditionId)
@@ -78,6 +81,7 @@ describe('TransferNFTCondition', () => {
             const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
             const hash = await transferNftCondition.hashValues(
                 did,
+                owner.getId(),
                 nftReceiver.getId(),
                 nftAmount,
                 zeroX(conditionId)
@@ -98,6 +102,7 @@ describe('TransferNFTCondition', () => {
                 amounts,
                 receivers
             )
+
             const conditionIdPayment = await lockPaymentCondition.generateId(
                 agreementId,
                 hashValuesPayment
@@ -144,6 +149,7 @@ describe('TransferNFTCondition', () => {
 
             const hashValues = await transferNftCondition.hashValues(
                 did,
+                owner.getId(),
                 nftReceiver.getId(),
                 nftAmount,
                 conditionIdPayment
@@ -332,6 +338,7 @@ describe('TransferNFTCondition', () => {
 
             const hashValues = await transferNftCondition.hashValues(
                 did,
+                owner.getId(),
                 nftReceiver.getId(),
                 nftAmount,
                 conditionIdPayment

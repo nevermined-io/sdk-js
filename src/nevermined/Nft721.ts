@@ -37,7 +37,7 @@ export class Nft721 extends Instantiable {
         return await this.contract.balanceOf(owner.getId())
     }
 
-    public async ownerOf(did: string) {
+    public async ownerOf(did: string): Promise<string> {
         return await this.contract.ownerOf(did)
     }
 

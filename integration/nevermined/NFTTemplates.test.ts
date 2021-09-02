@@ -198,6 +198,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId,
                     await transferNftCondition.hashValues(
                         ddo.id,
+                        artist.getId(),
                         collector1.getId(),
                         numberNFTs,
                         conditionIdLockPayment
@@ -457,6 +458,7 @@ describe('NFTTemplates E2E', () => {
                     )
                 }
             })
+
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 conditionIdLockPayment2 = await lockPaymentCondition.generateId(
                     agreementId2,
@@ -472,6 +474,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId2,
                     await transferNftCondition.hashValues(
                         ddo.id,
+                        collector1.getId(),
                         collector2.getId(),
                         numberNFTs2,
                         conditionIdLockPayment2
@@ -661,11 +664,11 @@ describe('NFTTemplates E2E', () => {
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
                 artist,
-                assetRewards2,
+                assetRewards1,
                 undefined,
                 cappedAmount,
                 undefined,
-                numberNFTs2,
+                numberNFTs,
                 royalties,
                 token.getAddress()
             )
@@ -754,12 +757,10 @@ describe('NFTTemplates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId,
-                    ddo.id,
+                    ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
-                    token.getAddress(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -786,12 +787,10 @@ describe('NFTTemplates E2E', () => {
             it('the artist asks and receives the payment', async () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
-                    ddo.id,
+                    ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
-                    token.getAddress(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -875,13 +874,15 @@ describe('NFTTemplates E2E', () => {
                     )
                 }
             })
+
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2,
                     ddo,
                     assetRewards2,
                     collector2.getId(),
-                    numberNFTs2
+                    numberNFTs2,
+                    collector1.getId()
                 )
                 assert.isTrue(result)
 
@@ -943,14 +944,13 @@ describe('NFTTemplates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId2,
-                    ddo.id,
+                    ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
-                    token.getAddress(),
                     collector1
                 )
+
                 assert.isTrue(receipt)
 
                 const nftBalanceCollector1After = await didRegistry.balance(
@@ -975,12 +975,10 @@ describe('NFTTemplates E2E', () => {
             it('Collector1 and Artist get the payment', async () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId2,
-                    ddo.id,
+                    ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
-                    token.getAddress(),
                     collector1
                 )
                 assert.isTrue(receipt)
