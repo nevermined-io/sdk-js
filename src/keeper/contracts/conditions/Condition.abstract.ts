@@ -21,10 +21,11 @@ export abstract class Condition extends ContractBase {
     public static async getInstance(
         config: InstantiableConfig,
         conditionName: string,
-        conditionsClass: any
+        conditionsClass: any,
+        optional: boolean = false
     ): Promise<Condition & any> {
         const condition: Condition = new (conditionsClass as any)(conditionName)
-        await condition.init(config)
+        await condition.init(config, optional)
         return condition
     }
 
