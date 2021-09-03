@@ -6,6 +6,7 @@ import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
+import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -94,7 +95,7 @@ export abstract class AgreementTemplate extends ContractBase {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        ...parameters: (string | number | Account)[]
+        ...parameters: (string | number | Account | BabyjubPublicKey)[]
     ): Promise<string[]>
 
     /**
@@ -109,7 +110,7 @@ export abstract class AgreementTemplate extends ContractBase {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        ...parameters: (string | number | Account)[]
+        ...parameters: (string | number | Account | BabyjubPublicKey)[]
     ): Promise<boolean>
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>

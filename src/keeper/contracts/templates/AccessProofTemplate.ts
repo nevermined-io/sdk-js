@@ -7,10 +7,11 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessProofTemplate.serviceAgreementTemplate'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
+import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 
 export class AccessProofTemplate extends BaseTemplate {
     public static async getInstance(config: InstantiableConfig): Promise<AccessProofTemplate> {
-        return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessProofTemplate)
+        return AgreementTemplate.getInstance(config, 'AccessProofTemplate', AccessProofTemplate)
     }
 
     public async getServiceAgreementTemplate() {
@@ -22,12 +23,18 @@ export class AccessProofTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
+        hash: string,
+        buyerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey,
         from?: Account
     ) {
         return !!(await this.createFullAgreement(
             ddo,
             assetRewards,
             consumer,
+            hash,
+            buyerPub,
+            providerPub,
             agreementId,
             from
         ))
@@ -37,13 +44,15 @@ export class AccessProofTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string
+        hash: string,
+        buyerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey,
     ) {
         const {
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer)
+        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, hash, buyerPub, providerPub)
         return [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId]
     }
 
@@ -60,6 +69,9 @@ export class AccessProofTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
+        hash: string,
+        buyerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey,
         agreementId: string = generateId(),
         from?: Account
     ): Promise<string> {
@@ -67,7 +79,7 @@ export class AccessProofTemplate extends BaseTemplate {
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer)
+        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, hash, buyerPub, providerPub)
 
         await this.createAgreement(
             agreementId,
@@ -86,7 +98,9 @@ export class AccessProofTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
+        hash: string,
+        buyerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey,
     ) {
         const { conditions } = this.nevermined.keeper
 
@@ -112,8 +126,9 @@ export class AccessProofTemplate extends BaseTemplate {
 
         const accessConditionId = await accessProofCondition.generateIdHash(
             agreementId,
-            ddo.shortId(),
-            consumer
+            hash,
+            buyerPub,
+            providerPub
         )
 
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')

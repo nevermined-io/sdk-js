@@ -6,14 +6,16 @@ import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
+import { makeKey, hashKey, secretToPublic, encryptKey, ecdh, prove } from '../../src/utils'
 import {
     AccessProofCondition,
     EscrowPaymentCondition,
     LockPaymentCondition
 } from '../../src/keeper/contracts/conditions'
 import { AccessProofTemplate } from '../../src/keeper/contracts/templates'
+import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
 
-describe.only('Register Escrow Access Proof Template', () => {
+describe('Register Escrow Access Proof Template', () => {
     let nevermined: Nevermined
     let keeper: Keeper
 
@@ -90,10 +92,24 @@ describe.only('Register Escrow Access Proof Template', () => {
         let conditionIdLock: string
         let conditionIdEscrow: string
 
+        let buyerK: string
+        let providerK: string
+        let buyerPub: BabyjubPublicKey
+        let providerPub: BabyjubPublicKey
+        let data = Buffer.from('12345678901234567890123456789012')
+        let hash: string
+
         before(async () => {
             agreementId = utils.generateId()
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
+            
+            buyerK = makeKey("a b c")
+            providerK = makeKey("e f g")
+            buyerPub = secretToPublic(buyerK)
+            providerPub = secretToPublic(providerK)
+
+            hash = hashKey(data)
         })
 
         it('should register a DID', async () => {
@@ -109,8 +125,9 @@ describe.only('Register Escrow Access Proof Template', () => {
         it('should generate the condition IDs', async () => {
             conditionIdAccess = await accessProofCondition.generateIdHash(
                 agreementId,
-                did,
-                consumer.getId()
+                hash,
+                buyerPub,
+                providerPub
             )
             conditionIdLock = await lockPaymentCondition.generateIdHash(
                 agreementId,
@@ -220,11 +237,15 @@ describe.only('Register Escrow Access Proof Template', () => {
         })
 
         it('should fulfill AccessCondition', async () => {
+            let cipher = encryptKey(data, ecdh(providerK, buyerPub))
+            let proof = await prove(buyerPub, providerPub, providerK, data)
             const fulfill = await accessProofCondition.fulfill(
                 agreementId,
-                did,
-                consumer.getId(),
-                publisher
+                hash,
+                buyerPub,
+                providerPub,
+                cipher,
+                proof
             )
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
@@ -258,12 +279,25 @@ describe.only('Register Escrow Access Proof Template', () => {
         })
     })
 
-    describe('Short flow', () => {
+    describe.only('Short flow', () => {
         let agreementId: string
         let ddo: DDO
 
+        let buyerK: string
+        let providerK: string
+        let buyerPub: BabyjubPublicKey
+        let providerPub: BabyjubPublicKey
+        let data = Buffer.from('12345678901234567890123456789012')
+        let hash: string
+
         before(async () => {
             ddo = await nevermined.assets.create(getMetadata(), publisher)
+            buyerK = makeKey("a b c")
+            providerK = makeKey("e f g")
+            buyerPub = secretToPublic(buyerK)
+            providerPub = secretToPublic(providerK)
+
+            hash = hashKey(data)
         })
 
         it('should create a new agreement (short way)', async () => {
@@ -276,6 +310,9 @@ describe.only('Register Escrow Access Proof Template', () => {
                     ])
                 ),
                 consumer.getId(),
+                hash,
+                buyerPub,
+                providerPub,
                 undefined,
                 publisher
             )
