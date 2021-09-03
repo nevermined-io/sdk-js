@@ -256,16 +256,6 @@ describe('Register Escrow Access Proof Template', () => {
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
         })
 
-        it('should grant the access to the consumer', async () => {
-            /*
-            const accessGranted = await accessCondition.checkPermissions(
-                consumer.getId(),
-                did
-            )
-
-            assert.isTrue(accessGranted, 'Consumer has not been granted.')
-            */
-        })
     })
 
     describe.only('Short flow', () => {
@@ -309,17 +299,6 @@ describe('Register Escrow Access Proof Template', () => {
             assert.match(agreementId, /^0x[a-f0-9]{64}$/i)
         })
         
-        it('should not grant the access to the consumer', async () => {
-            /*
-            const accessGranted = await accessProofCondition.checkPermissions(
-                consumer.getId(),
-                ddo.shortId()
-            )
-
-            assert.isFalse(accessGranted, 'Consumer has been granted.')
-            */
-        })
-
         it('should fulfill the conditions from consumer side', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
@@ -356,15 +335,14 @@ describe('Register Escrow Access Proof Template', () => {
             )
         })
 
-        it('should grant the access to the consumer', async () => {
-            /*
-            const accessGranted = await accessCondition.checkPermissions(
-                consumer.getId(),
-                ddo.shortId()
+        it('buyer should have the key', async () => {
+            let key = await nevermined.agreements.conditions.readKey(
+                agreementId,
+                buyerK,
+                providerPub
             )
+            assert.equal(key.toString(), data.toString())
 
-            assert.isTrue(accessGranted, 'Consumer has not been granted.')
-            */
         })
     })
 })

@@ -128,8 +128,8 @@ export async function prove(buyerPub: BabyjubPublicKey, providerPub: BabyjubPubl
 
     const { proof } = await snarkjs.plonk.fullProve(
         snarkParams,
-        'circuits/keytransfer.wasm',
-        'circuits/keytransfer.zkey'
+        'node_modules/@nevermined-io/contracts/circuits/keytransfer.wasm',
+        'node_modules/@nevermined-io/contracts/circuits/keytransfer.zkey'
     )
 
     const signals = [

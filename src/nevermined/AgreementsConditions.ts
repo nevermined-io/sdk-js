@@ -1,10 +1,10 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { DDO } from '../ddo/DDO'
-import { ecdh, encryptKey, findServiceConditionByName, hashKey, prove, ZeroAddress } from '../utils'
+import { decryptKey, ecdh, encryptKey, findServiceConditionByName, hashKey, prove, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
-import { BabyjubPublicKey } from '../models/KeyTransfer'
+import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -104,10 +104,12 @@ export class AgreementsConditions extends Instantiable {
     }
 
     /**
-     * Authorize the consumer defined in the agreement to access (consume) this asset.
+     * Transfer the key to the buyer.
      * @param {string}  agreementId Agreement ID.
-     * @param {string}  did         Asset ID.
-     * @param {string}  grantee     Consumer address.
+     * @param {Buffer}  data        key plain text.
+     * @param {string}  providerK   Provider secret key.
+     * @param {BabyjubPublicKey}  buyerPub Buyer public key.
+     * @param {BabyjubPublicKey}  providerPub Provider public key.
      * @param {Account} from        Account of sender.
      */
      public async transferKey(
@@ -137,6 +139,20 @@ export class AgreementsConditions extends Instantiable {
         } catch {
             return false
         }
+    }
+
+    /**
+     * Read the transferred key from chain.
+     * @param {string}  agreementId Agreement ID.
+     * @param {string}  buyerK   Buyer secret key.
+     * @param {BabyjubPublicKey}  providerPub Provider public key.
+     * @param {Account} from        Account of sender.
+     */
+     public async readKey(agreementId: string, buyerK: string, providerPub: BabyjubPublicKey) {
+        const { accessProofCondition } = this.nevermined.keeper.conditions
+        const ev = await accessProofCondition.getPastEvents('Fulfilled', { fromBlock: 0, toBlock: 'latest', filter: { _agreementId: agreementId } })
+        const [cipherL, cipherR] = ev[0].returnValues._cipher
+        return decryptKey(new MimcCipher(cipherL, cipherR), ecdh(buyerK, providerPub))
     }
 
     /**
