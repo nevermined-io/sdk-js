@@ -21,10 +21,11 @@ export abstract class AgreementTemplate extends ContractBase {
     public static async getInstance(
         config: InstantiableConfig,
         conditionName: string,
-        templateClass: any
+        templateClass: any,
+        optional: boolean = false
     ): Promise<AgreementTemplate & any> {
         const condition: AgreementTemplate = new (templateClass as any)(conditionName)
-        await condition.init(config)
+        await condition.init(config, optional)
         return condition
     }
 

@@ -49,6 +49,7 @@ jobs:
     - name: Run integration tests
       env:
         SEED_WORDS: ${{ secrets.seedWords }}
+        INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
       run: |
         ./scripts/wait-nevermined.sh
         npm run integration:cover
