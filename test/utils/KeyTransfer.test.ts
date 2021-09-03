@@ -8,7 +8,7 @@ import {
     secretToPublic
 } from '../../src/utils/KeyTransfer'
 
-describe.only('KeyTransfer', () => {
+describe('KeyTransfer', () => {
     describe('#makeKey()', () => {
         it('testing', async () => {
             const buyerK = makeKey('a b c')

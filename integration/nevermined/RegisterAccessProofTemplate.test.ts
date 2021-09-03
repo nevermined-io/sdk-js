@@ -264,7 +264,7 @@ describe('Register Escrow Access Proof Template', () => {
         })
     })
 
-    describe.only('Short flow', () => {
+    describe('Short flow', () => {
         let agreementId: string
         let ddo: DDO
 
