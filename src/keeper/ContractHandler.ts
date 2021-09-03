@@ -40,8 +40,8 @@ export default class ContractHandler extends Instantiable {
         } catch (err) {
             if (!optional) {
                 this.logger.error('Failed to load', what, 'from', where, err)
+                throw err
             }
-            throw err
         }
     }
 
