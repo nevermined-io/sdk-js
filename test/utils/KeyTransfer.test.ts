@@ -1,38 +1,36 @@
-import { assert } from 'chai'
 import {
     decryptKey,
     ecdh,
     encryptKey,
     hashKey,
-    makeKey, prove, secretToPublic
+    makeKey,
+    prove,
+    secretToPublic
 } from '../../src/utils/KeyTransfer'
 
 describe.only('KeyTransfer', () => {
     describe('#makeKey()', () => {
-        it("testing", async () => {
-            let buyerK = makeKey("a b c")
-            let providerK = makeKey("e f g")
+        it('testing', async () => {
+            const buyerK = makeKey('a b c')
+            const providerK = makeKey('e f g')
             console.log('key', buyerK, providerK)
-            let buyerPub = secretToPublic(buyerK)
-            let providerPub = secretToPublic(providerK)
+            const buyerPub = secretToPublic(buyerK)
+            const providerPub = secretToPublic(providerK)
             console.log('public', buyerPub)
 
-            let data = Buffer.from('12345678901234567890123456789012')
-            let hash = hashKey(data)
+            const data = Buffer.from('12345678901234567890123456789012')
+            const hash = hashKey(data)
             console.log(hash)
 
-            let mimc_secret = ecdh(providerK, buyerPub)
-            console.log(mimc_secret, ecdh(buyerK, providerPub))
+            const mimcSecret = ecdh(providerK, buyerPub)
+            console.log(mimcSecret, ecdh(buyerK, providerPub))
 
-            let cipher = encryptKey(data, mimc_secret)
+            const cipher = encryptKey(data, mimcSecret)
             console.log('cipher', cipher)
 
-            console.log('decrypted', decryptKey(cipher, mimc_secret).toString())
+            console.log('decrypted', decryptKey(cipher, mimcSecret).toString())
 
             console.log(await prove(buyerPub, providerPub, providerK, data))
-
         })
-
     })
-
 })

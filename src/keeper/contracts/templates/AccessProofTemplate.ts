@@ -10,8 +10,14 @@ import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 
 export class AccessProofTemplate extends BaseTemplate {
-    public static async getInstance(config: InstantiableConfig): Promise<AccessProofTemplate> {
-        return AgreementTemplate.getInstance(config, 'AccessProofTemplate', AccessProofTemplate)
+    public static async getInstance(
+        config: InstantiableConfig
+    ): Promise<AccessProofTemplate> {
+        return AgreementTemplate.getInstance(
+            config,
+            'AccessProofTemplate',
+            AccessProofTemplate
+        )
     }
 
     public async getServiceAgreementTemplate() {
@@ -46,13 +52,20 @@ export class AccessProofTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         hash: string,
         buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey
     ) {
         const {
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, hash, buyerPub, providerPub)
+        } = await this.createFullAgreementData(
+            agreementId,
+            ddo,
+            assetRewards,
+            hash,
+            buyerPub,
+            providerPub
+        )
         return [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId]
     }
 
@@ -79,7 +92,14 @@ export class AccessProofTemplate extends BaseTemplate {
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, hash, buyerPub, providerPub)
+        } = await this.createFullAgreementData(
+            agreementId,
+            ddo,
+            assetRewards,
+            hash,
+            buyerPub,
+            providerPub
+        )
 
         await this.createAgreement(
             agreementId,
@@ -100,7 +120,7 @@ export class AccessProofTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         hash: string,
         buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey
     ) {
         const { conditions } = this.nevermined.keeper
 

@@ -11,12 +11,33 @@ export class AccessProofCondition extends Condition {
         return Condition.getInstance(config, 'AccessProofCondition', AccessProofCondition)
     }
 
-    public hashValues(hash: string, grantee: BabyjubPublicKey, provider: BabyjubPublicKey) {
+    public hashValues(
+        hash: string,
+        grantee: BabyjubPublicKey,
+        provider: BabyjubPublicKey
+    ) {
         return super.hashValues(zeroX(hash), grantee.param(), provider.param())
     }
 
-    public fulfill(agreementId: string, did: string, grantee: BabyjubPublicKey, provider: BabyjubPublicKey, cipher: MimcCipher, proof: string, from?: Account) {
-        return super.fulfill(agreementId, [didZeroX(did), grantee.param(), provider.param(), cipher.param(), zeroX(proof)], from)
+    public fulfill(
+        agreementId: string,
+        did: string,
+        grantee: BabyjubPublicKey,
+        provider: BabyjubPublicKey,
+        cipher: MimcCipher,
+        proof: string,
+        from?: Account
+    ) {
+        return super.fulfill(
+            agreementId,
+            [
+                didZeroX(did),
+                grantee.param(),
+                provider.param(),
+                cipher.param(),
+                zeroX(proof)
+            ],
+            from
+        )
     }
-
 }

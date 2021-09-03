@@ -1,11 +1,15 @@
-import { BabyjubPublicKey, MimcCipher } from "../models/KeyTransfer"
+import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 
-const poseidon = require('circomlib').poseidon
-const babyJub = require('circomlib').babyJub
+const { poseidon } = require('circomlib')
+const { babyJub } = require('circomlib')
 const mimcjs = require('circomlib').mimcsponge
-const ZqField = require('ffjavascript').ZqField
-const Scalar = require('ffjavascript').Scalar
-const F = new ZqField(Scalar.fromString('21888242871839275222246405745257275088548364400416034343698204186575808495617'))
+const { ZqField } = require('ffjavascript')
+const { Scalar } = require('ffjavascript')
+const F = new ZqField(
+    Scalar.fromString(
+        '21888242871839275222246405745257275088548364400416034343698204186575808495617'
+    )
+)
 const snarkjs = require('snarkjs')
 const { unstringifyBigInts } = require('ffjavascript').utils
 
@@ -39,9 +43,9 @@ function decrypt(xLin, xRin, kin) {
     const k = F.e(kin)
     for (let i = 0; i < NROUNDS; i++) {
         const c = cts[NROUNDS - 1 - i]
-        const t = (i === 0) ? F.add(xL, k) : F.add(F.add(xL, k), c)
+        const t = i === 0 ? F.add(xL, k) : F.add(F.add(xL, k), c)
         const xRtmp = F.e(xR)
-        if (i < (NROUNDS - 1)) {
+        if (i < NROUNDS - 1) {
             xR = xL
             xL = F.sub(xRtmp, F.pow(t, 5))
         } else {
@@ -57,16 +61,16 @@ function decrypt(xLin, xRin, kin) {
 // mnemonic to secret key
 
 export function makeKey(str: string) {
-    let c = Web3Utils.keccak256(str)
+    const c = Web3Utils.keccak256(str)
     return c.substr(0, 60)
 }
 
 function toHex(a) {
     let str = a.toString(16)
     while (str.length < 64) {
-        str = '0'+str
+        str = '0' + str
     }
-    return '0x'+str
+    return '0x' + str
 }
 
 export function secretToPublic(secret: string): BabyjubPublicKey {
@@ -74,17 +78,17 @@ export function secretToPublic(secret: string): BabyjubPublicKey {
     return new BabyjubPublicKey(toHex(x), toHex(y))
 }
 
-function split(a: Buffer)  {
-    let str = a.toString('hex')
-    let left = BigInt('0x'+str.substr(0, 32))
-    let right = BigInt('0x'+str.substr(32, 64))
+function split(a: Buffer) {
+    const str = a.toString('hex')
+    const left = BigInt('0x' + str.substr(0, 32))
+    const right = BigInt('0x' + str.substr(32, 64))
     return [left, right]
 }
 
 // generate hash from plain text key
 // Buffer should have 32 elems
 export function hashKey(a: Buffer) {
-    let hash = poseidon(split(a))
+    const hash = poseidon(split(a))
     return toHex(hash)
 }
 
@@ -94,23 +98,29 @@ export function ecdh(secret: string, pub: BabyjubPublicKey): string {
 }
 
 export function encryptKey(a: Buffer, secret: string): MimcCipher {
-    let [left, right] = split(a)
-    let {xL, xR} = mimcjs.hash(left, right, BigInt(secret))
+    const [left, right] = split(a)
+    const { xL, xR } = mimcjs.hash(left, right, BigInt(secret))
     return new MimcCipher(toHex(xL), toHex(xR))
 }
 
 export function decryptKey(a: MimcCipher, secret: string): Buffer {
-    let {xL, xR} = decrypt(BigInt(a.x), BigInt(a.y), BigInt(secret))
+    const { xL, xR } = decrypt(BigInt(a.x), BigInt(a.y), BigInt(secret))
     return Buffer.from(toHex(xL).substr(34) + toHex(xR).substr(34), 'hex')
 }
 
-export async function prove(buyerPub: BabyjubPublicKey, providerPub: BabyjubPublicKey, providerK: string, data: Buffer): Promise<string> {
-    let [orig1, orig2] = split(data)
+export async function prove(
+    buyerPub: BabyjubPublicKey,
+    providerPub: BabyjubPublicKey,
+    providerK: string,
+    data: Buffer
+): Promise<string> {
+    const [orig1, orig2] = split(data)
 
     const k = ecdh(providerK, buyerPub)
     const cipher = mimcjs.hash(orig1, orig2, k)
     const origHash = poseidon([orig1, orig2])
 
+    /* eslint @typescript-eslint/camelcase: "off" */
     const snarkParams = {
         buyer_x: BigInt(buyerPub.x),
         buyer_y: BigInt(buyerPub.y),
@@ -123,8 +133,6 @@ export async function prove(buyerPub: BabyjubPublicKey, providerPub: BabyjubPubl
         provider_k: providerK,
         hash_plain: origHash
     }
-
-    // console.log(snark_params)
 
     const { proof } = await snarkjs.plonk.fullProve(
         snarkParams,
@@ -142,9 +150,11 @@ export async function prove(buyerPub: BabyjubPublicKey, providerPub: BabyjubPubl
         origHash
     ]
 
-    const proofSolidity = (await snarkjs.plonk.exportSolidityCallData(unstringifyBigInts(proof), signals))
+    const proofSolidity = await snarkjs.plonk.exportSolidityCallData(
+        unstringifyBigInts(proof),
+        signals
+    )
 
     const proofData = proofSolidity.split(',')[0]
     return proofData
 }
-

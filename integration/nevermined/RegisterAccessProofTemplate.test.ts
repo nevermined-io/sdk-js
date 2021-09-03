@@ -6,7 +6,14 @@ import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
-import { makeKey, hashKey, secretToPublic, encryptKey, ecdh, prove } from '../../src/utils'
+import {
+    makeKey,
+    hashKey,
+    secretToPublic,
+    encryptKey,
+    ecdh,
+    prove
+} from '../../src/utils'
 import {
     AccessProofCondition,
     EscrowPaymentCondition,
@@ -96,16 +103,16 @@ describe('Register Escrow Access Proof Template', () => {
         let providerK: string
         let buyerPub: BabyjubPublicKey
         let providerPub: BabyjubPublicKey
-        let data = Buffer.from('12345678901234567890123456789012')
+        const data = Buffer.from('12345678901234567890123456789012')
         let hash: string
 
         before(async () => {
             agreementId = utils.generateId()
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
-            
-            buyerK = makeKey("a b c")
-            providerK = makeKey("e f g")
+
+            buyerK = makeKey('a b c')
+            providerK = makeKey('e f g')
             buyerPub = secretToPublic(buyerK)
             providerPub = secretToPublic(providerK)
 
@@ -226,8 +233,8 @@ describe('Register Escrow Access Proof Template', () => {
         })
 
         it('should fulfill AccessCondition', async () => {
-            let cipher = encryptKey(data, ecdh(providerK, buyerPub))
-            let proof = await prove(buyerPub, providerPub, providerK, data)
+            const cipher = encryptKey(data, ecdh(providerK, buyerPub))
+            const proof = await prove(buyerPub, providerPub, providerK, data)
             const fulfill = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
@@ -255,7 +262,6 @@ describe('Register Escrow Access Proof Template', () => {
 
             assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
         })
-
     })
 
     describe.only('Short flow', () => {
@@ -266,13 +272,13 @@ describe('Register Escrow Access Proof Template', () => {
         let providerK: string
         let buyerPub: BabyjubPublicKey
         let providerPub: BabyjubPublicKey
-        let data = Buffer.from('12345678901234567890123456789012')
+        const data = Buffer.from('12345678901234567890123456789012')
         let hash: string
 
         before(async () => {
             ddo = await nevermined.assets.create(getMetadata(), publisher)
-            buyerK = makeKey("a b c")
-            providerK = makeKey("e f g")
+            buyerK = makeKey('a b c')
+            providerK = makeKey('e f g')
             buyerPub = secretToPublic(buyerK)
             providerPub = secretToPublic(providerK)
 
@@ -298,7 +304,7 @@ describe('Register Escrow Access Proof Template', () => {
 
             assert.match(agreementId, /^0x[a-f0-9]{64}$/i)
         })
-        
+
         it('should fulfill the conditions from consumer side', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
@@ -336,13 +342,12 @@ describe('Register Escrow Access Proof Template', () => {
         })
 
         it('buyer should have the key', async () => {
-            let key = await nevermined.agreements.conditions.readKey(
+            const key = await nevermined.agreements.conditions.readKey(
                 agreementId,
                 buyerK,
                 providerPub
             )
             assert.equal(key.toString(), data.toString())
-
         })
     })
 })

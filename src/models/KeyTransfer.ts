@@ -1,4 +1,3 @@
-
 import { zeroX } from '../utils'
 
 export class BabyjubPublicKey {
@@ -30,4 +29,3 @@ export class MimcCipher {
         return [zeroX(this.x), zeroX(this.y)]
     }
 }
-
