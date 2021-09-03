@@ -201,17 +201,6 @@ describe('Register Escrow Access Proof Template', () => {
             assert.isTrue(agreement.status)
         })
 
-        it('should not grant the access to the consumer', async () => {
-            /*
-            const accessGranted = await accessCondition.checkPermissions(
-                consumer.getId(),
-                did
-            )
-
-            assert.isFalse(accessGranted, 'Consumer has been granted.')
-            */
-        })
-
         it('should fulfill LockPaymentCondition', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
@@ -347,10 +336,12 @@ describe('Register Escrow Access Proof Template', () => {
         })
 
         it('should fulfill the conditions from publisher side', async () => {
-            await nevermined.agreements.conditions.grantAccess(
+            await nevermined.agreements.conditions.transferKey(
                 agreementId,
-                ddo.shortId(),
-                consumer.getId(),
+                data,
+                providerK,
+                buyerPub,
+                providerPub,
                 publisher
             )
             await nevermined.agreements.conditions.releaseReward(

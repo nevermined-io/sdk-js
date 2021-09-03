@@ -1,9 +1,10 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { DDO } from '../ddo/DDO'
-import { findServiceConditionByName, ZeroAddress } from '../utils'
+import { ecdh, encryptKey, findServiceConditionByName, hashKey, prove, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
+import { BabyjubPublicKey } from '../models/KeyTransfer'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -86,7 +87,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {string}  grantee     Consumer address.
      * @param {Account} from        Account of sender.
      */
-    public async grantAccess(
+     public async grantAccess(
         agreementId: string,
         did: string,
         grantee: string,
@@ -96,6 +97,42 @@ export class AgreementsConditions extends Instantiable {
             const { accessCondition } = this.nevermined.keeper.conditions
 
             const receipt = await accessCondition.fulfill(agreementId, did, grantee, from)
+            return !!receipt.events.Fulfilled
+        } catch {
+            return false
+        }
+    }
+
+    /**
+     * Authorize the consumer defined in the agreement to access (consume) this asset.
+     * @param {string}  agreementId Agreement ID.
+     * @param {string}  did         Asset ID.
+     * @param {string}  grantee     Consumer address.
+     * @param {Account} from        Account of sender.
+     */
+     public async transferKey(
+        agreementId: string,
+        data: Buffer,
+        providerK: string,
+        buyerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey,
+        from?: Account
+    ) {
+        try {
+            const { accessProofCondition } = this.nevermined.keeper.conditions
+
+            let cipher = encryptKey(data, ecdh(providerK, buyerPub))
+            let proof = await prove(buyerPub, providerPub, providerK, data)
+            let hash = hashKey(data)
+            const receipt = await accessProofCondition.fulfill(
+                agreementId,
+                hash,
+                buyerPub,
+                providerPub,
+                cipher,
+                proof,
+                from
+            )
             return !!receipt.events.Fulfilled
         } catch {
             return false
