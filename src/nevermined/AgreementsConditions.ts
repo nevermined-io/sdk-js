@@ -74,7 +74,7 @@ export class AgreementsConditions extends Instantiable {
             amounts,
             receivers,
             from,
-            erc20TokenAddress.toLowerCase() === ZeroAddress
+            erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
                 ? String(totalAmount)
                 : undefined
         )

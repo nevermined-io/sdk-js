@@ -308,8 +308,16 @@ describe('NFTTemplates With Ether E2E', async () => {
                 const receiver0Balance = await new Account(receivers[0]).getEtherBalance()
                 const receiver1Balance = await new Account(receivers[1]).getEtherBalance()
 
-                assert.equal(receiver0Balance, initialBalances.artist + amounts[0])
-                assert.equal(receiver1Balance, initialBalances.gallery + amounts[1])
+                assert.closeTo(
+                    receiver0Balance,
+                    initialBalances.artist + amounts[0],
+                    100000000000
+                )
+                assert.closeTo(
+                    receiver1Balance,
+                    initialBalances.gallery + amounts[1],
+                    100000000000
+                )
                 assert.equal(
                     escrowPaymentConditionBalance -
                         initialBalances.escrowPaymentCondition,
