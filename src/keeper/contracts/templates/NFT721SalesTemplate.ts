@@ -5,7 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { findServiceConditionByName, zeroX } from '../../../utils'
+import { findServiceConditionByName } from '../../../utils'
 import Account from '../../../nevermined/Account'
 
 export class NFT721SalesTemplate extends BaseTemplate {
@@ -15,7 +15,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
         return AgreementTemplate.getInstance(
             config,
             'NFT721SalesTemplate',
-            NFT721SalesTemplate
+            NFT721SalesTemplate,
+            true
         )
     }
 
