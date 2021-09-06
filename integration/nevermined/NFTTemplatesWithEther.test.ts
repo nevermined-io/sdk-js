@@ -173,6 +173,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     agreementId,
                     await transferNftCondition.hashValues(
                         ddo.shortId(),
+                        artist.getId(),
                         collector1.getId(),
                         numberNFTs,
                         conditionIdLockPayment
