@@ -6,7 +6,7 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
 
-describe('Get DDO status', () => {
+xdescribe('Get DDO status from arweave', () => {
     let nevermined: Nevermined
     let publisher: Account
     let assetRewards: AssetRewards
