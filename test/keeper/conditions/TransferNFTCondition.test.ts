@@ -241,6 +241,7 @@ describe('TransferNFTCondition', () => {
 
             const hashValues = await transferNftCondition.hashValues(
                 did,
+                owner.getId(),
                 nftReceiver.getId(),
                 nftAmount,
                 conditionIdPayment

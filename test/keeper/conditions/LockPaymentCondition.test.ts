@@ -166,7 +166,7 @@ describe('LockPaymentCondition', () => {
                     assetRewards.getReceivers(),
                     buyer
                 ),
-                /Failed to send Ether/
+                /Transaction value does not match amount/
             )
         })
 
@@ -197,7 +197,7 @@ describe('LockPaymentCondition', () => {
                     buyer,
                     String(assetRewards.getTotalPrice() - 1)
                 ),
-                /Failed to send Ether/
+                /Transaction value does not match amount/
             )
         })
     })
