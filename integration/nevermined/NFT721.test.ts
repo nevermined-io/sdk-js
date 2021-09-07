@@ -132,7 +132,7 @@ describe('Nfts721 operations', async () => {
             )
         })
 
-        xit('should transfer an nft token with ether', async () => {
+        it('should transfer an nft token with ether', async () => {
             assert.equal(
                 await nevermined.nfts.ownerOf(zeroX(ddo.shortId()), nft.options.address),
                 artist.getId()
