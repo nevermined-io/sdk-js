@@ -82,7 +82,10 @@ export class AgreementsConditions extends Instantiable {
             token ? token.getAddress() : erc20TokenAddress,
             amounts,
             receivers,
-            from
+            from,
+            erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
+                ? String(totalAmount)
+                : undefined
         )
 
         return !!receipt.events.Fulfilled

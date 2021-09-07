@@ -7,7 +7,7 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
 
 // Ensure that your network is fast enought and you have some free ram before run it.
-xdescribe('Consume Asset (Large size)', () => {
+describe.skip('Consume Asset (Large size)', () => {
     let nevermined: Nevermined
 
     let publisher: Account
