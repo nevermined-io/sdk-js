@@ -16,7 +16,7 @@ describe('KeyTransfer', () => {
     const providerPub = secretToPublic(providerK)
 
     const data = Buffer.from('12345678901234567890123456789012')
-    describe.only('whole flow', () => {
+    describe('whole flow', () => {
         it('hashing works', async () => {
             assert.equal(
                 hashKey(data),
