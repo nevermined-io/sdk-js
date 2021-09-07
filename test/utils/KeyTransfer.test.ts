@@ -1,3 +1,4 @@
+import { assert } from 'chai'
 import {
     decryptKey,
     ecdh,
@@ -9,28 +10,32 @@ import {
 } from '../../src/utils/KeyTransfer'
 
 describe('KeyTransfer', () => {
-    describe('#makeKey()', () => {
-        it('testing', async () => {
-            const buyerK = makeKey('a b c')
-            const providerK = makeKey('e f g')
-            console.log('key', buyerK, providerK)
-            const buyerPub = secretToPublic(buyerK)
-            const providerPub = secretToPublic(providerK)
-            console.log('public', buyerPub)
+    const buyerK = makeKey('a b c')
+    const providerK = makeKey('e f g')
+    const buyerPub = secretToPublic(buyerK)
+    const providerPub = secretToPublic(providerK)
 
-            const data = Buffer.from('12345678901234567890123456789012')
-            const hash = hashKey(data)
-            console.log(hash)
-
+    const data = Buffer.from('12345678901234567890123456789012')
+    describe.only('whole flow', () => {
+        it('hashing works', async () => {
+            assert.equal(
+                hashKey(data),
+                '0x0e7f3c2e154c0793d96cad8b90862d41f58f6e526b42241bcd0b0ccfca8ba4f2'
+            )
+        })
+        it('can get the secret using ecdh', async () => {
+            assert.equal(ecdh(providerK, buyerPub), ecdh(buyerK, providerPub))
+        })
+        it('can encrypt and decrypt the key', async () => {
             const mimcSecret = ecdh(providerK, buyerPub)
-            console.log(mimcSecret, ecdh(buyerK, providerPub))
-
             const cipher = encryptKey(data, mimcSecret)
-            console.log('cipher', cipher)
-
-            console.log('decrypted', decryptKey(cipher, mimcSecret).toString())
-
-            console.log(await prove(buyerPub, providerPub, providerK, data))
+            assert.equal(
+                data.toString('hex'),
+                decryptKey(cipher, mimcSecret).toString('hex')
+            )
+        })
+        it('proving works', async () => {
+            await prove(buyerPub, providerPub, providerK, data)
         })
     })
 })
