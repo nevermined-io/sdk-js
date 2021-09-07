@@ -9,7 +9,7 @@ import {
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import Token from '../../../src/keeper/contracts/Token'
-import { didZeroX, zeroX } from '../../../src/utils'
+import { didZeroX, ZeroAddress, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -154,6 +154,99 @@ describe('TransferNFTCondition', () => {
                 nftAmount,
                 conditionIdPayment
             )
+            const conditionId = await transferNftCondition.generateId(
+                agreementId,
+                hashValues
+            )
+
+            await conditionStoreManager.createCondition(
+                conditionId,
+                transferNftCondition.address,
+                owner
+            )
+
+            const result = await transferNftCondition.fulfill(
+                agreementId,
+                did,
+                nftReceiver.getId(),
+                nftAmount,
+                conditionIdPayment
+            )
+            ;({ state } = await conditionStoreManager.getCondition(conditionId))
+            assert.equal(state, ConditionState.Fulfilled)
+
+            const {
+                _agreementId,
+                _did,
+                _receiver,
+                _conditionId,
+                _amount
+            } = result.events.Fulfilled.returnValues
+
+            assert.equal(_agreementId, zeroX(agreementId))
+            assert.equal(_did, didZeroX(did))
+            assert.equal(_conditionId, conditionId)
+            assert.equal(_receiver, nftReceiver.getId())
+            assert.equal(Number(_amount), nftAmount)
+        })
+    })
+
+    describe('fulfill correctly with ether', () => {
+        it('should fulfill if condition exist', async () => {
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
+            const hashValuesPayment = await lockPaymentCondition.hashValues(
+                did,
+                escrowPaymentCondition.getAddress(),
+                ZeroAddress,
+                amounts,
+                receivers
+            )
+            const conditionIdPayment = await lockPaymentCondition.generateId(
+                agreementId,
+                hashValuesPayment
+            )
+
+            await conditionStoreManager.createCondition(
+                conditionIdPayment,
+                lockPaymentCondition.address,
+                owner
+            )
+
+            await didRegistry.registerMintableDID(
+                didSeed,
+                checksum,
+                [],
+                value,
+                activityId,
+                '',
+                nftAmount,
+                0,
+                owner.getId()
+            )
+            await didRegistry.mint(did, nftAmount, owner.getId())
+
+            await lockPaymentCondition.fulfill(
+                agreementId,
+                did,
+                escrowPaymentCondition.address,
+                ZeroAddress,
+                amounts,
+                receivers,
+                nftReceiver,
+                String(amounts[0])
+            )
+
+            let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
+            assert.equal(state, ConditionState.Fulfilled)
+
+            const hashValues = await transferNftCondition.hashValues(
+                did,
+                owner.getId(),
+                nftReceiver.getId(),
+                nftAmount,
+                conditionIdPayment
+            )
+
             const conditionId = await transferNftCondition.generateId(
                 agreementId,
                 hashValues
