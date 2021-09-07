@@ -16,7 +16,8 @@ export class AccessProofTemplate extends BaseTemplate {
         return AgreementTemplate.getInstance(
             config,
             'AccessProofTemplate',
-            AccessProofTemplate
+            AccessProofTemplate,
+            true
         )
     }
 
