@@ -104,7 +104,7 @@ describe('Nfts operations', () => {
             assert.equal(10, await nevermined.nfts.balance(ddo.id, artist))
         })
 
-        xit('should transfer 2 nft tokens with ether', async () => {
+        it('should transfer 2 nft tokens with ether', async () => {
             const agreementId = await nevermined.nfts.order(ddo.id, 2, collector)
             await nevermined.nfts.transfer(agreementId, ddo.id, 2, artist)
 
@@ -112,7 +112,7 @@ describe('Nfts operations', () => {
             assert.equal(2, await nevermined.nfts.balance(ddo.id, collector))
         })
 
-        xit('should burn nft tokens', async () => {
+        it('should burn nft tokens', async () => {
             await nevermined.nfts.burn(ddo.id, 6, artist)
 
             assert.equal(2, await nevermined.nfts.balance(ddo.id, artist))
