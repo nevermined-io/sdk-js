@@ -8,7 +8,12 @@ export class AccessProofCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessProofCondition> {
-        return Condition.getInstance(config, 'AccessProofCondition', AccessProofCondition, true)
+        return Condition.getInstance(
+            config,
+            'AccessProofCondition',
+            AccessProofCondition,
+            true
+        )
     }
 
     public hashValues(
