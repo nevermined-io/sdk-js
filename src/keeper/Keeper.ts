@@ -288,7 +288,7 @@ export class Keeper extends Instantiable {
         return this.web3.eth.net.getId().then((networkId: number) => {
             switch (networkId) {
                 case 1:
-                    return 'Main'
+                    return 'Mainnet'
                 case 2:
                     return 'Morden'
                 case 3:
@@ -311,6 +311,12 @@ export class Keeper extends Instantiable {
                     return 'Nile'
                 case 0xcea11:
                     return 'Pacific'
+                case 44787:
+                    return 'celo-alfajores'
+                case 62320:
+                    return 'celo-baklava'
+                case 80001:
+                    return 'mumbai'
                 default:
                     return 'Development'
             }

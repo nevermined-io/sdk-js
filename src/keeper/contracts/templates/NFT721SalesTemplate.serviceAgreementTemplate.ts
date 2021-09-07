@@ -97,6 +97,11 @@ export const nft721SalesTemplateServiceAgreementTemplate: ServiceAgreementTempla
                     value: ''
                 },
                 {
+                    name: '_nftHolder',
+                    type: 'address',
+                    value: ''
+                },
+                {
                     name: '_contract',
                     type: 'address',
                     value: ''

@@ -13,7 +13,8 @@ export class NFT721HolderCondition extends Condition {
         return Condition.getInstance(
             config,
             'NFT721HolderCondition',
-            NFT721HolderCondition
+            NFT721HolderCondition,
+            true
         )
     }
 

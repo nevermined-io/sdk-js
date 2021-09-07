@@ -15,7 +15,8 @@ export class NFT721AccessTemplate extends BaseTemplate {
         return AgreementTemplate.getInstance(
             config,
             'NFT721AccessTemplate',
-            NFT721AccessTemplate
+            NFT721AccessTemplate,
+            true
         )
     }
 

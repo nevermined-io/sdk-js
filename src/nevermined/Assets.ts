@@ -210,7 +210,8 @@ export class Assets extends Instantiable {
                 ddo,
                 assetRewards,
                 erc20TokenAddress || this.nevermined.token.getAddress(),
-                nftTokenAddress
+                nftTokenAddress,
+                publisher.getId()
             )
 
             const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
@@ -219,7 +220,8 @@ export class Assets extends Instantiable {
                 ddo,
                 assetRewards,
                 erc20TokenAddress || this.nevermined.token.getAddress(),
-                nftTokenAddress
+                nftTokenAddress,
+                publisher.getId()
             )
 
             this.logger.log('Conditions filled')
@@ -442,6 +444,7 @@ export class Assets extends Instantiable {
                 assetRewards,
                 erc20TokenAddress || this.nevermined.token.getAddress(),
                 undefined,
+                publisher.getId(),
                 nftAmount
             )
 
@@ -452,6 +455,7 @@ export class Assets extends Instantiable {
                 assetRewards,
                 erc20TokenAddress || this.nevermined.token.getAddress(),
                 undefined,
+                publisher.getId(),
                 nftAmount
             )
 

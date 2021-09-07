@@ -1,6 +1,10 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
@@ -45,6 +49,7 @@ jobs:
     - name: Run integration tests
       env:
         SEED_WORDS: ${{ secrets.seedWords }}
+        INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
       run: |
         ./scripts/wait-nevermined.sh
         npm run integration:cover
