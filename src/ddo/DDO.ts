@@ -100,7 +100,7 @@ export class DDO {
     }
 
     /**
-     * Generates proof using personal sing.
+     * Generates proof using personal sign.
      * @param  {Nevermined}     nevermined Nevermined instance.
      * @param  {string}         publicKey Public key to be used on personal sign.
      * @param  {string}         password  Password if it's required.
@@ -127,7 +127,7 @@ export class DDO {
     }
 
     /**
-     * Generates and adds a proof using personal sing on the DDO.
+     * Generates and adds a proof using personal sign on the DDO.
      * @param  {Nevermined}     nevermined     Nevermined instance.
      * @param  {string}         publicKey Public key to be used on personal sign.
      * @param  {string}         password  Password if it's required.

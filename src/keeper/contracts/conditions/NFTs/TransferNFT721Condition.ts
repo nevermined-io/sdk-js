@@ -13,7 +13,8 @@ export class TransferNFT721Condition extends Condition {
         return Condition.getInstance(
             config,
             'TransferNFT721Condition',
-            TransferNFT721Condition
+            TransferNFT721Condition,
+            true
         )
     }
 

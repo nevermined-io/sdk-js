@@ -308,10 +308,10 @@
   resolved "https://registry.npmjs.org/@iarna/toml/-/toml-2.2.5.tgz"
   integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
-"@nevermined-io/contracts@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.1.4.tgz#b89159cc0ce3103629002d4368e7d9887a5d1509"
-  integrity sha512-YWDZ8FnoxGd6ngxa5RQMN8eVqNVTTGciHKo0q2YKkzjgwsw8ELpZBJfrM6/1cAHK9655HVGCMhhpC1U6mFVgGg==
+"@nevermined-io/contracts@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.1.6.tgz#0f6a7422a30e32bc12f99a167aa028ce34f989df"
+  integrity sha512-C2FdWLKdL69bFzZXZypss06cKTgn57bMb5jBif1GLeg9YeAdG3rEGwhrxFU4FpogVbQFSEkrPvX5xR1Xb3iaeg==
 
 "@nevermined-io/secret-store-client@^0.0.16":
   version "0.0.16"

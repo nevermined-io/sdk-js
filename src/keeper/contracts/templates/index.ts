@@ -1,6 +1,7 @@
 export * from './AgreementTemplate.abstract'
 export { BaseTemplate } from './BaseTemplate.abstract'
 export { AccessTemplate } from './AccessTemplate'
+export { AccessProofTemplate } from './AccessProofTemplate'
 export { EscrowComputeExecutionTemplate } from './EscrowComputeExecutionTemplate'
 export { DIDSalesTemplate } from './DIDSalesTemplate'
 export { NFTAccessTemplate } from './NFTAccessTemplate'

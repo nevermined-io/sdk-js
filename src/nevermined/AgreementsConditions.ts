@@ -1,9 +1,18 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { DDO } from '../ddo/DDO'
-import { findServiceConditionByName, ZeroAddress } from '../utils'
+import {
+    decryptKey,
+    ecdh,
+    encryptKey,
+    findServiceConditionByName,
+    hashKey,
+    prove,
+    ZeroAddress
+} from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
+import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -73,7 +82,10 @@ export class AgreementsConditions extends Instantiable {
             token ? token.getAddress() : erc20TokenAddress,
             amounts,
             receivers,
-            from
+            from,
+            erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
+                ? String(totalAmount)
+                : undefined
         )
 
         return !!receipt.events.Fulfilled
@@ -100,6 +112,66 @@ export class AgreementsConditions extends Instantiable {
         } catch {
             return false
         }
+    }
+
+    /**
+     * Transfer the key to the buyer.
+     * @param {string}  agreementId Agreement ID.
+     * @param {Buffer}  data        key plain text.
+     * @param {string}  providerK   Provider secret key.
+     * @param {BabyjubPublicKey}  buyerPub Buyer public key.
+     * @param {BabyjubPublicKey}  providerPub Provider public key.
+     * @param {Account} from        Account of sender.
+     */
+    public async transferKey(
+        agreementId: string,
+        data: Buffer,
+        providerK: string,
+        buyerPub: BabyjubPublicKey,
+        providerPub: BabyjubPublicKey,
+        from?: Account
+    ) {
+        try {
+            const { accessProofCondition } = this.nevermined.keeper.conditions
+
+            const cipher = encryptKey(data, ecdh(providerK, buyerPub))
+            const proof = await prove(buyerPub, providerPub, providerK, data)
+            const hash = hashKey(data)
+            const receipt = await accessProofCondition.fulfill(
+                agreementId,
+                hash,
+                buyerPub,
+                providerPub,
+                cipher,
+                proof,
+                from
+            )
+            return !!receipt.events.Fulfilled
+        } catch {
+            return false
+        }
+    }
+
+    /**
+     * Read the transferred key from chain.
+     * @param {string}  agreementId Agreement ID.
+     * @param {string}  buyerK   Buyer secret key.
+     * @param {BabyjubPublicKey}  providerPub Provider public key.
+     * @param {Account} from        Account of sender.
+     */
+    public async readKey(
+        agreementId: string,
+        buyerK: string,
+        providerPub: BabyjubPublicKey
+    ) {
+        const { accessProofCondition } = this.nevermined.keeper.conditions
+        const ev = await accessProofCondition.getPastEvents('Fulfilled', {
+            fromBlock: 0,
+            toBlock: 'latest',
+            filter: { _agreementId: agreementId }
+        })
+        const [cipherL, cipherR] = ev[0].returnValues._cipher
+        return decryptKey(new MimcCipher(cipherL, cipherR), ecdh(buyerK, providerPub))
     }
 
     /**
