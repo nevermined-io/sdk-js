@@ -13,6 +13,9 @@ module.exports = {
     node: {
         fs: 'empty'
     },
+    externals: {
+        snarkjs: 'snarkjs'
+    },
     resolve: {
         extensions: ['.js'],
         modules: ['node_modules'],
