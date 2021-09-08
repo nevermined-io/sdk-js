@@ -13,8 +13,10 @@ module.exports = {
     node: {
         fs: 'empty'
     },
-    externals: {
-        snarkjs: 'snarkjs'
+    module: {
+        rules: [
+          { test: /snarkjs\/main\.js$/, use: 'babel-loader' }
+        ]
     },
     resolve: {
         extensions: ['.js'],
