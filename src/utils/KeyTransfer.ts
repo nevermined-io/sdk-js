@@ -1,5 +1,5 @@
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import fs from 'fs';
+import fs from 'fs'
 
 const { poseidon } = require('circomlib')
 const { babyJub } = require('circomlib')
@@ -68,7 +68,7 @@ export function makeKey(str: string) {
 
 export function makePublic(x: string, y: string) {
     return new BabyjubPublicKey(x, y)
-} 
+}
 
 function toHex(a) {
     let str = a.toString(16)
@@ -113,50 +113,12 @@ export function decryptKey(a: MimcCipher, secret: string): Buffer {
     return Buffer.from(toHex(xL).substr(34) + toHex(xR).substr(34), 'hex')
 }
 
-export async function verify(
+export async function prove(
     buyerPub: BabyjubPublicKey,
     providerPub: BabyjubPublicKey,
     providerK: string,
-    data: Buffer,
-    proof: any
+    data: Buffer
 ): Promise<string> {
-    const [orig1, orig2] = split(data)
-    const k = ecdh(providerK, buyerPub)
-    const cipher = mimcjs.hash(orig1, orig2, k)
-    const origHash = poseidon([orig1, orig2])
-    const signals = [
-        buyerPub.x,
-        buyerPub.y,
-        providerPub.x,
-        providerPub.y,
-        cipher.xL,
-        cipher.xR,
-        origHash
-    ]
-
-    const vKey = JSON.parse(fs.readFileSync("verification_key.json").toString());
-
-    console.log(vKey, signals, proof)
-
-    const res = await snarkjs.plonk.verify(vKey, signals, proof);
-    console.log(res)
-    const proofSolidity = await snarkjs.plonk.exportSolidityCallData(
-        unstringifyBigInts(proof),
-        signals
-    )
-
-    const proofData = proofSolidity.split(',')[0]
-    console.log('proof', proofData)
-    return "a"
-
-}
-
-export async function prove(
-        buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey,
-        providerK: string,
-        data: Buffer
-    ): Promise<string> {
     const [orig1, orig2] = split(data)
 
     const k = ecdh(providerK, buyerPub)
@@ -193,12 +155,6 @@ export async function prove(
         origHash
     ]
 
-    const vKey = JSON.parse(fs.readFileSync("verification_key.json").toString());
-
-    const res = await snarkjs.plonk.verify(vKey, signals, proof);
-    console.error(res)
-    console.error(proof)
-
     const proofSolidity = await snarkjs.plonk.exportSolidityCallData(
         unstringifyBigInts(proof),
         signals
@@ -206,4 +162,32 @@ export async function prove(
 
     const proofData = proofSolidity.split(',')[0]
     return proofData
+}
+
+export async function verify(
+    buyerPub: BabyjubPublicKey,
+    providerPub: BabyjubPublicKey,
+    providerK: string,
+    data: Buffer,
+    proof: any
+): Promise<string> {
+    const [orig1, orig2] = split(data)
+    const k = ecdh(providerK, buyerPub)
+    const cipher = mimcjs.hash(orig1, orig2, k)
+    const origHash = poseidon([orig1, orig2])
+    const signals = [
+        buyerPub.x,
+        buyerPub.y,
+        providerPub.x,
+        providerPub.y,
+        cipher.xL,
+        cipher.xR,
+        origHash
+    ]
+
+    const vKey = JSON.parse(fs.readFileSync('verification_key.json').toString())
+
+    const res = await snarkjs.plonk.verify(vKey, signals, proof)
+
+    return res
 }
