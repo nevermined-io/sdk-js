@@ -16,12 +16,14 @@ export class AccessProofCondition extends Condition {
         )
     }
 
-    public hashValues(
+    public async hashValues(
         hash: string,
         grantee: BabyjubPublicKey,
         provider: BabyjubPublicKey
     ) {
-        return super.hashValues(zeroX(hash), grantee.param(), provider.param())
+        let res = await super.hashValues(zeroX(hash), grantee.param(), provider.param())
+        console.log("cond hash", res)
+        return res
     }
 
     public fulfill(
