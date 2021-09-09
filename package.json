@@ -72,6 +72,8 @@
     "whatwg-url": "^7.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.4",
     "@release-it/bumper": "^1.4.1",
     "@truffle/hdwallet-provider": "^1.0.42",
     "@types/chai": "^4.2.12",
@@ -84,6 +86,7 @@
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "auto-changelog": "^1.16.4",
+    "babel-loader": "^8.2.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-spies": "^1.0.0",
@@ -102,7 +105,7 @@
     "typedoc": "^0.15.8",
     "typescript": "^3.9.7",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.44.1",
+    "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^4.2.2"
   },
