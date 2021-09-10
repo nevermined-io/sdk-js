@@ -165,11 +165,7 @@ export class AgreementsConditions extends Instantiable {
         providerPub: BabyjubPublicKey
     ) {
         const { accessProofCondition } = this.nevermined.keeper.conditions
-        const ev = await accessProofCondition.getPastEvents('Fulfilled', {
-            fromBlock: 0,
-            toBlock: 'latest',
-            filter: { _agreementId: agreementId }
-        })
+        const ev = await accessProofCondition.getPastEvents('Fulfilled', { _agreementId: agreementId })
         const [cipherL, cipherR] = ev[0].returnValues._cipher
         return decryptKey(new MimcCipher(cipherL, cipherR), ecdh(buyerK, providerPub))
     }
