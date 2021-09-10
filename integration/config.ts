@@ -57,6 +57,16 @@ if (process.env.NETWORK_NAME === 'rinkeby') {
     })
 }
 
+if (process.env.NETWORK_NAME === 'mumbai') {
+    Object.assign(configBase, {
+        metadataUri: 'https://metadata.mumbai.nevermined.rocks',
+        faucetUri: 'https://faucet.mumbai.nevermined.rocks',
+        gatewayUri: 'https://gateway.mumbai.nevermined.rocks',
+        nodeUri: `https://rpc-mumbai.maticvigil.com/v1/e145ac0424e2a2b3c340685c80a08e77099ce020`,
+        gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
+    })
+}
+
 if (process.env.SEED_WORDS) {
     const seedphrase = process.env.SEED_WORDS
 
