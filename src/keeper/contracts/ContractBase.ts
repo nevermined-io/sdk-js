@@ -97,7 +97,6 @@ export abstract class ContractBase extends Instantiable {
             )
         }
 
-        // Logger.log(name, args)
         const method = this.contract.methods[name]
         try {
             const tx = method(...args)
@@ -108,10 +107,12 @@ export abstract class ContractBase extends Instantiable {
 
             if (value) gas += 21500
 
+            const chainId = await this.web3.eth.net.getId()
             const receipt = await tx.send({
                 from,
                 value,
-                gas
+                gas,
+                chainId
             })
 
             return receipt
