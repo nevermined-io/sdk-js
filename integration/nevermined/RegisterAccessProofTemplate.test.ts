@@ -103,7 +103,10 @@ describe('Register Escrow Access Proof Template', () => {
         let providerK: string
         let buyerPub: BabyjubPublicKey
         let providerPub: BabyjubPublicKey
-        const data = Buffer.from('12345678901234567890123456789012')
+        const data = Buffer.from(
+            '4e657665726d696e65640a436f707972696768742032303230204b65796b6f20476d62482e0a0a546869732070726f6475637420696e636c75646573',
+            'hex'
+        )
         let hash: string
 
         before(async () => {
@@ -111,8 +114,8 @@ describe('Register Escrow Access Proof Template', () => {
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
 
-            buyerK = makeKey('a b c')
-            providerK = makeKey('e f g')
+            buyerK = makeKey('abd')
+            providerK = makeKey('abc')
             buyerPub = secretToPublic(buyerK)
             providerPub = secretToPublic(providerK)
 
