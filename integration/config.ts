@@ -22,7 +22,7 @@ if (process.env.NETWORK_NAME === 'production') {
         gatewayUri: 'http://localhost:8030',
         secretStoreUri: 'http://localhost:12001',
         gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    })
+    } as Config)
 }
 
 if (process.env.NETWORK_NAME === 'integration') {
@@ -33,7 +33,7 @@ if (process.env.NETWORK_NAME === 'integration') {
         gatewayUri: 'http://localhost:8030',
         secretStoreUri: 'http://localhost:12001',
         gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    })
+    } as Config)
 }
 
 if (process.env.NETWORK_NAME === 'testing') {
@@ -43,8 +43,8 @@ if (process.env.NETWORK_NAME === 'testing') {
         faucetUri: 'http://localhost:3001',
         gatewayUri: 'http://localhost:8030',
         secretStoreUri: 'http://localhost:12001',
-        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    })
+        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+    } as Config)
 }
 
 if (process.env.NETWORK_NAME === 'rinkeby') {
@@ -54,7 +54,7 @@ if (process.env.NETWORK_NAME === 'rinkeby') {
         gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
         nodeUri: `https://rinkeby.infura.io/v3/52b6d403f7de4757ab9ed23c3778a35b`,
         gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
-    })
+    } as Config)
 }
 
 if (process.env.NETWORK_NAME === 'mumbai') {
@@ -64,7 +64,7 @@ if (process.env.NETWORK_NAME === 'mumbai') {
         gatewayUri: 'https://gateway.mumbai.nevermined.rocks',
         nodeUri: `https://rpc-mumbai.maticvigil.com/v1/e145ac0424e2a2b3c340685c80a08e77099ce020`,
         gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
-    })
+    } as Config)
 }
 
 if (process.env.SEED_WORDS) {
