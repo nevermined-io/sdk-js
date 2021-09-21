@@ -325,6 +325,12 @@ export class Keeper extends Instantiable {
                     return 'celo-baklava'
                 case 80001:
                     return 'mumbai'
+                case 1313161554:
+                    return 'aurora-mainnet'
+                case 1313161555:
+                    return 'aurora-testnet'
+                case 1313161556:
+                    return 'aurora-betanet'
                 default:
                     return 'Development'
             }
