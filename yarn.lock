@@ -1166,10 +1166,10 @@
     fastfile "0.0.19"
     ffjavascript "^0.2.30"
 
-"@nevermined-io/contracts@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.1.6.tgz#0f6a7422a30e32bc12f99a167aa028ce34f989df"
-  integrity sha512-C2FdWLKdL69bFzZXZypss06cKTgn57bMb5jBif1GLeg9YeAdG3rEGwhrxFU4FpogVbQFSEkrPvX5xR1Xb3iaeg==
+"@nevermined-io/contracts@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.1.7.tgz#1d0be22c7622b121913fcd495ee77305d10d0d99"
+  integrity sha512-yxJ07+xTr91QKav7yp2ogXIZ9aLd+ZWWFkdiS+o4f4chOdil/sCHahF/an6GQWuNRpk9DCdzz8S59KGynZDreg==
 
 "@nevermined-io/secret-store-client@^0.0.16":
   version "0.0.16"
