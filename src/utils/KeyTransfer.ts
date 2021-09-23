@@ -6,18 +6,20 @@ const { babyJub } = require('circomlib')
 const mimcjs = require('circomlib').mimcsponge
 const { ZqField } = require('ffjavascript')
 const { Scalar } = require('ffjavascript')
-const sc = "21888242871839275222246405745257275088548364400416034343698204186575808495617"
+const F = new ZqField(
+    Scalar.fromString(
+        '21888242871839275222246405745257275088548364400416034343698204186575808495617'
+    )
+)
 const snarkjs = require('snarkjs')
 const { unstringifyBigInts } = require('ffjavascript').utils
+
 const Web3Utils = require('web3-utils')
 
 const SEED = 'mimcsponge'
 const NROUNDS = 220
 
 function getConstants(seed, nRounds) {
-    const F = new ZqField(
-        Scalar.fromString(sc)
-    )
     if (typeof seed === 'undefined') seed = SEED
     if (typeof nRounds === 'undefined') nRounds = NROUNDS
     const cts = new Array(nRounds)
@@ -37,9 +39,6 @@ function getConstants(seed, nRounds) {
 const cts = getConstants(SEED, NROUNDS)
 
 function decrypt(xLin, xRin, kin) {
-    const F = new ZqField(
-        Scalar.fromString(sc)
-    )
     let xL = F.e(xLin)
     let xR = F.e(xRin)
     const k = F.e(kin)
@@ -80,9 +79,6 @@ function toHex(a) {
 }
 
 export function secretToPublic(secret: string): BabyjubPublicKey {
-    const F = new ZqField(
-        Scalar.fromString(sc)
-    )
     const [x, y] = babyJub.mulPointEscalar(babyJub.Base8, F.e(secret))
     return new BabyjubPublicKey(toHex(x), toHex(y))
 }
@@ -102,9 +98,6 @@ export function hashKey(a: Buffer) {
 }
 
 export function ecdh(secret: string, pub: BabyjubPublicKey): string {
-    const F = new ZqField(
-        Scalar.fromString(sc)
-    )
     const [x, _y] = babyJub.mulPointEscalar([BigInt(pub.x), BigInt(pub.y)], F.e(secret))
     return toHex(x)
 }
