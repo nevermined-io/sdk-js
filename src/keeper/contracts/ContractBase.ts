@@ -13,7 +13,7 @@ export abstract class ContractBase extends Instantiable {
     protected contract: Contract = null
 
     get address() {
-        return this.contract.options.address
+        return this.getAddress()
     }
 
     constructor(contractName: string, private optional: boolean = false) {
@@ -39,7 +39,7 @@ export abstract class ContractBase extends Instantiable {
     }
 
     public getAddress(): string {
-        return this.contract.options.address
+        return this.contract?.options?.address
     }
 
     public getSignatureOfMethod(methodName: string): string {

@@ -177,7 +177,7 @@ export default class DIDRegistry extends ContractBase {
     }
 
     public async getBlockNumberUpdated(did: string): Promise<number> {
-        return +(await this.call('getBlockNumberUpdated', [zeroX(did)]))
+        return +(await this.call('getBlockNumberUpdated', [didZeroX(did)]))
     }
 
     public async isDIDProvider(did: string, provider: string): Promise<string> {
