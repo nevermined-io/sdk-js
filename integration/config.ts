@@ -62,7 +62,7 @@ if (process.env.NETWORK_NAME === 'mumbai') {
         metadataUri: 'https://metadata.mumbai.nevermined.rocks',
         faucetUri: 'https://faucet.mumbai.nevermined.rocks',
         gatewayUri: 'https://gateway.mumbai.nevermined.rocks',
-        nodeUri: `https://rpc-mumbai.maticvigil.com/v1/e145ac0424e2a2b3c340685c80a08e77099ce020`,
+        nodeUri: `https://polygon-mumbai.infura.io/v3/eda048626e2745b182f43de61ac70be1`,
         gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
     } as Config)
 }

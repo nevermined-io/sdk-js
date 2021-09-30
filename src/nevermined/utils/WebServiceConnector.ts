@@ -30,7 +30,6 @@ export class WebServiceConnector extends Instantiable {
             method: 'POST',
             body: payload,
             headers: {
-                'Content-type': 'application/json',
                 ...headers
             }
         })
@@ -57,7 +56,6 @@ export class WebServiceConnector extends Instantiable {
             method: 'PUT',
             body: payload,
             headers: {
-                'Content-type': 'application/json',
                 ...headers
             }
         })
@@ -72,7 +70,6 @@ export class WebServiceConnector extends Instantiable {
             method: 'DELETE',
             body: payload,
             headers: {
-                'Content-type': 'application/json',
                 ...headers
             }
         })
