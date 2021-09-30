@@ -326,7 +326,7 @@ export class Keeper extends Instantiable {
                 case 80001:
                     return 'mumbai'
                 case 1313161554:
-                    return 'aurora-mainnet'
+                    return 'aurora'
                 case 1313161555:
                     return 'aurora-testnet'
                 case 1313161556:
