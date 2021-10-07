@@ -146,7 +146,7 @@ export class WebServiceConnector extends Instantiable {
         const result = await fetch(url, opts)
         if (!result.ok) {
             this.logger.error(`Error requesting [${opts.method}] ${url}`)
-            this.logger.error(`Response message: \n${await result.text()}`)
+            this.logger.error(`Response message: \n${await result.clone().text()}`)
             throw result
         }
         return result
