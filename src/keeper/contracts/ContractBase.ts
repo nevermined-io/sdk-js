@@ -30,11 +30,23 @@ export abstract class ContractBase extends Instantiable {
         return this.contract.getPastEvents(eventName, options)
     }
 
-    public getPastEvents(eventName: string, filter: { [key: string]: any }) {
+    public async getPastEvents(eventName: string, filter: { [key: string]: any }) {
+        const chainId = await this.web3.eth.net.getId()
+
+        let fromBlock = 0
+        const toBlock = 'latest'
+
+        // Temporary workaround to work with mumbai
+        // Infura as a 1000 blokcs limit on their api
+        if (chainId === 80001) {
+            const latestBlock = await this.web3.eth.getBlockNumber()
+            fromBlock = latestBlock - 1000
+        }
+
         return this.getEventData(eventName, {
             filter,
-            fromBlock: 0,
-            toBlock: 'latest'
+            fromBlock,
+            toBlock
         })
     }
 
