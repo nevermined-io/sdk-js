@@ -79,6 +79,7 @@ export default class Account extends Instantiable {
      */
     public async getNeverminedBalance(): Promise<number> {
         const { token } = this.nevermined.keeper
+        if (!token) return 0
         return (await token.balanceOf(this.id)) / 10 ** (await token.decimals())
     }
 
