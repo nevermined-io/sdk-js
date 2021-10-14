@@ -119,12 +119,10 @@ export abstract class ContractBase extends Instantiable {
 
             if (value) gas += 21500
 
-            const chainId = await this.web3.eth.net.getId()
             const receipt = await tx.send({
                 from,
                 value,
-                gas,
-                chainId
+                gas
             })
 
             return receipt
