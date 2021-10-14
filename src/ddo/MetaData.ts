@@ -328,6 +328,12 @@ export interface AdditionalInformation {
         uri: string
         mediaType: string
     }[]
+
+    /**
+     * A dynamic record containing marketplace specific data.
+     * Can be used to store any non-default data, needs to be checked
+     */
+    customData: Map<string, object>
 }
 
 export interface MetaData {
