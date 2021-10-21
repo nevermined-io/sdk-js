@@ -17,7 +17,6 @@ describe('Agreement Store Manager', () => {
         const ddo = await nevermined.assets.create(getMetadata(), account1)
 
         let agreements = await nevermined.agreements.getAgreements(ddo.id)
-        console.log(agreements)
         assert.isEmpty(agreements)
 
         await account2.requestTokens(
