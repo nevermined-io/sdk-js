@@ -50,7 +50,7 @@ export class AgreementStoreManager extends ContractBase {
 
     public async getAgreements(did: string): Promise<AgreementData[]> {
         const agreementIds: string[] = await this.call('getAgreementIdsForDID', [
-            zeroX(did)
+            didZeroX(did)
         ])
 
         return Promise.all(
