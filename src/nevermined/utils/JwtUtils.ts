@@ -1,11 +1,8 @@
-import parseJwk from 'jose/jwk/parse'
-import SignJWT, { JWSHeaderParameters } from 'jose/jwt/sign'
-
+import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../../src'
 import { SignatureUtils } from './SignatureUtils'
 import Web3 from 'web3'
-import { ServiceType } from '../../ddo/Service'
 
 class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -87,7 +84,7 @@ export class JwtUtils extends Instantiable {
         // @ts-ignore
         const privateKey = this.web3.currentProvider.wallets[address].getPrivateKey()
 
-        return parseJwk({
+        return importJWK({
             alg: 'ES256K',
             crv: 'secp256k1',
             kty: 'EC',

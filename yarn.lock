@@ -5902,10 +5902,10 @@ jake@^10.6.1:
     filelist "^1.0.1"
     minimatch "^3.0.4"
 
-jose@^3.3.1:
-  version "3.11.4"
-  resolved "https://registry.npmjs.org/jose/-/jose-3.11.4.tgz"
-  integrity sha512-nYUGe7axercxj4O5amg7iDFMpfh2yJ15Gz+U1CrgCrRvmHzzYHUwSzTFsF5bj9xSvl6/d0GC8hPTALyhjQofDA==
+jose@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.1.1.tgz#c4aa72d6eff30b2719c702ebcb9e983271560cec"
+  integrity sha512-tNr6sbn5AWaCFHMgTQu0H0lJ6RxMacL35bMAzlRzq1hN0Lovyer1eOK88gVH1s+Q9BKChMRXbNgEl2Jk0PVSTA==
 
 jquery@^3.4.1:
   version "3.5.1"
