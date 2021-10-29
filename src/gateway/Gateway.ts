@@ -286,7 +286,7 @@ export class Gateway extends Instantiable {
         }
 
         const filesPromises = files
-            .filter((_, i) => index === -1 || i === index)
+            .filter((_, i) => index == -1 || i === index)
             .map(async ({ index: i }) => {
                 const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
                 try {
