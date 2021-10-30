@@ -49,8 +49,8 @@ describe('Compute Asset', () => {
         assert.isDefined(agreementId)
     })
 
-    //Ignore because the minikube setup is not ready in actions yet.np
-    it('should execute the compute service', async () => {
+    // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
+    it.skip('should execute the compute service', async () => {
         workflowId = await nevermined.assets.execute(
             agreementId,
             computeDdo.id,
