@@ -805,6 +805,7 @@ describe('NFT721Templates E2E', () => {
                 if (networkName === 'polygon-localnet') {
                     this.skip()
                 }
+
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId,
                     ddo.shortId(),
