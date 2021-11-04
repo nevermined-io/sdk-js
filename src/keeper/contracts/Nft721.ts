@@ -36,7 +36,7 @@ export default class Nft721 extends ContractBase {
         return this.call('balanceOf', [owner])
     }
 
-    public async ownerOf(did: string) {
+    public async ownerOf(did: string): Promise<string> {
         return this.call('ownerOf', [didZeroX(did)])
     }
 }

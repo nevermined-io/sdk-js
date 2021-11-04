@@ -5,7 +5,7 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { findServiceConditionByName, zeroX } from '../../../utils'
+import { findServiceConditionByName } from '../../../utils'
 import Account from '../../../nevermined/Account'
 
 export class NFT721SalesTemplate extends BaseTemplate {
@@ -15,7 +15,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
         return AgreementTemplate.getInstance(
             config,
             'NFT721SalesTemplate',
-            NFT721SalesTemplate
+            NFT721SalesTemplate,
+            true
         )
     }
 
@@ -79,12 +80,19 @@ export class NFT721SalesTemplate extends BaseTemplate {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('Transfer condition not found!')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+
+        const nft = await this.nevermined.contracts.loadNft721(
+            transfer.parameters.find(p => p.name === '_contract').value as string
+        )
+
+        const nftOwner = await nft.ownerOf(ddo.id)
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
             await transferNft721Condition.hashValues(
-                zeroX(ddo.shortId()),
+                ddo.shortId(),
+                nftOwner,
                 consumer,
                 lockPaymentConditionId,
                 transfer.parameters.find(p => p.name === '_contract').value as string

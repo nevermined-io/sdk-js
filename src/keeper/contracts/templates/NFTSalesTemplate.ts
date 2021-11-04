@@ -21,6 +21,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string,
         nftAmount?: number,
+        provider?: string,
         from?: Account
     ): Promise<boolean> {
         const [
@@ -32,7 +33,8 @@ export class NFTSalesTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             consumer,
-            nftAmount
+            nftAmount,
+            provider
         )
         return !!(await this.createAgreement(
             agreementId,
@@ -50,7 +52,8 @@ export class NFTSalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        nftAmount?: number
+        nftAmount?: number,
+        provider?: string
     ): Promise<string[]> {
         const {
             lockPaymentCondition,
@@ -74,10 +77,18 @@ export class NFTSalesTemplate extends BaseTemplate {
             )
         )
 
+        const transfer = findServiceConditionByName(salesService, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+
+        const nftHolder =
+            provider ||
+            (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
+
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
             await transferNftCondition.hashValues(
                 ddo.shortId(),
+                nftHolder,
                 consumer,
                 nftAmount,
                 lockPaymentConditionId

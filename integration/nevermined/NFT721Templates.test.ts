@@ -73,6 +73,7 @@ describe('NFT721Templates E2E', () => {
 
     let initialBalances: any
     let scale: number
+    let networkName: string
 
     before(async () => {
         TestContractHandler.setConfig(config)
@@ -130,6 +131,8 @@ describe('NFT721Templates E2E', () => {
                 [receivers2[1], amounts2[1]]
             ])
         )
+
+        networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
     })
 
     describe('Full flow', () => {
@@ -185,6 +188,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
+                        artist.getId(),
                         collector1.getId(),
                         conditionIdLockPayment,
                         nft.address
@@ -379,7 +383,12 @@ describe('NFT721Templates E2E', () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async () => {
+            it('The collector demonstrates it onws the NFT', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -398,7 +407,12 @@ describe('NFT721Templates E2E', () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async () => {
+            it(' The artist gives access to the collector to the content', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),
@@ -446,6 +460,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId2,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
+                        collector1.getId(),
                         collector2.getId(),
                         conditionIdLockPayment2,
                         nft.address
@@ -622,10 +637,13 @@ describe('NFT721Templates E2E', () => {
             agreementAccessId = utils.generateId()
             agreementId2 = utils.generateId()
 
+            const nftContract = await TestContractHandler.deployArtifact(ERC721)
+            nft = await nevermined.contracts.loadNft721(nftContract.options.address)
+
             ddo = await nevermined.assets.createNft721(
                 getMetadata(),
                 artist,
-                assetRewards2,
+                assetRewards1,
                 'PSK-RSA',
                 nft.address,
                 token.getAddress(),
@@ -764,7 +782,12 @@ describe('NFT721Templates E2E', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector demonstrates it onws the NFT', async () => {
+            it('The collector demonstrates it onws the NFT', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -777,7 +800,12 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(result)
             })
 
-            it(' The artist gives access to the collector to the content', async () => {
+            it(' The artist gives access to the collector to the content', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId,
                     ddo.shortId(),

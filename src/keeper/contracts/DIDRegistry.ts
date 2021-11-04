@@ -177,7 +177,7 @@ export default class DIDRegistry extends ContractBase {
     }
 
     public async getBlockNumberUpdated(did: string): Promise<number> {
-        return +(await this.call('getBlockNumberUpdated', [zeroX(did)]))
+        return +(await this.call('getBlockNumberUpdated', [didZeroX(did)]))
     }
 
     public async isDIDProvider(did: string, provider: string): Promise<string> {
@@ -197,9 +197,12 @@ export default class DIDRegistry extends ContractBase {
     public async getAttributesByDid(
         did: string
     ): Promise<{ did: string; serviceEndpoint: string; checksum: string }> {
+        const blockNumber = await this.getBlockNumberUpdated(didZeroX(did))
         return (
-            await this.getPastEvents('DIDAttributeRegistered', {
-                _did: didZeroX(did)
+            await this.getEventData('DIDAttributeRegistered', {
+                filter: { _did: didZeroX(did) },
+                fromBlock: blockNumber,
+                to: blockNumber
             })
         ).map(
             ({

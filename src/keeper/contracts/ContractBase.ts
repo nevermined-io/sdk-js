@@ -13,7 +13,7 @@ export abstract class ContractBase extends Instantiable {
     protected contract: Contract = null
 
     get address() {
-        return this.contract.options.address
+        return this.getAddress()
     }
 
     constructor(contractName: string, private optional: boolean = false) {
@@ -30,16 +30,28 @@ export abstract class ContractBase extends Instantiable {
         return this.contract.getPastEvents(eventName, options)
     }
 
-    public getPastEvents(eventName: string, filter: { [key: string]: any }) {
+    public async getPastEvents(eventName: string, filter: { [key: string]: any }) {
+        const chainId = await this.web3.eth.net.getId()
+
+        let fromBlock = 0
+        const toBlock = 'latest'
+
+        // Temporary workaround to work with mumbai
+        // Infura as a 1000 blokcs limit on their api
+        if (chainId === 80001) {
+            const latestBlock = await this.web3.eth.getBlockNumber()
+            fromBlock = latestBlock - 990
+        }
+
         return this.getEventData(eventName, {
             filter,
-            fromBlock: 0,
-            toBlock: 'latest'
+            fromBlock,
+            toBlock
         })
     }
 
     public getAddress(): string {
-        return this.contract.options.address
+        return this.contract?.options?.address
     }
 
     public getSignatureOfMethod(methodName: string): string {
@@ -52,10 +64,10 @@ export abstract class ContractBase extends Instantiable {
         return foundMethod.inputs
     }
 
-    protected async init(config: InstantiableConfig) {
+    protected async init(config: InstantiableConfig, optional: boolean = false) {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
-        this.contract = await contractHandler.get(this.contractName, this.optional)
+        this.contract = await contractHandler.get(this.contractName, optional)
     }
 
     protected async getFromAddress(from?: string): Promise<string> {
@@ -68,10 +80,11 @@ export abstract class ContractBase extends Instantiable {
     protected async sendFrom(
         name: string,
         args: any[],
-        from?: Account
+        from?: Account,
+        value?: string
     ): Promise<TransactionReceipt> {
         const fromAddress = await this.getFromAddress(from && from.getId())
-        const receipt = await this.send(name, fromAddress, args)
+        const receipt = await this.send(name, fromAddress, args, value)
         if (!receipt.status) {
             this.logger.error(
                 'Transaction failed!',
@@ -87,7 +100,8 @@ export abstract class ContractBase extends Instantiable {
     protected async send(
         name: string,
         from: string,
-        args: any[]
+        args: any[],
+        value?: string
     ): Promise<TransactionReceipt> {
         if (!this.contract.methods[name]) {
             throw new Error(
@@ -95,17 +109,22 @@ export abstract class ContractBase extends Instantiable {
             )
         }
 
-        // Logger.log(name, args)
         const method = this.contract.methods[name]
         try {
             const tx = method(...args)
-            const gas = await tx.estimateGas(args, {
-                from
+            let gas = await tx.estimateGas(args, {
+                from,
+                value
             })
 
+            if (value) gas += 21500
+
+            const chainId = await this.web3.eth.net.getId()
             const receipt = await tx.send({
                 from,
-                gas
+                value,
+                gas,
+                chainId
             })
 
             return receipt
@@ -123,6 +142,7 @@ export abstract class ContractBase extends Instantiable {
             this.logger.error(`Error: ${err.message}`)
             this.logger.error(`From: ${from}`)
             this.logger.error(`Parameters: ${JSON.stringify(mappedArgs, null, 2)}`)
+            if (value) this.logger.error(`Value: ${value}`)
             this.logger.error('-'.repeat(40))
             throw err
         }

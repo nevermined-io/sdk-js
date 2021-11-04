@@ -8,6 +8,7 @@ import {
     LockPaymentCondition,
     EscrowPaymentCondition,
     AccessCondition,
+    AccessProofCondition,
     ComputeExecutionCondition,
     NFTHolderCondition,
     NFTLockCondition,
@@ -20,6 +21,7 @@ import {
 import {
     AgreementTemplate,
     AccessTemplate,
+    AccessProofTemplate,
     EscrowComputeExecutionTemplate,
     DIDSalesTemplate,
     NFTAccessTemplate,
@@ -72,6 +74,7 @@ export class Keeper extends Instantiable {
                 lockPaymentCondition: LockPaymentCondition.getInstance(config),
                 escrowPaymentCondition: EscrowPaymentCondition.getInstance(config),
                 accessCondition: AccessCondition.getInstance(config),
+                accessProofCondition: AccessProofCondition.getInstance(config),
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
                 nftHolderCondition: NFTHolderCondition.getInstance(config),
                 nft721HolderCondition: NFT721HolderCondition.getInstance(config),
@@ -84,6 +87,7 @@ export class Keeper extends Instantiable {
                 ),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(config),
+                accessProofTemplate: AccessProofTemplate.getInstance(config),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
                     config
                 ),
@@ -130,6 +134,7 @@ export class Keeper extends Instantiable {
             lockPaymentCondition: keeper.instances.lockPaymentCondition,
             escrowPaymentCondition: keeper.instances.escrowPaymentCondition,
             accessCondition: keeper.instances.accessCondition,
+            accessProofCondition: keeper.instances.accessProofCondition,
             computeExecutionCondition: keeper.instances.computeExecutionCondition,
             nftHolderCondition: keeper.instances.nftHolderCondition,
             nft721HolderCondition: keeper.instances.nft721HolderCondition,
@@ -142,6 +147,7 @@ export class Keeper extends Instantiable {
         // Templates
         keeper.templates = {
             accessTemplate: keeper.instances.accessTemplate,
+            accessProofTemplate: keeper.instances.accessProofTemplate,
             escrowComputeExecutionTemplate:
                 keeper.instances.escrowComputeExecutionTemplate,
             didSalesTemplate: keeper.instances.didSalesTemplate,
@@ -207,6 +213,7 @@ export class Keeper extends Instantiable {
         lockPaymentCondition: LockPaymentCondition
         escrowPaymentCondition: EscrowPaymentCondition
         accessCondition: AccessCondition
+        accessProofCondition: AccessProofCondition
         computeExecutionCondition: ComputeExecutionCondition
         nftHolderCondition: NFTHolderCondition
         nft721HolderCondition: NFT721HolderCondition
@@ -222,6 +229,7 @@ export class Keeper extends Instantiable {
      */
     public templates: {
         accessTemplate: AccessTemplate
+        accessProofTemplate: AccessProofTemplate
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
         didSalesTemplate: DIDSalesTemplate
         nftAccessTemplate: NFTAccessTemplate
@@ -288,7 +296,7 @@ export class Keeper extends Instantiable {
         return this.web3.eth.net.getId().then((networkId: number) => {
             switch (networkId) {
                 case 1:
-                    return 'Main'
+                    return 'Mainnet'
                 case 2:
                     return 'Morden'
                 case 3:
@@ -307,10 +315,24 @@ export class Keeper extends Instantiable {
                     return 'Duero'
                 case 8996:
                     return 'Spree'
+                case 8997:
+                    return 'polygon-localnet'
                 case 8995:
                     return 'Nile'
                 case 0xcea11:
                     return 'Pacific'
+                case 44787:
+                    return 'celo-alfajores'
+                case 62320:
+                    return 'celo-baklava'
+                case 80001:
+                    return 'mumbai'
+                case 1313161554:
+                    return 'aurora'
+                case 1313161555:
+                    return 'aurora-testnet'
+                case 1313161556:
+                    return 'aurora-betanet'
                 default:
                     return 'Development'
             }

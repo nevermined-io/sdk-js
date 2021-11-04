@@ -156,8 +156,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                didRegistry.options.address,
-                ZeroAddress
+                didRegistry.options.address
             ]
         )
 

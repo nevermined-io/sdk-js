@@ -73,6 +73,7 @@ describe('NFTTemplates E2E', () => {
 
     let initialBalances: any
     let scale: number
+    let networkName: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -122,6 +123,8 @@ describe('NFTTemplates E2E', () => {
                 [receivers2[1], amounts2[1]]
             ])
         )
+
+        networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
     })
 
     describe('Full flow', () => {
@@ -198,6 +201,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId,
                     await transferNftCondition.hashValues(
                         ddo.id,
+                        artist.getId(),
                         collector1.getId(),
                         numberNFTs,
                         conditionIdLockPayment
@@ -406,7 +410,11 @@ describe('NFTTemplates E2E', () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async () => {
+            it('The collector demonstrates it onws the NFT', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -424,7 +432,12 @@ describe('NFTTemplates E2E', () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async () => {
+            it(' The artist gives access to the collector to the content', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.id,
@@ -457,6 +470,7 @@ describe('NFTTemplates E2E', () => {
                     )
                 }
             })
+
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 conditionIdLockPayment2 = await lockPaymentCondition.generateId(
                     agreementId2,
@@ -472,6 +486,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId2,
                     await transferNftCondition.hashValues(
                         ddo.id,
+                        collector1.getId(),
                         collector2.getId(),
                         numberNFTs2,
                         conditionIdLockPayment2
@@ -661,11 +676,11 @@ describe('NFTTemplates E2E', () => {
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
                 artist,
-                assetRewards2,
+                assetRewards1,
                 undefined,
                 cappedAmount,
                 undefined,
-                numberNFTs2,
+                numberNFTs,
                 royalties,
                 token.getAddress()
             )
@@ -754,12 +769,10 @@ describe('NFTTemplates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId,
-                    ddo.id,
+                    ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
-                    token.getAddress(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -786,12 +799,10 @@ describe('NFTTemplates E2E', () => {
             it('the artist asks and receives the payment', async () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
-                    ddo.id,
+                    ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
-                    token.getAddress(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -834,7 +845,12 @@ describe('NFTTemplates E2E', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector demonstrates it onws the NFT', async () => {
+            it('The collector demonstrates it onws the NFT', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -847,7 +863,12 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(result)
             })
 
-            it(' The artist gives access to the collector to the content', async () => {
+            it(' The artist gives access to the collector to the content', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId,
                     ddo.id,
@@ -875,13 +896,15 @@ describe('NFTTemplates E2E', () => {
                     )
                 }
             })
+
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2,
                     ddo,
                     assetRewards2,
                     collector2.getId(),
-                    numberNFTs2
+                    numberNFTs2,
+                    collector1.getId()
                 )
                 assert.isTrue(result)
 
@@ -943,14 +966,13 @@ describe('NFTTemplates E2E', () => {
 
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId2,
-                    ddo.id,
+                    ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
-                    token.getAddress(),
                     collector1
                 )
+
                 assert.isTrue(receipt)
 
                 const nftBalanceCollector1After = await didRegistry.balance(
@@ -975,12 +997,10 @@ describe('NFTTemplates E2E', () => {
             it('Collector1 and Artist get the payment', async () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId2,
-                    ddo.id,
+                    ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
-                    token.getAddress(),
                     collector1
                 )
                 assert.isTrue(receipt)

@@ -1,27 +1,23 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 
-export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
-    contractName: 'NFTSalesTemplate',
+export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
+    contractName: 'AccessTemplate',
     events: [
         {
             name: 'AgreementCreated',
             actorType: 'consumer',
             handler: {
-                moduleName: 'nftSalesTemplate',
+                moduleName: 'escrowAccessTemplate',
                 functionName: 'fulfillLockPaymentCondition',
                 version: '0.1'
             }
         }
     ],
-    fulfillmentOrder: [
-        'lockPayment.fulfill',
-        'transferNFT.fulfill',
-        'escrowPayment.fulfill'
-    ],
+    fulfillmentOrder: ['access.fulfill', 'lockPayment.fulfill', 'escrowPayment.fulfill'],
     conditionDependency: {
         lockPayment: [],
-        transferNFT: [],
-        escrowPayment: ['lockPayment', 'transferNFT']
+        access: [],
+        escrowPayment: ['lockPayment', 'access']
     },
     conditions: [
         {
@@ -63,17 +59,17 @@ export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                     actorType: 'publisher',
                     handler: {
                         moduleName: 'lockPaymentCondition',
-                        functionName: 'fulfillTransferNFTCondition',
+                        functionName: 'fulfillAccessCondition',
                         version: '0.1'
                     }
                 }
             ]
         },
         {
-            name: 'transferNFT',
+            name: 'access',
             timelock: 0,
             timeout: 0,
-            contractName: 'TransferNFTCondition',
+            contractName: 'AccessProofCondition',
             functionName: 'fulfill',
             parameters: [
                 {
@@ -82,23 +78,23 @@ export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                     value: ''
                 },
                 {
-                    name: '_receiver',
-                    type: 'address',
+                    name: '_grantee',
+                    type: 'uint[2]',
                     value: ''
                 },
                 {
-                    name: '_numberNfts',
-                    type: 'uint256',
+                    name: '_provider',
+                    type: 'uint[2]',
                     value: ''
                 },
                 {
-                    name: '_nftHolder',
-                    type: 'address',
+                    name: '_cipher',
+                    type: 'uint[2]',
                     value: ''
                 },
                 {
-                    name: '_conditionId',
-                    type: 'bytes32',
+                    name: '_proof',
+                    type: 'bytes',
                     value: ''
                 }
             ],
@@ -107,7 +103,7 @@ export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                     name: 'Fulfilled',
                     actorType: 'publisher',
                     handler: {
-                        moduleName: 'transferNFT',
+                        moduleName: 'access',
                         functionName: 'fulfillEscrowPaymentCondition',
                         version: '0.1'
                     }
@@ -138,12 +134,12 @@ export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate 
                 {
                     name: '_amounts',
                     type: 'uint256[]',
-                    value: []
+                    value: ''
                 },
                 {
                     name: '_receivers',
                     type: 'address[]',
-                    value: []
+                    value: ''
                 },
                 {
                     name: '_sender',

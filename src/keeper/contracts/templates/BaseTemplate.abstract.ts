@@ -34,7 +34,9 @@ export abstract class BaseTemplate extends AgreementTemplate {
         )
     }
 
-    public async getAgreementData(agreementId: string) {
+    public async getAgreementData(
+        agreementId: string
+    ): Promise<{ accessProvider: string; accessConsumer: string }> {
         return this.call<any>('getAgreementData', [zeroX(agreementId)])
     }
 }
