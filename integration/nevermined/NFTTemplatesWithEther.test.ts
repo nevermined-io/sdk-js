@@ -285,7 +285,12 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it('the artist asks and receives the payment', async () => {
+            it('the artist asks and receives the payment', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 await escrowPaymentCondition.fulfill(
                     agreementId,
                     ddo.shortId(),
