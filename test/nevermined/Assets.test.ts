@@ -23,9 +23,8 @@ describe('Assets', () => {
             const query: SearchQuery = {
                 offset: 100,
                 page: 1,
-                query: {
-                    text: 'Office'
-                },
+                query: {},
+                text: 'Office',
                 sort: {
                     created: -1
                 }
@@ -33,7 +32,7 @@ describe('Assets', () => {
 
             const assets = await nevermined.assets.query(query)
 
-            assert(assets)
+            assert.isDefined(assets)
         })
     })
 
@@ -42,7 +41,7 @@ describe('Assets', () => {
             const text = 'office'
             const assets = await nevermined.assets.search(text)
 
-            assert(assets)
+            assert.isDefined(assets)
         })
     })
 })

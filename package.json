@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/nevermined-sdk-js",
-  "version": "0.13.16",
+  "version": "0.14.0",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -61,7 +61,7 @@
     "deprecated-decorator": "^0.1.6",
     "ffjavascript": "^0.2.38",
     "ganache-cli": "^6.12.2",
-    "jose": "^3.3.1",
+    "jose": "^4.1.1",
     "node-fetch": "^2.6.1",
     "save-file": "^2.3.1",
     "snarkjs": "^0.4.6",
@@ -153,9 +153,6 @@
     }
   },
   "jest": {
-    "moduleNameMapper": {
-      "jose/(.*)": "<rootDir>/node_modules/jose/dist/node/cjs/$1"
-    },
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!src/serviceWorker.ts",

@@ -40,7 +40,7 @@ export abstract class ContractBase extends Instantiable {
         // Infura as a 1000 blokcs limit on their api
         if (chainId === 80001) {
             const latestBlock = await this.web3.eth.getBlockNumber()
-            fromBlock = latestBlock - 1000
+            fromBlock = latestBlock - 990
         }
 
         return this.getEventData(eventName, {

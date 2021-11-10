@@ -74,36 +74,6 @@ describe('Asset Owners', () => {
         assert.equal(finalLength - initialLength, 1)
     })
 
-    // Ignored because `order` doesn't grant access
-    xit('should get the assets that can be consumed by a user', async () => {
-        const { length: initialLength } = await nevermined.assets.consumerAssets(
-            account2.getId()
-        )
-
-        const ddo = await nevermined.assets.create(newMetadata(), account1)
-
-        const { length: finalLength1 } = await nevermined.assets.consumerAssets(
-            account2.getId()
-        )
-        assert.equal(finalLength1 - initialLength, 0)
-
-        // Granting access
-        try {
-            await account2.requestTokens(
-                +newMetadata().main.price *
-                    10 ** -(await nevermined.keeper.token.decimals())
-            )
-        } catch {}
-
-        await nevermined.assets.order(ddo.id, 'access', account2)
-        // Access granted
-
-        const { length: finalLength2 } = await nevermined.assets.consumerAssets(
-            account2.getId()
-        )
-        assert.equal(finalLength2 - initialLength, 1)
-    })
-
     it('should be able to transfer ownership', async () => {
         const { id } = await nevermined.assets.create(newMetadata(), account1)
 
