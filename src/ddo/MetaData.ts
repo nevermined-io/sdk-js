@@ -330,10 +330,12 @@ export interface AdditionalInformation {
     }[]
 
     /**
-     * A dynamic record containing marketplace specific data.
+     * A dynamic field containing marketplace specific data.
      * Can be used to store any non-default data, needs to be checked
      */
-    customData: Map<string, object>
+    customData: {
+        [key: string]: any
+    }
 }
 
 export interface MetaData {
