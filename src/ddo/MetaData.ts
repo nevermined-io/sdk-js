@@ -333,7 +333,7 @@ export interface AdditionalInformation {
      * A dynamic field containing marketplace specific data.
      * Can be used to store any non-default data, needs to be checked
      */
-    customData: {
+    customData?: {
         [key: string]: any
     }
 }
