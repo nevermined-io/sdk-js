@@ -76,6 +76,7 @@ export class Versions extends Instantiable {
             const {
                 contracts,
                 'keeper-version': keeperVersion,
+                'provider-address': providerAddress,
                 network,
                 software: name,
                 version
