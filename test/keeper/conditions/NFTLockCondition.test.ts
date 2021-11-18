@@ -110,16 +110,13 @@ describe('NFTLockCondition', () => {
             )
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
-            const nftBalance = await didRegistry.balance(
-                nftLockCondition.getAddress(),
-                did
-            )
+            const nftBalance = await didRegistry.balance(rewardAddress.getId(), did)
             assert.equal(nftBalance, amount)
 
             const {
                 _agreementId,
                 _did,
-                _rewardAddress,
+                _lockAddress,
                 _conditionId,
                 _amount
             } = result.events.Fulfilled.returnValues
@@ -127,7 +124,7 @@ describe('NFTLockCondition', () => {
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
-            assert.equal(_rewardAddress, rewardAddress.getId())
+            assert.equal(_lockAddress, rewardAddress.getId())
             assert.equal(Number(_amount), amount)
         })
     })
