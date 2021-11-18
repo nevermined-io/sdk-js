@@ -315,6 +315,8 @@ export class Keeper extends Instantiable {
                     return 'Duero'
                 case 8996:
                     return 'Spree'
+                case 8997:
+                    return 'polygon-localnet'
                 case 8995:
                     return 'Nile'
                 case 0xcea11:

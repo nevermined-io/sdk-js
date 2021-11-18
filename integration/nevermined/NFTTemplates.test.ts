@@ -73,6 +73,7 @@ describe('NFTTemplates E2E', () => {
 
     let initialBalances: any
     let scale: number
+    let networkName: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -122,6 +123,8 @@ describe('NFTTemplates E2E', () => {
                 [receivers2[1], amounts2[1]]
             ])
         )
+
+        networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
     })
 
     describe('Full flow', () => {
@@ -407,7 +410,11 @@ describe('NFTTemplates E2E', () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async () => {
+            it('The collector demonstrates it onws the NFT', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -425,7 +432,12 @@ describe('NFTTemplates E2E', () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async () => {
+            it(' The artist gives access to the collector to the content', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.id,
@@ -833,7 +845,12 @@ describe('NFTTemplates E2E', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector demonstrates it onws the NFT', async () => {
+            it('The collector demonstrates it onws the NFT', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -846,7 +863,12 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(result)
             })
 
-            it(' The artist gives access to the collector to the content', async () => {
+            it(' The artist gives access to the collector to the content', async function() {
+                // See https://github.com/nevermined-io/sdk-js/issues/137
+                if (networkName === 'polygon-localnet') {
+                    this.skip()
+                }
+
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId,
                     ddo.id,
