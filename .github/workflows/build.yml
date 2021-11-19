@@ -68,3 +68,11 @@ jobs:
       with:
         name: nevermined-tools-output
         path: tools/nevermined_tools.txt
+    - name: Build doc
+      run: |
+        yarn run doc
+    - name: Publish doc
+      uses: EndBug/add-and-commit@v7
+      with:
+        add: 'docs'
+        default_author: github_actor
