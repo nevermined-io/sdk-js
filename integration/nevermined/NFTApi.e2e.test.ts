@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
 import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
@@ -81,6 +82,13 @@ describe('NFTs Api End-to-End', () => {
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
             assert.equal(balance, 5)
+        })
+
+        it('Should set the gateway as a provider by default', async () => {
+            const providers = await nevermined.provider.list(ddo.id)
+            assert.deepEqual(providers, [
+                Web3.utils.toChecksumAddress(config.gatewayAddress)
+            ])
         })
     })
 
