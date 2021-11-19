@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [ 'master' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Install dependencies
+      run: |
+        npm i
+        npm install -g npm
+    - name: Build doc
+      run: |
+        yarn run doc
+    - name: Publish doc
+      uses: EndBug/add-and-commit@v7
+      with:
+        add: 'docs'
+        default_author: github_actions
