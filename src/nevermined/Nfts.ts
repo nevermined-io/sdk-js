@@ -49,7 +49,7 @@ export class Nfts extends Instantiable {
             assetRewards,
             undefined,
             cap,
-            [],
+            undefined,
             nftAmount,
             royalties,
             erc20TokenAddress
