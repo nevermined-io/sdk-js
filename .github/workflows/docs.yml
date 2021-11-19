@@ -16,7 +16,6 @@ jobs:
       run: |
         npm i
         npm install -g npm
-        npm install -g ganache-cli@~6.9.1
     - name: Build doc
       run: |
         yarn run doc
