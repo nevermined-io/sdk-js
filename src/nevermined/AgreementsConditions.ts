@@ -55,7 +55,9 @@ export class AgreementsConditions extends Instantiable {
             token = await CustomToken.getInstanceByAddress(
                 {
                     nevermined: this.nevermined,
-                    web3: this.web3
+                    web3: this.web3,
+                    logger: this.logger,
+                    config: this.config
                 },
                 erc20TokenAddress
             )
