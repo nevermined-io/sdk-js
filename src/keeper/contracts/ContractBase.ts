@@ -119,6 +119,10 @@ export abstract class ContractBase extends Instantiable {
 
             if (value) gas += 21500
 
+            if (this.config && this.config.gasMultiplier) {
+                gas = Math.floor(gas*this.config.gasMultiplier)
+            }
+
             const chainId = await this.web3.eth.net.getId()
             const receipt = await tx.send({
                 from,
