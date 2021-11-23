@@ -5,6 +5,7 @@ coverage/
 doc/
 test/**/*.js
 src/**/*.js
+package-lock.json
 
 src/metadata\.json
 .idea

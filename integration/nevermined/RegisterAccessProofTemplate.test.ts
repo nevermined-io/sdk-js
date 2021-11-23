@@ -7,20 +7,13 @@ import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
 import {
-    makeKey,
-    hashKey,
-    secretToPublic,
-    encryptKey,
-    ecdh,
-    prove
-} from '../../src/utils'
-import {
     AccessProofCondition,
     EscrowPaymentCondition,
     LockPaymentCondition
 } from '../../src/keeper/contracts/conditions'
 import { AccessProofTemplate } from '../../src/keeper/contracts/templates'
 import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
+import KeyTransfer from '../../src/utils/KeyTransfer'
 
 describe('Register Escrow Access Proof Template', () => {
     let nevermined: Nevermined
@@ -103,6 +96,8 @@ describe('Register Escrow Access Proof Template', () => {
         let providerK: string
         let buyerPub: BabyjubPublicKey
         let providerPub: BabyjubPublicKey
+        let keyTransfer: KeyTransfer
+
         const data = Buffer.from(
             '4e657665726d696e65640a436f707972696768742032303230204b65796b6f20476d62482e0a0a546869732070726f6475637420696e636c75646573',
             'hex'
@@ -114,12 +109,14 @@ describe('Register Escrow Access Proof Template', () => {
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
 
-            buyerK = makeKey('abd')
-            providerK = makeKey('abc')
-            buyerPub = secretToPublic(buyerK)
-            providerPub = secretToPublic(providerK)
+            keyTransfer = new KeyTransfer()
 
-            hash = hashKey(data)
+            buyerK = keyTransfer.makeKey('abd')
+            providerK = keyTransfer.makeKey('abc')
+            buyerPub = keyTransfer.secretToPublic(buyerK)
+            providerPub = keyTransfer.secretToPublic(providerK)
+
+            hash = keyTransfer.hashKey(data)
         })
 
         it('should register a DID', async () => {
@@ -236,8 +233,11 @@ describe('Register Escrow Access Proof Template', () => {
         })
 
         it('should fulfill AccessCondition', async () => {
-            const cipher = encryptKey(data, ecdh(providerK, buyerPub))
-            const proof = await prove(buyerPub, providerPub, providerK, data)
+            const cipher = keyTransfer.encryptKey(
+                data,
+                keyTransfer.ecdh(providerK, buyerPub)
+            )
+            const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
             const fulfill = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
@@ -275,17 +275,20 @@ describe('Register Escrow Access Proof Template', () => {
         let providerK: string
         let buyerPub: BabyjubPublicKey
         let providerPub: BabyjubPublicKey
+        let keyTransfer: KeyTransfer
+
         const data = Buffer.from('12345678901234567890123456789012')
         let hash: string
 
         before(async () => {
             ddo = await nevermined.assets.create(getMetadata(), publisher)
-            buyerK = makeKey('a b c')
-            providerK = makeKey('e f g')
-            buyerPub = secretToPublic(buyerK)
-            providerPub = secretToPublic(providerK)
+            keyTransfer = new KeyTransfer()
+            buyerK = keyTransfer.makeKey('a b c')
+            providerK = keyTransfer.makeKey('e f g')
+            buyerPub = keyTransfer.secretToPublic(buyerK)
+            providerPub = keyTransfer.secretToPublic(providerK)
 
-            hash = hashKey(data)
+            hash = keyTransfer.hashKey(data)
         })
 
         it('should create a new agreement (short way)', async () => {

@@ -13,7 +13,7 @@ export abstract class ContractBase extends Instantiable {
     protected contract: Contract = null
 
     get address() {
-        return this.contract.options.address
+        return this.getAddress()
     }
 
     constructor(contractName: string, private optional: boolean = false) {
@@ -30,16 +30,28 @@ export abstract class ContractBase extends Instantiable {
         return this.contract.getPastEvents(eventName, options)
     }
 
-    public getPastEvents(eventName: string, filter: { [key: string]: any }) {
+    public async getPastEvents(eventName: string, filter: { [key: string]: any }) {
+        const chainId = await this.web3.eth.net.getId()
+
+        let fromBlock = 0
+        const toBlock = 'latest'
+
+        // Temporary workaround to work with mumbai
+        // Infura as a 1000 blokcs limit on their api
+        if (chainId === 80001) {
+            const latestBlock = await this.web3.eth.getBlockNumber()
+            fromBlock = latestBlock - 990
+        }
+
         return this.getEventData(eventName, {
             filter,
-            fromBlock: 0,
-            toBlock: 'latest'
+            fromBlock,
+            toBlock
         })
     }
 
     public getAddress(): string {
-        return this.contract.options.address
+        return this.contract?.options?.address
     }
 
     public getSignatureOfMethod(methodName: string): string {
@@ -97,7 +109,6 @@ export abstract class ContractBase extends Instantiable {
             )
         }
 
-        // Logger.log(name, args)
         const method = this.contract.methods[name]
         try {
             const tx = method(...args)
@@ -108,10 +119,12 @@ export abstract class ContractBase extends Instantiable {
 
             if (value) gas += 21500
 
+            const chainId = await this.web3.eth.net.getId()
             const receipt = await tx.send({
                 from,
                 value,
-                gas
+                gas,
+                chainId
             })
 
             return receipt

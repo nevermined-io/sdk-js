@@ -1,18 +1,11 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { DDO } from '../ddo/DDO'
-import {
-    decryptKey,
-    ecdh,
-    encryptKey,
-    findServiceConditionByName,
-    hashKey,
-    prove,
-    ZeroAddress
-} from '../utils'
+import { findServiceConditionByName, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
+import KeyTransfer from '../utils/KeyTransfer'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -134,9 +127,13 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { accessProofCondition } = this.nevermined.keeper.conditions
 
-            const cipher = encryptKey(data, ecdh(providerK, buyerPub))
-            const proof = await prove(buyerPub, providerPub, providerK, data)
-            const hash = hashKey(data)
+            const keyTransfer = new KeyTransfer()
+            const cipher = keyTransfer.encryptKey(
+                data,
+                keyTransfer.ecdh(providerK, buyerPub)
+            )
+            const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
+            const hash = keyTransfer.hashKey(data)
             const receipt = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
@@ -165,9 +162,16 @@ export class AgreementsConditions extends Instantiable {
         providerPub: BabyjubPublicKey
     ) {
         const { accessProofCondition } = this.nevermined.keeper.conditions
-        const ev = await accessProofCondition.getPastEvents('Fulfilled', { _agreementId: agreementId })
+        const ev = await accessProofCondition.getPastEvents('Fulfilled', {
+            _agreementId: agreementId
+        })
         const [cipherL, cipherR] = ev[0].returnValues._cipher
-        return decryptKey(new MimcCipher(cipherL, cipherR), ecdh(buyerK, providerPub))
+
+        const keyTransfer = new KeyTransfer()
+        return keyTransfer.decryptKey(
+            new MimcCipher(cipherL, cipherR),
+            keyTransfer.ecdh(buyerK, providerPub)
+        )
     }
 
     /**

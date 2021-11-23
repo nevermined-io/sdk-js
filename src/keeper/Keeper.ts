@@ -315,6 +315,8 @@ export class Keeper extends Instantiable {
                     return 'Duero'
                 case 8996:
                     return 'Spree'
+                case 8997:
+                    return 'polygon-localnet'
                 case 8995:
                     return 'Nile'
                 case 0xcea11:
@@ -325,6 +327,12 @@ export class Keeper extends Instantiable {
                     return 'celo-baklava'
                 case 80001:
                     return 'mumbai'
+                case 1313161554:
+                    return 'aurora'
+                case 1313161555:
+                    return 'aurora-testnet'
+                case 1313161556:
+                    return 'aurora-betanet'
                 default:
                     return 'Development'
             }

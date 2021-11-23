@@ -7,29 +7,33 @@ describe('Artifacts', () => {
     const tests = [
         {
             nodeUri: `https://mainnet.infura.io/v3/${infuraToken}`,
-            networkName: 'mainnet',
-            networkId: 1
+            networkName: ['mainnet'],
+            networkId: [1]
         },
         {
             nodeUri: `https://rinkeby.infura.io/v3/${infuraToken}`,
-            networkName: 'rinkeby',
-            networkId: 4
+            networkName: ['rinkeby'],
+            networkId: [4]
         },
-        { nodeUri: 'http://localhost:8545', networkName: 'spree', networkId: 8996 },
+        {
+            nodeUri: 'http://localhost:8545',
+            networkName: ['spree', 'polygon-localnet'],
+            networkId: [8996, 8997]
+        },
         {
             nodeUri: 'https://matic-mumbai.chainstacklabs.com',
-            networkName: 'mumbai',
-            networkId: 80001
+            networkName: ['mumbai'],
+            networkId: [80001]
         },
         {
             nodeUri: 'https://alfajores-forno.celo-testnet.org',
-            networkName: 'celo-alfajores',
-            networkId: 44787
+            networkName: ['celo-alfajores'],
+            networkId: [44787]
         },
         {
             nodeUri: 'https://baklava-forno.celo-testnet.org',
-            networkName: 'celo-baklava',
-            networkId: 62320
+            networkName: ['celo-baklava'],
+            networkId: [62320]
         }
     ]
 
@@ -43,8 +47,8 @@ describe('Artifacts', () => {
             assert.isDefined(nvm)
             assert.isDefined(nvm.keeper)
             assert.isDefined(nvm.keeper.didRegistry)
-            assert.equal((await nvm.keeper.getNetworkName()).toLowerCase(), networkName)
-            assert.equal(await nvm.keeper.getNetworkId(), networkId)
+            assert.oneOf((await nvm.keeper.getNetworkName()).toLowerCase(), networkName)
+            assert.oneOf(await nvm.keeper.getNetworkId(), networkId)
         })
     })
 })
