@@ -1,4 +1,4 @@
-import ContractBase from '../ContractBase'
+import ContractBase, { TxParameters } from '../ContractBase'
 import { ConditionState } from '../conditions'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
@@ -25,15 +25,15 @@ export class ConditionStoreManager extends ContractBase {
         return templateStoreManeger
     }
 
-    public async createCondition(id: string, typeRef: string, from?: Account) {
+    public async createCondition(id: string, typeRef: string, from?: Account, params?: TxParameters) {
         return this.send('createCondition', from && from.getId(), [
             zeroX(id),
             zeroX(typeRef)
-        ])
+        ], params)
     }
 
-    public async delegateCreateRole(delegatee: string, owner: string) {
-        return this.send('delegateCreateRole', zeroX(owner), [zeroX(delegatee)])
+    public async delegateCreateRole(delegatee: string, owner: string, params?: TxParameters) {
+        return this.send('delegateCreateRole', zeroX(owner), [zeroX(delegatee)], params)
     }
 
     public async getCreateRole() {

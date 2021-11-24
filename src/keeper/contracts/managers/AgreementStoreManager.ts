@@ -1,4 +1,4 @@
-import ContractBase from '../ContractBase'
+import ContractBase, { TxParameters } from '../ContractBase'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -65,7 +65,8 @@ export class AgreementStoreManager extends ContractBase {
         conditionIds: string[],
         timeLocks: number[],
         timeOuts: number[],
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return this.send('createAgreement', from && from.getId(), [
             zeroX(agreementId),
@@ -74,6 +75,6 @@ export class AgreementStoreManager extends ContractBase {
             conditionIds,
             timeLocks,
             timeOuts
-        ])
+        ], params)
     }
 }

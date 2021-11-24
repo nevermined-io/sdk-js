@@ -1,4 +1,4 @@
-import ContractBase from '../ContractBase'
+import ContractBase, { TxParameters } from '../ContractBase'
 import { Condition, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
@@ -50,7 +50,8 @@ export abstract class AgreementTemplate extends ContractBase {
         timeLocks: number[],
         timeOuts: number[],
         extraArgs: any[],
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return this.sendFrom(
             'createAgreement',
@@ -62,7 +63,8 @@ export abstract class AgreementTemplate extends ContractBase {
                 timeOuts,
                 ...extraArgs
             ],
-            from
+            from,
+            params
         )
     }
 
