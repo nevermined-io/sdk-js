@@ -1,4 +1,4 @@
-import ContractBase from './ContractBase'
+import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
 import { abi } from './../../artifacts/ERC721.json'
@@ -24,12 +24,12 @@ export default class Nft721 extends ContractBase {
         return nft
     }
 
-    public async mint(did: string, from: string) {
-        return this.send('mint', from, [didZeroX(did)])
+    public async mint(did: string, from: string, params?: TxParameters) {
+        return this.send('mint', from, [didZeroX(did)], params)
     }
 
-    public async setApprovalForAll(target: string, state: boolean, from: string) {
-        return this.send('setApprovalForAll', from, [target, state])
+    public async setApprovalForAll(target: string, state: boolean, from: string, params?: TxParameters) {
+        return this.send('setApprovalForAll', from, [target, state], params)
     }
 
     public async balanceOf(owner: string) {

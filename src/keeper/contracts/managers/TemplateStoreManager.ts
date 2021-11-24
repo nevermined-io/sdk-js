@@ -1,4 +1,4 @@
-import ContractBase from '../ContractBase'
+import ContractBase, { TxParameters } from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -35,7 +35,8 @@ export class TemplateStoreManager extends ContractBase {
     public async proposeTemplate(
         address: string,
         from?: Account,
-        ignoreExists?: boolean
+        ignoreExists?: boolean,
+        params?: TxParameters
     ) {
         const template = await this.getTemplate(address)
         if (template.blockNumberUpdated !== 0) {
@@ -44,14 +45,15 @@ export class TemplateStoreManager extends ContractBase {
                 throw new Error('Template already exist.')
             }
         } else {
-            return this.sendFrom('proposeTemplate', [zeroX(address)], from)
+            return this.sendFrom('proposeTemplate', [zeroX(address)], from, params)
         }
     }
 
     public async approveTemplate(
         address: string,
         from?: Account,
-        ignoreApproved?: boolean
+        ignoreApproved?: boolean,
+        params?: TxParameters
     ) {
         const template = await this.getTemplate(address)
         if (template.state !== TemplateState.Proposed) {
@@ -60,12 +62,12 @@ export class TemplateStoreManager extends ContractBase {
                 throw new Error(`Template not in "proposed" state.`)
             }
         } else {
-            return this.sendFrom('approveTemplate', [zeroX(address)], from)
+            return this.sendFrom('approveTemplate', [zeroX(address)], from, params)
         }
     }
 
-    public revokeTemplate(address: string, from?: Account) {
-        return this.sendFrom('revokeTemplate', [zeroX(address)], from)
+    public revokeTemplate(address: string, from?: Account, params?: TxParameters) {
+        return this.sendFrom('revokeTemplate', [zeroX(address)], from, params)
     }
 
     public async getTemplate(templateId: string) {

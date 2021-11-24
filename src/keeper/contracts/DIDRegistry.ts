@@ -1,5 +1,5 @@
 import { TransactionReceipt } from 'web3-core'
-import ContractBase from './ContractBase'
+import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { randomBytes } from 'crypto'
@@ -105,14 +105,15 @@ export default class DIDRegistry extends ContractBase {
         checksum: string,
         providers: string[],
         value: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('registerAttribute', ownerAddress, [
             didZeroX(did),
             zeroX(checksum),
             providers.map(zeroX),
             value
-        ])
+        ], params)
     }
 
     public async registerDID(
@@ -122,7 +123,8 @@ export default class DIDRegistry extends ContractBase {
         value: string,
         activityId: string,
         attributes: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('registerDID', ownerAddress, [
             didZeroX(did),
@@ -131,7 +133,7 @@ export default class DIDRegistry extends ContractBase {
             value,
             zeroX(activityId),
             attributes
-        ])
+        ], params)
     }
 
     public async registerMintableDID(
@@ -143,7 +145,8 @@ export default class DIDRegistry extends ContractBase {
         attributes: string,
         cap: number,
         royalties: number,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('registerMintableDID', ownerAddress, [
             didZeroX(did),
@@ -154,7 +157,7 @@ export default class DIDRegistry extends ContractBase {
             String(royalties),
             zeroX(activityId),
             attributes
-        ])
+        ], params)
     }
 
     public async enableAndMintDidNft(
@@ -162,14 +165,15 @@ export default class DIDRegistry extends ContractBase {
         cap: number,
         royalties: number,
         preMint: boolean,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('enableAndMintDidNft', ownerAddress, [
             didZeroX(did),
             cap,
             royalties,
             preMint
-        ])
+        ], params)
     }
 
     public async getDIDOwner(did: string): Promise<string> {
@@ -215,11 +219,11 @@ export default class DIDRegistry extends ContractBase {
         )[0]
     }
 
-    public async grantPermission(did: string, grantee: string, ownerAddress: string) {
+    public async grantPermission(did: string, grantee: string, ownerAddress: string, params?: TxParameters) {
         return this.send('grantPermission', ownerAddress, [didZeroX(did), zeroX(grantee)])
     }
 
-    public async revokePermission(did: string, grantee: string, ownerAddress: string) {
+    public async revokePermission(did: string, grantee: string, ownerAddress: string, params?: TxParameters) {
         return this.send('revokePermission', ownerAddress, [zeroX(did), zeroX(grantee)])
     }
 
@@ -230,7 +234,8 @@ export default class DIDRegistry extends ContractBase {
     public async transferDIDOwnership(
         did: string,
         newOwnerAddress: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ): Promise<TransactionReceipt> {
         return this.send('transferDIDOwnership', ownerAddress, [
             didZeroX(did),
@@ -293,7 +298,8 @@ export default class DIDRegistry extends ContractBase {
         activityId: string,
         signatureUsing: string,
         attributes: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('used', ownerAddress, [
             zeroX(provId),
@@ -302,7 +308,7 @@ export default class DIDRegistry extends ContractBase {
             zeroX(activityId),
             zeroX(signatureUsing),
             attributes
-        ])
+        ], params)
     }
 
     public async wasDerivedFrom(
@@ -312,7 +318,8 @@ export default class DIDRegistry extends ContractBase {
         agentId: string,
         activityId: string,
         attributes: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('wasDerivedFrom', ownerAddress, [
             zeroX(provId),
@@ -321,7 +328,7 @@ export default class DIDRegistry extends ContractBase {
             zeroX(agentId),
             zeroX(activityId),
             attributes
-        ])
+        ], params)
     }
 
     public async wasAssociatedWith(
@@ -330,7 +337,8 @@ export default class DIDRegistry extends ContractBase {
         agentId: string,
         activityId: string,
         attributes: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('wasAssociatedWith', ownerAddress, [
             zeroX(provId),
@@ -338,7 +346,7 @@ export default class DIDRegistry extends ContractBase {
             zeroX(agentId),
             zeroX(activityId),
             attributes
-        ])
+        ], params)
     }
 
     public async actedOnBehalf(
@@ -349,7 +357,8 @@ export default class DIDRegistry extends ContractBase {
         activityId: string,
         signatureDelegate: string,
         attributes: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('actedOnBehalf', ownerAddress, [
             zeroX(provId),
@@ -359,29 +368,31 @@ export default class DIDRegistry extends ContractBase {
             zeroX(activityId),
             zeroX(signatureDelegate),
             attributes
-        ])
+        ], params)
     }
 
     public async addDidProvenanceDelegate(
         did: string,
         delegateAddress: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('addDIDProvenanceDelegate', ownerAddress, [
             didZeroX(did),
             zeroX(delegateAddress)
-        ])
+        ], params)
     }
 
     public async removeDidProvenanceDelegate(
         did: string,
         delegateAddress: string,
-        ownerAddress: string
+        ownerAddress: string,
+        params?: TxParameters
     ) {
         return this.send('removeDIDProvenanceDelegate', ownerAddress, [
             didZeroX(did),
             zeroX(delegateAddress)
-        ])
+        ], params)
     }
 
     public async isProvenanceDelegate(did: string, delegateAddress: string) {
@@ -392,37 +403,37 @@ export default class DIDRegistry extends ContractBase {
         return this.call('getProvenanceOwner', [didZeroX(did)])
     }
 
-    public async mint(did: string, amount: number, from: string) {
-        return this.send('mint', from, [didZeroX(did), amount])
+    public async mint(did: string, amount: number, from: string, params?: TxParameters) {
+        return this.send('mint', from, [didZeroX(did), amount], params)
     }
 
-    public async burn(did: string, amount: number, from: string) {
-        return this.send('burn', from, [didZeroX(did), amount])
+    public async burn(did: string, amount: number, from: string, params?: TxParameters) {
+        return this.send('burn', from, [didZeroX(did), amount], params)
     }
 
-    public async transferNft(did: string, to: string, amount: number, from: string) {
+    public async transferNft(did: string, to: string, amount: number, from: string, params?: TxParameters) {
         return this.send('safeTransferFrom', from, [
             from,
             to,
             didZeroX(did),
             amount,
             randomBytes(1)
-        ])
+        ], params)
     }
 
     public async balance(address: string, did: string): Promise<number> {
         return this.call('balanceOf', [zeroX(address), didZeroX(did)])
     }
 
-    public async addProvider(did: string, provider: string, from: string) {
-        return await this.send('addDIDProvider', from, [didZeroX(did), zeroX(provider)])
+    public async addProvider(did: string, provider: string, from: string, params?: TxParameters) {
+        return await this.send('addDIDProvider', from, [didZeroX(did), zeroX(provider)], params)
     }
 
-    public async removeProvider(did: string, provider: string, from: string) {
+    public async removeProvider(did: string, provider: string, from: string, params?: TxParameters) {
         return await this.send('removeDIDProvider', from, [
             didZeroX(did),
             zeroX(provider)
-        ])
+        ], params)
     }
 
     public async getProviders(did: string) {
@@ -430,12 +441,12 @@ export default class DIDRegistry extends ContractBase {
         return registeredValues[5].filter((x: string) => x != ZeroAddress)
     }
 
-    public async setApprovalForAll(operator: string, approved: boolean, from: string) {
-        return await this.send('setApprovalForAll', from, [zeroX(operator), approved])
+    public async setApprovalForAll(operator: string, approved: boolean, from: string, params?: TxParameters) {
+        return await this.send('setApprovalForAll', from, [zeroX(operator), approved], params)
     }
 
-    public async setProxyApproval(operator: string, approved: boolean, from: string) {
-        return await this.send('setProxyApproval', from, [zeroX(operator), approved])
+    public async setProxyApproval(operator: string, approved: boolean, from: string, params?: TxParameters) {
+        return await this.send('setProxyApproval', from, [zeroX(operator), approved], params)
     }
 
     public async getDIDRegister(did: string) {
@@ -446,7 +457,7 @@ export default class DIDRegistry extends ContractBase {
         return this.call('hashDID', [didZeroX(didSeed), zeroX(creator)])
     }
 
-    public async setManager(manager: string, from: string) {
-        return await this.send('setManager', from, [zeroX(manager)])
+    public async setManager(manager: string, from: string, params?: TxParameters) {
+        return await this.send('setManager', from, [zeroX(manager)], params)
     }
 }

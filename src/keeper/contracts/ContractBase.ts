@@ -5,6 +5,12 @@ import ContractHandler from '../ContractHandler'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
 
+export interface TxParameters {
+    value?: string
+    gas?: number
+    gasMultiplier?: number
+}
+
 export abstract class ContractBase extends Instantiable {
     protected static instance = null
 
@@ -81,7 +87,7 @@ export abstract class ContractBase extends Instantiable {
         name: string,
         args: any[],
         from?: Account,
-        value?: string
+        value?: TxParameters
     ): Promise<TransactionReceipt> {
         const fromAddress = await this.getFromAddress(from && from.getId())
         const receipt = await this.send(name, fromAddress, args, value)
@@ -101,7 +107,7 @@ export abstract class ContractBase extends Instantiable {
         name: string,
         from: string,
         args: any[],
-        value?: string
+        params: TxParameters = {}
     ): Promise<TransactionReceipt> {
         if (!this.contract.methods[name]) {
             throw new Error(
@@ -110,17 +116,23 @@ export abstract class ContractBase extends Instantiable {
         }
 
         const method = this.contract.methods[name]
+        const value = params.value
         try {
             const tx = method(...args)
-            let gas = await tx.estimateGas(args, {
-                from,
-                value
-            })
+            let gas = params.gas
+            if (!gas) {
+                gas = await tx.estimateGas(args, {
+                    from,
+                    value
+                })
+                if (value) gas += 21500
 
-            if (value) gas += 21500
-
-            if (this.config && this.config.gasMultiplier) {
-                gas = Math.floor(gas*this.config.gasMultiplier)
+                if (params.gasMultiplier) {
+                    gas = Math.floor(gas*params.gasMultiplier)
+                } else if (this.config && this.config.gasMultiplier) {
+                    gas = Math.floor(gas*this.config.gasMultiplier)
+                }
+    
             }
 
             const chainId = await this.web3.eth.net.getId()

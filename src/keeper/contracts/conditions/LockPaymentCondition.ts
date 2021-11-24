@@ -2,6 +2,7 @@ import { Condition } from './Condition.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
 
 export class LockPaymentCondition extends Condition {
     public static async getInstance(
@@ -35,7 +36,7 @@ export class LockPaymentCondition extends Condition {
         amounts: number[],
         receivers: string[],
         from?: Account,
-        value?: string
+        value?: TxParameters
     ) {
         const amountsString = amounts.map(v => String(v))
         return super.fulfill(
