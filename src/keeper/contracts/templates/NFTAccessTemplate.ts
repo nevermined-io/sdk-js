@@ -22,7 +22,7 @@ export class NFTAccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        holderAddress: string,
+        holderAddress: Account,
         nftAmount?: number,
         from?: Account
     ): Promise<boolean> {
@@ -33,7 +33,7 @@ export class NFTAccessTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
-            holderAddress,
+            holderAddress.getId(),
             nftAmount
         )
 
@@ -43,7 +43,7 @@ export class NFTAccessTemplate extends BaseTemplate {
             [nftHolderConditionId, nftAccessConditionId],
             [0, 0],
             [0, 0],
-            holderAddress,
+            holderAddress.getId(),
             from
         ))
     }

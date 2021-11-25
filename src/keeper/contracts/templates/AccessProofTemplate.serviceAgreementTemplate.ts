@@ -1,7 +1,7 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 
 export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
-    contractName: 'AccessTemplate',
+    contractName: 'AccessProofTemplate',
     events: [
         {
             name: 'AgreementCreated',

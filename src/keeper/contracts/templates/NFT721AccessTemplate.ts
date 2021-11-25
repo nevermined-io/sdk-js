@@ -24,7 +24,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        holderAddress: string,
+        holderAddress: Account,
         from?: Account
     ): Promise<boolean> {
         const [
@@ -34,7 +34,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
-            holderAddress
+            holderAddress.getId()
         )
         return !!(await this.createAgreement(
             agreementId,
@@ -42,7 +42,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
             [nftHolderConditionId, nftAccessConditionId],
             [0, 0],
             [0, 0],
-            holderAddress,
+            holderAddress.getId(),
             from
         ))
     }

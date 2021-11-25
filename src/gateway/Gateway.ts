@@ -36,6 +36,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/access`
     }
 
+    public getAccessProofEndpoint() {
+        return `${this.url}${apiPath}/access-proof`
+    }
+
     public getComputeLogsEndpoint(serviceAgreementId: string, executionId: string) {
         return `${this.url}${apiPath}/compute/logs/${serviceAgreementId}/${executionId}`
     }
@@ -171,6 +175,45 @@ export class Gateway extends Instantiable {
             })
         await Promise.all(filesPromises)
         return destination
+    }
+
+    public async consumeProofService(
+        did: string,
+        agreementId: string,
+        serviceEndpoint: string,
+        account: Account,
+        files: MetaDataFile[],
+    ): Promise<string> {
+        const { jwt } = this.nevermined.utils
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, did)
+
+        if (!jwt.tokenCache.has(cacheKey)) {
+            const grantToken = await jwt.generateAccessGrantToken(
+                account,
+                agreementId,
+                did
+            )
+            accessToken = await this.fetchToken(grantToken)
+            jwt.tokenCache.set(cacheKey, accessToken)
+        } else {
+            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        }
+        const headers = {
+            Authorization: 'Bearer ' + accessToken
+        }
+
+        const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/0`
+        try {
+            return await this.nevermined.utils.fetch.downloadUrl(
+                consumeUrl,
+                headers
+            )
+        } catch (e) {
+            this.logger.error('Error consuming assets')
+            this.logger.error(e)
+            throw e
+        }
     }
 
     public async secretStoreEncrypt(

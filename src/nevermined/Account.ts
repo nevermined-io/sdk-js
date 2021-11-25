@@ -11,6 +11,9 @@ export default class Account extends Instantiable {
 
     private token?: string
 
+    public babyX?: string
+    public babyY?: string
+
     constructor(private id: string = '0x0', config?: InstantiableConfig) {
         super()
         if (config) {

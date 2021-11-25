@@ -8,6 +8,9 @@ import { accessTemplateServiceAgreementTemplate } from './AccessProofTemplate.se
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
+import KeyTransfer from '../../../utils/KeyTransfer'
+
+const keytransfer = new KeyTransfer()
 
 export class AccessProofTemplate extends BaseTemplate {
     public static async getInstance(
@@ -29,17 +32,20 @@ export class AccessProofTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
-        hash: string,
-        buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey,
+        consumer: Account,
         from?: Account
     ) {
+        console.log(ddo)
+        let service = ddo.findServiceByType('access-proof')
+        console.log(service)
+        let {_hash, _providerPublicKey} = service.attributes.main
+        let buyerPub: BabyjubPublicKey = keytransfer.makePublic(consumer.babyX, consumer.babyY)
+        let providerPub: BabyjubPublicKey = keytransfer.makePublic(_providerPublicKey[0], _providerPublicKey[1])
         return !!(await this.createFullAgreement(
             ddo,
             assetRewards,
-            consumer,
-            hash,
+            consumer.getId(),
+            _hash,
             buyerPub,
             providerPub,
             agreementId,
@@ -131,10 +137,11 @@ export class AccessProofTemplate extends BaseTemplate {
             escrowPaymentCondition
         } = conditions
 
-        const accessService = ddo.findServiceByType('access')
+        const accessService = ddo.findServiceByType('access-proof')
 
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
+        console.log('payment', payment)
 
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
@@ -145,6 +152,7 @@ export class AccessProofTemplate extends BaseTemplate {
             assetRewards.getReceivers()
         )
 
+        console.log('hashing', agreementId, hash, buyerPub, providerPub)
         const accessConditionId = await accessProofCondition.generateIdHash(
             agreementId,
             hash,
