@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ServiceAccess | @nevermined-io/nevermined-sdk-js</title>
+	<title>ServiceAccessProof | @nevermined-io/nevermined-sdk-js</title>
 	<meta name="description" content="Documentation for @nevermined-io/nevermined-sdk-js">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -58,10 +58,10 @@
 					<a href="../modules/ddo_service.html">ddo/Service</a>
 				</li>
 				<li>
-					<a href="ddo_service.serviceaccess.html">ServiceAccess</a>
+					<a href="ddo_service.serviceaccessproof.html">ServiceAccessProof</a>
 				</li>
 			</ul>
-			<h1>Interface ServiceAccess</h1>
+			<h1>Interface ServiceAccessProof</h1>
 		</div>
 	</div>
 </header>
@@ -75,7 +75,7 @@
 						<a href="ddo_service.servicecommon.html" class="tsd-signature-type" data-tsd-kind="Interface">ServiceCommon</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">ServiceAccess</span>
+								<span class="target">ServiceAccessProof</span>
 							</li>
 						</ul>
 					</li>
@@ -88,11 +88,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="ddo_service.serviceaccess.html#attributes" class="tsd-kind-icon">attributes</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ddo_service.serviceaccess.html#index" class="tsd-kind-icon">index</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ddo_service.serviceaccess.html#serviceendpoint" class="tsd-kind-icon">service<wbr>Endpoint</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="ddo_service.serviceaccess.html#templateid" class="tsd-kind-icon">template<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="ddo_service.serviceaccess.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="ddo_service.serviceaccessproof.html#attributes" class="tsd-kind-icon">attributes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ddo_service.serviceaccessproof.html#index" class="tsd-kind-icon">index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ddo_service.serviceaccessproof.html#serviceendpoint" class="tsd-kind-icon">service<wbr>Endpoint</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="ddo_service.serviceaccessproof.html#templateid" class="tsd-kind-icon">template<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="ddo_service.serviceaccessproof.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,11 +103,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="attributes" class="tsd-anchor"></a>
 					<h3>attributes</h3>
-					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>additionalInformation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>main<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>datePublished<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>serviceAgreementTemplate<span class="tsd-signature-symbol">?: </span><a href="ddo_serviceagreementtemplate.serviceagreementtemplate.html" class="tsd-signature-type" data-tsd-kind="Interface">ServiceAgreementTemplate</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>additionalInformation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>main<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>_hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>_providerPub<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>datePublished<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>serviceAgreementTemplate<span class="tsd-signature-symbol">?: </span><a href="ddo_serviceagreementtemplate.serviceagreementtemplate.html" class="tsd-signature-type" data-tsd-kind="Interface">ServiceAgreementTemplate</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="ddo_service.servicecommon.html">ServiceCommon</a>.<a href="ddo_service.servicecommon.html#attributes">attributes</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/nevermined-io/sdk-js/blob/e8ad953/src/ddo/Service.ts#L41">src/ddo/Service.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/nevermined-io/sdk-js/blob/e8ad953/src/ddo/Service.ts#L59">src/ddo/Service.ts:59</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -122,8 +122,14 @@
 								</ul>
 							</li>
 							<li class="tsd-parameter">
-								<h5>main<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>datePublished<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+								<h5>main<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>_hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>_providerPub<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>datePublished<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>timeout<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
 								<ul class="tsd-parameters">
+									<li class="tsd-parameter">
+										<h5>_hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+									</li>
+									<li class="tsd-parameter">
+										<h5>_provider<wbr>Pub<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span></h5>
+									</li>
 									<li class="tsd-parameter">
 										<h5>creator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 									</li>
@@ -176,18 +182,18 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="ddo_service.servicecommon.html">ServiceCommon</a>.<a href="ddo_service.servicecommon.html#templateid">templateId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/nevermined-io/sdk-js/blob/e8ad953/src/ddo/Service.ts#L40">src/ddo/Service.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/nevermined-io/sdk-js/blob/e8ad953/src/ddo/Service.ts#L58">src/ddo/Service.ts:58</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="type" class="tsd-anchor"></a>
 					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;access&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;access-proof&quot;</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="ddo_service.servicecommon.html">ServiceCommon</a>.<a href="ddo_service.servicecommon.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/nevermined-io/sdk-js/blob/e8ad953/src/ddo/Service.ts#L39">src/ddo/Service.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/nevermined-io/sdk-js/blob/e8ad953/src/ddo/Service.ts#L57">src/ddo/Service.ts:57</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,33 +212,33 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="ddo_service.serviceaccess.html" class="tsd-kind-icon">Service<wbr>Access</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="ddo_service.serviceaccess.html" class="tsd-kind-icon">Service<wbr>Access</a>
+						<a href="ddo_service.serviceaccessproof.html" class="tsd-kind-icon">Service<wbr>Access<wbr>Proof</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="ddo_service.serviceaccess.html#attributes" class="tsd-kind-icon">attributes</a>
+								<a href="ddo_service.serviceaccessproof.html#attributes" class="tsd-kind-icon">attributes</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="ddo_service.serviceaccess.html#index" class="tsd-kind-icon">index</a>
+								<a href="ddo_service.serviceaccessproof.html#index" class="tsd-kind-icon">index</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="ddo_service.serviceaccess.html#serviceendpoint" class="tsd-kind-icon">service<wbr>Endpoint</a>
+								<a href="ddo_service.serviceaccessproof.html#serviceendpoint" class="tsd-kind-icon">service<wbr>Endpoint</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="ddo_service.serviceaccess.html#templateid" class="tsd-kind-icon">template<wbr>Id</a>
+								<a href="ddo_service.serviceaccessproof.html#templateid" class="tsd-kind-icon">template<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-								<a href="ddo_service.serviceaccess.html#type" class="tsd-kind-icon">type</a>
+								<a href="ddo_service.serviceaccessproof.html#type" class="tsd-kind-icon">type</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="ddo_service.serviceaccessproof.html" class="tsd-kind-icon">Service<wbr>Access<wbr>Proof</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="ddo_service.serviceauthorization.html" class="tsd-kind-icon">Service<wbr>Authorization</a>
 					</li>
