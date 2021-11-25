@@ -121,10 +121,7 @@ export class WebServiceConnector extends Instantiable {
         return d
     }
 
-    public async downloadUrl(
-        url: string,
-        headers?: any
-    ): Promise<string> {
+    public async downloadUrl(url: string, headers?: any): Promise<string> {
         const response = await this.get(url, headers)
         if (!response.ok) {
             throw new Error('Response error.')

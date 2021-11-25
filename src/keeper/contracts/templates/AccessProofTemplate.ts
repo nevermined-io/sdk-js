@@ -35,10 +35,16 @@ export class AccessProofTemplate extends BaseTemplate {
         consumer: Account,
         from?: Account
     ) {
-        let service = ddo.findServiceByType('access-proof')
-        let {_hash, _providerPub} = service.attributes.main
-        let buyerPub: BabyjubPublicKey = keytransfer.makePublic(consumer.babyX, consumer.babyY)
-        let providerPub: BabyjubPublicKey = keytransfer.makePublic(_providerPub[0], _providerPub[1])
+        const service = ddo.findServiceByType('access-proof')
+        const { _hash, _providerPub } = service.attributes.main
+        const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
+            consumer.babyX,
+            consumer.babyY
+        )
+        const providerPub: BabyjubPublicKey = keytransfer.makePublic(
+            _providerPub[0],
+            _providerPub[1]
+        )
         return !!(await this.createFullAgreement(
             ddo,
             assetRewards,

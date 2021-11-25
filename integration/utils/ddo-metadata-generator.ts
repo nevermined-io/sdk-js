@@ -49,7 +49,11 @@ const metadata: Partial<MetaData> = {
     }
 }
 
-export function getMetadataForDTP(name: string, passwd: string, providerKey: any): MetaData {
+export function getMetadataForDTP(
+    name: string,
+    passwd: string,
+    providerKey: any
+): MetaData {
     return {
         main: {
             name,

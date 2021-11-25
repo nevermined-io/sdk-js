@@ -25,14 +25,25 @@ export class ConditionStoreManager extends ContractBase {
         return templateStoreManeger
     }
 
-    public async createCondition(id: string, typeRef: string, from?: Account, params?: TxParameters) {
-        return this.send('createCondition', from && from.getId(), [
-            zeroX(id),
-            zeroX(typeRef)
-        ], params)
+    public async createCondition(
+        id: string,
+        typeRef: string,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'createCondition',
+            from && from.getId(),
+            [zeroX(id), zeroX(typeRef)],
+            params
+        )
     }
 
-    public async delegateCreateRole(delegatee: string, owner: string, params?: TxParameters) {
+    public async delegateCreateRole(
+        delegatee: string,
+        owner: string,
+        params?: TxParameters
+    ) {
         return this.send('delegateCreateRole', zeroX(owner), [zeroX(delegatee)], params)
     }
 

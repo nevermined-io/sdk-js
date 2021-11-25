@@ -931,7 +931,7 @@ export class Assets extends Instantiable {
     public async consumeProof(
         agreementId: string,
         did: string,
-        consumerAccount: Account,
+        consumerAccount: Account
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -945,12 +945,12 @@ export class Assets extends Instantiable {
         }
 
         return await this.nevermined.gateway.consumeProofService(
-                did,
-                agreementId,
-                serviceEndpoint,
-                consumerAccount,
-                files,
-            )
+            did,
+            agreementId,
+            serviceEndpoint,
+            consumerAccount,
+            files
+        )
     }
 
     /**
@@ -1350,8 +1350,8 @@ export class Assets extends Instantiable {
                     _hash: metadata.additionalInformation.poseidonHash,
                     _providerPub: [
                         metadata.additionalInformation.providerKey.x,
-                        metadata.additionalInformation.providerKey.y,
-                    ],
+                        metadata.additionalInformation.providerKey.y
+                    ]
                 },
                 serviceAgreementTemplate
             }

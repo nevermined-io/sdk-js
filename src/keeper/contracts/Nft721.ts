@@ -28,7 +28,12 @@ export default class Nft721 extends ContractBase {
         return this.send('mint', from, [didZeroX(did)], params)
     }
 
-    public async setApprovalForAll(target: string, state: boolean, from: string, params?: TxParameters) {
+    public async setApprovalForAll(
+        target: string,
+        state: boolean,
+        from: string,
+        params?: TxParameters
+    ) {
         return this.send('setApprovalForAll', from, [target, state], params)
     }
 

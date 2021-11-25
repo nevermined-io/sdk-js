@@ -182,7 +182,7 @@ export class Gateway extends Instantiable {
         agreementId: string,
         serviceEndpoint: string,
         account: Account,
-        files: MetaDataFile[],
+        files: MetaDataFile[]
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string
@@ -205,10 +205,7 @@ export class Gateway extends Instantiable {
 
         const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/0`
         try {
-            return await this.nevermined.utils.fetch.downloadUrl(
-                consumeUrl,
-                headers
-            )
+            return await this.nevermined.utils.fetch.downloadUrl(consumeUrl, headers)
         } catch (e) {
             this.logger.error('Error consuming assets')
             this.logger.error(e)

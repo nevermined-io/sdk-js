@@ -116,10 +116,10 @@ export abstract class ContractBase extends Instantiable {
         }
 
         const method = this.contract.methods[name]
-        const value = params.value
+        const { value } = params
         try {
             const tx = method(...args)
-            let gas = params.gas
+            let { gas } = params
             if (!gas) {
                 gas = await tx.estimateGas(args, {
                     from,
@@ -128,11 +128,10 @@ export abstract class ContractBase extends Instantiable {
                 if (value) gas += 21500
 
                 if (params.gasMultiplier) {
-                    gas = Math.floor(gas*params.gasMultiplier)
+                    gas = Math.floor(gas * params.gasMultiplier)
                 } else if (this.config && this.config.gasMultiplier) {
-                    gas = Math.floor(gas*this.config.gasMultiplier)
+                    gas = Math.floor(gas * this.config.gasMultiplier)
                 }
-    
             }
 
             const chainId = await this.web3.eth.net.getId()

@@ -103,13 +103,7 @@ export class Agreements extends Instantiable {
 
         await this.nevermined.keeper
             .getTemplateByName(templateName)
-            .createAgreementFromDDO(
-                agreementId,
-                ddo,
-                assetRewards,
-                consumer,
-                publisher
-            )
+            .createAgreementFromDDO(agreementId, ddo, assetRewards, consumer, publisher)
 
         return true
     }

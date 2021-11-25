@@ -4,7 +4,6 @@ import Balance from '../models/Balance'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import KeyTransfer from '../utils/KeyTransfer'
 
-
 const keytransfer = new KeyTransfer()
 
 /**
