@@ -2,6 +2,10 @@ import BigNumber from 'bignumber.js'
 import Balance from '../models/Balance'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import KeyTransfer from '../utils/KeyTransfer'
+
+
+const keytransfer = new KeyTransfer()
 
 /**
  * Account information.
@@ -13,6 +17,7 @@ export default class Account extends Instantiable {
 
     public babyX?: string
     public babyY?: string
+    public babySecret?: string
 
     constructor(private id: string = '0x0', config?: InstantiableConfig) {
         super()
@@ -27,6 +32,14 @@ export default class Account extends Instantiable {
 
     public setId(id) {
         this.id = id
+    }
+
+    public getPublic() {
+        return this.babyX.substr(2) + this.babyY.substr(2)
+    }
+
+    public signBabyjub(num: BigInt) {
+        return keytransfer.signBabyjub(this.babySecret, num)
     }
 
     /**

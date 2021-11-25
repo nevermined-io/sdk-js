@@ -189,7 +189,7 @@ export class Gateway extends Instantiable {
         const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, did)
 
         if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateAccessGrantToken(
+            const grantToken = await jwt.generateAccessProofToken(
                 account,
                 agreementId,
                 did

@@ -19,13 +19,18 @@ describe('Consume Asset (Gateway)', () => {
         y: '0x0b932f02e59f90cdd761d9d5e7c15c8e620efce4ce018bf54015d68d9cb35561',
     }
 
-    let metadata = getMetadataForDTP('foo' + Math.random(), '0123254678901232546789012325467890123254678901232546789', providerKey)
+    let origPasswd = '0123254678901232546789012325467890123254678901232546789f'
+
+    let metadata = getMetadataForDTP('foo' + Math.random(), origPasswd, providerKey)
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
+        consumer.babyX = '0x0d7cdd240c2f5b0640839c49fbaaf016a8c5571b8f592e2b62ea939063545981'
+        consumer.babyY = '0x14b14fa0a30ec744dde9f32d519c65ebaa749bfe991a32deea44b83a4e5c65bb'
+        consumer.babySecret = 'abd'
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
@@ -80,6 +85,7 @@ describe('Consume Asset (Gateway)', () => {
             ddo.id,
             consumer,
         )
+        assert.deepEqual(passwd, origPasswd)
 
     })
 })

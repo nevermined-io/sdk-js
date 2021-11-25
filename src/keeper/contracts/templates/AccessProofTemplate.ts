@@ -35,12 +35,10 @@ export class AccessProofTemplate extends BaseTemplate {
         consumer: Account,
         from?: Account
     ) {
-        console.log(ddo)
         let service = ddo.findServiceByType('access-proof')
-        console.log(service)
-        let {_hash, _providerPublicKey} = service.attributes.main
+        let {_hash, _providerPub} = service.attributes.main
         let buyerPub: BabyjubPublicKey = keytransfer.makePublic(consumer.babyX, consumer.babyY)
-        let providerPub: BabyjubPublicKey = keytransfer.makePublic(_providerPublicKey[0], _providerPublicKey[1])
+        let providerPub: BabyjubPublicKey = keytransfer.makePublic(_providerPub[0], _providerPub[1])
         return !!(await this.createFullAgreement(
             ddo,
             assetRewards,
@@ -141,7 +139,6 @@ export class AccessProofTemplate extends BaseTemplate {
 
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
-        console.log('payment', payment)
 
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
@@ -152,7 +149,6 @@ export class AccessProofTemplate extends BaseTemplate {
             assetRewards.getReceivers()
         )
 
-        console.log('hashing', agreementId, hash, buyerPub, providerPub)
         const accessConditionId = await accessProofCondition.generateIdHash(
             agreementId,
             hash,

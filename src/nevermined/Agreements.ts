@@ -96,13 +96,11 @@ export class Agreements extends Instantiable {
         publisher: Account
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
-        console.log('ddo', ddo.service[2].attributes)
 
         const templateName = ddo.findServiceByType(serviceType).attributes
             .serviceAgreementTemplate.contractName
         const assetRewards = getAssetRewardsFromDDOByService(ddo, serviceType)
 
-        console.log('templ name', templateName)
         await this.nevermined.keeper
             .getTemplateByName(templateName)
             .createAgreementFromDDO(

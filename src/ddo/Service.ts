@@ -64,7 +64,7 @@ export interface ServiceAccessProof extends ServiceCommon {
             price: string
             timeout: number
             _hash: string
-            _providerPublicKey: [string, string]
+            _providerPub: [string, string]
         }
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {

@@ -101,8 +101,6 @@ export class AccessTemplate extends BaseTemplate {
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        console.log('payme', payment)
-
         const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
             agreementId,
             ddo.shortId(),

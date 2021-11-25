@@ -971,7 +971,6 @@ export class Assets extends Instantiable {
 
             const agreementId = zeroX(generateId())
             const ddo = await this.resolve(did)
-            console.log(ddo)
 
             const { keeper } = this.nevermined
             const service = ddo.findServiceByType(serviceType)
@@ -1349,7 +1348,7 @@ export class Assets extends Instantiable {
                     name: 'dataAssetAccessProofServiceAgreement',
                     timeout: 3600,
                     _hash: metadata.additionalInformation.poseidonHash,
-                    _providerPublicKey: [
+                    _providerPub: [
                         metadata.additionalInformation.providerKey.x,
                         metadata.additionalInformation.providerKey.y,
                     ],
