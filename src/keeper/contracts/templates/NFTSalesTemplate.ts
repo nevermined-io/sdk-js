@@ -94,6 +94,12 @@ export class NFTSalesTemplate extends BaseTemplate {
                 lockPaymentConditionId
             )
         )
+        console.log(agreementId)
+        console.log(ddo.shortId())
+        console.log(nftHolder)
+        console.log(consumer)
+        console.log(nftAmount)
+        console.log(lockPaymentConditionId)
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')

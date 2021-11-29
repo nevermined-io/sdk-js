@@ -39,6 +39,7 @@ import { objectPromiseAll } from '../utils'
 import { EventHandler } from './EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 
 /**
  * Interface with Nevermined contracts.
@@ -95,7 +96,8 @@ export class Keeper extends Instantiable {
                 nft721AccessTemplate: NFT721AccessTemplate.getInstance(config),
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
-                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config)
+                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
+                nftUpgradeable: NFTUpgradeable.getInstance(config)
             })
 
             keeper.connected = true
@@ -125,6 +127,7 @@ export class Keeper extends Instantiable {
         keeper.dispenser = keeper.instances.dispenser
         keeper.token = keeper.instances.token
         keeper.didRegistry = keeper.instances.didRegistry
+        keeper.nftUpgradeable = keeper.instances.nftUpgradeable
         // Managers
         keeper.templateStoreManager = keeper.instances.templateStoreManager
         keeper.agreementStoreManager = keeper.instances.agreementStoreManager
@@ -187,6 +190,12 @@ export class Keeper extends Instantiable {
      * @type {DIDRegistry}
      */
     public didRegistry: DIDRegistry
+
+    /**
+     * NFT upgradeable smart contract instance.
+     * @type {NFTUpgradeable}
+     */
+    public nftUpgradeable: NFTUpgradeable
 
     /**
      * Template store manager smart contract instance.
