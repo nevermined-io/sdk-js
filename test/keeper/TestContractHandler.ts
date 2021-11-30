@@ -78,7 +78,9 @@ export default abstract class TestContractHandler extends ContractHandler {
             }
         )
 
-        await erc1155.methods.addMinter(didRegistry.options.address).send({from: deployerAddress})
+        await erc1155.methods
+            .addMinter(didRegistry.options.address)
+            .send({ from: deployerAddress })
 
         // Managers
         const templateStoreManager = await TestContractHandler.deployContract(
@@ -353,11 +355,13 @@ export default abstract class TestContractHandler extends ContractHandler {
         bytecode: string,
         tokens: { [name: string]: string }
     ): string {
-        let res = Object.entries(tokens).reduce(
+        return Object.entries(tokens).reduce(
             (acc, [_token, address]) =>
-                acc.replace(new RegExp(`__\\$[0-9a-f]*\\$__`, 'g'), address.substr(2).toLowerCase()),
+                acc.replace(
+                    new RegExp(`__\\$[0-9a-f]*\\$__`, 'g'),
+                    address.substr(2).toLowerCase()
+                ),
             bytecode
         )
-        return res
     }
 }

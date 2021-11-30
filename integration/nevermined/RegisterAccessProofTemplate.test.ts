@@ -267,7 +267,7 @@ describe('Register Escrow Access Proof Template', () => {
         })
     })
 
-    describe.only('Short flow', () => {
+    describe('Short flow', () => {
         let agreementId: string
         let ddo: DDO
 
@@ -281,16 +281,22 @@ describe('Register Escrow Access Proof Template', () => {
             x: '0x2e3133fbdaeb5486b665ba78c0e7e749700a5c32b1998ae14f7d1532972602bb',
             y: '0x0b932f02e59f90cdd761d9d5e7c15c8e620efce4ce018bf54015d68d9cb35561'
         }
-    
+
         const origPasswd = 'passwd_32_letters_1234567890asdf'
         const data = Buffer.from(origPasswd)
-    
-        let metadata = getMetadataForDTP('foo' + Math.random(), data.toString('hex'), providerKey)
+
+        const metadata = getMetadataForDTP(
+            'foo' + Math.random(),
+            data.toString('hex'),
+            providerKey
+        )
         // let metadata = getMetadata()
         let hash: string
 
         before(async () => {
-            ddo = await nevermined.assets.create(metadata, publisher, undefined, ['access-proof'])
+            ddo = await nevermined.assets.create(metadata, publisher, undefined, [
+                'access-proof'
+            ])
             keyTransfer = new KeyTransfer()
             buyerK = keyTransfer.makeKey('abd')
             providerK = keyTransfer.makeKey('abc')
