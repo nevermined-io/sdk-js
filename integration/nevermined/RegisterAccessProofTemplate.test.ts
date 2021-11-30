@@ -5,7 +5,7 @@ import { config } from '../config'
 import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
-import { getMetadata, getMetadataForDTP } from '../utils'
+import { getMetadataForDTP } from '../utils'
 import {
     AccessProofCondition,
     EscrowPaymentCondition,
