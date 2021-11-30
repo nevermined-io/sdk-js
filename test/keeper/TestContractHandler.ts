@@ -50,6 +50,12 @@ export default abstract class TestContractHandler extends ContractHandler {
             [deployerAddress, deployerAddress]
         )
 
+        const erc1155 = await TestContractHandler.deployContract(
+            'NFTUpgradeable',
+            deployerAddress,
+            ['']
+        )
+
         const dispenser = await TestContractHandler.deployContract(
             'Dispenser',
             deployerAddress,
@@ -66,11 +72,13 @@ export default abstract class TestContractHandler extends ContractHandler {
         const didRegistry = await TestContractHandler.deployContract(
             'DIDRegistry',
             deployerAddress,
-            [deployerAddress],
+            [deployerAddress, erc1155.options.address, deployerAddress],
             {
                 DIDRegistryLibrary: didRegistryLibrary.options.address
             }
         )
+
+        await erc1155.methods.addMinter(didRegistry.options.address).send({from: deployerAddress})
 
         // Managers
         const templateStoreManager = await TestContractHandler.deployContract(
@@ -124,7 +132,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                didRegistry.options.address
+                erc1155.options.address
             ]
         )
 
@@ -171,8 +179,11 @@ export default abstract class TestContractHandler extends ContractHandler {
                 ZeroAddress
             ]
         )
-        await didRegistry.methods
+        await erc1155.methods
             .setProxyApproval(transferNftCondition.options.address, true)
+            .send({ from: deployerAddress })
+        await erc1155.methods
+            .setProxyApproval(didRegistry.options.address, true)
             .send({ from: deployerAddress })
 
         const transferDidOwnershipCondition = await TestContractHandler.deployContract(
@@ -342,10 +353,11 @@ export default abstract class TestContractHandler extends ContractHandler {
         bytecode: string,
         tokens: { [name: string]: string }
     ): string {
-        return Object.entries(tokens).reduce(
-            (acc, [token, address]) =>
-                acc.replace(new RegExp(`_+${token}_+`, 'g'), address.substr(2)),
+        let res = Object.entries(tokens).reduce(
+            (acc, [_token, address]) =>
+                acc.replace(new RegExp(`__\\$[0-9a-f]*\\$__`, 'g'), address.substr(2).toLowerCase()),
             bytecode
         )
+        return res
     }
 }

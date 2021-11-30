@@ -198,7 +198,7 @@ describe('NFTLockCondition', () => {
                     rewardAddress.getId(),
                     amount + 1
                 ),
-                /insufficient funds/
+                /insufficient balance/
             )
         })
 
