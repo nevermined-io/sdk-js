@@ -904,7 +904,7 @@ describe('NFTTemplates E2E', () => {
                     assetRewards2,
                     collector2,
                     numberNFTs2,
-                    collector1.getId()
+                    collector1
                 )
                 assert.isTrue(result)
 

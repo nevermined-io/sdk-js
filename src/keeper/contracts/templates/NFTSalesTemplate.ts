@@ -34,7 +34,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             assetRewards,
             consumer.getId(),
             nftAmount,
-            provider.getId()
+            provider === undefined ? undefined : provider.getId()
         )
         return !!(await this.createAgreement(
             agreementId,
