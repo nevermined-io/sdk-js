@@ -18,7 +18,7 @@ export class DIDSalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
+        consumer: Account,
         from?: Account
     ): Promise<boolean> {
         throw new Error('Not implemented')

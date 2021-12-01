@@ -21,13 +21,13 @@ export class AccessTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
+        consumer: Account,
         from?: Account
     ) {
         return !!(await this.createFullAgreement(
             ddo,
             assetRewards,
-            consumer,
+            consumer.getId(),
             agreementId,
             from
         ))

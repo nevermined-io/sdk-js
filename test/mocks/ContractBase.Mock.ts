@@ -9,7 +9,12 @@ export default class ContractBaseMock extends ContractBase {
         return this.call(name, args, from)
     }
 
-    public async sendMock(name: string, from: string, args: any[], params?: TxParameters) {
+    public async sendMock(
+        name: string,
+        from: string,
+        args: any[],
+        params?: TxParameters
+    ) {
         return this.send(name, from, args, params)
     }
 }

@@ -8,7 +8,11 @@ export default class Dispenser extends ContractBase {
         return dispenser
     }
 
-    public async requestTokens(amount: number | string, receiverAddress: string, params?: TxParameters) {
+    public async requestTokens(
+        amount: number | string,
+        receiverAddress: string,
+        params?: TxParameters
+    ) {
         return this.send('requestTokens', receiverAddress, [String(amount)], params)
     }
 }

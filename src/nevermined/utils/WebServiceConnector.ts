@@ -121,6 +121,14 @@ export class WebServiceConnector extends Instantiable {
         return d
     }
 
+    public async downloadUrl(url: string, headers?: any): Promise<string> {
+        const response = await this.get(url, headers)
+        if (!response.ok) {
+            throw new Error('Response error.')
+        }
+        return await response.text()
+    }
+
     public async uploadFile(url: string, stream: ReadStream): Promise<any> {
         const form = new FormData()
         form.append('file', stream)

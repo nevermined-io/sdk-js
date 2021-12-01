@@ -19,9 +19,9 @@ export class NFTSalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
+        consumer: Account,
         nftAmount?: number,
-        provider?: string,
+        provider?: Account,
         from?: Account
     ): Promise<boolean> {
         const [
@@ -32,9 +32,9 @@ export class NFTSalesTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
-            consumer,
+            consumer.getId(),
             nftAmount,
-            provider
+            provider === undefined ? undefined : provider.getId()
         )
         return !!(await this.createAgreement(
             agreementId,
@@ -42,7 +42,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             [lockPaymentConditionId, transferNftConditionId, escrowPaymentConditionId],
             [0, 0, 0],
             [0, 0, 0],
-            consumer,
+            consumer.getId(),
             from
         ))
     }

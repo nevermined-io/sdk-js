@@ -145,7 +145,7 @@ export class Nfts extends Instantiable {
             agreementId,
             ddo,
             assetRewards,
-            consumer.getId(),
+            consumer,
             nftAmount
         )
         if (!result) {
@@ -188,7 +188,7 @@ export class Nfts extends Instantiable {
             agreementId,
             ddo,
             assetRewards,
-            consumer.getId(),
+            consumer,
             consumer
         )
         if (!result) {

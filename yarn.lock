@@ -1164,6 +1164,25 @@
     "@ethersproject/properties" "^5.1.0"
     "@ethersproject/strings" "^5.1.0"
 
+"@gnosis.pm/safe-core-sdk-types@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-core-sdk-types/-/safe-core-sdk-types-0.1.1.tgz#908c394cb4660493b4e9c8e01b5a7aa36efafd30"
+  integrity sha512-PghXGDaI5Foq37nZGmI90U2OKMeGtxh5KqkDqou9aFHwGVa/nf9HRQPxG9/XUzcyfe9OlKttDlJnR3XnC3dSDw==
+
+"@gnosis.pm/safe-core-sdk@^1.0.0":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-core-sdk/-/safe-core-sdk-1.1.1.tgz#333b416c142358e43c099f5eb6136f0545f867cc"
+  integrity sha512-SApP5EnuIlX6p0RDzz0MHbSR4+Y203Ab6LE6B37IYJBVtQ//cVCWDZU59G7qgbw+eADQ+B9+6h5N7s1p2eO5hA==
+  dependencies:
+    "@gnosis.pm/safe-core-sdk-types" "^0.1.1"
+    "@gnosis.pm/safe-deployments" "^1.4.0"
+    ethereumjs-util "^7.1.3"
+
+"@gnosis.pm/safe-deployments@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-deployments/-/safe-deployments-1.4.0.tgz#d49d3d36cc014ef62306d09c0f4761895a17d7a6"
+  integrity sha512-q4salJNQ/Gx0DnZJytAFO/U4OwGI6xTGtTJSOZK+C9Fh2NW8sep+YfSunHQvCLcu4b7WgWEBhxnCV6rpyveLHg==
+
 "@iarna/toml@2.2.5", "@iarna/toml@^2.2.5":
   version "2.2.5"
   resolved "https://registry.npmjs.org/@iarna/toml/-/toml-2.2.5.tgz"
@@ -1182,10 +1201,13 @@
     fastfile "0.0.19"
     ffjavascript "^0.2.30"
 
-"@nevermined-io/contracts@^1.1.9":
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.1.9.tgz#0df4bfde9d4eab4e9b1a1eb470897103615482f1"
-  integrity sha512-s4DUeEG4dE2VeSzFQNJIjpCBrft7Z/Vcw1OWzxe3woOepatpp4A6o2qTLazdjhseuv9U6rEtI7eGW0U9Qhv4GA==
+"@nevermined-io/contracts@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.2.3.tgz#7bd1e451486bf38931178aa50f89c9229f21c897"
+  integrity sha512-Ulo/0t9clAIY49MlDwMN5b6ckVqLXmuPJcD85D9Aw8n0JTtHGHQS2wjO1k8P01MfR3VIhG/I7ERBja6edyfz7w==
+  dependencies:
+    "@gnosis.pm/safe-core-sdk" "^1.0.0"
+    "@gnosis.pm/safe-deployments" "^1.4.0"
 
 "@nevermined-io/secret-store-client@^0.0.16":
   version "0.0.16"

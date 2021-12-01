@@ -632,6 +632,7 @@ export class Assets extends Instantiable {
             } as Service)
 
             const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
+            const accessProofServiceAgreementTemplate = await templates.accessProofTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
 
             if (serviceTypes.includes('access')) {
@@ -643,6 +644,19 @@ export class Assets extends Instantiable {
                         publisher,
                         metadata,
                         accessServiceAgreementTemplate
+                    )
+                )
+            }
+
+            if (serviceTypes.includes('access-proof')) {
+                this.logger.log('Access proof service Added')
+                await ddo.addService(
+                    this.nevermined,
+                    this.createAccessProofService(
+                        templates,
+                        publisher,
+                        metadata,
+                        accessProofServiceAgreementTemplate
                     )
                 )
             }
@@ -690,6 +704,16 @@ export class Assets extends Instantiable {
                 const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
                 accessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                     accessTemplateConditions,
+                    ddo,
+                    assetRewards,
+                    erc20TokenAddress || this.nevermined.token.getAddress()
+                )
+            }
+
+            if (serviceTypes.includes('access-proof')) {
+                const templateConditions = await templates.accessProofTemplate.getServiceAgreementTemplateConditions()
+                accessProofServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    templateConditions,
                     ddo,
                     assetRewards,
                     erc20TokenAddress || this.nevermined.token.getAddress()
@@ -902,6 +926,31 @@ export class Assets extends Instantiable {
             return resultPath
         }
         return true
+    }
+
+    public async consumeProof(
+        agreementId: string,
+        did: string,
+        consumerAccount: Account
+    ): Promise<string | true> {
+        const ddo = await this.resolve(did)
+        const { attributes } = ddo.findServiceByType('metadata')
+        const { serviceEndpoint } = ddo.findServiceByType('access-proof')
+        const { files } = attributes.main
+
+        if (!serviceEndpoint) {
+            throw new Error(
+                'Consume asset failed, service definition is missing the `serviceEndpoint`.'
+            )
+        }
+
+        return await this.nevermined.gateway.consumeProofService(
+            did,
+            agreementId,
+            serviceEndpoint,
+            consumerAccount,
+            files
+        )
     }
 
     /**
@@ -1275,6 +1324,34 @@ export class Assets extends Instantiable {
                     datePublished: metadata.main.datePublished,
                     name: 'dataAssetAccessServiceAgreement',
                     timeout: 3600
+                },
+                serviceAgreementTemplate
+            }
+        } as Service
+    }
+
+    private createAccessProofService(
+        templates,
+        publisher,
+        metadata: MetaData,
+        serviceAgreementTemplate
+    ) {
+        return {
+            type: 'access-proof',
+            index: 10,
+            serviceEndpoint: this.nevermined.gateway.getAccessProofEndpoint(),
+            templateId: templates.accessProofTemplate.getAddress(),
+            attributes: {
+                main: {
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.datePublished,
+                    name: 'dataAssetAccessProofServiceAgreement',
+                    timeout: 3600,
+                    _hash: metadata.additionalInformation.poseidonHash,
+                    _providerPub: [
+                        metadata.additionalInformation.providerKey.x,
+                        metadata.additionalInformation.providerKey.y
+                    ]
                 },
                 serviceAgreementTemplate
             }

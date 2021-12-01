@@ -336,6 +336,13 @@ export interface AdditionalInformation {
     customData?: {
         [key: string]: any
     }
+
+    poseidonHash?: string
+
+    providerKey?: {
+        x: string
+        y: string
+    }
 }
 
 export interface MetaData {

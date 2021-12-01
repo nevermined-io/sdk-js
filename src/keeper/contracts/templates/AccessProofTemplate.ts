@@ -8,6 +8,9 @@ import { accessTemplateServiceAgreementTemplate } from './AccessProofTemplate.se
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
+import KeyTransfer from '../../../utils/KeyTransfer'
+
+const keytransfer = new KeyTransfer()
 
 export class AccessProofTemplate extends BaseTemplate {
     public static async getInstance(
@@ -29,17 +32,24 @@ export class AccessProofTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string,
-        hash: string,
-        buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey,
+        consumer: Account,
         from?: Account
     ) {
+        const service = ddo.findServiceByType('access-proof')
+        const { _hash, _providerPub } = service.attributes.main
+        const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
+            consumer.babyX,
+            consumer.babyY
+        )
+        const providerPub: BabyjubPublicKey = keytransfer.makePublic(
+            _providerPub[0],
+            _providerPub[1]
+        )
         return !!(await this.createFullAgreement(
             ddo,
             assetRewards,
-            consumer,
-            hash,
+            consumer.getId(),
+            _hash,
             buyerPub,
             providerPub,
             agreementId,
@@ -131,7 +141,7 @@ export class AccessProofTemplate extends BaseTemplate {
             escrowPaymentCondition
         } = conditions
 
-        const accessService = ddo.findServiceByType('access')
+        const accessService = ddo.findServiceByType('access-proof')
 
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')

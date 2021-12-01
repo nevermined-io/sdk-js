@@ -39,7 +39,12 @@ export abstract class Condition extends ContractBase {
 
     public fulfill(agreementId: string, ...args: any[])
 
-    public fulfill(agreementId: string, args: any[], from?: Account, params?: TxParameters) {
+    public fulfill(
+        agreementId: string,
+        args: any[],
+        from?: Account,
+        params?: TxParameters
+    ) {
         return this.sendFrom('fulfill', [zeroX(agreementId), ...args], from, params)
     }
 
