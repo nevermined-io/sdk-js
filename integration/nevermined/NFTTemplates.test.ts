@@ -1075,7 +1075,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId,
                     ddo,
                     assetRewards1,
-                    collector1.getId(),
+                    collector1,
                     numberNFTs
                 )
                 assert.isTrue(result)
