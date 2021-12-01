@@ -233,7 +233,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     assetRewards.getAmounts(),
                     assetRewards.getReceivers(),
                     collector1,
-                    String(assetRewards.getTotalPrice() - 1)
+                    {value: String(assetRewards.getTotalPrice() - 1)}
                 )
 
                 const { state } = await conditionStoreManager.getCondition(

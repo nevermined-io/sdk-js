@@ -16,7 +16,7 @@ function toHex(a) {
 function split(a: Buffer) {
     const str = a.toString('hex')
     const left = BigInt('0x' + str.substr(0, 32))
-    const right = BigInt('0x' + str.substr(32, 64))
+    const right = BigInt('0x' + str.substr(32, 32))
     return [left, right]
 }
 

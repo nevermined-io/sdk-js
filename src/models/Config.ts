@@ -66,6 +66,8 @@ export class Config {
     public parityUri?: string
 
     public threshold?: number
+
+    public gasMultiplier?: number
 }
 
 export default Config

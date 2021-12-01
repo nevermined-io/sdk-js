@@ -1,4 +1,4 @@
-import ContractBase from '../../src/keeper/contracts/ContractBase'
+import ContractBase, { TxParameters } from '../../src/keeper/contracts/ContractBase'
 
 export default class ContractBaseMock extends ContractBase {
     public async initMock(config: any) {
@@ -9,7 +9,7 @@ export default class ContractBaseMock extends ContractBase {
         return this.call(name, args, from)
     }
 
-    public async sendMock(name: string, from: string, args: any[]) {
-        return this.send(name, from, args)
+    public async sendMock(name: string, from: string, args: any[], params?: TxParameters) {
+        return this.send(name, from, args, params)
     }
 }

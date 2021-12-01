@@ -1,4 +1,4 @@
-import ContractBase from '../ContractBase'
+import ContractBase, { TxParameters } from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -43,10 +43,10 @@ export abstract class Condition extends ContractBase {
         agreementId: string,
         args: any[],
         from?: Account,
-        value?: string,
+        params?: TxParameters,
         method: string = 'fulfill'
     ) {
-        return this.sendFrom(method, [zeroX(agreementId), ...args], from, value)
+        return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
     }
 
     public async generateIdHash(agreementId: string, ...values: any[]) {
@@ -57,8 +57,8 @@ export abstract class Condition extends ContractBase {
         return this.call<string>('generateId', [zeroX(agreementId), valueHash])
     }
 
-    public abortByTimeOut(agreementId: string, from?: Account) {
-        return this.sendFrom('abortByTimeOut', [zeroX(agreementId)], from)
+    public abortByTimeOut(agreementId: string, from?: Account, params?: TxParameters) {
+        return this.sendFrom('abortByTimeOut', [zeroX(agreementId)], from, params)
     }
 
     public getConditionFulfilledEvent(agreementId: string) {

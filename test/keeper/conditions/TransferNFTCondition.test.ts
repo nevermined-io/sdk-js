@@ -233,7 +233,7 @@ describe('TransferNFTCondition', () => {
                 amounts,
                 receivers,
                 nftReceiver,
-                String(amounts[0])
+                {value: String(amounts[0])}
             )
 
             let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
