@@ -7,6 +7,7 @@ export type ServiceType =
     | 'authorization'
     | 'metadata'
     | 'access'
+    | 'access-proof'
     | 'compute'
     | 'workflow'
     | 'nft-access'
@@ -52,6 +53,26 @@ export interface ServiceAccess extends ServiceCommon {
     }
 }
 
+export interface ServiceAccessProof extends ServiceCommon {
+    type: 'access-proof'
+    templateId?: string
+    attributes: {
+        main: {
+            creator: string
+            name: string
+            datePublished: string
+            price: string
+            timeout: number
+            _hash: string
+            _providerPub: [string, string]
+        }
+        serviceAgreementTemplate?: ServiceAgreementTemplate
+        additionalInformation: {
+            description: string
+        }
+    }
+}
+
 export interface ServiceCompute extends ServiceCommon {
     type: 'compute'
     templateId?: string
@@ -80,6 +101,8 @@ export type Service<
     ? ServiceMetadata
     : T extends 'access'
     ? ServiceAccess
+    : T extends 'access-proof'
+    ? ServiceAccessProof
     : T extends 'compute'
     ? ServiceCompute
     : T extends 'default'

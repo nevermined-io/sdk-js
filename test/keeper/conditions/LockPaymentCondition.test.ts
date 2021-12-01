@@ -134,7 +134,7 @@ describe('LockPaymentCondition', () => {
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers(),
                 buyer,
-                {value: String(assetRewards.getTotalPrice())}
+                { value: String(assetRewards.getTotalPrice()) }
             )
 
             assert.match(conditionId, /^0x[a-f0-9]{64}$/i)
@@ -195,7 +195,7 @@ describe('LockPaymentCondition', () => {
                     assetRewards.getAmounts(),
                     assetRewards.getReceivers(),
                     buyer,
-                    {value: String(assetRewards.getTotalPrice() - 1)}
+                    { value: String(assetRewards.getTotalPrice() - 1) }
                 ),
                 /Transaction value does not match amount/
             )

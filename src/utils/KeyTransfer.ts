@@ -99,6 +99,23 @@ export default class KeyTransfer {
         return new BabyjubPublicKey(toHex(x), toHex(y))
     }
 
+    public signBabyjub(provider_secret, msg) {
+        let r = BigInt(this.makeKey(provider_secret + 'a'))
+        const { subOrder } = this.circomlib.babyJub
+        const base8 = this.circomlib.babyJub.Base8
+        const F = this.circomlib.babyJub.p
+        r = r % subOrder
+        const s = BigInt(this.makeKey(provider_secret))
+        const R8 = this.circomlib.babyJub.mulPointEscalar(base8, r)
+        const A = this.circomlib.babyJub.mulPointEscalar(base8, s)
+        const hm = this.circomlib.poseidon([R8[0], R8[1], A[0], A[1], msg % F])
+        const S = (r + hm * s) % subOrder
+        return {
+            R8: [toHex(R8[0]), toHex(R8[1])],
+            S: toHex(S)
+        }
+    }
+
     // generate hash from plain text key
     // Buffer should have 32 elems
     public hashKey(a: Buffer) {

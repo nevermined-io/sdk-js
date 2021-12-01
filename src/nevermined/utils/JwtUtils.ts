@@ -112,6 +112,26 @@ export class JwtUtils extends Instantiable {
             .ethSign(account, this.nevermined.utils.signature, this.web3)
     }
 
+    public async generateAccessProofToken(
+        account: Account,
+        serviceAgreementId: string,
+        did: string
+    ): Promise<string> {
+        return new EthSignJWT({
+            iss: account.getId(),
+            aud: this.BASE_AUD + '/access-proof',
+            sub: serviceAgreementId,
+            did: did,
+            babysig: account.signBabyjub(BigInt(account.getId())),
+            buyer: account.getPublic(),
+            eths: 'personal'
+        })
+            .setProtectedHeader({ alg: 'ES256K' })
+            .setIssuedAt()
+            .setExpirationTime('1h')
+            .ethSign(account, this.nevermined.utils.signature, this.web3)
+    }
+
     public async generateDownloadGrantToken(
         account: Account,
         did: string

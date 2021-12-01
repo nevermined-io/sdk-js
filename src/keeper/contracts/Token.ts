@@ -13,7 +13,12 @@ export default class Token extends ContractBase {
         return token
     }
 
-    public async approve(to: string, price: number | string, from?: Account, params?: TxParameters) {
+    public async approve(
+        to: string,
+        price: number | string,
+        from?: Account,
+        params?: TxParameters
+    ) {
         return this.sendFrom('approve', [to, String(price)], from, params)
     }
 
@@ -39,7 +44,12 @@ export default class Token extends ContractBase {
         return this.call('totalSupply', [])
     }
 
-    public async transfer(to: string, amount: number, from: string, params?: TxParameters) {
+    public async transfer(
+        to: string,
+        amount: number,
+        from: string,
+        params?: TxParameters
+    ) {
         return this.send('transfer', from, [to, amount], params)
     }
 }

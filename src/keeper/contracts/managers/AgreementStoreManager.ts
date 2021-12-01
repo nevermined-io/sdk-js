@@ -68,13 +68,18 @@ export class AgreementStoreManager extends ContractBase {
         from?: Account,
         params?: TxParameters
     ) {
-        return this.send('createAgreement', from && from.getId(), [
-            zeroX(agreementId),
-            didZeroX(did),
-            conditionTypes.map(zeroX),
-            conditionIds,
-            timeLocks,
-            timeOuts
-        ], params)
+        return this.send(
+            'createAgreement',
+            from && from.getId(),
+            [
+                zeroX(agreementId),
+                didZeroX(did),
+                conditionTypes.map(zeroX),
+                conditionIds,
+                timeLocks,
+                timeOuts
+            ],
+            params
+        )
     }
 }
