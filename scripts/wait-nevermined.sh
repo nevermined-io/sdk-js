@@ -26,13 +26,3 @@ printf '\e[32m✔ Found new contract artifacts.\e[0m\n'
 docker cp ${nevermined_keeper_docker_id}:/nevermined-contracts/artifacts/. node_modules/@nevermined-io/contracts/artifacts/
 
 printf '\e[32m✔ Copied new contract artifacts.\e[0m\n'
-
-for i in node_modules/@nevermined-io/contracts/artifacts/*.spree.json; do
-  echo $i
-  cp $i ${i%.spree.json}.development.json
-done
-
-cp node_modules/@nevermined-io/contracts/artifacts/EpochLibrary.mainnet.json node_modules/@nevermined-io/contracts/artifacts/EpochLibrary.development.json
-cp node_modules/@nevermined-io/contracts/artifacts/DIDRegistryLibrary.mainnet.json node_modules/@nevermined-io/contracts/artifacts/DIDRegistryLibrary.development.json
-
-ls node_modules/@nevermined-io/contracts/artifacts
