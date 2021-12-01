@@ -259,7 +259,7 @@ export class Nfts extends Instantiable {
         nftHolder: string,
         nftReceiver: string,
         nftAmount: number
-    ): Promise<string> {
+    ): Promise<boolean> {
         return await this.nevermined.gateway.nftTransferForDelegate(
             agreementId,
             nftHolder,

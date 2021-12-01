@@ -395,7 +395,7 @@ export class Gateway extends Instantiable {
         nftHolder: string,
         nftReceiver: string,
         nftAmount: number
-    ): Promise<any> {
+    ): Promise<boolean> {
         try {
             const response = await this.nevermined.utils.fetch.post(
                 this.getNftTransferForDelegateEndpoint(),
@@ -409,7 +409,7 @@ export class Gateway extends Instantiable {
             if (!response.ok) {
                 throw new Error(await response.text())
             }
-            return await response.text()
+            return true
         } catch (e) {
             this.logger.error(e)
             throw new Error(e)

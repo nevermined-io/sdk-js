@@ -206,17 +206,14 @@ describe('NFTs Api End-to-End', () => {
                 true,
                 artist
             )
-            console.log(result)
             assert.isDefined(result)
 
             result = await nevermined.nfts.setApprovalForAll(
-                Web3.utils.toChecksumAddress(config.gatewayAddress),
+                config.gatewayAddress,
                 true,
                 artist
             )
-            console.log(result)
             assert.isDefined(result)
-            console.log(Web3.utils.toChecksumAddress(config.gatewayAddress))
         })
         it('The artist creates and mints the nfts', async () => {
             ddo = await nevermined.nfts.create(
@@ -247,7 +244,7 @@ describe('NFTs Api End-to-End', () => {
                 collector1.getId(),
                 numberNFTs
             )
-            console.log(result)
+            assert.isTrue(result)
         })
 
         it('The gateway should fulfill the NFTHolder and NFTAccess conditions', async () => {
@@ -255,8 +252,7 @@ describe('NFTs Api End-to-End', () => {
                 ddo.id,
                 collector1,
                 '/tmp/',
-                undefined,
-                agreementId
+                undefined
             )
             assert.isTrue(result)
         })

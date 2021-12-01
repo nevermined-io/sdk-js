@@ -64,4 +64,41 @@ export class TransferNFTCondition extends Condition {
             from
         )
     }
+
+    /**
+     * Fulfill the transfer NFT condition.
+     *  Only DID owner or DID provider can call this method.
+     *
+     * @param {String} agreementId The agreement identifier.
+     * @param {String} did The DID of the asset with NFTs.
+     * @param {String} nftHolder The address of the account currently holding the NFT.
+     * @param {String} nftReceiver The address of the account to receive the NFT.
+     * @param {Number[]} nftAmount amount of NFTs to transfer.
+     * @param {String} lockPaymentCondition lock payment condition identifier.
+     * @param {String} from
+     * @returns Condition state.
+     */
+    public fulfillForDelegate(
+        agreementId: string,
+        did: string,
+        nftHolder: string,
+        nftReceiver: string,
+        nftAmount: number,
+        lockPaymentCondition: string,
+        from?: Account
+    ) {
+        return super.fulfill(
+            agreementId,
+            [
+                didZeroX(did),
+                zeroX(nftHolder),
+                zeroX(nftReceiver),
+                String(nftAmount),
+                lockPaymentCondition
+            ],
+            from,
+            undefined,
+            'fulfillForDelegate'
+        )
+    }
 }
