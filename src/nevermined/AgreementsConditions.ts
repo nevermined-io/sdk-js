@@ -597,6 +597,73 @@ export class AgreementsConditions extends Instantiable {
      * Transfers a certain amount of nfts after payment as been made.
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
+     * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
+     * @param {Number[]} amounts The expected that amounts that should have been payed.
+     * @param {String[]} receivers The addresses of the expected receivers of the payment.
+     * @param {Number} nftAmount The amount of nfts to transfer.
+     * @param from
+     * @returns {Boolean} True if the transfer is successfull
+     */
+    public async transferNftForDelegate(
+        agreementId: string,
+        ddo: DDO,
+        amounts: number[],
+        receivers: string[],
+        nftAmount: number,
+        from?: Account
+    ) {
+        const {
+            transferNftCondition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
+
+        const {
+            accessConsumer
+        } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
+            agreementId
+        )
+
+        const salesService = ddo.findServiceByType('nft-sales')
+
+        const payment = findServiceConditionByName(salesService, 'lockPayment')
+        if (!payment) throw new Error('Payment condition not found!')
+
+        const lockPaymentConditionId = await lockPaymentCondition.generateId(
+            agreementId,
+            await lockPaymentCondition.hashValues(
+                ddo.shortId(),
+                escrowPaymentCondition.getAddress(),
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+                amounts,
+                receivers
+            )
+        )
+
+        const transfer = findServiceConditionByName(salesService, 'transferNFT')
+        const nftHolder = transfer.parameters.find(p => p.name === '_nftHolder')
+            .value as string
+
+        this.logger.debug('Access consumer:', accessConsumer)
+        this.logger.debug('nftHolder:', nftHolder)
+
+        const receipt = await transferNftCondition.fulfillForDelegate(
+            agreementId,
+            ddo.shortId(),
+            nftHolder,
+            accessConsumer,
+            nftAmount,
+            lockPaymentConditionId,
+            from
+        )
+
+        return !!receipt.events.Fulfilled
+    }
+
+    /**
+     * Transfers a certain amount of nfts after payment as been made.
+     *
+     * @param {String} agreementId The service agreement id of the nft transfer.
      * @param {DDO} ddo the decentralized identifier of the asset containing the nfts.
      * @param {Number[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.

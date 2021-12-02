@@ -8,6 +8,7 @@ import {
     NFTHolderCondition,
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
+import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
@@ -25,6 +26,7 @@ describe('NFTTemplates E2E', () => {
 
     let nevermined: Nevermined
     let token: Token
+    let nftUpgradeable: NFTUpgradeable
     let didRegistry: DIDRegistry
     let conditionStoreManager: ConditionStoreManager
     let transferNftCondition: TransferNFTCondition
@@ -89,7 +91,12 @@ describe('NFTTemplates E2E', () => {
         receivers2 = [collector1.getId(), artist.getId()]
 
         // components
-        ;({ didRegistry, conditionStoreManager, token } = nevermined.keeper)
+        ;({
+            didRegistry,
+            conditionStoreManager,
+            token,
+            nftUpgradeable
+        } = nevermined.keeper)
 
         // conditions
         ;({
@@ -174,13 +181,13 @@ describe('NFTTemplates E2E', () => {
                 )
 
                 await didRegistry.mint(ddo.id, 5, artist.getId())
-                await didRegistry.setApprovalForAll(
+                await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,
-                    artist.getId()
+                    artist
                 )
 
-                const balance = await didRegistry.balance(artist.getId(), ddo.id)
+                const balance = await nftUpgradeable.balance(artist.getId(), ddo.id)
                 assert.equal(balance, 5)
             })
         })
@@ -293,11 +300,11 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('The artist can check the payment and transfer the NFT to the collector', async () => {
-                const nftBalanceArtistBefore = await didRegistry.balance(
+                const nftBalanceArtistBefore = await nftUpgradeable.balance(
                     artist.getId(),
                     ddo.id
                 )
-                const nftBalanceCollectorBefore = await didRegistry.balance(
+                const nftBalanceCollectorBefore = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
@@ -316,11 +323,11 @@ describe('NFTTemplates E2E', () => {
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const nftBalanceArtistAfter = await didRegistry.balance(
+                const nftBalanceArtistAfter = await nftUpgradeable.balance(
                     artist.getId(),
                     ddo.id
                 )
-                const nftBalanceCollectorAfter = await didRegistry.balance(
+                const nftBalanceCollectorAfter = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
@@ -577,11 +584,11 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('As collector1 I can check the payment and transfer the NFT to collector2', async () => {
-                const nftBalanceCollector1Before = await didRegistry.balance(
+                const nftBalanceCollector1Before = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
-                const nftBalanceCollector2Before = await didRegistry.balance(
+                const nftBalanceCollector2Before = await nftUpgradeable.balance(
                     collector2.getId(),
                     ddo.id
                 )
@@ -600,11 +607,11 @@ describe('NFTTemplates E2E', () => {
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const nftBalanceCollector1After = await didRegistry.balance(
+                const nftBalanceCollector1After = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
-                const nftBalanceCollector2After = await didRegistry.balance(
+                const nftBalanceCollector2After = await nftUpgradeable.balance(
                     collector2.getId(),
                     ddo.id
                 )
@@ -689,13 +696,13 @@ describe('NFTTemplates E2E', () => {
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
                 await didRegistry.mint(ddo.id, 5, artist.getId())
-                await didRegistry.setApprovalForAll(
+                await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,
-                    artist.getId()
+                    artist
                 )
 
-                const balance = await didRegistry.balance(artist.getId(), ddo.id)
+                const balance = await nftUpgradeable.balance(artist.getId(), ddo.id)
                 assert.equal(balance, 5)
             })
         })
@@ -758,11 +765,11 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('The artist can check the payment and transfer the NFT to the collector', async () => {
-                const nftBalanceArtistBefore = await didRegistry.balance(
+                const nftBalanceArtistBefore = await nftUpgradeable.balance(
                     artist.getId(),
                     ddo.id
                 )
-                const nftBalanceCollectorBefore = await didRegistry.balance(
+                const nftBalanceCollectorBefore = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
@@ -777,11 +784,11 @@ describe('NFTTemplates E2E', () => {
                 )
                 assert.isTrue(receipt)
 
-                const nftBalanceArtistAfter = await didRegistry.balance(
+                const nftBalanceArtistAfter = await nftUpgradeable.balance(
                     artist.getId(),
                     ddo.id
                 )
-                const nftBalanceCollectorAfter = await didRegistry.balance(
+                const nftBalanceCollectorAfter = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
@@ -955,11 +962,11 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('As collector1 I can check the payment and transfer the NFT to collector2', async () => {
-                const nftBalanceCollector1Before = await didRegistry.balance(
+                const nftBalanceCollector1Before = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
-                const nftBalanceCollector2Before = await didRegistry.balance(
+                const nftBalanceCollector2Before = await nftUpgradeable.balance(
                     collector2.getId(),
                     ddo.id
                 )
@@ -975,11 +982,11 @@ describe('NFTTemplates E2E', () => {
 
                 assert.isTrue(receipt)
 
-                const nftBalanceCollector1After = await didRegistry.balance(
+                const nftBalanceCollector1After = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
-                const nftBalanceCollector2After = await didRegistry.balance(
+                const nftBalanceCollector2After = await nftUpgradeable.balance(
                     collector2.getId(),
                     ddo.id
                 )
@@ -1015,6 +1022,178 @@ describe('NFTTemplates E2E', () => {
                 assert.equal(receiver0Balance, initialBalances.collector1 + amounts2[0])
                 assert.equal(receiver1Balance, initialBalances.artist + amounts2[1])
                 assert.equal(collectorBalance - initialBalances.collector2, 0)
+                assert.equal(
+                    escrowPaymentConditionBalance -
+                        initialBalances.escrowPaymentCondition,
+                    0
+                )
+            })
+        })
+    })
+
+    describe('Market flow', () => {
+        before(async () => {
+            // initial balances
+            initialBalances = {
+                artist: await token.balanceOf(artist.getId()),
+                collector1: await token.balanceOf(collector1.getId()),
+                gallery: await token.balanceOf(gallery.getId()),
+                escrowPaymentCondition: Number(
+                    await token.balanceOf(escrowPaymentCondition.getAddress())
+                )
+            }
+            agreementId = utils.generateId()
+            agreementAccessId = utils.generateId()
+            agreementId2 = utils.generateId()
+            checksum = utils.generateId()
+            activityId = utils.generateId()
+            ddo = await nevermined.assets.createNft(
+                getMetadata(),
+                artist,
+                assetRewards1,
+                undefined,
+                cappedAmount,
+                undefined,
+                numberNFTs,
+                royalties,
+                token.getAddress()
+            )
+        })
+
+        describe('As an artist I want to register a new artwork', () => {
+            it('I want to register a new artwork and give a Marketplace permissions to transfer it', async () => {
+                await didRegistry.mint(ddo.id, 5, artist.getId())
+                await nftUpgradeable.setApprovalForAll(
+                    transferNftCondition.getAddress(),
+                    true,
+                    artist
+                )
+
+                const balance = await nftUpgradeable.balance(artist.getId(), ddo.id)
+                assert.equal(balance, 5)
+
+                await nevermined.nfts.setApprovalForAll(gallery.getId(), true, artist)
+            })
+        })
+
+        describe('As a collector I want to buy some art on a Marketplace', () => {
+            it('I am setting an agreement for buying a NFT', async () => {
+                const result = await nftSalesTemplate.createAgreementFromDDO(
+                    agreementId,
+                    ddo,
+                    assetRewards1,
+                    collector1,
+                    numberNFTs
+                )
+                assert.isTrue(result)
+
+                const status = await nftSalesTemplate.getAgreementStatus(agreementId)
+                assert.equal(
+                    status && status.lockPayment.state,
+                    ConditionState.Unfulfilled
+                )
+                assert.equal(
+                    status && status.transferNFT.state,
+                    ConditionState.Unfulfilled
+                )
+                assert.equal(
+                    status && status.escrowPayment.state,
+                    ConditionState.Unfulfilled
+                )
+            })
+
+            it('I am locking the payment', async () => {
+                await collector1.requestTokens(nftPrice / scale)
+
+                const collector1BalanceBefore = await token.balanceOf(collector1.getId())
+                assert.equal(
+                    collector1BalanceBefore,
+                    initialBalances.collector1 + nftPrice
+                )
+
+                const receipt = await nevermined.agreements.conditions.lockPayment(
+                    agreementId,
+                    ddo.id,
+                    assetRewards1.getAmounts(),
+                    assetRewards1.getReceivers(),
+                    token.getAddress(),
+                    collector1
+                )
+                assert.isTrue(receipt)
+
+                const collector1BalanceAfter = await token.balanceOf(collector1.getId())
+                const escrowPaymentConditionBalance = await token.balanceOf(
+                    escrowPaymentCondition.getAddress()
+                )
+                assert.equal(collector1BalanceAfter - initialBalances.collector1, 0)
+                assert.equal(
+                    escrowPaymentConditionBalance -
+                        initialBalances.escrowPaymentCondition,
+                    nftPrice
+                )
+            })
+
+            it('The Market can check the payment and transfer the NFT to the collector', async () => {
+                const nftBalanceArtistBefore = await nftUpgradeable.balance(
+                    artist.getId(),
+                    ddo.id
+                )
+                const nftBalanceCollectorBefore = await nftUpgradeable.balance(
+                    collector1.getId(),
+                    ddo.id
+                )
+
+                const receipt = await nevermined.agreements.conditions.transferNftForDelegate(
+                    agreementId,
+                    ddo,
+                    assetRewards1.getAmounts(),
+                    assetRewards1.getReceivers(),
+                    numberNFTs,
+                    gallery
+                )
+                assert.isTrue(receipt)
+
+                const nftBalanceArtistAfter = await nftUpgradeable.balance(
+                    artist.getId(),
+                    ddo.id
+                )
+                const nftBalanceCollectorAfter = await nftUpgradeable.balance(
+                    collector1.getId(),
+                    ddo.id
+                )
+
+                assert.equal(
+                    Number(nftBalanceArtistAfter),
+                    Number(nftBalanceArtistBefore) - numberNFTs
+                )
+                assert.equal(
+                    Number(nftBalanceCollectorAfter),
+                    Number(nftBalanceCollectorBefore) + numberNFTs
+                )
+            })
+
+            it('The Market releases the rewards to the artist', async () => {
+                const receipt = await nevermined.agreements.conditions.releaseNftReward(
+                    agreementId,
+                    ddo,
+                    assetRewards1.getAmounts(),
+                    assetRewards1.getReceivers(),
+                    numberNFTs,
+                    artist,
+                    gallery
+                )
+                assert.isTrue(receipt)
+
+                const escrowPaymentConditionBalance = await token.balanceOf(
+                    escrowPaymentCondition.getAddress()
+                )
+                const receiver0Balance = await token.balanceOf(receivers[0])
+                const receiver1Balance = await token.balanceOf(receivers[1])
+                const collectorBalance = await token.balanceOf(collector1.getId())
+
+                assert.equal(receiver0Balance, initialBalances.artist + amounts[0])
+                assert.equal(receiver1Balance, initialBalances.gallery + amounts[1])
+                assert.equal(collectorBalance - initialBalances.collector1, 0)
                 assert.equal(
                     escrowPaymentConditionBalance -
                         initialBalances.escrowPaymentCondition,

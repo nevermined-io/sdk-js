@@ -1,7 +1,10 @@
 import { assert } from 'chai'
 import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
-import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
+import {
+    EscrowPaymentCondition,
+    TransferNFTCondition
+} from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
@@ -16,6 +19,7 @@ describe('NFTs Api End-to-End', () => {
     let nevermined: Nevermined
     let token: Token
     let escrowPaymentCondition: EscrowPaymentCondition
+    let transferNftCondition: TransferNFTCondition
     let ddo: DDO
 
     const metadata = getMetadata()
@@ -39,7 +43,7 @@ describe('NFTs Api End-to-End', () => {
         ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
 
         // conditions
-        ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
+        ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
 
         // components
         ;({ token } = nevermined.keeper)
@@ -191,6 +195,65 @@ describe('NFTs Api End-to-End', () => {
     describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
         it('The collector access the files', async () => {
             const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
+            assert.isTrue(result)
+        })
+    })
+
+    describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
+        it('The artist gives the Gateway permissions to transfer his nfts', async () => {
+            let result = await nevermined.nfts.setApprovalForAll(
+                transferNftCondition.address,
+                true,
+                artist
+            )
+            assert.isDefined(result)
+
+            result = await nevermined.nfts.setApprovalForAll(
+                config.gatewayAddress,
+                true,
+                artist
+            )
+            assert.isDefined(result)
+        })
+        it('The artist creates and mints the nfts', async () => {
+            ddo = await nevermined.nfts.create(
+                getMetadata(),
+                artist,
+                cappedAmount,
+                royalties,
+                assetRewards1
+            )
+            assert.isDefined(ddo)
+
+            await nevermined.nfts.mint(ddo.id, 5, artist)
+            const balance = await nevermined.nfts.balance(ddo.id, artist)
+            assert.equal(balance, 5)
+        })
+
+        it('The collector orders the nft', async () => {
+            await collector1.requestTokens(nftPrice / scale)
+
+            agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
+            assert.isDefined(agreementId)
+        })
+
+        it('Ask the Gateway to transfer the nft and release the rewards', async () => {
+            const result = await nevermined.nfts.transferForDelegate(
+                agreementId,
+                artist.getId(),
+                collector1.getId(),
+                numberNFTs
+            )
+            assert.isTrue(result)
+        })
+
+        it('The gateway should fulfill the NFTHolder and NFTAccess conditions', async () => {
+            const result = await nevermined.nfts.access(
+                ddo.id,
+                collector1,
+                '/tmp/',
+                undefined
+            )
             assert.isTrue(result)
         })
     })

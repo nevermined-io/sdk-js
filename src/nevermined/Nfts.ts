@@ -254,6 +254,20 @@ export class Nfts extends Instantiable {
         return true
     }
 
+    public async transferForDelegate(
+        agreementId: string,
+        nftHolder: string,
+        nftReceiver: string,
+        nftAmount: number
+    ): Promise<boolean> {
+        return await this.nevermined.gateway.nftTransferForDelegate(
+            agreementId,
+            nftHolder,
+            nftReceiver,
+            nftAmount
+        )
+    }
+
     public async transfer721(
         agreementId: string,
         did: string,
@@ -360,13 +374,14 @@ export class Nfts extends Instantiable {
         did: string,
         consumer: Account,
         destination?: string,
-        index?: number
+        index?: number,
+        agreementId: string = '0x'
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
         // Download the files
         this.logger.log('Downloading the files')
-        return await this.downloadFiles('0x', ddo, consumer, destination, index)
+        return await this.downloadFiles(agreementId, ddo, consumer, destination, index)
     }
 
     /**
@@ -377,7 +392,7 @@ export class Nfts extends Instantiable {
      * @returns {Number} The ammount of NFTs owned by the account.
      */
     public async balance(did: string, account: Account) {
-        return await this.nevermined.keeper.didRegistry.balance(account.getId(), did)
+        return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
     }
 
     public async ownerOf(did: string, nftTokenAddress: string) {
@@ -458,5 +473,17 @@ export class Nfts extends Instantiable {
         }
 
         return true
+    }
+
+    public async setApprovalForAll(
+        operatorAddress: string,
+        approved: boolean,
+        from: Account
+    ) {
+        return this.nevermined.keeper.nftUpgradeable.setApprovalForAll(
+            operatorAddress,
+            approved,
+            from
+        )
     }
 }

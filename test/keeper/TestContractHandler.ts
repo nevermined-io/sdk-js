@@ -147,7 +147,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
             deployerAddress,
             conditionStoreManager.options.address,
-            didRegistry.options.address
+            erc1155.options.address
         ])
 
         const nftAcessCondition = await TestContractHandler.deployContract(
@@ -177,7 +177,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
-                didRegistry.options.address,
+                erc1155.options.address,
                 ZeroAddress
             ]
         )
