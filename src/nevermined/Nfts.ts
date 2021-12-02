@@ -392,7 +392,7 @@ export class Nfts extends Instantiable {
      * @returns {Number} The ammount of NFTs owned by the account.
      */
     public async balance(did: string, account: Account) {
-        return await this.nevermined.keeper.didRegistry.balance(account.getId(), did)
+        return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
     }
 
     public async ownerOf(did: string, nftTokenAddress: string) {

@@ -66,6 +66,7 @@ export class Keeper extends Instantiable {
                 // Main contracts
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
+                nftUpgradeable: undefined, // Optional
                 didRegistry: DIDRegistry.getInstance(config),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(config),
@@ -96,8 +97,7 @@ export class Keeper extends Instantiable {
                 nft721AccessTemplate: NFT721AccessTemplate.getInstance(config),
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
-                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
-                nftUpgradeable: NFTUpgradeable.getInstance(config)
+                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config)
             })
 
             keeper.connected = true
@@ -121,6 +121,12 @@ export class Keeper extends Instantiable {
             keeper.instances.token = await Token.getInstance(config)
         } catch {
             keeper.logger.warn('Token not available on this network.')
+        }
+
+        try {
+            keeper.instances.nftUpgradeable = await NFTUpgradeable.getInstance(config)
+        } catch {
+            keeper.logger.warn('NFTUpgradeable not available on this network.')
         }
 
         // Main contracts

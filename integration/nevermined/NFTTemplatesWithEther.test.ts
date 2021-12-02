@@ -17,6 +17,7 @@ import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import web3Utils from 'web3-utils'
+import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -27,6 +28,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     let nevermined: Nevermined
     let didRegistry: DIDRegistry
     let conditionStoreManager: ConditionStoreManager
+    let nftUpgradeable: NFTUpgradeable
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition
@@ -71,7 +73,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         receivers = [artist.getId(), gallery.getId()]
 
         // components
-        ;({ didRegistry, conditionStoreManager } = nevermined.keeper)
+        ;({ didRegistry, conditionStoreManager, nftUpgradeable } = nevermined.keeper)
 
         // conditions
         ;({
@@ -148,13 +150,16 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
 
                 await didRegistry.mint(ddo.shortId(), 5, artist.getId())
-                await didRegistry.setApprovalForAll(
+                await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,
-                    artist.getId()
+                    artist
                 )
 
-                const balance = await didRegistry.balance(artist.getId(), ddo.shortId())
+                const balance = await nftUpgradeable.balance(
+                    artist.getId(),
+                    ddo.shortId()
+                )
                 assert.equal(balance, 5)
             })
         })
@@ -243,11 +248,11 @@ describe('NFTTemplates With Ether E2E', async () => {
             })
 
             it('The artist can check the payment and transfer the NFT to the collector', async () => {
-                const nftBalanceArtistBefore = await didRegistry.balance(
+                const nftBalanceArtistBefore = await nftUpgradeable.balance(
                     artist.getId(),
                     ddo.shortId()
                 )
-                const nftBalanceCollectorBefore = await didRegistry.balance(
+                const nftBalanceCollectorBefore = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.shortId()
                 )
@@ -266,11 +271,11 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const nftBalanceArtistAfter = await didRegistry.balance(
+                const nftBalanceArtistAfter = await nftUpgradeable.balance(
                     artist.getId(),
                     ddo.shortId()
                 )
-                const nftBalanceCollectorAfter = await didRegistry.balance(
+                const nftBalanceCollectorAfter = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.shortId()
                 )

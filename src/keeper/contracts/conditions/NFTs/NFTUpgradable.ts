@@ -75,4 +75,15 @@ export class NFTUpgradeable extends ContractBase {
             from
         )
     }
+
+    /**
+     * Get an address balance for a specific NFT with id `did`
+     *
+     * @param address Account address to check the balance
+     * @param did The NFT id
+     * @returns {Number}
+     */
+    public async balance(address: string, did: string): Promise<number> {
+        return this.call('balanceOf', [zeroX(address), didZeroX(did)])
+    }
 }
