@@ -2,7 +2,8 @@ import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
-import ContractBase from '../../ContractBase'
+import ContractBase, { TxParameters } from '../../ContractBase'
+import { randomBytes } from 'crypto'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -85,5 +86,20 @@ export class NFTUpgradeable extends ContractBase {
      */
     public async balance(address: string, did: string): Promise<number> {
         return this.call('balanceOf', [zeroX(address), didZeroX(did)])
+    }
+
+    public async transferNft(
+        did: string,
+        to: string,
+        amount: number,
+        from: string,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'safeTransferFrom',
+            from,
+            [from, to, didZeroX(did), amount, randomBytes(1)],
+            params
+        )
     }
 }
