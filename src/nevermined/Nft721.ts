@@ -30,7 +30,7 @@ export class Nft721 extends Instantiable {
         return await this.contract.mint(did, publisher.getId(), txParams)
     }
 
-    public async mintWithURL(to: string, did: string, url: string, publisher: Account, from?: Account, txParams?: TxParameters) {
+    public async mintWithURL(to: string, did: string, url: string, from?: Account, txParams?: TxParameters) {
         return await this.contract.mintWithURL(to, did, url, from, txParams)
     }
 
