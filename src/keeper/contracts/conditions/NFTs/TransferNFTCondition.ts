@@ -2,6 +2,7 @@ import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
+import { TxParameters } from '../../ContractBase'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -56,12 +57,14 @@ export class TransferNFTCondition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockPaymentCondition: string,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ) {
         return super.fulfill(
             agreementId,
             [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition],
-            from
+            from,
+            txParams
         )
     }
 }

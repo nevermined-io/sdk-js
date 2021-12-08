@@ -6,6 +6,7 @@ import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 import KeyTransfer from '../utils/KeyTransfer'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -40,7 +41,8 @@ export class AgreementsConditions extends Instantiable {
         amounts: number[],
         receivers: string[],
         erc20TokenAddress?: string,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ) {
         const {
             lockPaymentCondition,
@@ -67,7 +69,7 @@ export class AgreementsConditions extends Instantiable {
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)
-            await token.approve(lockPaymentCondition.getAddress(), totalAmount, from)
+            await token.approve(lockPaymentCondition.getAddress(), totalAmount, from, txParams)
         }
 
         const receipt = await lockPaymentCondition.fulfill(
@@ -79,6 +81,7 @@ export class AgreementsConditions extends Instantiable {
             receivers,
             from,
             {
+                ...txParams,
                 value:
                     erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
                         ? String(totalAmount)
@@ -549,7 +552,8 @@ export class AgreementsConditions extends Instantiable {
         amounts: number[],
         receivers: string[],
         nftAmount: number,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ) {
         const {
             transferNftCondition,
@@ -587,7 +591,8 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             nftAmount,
             lockPaymentConditionId,
-            from
+            from,
+            txParams
         )
 
         return !!receipt.events.Fulfilled
@@ -608,7 +613,8 @@ export class AgreementsConditions extends Instantiable {
         ddo: DDO,
         amounts: number[],
         receivers: string[],
-        publisher: Account
+        publisher: Account,
+        txParams?: TxParameters
     ) {
         const {
             transferNft721Condition,
@@ -638,7 +644,7 @@ export class AgreementsConditions extends Instantiable {
             transfer.parameters.find(p => p.name === '_contract').value as string
         )
 
-        await nft.setApprovalForAll(transferNft721Condition.address, true, publisher)
+        await nft.setApprovalForAll(transferNft721Condition.address, true, publisher, txParams)
 
         const {
             accessConsumer
