@@ -9,6 +9,7 @@ export interface TxParameters {
     value?: string
     gas?: number
     gasMultiplier?: number
+    progress?: (data:any) => void
 }
 
 export abstract class ContractBase extends Instantiable {
@@ -120,6 +121,16 @@ export abstract class ContractBase extends Instantiable {
         try {
             const tx = method(...args)
             let { gas } = params
+            if (params.progress) {
+                params.progress({
+                    stage: 'estimateGas',
+                    args: this.searchMethodInputs(name, args),
+                    method: name,
+                    from, value,
+                    contractName: this.contractName,
+                    contractAddress: this.address
+                })
+            }
             if (!gas) {
                 gas = await tx.estimateGas(args, {
                     from,
@@ -134,6 +145,17 @@ export abstract class ContractBase extends Instantiable {
                 }
             }
 
+            if (params.progress) {
+                params.progress({
+                    stage: 'sending',
+                    args: this.searchMethodInputs(name, args),
+                    method: name,
+                    from, value,
+                    contractName: this.contractName,
+                    contractAddress: this.address,
+                    gas
+                })
+            }
             const chainId = await this.web3.eth.net.getId()
             const receipt = await tx.send({
                 from,
@@ -141,6 +163,18 @@ export abstract class ContractBase extends Instantiable {
                 gas,
                 chainId
             })
+            if (params.progress) {
+                params.progress({
+                    stage: 'sent',
+                    args: this.searchMethodInputs(name, args),
+                    receipt,
+                    method: name,
+                    from, value,
+                    contractName: this.contractName,
+                    contractAddress: this.address,
+                    gas
+                })
+            }
 
             return receipt
         } catch (err) {
@@ -208,6 +242,16 @@ export abstract class ContractBase extends Instantiable {
             )
         }
         return foundMethod
+    }
+
+    private searchMethodInputs(methodName: string, args: any[] = []) {
+        return this.searchMethod(methodName, args).inputs.map((input, i) => {
+            return {
+                name: input.name,
+                value: args[i]
+            }
+        })
+
     }
 }
 
