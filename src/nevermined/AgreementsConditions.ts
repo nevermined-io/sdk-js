@@ -304,7 +304,8 @@ export class AgreementsConditions extends Instantiable {
         receivers: string[],
         nftAmount: number,
         publisher: Account,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ) {
         const {
             escrowPaymentCondition,
@@ -360,7 +361,8 @@ export class AgreementsConditions extends Instantiable {
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             transferNftConditionId,
-            from || publisher
+            from || publisher,
+            txParams
         )
 
         if (!receipt.events.Fulfilled) {
@@ -386,7 +388,8 @@ export class AgreementsConditions extends Instantiable {
         amounts: number[],
         receivers: string[],
         publisher: Account,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ) {
         const {
             escrowPaymentCondition,
@@ -442,7 +445,8 @@ export class AgreementsConditions extends Instantiable {
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
             transferNftConditionId,
-            from || publisher
+            from || publisher,
+            txParams
         )
 
         if (!receipt.events.Fulfilled) {

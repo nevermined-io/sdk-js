@@ -311,7 +311,8 @@ export class Nfts extends Instantiable {
         did: string,
         nftAmount: number,
         consumer: Account,
-        publisher: Account
+        publisher: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
@@ -325,7 +326,9 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            publisher
+            publisher,
+            undefined,
+            txParams
         )
 
         if (!result) {
@@ -338,7 +341,8 @@ export class Nfts extends Instantiable {
     public async release721Rewards(
         agreementId: string,
         did: string,
-        publisher: Account
+        publisher: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
@@ -350,7 +354,9 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            publisher
+            publisher,
+            undefined,
+            txParams
         )
 
         if (!result) {
