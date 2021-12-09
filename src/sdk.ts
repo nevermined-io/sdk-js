@@ -10,6 +10,7 @@ import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
 import { Nft721 } from './nevermined/Nft721'
 import { Accounts } from './nevermined/Accounts'
+import { SearchQuery } from './metadata/Metadata'
 
 // Exports
 export * from './ddo/DDO'
@@ -38,5 +39,6 @@ export {
     Keeper,
     conditions,
     templates,
+    SearchQuery,
     utils
 }
