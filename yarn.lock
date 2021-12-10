@@ -1201,10 +1201,10 @@
     fastfile "0.0.19"
     ffjavascript "^0.2.30"
 
-"@nevermined-io/contracts@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.3.0.tgz#76deb182f717920a7a7d03c4d5fe1bcad5e24ecb"
-  integrity sha512-EHIsbgKQfgStN1axhtJ0MlwwTC0Z4jWyQTHrH3btO7PfU0nciXa2eyL/tqZ0W6R4i6gmbmI2CNCIS9uhe6+gVQ==
+"@nevermined-io/contracts@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@nevermined-io/contracts/-/contracts-1.3.1.tgz#937b04227bab6ba492abde4650ac9c0a01ba068a"
+  integrity sha512-DhYAuipmZ+Tywoy8GMSSGOrYLR5R9Eu5nSW76+lFXeNWbCKh+CNzox1Jl5AIAvIpayO2dvnj5GS09KmPALMNag==
   dependencies:
     "@gnosis.pm/safe-core-sdk" "^1.0.0"
     "@gnosis.pm/safe-deployments" "^1.4.0"
