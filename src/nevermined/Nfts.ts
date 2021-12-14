@@ -486,4 +486,30 @@ export class Nfts extends Instantiable {
             from
         )
     }
+
+    public async listOnSecondaryMarkets(
+        agreementId: string,
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        numberNFTs: number,
+        provider: string,
+        owner: Account
+    ): Promise<boolean> {
+        const { nftSalesTemplate } = this.nevermined.keeper.templates
+        const providerAccounts = new Account(provider)
+        const result = await nftSalesTemplate.createAgreementFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            null, // TODO: eliminate needing the consumer
+            numberNFTs,
+            providerAccounts || new Account(this.config.gatewayAddress),
+            owner
+        )
+        if (result) {
+            return true
+        } else {
+            throw Error(`Error listing ${ddo.shortId()} on secondary markets`)
+        }
+    }
 }
