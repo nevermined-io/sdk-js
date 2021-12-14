@@ -178,17 +178,19 @@ export abstract class ContractBase extends Instantiable {
                         gas
                     })
                 }
-            }).on('transactionHash', function (txHash) {
+            }).on('transactionHash', async function (txHash) {
                 if (params.progress) {
+                    let tx = await self.web3.eth.getTransaction(txHash)
                     params.progress({
                         stage: 'txHash',
                         args: self.searchMethodInputs(name, args),
                         txHash,
+                        gasPrice: tx.gasPrice,
                         method: name,
                         from, value,
                         contractName: self.contractName,
                         contractAddress: self.address,
-                        gas
+                        gas:tx.gas
                     })
                 }
             })
