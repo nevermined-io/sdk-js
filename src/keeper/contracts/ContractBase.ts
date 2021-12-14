@@ -9,6 +9,7 @@ export interface TxParameters {
     value?: string
     gas?: number
     gasMultiplier?: number
+    gasPrice?: string
     progress?: (data:any) => void
 }
 
@@ -115,9 +116,10 @@ export abstract class ContractBase extends Instantiable {
                 `Method "${name}" is not part of contract "${this.contractName}"`
             )
         }
+        const self = this
 
         const method = this.contract.methods[name]
-        const { value } = params
+        const { value, gasPrice } = params
         try {
             const tx = method(...args)
             let { gas } = params
@@ -161,11 +163,38 @@ export abstract class ContractBase extends Instantiable {
                 from,
                 value,
                 gas,
+                gasPrice,
                 chainId
+            }).on('sent', function (tx) {
+                if (params.progress) {
+                    params.progress({
+                        stage: 'sent',
+                        args: self.searchMethodInputs(name, args),
+                        tx,
+                        method: name,
+                        from, value,
+                        contractName: self.contractName,
+                        contractAddress: self.address,
+                        gas
+                    })
+                }
+            }).on('transactionHash', function (txHash) {
+                if (params.progress) {
+                    params.progress({
+                        stage: 'txHash',
+                        args: self.searchMethodInputs(name, args),
+                        txHash,
+                        method: name,
+                        from, value,
+                        contractName: self.contractName,
+                        contractAddress: self.address,
+                        gas
+                    })
+                }
             })
             if (params.progress) {
                 params.progress({
-                    stage: 'sent',
+                    stage: 'receipt',
                     args: this.searchMethodInputs(name, args),
                     receipt,
                     method: name,
