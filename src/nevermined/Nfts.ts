@@ -1,7 +1,7 @@
 import { MetaData } from '../ddo/MetaData'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
-import { DDO } from '../sdk'
+import { DDO, utils } from '../sdk'
 import {
     findServiceConditionByName,
     generateId,
@@ -13,6 +13,7 @@ import {
 } from '../utils'
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
+import Token from '../keeper/contracts/Token'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -511,5 +512,32 @@ export class Nfts extends Instantiable {
         } else {
             throw Error(`Error listing ${ddo.shortId()} on secondary markets`)
         }
+    }
+
+    public async lockBuyersPayments(
+        buyer: string,
+        seller: string,
+        nftPrice: number,
+        ddo: DDO
+    ) {
+        const buyersAccount = new Account(buyer)
+        const { token } = this.nevermined.keeper
+
+        const agreementId = utils.generateId()
+        const assetRewards = new AssetRewards(new Map([[seller, nftPrice]]))
+
+        const scale = 10 ** (await token.decimals())
+        await buyersAccount.requestTokens(nftPrice / scale)
+
+        const receipt = await this.nevermined.agreements.conditions.lockPayment(
+            agreementId,
+            ddo.id,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            token.getAddress(),
+            buyersAccount
+        )
+
+        if (!receipt) throw new Error('Transaction Failed.')
     }
 }
