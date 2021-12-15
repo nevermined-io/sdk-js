@@ -1,7 +1,7 @@
 import { MetaData } from '../ddo/MetaData'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
-import { DDO } from '../sdk'
+import { DDO, utils } from '../sdk'
 import {
     findServiceConditionByName,
     generateId,
@@ -13,6 +13,8 @@ import {
 } from '../utils'
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
+import { Metadata } from '../metadata/Metadata'
+import { ServiceAgreement } from './utils/ServiceAgreement'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -487,8 +489,16 @@ export class Nfts extends Instantiable {
         )
     }
 
+    /**
+     *
+     * @param ddo {DDO} the Decentraized ID of the NFT
+     * @param assetRewards {AssetRewards} the currect setup of asset rewards
+     * @param numberNFTs {Number} the number of NFTs put up for secondary sale
+     * @param provider {Account} the account that will be the provider of the secondary sale
+     * @param owner {Account} the account of the current owner
+     * @returns {Promise<boolean>} true if the secondary sale config was successful
+     */
     public async listOnSecondaryMarkets(
-        agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         numberNFTs: number,
@@ -497,17 +507,29 @@ export class Nfts extends Instantiable {
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const providerAccounts = new Account(provider)
+        const agreementId = utils.generateId()
         const result = await nftSalesTemplate.createAgreementFromDDO(
             agreementId,
             ddo,
             assetRewards,
-            null, // TODO: eliminate needing the consumer
+            owner, // TODO: eliminate needing the consumer
             numberNFTs,
             providerAccounts || new Account(this.config.gatewayAddress),
             owner
         )
+
         if (result) {
-            return true
+            //save the service agreement into the MetadataDB
+            const saveResult = await this.nevermined.metadata.storeServiceAgreement(
+                // Q: where to get the service agreement from?
+                ({} as unknown) as any
+            )
+
+            if (saveResult) {
+                return true
+            } else {
+                throw Error(`Error saving ${agreementId} to MetadataDB`)
+            }
         } else {
             throw Error(`Error listing ${ddo.shortId()} on secondary markets`)
         }
