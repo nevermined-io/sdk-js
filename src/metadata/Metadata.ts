@@ -2,8 +2,10 @@ import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { Service } from '../ddo/Service'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
+const agreementPath = '/api/v1/metadata/assets/agreement'
 
 export interface QueryResult {
     results: DDO[]
@@ -292,6 +294,69 @@ export class Metadata extends Instantiable {
             .catch(error => {
                 this.logger.error('Error fetching status of DDO: ', error)
                 return null as DDOStatus
+            })
+
+        return result
+    }
+
+    /**
+     * Retrieves a DDO by DID.
+     * @param  {string} agreementId agreementId of the asset.
+     * @return {Promise<Service>} DDO of the asset.
+     */
+    public async retrieveServiceAgreement(
+        agreementId: string,
+        metadataServiceEndpoint?: string
+    ): Promise<Service> {
+        const fullUrl =
+            metadataServiceEndpoint || `${this.url}${agreementPath}/${agreementId}`
+        const result = await this.nevermined.utils.fetch
+            .get(fullUrl)
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json()
+                }
+                this.logger.log(
+                    'retrieveDDO failed:',
+                    response.status,
+                    response.statusText,
+                    agreementId
+                )
+                return null as Service
+            })
+            .then((response: Service) => {
+                return response as Service
+            })
+            .catch(error => {
+                this.logger.error('Error retrieving metadata: ', error)
+                return null as Service
+            })
+
+        return result
+    }
+
+    public async storeServiceAgreement(agreement: Service): Promise<Service> {
+        const fullUrl = `${this.url}${agreementPath}`
+        const result: Service = await this.nevermined.utils.fetch
+            .post(fullUrl, JSON.stringify(agreement))
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json()
+                }
+                this.logger.error(
+                    'storeServiceAngrement failed:',
+                    response.status,
+                    response.statusText,
+                    agreement
+                )
+                return null as DDO
+            })
+            .then((response: Service) => {
+                return response as Service
+            })
+            .catch(error => {
+                this.logger.error('Error storing metadata: ', error)
+                return null as Service
             })
 
         return result
