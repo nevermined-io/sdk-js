@@ -1,6 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, DDO, Nevermined, utils } from '../../src'
+import { Service } from '../../src/ddo/Service'
 import {
     ConditionState,
     EscrowPaymentCondition,
@@ -13,6 +14,11 @@ import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
+import {
+    fillConditionsWithDDO,
+    findServiceConditionByName,
+    getAssetRewardsFromService
+} from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
@@ -44,6 +50,7 @@ describe('Secondary Markets', () => {
     let agreementId2: string
     let agreementAccessId: string
     let agreementAccessId2: string
+    let nftSalesServiceAgreement: Service
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
@@ -360,15 +367,53 @@ describe('Secondary Markets', () => {
                 }
             })
 
-            it('As collector1 I setup an agreement for selling my NFT', async () => {
+            it('As collector1 I create and store an off-chain service agreement', async () => {
+                const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
+                const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
+
+                nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    nftSalesTemplateConditions,
+                    ddo,
+                    assetRewards2,
+                    token.getAddress(),
+                    undefined,
+                    collector1.getId(),
+                    numberNFTs2
+                )
+
+                nftSalesServiceAgreement = {
+                    type: 'nft-sales',
+                    index: 6,
+                    serviceEndpoint: nevermined.gateway.getNftEndpoint(),
+                    templateId: nftSalesTemplate.getAddress(),
+                    attributes: {
+                        main: {
+                            name: 'nftSalesAgreement',
+                            creator: collector1.getId(),
+                            datePublished: new Date()
+                                .toISOString()
+                                .replace(/\.[0-9]{3}/, ''),
+                            timeout: 86400
+                        },
+                        additionalInformation: {
+                            description: ''
+                        },
+                        serviceAgreementTemplate: nftSalesServiceAgreementTemplate
+                    }
+                }
+
+                // This Service agreement is store on elasticsearch through the metadata api
+            })
+
+            it('As collector2 I am setting an agreement for buying an NFT', async () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2,
                     ddo,
                     assetRewards2,
-                    collector1,
+                    collector2,
                     numberNFTs2,
                     collector1,
-                    collector1
+                    collector2
                 )
                 assert.isTrue(result)
 
@@ -388,6 +433,8 @@ describe('Secondary Markets', () => {
             })
 
             it('As collector2 I am locking the payment', async () => {
+                // Collector2 gets the price from some marketplace
+                // (query the service agreements from the metadata)
                 await collector2.requestTokens(nftPrice2 / scale)
 
                 const collector2BalanceBefore = await token.balanceOf(collector2.getId())
@@ -396,12 +443,24 @@ describe('Secondary Markets', () => {
                     initialBalances.collector2 + nftPrice2
                 )
 
+                // After fetching the previously created sales agreement
+                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                    nftSalesServiceAgreement
+                )
+                console.log(assetRewards2)
+                console.log(assetRewardsFromServiceAgreement)
+                const payment = findServiceConditionByName(
+                    nftSalesServiceAgreement,
+                    'lockPayment'
+                )
+
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId2,
                     ddo.id,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
-                    token.getAddress(),
+                    payment.parameters.find(p => p.name === '_tokenAddress')
+                        .value as string,
                     collector2
                 )
                 assert.isTrue(receipt)
@@ -428,46 +487,19 @@ describe('Secondary Markets', () => {
                     ddo.id
                 )
 
-                // Let's regenerated the expected lockPaymentConditionId to makse
-                // sure we are performing the correct transfer
-                const lockPaymentConditionId = await lockPaymentCondition.generateId(
-                    agreementId2,
-                    await lockPaymentCondition.hashValues(
-                        ddo.shortId(),
-                        escrowPaymentCondition.getAddress(),
-                        token.address,
-                        assetRewards2.getAmounts(),
-                        assetRewards2.getReceivers()
-                    )
-                )
-
-                const transferNftConditionId = await transferNftCondition.generateId(
-                    agreementId2,
-                    await transferNftCondition.hashValues(
-                        ddo.shortId(),
-                        collector1.getId(), // nftHolder
-                        collector2.getId(), // nftReceiver
-                        numberNFTs2, // nftAmount
-                        lockPaymentConditionId
-                    )
-                )
-
-                // Store the transferNftConditionId on chain so that it exists
-                // before trying to fulfill it
-                await conditionStoreManager.createCondition(
-                    transferNftConditionId,
-                    transferNftCondition.address,
-                    collector1
+                // After fetching the previously created sales agreement
+                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                    nftSalesServiceAgreement
                 )
 
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
+                    assetRewardsFromServiceAgreement.getAmounts(),
+                    assetRewardsFromServiceAgreement.getReceivers(),
                     numberNFTs2,
                     collector1,
-                    collector2
+                    nftSalesServiceAgreement
                 )
 
                 assert.isTrue(receipt)
@@ -492,13 +524,20 @@ describe('Secondary Markets', () => {
             })
 
             it('Collector1 and Artist get the payment', async () => {
+                // After fetching the previously created sales agreement
+                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                    nftSalesServiceAgreement
+                )
+
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
+                    assetRewardsFromServiceAgreement.getAmounts(),
+                    assetRewardsFromServiceAgreement.getReceivers(),
                     numberNFTs2,
-                    collector1
+                    collector1,
+                    undefined,
+                    nftSalesServiceAgreement
                 )
                 assert.isTrue(receipt)
 
