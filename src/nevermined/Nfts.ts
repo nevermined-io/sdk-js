@@ -1,7 +1,7 @@
 import { MetaData } from '../ddo/MetaData'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
-import { DDO, utils } from '../sdk'
+import { DDO } from '../sdk'
 import {
     findServiceConditionByName,
     generateId,
@@ -13,8 +13,6 @@ import {
 } from '../utils'
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
-import { Metadata } from '../metadata/Metadata'
-import { ServiceAgreement } from './utils/ServiceAgreement'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
