@@ -664,10 +664,11 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             lockPaymentConditionId,
             transfer.parameters.find(p => p.name === '_contract').value as string,
-            publisher
+            publisher,
+            txParams
         )
 
-        await nft.setApprovalForAll(transferNft721Condition.address, false, publisher)
+        await nft.setApprovalForAll(transferNft721Condition.address, false, publisher, txParams)
 
         return !!receipt.events.Fulfilled
     }
