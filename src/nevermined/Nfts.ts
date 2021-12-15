@@ -540,4 +540,51 @@ export class Nfts extends Instantiable {
 
         if (!receipt) throw new Error('Transaction Failed.')
     }
+
+    public async transferNftToBuyer(
+        seller: string,
+        buyer: string,
+        ddo: DDO,
+        nftPrice: number
+    ) {
+        const sellerAccount = new Account(seller)
+        const agreementId = utils.generateId()
+
+        const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
+
+        const receipt = await this.nevermined.agreements.conditions.transferNft(
+            agreementId,
+            ddo,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            1,
+            sellerAccount
+        )
+
+        if (!receipt) throw new Error('Transaction Failed.')
+    }
+
+    public async buyerAndArtistReceivesPayment(
+        seller: string,
+        buyer: string,
+        nftPrice: number,
+        ddo: DDO
+    ) {
+        const agreementId = utils.generateId()
+
+        const sellerAccount = new Account(seller)
+
+        const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
+
+        const receipt = await this.nevermined.agreements.conditions.releaseNftReward(
+            agreementId,
+            ddo,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            1,
+            sellerAccount
+        )
+
+        if (!receipt) throw new Error('Transaction Failed.')
+    }
 }
