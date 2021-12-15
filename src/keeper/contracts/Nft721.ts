@@ -29,7 +29,13 @@ export default class Nft721 extends ContractBase {
         return this.send('mint', from, [didZeroX(did)], params)
     }
 
-    public async mintWithURL(to: string, did: string, url: string, from?: Account, params?: TxParameters) {
+    public async mintWithURL(
+        to: string,
+        did: string,
+        url: string,
+        from?: Account,
+        params?: TxParameters
+    ) {
         return this.sendFrom('mint', [to, didZeroX(did), url], from, params)
     }
 

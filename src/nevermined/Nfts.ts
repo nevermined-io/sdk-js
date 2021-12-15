@@ -181,7 +181,11 @@ export class Nfts extends Instantiable {
         return agreementId
     }
 
-    public async order721(did: string, consumer: Account, txParams?: TxParameters): Promise<string> {
+    public async order721(
+        did: string,
+        consumer: Account,
+        txParams?: TxParameters
+    ): Promise<string> {
         let result: boolean
 
         const { nft721SalesTemplate } = this.nevermined.keeper.templates

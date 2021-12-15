@@ -69,7 +69,12 @@ export class AgreementsConditions extends Instantiable {
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)
-            await token.approve(lockPaymentCondition.getAddress(), totalAmount, from, txParams)
+            await token.approve(
+                lockPaymentCondition.getAddress(),
+                totalAmount,
+                from,
+                txParams
+            )
         }
 
         const receipt = await lockPaymentCondition.fulfill(
@@ -715,7 +720,12 @@ export class AgreementsConditions extends Instantiable {
             transfer.parameters.find(p => p.name === '_contract').value as string
         )
 
-        await nft.setApprovalForAll(transferNft721Condition.address, true, publisher, txParams)
+        await nft.setApprovalForAll(
+            transferNft721Condition.address,
+            true,
+            publisher,
+            txParams
+        )
 
         const {
             accessConsumer
@@ -735,7 +745,12 @@ export class AgreementsConditions extends Instantiable {
             txParams
         )
 
-        await nft.setApprovalForAll(transferNft721Condition.address, false, publisher, txParams)
+        await nft.setApprovalForAll(
+            transferNft721Condition.address,
+            false,
+            publisher,
+            txParams
+        )
 
         return !!receipt.events.Fulfilled
     }
