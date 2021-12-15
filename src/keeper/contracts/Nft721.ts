@@ -2,6 +2,7 @@ import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
 import { abi } from './../../artifacts/ERC721.json'
+import { Account } from '../..'
 
 export default class Nft721 extends ContractBase {
     public static async getInstance(
@@ -26,6 +27,16 @@ export default class Nft721 extends ContractBase {
 
     public async mint(did: string, from: string, params?: TxParameters) {
         return this.send('mint', from, [didZeroX(did)], params)
+    }
+
+    public async mintWithURL(
+        to: string,
+        did: string,
+        url: string,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom('mint', [to, didZeroX(did), url], from, params)
     }
 
     public async setApprovalForAll(

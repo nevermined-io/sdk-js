@@ -2,6 +2,7 @@ import { Condition } from './Condition.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
 
 export class EscrowPaymentCondition extends Condition {
     public static async getInstance(
@@ -41,7 +42,8 @@ export class EscrowPaymentCondition extends Condition {
         tokenAddress: string,
         lockCondition: string,
         releaseCondition: string,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ) {
         const amountsString = amounts.map(v => String(v))
         return super.fulfill(
@@ -57,7 +59,8 @@ export class EscrowPaymentCondition extends Condition {
                     releaseCondition
                 ].map(zeroX)
             ],
-            from
+            from,
+            txParams
         )
     }
 }

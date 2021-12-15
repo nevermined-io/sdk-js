@@ -1,6 +1,7 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '../../../utils'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
 
 export abstract class BaseTemplate extends AgreementTemplate {
     /**
@@ -21,7 +22,8 @@ export abstract class BaseTemplate extends AgreementTemplate {
         timeLocks: number[],
         timeOuts: number[],
         accessConsumer: string,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ) {
         return super.createAgreement(
             agreementId,
@@ -30,7 +32,8 @@ export abstract class BaseTemplate extends AgreementTemplate {
             timeLocks,
             timeOuts,
             [accessConsumer],
-            from
+            from,
+            txParams
         )
     }
 

@@ -7,6 +7,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
 import { findServiceConditionByName } from '../../../utils'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
 
 export class NFT721SalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -25,7 +26,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumerAddress: Account,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const [
             lockPaymentConditionId,
@@ -45,7 +47,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
             [0, 0, 0],
             [0, 0, 0],
             consumerAddress.getId(),
-            from
+            from,
+            txParams
         ))
     }
 

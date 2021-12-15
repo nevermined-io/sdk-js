@@ -113,7 +113,7 @@ export abstract class AgreementTemplate extends ContractBase {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        ...parameters: (string | number | Account | BabyjubPublicKey)[]
+        ...parameters: (string | number | Account | BabyjubPublicKey | TxParameters)[]
     ): Promise<boolean>
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>

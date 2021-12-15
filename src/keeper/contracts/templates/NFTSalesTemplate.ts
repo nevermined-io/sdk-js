@@ -7,6 +7,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
 import { findServiceConditionByName } from '../../../utils'
+import { TxParameters } from '../ContractBase'
 
 export class NFTSalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -22,7 +23,8 @@ export class NFTSalesTemplate extends BaseTemplate {
         consumer: Account,
         nftAmount?: number,
         provider?: Account,
-        from?: Account
+        from?: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const [
             lockPaymentConditionId,
@@ -43,7 +45,8 @@ export class NFTSalesTemplate extends BaseTemplate {
             [0, 0, 0],
             [0, 0, 0],
             consumer.getId(),
-            from
+            from,
+            txParams
         ))
     }
 
