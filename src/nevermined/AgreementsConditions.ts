@@ -549,7 +549,8 @@ export class AgreementsConditions extends Instantiable {
         amounts: number[],
         receivers: string[],
         nftAmount: number,
-        from?: Account
+        from?: Account,
+        consumer?: Account
     ) {
         const {
             transferNftCondition,
@@ -557,11 +558,22 @@ export class AgreementsConditions extends Instantiable {
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        const {
-            accessConsumer
-        } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
-            agreementId
-        )
+        // TODO: Check if this change is still necessary
+        // const {
+        //     accessConsumer
+        // } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
+        //     agreementId
+        // )
+        let accessConsumer: string
+        if (consumer) {
+            accessConsumer = consumer.getId()
+        } else {
+            ;({
+                accessConsumer
+            } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
+                agreementId
+            ))
+        }
 
         const salesService = ddo.findServiceByType('nft-sales')
 

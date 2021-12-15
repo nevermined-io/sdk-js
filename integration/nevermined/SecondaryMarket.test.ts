@@ -9,6 +9,7 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
+import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -28,6 +29,7 @@ describe('Secondary Markets', () => {
     let token: Token
     let nftUpgradeable: NFTUpgradeable
     let didRegistry: DIDRegistry
+    let conditionStoreManager: ConditionStoreManager
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition
@@ -77,7 +79,12 @@ describe('Secondary Markets', () => {
         receivers2 = [collector1.getId(), artist.getId()]
 
         // components
-        ;({ didRegistry, token, nftUpgradeable } = nevermined.keeper)
+        ;({
+            didRegistry,
+            token,
+            nftUpgradeable,
+            conditionStoreManager
+        } = nevermined.keeper)
 
         // conditions
         ;({
@@ -358,7 +365,7 @@ describe('Secondary Markets', () => {
                     agreementId2,
                     ddo,
                     assetRewards2,
-                    collector2,
+                    collector1,
                     numberNFTs2,
                     collector1,
                     collector1
@@ -421,13 +428,46 @@ describe('Secondary Markets', () => {
                     ddo.id
                 )
 
+                // Let's regenerated the expected lockPaymentConditionId to makse
+                // sure we are performing the correct transfer
+                const lockPaymentConditionId = await lockPaymentCondition.generateId(
+                    agreementId2,
+                    await lockPaymentCondition.hashValues(
+                        ddo.shortId(),
+                        escrowPaymentCondition.getAddress(),
+                        token.address,
+                        assetRewards2.getAmounts(),
+                        assetRewards2.getReceivers()
+                    )
+                )
+
+                const transferNftConditionId = await transferNftCondition.generateId(
+                    agreementId2,
+                    await transferNftCondition.hashValues(
+                        ddo.shortId(),
+                        collector1.getId(), // nftHolder
+                        collector2.getId(), // nftReceiver
+                        numberNFTs2, // nftAmount
+                        lockPaymentConditionId
+                    )
+                )
+
+                // Store the transferNftConditionId on chain so that it exists
+                // before trying to fulfill it
+                await conditionStoreManager.createCondition(
+                    transferNftConditionId,
+                    transferNftCondition.address,
+                    collector1
+                )
+
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId2,
                     ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
                     numberNFTs2,
-                    collector1
+                    collector1,
+                    collector2
                 )
 
                 assert.isTrue(receipt)
