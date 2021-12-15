@@ -449,25 +449,6 @@ export default class DIDRegistry extends ContractBase {
         return this.send('burn', from, [didZeroX(did), amount], params)
     }
 
-    public async transferNft(
-        did: string,
-        to: string,
-        amount: number,
-        from: string,
-        params?: TxParameters
-    ) {
-        return this.send(
-            'safeTransferFrom',
-            from,
-            [from, to, didZeroX(did), amount, randomBytes(1)],
-            params
-        )
-    }
-
-    public async balance(address: string, did: string): Promise<number> {
-        return this.call('balanceOf', [zeroX(address), didZeroX(did)])
-    }
-
     public async addProvider(
         did: string,
         provider: string,
@@ -499,20 +480,6 @@ export default class DIDRegistry extends ContractBase {
     public async getProviders(did: string) {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
         return registeredValues[5].filter((x: string) => x != ZeroAddress)
-    }
-
-    public async setApprovalForAll(
-        operator: string,
-        approved: boolean,
-        from: string,
-        params?: TxParameters
-    ) {
-        return await this.send(
-            'setApprovalForAll',
-            from,
-            [zeroX(operator), approved],
-            params
-        )
     }
 
     public async setProxyApproval(

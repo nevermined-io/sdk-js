@@ -2,6 +2,7 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { NFTLockCondition } from '../../../src/keeper/contracts/conditions'
+import { NFTUpgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
@@ -15,6 +16,7 @@ describe('NFTLockCondition', () => {
     let nftLockCondition: NFTLockCondition
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
+    let nftUpgradeable: NFTUpgradeable
     let rewardAddress: Account
     let owner: Account
 
@@ -29,7 +31,7 @@ describe('NFTLockCondition', () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
         ;({ nftLockCondition } = nevermined.keeper.conditions)
-        ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
+        ;({ conditionStoreManager, didRegistry, nftUpgradeable } = nevermined.keeper)
         ;[owner, rewardAddress] = await nevermined.accounts.list()
     })
 
@@ -83,10 +85,10 @@ describe('NFTLockCondition', () => {
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
 
-            await didRegistry.setApprovalForAll(
+            await nftUpgradeable.setApprovalForAll(
                 nftLockCondition.getAddress(),
                 true,
-                owner.getId()
+                owner
             )
 
             const hashValues = await nftLockCondition.hashValues(
@@ -110,7 +112,7 @@ describe('NFTLockCondition', () => {
             )
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
-            const nftBalance = await didRegistry.balance(rewardAddress.getId(), did)
+            const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
             assert.equal(nftBalance, amount)
 
             const {
@@ -145,10 +147,10 @@ describe('NFTLockCondition', () => {
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
-            await didRegistry.setApprovalForAll(
+            await nftUpgradeable.setApprovalForAll(
                 nftLockCondition.getAddress(),
                 true,
-                owner.getId()
+                owner
             )
 
             await assert.isRejected(
@@ -172,10 +174,10 @@ describe('NFTLockCondition', () => {
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
-            await didRegistry.setApprovalForAll(
+            await nftUpgradeable.setApprovalForAll(
                 nftLockCondition.getAddress(),
                 true,
-                owner.getId()
+                owner
             )
 
             const hashValues = await nftLockCondition.hashValues(
@@ -217,10 +219,10 @@ describe('NFTLockCondition', () => {
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
-            await didRegistry.setApprovalForAll(
+            await nftUpgradeable.setApprovalForAll(
                 nftLockCondition.getAddress(),
                 true,
-                owner.getId()
+                owner
             )
 
             const hashValues = await nftLockCondition.hashValues(

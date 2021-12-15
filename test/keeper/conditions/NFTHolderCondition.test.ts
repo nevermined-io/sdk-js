@@ -2,6 +2,7 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { NFTHolderCondition } from '../../../src/keeper/contracts/conditions'
+import { NFTUpgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
@@ -14,6 +15,7 @@ describe('NFTHolderCondition', () => {
     let nftHolderCondition: NFTHolderCondition
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
+    let nftUpgradeable: NFTUpgradeable
     let holder: Account
     let owner: Account
 
@@ -28,7 +30,7 @@ describe('NFTHolderCondition', () => {
         await TestContractHandler.prepareContracts()
         const nevermined = await Nevermined.getInstance(config)
         ;({ nftHolderCondition } = nevermined.keeper.conditions)
-        ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
+        ;({ conditionStoreManager, didRegistry, nftUpgradeable } = nevermined.keeper)
         ;[owner, holder] = await nevermined.accounts.list()
 
         await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
@@ -90,7 +92,7 @@ describe('NFTHolderCondition', () => {
                 owner.getId()
             )
             await didRegistry.mint(did, 10, owner.getId())
-            await didRegistry.transferNft(did, holder.getId(), 10, owner.getId())
+            await nftUpgradeable.transferNft(did, holder.getId(), 10, owner.getId())
 
             const result = await nftHolderCondition.fulfill(
                 agreementId,
@@ -131,7 +133,7 @@ describe('NFTHolderCondition', () => {
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, 10, owner.getId())
-            await didRegistry.transferNft(did, holder.getId(), 10, owner.getId())
+            await nftUpgradeable.transferNft(did, holder.getId(), 10, owner.getId())
 
             await assert.isRejected(
                 nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),
@@ -171,7 +173,7 @@ describe('NFTHolderCondition', () => {
                 owner.getId()
             )
             await didRegistry.mint(did, 10, owner.getId())
-            await didRegistry.transferNft(did, holder.getId(), 1, owner.getId())
+            await nftUpgradeable.transferNft(did, holder.getId(), 1, owner.getId())
 
             await assert.isRejected(
                 nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),

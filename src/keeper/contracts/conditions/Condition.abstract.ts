@@ -43,9 +43,10 @@ export abstract class Condition extends ContractBase {
         agreementId: string,
         args: any[],
         from?: Account,
-        params?: TxParameters
+        params?: TxParameters,
+        method: string = 'fulfill'
     ) {
-        return this.sendFrom('fulfill', [zeroX(agreementId), ...args], from, params)
+        return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
     }
 
     public async generateIdHash(agreementId: string, ...values: any[]) {
