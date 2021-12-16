@@ -514,13 +514,15 @@ export class Nfts extends Instantiable {
         }
     }
 
-    public async lockBuyersPayments(
+    public async buySecondaryMarketNft(
         buyer: string,
         seller: string,
         nftPrice: number,
+        numOfNfts: number = 1,
         ddo: DDO
     ) {
         const buyersAccount = new Account(buyer)
+        const sellersAccount = new Account(seller)
         const { token } = this.nevermined.keeper
 
         const agreementId = utils.generateId()
@@ -529,7 +531,7 @@ export class Nfts extends Instantiable {
         const scale = 10 ** (await token.decimals())
         await buyersAccount.requestTokens(nftPrice / scale)
 
-        const receipt = await this.nevermined.agreements.conditions.lockPayment(
+        let receipt = await this.nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
             assetRewards.getAmounts(),
@@ -539,52 +541,74 @@ export class Nfts extends Instantiable {
         )
 
         if (!receipt) throw new Error('Transaction Failed.')
-    }
 
-    public async transferNftToBuyer(
-        seller: string,
-        buyer: string,
-        ddo: DDO,
-        nftPrice: number
-    ) {
-        const sellerAccount = new Account(seller)
-        const agreementId = utils.generateId()
-
-        const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
-
-        const receipt = await this.nevermined.agreements.conditions.transferNft(
+        receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            1,
-            sellerAccount
+            numOfNfts,
+            sellersAccount
+        )
+
+        if (!receipt) throw new Error('Transaction Failed.')
+
+        receipt = await this.nevermined.agreements.conditions.releaseNftReward(
+            agreementId,
+            ddo,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            numOfNfts,
+            sellersAccount
         )
 
         if (!receipt) throw new Error('Transaction Failed.')
     }
 
-    public async buyerAndArtistReceivesPayment(
-        seller: string,
-        buyer: string,
-        nftPrice: number,
-        ddo: DDO
-    ) {
-        const agreementId = utils.generateId()
+    // public async transferNftToBuyer(
+    //     seller: string,
+    //     buyer: string,
+    //     ddo: DDO,
+    //     nftPrice: number
+    // ) {
+    //     const sellerAccount = new Account(seller)
+    //     const agreementId = utils.generateId()
 
-        const sellerAccount = new Account(seller)
+    //     const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
 
-        const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
+    //     const receipt = await this.nevermined.agreements.conditions.transferNft(
+    //         agreementId,
+    //         ddo,
+    //         assetRewards.getAmounts(),
+    //         assetRewards.getReceivers(),
+    //         1,
+    //         sellerAccount
+    //     )
 
-        const receipt = await this.nevermined.agreements.conditions.releaseNftReward(
-            agreementId,
-            ddo,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            1,
-            sellerAccount
-        )
+    //     if (!receipt) throw new Error('Transaction Failed.')
+    // }
 
-        if (!receipt) throw new Error('Transaction Failed.')
-    }
+    // public async buyerAndArtistReceivesPayment(
+    //     seller: string,
+    //     buyer: string,
+    //     nftPrice: number,
+    //     ddo: DDO
+    // ) {
+    //     const agreementId = utils.generateId()
+
+    //     const sellerAccount = new Account(seller)
+
+    //     const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
+
+    //     const receipt = await this.nevermined.agreements.conditions.releaseNftReward(
+    //         agreementId,
+    //         ddo,
+    //         assetRewards.getAmounts(),
+    //         assetRewards.getReceivers(),
+    //         1,
+    //         sellerAccount
+    //     )
+
+    //     if (!receipt) throw new Error('Transaction Failed.')
+    // }
 }
