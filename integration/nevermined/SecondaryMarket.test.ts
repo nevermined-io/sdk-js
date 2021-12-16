@@ -406,14 +406,20 @@ describe('Secondary Markets', () => {
             })
 
             it('As collector2 I am setting an agreement for buying an NFT', async () => {
+                // After fetching the previously created sales agreement
+                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                    nftSalesServiceAgreement
+                )
+
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2,
                     ddo,
-                    assetRewards2,
+                    assetRewardsFromServiceAgreement,
                     collector2,
                     numberNFTs2,
                     collector1,
-                    collector2
+                    collector2,
+                    nftSalesServiceAgreement
                 )
                 assert.isTrue(result)
 
@@ -447,8 +453,6 @@ describe('Secondary Markets', () => {
                 const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
                     nftSalesServiceAgreement
                 )
-                console.log(assetRewards2)
-                console.log(assetRewardsFromServiceAgreement)
                 const payment = findServiceConditionByName(
                     nftSalesServiceAgreement,
                     'lockPayment'
@@ -457,8 +461,8 @@ describe('Secondary Markets', () => {
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId2,
                     ddo.id,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
+                    assetRewardsFromServiceAgreement.getAmounts(),
+                    assetRewardsFromServiceAgreement.getReceivers(),
                     payment.parameters.find(p => p.name === '_tokenAddress')
                         .value as string,
                     collector2
