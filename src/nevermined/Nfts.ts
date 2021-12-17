@@ -13,8 +13,7 @@ import {
 } from '../utils'
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
-import { Metadata } from '../metadata/Metadata'
-import { ServiceAgreement } from './utils/ServiceAgreement'
+import { ServiceCommon } from '../ddo/Service'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -520,9 +519,12 @@ export class Nfts extends Instantiable {
 
         if (result) {
             //save the service agreement into the MetadataDB
-            const saveResult = await this.nevermined.metadata.storeServiceAgreement(
+            const service = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+                agreementId
+            )
+            const saveResult = await this.nevermined.metadata.storeService(
                 // Q: where to get the service agreement from?
-                ({} as unknown) as any
+                (service as unknown) as ServiceCommon
             )
 
             if (saveResult) {
