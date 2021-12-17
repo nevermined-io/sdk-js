@@ -528,8 +528,7 @@ export class Nfts extends Instantiable {
         const sellersAccount = new Account(seller)
         const { token } = this.nevermined.keeper
 
-        //What is config here @Elod
-        let service = await new Metadata().retrieveServiceAgreement(agreementId)
+        let service = await this.nevermined.metadata.retrieveServiceAgreement(agreementId)
         const assetRewards = getAssetRewardsFromService(service)
 
         const scale = 10 ** (await token.decimals())
@@ -543,8 +542,6 @@ export class Nfts extends Instantiable {
             token.getAddress(),
             buyersAccount
         )
-
-        assetRewards = new AssetRewards(new Map([[seller, nftPrice]]))
 
         if (!receipt) throw new Error('Transaction Failed.')
 
