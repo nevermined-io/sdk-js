@@ -15,6 +15,7 @@ import { CreateProgressStep } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { Service } from '../ddo/Service'
+import { Metadata } from '../metadata/Metadata'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -527,8 +528,9 @@ export class Nfts extends Instantiable {
         const sellersAccount = new Account(seller)
         const { token } = this.nevermined.keeper
 
-        const agreementId = utils.generateId()
-        let assetRewards = get
+        //What is config here @Elod
+        let service = await new Metadata().retrieveServiceAgreement(agreementId)
+        const assetRewards = getAssetRewardsFromService(service)
 
         const scale = 10 ** (await token.decimals())
         await buyersAccount.requestTokens(nftPrice / scale)

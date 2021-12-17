@@ -2,8 +2,10 @@ import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { Service } from '../ddo/Service'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
+const agreementPath = '/api/v1/metadata/assets/agreement'
 
 export interface QueryResult {
     results: DDO[]
@@ -299,6 +301,37 @@ export class Metadata extends Instantiable {
 
     public getServiceEndpoint(did: DID) {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
+    }
+
+    public async retrieveServiceAgreement(
+        agreementId: string,
+        metadataServiceEndpoint?: string
+    ): Promise<Service> {
+        const fullUrl =
+            metadataServiceEndpoint || `${this.url}${agreementPath}/${agreementId}`
+        const result = await this.nevermined.utils.fetch
+            .get(fullUrl)
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json()
+                }
+                this.logger.log(
+                    'retrieveDDO failed:',
+                    response.status,
+                    response.statusText,
+                    agreementId
+                )
+                return null as Service
+            })
+            .then((response: Service) => {
+                return response as Service
+            })
+            .catch(error => {
+                this.logger.error('Error retrieving metadata: ', error)
+                return null as Service
+            })
+
+        return result
     }
 
     private transformResult(
