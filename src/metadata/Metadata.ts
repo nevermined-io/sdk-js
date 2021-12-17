@@ -2,10 +2,10 @@ import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { Service } from '../ddo/Service'
+import { ServiceCommon } from '../ddo/Service'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
-const agreementPath = '/api/v1/metadata/assets/agreement'
+const servicePath = '/api/v1/metadata/assets/service'
 
 export interface QueryResult {
     results: DDO[]
@@ -300,16 +300,16 @@ export class Metadata extends Instantiable {
     }
 
     /**
-     * Retrieves a DDO by DID.
-     * @param  {string} agreementId agreementId of the asset.
-     * @return {Promise<Service>} DDO of the asset.
+     * Retrieves a service by its agreementId.
+     * @param  {string} agreementId agreementId of the service.
+     * @return {Promise<ServiceCommon>} Service object.
      */
-    public async retrieveServiceAgreement(
+    public async retrieveService(
         agreementId: string,
         metadataServiceEndpoint?: string
-    ): Promise<Service> {
+    ): Promise<ServiceCommon> {
         const fullUrl =
-            metadataServiceEndpoint || `${this.url}${agreementPath}/${agreementId}`
+            metadataServiceEndpoint || `${this.url}${servicePath}/${agreementId}`
         const result = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
@@ -317,46 +317,51 @@ export class Metadata extends Instantiable {
                     return response.json()
                 }
                 this.logger.log(
-                    'retrieveDDO failed:',
+                    'retrieveService failed:',
                     response.status,
                     response.statusText,
                     agreementId
                 )
-                return null as Service
+                return null as ServiceCommon
             })
-            .then((response: Service) => {
-                return response as Service
+            .then((response: ServiceCommon) => {
+                return response as ServiceCommon
             })
             .catch(error => {
-                this.logger.error('Error retrieving metadata: ', error)
-                return null as Service
+                this.logger.error('Error retrieving service: ', error)
+                return null as ServiceCommon
             })
 
         return result
     }
 
-    public async storeServiceAgreement(agreement: Service): Promise<Service> {
-        const fullUrl = `${this.url}${agreementPath}`
-        const result: Service = await this.nevermined.utils.fetch
+    /**
+     *
+     * @param agreement stores the Service object with its agreementId as
+     * @returns the newly stored service object
+     */
+    public async storeService(agreement: ServiceCommon): Promise<ServiceCommon> {
+        const fullUrl = `${this.url}${servicePath}`
+        const result: ServiceCommon = await this.nevermined.utils.fetch
             .post(fullUrl, JSON.stringify(agreement))
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()
                 }
                 this.logger.error(
-                    'storeServiceAngrement failed:',
+                    'storeService failed:',
                     response.status,
                     response.statusText,
                     agreement
                 )
                 return null as DDO
             })
-            .then((response: Service) => {
-                return response as Service
+            .then((response: ServiceCommon) => {
+                return response as ServiceCommon
             })
             .catch(error => {
-                this.logger.error('Error storing metadata: ', error)
-                return null as Service
+                this.logger.error('Error storing service: ', error)
+                return null as ServiceCommon
             })
 
         return result
