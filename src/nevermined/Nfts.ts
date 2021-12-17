@@ -14,6 +14,7 @@ import {
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
+import { Service } from '../ddo/Service'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -519,14 +520,15 @@ export class Nfts extends Instantiable {
         seller: string,
         nftPrice: number,
         numOfNfts: number = 1,
-        ddo: DDO
+        ddo: DDO,
+        agreementId: string
     ) {
         const buyersAccount = new Account(buyer)
         const sellersAccount = new Account(seller)
         const { token } = this.nevermined.keeper
 
         const agreementId = utils.generateId()
-        const assetRewards = new AssetRewards(new Map([[seller, nftPrice]]))
+        let assetRewards = get
 
         const scale = 10 ** (await token.decimals())
         await buyersAccount.requestTokens(nftPrice / scale)
@@ -539,6 +541,8 @@ export class Nfts extends Instantiable {
             token.getAddress(),
             buyersAccount
         )
+
+        assetRewards = new AssetRewards(new Map([[seller, nftPrice]]))
 
         if (!receipt) throw new Error('Transaction Failed.')
 
