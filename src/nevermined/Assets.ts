@@ -316,6 +316,7 @@ export class Assets extends Instantiable {
                 '',
                 1,
                 royalties,
+                false,
                 publisher.getId(),
                 txParams
             )

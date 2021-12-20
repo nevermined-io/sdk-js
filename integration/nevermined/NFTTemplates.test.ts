@@ -177,6 +177,7 @@ describe('NFTTemplates E2E', () => {
                     '',
                     cappedAmount,
                     royalties,
+                    false,
                     artist.getId()
                 )
 
