@@ -17,6 +17,7 @@ import {
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 import { ServiceAgreementTemplate } from '../ddo/ServiceAgreementTemplate'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -100,7 +101,8 @@ export class Assets extends Instantiable {
         nftTokenAddress: string,
         erc20TokenAddress?: string,
         providers?: string[],
-        royalties: number = 0
+        royalties: number = 0,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')
         return new SubscribablePromise(async observer => {
@@ -300,7 +302,8 @@ export class Assets extends Instantiable {
                 ddo.checksum(ddo.shortId()),
                 providers || [this.config.gatewayAddress],
                 serviceEndpoint,
-                publisher.getId()
+                publisher.getId(),
+                txParams
             )
 
             this.logger.debug('Registering Mintable DID')
@@ -313,7 +316,8 @@ export class Assets extends Instantiable {
                 '',
                 1,
                 royalties,
-                publisher.getId()
+                publisher.getId(),
+                txParams
             )
 
             this.logger.log('DID registred')
@@ -332,7 +336,8 @@ export class Assets extends Instantiable {
         providers?: string[],
         nftAmount?: number,
         royalties?: number,
-        erc20TokenAddress?: string
+        erc20TokenAddress?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
         return new SubscribablePromise(async observer => {
@@ -535,7 +540,8 @@ export class Assets extends Instantiable {
                 ddo.checksum(ddo.shortId()),
                 providers || [this.config.gatewayAddress],
                 serviceEndpoint,
-                publisher.getId()
+                publisher.getId(),
+                txParams
             )
 
             this.logger.debug('Enabling Minting on DID')
@@ -544,7 +550,8 @@ export class Assets extends Instantiable {
                 cap,
                 royalties,
                 false,
-                publisher.getId()
+                publisher.getId(),
+                txParams
             )
 
             this.logger.log('DID registred')
