@@ -13,7 +13,6 @@ import {
 } from '../utils'
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
-import { ServiceCommon } from '../ddo/Service'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -503,7 +502,7 @@ export class Nfts extends Instantiable {
         numberNFTs: number,
         provider: string,
         owner: Account
-    ): Promise<boolean> {
+    ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const providerAccounts = new Account(provider)
         const agreementId = utils.generateId()
@@ -511,24 +510,18 @@ export class Nfts extends Instantiable {
             agreementId,
             ddo,
             assetRewards,
-            owner, // TODO: eliminate needing the consumer
+            owner,
             numberNFTs,
             providerAccounts || new Account(this.config.gatewayAddress),
             owner
         )
 
         if (result) {
-            //save the service agreement into the MetadataDB
-            const service = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-                agreementId
-            )
-            const saveResult = await this.nevermined.metadata.storeService(
-                // Q: where to get the service agreement from?
-                (service as unknown) as ServiceCommon
-            )
+            const service = ddo.findServiceByType('nft-sales')
+            const saveResult = await this.nevermined.metadata.storeService(service)
 
             if (saveResult) {
-                return true
+                return agreementId
             } else {
                 throw Error(`Error saving ${agreementId} to MetadataDB`)
             }
