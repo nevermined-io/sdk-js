@@ -340,8 +340,12 @@ export class Metadata extends Instantiable {
      * @param agreement stores the Service object with its agreementId as
      * @returns the newly stored service object
      */
-    public async storeService(agreement: ServiceCommon): Promise<ServiceCommon> {
+    public async storeService(
+        agreementId: string,
+        agreement: ServiceCommon
+    ): Promise<ServiceCommon> {
         const fullUrl = `${this.url}${servicePath}`
+        agreement['agreementId'] = agreementId
         const result: ServiceCommon = await this.nevermined.utils.fetch
             .post(fullUrl, JSON.stringify(agreement))
             .then((response: any) => {

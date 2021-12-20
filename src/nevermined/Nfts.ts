@@ -547,7 +547,10 @@ export class Nfts extends Instantiable {
 
         if (result) {
             const service = ddo.findServiceByType('nft-sales')
-            const saveResult = await this.nevermined.metadata.storeService(service)
+            const saveResult = await this.nevermined.metadata.storeService(
+                agreementId,
+                service
+            )
 
             if (saveResult) {
                 return agreementId
