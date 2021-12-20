@@ -530,8 +530,11 @@ export class Nfts extends Instantiable {
         owner: Account
     ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const providerAccounts = new Account(provider)
+        let providerAccounts: Account
         const agreementId = utils.generateId()
+        if (provider && provider !== null && provider !== '') {
+            providerAccounts = new Account(provider)
+        }
         const result = await nftSalesTemplate.createAgreementFromDDO(
             agreementId,
             ddo,
