@@ -49,6 +49,7 @@ describe('Secondary Markets', () => {
     const cappedAmount = 5
     let agreementId: string
     let agreementId2: string
+    let agreementId3: string
     let agreementAccessId: string
     let agreementAccessId2: string
     let nftSalesServiceAgreement: Service
@@ -658,8 +659,8 @@ describe('Secondary Markets', () => {
                 }
             })
 
-            it('As collector1 I setup an agreement for selling my NFT', async () => {
-                const agreementId = await nevermined.nfts.listOnSecondaryMarkets(
+            it('As collector2 I setup an agreement for selling my NFT', async () => {
+                agreementId3 = await nevermined.nfts.listOnSecondaryMarkets(
                     ddo,
                     assetRewards3,
                     numberNFTs2,
@@ -667,10 +668,82 @@ describe('Secondary Markets', () => {
                     collector2
                 )
 
-                assert.isNotNull(agreementId)
+                assert.isNotNull(agreementId3)
 
-                const service = await nevermined.metadata.retrieveService(agreementId)
+                const service = await nevermined.metadata.retrieveService(agreementId3)
                 assert.isNotNull(service)
+                const status = await nftSalesTemplate.getAgreementStatus(agreementId3)
+                assert.equal(
+                    status && status.lockPayment.state,
+                    ConditionState.Unfulfilled
+                )
+                assert.equal(
+                    status && status.transferNFT.state,
+                    ConditionState.Unfulfilled
+                )
+                assert.equal(
+                    status && status.escrowPayment.state,
+                    ConditionState.Unfulfilled
+                )
+            })
+
+            it('As collector1 I buy the secondary market NFT', async () => {
+                const scale = 10 ** (await token.decimals())
+                await collector1.requestTokens(nftPrice2 / scale)
+
+                const nftBalanceCollector1Before = await nftUpgradeable.balance(
+                    collector1.getId(),
+                    ddo.id
+                )
+                const nftBalanceCollector2Before = await nftUpgradeable.balance(
+                    collector2.getId(),
+                    ddo.id
+                )
+
+                const result = await nevermined.nfts.buySecondaryMarketNft(
+                    collector1.getId(),
+                    collector2.getId(),
+                    1,
+                    ddo,
+                    collector2.getId(),
+                    agreementId3
+                )
+
+                assert.isTrue(result)
+
+                const nftBalanceCollector1After = await nftUpgradeable.balance(
+                    collector1.getId(),
+                    ddo.id
+                )
+                const nftBalanceCollector2After = await nftUpgradeable.balance(
+                    collector2.getId(),
+                    ddo.id
+                )
+
+                assert.equal(
+                    Number(nftBalanceCollector1After),
+                    Number(nftBalanceCollector1Before) - numberNFTs2
+                )
+                assert.equal(
+                    Number(nftBalanceCollector2After),
+                    Number(nftBalanceCollector2Before) + numberNFTs
+                )
+
+                const escrowPaymentConditionBalance = await token.balanceOf(
+                    escrowPaymentCondition.getAddress()
+                )
+                const receiver0Balance = await token.balanceOf(receivers3[0])
+                const receiver1Balance = await token.balanceOf(receivers3[1])
+                const collectorBalance = await token.balanceOf(collector2.getId())
+
+                assert.equal(receiver0Balance, initialBalances.collector1 + amounts2[0])
+                assert.equal(receiver1Balance, initialBalances.artist + amounts2[1])
+                assert.equal(collectorBalance - initialBalances.collector2, 0)
+                assert.equal(
+                    escrowPaymentConditionBalance -
+                        initialBalances.escrowPaymentCondition,
+                    0
+                )
             })
         })
     })

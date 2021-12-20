@@ -523,7 +523,7 @@ export class Nfts extends Instantiable {
      * @param numberNFTs {Number} the number of NFTs put up for secondary sale
      * @param provider {Account} the account that will be the provider of the secondary sale
      * @param owner {Account} the account of the current owner
-     * @returns {Promise<boolean>} true if the secondary sale config was successful
+     * @returns {Promise<string>} the agreementId if the secondary sale config was successful
      */
     public async listOnSecondaryMarkets(
         ddo: DDO,
@@ -568,33 +568,50 @@ export class Nfts extends Instantiable {
     public async buySecondaryMarketNft(
         buyer: string,
         seller: string,
-        nftPrice: number,
         numOfNfts: number = 1,
         ddo: DDO,
+        provider: string,
         agreementId: string
-    ) {
-        const buyersAccount = new Account(buyer)
-        const sellersAccount = new Account(seller)
-        const { token } = this.nevermined.keeper
-
+    ): Promise<boolean> {
+        const buyerAccount = new Account(buyer)
+        const sellerAccount = new Account(seller)
+        const { nftSalesTemplate } = this.nevermined.keeper.templates
+        let providerAccounts: Account
+        if (provider && provider !== null && provider !== '') {
+            providerAccounts = new Account(provider)
+        }
         const service = await this.nevermined.metadata.retrieveServiceAgreement(
             agreementId
         )
         const assetRewards = getAssetRewardsFromService(service)
 
-        const scale = 10 ** (await token.decimals())
-        await buyersAccount.requestTokens(nftPrice / scale)
+        const result = await nftSalesTemplate.createAgreementFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            buyerAccount,
+            numOfNfts,
+            providerAccounts,
+            sellerAccount,
+            service as TxParameters
+        )
+
+        if (!result) throw new Error('Creating buy agreement failed')
+
+        const payment = findServiceConditionByName(service, 'lockPayment')
 
         let receipt = await this.nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            token.getAddress(),
-            buyersAccount
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            buyerAccount
         )
 
-        if (!receipt) throw new Error('Transaction Failed.')
+        if (!receipt) throw new Error('LockPayment Failed.')
+
+        const assetRewardsFromServiceAgreement = getAssetRewardsFromService(service)
 
         receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,
@@ -602,10 +619,11 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             numOfNfts,
-            sellersAccount
+            sellerAccount,
+            assetRewardsFromServiceAgreement as TxParameters
         )
 
-        if (!receipt) throw new Error('Transaction Failed.')
+        if (!receipt) throw new Error('TranferNft Failed.')
 
         receipt = await this.nevermined.agreements.conditions.releaseNftReward(
             agreementId,
@@ -613,56 +631,10 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             numOfNfts,
-            sellersAccount
+            sellerAccount
         )
 
-        if (!receipt) throw new Error('Transaction Failed.')
+        if (!receipt) throw new Error('ReleaseBftReward Failed.')
+        return true
     }
-
-    // public async transferNftToBuyer(
-    //     seller: string,
-    //     buyer: string,
-    //     ddo: DDO,
-    //     nftPrice: number
-    // ) {
-    //     const sellerAccount = new Account(seller)
-    //     const agreementId = utils.generateId()
-
-    //     const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
-
-    //     const receipt = await this.nevermined.agreements.conditions.transferNft(
-    //         agreementId,
-    //         ddo,
-    //         assetRewards.getAmounts(),
-    //         assetRewards.getReceivers(),
-    //         1,
-    //         sellerAccount
-    //     )
-
-    //     if (!receipt) throw new Error('Transaction Failed.')
-    // }
-
-    // public async buyerAndArtistReceivesPayment(
-    //     seller: string,
-    //     buyer: string,
-    //     nftPrice: number,
-    //     ddo: DDO
-    // ) {
-    //     const agreementId = utils.generateId()
-
-    //     const sellerAccount = new Account(seller)
-
-    //     const assetRewards = new AssetRewards(new Map([[buyer, nftPrice]]))
-
-    //     const receipt = await this.nevermined.agreements.conditions.releaseNftReward(
-    //         agreementId,
-    //         ddo,
-    //         assetRewards.getAmounts(),
-    //         assetRewards.getReceivers(),
-    //         1,
-    //         sellerAccount
-    //     )
-
-    //     if (!receipt) throw new Error('Transaction Failed.')
-    // }
 }
