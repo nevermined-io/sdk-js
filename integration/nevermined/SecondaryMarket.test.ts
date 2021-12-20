@@ -36,7 +36,6 @@ describe('Secondary Markets', () => {
     let token: Token
     let nftUpgradeable: NFTUpgradeable
     let didRegistry: DIDRegistry
-    let conditionStoreManager: ConditionStoreManager
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition
@@ -91,12 +90,7 @@ describe('Secondary Markets', () => {
         receivers3 = [collector2.getId(), artist.getId()]
 
         // components
-        ;({
-            didRegistry,
-            token,
-            nftUpgradeable,
-            conditionStoreManager
-        } = nevermined.keeper)
+        ;({ didRegistry, token, nftUpgradeable } = nevermined.keeper)
 
         // conditions
         ;({
@@ -414,10 +408,10 @@ describe('Secondary Markets', () => {
                     }
                 }
 
-                // This Service agreement is store on elasticsearch through the metadata api
+                // This Service agreement is stored on elasticsearch through the metadata api
             })
 
-            it('As collector2 I am setting an agreement for buying an NFT', async () => {
+            it('As collector2 I am setting an agreement up for buying an NFT', async () => {
                 // After fetching the previously created sales agreement
                 const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
                     nftSalesServiceAgreement
