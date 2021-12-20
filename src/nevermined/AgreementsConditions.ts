@@ -7,6 +7,7 @@ import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 import KeyTransfer from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { Service } from '../ddo/Service'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -310,7 +311,8 @@ export class AgreementsConditions extends Instantiable {
         nftAmount: number,
         publisher: Account,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        nftSalesService?: Service
     ) {
         const {
             escrowPaymentCondition,
@@ -318,7 +320,7 @@ export class AgreementsConditions extends Instantiable {
             transferNftCondition
         } = this.nevermined.keeper.conditions
 
-        const salesService = ddo.findServiceByType('nft-sales')
+        const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const {
             accessConsumer
@@ -562,7 +564,8 @@ export class AgreementsConditions extends Instantiable {
         receivers: string[],
         nftAmount: number,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        nftSalesService?: Service
     ) {
         const {
             transferNftCondition,
@@ -576,7 +579,7 @@ export class AgreementsConditions extends Instantiable {
             agreementId
         )
 
-        const salesService = ddo.findServiceByType('nft-sales')
+        const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment condition not found!')

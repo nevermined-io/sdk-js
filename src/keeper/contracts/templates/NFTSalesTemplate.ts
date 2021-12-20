@@ -8,6 +8,7 @@ import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.ser
 import Account from '../../../nevermined/Account'
 import { findServiceConditionByName } from '../../../utils'
 import { TxParameters } from '../ContractBase'
+import { Service } from '../../../ddo/Service'
 
 export class NFTSalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -24,7 +25,8 @@ export class NFTSalesTemplate extends BaseTemplate {
         nftAmount?: number,
         provider?: Account,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        nftSalesService?: Service
     ): Promise<boolean> {
         const [
             lockPaymentConditionId,
@@ -56,7 +58,8 @@ export class NFTSalesTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string,
         nftAmount?: number,
-        provider?: string
+        provider?: string,
+        nftSalesService?: Service
     ): Promise<string[]> {
         const {
             lockPaymentCondition,
@@ -64,7 +67,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        const salesService = ddo.findServiceByType('nft-sales')
+        const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
