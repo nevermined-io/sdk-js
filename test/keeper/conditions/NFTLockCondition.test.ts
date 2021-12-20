@@ -80,6 +80,7 @@ describe('NFTLockCondition', () => {
                 '',
                 amount,
                 0,
+                false,
                 owner.getId()
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
@@ -143,6 +144,7 @@ describe('NFTLockCondition', () => {
                 '',
                 amount,
                 0,
+                false,
                 owner.getId()
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
@@ -170,6 +172,7 @@ describe('NFTLockCondition', () => {
                 '',
                 amount,
                 0,
+                false,
                 owner.getId()
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
@@ -215,6 +218,7 @@ describe('NFTLockCondition', () => {
                 '',
                 amount,
                 0,
+                false,
                 owner.getId()
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())

@@ -89,6 +89,7 @@ describe('NFTHolderCondition', () => {
                 '',
                 100,
                 0,
+                false,
                 owner.getId()
             )
             await didRegistry.mint(did, 10, owner.getId())
@@ -129,6 +130,7 @@ describe('NFTHolderCondition', () => {
                 '',
                 100,
                 0,
+                false,
                 owner.getId()
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
@@ -170,6 +172,7 @@ describe('NFTHolderCondition', () => {
                 '',
                 100,
                 0,
+                false,
                 owner.getId()
             )
             await didRegistry.mint(did, 10, owner.getId())
