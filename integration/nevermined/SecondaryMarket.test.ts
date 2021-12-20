@@ -9,6 +9,7 @@ import {
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import { TxParameters } from '../../src/keeper/contracts/ContractBase'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
@@ -67,6 +68,8 @@ describe('Secondary Markets', () => {
     let amounts2 = [90, 10]
     let receivers2: string[]
     let assetRewards2: AssetRewards
+    let receivers3: string[]
+    let assetRewards3: AssetRewards
 
     let initialBalances: any
     let scale: number
@@ -84,6 +87,7 @@ describe('Secondary Markets', () => {
 
         receivers = [artist.getId(), gallery.getId()]
         receivers2 = [collector1.getId(), artist.getId()]
+        receivers3 = [collector2.getId(), artist.getId()]
 
         // components
         ;({
@@ -121,6 +125,13 @@ describe('Secondary Markets', () => {
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
+            ])
+        )
+
+        assetRewards3 = new AssetRewards(
+            new Map([
+                [receivers3[0], amounts2[0]],
+                [receivers3[1], amounts2[1]]
             ])
         )
 
@@ -419,7 +430,7 @@ describe('Secondary Markets', () => {
                     numberNFTs2,
                     collector1,
                     collector2,
-                    nftSalesServiceAgreement
+                    nftSalesServiceAgreement as TxParameters
                 )
                 assert.isTrue(result)
 
@@ -503,7 +514,7 @@ describe('Secondary Markets', () => {
                     assetRewardsFromServiceAgreement.getReceivers(),
                     numberNFTs2,
                     collector1,
-                    nftSalesServiceAgreement
+                    nftSalesServiceAgreement as TxParameters
                 )
 
                 assert.isTrue(receipt)
@@ -541,7 +552,7 @@ describe('Secondary Markets', () => {
                     numberNFTs2,
                     collector1,
                     undefined,
-                    nftSalesServiceAgreement
+                    nftSalesServiceAgreement as TxParameters
                 )
                 assert.isTrue(receipt)
 
@@ -626,6 +637,40 @@ describe('Secondary Markets', () => {
                         numberNFTs
                     )
                 )
+            })
+        })
+
+        describe('Collector 2 wants to resell the asset using the higher level interfaces', () => {
+            before(async () => {
+                // initial balances
+                initialBalances = {
+                    artist: await token.balanceOf(artist.getId()),
+                    collector1: await token.balanceOf(collector1.getId()),
+                    collector2: await token.balanceOf(collector2.getId()),
+                    gallery: await token.balanceOf(gallery.getId()),
+                    owner: await token.balanceOf(owner.getId()),
+                    lockPaymentCondition: Number(
+                        await token.balanceOf(lockPaymentCondition.getAddress())
+                    ),
+                    escrowPaymentCondition: Number(
+                        await token.balanceOf(escrowPaymentCondition.getAddress())
+                    )
+                }
+            })
+
+            it('As collector1 I setup an agreement for selling my NFT', async () => {
+                const agreementId = await nevermined.nfts.listOnSecondaryMarkets(
+                    ddo,
+                    assetRewards3,
+                    numberNFTs2,
+                    undefined,
+                    collector2
+                )
+
+                assert.isNotNull(agreementId)
+
+                const service = await nevermined.metadata.retrieveService(agreementId)
+                assert.isNotNull(service)
             })
         })
     })

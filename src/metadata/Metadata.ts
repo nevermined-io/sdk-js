@@ -2,10 +2,10 @@ import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { Service } from '../ddo/Service'
+import { Service, ServiceCommon } from '../ddo/Service'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
-const agreementPath = '/api/v1/metadata/assets/agreement'
+const servicePath = '/api/v1/metadata/assets/service'
 
 export interface QueryResult {
     results: DDO[]
@@ -299,6 +299,78 @@ export class Metadata extends Instantiable {
         return result
     }
 
+    /**
+     * Retrieves a service by its agreementId.
+     * @param  {string} agreementId agreementId of the service.
+     * @return {Promise<ServiceCommon>} Service object.
+     */
+    public async retrieveService(
+        agreementId: string,
+        metadataServiceEndpoint?: string
+    ): Promise<ServiceCommon> {
+        const fullUrl =
+            metadataServiceEndpoint || `${this.url}${servicePath}/${agreementId}`
+        const result = await this.nevermined.utils.fetch
+            .get(fullUrl)
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json()
+                }
+                this.logger.log(
+                    'retrieveService failed:',
+                    response.status,
+                    response.statusText,
+                    agreementId
+                )
+                return null as ServiceCommon
+            })
+            .then((response: ServiceCommon) => {
+                return response as ServiceCommon
+            })
+            .catch(error => {
+                this.logger.error('Error retrieving service: ', error)
+                return null as ServiceCommon
+            })
+
+        return result
+    }
+
+    /**
+     *
+     * @param agreement stores the Service object with its agreementId as
+     * @returns the newly stored service object
+     */
+    public async storeService(
+        agreementId: string,
+        agreement: ServiceCommon
+    ): Promise<ServiceCommon> {
+        const fullUrl = `${this.url}${servicePath}`
+        agreement['agreementId'] = agreementId
+        const result: ServiceCommon = await this.nevermined.utils.fetch
+            .post(fullUrl, JSON.stringify(agreement))
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json()
+                }
+                this.logger.error(
+                    'storeService failed:',
+                    response.status,
+                    response.statusText,
+                    agreement
+                )
+                return null as DDO
+            })
+            .then((response: ServiceCommon) => {
+                return response as ServiceCommon
+            })
+            .catch(error => {
+                this.logger.error('Error storing service: ', error)
+                return null as ServiceCommon
+            })
+
+        return result
+    }
+
     public getServiceEndpoint(did: DID) {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
     }
@@ -308,7 +380,7 @@ export class Metadata extends Instantiable {
         metadataServiceEndpoint?: string
     ): Promise<Service> {
         const fullUrl =
-            metadataServiceEndpoint || `${this.url}${agreementPath}/${agreementId}`
+            metadataServiceEndpoint || `${this.url}${servicePath}/${agreementId}`
         const result = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {

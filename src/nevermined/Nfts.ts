@@ -16,6 +16,7 @@ import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { Service } from '../ddo/Service'
 import { Metadata } from '../metadata/Metadata'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -44,7 +45,8 @@ export class Nfts extends Instantiable {
         royalties: number,
         assetRewards: AssetRewards,
         nftAmount: number = 1,
-        erc20TokenAddress?: string
+        erc20TokenAddress?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft(
             metadata,
@@ -55,7 +57,8 @@ export class Nfts extends Instantiable {
             undefined,
             nftAmount,
             royalties,
-            erc20TokenAddress
+            erc20TokenAddress,
+            txParams
         )
     }
 
@@ -65,7 +68,8 @@ export class Nfts extends Instantiable {
         assetRewards: AssetRewards,
         nftTokenAddress: string,
         erc20tokenAddress?: string,
-        royalties?: number
+        royalties?: number,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft721(
             metadata,
@@ -75,7 +79,8 @@ export class Nfts extends Instantiable {
             nftTokenAddress,
             erc20tokenAddress,
             undefined,
-            royalties
+            royalties,
+            txParams
         )
     }
 
@@ -131,7 +136,8 @@ export class Nfts extends Instantiable {
     public async order(
         did: string,
         nftAmount: number,
-        consumer: Account
+        consumer: Account,
+        txParams?: TxParameters
     ): Promise<string> {
         let result: boolean
         const { nftSalesTemplate } = this.nevermined.keeper.templates
@@ -149,7 +155,10 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards,
             consumer,
-            nftAmount
+            nftAmount,
+            undefined,
+            undefined,
+            txParams
         )
         if (!result) {
             throw Error('Error creating nft-sales agreement')
@@ -165,7 +174,8 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            consumer
+            consumer,
+            txParams
         )
         if (!result) {
             throw Error('Error locking payment')
@@ -174,7 +184,11 @@ export class Nfts extends Instantiable {
         return agreementId
     }
 
-    public async order721(did: string, consumer: Account): Promise<string> {
+    public async order721(
+        did: string,
+        consumer: Account,
+        txParams?: TxParameters
+    ): Promise<string> {
         let result: boolean
 
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
@@ -192,7 +206,8 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards,
             consumer,
-            consumer
+            consumer,
+            txParams
         )
         if (!result) {
             throw Error('Error creating nft721-sales agreement')
@@ -208,7 +223,8 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            consumer
+            consumer,
+            txParams
         )
         if (!result) {
             throw Error('Error locking nft721 payment')
@@ -233,7 +249,8 @@ export class Nfts extends Instantiable {
         agreementId: string,
         did: string,
         nftAmount: number,
-        publisher: Account
+        publisher: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
@@ -247,7 +264,8 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            publisher
+            publisher,
+            txParams
         )
 
         if (!result) {
@@ -274,7 +292,8 @@ export class Nfts extends Instantiable {
     public async transfer721(
         agreementId: string,
         did: string,
-        from: Account
+        from: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
@@ -286,7 +305,8 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            from
+            from,
+            txParams
         )
         if (!result) {
             throw Error('Error transferring nft721.')
@@ -312,7 +332,8 @@ export class Nfts extends Instantiable {
         did: string,
         nftAmount: number,
         consumer: Account,
-        publisher: Account
+        publisher: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
@@ -326,7 +347,9 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            publisher
+            publisher,
+            undefined,
+            txParams
         )
 
         if (!result) {
@@ -339,7 +362,8 @@ export class Nfts extends Instantiable {
     public async release721Rewards(
         agreementId: string,
         did: string,
-        publisher: Account
+        publisher: Account,
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
@@ -351,7 +375,9 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            publisher
+            publisher,
+            undefined,
+            txParams
         )
 
         if (!result) {
@@ -490,27 +516,50 @@ export class Nfts extends Instantiable {
         )
     }
 
+    /**
+     *
+     * @param ddo {DDO} the Decentraized ID of the NFT
+     * @param assetRewards {AssetRewards} the currect setup of asset rewards
+     * @param numberNFTs {Number} the number of NFTs put up for secondary sale
+     * @param provider {Account} the account that will be the provider of the secondary sale
+     * @param owner {Account} the account of the current owner
+     * @returns {Promise<boolean>} true if the secondary sale config was successful
+     */
     public async listOnSecondaryMarkets(
-        agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         numberNFTs: number,
         provider: string,
         owner: Account
-    ): Promise<boolean> {
+    ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const providerAccounts = new Account(provider)
+        let providerAccounts: Account
+        const agreementId = utils.generateId()
+        if (provider && provider !== null && provider !== '') {
+            providerAccounts = new Account(provider)
+        }
         const result = await nftSalesTemplate.createAgreementFromDDO(
             agreementId,
             ddo,
             assetRewards,
-            null, // TODO: eliminate needing the consumer
+            owner,
             numberNFTs,
             providerAccounts || new Account(this.config.gatewayAddress),
             owner
         )
+
         if (result) {
-            return true
+            const service = ddo.findServiceByType('nft-sales')
+            const saveResult = await this.nevermined.metadata.storeService(
+                agreementId,
+                service
+            )
+
+            if (saveResult) {
+                return agreementId
+            } else {
+                throw Error(`Error saving ${agreementId} to MetadataDB`)
+            }
         } else {
             throw Error(`Error listing ${ddo.shortId()} on secondary markets`)
         }
@@ -528,7 +577,9 @@ export class Nfts extends Instantiable {
         const sellersAccount = new Account(seller)
         const { token } = this.nevermined.keeper
 
-        let service = await this.nevermined.metadata.retrieveServiceAgreement(agreementId)
+        const service = await this.nevermined.metadata.retrieveServiceAgreement(
+            agreementId
+        )
         const assetRewards = getAssetRewardsFromService(service)
 
         const scale = 10 ** (await token.decimals())

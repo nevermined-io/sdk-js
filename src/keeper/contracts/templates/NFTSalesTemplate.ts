@@ -7,6 +7,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
 import { findServiceConditionByName } from '../../../utils'
+import { TxParameters } from '../ContractBase'
 import { Service } from '../../../ddo/Service'
 
 export class NFTSalesTemplate extends BaseTemplate {
@@ -24,6 +25,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         nftAmount?: number,
         provider?: Account,
         from?: Account,
+        txParams?: TxParameters,
         nftSalesService?: Service
     ): Promise<boolean> {
         const [
@@ -45,7 +47,8 @@ export class NFTSalesTemplate extends BaseTemplate {
             [0, 0, 0],
             [0, 0, 0],
             consumer.getId(),
-            from
+            from,
+            txParams
         ))
     }
 

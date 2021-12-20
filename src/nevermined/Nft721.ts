@@ -1,6 +1,7 @@
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
 import Nft721Contract from '../keeper/contracts/Nft721'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export class Nft721 extends Instantiable {
     contract: Nft721Contract
@@ -25,12 +26,32 @@ export class Nft721 extends Instantiable {
      * @param {Account} publisher The account of the publisher of the NFT.
      * @returns
      */
-    public async mint(did: string, publisher: Account) {
-        return await this.contract.mint(did, publisher.getId())
+    public async mint(did: string, publisher: Account, txParams?: TxParameters) {
+        return await this.contract.mint(did, publisher.getId(), txParams)
     }
 
-    public async setApprovalForAll(target: string, state: boolean, publisher: Account) {
-        return await this.contract.setApprovalForAll(target, state, publisher.getId())
+    public async mintWithURL(
+        to: string,
+        did: string,
+        url: string,
+        from?: Account,
+        txParams?: TxParameters
+    ) {
+        return await this.contract.mintWithURL(to, did, url, from, txParams)
+    }
+
+    public async setApprovalForAll(
+        target: string,
+        state: boolean,
+        publisher: Account,
+        txParams?: TxParameters
+    ) {
+        return await this.contract.setApprovalForAll(
+            target,
+            state,
+            publisher.getId(),
+            txParams
+        )
     }
 
     public async balanceOf(owner: Account) {
