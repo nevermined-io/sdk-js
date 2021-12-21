@@ -213,22 +213,12 @@ export default class DIDRegistry extends ContractBase {
     public async getAttributesByDid(
         did: string
     ): Promise<{ did: string; serviceEndpoint: string; checksum: string }> {
-        const blockNumber = await this.getBlockNumberUpdated(didZeroX(did))
-        return (
-            await this.getEventData('DIDAttributeRegistered', {
-                filter: { _did: didZeroX(did) },
-                fromBlock: blockNumber,
-                to: blockNumber
-            })
-        ).map(
-            ({
-                returnValues: { _did, _checksum: checksum, _value: serviceEndpoint }
-            }) => ({
-                did: didPrefixed(_did),
-                serviceEndpoint,
-                checksum
-            })
-        )[0]
+        const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
+        return {
+            did,
+            serviceEndpoint: registeredValues[2],
+            checksum: registeredValues[1]
+        }
     }
 
     public async grantPermission(
