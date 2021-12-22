@@ -358,14 +358,14 @@ export class Metadata extends Instantiable {
                     response.statusText,
                     agreement
                 )
-                return null as DDO
+                return null as ServiceCommon
             })
             .then((response: ServiceCommon) => {
                 return response as ServiceCommon
             })
             .catch(error => {
                 this.logger.error('Error storing service: ', error)
-                return null as ServiceCommon
+                throw new Error(error)
             })
         console.log('SaveService: ', result)
         return result
@@ -373,37 +373,6 @@ export class Metadata extends Instantiable {
 
     public getServiceEndpoint(did: DID) {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
-    }
-
-    public async retrieveServiceAgreement(
-        agreementId: string,
-        metadataServiceEndpoint?: string
-    ): Promise<Service> {
-        const fullUrl =
-            metadataServiceEndpoint || `${this.url}${servicePath}/${agreementId}`
-        const result = await this.nevermined.utils.fetch
-            .get(fullUrl)
-            .then((response: any) => {
-                if (response.ok) {
-                    return response.json()
-                }
-                this.logger.log(
-                    'retrieveDDO failed:',
-                    response.status,
-                    response.statusText,
-                    agreementId
-                )
-                return null as Service
-            })
-            .then((response: Service) => {
-                return response as Service
-            })
-            .catch(error => {
-                this.logger.error('Error retrieving metadata: ', error)
-                return null as Service
-            })
-
-        return result
     }
 
     private transformResult(
