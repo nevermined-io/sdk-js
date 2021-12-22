@@ -567,16 +567,6 @@ export class Nfts extends Instantiable {
             }
         }
 
-        // const result = await nftSalesTemplate.createAgreementFromDDO(
-        //     agreementId,
-        //     ddo,
-        //     assetRewards,
-        //     owner,
-        //     numberNFTs,
-        //     providerAccounts || new Account(this.config.gatewayAddress),
-        //     owner
-        // )
-
         const saveResult = await this.nevermined.metadata.storeService(
             agreementId,
             nftSalesServiceAgreement
@@ -589,6 +579,16 @@ export class Nfts extends Instantiable {
         }
     }
 
+    /**
+     * Buys a number of listed goods on secondary markets.
+     * @param buyer The address of the buyer.
+     * @param seller The address of the seller.
+     * @param numOfNfts The number of assets to buy. 1 by default.
+     * @param ddo The DDO of the NFT.
+     * @param provider The provider address.
+     * @param agreementId The agreementId of the initial sales agreement created off-chain.
+     * @returns true if the buy was successful.
+     */
     public async buySecondaryMarketNft(
         buyer: string,
         seller: string,
