@@ -646,8 +646,6 @@ describe('Secondary Markets', () => {
 
                 const service = await nevermined.metadata.retrieveService(agreementId3)
                 assert.isDefined(service)
-
-                assert.equal(service['agreementId'], agreementId3)
             })
 
             it('As collector1 I buy the secondary market NFT', async () => {
