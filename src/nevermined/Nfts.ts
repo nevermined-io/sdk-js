@@ -538,14 +538,14 @@ export class Nfts extends Instantiable {
         if (provider && provider !== null && provider !== '') {
             providerAccounts = new Account(provider)
         }
+
         const result = await nftSalesTemplate.createAgreementFromDDO(
             agreementId,
             ddo,
             assetRewards,
             owner,
             numberNFTs,
-            providerAccounts || new Account(this.config.gatewayAddress),
-            owner
+            providerAccounts || new Account(this.config.gatewayAddress)
         )
 
         if (result) {
@@ -570,33 +570,15 @@ export class Nfts extends Instantiable {
         seller: string,
         numOfNfts: number = 1,
         ddo: DDO,
-        provider: string,
         agreementId: string
     ): Promise<boolean> {
         const buyerAccount = new Account(buyer)
         const sellerAccount = new Account(seller)
-        const { nftSalesTemplate } = this.nevermined.keeper.templates
-        let providerAccounts: Account
-        if (provider && provider !== null && provider !== '') {
-            providerAccounts = new Account(provider)
-        }
+
         const service = await this.nevermined.metadata.retrieveServiceAgreement(
             agreementId
         )
         const assetRewards = getAssetRewardsFromService(service)
-
-        const result = await nftSalesTemplate.createAgreementFromDDO(
-            agreementId,
-            ddo,
-            assetRewards,
-            buyerAccount,
-            numOfNfts,
-            providerAccounts,
-            sellerAccount,
-            service as TxParameters
-        )
-
-        if (!result) throw new Error('Creating buy agreement failed')
 
         const payment = findServiceConditionByName(service, 'lockPayment')
 

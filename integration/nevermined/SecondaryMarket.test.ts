@@ -11,7 +11,6 @@ import {
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import { TxParameters } from '../../src/keeper/contracts/ContractBase'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -67,8 +66,8 @@ describe('Secondary Markets', () => {
     let nftPrice2 = 100
     let amounts2 = [90, 10]
     let receivers2: string[]
-    let assetRewards2: AssetRewards
     let receivers3: string[]
+    let assetRewards2: AssetRewards
     let assetRewards3: AssetRewards
 
     let initialBalances: any
@@ -633,25 +632,6 @@ describe('Secondary Markets', () => {
                     )
                 )
             })
-        })
-
-        describe('Collector 2 wants to resell the asset using the higher level interfaces', () => {
-            before(async () => {
-                // initial balances
-                initialBalances = {
-                    artist: await token.balanceOf(artist.getId()),
-                    collector1: await token.balanceOf(collector1.getId()),
-                    collector2: await token.balanceOf(collector2.getId()),
-                    gallery: await token.balanceOf(gallery.getId()),
-                    owner: await token.balanceOf(owner.getId()),
-                    lockPaymentCondition: Number(
-                        await token.balanceOf(lockPaymentCondition.getAddress())
-                    ),
-                    escrowPaymentCondition: Number(
-                        await token.balanceOf(escrowPaymentCondition.getAddress())
-                    )
-                }
-            })
 
             it('As collector2 I setup an agreement for selling my NFT', async () => {
                 agreementId3 = await nevermined.nfts.listOnSecondaryMarkets(
@@ -661,11 +641,12 @@ describe('Secondary Markets', () => {
                     undefined,
                     collector2
                 )
-
                 assert.isNotNull(agreementId3)
 
                 const service = await nevermined.metadata.retrieveService(agreementId3)
                 assert.isNotNull(service)
+
+                assert.equal(service['agreementId'], agreementId3)
                 const status = await nftSalesTemplate.getAgreementStatus(agreementId3)
                 assert.equal(
                     status && status.lockPayment.state,
@@ -684,7 +665,6 @@ describe('Secondary Markets', () => {
             it('As collector1 I buy the secondary market NFT', async () => {
                 const scale = 10 ** (await token.decimals())
                 await collector1.requestTokens(nftPrice2 / scale)
-
                 const nftBalanceCollector1Before = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
@@ -699,7 +679,6 @@ describe('Secondary Markets', () => {
                     collector2.getId(),
                     1,
                     ddo,
-                    collector2.getId(),
                     agreementId3
                 )
 
