@@ -638,8 +638,9 @@ describe('Secondary Markets', () => {
                     ddo,
                     assetRewards3,
                     numberNFTs2,
-                    undefined,
-                    collector2
+                    collector2.getId(),
+                    token,
+                    collector2.getId()
                 )
                 assert.isNotNull(agreementId3)
 
@@ -647,19 +648,6 @@ describe('Secondary Markets', () => {
                 assert.isNotNull(service)
 
                 assert.equal(service['agreementId'], agreementId3)
-                const status = await nftSalesTemplate.getAgreementStatus(agreementId3)
-                assert.equal(
-                    status && status.lockPayment.state,
-                    ConditionState.Unfulfilled
-                )
-                assert.equal(
-                    status && status.transferNFT.state,
-                    ConditionState.Unfulfilled
-                )
-                assert.equal(
-                    status && status.escrowPayment.state,
-                    ConditionState.Unfulfilled
-                )
             })
 
             it('As collector1 I buy the secondary market NFT', async () => {
@@ -679,6 +667,7 @@ describe('Secondary Markets', () => {
                     collector2.getId(),
                     1,
                     ddo,
+                    collector2.getId(),
                     agreementId3
                 )
 

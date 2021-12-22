@@ -3,6 +3,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 import { DDO, utils } from '../sdk'
 import {
+    fillConditionsWithDDO,
     findServiceConditionByName,
     generateId,
     getAssetRewardsFromDDOByService,
@@ -15,7 +16,6 @@ import { CreateProgressStep } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { Service } from '../ddo/Service'
-import { Metadata } from '../metadata/Metadata'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export class Nfts extends Instantiable {
@@ -530,38 +530,62 @@ export class Nfts extends Instantiable {
         assetRewards: AssetRewards,
         numberNFTs: number,
         provider: string,
-        owner: Account
+        token: Token,
+        owner: string
     ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        let providerAccounts: Account
         const agreementId = utils.generateId()
-        if (provider && provider !== null && provider !== '') {
-            providerAccounts = new Account(provider)
-        }
+        const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
+        const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
-        const result = await nftSalesTemplate.createAgreementFromDDO(
-            agreementId,
+        nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+            nftSalesTemplateConditions,
             ddo,
             assetRewards,
-            owner,
-            numberNFTs,
-            providerAccounts || new Account(this.config.gatewayAddress)
+            token.getAddress(),
+            undefined,
+            provider || owner,
+            numberNFTs
         )
 
-        if (result) {
-            const service = ddo.findServiceByType('nft-sales')
-            const saveResult = await this.nevermined.metadata.storeService(
-                agreementId,
-                service
-            )
-
-            if (saveResult) {
-                return agreementId
-            } else {
-                throw Error(`Error saving ${agreementId} to MetadataDB`)
+        const nftSalesServiceAgreement: Service = {
+            type: 'nft-sales',
+            index: 6,
+            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
+            templateId: nftSalesTemplate.getAddress(),
+            attributes: {
+                main: {
+                    name: 'nftSalesAgreement',
+                    creator: owner,
+                    datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+                    timeout: 86400
+                },
+                additionalInformation: {
+                    description: ''
+                },
+                serviceAgreementTemplate: nftSalesServiceAgreementTemplate
             }
+        }
+
+        // const result = await nftSalesTemplate.createAgreementFromDDO(
+        //     agreementId,
+        //     ddo,
+        //     assetRewards,
+        //     owner,
+        //     numberNFTs,
+        //     providerAccounts || new Account(this.config.gatewayAddress),
+        //     owner
+        // )
+
+        const saveResult = await this.nevermined.metadata.storeService(
+            agreementId,
+            nftSalesServiceAgreement
+        )
+
+        if (saveResult) {
+            return agreementId
         } else {
-            throw Error(`Error listing ${ddo.shortId()} on secondary markets`)
+            throw Error(`Error saving ${agreementId} to MetadataDB`)
         }
     }
 
@@ -570,15 +594,33 @@ export class Nfts extends Instantiable {
         seller: string,
         numOfNfts: number = 1,
         ddo: DDO,
+        provider: string,
         agreementId: string
     ): Promise<boolean> {
         const buyerAccount = new Account(buyer)
         const sellerAccount = new Account(seller)
-
+        const { nftSalesTemplate } = this.nevermined.keeper.templates
+        let providerAccounts: Account
+        if (provider && provider !== null && provider !== '') {
+            providerAccounts = new Account(provider)
+        }
         const service = await this.nevermined.metadata.retrieveServiceAgreement(
             agreementId
         )
         const assetRewards = getAssetRewardsFromService(service)
+
+        const result = await nftSalesTemplate.createAgreementFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            buyerAccount,
+            numOfNfts,
+            providerAccounts || sellerAccount,
+            buyerAccount,
+            service as TxParameters
+        )
+
+        if (!result) throw new Error('Creating buy agreement failed')
 
         const payment = findServiceConditionByName(service, 'lockPayment')
 
@@ -593,8 +635,6 @@ export class Nfts extends Instantiable {
 
         if (!receipt) throw new Error('LockPayment Failed.')
 
-        const assetRewardsFromServiceAgreement = getAssetRewardsFromService(service)
-
         receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,
             ddo,
@@ -602,7 +642,7 @@ export class Nfts extends Instantiable {
             assetRewards.getReceivers(),
             numOfNfts,
             sellerAccount,
-            assetRewardsFromServiceAgreement as TxParameters
+            assetRewards as TxParameters
         )
 
         if (!receipt) throw new Error('TranferNft Failed.')
