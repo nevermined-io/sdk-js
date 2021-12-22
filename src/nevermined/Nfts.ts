@@ -520,7 +520,7 @@ export class Nfts extends Instantiable {
      *
      * @param ddo {DDO} the Decentraized ID of the NFT
      * @param assetRewards {AssetRewards} the currect setup of asset rewards
-     * @param numberNFTs {Number} the number of NFTs put up for secondary sale
+     * @param nftAmount {Number} the number of NFTs put up for secondary sale
      * @param provider {Account} the account that will be the provider of the secondary sale
      * @param owner {Account} the account of the current owner
      * @returns {Promise<string>} the agreementId if the secondary sale config was successful
@@ -528,13 +528,13 @@ export class Nfts extends Instantiable {
     public async listOnSecondaryMarkets(
         ddo: DDO,
         assetRewards: AssetRewards,
-        numberNFTs: number,
+        nftAmount: number,
         provider: string,
         token: Token,
         owner: string
     ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const agreementId = utils.generateId()
+        const agreementId = zeroX(utils.generateId())
         const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
         const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
@@ -545,7 +545,7 @@ export class Nfts extends Instantiable {
             token.getAddress(),
             undefined,
             provider || owner,
-            numberNFTs
+            nftAmount
         )
 
         const nftSalesServiceAgreement: Service = {

@@ -645,7 +645,7 @@ describe('Secondary Markets', () => {
                 assert.isNotNull(agreementId3)
 
                 const service = await nevermined.metadata.retrieveService(agreementId3)
-                assert.isNotNull(service)
+                assert.isDefined(service)
 
                 assert.equal(service['agreementId'], agreementId3)
             })
