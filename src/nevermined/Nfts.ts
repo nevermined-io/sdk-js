@@ -581,42 +581,34 @@ export class Nfts extends Instantiable {
 
     /**
      * Buys a number of listed goods on secondary markets.
-     * @param buyer The address of the buyer.
-     * @param seller The address of the seller.
-     * @param numOfNfts The number of assets to buy. 1 by default.
+     * @param consumer The account of the buyer/consumer.
+     * @param seller The account of the seller.
+     * @param nftAmount The number of assets to buy. 1 by default.
      * @param ddo The DDO of the NFT.
      * @param provider The provider address.
      * @param agreementId The agreementId of the initial sales agreement created off-chain.
      * @returns true if the buy was successful.
      */
     public async buySecondaryMarketNft(
-        buyer: string,
-        seller: string,
-        numOfNfts: number = 1,
+        consumer: Account,
+        seller: Account,
+        nftAmount: number = 1,
         ddo: DDO,
-        provider: string,
+        provider: Account,
         agreementId: string
     ): Promise<boolean> {
-        const buyerAccount = new Account(buyer)
-        const sellerAccount = new Account(seller)
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        let providerAccounts: Account
-        if (provider && provider !== null && provider !== '') {
-            providerAccounts = new Account(provider)
-        }
-        const service = await this.nevermined.metadata.retrieveServiceAgreement(
-            agreementId
-        )
+        const service = await this.nevermined.metadata.retrieveService(agreementId)
         const assetRewards = getAssetRewardsFromService(service)
 
         const result = await nftSalesTemplate.createAgreementFromDDO(
             agreementId,
             ddo,
             assetRewards,
-            buyerAccount,
-            numOfNfts,
-            providerAccounts || sellerAccount,
-            buyerAccount,
+            consumer,
+            nftAmount,
+            provider || seller,
+            consumer,
             service as TxParameters
         )
 
@@ -630,7 +622,7 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            buyerAccount
+            consumer
         )
 
         if (!receipt) throw new Error('LockPayment Failed.')
@@ -640,8 +632,8 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            numOfNfts,
-            sellerAccount,
+            nftAmount,
+            seller,
             assetRewards as TxParameters
         )
 
@@ -652,8 +644,8 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            numOfNfts,
-            sellerAccount
+            nftAmount,
+            seller
         )
 
         if (!receipt) throw new Error('ReleaseBftReward Failed.')
