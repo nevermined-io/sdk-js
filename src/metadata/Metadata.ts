@@ -367,7 +367,7 @@ export class Metadata extends Instantiable {
                 this.logger.error('Error storing service: ', error)
                 return null as ServiceCommon
             })
-
+        console.log('SaveService: ', result)
         return result
     }
 
