@@ -684,11 +684,11 @@ describe('Secondary Markets', () => {
 
                 assert.equal(
                     Number(nftBalanceCollector1After),
-                    Number(nftBalanceCollector1Before) - numberNFTs2
+                    Number(nftBalanceCollector1Before) + numberNFTs2
                 )
                 assert.equal(
                     Number(nftBalanceCollector2After),
-                    Number(nftBalanceCollector2Before) + numberNFTs
+                    Number(nftBalanceCollector2Before) - numberNFTs
                 )
 
                 const escrowPaymentConditionBalance = await token.balanceOf(
@@ -696,11 +696,12 @@ describe('Secondary Markets', () => {
                 )
                 const receiver0Balance = await token.balanceOf(receivers3[0])
                 const receiver1Balance = await token.balanceOf(receivers3[1])
-                const collectorBalance = await token.balanceOf(collector2.getId())
+                const artistBalance = await token.balanceOf(artist.getId())
+                const collectorBalance = await token.balanceOf(collector1.getId())
 
-                assert.equal(receiver0Balance, initialBalances.collector1 + amounts2[0])
-                assert.equal(receiver1Balance, initialBalances.artist + amounts2[1])
-                assert.equal(collectorBalance - initialBalances.collector2, 0)
+                assert.equal(receiver0Balance, initialBalances.collector2 + amounts2[0])
+                assert.equal(receiver1Balance, artistBalance + amounts2[1])
+                assert.equal(collectorBalance - initialBalances.collector1, 0)
                 assert.equal(
                     escrowPaymentConditionBalance -
                         initialBalances.escrowPaymentCondition,
