@@ -150,6 +150,7 @@ export default class DIDRegistry extends ContractBase {
         attributes: string,
         cap: number,
         royalties: number,
+        mint: boolean = false,
         ownerAddress: string,
         params?: TxParameters
     ) {
@@ -163,6 +164,7 @@ export default class DIDRegistry extends ContractBase {
                 value,
                 String(cap),
                 String(royalties),
+                mint,
                 zeroX(activityId),
                 attributes
             ],

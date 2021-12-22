@@ -123,9 +123,10 @@ describe('TransferNFTCondition', () => {
                 '',
                 nftAmount,
                 0,
+                true, // Minting during registration
                 owner.getId()
             )
-            await didRegistry.mint(did, nftAmount, owner.getId())
+            // await didRegistry.mint(did, nftAmount, owner.getId())
 
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
@@ -221,6 +222,7 @@ describe('TransferNFTCondition', () => {
                 '',
                 nftAmount,
                 0,
+                false,
                 owner.getId()
             )
             await didRegistry.mint(did, nftAmount, owner.getId())
@@ -314,6 +316,7 @@ describe('TransferNFTCondition', () => {
                 '',
                 nftAmount,
                 0,
+                false,
                 owner.getId()
             )
             await didRegistry.mint(did, nftAmount, owner.getId())

@@ -146,6 +146,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     '',
                     cappedAmount,
                     royalties,
+                    false,
                     artist.getId()
                 )
 
