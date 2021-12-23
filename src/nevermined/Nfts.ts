@@ -636,7 +636,10 @@ export class Nfts extends Instantiable {
      * @param agreementId the Id of the underlying service agreement.
      * @returns {Promise<Boolean>} true if the transaction was successful.
      */
-    public async releaseSecondaryMarketRewards(owner: Account, agreementId: string) {
+    public async releaseSecondaryMarketRewards(
+        owner: Account,
+        agreementId: string
+    ): Promise<boolean> {
         const service = await this.nevermined.metadata.retrieveService(agreementId)
         const assetRewards = getAssetRewardsFromService(service)
         const did = getDIDFromService(service)
