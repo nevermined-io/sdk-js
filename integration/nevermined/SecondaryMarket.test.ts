@@ -74,6 +74,9 @@ describe('Secondary Markets', () => {
     let scale: number
     let networkName: string
 
+    let nftBalanceCollector1Before: number
+    let nftBalanceCollector2Before: number
+
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[
@@ -651,11 +654,12 @@ describe('Secondary Markets', () => {
             it('As collector1 I buy the secondary market NFT', async () => {
                 const scale = 10 ** (await token.decimals())
                 await collector1.requestTokens(nftPrice2 / scale)
-                const nftBalanceCollector1Before = await nftUpgradeable.balance(
+
+                nftBalanceCollector1Before = await nftUpgradeable.balance(
                     collector1.getId(),
                     ddo.id
                 )
-                const nftBalanceCollector2Before = await nftUpgradeable.balance(
+                nftBalanceCollector2Before = await nftUpgradeable.balance(
                     collector2.getId(),
                     ddo.id
                 )
@@ -666,6 +670,14 @@ describe('Secondary Markets', () => {
                     agreementId3
                 )
 
+                assert.isTrue(result)
+            })
+
+            it('As collector2 I see the bid locked and trigger the reward release', async () => {
+                const result = await nevermined.nfts.releaseSecondaryMarketRewards(
+                    collector2,
+                    agreementId3
+                )
                 assert.isTrue(result)
 
                 const nftBalanceCollector1After = await nftUpgradeable.balance(

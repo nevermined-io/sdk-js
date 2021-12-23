@@ -9,6 +9,7 @@ import {
     getAssetRewardsFromDDOByService,
     getAssetRewardsFromService,
     getDIDFromService,
+    getNftAmountFromService,
     getNftHolderFromService,
     noZeroX,
     SubscribablePromise,
@@ -586,7 +587,7 @@ export class Nfts extends Instantiable {
      * @param consumer The account of the buyer/consumer.
      * @param nftAmount The number of assets to buy. 1 by default.
      * @param agreementId The agreementId of the initial sales agreement created off-chain.
-     * @returns true if the buy was successful.
+     * @returns {Promise<Boolean>} true if the buy was successful.
      */
     public async buySecondaryMarketNft(
         consumer: Account,
@@ -616,7 +617,7 @@ export class Nfts extends Instantiable {
 
         const payment = findServiceConditionByName(service, 'lockPayment')
 
-        let receipt = await this.nevermined.agreements.conditions.lockPayment(
+        const receipt = await this.nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
             assetRewards.getAmounts(),
@@ -626,14 +627,29 @@ export class Nfts extends Instantiable {
         )
 
         if (!receipt) throw new Error('LockPayment Failed.')
+        return receipt
+    }
 
-        receipt = await this.nevermined.agreements.conditions.transferNft(
+    /**
+     * Used to release the secondary market NFT & the locked rewards.
+     * @param owner The owner account.
+     * @param agreementId the Id of the underlying service agreement.
+     * @returns {Promise<Boolean>} true if the transaction was successful.
+     */
+    public async releaseSecondaryMarketRewards(owner: Account, agreementId: string) {
+        const service = await this.nevermined.metadata.retrieveService(agreementId)
+        const assetRewards = getAssetRewardsFromService(service)
+        const did = getDIDFromService(service)
+        const nftAmount = getNftAmountFromService(service)
+        const ddo = await this.nevermined.assets.resolve(did)
+
+        let receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            currentNftHolder,
+            owner,
             assetRewards as TxParameters
         )
 
@@ -645,10 +661,10 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            currentNftHolder
+            owner
         )
 
-        if (!receipt) throw new Error('ReleaseBftReward Failed.')
-        return true
+        if (!receipt) throw new Error('ReleaseNftReward Failed.')
+        return receipt
     }
 }
