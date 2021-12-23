@@ -322,7 +322,7 @@ export class Metadata extends Instantiable {
                     response.statusText,
                     agreementId
                 )
-                return null as ServiceCommon
+                return null as Service
             })
             .then((response: ServiceCommon) => {
                 return response as ServiceCommon
@@ -367,7 +367,6 @@ export class Metadata extends Instantiable {
                 this.logger.error('Error storing service: ', error)
                 throw new Error(error)
             })
-        console.log('SaveService: ', result)
         return result
     }
 
