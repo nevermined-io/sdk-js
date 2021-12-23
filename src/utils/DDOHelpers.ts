@@ -124,7 +124,6 @@ export function getDIDFromService(service: Service): string {
 
 export function getNftHolderFromService(service: Service): string {
     const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-    return ('did:nv:' +
-        nftTransferCondition.parameters.find(p => p.name === '_nftHolder')
-            .value) as string
+    return nftTransferCondition.parameters.find(p => p.name === '_nftHolder')
+        .value as string
 }
