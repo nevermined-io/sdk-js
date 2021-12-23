@@ -8,6 +8,8 @@ import {
     generateId,
     getAssetRewardsFromDDOByService,
     getAssetRewardsFromService,
+    getDIDFromService,
+    getNftHolderFromService,
     noZeroX,
     SubscribablePromise,
     zeroX
@@ -582,24 +584,22 @@ export class Nfts extends Instantiable {
     /**
      * Buys a number of listed goods on secondary markets.
      * @param consumer The account of the buyer/consumer.
-     * @param seller The account of the seller.
      * @param nftAmount The number of assets to buy. 1 by default.
-     * @param ddo The DDO of the NFT.
-     * @param provider The provider address.
      * @param agreementId The agreementId of the initial sales agreement created off-chain.
      * @returns true if the buy was successful.
      */
     public async buySecondaryMarketNft(
         consumer: Account,
-        seller: Account,
         nftAmount: number = 1,
-        ddo: DDO,
-        provider: Account,
         agreementId: string
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const service = await this.nevermined.metadata.retrieveService(agreementId)
         const assetRewards = getAssetRewardsFromService(service)
+        // has no privkeys, so we can't sign
+        const currentNftHolder = new Account(getNftHolderFromService(service))
+        const did = getDIDFromService(service)
+        const ddo = await this.nevermined.assets.resolve(did)
 
         const result = await nftSalesTemplate.createAgreementFromDDO(
             agreementId,
@@ -607,7 +607,7 @@ export class Nfts extends Instantiable {
             assetRewards,
             consumer,
             nftAmount,
-            provider || seller,
+            currentNftHolder,
             consumer,
             service as TxParameters
         )
@@ -633,7 +633,7 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            seller,
+            currentNftHolder,
             assetRewards as TxParameters
         )
 
@@ -645,7 +645,7 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            seller
+            currentNftHolder
         )
 
         if (!receipt) throw new Error('ReleaseBftReward Failed.')

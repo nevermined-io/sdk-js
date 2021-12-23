@@ -662,10 +662,7 @@ describe('Secondary Markets', () => {
 
                 const result = await nevermined.nfts.buySecondaryMarketNft(
                     collector1,
-                    collector2,
                     1,
-                    ddo,
-                    collector2,
                     agreementId3
                 )
 
