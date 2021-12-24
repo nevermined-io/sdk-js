@@ -338,7 +338,8 @@ export class Assets extends Instantiable {
         nftAmount?: number,
         royalties?: number,
         erc20TokenAddress?: string,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        mint: boolean = true
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
         return new SubscribablePromise(async observer => {
@@ -550,7 +551,7 @@ export class Assets extends Instantiable {
                 ddo.shortId(),
                 cap,
                 royalties,
-                false,
+                mint,
                 publisher.getId(),
                 txParams
             )
