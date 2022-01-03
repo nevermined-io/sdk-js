@@ -551,7 +551,7 @@ export class Assets extends Instantiable {
                 ddo.shortId(),
                 cap,
                 royalties,
-                preMint,
+                preMint ? preMint : false,
                 publisher.getId(),
                 txParams
             )
