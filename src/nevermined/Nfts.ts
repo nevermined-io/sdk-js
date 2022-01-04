@@ -49,6 +49,7 @@ export class Nfts extends Instantiable {
         assetRewards: AssetRewards,
         nftAmount: number = 1,
         erc20TokenAddress?: string,
+        preMint?: boolean,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft(
@@ -61,6 +62,7 @@ export class Nfts extends Instantiable {
             nftAmount,
             royalties,
             erc20TokenAddress,
+            preMint,
             txParams
         )
     }
