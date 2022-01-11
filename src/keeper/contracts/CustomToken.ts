@@ -1,5 +1,6 @@
 import Token from './Token'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import { abi } from './../../artifacts/ERC20.json'
 
 export default class CustomToken extends Token {
     public static async getInstanceByAddress(
@@ -7,10 +8,6 @@ export default class CustomToken extends Token {
         address: string
     ): Promise<CustomToken> {
         const token: CustomToken = new Token('Custom-Token')
-        const where = (await config.nevermined.keeper.getNetworkName()).toLowerCase()
-        const artifact = require(`@nevermined-io/contracts/artifacts/NeverminedToken.${where}.json`)
-        const { abi } = artifact
-
         token.setInstanceConfig(config)
 
         const code = await token.web3.eth.getCode(address)

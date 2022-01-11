@@ -9,7 +9,7 @@ export default class Token extends ContractBase {
             process.env.TOKEN_CONTRACT_NAME || 'NeverminedToken',
             true
         )
-        await token.init(config)
+        await token.init(config, true)
         return token
     }
 
