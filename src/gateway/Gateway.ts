@@ -84,6 +84,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/nft-access`
     }
 
+    public getNftTransferForDelegateEndpoint() {
+        return `${this.url}${apiPath}/nft-transfer`
+    }
+
     public async getGatewayInfo() {
         return this.nevermined.utils.fetch.get(`${this.url}`).then(res => res.json())
     }
@@ -423,6 +427,32 @@ export class Gateway extends Instantiable {
         } catch (e) {
             this.logger.error(e)
             throw new Error('HTTP request failed')
+        }
+    }
+
+    public async nftTransferForDelegate(
+        agreementId: string,
+        nftHolder: string,
+        nftReceiver: string,
+        nftAmount: number
+    ): Promise<boolean> {
+        try {
+            const response = await this.nevermined.utils.fetch.post(
+                this.getNftTransferForDelegateEndpoint(),
+                JSON.stringify({
+                    agreementId,
+                    nftHolder,
+                    nftReceiver,
+                    nftAmount
+                })
+            )
+            if (!response.ok) {
+                throw new Error(await response.text())
+            }
+            return true
+        } catch (e) {
+            this.logger.error(e)
+            throw new Error(e)
         }
     }
 

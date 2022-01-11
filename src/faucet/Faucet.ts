@@ -26,12 +26,12 @@ export class Faucet extends Instantiable {
                 decodeURI(JSON.stringify(args))
             )
             if (!response.ok) {
-                throw new Error('HTTP request failed')
+                throw new Error(await response.text())
             }
             return await response.text()
         } catch (e) {
             this.logger.error(e)
-            throw new Error('HTTP request failed')
+            throw e
         }
     }
 

@@ -8,10 +8,12 @@ import { config } from '../config'
 use(spies)
 
 describe('Accounts', () => {
+    let nevermined: Nevermined
     let accounts: Accounts
 
     before(async () => {
-        accounts = (await Nevermined.getInstance(config)).accounts
+        nevermined = await Nevermined.getInstance(config)
+        ;({ accounts } = await Nevermined.getInstance(config))
     })
 
     afterEach(() => {
@@ -24,7 +26,16 @@ describe('Accounts', () => {
             spy.on(account, 'requestEthFromFaucet', () => true)
             const success = await accounts.requestEthFromFaucet(account.getId())
 
-            assert.isTrue(success)
+            // Can only request once every 24h
+            if (!success) {
+                try {
+                    await nevermined.faucet.requestEth(account.getId())
+                } catch (e) {
+                    assert.include(await e.text(), 'Already requested')
+                }
+            } else {
+                assert.isTrue(success)
+            }
         })
     })
 })

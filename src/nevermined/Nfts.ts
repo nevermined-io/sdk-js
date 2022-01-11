@@ -1,18 +1,24 @@
 import { MetaData } from '../ddo/MetaData'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
-import { DDO } from '../sdk'
+import { DDO, utils } from '../sdk'
 import {
+    fillConditionsWithDDO,
     findServiceConditionByName,
     generateId,
     getAssetRewardsFromDDOByService,
     getAssetRewardsFromService,
+    getDIDFromService,
+    getNftAmountFromService,
+    getNftHolderFromService,
     noZeroX,
     SubscribablePromise,
     zeroX
 } from '../utils'
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
+import Token from '../keeper/contracts/Token'
+import { Service } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export class Nfts extends Instantiable {
@@ -43,6 +49,7 @@ export class Nfts extends Instantiable {
         assetRewards: AssetRewards,
         nftAmount: number = 1,
         erc20TokenAddress?: string,
+        preMint?: boolean,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft(
@@ -55,6 +62,7 @@ export class Nfts extends Instantiable {
             nftAmount,
             royalties,
             erc20TokenAddress,
+            preMint,
             txParams
         )
     }
@@ -181,7 +189,11 @@ export class Nfts extends Instantiable {
         return agreementId
     }
 
-    public async order721(did: string, consumer: Account, txParams?: TxParameters): Promise<string> {
+    public async order721(
+        did: string,
+        consumer: Account,
+        txParams?: TxParameters
+    ): Promise<string> {
         let result: boolean
 
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
@@ -266,6 +278,20 @@ export class Nfts extends Instantiable {
         }
 
         return true
+    }
+
+    public async transferForDelegate(
+        agreementId: string,
+        nftHolder: string,
+        nftReceiver: string,
+        nftAmount: number
+    ): Promise<boolean> {
+        return await this.nevermined.gateway.nftTransferForDelegate(
+            agreementId,
+            nftHolder,
+            nftReceiver,
+            nftAmount
+        )
     }
 
     public async transfer721(
@@ -382,13 +408,14 @@ export class Nfts extends Instantiable {
         did: string,
         consumer: Account,
         destination?: string,
-        index?: number
+        index?: number,
+        agreementId: string = '0x'
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
         // Download the files
         this.logger.log('Downloading the files')
-        return await this.downloadFiles('0x', ddo, consumer, destination, index)
+        return await this.downloadFiles(agreementId, ddo, consumer, destination, index)
     }
 
     /**
@@ -399,7 +426,7 @@ export class Nfts extends Instantiable {
      * @returns {Number} The ammount of NFTs owned by the account.
      */
     public async balance(did: string, account: Account) {
-        return await this.nevermined.keeper.didRegistry.balance(account.getId(), did)
+        return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
     }
 
     public async ownerOf(did: string, nftTokenAddress: string) {
@@ -480,5 +507,169 @@ export class Nfts extends Instantiable {
         }
 
         return true
+    }
+
+    public async setApprovalForAll(
+        operatorAddress: string,
+        approved: boolean,
+        from: Account
+    ) {
+        return this.nevermined.keeper.nftUpgradeable.setApprovalForAll(
+            operatorAddress,
+            approved,
+            from
+        )
+    }
+
+    /**
+     *
+     * @param ddo {DDO} the Decentraized ID of the NFT
+     * @param assetRewards {AssetRewards} the currect setup of asset rewards
+     * @param nftAmount {Number} the number of NFTs put up for secondary sale
+     * @param provider {Account} the account that will be the provider of the secondary sale
+     * @param owner {Account} the account of the current owner
+     * @returns {Promise<string>} the agreementId if the secondary sale config was successful
+     */
+    public async listOnSecondaryMarkets(
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        nftAmount: number,
+        provider: string,
+        token: Token,
+        owner: string
+    ): Promise<string> {
+        const { nftSalesTemplate } = this.nevermined.keeper.templates
+        const agreementId = zeroX(utils.generateId())
+        const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
+        const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
+
+        nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+            nftSalesTemplateConditions,
+            ddo,
+            assetRewards,
+            token.getAddress(),
+            undefined,
+            provider || owner,
+            nftAmount
+        )
+
+        const nftSalesServiceAgreement: Service = {
+            type: 'nft-sales',
+            index: 6,
+            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
+            templateId: nftSalesTemplate.getAddress(),
+            attributes: {
+                main: {
+                    name: 'nftSalesAgreement',
+                    creator: owner,
+                    datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+                    timeout: 86400
+                },
+                additionalInformation: {
+                    description: ''
+                },
+                serviceAgreementTemplate: nftSalesServiceAgreementTemplate
+            }
+        }
+
+        const saveResult = await this.nevermined.metadata.storeService(
+            agreementId,
+            nftSalesServiceAgreement
+        )
+
+        if (saveResult) {
+            return agreementId
+        } else {
+            throw Error(`Error saving ${agreementId} to MetadataDB`)
+        }
+    }
+
+    /**
+     * Buys a number of listed goods on secondary markets.
+     * @param consumer The account of the buyer/consumer.
+     * @param nftAmount The number of assets to buy. 1 by default.
+     * @param agreementId The agreementId of the initial sales agreement created off-chain.
+     * @returns {Promise<Boolean>} true if the buy was successful.
+     */
+    public async buySecondaryMarketNft(
+        consumer: Account,
+        nftAmount: number = 1,
+        agreementId: string
+    ): Promise<boolean> {
+        const { nftSalesTemplate } = this.nevermined.keeper.templates
+        const service = await this.nevermined.metadata.retrieveService(agreementId)
+        const assetRewards = getAssetRewardsFromService(service)
+        // has no privkeys, so we can't sign
+        const currentNftHolder = new Account(getNftHolderFromService(service))
+        const did = getDIDFromService(service)
+        const ddo = await this.nevermined.assets.resolve(did)
+
+        const result = await nftSalesTemplate.createAgreementFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumer,
+            nftAmount,
+            currentNftHolder,
+            consumer,
+            service as TxParameters
+        )
+
+        if (!result) throw new Error('Creating buy agreement failed')
+
+        const payment = findServiceConditionByName(service, 'lockPayment')
+
+        const receipt = await this.nevermined.agreements.conditions.lockPayment(
+            agreementId,
+            ddo.id,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            consumer
+        )
+
+        if (!receipt) throw new Error('LockPayment Failed.')
+        return receipt
+    }
+
+    /**
+     * Used to release the secondary market NFT & the locked rewards.
+     * @param owner The owner account.
+     * @param agreementId the Id of the underlying service agreement.
+     * @returns {Promise<Boolean>} true if the transaction was successful.
+     */
+    public async releaseSecondaryMarketRewards(
+        owner: Account,
+        agreementId: string
+    ): Promise<boolean> {
+        const service = await this.nevermined.metadata.retrieveService(agreementId)
+        const assetRewards = getAssetRewardsFromService(service)
+        const did = getDIDFromService(service)
+        const nftAmount = getNftAmountFromService(service)
+        const ddo = await this.nevermined.assets.resolve(did)
+
+        let receipt = await this.nevermined.agreements.conditions.transferNft(
+            agreementId,
+            ddo,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            nftAmount,
+            owner,
+            assetRewards as TxParameters
+        )
+
+        if (!receipt) throw new Error('TranferNft Failed.')
+
+        receipt = await this.nevermined.agreements.conditions.releaseNftReward(
+            agreementId,
+            ddo,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            nftAmount,
+            owner
+        )
+
+        if (!receipt) throw new Error('ReleaseNftReward Failed.')
+        return receipt
     }
 }

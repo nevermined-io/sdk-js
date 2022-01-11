@@ -5,7 +5,7 @@ import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 
-describe.only('Consume Asset (Documentation example)', () => {
+describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
 
     let publisher: Account

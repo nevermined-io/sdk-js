@@ -316,6 +316,7 @@ export class Assets extends Instantiable {
                 '',
                 1,
                 royalties,
+                false,
                 publisher.getId(),
                 txParams
             )
@@ -337,6 +338,7 @@ export class Assets extends Instantiable {
         nftAmount?: number,
         royalties?: number,
         erc20TokenAddress?: string,
+        preMint?: boolean,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
@@ -549,7 +551,7 @@ export class Assets extends Instantiable {
                 ddo.shortId(),
                 cap,
                 royalties,
-                false,
+                preMint ? preMint : false,
                 publisher.getId(),
                 txParams
             )

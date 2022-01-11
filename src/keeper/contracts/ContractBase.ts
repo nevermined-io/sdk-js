@@ -10,7 +10,7 @@ export interface TxParameters {
     gas?: number
     gasMultiplier?: number
     gasPrice?: string
-    progress?: (data:any) => void
+    progress?: (data: any) => void
 }
 
 export abstract class ContractBase extends Instantiable {
@@ -116,7 +116,6 @@ export abstract class ContractBase extends Instantiable {
                 `Method "${name}" is not part of contract "${this.contractName}"`
             )
         }
-        const self = this
 
         const method = this.contract.methods[name]
         const { value, gasPrice } = params
@@ -128,7 +127,8 @@ export abstract class ContractBase extends Instantiable {
                     stage: 'estimateGas',
                     args: this.searchMethodInputs(name, args),
                     method: name,
-                    from, value,
+                    from,
+                    value,
                     contractName: this.contractName,
                     contractAddress: this.address
                 })
@@ -152,55 +152,62 @@ export abstract class ContractBase extends Instantiable {
                     stage: 'sending',
                     args: this.searchMethodInputs(name, args),
                     method: name,
-                    from, value,
+                    from,
+                    value,
                     contractName: this.contractName,
                     contractAddress: this.address,
                     gas
                 })
             }
             const chainId = await this.web3.eth.net.getId()
-            const receipt = await tx.send({
-                from,
-                value,
-                gas,
-                gasPrice,
-                chainId
-            }).on('sent', function (tx) {
-                if (params.progress) {
-                    params.progress({
-                        stage: 'sent',
-                        args: self.searchMethodInputs(name, args),
-                        tx,
-                        method: name,
-                        from, value,
-                        contractName: self.contractName,
-                        contractAddress: self.address,
-                        gas
-                    })
-                }
-            }).on('transactionHash', async function (txHash) {
-                if (params.progress) {
-                    let tx = await self.web3.eth.getTransaction(txHash)
-                    params.progress({
-                        stage: 'txHash',
-                        args: self.searchMethodInputs(name, args),
-                        txHash,
-                        gasPrice: tx.gasPrice,
-                        method: name,
-                        from, value,
-                        contractName: self.contractName,
-                        contractAddress: self.address,
-                        gas:tx.gas
-                    })
-                }
-            })
+            const receipt = await tx
+                .send({
+                    from,
+                    value,
+                    gas,
+                    gasPrice,
+                    chainId
+                })
+                .on('sent', tx => {
+                    if (params.progress) {
+                        params.progress({
+                            stage: 'sent',
+                            args: this.searchMethodInputs(name, args),
+                            tx,
+                            method: name,
+                            from,
+                            value,
+                            contractName: this.contractName,
+                            contractAddress: this.address,
+                            gas
+                        })
+                    }
+                })
+                .on('transactionHash', async txHash => {
+                    if (params.progress) {
+                        const tx = await this.web3.eth.getTransaction(txHash)
+                        params.progress({
+                            stage: 'txHash',
+                            args: this.searchMethodInputs(name, args),
+                            txHash,
+                            gasPrice: tx.gasPrice,
+                            method: name,
+                            from,
+                            value,
+                            contractName: this.contractName,
+                            contractAddress: this.address,
+                            gas: tx.gas
+                        })
+                    }
+                })
             if (params.progress) {
                 params.progress({
                     stage: 'receipt',
                     args: this.searchMethodInputs(name, args),
                     receipt,
                     method: name,
-                    from, value,
+                    from,
+                    value,
                     contractName: this.contractName,
                     contractAddress: this.address,
                     gas
@@ -282,7 +289,6 @@ export abstract class ContractBase extends Instantiable {
                 value: args[i]
             }
         })
-
     }
 }
 

@@ -39,6 +39,7 @@ import { objectPromiseAll } from '../utils'
 import { EventHandler } from './EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 
 /**
  * Interface with Nevermined contracts.
@@ -65,6 +66,7 @@ export class Keeper extends Instantiable {
                 // Main contracts
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
+                nftUpgradeable: undefined, // Optional
                 didRegistry: DIDRegistry.getInstance(config),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(config),
@@ -121,10 +123,17 @@ export class Keeper extends Instantiable {
             keeper.logger.warn('Token not available on this network.')
         }
 
+        try {
+            keeper.instances.nftUpgradeable = await NFTUpgradeable.getInstance(config)
+        } catch {
+            keeper.logger.warn('NFTUpgradeable not available on this network.')
+        }
+
         // Main contracts
         keeper.dispenser = keeper.instances.dispenser
         keeper.token = keeper.instances.token
         keeper.didRegistry = keeper.instances.didRegistry
+        keeper.nftUpgradeable = keeper.instances.nftUpgradeable
         // Managers
         keeper.templateStoreManager = keeper.instances.templateStoreManager
         keeper.agreementStoreManager = keeper.instances.agreementStoreManager
@@ -187,6 +196,12 @@ export class Keeper extends Instantiable {
      * @type {DIDRegistry}
      */
     public didRegistry: DIDRegistry
+
+    /**
+     * NFT upgradeable smart contract instance.
+     * @type {NFTUpgradeable}
+     */
+    public nftUpgradeable: NFTUpgradeable
 
     /**
      * Template store manager smart contract instance.

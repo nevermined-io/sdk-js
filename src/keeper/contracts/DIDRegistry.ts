@@ -150,6 +150,7 @@ export default class DIDRegistry extends ContractBase {
         attributes: string,
         cap: number,
         royalties: number,
+        mint: boolean = false,
         ownerAddress: string,
         params?: TxParameters
     ) {
@@ -163,6 +164,7 @@ export default class DIDRegistry extends ContractBase {
                 value,
                 String(cap),
                 String(royalties),
+                mint,
                 zeroX(activityId),
                 attributes
             ],
@@ -211,22 +213,12 @@ export default class DIDRegistry extends ContractBase {
     public async getAttributesByDid(
         did: string
     ): Promise<{ did: string; serviceEndpoint: string; checksum: string }> {
-        const blockNumber = await this.getBlockNumberUpdated(didZeroX(did))
-        return (
-            await this.getEventData('DIDAttributeRegistered', {
-                filter: { _did: didZeroX(did) },
-                fromBlock: blockNumber,
-                to: blockNumber
-            })
-        ).map(
-            ({
-                returnValues: { _did, _checksum: checksum, _value: serviceEndpoint }
-            }) => ({
-                did: didPrefixed(_did),
-                serviceEndpoint,
-                checksum
-            })
-        )[0]
+        const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
+        return {
+            did,
+            serviceEndpoint: registeredValues[2],
+            checksum: registeredValues[1]
+        }
     }
 
     public async grantPermission(
@@ -449,25 +441,6 @@ export default class DIDRegistry extends ContractBase {
         return this.send('burn', from, [didZeroX(did), amount], params)
     }
 
-    public async transferNft(
-        did: string,
-        to: string,
-        amount: number,
-        from: string,
-        params?: TxParameters
-    ) {
-        return this.send(
-            'safeTransferFrom',
-            from,
-            [from, to, didZeroX(did), amount, randomBytes(1)],
-            params
-        )
-    }
-
-    public async balance(address: string, did: string): Promise<number> {
-        return this.call('balanceOf', [zeroX(address), didZeroX(did)])
-    }
-
     public async addProvider(
         did: string,
         provider: string,
@@ -499,20 +472,6 @@ export default class DIDRegistry extends ContractBase {
     public async getProviders(did: string) {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
         return registeredValues[5].filter((x: string) => x != ZeroAddress)
-    }
-
-    public async setApprovalForAll(
-        operator: string,
-        approved: boolean,
-        from: string,
-        params?: TxParameters
-    ) {
-        return await this.send(
-            'setApprovalForAll',
-            from,
-            [zeroX(operator), approved],
-            params
-        )
     }
 
     public async setProxyApproval(
