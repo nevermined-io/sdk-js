@@ -161,30 +161,33 @@ export abstract class ContractBase extends Instantiable {
                     gas
                 })
             }
-            const chainId = await this.web3.eth.net.getId()
-            let txparams : any = {
+            let txparams: any = {
                 from,
                 value,
                 gas,
                 gasPrice
             }
             if (!gasPrice) {
-                let { maxPriorityFeePerGas, maxFeePerGas } = params
+                let { maxPriorityFeePerGas } = params
+                const { maxFeePerGas } = params
                 if (!maxPriorityFeePerGas) {
-                    let fee : any = await (new Promise((resolve, reject) => (this.web3.currentProvider as any).send({
-                        method: "eth_maxPriorityFeePerGas",
-                        params: [],
-                        jsonrpc: "2.0",
-                        id: new Date().getTime()
-                      }, (err,res) => {
-                          if (err) {
-                              reject(err)
-                          } else {
-                           resolve(res.result)
-                      }})
-
-                    ))
-                    maxPriorityFeePerGas = fee
+                    maxPriorityFeePerGas = await new Promise((resolve, reject) =>
+                        (this.web3.currentProvider as any).send(
+                            {
+                                method: 'eth_maxPriorityFeePerGas',
+                                params: [],
+                                jsonrpc: '2.0',
+                                id: new Date().getTime()
+                            },
+                            (err, res) => {
+                                if (err) {
+                                    reject(err)
+                                } else {
+                                    resolve(res.result)
+                                }
+                            }
+                        )
+                    )
                 }
                 txparams = {
                     from,
@@ -192,7 +195,7 @@ export abstract class ContractBase extends Instantiable {
                     gas,
                     maxPriorityFeePerGas,
                     maxFeePerGas,
-                    type: "0x2"
+                    type: '0x2'
                 }
             }
             const receipt = await tx
