@@ -10,6 +10,8 @@ export interface TxParameters {
     gas?: number
     gasMultiplier?: number
     gasPrice?: string
+    maxPriorityFeePerGas?: string
+    maxFeePerGas?: string
     progress?: (data: any) => void
 }
 
@@ -160,14 +162,41 @@ export abstract class ContractBase extends Instantiable {
                 })
             }
             const chainId = await this.web3.eth.net.getId()
-            const receipt = await tx
-                .send({
+            let txparams : any = {
+                from,
+                value,
+                gas,
+                gasPrice
+            }
+            if (!gasPrice) {
+                let { maxPriorityFeePerGas, maxFeePerGas } = params
+                if (!maxPriorityFeePerGas) {
+                    let fee : any = await (new Promise((resolve, reject) => (this.web3.currentProvider as any).send({
+                        method: "eth_maxPriorityFeePerGas",
+                        params: [],
+                        jsonrpc: "2.0",
+                        id: new Date().getTime()
+                      }, (err,res) => {
+                          if (err) {
+                              reject(err)
+                          } else {
+                           resolve(res.result)
+                      }})
+
+                    ))
+                    maxPriorityFeePerGas = fee
+                }
+                txparams = {
                     from,
                     value,
                     gas,
-                    gasPrice,
-                    chainId
-                })
+                    maxPriorityFeePerGas,
+                    maxFeePerGas,
+                    type: "0x2"
+                }
+            }
+            const receipt = await tx
+                .send(txparams)
                 .on('sent', tx => {
                     if (params.progress) {
                         params.progress({
