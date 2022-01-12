@@ -2,6 +2,7 @@ import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
+import { TxParameters } from '../../ContractBase'
 
 /**
  * Implementation of the NFT Lock Condition
@@ -38,12 +39,14 @@ export class NFTLockCondition extends Condition {
         did: string,
         rewardAddress: string,
         amount: number,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return super.fulfill(
             agreementId,
             [didZeroX(did), zeroX(rewardAddress), String(amount)],
-            from
+            from,
+            params
         )
     }
 }

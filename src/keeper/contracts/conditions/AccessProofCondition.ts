@@ -3,6 +3,7 @@ import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey, MimcCipher } from '../../../models/KeyTransfer'
+import { TxParameters } from '../ContractBase'
 
 export class AccessProofCondition extends Condition {
     public static async getInstance(
@@ -31,7 +32,8 @@ export class AccessProofCondition extends Condition {
         provider: BabyjubPublicKey,
         cipher: MimcCipher,
         proof: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return super.fulfill(
             agreementId,
@@ -42,7 +44,8 @@ export class AccessProofCondition extends Condition {
                 cipher.param(),
                 zeroX(proof)
             ],
-            from
+            from,
+            params
         )
     }
 }

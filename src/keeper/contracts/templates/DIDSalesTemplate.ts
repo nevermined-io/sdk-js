@@ -6,6 +6,7 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
 
 export class DIDSalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -19,7 +20,8 @@ export class DIDSalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: Account,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         throw new Error('Not implemented')
     }

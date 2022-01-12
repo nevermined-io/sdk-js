@@ -7,6 +7,7 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
 
 export class AccessTemplate extends BaseTemplate {
     public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
@@ -22,14 +23,16 @@ export class AccessTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: Account,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return !!(await this.createFullAgreement(
             ddo,
             assetRewards,
             consumer.getId(),
             agreementId,
-            from
+            from,
+            params
         ))
     }
 
@@ -61,7 +64,8 @@ export class AccessTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string,
         agreementId: string = generateId(),
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ): Promise<string> {
         const {
             accessConditionId,
@@ -76,7 +80,8 @@ export class AccessTemplate extends BaseTemplate {
             [0, 0, 0],
             [0, 0, 0],
             consumer,
-            from
+            from,
+            params
         )
 
         return zeroX(agreementId)
