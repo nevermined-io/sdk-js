@@ -99,11 +99,17 @@ export class Nfts extends Instantiable {
      * @param {Account} publisher The account of the publisher of the NFT.
      * @returns
      */
-    public async mint(did: string, nftAmount: number, publisher: Account) {
+    public async mint(
+        did: string,
+        nftAmount: number,
+        publisher: Account,
+        params?: TxParameters
+    ) {
         return await this.nevermined.keeper.didRegistry.mint(
             did,
             nftAmount,
-            publisher.getId()
+            publisher.getId(),
+            params
         )
     }
 
@@ -117,11 +123,17 @@ export class Nfts extends Instantiable {
      * @param {Account} publisher The account of the publisher of the NFT.
      * @returns
      */
-    public async burn(did: string, nftAmount: number, publisher: Account) {
+    public async burn(
+        did: string,
+        nftAmount: number,
+        publisher: Account,
+        params?: TxParameters
+    ) {
         return await this.nevermined.keeper.didRegistry.burn(
             did,
             nftAmount,
-            publisher.getId()
+            publisher.getId(),
+            params
         )
     }
 
@@ -594,7 +606,8 @@ export class Nfts extends Instantiable {
     public async buySecondaryMarketNft(
         consumer: Account,
         nftAmount: number = 1,
-        agreementId: string
+        agreementId: string,
+        params?: TxParameters
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const service = await this.nevermined.metadata.retrieveService(agreementId)
@@ -612,7 +625,8 @@ export class Nfts extends Instantiable {
             nftAmount,
             currentNftHolder,
             consumer,
-            service as TxParameters
+            params,
+            service
         )
 
         if (!result) throw new Error('Creating buy agreement failed')
@@ -625,7 +639,8 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            consumer
+            consumer,
+            params
         )
 
         if (!receipt) throw new Error('LockPayment Failed.')
@@ -640,7 +655,8 @@ export class Nfts extends Instantiable {
      */
     public async releaseSecondaryMarketRewards(
         owner: Account,
-        agreementId: string
+        agreementId: string,
+        params?: TxParameters
     ): Promise<boolean> {
         const service = await this.nevermined.metadata.retrieveService(agreementId)
         const assetRewards = getAssetRewardsFromService(service)
@@ -655,7 +671,7 @@ export class Nfts extends Instantiable {
             assetRewards.getReceivers(),
             nftAmount,
             owner,
-            assetRewards as TxParameters
+            params
         )
 
         if (!receipt) throw new Error('TranferNft Failed.')
@@ -666,7 +682,9 @@ export class Nfts extends Instantiable {
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
             nftAmount,
-            owner
+            owner,
+            undefined,
+            params
         )
 
         if (!receipt) throw new Error('ReleaseNftReward Failed.')

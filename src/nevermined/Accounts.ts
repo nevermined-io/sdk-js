@@ -1,6 +1,7 @@
 import Balance from '../models/Balance'
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 /**
  * Account submodule of Nevermined.
@@ -46,9 +47,13 @@ export class Accounts extends Instantiable {
      * @param  {number}           amount  Token amount.
      * @return {Promise<boolean>}         Success.
      */
-    public async requestTokens(account: Account, amount: number): Promise<boolean> {
+    public async requestTokens(
+        account: Account,
+        amount: number,
+        params?: TxParameters
+    ): Promise<boolean> {
         try {
-            await account.requestTokens(amount)
+            await account.requestTokens(amount, params)
             return true
         } catch (e) {
             return false

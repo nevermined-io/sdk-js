@@ -8,6 +8,7 @@ import { ConditionState } from '../keeper/contracts/conditions/Condition.abstrac
 
 import { AgreementsConditions } from './AgreementsConditions'
 import { ServiceType } from '../ddo/Service'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export interface AgreementPrepareResult {
     agreementId: string
@@ -93,7 +94,8 @@ export class Agreements extends Instantiable {
         agreementId: string,
         serviceType: ServiceType,
         consumer: Account,
-        publisher: Account
+        publisher: Account,
+        params?: TxParameters
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
@@ -103,7 +105,14 @@ export class Agreements extends Instantiable {
 
         await this.nevermined.keeper
             .getTemplateByName(templateName)
-            .createAgreementFromDDO(agreementId, ddo, assetRewards, consumer, publisher)
+            .createAgreementFromDDO(
+                agreementId,
+                ddo,
+                assetRewards,
+                consumer,
+                publisher,
+                params
+            )
 
         return true
     }

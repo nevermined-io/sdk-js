@@ -3,6 +3,7 @@ import Balance from '../models/Balance'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import KeyTransfer from '../utils/KeyTransfer'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 const keytransfer = new KeyTransfer()
 
@@ -126,13 +127,16 @@ export default class Account extends Instantiable {
      * @param  {number} amount Tokens to be requested.
      * @return {Promise<number>}
      */
-    public async requestTokens(amount: number | string): Promise<string> {
+    public async requestTokens(
+        amount: number | string,
+        params?: TxParameters
+    ): Promise<string> {
         amount = String(amount)
         if (!this.nevermined.keeper.dispenser) {
             throw new Error('Dispenser not available on this network.')
         }
         try {
-            await this.nevermined.keeper.dispenser.requestTokens(amount, this.id)
+            await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, params)
         } catch (e) {
             this.logger.error(e)
             throw new Error('Error requesting tokens')

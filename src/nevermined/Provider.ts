@@ -1,5 +1,6 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 /**
  * Pro submodule of Nevermined.
@@ -23,8 +24,18 @@ export class Provider extends Instantiable {
      * @param  {Account}          from    Sender account address.
      * @return {Promise<boolean>}         Success,
      */
-    public async add(did: string, address: string, from: Account): Promise<boolean> {
-        await this.nevermined.keeper.didRegistry.addProvider(did, address, from.getId())
+    public async add(
+        did: string,
+        address: string,
+        from: Account,
+        params?: TxParameters
+    ): Promise<boolean> {
+        await this.nevermined.keeper.didRegistry.addProvider(
+            did,
+            address,
+            from.getId(),
+            params
+        )
         return true
     }
 
@@ -35,11 +46,17 @@ export class Provider extends Instantiable {
      * @param  {Account}          from    Sender account address.
      * @return {Promise<boolean>}         Success,
      */
-    public async remove(did: string, address: string, from: Account): Promise<boolean> {
+    public async remove(
+        did: string,
+        address: string,
+        from: Account,
+        params?: TxParameters
+    ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.removeProvider(
             did,
             address,
-            from.getId()
+            from.getId(),
+            params
         )
         return true
     }

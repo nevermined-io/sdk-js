@@ -1,6 +1,7 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ProvenanceMethod } from '../keeper/contracts/DIDRegistry'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 /**
  * Provenance submodule of Nevermined.
@@ -39,7 +40,8 @@ export class Provenance extends Instantiable {
         activityId: string,
         signature: string,
         attributes: string,
-        from: Account
+        from: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.used(
             provenanceId,
@@ -48,7 +50,8 @@ export class Provenance extends Instantiable {
             activityId,
             signature,
             attributes,
-            from.getId()
+            from.getId(),
+            params
         )
         return true
     }
@@ -71,7 +74,8 @@ export class Provenance extends Instantiable {
         agentId: string,
         activityId: string,
         attributes: string,
-        from: Account
+        from: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.wasDerivedFrom(
             provenanceId,
@@ -80,7 +84,8 @@ export class Provenance extends Instantiable {
             agentId,
             activityId,
             attributes,
-            from.getId()
+            from.getId(),
+            params
         )
         return true
     }
@@ -101,7 +106,8 @@ export class Provenance extends Instantiable {
         agentId: string,
         activityId: string,
         attributes: string,
-        from: Account
+        from: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.wasAssociatedWith(
             provenanceId,
@@ -109,7 +115,8 @@ export class Provenance extends Instantiable {
             agentId,
             activityId,
             attributes,
-            from.getId()
+            from.getId(),
+            params
         )
         return true
     }
@@ -134,7 +141,8 @@ export class Provenance extends Instantiable {
         activityId: string,
         signature: string,
         attributes: string,
-        from: Account
+        from: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.actedOnBehalf(
             provenanceId,
@@ -144,7 +152,8 @@ export class Provenance extends Instantiable {
             activityId,
             signature,
             attributes,
-            from.getId()
+            from.getId(),
+            params
         )
         return true
     }
@@ -159,12 +168,14 @@ export class Provenance extends Instantiable {
     public async addDidProvenanceDelegate(
         did: string,
         delegated: string,
-        from: Account
+        from: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
             did,
             delegated,
-            from.getId()
+            from.getId(),
+            params
         )
         return true
     }
@@ -179,12 +190,14 @@ export class Provenance extends Instantiable {
     public async removeDidProvenanceDelegate(
         did: string,
         delegated: string,
-        from: Account
+        from: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(
             did,
             delegated,
-            from.getId()
+            from.getId(),
+            params
         )
         return true
     }

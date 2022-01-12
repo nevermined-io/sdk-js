@@ -1,5 +1,6 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 /**
  * Tokens submodule of Nevermined.
@@ -48,8 +49,13 @@ export class Token extends Instantiable {
      * @param  {Account}          from   Sender account address.
      * @return {Promise<boolean>}        Success,
      */
-    public async transfer(to: string, amount: number, from: Account): Promise<boolean> {
-        this.nevermined.keeper.token.transfer(to, amount, from.getId())
+    public async transfer(
+        to: string,
+        amount: number,
+        from: Account,
+        params?: TxParameters
+    ): Promise<boolean> {
+        this.nevermined.keeper.token.transfer(to, amount, from.getId(), params)
         return true
     }
 
@@ -59,9 +65,13 @@ export class Token extends Instantiable {
      * @param  {number}           amount  Token amount.
      * @return {Promise<boolean>}         Success.
      */
-    public async request(account: Account, amount: number): Promise<boolean> {
+    public async request(
+        account: Account,
+        amount: number,
+        params?: TxParameters
+    ): Promise<boolean> {
         try {
-            await account.requestTokens(amount)
+            await account.requestTokens(amount, params)
             return true
         } catch (e) {
             return false
