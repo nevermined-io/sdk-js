@@ -169,9 +169,8 @@ export abstract class ContractBase extends Instantiable {
             }
             if (!gasPrice) {
                 let { maxPriorityFeePerGas } = params
-                const { maxFeePerGas } = params
-                if (!maxPriorityFeePerGas) {
-                    maxPriorityFeePerGas = await new Promise((resolve, reject) =>
+                try {
+                    const fee : string = await new Promise((resolve, reject) =>
                         (this.web3.currentProvider as any).send(
                             {
                                 method: 'eth_maxPriorityFeePerGas',
@@ -188,14 +187,20 @@ export abstract class ContractBase extends Instantiable {
                             }
                         )
                     )
-                }
-                txparams = {
-                    from,
-                    value,
-                    gas,
-                    maxPriorityFeePerGas,
-                    maxFeePerGas,
-                    type: '0x2'
+                    const { maxFeePerGas } = params
+                    if (!maxPriorityFeePerGas) {
+                        maxPriorityFeePerGas = fee
+                    }
+                    txparams = {
+                        from,
+                        value,
+                        gas,
+                        maxPriorityFeePerGas,
+                        maxFeePerGas,
+                        type: '0x2'
+                    }
+                } catch (err) {
+                    // no eip-1559 support
                 }
             }
             const receipt = await tx
