@@ -9,6 +9,7 @@ import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import KeyTransfer from '../../../utils/KeyTransfer'
+import { TxParameters } from '../ContractBase'
 
 const keytransfer = new KeyTransfer()
 
@@ -33,7 +34,8 @@ export class AccessProofTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: Account,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const service = ddo.findServiceByType('access-proof')
         const { _hash, _providerPub } = service.attributes.main
@@ -53,7 +55,8 @@ export class AccessProofTemplate extends BaseTemplate {
             buyerPub,
             providerPub,
             agreementId,
-            from
+            from,
+            params
         ))
     }
 
@@ -97,7 +100,8 @@ export class AccessProofTemplate extends BaseTemplate {
         buyerPub: BabyjubPublicKey,
         providerPub: BabyjubPublicKey,
         agreementId: string = generateId(),
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ): Promise<string> {
         const {
             accessConditionId,
@@ -119,7 +123,8 @@ export class AccessProofTemplate extends BaseTemplate {
             [0, 0, 0],
             [0, 0, 0],
             consumer,
-            from
+            from,
+            params
         )
 
         return zeroX(agreementId)

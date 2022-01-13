@@ -6,6 +6,7 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
 
 export class NFTAccessTemplate extends BaseTemplate {
     public static async getInstance(
@@ -24,7 +25,8 @@ export class NFTAccessTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         holderAddress: Account,
         nftAmount?: number,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ): Promise<boolean> {
         const [
             nftHolderConditionId,
@@ -44,7 +46,8 @@ export class NFTAccessTemplate extends BaseTemplate {
             [0, 0],
             [0, 0],
             holderAddress.getId(),
-            from
+            from,
+            params
         ))
     }
 

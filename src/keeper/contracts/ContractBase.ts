@@ -10,6 +10,8 @@ export interface TxParameters {
     gas?: number
     gasMultiplier?: number
     gasPrice?: string
+    maxPriorityFeePerGas?: string
+    maxFeePerGas?: string
     progress?: (data: any) => void
 }
 
@@ -159,15 +161,50 @@ export abstract class ContractBase extends Instantiable {
                     gas
                 })
             }
-            const chainId = await this.web3.eth.net.getId()
+            let txparams: any = {
+                from,
+                value,
+                gas,
+                gasPrice
+            }
+            if (!gasPrice) {
+                let { maxPriorityFeePerGas } = params
+                try {
+                    const fee : string = await new Promise((resolve, reject) =>
+                        (this.web3.currentProvider as any).send(
+                            {
+                                method: 'eth_maxPriorityFeePerGas',
+                                params: [],
+                                jsonrpc: '2.0',
+                                id: new Date().getTime()
+                            },
+                            (err, res) => {
+                                if (err) {
+                                    reject(err)
+                                } else {
+                                    resolve(res.result)
+                                }
+                            }
+                        )
+                    )
+                    const { maxFeePerGas } = params
+                    if (!maxPriorityFeePerGas) {
+                        maxPriorityFeePerGas = fee
+                    }
+                    txparams = {
+                        from,
+                        value,
+                        gas,
+                        maxPriorityFeePerGas,
+                        maxFeePerGas,
+                        type: '0x2'
+                    }
+                } catch (err) {
+                    // no eip-1559 support
+                }
+            }
             const receipt = await tx
-                .send({
-                    from,
-                    value,
-                    gas,
-                    gasPrice,
-                    chainId
-                })
+                .send(txparams)
                 .on('sent', tx => {
                     if (params.progress) {
                         params.progress({

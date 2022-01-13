@@ -88,7 +88,8 @@ export class TransferNFTCondition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockPaymentCondition: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return super.fulfill(
             agreementId,
@@ -100,7 +101,7 @@ export class TransferNFTCondition extends Condition {
                 lockPaymentCondition
             ],
             from,
-            undefined,
+            params,
             'fulfillForDelegate'
         )
     }

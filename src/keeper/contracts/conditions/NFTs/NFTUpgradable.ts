@@ -35,8 +35,18 @@ export class NFTUpgradeable extends ContractBase {
      * @param {Account} from Sender account
      * @returns Boolean
      */
-    public setProxyApproval(operatorAddress: string, approved: boolean, from?: Account) {
-        return this.sendFrom('setProxyApproval', [zeroX(operatorAddress), approved], from)
+    public setProxyApproval(
+        operatorAddress: string,
+        approved: boolean,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom(
+            'setProxyApproval',
+            [zeroX(operatorAddress), approved],
+            from,
+            params
+        )
     }
 
     /**
@@ -52,12 +62,14 @@ export class NFTUpgradeable extends ContractBase {
         accountAddress: string,
         operatorAddress: string,
         approved: boolean,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return this.sendFrom(
             'proxySetApprovalForAll',
             [zeroX(accountAddress), zeroX(operatorAddress), approved],
-            from
+            from,
+            params
         )
     }
 
@@ -69,11 +81,17 @@ export class NFTUpgradeable extends ContractBase {
      * @param {Account} from Sender account
      * @returns Boolean
      */
-    public setApprovalForAll(operatorAddress: string, approved: boolean, from?: Account) {
+    public setApprovalForAll(
+        operatorAddress: string,
+        approved: boolean,
+        from?: Account,
+        params?: TxParameters
+    ) {
         return this.sendFrom(
             'setApprovalForAll',
             [zeroX(operatorAddress), approved],
-            from
+            from,
+            params
         )
     }
 

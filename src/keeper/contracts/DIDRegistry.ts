@@ -2,7 +2,6 @@ import { TransactionReceipt } from 'web3-core'
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { randomBytes } from 'crypto'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -227,7 +226,12 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         params?: TxParameters
     ) {
-        return this.send('grantPermission', ownerAddress, [didZeroX(did), zeroX(grantee)])
+        return this.send(
+            'grantPermission',
+            ownerAddress,
+            [didZeroX(did), zeroX(grantee)],
+            params
+        )
     }
 
     public async revokePermission(
@@ -236,7 +240,12 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         params?: TxParameters
     ) {
-        return this.send('revokePermission', ownerAddress, [zeroX(did), zeroX(grantee)])
+        return this.send(
+            'revokePermission',
+            ownerAddress,
+            [zeroX(did), zeroX(grantee)],
+            params
+        )
     }
 
     public async getPermission(did: string, grantee: string): Promise<boolean> {
@@ -249,10 +258,12 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         params?: TxParameters
     ): Promise<TransactionReceipt> {
-        return this.send('transferDIDOwnership', ownerAddress, [
-            didZeroX(did),
-            zeroX(newOwnerAddress)
-        ])
+        return this.send(
+            'transferDIDOwnership',
+            ownerAddress,
+            [didZeroX(did), zeroX(newOwnerAddress)],
+            params
+        )
     }
 
     // Provenance

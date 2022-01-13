@@ -109,12 +109,19 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         grantee: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const { accessCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await accessCondition.fulfill(agreementId, did, grantee, from)
+            const receipt = await accessCondition.fulfill(
+                agreementId,
+                did,
+                grantee,
+                from,
+                params
+            )
             return !!receipt.events.Fulfilled
         } catch {
             return false
@@ -136,7 +143,8 @@ export class AgreementsConditions extends Instantiable {
         providerK: string,
         buyerPub: BabyjubPublicKey,
         providerPub: BabyjubPublicKey,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const { accessProofCondition } = this.nevermined.keeper.conditions
@@ -155,7 +163,8 @@ export class AgreementsConditions extends Instantiable {
                 providerPub,
                 cipher,
                 proof,
-                from
+                from,
+                params
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -199,7 +208,8 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         grantee: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const { computeExecutionCondition } = this.nevermined.keeper.conditions
@@ -208,7 +218,8 @@ export class AgreementsConditions extends Instantiable {
                 agreementId,
                 did,
                 grantee,
-                from
+                from,
+                params
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -239,7 +250,8 @@ export class AgreementsConditions extends Instantiable {
         consumer: string,
         publisher: string,
         erc20TokenAddress?: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const {
@@ -284,7 +296,8 @@ export class AgreementsConditions extends Instantiable {
                 token ? token.getAddress() : erc20TokenAddress,
                 conditionIdLock,
                 conditionIdAccess,
-                from
+                from,
+                params
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -479,7 +492,8 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         holder: string,
         nftAmount: number,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const { nftHolderCondition } = this.nevermined.keeper.conditions
 
@@ -488,7 +502,8 @@ export class AgreementsConditions extends Instantiable {
             did,
             holder,
             nftAmount,
-            from
+            from,
+            params
         )
         return !!receipt.events.Fulfilled
     }
@@ -507,7 +522,8 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         ddo: DDO,
         holderAddress: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
         const accessService = ddo.findServiceByType('nft721-access')
@@ -519,7 +535,8 @@ export class AgreementsConditions extends Instantiable {
             ddo.shortId(),
             holderAddress,
             holder.parameters.find(p => p.name === '_contractAddress').value as string,
-            from
+            from,
+            params
         )
 
         return !!receipt.events.Fulfilled
@@ -538,11 +555,18 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         grantee: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const { nftAccessCondition } = this.nevermined.keeper.conditions
 
-        const receipt = await nftAccessCondition.fulfill(agreementId, did, grantee, from)
+        const receipt = await nftAccessCondition.fulfill(
+            agreementId,
+            did,
+            grantee,
+            from,
+            params
+        )
         return !!receipt.events.Fulfilled
     }
 
@@ -627,7 +651,8 @@ export class AgreementsConditions extends Instantiable {
         amounts: number[],
         receivers: string[],
         nftAmount: number,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const {
             transferNftCondition,
@@ -671,7 +696,8 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             nftAmount,
             lockPaymentConditionId,
-            from
+            from,
+            params
         )
 
         return !!receipt.events.Fulfilled
