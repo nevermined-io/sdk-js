@@ -146,7 +146,7 @@ export default class DIDRegistry extends ContractBase {
         providers: string[],
         value: string,
         activityId: string,
-        attributes: string,
+        nftMetadata: string = '',
         cap: number,
         royalties: number,
         mint: boolean = false,
@@ -165,7 +165,36 @@ export default class DIDRegistry extends ContractBase {
                 String(royalties),
                 mint,
                 zeroX(activityId),
-                attributes
+                nftMetadata
+            ],
+            params
+        )
+    }
+
+    public async registerMintableDID721(
+        did: string,
+        checksum: string,
+        providers: string[],
+        value: string,
+        activityId: string,
+        nftMetadata: string = '',
+        royalties: number,
+        mint: boolean = false,
+        ownerAddress: string,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'registerMintableDID721',
+            ownerAddress,
+            [
+                didZeroX(did),
+                zeroX(checksum),
+                providers.map(zeroX),
+                value,
+                String(royalties),
+                mint,
+                zeroX(activityId),
+                nftMetadata
             ],
             params
         )
@@ -177,12 +206,29 @@ export default class DIDRegistry extends ContractBase {
         royalties: number,
         preMint: boolean,
         ownerAddress: string,
+        nftMetadata: string = '',
         params?: TxParameters
     ) {
         return this.send(
             'enableAndMintDidNft',
             ownerAddress,
-            [didZeroX(did), cap, royalties, preMint],
+            [didZeroX(did), cap, royalties, preMint, nftMetadata],
+            params
+        )
+    }
+
+    public async enableAndMintDidNft721(
+        did: string,
+        royalties: number,
+        preMint: boolean,
+        ownerAddress: string,
+        nftMetadata: string = '',
+        params?: TxParameters
+    ) {
+        return this.send(
+            'enableAndMintDidNft721',
+            ownerAddress,
+            [didZeroX(did), royalties, preMint, nftMetadata],
             params
         )
     }
