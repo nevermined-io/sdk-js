@@ -206,7 +206,7 @@ export default class DIDRegistry extends ContractBase {
         royalties: number,
         preMint: boolean,
         ownerAddress: string,
-        nftMetadata: string = '',
+        nftMetadata: string,
         params?: TxParameters
     ) {
         return this.send(
@@ -222,7 +222,7 @@ export default class DIDRegistry extends ContractBase {
         royalties: number,
         preMint: boolean,
         ownerAddress: string,
-        nftMetadata: string = '',
+        nftMetadata: string,
         params?: TxParameters
     ) {
         return this.send(
