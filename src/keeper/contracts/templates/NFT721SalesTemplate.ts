@@ -29,11 +29,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         from?: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
-        const [
-            lockPaymentConditionId,
-            transferNftConditionId,
-            escrowPaymentConditionId
-        ] = await this.getAgreementIdsFromDDO(
+        const { ids } = await this.getAgreementIdsFromDDO(
             agreementId,
             ddo,
             assetRewards,
@@ -43,10 +39,48 @@ export class NFT721SalesTemplate extends BaseTemplate {
         return !!(await this.createAgreement(
             agreementId,
             ddo.shortId(),
-            [lockPaymentConditionId, transferNftConditionId, escrowPaymentConditionId],
+            ids,
             [0, 0, 0],
             [0, 0, 0],
             consumerAddress.getId(),
+            from,
+            txParams
+        ))
+    }
+
+    public async createAgreementWithPaymentFromDDO(
+        agreementId: string,
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        consumerAddress: Account,
+        from?: Account,
+        txParams?: TxParameters
+    ): Promise<boolean> {
+        const {
+            ids,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers
+        } = await this.getAgreementIdsFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumerAddress.getId()
+        )
+
+        return !!(await this.createAgreementAndPay(
+            agreementId,
+            ddo.shortId(),
+            ids,
+            [0, 0, 0],
+            [0, 0, 0],
+            consumerAddress.getId(),
+            0,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers,
             from,
             txParams
         ))
@@ -57,7 +91,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string
-    ): Promise<string[]> {
+    ): Promise<any> {
         const {
             lockPaymentCondition,
             transferNft721Condition,
@@ -118,7 +152,18 @@ export class NFT721SalesTemplate extends BaseTemplate {
             )
         )
 
-        return [lockPaymentConditionId, transferNftConditionId, escrowPaymentConditionId]
+        return {
+            ids: [
+                lockPaymentConditionId,
+                transferNftConditionId,
+                escrowPaymentConditionId
+            ],
+            rewardAddress: escrowPaymentCondition.getAddress(),
+            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
+                .value as string,
+            amounts: assetRewards.getAmounts(),
+            receivers: assetRewards.getReceivers()
+        }
     }
 
     public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {

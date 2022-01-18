@@ -5,7 +5,7 @@ import { TxParameters } from '../ContractBase'
 
 export abstract class BaseTemplate extends AgreementTemplate {
     /**
-     * Create a agreement using EscrowComputeExecutionTemplate.
+     * Create a agreement using BaseEscrowTemplate.
      * @param {string}   agreementId    Generated agreement ID.
      * @param {string}   did            Asset DID.
      * @param {string[]} conditionIds   List of conditions IDs.
@@ -34,6 +34,41 @@ export abstract class BaseTemplate extends AgreementTemplate {
             [accessConsumer],
             from,
             txParams
+        )
+    }
+
+    public createAgreementAndPay(
+        agreementId: string,
+        did: string,
+        conditionIds: string[],
+        timeLocks: number[],
+        timeOuts: number[],
+        accessConsumer: string,
+        condIdx: number,
+        rewardAddress: string,
+        tokenAddress: string,
+        amounts: number[],
+        receivers: string[],
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom(
+            'createAgreementAndPayEscrow',
+            [
+                zeroX(agreementId),
+                zeroX(did),
+                conditionIds.map(zeroX),
+                timeLocks,
+                timeOuts,
+                accessConsumer,
+                condIdx,
+                rewardAddress,
+                tokenAddress,
+                amounts.map(a => a.toString(10)),
+                receivers
+            ],
+            from,
+            params
         )
     }
 
