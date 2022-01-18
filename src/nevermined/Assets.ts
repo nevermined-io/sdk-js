@@ -81,6 +81,7 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards = new AssetRewards(),
         method: string = 'PSK-RSA',
         providers?: string[],
+        nftMetadata?: string,
         params?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.createNft(
@@ -94,6 +95,7 @@ export class Assets extends Instantiable {
             undefined,
             undefined,
             undefined,
+            nftMetadata,
             params
         )
     }
@@ -107,6 +109,7 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string,
         providers?: string[],
         royalties: number = 0,
+        nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')
@@ -318,7 +321,7 @@ export class Assets extends Instantiable {
                 providers || [this.config.gatewayAddress],
                 '',
                 '0x1',
-                '',
+                nftMetadata ? nftMetadata : '',
                 1,
                 royalties,
                 false,
@@ -344,6 +347,7 @@ export class Assets extends Instantiable {
         royalties?: number,
         erc20TokenAddress?: string,
         preMint?: boolean,
+        nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
@@ -558,6 +562,7 @@ export class Assets extends Instantiable {
                 royalties,
                 preMint ? preMint : false,
                 publisher.getId(),
+                nftMetadata ? nftMetadata : '',
                 txParams
             )
 
