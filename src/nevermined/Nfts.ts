@@ -562,6 +562,7 @@ export class Nfts extends Instantiable {
                 main: {
                     name: 'nftSalesAgreement',
                     creator: owner,
+                    did: ddo.shortId(),
                     datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
                     timeout: 86400
                 },
