@@ -16,7 +16,11 @@ import {
     TransferNFTCondition,
     TransferDIDOwnershipCondition,
     TransferNFT721Condition,
-    NFT721HolderCondition
+    NFT721HolderCondition,
+    AaveBorrowCondition,
+    AaveCollateralDepositCondition,
+    AaveCollateralWithdrawCondition,
+    AaveRepayCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -87,6 +91,10 @@ export class Keeper extends Instantiable {
                 transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
                     config
                 ),
+                aaveBorrowCondition: AaveBorrowCondition.getInstance(config),
+                aaveCollateralDepositCondition: AaveCollateralDepositCondition.getInstance(config),
+                aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition.getInstance(config),
+                aaveRepayCondition: AaveRepayCondition.getInstance(config),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(config),
                 accessProofTemplate: AccessProofTemplate.getInstance(config),
@@ -151,7 +159,11 @@ export class Keeper extends Instantiable {
             nftAccessCondition: keeper.instances.nftAccessCondition,
             transferNftCondition: keeper.instances.transferNftCondition,
             transferNft721Condition: keeper.instances.transferNft721Condition,
-            transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition
+            transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition,
+            aaveBorrowCondition: keeper.instances.aaveBorrowCondition,
+            aaveCollateralDepositCondition: keeper.instances.aaveCollateralDepositCondition,
+            aaveCollateralWithdrawCondition: keeper.instances.aaveCollateralWithdrawCondition,
+            aaveRepayCondition: keeper.instances.aaveRepayCondition,
         }
         // Templates
         keeper.templates = {
@@ -237,6 +249,10 @@ export class Keeper extends Instantiable {
         transferNftCondition: TransferNFTCondition
         transferNft721Condition: TransferNFT721Condition
         transferDidOwnershipCondition: TransferDIDOwnershipCondition
+        aaveBorrowCondition: AaveBorrowCondition,
+        aaveCollateralDepositCondition: AaveCollateralDepositCondition,
+        aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition,
+        aaveRepayCondition: AaveRepayCondition
     }
 
     /**
