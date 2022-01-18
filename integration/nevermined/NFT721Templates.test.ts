@@ -609,7 +609,7 @@ describe('NFT721Templates E2E', () => {
         })
     })
 
-    describe.only('Short flow', () => {
+    describe('Short flow', () => {
         before(async () => {
             // initial balances
             initialBalances = {
