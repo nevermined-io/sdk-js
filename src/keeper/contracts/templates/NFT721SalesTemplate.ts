@@ -5,9 +5,11 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { findServiceConditionByName } from '../../../utils'
+import { findServiceConditionByName, ZeroAddress } from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+import Token from '../Token'
+import CustomToken from '../CustomToken'
 
 export class NFT721SalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -68,6 +70,38 @@ export class NFT721SalesTemplate extends BaseTemplate {
             assetRewards,
             consumerAddress.getId()
         )
+
+        let token: Token
+
+        const {
+            lockPaymentCondition,
+        } = this.nevermined.keeper.conditions
+
+        if (!tokenAddress) {
+            ;({ token } = this.nevermined.keeper)
+        } else if (tokenAddress.toLowerCase() !== ZeroAddress) {
+            token = await CustomToken.getInstanceByAddress(
+                {
+                    nevermined: this.nevermined,
+                    web3: this.web3,
+                    logger: this.logger,
+                    config: this.config
+                },
+                tokenAddress
+            )
+        }
+
+        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+
+        if (token) {
+            this.logger.debug('Approving tokens', totalAmount)
+            await token.approve(
+                lockPaymentCondition.getAddress(),
+                totalAmount,
+                from,
+                txParams
+            )
+        }
 
         return !!(await this.createAgreementAndPay(
             agreementId,
