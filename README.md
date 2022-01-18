@@ -61,8 +61,6 @@ const nevermined: Nevermined = await Nevermined.getInstance({
     faucetUri: 'http://localhost:3001',
     // address that gateway uses
     gatewayAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
-    // the uri to the parity node you want to use for encryption and decryption
-    parityUri: 'http://localhost:9545',
     // the uri of the secret store that holds the keys
     secretStoreUri: 'http://localhost:12001'
 })
