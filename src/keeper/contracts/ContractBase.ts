@@ -170,7 +170,7 @@ export abstract class ContractBase extends Instantiable {
             if (!gasPrice) {
                 let { maxPriorityFeePerGas } = params
                 try {
-                    const fee : string = await new Promise((resolve, reject) =>
+                    const fee: string = await new Promise((resolve, reject) =>
                         (this.web3.currentProvider as any).send(
                             {
                                 method: 'eth_maxPriorityFeePerGas',
