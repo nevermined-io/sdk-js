@@ -80,12 +80,15 @@ export abstract class BaseTemplate extends AgreementTemplate {
         return this.call<any>('getAgreementData', [zeroX(agreementId)])
     }
 
-    public async lockTokens(tokenAddress, amounts, from: Account, txParams: TxParameters): Promise<void> {
+    public async lockTokens(
+        tokenAddress,
+        amounts,
+        from: Account,
+        txParams: TxParameters
+    ): Promise<void> {
         let token: Token
 
-        const {
-            lockPaymentCondition,
-        } = this.nevermined.keeper.conditions
+        const { lockPaymentCondition } = this.nevermined.keeper.conditions
 
         if (!tokenAddress) {
             ;({ token } = this.nevermined.keeper)
@@ -112,7 +115,5 @@ export abstract class BaseTemplate extends AgreementTemplate {
                 txParams
             )
         }
-
-
     }
 }
