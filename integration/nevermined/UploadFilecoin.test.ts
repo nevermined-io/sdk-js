@@ -37,7 +37,6 @@ describe('Filecoin Integration', () => {
         const stream = fs.createReadStream(testPath)
         const response = await nevermined.files.uploadFilecoin(stream, true)
 
-        console.log(response)
         assert.isDefined(response.password)
 
         // cleanup file

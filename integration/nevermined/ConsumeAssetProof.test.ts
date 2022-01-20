@@ -4,9 +4,12 @@ import { config } from '../config'
 import { getMetadata, getMetadataForDTP } from '../utils'
 
 import { Nevermined, Account, DDO } from '../../src'
+import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
+import KeyTransfer from '../../src/utils/KeyTransfer'
 
 describe('Consume Asset (Gateway w/ proofs)', () => {
     let nevermined: Nevermined
+    let keyTransfer = new KeyTransfer()
 
     let publisher: Account
     let consumer: Account
@@ -19,7 +22,7 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
         y: '0x0b932f02e59f90cdd761d9d5e7c15c8e620efce4ce018bf54015d68d9cb35561'
     }
 
-    const origPasswd = '0123254678901232546789012325467890123254678901232546789f'
+    const origPasswd = Buffer.from('passwd_32_letters_1234567890asdf').toString('hex')
 
     let metadata = getMetadataForDTP('foo' + Math.random(), origPasswd, providerKey)
 
@@ -84,5 +87,15 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
     it('should consume and store the assets', async () => {
         const passwd = await nevermined.assets.consumeProof(agreementId, ddo.id, consumer)
         assert.deepEqual(passwd, origPasswd)
+    })
+
+    it('buyer should have the key', async () => {
+        console.log(keyTransfer.makeKey(consumer.babySecret))
+        const key = await nevermined.agreements.conditions.readKey(
+            agreementId,
+            keyTransfer.makeKey(consumer.babySecret),
+            new BabyjubPublicKey(providerKey.x, providerKey.y)
+        )
+        assert.equal(key.toString('hex'), origPasswd)
     })
 })

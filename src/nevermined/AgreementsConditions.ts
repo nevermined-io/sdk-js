@@ -190,6 +190,8 @@ export class AgreementsConditions extends Instantiable {
         })
         const [cipherL, cipherR] = ev[0].returnValues._cipher
 
+        console.log(providerPub)
+
         const keyTransfer = new KeyTransfer()
         return keyTransfer.decryptKey(
             new MimcCipher(cipherL, cipherR),
