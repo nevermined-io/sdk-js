@@ -5,7 +5,7 @@ import { getMetadata, getMetadataForDTP } from '../utils'
 
 import { Nevermined, Account, DDO } from '../../src'
 
-describe('Consume Asset (Gateway)', () => {
+describe('Consume Asset (Gateway w/ proofs)', () => {
     let nevermined: Nevermined
 
     let publisher: Account

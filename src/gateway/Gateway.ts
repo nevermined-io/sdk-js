@@ -472,10 +472,11 @@ export class Gateway extends Instantiable {
         return jsonPayload.access_token
     }
 
-    public async uploadFilecoin(stream: ReadStream): Promise<any> {
+    public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
         const response = await this.nevermined.utils.fetch.uploadFile(
             this.getUploadFilecoinEndpoint(),
-            stream
+            stream,
+            encrypt
         )
         return response.json()
     }
