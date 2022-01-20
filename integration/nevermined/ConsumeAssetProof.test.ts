@@ -9,7 +9,7 @@ import KeyTransfer from '../../src/utils/KeyTransfer'
 
 describe('Consume Asset (Gateway w/ proofs)', () => {
     let nevermined: Nevermined
-    let keyTransfer = new KeyTransfer()
+    const keyTransfer = new KeyTransfer()
 
     let publisher: Account
     let consumer: Account
@@ -22,7 +22,7 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
         y: '0x0b932f02e59f90cdd761d9d5e7c15c8e620efce4ce018bf54015d68d9cb35561'
     }
 
-    const origPasswd = Buffer.from('passwd_32_letters_1234567890asdf').toString('hex')
+    const origPasswd = Buffer.from('passwd_32_letters_1234567890asdF').toString('hex')
 
     let metadata = getMetadataForDTP('foo' + Math.random(), origPasswd, providerKey)
 
@@ -90,7 +90,6 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
     })
 
     it('buyer should have the key', async () => {
-        console.log(keyTransfer.makeKey(consumer.babySecret))
         const key = await nevermined.agreements.conditions.readKey(
             agreementId,
             keyTransfer.makeKey(consumer.babySecret),

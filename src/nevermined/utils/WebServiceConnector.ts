@@ -129,13 +129,17 @@ export class WebServiceConnector extends Instantiable {
         return await response.text()
     }
 
-    public async uploadFile(url: string, stream: ReadStream, encrypt?: boolean): Promise<any> {
+    public async uploadFile(
+        url: string,
+        stream: ReadStream,
+        encrypt?: boolean
+    ): Promise<any> {
         const form = new FormData()
         form.append('file', stream)
         if (encrypt) {
             form.append('encrypt', 'true')
         }
-        return this.fetch(url, {method: 'POST', body: form})
+        return this.fetch(url, { method: 'POST', body: form })
     }
 
     public async fetchToken(url: string, grantToken: string): Promise<Response> {
