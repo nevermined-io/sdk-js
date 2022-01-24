@@ -207,34 +207,6 @@ describe('NFT721Templates E2E', () => {
                     )
                 )
 
-                const result = await nft721SalesTemplate.createAgreement(
-                    agreementId,
-                    ddo.shortId(),
-                    [conditionIdLockPayment, conditionIdTransferNFT, conditionIdEscrow],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    collector1.getId()
-                )
-                assert.isTrue(result.status)
-                assert.nestedProperty(result, 'events.AgreementCreated')
-
-                assert.equal(
-                    (await conditionStoreManager.getCondition(conditionIdLockPayment))
-                        .state,
-                    ConditionState.Unfulfilled
-                )
-                assert.equal(
-                    (await conditionStoreManager.getCondition(conditionIdEscrow)).state,
-                    ConditionState.Unfulfilled
-                )
-                assert.equal(
-                    (await conditionStoreManager.getCondition(conditionIdTransferNFT))
-                        .state,
-                    ConditionState.Unfulfilled
-                )
-            })
-
-            it('I am locking the payment', async () => {
                 await collector1.requestTokens(nftPrice / scale)
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 assert.equal(
@@ -252,14 +224,30 @@ describe('NFT721Templates E2E', () => {
                     nftPrice,
                     collector1
                 )
-                await lockPaymentCondition.fulfill(
+                const result = await nft721SalesTemplate.createAgreementAndPay(
                     agreementId,
                     ddo.shortId(),
+                    [conditionIdLockPayment, conditionIdTransferNFT, conditionIdEscrow],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    collector1.getId(),
+                    0,
                     escrowPaymentCondition.getAddress(),
                     token.getAddress(),
                     amounts,
                     receivers,
                     collector1
+                )
+                assert.isTrue(result.status)
+                assert.nestedProperty(result, 'events.AgreementCreated')
+                assert.equal(
+                    (await conditionStoreManager.getCondition(conditionIdEscrow)).state,
+                    ConditionState.Unfulfilled
+                )
+                assert.equal(
+                    (await conditionStoreManager.getCondition(conditionIdTransferNFT))
+                        .state,
+                    ConditionState.Unfulfilled
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -650,6 +638,7 @@ describe('NFT721Templates E2E', () => {
                 [],
                 royalties
             )
+            await collector1.requestTokens(nftPrice / scale)
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -662,8 +651,13 @@ describe('NFT721Templates E2E', () => {
         })
 
         describe('As a collector I want to buy some art', () => {
-            it('I am setting an agreement for buying a NFT', async () => {
-                const result = await nft721SalesTemplate.createAgreementFromDDO(
+            it('I am setting an agreement for buying a NFT and paying it in the same transaction', async () => {
+                const collector1BalanceBefore = await token.balanceOf(collector1.getId())
+                assert.equal(
+                    collector1BalanceBefore,
+                    initialBalances.collector1 + nftPrice
+                )
+                const result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
                     agreementId,
                     ddo,
                     assetRewards1,
@@ -673,10 +667,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(result)
 
                 const status = await nft721SalesTemplate.getAgreementStatus(agreementId)
-                assert.equal(
-                    status && status.lockPayment.state,
-                    ConditionState.Unfulfilled
-                )
+                assert.equal(status && status.lockPayment.state, ConditionState.Fulfilled)
                 assert.equal(
                     status && status.transferNFT.state,
                     ConditionState.Unfulfilled
@@ -685,26 +676,6 @@ describe('NFT721Templates E2E', () => {
                     status && status.escrowPayment.state,
                     ConditionState.Unfulfilled
                 )
-            })
-
-            it('I am locking the payment', async () => {
-                await collector1.requestTokens(nftPrice / scale)
-
-                const collector1BalanceBefore = await token.balanceOf(collector1.getId())
-                assert.equal(
-                    collector1BalanceBefore,
-                    initialBalances.collector1 + nftPrice
-                )
-
-                const receipt = await nevermined.agreements.conditions.lockPayment(
-                    agreementId,
-                    ddo.shortId(),
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    token.getAddress(),
-                    collector1
-                )
-                assert.isTrue(receipt)
 
                 const collector1BalanceAfter = await token.balanceOf(collector1.getId())
                 const escrowPaymentConditionBalance = await token.balanceOf(
