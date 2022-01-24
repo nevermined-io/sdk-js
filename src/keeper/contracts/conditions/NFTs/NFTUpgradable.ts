@@ -120,4 +120,8 @@ export class NFTUpgradeable extends ContractBase {
             params
         )
     }
+
+    public async uri(did: string): Promise<string> {
+        return this.call('uri', [didZeroX(did)])
+    }
 }
