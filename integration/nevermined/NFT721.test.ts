@@ -41,7 +41,7 @@ describe('Nfts721 operations', async () => {
                 getMetadata(),
                 artist,
                 new AssetRewards(),
-                nft.options.address,                
+                nft.options.address,
             )
         })
 
