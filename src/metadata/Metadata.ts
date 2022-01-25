@@ -112,6 +112,34 @@ export class Metadata extends Instantiable {
     }
 
     /**
+     * Search over the Services using a query.
+     * @param  {SearchQuery} query Query to filter the Services.
+     * @return {Promise<QueryResult>}
+     */
+    public async queryServiceMetadata(query: {
+        [property: string]: string | number | string[] | number[] | object
+    }): Promise<ServiceSecondary[]> {
+        const result: ServiceSecondary[] = await this.nevermined.utils.fetch
+            .post(`${this.url}${servicePath}/query`, JSON.stringify(query))
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json() as ServiceSecondary[]
+                }
+                this.logger.error(
+                    'query services from metadata failed:',
+                    response.status,
+                    response.statusText
+                )
+            })
+            .catch(error => {
+                this.logger.error('Error querying service metadata: ', error)
+                return []
+            })
+
+        return result
+    }
+
+    /**
      * Search over the DDOs using a query.
      * @param  {SearchQuery} query Query to filter the DDOs.
      * @return {Promise<QueryResult>}
