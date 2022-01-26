@@ -102,6 +102,11 @@ export class Gateway extends Instantiable {
         return json['ecdsa-public-key']
     }
 
+    public async getBabyjubPublicKey() {
+        const json = await this.getGatewayInfo()
+        return json['babyjub-public-key']
+    }
+
     public getDownloadEndpoint() {
         return `${this.url}${apiPath}/download`
     }
@@ -472,10 +477,11 @@ export class Gateway extends Instantiable {
         return jsonPayload.access_token
     }
 
-    public async uploadFilecoin(stream: ReadStream): Promise<any> {
+    public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
         const response = await this.nevermined.utils.fetch.uploadFile(
             this.getUploadFilecoinEndpoint(),
-            stream
+            stream,
+            encrypt
         )
         return response.json()
     }
