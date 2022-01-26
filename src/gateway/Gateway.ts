@@ -102,6 +102,11 @@ export class Gateway extends Instantiable {
         return json['ecdsa-public-key']
     }
 
+    public async getBabyjubPublicKey() {
+        const json = await this.getGatewayInfo()
+        return json['babyjub-public-key']
+    }
+
     public getDownloadEndpoint() {
         return `${this.url}${apiPath}/download`
     }

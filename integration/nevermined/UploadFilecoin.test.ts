@@ -4,7 +4,6 @@ import { Nevermined, Account, DDO, MetaData } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 
-// Skipped because it requires powergate in the CI
 describe('Filecoin Integration', () => {
     let nevermined: Nevermined
     let publisher: Account
