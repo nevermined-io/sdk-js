@@ -18,7 +18,7 @@ import {
 import { CreateProgressStep } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
-import { Service } from '../ddo/Service'
+import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export class Nfts extends Instantiable {
@@ -569,11 +569,13 @@ export class Nfts extends Instantiable {
             nftAmount
         )
 
-        const nftSalesServiceAgreement: Service = {
+        const nftSalesServiceAgreement: ServiceSecondary = {
+            agreementId: agreementId,
             type: 'nft-sales',
             index: 6,
             serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
             templateId: nftSalesTemplate.getAddress(),
+            did: ddo.id,
             attributes: {
                 main: {
                     name: 'nftSalesAgreement',

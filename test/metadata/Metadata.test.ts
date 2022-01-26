@@ -77,6 +77,41 @@ describe('Metadata', () => {
         })
     })
 
+    describe('#queryServiceMetadata()', () => {
+        const query = {
+            query: {
+                bool: {
+                    must: {
+                        match: {
+                            type: 'nft-sales'
+                        }
+                    }
+                }
+            }
+        }
+
+        it('should query metadata', async () => {
+            spy.on(nevermined.utils.fetch, 'post', () =>
+                reponsify([{ type: 'nft-sales' } as any])
+            )
+
+            const result = await metadata.queryServiceMetadata(query)
+            assert.typeOf(result, 'array')
+            assert.lengthOf(result, 1)
+        })
+
+        it('should query metadata and return real ddo', async () => {
+            spy.on(nevermined.utils.fetch, 'post', () =>
+                reponsify([{ type: 'nft-sales' } as any])
+            )
+
+            const result = await metadata.queryServiceMetadata(query)
+            assert.typeOf(result, 'array')
+            assert.lengthOf(result, 1)
+            assert.isDefined(result[0].type)
+        })
+    })
+
     describe('#queryMetadataByText()', () => {
         const query = {
             offset: 100,

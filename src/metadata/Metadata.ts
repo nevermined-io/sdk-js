@@ -2,7 +2,7 @@ import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { Service, ServiceCommon } from '../ddo/Service'
+import { ServiceSecondary } from '../ddo/Service'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -106,6 +106,34 @@ export class Metadata extends Instantiable {
             .catch(error => {
                 this.logger.error('Error querying metadata: ', error)
                 return this.transformResult()
+            })
+
+        return result
+    }
+
+    /**
+     * Search over the Services using a query.
+     * @param  {SearchQuery} query Query to filter the Services.
+     * @return {Promise<QueryResult>}
+     */
+    public async queryServiceMetadata(query: {
+        [property: string]: string | number | string[] | number[] | object
+    }): Promise<ServiceSecondary[]> {
+        const result: ServiceSecondary[] = await this.nevermined.utils.fetch
+            .post(`${this.url}${servicePath}/query`, JSON.stringify(query))
+            .then((response: any) => {
+                if (response.ok) {
+                    return response.json() as ServiceSecondary[]
+                }
+                this.logger.error(
+                    'query services from metadata failed:',
+                    response.status,
+                    response.statusText
+                )
+            })
+            .catch(error => {
+                this.logger.error('Error querying service metadata: ', error)
+                return []
             })
 
         return result
@@ -302,12 +330,12 @@ export class Metadata extends Instantiable {
     /**
      * Retrieves a service by its agreementId.
      * @param  {string} agreementId agreementId of the service.
-     * @return {Promise<ServiceCommon>} Service object.
+     * @return {Promise<ServiceSecondary>} Service object.
      */
     public async retrieveService(
         agreementId: string,
         metadataServiceEndpoint?: string
-    ): Promise<ServiceCommon> {
+    ): Promise<ServiceSecondary> {
         const fullUrl =
             metadataServiceEndpoint || `${this.url}${servicePath}/${agreementId}`
         const result = await this.nevermined.utils.fetch
@@ -322,14 +350,14 @@ export class Metadata extends Instantiable {
                     response.statusText,
                     agreementId
                 )
-                return null as Service
+                return null as ServiceSecondary
             })
-            .then((response: ServiceCommon) => {
-                return response as ServiceCommon
+            .then((response: ServiceSecondary) => {
+                return response as ServiceSecondary
             })
             .catch(error => {
                 this.logger.error('Error retrieving service: ', error)
-                return null as ServiceCommon
+                return null as ServiceSecondary
             })
 
         return result
@@ -337,16 +365,17 @@ export class Metadata extends Instantiable {
 
     /**
      *
-     * @param agreement stores the Service object with its agreementId as
+     * @param {agreementId<string>} agreementId of the service.
+     * @param {agreement<ServiceSecondary>} stores the Service object with its agreementId as
      * @returns the newly stored service object
      */
     public async storeService(
         agreementId: string,
-        agreement: ServiceCommon
-    ): Promise<ServiceCommon> {
+        agreement: ServiceSecondary
+    ): Promise<ServiceSecondary> {
         const fullUrl = `${this.url}${servicePath}`
         agreement['agreementId'] = agreementId
-        const result: ServiceCommon = await this.nevermined.utils.fetch
+        const result: ServiceSecondary = await this.nevermined.utils.fetch
             .post(fullUrl, JSON.stringify(agreement))
             .then((response: any) => {
                 if (response.ok) {
@@ -358,10 +387,10 @@ export class Metadata extends Instantiable {
                     response.statusText,
                     agreement
                 )
-                return null as ServiceCommon
+                return null as ServiceSecondary
             })
-            .then((response: ServiceCommon) => {
-                return response as ServiceCommon
+            .then((response: ServiceSecondary) => {
+                return response as ServiceSecondary
             })
             .catch(error => {
                 this.logger.error('Error storing service: ', error)
