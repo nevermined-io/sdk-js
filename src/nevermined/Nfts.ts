@@ -570,6 +570,7 @@ export class Nfts extends Instantiable {
         )
 
         const nftSalesServiceAgreement: ServiceSecondary = {
+            agreementId: agreementId,
             type: 'nft-sales',
             index: 6,
             serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
