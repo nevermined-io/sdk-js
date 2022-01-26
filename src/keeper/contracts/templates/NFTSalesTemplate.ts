@@ -25,6 +25,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         nftAmount?: number,
         provider?: Account,
         from?: Account,
+        timeOuts?: number[],
         txParams?: TxParameters,
         nftSalesService?: Service
     ): Promise<boolean> {
@@ -41,7 +42,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             ddo.shortId(),
             ids,
             [0, 0, 0],
-            [0, 0, 0],
+            timeOuts ? timeOuts : [0, 0, 0],
             consumer.getId(),
             from,
             txParams
