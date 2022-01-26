@@ -427,6 +427,7 @@ describe('Secondary Markets', () => {
                     numberNFTs2,
                     collector1,
                     collector2,
+                    undefined,
                     nftSalesServiceAgreement as TxParameters
                 )
                 assert.isTrue(result)

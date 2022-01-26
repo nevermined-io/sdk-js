@@ -117,6 +117,7 @@ export abstract class AgreementTemplate extends ContractBase {
         ...parameters: (
             | string
             | number
+            | number[]
             | Account
             | BabyjubPublicKey
             | Service

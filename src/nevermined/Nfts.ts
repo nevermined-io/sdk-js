@@ -179,6 +179,7 @@ export class Nfts extends Instantiable {
             nftAmount,
             undefined,
             undefined,
+            undefined,
             txParams
         )
         if (!result) {
@@ -631,6 +632,7 @@ export class Nfts extends Instantiable {
             nftAmount,
             currentNftHolder,
             consumer,
+            [86400, 86400, 86400],
             params,
             service
         )
