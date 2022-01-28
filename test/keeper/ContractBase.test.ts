@@ -61,7 +61,7 @@ describe('ContractWrapperBase', () => {
 
     describe('#getEventData()', () => {
         it('should fail on unknown event', done => {
-            wrappedContract.getEventData('crazyevent', {}).catch(() => {
+            wrappedContract.events.getEventData('crazyevent', {}).catch(() => {
                 done()
             })
         })
