@@ -46,7 +46,7 @@ export class EventHandler extends Instantiable {
         eventName: string,
         filter: { [key: string]: any }
     ) {
-        return new ContractEvent(this, contract, eventName, filter)
+        return new ContractEvent(contract, this, eventName, filter)
     }
 
     private async checkBlock(isInterval?: boolean, n = 0) {

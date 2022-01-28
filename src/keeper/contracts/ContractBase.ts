@@ -4,6 +4,7 @@ import ContractHandler from '../ContractHandler'
 
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
+import { ContractEvent } from '../ContractEvent'
 
 export interface TxParameters {
     value?: string
@@ -19,8 +20,8 @@ export abstract class ContractBase extends Instantiable {
     protected static instance = null
 
     public contractName: string
-
-    protected contract: Contract = null
+    public contract: Contract = null
+    public events: ContractEvent = null
 
     get address() {
         return this.getAddress()
@@ -29,35 +30,7 @@ export abstract class ContractBase extends Instantiable {
     constructor(contractName: string, private optional: boolean = false) {
         super()
         this.contractName = contractName
-    }
-
-    public async getEventData(eventName: string, options: any) {
-        if (!this.contract.events[eventName]) {
-            throw new Error(
-                `Event "${eventName}" not found on contract "${this.contractName}"`
-            )
-        }
-        return this.contract.getPastEvents(eventName, options)
-    }
-
-    public async getPastEvents(eventName: string, filter: { [key: string]: any }) {
-        const chainId = await this.web3.eth.net.getId()
-
-        let fromBlock = 0
-        const toBlock = 'latest'
-
-        // Temporary workaround to work with mumbai
-        // Infura as a 1000 blokcs limit on their api
-        if (chainId === 80001) {
-            const latestBlock = await this.web3.eth.getBlockNumber()
-            fromBlock = latestBlock - 990
-        }
-
-        return this.getEventData(eventName, {
-            filter,
-            fromBlock,
-            toBlock
-        })
+        this.events = new ContractEvent(this)
     }
 
     public getAddress(): string {

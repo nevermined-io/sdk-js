@@ -42,7 +42,7 @@ export class AccessCondition extends Condition {
         consumer: string
     ): Promise<{ did: string; agreementId: string }[]> {
         return (
-            await this.getPastEvents('Fulfilled', {
+            await this.events.getPastEvents('Fulfilled', {
                 _grantee: zeroX(consumer)
             })
         ).map(({ returnValues }) => ({
