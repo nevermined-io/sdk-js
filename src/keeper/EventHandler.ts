@@ -2,6 +2,7 @@ import { ContractEvent } from './ContractEvent'
 import ContractBase from './contracts/ContractBase'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { NeverminedEvent } from '../events/NeverminedEvent'
 
 export class EventHandler extends Instantiable {
     get count(): number {
@@ -41,12 +42,8 @@ export class EventHandler extends Instantiable {
         }
     }
 
-    public getEvent(
-        contract: ContractBase,
-        eventName: string,
-        filter: { [key: string]: any }
-    ) {
-        return new ContractEvent(contract, this, eventName, filter)
+    public async getEvent(contract: ContractBase) {
+        return await NeverminedEvent.getInstance(this.instanceConfig, contract)
     }
 
     private async checkBlock(isInterval?: boolean, n = 0) {

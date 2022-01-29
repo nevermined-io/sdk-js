@@ -1,7 +1,13 @@
-import { Instantiable } from '../Instantiable.abstract'
+import {
+    EventOptionsBoth,
+    EventOptionsJsonRpc,
+    NeverminedEvent
+} from '../events/NeverminedEvent'
+import { InstantiableConfig } from '../Instantiable.abstract'
 import ContractBase from './contracts/ContractBase'
+import { EventHandler } from './EventHandler'
 
-interface EventEmitter {
+export interface EventEmitter {
     subscribe: Function
     unsubscribe: Function
 }
@@ -10,20 +16,32 @@ export interface ContractEventSubscription {
     unsubscribe: () => void
 }
 
-export class ContractEvent extends Instantiable {
+export class ContractEvent extends NeverminedEvent {
     constructor(
-        private contract: ContractBase,
-        private eventEmitter?: EventEmitter,
-        private eventName?: string,
-        private filter?: { [key: string]: any }
+        config: InstantiableConfig,
+        contract: ContractBase,
+        eventEmitter: EventEmitter
     ) {
-        super()
+        super(config, contract)
+        this.eventEmitter = eventEmitter
     }
 
-    public subscribe(callback: (events: any[]) => void): ContractEventSubscription {
+    public getInstance(
+        config: InstantiableConfig,
+        contract: ContractBase
+    ): ContractEvent {
+        const eventEmitter = new EventHandler(config)
+        return new ContractEvent(config, contract, eventEmitter)
+    }
+
+    public subscribe(
+        callback: (events: any[]) => void,
+        options: EventOptionsJsonRpc
+    ): ContractEventSubscription {
         const onEvent = async (blockNumber: number) => {
-            const events = await this.getEventData(this.eventName, {
-                filter: this.filter,
+            const events = await this.getEventData({
+                eventName: options.eventName,
+                filter: options.filter,
                 fromBlock: blockNumber,
                 toBlock: 'latest'
             })
@@ -38,7 +56,7 @@ export class ContractEvent extends Instantiable {
         }
     }
 
-    public once(callback?: (events: any[]) => void) {
+    public once(callback?: (events: any[]) => void, options?: EventOptionsJsonRpc) {
         return new Promise(resolve => {
             const subscription = this.subscribe(events => {
                 subscription.unsubscribe()
@@ -46,36 +64,36 @@ export class ContractEvent extends Instantiable {
                     callback(events)
                 }
                 resolve(events)
-            })
+            }, options)
         })
     }
 
-    public async getEventData(eventName: string, options: any) {
-        if (!this.contract.contract.events[eventName]) {
+    public async getEventData(options: EventOptionsBoth) {
+        if (!this.contract.contract.events[options.eventName]) {
             throw new Error(
-                `Event "${eventName}" not found on contract "${this.contract.contractName}"`
+                `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`
             )
         }
-        return this.contract.contract.getPastEvents(eventName, options)
+        return this.contract.contract.getPastEvents(options.eventName, {
+            filter: options.filter,
+            fromBlock: options.fromBlock,
+            toBlock: options.toBlock
+        })
     }
 
-    public async getPastEvents(eventName: string, filter: { [key: string]: any }) {
+    public async getPastEvents(options: EventOptionsBoth) {
         const chainId = await this.web3.eth.net.getId()
 
-        let fromBlock = 0
-        const toBlock = 'latest'
+        options.fromBlock = 0
+        options.toBlock = 'latest'
 
         // Temporary workaround to work with mumbai
         // Infura as a 1000 blokcs limit on their api
         if (chainId === 80001) {
             const latestBlock = await this.web3.eth.getBlockNumber()
-            fromBlock = latestBlock - 990
+            options.fromBlock = latestBlock - 990
         }
 
-        return this.getEventData(eventName, {
-            filter,
-            fromBlock,
-            toBlock
-        })
+        return this.getEventData(options)
     }
 }

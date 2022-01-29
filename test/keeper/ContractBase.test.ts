@@ -5,7 +5,7 @@ import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
 
-const wrappedContract = new ContractBaseMock('NeverminedToken')
+let wrappedContract: ContractBaseMock
 let accounts: Account[]
 
 describe('ContractWrapperBase', () => {
@@ -13,6 +13,7 @@ describe('ContractWrapperBase', () => {
         await TestContractHandler.prepareContracts()
         const nevermined: Nevermined = await Nevermined.getInstance(config)
         accounts = await nevermined.accounts.list()
+        wrappedContract = new ContractBaseMock('NeverminedToken')
         await wrappedContract.initMock((nevermined as any).instanceConfig)
     })
 
@@ -61,9 +62,11 @@ describe('ContractWrapperBase', () => {
 
     describe('#getEventData()', () => {
         it('should fail on unknown event', done => {
-            wrappedContract.events.getEventData('crazyevent', {}).catch(() => {
-                done()
-            })
+            wrappedContract.events
+                .getEventData({ eventName: 'crazyevent', filter: {} })
+                .catch(() => {
+                    done()
+                })
         })
     })
 })

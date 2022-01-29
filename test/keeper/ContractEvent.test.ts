@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { EventHandler } from '../../src/keeper/EventHandler'
-import { ContractEventSubscription } from '../../src/keeper/ContractEvent'
+import { ContractEvent, ContractEventSubscription } from '../../src/keeper/ContractEvent'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
@@ -26,20 +26,28 @@ describe('ContractEvent', () => {
 
     describe('#subscribe()', () => {
         it('should be able to listen to events', async () => {
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to: account
-            })
+            const event = new ContractEvent(
+                (nevermined as any).instanceConfig,
+                nevermined.keeper.token,
+                eventHandler
+            )
             let validResolve = false
             let subscription: ContractEventSubscription
 
             const waitUntilEvent = new Promise(resolve => {
-                subscription = event.subscribe(events => {
-                    assert.isDefined(events)
-                    assert.lengthOf(events, 2)
-                    if (validResolve) {
-                        resolve(0)
+                subscription = event.subscribe(
+                    events => {
+                        assert.isDefined(events)
+                        assert.lengthOf(events, 2)
+                        if (validResolve) {
+                            resolve(0)
+                        }
+                    },
+                    {
+                        eventName: 'Transfer',
+                        filter: { to: account }
                     }
-                })
+                )
             })
 
             await Promise.all([executeTransaction(), executeTransaction()])
@@ -59,18 +67,24 @@ describe('ContractEvent', () => {
     describe.skip('#once()', () => {
         it('should listen to event only once', async () => {
             const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to
-            })
+            const event = await eventHandler.getEvent(nevermined.keeper.token)
             let canBeRejected = false
 
             const waitUntilEvent = new Promise((resolve, reject) => {
-                event.once(() => {
-                    if (canBeRejected) {
-                        reject(new Error(''))
+                event.once(
+                    () => {
+                        if (canBeRejected) {
+                            reject(new Error(''))
+                        }
+                        setTimeout(resolve, 600)
+                    },
+                    {
+                        eventName: 'Transfer',
+                        filter: {
+                            to
+                        }
                     }
-                    setTimeout(resolve, 600)
-                })
+                )
             })
 
             await executeTransaction()
@@ -85,11 +99,12 @@ describe('ContractEvent', () => {
 
         it('should get the event like a promise', async () => {
             const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to
-            })
+            const event = await eventHandler.getEvent(nevermined.keeper.token)
 
-            const waitUntilEvent = event.once()
+            const waitUntilEvent = event.once(undefined, {
+                eventName: 'Transfer',
+                filter: { to }
+            })
 
             await new Promise(resolve => setTimeout(resolve, 400))
 

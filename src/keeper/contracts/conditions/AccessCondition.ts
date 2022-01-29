@@ -3,6 +3,7 @@ import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+import { EventOptionsBoth } from '../../../events/NeverminedEvent'
 
 export class AccessCondition extends Condition {
     public static async getInstance(
@@ -41,11 +42,13 @@ export class AccessCondition extends Condition {
     public async getGrantedDidByConsumer(
         consumer: string
     ): Promise<{ did: string; agreementId: string }[]> {
-        return (
-            await this.events.getPastEvents('Fulfilled', {
-                _grantee: zeroX(consumer)
-            })
-        ).map(({ returnValues }) => ({
+        const evOptions: EventOptionsBoth = {
+            eventName: 'Fulfilled',
+            // currently there is not accessProofCondition subgraph
+            methodName: 'sdsd',
+            filter: { _grantee: zeroX(consumer) }
+        }
+        return (await this.events.getPastEvents(evOptions)).map(({ returnValues }) => ({
             did: didPrefixed(returnValues._documentId),
             agreementId: zeroX(returnValues._agreementId)
         }))

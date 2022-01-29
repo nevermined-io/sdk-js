@@ -5,6 +5,8 @@ import ContractHandler from '../ContractHandler'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
 import { ContractEvent } from '../ContractEvent'
+import { NeverminedToken } from '@nevermined-io/subgraphs'
+import { NeverminedEvent } from '../../events/NeverminedEvent'
 
 export interface TxParameters {
     value?: string
@@ -30,7 +32,8 @@ export abstract class ContractBase extends Instantiable {
     constructor(contractName: string, private optional: boolean = false) {
         super()
         this.contractName = contractName
-        this.events = new ContractEvent(this)
+        this.events = ContractEvent.getInstance(this.instanceConfig, this)
+        // this.events = new SubgraphEvent(this)
     }
 
     public getAddress(): string {
@@ -266,13 +269,13 @@ export abstract class ContractBase extends Instantiable {
         }
     }
 
-    protected getEvent(eventName: string, filter: { [key: string]: any }) {
+    protected async getEvent(eventName: string, filter: { [key: string]: any }) {
         if (!this.contract.events[eventName]) {
             throw new Error(
                 `Event ${eventName} is not part of contract ${this.contractName}`
             )
         }
-        return this.nevermined.keeper.utils.eventHandler.getEvent(this, eventName, filter)
+        return this.nevermined.keeper.utils.eventHandler.getEvent(this)
     }
 
     private searchMethod(methodName: string, args: any[] = []) {

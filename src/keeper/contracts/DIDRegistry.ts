@@ -247,8 +247,9 @@ export default class DIDRegistry extends ContractBase {
 
     public async getAttributesByOwner(owner: string): Promise<string[]> {
         return (
-            await this.events.getPastEvents('DIDAttributeRegistered', {
-                _owner: zeroX(owner)
+            await this.events.getPastEvents({
+                eventName: 'DIDAttributeRegistered',
+                filter: { _owner: zeroX(owner) }
             })
         )
             .map(({ returnValues }) => returnValues._did)
@@ -315,8 +316,9 @@ export default class DIDRegistry extends ContractBase {
     // Provenance
     public async getDIDProvenanceEvents(did: string) {
         return (
-            await this.events.getPastEvents('ProvenanceAttributeRegistered', {
-                _did: didZeroX(did)
+            await this.events.getPastEvents({
+                eventName: 'ProvenanceAttributeRegistered',
+                filter: { _did: didZeroX(did) }
             })
         )
             .map(
@@ -346,10 +348,10 @@ export default class DIDRegistry extends ContractBase {
                 break
         }
         return (
-            await this.events.getPastEvents(
-                capitalize(ProvenanceMethod[method as any]),
+            await this.events.getPastEvents({
+                eventName: capitalize(ProvenanceMethod[method as any]),
                 filter
-            )
+            })
         ).map(({ returnValues }) => eventToObject(returnValues))
     }
 
