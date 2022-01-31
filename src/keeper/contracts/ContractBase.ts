@@ -7,6 +7,8 @@ import Account from '../../nevermined/Account'
 import { ContractEvent } from '../ContractEvent'
 import { NeverminedToken } from '@nevermined-io/subgraphs'
 import { NeverminedEvent } from '../../events/NeverminedEvent'
+import { SubgraphEvent } from '../SubgraphEvent'
+import { EventHandler } from '../EventHandler'
 
 export interface TxParameters {
     value?: string
@@ -23,7 +25,7 @@ export abstract class ContractBase extends Instantiable {
 
     public contractName: string
     public contract: Contract = null
-    public events: ContractEvent = null
+    public events: ContractEvent | SubgraphEvent = null
 
     get address() {
         return this.getAddress()
@@ -32,8 +34,15 @@ export abstract class ContractBase extends Instantiable {
     constructor(contractName: string, private optional: boolean = false) {
         super()
         this.contractName = contractName
-        this.events = ContractEvent.getInstance(this.instanceConfig, this)
-        // this.events = new SubgraphEvent(this)
+        // // this.init((this.nevermined as any).instanceConfig)
+        // console.log(contractName, this.config)
+        // // if (this.config.graphHttpUri) {
+        // //     this.events = SubgraphEvent.getInstance(this.instanceConfig, this)
+        // // } else {
+        // //     this.events = ContractEvent.getInstance(this.instanceConfig, this)
+        // // }
+        // // // this.events = ContractEvent.getInstance(this.instanceConfig, this)
+        // // console.log(this.events)
     }
 
     public getAddress(): string {
@@ -54,6 +63,17 @@ export abstract class ContractBase extends Instantiable {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
+
+        const eventEmitter = new EventHandler(config)
+        if (this.config.graphHttpUri) {
+            this.events = SubgraphEvent.getInstance(
+                this,
+                eventEmitter,
+                this.config.graphHttpUri
+            )
+        } else {
+            this.events = ContractEvent.getInstance(this, eventEmitter, this.web3)
+        }
     }
 
     protected async getFromAddress(from?: string): Promise<string> {
@@ -269,14 +289,14 @@ export abstract class ContractBase extends Instantiable {
         }
     }
 
-    protected async getEvent(eventName: string, filter: { [key: string]: any }) {
-        if (!this.contract.events[eventName]) {
-            throw new Error(
-                `Event ${eventName} is not part of contract ${this.contractName}`
-            )
-        }
-        return this.nevermined.keeper.utils.eventHandler.getEvent(this)
-    }
+    // protected async getEvent(eventName: string, filter: { [key: string]: any }) {
+    //     if (!this.contract.events[eventName]) {
+    //         throw new Error(
+    //             `Event ${eventName} is not part of contract ${this.contractName}`
+    //         )
+    //     }
+    //     return this.nevermined.keeper.utils.eventHandler.getEvent(this)
+    // }
 
     private searchMethod(methodName: string, args: any[] = []) {
         const methods = this.contract.options.jsonInterface

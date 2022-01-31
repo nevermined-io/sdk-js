@@ -241,8 +241,11 @@ export abstract class AgreementTemplate extends ContractBase {
      * @return {Event}              Agreement created event.
      */
     public getAgreementCreatedEvent(agreementId: string) {
-        return this.getEvent('AgreementCreated', {
-            agreementId: zeroX(agreementId)
+        return this.events.getEventData({
+            methodName: 'AgreementCreated',
+            filter: {
+                agreementId: zeroX(agreementId)
+            }
         })
     }
 }

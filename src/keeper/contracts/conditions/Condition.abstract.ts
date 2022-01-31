@@ -62,6 +62,9 @@ export abstract class Condition extends ContractBase {
     }
 
     public getConditionFulfilledEvent(agreementId: string) {
-        return this.getEvent('Fulfilled', { agreementId: zeroX(agreementId) })
+        return this.events.getEventData({
+            methodName: 'Fulfilled',
+            filter: { agreementId: zeroX(agreementId) }
+        })
     }
 }

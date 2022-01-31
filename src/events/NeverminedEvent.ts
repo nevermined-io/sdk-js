@@ -1,6 +1,7 @@
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import ContractBase from '../keeper/contracts/ContractBase'
 import { EventHandler } from '../keeper/EventHandler'
+import { Config } from '../sdk'
 
 export interface EventOptionsSubgraph {
     methodName: string
@@ -29,20 +30,54 @@ export interface EventEmitter {
     unsubscribe: Function
 }
 
+export interface ContractEventSubscription {
+    unsubscribe: () => void
+}
+
 export type EventOptions = EventOptionsSubgraph | EventOptionsJsonRpc | EventOptionsBoth
 
-export abstract class NeverminedEvent extends Instantiable {
-    protected eventEmitter?: EventEmitter = null
-    constructor(config: InstantiableConfig, protected contract: ContractBase) {
-        super()
-        this.setInstanceConfig(config)
-    }
-
-    // public static getInstance(config: InstantiableConfig, contract: ContractBase): any {
-    //     throw new Error('Should only be implemented in the childs class')
-    // }
-
+export abstract class NeverminedEvent {
+    protected eventEmitter: EventEmitter
+    protected contract: ContractBase = null
     public abstract getEventData(options: EventOptions)
     public abstract getPastEvents(options: EventOptions)
-    public abstract subscribe(callback: (events: any[]) => void, options: EventOptions)
+
+    protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
+        this.contract = contract
+        this.eventEmitter = eventEmitter
+    }
+
+    public subscribe(
+        callback: (events: any[]) => void,
+        options: EventOptionsJsonRpc
+    ): ContractEventSubscription {
+        const onEvent = async (blockNumber: number) => {
+            const events = await this.getEventData({
+                eventName: options.eventName,
+                filter: options.filter,
+                fromBlock: blockNumber,
+                toBlock: 'latest'
+            })
+            if (events.length) {
+                callback(events)
+            }
+        }
+
+        this.eventEmitter.subscribe(onEvent)
+        return {
+            unsubscribe: () => this.eventEmitter.unsubscribe(onEvent)
+        }
+    }
+
+    public once(callback?: (events: any[]) => void, options?: EventOptionsJsonRpc) {
+        return new Promise(resolve => {
+            const subscription = this.subscribe(events => {
+                subscription.unsubscribe()
+                if (callback) {
+                    callback(events)
+                }
+                resolve(events)
+            }, options)
+        })
+    }
 }

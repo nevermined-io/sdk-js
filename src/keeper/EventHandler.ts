@@ -42,9 +42,14 @@ export class EventHandler extends Instantiable {
         }
     }
 
-    public async getEvent(contract: ContractBase) {
-        return await NeverminedEvent.getInstance(this.instanceConfig, contract)
-    }
+    // public async getEvent(contract: ContractBase) {
+    //     if (this.config.graphHttpUri) {
+    //         this.events = SubgraphEvent.getInstance(this.instanceConfig, this)
+    //     } else {
+    //         this.events = ContractEvent.getInstance(this.instanceConfig, this)
+    //     }
+    //     return await NeverminedEvent.getInstance(this.instanceConfig, contract)
+    // }
 
     private async checkBlock(isInterval?: boolean, n = 0) {
         const blockNumber = await this.web3.eth.getBlockNumber()

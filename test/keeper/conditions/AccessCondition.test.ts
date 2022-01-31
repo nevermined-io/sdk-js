@@ -13,8 +13,8 @@ describe('AccessCondition', () => {
 
     before(async () => {
         await TestContractHandler.prepareContracts()
-        condition = (await Nevermined.getInstance(config)).keeper.conditions
-            .accessCondition
+        const nevermined = await Nevermined.getInstance(config)
+        condition = nevermined.keeper.conditions.accessCondition
     })
 
     describe('#hashValues()', () => {

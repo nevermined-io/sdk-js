@@ -1,71 +1,24 @@
+import Web3 from 'web3'
 import {
+    EventEmitter,
     EventOptionsBoth,
-    EventOptionsJsonRpc,
     NeverminedEvent
 } from '../events/NeverminedEvent'
 import { InstantiableConfig } from '../Instantiable.abstract'
 import ContractBase from './contracts/ContractBase'
 import { EventHandler } from './EventHandler'
 
-export interface EventEmitter {
-    subscribe: Function
-    unsubscribe: Function
-}
-
-export interface ContractEventSubscription {
-    unsubscribe: () => void
-}
-
 export class ContractEvent extends NeverminedEvent {
-    constructor(
-        config: InstantiableConfig,
+    private web3: Web3
+    public static getInstance(
         contract: ContractBase,
-        eventEmitter: EventEmitter
-    ) {
-        super(config, contract)
-        this.eventEmitter = eventEmitter
-    }
-
-    public getInstance(
-        config: InstantiableConfig,
-        contract: ContractBase
+        eventEmitter: EventEmitter,
+        web3: Web3
     ): ContractEvent {
-        const eventEmitter = new EventHandler(config)
-        return new ContractEvent(config, contract, eventEmitter)
-    }
+        const instance = new ContractEvent(contract, eventEmitter)
+        instance.web3 = web3
 
-    public subscribe(
-        callback: (events: any[]) => void,
-        options: EventOptionsJsonRpc
-    ): ContractEventSubscription {
-        const onEvent = async (blockNumber: number) => {
-            const events = await this.getEventData({
-                eventName: options.eventName,
-                filter: options.filter,
-                fromBlock: blockNumber,
-                toBlock: 'latest'
-            })
-            if (events.length) {
-                callback(events)
-            }
-        }
-
-        this.eventEmitter.subscribe(onEvent)
-        return {
-            unsubscribe: () => this.eventEmitter.unsubscribe(onEvent)
-        }
-    }
-
-    public once(callback?: (events: any[]) => void, options?: EventOptionsJsonRpc) {
-        return new Promise(resolve => {
-            const subscription = this.subscribe(events => {
-                subscription.unsubscribe()
-                if (callback) {
-                    callback(events)
-                }
-                resolve(events)
-            }, options)
-        })
+        return instance
     }
 
     public async getEventData(options: EventOptionsBoth) {
