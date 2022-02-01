@@ -3,7 +3,6 @@ import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import ContractBase, { TxParameters } from '../../ContractBase'
-import { randomBytes } from 'crypto'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -116,7 +115,7 @@ export class NFTUpgradeable extends ContractBase {
         return this.send(
             'safeTransferFrom',
             from,
-            [from, to, didZeroX(did), amount, randomBytes(1)],
+            [from, to, didZeroX(did), amount, ''],
             params
         )
     }

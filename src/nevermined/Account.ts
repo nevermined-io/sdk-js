@@ -5,8 +5,6 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import KeyTransfer from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
-const keytransfer = new KeyTransfer()
-
 /**
  * Account information.
  */
@@ -39,6 +37,7 @@ export default class Account extends Instantiable {
     }
 
     public signBabyjub(num: BigInt) {
+        const keytransfer = new KeyTransfer()
         return keytransfer.signBabyjub(this.babySecret, num)
     }
 
