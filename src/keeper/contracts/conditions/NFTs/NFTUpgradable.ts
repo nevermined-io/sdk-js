@@ -115,7 +115,7 @@ export class NFTUpgradeable extends ContractBase {
         return this.send(
             'safeTransferFrom',
             from,
-            [from, to, didZeroX(did), amount, ''],
+            [from, to, didZeroX(did), amount, []],
             params
         )
     }
