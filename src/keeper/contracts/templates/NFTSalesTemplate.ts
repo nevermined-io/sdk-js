@@ -114,6 +114,13 @@ export class NFTSalesTemplate extends BaseTemplate {
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
+        console.log("lock cond", [
+            ddo.shortId(),
+            escrowPaymentCondition.getAddress(),
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers()
+        ])
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
@@ -132,6 +139,13 @@ export class NFTSalesTemplate extends BaseTemplate {
             provider ||
             (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
 
+        console.log("transfer cond", [
+            ddo.shortId(),
+            nftHolder,
+            consumer,
+            nftAmount,
+            lockPaymentConditionId
+        ])
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
             await transferNftCondition.hashValues(
@@ -158,6 +172,12 @@ export class NFTSalesTemplate extends BaseTemplate {
                 transferNftConditionId
             )
         )
+
+        console.log("ids", [
+            lockPaymentConditionId,
+            transferNftConditionId,
+            escrowPaymentConditionId
+        ])
 
         return {
             ids: [

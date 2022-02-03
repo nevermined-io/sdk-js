@@ -10,7 +10,7 @@ const configBase: Config = {
     faucetUri: 'http://localhost:3001',
     gatewayUri: 'http://localhost:8030',
     secretStoreUri: 'http://localhost:12001',
-    gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+    gatewayAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
     gasMultiplier: 1.1,
     verbose: LogLevel.Error
 }
