@@ -93,8 +93,6 @@ export class NFTSalesTemplate extends BaseTemplate {
             txParams
         ))
 
-        console.log('condtion', await this.nevermined.keeper.conditionStoreManager.getCondition(ids[1]))
-
         return res
     }
 
@@ -118,13 +116,6 @@ export class NFTSalesTemplate extends BaseTemplate {
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        console.log("lock cond", [
-            ddo.shortId(),
-            escrowPaymentCondition.getAddress(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers()
-        ])
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
             await lockPaymentCondition.hashValues(
@@ -143,14 +134,6 @@ export class NFTSalesTemplate extends BaseTemplate {
             provider ||
             (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
 
-        console.log("transfer cond", [
-            ddo.shortId(),
-            nftHolder,
-            consumer,
-            nftAmount,
-            lockPaymentConditionId,
-            this.nevermined.keeper.nftUpgradeable.address
-        ])
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
             await transferNftCondition.hashValues2(
@@ -166,15 +149,6 @@ export class NFTSalesTemplate extends BaseTemplate {
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')
 
-        console.log("escrow", [
-            ddo.shortId(),
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            escrowPaymentCondition.getAddress(),
-            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-            lockPaymentConditionId,
-            transferNftConditionId
-        ])
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
             agreementId,
             await escrowPaymentCondition.hashValues(
@@ -187,14 +161,6 @@ export class NFTSalesTemplate extends BaseTemplate {
                 transferNftConditionId
             )
         )
-
-        console.log("ids", [
-            lockPaymentConditionId,
-            transferNftConditionId,
-            escrowPaymentConditionId
-        ])
-
-        console.log("agreement", agreementId, this.nevermined.keeper.conditions.transferNftCondition.address)
 
         return {
             ids: [
