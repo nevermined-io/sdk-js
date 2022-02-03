@@ -20,7 +20,9 @@ import {
     AaveBorrowCondition,
     AaveCollateralDepositCondition,
     AaveCollateralWithdrawCondition,
-    AaveRepayCondition
+    AaveRepayCondition,
+    NFT721LockCondition,
+    DistributeNFTCollateralCondition,
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -31,7 +33,7 @@ import {
     NFTAccessTemplate,
     NFT721AccessTemplate,
     NFTSalesTemplate,
-    NFT721SalesTemplate
+    NFT721SalesTemplate, AaveCreditTemplate
 } from './contracts/templates'
 import {
     TemplateStoreManager,
@@ -95,6 +97,8 @@ export class Keeper extends Instantiable {
                 aaveCollateralDepositCondition: AaveCollateralDepositCondition.getInstance(config),
                 aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition.getInstance(config),
                 aaveRepayCondition: AaveRepayCondition.getInstance(config),
+                nft721LockCondition: NFT721LockCondition.getInstance(config),
+                distributeNft721CollateralCondition: DistributeNFTCollateralCondition.getInstance(config),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(config),
                 accessProofTemplate: AccessProofTemplate.getInstance(config),
@@ -105,7 +109,8 @@ export class Keeper extends Instantiable {
                 nft721AccessTemplate: NFT721AccessTemplate.getInstance(config),
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
-                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config)
+                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
+                aaveCreditTemplate: AaveCreditTemplate.getInstance(config),
             })
 
             keeper.connected = true
@@ -164,6 +169,8 @@ export class Keeper extends Instantiable {
             aaveCollateralDepositCondition: keeper.instances.aaveCollateralDepositCondition,
             aaveCollateralWithdrawCondition: keeper.instances.aaveCollateralWithdrawCondition,
             aaveRepayCondition: keeper.instances.aaveRepayCondition,
+            nft721LockCondition: keeper.instances.nft721LockCondition,
+            distributeNft721CollateralCondition: keeper.instances.distributeNft721CollateralCondition,
         }
         // Templates
         keeper.templates = {
@@ -175,7 +182,8 @@ export class Keeper extends Instantiable {
             nftAccessTemplate: keeper.instances.nftAccessTemplate,
             nft721AccessTemplate: keeper.instances.nft721AccessTemplate,
             nftSalesTemplate: keeper.instances.nftSalesTemplate,
-            nft721SalesTemplate: keeper.instances.nft721SalesTemplate
+            nft721SalesTemplate: keeper.instances.nft721SalesTemplate,
+            aaveCreditTemplate: keeper.instances.aaveCreditTemplate,
         }
         // Utils
         keeper.utils = {
@@ -249,10 +257,12 @@ export class Keeper extends Instantiable {
         transferNftCondition: TransferNFTCondition
         transferNft721Condition: TransferNFT721Condition
         transferDidOwnershipCondition: TransferDIDOwnershipCondition
-        aaveBorrowCondition: AaveBorrowCondition,
+        nft721LockCondition: NFT721LockCondition
         aaveCollateralDepositCondition: AaveCollateralDepositCondition,
+        aaveBorrowCondition: AaveBorrowCondition,
+        aaveRepayCondition: AaveRepayCondition,
         aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition,
-        aaveRepayCondition: AaveRepayCondition
+        distributeNft721CollateralCondition: DistributeNFTCollateralCondition
     }
 
     /**
@@ -267,6 +277,7 @@ export class Keeper extends Instantiable {
         nft721AccessTemplate: NFT721AccessTemplate
         nftSalesTemplate: NFTSalesTemplate
         nft721SalesTemplate: NFT721SalesTemplate
+        aaveCreditTemplate: AaveCreditTemplate
     }
 
     /**
