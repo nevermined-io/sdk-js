@@ -6,7 +6,7 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
-import { findServiceConditionByName, NFTOrderProgressStep } from '../../../utils'
+import { findServiceConditionByName, NFTOrderProgressStep, ZeroAddress } from '../../../utils'
 import { TxParameters } from '../ContractBase'
 import { Service } from '../../../ddo/Service'
 
@@ -81,6 +81,9 @@ export class NFTSalesTemplate extends BaseTemplate {
         await this.lockTokens(tokenAddress, amounts, from, txParams)
         observer(NFTOrderProgressStep.ApprovedPayment)
 
+        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const value = tokenAddress && tokenAddress.toLowerCase() === ZeroAddress ? String(totalAmount) : undefined
+
         observer(NFTOrderProgressStep.CreatingAgreement)
         const res = !!(await this.createAgreementAndPay(
             agreementId,
@@ -95,7 +98,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             amounts,
             receivers,
             from,
-            txParams
+            {...txParams, value}
         ))
         observer(NFTOrderProgressStep.AgreementInitialized)
 
