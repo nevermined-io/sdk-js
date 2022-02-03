@@ -76,7 +76,7 @@ export class NFTSalesTemplate extends BaseTemplate {
 
         await this.lockTokens(tokenAddress, amounts, from, txParams)
 
-        return !!(await this.createAgreementAndPay(
+        const res = !!(await this.createAgreementAndPay(
             agreementId,
             ddo.shortId(),
             ids,
@@ -91,6 +91,10 @@ export class NFTSalesTemplate extends BaseTemplate {
             from,
             txParams
         ))
+
+        console.log('condtion', await this.nevermined.keeper.conditionStoreManager.getCondition(ids[1]))
+
+        return res
     }
 
     public async getAgreementIdsFromDDO(

@@ -200,7 +200,7 @@ describe('NFTs Api End-to-End', () => {
         })
     })
 
-    describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
+    describe.only('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
         it('The artist gives the Gateway permissions to transfer his nfts', async () => {
             let result = await nevermined.nfts.setApprovalForAll(
                 transferNftCondition.address,
