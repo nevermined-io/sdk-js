@@ -162,7 +162,6 @@ export class Nfts extends Instantiable {
     ): Promise<string> {
         let result: boolean
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const { agreements } = this.nevermined
 
         const agreementId = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
@@ -197,7 +196,6 @@ export class Nfts extends Instantiable {
         let result: boolean
 
         const { nft721SalesTemplate } = this.nevermined.keeper.templates
-        const { agreements } = this.nevermined
 
         const agreementId = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
@@ -206,7 +204,7 @@ export class Nfts extends Instantiable {
         const assetRewards = getAssetRewardsFromService(salesService)
 
         this.logger.log('Creating nft721-sales agreement')
-        result = await nft721SalesTemplate.createAgreementFromDDO(
+        result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
             agreementId,
             ddo,
             assetRewards,
@@ -216,23 +214,6 @@ export class Nfts extends Instantiable {
         )
         if (!result) {
             throw Error('Error creating nft721-sales agreement')
-        }
-
-        this.logger.log('Locking payment')
-        const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
-
-        result = await agreements.conditions.lockPayment(
-            agreementId,
-            ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            consumer,
-            txParams
-        )
-        if (!result) {
-            throw Error('Error locking nft721 payment')
         }
 
         return agreementId
