@@ -29,11 +29,11 @@ describe('Artifacts', () => {
             nodeUri: 'https://alfajores-forno.celo-testnet.org',
             networkName: ['celo-alfajores'],
             networkId: [44787]
-        },
-        {
-            nodeUri: 'https://baklava-forno.celo-testnet.org',
-            networkName: ['celo-baklava'],
-            networkId: [62320]
+//        },
+//        {
+//            nodeUri: 'https://baklava-forno.celo-testnet.org',
+//            networkName: ['celo-baklava'],
+//            networkId: [62320]
         }
     ]
 

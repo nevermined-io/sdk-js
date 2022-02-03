@@ -1,3 +1,5 @@
+import KeyTransfer from './KeyTransfer'
+
 export * from './PromiseResolver'
 export * from './Logger'
 export * from './Events'
@@ -6,4 +8,9 @@ export * from './GeneratorHelpers'
 export * from './DDOHelpers'
 export * from './SubscribablePromise'
 export * from './SubscribableObserver'
-export * from './KeyTransfer'
+
+export { KeyTransfer }
+
+export function makeBuffer(a,b) {
+    return Buffer.from(a,b)
+}
