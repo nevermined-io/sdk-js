@@ -1,4 +1,5 @@
-import { assert } from 'chai'
+import chai, { assert } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
 import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
 import {
@@ -9,6 +10,8 @@ import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
+
+chai.use(chaiAsPromised)
 
 describe('NFTs Api End-to-End', () => {
     let artist: Account

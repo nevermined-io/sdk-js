@@ -170,37 +170,20 @@ export class Nfts extends Instantiable {
         const salesService = ddo.findServiceByType('nft-sales')
         const assetRewards = getAssetRewardsFromService(salesService)
 
-        this.logger.log('Creating nft-sales agreement')
-        result = await nftSalesTemplate.createAgreementFromDDO(
+        this.logger.log('Creating nft-sales agreement and paying')
+        result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
             agreementId,
             ddo,
             assetRewards,
             consumer,
             nftAmount,
             undefined,
-            undefined,
+            consumer,
             undefined,
             txParams
         )
         if (!result) {
             throw Error('Error creating nft-sales agreement')
-        }
-
-        this.logger.log('Locking payment')
-        const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
-
-        result = await agreements.conditions.lockPayment(
-            agreementId,
-            ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            consumer,
-            txParams
-        )
-        if (!result) {
-            throw Error('Error locking payment')
         }
 
         return agreementId
