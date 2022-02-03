@@ -1,7 +1,8 @@
 import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
+import {AaveConditionType, SERVICE_AAVE_CREDIT, ServiceAaveCredit} from "../keeper/contracts/defi/Service";
 
-export type ConditionType = 'lockPayment' | 'escrowPayment' | 'nftHolder' | 'transferNFT'
+export type ConditionType = 'lockPayment' | 'escrowPayment' | 'nftHolder' | 'transferNFT' | AaveConditionType
 
 export type ServiceType =
     | 'authorization'
@@ -14,6 +15,7 @@ export type ServiceType =
     | 'nft-sales'
     | 'nft721-access'
     | 'nft721-sales'
+    | SERVICE_AAVE_CREDIT
 
 export interface ServiceCommon {
     type: ServiceType
@@ -105,6 +107,8 @@ export type Service<
     ? ServiceAccessProof
     : T extends 'compute'
     ? ServiceCompute
+    : T extends SERVICE_AAVE_CREDIT
+    ? ServiceAaveCredit
     : T extends 'default'
     ? ServiceCommon
     : ServiceCommon

@@ -1,7 +1,7 @@
-import { Condition } from '../Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '../../../../utils'
-import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import Account from '../../../../nevermined/Account'
+import { Condition } from '../conditions/Condition.abstract'
+import { zeroX, didZeroX, didPrefixed } from '../../../utils/index'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import Account from '../../../nevermined/Account'
 
 export class AaveRepayCondition extends Condition {
     public static async getInstance(
