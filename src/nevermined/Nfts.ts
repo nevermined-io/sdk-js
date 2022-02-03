@@ -11,6 +11,7 @@ import {
     getDIDFromService,
     getNftAmountFromService,
     getNftHolderFromService,
+    NFTOrderProgressStep,
     noZeroX,
     SubscribablePromise,
     zeroX
@@ -154,69 +155,72 @@ export class Nfts extends Instantiable {
      * @param {Account} consumer The account of the NFT buyer.
      * @returns {string} The NFT sales agreement id.
      */
-    public async order(
+    public order(
         did: string,
         nftAmount: number,
         consumer: Account,
         txParams?: TxParameters
-    ): Promise<string> {
-        let result: boolean
-        const { nftSalesTemplate } = this.nevermined.keeper.templates
+    ): SubscribablePromise<NFTOrderProgressStep, string> {
+        return new SubscribablePromise<NFTOrderProgressStep, string>(async observer => {
+            const { nftSalesTemplate } = this.nevermined.keeper.templates
 
-        const agreementId = zeroX(generateId())
-        const ddo = await this.nevermined.assets.resolve(did)
+            const agreementId = zeroX(generateId())
+            const ddo = await this.nevermined.assets.resolve(did)
 
-        const salesService = ddo.findServiceByType('nft-sales')
-        const assetRewards = getAssetRewardsFromService(salesService)
+            const salesService = ddo.findServiceByType('nft-sales')
+            const assetRewards = getAssetRewardsFromService(salesService)
 
-        this.logger.log('Creating nft-sales agreement and paying')
-        result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
-            agreementId,
-            ddo,
-            assetRewards,
-            consumer,
-            nftAmount,
-            undefined,
-            consumer,
-            undefined,
-            txParams
-        )
-        if (!result) {
-            throw Error('Error creating nft-sales agreement')
-        }
+            this.logger.log('Creating nft-sales agreement and paying')
+            const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
+                agreementId,
+                ddo,
+                assetRewards,
+                consumer,
+                nftAmount,
+                undefined,
+                consumer,
+                undefined,
+                txParams,
+                a => observer.next(a)
+            )
+            if (!result) {
+                throw Error('Error creating nft-sales agreement')
+            }
 
-        return agreementId
+            return agreementId
+        })
     }
 
-    public async order721(
+    public order721(
         did: string,
         consumer: Account,
         txParams?: TxParameters
-    ): Promise<string> {
-        let result: boolean
+    ): SubscribablePromise<NFTOrderProgressStep, string> {
+        return new SubscribablePromise<NFTOrderProgressStep, string>(async observer => {
+            const { nft721SalesTemplate } = this.nevermined.keeper.templates
 
-        const { nft721SalesTemplate } = this.nevermined.keeper.templates
+            const agreementId = zeroX(generateId())
+            const ddo = await this.nevermined.assets.resolve(did)
 
-        const agreementId = zeroX(generateId())
-        const ddo = await this.nevermined.assets.resolve(did)
+            const salesService = ddo.findServiceByType('nft721-sales')
+            const assetRewards = getAssetRewardsFromService(salesService)
 
-        const salesService = ddo.findServiceByType('nft721-sales')
-        const assetRewards = getAssetRewardsFromService(salesService)
+            this.logger.log('Creating nft721-sales agreement')
+            const result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
+                agreementId,
+                ddo,
+                assetRewards,
+                consumer,
+                consumer,
+                txParams,
+                a => observer.next(a)
+            )
+            if (!result) {
+                throw Error('Error creating nft721-sales agreement')
+            }
 
-        this.logger.log('Creating nft721-sales agreement')
-        result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
-            agreementId,
-            ddo,
-            assetRewards,
-            consumer,
-            consumer,
-            txParams
-        )
-        if (!result) {
-            throw Error('Error creating nft721-sales agreement')
-        }
-
-        return agreementId
+            return agreementId
+        })
     }
 
     /**
