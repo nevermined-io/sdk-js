@@ -144,22 +144,33 @@ export class NFTSalesTemplate extends BaseTemplate {
             nftHolder,
             consumer,
             nftAmount,
-            lockPaymentConditionId
+            lockPaymentConditionId,
+            this.nevermined.keeper.nftUpgradeable.address
         ])
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
-            await transferNftCondition.hashValues(
+            await transferNftCondition.hashValues2(
                 ddo.shortId(),
                 nftHolder,
                 consumer,
                 nftAmount,
-                lockPaymentConditionId
+                lockPaymentConditionId,
+                this.nevermined.keeper.nftUpgradeable.address
             )
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')
 
+        console.log("escrow", [
+            ddo.shortId(),
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            escrowPaymentCondition.getAddress(),
+            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
+            lockPaymentConditionId,
+            transferNftConditionId
+        ])
         const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
             agreementId,
             await escrowPaymentCondition.hashValues(
@@ -178,6 +189,8 @@ export class NFTSalesTemplate extends BaseTemplate {
             transferNftConditionId,
             escrowPaymentConditionId
         ])
+
+        console.log("agreement", agreementId, this.nevermined.keeper.conditions.transferNftCondition.address)
 
         return {
             ids: [

@@ -664,7 +664,7 @@ describe('NFTTemplates E2E', () => {
         })
     })
 
-    describe('Short flow', () => {
+    describe.only('Short flow', () => {
         before(async () => {
             // initial balances
             initialBalances = {

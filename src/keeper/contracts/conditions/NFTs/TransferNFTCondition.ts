@@ -23,7 +23,7 @@ export class TransferNFTCondition extends Condition {
      * @param {String} lockCondition Lock condition identifier.
      * @returns Hash of all the values
      */
-    public hashValues(
+     public hashValues(
         did: string,
         nftHolder: string,
         nftReceiver: string,
@@ -36,6 +36,24 @@ export class TransferNFTCondition extends Condition {
             zeroX(nftReceiver),
             String(nftAmount),
             lockCondition
+        )
+    }
+
+    public hashValues2(
+        did: string,
+        nftHolder: string,
+        nftReceiver: string,
+        nftAmount: number,
+        lockCondition: string,
+        nftcont: string
+    ) {
+        return super.hashValues(
+            didZeroX(did),
+            zeroX(nftHolder),
+            zeroX(nftReceiver),
+            String(nftAmount),
+            lockCondition,
+            nftcont
         )
     }
 
