@@ -44,6 +44,7 @@ export abstract class NeverminedEvent {
     protected contract: ContractBase = null
     public abstract getEventData(options: EventOptions): EventResult
     public abstract getPastEvents(options: EventOptions): EventResult
+    public abstract getBlockNumber(...args: any[]): Promise<number>
 
     protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
         this.contract = contract
@@ -60,8 +61,8 @@ export abstract class NeverminedEvent {
                 callback(events)
             }
         }
-
-        this.eventEmitter.subscribe(onEvent)
+        // TODO: Change this
+        this.eventEmitter.subscribe(onEvent, () => this.getBlockNumber())
         return {
             unsubscribe: () => this.eventEmitter.unsubscribe(onEvent)
         }

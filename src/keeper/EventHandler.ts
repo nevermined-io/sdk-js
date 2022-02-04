@@ -19,12 +19,18 @@ export class EventHandler extends Instantiable {
 
     private lastTimeout: NodeJS.Timeout
 
+    private getBlockNumber: () => Promise<number>
+
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
     }
 
-    public subscribe(callback: (blockNumber: number) => void) {
+    public subscribe(
+        callback: (blockNumber: number) => void,
+        getBlockNumber: () => Promise<number>
+    ) {
+        this.getBlockNumber = getBlockNumber
         this.events.add(callback)
         this.checkBlock()
 
@@ -52,7 +58,7 @@ export class EventHandler extends Instantiable {
     // }
 
     private async checkBlock(isInterval?: boolean, n = 0) {
-        const blockNumber = await this.web3.eth.getBlockNumber()
+        const blockNumber = await this.getBlockNumber()
 
         if ((this.polling && !isInterval) || !this.count) {
             return

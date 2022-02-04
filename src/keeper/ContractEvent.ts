@@ -50,4 +50,8 @@ export class ContractEvent extends NeverminedEvent {
 
         return this.getEventData(options)
     }
+
+    public async getBlockNumber(): Promise<number> {
+        return this.web3.eth.getBlockNumber()
+    }
 }

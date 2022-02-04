@@ -9,6 +9,10 @@ import { Config } from '../sdk'
 import ContractBase from './contracts/ContractBase'
 import { EventHandler } from './EventHandler'
 import * as subgraphs from '@nevermined-io/subgraphs'
+import axios from 'codegen-graph-ts/build/src/lib/axios'
+import generateGql from 'codegen-graph-ts/build/src/lib/gql'
+import { AccessTemplate } from '@nevermined-io/subgraphs'
+import { zeroX } from '../utils'
 
 export class SubgraphEvent extends NeverminedEvent {
     private graphHttpUri: string
@@ -26,11 +30,6 @@ export class SubgraphEvent extends NeverminedEvent {
     }
 
     public async getEventData(options: EventOptions): EventResult {
-        console.log(
-            options.methodName,
-            options.filterSubgraph,
-            this.contract.contractName
-        )
         if (!this.subgraph[options.methodName]) {
             throw new Error(
                 `Method "${options.methodName}" not found on subgraph "neverminedio/${this.contract.contractName}"`
@@ -45,5 +44,15 @@ export class SubgraphEvent extends NeverminedEvent {
 
     public async getPastEvents(options: EventOptions): EventResult {
         return this.getEventData(options)
+    }
+
+    public async getBlockNumber(): Promise<number> {
+        const result = await axios.post(
+            `${this.graphHttpUri}/${this.contract.contractName}`,
+            {
+                query: generateGql('_meta', {}, { block: { number: true } })
+            }
+        )
+        return result.data.data._meta.block.number
     }
 }
