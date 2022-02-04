@@ -261,7 +261,13 @@ export default class DIDRegistry extends ContractBase {
                 }
             })
         )
-            .map(({ returnValues }) => returnValues._did)
+            .map(event => {
+                if (event.returnValues) {
+                    return event.returnValues._did
+                } else {
+                    return event._did
+                }
+            })
             .map(didPrefixed)
     }
 
