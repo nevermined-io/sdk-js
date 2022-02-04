@@ -242,9 +242,23 @@ export abstract class AgreementTemplate extends ContractBase {
      */
     public getAgreementCreatedEvent(agreementId: string) {
         return this.events.getEventData({
-            methodName: 'AgreementCreated',
-            filter: {
+            eventName: 'AgreementCreated',
+            methodName: 'getAgreementCreateds',
+            filterJsonRpc: {
                 agreementId: zeroX(agreementId)
+            },
+            filterSubgraph: {
+                where: {
+                    _agreementId: zeroX(agreementId)
+                }
+            },
+            result: {
+                _agreementId: true,
+                _did: true,
+                _accessConsumer: true,
+                _accessProvider: true,
+                _timeLocks: true,
+                _timeOuts: true
             }
         })
     }

@@ -3,23 +3,24 @@ import ContractBase from '../keeper/contracts/ContractBase'
 import { EventHandler } from '../keeper/EventHandler'
 import { Config } from '../sdk'
 
-export interface EventOptionsSubgraph {
-    methodName: string
-    filter: {}
-    result: {}
-}
+// export interface EventOptionsSubgraph {
+//     methodName: string
+//     filterSubgraph: {}
+//     result: {}
+// }
 
-export interface EventOptionsJsonRpc {
-    eventName: string
-    filter: { [key: string]: any }
-    fromBlock?: number | string
-    toBlock?: number | string
-}
+// export interface EventOptionsJsonRpc {
+//     eventName: string
+//     filterJsonRpc: { [key: string]: any }
+//     fromBlock?: number | string
+//     toBlock?: number | string
+// }
 
-export interface EventOptionsBoth {
+export interface EventOptions {
     methodName?: string
     eventName?: string
-    filter?: {}
+    filterJsonRpc?: {}
+    filterSubgraph?: {}
     result?: {}
     fromBlock?: number | string
     toBlock?: number | string
@@ -34,13 +35,15 @@ export interface ContractEventSubscription {
     unsubscribe: () => void
 }
 
-export type EventOptions = EventOptionsSubgraph | EventOptionsJsonRpc | EventOptionsBoth
+// export type EventOptions = EventOptionsSubgraph | EventOptionsJsonRpc | EventOptionsBoth
+
+export type EventResult = Promise<Array<any>>
 
 export abstract class NeverminedEvent {
     protected eventEmitter: EventEmitter
     protected contract: ContractBase = null
-    public abstract getEventData(options: EventOptions)
-    public abstract getPastEvents(options: EventOptions)
+    public abstract getEventData(options: EventOptions): EventResult
+    public abstract getPastEvents(options: EventOptions): EventResult
 
     protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
         this.contract = contract
@@ -48,16 +51,11 @@ export abstract class NeverminedEvent {
     }
 
     public subscribe(
-        callback: (events: any[]) => void,
-        options: EventOptionsJsonRpc
+        callback: (events: EventResult[]) => void,
+        options: EventOptions
     ): ContractEventSubscription {
         const onEvent = async (blockNumber: number) => {
-            const events = await this.getEventData({
-                eventName: options.eventName,
-                filter: options.filter,
-                fromBlock: blockNumber,
-                toBlock: 'latest'
-            })
+            const events = await this.getEventData(options)
             if (events.length) {
                 callback(events)
             }
@@ -69,7 +67,7 @@ export abstract class NeverminedEvent {
         }
     }
 
-    public once(callback?: (events: any[]) => void, options?: EventOptionsJsonRpc) {
+    public once(callback?: (events: EventResult[]) => void, options?: EventOptions) {
         return new Promise(resolve => {
             const subscription = this.subscribe(events => {
                 subscription.unsubscribe()

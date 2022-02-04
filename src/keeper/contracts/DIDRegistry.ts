@@ -249,7 +249,16 @@ export default class DIDRegistry extends ContractBase {
         return (
             await this.events.getPastEvents({
                 eventName: 'DIDAttributeRegistered',
-                filter: { _owner: zeroX(owner) }
+                methodName: 'getDIDAttributeRegistereds',
+                filterJsonRpc: { _owner: zeroX(owner) },
+                filterSubgraph: { where: { _owner: zeroX(owner) } },
+                result: {
+                    _did: true,
+                    _owner: true,
+                    _value: true,
+                    _lastUpdatedBy: true,
+                    _blockNumberUpdated: true
+                }
             })
         )
             .map(({ returnValues }) => returnValues._did)
@@ -318,7 +327,20 @@ export default class DIDRegistry extends ContractBase {
         return (
             await this.events.getPastEvents({
                 eventName: 'ProvenanceAttributeRegistered',
-                filter: { _did: didZeroX(did) }
+                methodName: 'getProvenanceAttributeRegistereds',
+                filterJsonRpc: { _did: didZeroX(did) },
+                filterSubgraph: { where: { _did: didZeroX(did) } },
+                result: {
+                    provId: true,
+                    _did: true,
+                    _agentId: true,
+                    _activityId: true,
+                    _relatedDid: true,
+                    _agentInvolvedId: true,
+                    _method: true,
+                    _attributes: true,
+                    _blockNumberUpdated: true
+                }
             })
         )
             .map(
@@ -350,7 +372,10 @@ export default class DIDRegistry extends ContractBase {
         return (
             await this.events.getPastEvents({
                 eventName: capitalize(ProvenanceMethod[method as any]),
-                filter
+                methodName: `get${capitalize(ProvenanceMethod[method as any])}s`,
+                filterJsonRpc: filter,
+                filterSubgraph: { where: filter },
+                result: {}
             })
         ).map(({ returnValues }) => eventToObject(returnValues))
     }

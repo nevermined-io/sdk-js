@@ -43,14 +43,16 @@ describe('ContractEvent', () => {
                 subscription = event.subscribe(
                     events => {
                         assert.isDefined(events)
-                        assert.lengthOf(events, 2)
+                        assert.isAtLeast(events.length, 1)
                         if (validResolve) {
                             resolve(0)
                         }
                     },
                     {
                         eventName: 'Transfer',
-                        filter: { to: account }
+                        filterJsonRpc: { to: account },
+                        fromBlock: 0,
+                        toBlock: 'latest'
                     }
                 )
             })
@@ -86,7 +88,7 @@ describe('ContractEvent', () => {
                     },
                     {
                         eventName: 'Transfer',
-                        filter: {
+                        filterJsonRpc: {
                             to
                         }
                     }
@@ -110,7 +112,7 @@ describe('ContractEvent', () => {
 
             const waitUntilEvent = event.once(undefined, {
                 eventName: 'Transfer',
-                filter: { to }
+                filterJsonRpc: { to }
             })
 
             await new Promise(resolve => setTimeout(resolve, 400))

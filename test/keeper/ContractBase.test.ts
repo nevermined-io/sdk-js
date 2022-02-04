@@ -63,7 +63,7 @@ describe('ContractWrapperBase', () => {
     describe('#getEventData()', () => {
         it('should fail on unknown event', done => {
             wrappedContract.events
-                .getEventData({ eventName: 'crazyevent', filter: {} })
+                .getEventData({ eventName: 'crazyevent', filterJsonRpc: {} })
                 .catch(() => {
                     done()
                 })

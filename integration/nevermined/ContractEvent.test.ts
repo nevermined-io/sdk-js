@@ -2,15 +2,16 @@ import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
 import Web3 from 'web3'
+import { ContractEvent } from '../../src/keeper/ContractEvent'
+import { TransactionReceipt } from 'web3-core'
 
-describe('SubgraphEvent', () => {
+describe('ContractEvent', () => {
     let account: Account
     let nevermined: Nevermined
     let executeTransaction: () => Promise<any>
 
     before(async () => {
-        config.graphHttpUri =
-            config.graphHttpUri || 'http://localhost:9000/subgraphs/name/neverminedio'
+        config.graphHttpUri = undefined
         nevermined = await Nevermined.getInstance(config)
         ;[account] = await nevermined.accounts.list()
 
@@ -20,22 +21,23 @@ describe('SubgraphEvent', () => {
             nevermined.keeper.dispenser.requestTokens(1, account.getId())
     })
 
+    it('should get a ContractEvent instance', async () => {
+        assert.instanceOf(nevermined.keeper.token.events, ContractEvent)
+    })
+
     it('should query for the event', async () => {
         const response = await nevermined.keeper.token.events.getEventData({
-            methodName: 'getTransfers',
-            filterSubgraph: {
-                where: {
-                    to: account.getId()
-                }
+            filterJsonRpc: {
+                to: account.getId()
             },
             result: {
                 to: true,
                 value: true
-            }
+            },
+            eventName: 'Transfer'
         })
-        console.log(response)
         assert.strictEqual(
-            Web3.utils.toChecksumAddress(response.pop().to),
+            Web3.utils.toChecksumAddress(response.pop().returnValues.to),
             Web3.utils.toChecksumAddress(account.getId())
         )
     })
@@ -54,16 +56,10 @@ describe('SubgraphEvent', () => {
                     }
                 },
                 {
-                    methodName: 'getTransfers',
-                    filterSubgraph: {
-                        where: {
-                            to: account.getId()
-                        }
-                    },
-                    result: {
-                        to: true,
-                        value: true
-                    }
+                    eventName: 'Transfer',
+                    filterJsonRpc: { to: account.getId() },
+                    fromBlock: 0,
+                    toBlock: 'latest'
                 }
             )
         })
@@ -81,28 +77,23 @@ describe('SubgraphEvent', () => {
     })
 
     it('should listen to event only once', async () => {
+        const to = account.getId()
         // const event = await eventHandler.getEvent(nevermined.keeper.token)
         const event = nevermined.keeper.token.events
         let canBeRejected = false
 
         const waitUntilEvent = new Promise((resolve, reject) => {
             event.once(
-                events => {
+                () => {
                     if (canBeRejected) {
                         reject(new Error(''))
                     }
                     setTimeout(resolve, 600)
                 },
                 {
-                    methodName: 'getTransfers',
-                    filterSubgraph: {
-                        where: {
-                            to: account.getId()
-                        }
-                    },
-                    result: {
-                        to: true,
-                        value: true
+                    eventName: 'Transfer',
+                    filterJsonRpc: {
+                        to
                     }
                 }
             )
@@ -124,16 +115,8 @@ describe('SubgraphEvent', () => {
         const event = nevermined.keeper.token.events
 
         const waitUntilEvent = event.once(events => console.log(events), {
-            methodName: 'getTransfers',
-            filterSubgraph: {
-                where: {
-                    to: account.getId()
-                }
-            },
-            result: {
-                to: true,
-                value: true
-            }
+            eventName: 'Transfer',
+            filterJsonRpc: { to }
         })
 
         await new Promise(resolve => setTimeout(resolve, 400))

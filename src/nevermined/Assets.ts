@@ -1006,8 +1006,7 @@ export class Assets extends Instantiable {
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
-                const event = await template.getAgreementCreatedEvent(agreementId)
-                await event.once()
+                await template.getAgreementCreatedEvent(agreementId)
 
                 this.logger.log('Agreement initialized')
                 observer.next(OrderProgressStep.AgreementInitialized)

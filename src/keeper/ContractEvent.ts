@@ -1,7 +1,8 @@
 import Web3 from 'web3'
 import {
     EventEmitter,
-    EventOptionsBoth,
+    EventOptions,
+    EventResult,
     NeverminedEvent
 } from '../events/NeverminedEvent'
 import { InstantiableConfig } from '../Instantiable.abstract'
@@ -21,20 +22,20 @@ export class ContractEvent extends NeverminedEvent {
         return instance
     }
 
-    public async getEventData(options: EventOptionsBoth) {
+    public async getEventData(options: EventOptions): EventResult {
         if (!this.contract.contract.events[options.eventName]) {
             throw new Error(
                 `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`
             )
         }
         return this.contract.contract.getPastEvents(options.eventName, {
-            filter: options.filter,
+            filter: options.filterJsonRpc,
             fromBlock: options.fromBlock,
             toBlock: options.toBlock
         })
     }
 
-    public async getPastEvents(options: EventOptionsBoth) {
+    public async getPastEvents(options: EventOptions): EventResult {
         const chainId = await this.web3.eth.net.getId()
 
         options.fromBlock = 0
