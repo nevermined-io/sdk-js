@@ -193,13 +193,18 @@ export class AgreementsConditions extends Instantiable {
             filterSubgraph: { where: { _agreementId: agreementId } },
             result: {
                 _agreementId: true,
-                _documentId: true,
-                _grantee: true,
+                _origHash: true,
+                _buyer: true,
+                _provider: true,
+                _cipher: true,
+                _proof: true,
                 _conditionId: true
             }
         }
-        const ev = await accessProofCondition.events.getPastEvents(evOptions)
-        const [cipherL, cipherR] = ev[0].returnValues._cipher
+        const ev = await accessProofCondition.events.once(events => events, evOptions)
+        const [cipherL, cipherR] = ev[0].returnValues
+            ? ev[0].returnValues._cipher
+            : ev[0]._cipher
 
         const keyTransfer = new KeyTransfer()
         return keyTransfer.decryptKey(

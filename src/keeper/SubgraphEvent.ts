@@ -30,6 +30,11 @@ export class SubgraphEvent extends NeverminedEvent {
     }
 
     public async getEventData(options: EventOptions): EventResult {
+        if (!this.subgraph) {
+            throw new Error(
+                `Subgraph client for ${this.contract.contractName} is not implemented!`
+            )
+        }
         if (!this.subgraph[options.methodName]) {
             throw new Error(
                 `Method "${options.methodName}" not found on subgraph "neverminedio/${this.contract.contractName}"`

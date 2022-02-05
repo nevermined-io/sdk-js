@@ -245,7 +245,7 @@ export abstract class AgreementTemplate extends ContractBase {
             eventName: 'AgreementCreated',
             methodName: 'getAgreementCreateds',
             filterJsonRpc: {
-                agreementId: zeroX(agreementId)
+                _agreementId: zeroX(agreementId)
             },
             filterSubgraph: {
                 where: {

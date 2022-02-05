@@ -61,14 +61,24 @@ export abstract class NeverminedEvent {
                 callback(events)
             }
         }
-        // TODO: Change this
         this.eventEmitter.subscribe(onEvent, () => this.getBlockNumber())
         return {
             unsubscribe: () => this.eventEmitter.unsubscribe(onEvent)
         }
     }
 
-    public once(callback?: (events: EventResult[]) => void, options?: EventOptions) {
+    public async once(
+        callback?: (events: EventResult[]) => void,
+        options?: EventOptions
+    ) {
+        // Check if the event already happened and return that instead
+        // before subscribing
+        const events = await this.getPastEvents(options)
+        if (events.length) {
+            callback(events)
+            return new Promise(resolve => resolve(events))
+        }
+
         return new Promise(resolve => {
             const subscription = this.subscribe(events => {
                 subscription.unsubscribe()
