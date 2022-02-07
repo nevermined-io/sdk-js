@@ -1,11 +1,11 @@
 RETRY_COUNT=0
 HTTP_CODE=0
-GRAPH_NODE_URL=${GRAPH_NODE_URL:-http://localhost:9020}
+GRAPH_NODE_URL=${GRAPH_NODE_URL:-http://localhost:9000}
 SUBGRAPH=WhitelistingCondition
 SUBGRAPH_URL=$GRAPH_NODE_URL/subgraphs/name/neverminedio/$SUBGRAPH/graphql
 
 until [ $HTTP_CODE -eq 200 ] || [ $RETRY_COUNT -eq 90 ]; do
-  HTTP_CODE=$(curl -s -o /dev/null -w ''%{http_code}'' -X OPTIONS $SUBGRAPH_URL)
+  HTTP_CODE=$(curl -s -o /dev/null -w ''%{http_code}'' -X GET $SUBGRAPH_URL)
   if [ $HTTP_CODE -eq 200 ]; then
     break
   fi
