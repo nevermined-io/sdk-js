@@ -62,6 +62,7 @@ export abstract class Condition extends ContractBase {
     }
 
     public getConditionFulfilledEvent(agreementId: string) {
+        console.log('-------------------------getConditionFuldilledEvent')
         return this.events.getEventData({
             eventName: 'Fulfilled',
             methodName: 'getFulfilleds',
