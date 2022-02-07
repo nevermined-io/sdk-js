@@ -53,7 +53,7 @@ jobs:
     - name: Run linters
       run: npm run lint
     - name: Run unit tests
-      run: export ETH_PORT=18545; npm run test:cover || true
+      run: export ETH_PORT=18545; npm run test:cover
     - name: Run integration tests
       env:
         SEED_WORDS: ${{ secrets.seedWords }}
