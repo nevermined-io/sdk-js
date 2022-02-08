@@ -4,9 +4,7 @@ import ContractHandler from '../ContractHandler'
 
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
-import { ContractEvent } from '../ContractEvent'
-import { SubgraphEvent } from '../SubgraphEvent'
-import { EventHandler } from '../EventHandler'
+import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 
 export interface TxParameters {
     value?: string

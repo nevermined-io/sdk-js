@@ -2,7 +2,7 @@ import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
 import Web3 from 'web3'
-import { ContractEvent } from '../../src/keeper/ContractEvent'
+import { ContractEvent } from '../../src/events'
 
 describe('ContractEvent', () => {
     let account: Account

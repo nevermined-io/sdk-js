@@ -4,10 +4,10 @@ import {
     EventResult,
     NeverminedEvent
 } from '../events/NeverminedEvent'
-import ContractBase from './contracts/ContractBase'
 import * as subgraphs from '@nevermined-io/subgraphs'
 import axios from 'codegen-graph-ts/build/src/lib/axios'
 import generateGql from 'codegen-graph-ts/build/src/lib/gql'
+import ContractBase from '../keeper/contracts/ContractBase'
 
 export class SubgraphEvent extends NeverminedEvent {
     private graphHttpUri: string

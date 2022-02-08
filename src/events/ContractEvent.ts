@@ -4,8 +4,8 @@ import {
     EventOptions,
     EventResult,
     NeverminedEvent
-} from '../events/NeverminedEvent'
-import ContractBase from './contracts/ContractBase'
+} from './NeverminedEvent'
+import ContractBase from '../keeper/contracts/ContractBase'
 
 export class ContractEvent extends NeverminedEvent {
     private web3: Web3
