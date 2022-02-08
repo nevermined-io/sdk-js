@@ -338,6 +338,8 @@ export class Keeper extends Instantiable {
                     return 'Nile'
                 case 0xcea11:
                     return 'Pacific'
+                case 42220:
+                    return 'celo'
                 case 44787:
                     return 'celo-alfajores'
                 case 62320:
