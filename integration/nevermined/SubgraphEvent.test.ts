@@ -33,7 +33,6 @@ describe('SubgraphEvent', () => {
                 value: true
             }
         })
-        console.log(response)
         assert.strictEqual(
             Web3.utils.toChecksumAddress(response.pop().to),
             Web3.utils.toChecksumAddress(account.getId())
@@ -120,7 +119,7 @@ describe('SubgraphEvent', () => {
     it('should get the event like a promise', async () => {
         const event = nevermined.keeper.token.events
 
-        const waitUntilEvent = event.once(events => console.log(events), {
+        const waitUntilEvent = event.once(events => events, {
             methodName: 'getTransfers',
             filterSubgraph: {
                 where: {

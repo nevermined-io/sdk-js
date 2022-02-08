@@ -111,7 +111,7 @@ describe('ContractEvent', () => {
         const to = account.getId()
         const event = nevermined.keeper.token.events
 
-        const waitUntilEvent = event.once(events => console.log(events), {
+        const waitUntilEvent = event.once(events => events, {
             eventName: 'Transfer',
             filterJsonRpc: { to }
         })

@@ -57,7 +57,6 @@ export abstract class NeverminedEvent {
         // before subscribing
         const events = await this.getPastEvents(options)
         if (events.length) {
-            console.log(options)
             callback(events)
             return new Promise(resolve => resolve(events))
         }
