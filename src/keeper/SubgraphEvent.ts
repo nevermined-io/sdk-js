@@ -4,15 +4,10 @@ import {
     EventResult,
     NeverminedEvent
 } from '../events/NeverminedEvent'
-import { InstantiableConfig } from '../Instantiable.abstract'
-import { Config } from '../sdk'
 import ContractBase from './contracts/ContractBase'
-import { EventHandler } from './EventHandler'
 import * as subgraphs from '@nevermined-io/subgraphs'
 import axios from 'codegen-graph-ts/build/src/lib/axios'
 import generateGql from 'codegen-graph-ts/build/src/lib/gql'
-import { AccessTemplate } from '@nevermined-io/subgraphs'
-import { zeroX } from '../utils'
 
 export class SubgraphEvent extends NeverminedEvent {
     private graphHttpUri: string

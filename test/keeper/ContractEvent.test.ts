@@ -74,7 +74,6 @@ describe('ContractEvent', () => {
     describe.skip('#once()', () => {
         it('should listen to event only once', async () => {
             const to = account
-            // const event = await eventHandler.getEvent(nevermined.keeper.token)
             const event = nevermined.keeper.token.events
             let canBeRejected = false
 
@@ -107,7 +106,6 @@ describe('ContractEvent', () => {
 
         it('should get the event like a promise', async () => {
             const to = account
-            // const event = await eventHandler.getEvent(nevermined.keeper.token)
             const event = nevermined.keeper.token.events
 
             const waitUntilEvent = event.once(undefined, {

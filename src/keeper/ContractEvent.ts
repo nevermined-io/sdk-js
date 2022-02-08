@@ -5,9 +5,7 @@ import {
     EventResult,
     NeverminedEvent
 } from '../events/NeverminedEvent'
-import { InstantiableConfig } from '../Instantiable.abstract'
 import ContractBase from './contracts/ContractBase'
-import { EventHandler } from './EventHandler'
 
 export class ContractEvent extends NeverminedEvent {
     private web3: Web3

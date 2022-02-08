@@ -1,20 +1,4 @@
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import ContractBase from '../keeper/contracts/ContractBase'
-import { EventHandler } from '../keeper/EventHandler'
-import { Config } from '../sdk'
-
-// export interface EventOptionsSubgraph {
-//     methodName: string
-//     filterSubgraph: {}
-//     result: {}
-// }
-
-// export interface EventOptionsJsonRpc {
-//     eventName: string
-//     filterJsonRpc: { [key: string]: any }
-//     fromBlock?: number | string
-//     toBlock?: number | string
-// }
 
 export interface EventOptions {
     methodName?: string
@@ -35,8 +19,6 @@ export interface ContractEventSubscription {
     unsubscribe: () => void
 }
 
-// export type EventOptions = EventOptionsSubgraph | EventOptionsJsonRpc | EventOptionsBoth
-
 export type EventResult = Promise<Array<any>>
 
 export abstract class NeverminedEvent {
@@ -55,7 +37,7 @@ export abstract class NeverminedEvent {
         callback: (events: EventResult[]) => void,
         options: EventOptions
     ): ContractEventSubscription {
-        const onEvent = async (blockNumber: number) => {
+        const onEvent = async () => {
             const events = await this.getEventData(options)
             if (events.length) {
                 callback(events)

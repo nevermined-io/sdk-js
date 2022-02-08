@@ -1,8 +1,4 @@
-import { ContractEvent } from './ContractEvent'
-import ContractBase from './contracts/ContractBase'
-
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { NeverminedEvent } from '../events/NeverminedEvent'
 
 export class EventHandler extends Instantiable {
     get count(): number {
@@ -47,15 +43,6 @@ export class EventHandler extends Instantiable {
             this.polling = false
         }
     }
-
-    // public async getEvent(contract: ContractBase) {
-    //     if (this.config.graphHttpUri) {
-    //         this.events = SubgraphEvent.getInstance(this.instanceConfig, this)
-    //     } else {
-    //         this.events = ContractEvent.getInstance(this.instanceConfig, this)
-    //     }
-    //     return await NeverminedEvent.getInstance(this.instanceConfig, contract)
-    // }
 
     private async checkBlock(isInterval?: boolean, n = 0) {
         const blockNumber = await this.getBlockNumber()

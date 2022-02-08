@@ -3,7 +3,6 @@ import { config } from '../config'
 import { assert } from 'chai'
 import Web3 from 'web3'
 import { ContractEvent } from '../../src/keeper/ContractEvent'
-import { TransactionReceipt } from 'web3-core'
 
 describe('ContractEvent', () => {
     let account: Account
@@ -78,7 +77,6 @@ describe('ContractEvent', () => {
 
     it('should listen to event only once', async () => {
         const to = account.getId()
-        // const event = await eventHandler.getEvent(nevermined.keeper.token)
         const event = nevermined.keeper.token.events
         let canBeRejected = false
 
@@ -111,7 +109,6 @@ describe('ContractEvent', () => {
 
     it('should get the event like a promise', async () => {
         const to = account.getId()
-        // const event = await eventHandler.getEvent(nevermined.keeper.token)
         const event = nevermined.keeper.token.events
 
         const waitUntilEvent = event.once(events => console.log(events), {

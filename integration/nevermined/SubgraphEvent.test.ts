@@ -81,13 +81,12 @@ describe('SubgraphEvent', () => {
     })
 
     it('should listen to event only once', async () => {
-        // const event = await eventHandler.getEvent(nevermined.keeper.token)
         const event = nevermined.keeper.token.events
         let canBeRejected = false
 
         const waitUntilEvent = new Promise((resolve, reject) => {
             event.once(
-                events => {
+                () => {
                     if (canBeRejected) {
                         reject(new Error(''))
                     }
@@ -119,8 +118,6 @@ describe('SubgraphEvent', () => {
     })
 
     it('should get the event like a promise', async () => {
-        const to = account.getId()
-        // const event = await eventHandler.getEvent(nevermined.keeper.token)
         const event = nevermined.keeper.token.events
 
         const waitUntilEvent = event.once(events => console.log(events), {

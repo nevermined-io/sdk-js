@@ -5,8 +5,6 @@ import ContractHandler from '../ContractHandler'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
 import { ContractEvent } from '../ContractEvent'
-import { NeverminedToken } from '@nevermined-io/subgraphs'
-import { NeverminedEvent } from '../../events/NeverminedEvent'
 import { SubgraphEvent } from '../SubgraphEvent'
 import { EventHandler } from '../EventHandler'
 
@@ -34,15 +32,6 @@ export abstract class ContractBase extends Instantiable {
     constructor(contractName: string, private optional: boolean = false) {
         super()
         this.contractName = contractName
-        // // this.init((this.nevermined as any).instanceConfig)
-        // console.log(contractName, this.config)
-        // // if (this.config.graphHttpUri) {
-        // //     this.events = SubgraphEvent.getInstance(this.instanceConfig, this)
-        // // } else {
-        // //     this.events = ContractEvent.getInstance(this.instanceConfig, this)
-        // // }
-        // // // this.events = ContractEvent.getInstance(this.instanceConfig, this)
-        // // console.log(this.events)
     }
 
     public getAddress(): string {
@@ -276,7 +265,6 @@ export abstract class ContractBase extends Instantiable {
         if (!this.contract.methods[name]) {
             throw new Error(`Method ${name} is not part of contract ${this.contractName}`)
         }
-        // Logger.log(name)
         try {
             const method = this.contract.methods[name](...args)
             return await method.call(from ? { from } : null)
@@ -288,15 +276,6 @@ export abstract class ContractBase extends Instantiable {
             throw err
         }
     }
-
-    // protected async getEvent(eventName: string, filter: { [key: string]: any }) {
-    //     if (!this.contract.events[eventName]) {
-    //         throw new Error(
-    //             `Event ${eventName} is not part of contract ${this.contractName}`
-    //         )
-    //     }
-    //     return this.nevermined.keeper.utils.eventHandler.getEvent(this)
-    // }
 
     private searchMethod(methodName: string, args: any[] = []) {
         const methods = this.contract.options.jsonInterface
