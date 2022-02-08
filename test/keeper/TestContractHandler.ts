@@ -91,7 +91,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const conditionStoreManager = await TestContractHandler.deployContract(
             'ConditionStoreManager',
             deployerAddress,
-            [deployerAddress],
+            [deployerAddress, deployerAddress],
             {
                 EpochLibrary: epochLibrary.options.address
             }
