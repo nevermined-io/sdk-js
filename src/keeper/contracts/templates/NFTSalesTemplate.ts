@@ -6,7 +6,11 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
-import { findServiceConditionByName } from '../../../utils'
+import {
+    findServiceConditionByName,
+    NFTOrderProgressStep,
+    ZeroAddress
+} from '../../../utils'
 import { TxParameters } from '../ContractBase'
 import { Service } from '../../../ddo/Service'
 
@@ -57,8 +61,11 @@ export class NFTSalesTemplate extends BaseTemplate {
         nftAmount?: number,
         provider?: Account,
         from?: Account,
-        txParams?: TxParameters
+        timeOuts?: number[],
+        txParams?: TxParameters,
+        observer?: (NFTOrderProgressStep) => void
     ): Promise<boolean> {
+        observer = observer ? observer : _ => {}
         const {
             ids,
             rewardAddress,
@@ -74,14 +81,23 @@ export class NFTSalesTemplate extends BaseTemplate {
             provider === undefined ? undefined : provider.getId()
         )
 
+        observer(NFTOrderProgressStep.ApprovingPayment)
         await this.lockTokens(tokenAddress, amounts, from, txParams)
+        observer(NFTOrderProgressStep.ApprovedPayment)
 
-        return !!(await this.createAgreementAndPay(
+        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const value =
+            tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
+                ? String(totalAmount)
+                : undefined
+
+        observer(NFTOrderProgressStep.CreatingAgreement)
+        const res = !!(await this.createAgreementAndPay(
             agreementId,
             ddo.shortId(),
             ids,
             [0, 0, 0],
-            [0, 0, 0],
+            timeOuts ? timeOuts : [0, 0, 0],
             consumerAddress.getId(),
             0,
             rewardAddress,
@@ -89,8 +105,11 @@ export class NFTSalesTemplate extends BaseTemplate {
             amounts,
             receivers,
             from,
-            txParams
+            { ...txParams, value }
         ))
+        observer(NFTOrderProgressStep.AgreementInitialized)
+
+        return res
     }
 
     public async getAgreementIdsFromDDO(
@@ -133,12 +152,13 @@ export class NFTSalesTemplate extends BaseTemplate {
 
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
-            await transferNftCondition.hashValues(
+            await transferNftCondition.hashValues2(
                 ddo.shortId(),
                 nftHolder,
                 consumer,
                 nftAmount,
-                lockPaymentConditionId
+                lockPaymentConditionId,
+                this.nevermined.keeper.nftUpgradeable.address
             )
         )
 

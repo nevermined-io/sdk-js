@@ -5,11 +5,13 @@ import { DDO } from '../../../sdk'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { findServiceConditionByName, ZeroAddress } from '../../../utils'
+import {
+    findServiceConditionByName,
+    NFTOrderProgressStep,
+    ZeroAddress
+} from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
-import Token from '../Token'
-import CustomToken from '../CustomToken'
 
 export class NFT721SalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -56,8 +58,10 @@ export class NFT721SalesTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumerAddress: Account,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        observer?: (NFTOrderProgressStep) => void
     ): Promise<boolean> {
+        observer = observer ? observer : _ => {}
         const {
             ids,
             rewardAddress,
@@ -71,9 +75,18 @@ export class NFT721SalesTemplate extends BaseTemplate {
             consumerAddress.getId()
         )
 
+        observer(NFTOrderProgressStep.ApprovingPayment)
         await this.lockTokens(tokenAddress, amounts, from, txParams)
+        observer(NFTOrderProgressStep.ApprovedPayment)
 
-        return !!(await this.createAgreementAndPay(
+        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const value =
+            tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
+                ? String(totalAmount)
+                : undefined
+
+        observer(NFTOrderProgressStep.CreatingAgreement)
+        const res = !!(await this.createAgreementAndPay(
             agreementId,
             ddo.shortId(),
             ids,
@@ -86,8 +99,10 @@ export class NFT721SalesTemplate extends BaseTemplate {
             amounts,
             receivers,
             from,
-            txParams
+            { ...txParams, value }
         ))
+        observer(NFTOrderProgressStep.AgreementInitialized)
+        return res
     }
 
     public async getAgreementIdsFromDDO(
