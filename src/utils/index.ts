@@ -11,6 +11,13 @@ export * from './SubscribableObserver'
 
 export { KeyTransfer }
 
-export function makeBuffer(a,b) {
-    return Buffer.from(a,b)
+export function makeBuffer(a, b) {
+    return Buffer.from(a, b)
+}
+
+export enum NFTOrderProgressStep {
+    ApprovingPayment,
+    ApprovedPayment,
+    CreatingAgreement,
+    AgreementInitialized
 }

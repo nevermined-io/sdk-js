@@ -326,6 +326,8 @@ export class Keeper extends Instantiable {
                     return 'Kovan'
                 case 100:
                     return 'xDai'
+                case 137:
+                    return 'matic'
                 case 2199:
                     return 'Duero'
                 case 8996:

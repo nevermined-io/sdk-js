@@ -29,11 +29,16 @@ describe('Artifacts', () => {
             nodeUri: 'https://alfajores-forno.celo-testnet.org',
             networkName: ['celo-alfajores'],
             networkId: [44787]
-//        },
-//        {
-//            nodeUri: 'https://baklava-forno.celo-testnet.org',
-//            networkName: ['celo-baklava'],
-//            networkId: [62320]
+            //        },
+            //        {
+            //            nodeUri: 'https://baklava-forno.celo-testnet.org',
+            //            networkName: ['celo-baklava'],
+            //            networkId: [62320]
+        },
+        {
+            nodeUri: `https://polygon-mainnet.infura.io/v3/${infuraToken}`,
+            networkName: ['matic'],
+            networkId: [137]
         }
     ]
 
