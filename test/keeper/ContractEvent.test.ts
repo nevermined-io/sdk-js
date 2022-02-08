@@ -1,12 +1,11 @@
 import { assert } from 'chai'
-import { EventHandler } from '../../src/keeper/EventHandler'
-import { ContractEvent } from '../../src/keeper/ContractEvent'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import Web3 from 'web3'
+import { ContractEvent, EventHandler } from '../../src/events'
 
 describe('ContractEvent', () => {
     let nevermined: Nevermined

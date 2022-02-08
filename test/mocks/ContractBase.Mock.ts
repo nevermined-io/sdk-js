@@ -1,6 +1,5 @@
-import { ContractEvent } from '../../src/keeper/ContractEvent'
+import { ContractEvent, EventHandler } from '../../src/events'
 import ContractBase, { TxParameters } from '../../src/keeper/contracts/ContractBase'
-import { EventHandler } from '../../src/keeper/EventHandler'
 
 export default class ContractBaseMock extends ContractBase {
     public async initMock(config: any) {
