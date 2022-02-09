@@ -50,7 +50,7 @@ jobs:
         ./start_nevermined.sh --latest --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
 
         cd ..
-        ./scripts/wait-nevermined.sh
+        ./scripts/wait-subgraphs.sh
     - name: Run linters
       run: npm run lint
     - name: Run unit tests

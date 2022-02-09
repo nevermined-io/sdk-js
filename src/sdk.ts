@@ -28,6 +28,9 @@ export {
 export { AgreementTemplate } from './keeper/contracts/templates'
 export { Condition, ConditionState } from './keeper/contracts/conditions'
 
+import * as events from './events'
+import * as subgraphs from './subgraphs'
+
 export {
     Nevermined,
     Account,
@@ -40,5 +43,7 @@ export {
     conditions,
     templates,
     SearchQuery,
-    utils
+    utils,
+    events,
+    subgraphs
 }

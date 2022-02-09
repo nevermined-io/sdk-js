@@ -36,7 +36,7 @@ import {
 } from './contracts/managers'
 
 import { objectPromiseAll } from '../utils'
-import { EventHandler } from './EventHandler'
+import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'

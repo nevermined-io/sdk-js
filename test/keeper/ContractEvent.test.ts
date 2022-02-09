@@ -1,19 +1,23 @@
 import { assert } from 'chai'
-import { EventHandler } from '../../src/keeper/EventHandler'
-import { ContractEventSubscription } from '../../src/keeper/ContractEvent'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
+import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
+import Web3Provider from '../../src/keeper/Web3Provider'
+import Web3 from 'web3'
+import { ContractEvent, EventHandler } from '../../src/events'
 
 describe('ContractEvent', () => {
     let nevermined: Nevermined
     let account: string
     let eventHandler: EventHandler
+    let web3: Web3
     let executeTransaction: () => Promise<any>
 
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
+        web3 = Web3Provider.getWeb3(config)
         eventHandler = new EventHandler((nevermined as any).instanceConfig)
         account = (await nevermined.accounts.list())[0].getId()
 
@@ -26,20 +30,30 @@ describe('ContractEvent', () => {
 
     describe('#subscribe()', () => {
         it('should be able to listen to events', async () => {
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to: account
-            })
+            const event = ContractEvent.getInstance(
+                nevermined.keeper.token,
+                eventHandler,
+                web3
+            )
             let validResolve = false
             let subscription: ContractEventSubscription
 
             const waitUntilEvent = new Promise(resolve => {
-                subscription = event.subscribe(events => {
-                    assert.isDefined(events)
-                    assert.lengthOf(events, 2)
-                    if (validResolve) {
-                        resolve(0)
+                subscription = event.subscribe(
+                    events => {
+                        assert.isDefined(events)
+                        assert.isAtLeast(events.length, 1)
+                        if (validResolve) {
+                            resolve(0)
+                        }
+                    },
+                    {
+                        eventName: 'Transfer',
+                        filterJsonRpc: { to: account },
+                        fromBlock: 0,
+                        toBlock: 'latest'
                     }
-                })
+                )
             })
 
             await Promise.all([executeTransaction(), executeTransaction()])
@@ -59,18 +73,24 @@ describe('ContractEvent', () => {
     describe.skip('#once()', () => {
         it('should listen to event only once', async () => {
             const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to
-            })
+            const event = nevermined.keeper.token.events
             let canBeRejected = false
 
             const waitUntilEvent = new Promise((resolve, reject) => {
-                event.once(() => {
-                    if (canBeRejected) {
-                        reject(new Error(''))
+                event.once(
+                    () => {
+                        if (canBeRejected) {
+                            reject(new Error(''))
+                        }
+                        setTimeout(resolve, 600)
+                    },
+                    {
+                        eventName: 'Transfer',
+                        filterJsonRpc: {
+                            to
+                        }
                     }
-                    setTimeout(resolve, 600)
-                })
+                )
             })
 
             await executeTransaction()
@@ -85,11 +105,12 @@ describe('ContractEvent', () => {
 
         it('should get the event like a promise', async () => {
             const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to
-            })
+            const event = nevermined.keeper.token.events
 
-            const waitUntilEvent = event.once()
+            const waitUntilEvent = event.once(undefined, {
+                eventName: 'Transfer',
+                filterJsonRpc: { to }
+            })
 
             await new Promise(resolve => setTimeout(resolve, 400))
 

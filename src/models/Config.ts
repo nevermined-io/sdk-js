@@ -65,6 +65,11 @@ export class Config {
     public threshold?: number
 
     public gasMultiplier?: number
+
+    /**
+     * Enpoint for the graph-node http query
+     */
+    public graphHttpUri?: string
 }
 
 export default Config

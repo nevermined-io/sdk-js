@@ -1,8 +1,11 @@
+import { ContractEvent, EventHandler } from '../../src/events'
 import ContractBase, { TxParameters } from '../../src/keeper/contracts/ContractBase'
 
 export default class ContractBaseMock extends ContractBase {
     public async initMock(config: any) {
         await this.init(config)
+        const eventEmitter = new EventHandler(config)
+        this.events = ContractEvent.getInstance(this, eventEmitter, this.web3)
     }
 
     public async callMock(name: string, args: any[], from?: string) {

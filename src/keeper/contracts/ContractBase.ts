@@ -4,7 +4,7 @@ import ContractHandler from '../ContractHandler'
 
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
-import { ContractEvent } from '../ContractEvent'
+import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 
 export interface TxParameters {
     value?: string
@@ -21,7 +21,7 @@ export abstract class ContractBase extends Instantiable {
 
     public contractName: string
     public contract: Contract = null
-    public events: ContractEvent = null
+    public events: ContractEvent | SubgraphEvent = null
 
     get address() {
         return this.getAddress()
@@ -30,7 +30,6 @@ export abstract class ContractBase extends Instantiable {
     constructor(contractName: string, private optional: boolean = false) {
         super()
         this.contractName = contractName
-        this.events = new ContractEvent(this)
     }
 
     public getAddress(): string {
@@ -51,6 +50,17 @@ export abstract class ContractBase extends Instantiable {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
+
+        const eventEmitter = new EventHandler(config)
+        if (this.config.graphHttpUri) {
+            this.events = SubgraphEvent.getInstance(
+                this,
+                eventEmitter,
+                this.config.graphHttpUri
+            )
+        } else {
+            this.events = ContractEvent.getInstance(this, eventEmitter, this.web3)
+        }
     }
 
     protected async getFromAddress(from?: string): Promise<string> {
@@ -253,7 +263,6 @@ export abstract class ContractBase extends Instantiable {
         if (!this.contract.methods[name]) {
             throw new Error(`Method ${name} is not part of contract ${this.contractName}`)
         }
-        // Logger.log(name)
         try {
             const method = this.contract.methods[name](...args)
             return await method.call(from ? { from } : null)
@@ -264,15 +273,6 @@ export abstract class ContractBase extends Instantiable {
             )
             throw err
         }
-    }
-
-    protected getEvent(eventName: string, filter: { [key: string]: any }) {
-        if (!this.contract.events[eventName]) {
-            throw new Error(
-                `Event ${eventName} is not part of contract ${this.contractName}`
-            )
-        }
-        return this.nevermined.keeper.utils.eventHandler.getEvent(this, eventName, filter)
     }
 
     private searchMethod(methodName: string, args: any[] = []) {

@@ -8,6 +8,7 @@ import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 import KeyTransfer from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Service } from '../ddo/Service'
+import { EventOptions } from '../events/NeverminedEvent'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -185,10 +186,25 @@ export class AgreementsConditions extends Instantiable {
         providerPub: BabyjubPublicKey
     ) {
         const { accessProofCondition } = this.nevermined.keeper.conditions
-        const ev = await accessProofCondition.events.getPastEvents('Fulfilled', {
-            _agreementId: agreementId
-        })
-        const [cipherL, cipherR] = ev[0].returnValues._cipher
+        const evOptions: EventOptions = {
+            eventName: 'Fulfilled',
+            methodName: 'getFulfilleds',
+            filterJsonRpc: { _agreementId: agreementId },
+            filterSubgraph: { where: { _agreementId: agreementId } },
+            result: {
+                _agreementId: true,
+                _origHash: true,
+                _buyer: true,
+                _provider: true,
+                _cipher: true,
+                _proof: true,
+                _conditionId: true
+            }
+        }
+        const ev = await accessProofCondition.events.once(events => events, evOptions)
+        const [cipherL, cipherR] = ev[0].returnValues
+            ? ev[0].returnValues._cipher
+            : ev[0]._cipher
 
         const keyTransfer = new KeyTransfer()
         return keyTransfer.decryptKey(

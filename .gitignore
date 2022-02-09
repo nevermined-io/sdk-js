@@ -6,6 +6,7 @@ doc/
 test/**/*.js
 src/**/*.js
 package-lock.json
+yarn.lock
 
 src/metadata\.json
 .idea

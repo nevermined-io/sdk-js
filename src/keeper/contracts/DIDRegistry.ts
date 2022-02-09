@@ -247,11 +247,27 @@ export default class DIDRegistry extends ContractBase {
 
     public async getAttributesByOwner(owner: string): Promise<string[]> {
         return (
-            await this.events.getPastEvents('DIDAttributeRegistered', {
-                _owner: zeroX(owner)
+            await this.events.getPastEvents({
+                eventName: 'DIDAttributeRegistered',
+                methodName: 'getDIDAttributeRegistereds',
+                filterJsonRpc: { _owner: zeroX(owner) },
+                filterSubgraph: { where: { _owner: zeroX(owner) } },
+                result: {
+                    _did: true,
+                    _owner: true,
+                    _value: true,
+                    _lastUpdatedBy: true,
+                    _blockNumberUpdated: true
+                }
             })
         )
-            .map(({ returnValues }) => returnValues._did)
+            .map(event => {
+                if (event.returnValues) {
+                    return event.returnValues._did
+                } else {
+                    return event._did
+                }
+            })
             .map(didPrefixed)
     }
 
@@ -315,8 +331,22 @@ export default class DIDRegistry extends ContractBase {
     // Provenance
     public async getDIDProvenanceEvents(did: string) {
         return (
-            await this.events.getPastEvents('ProvenanceAttributeRegistered', {
-                _did: didZeroX(did)
+            await this.events.getPastEvents({
+                eventName: 'ProvenanceAttributeRegistered',
+                methodName: 'getProvenanceAttributeRegistereds',
+                filterJsonRpc: { _did: didZeroX(did) },
+                filterSubgraph: { where: { _did: didZeroX(did) } },
+                result: {
+                    provId: true,
+                    _did: true,
+                    _agentId: true,
+                    _activityId: true,
+                    _relatedDid: true,
+                    _agentInvolvedId: true,
+                    _method: true,
+                    _attributes: true,
+                    _blockNumberUpdated: true
+                }
             })
         )
             .map(
@@ -346,10 +376,13 @@ export default class DIDRegistry extends ContractBase {
                 break
         }
         return (
-            await this.events.getPastEvents(
-                capitalize(ProvenanceMethod[method as any]),
-                filter
-            )
+            await this.events.getPastEvents({
+                eventName: capitalize(ProvenanceMethod[method as any]),
+                methodName: `get${capitalize(ProvenanceMethod[method as any])}s`,
+                filterJsonRpc: filter,
+                filterSubgraph: { where: filter },
+                result: {}
+            })
         ).map(({ returnValues }) => eventToObject(returnValues))
     }
 

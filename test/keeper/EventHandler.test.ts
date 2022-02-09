@@ -1,6 +1,6 @@
 import { assert, expect, spy, use } from 'chai'
 import spies from 'chai-spies'
-import { EventHandler } from '../../src/keeper/EventHandler'
+import { EventHandler } from '../../src/events'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 
@@ -23,7 +23,10 @@ describe('EventHandler', () => {
         it('should subscribe to an event', async () => {
             const countBefore = eventHandler.count
 
-            const subscription = eventHandler.subscribe(() => null)
+            const subscription = eventHandler.subscribe(
+                () => null,
+                (nevermined as any).web3.eth.getBlockNumber
+            )
             assert.isDefined(subscription)
 
             const countAfter = eventHandler.count
@@ -35,7 +38,10 @@ describe('EventHandler', () => {
         it('should unsubscribe using the subscription', async () => {
             const countBefore = eventHandler.count
 
-            const subscription = eventHandler.subscribe(() => null)
+            const subscription = eventHandler.subscribe(
+                () => null,
+                (nevermined as any).web3.eth.getBlockNumber
+            )
             assert.isDefined(subscription)
 
             subscription.unsubscribe()
@@ -50,7 +56,7 @@ describe('EventHandler', () => {
             const countBefore = eventHandler.count
             const callback = () => null
 
-            eventHandler.subscribe(callback)
+            eventHandler.subscribe(callback, (nevermined as any).web3.eth.getBlockNumber)
             eventHandler.unsubscribe(callback)
 
             const countAfter = eventHandler.count
@@ -65,7 +71,10 @@ describe('EventHandler', () => {
 
             spy.on((nevermined as any).web3.eth, 'getBlockNumber', () => blockNumber)
 
-            const subscription = eventHandler.subscribe(callbackSpy)
+            const subscription = eventHandler.subscribe(
+                callbackSpy,
+                (nevermined as any).web3.eth.getBlockNumber
+            )
 
             await new Promise(resolve => setTimeout(resolve, 300))
 
