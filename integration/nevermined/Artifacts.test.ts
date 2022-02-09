@@ -39,6 +39,11 @@ describe('Artifacts', () => {
             nodeUri: `https://polygon-mainnet.infura.io/v3/${infuraToken}`,
             networkName: ['matic'],
             networkId: [137]
+        },
+        {
+            nodeUri: 'https://forno.celo.org',
+            networkName: ['celo'],
+            networkId: [42220]
         }
     ]
 
