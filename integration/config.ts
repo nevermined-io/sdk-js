@@ -6,7 +6,7 @@ LoggerInstance.setLevel(LogLevel.Error)
 
 const configBase: Config = {
     nodeUri: 'http://localhost:8545',
-    metadataUri: 'http://172.17.0.1:5000',
+    metadataUri: 'http://nevermined-metadata:5000',
     faucetUri: 'http://localhost:3001',
     gatewayUri: 'http://localhost:8030',
     secretStoreUri: 'http://localhost:12001',
