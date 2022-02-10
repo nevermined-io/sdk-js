@@ -1,0 +1,8 @@
+{
+  "name": "TransferNFTCondition",
+  "abi": [
+  ],
+  "address": "0xeCD2dAaaB6Ca862AB9Bf6F5CaeC2B0691de29e80",
+  "implementation": "0xb206b809be5F1e5809E0daFb0CDB8968dFC2B8DF",
+  "version": "v1.3.0",
+}

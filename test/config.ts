@@ -10,5 +10,6 @@ export default {
     nodeUri: `http://localhost:${process.env.ETH_PORT || 8545}`,
     parityUri: 'http://localhost:9545',
     secretStoreUri: 'http://localhost:12001',
-    verbose: LogLevel.Error
+    verbose: LogLevel.Error,
+    addressBook: './keeper/addressbook.json'
 } as Config

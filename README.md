@@ -64,7 +64,10 @@ const nevermined: Nevermined = await Nevermined.getInstance({
     // the uri to the parity node you want to use for encryption and decryption
     parityUri: 'http://localhost:9545',
     // the uri of the secret store that holds the keys
-    secretStoreUri: 'http://localhost:12001'
+    secretStoreUri: 'http://localhost:12001',
+    // path to the addressbook file which contains the 
+    // deployed contracts addresses from different networks 
+    addressBook: '~/addressbook.json'
 })
 ```
 

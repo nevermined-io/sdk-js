@@ -68,6 +68,8 @@ export class Config {
     public threshold?: number
 
     public gasMultiplier?: number
+
+    public addressBook?: string
 }
 
 export default Config
