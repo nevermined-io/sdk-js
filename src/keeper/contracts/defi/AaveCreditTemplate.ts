@@ -1,27 +1,54 @@
-import { AgreementTemplate } from '../templates/AgreementTemplate.abstract'
-import { BaseTemplate } from '../templates/BaseTemplate.abstract'
-import { DDO } from '../../../ddo/DDO'
-import {didZeroX, findServiceConditionByName, zeroX} from '../../../utils/index'
+import { AgreementTemplate } from '../templates'
+import { BaseTemplate } from '../templates'
+import { DDO } from '../../..'
+import {didZeroX, findServiceConditionByName, zeroX} from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { TransactionReceipt } from 'web3-core'
 import Account from '../../../nevermined/Account'
 import BigNumber from "bignumber.js";
 import {TxParameters} from "../ContractBase";
 import {aaveCreditTemplateServiceAgreementTemplate} from "./AaveCreditTemplate.serviceAgreementTemplate";
+import AaveConfig from "../../../models/AaveConfig";
+import AssetRewards from "../../../models/AssetRewards";
 
 export class AaveCreditTemplate extends BaseTemplate {
+    aaveConfig: AaveConfig
+
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCreditTemplate> {
-        return AgreementTemplate.getInstance(
+        const templateInst = await AgreementTemplate.getInstance(
             config,
             'AaveCreditTemplate',
             AaveCreditTemplate,
             true
         )
+        templateInst.aaveConfig = config.config.aaveConfig
+        return templateInst
     }
 
+    /*
+     * WARNING: THIS IS A NO-OP FUNCTION to appease the base class, please do not use
+     */
+    public async createAgreementFromDDO(
+        agreementId: string,
+        ddo: DDO,
+        assetRewards: AssetRewards | null,
+    ): Promise<boolean> {
+        throw Error('This function is not supported.')
+    }
+
+    /*
+     * WARNING: THIS IS A NO-OP FUNCTION to appease the base class, please do not use
+     */
     public async getAgreementIdsFromDDO(
+        agreementId: string,
+        ddo: DDO,
+    ): Promise<string[]> {
+        throw Error('This function is not supported.')
+    }
+
+    public async getAgreementIds(
         agreementId: string,
         ddo: DDO,
         vaultAddress: string,
@@ -115,14 +142,10 @@ export class AaveCreditTemplate extends BaseTemplate {
         return txAgreement
     }
 
-    public async createAgreementFromDDO(
+
+    public async createAgreementAndDeployVault(
         agreementId: string,
         ddo: DDO,
-        lendingPoolAddress: string,
-        dataProviderAddress: string,
-        wethAddress: string,
-        agreementFee: BigNumber,
-        treasuryAddress: string,
         nftToken: string,
         nftAmount: number,
         collateralToken: string,
@@ -136,14 +159,13 @@ export class AaveCreditTemplate extends BaseTemplate {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<boolean> {
-
+    ): Promise<[TransactionReceipt, string]> {
         const vaultAddress = await this.deployVault(
-            lendingPoolAddress,
-            dataProviderAddress,
-            wethAddress,
-            agreementFee,
-            treasuryAddress,
+            this.aaveConfig.lendingPoolAddress,
+            this.aaveConfig.dataProviderAddress,
+            this.aaveConfig.wethAddress,
+            this.aaveConfig.agreementFee,
+            this.aaveConfig.treasuryAddress,
             borrower,
             lender,
             from.getId())
@@ -164,7 +186,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             txParams,
             from
         )
-        return txAgreement.status
+        return [txAgreement, vaultAddress]
     }
 
     /**
