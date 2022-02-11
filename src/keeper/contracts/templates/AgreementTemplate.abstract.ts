@@ -21,13 +21,13 @@ export interface AgreementConditionsStatus {
 export abstract class AgreementTemplate extends ContractBase {
     public static async getInstance(
         config: InstantiableConfig,
-        conditionName: string,
+        templateContractName: string,
         templateClass: any,
         optional: boolean = false
     ): Promise<AgreementTemplate & any> {
-        const condition: AgreementTemplate = new (templateClass as any)(conditionName)
-        await condition.init(config, optional)
-        return condition
+        const agreementTemplate: AgreementTemplate = new (templateClass as any)(templateContractName)
+        await agreementTemplate.init(config, optional)
+        return agreementTemplate
     }
 
     protected constructor(contractName: string) {

@@ -1,4 +1,5 @@
 import { LogLevel } from '../utils/Logger'
+import AaveConfig from "./AaveConfig";
 export { LogLevel } from '../utils/Logger'
 
 export class Config {
@@ -70,6 +71,8 @@ export class Config {
     public gasMultiplier?: number
 
     public addressBook?: string
+
+    public aaveConfig?: AaveConfig
 }
 
 export default Config
