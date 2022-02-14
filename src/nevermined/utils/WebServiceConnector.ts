@@ -109,6 +109,7 @@ export class WebServiceConnector extends Instantiable {
                 response.body.pipe(fileStream)
                 response.body.on('error', reject)
                 fileStream.on('finish', resolve)
+                fileStream.end()
             })
         } else {
             await save(await response.arrayBuffer(), filename)
