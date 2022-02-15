@@ -45,20 +45,31 @@ export default class ContractHandler extends Instantiable {
         }
     }
 
+    public async loadWithAddress(
+        contractName: string,
+        address: string
+    ): Promise<Contract> {
+        const networkName = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
+        const networkId = await this.nevermined.keeper.getNetworkId()
+        return this.load(contractName, networkName, networkId, address)
+    }
+
     private async load(
         what: string,
         where: string,
-        networkId: number
+        networkId: number,
+        address?: string
     ): Promise<Contract> {
         this.logger.debug('Loading', what, 'from', where)
         const artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
         // Logger.log('Loaded artifact', artifact)
-        const code = await this.web3.eth.getCode(artifact.address)
+        const _address = address ? address: artifact.address
+        const code = await this.web3.eth.getCode(_address)
         if (code === '0x0') {
             // no code in the blockchain dude
-            throw new Error(`No code deployed at address ${artifact.address}, sorry.`)
+            throw new Error(`No code deployed at address ${_address}, sorry.`)
         }
-        const contract = new this.web3.eth.Contract(artifact.abi, artifact.address)
+        const contract = new this.web3.eth.Contract(artifact.abi, _address)
 
         this.logger.debug(
             'Getting instance of',
@@ -66,9 +77,12 @@ export default class ContractHandler extends Instantiable {
             'from',
             where,
             'at address',
-            artifact.address
+            _address
         )
-        ContractHandler.setContract(what, networkId, contract)
-        return ContractHandler.getContract(what, networkId)
+        if (!address) {
+            ContractHandler.setContract(what, networkId, contract)
+            return ContractHandler.getContract(what, networkId)
+        }
+        return contract
     }
 }

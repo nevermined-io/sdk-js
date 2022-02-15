@@ -1,5 +1,5 @@
-import ContractBase, { TxParameters } from '../contracts/ContractBase'
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import ContractBase, { TxParameters } from '../ContractBase'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 export default class AaveCreditVault extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<AaveCreditVault> {
