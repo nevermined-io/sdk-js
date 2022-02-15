@@ -52,7 +52,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         vaultAddress: string,
-        nftToken: string,
+        nftTokenContract: string,
         nftAmount: number,
         collateralToken: string,
         collateralAmount: number,
@@ -81,7 +81,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             agreementId,
             ddo.shortId(),
             vaultAddress,
-            nftToken,
+            nftTokenContract,
             nftAmount,
             collateralToken,
             collateralAmount,
@@ -100,7 +100,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         agreementId: string,
         did: string,
         vaultAddress: string,
-        nftToken: string,
+        nftTokenContract: string,
         nftAmount: number,
         collateralToken: string,
         collateralAmount: number,
@@ -116,7 +116,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             agreementId,
             did,
             vaultAddress,
-            nftToken,
+            nftTokenContract,
             nftAmount,
             collateralToken,
             collateralAmount,
@@ -146,7 +146,7 @@ export class AaveCreditTemplate extends BaseTemplate {
     public async createAgreementAndDeployVault(
         agreementId: string,
         ddo: DDO,
-        nftToken: string,
+        nftTokenContract: string,
         nftAmount: number,
         collateralToken: string,
         collateralAmount: number,
@@ -174,7 +174,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             agreementId,
             ddo.shortId(),
             vaultAddress,
-            nftToken,
+            nftTokenContract,
             nftAmount,
             collateralToken,
             collateralAmount,
@@ -198,7 +198,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         agreementId: string,
         did: string,
         vaultAddress: string,
-        nftToken: string,
+        nftTokenContract: string,
         nftAmount: number,
         collateralToken: string,
         collateralAmount: number,
@@ -214,7 +214,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             agreementId,
             did,
             vaultAddress,
-            nftToken,
+            nftTokenContract,
             nftAmount,
             collateralToken,
             collateralAmount,
@@ -258,7 +258,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         agreementId: string,
         did: string,
         vaultAddress: string,
-        nftToken: string,
+        nftTokenContract: string,
         nftAmount: number,
         collateralToken: string,
         collateralAmount: number,
@@ -278,7 +278,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         const lockNftId = await nft721LockCondition.generateId(
             agreementId,
             await nft721LockCondition.hashValues(
-                did, vaultAddress, nftAmount, nftToken
+                did, vaultAddress, nftAmount, nftTokenContract
             )
         )
         const depositCollateralId = await aaveCollateralDepositCondition.generateId(
@@ -309,10 +309,19 @@ export class AaveCreditTemplate extends BaseTemplate {
         const distributeId = await distributeNft721CollateralCondition.generateId(
             agreementId,
             await distributeNft721CollateralCondition.hashValues(
-                did, vaultAddress, nftToken
+                did, vaultAddress, nftTokenContract
             )
         )
 
         return [lockNftId, depositCollateralId, borrowId, repayId, withdrawId, distributeId]
+    }
+
+    public async getAgreementVaultAddress(agreementId: string, from: Account): Promise<string> {
+        return this.call('getVaultForAgreement', [agreementId], from.getId())
+    }
+
+    public async getAgreementDid(agreementId: string): Promise<string> {
+        const { did } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        return did
     }
 }
