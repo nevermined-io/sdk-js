@@ -1209,7 +1209,10 @@ export class Assets extends Instantiable {
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
 
-        const { serviceEndpoint, index } = ddo.findServiceByType('access')
+        const { serviceEndpoint, index } =
+            ddo.findServiceByType('access') ||
+            ddo.findServiceByType('nft-access') ||
+            ddo.findServiceByType('nft721-access')
 
         if (!serviceEndpoint) {
             throw new Error(
