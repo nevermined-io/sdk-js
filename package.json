@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/nevermined-sdk-js",
-  "version": "0.19.3",
+  "version": "0.19.4",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -55,7 +55,7 @@
   "dependencies": {
     "@nevermined-io/contracts": "^1.3.6",
     "@nevermined-io/secret-store-client": "^0.0.16",
-    "@nevermined-io/subgraphs": "^0.2.7",
+    "@nevermined-io/subgraphs": "^0.2.8",
     "codegen-graph-ts": "npm:@nevermined-io/codegen-graph-ts@0.1.3",
     "bignumber.js": "^9.0.0",
     "circom": "^0.5.45",
