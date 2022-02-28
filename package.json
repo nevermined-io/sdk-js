@@ -62,7 +62,6 @@
     "circomlib": "^0.5.3",
     "deprecated-decorator": "^0.1.6",
     "ffjavascript": "^0.2.38",
-    "ganache-cli": "^6.12.2",
     "jose": "^4.1.1",
     "node-fetch": "^2.6.1",
     "save-file": "^2.3.1",
@@ -109,7 +108,8 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "ganache": "^7.0.2"
   },
   "nyc": {
     "include": [
