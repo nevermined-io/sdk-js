@@ -13,13 +13,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ['--spree-embedded-contracts', '--polygon']
+        # network: ['--spree-embedded-contracts', '--polygon']
+        network: ['--polygon']
+        node: ['12', '14', '16']
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
-        node-version: '12.x'
+        node-version: ${{ matrix.node }}
     - name: Install dependencies
       run: |
         npm i
