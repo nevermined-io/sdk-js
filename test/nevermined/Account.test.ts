@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { assert } from 'chai'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import Account from '../../src/nevermined/Account'
@@ -39,9 +40,10 @@ describe('Account', () => {
             const balance = await account.getEtherBalance()
             const web3 = Web3Provider.getWeb3()
 
-            assert(
-                Number(web3.utils.toWei('100', 'ether')) === balance,
-                `ether did not match ${balance}`
+            assert.isTrue(
+                new BigNumber(balance).isEqualTo(
+                    new BigNumber(web3.utils.toWei('1000', 'ether'))
+                )
             )
         })
     })
@@ -52,18 +54,19 @@ describe('Account', () => {
             const balance = await account.getBalance()
             const web3 = Web3Provider.getWeb3()
 
-            assert(
-                Number(web3.utils.toWei('100', 'ether')) === balance.eth,
-                `ether did not match ${balance.eth}`
+            assert.isTrue(
+                new BigNumber(balance.eth).isEqualTo(
+                    new BigNumber(web3.utils.toWei('1000', 'ether'))
+                )
             )
-            assert(balance.nevermined === 0, `tokens did not match ${balance.nevermined}`)
+            assert.equal(balance.nevermined, 0)
         })
     })
 
     describe('#requestTokens()', () => {
         it('should return the amount of tokens granted', async () => {
             const tokens = '5'
-            const account: Account = accounts[0]
+            const account: Account = accounts[7]
             const tokensGranted: string = await account.requestTokens(tokens)
 
             assert.equal(tokensGranted, tokens)
