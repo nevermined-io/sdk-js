@@ -67,9 +67,9 @@
     "save-file": "^2.3.1",
     "snarkjs": "^0.4.6",
     "uuid": "^3.4.0",
-    "web3": "1.6.1",
-    "web3-eth-contract": "1.6.1",
-    "web3-utils": "^1.6.1",
+    "web3": "^1.7.0",
+    "web3-eth-contract": "^1.7.0",
+    "web3-utils": "^1.7.0",
     "whatwg-url": "^7.1.0"
   },
   "devDependencies": {
