@@ -151,12 +151,12 @@ export class AgreementsConditions extends Instantiable {
             const { accessProofCondition } = this.nevermined.keeper.conditions
 
             const keyTransfer = new KeyTransfer()
-            const cipher = keyTransfer.encryptKey(
+            const cipher = await keyTransfer.encryptKey(
                 data,
-                keyTransfer.ecdh(providerK, buyerPub)
+                await keyTransfer.ecdh(providerK, buyerPub)
             )
             const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
-            const hash = keyTransfer.hashKey(data)
+            const hash = await keyTransfer.hashKey(data)
             const receipt = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
@@ -209,7 +209,7 @@ export class AgreementsConditions extends Instantiable {
         const keyTransfer = new KeyTransfer()
         return keyTransfer.decryptKey(
             new MimcCipher(cipherL, cipherR),
-            keyTransfer.ecdh(buyerK, providerPub)
+            await keyTransfer.ecdh(buyerK, providerPub)
         )
     }
 
