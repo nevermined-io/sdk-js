@@ -7,18 +7,21 @@ module.exports = {
     mode: 'none',
     optimization: {
         minimize: true,
-        noEmitOnErrors: true
-    },
-    node: {
-        fs: 'empty'
-    },
-    module: {
-        rules: [
-          { test: /snarkjs\/main\.js$/, use: 'babel-loader' }
-        ]
+        emitOnErrors: false
     },
     resolve: {
         extensions: ['.js'],
-        modules: ['node_modules']
+        modules: ['node_modules'],
+        fallback: {
+            "os": require.resolve("os-browserify/browser"),
+            "crypto": require.resolve("crypto-browserify"),
+            "url": require.resolve("url/"),
+            "https": require.resolve("https-browserify"),
+            "http": require.resolve("stream-http"),
+            "assert": require.resolve("assert/"),
+            "path": require.resolve("path-browserify"),
+            "stream": require.resolve("stream-browserify"),
+            "fs": false
+        }
     }
 }
