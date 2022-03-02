@@ -5,13 +5,18 @@ import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
 
-const wrappedContract = new ContractBaseMock('NeverminedToken')
+let wrappedContract: ContractBaseMock
 let accounts: Account[]
 
 describe('ContractWrapperBase', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         const nevermined: Nevermined = await Nevermined.getInstance(config)
+        wrappedContract = new ContractBaseMock(
+            'NeverminedToken',
+            (nevermined as any).web3,
+            (nevermined as any).logger
+        )
         accounts = await nevermined.accounts.list()
         await wrappedContract.initMock((nevermined as any).instanceConfig)
     })

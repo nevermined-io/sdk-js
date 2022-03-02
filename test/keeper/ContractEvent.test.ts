@@ -14,7 +14,7 @@ describe('ContractEvent', () => {
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        eventHandler = new EventHandler((nevermined as any).instanceConfig)
+        eventHandler = new EventHandler((nevermined as any).web3)
         account = (await nevermined.accounts.list())[0].getId()
 
         executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account)

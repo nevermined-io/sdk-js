@@ -1,9 +1,11 @@
 import { Contract } from 'web3-eth-contract'
 import { TransactionReceipt } from 'web3-core'
 import ContractHandler from '../ContractHandler'
+import { EventHandler } from '../EventHandler'
 
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
+import Web3 from 'web3'
+import { Logger } from '../../utils'
 
 export interface TxParameters {
     value?: string
@@ -13,20 +15,33 @@ export interface TxParameters {
     progress?: (data: any) => void
 }
 
-export abstract class ContractBase extends Instantiable {
-    protected static instance = null
-
+export abstract class ContractBase {
     public contractName: string
 
     protected contract: Contract = null
+    protected web3: Web3
+    protected logger: Logger
+
+    public static gasMultiplier: number
 
     get address() {
         return this.getAddress()
     }
 
-    constructor(contractName: string, private optional: boolean = false) {
-        super()
+    constructor(
+        contractName: string,
+        web3: Web3,
+        logger: Logger,
+        private optional: boolean = false
+    ) {
         this.contractName = contractName
+        this.web3 = web3
+        this.logger = logger
+    }
+
+    protected async init(optional: boolean = false) {
+        const contractHandler = new ContractHandler(this.web3, this.logger)
+        this.contract = await contractHandler.get(this.contractName, optional)
     }
 
     public async getEventData(eventName: string, options: any) {
@@ -58,6 +73,10 @@ export abstract class ContractBase extends Instantiable {
         })
     }
 
+    public getContract(): Contract {
+        return this.contract
+    }
+
     public getAddress(): string {
         return this.contract?.options?.address
     }
@@ -72,12 +91,6 @@ export abstract class ContractBase extends Instantiable {
         return foundMethod.inputs
     }
 
-    protected async init(config: InstantiableConfig, optional: boolean = false) {
-        this.setInstanceConfig(config)
-        const contractHandler = new ContractHandler(config)
-        this.contract = await contractHandler.get(this.contractName, optional)
-    }
-
     protected async getFromAddress(from?: string): Promise<string> {
         if (!from) {
             ;[from] = await this.web3.eth.getAccounts()
@@ -85,7 +98,7 @@ export abstract class ContractBase extends Instantiable {
         return from
     }
 
-    protected async sendFrom(
+    public async sendFrom(
         name: string,
         args: any[],
         from?: Account,
@@ -105,7 +118,7 @@ export abstract class ContractBase extends Instantiable {
         return receipt
     }
 
-    protected async send(
+    public async send(
         name: string,
         from: string,
         args: any[],
@@ -142,8 +155,8 @@ export abstract class ContractBase extends Instantiable {
 
                 if (params.gasMultiplier) {
                     gas = Math.floor(gas * params.gasMultiplier)
-                } else if (this.config && this.config.gasMultiplier) {
-                    gas = Math.floor(gas * this.config.gasMultiplier)
+                } else if (ContractBase.gasMultiplier) {
+                    gas = Math.floor(gas * ContractBase.gasMultiplier)
                 }
             }
 
@@ -235,7 +248,7 @@ export abstract class ContractBase extends Instantiable {
         }
     }
 
-    protected async call<T extends any>(
+    public async call<T extends any>(
         name: string,
         args: any[],
         from?: string
@@ -262,7 +275,8 @@ export abstract class ContractBase extends Instantiable {
                 `Event ${eventName} is not part of contract ${this.contractName}`
             )
         }
-        return this.nevermined.keeper.utils.eventHandler.getEvent(this, eventName, filter)
+        const eh = new EventHandler(this.web3)
+        return eh.getEvent(this, eventName, filter)
     }
 
     private searchMethod(methodName: string, args: any[] = []) {

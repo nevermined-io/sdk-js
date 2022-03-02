@@ -2,6 +2,8 @@ import { Condition } from '../conditions/Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
+import BigNumber from 'bignumber.js'
+import { TxParameters } from '../ContractBase'
 
 export class AaveBorrowCondition extends Condition {
     public static async getInstance(
@@ -14,7 +16,7 @@ export class AaveBorrowCondition extends Condition {
         did: string,
         vaultAddress: string,
         assetToBorrow: string,
-        amount: number,
+        amount: BigNumber,
         interestRateMode: number
     ) {
         return super.hashValues(
@@ -31,17 +33,21 @@ export class AaveBorrowCondition extends Condition {
         did: string,
         vaultAddress: string,
         assetToBorrow: string,
-        amount: number,
+        amount: BigNumber,
         interestRateMode: number,
         from?: Account,
+        params?: TxParameters
     ) {
         return super.fulfill(
             agreementId,
-            didZeroX(did),
-            ...[vaultAddress, assetToBorrow].map(zeroX),
-            amount,
-            interestRateMode,
-            from
+            [
+                didZeroX(did),
+                ...[vaultAddress, assetToBorrow].map(zeroX),
+                amount,
+                interestRateMode
+            ],
+            from,
+            params
         )
     }
 }

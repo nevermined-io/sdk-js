@@ -31,10 +31,16 @@ export default class AssetRewards {
     }
 
     public getAmounts(): number[] {
+        if (!this.rewards.size) {
+            return []
+        }
         return [...this.rewards.values()]
     }
 
     public getReceivers(): string[] {
+        if (!this.rewards.size) {
+            return []
+        }
         return [...this.rewards.keys()]
     }
 

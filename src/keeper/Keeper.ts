@@ -22,7 +22,7 @@ import {
     AaveCollateralWithdrawCondition,
     AaveRepayCondition,
     NFT721LockCondition,
-    DistributeNFTCollateralCondition,
+    DistributeNFTCollateralCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -33,7 +33,8 @@ import {
     NFTAccessTemplate,
     NFT721AccessTemplate,
     NFTSalesTemplate,
-    NFT721SalesTemplate, AaveCreditTemplate
+    NFT721SalesTemplate,
+    AaveCreditTemplate
 } from './contracts/templates'
 import {
     TemplateStoreManager,
@@ -46,6 +47,7 @@ import { EventHandler } from './EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
+import ContractHandler from './ContractHandler'
 
 /**
  * Interface with Nevermined contracts.
@@ -94,11 +96,17 @@ export class Keeper extends Instantiable {
                     config
                 ),
                 aaveBorrowCondition: AaveBorrowCondition.getInstance(config),
-                aaveCollateralDepositCondition: AaveCollateralDepositCondition.getInstance(config),
-                aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition.getInstance(config),
+                aaveCollateralDepositCondition: AaveCollateralDepositCondition.getInstance(
+                    config
+                ),
+                aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition.getInstance(
+                    config
+                ),
                 aaveRepayCondition: AaveRepayCondition.getInstance(config),
                 nft721LockCondition: NFT721LockCondition.getInstance(config),
-                distributeNft721CollateralCondition: DistributeNFTCollateralCondition.getInstance(config),
+                distributeNftCollateralCondition: DistributeNFTCollateralCondition.getInstance(
+                    config
+                ),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(config),
                 accessProofTemplate: AccessProofTemplate.getInstance(config),
@@ -110,7 +118,7 @@ export class Keeper extends Instantiable {
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
-                aaveCreditTemplate: AaveCreditTemplate.getInstance(config),
+                aaveCreditTemplate: AaveCreditTemplate.getInstance(config)
             })
 
             keeper.connected = true
@@ -166,11 +174,14 @@ export class Keeper extends Instantiable {
             transferNft721Condition: keeper.instances.transferNft721Condition,
             transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition,
             aaveBorrowCondition: keeper.instances.aaveBorrowCondition,
-            aaveCollateralDepositCondition: keeper.instances.aaveCollateralDepositCondition,
-            aaveCollateralWithdrawCondition: keeper.instances.aaveCollateralWithdrawCondition,
+            aaveCollateralDepositCondition:
+                keeper.instances.aaveCollateralDepositCondition,
+            aaveCollateralWithdrawCondition:
+                keeper.instances.aaveCollateralWithdrawCondition,
             aaveRepayCondition: keeper.instances.aaveRepayCondition,
             nft721LockCondition: keeper.instances.nft721LockCondition,
-            distributeNft721CollateralCondition: keeper.instances.distributeNft721CollateralCondition,
+            distributeNftCollateralCondition:
+                keeper.instances.distributeNftCollateralCondition
         }
         // Templates
         keeper.templates = {
@@ -183,11 +194,11 @@ export class Keeper extends Instantiable {
             nft721AccessTemplate: keeper.instances.nft721AccessTemplate,
             nftSalesTemplate: keeper.instances.nftSalesTemplate,
             nft721SalesTemplate: keeper.instances.nft721SalesTemplate,
-            aaveCreditTemplate: keeper.instances.aaveCreditTemplate,
+            aaveCreditTemplate: keeper.instances.aaveCreditTemplate
         }
         // Utils
         keeper.utils = {
-            eventHandler: new EventHandler(config)
+            eventHandler: new EventHandler(config.web3)
         }
 
         return keeper
@@ -258,11 +269,11 @@ export class Keeper extends Instantiable {
         transferNft721Condition: TransferNFT721Condition
         transferDidOwnershipCondition: TransferDIDOwnershipCondition
         nft721LockCondition: NFT721LockCondition
-        aaveCollateralDepositCondition: AaveCollateralDepositCondition,
-        aaveBorrowCondition: AaveBorrowCondition,
-        aaveRepayCondition: AaveRepayCondition,
-        aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition,
-        distributeNft721CollateralCondition: DistributeNFTCollateralCondition
+        aaveCollateralDepositCondition: AaveCollateralDepositCondition
+        aaveBorrowCondition: AaveBorrowCondition
+        aaveRepayCondition: AaveRepayCondition
+        aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition
+        distributeNftCollateralCondition: DistributeNFTCollateralCondition
     }
 
     /**
@@ -327,7 +338,11 @@ export class Keeper extends Instantiable {
      * @return {Promise<number>} Network ID.
      */
     public getNetworkId(): Promise<number> {
-        return this.web3.eth.net.getId()
+        return Keeper.getNetworkId(this.web3)
+    }
+
+    public static getNetworkId(web3): Promise<number> {
+        return web3.eth.net.getId()
     }
 
     /**
@@ -335,7 +350,11 @@ export class Keeper extends Instantiable {
      * @return {Promise<string>} Network name.
      */
     public getNetworkName(): Promise<string> {
-        return this.web3.eth.net.getId().then((networkId: number) => {
+        return Keeper.getNetworkName(this.web3)
+    }
+
+    public static getNetworkName(web3): Promise<string> {
+        return web3.eth.net.getId().then((networkId: number) => {
             switch (networkId) {
                 case 1:
                     return 'Mainnet'

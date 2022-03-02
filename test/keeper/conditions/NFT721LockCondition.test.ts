@@ -8,10 +8,10 @@ import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import ERC721 from '../../../src/artifacts/ERC721.json'
-import { Contract } from "web3-eth-contract";
+import { Contract } from 'web3-eth-contract'
 import AssetRewards from '../../../src/models/AssetRewards'
-import { Nft721 } from "../../../src";
-import {getMetadata} from "../../../integration/utils";
+import { Nft721 } from '../../../src'
+import { getMetadata } from '../../../integration/utils'
 
 chai.use(chaiAsPromised)
 
@@ -21,13 +21,13 @@ describe('NFT721LockCondition', () => {
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
     // let token: Token
-    let nft721Contract: Nft721
-    let lockAddress: Account
     let nftContractAddress: string
+    let _nftContract: Contract
+    let nft721Wrapper: Nft721
+    let lockAddress: Account
     let owner: Account
     let ddo: DDO
     let did: string
-    let _nftContract: Contract
 
     let agreementId: string
     let checksum: string
@@ -41,9 +41,11 @@ describe('NFT721LockCondition', () => {
         ;({ nft721LockCondition } = nevermined.keeper.conditions)
         ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
         ;[owner, lockAddress] = await nevermined.accounts.list()
-        ;_nftContract = await TestContractHandler.deployArtifact(ERC721)
-        ;nft721Contract = await nevermined.contracts.loadNft721(_nftContract.options.address)
-        ;nftContractAddress = nft721Contract.address
+        _nftContract = await TestContractHandler.deployArtifact(ERC721)
+        nft721Wrapper = await nevermined.contracts.loadNft721(
+            _nftContract.options.address
+        )
+        nftContractAddress = nft721Wrapper.address
 
         checksum = utils.generateId()
         didSeed = `did:nv:${utils.generateId()}`
@@ -51,19 +53,18 @@ describe('NFT721LockCondition', () => {
             getMetadata(),
             owner,
             new AssetRewards(),
-            nft721Contract.address
+            nft721Wrapper.address
         )
         assert.isDefined(ddo)
 
         await didRegistry.registerAttribute(didSeed, checksum, [], url, owner.getId())
-        await nft721Contract.mint(zeroX(ddo.shortId()), owner)
+        await nft721Wrapper.mint(zeroX(ddo.shortId()), owner)
         did = await didRegistry.hashDID(didSeed, owner.getId())
-        await nft721Contract.setApprovalForAll(
+        await nft721Wrapper.setApprovalForAll(
             nft721LockCondition.getAddress(),
             true,
             owner
         )
-
     })
 
     beforeEach(async () => {
@@ -94,7 +95,10 @@ describe('NFT721LockCondition', () => {
                 1,
                 nftContractAddress
             )
-            const conditionId = await nft721LockCondition.generateId(agreementId, hashValues)
+            const conditionId = await nft721LockCondition.generateId(
+                agreementId,
+                hashValues
+            )
             await conditionStoreManager.createCondition(
                 conditionId,
                 nft721LockCondition.address,
@@ -110,7 +114,7 @@ describe('NFT721LockCondition', () => {
             )
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
-            const nftBalance = await nft721Contract.balanceOf(lockAddress)
+            const nftBalance = await nft721Wrapper.balanceOf(lockAddress)
             assert.equal(nftBalance, 1)
 
             const {
@@ -141,7 +145,13 @@ describe('NFT721LockCondition', () => {
             )
             // await nft721LockCondition.generateId(agreementId, hashValues)
             await assert.isRejected(
-                nft721LockCondition.fulfill(agreementId, did, lockAddress.getId(), 1, nftContractAddress),
+                nft721LockCondition.fulfill(
+                    agreementId,
+                    did,
+                    lockAddress.getId(),
+                    1,
+                    nftContractAddress
+                ),
                 /Invalid UpdateRole/
             )
         })
@@ -153,7 +163,10 @@ describe('NFT721LockCondition', () => {
                 amount + 1,
                 nftContractAddress
             )
-            const conditionId = await nft721LockCondition.generateId(agreementId, hashValues)
+            const conditionId = await nft721LockCondition.generateId(
+                agreementId,
+                hashValues
+            )
             await conditionStoreManager.createCondition(
                 conditionId,
                 nft721LockCondition.address,
@@ -172,14 +185,17 @@ describe('NFT721LockCondition', () => {
             )
         })
 
-        it('right transfer should fail to fulfill if conditions already fulfilled', async () => {
+        it('correct transfer should fail to fulfill if conditions already fulfilled', async () => {
             const hashValues = await nft721LockCondition.hashValues(
                 did,
                 lockAddress.getId(),
                 amount + 1,
                 nftContractAddress
             )
-            const conditionId = await nft721LockCondition.generateId(agreementId, hashValues)
+            const conditionId = await nft721LockCondition.generateId(
+                agreementId,
+                hashValues
+            )
             await conditionStoreManager.createCondition(
                 conditionId,
                 nft721LockCondition.address,
@@ -197,7 +213,13 @@ describe('NFT721LockCondition', () => {
             assert.equal(state, ConditionState.Fulfilled)
 
             await assert.isRejected(
-                nft721LockCondition.fulfill(agreementId, did, lockAddress.getId(), amount, nftContractAddress),
+                nft721LockCondition.fulfill(
+                    agreementId,
+                    did,
+                    lockAddress.getId(),
+                    amount,
+                    nftContractAddress
+                ),
                 undefined
             )
             ;({ state } = await conditionStoreManager.getCondition(conditionId))

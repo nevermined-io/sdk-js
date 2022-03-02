@@ -1,35 +1,47 @@
-import ContractBase, {TxParameters} from './ContractBase'
+import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import ContractHandler from "../ContractHandler";
-import {Contract} from "web3-eth-contract";
+import ContractHandler from '../ContractHandler'
+import { Contract } from 'web3-eth-contract'
 import { TransactionReceipt } from 'web3-core'
+import Web3 from 'web3'
+import { Logger } from '../../utils'
 
 export default class GenericContract extends ContractBase {
     protected fixedAddress: string
 
     public static async getInstance(
-        config: InstantiableConfig,
+        web3: Web3,
+        logger: Logger,
         contractName: string,
         address?: string
     ): Promise<GenericContract> {
-        const contract: GenericContract = new GenericContract(contractName, address)
-        await contract.init(config)
+        const contract: GenericContract = new GenericContract(
+            contractName,
+            web3,
+            logger,
+            address
+        )
+        await contract.init()
         return contract
     }
 
-    private constructor(contractName: string, address?: string) {
-        super(contractName)
+    private constructor(
+        contractName: string,
+        web3: Web3,
+        logger: Logger,
+        address?: string
+    ) {
+        super(contractName, web3, logger)
         this.fixedAddress = address
     }
 
-    protected async init(config: InstantiableConfig, optional: boolean = false) {
-        this.setInstanceConfig(config)
-        const contractHandler = new ContractHandler(config)
-        if (!this.fixedAddress) {
-            this.contract = await contractHandler.get(this.contractName, optional)
-        } else {
-            this.contract = await contractHandler.loadWithAddress(this.contractName, this.fixedAddress)
-        }
+    protected async init(optional: boolean = false) {
+        const contractHandler = new ContractHandler(this.web3, this.logger)
+        this.contract = await contractHandler.get(
+            this.contractName,
+            optional,
+            this.fixedAddress
+        )
     }
 
     public async call<T extends any>(

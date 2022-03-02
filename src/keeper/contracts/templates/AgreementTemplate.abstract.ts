@@ -2,11 +2,14 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { Condition, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { zeroX } from '../../../utils'
+import { Logger, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
+import Web3 from 'web3'
+import Keeper from '../../Keeper'
+import { Nevermined } from '../../..'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -19,19 +22,36 @@ export interface AgreementConditionsStatus {
 }
 
 export abstract class AgreementTemplate extends ContractBase {
+    protected keeper: Keeper
+    protected nevermined: Nevermined
+
     public static async getInstance(
         config: InstantiableConfig,
         templateContractName: string,
         templateClass: any,
         optional: boolean = false
     ): Promise<AgreementTemplate & any> {
-        const agreementTemplate: AgreementTemplate = new (templateClass as any)(templateContractName)
-        await agreementTemplate.init(config, optional)
+        const agreementTemplate: AgreementTemplate = new (templateClass as any)(
+            templateContractName,
+            config.web3,
+            config.logger,
+            config.nevermined.keeper,
+            config.nevermined
+        )
+        await agreementTemplate.init(optional)
         return agreementTemplate
     }
 
-    protected constructor(contractName: string) {
-        super(contractName)
+    protected constructor(
+        contractName: string,
+        web3: Web3,
+        logger: Logger,
+        keeper: Keeper,
+        nevermined: Nevermined
+    ) {
+        super(contractName, web3, logger)
+        this.keeper = keeper
+        this.nevermined = nevermined
     }
 
     public createAgreement(
@@ -82,7 +102,7 @@ export abstract class AgreementTemplate extends ContractBase {
      */
     public async getConditions(): Promise<Condition[]> {
         return (await this.getConditionTypes()).map(address =>
-            this.nevermined.keeper.getConditionByAddress(address)
+            this.keeper.getConditionByAddress(address)
         )
     }
 
@@ -145,8 +165,8 @@ export abstract class AgreementTemplate extends ContractBase {
     public async getAgreementStatus(
         agreementId: string
     ): Promise<AgreementConditionsStatus | false> {
-        const agreementStore = this.nevermined.keeper.agreementStoreManager
-        const conditionStore = this.nevermined.keeper.conditionStoreManager
+        const agreementStore = this.keeper.agreementStoreManager
+        const conditionStore = this.keeper.conditionStoreManager
 
         const dependencies = await this.getServiceAgreementTemplateDependencies()
         const { conditionIds } = await agreementStore.getAgreement(agreementId)

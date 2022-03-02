@@ -1,24 +1,23 @@
-import { assert } from 'chai'
-import { AaveRepayCondition } from '../../../src/keeper/contracts/conditions/'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
-import config from '../../config'
-import TestContractHandler from '../TestContractHandler'
-
-let condition: AaveRepayCondition
-
+// import { assert } from 'chai'
+// import { AaveRepayCondition } from '../../../src/keeper/contracts/conditions/'
+// import { Nevermined } from '../../../src/nevermined/Nevermined'
+// import config from '../../config'
+// import TestContractHandler from '../TestContractHandler'
+//
+// let condition: AaveRepayCondition
+//
 describe('AaveRepayCondition', () => {
-    const did = `did:nv:${'a'.repeat(64)}`
-    const vaultAddress = `0x${'a'.repeat(40)}`
-    const assetToBorrow = `0x${'a'.repeat(40)}`
-    const amount = 100
-    const interestRateMode = 1
-
-    before(async () => {
-        await TestContractHandler.prepareContracts()
-        condition = (await Nevermined.getInstance(config)).keeper.conditions
-            .aaveRepayCondition
-    })
-
+    //     const did = `did:nv:${'a'.repeat(64)}`
+    //     const vaultAddress = `0x${'a'.repeat(40)}`
+    //     const assetToBorrow = `0x${'a'.repeat(40)}`
+    //     const amount = 100
+    //     const interestRateMode = 1
+    //
+    //     before(async () => {
+    //         await TestContractHandler.prepareContracts()
+    //         condition = (await Nevermined.getInstance(config)).keeper.conditions
+    //             .aaveRepayCondition
+    //     })
     // describe('#hashValues()', () => {
     //     it('should hash the values', async () => {
     //         const hash = await condition.hashValues(
@@ -31,5 +30,4 @@ describe('AaveRepayCondition', () => {
     //         assert.match(hash, /^0x[a-f0-9]{64}$/i)
     //     })
     // })
-
 })

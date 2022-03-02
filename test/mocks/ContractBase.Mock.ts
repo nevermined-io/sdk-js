@@ -2,7 +2,7 @@ import ContractBase, { TxParameters } from '../../src/keeper/contracts/ContractB
 
 export default class ContractBaseMock extends ContractBase {
     public async initMock(config: any) {
-        await this.init(config)
+        await this.init()
     }
 
     public async callMock(name: string, args: any[], from?: string) {

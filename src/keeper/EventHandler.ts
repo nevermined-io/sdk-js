@@ -2,11 +2,14 @@ import { ContractEvent } from './ContractEvent'
 import ContractBase from './contracts/ContractBase'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import Web3 from 'web3'
 
-export class EventHandler extends Instantiable {
+export class EventHandler {
     get count(): number {
         return this.events.size
     }
+
+    private web3: Web3
 
     private events = new Set<(blockNumber) => void>()
 
@@ -18,9 +21,8 @@ export class EventHandler extends Instantiable {
 
     private lastTimeout: NodeJS.Timeout
 
-    constructor(config: InstantiableConfig) {
-        super()
-        this.setInstanceConfig(config)
+    constructor(web3: Web3) {
+        this.web3 = web3
     }
 
     public subscribe(callback: (blockNumber: number) => void) {

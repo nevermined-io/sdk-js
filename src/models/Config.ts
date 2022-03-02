@@ -1,5 +1,5 @@
 import { LogLevel } from '../utils/Logger'
-import AaveConfig from "./AaveConfig";
+import AaveConfig from './AaveConfig'
 export { LogLevel } from '../utils/Logger'
 
 export class Config {

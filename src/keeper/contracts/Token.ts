@@ -2,14 +2,17 @@ import BigNumber from 'bignumber.js'
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
+import web3Utils from 'web3-utils'
 
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
         const token: Token = new Token(
             process.env.TOKEN_CONTRACT_NAME || 'NeverminedToken',
+            config.web3,
+            config.logger,
             true
         )
-        await token.init(config)
+        await token.init()
         return token
     }
 
@@ -24,6 +27,14 @@ export default class Token extends ContractBase {
 
     public async decimals(): Promise<number> {
         return this.call('decimals', [])
+    }
+
+    public async balanceOfConverted(address: string): Promise<number> {
+        return Number(web3Utils.fromWei(await this.call('balanceOf', [address])))
+    }
+
+    public async strBalanceOf(address: string): Promise<string> {
+        return this.call('balanceOf', [address])
     }
 
     public async balanceOf(address: string): Promise<number> {

@@ -1,9 +1,12 @@
 import { Contract } from 'web3-eth-contract'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
-import Logger from '../../src/utils/Logger'
+import { Logger } from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
+import GenericContract from '../../src/keeper/contracts/GenericContract'
+import Config from '../../src/models/Config'
+import Web3 from 'web3'
 
 interface ContractTest extends Contract {
     testContract?: boolean
@@ -11,8 +14,9 @@ interface ContractTest extends Contract {
 }
 
 export default abstract class TestContractHandler extends ContractHandler {
-    public static async prepareContracts() {
-        TestContractHandler.setConfig(config)
+    public static async prepareContracts(web3?: Web3, logger?: Logger, addressBook?: {}) {
+        TestContractHandler.setConfig(config, web3, logger)
+        TestContractHandler.setAddressBook(addressBook)
         const [deployerAddress] = await TestContractHandler.web3.eth.getAccounts()
         TestContractHandler.networkId = await TestContractHandler.web3.eth.net.getId()
         TestContractHandler.minter = await TestContractHandler.web3.utils.toHex('minter')
@@ -23,15 +27,22 @@ export default abstract class TestContractHandler extends ContractHandler {
     private static networkId: number
     private static minter: string
     private static config = config
+    private static logger: Logger
     private static web3 = Web3Provider.getWeb3(config)
+    public static addressBook: {}
 
-    public static setConfig(config) {
+    public static setAddressBook(addressBook: {}) {
+        TestContractHandler.addressBook = addressBook ? addressBook : {}
+    }
+
+    public static setConfig(config: Config, web3: Web3, logger: Logger) {
         TestContractHandler.config = config
+        TestContractHandler.logger = logger
         TestContractHandler.web3 = Web3Provider.getWeb3(TestContractHandler.config)
     }
 
     private static async deployContracts(deployerAddress: string) {
-        Logger.log('Trying to deploy contracts')
+        TestContractHandler.logger.log('Trying to deploy contracts')
 
         // Libraries
         const epochLibrary = await TestContractHandler.deployContract(
@@ -91,7 +102,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const conditionStoreManager = await TestContractHandler.deployContract(
             'ConditionStoreManager',
             deployerAddress,
-            [deployerAddress],
+            [deployerAddress, deployerAddress],
             {
                 EpochLibrary: epochLibrary.options.address
             }
@@ -256,6 +267,52 @@ export default abstract class TestContractHandler extends ContractHandler {
             transferNft721Condition.options.address,
             escrowPaymentCondition.options.address
         ])
+
+        const aaveCollateralDepositCondition = await TestContractHandler.deployContract(
+            'AaveCollateralDepositCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const aaveBorrowCondition = await TestContractHandler.deployContract(
+            'AaveBorrowCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const aaveRepayCondition = await TestContractHandler.deployContract(
+            'AaveRepayCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const aaveCollateralWithdrawCondition = await TestContractHandler.deployContract(
+            'AaveCollateralWithdrawCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const nft721LockCondition = await TestContractHandler.deployContract(
+            'NFT721LockCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const distributeNFTCollateralCondition = await TestContractHandler.deployContract(
+            'DistributeNFTCollateralCondition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address,
+                nft721LockCondition.options.address
+            ]
+        )
+
+        await TestContractHandler.deployContract('AaveCreditTemplate', deployerAddress, [
+            deployerAddress,
+            agreementStoreManager.options.address,
+            nft721LockCondition.options.address,
+            aaveCollateralDepositCondition.options.address,
+            aaveBorrowCondition.options.address,
+            aaveRepayCondition.options.address,
+            aaveCollateralWithdrawCondition.options.address,
+            distributeNFTCollateralCondition.options.address
+        ])
     }
 
     private static async deployContract(
@@ -265,18 +322,33 @@ export default abstract class TestContractHandler extends ContractHandler {
         tokens: { [name: string]: string } = {}
     ): Promise<ContractTest> {
         const where = TestContractHandler.networkId
-
+        const address =
+            TestContractHandler.addressBook && TestContractHandler.addressBook[name]
+                ? TestContractHandler.addressBook[name]
+                : undefined
         // dont redeploy if there is already something loaded
         if (TestContractHandler.hasContract(name, where)) {
             const contract: ContractTest = await ContractHandler.getContract(name, where)
             if (contract.testContract) {
                 return { ...contract, $initialized: true } as any
             }
+        } else if (address && TestContractHandler.web3) {
+            const gcontract = await GenericContract.getInstance(
+                TestContractHandler.web3,
+                TestContractHandler.logger,
+                name,
+                address
+            )
+            const contract: ContractTest = gcontract.getContract() //await ContractHandler.getContract(name, where, address)
+            contract.testContract = true
+            ContractHandler.setContract(name, where, contract, address)
+            ContractHandler.setContract(name, where, contract)
+            return { ...contract, $initialized: true } as any
         }
 
         let contractInstance: ContractTest
         try {
-            Logger.log('Deploying', name)
+            TestContractHandler.logger.log('Deploying', name)
             const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
@@ -287,7 +359,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             contractInstance.testContract = true
             ContractHandler.setContract(name, where, contractInstance)
         } catch (err) {
-            Logger.error(
+            TestContractHandler.logger.error(
                 'Deployment failed for',
                 name,
                 'with args',
@@ -296,7 +368,8 @@ export default abstract class TestContractHandler extends ContractHandler {
             )
             throw err
         }
-
+        console.log(`deployed contract: ${name}, ${contractInstance.options.address}`)
+        TestContractHandler.addressBook[name] = contractInstance.options.address
         return contractInstance
     }
 
@@ -322,7 +395,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
         const isZos = !!tempContract.methods.initialize
 
-        Logger.debug({
+        TestContractHandler.logger.debug({
             name: artifact.name,
             from,
             isZos,
@@ -346,7 +419,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         if (isZos) {
             await contractInstance.methods.initialize(...args).send(sendConfig)
         }
-        // Logger.log('Deployed', name, 'at', contractInstance.options.address)
+        // TestContractHandler.logger.log('Deployed', name, 'at', contractInstance.options.address)
 
         return contractInstance
     }
