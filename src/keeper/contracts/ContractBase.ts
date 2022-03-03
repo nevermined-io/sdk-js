@@ -4,6 +4,7 @@ import ContractHandler from '../ContractHandler'
 import { EventHandler } from '../EventHandler'
 
 import Account from '../../nevermined/Account'
+import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import Web3 from 'web3'
 import { Logger } from '../../utils'
 
@@ -12,17 +13,21 @@ export interface TxParameters {
     gas?: number
     gasMultiplier?: number
     gasPrice?: string
+    maxPriorityFeePerGas?: string
+    maxFeePerGas?: string
     progress?: (data: any) => void
 }
 
 export abstract class ContractBase {
     public contractName: string
+    public contract: Contract = null
+    public events: ContractEvent | SubgraphEvent = null
 
-    protected contract: Contract = null
     protected web3: Web3
     protected logger: Logger
 
     public static gasMultiplier: number
+    public static graphHttpUri: string
 
     get address() {
         return this.getAddress()
@@ -89,6 +94,22 @@ export abstract class ContractBase {
     public getInputsOfMethod(methodName: string): any[] {
         const foundMethod = this.searchMethod(methodName)
         return foundMethod.inputs
+    }
+
+    protected async init(optional: boolean = false) {
+        const contractHandler = new ContractHandler(config)
+        this.contract = await contractHandler.get(this.contractName, optional)
+
+        const eventEmitter = new EventHandler(config)
+        if (ContractEvent.graphHttpUri) {
+            this.events = SubgraphEvent.getInstance(
+                this,
+                eventEmitter,
+                ContractEvent.graphHttpUri
+            )
+        } else {
+            this.events = ContractEvent.getInstance(this, eventEmitter, this.web3)
+        }
     }
 
     protected async getFromAddress(from?: string): Promise<string> {
@@ -172,15 +193,50 @@ export abstract class ContractBase {
                     gas
                 })
             }
-            const chainId = await this.web3.eth.net.getId()
+            let txparams: any = {
+                from,
+                value,
+                gas,
+                gasPrice
+            }
+            if (!gasPrice) {
+                let { maxPriorityFeePerGas } = params
+                try {
+                    const fee: string = await new Promise((resolve, reject) =>
+                        (this.web3.currentProvider as any).send(
+                            {
+                                method: 'eth_maxPriorityFeePerGas',
+                                params: [],
+                                jsonrpc: '2.0',
+                                id: new Date().getTime()
+                            },
+                            (err, res) => {
+                                if (err) {
+                                    reject(err)
+                                } else {
+                                    resolve(res.result)
+                                }
+                            }
+                        )
+                    )
+                    const { maxFeePerGas } = params
+                    if (!maxPriorityFeePerGas) {
+                        maxPriorityFeePerGas = fee
+                    }
+                    txparams = {
+                        from,
+                        value,
+                        gas,
+                        maxPriorityFeePerGas,
+                        maxFeePerGas,
+                        type: '0x2'
+                    }
+                } catch (err) {
+                    // no eip-1559 support
+                }
+            }
             const receipt = await tx
-                .send({
-                    from,
-                    value,
-                    gas,
-                    gasPrice,
-                    chainId
-                })
+                .send(txparams)
                 .on('sent', tx => {
                     if (params.progress) {
                         params.progress({
@@ -256,7 +312,6 @@ export abstract class ContractBase {
         if (!this.contract.methods[name]) {
             throw new Error(`Method ${name} is not part of contract ${this.contractName}`)
         }
-        // Logger.log(name)
         try {
             const method = this.contract.methods[name](...args)
             return await method.call(from ? { from } : null)

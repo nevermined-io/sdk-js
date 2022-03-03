@@ -18,6 +18,7 @@ describe('ContractWrapperBase', () => {
             (nevermined as any).logger
         )
         accounts = await nevermined.accounts.list()
+        wrappedContract = new ContractBaseMock('NeverminedToken')
         await wrappedContract.initMock((nevermined as any).instanceConfig)
     })
 
@@ -66,9 +67,11 @@ describe('ContractWrapperBase', () => {
 
     describe('#getEventData()', () => {
         it('should fail on unknown event', done => {
-            wrappedContract.getEventData('crazyevent', {}).catch(() => {
-                done()
-            })
+            wrappedContract.events
+                .getEventData({ eventName: 'crazyevent', filterJsonRpc: {} })
+                .catch(() => {
+                    done()
+                })
         })
     })
 })

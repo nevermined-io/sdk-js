@@ -43,7 +43,7 @@ export class Config {
      * Secret Store URL.
      * @type {string}
      */
-    public secretStoreUri: string
+    public secretStoreUri?: string
 
     /**
      * Log level.
@@ -63,12 +63,14 @@ export class Config {
      */
     public authTokenExpiration?: number
 
-    // Parity config
-    public parityUri?: string
-
     public threshold?: number
 
     public gasMultiplier?: number
+
+    /**
+     * Enpoint for the graph-node http query
+     */
+    public graphHttpUri?: string
 
     public addressBook?: string
 

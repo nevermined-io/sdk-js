@@ -1,6 +1,3 @@
-import { ContractEvent } from './ContractEvent'
-import ContractBase from './contracts/ContractBase'
-
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Web3 from 'web3'
 
@@ -21,11 +18,17 @@ export class EventHandler {
 
     private lastTimeout: NodeJS.Timeout
 
+    private getBlockNumber: () => Promise<number>
+
     constructor(web3: Web3) {
         this.web3 = web3
     }
 
-    public subscribe(callback: (blockNumber: number) => void) {
+    public subscribe(
+        callback: (blockNumber: number) => void,
+        getBlockNumber: () => Promise<number>
+    ) {
+        this.getBlockNumber = getBlockNumber
         this.events.add(callback)
         this.checkBlock()
 
@@ -43,16 +46,8 @@ export class EventHandler {
         }
     }
 
-    public getEvent(
-        contract: ContractBase,
-        eventName: string,
-        filter: { [key: string]: any }
-    ) {
-        return new ContractEvent(this, contract, eventName, filter)
-    }
-
     private async checkBlock(isInterval?: boolean, n = 0) {
-        const blockNumber = await this.web3.eth.getBlockNumber()
+        const blockNumber = await this.getBlockNumber()
 
         if ((this.polling && !isInterval) || !this.count) {
             return

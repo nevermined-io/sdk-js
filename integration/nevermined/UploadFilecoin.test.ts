@@ -4,8 +4,7 @@ import { Nevermined, Account, DDO, MetaData } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 
-// Skipped because it requires powergate in the CI
-describe.skip('Filecoin Integration', () => {
+describe('Filecoin Integration', () => {
     let nevermined: Nevermined
     let publisher: Account
     const metadata = getMetadata()
@@ -23,9 +22,21 @@ describe.skip('Filecoin Integration', () => {
         const file = fs.openSync(testPath, 'w')
         fs.writeSync(file, 'Hello, Nevermined!')
         const stream = fs.createReadStream(testPath)
-        url = await nevermined.files.uploadFilecoin(stream)
+        url = (await nevermined.files.uploadFilecoin(stream)).url
 
-        assert.equal(url, 'cid://QmSJA3xNH62sj4xggZZzCp2VXpsXbkR9zYoqNYXp3c4xuN')
+        assert.equal(url, 'cid://bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
+
+        // cleanup file
+        fs.unlinkSync(testPath)
+    })
+
+    it('should upload to Filecoin (encrypted)', async () => {
+        const file = fs.openSync(testPath, 'w')
+        fs.writeSync(file, 'Hello, Nevermined!')
+        const stream = fs.createReadStream(testPath)
+        const response = await nevermined.files.uploadFilecoin(stream, true)
+
+        assert.isDefined(response.password)
 
         // cleanup file
         fs.unlinkSync(testPath)

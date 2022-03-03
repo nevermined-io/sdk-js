@@ -53,6 +53,14 @@ export class ConditionStoreManager extends ContractBase {
         return this.call('getCreateRole', [])
     }
 
+    public async isConditionTimeLocked(id: string) {
+        return this.call('isConditionTimeLocked', [id])
+    }
+
+    public async isConditionTimedOut(id: string) {
+        return this.call('isConditionTimedOut', [id])
+    }
+
     public async getOwner(): Promise<string> {
         return this.call('owner', [])
     }

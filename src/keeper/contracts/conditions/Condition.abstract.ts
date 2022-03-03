@@ -67,6 +67,17 @@ export abstract class Condition extends ContractBase {
     }
 
     public getConditionFulfilledEvent(agreementId: string) {
-        return this.getEvent('Fulfilled', { agreementId: zeroX(agreementId) })
+        return this.events.getEventData({
+            eventName: 'Fulfilled',
+            methodName: 'getFulfilleds',
+            filterJsonRpc: { agreementId: zeroX(agreementId) },
+            filterSubgraph: { where: { _agreementId: zeroX(agreementId) } },
+            result: {
+                _agreementId: true,
+                _documentId: true,
+                _grantee: true,
+                _conditionId: true
+            }
+        })
     }
 }

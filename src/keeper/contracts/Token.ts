@@ -12,7 +12,7 @@ export default class Token extends ContractBase {
             config.logger,
             true
         )
-        await token.init()
+        await token.init(true)
         return token
     }
 

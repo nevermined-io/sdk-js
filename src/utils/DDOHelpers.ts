@@ -115,3 +115,21 @@ export function getAssetRewardsFromService(service: Service): AssetRewards {
 
     return new AssetRewards(rewardsMap)
 }
+
+export function getDIDFromService(service: Service): string {
+    const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
+    return ('did:nv:' +
+        escrowPaymentCondition.parameters.find(p => p.name === '_did').value) as string
+}
+
+export function getNftHolderFromService(service: Service): string {
+    const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
+    return nftTransferCondition.parameters.find(p => p.name === '_nftHolder')
+        .value as string
+}
+
+export function getNftAmountFromService(service: Service): number {
+    const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
+    return nftTransferCondition.parameters.find(p => p.name === '_numberNfts')
+        .value as number
+}

@@ -10,6 +10,7 @@ import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import Web3 from 'web3'
 import Keeper from '../../Keeper'
 import { Nevermined } from '../../..'
+import { Service } from '../../../ddo/Service'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -118,7 +119,7 @@ export abstract class AgreementTemplate extends ContractBase {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        ...parameters: (string | number | Account | BabyjubPublicKey)[]
+        ...parameters: (string | number | Account | BabyjubPublicKey | Service)[]
     ): Promise<string[]>
 
     /**
@@ -133,7 +134,15 @@ export abstract class AgreementTemplate extends ContractBase {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        ...parameters: (string | number | Account | BabyjubPublicKey | TxParameters)[]
+        ...parameters: (
+            | string
+            | number
+            | number[]
+            | Account
+            | BabyjubPublicKey
+            | Service
+            | TxParameters
+        )[]
     ): Promise<boolean>
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
@@ -252,8 +261,25 @@ export abstract class AgreementTemplate extends ContractBase {
      * @return {Event}              Agreement created event.
      */
     public getAgreementCreatedEvent(agreementId: string) {
-        return this.getEvent('AgreementCreated', {
-            agreementId: zeroX(agreementId)
+        return this.events.once(events => events, {
+            eventName: 'AgreementCreated',
+            methodName: 'getAgreementCreateds',
+            filterJsonRpc: {
+                _agreementId: zeroX(agreementId)
+            },
+            filterSubgraph: {
+                where: {
+                    _agreementId: zeroX(agreementId)
+                }
+            },
+            result: {
+                _agreementId: true,
+                _did: true,
+                _accessConsumer: true,
+                _accessProvider: true,
+                _timeLocks: true,
+                _timeOuts: true
+            }
         })
     }
 }

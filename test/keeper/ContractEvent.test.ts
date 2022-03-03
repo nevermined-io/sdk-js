@@ -1,101 +1,79 @@
 import { assert } from 'chai'
-import { EventHandler } from '../../src/keeper/EventHandler'
-import { ContractEventSubscription } from '../../src/keeper/ContractEvent'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
+import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
+import { Account } from '../../src'
+import Web3Provider from '../../src/keeper/Web3Provider'
+import Web3 from 'web3'
 
 describe('ContractEvent', () => {
     let nevermined: Nevermined
-    let account: string
-    let eventHandler: EventHandler
-    let executeTransaction: () => Promise<any>
+    let account1: Account
+    let account2: Account
+    let account3: Account
+    let account4: Account
+    let web3: Web3
 
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        eventHandler = new EventHandler((nevermined as any).web3)
-        account = (await nevermined.accounts.list())[0].getId()
-
-        executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account)
-    })
-
-    afterEach(async () => {
-        await new Promise(resolve => setTimeout(resolve, 50))
+        web3 = Web3Provider.getWeb3(config)
+        ;[account1, account2, account3, account4] = await nevermined.accounts.list()
     })
 
     describe('#subscribe()', () => {
         it('should be able to listen to events', async () => {
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to: account
-            })
-            let validResolve = false
             let subscription: ContractEventSubscription
+            const fromBlock = await web3.eth.getBlockNumber()
 
-            const waitUntilEvent = new Promise(resolve => {
-                subscription = event.subscribe(events => {
-                    assert.isDefined(events)
-                    assert.lengthOf(events, 2)
-                    if (validResolve) {
-                        resolve(0)
+            const waitForEvents = new Promise(resolve => {
+                subscription = nevermined.keeper.token.events.subscribe(
+                    events => {
+                        console.log(events)
+                        assert.isDefined(events)
+                        assert.isAtLeast(events.length, 1)
+
+                        // we expect 3 events
+                        if (events.length == 3) {
+                            resolve(0)
+                        }
+                    },
+                    {
+                        eventName: 'Transfer',
+                        filterJsonRpc: {
+                            to: [account1.getId(), account2.getId(), account3.getId()]
+                        },
+                        fromBlock: fromBlock,
+                        toBlock: 'latest'
                     }
-                })
+                )
             })
+            console.log('before request tokens')
+            await nevermined.keeper.dispenser.requestTokens(1, account1.getId())
+            await nevermined.keeper.dispenser.requestTokens(2, account2.getId())
+            await nevermined.keeper.dispenser.requestTokens(3, account3.getId())
+            console.log('after request tokens')
 
-            await Promise.all([executeTransaction(), executeTransaction()])
-
-            await new Promise(resolve => setTimeout(resolve, 2000))
-            validResolve = true
-
-            await Promise.all([executeTransaction(), executeTransaction()])
-
-            await waitUntilEvent
-
+            await waitForEvents
             subscription.unsubscribe()
         })
     })
 
-    // See https://github.com/nevermined-io/sdk-js/issues/141
-    describe.skip('#once()', () => {
+    describe('#once()', () => {
         it('should listen to event only once', async () => {
-            const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to
+            const fromBlock = await web3.eth.getBlockNumber()
+
+            const eventsPromise = nevermined.keeper.token.events.once(e => e, {
+                eventName: 'Transfer',
+                filterJsonRpc: { to: account4.getId() },
+                fromBlock: fromBlock,
+                toBlock: 'latest'
             })
-            let canBeRejected = false
+            await nevermined.keeper.dispenser.requestTokens(1, account4.getId())
 
-            const waitUntilEvent = new Promise((resolve, reject) => {
-                event.once(() => {
-                    if (canBeRejected) {
-                        reject(new Error(''))
-                    }
-                    setTimeout(resolve, 600)
-                })
-            })
-
-            await executeTransaction()
-
-            await new Promise(resolve => setTimeout(resolve, 2000))
-            canBeRejected = true
-
-            await executeTransaction()
-
-            await waitUntilEvent
-        })
-
-        it('should get the event like a promise', async () => {
-            const to = account
-            const event = eventHandler.getEvent(nevermined.keeper.token, 'Transfer', {
-                to
-            })
-
-            const waitUntilEvent = event.once()
-
-            await new Promise(resolve => setTimeout(resolve, 400))
-
-            await executeTransaction()
-
-            await waitUntilEvent
+            const events: any = await eventsPromise
+            assert.equal(events.length, 1)
         })
     })
 })

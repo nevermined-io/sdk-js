@@ -3,7 +3,6 @@ import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import ContractBase, { TxParameters } from '../../ContractBase'
-import { randomBytes } from 'crypto'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -35,8 +34,18 @@ export class NFTUpgradeable extends ContractBase {
      * @param {Account} from Sender account
      * @returns Boolean
      */
-    public setProxyApproval(operatorAddress: string, approved: boolean, from?: Account) {
-        return this.sendFrom('setProxyApproval', [zeroX(operatorAddress), approved], from)
+    public setProxyApproval(
+        operatorAddress: string,
+        approved: boolean,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom(
+            'setProxyApproval',
+            [zeroX(operatorAddress), approved],
+            from,
+            params
+        )
     }
 
     /**
@@ -52,12 +61,14 @@ export class NFTUpgradeable extends ContractBase {
         accountAddress: string,
         operatorAddress: string,
         approved: boolean,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return this.sendFrom(
             'proxySetApprovalForAll',
             [zeroX(accountAddress), zeroX(operatorAddress), approved],
-            from
+            from,
+            params
         )
     }
 
@@ -69,11 +80,17 @@ export class NFTUpgradeable extends ContractBase {
      * @param {Account} from Sender account
      * @returns Boolean
      */
-    public setApprovalForAll(operatorAddress: string, approved: boolean, from?: Account) {
+    public setApprovalForAll(
+        operatorAddress: string,
+        approved: boolean,
+        from?: Account,
+        params?: TxParameters
+    ) {
         return this.sendFrom(
             'setApprovalForAll',
             [zeroX(operatorAddress), approved],
-            from
+            from,
+            params
         )
     }
 
@@ -98,8 +115,12 @@ export class NFTUpgradeable extends ContractBase {
         return this.send(
             'safeTransferFrom',
             from,
-            [from, to, didZeroX(did), amount, randomBytes(1)],
+            [from, to, didZeroX(did), amount, []],
             params
         )
+    }
+
+    public async uri(did: string): Promise<string> {
+        return this.call('uri', [didZeroX(did)])
     }
 }

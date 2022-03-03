@@ -1,6 +1,6 @@
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import fs from 'fs'
 import Web3Utils from 'web3-utils'
+import vKey from './verification_key.json'
 
 const SEED = 'mimcsponge'
 const NROUNDS = 220
@@ -213,8 +213,6 @@ export default class KeyTransfer {
             cipher.xR,
             origHash
         ]
-
-        const vKey = JSON.parse(fs.readFileSync('verification_key.json').toString())
 
         const res = await this.snarkjs.plonk.verify(vKey, signals, proof)
 

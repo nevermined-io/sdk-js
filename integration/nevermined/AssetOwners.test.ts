@@ -67,6 +67,9 @@ describe('Asset Owners', () => {
         await nevermined.assets.create(newMetadata(), account1)
         await nevermined.assets.create(newMetadata(), account2)
 
+        // wait a bit for the subgraph to index the events
+        await new Promise(r => setTimeout(r, 5000))
+
         const { length: finalLength } = await nevermined.assets.ownerAssets(
             account2.getId()
         )

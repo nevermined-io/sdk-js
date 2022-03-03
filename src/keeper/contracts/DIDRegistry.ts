@@ -2,7 +2,6 @@ import { TransactionReceipt } from 'web3-core'
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { randomBytes } from 'crypto'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -151,7 +150,7 @@ export default class DIDRegistry extends ContractBase {
         providers: string[],
         value: string,
         activityId: string,
-        attributes: string,
+        nftMetadata: string = '',
         cap: number,
         royalties: number,
         mint: boolean = false,
@@ -170,7 +169,36 @@ export default class DIDRegistry extends ContractBase {
                 String(royalties),
                 mint,
                 zeroX(activityId),
-                attributes
+                nftMetadata
+            ],
+            params
+        )
+    }
+
+    public async registerMintableDID721(
+        did: string,
+        checksum: string,
+        providers: string[],
+        value: string,
+        activityId: string,
+        nftMetadata: string = '',
+        royalties: number,
+        mint: boolean = false,
+        ownerAddress: string,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'registerMintableDID721',
+            ownerAddress,
+            [
+                didZeroX(did),
+                zeroX(checksum),
+                providers.map(zeroX),
+                value,
+                String(royalties),
+                mint,
+                zeroX(activityId),
+                nftMetadata
             ],
             params
         )
@@ -182,12 +210,29 @@ export default class DIDRegistry extends ContractBase {
         royalties: number,
         preMint: boolean,
         ownerAddress: string,
+        nftMetadata: string,
         params?: TxParameters
     ) {
         return this.send(
             'enableAndMintDidNft',
             ownerAddress,
-            [didZeroX(did), cap, royalties, preMint],
+            [didZeroX(did), cap, royalties, preMint, nftMetadata],
+            params
+        )
+    }
+
+    public async enableAndMintDidNft721(
+        did: string,
+        royalties: number,
+        preMint: boolean,
+        ownerAddress: string,
+        nftMetadata: string,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'enableAndMintDidNft721',
+            ownerAddress,
+            [didZeroX(did), royalties, preMint, nftMetadata],
             params
         )
     }
@@ -206,11 +251,27 @@ export default class DIDRegistry extends ContractBase {
 
     public async getAttributesByOwner(owner: string): Promise<string[]> {
         return (
-            await this.getPastEvents('DIDAttributeRegistered', {
-                _owner: zeroX(owner)
+            await this.events.getPastEvents({
+                eventName: 'DIDAttributeRegistered',
+                methodName: 'getDIDAttributeRegistereds',
+                filterJsonRpc: { _owner: zeroX(owner) },
+                filterSubgraph: { where: { _owner: zeroX(owner) } },
+                result: {
+                    _did: true,
+                    _owner: true,
+                    _value: true,
+                    _lastUpdatedBy: true,
+                    _blockNumberUpdated: true
+                }
             })
         )
-            .map(({ returnValues }) => returnValues._did)
+            .map(event => {
+                if (event.returnValues) {
+                    return event.returnValues._did
+                } else {
+                    return event._did
+                }
+            })
             .map(didPrefixed)
     }
 
@@ -231,7 +292,12 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         params?: TxParameters
     ) {
-        return this.send('grantPermission', ownerAddress, [didZeroX(did), zeroX(grantee)])
+        return this.send(
+            'grantPermission',
+            ownerAddress,
+            [didZeroX(did), zeroX(grantee)],
+            params
+        )
     }
 
     public async revokePermission(
@@ -240,7 +306,12 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         params?: TxParameters
     ) {
-        return this.send('revokePermission', ownerAddress, [zeroX(did), zeroX(grantee)])
+        return this.send(
+            'revokePermission',
+            ownerAddress,
+            [zeroX(did), zeroX(grantee)],
+            params
+        )
     }
 
     public async getPermission(did: string, grantee: string): Promise<boolean> {
@@ -253,17 +324,33 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         params?: TxParameters
     ): Promise<TransactionReceipt> {
-        return this.send('transferDIDOwnership', ownerAddress, [
-            didZeroX(did),
-            zeroX(newOwnerAddress)
-        ])
+        return this.send(
+            'transferDIDOwnership',
+            ownerAddress,
+            [didZeroX(did), zeroX(newOwnerAddress)],
+            params
+        )
     }
 
     // Provenance
     public async getDIDProvenanceEvents(did: string) {
         return (
-            await this.getPastEvents('ProvenanceAttributeRegistered', {
-                _did: didZeroX(did)
+            await this.events.getPastEvents({
+                eventName: 'ProvenanceAttributeRegistered',
+                methodName: 'getProvenanceAttributeRegistereds',
+                filterJsonRpc: { _did: didZeroX(did) },
+                filterSubgraph: { where: { _did: didZeroX(did) } },
+                result: {
+                    provId: true,
+                    _did: true,
+                    _agentId: true,
+                    _activityId: true,
+                    _relatedDid: true,
+                    _agentInvolvedId: true,
+                    _method: true,
+                    _attributes: true,
+                    _blockNumberUpdated: true
+                }
             })
         )
             .map(
@@ -293,7 +380,13 @@ export default class DIDRegistry extends ContractBase {
                 break
         }
         return (
-            await this.getPastEvents(capitalize(ProvenanceMethod[method as any]), filter)
+            await this.events.getPastEvents({
+                eventName: capitalize(ProvenanceMethod[method as any]),
+                methodName: `get${capitalize(ProvenanceMethod[method as any])}s`,
+                filterJsonRpc: filter,
+                filterSubgraph: { where: filter },
+                result: {}
+            })
         ).map(({ returnValues }) => eventToObject(returnValues))
     }
 

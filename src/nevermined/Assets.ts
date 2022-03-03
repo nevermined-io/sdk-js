@@ -80,7 +80,9 @@ export class Assets extends Instantiable {
         royalties: number = 0,
         assetRewards: AssetRewards = new AssetRewards(),
         method: string = 'PSK-RSA',
-        providers?: string[]
+        providers?: string[],
+        nftMetadata?: string,
+        params?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.createNft(
             metadata,
@@ -89,7 +91,12 @@ export class Assets extends Instantiable {
             method,
             cap,
             providers,
-            royalties
+            royalties, // is this royalties or nftAmount?
+            undefined,
+            undefined,
+            undefined,
+            nftMetadata,
+            params
         )
     }
 
@@ -102,6 +109,7 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string,
         providers?: string[],
         royalties: number = 0,
+        nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')
@@ -313,7 +321,7 @@ export class Assets extends Instantiable {
                 providers || [this.config.gatewayAddress],
                 '',
                 '0x1',
-                '',
+                nftMetadata ? nftMetadata : '',
                 1,
                 royalties,
                 false,
@@ -338,6 +346,8 @@ export class Assets extends Instantiable {
         nftAmount?: number,
         royalties?: number,
         erc20TokenAddress?: string,
+        preMint?: boolean,
+        nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
@@ -550,8 +560,9 @@ export class Assets extends Instantiable {
                 ddo.shortId(),
                 cap,
                 royalties,
-                false,
+                preMint ? preMint : false,
                 publisher.getId(),
+                nftMetadata ? nftMetadata : '',
                 txParams
             )
 
@@ -581,7 +592,8 @@ export class Assets extends Instantiable {
         services: Service[] = [],
         method: string = 'PSK-RSA',
         providers?: string[],
-        erc20TokenAddress?: string
+        erc20TokenAddress?: string,
+        params?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating asset')
         return new SubscribablePromise(async observer => {
@@ -814,7 +826,8 @@ export class Assets extends Instantiable {
                 ddo.checksum(ddo.shortId()),
                 providers || [this.config.gatewayAddress],
                 serviceEndpoint,
-                publisher.getId()
+                publisher.getId(),
+                params
             )
 
             this.logger.log('DID registred')
@@ -829,7 +842,8 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         service: Service[] = [],
-        method: string = 'PSK-RSA'
+        method: string = 'PSK-RSA',
+        params?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return new SubscribablePromise(async observer => {
             const computeService = {
@@ -856,7 +870,10 @@ export class Assets extends Instantiable {
                         attributes: computeService
                     } as Service
                 ],
-                method
+                method,
+                undefined,
+                undefined,
+                params
             )
         })
     }
@@ -972,7 +989,8 @@ export class Assets extends Instantiable {
     public order(
         did: string,
         serviceType: ServiceType,
-        consumer: Account
+        consumer: Account,
+        params?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
         return new SubscribablePromise(async observer => {
             const { agreements } = this.nevermined
@@ -988,7 +1006,7 @@ export class Assets extends Instantiable {
 
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
-                await template.getAgreementCreatedEvent(agreementId).once()
+                await template.getAgreementCreatedEvent(agreementId)
 
                 this.logger.log('Agreement initialized')
                 observer.next(OrderProgressStep.AgreementInitialized)
@@ -1024,7 +1042,14 @@ export class Assets extends Instantiable {
 
             observer.next(OrderProgressStep.CreatingAgreement)
             this.logger.log('Creating agreement')
-            await agreements.create(did, agreementId, serviceType, consumer, consumer)
+            await agreements.create(
+                did,
+                agreementId,
+                serviceType,
+                consumer,
+                consumer,
+                params
+            )
             this.logger.log('Agreement created')
 
             try {
@@ -1095,13 +1120,15 @@ export class Assets extends Instantiable {
      */
     public async transferOwnership(
         did: string,
-        newOwner: string
+        newOwner: string,
+        params?: TxParameters
     ): Promise<TransactionReceipt> {
         const owner = await this.nevermined.assets.owner(did)
         return this.nevermined.keeper.didRegistry.transferDIDOwnership(
             did,
             newOwner,
-            owner
+            owner,
+            params
         )
     }
 
@@ -1226,19 +1253,31 @@ export class Assets extends Instantiable {
         return true
     }
 
-    public async delegatePermissions(did: string, address: string, account: Account) {
+    public async delegatePermissions(
+        did: string,
+        address: string,
+        account: Account,
+        params?: TxParameters
+    ) {
         return await this.nevermined.keeper.didRegistry.grantPermission(
             did,
             address,
-            account.getId()
+            account.getId(),
+            params
         )
     }
 
-    public async revokePermissions(did: string, address: string, account: Account) {
+    public async revokePermissions(
+        did: string,
+        address: string,
+        account: Account,
+        params?: TxParameters
+    ) {
         return await this.nevermined.keeper.didRegistry.revokePermission(
             did,
             address,
-            account.getId()
+            account.getId(),
+            params
         )
     }
 

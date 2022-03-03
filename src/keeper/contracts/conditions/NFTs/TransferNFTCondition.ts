@@ -39,6 +39,24 @@ export class TransferNFTCondition extends Condition {
         )
     }
 
+    public hashValues2(
+        did: string,
+        nftHolder: string,
+        nftReceiver: string,
+        nftAmount: number,
+        lockCondition: string,
+        nftcont: string
+    ) {
+        return super.hashValues(
+            didZeroX(did),
+            zeroX(nftHolder),
+            zeroX(nftReceiver),
+            String(nftAmount),
+            lockCondition,
+            nftcont
+        )
+    }
+
     /**
      * Fulfill the transfer NFT condition.
      *  Only DID owner or DID provider can call this method.
@@ -88,7 +106,8 @@ export class TransferNFTCondition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockPaymentCondition: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         return super.fulfill(
             agreementId,
@@ -100,7 +119,7 @@ export class TransferNFTCondition extends Condition {
                 lockPaymentCondition
             ],
             from,
-            undefined,
+            params,
             'fulfillForDelegate'
         )
     }

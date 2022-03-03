@@ -29,19 +29,30 @@ describe('Artifacts', () => {
             nodeUri: 'https://alfajores-forno.celo-testnet.org',
             networkName: ['celo-alfajores'],
             networkId: [44787]
+            //        },
+            //        {
+            //            nodeUri: 'https://baklava-forno.celo-testnet.org',
+            //            networkName: ['celo-baklava'],
+            //            networkId: [62320]
         },
         {
-            nodeUri: 'https://baklava-forno.celo-testnet.org',
-            networkName: ['celo-baklava'],
-            networkId: [62320]
+            nodeUri: `https://polygon-mainnet.infura.io/v3/${infuraToken}`,
+            networkName: ['matic'],
+            networkId: [137]
         }
+        // No celo mainnet deployment
+        // {
+        //     nodeUri: 'https://forno.celo.org',
+        //     networkName: ['celo'],
+        //     networkId: [42220]
+        // }
     ]
 
     tests.forEach(({ nodeUri, networkName, networkId }) => {
         it(`Should get the correct artifacts for ${networkName}-${networkId} on ${nodeUri}`, async () => {
             const nvm = await Nevermined.getInstance({
-                nodeUri: nodeUri,
-                verbose: LogLevel.Verbose
+                nodeUri: nodeUri
+                // verbose: LogLevel.Verbose
             } as Config)
 
             assert.isDefined(nvm)

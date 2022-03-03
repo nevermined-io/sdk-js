@@ -9,7 +9,7 @@ export default class Dispenser extends ContractBase {
             config.logger,
             true
         )
-        await dispenser.init()
+        await dispenser.init(true)
         return dispenser
     }
 

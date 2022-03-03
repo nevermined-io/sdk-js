@@ -65,7 +65,8 @@ export abstract class Instantiable {
         return { nevermined, web3, config, logger }
     }
 
-    public static async getInstance(...args: any[]): Promise<any>
+    public static getInstance(...args: any[]): any
+    // public static async getInstance(...args: any[]): Promise<any>
 
     public static async getInstance(config: InstantiableConfig): Promise<any> {
         LoggerInstance.warn('getInstance() methods has needs to be added to child class.')

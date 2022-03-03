@@ -7,6 +7,8 @@ import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 import KeyTransfer from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { Service } from '../ddo/Service'
+import { EventOptions } from '../events/NeverminedEvent'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -108,12 +110,19 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         grantee: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const { accessCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await accessCondition.fulfill(agreementId, did, grantee, from)
+            const receipt = await accessCondition.fulfill(
+                agreementId,
+                did,
+                grantee,
+                from,
+                params
+            )
             return !!receipt.events.Fulfilled
         } catch {
             return false
@@ -135,7 +144,8 @@ export class AgreementsConditions extends Instantiable {
         providerK: string,
         buyerPub: BabyjubPublicKey,
         providerPub: BabyjubPublicKey,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const { accessProofCondition } = this.nevermined.keeper.conditions
@@ -154,7 +164,8 @@ export class AgreementsConditions extends Instantiable {
                 providerPub,
                 cipher,
                 proof,
-                from
+                from,
+                params
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -175,10 +186,25 @@ export class AgreementsConditions extends Instantiable {
         providerPub: BabyjubPublicKey
     ) {
         const { accessProofCondition } = this.nevermined.keeper.conditions
-        const ev = await accessProofCondition.getPastEvents('Fulfilled', {
-            _agreementId: agreementId
-        })
-        const [cipherL, cipherR] = ev[0].returnValues._cipher
+        const evOptions: EventOptions = {
+            eventName: 'Fulfilled',
+            methodName: 'getFulfilleds',
+            filterJsonRpc: { _agreementId: agreementId },
+            filterSubgraph: { where: { _agreementId: agreementId } },
+            result: {
+                _agreementId: true,
+                _origHash: true,
+                _buyer: true,
+                _provider: true,
+                _cipher: true,
+                _proof: true,
+                _conditionId: true
+            }
+        }
+        const ev = await accessProofCondition.events.once(events => events, evOptions)
+        const [cipherL, cipherR] = ev[0].returnValues
+            ? ev[0].returnValues._cipher
+            : ev[0]._cipher
 
         const keyTransfer = new KeyTransfer()
         return keyTransfer.decryptKey(
@@ -198,7 +224,8 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         grantee: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const { computeExecutionCondition } = this.nevermined.keeper.conditions
@@ -207,7 +234,8 @@ export class AgreementsConditions extends Instantiable {
                 agreementId,
                 did,
                 grantee,
-                from
+                from,
+                params
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -238,7 +266,8 @@ export class AgreementsConditions extends Instantiable {
         consumer: string,
         publisher: string,
         erc20TokenAddress?: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         try {
             const {
@@ -283,7 +312,8 @@ export class AgreementsConditions extends Instantiable {
                 token ? token.getAddress() : erc20TokenAddress,
                 conditionIdLock,
                 conditionIdAccess,
-                from
+                from,
+                params
             )
             return !!receipt.events.Fulfilled
         } catch {
@@ -310,7 +340,8 @@ export class AgreementsConditions extends Instantiable {
         nftAmount: number,
         publisher: Account,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        nftSalesService?: Service
     ) {
         const {
             escrowPaymentCondition,
@@ -318,7 +349,7 @@ export class AgreementsConditions extends Instantiable {
             transferNftCondition
         } = this.nevermined.keeper.conditions
 
-        const salesService = ddo.findServiceByType('nft-sales')
+        const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const {
             accessConsumer
@@ -477,7 +508,8 @@ export class AgreementsConditions extends Instantiable {
         did: string,
         holder: string,
         nftAmount: number,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const { nftHolderCondition } = this.nevermined.keeper.conditions
 
@@ -486,7 +518,8 @@ export class AgreementsConditions extends Instantiable {
             did,
             holder,
             nftAmount,
-            from
+            from,
+            params
         )
         return !!receipt.events.Fulfilled
     }
@@ -505,7 +538,8 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         ddo: DDO,
         holderAddress: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
         const accessService = ddo.findServiceByType('nft721-access')
@@ -517,7 +551,8 @@ export class AgreementsConditions extends Instantiable {
             ddo.shortId(),
             holderAddress,
             holder.parameters.find(p => p.name === '_contractAddress').value as string,
-            from
+            from,
+            params
         )
 
         return !!receipt.events.Fulfilled
@@ -536,11 +571,18 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         grantee: string,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const { nftAccessCondition } = this.nevermined.keeper.conditions
 
-        const receipt = await nftAccessCondition.fulfill(agreementId, did, grantee, from)
+        const receipt = await nftAccessCondition.fulfill(
+            agreementId,
+            did,
+            grantee,
+            from,
+            params
+        )
         return !!receipt.events.Fulfilled
     }
 
@@ -562,7 +604,8 @@ export class AgreementsConditions extends Instantiable {
         receivers: string[],
         nftAmount: number,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        nftSalesService?: Service
     ) {
         const {
             transferNftCondition,
@@ -576,7 +619,7 @@ export class AgreementsConditions extends Instantiable {
             agreementId
         )
 
-        const salesService = ddo.findServiceByType('nft-sales')
+        const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment condition not found!')
@@ -624,7 +667,8 @@ export class AgreementsConditions extends Instantiable {
         amounts: number[],
         receivers: string[],
         nftAmount: number,
-        from?: Account
+        from?: Account,
+        params?: TxParameters
     ) {
         const {
             transferNftCondition,
@@ -668,7 +712,8 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             nftAmount,
             lockPaymentConditionId,
-            from
+            from,
+            params
         )
 
         return !!receipt.events.Fulfilled

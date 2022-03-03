@@ -386,7 +386,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const sendConfig = {
             from,
             gas: 6721975,
-            gasPrice: '10000'
+            gasPrice: '875000000'
         }
 
         const tempContract = new TestContractHandler.web3.eth.Contract(

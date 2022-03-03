@@ -2,6 +2,8 @@ import { Condition } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
+import { TxParameters } from '../ContractBase'
+import { EventOptions } from '../../../events/NeverminedEvent'
 
 export class AccessCondition extends Condition {
     public static async getInstance(
@@ -14,8 +16,19 @@ export class AccessCondition extends Condition {
         return super.hashValues(didZeroX(did), zeroX(grantee))
     }
 
-    public fulfill(agreementId: string, did: string, grantee: string, from?: Account) {
-        return super.fulfill(agreementId, [didZeroX(did), grantee].map(zeroX), from)
+    public fulfill(
+        agreementId: string,
+        did: string,
+        grantee: string,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return super.fulfill(
+            agreementId,
+            [didZeroX(did), grantee].map(zeroX),
+            from,
+            params
+        )
     }
 
     public checkPermissions(grantee: string, did: string, from?: Account) {
@@ -29,11 +42,19 @@ export class AccessCondition extends Condition {
     public async getGrantedDidByConsumer(
         consumer: string
     ): Promise<{ did: string; agreementId: string }[]> {
-        return (
-            await this.getPastEvents('Fulfilled', {
-                _grantee: zeroX(consumer)
-            })
-        ).map(({ returnValues }) => ({
+        const evOptions: EventOptions = {
+            eventName: 'Fulfilled',
+            methodName: 'getFulfilleds',
+            filterJsonRpc: { _grantee: zeroX(consumer) },
+            filterSubgraph: { where: { _grantee: zeroX(consumer) } },
+            result: {
+                _agreementId: true,
+                _documentId: true,
+                _grantee: true,
+                _conditionId: true
+            }
+        }
+        return (await this.events.getPastEvents(evOptions)).map(({ returnValues }) => ({
             did: didPrefixed(returnValues._documentId),
             agreementId: zeroX(returnValues._agreementId)
         }))
