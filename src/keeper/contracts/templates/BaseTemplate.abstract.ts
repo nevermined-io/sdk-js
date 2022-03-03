@@ -1,7 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import {
-    NFTOrderProgressStep,
-    SubscribableObserver,
     ZeroAddress,
     zeroX
 } from '../../../utils'
@@ -103,7 +101,7 @@ export abstract class BaseTemplate extends AgreementTemplate {
                     nevermined: this.nevermined,
                     web3: this.web3,
                     logger: this.logger,
-                    config: this.config
+                    config: null
                 },
                 tokenAddress
             )

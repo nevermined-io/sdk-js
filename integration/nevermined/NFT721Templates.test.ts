@@ -20,6 +20,7 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Nft721 } from '../../src'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { getMetadata } from '../utils'
+import {generateIntantiableConfigFromConfig} from "../../src/Instantiable.abstract";
 
 describe('NFT721Templates E2E', () => {
     let owner: Account
@@ -76,7 +77,8 @@ describe('NFT721Templates E2E', () => {
     let networkName: string
 
     before(async () => {
-        TestContractHandler.setConfig(config)
+        const instConfig = generateIntantiableConfigFromConfig(config)
+        TestContractHandler.setConfig(config, instConfig.web3, instConfig.logger)
 
         // deploy a nft contract we can use
         const nftContract = await TestContractHandler.deployArtifact(ERC721)

@@ -9,6 +9,7 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Contract } from 'web3-eth-contract'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { zeroX } from '../../src/utils'
+import {generateIntantiableConfigFromConfig} from "../../src/Instantiable.abstract";
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -36,7 +37,8 @@ describe('NFTs721 Api End-to-End', () => {
     let nftContract: Contract
 
     before(async () => {
-        TestContractHandler.setConfig(config)
+        const instConfig = generateIntantiableConfigFromConfig(config)
+        TestContractHandler.setConfig(config, instConfig.web3, instConfig.logger)
 
         nftContract = await TestContractHandler.deployArtifact(ERC721)
 

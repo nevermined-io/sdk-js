@@ -9,6 +9,7 @@ import { Contract } from 'web3-eth-contract'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import utils from 'web3-utils'
+import { generateIntantiableConfigFromConfig } from "../../src/Instantiable.abstract";
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
@@ -22,7 +23,8 @@ describe('Nfts721 operations', async () => {
     let token: Token
 
     before(async () => {
-        TestContractHandler.setConfig(config)
+        const instConfig = generateIntantiableConfigFromConfig(config)
+        TestContractHandler.setConfig(config, instConfig.web3, instConfig.logger)
 
         // deploy a nft contract we can use
         nft = await TestContractHandler.deployArtifact(ERC721)
