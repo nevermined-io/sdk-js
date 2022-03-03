@@ -9,6 +9,9 @@ module.exports = {
         minimize: true,
         emitOnErrors: false
     },
+    externals: {
+        "node:zlib": "zlib"
+    },
     resolve: {
         extensions: ['.js'],
         modules: ['node_modules'],
@@ -21,7 +24,9 @@ module.exports = {
             "assert": require.resolve("assert/"),
             "path": require.resolve("path-browserify"),
             "stream": require.resolve("stream-browserify"),
-            "fs": false
+            "zlib": require.resolve('browserify-zlib'),
+            "fs": require.resolve("browserify-fs"),
         }
-    }
+    },
+
 }
