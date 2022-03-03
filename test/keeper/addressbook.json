@@ -10,5 +10,7 @@
   "mumbai": {
     "AccessCondition": "0xe12C1Ff0867DFFFb8EEf9752f1Fa9A392aaF0C1d",
     "AccessProofCondition": "0x2C26e52b6985e2989321437404612bDD25E424d4"
+  },
+  "development": {
   }
 }

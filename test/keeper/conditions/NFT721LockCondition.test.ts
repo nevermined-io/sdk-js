@@ -2,7 +2,6 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, ConditionState, DDO, Nevermined, utils } from '../../../src'
 import { NFT721LockCondition } from '../../../src/keeper/contracts/conditions'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
@@ -19,8 +18,6 @@ describe('NFT721LockCondition', () => {
     let nevermined: Nevermined
     let nft721LockCondition: NFT721LockCondition
     let conditionStoreManager: ConditionStoreManager
-    let didRegistry: DIDRegistry
-    // let token: Token
     let nftContractAddress: string
     let _nftContract: Contract
     let nft721Wrapper: Nft721
@@ -30,16 +27,13 @@ describe('NFT721LockCondition', () => {
     let did: string
 
     let agreementId: string
-    let checksum: string
-    let didSeed: string
-    const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const amount = 10
 
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
         ;({ nft721LockCondition } = nevermined.keeper.conditions)
-        ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
+        ;({ conditionStoreManager } = nevermined.keeper)
         ;[owner, lockAddress] = await nevermined.accounts.list()
         _nftContract = await TestContractHandler.deployArtifact(ERC721)
         nft721Wrapper = await nevermined.contracts.loadNft721(
@@ -47,8 +41,10 @@ describe('NFT721LockCondition', () => {
         )
         nftContractAddress = nft721Wrapper.address
 
-        checksum = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+    })
+
+    beforeEach(async () => {
+        agreementId = utils.generateId()
         ddo = await nevermined.nfts.create721(
             getMetadata(),
             owner,
@@ -56,10 +52,9 @@ describe('NFT721LockCondition', () => {
             nft721Wrapper.address
         )
         assert.isDefined(ddo)
+        did = ddo.id
 
-        await didRegistry.registerAttribute(didSeed, checksum, [], url, owner.getId())
         await nft721Wrapper.mint(zeroX(ddo.shortId()), owner)
-        did = await didRegistry.hashDID(didSeed, owner.getId())
         await nft721Wrapper.setApprovalForAll(
             nft721LockCondition.getAddress(),
             true,
@@ -67,15 +62,10 @@ describe('NFT721LockCondition', () => {
         )
     })
 
-    beforeEach(async () => {
-        agreementId = utils.generateId()
-    })
-
     describe('#hashValues()', () => {
         it('should hash the values and generate an ID', async () => {
-            const _did = await didRegistry.hashDID(didSeed, lockAddress.getId())
             const hash = await nft721LockCondition.hashValues(
-                _did,
+                did,
                 lockAddress.getId(),
                 amount,
                 nftContractAddress
@@ -104,13 +94,13 @@ describe('NFT721LockCondition', () => {
                 nft721LockCondition.address,
                 owner
             )
-
             const result = await nft721LockCondition.fulfill(
                 agreementId,
                 did,
                 lockAddress.getId(),
                 1,
-                nftContractAddress
+                nftContractAddress,
+                owner
             )
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
@@ -130,7 +120,7 @@ describe('NFT721LockCondition', () => {
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
             assert.equal(_lockAddress, lockAddress.getId())
-            assert.equal(Number(_amount), amount)
+            assert.equal(Number(_amount), 1)
             assert.equal(_nftContractAddress, nftContractAddress)
         })
     })
@@ -157,10 +147,11 @@ describe('NFT721LockCondition', () => {
         })
 
         it('out of balance should fail to fulfill', async () => {
+            nft721Wrapper.contract.send('transferFrom', owner.getId(), [owner.getId(), lockAddress.getId(), didZeroX(did)])
             const hashValues = await nft721LockCondition.hashValues(
                 did,
                 lockAddress.getId(),
-                amount + 1,
+                1,
                 nftContractAddress
             )
             const conditionId = await nft721LockCondition.generateId(
@@ -178,10 +169,10 @@ describe('NFT721LockCondition', () => {
                     agreementId,
                     did,
                     lockAddress.getId(),
-                    amount + 1,
+                    1,
                     nftContractAddress
                 ),
-                /insufficient balance/
+                /Sender does not have enough balance or is not the NFT owner./
             )
         })
 
@@ -189,7 +180,7 @@ describe('NFT721LockCondition', () => {
             const hashValues = await nft721LockCondition.hashValues(
                 did,
                 lockAddress.getId(),
-                amount + 1,
+                1,
                 nftContractAddress
             )
             const conditionId = await nft721LockCondition.generateId(
@@ -206,7 +197,7 @@ describe('NFT721LockCondition', () => {
                 agreementId,
                 did,
                 lockAddress.getId(),
-                amount,
+                1,
                 nftContractAddress
             )
             let { state } = await conditionStoreManager.getCondition(conditionId)
@@ -217,7 +208,7 @@ describe('NFT721LockCondition', () => {
                     agreementId,
                     did,
                     lockAddress.getId(),
-                    amount,
+                    1,
                     nftContractAddress
                 ),
                 undefined

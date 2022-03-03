@@ -21,7 +21,6 @@ import { AaveCreditTemplate } from '../../src/keeper/contracts/templates'
 import { NFT721LockCondition } from '../../src/keeper/contracts/defi/NFT721LockCondition'
 import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCondition'
 import config from '../config'
-import fs from 'fs'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
@@ -82,16 +81,6 @@ describe('AaveCredit', () => {
         const { web3, logger } = generateIntantiableConfigFromConfig(config)
         // startBlock = await web3.eth.getBlockNumber()
         await TestContractHandler.prepareContracts(web3, logger, addressbook)
-        const newAddressBook = getAddressBook(config)
-        newAddressBook['development'] = TestContractHandler.addressBook
-        fs.writeFile(
-            config.addressBook,
-            JSON.stringify(newAddressBook, null, 2),
-            function(err) {
-                if (err) throw err
-                // console.log(`wrote addressBook to ${config.addressBook}`);
-            }
-        )
 
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee

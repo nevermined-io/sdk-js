@@ -34,14 +34,14 @@ export default class AssetRewards {
         if (!this.rewards.size) {
             return []
         }
-        return [...this.rewards.values()]
+        return [...Array.from(this.rewards.values())]
     }
 
     public getReceivers(): string[] {
         if (!this.rewards.size) {
             return []
         }
-        return [...this.rewards.keys()]
+        return [...Array.from(this.rewards.keys())]
     }
 
     public getAmountsString(): string {

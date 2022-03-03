@@ -9,6 +9,7 @@ import Config from '../../src/models/Config'
 import Web3 from 'web3'
 import {getAddressBook} from "../../src/keeper/AddressResolver";
 import {generateIntantiableConfigFromConfig} from "../../src/Instantiable.abstract";
+import fs from "fs";
 
 interface ContractTest extends Contract {
     testContract?: boolean
@@ -16,9 +17,9 @@ interface ContractTest extends Contract {
 }
 
 export default abstract class TestContractHandler extends ContractHandler {
-    public static async prepareContracts(web3?: Web3, logger?: Logger, addressBook?: {}) {
+    public static async prepareContracts(web3?: Web3, logger?: Logger, addressBook?: {}, saveAddresses: boolean = true) {
         if (addressBook === undefined) {
-            addressBook = getAddressBook(config)['development']
+            addressBook = config.addressBook ? getAddressBook(config)['development'] : {}
         }
         if (web3 === undefined) {
             const instConfig = generateIntantiableConfigFromConfig(config)
@@ -33,6 +34,20 @@ export default abstract class TestContractHandler extends ContractHandler {
         TestContractHandler.minter = await TestContractHandler.web3.utils.toHex('minter')
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
+
+        if (saveAddresses && config.addressBook) {
+            const newAddressBook = getAddressBook(config)
+            newAddressBook['development'] = TestContractHandler.addressBook
+            fs.writeFile(
+                config.addressBook,
+                JSON.stringify(newAddressBook, null, 2),
+                function (err) {
+                    if (err) throw err
+                    // console.log(`wrote addressBook to ${config.addressBook}`);
+                }
+            )
+        }
+
     }
 
     private static networkId: number
