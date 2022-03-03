@@ -80,7 +80,7 @@ export class Versions extends Instantiable {
                 network,
                 software: name,
                 version
-            } = await this.nevermined.gateway.getVersionInfo()
+            } = await this.nevermined.gateway.getVersionInfo() as any
             versions.gateway = {
                 name,
                 status: PlatformTechStatus.Working,
@@ -101,7 +101,7 @@ export class Versions extends Instantiable {
             const {
                 software: name,
                 version
-            } = await this.nevermined.metadata.getVersionInfo()
+            } = await this.nevermined.metadata.getVersionInfo() as any
             versions.metadata = {
                 name,
                 status: PlatformTechStatus.Working,
