@@ -1,6 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, ConditionState, Nevermined, utils } from '../../../src'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { Account, ConditionState, utils } from '../../../src'
 import { TransferDIDOwnershipCondition } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import {
