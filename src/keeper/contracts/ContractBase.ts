@@ -1,7 +1,6 @@
 import { Contract } from 'web3-eth-contract'
 import { TransactionReceipt } from 'web3-core'
 import ContractHandler from '../ContractHandler'
-import { EventHandler } from '../EventHandler'
 
 import Account from '../../nevermined/Account'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
@@ -42,11 +41,6 @@ export abstract class ContractBase {
         this.contractName = contractName
         this.web3 = web3
         this.logger = logger
-    }
-
-    protected async init(optional: boolean = false) {
-        const contractHandler = new ContractHandler(this.web3, this.logger)
-        this.contract = await contractHandler.get(this.contractName, optional)
     }
 
     public async getEventData(eventName: string, options: any) {
@@ -97,15 +91,15 @@ export abstract class ContractBase {
     }
 
     protected async init(optional: boolean = false) {
-        const contractHandler = new ContractHandler(config)
+        const contractHandler = new ContractHandler(this.web3, this.logger)
         this.contract = await contractHandler.get(this.contractName, optional)
 
-        const eventEmitter = new EventHandler(config)
-        if (ContractEvent.graphHttpUri) {
+        const eventEmitter = new EventHandler(this.web3)
+        if (ContractBase.graphHttpUri) {
             this.events = SubgraphEvent.getInstance(
                 this,
                 eventEmitter,
-                ContractEvent.graphHttpUri
+                ContractBase.graphHttpUri
             )
         } else {
             this.events = ContractEvent.getInstance(this, eventEmitter, this.web3)
@@ -322,16 +316,6 @@ export abstract class ContractBase {
             )
             throw err
         }
-    }
-
-    protected getEvent(eventName: string, filter: { [key: string]: any }) {
-        if (!this.contract.events[eventName]) {
-            throw new Error(
-                `Event ${eventName} is not part of contract ${this.contractName}`
-            )
-        }
-        const eh = new EventHandler(this.web3)
-        return eh.getEvent(this, eventName, filter)
     }
 
     private searchMethod(methodName: string, args: any[] = []) {

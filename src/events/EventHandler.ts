@@ -1,4 +1,3 @@
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Web3 from 'web3'
 
 export class EventHandler {
