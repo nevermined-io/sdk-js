@@ -41,7 +41,6 @@ describe('LockPaymentCondition', () => {
         ;({ token } = nevermined.keeper)
         ;[owner, seller, buyer] = await nevermined.accounts.list()
         assetRewards = new AssetRewards(seller.getId(), amount)
-        console.log(`assetrewards: seller=${seller.getId()}, amount=${amount}, ${assetRewards.getReceiversString()}, ${assetRewards.getAmountsString()}`)
     })
 
     describe('#hashValues()', () => {
