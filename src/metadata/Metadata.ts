@@ -70,7 +70,7 @@ export class Metadata extends Instantiable {
                 this.logger.error('Success accessing consume endpoint: ', consumptionUrl)
                 return consumptionUrl
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error(
                     'Error fetching the data asset consumption url: ',
                     error
@@ -100,10 +100,10 @@ export class Metadata extends Instantiable {
                 )
                 return this.transformResult()
             })
-            .then(results => {
+            .then((results) => {
                 return this.transformResult(results)
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error querying metadata: ', error)
                 return this.transformResult()
             })
@@ -131,7 +131,7 @@ export class Metadata extends Instantiable {
                     response.statusText
                 )
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error querying service metadata: ', error)
                 return []
             })
@@ -166,10 +166,10 @@ export class Metadata extends Instantiable {
                 )
                 return this.transformResult()
             })
-            .then(results => {
+            .then((results) => {
                 return this.transformResult(results)
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error querying metadata by text: ', error)
                 return this.transformResult()
             })
@@ -202,7 +202,7 @@ export class Metadata extends Instantiable {
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error updating metadata: ', error)
                 return null as DDO
             })
@@ -234,7 +234,7 @@ export class Metadata extends Instantiable {
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error storing metadata: ', error)
                 return null as DDO
             })
@@ -270,7 +270,7 @@ export class Metadata extends Instantiable {
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error retrieving metadata: ', error)
                 return null as DDO
             })
@@ -319,7 +319,7 @@ export class Metadata extends Instantiable {
             .then((response: DDOStatus) => {
                 return response as DDOStatus
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error fetching status of DDO: ', error)
                 return null as DDOStatus
             })
@@ -355,7 +355,7 @@ export class Metadata extends Instantiable {
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error retrieving service: ', error)
                 return null as ServiceSecondary
             })
@@ -392,7 +392,7 @@ export class Metadata extends Instantiable {
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
-            .catch(error => {
+            .catch((error) => {
                 this.logger.error('Error storing service: ', error)
                 throw new Error(error)
             })
@@ -407,12 +407,12 @@ export class Metadata extends Instantiable {
         { results, page, total_pages: totalPages, total_results: totalResults }: any = {
             result: [],
             page: 0,
-            total_pages: 0, // eslint-disable-line @typescript-eslint/camelcase
-            total_results: 0 // eslint-disable-line @typescript-eslint/camelcase
+            total_pages: 0,
+            total_results: 0
         }
     ): QueryResult {
         return {
-            results: (results || []).map(ddo => new DDO(ddo as DDO)),
+            results: (results || []).map((ddo) => new DDO(ddo as DDO)),
             page,
             totalPages,
             totalResults

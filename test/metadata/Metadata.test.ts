@@ -8,7 +8,7 @@ import config from '../config'
 
 use(spies)
 
-const reponsify = async data => ({
+const reponsify = async (data) => ({
     ok: true,
     json: () => Promise.resolve(data)
 })
@@ -16,7 +16,6 @@ const reponsify = async data => ({
 describe('Metadata', () => {
     let nevermined: Nevermined
     let metadata: Metadata
-    /* eslint-disable @typescript-eslint/camelcase */
     const getResults = (
         results: DDO[],
         page = 0,
@@ -28,7 +27,6 @@ describe('Metadata', () => {
         total_pages,
         total_results
     })
-    /* eslint-enable @typescript-eslint/camelcase */
 
     beforeEach(async () => {
         nevermined = await Nevermined.getInstance(config)

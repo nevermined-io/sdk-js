@@ -154,7 +154,6 @@ export default class KeyTransfer {
         const cipher = this.circomlib.mimcsponge.hash(orig1, orig2, k)
         const origHash = this.circomlib.poseidon([orig1, orig2])
 
-        /* eslint @typescript-eslint/camelcase: "off" */
         const snarkParams = {
             buyer_x: BigInt(buyerPub.x),
             buyer_y: BigInt(buyerPub.y),
