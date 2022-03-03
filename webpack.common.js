@@ -3,6 +3,15 @@
 const { paths } = require('./webpack.parts.js')
 
 module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules\/(?!(ffjavascript|circomlib)\/).*/,
+                use: ["babel-loader"]
+            }
+        ]
+    },
     entry: paths.entry,
     mode: 'none',
     optimization: {
