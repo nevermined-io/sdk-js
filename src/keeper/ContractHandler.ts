@@ -1,9 +1,7 @@
 import { Contract } from 'web3-eth-contract'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Web3 from 'web3'
 import { Logger } from '../utils'
-
-import Keeper from './Keeper'
+import * as KeeperUtils from './utils'
 
 export default class ContractHandler {
     protected static getContract(what: string, networkId: number, address?: string) {
@@ -48,8 +46,8 @@ export default class ContractHandler {
         optional: boolean = false,
         address?: string
     ): Promise<Contract> {
-        const where = (await Keeper.getNetworkName(this.web3)).toLowerCase()
-        const networkId = await Keeper.getNetworkId(this.web3)
+        const where = (await KeeperUtils.getNetworkName(this.web3)).toLowerCase()
+        const networkId = await KeeperUtils.getNetworkId(this.web3)
         try {
             return (
                 ContractHandler.getContract(what, networkId, address) ||

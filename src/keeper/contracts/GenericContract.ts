@@ -1,5 +1,4 @@
 import ContractBase, { TxParameters } from './ContractBase'
-import { InstantiableConfig } from '../../Instantiable.abstract'
 import ContractHandler from '../ContractHandler'
 import { Contract } from 'web3-eth-contract'
 import { TransactionReceipt } from 'web3-core'

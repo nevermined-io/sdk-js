@@ -7,6 +7,8 @@ import { ZeroAddress } from '../../src/utils'
 import GenericContract from '../../src/keeper/contracts/GenericContract'
 import Config from '../../src/models/Config'
 import Web3 from 'web3'
+import {getAddressBook} from "../../src/keeper/AddressResolver";
+import {generateIntantiableConfigFromConfig} from "../../src/Instantiable.abstract";
 
 interface ContractTest extends Contract {
     testContract?: boolean
@@ -15,6 +17,15 @@ interface ContractTest extends Contract {
 
 export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts(web3?: Web3, logger?: Logger, addressBook?: {}) {
+        if (addressBook === undefined) {
+            addressBook = getAddressBook(config)['development']
+        }
+        if (web3 === undefined) {
+            const instConfig = generateIntantiableConfigFromConfig(config)
+            web3 = instConfig.web3
+            logger = instConfig.logger
+        }
+
         TestContractHandler.setConfig(config, web3, logger)
         TestContractHandler.setAddressBook(addressBook)
         const [deployerAddress] = await TestContractHandler.web3.eth.getAccounts()
@@ -368,7 +379,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             )
             throw err
         }
-        console.log(`deployed contract: ${name}, ${contractInstance.options.address}`)
+        console.debug(`deployed contract: ${name}, ${contractInstance.options.address}`)
         TestContractHandler.addressBook[name] = contractInstance.options.address
         return contractInstance
     }

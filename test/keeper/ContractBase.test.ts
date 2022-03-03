@@ -18,7 +18,6 @@ describe('ContractWrapperBase', () => {
             (nevermined as any).logger
         )
         accounts = await nevermined.accounts.list()
-        wrappedContract = new ContractBaseMock('NeverminedToken')
         await wrappedContract.initMock((nevermined as any).instanceConfig)
     })
 

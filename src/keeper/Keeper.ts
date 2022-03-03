@@ -1,5 +1,4 @@
 import { ContractBase } from './contracts/ContractBase'
-
 import DIDRegistry from './contracts/DIDRegistry'
 import Dispenser from './contracts/Dispenser'
 import Token from './contracts/Token'
@@ -41,13 +40,12 @@ import {
     AgreementStoreManager,
     ConditionStoreManager
 } from './contracts/managers'
-
+import * as KeeperUtils from './utils'
 import { objectPromiseAll } from '../utils'
 import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
-import ContractHandler from './ContractHandler'
 
 /**
  * Interface with Nevermined contracts.
@@ -342,7 +340,7 @@ export class Keeper extends Instantiable {
     }
 
     public static getNetworkId(web3): Promise<number> {
-        return web3.eth.net.getId()
+        return KeeperUtils.getNetworkId(web3)
     }
 
     /**
@@ -354,54 +352,7 @@ export class Keeper extends Instantiable {
     }
 
     public static getNetworkName(web3): Promise<string> {
-        return web3.eth.net.getId().then((networkId: number) => {
-            switch (networkId) {
-                case 1:
-                    return 'Mainnet'
-                case 2:
-                    return 'Morden'
-                case 3:
-                    return 'Ropsten'
-                case 4:
-                    return 'Rinkeby'
-                case 77:
-                    return 'POA_Sokol'
-                case 99:
-                    return 'POA_Core'
-                case 42:
-                    return 'Kovan'
-                case 100:
-                    return 'xDai'
-                case 137:
-                    return 'matic'
-                case 2199:
-                    return 'Duero'
-                case 8996:
-                    return 'Spree'
-                case 8997:
-                    return 'polygon-localnet'
-                case 8995:
-                    return 'Nile'
-                case 0xcea11:
-                    return 'Pacific'
-                case 42220:
-                    return 'celo'
-                case 44787:
-                    return 'celo-alfajores'
-                case 62320:
-                    return 'celo-baklava'
-                case 80001:
-                    return 'mumbai'
-                case 1313161554:
-                    return 'aurora'
-                case 1313161555:
-                    return 'aurora-testnet'
-                case 1313161556:
-                    return 'aurora-betanet'
-                default:
-                    return 'Development'
-            }
-        })
+        return KeeperUtils.getNetworkName(web3)
     }
 
     public getAllInstances() {

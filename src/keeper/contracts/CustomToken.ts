@@ -7,7 +7,12 @@ export default class CustomToken extends Token {
         config: InstantiableConfig,
         address: string
     ): Promise<CustomToken> {
-        const token: CustomToken = new Token('Custom-Token')
+        const token: CustomToken = new Token(
+            'Custom-Token',
+            config.web3,
+            config.logger,
+            true
+        )
 
         const code = await token.web3.eth.getCode(address)
         if (code === '0x0') {
