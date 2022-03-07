@@ -107,7 +107,7 @@ export class Assets extends Instantiable {
         method: string = 'PSK-RSA',
         nftTokenAddress: string,
         erc20TokenAddress?: string,
-        preMint?: boolean,
+        preMint: boolean = true,
         providers?: string[],
         royalties: number = 0,
         nftMetadata?: string,
@@ -303,29 +303,23 @@ export class Assets extends Instantiable {
                 serviceEndpoint = ddoStatus.external.url
             }
 
-            this.logger.log('Registering DID', ddo.id)
+            this.logger.log('Registering Mintable DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
 
-            await didRegistry.registerAttribute(
+            await didRegistry.registerMintableDID721(
                 didSeed,
                 ddo.checksum(ddo.shortId()),
                 providers || [this.config.gatewayAddress],
                 serviceEndpoint,
-                publisher.getId(),
-                txParams
-            )
-
-            this.logger.debug('Registering Mintable DID')
-            await didRegistry.enableAndMintDidNft721(
-                ddo.shortId(),
-                royalties,
-                preMint ? preMint : false,
-                publisher.getId(),
+                '',
                 nftMetadata ? nftMetadata : '',
+                royalties,
+                preMint,
+                publisher.getId(),
                 txParams
             )
 
-            this.logger.log('DID registred')
+            this.logger.log('Mintable DID registred')
             observer.next(CreateProgressStep.DidRegistered)
 
             return storedDdo
@@ -342,7 +336,7 @@ export class Assets extends Instantiable {
         nftAmount?: number,
         royalties?: number,
         erc20TokenAddress?: string,
-        preMint?: boolean,
+        preMint: boolean = true,
         nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -539,30 +533,24 @@ export class Assets extends Instantiable {
                 serviceEndpoint = ddoStatus.external.url
             }
 
-            this.logger.log('Registering DID', ddo.id)
+            this.logger.log('Registering Mintable DID', ddo.id)
             observer.next(CreateProgressStep.RegisteringDid)
 
-            await didRegistry.registerAttribute(
+            await didRegistry.registerMintableDID(
                 didSeed,
                 ddo.checksum(ddo.shortId()),
                 providers || [this.config.gatewayAddress],
                 serviceEndpoint,
-                publisher.getId(),
-                txParams
-            )
-
-            this.logger.debug('Enabling Minting on DID')
-            await didRegistry.enableAndMintDidNft(
-                ddo.shortId(),
+                '',
+                nftMetadata ? nftMetadata : '',
                 cap,
                 royalties,
-                preMint ? preMint : false,
+                preMint,
                 publisher.getId(),
-                nftMetadata ? nftMetadata : '',
                 txParams
             )
 
-            this.logger.log('DID registred')
+            this.logger.log('Mintable DID registred')
             observer.next(CreateProgressStep.DidRegistered)
 
             return storedDdo
