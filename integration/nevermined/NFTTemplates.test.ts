@@ -9,7 +9,6 @@ import {
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
-import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
@@ -27,7 +26,6 @@ describe('NFTTemplates E2E', () => {
     let nevermined: Nevermined
     let token: Token
     let nftUpgradeable: NFTUpgradeable
-    let didRegistry: DIDRegistry
     let conditionStoreManager: ConditionStoreManager
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
@@ -87,12 +85,7 @@ describe('NFTTemplates E2E', () => {
         receivers2 = [collector1.getId(), artist.getId()]
 
         // components
-        ;({
-            didRegistry,
-            conditionStoreManager,
-            token,
-            nftUpgradeable
-        } = nevermined.keeper)
+        ;({ conditionStoreManager, token, nftUpgradeable } = nevermined.keeper)
 
         // conditions
         ;({
@@ -676,7 +669,6 @@ describe('NFTTemplates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-                await didRegistry.mint(ddo.id, 5, artist.getId())
                 await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,
@@ -1026,7 +1018,6 @@ describe('NFTTemplates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and give a Marketplace permissions to transfer it', async () => {
-                await didRegistry.mint(ddo.id, 5, artist.getId())
                 await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,
