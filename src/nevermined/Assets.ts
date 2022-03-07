@@ -107,6 +107,7 @@ export class Assets extends Instantiable {
         method: string = 'PSK-RSA',
         nftTokenAddress: string,
         erc20TokenAddress?: string,
+        preMint?: boolean,
         providers?: string[],
         royalties: number = 0,
         nftMetadata?: string,
@@ -315,17 +316,12 @@ export class Assets extends Instantiable {
             )
 
             this.logger.debug('Registering Mintable DID')
-            await didRegistry.registerMintableDID(
+            await didRegistry.enableAndMintDidNft721(
                 ddo.shortId(),
-                ddo.checksum(ddo.shortId()),
-                providers || [this.config.gatewayAddress],
-                '',
-                '0x1',
-                nftMetadata ? nftMetadata : '',
-                1,
                 royalties,
-                false,
+                preMint ? preMint : false,
                 publisher.getId(),
+                nftMetadata ? nftMetadata : '',
                 txParams
             )
 
