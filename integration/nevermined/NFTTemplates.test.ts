@@ -52,10 +52,6 @@ describe('NFTTemplates E2E', () => {
     let agreementId: string
     let agreementAccessId: string
     let agreementId2: string
-    let checksum: string
-    let activityId: string
-    const url =
-        'https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/banner_logo.png'
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
@@ -150,8 +146,6 @@ describe('NFTTemplates E2E', () => {
             agreementId = utils.generateId()
             agreementAccessId = utils.generateId()
             agreementId2 = utils.generateId()
-            checksum = utils.generateId()
-            activityId = utils.generateId()
 
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
@@ -168,20 +162,6 @@ describe('NFTTemplates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-                await didRegistry.registerMintableDID(
-                    ddo.id,
-                    checksum,
-                    [],
-                    url,
-                    activityId,
-                    '',
-                    cappedAmount,
-                    royalties,
-                    false,
-                    artist.getId()
-                )
-
-                await didRegistry.mint(ddo.id, 5, artist.getId())
                 await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,
@@ -679,8 +659,7 @@ describe('NFTTemplates E2E', () => {
             agreementId = utils.generateId()
             agreementAccessId = utils.generateId()
             agreementId2 = utils.generateId()
-            checksum = utils.generateId()
-            activityId = utils.generateId()
+
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
                 artist,
@@ -1031,8 +1010,7 @@ describe('NFTTemplates E2E', () => {
             agreementId = utils.generateId()
             agreementAccessId = utils.generateId()
             agreementId2 = utils.generateId()
-            checksum = utils.generateId()
-            activityId = utils.generateId()
+
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
                 artist,

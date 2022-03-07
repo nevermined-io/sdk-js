@@ -86,8 +86,6 @@ describe('NFTs Api End-to-End', () => {
             )
             assert.isDefined(ddo)
 
-            await nevermined.nfts.mint(ddo.id, 5, artist)
-
             const balance = await nevermined.nfts.balance(ddo.id, artist)
             assert.equal(balance, 5)
         })
@@ -229,7 +227,6 @@ describe('NFTs Api End-to-End', () => {
             )
             assert.isDefined(ddo)
 
-            await nevermined.nfts.mint(ddo.id, 5, artist)
             const balance = await nevermined.nfts.balance(ddo.id, artist)
             assert.equal(balance, 5)
         })
@@ -288,7 +285,6 @@ describe('NFTs Api End-to-End', () => {
             )
             assert.isDefined(ddo)
 
-            await nevermined.nfts.mint(ddo.id, 1, artist)
             const balance = await nevermined.nfts.balance(ddo.id, artist)
             assert.equal(balance, 1)
         })

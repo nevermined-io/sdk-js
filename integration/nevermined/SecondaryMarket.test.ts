@@ -10,7 +10,6 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import { TxParameters } from '../../src/keeper/contracts/ContractBase'
-import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -34,7 +33,6 @@ describe('Secondary Markets', () => {
     let nevermined: Nevermined
     let token: Token
     let nftUpgradeable: NFTUpgradeable
-    let didRegistry: DIDRegistry
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition
@@ -92,7 +90,7 @@ describe('Secondary Markets', () => {
         receivers3 = [collector2.getId(), artist.getId()]
 
         // components
-        ;({ didRegistry, token, nftUpgradeable } = nevermined.keeper)
+        ;({ token, nftUpgradeable } = nevermined.keeper)
 
         // conditions
         ;({
@@ -166,7 +164,6 @@ describe('Secondary Markets', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-                await didRegistry.mint(ddo.id, 5, artist.getId())
                 await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,

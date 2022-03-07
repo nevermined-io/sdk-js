@@ -8,7 +8,6 @@ import {
     NFTHolderCondition,
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
-import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -26,7 +25,6 @@ describe('NFTTemplates With Ether E2E', async () => {
     let gallery: Account
 
     let nevermined: Nevermined
-    let didRegistry: DIDRegistry
     let conditionStoreManager: ConditionStoreManager
     let nftUpgradeable: NFTUpgradeable
     let transferNftCondition: TransferNFTCondition
@@ -49,10 +47,6 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     let agreementId: string
     let agreementAccessId: string
-    let checksum: string
-    let activityId: string
-    const url =
-        'https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/banner_logo.png'
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
@@ -73,7 +67,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         receivers = [artist.getId(), gallery.getId()]
 
         // components
-        ;({ didRegistry, conditionStoreManager, nftUpgradeable } = nevermined.keeper)
+        ;({ conditionStoreManager, nftUpgradeable } = nevermined.keeper)
 
         // conditions
         ;({
@@ -119,8 +113,6 @@ describe('NFTTemplates With Ether E2E', async () => {
 
             agreementId = utils.generateId()
             agreementAccessId = utils.generateId()
-            checksum = utils.generateId()
-            activityId = utils.generateId()
 
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
@@ -137,20 +129,6 @@ describe('NFTTemplates With Ether E2E', async () => {
 
         describe('As an artist I want to register a new artwork', async () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-                await didRegistry.registerMintableDID(
-                    ddo.shortId(),
-                    checksum,
-                    [],
-                    url,
-                    activityId,
-                    '',
-                    cappedAmount,
-                    royalties,
-                    false,
-                    artist.getId()
-                )
-
-                await didRegistry.mint(ddo.shortId(), 5, artist.getId())
                 await nftUpgradeable.setApprovalForAll(
                     transferNftCondition.getAddress(),
                     true,

@@ -158,6 +158,7 @@ describe('NFT721Templates E2E', () => {
                 'PSK-RSA',
                 nft.address,
                 token.getAddress(),
+                true,
                 [],
                 royalties
             )
@@ -635,6 +636,7 @@ describe('NFT721Templates E2E', () => {
                 'PSK-RSA',
                 nft.address,
                 token.getAddress(),
+                true,
                 [],
                 royalties
             )

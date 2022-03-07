@@ -87,6 +87,7 @@ export class Nfts extends Instantiable {
             undefined,
             nftTokenAddress,
             erc20tokenAddress,
+            true,
             undefined,
             royalties,
             nftMetadata ? nftMetadata : '',
