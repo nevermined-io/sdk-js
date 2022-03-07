@@ -36,7 +36,6 @@ describe('Nfts operations', () => {
         })
 
         it('should mint 10 nft tokens', async () => {
-            await nevermined.nfts.mint(ddo.id, 10, artist)
             assert.equal(10, await nevermined.nfts.balance(ddo.id, artist))
         })
 
@@ -68,7 +67,6 @@ describe('Nfts operations', () => {
         })
 
         it('should mint 10 nft tokens', async () => {
-            await nevermined.nfts.mint(ddo.id, 10, artist)
             assert.equal(10, await nevermined.nfts.balance(ddo.id, artist))
         })
 
@@ -100,7 +98,6 @@ describe('Nfts operations', () => {
         })
 
         it('should mint 10 nft tokens', async () => {
-            await nevermined.nfts.mint(ddo.id, 10, artist)
             assert.equal(10, await nevermined.nfts.balance(ddo.id, artist))
         })
 
