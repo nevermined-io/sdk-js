@@ -9,11 +9,13 @@ export interface AgreementData {
     didOwner: string
     templateId: string
     conditionIds: string[]
-    lastUpdatedBy: string
-    blockNumberUpdated: number
+    conditionIdSeeds: string[]
 }
 
 export class AgreementStoreManager extends ContractBase {
+
+    templates: any
+
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AgreementStoreManager> {
@@ -24,27 +26,30 @@ export class AgreementStoreManager extends ContractBase {
         return templateStoreManeger
     }
 
+    public setTemplates(temp: any) {
+        this.templates = temp
+    }
+
     public getOwner(): Promise<string> {
         return this.call('owner', [])
     }
 
     public async getAgreement(agreementId: string) {
+        const templateId : string = await this.call('getAgreementTemplate', [zeroX(agreementId)])
+        const events = await this.templates[templateId].getAgreementCreatedEvent(agreementId)
         const {
-            did,
-            didOwner,
-            templateId,
-            conditionIds,
-            lastUpdatedBy,
-            blockNumberUpdated
-        } = await this.call('getAgreement', [zeroX(agreementId)])
+            _did,
+            _didOwner,
+            _conditionIds,
+            _conditionIdSeeds,
+        } = events[0].returnValues
         return {
-            did,
+            did: _did,
             agreementId,
-            didOwner,
+            didOwner: _didOwner,
             templateId,
-            conditionIds,
-            lastUpdatedBy,
-            blockNumberUpdated: +blockNumberUpdated
+            conditionIdSeeds: _conditionIdSeeds,
+            conditionIds: _conditionIds,
         } as AgreementData
     }
 

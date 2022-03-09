@@ -257,6 +257,8 @@ export abstract class AgreementTemplate extends ContractBase {
                 _did: true,
                 _accessConsumer: true,
                 _accessProvider: true,
+                _conditionIds: true,
+                _conditionIdSeeds: true,
                 _timeLocks: true,
                 _timeOuts: true
             }
