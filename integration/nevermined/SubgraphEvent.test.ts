@@ -2,6 +2,7 @@ import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
 import Web3 from 'web3'
+import ContractBase from "../../src/keeper/contracts/ContractBase";
 
 describe('SubgraphEvent', () => {
     let account: Account
@@ -11,6 +12,7 @@ describe('SubgraphEvent', () => {
     before(async () => {
         config.graphHttpUri =
             config.graphHttpUri || 'http://localhost:9000/subgraphs/name/neverminedio'
+        ContractBase.graphHttpUri = config.graphHttpUri
         nevermined = await Nevermined.getInstance(config)
         ;[account] = await nevermined.accounts.list()
 

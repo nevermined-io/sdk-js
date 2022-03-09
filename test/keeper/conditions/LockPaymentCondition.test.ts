@@ -9,7 +9,7 @@ import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { Account } from '../../../src'
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
+import { ConditionStoreManager} from '../../../src/keeper/contracts/managers'
 import { generateId, ZeroAddress } from '../../../src/utils'
 
 let conditionStoreManager: ConditionStoreManager
@@ -41,6 +41,10 @@ describe('LockPaymentCondition', () => {
         ;({ token } = nevermined.keeper)
         ;[owner, seller, buyer] = await nevermined.accounts.list()
         assetRewards = new AssetRewards(seller.getId(), amount)
+        await conditionStoreManager.delegateCreateRole(
+            owner.getId(),
+            owner.getId()
+        )
     })
 
     describe('#hashValues()', () => {

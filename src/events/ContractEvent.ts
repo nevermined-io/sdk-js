@@ -36,9 +36,16 @@ export class ContractEvent extends NeverminedEvent {
     public async getPastEvents(options: EventOptions): EventResult {
         const chainId = await this.web3.eth.net.getId()
 
-        options.fromBlock = 0
-        options.toBlock = 'latest'
+        if (options.fromBlock === undefined || options.fromBlock === null) {
+            options.fromBlock = 0
+        }
 
+        if (options.toBlock === undefined || options.toBlock === null) {
+            options.toBlock = 'latest'
+        }
+
+        // :FIXME: instead of this workaround we can iterated on chunks of
+        // events where each chunk is < 1000 blocks.
         // Temporary workaround to work with mumbai
         // Infura as a 1000 blokcs limit on their api
         if (chainId === 80001) {

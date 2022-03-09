@@ -1,26 +1,26 @@
 import { Contract } from 'web3-eth-contract'
 import web3Utils from 'web3-utils'
-import { getMetadata } from '../../integration/utils'
-import TestContractHandler from '../keeper/TestContractHandler'
-import { Account, ConditionState, DDO, utils } from '../../src'
+import { getMetadata } from '../utils/index'
+import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { Account, ConditionState, DDO, utils } from '../../src/index'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { generateIntantiableConfigFromConfig } from '../../src/Instantiable.abstract'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import AssetRewards from '../../src/models/AssetRewards'
-import { didZeroX, zeroX } from '../../src/utils'
+import { didZeroX, zeroX } from '../../src/utils/index'
 import { getAddressBook } from '../../src/keeper/AddressResolver'
 import {
     AgreementData,
     AgreementStoreManager,
     ConditionStoreManager
-} from '../../src/keeper/contracts/managers'
+} from '../../src/keeper/contracts/managers/index'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import Nft721Contract from '../../src/keeper/contracts/Nft721'
 import CustomToken from '../../src/keeper/contracts/CustomToken'
-import { AaveCreditTemplate } from '../../src/keeper/contracts/templates'
+import { AaveCreditTemplate } from '../../src/keeper/contracts/templates/index'
 import { NFT721LockCondition } from '../../src/keeper/contracts/defi/NFT721LockCondition'
 import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCondition'
-import config from '../config'
+import config from '../../test/config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
