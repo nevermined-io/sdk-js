@@ -22,6 +22,7 @@ describe('DIDSalesTemplate', () => {
     let conditionStoreManager: ConditionStoreManager
     let agreementStoreManager: AgreementStoreManager
     let agreementId: string
+    let agreementIdSeed: string
     let conditionIds: string[]
     let timeLocks: number[]
     let timeOuts: number[]
@@ -52,7 +53,8 @@ describe('DIDSalesTemplate', () => {
     })
 
     beforeEach(async () => {
-        agreementId = zeroX(utils.generateId())
+        agreementIdSeed = zeroX(utils.generateId())
+        agreementId = await agreementStoreManager.agreementId(agreementIdSeed, sender.getId())
         conditionIds = [
             zeroX(utils.generateId()),
             zeroX(utils.generateId()),
@@ -110,7 +112,7 @@ describe('DIDSalesTemplate', () => {
             const did = await didRegistry.hashDID(didSeed, sender.getId())
 
             const agreement = await didSalesTemplate.createAgreement(
-                agreementId,
+                agreementIdSeed,
                 didZeroX(did),
                 conditionIds,
                 timeLocks,

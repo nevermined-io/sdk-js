@@ -135,7 +135,7 @@ describe('TransferDIDOwnershipCondition', () => {
                 agreementId,
                 did,
                 [transferDidOwnershipCondition.getAddress()],
-                [conditionId],
+                [hashValues],
                 [0],
                 [2],
                 templateId

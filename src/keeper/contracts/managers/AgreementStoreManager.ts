@@ -58,6 +58,10 @@ export class AgreementStoreManager extends ContractBase {
         )
     }
 
+    public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {
+        return await this.call('agreementId', [zeroX(agreementIdSeed), creator])
+    }
+
     public async createAgreement(
         agreementId: string,
         did: string,
