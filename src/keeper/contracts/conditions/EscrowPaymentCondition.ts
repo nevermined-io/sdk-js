@@ -19,6 +19,7 @@ export class EscrowPaymentCondition extends Condition {
         did: string,
         amounts: number[],
         receivers: string[],
+        returnAddress: string,
         sender: string,
         tokenAddress: string,
         lockCondition: string,
@@ -29,7 +30,7 @@ export class EscrowPaymentCondition extends Condition {
             didZeroX(did),
             amountsString,
             receivers,
-            ...[sender, tokenAddress, lockCondition, releaseCondition].map(zeroX)
+            ...[returnAddress, sender, tokenAddress, lockCondition, releaseCondition].map(zeroX)
         )
     }
 
@@ -38,6 +39,7 @@ export class EscrowPaymentCondition extends Condition {
         did: string,
         amounts: number[],
         receivers: string[],
+        returnAddress: string,
         lockPaymentAddress: string,
         tokenAddress: string,
         lockCondition: string,
@@ -53,6 +55,7 @@ export class EscrowPaymentCondition extends Condition {
                 amountsString,
                 receivers,
                 ...[
+                    returnAddress,
                     lockPaymentAddress,
                     tokenAddress,
                     lockCondition,

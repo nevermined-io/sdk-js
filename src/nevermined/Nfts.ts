@@ -176,6 +176,7 @@ export class Nfts extends Instantiable {
                 agreementId,
                 ddo,
                 assetRewards,
+                consumer.getId(),
                 consumer,
                 nftAmount,
                 undefined,
@@ -211,6 +212,7 @@ export class Nfts extends Instantiable {
                 agreementId,
                 ddo,
                 assetRewards,
+                consumer.getId(),
                 consumer,
                 consumer,
                 txParams,
@@ -337,6 +339,7 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            consumer.getId(),
             nftAmount,
             publisher,
             undefined,
@@ -353,6 +356,7 @@ export class Nfts extends Instantiable {
     public async release721Rewards(
         agreementId: string,
         did: string,
+        consumer: Account,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
@@ -366,6 +370,7 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            consumer.getId(),
             publisher,
             undefined,
             txParams
@@ -597,6 +602,7 @@ export class Nfts extends Instantiable {
             agreementId,
             ddo,
             assetRewards,
+            consumer.getId(),
             consumer,
             nftAmount,
             currentNftHolder,
@@ -632,6 +638,7 @@ export class Nfts extends Instantiable {
      */
     public async releaseSecondaryMarketRewards(
         owner: Account,
+        consumer: Account,
         agreementId: string,
         params?: TxParameters
     ): Promise<boolean> {
@@ -658,6 +665,7 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            consumer.getId(),
             nftAmount,
             owner,
             undefined,

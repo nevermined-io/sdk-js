@@ -29,6 +29,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
+        returnAddress: string,
         consumerAddress: Account,
         from?: Account,
         txParams?: TxParameters
@@ -37,6 +38,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
+            returnAddress,
             consumerAddress.getId()
         )
 
@@ -56,6 +58,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
+        returnAddress: string,
         consumerAddress: Account,
         from?: Account,
         txParams?: TxParameters,
@@ -72,6 +75,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             agreementId,
             ddo,
             assetRewards,
+            returnAddress,
             consumerAddress.getId()
         )
 
@@ -109,6 +113,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
+        returnAddress: string,
         consumer: string
     ): Promise<any> {
         const {
@@ -164,6 +169,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 ddo.shortId(),
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers(),
+                returnAddress,
                 escrowPaymentCondition.getAddress(),
                 escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
                 lockPaymentConditionId,
