@@ -258,10 +258,10 @@ export class Keeper extends Instantiable {
         transferNft721Condition: TransferNFT721Condition
         transferDidOwnershipCondition: TransferDIDOwnershipCondition
         nft721LockCondition: NFT721LockCondition
-        aaveCollateralDepositCondition: AaveCollateralDepositCondition,
-        aaveBorrowCondition: AaveBorrowCondition,
-        aaveRepayCondition: AaveRepayCondition,
-        aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition,
+        aaveCollateralDepositCondition: AaveCollateralDepositCondition
+        aaveBorrowCondition: AaveBorrowCondition
+        aaveRepayCondition: AaveRepayCondition
+        aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition
         distributeNft721CollateralCondition: DistributeNFTCollateralCondition
     }
 
