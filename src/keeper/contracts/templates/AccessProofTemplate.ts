@@ -138,7 +138,7 @@ export class AccessProofTemplate extends BaseTemplate {
         buyerPub: BabyjubPublicKey,
         providerPub: BabyjubPublicKey
     ) {
-        const { conditions } = this.nevermined.keeper
+        const { conditions } = this.keeper
 
         const {
             accessProofCondition,

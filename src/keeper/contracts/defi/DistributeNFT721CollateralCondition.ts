@@ -27,11 +27,7 @@ export class DistributeNFTCollateralCondition extends Condition {
      * @param {String} nftContractAddress The address of the NFT721 contract
      * @returns Hash of all the values
      */
-    public hashValues(
-        did: string,
-        vaultAddress: string,
-        nftContractAddress: string,
-    ) {
+    public hashValues(did: string, vaultAddress: string, nftContractAddress: string) {
         return super.hashValues(
             didZeroX(did),
             zeroX(vaultAddress),
@@ -60,11 +56,7 @@ export class DistributeNFTCollateralCondition extends Condition {
     ) {
         return super.fulfill(
             agreementId,
-            [
-                didZeroX(did),
-                zeroX(vaultAddress),
-                zeroX(nftContractAddress),
-            ],
+            [didZeroX(did), zeroX(vaultAddress), zeroX(nftContractAddress)],
             from,
             txParams
         )

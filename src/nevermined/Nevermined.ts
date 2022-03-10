@@ -24,6 +24,7 @@ import { Provider } from './Provider'
 import { Files } from './Files'
 import { Nfts } from './Nfts'
 import { Nft721 } from './Nft721'
+import { AaveCredit } from './AaveCredit'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -57,6 +58,7 @@ export class Nevermined extends Instantiable {
         instance.agreements = await Agreements.getInstance(instanceConfig)
         instance.secretStore = await NeverminedSecretStore.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
+        instance.aaveCredit = await AaveCredit.getInstance(instanceConfig)
 
         instance.versions = await Versions.getInstance(instanceConfig)
         instance.provenance = await Provenance.getInstance(instanceConfig)
@@ -154,6 +156,11 @@ export class Nevermined extends Instantiable {
      * @type {Token}
      */
     public token: Token
+
+    /**
+     * AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral.
+     */
+    public aaveCredit: AaveCredit
 
     /**
      * Versions submodule

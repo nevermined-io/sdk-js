@@ -1,23 +1,28 @@
 import { Condition } from '../conditions/Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '../../../utils/index'
+import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
-import {TxParameters} from "../ContractBase";
+import { TxParameters } from '../ContractBase'
+import BigNumber from 'bignumber.js'
 
 export class AaveCollateralDepositCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralDepositCondition> {
-        return Condition.getInstance(config, 'AaveCollateralDepositCondition', AaveCollateralDepositCondition)
+        return Condition.getInstance(
+            config,
+            'AaveCollateralDepositCondition',
+            AaveCollateralDepositCondition
+        )
     }
 
     public hashValues(
         did: string,
         vaultAddress: string,
         collateralAsset: string,
-        collateralAmount: number,
+        collateralAmount: BigNumber,
         delegatedAsset: string,
-        delegatedAmount: number,
+        delegatedAmount: BigNumber,
         interestRateMode: number
     ) {
         return super.hashValues(
@@ -35,9 +40,9 @@ export class AaveCollateralDepositCondition extends Condition {
         did: string,
         vaultAddress: string,
         collateralAsset: string,
-        collateralAmount: number,
+        collateralAmount: BigNumber,
         delegatedAsset: string,
-        delegatedAmount: number,
+        delegatedAmount: BigNumber,
         interestRateMode: number,
         from?: Account,
         params?: TxParameters
@@ -45,12 +50,13 @@ export class AaveCollateralDepositCondition extends Condition {
         return super.fulfill(
             agreementId,
             [
-             didZeroX(did),
-             ...[vaultAddress, collateralAsset].map(zeroX),
-             collateralAmount,
-             zeroX(delegatedAsset),
-             delegatedAmount,
-             interestRateMode],
+                didZeroX(did),
+                ...[vaultAddress, collateralAsset].map(zeroX),
+                collateralAmount,
+                zeroX(delegatedAsset),
+                delegatedAmount,
+                interestRateMode
+            ],
             from,
             params
         )

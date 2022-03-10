@@ -21,8 +21,18 @@ export class NFT721LockCondition extends Condition {
      * @param {String} nftContractAddress The NFT721 contract address
      * @returns Hash of all the values.
      */
-    public hashValues(did: string, lockAddress: string, amount: number, nftContractAddress: string) {
-        return super.hashValues(didZeroX(did), zeroX(lockAddress), String(amount), zeroX(nftContractAddress))
+    public hashValues(
+        did: string,
+        lockAddress: string,
+        amount: number,
+        nftContractAddress: string
+    ) {
+        return super.hashValues(
+            didZeroX(did),
+            zeroX(lockAddress),
+            String(amount),
+            zeroX(nftContractAddress)
+        )
     }
 
     /**
@@ -45,7 +55,12 @@ export class NFT721LockCondition extends Condition {
     ) {
         return super.fulfill(
             agreementId,
-            [didZeroX(did), zeroX(lockAddress), String(amount), zeroX(nftContractAddress)],
+            [
+                didZeroX(did),
+                zeroX(lockAddress),
+                String(amount),
+                zeroX(nftContractAddress)
+            ],
             from
         )
     }

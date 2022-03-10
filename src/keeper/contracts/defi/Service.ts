@@ -1,5 +1,5 @@
-import {ServiceAgreementTemplate} from "../../../ddo/ServiceAgreementTemplate";
-import {ServiceCommon} from "../../../ddo/Service";
+import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import { ServiceCommon } from '../../../ddo/Service'
 
 const lockNft = 'lockNft'
 const depositCollateral = 'depositCollateral'
@@ -18,8 +18,12 @@ export const AaveCreditConditions = [
 ]
 
 export type AaveConditionType =
-    'lockNft' | 'depositCollateral' | 'borrowCredit' |
-    'repayCredit' | 'withdrawCollateral' | 'distributeNft'
+    | 'lockNft'
+    | 'depositCollateral'
+    | 'borrowCredit'
+    | 'repayCredit'
+    | 'withdrawCollateral'
+    | 'distributeNft'
 
 export type SERVICE_AAVE_CREDIT = 'aave-credit'
 

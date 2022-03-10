@@ -9,9 +9,7 @@ export default class Nft721 extends ContractBase {
         config: InstantiableConfig,
         address: string
     ): Promise<Nft721> {
-        const nft: Nft721 = new Nft721('NFT721')
-
-        nft.setInstanceConfig(config)
+        const nft: Nft721 = new Nft721('NFT721', config.web3, config.logger)
 
         const code = await nft.web3.eth.getCode(address)
         if (code === '0x0') {

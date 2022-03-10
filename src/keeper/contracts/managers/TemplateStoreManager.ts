@@ -22,9 +22,11 @@ export class TemplateStoreManager extends ContractBase {
         config: InstantiableConfig
     ): Promise<TemplateStoreManager> {
         const templateStoreManeger: TemplateStoreManager = new TemplateStoreManager(
-            'TemplateStoreManager'
+            'TemplateStoreManager',
+            config.web3,
+            config.logger
         )
-        await templateStoreManeger.init(config)
+        await templateStoreManeger.init()
         return templateStoreManeger
     }
 
@@ -85,7 +87,7 @@ export class TemplateStoreManager extends ContractBase {
         } as TemplateMetadata
     }
 
-    public async isApproved(templateId: string) {
+    public async isApproved(templateId: string): Promise<boolean> {
         return await this.call('isTemplateApproved', [templateId])
     }
 

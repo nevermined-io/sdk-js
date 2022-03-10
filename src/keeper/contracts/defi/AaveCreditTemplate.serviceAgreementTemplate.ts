@@ -11,7 +11,8 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
                 functionName: 'lockNft',
                 version: '0.1'
             }
-        }, {
+        },
+        {
             name: 'VaultCreated',
             actorType: 'borrower',
             handler: {
@@ -22,16 +23,20 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
         }
     ],
     fulfillmentOrder: [
-        'lockNft.fulfill', 'depositCollateral.fulfill', 'borrowCredit.fulfill',
-        'repayCredit.fulfill', 'withdrawCollateral.fulfill', 'distributeNft.fulfill'
+        'lockNft.fulfill',
+        'depositCollateral.fulfill',
+        'borrowCredit.fulfill',
+        'repayCredit.fulfill',
+        'withdrawCollateral.fulfill',
+        'distributeNft.fulfill'
     ],
     conditionDependency: {
         lockNft: [],
         depositCollateral: [],
-        borrowCredit: ["lockNft", "depositCollateral"],
+        borrowCredit: ['lockNft', 'depositCollateral'],
         repayCredit: [],
         withdrawCollateral: [],
-        distributeNft: ["repayCredit", "withdrawCollateral"]
+        distributeNft: ['repayCredit', 'withdrawCollateral']
     },
     conditions: [
         {
@@ -42,28 +47,28 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
             functionName: 'fulfill',
             parameters: [
                 {
-                    name: "_agreementId",
-                    type: "bytes32",
+                    name: '_agreementId',
+                    type: 'bytes32',
                     value: ''
                 },
                 {
-                    name: "_did",
-                    type: "bytes32",
+                    name: '_did',
+                    type: 'bytes32',
                     value: ''
                 },
                 {
-                    name: "_lockAddress",
-                    type: "address",
+                    name: '_lockAddress',
+                    type: 'address',
                     value: ''
                 },
                 {
-                    name: "_amount",
-                    type: "uint256",
+                    name: '_amount',
+                    type: 'uint256',
                     value: ''
                 },
                 {
-                    name: "_nftContractAddress",
-                    type: "address",
+                    name: '_nftContractAddress',
+                    type: 'address',
                     value: ''
                 }
             ],
@@ -87,44 +92,44 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
             functionName: 'fulfill',
             parameters: [
                 {
-                    name: "_agreementId",
-                    type: "bytes32",
-                    value: ""
+                    name: '_agreementId',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_did",
-                    type: "bytes32",
-                    value: ""
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_vaultAddress",
-                    type: "address",
-                    value: ""
+                    name: '_vaultAddress',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_collateralAsset",
-                    type: "address",
-                    value: ""
+                    name: '_collateralAsset',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_collateralAmount",
-                    type: "uint256",
-                    value: ""
+                    name: '_collateralAmount',
+                    type: 'uint256',
+                    value: ''
                 },
                 {
-                    name: "_delegatedAsset",
-                    type: "address",
-                    value: ""
+                    name: '_delegatedAsset',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_delegatedAmount",
-                    type: "uint256",
-                    value: ""
+                    name: '_delegatedAmount',
+                    type: 'uint256',
+                    value: ''
                 },
                 {
-                    name: "_interestRateMode",
-                    type: "uint256",
-                    value: ""
+                    name: '_interestRateMode',
+                    type: 'uint256',
+                    value: ''
                 }
             ],
             events: [
@@ -147,34 +152,34 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
             functionName: 'fulfill',
             parameters: [
                 {
-                    name: "_agreementId",
-                    type: "bytes32",
-                    value: ""
+                    name: '_agreementId',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_did",
-                    type: "bytes32",
-                    value: ""
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_vaultAddress",
-                    type: "address",
-                    value: ""
+                    name: '_vaultAddress',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_assetToBorrow",
-                    type: "address",
-                    value: ""
+                    name: '_assetToBorrow',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_amount",
-                    type: "uint256",
-                    value: ""
+                    name: '_amount',
+                    type: 'uint256',
+                    value: ''
                 },
                 {
-                    name: "_interestRateMode",
-                    type: "uint256",
-                    value: ""
+                    name: '_interestRateMode',
+                    type: 'uint256',
+                    value: ''
                 }
             ],
             events: [
@@ -197,34 +202,34 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
             functionName: 'fulfill',
             parameters: [
                 {
-                    name: "_agreementId",
-                    type: "bytes32",
-                    value: ""
+                    name: '_agreementId',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_did",
-                    type: "bytes32",
-                    value: ""
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_vaultAddress",
-                    type: "address",
-                    value: ""
+                    name: '_vaultAddress',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_assetToRepay",
-                    type: "address",
-                    value: ""
+                    name: '_assetToRepay',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_amountToRepay",
-                    type: "uint256",
-                    value: ""
+                    name: '_amountToRepay',
+                    type: 'uint256',
+                    value: ''
                 },
                 {
-                    name: "_interestRateMode",
-                    type: "uint256",
-                    value: ""
+                    name: '_interestRateMode',
+                    type: 'uint256',
+                    value: ''
                 }
             ],
             events: [
@@ -247,24 +252,24 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
             functionName: 'fulfill',
             parameters: [
                 {
-                    name: "_agreementId",
-                    type: "bytes32",
-                    value: ""
+                    name: '_agreementId',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_did",
-                    type: "bytes32",
-                    value: ""
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    name: "_vaultAddress",
-                    type: "address",
-                    value: ""
+                    name: '_vaultAddress',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    name: "_collateralAsset",
-                    type: "address",
-                    value: ""
+                    name: '_collateralAsset',
+                    type: 'address',
+                    value: ''
                 }
             ],
             events: [
@@ -287,24 +292,24 @@ export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplat
             functionName: 'fulfill',
             parameters: [
                 {
-                    "name": "_agreementId",
-                    "type": "bytes32",
-                    value: ""
+                    name: '_agreementId',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    "name": "_did",
-                    "type": "bytes32",
-                    value: ""
+                    name: '_did',
+                    type: 'bytes32',
+                    value: ''
                 },
                 {
-                    "name": "_vaultAddress",
-                    "type": "address",
-                    value: ""
+                    name: '_vaultAddress',
+                    type: 'address',
+                    value: ''
                 },
                 {
-                    "name": "_nftContractAddress",
-                    "type": "address",
-                    value: ""
+                    name: '_nftContractAddress',
+                    type: 'address',
+                    value: ''
                 }
             ],
             events: [

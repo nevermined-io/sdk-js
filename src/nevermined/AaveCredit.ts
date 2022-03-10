@@ -1,32 +1,29 @@
-import BigNumber from "bignumber.js";
-import {TransactionReceipt} from 'web3-core'
-import {Instantiable, InstantiableConfig} from '../Instantiable.abstract'
+import BigNumber from 'bignumber.js'
+import { TransactionReceipt } from 'web3-core'
+import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
 import GenericContract from '../keeper/contracts/GenericContract'
-import {TxParameters} from '../keeper/contracts/ContractBase'
-import AaveConfig from "../models/AaveConfig";
-import {ConditionState, Nft721} from "..";
-import {AaveCreditTemplate} from "../keeper/contracts/defi/AaveCreditTemplate";
-import {generateId, zeroX} from "../utils";
-import {AgreementData} from "../keeper/contracts/managers";
-import AaveCreditVault from "../keeper/contracts/defi/AaveCreditVault";
-import CustomToken from "../keeper/contracts/CustomToken";
+import { TxParameters } from '../keeper/contracts/ContractBase'
+import AaveConfig from '../models/AaveConfig'
+import { ConditionState, Nft721 } from '..'
+import { AaveCreditTemplate } from '../keeper/contracts/defi/AaveCreditTemplate'
+import { didZeroX, generateId, zeroX } from '../utils'
+import { AgreementData } from '../keeper/contracts/managers'
+import CustomToken from '../keeper/contracts/CustomToken'
+import web3Utils from 'web3-utils'
 
 export class AaveCredit extends Instantiable {
     template: AaveCreditTemplate
-    vaultContract: GenericContract
     aaveConfig: AaveConfig
     serviceType: 'aave-credit'
 
-    public static async getInstance(
-        config: InstantiableConfig
-    ): Promise<AaveCredit> {
+    public static async getInstance(config: InstantiableConfig): Promise<AaveCredit> {
         const aaveCredit = new AaveCredit()
         aaveCredit.setInstanceConfig(config)
 
         aaveCredit.template = await AaveCreditTemplate.getInstance(config)
-        // aaveCredit.vaultContract = await GenericContract.getInstance(config, 'AaveCreditVault')
         aaveCredit.aaveConfig = config.config.aaveConfig
+        // console.log(`AaveCredit: aaveConfig=${JSON.stringify(config.config)}`)
 
         return aaveCredit
     }
@@ -69,53 +66,98 @@ export class AaveCredit extends Instantiable {
         from: Account,
         timeLocks?: number[],
         timeOuts?: number[],
-        txParams?: TxParameters,
-        ) {
-        // const { agreements } = this.nevermined
-        // const { keeper } = this.nevermined
+        txParams?: TxParameters
+    ): Promise<string> {
         const agreementId = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
-        // const service = ddo.findServiceByType(this.serviceType)
-        // const templateName = service.attributes.serviceAgreementTemplate.contractName
-        // const template = keeper.getTemplateByName(templateName)
-        const [txReceipt, vaultAddress] = await this.template.createAgreementAndDeployVault(
-            agreementId, ddo, nftTokenContract, nftAmount, collateralToken, collateralAmount, delegatedToken, delegatedAmount,
-            interestRateMode, borrower, lender, timeLocks, timeOuts, txParams, from
+        if (!ddo) {
+            throw Error(`Failed to resolve DDO for DID ${did}`)
+        }
+
+        const [
+            txReceipt,
+            vaultAddress
+        ] = await this.template.createAgreementAndDeployVault(
+            agreementId,
+            ddo,
+            nftTokenContract,
+            nftAmount,
+            collateralToken,
+            collateralAmount,
+            delegatedToken,
+            delegatedAmount,
+            interestRateMode,
+            borrower,
+            lender,
+            timeLocks,
+            timeOuts,
+            txParams,
+            from
         )
         this.logger.log(
             `new Aave credit vault is deployed and a service agreement is created:
              status=${txReceipt.status}, vaultAddress=${vaultAddress}, agreementId=${agreementId}`
         )
+        return agreementId
     }
 
     public async lockNft(
         agreementId: string,
         nftContractAddress: string,
         nftAmount: number,
+        from?: Account,
         did?: string,
-        vaultAddress?: string,
-        from?: Account
+        vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+            agreementId
+        )
         if (!vaultAddress) {
-            vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
+            vaultAddress = await this.template.getAgreementVaultAddress(
+                agreementId,
+                from.getId()
+            )
         }
         if (!did) {
             did = agreementData.did
         }
-        const nft721 = await Nft721.getInstance(this.instanceConfig, nftContractAddress)
-        const approvalTxReceipt = await nft721.setApprovalForAll(this.nevermined.keeper.conditions.nft721LockCondition.address, true, from)
-        if (!approvalTxReceipt.status) {
+        const lockCond = this.nevermined.keeper.conditions.nft721LockCondition
+        const nft721 = (await Nft721.getInstance(this.instanceConfig, nftContractAddress))
+            .contract
+        const approved = await nft721.call('getApproved', [didZeroX(did)])
+        if (!approved || approved !== lockCond.address) {
+            const approvalTxReceipt = await nft721.send('approve', from.getId(), [
+                lockCond.address,
+                didZeroX(did)
+            ])
+            if (!approvalTxReceipt.status) {
+                return false
+            }
+        }
+        // console.log(`nft lock approved for nft721LockCondition ${lockCond.address}`)
+        const _id = await lockCond.generateId(
+            agreementId,
+            await lockCond.hashValues(did, vaultAddress, nftAmount, nftContractAddress)
+        )
+        if (_id !== agreementData.conditionIds[0]) {
+            console.log(`condition id mismatch.`)
             return false
         }
-        this.logger.log(`nft lock approved for nft721LockCondition ${this.nevermined.keeper.conditions.nft721LockCondition.address}`)
-        const txReceipt: TransactionReceipt = this.nevermined.keeper.conditions.nft721LockCondition.fulfill(
-            agreementId, did, vaultAddress, 1, nftContractAddress, from
+        const txReceipt: TransactionReceipt = await lockCond.fulfill(
+            agreementId,
+            did,
+            vaultAddress,
+            nftAmount,
+            nftContractAddress,
+            from
         )
 
-        const { state: stateNftLock } = await this.nevermined.keeper.conditionStoreManager.getCondition(agreementData.conditionIds[0])
-        // assert.strictEqual(stateNftLock, ConditionState.Fulfilled)
-        // assert.strictEqual(vaultAddress, await erc721.ownerOf(did))
+        const {
+            state: stateNftLock
+        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
+            agreementData.conditionIds[0]
+        )
+        // console.log(`tx status=${txReceipt.status}, stateNftLock=${stateNftLock}`)
         return txReceipt.status && stateNftLock === ConditionState.Fulfilled
     }
 
@@ -126,45 +168,52 @@ export class AaveCredit extends Instantiable {
         delegatedAsset: string,
         delegatedAmount: number,
         interestRateMode: number,
+        from: Account,
         did?: string,
-        vaultAddress?: string,
-        from?: Account
+        vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+            agreementId
+        )
         if (!vaultAddress) {
-            vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
+            vaultAddress = await this.template.getAgreementVaultAddress(
+                agreementId,
+                from.getId()
+            )
         }
         if (!did) {
             did = agreementData.did
         }
-        const txReceipt: TransactionReceipt = this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
-            agreementId, did, vaultAddress,
-            collateralAsset, collateralAmount,
-            delegatedAsset, delegatedAmount,
-            interestRateMode, from,
-            {value: collateralAmount.toString()}
+        const _collateralAmount = new BigNumber(
+            web3Utils.toWei(collateralAmount.toString(), 'ether')
         )
-        const { state: stateDeposit } = await this.nevermined.keeper.conditionStoreManager.getCondition(agreementData.conditionIds[1])
+        const _delegatedAmount = new BigNumber(
+            web3Utils.toWei(delegatedAmount.toString(), 'ether')
+        )
+        // console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
+        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
+            agreementId,
+            did,
+            vaultAddress,
+            collateralAsset,
+            _collateralAmount,
+            delegatedAsset,
+            _delegatedAmount,
+            interestRateMode,
+            from,
+            { value: _collateralAmount.toString() }
+        )
+        const {
+            state: stateDeposit
+        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
+            agreementData.conditionIds[1]
+        )
         if (stateDeposit !== ConditionState.Fulfilled) {
             return false
         }
-        this.logger.log(`aaveCollateralDepositCondition fulfilled at conditionId=${agreementData.conditionIds[1]}`)
+        // this.logger.log(`aaveCollateralDepositCondition fulfilled at conditionId=${agreementData.conditionIds[1]}`)
 
-        // // Vault instance
-        // const vaultContract: GenericContract = await GenericContract.getInstance(
-        //     this.instanceConfig, 'AaveCreditVault', vaultAddress
-        // )
-        // // Get the actual delegated amount for the delgatee in this specific asset
-        // const actualAmount = await vaultContract.send(
-        //     'delegatedAmount',
-        //     from.getId(),
-        //     [agreementData.didOwner, delegatedAsset, interestRateMode],
-        //     {}
-        // )
-        // // The delegated borrow amount in the vault should be the same that the
-        // // Delegegator allowed on deposit
-        // assert.strictEqual(actualAmount.toString(), delegatedAmount)
-        return true
+        return txReceipt.status
     }
 
     public async borrow(
@@ -172,30 +221,45 @@ export class AaveCredit extends Instantiable {
         delegatedAsset: string,
         delegatedAmount: number,
         interestRateMode: number,
+        from: Account,
         did?: string,
-        vaultAddress?: string,
-        from?: Account
-    ) {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        vaultAddress?: string
+    ): Promise<boolean> {
+        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+            agreementId
+        )
         if (!vaultAddress) {
-            vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
+            vaultAddress = await this.template.getAgreementVaultAddress(
+                agreementId,
+                from.getId()
+            )
         }
         if (!did) {
             did = agreementData.did
         }
-        const txReceipt: TransactionReceipt = this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
-            agreementId, did, vaultAddress,
-            delegatedAsset, delegatedAmount,
-            interestRateMode, from,
+        const amount = new BigNumber(web3Utils.toWei(delegatedAmount.toString(), 'ether'))
+        console.log(
+            `about to borrow ${delegatedAsset}: amountWei=${amount}, delegatedAmount=${delegatedAmount}`
         )
-        const { state: stateBorrow } = await this.nevermined.keeper.conditionStoreManager.getCondition(agreementData.conditionIds[2])
+        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
+            agreementId,
+            did,
+            vaultAddress,
+            delegatedAsset,
+            amount,
+            interestRateMode,
+            from
+        )
+        const {
+            state: stateBorrow
+        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
+            agreementData.conditionIds[2]
+        )
         if (stateBorrow !== ConditionState.Fulfilled) {
             return false
         }
-        this.logger.log(`aaveBorrowCondition fulfilled at conditionId=${agreementData.conditionIds[2]}`)
-        // const after = await dai.balanceOf(borrower)
-        // assert.strictEqual(BigNumber(after).minus(BigNumber(before)).toNumber(), BigNumber(delegatedAmount).toNumber())
-        return true
+        // this.logger.log(`aaveBorrowCondition fulfilled at conditionId=${agreementData.conditionIds[2]}`)
+        return txReceipt.status
     }
 
     public async repayDebt(
@@ -203,57 +267,76 @@ export class AaveCredit extends Instantiable {
         delegatedAsset: string,
         delegatedAmount: number,
         interestRateMode: number,
+        from?: Account,
         did?: string,
-        vaultAddress?: string,
-        from?: Account
-    ) {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
-        if (!vaultAddress) {
-            vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
-        }
+        vaultAddress?: string
+    ): Promise<boolean> {
+        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+            agreementId
+        )
         if (!did) {
             did = agreementData.did
         }
+        const vaultContract: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
+        )
+        vaultAddress = vaultContract.address
 
-
-        // calculate debt to pay using the vault
-        const vaultContract: GenericContract = await GenericContract.getInstance(
-            this.instanceConfig, 'AaveCreditVault', vaultAddress
+        const erc20Token = await CustomToken.getInstanceByAddress(
+            this.instanceConfig,
+            delegatedAsset
+        )
+        const totalDebt = await this.getTotalActualDebt(agreementId, from, vaultAddress)
+        const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
+        const weiAllowanceAmount = Number(
+            web3Utils.toWei(allowanceAmount.toString(), 'ether')
         )
 
-        const totalDebt = await vaultContract.call('getTotalActualDebt', [], from.getId())
-        const erc20Token = await  CustomToken.getInstanceByAddress(this.instanceConfig, delegatedAsset)
-        const allowanceAmount = Number(totalDebt) + (Number(totalDebt) / 10000 * 10)
-
         // Verify that the borrower has sufficient balance for the repayment
-        const balance: number = await erc20Token.balanceOf(from.getId())
-        if (balance < allowanceAmount) {
+        const weiBalance = await erc20Token.balanceOf(from.getId())
+        if (weiBalance < weiAllowanceAmount) {
             this.logger.warn(
                 `borrower does not have enough balance to repay the debt: 
-                token=${delegatedAsset}, balance=${balance}, totalDebt=${allowanceAmount}`)
+                token=${delegatedAsset}, weiBalance=${weiBalance}, totalDebt(wei)=${weiAllowanceAmount}`
+            )
             return false
         }
         // Delegatee allows Nevermined contracts spend DAI to repay the loan
         await erc20Token.approve(
-            this.nevermined.keeper.conditions.aaveRepayCondition.address, allowanceAmount.toString(), from
+            this.nevermined.keeper.conditions.aaveRepayCondition.address,
+            weiAllowanceAmount,
+            from
         )
 
-        // use the aaveRepayCondition to apply the repayment
-        const txReceipt: TransactionReceipt = this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
-            agreementId, did, vaultAddress,
-            delegatedAsset, delegatedAmount,
-            interestRateMode, from,
+        const weiAmount = new BigNumber(
+            web3Utils.toWei(delegatedAmount.toString(), 'ether')
         )
-        const { state: stateRepay } = await this.nevermined.keeper.conditionStoreManager.getCondition(agreementData.conditionIds[3])
+        // use the aaveRepayCondition to apply the repayment
+        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
+            agreementId,
+            did,
+            vaultAddress,
+            delegatedAsset,
+            weiAmount,
+            interestRateMode,
+            from
+        )
+        const {
+            state: stateRepay
+        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
+            agreementData.conditionIds[3]
+        )
         if (stateRepay !== ConditionState.Fulfilled) {
             return false
         }
-        this.logger.log(`aaveRepayCondition fulfilled at conditionId=${agreementData.conditionIds[3]}`)
+        // this.logger.log(`aaveRepayCondition fulfilled at conditionId=${agreementData.conditionIds[3]}`)
 
-        const vaultBalancesAfter: number = await vaultContract.call('getActualCreditDebt', [], from.getId())
+        // const vaultBalancesAfter: number = await this.getActualCreditDebt(agreementId, from)
         // Compare the vault debt after repayment
-        this.logger.log(`owned debt after repayment is: ${new BigNumber(vaultBalancesAfter).toString()}`)
-        return true
+        // this.logger.log(`owned debt after repayment is: ${vaultBalancesAfter.toString()}`)
+        return txReceipt.status
     }
 
     public async withdrawCollateral(
@@ -263,76 +346,223 @@ export class AaveCredit extends Instantiable {
         delegatedAsset: string,
         delegatedAmount: number,
         interestRateMode: number,
+        from?: Account,
         did?: string,
-        vaultAddress?: string,
-        from?: Account
-    ) {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
-        if (!vaultAddress) {
-            vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
-        }
+        vaultAddress?: string
+    ): Promise<boolean> {
+        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+            agreementId
+        )
         if (!did) {
             did = agreementData.did
         }
+        if (!vaultAddress) {
+            vaultAddress = (
+                await this.getVaultContract(agreementId, from.getId(), vaultAddress)
+            ).address
+        }
 
-        // calculate debt to pay using the vault
-        const vaultContract: GenericContract = await GenericContract.getInstance(
-            this.instanceConfig, 'AaveCreditVault', vaultAddress
+        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
+            agreementId,
+            did,
+            vaultAddress,
+            collateralAsset,
+            from
         )
-
-        const totalDebt = await vaultContract.call('getTotalActualDebt', [], from.getId())
-        const erc20Delegated = await CustomToken.getInstanceByAddress(this.instanceConfig, delegatedAsset)
-        const erc20Collateral = await CustomToken.getInstanceByAddress(this.instanceConfig, collateralAsset)
-
-        const delegatedBalanceBefore = await erc20Delegated.balanceOf(from.getId())
-        const collateralBalanceBefore = await erc20Collateral.balanceOf(from.getId())
-        // use the aaveCollateralWithdrawCondition to withdraw the lender's collateral
-        const txReceipt: TransactionReceipt = this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
-            agreementId, did, vaultAddress, collateralAsset, from
+        const {
+            state: stateWithdraw
+        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
+            agreementData.conditionIds[4]
         )
-        const {state: stateWithdraw} = await this.nevermined.keeper.conditionStoreManager.getCondition(agreementData.conditionIds[4])
         if (stateWithdraw !== ConditionState.Fulfilled) {
             return false
         }
-        this.logger.log(`aaveCollateralWithdrawCondition fulfilled at conditionId=${agreementData.conditionIds[4]}`)
+        // this.logger.log(`aaveCollateralWithdrawCondition fulfilled at conditionId=${agreementData.conditionIds[4]}`)
 
-        // const delegatedBalanceAfter = await erc20Delegated.balanceOf(from.getId())
-        // const collateralBalanceAfter = await erc20Collateral.balanceOf(from.getId())
-        // const delegatedFee = (delegatedAmount / 10000) * this.aaveConfig.agreementFee.toNumber()
-
-        return true
+        return txReceipt.status
     }
 
     public async unlockNft(
         agreementId: string,
         nftContractAddress: string,
+        from?: Account,
         did?: string,
-        vaultAddress?: string,
-        from?: Account
-    ) {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
-        if (!vaultAddress) {
-            vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
-        }
+        vaultAddress?: string
+    ): Promise<boolean> {
+        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+            agreementId
+        )
         if (!did) {
             did = agreementData.did
         }
-
-        // calculate debt to pay using the vault
-        const vaultContract: GenericContract = await GenericContract.getInstance(
-            this.instanceConfig, 'AaveCreditVault', vaultAddress
+        const vaultContract: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
         )
+        vaultAddress = vaultContract.address
 
-        // use the distributeNft721CollateralCondition to withdraw the lender's collateral
-        const txReceipt: TransactionReceipt = this.nevermined.keeper.conditions.distributeNft721CollateralCondition.fulfill(
-            agreementId, did, vaultAddress, nftContractAddress, from
+        // use the distributeNftCollateralCondition to withdraw the lender's collateral
+        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.distributeNftCollateralCondition.fulfill(
+            agreementId,
+            did,
+            vaultAddress,
+            nftContractAddress,
+            from
         )
-        const {state: stateUnlock} = await this.nevermined.keeper.conditionStoreManager.getCondition(agreementData.conditionIds[5])
+        const {
+            state: stateUnlock
+        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
+            agreementData.conditionIds[5]
+        )
         if (stateUnlock !== ConditionState.Fulfilled) {
             return false
         }
-        this.logger.log(`distributeNft721CollateralCondition fulfilled at conditionId=${agreementData.conditionIds[5]}`)
+        // this.logger.log(`distributeNftCollateralCondition fulfilled at conditionId=${agreementData.conditionIds[5]}`)
 
-        return true
+        return txReceipt.status
+    }
+
+    public async getVaultContract(
+        agreementId: string,
+        from: string,
+        vaultAddress?: string
+    ): Promise<GenericContract> {
+        if (!vaultAddress) {
+            vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
+        }
+        return GenericContract.getInstance(
+            this.instanceConfig.web3,
+            this.instanceConfig.logger,
+            'AaveCreditVault',
+            vaultAddress
+        )
+    }
+
+    /**
+     * Returned value is already converted from Wei
+     * @param agreementId
+     * @param from
+     * @param vaultAddress (optional)
+     */
+    public async getTotalActualDebt(
+        agreementId: string,
+        from: Account,
+        vaultAddress?: string
+    ): Promise<number> {
+        const vault: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
+        )
+        const totalDebt = await vault.call('getTotalActualDebt', [], from.getId())
+        return Number(web3Utils.fromWei(totalDebt.toString()))
+    }
+
+    /**
+     * Returned value is already converted from Wei
+     * @param agreementId
+     * @param from
+     * @param vaultAddress (optional)
+     */
+    public async getActualCreditDebt(
+        agreementId: string,
+        from: Account,
+        vaultAddress?: string
+    ): Promise<number> {
+        const vault: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
+        )
+        return Number(
+            web3Utils.fromWei(await vault.call('getActualCreditDebt', [], from.getId()))
+        )
+    }
+
+    /**
+     * Returned value is already converted from Wei
+     * @param agreementId
+     * @param from
+     * @param vaultAddress (optional)
+     */
+    public async getCreditAssetDebt(
+        agreementId: string,
+        from: Account,
+        vaultAddress?: string
+    ): Promise<number> {
+        const vault: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
+        )
+        return Number(
+            web3Utils.fromWei(await vault.call('getCreditAssetDebt', [], from.getId()))
+        )
+    }
+
+    public async getAssetPrice(
+        agreementId: string,
+        tokenAddress: string,
+        from: Account,
+        vaultAddress?: string
+    ): Promise<number> {
+        const vault: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
+        )
+        return vault.call('getAssetPrice', [tokenAddress], from.getId())
+    }
+
+    /**
+     * Returned value is already converted from Wei
+     * @param agreementId
+     * @param from
+     * @param vaultAddress (optional)
+     */
+    public async getBorrowedAmount(
+        agreementId: string,
+        from: Account,
+        vaultAddress?: string
+    ): Promise<number> {
+        const vault: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
+        )
+        return Number(
+            web3Utils.fromWei(await vault.call('getBorrowedAmount', [], from.getId()))
+        )
+    }
+
+    /**
+     * Returned value is already converted from Wei
+     * @param agreementId
+     * @param from
+     * @param vaultAddress (optional)
+     */
+    public async delegatedAmount(
+        agreementId: string,
+        borrower: string,
+        delegatedToken: string,
+        interestRateMode: number,
+        from: Account,
+        vaultAddress?: string
+    ): Promise<number> {
+        const vault: GenericContract = await this.getVaultContract(
+            agreementId,
+            from.getId(),
+            vaultAddress
+        )
+        return Number(
+            web3Utils.fromWei(
+                await vault.call(
+                    'delegatedAmount',
+                    [borrower, delegatedToken, interestRateMode],
+                    from.getId()
+                )
+            )
+        )
     }
 }

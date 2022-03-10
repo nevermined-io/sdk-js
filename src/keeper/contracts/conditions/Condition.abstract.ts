@@ -1,7 +1,8 @@
 import ContractBase, { TxParameters } from '../ContractBase'
-import { zeroX } from '../../../utils'
+import { Logger, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
+import Web3 from 'web3'
 
 export enum ConditionState {
     Uninitialized = 0,
@@ -24,13 +25,17 @@ export abstract class Condition extends ContractBase {
         conditionsClass: any,
         optional: boolean = false
     ): Promise<Condition & any> {
-        const condition: Condition = new (conditionsClass as any)(conditionName)
-        await condition.init(config, optional)
+        const condition: Condition = new (conditionsClass as any)(
+            conditionName,
+            config.web3,
+            config.logger
+        )
+        await condition.init(optional)
         return condition
     }
 
-    protected constructor(contractName: string) {
-        super(contractName)
+    protected constructor(contractName: string, web3: Web3, logger: Logger) {
+        super(contractName, web3, logger)
     }
 
     public hashValues(...args: any[]): Promise<string> {
