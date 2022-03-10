@@ -1,11 +1,8 @@
 import { Contract } from 'web3-eth-contract'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import Web3 from 'web3'
-import { Logger } from '../utils'
+import * as KeeperUtils from './utils'
 
-import Keeper from './Keeper'
-
-export default class ContractHandler {
+export default class ContractHandler extends Instantiable {
     protected static getContract(what: string, networkId: number, address?: string) {
         return ContractHandler.contracts.get(this.getHash(what, networkId, address))
     }
@@ -31,16 +28,14 @@ export default class ContractHandler {
     }
 
     private static contracts: Map<string, Contract> = new Map<string, Contract>()
-    private web3: Web3
-    private logger: Logger
 
     private static getHash(what: string, networkId: number, address?: string): string {
         return address ? `${what}/#${networkId}/#${address}` : `${what}/#${networkId}`
     }
 
-    constructor(web3: Web3, logger: Logger) {
-        this.web3 = web3
-        this.logger = logger
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     public async get(
@@ -48,8 +43,8 @@ export default class ContractHandler {
         optional: boolean = false,
         address?: string
     ): Promise<Contract> {
-        const where = (await Keeper.getNetworkName(this.web3)).toLowerCase()
-        const networkId = await Keeper.getNetworkId(this.web3)
+        const where = (await KeeperUtils.getNetworkName(this.web3)).toLowerCase()
+        const networkId = await KeeperUtils.getNetworkId(this.web3)
         try {
             return (
                 ContractHandler.getContract(what, networkId, address) ||
@@ -69,7 +64,7 @@ export default class ContractHandler {
         networkId: number,
         address?: string
     ): Promise<Contract> {
-        this.logger.log('Loading', what, 'from', where)
+        this.logger.debug('Loading', what, 'from', where)
         const artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
         // Logger.log('Loaded artifact', artifact)
         const _address = address ? address : artifact.address
@@ -80,7 +75,7 @@ export default class ContractHandler {
         }
         const contract = new this.web3.eth.Contract(artifact.abi, _address)
 
-        this.logger.log(
+        this.logger.debug(
             'Getting instance of',
             what,
             'from',
@@ -88,8 +83,10 @@ export default class ContractHandler {
             'at address',
             _address
         )
-
-        ContractHandler.setContract(what, networkId, contract, address)
+        if (!address) {
+            ContractHandler.setContract(what, networkId, contract)
+            return ContractHandler.getContract(what, networkId)
+        }
         return contract
     }
 }

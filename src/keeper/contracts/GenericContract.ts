@@ -10,33 +10,30 @@ export default class GenericContract extends ContractBase {
     protected fixedAddress: string
 
     public static async getInstance(
-        web3: Web3,
-        logger: Logger,
+        config: InstantiableConfig,
         contractName: string,
         address?: string
     ): Promise<GenericContract> {
         const contract: GenericContract = new GenericContract(
             contractName,
-            web3,
-            logger,
             address
         )
-        await contract.init()
+        await contract.init(config)
         return contract
     }
 
     private constructor(
         contractName: string,
-        web3: Web3,
-        logger: Logger,
         address?: string
     ) {
-        super(contractName, web3, logger)
+        super(contractName)
         this.fixedAddress = address
     }
 
-    protected async init(optional: boolean = false) {
-        const contractHandler = new ContractHandler(this.web3, this.logger)
+    protected async init(config: InstantiableConfig, optional: boolean = false) {
+        this.setInstanceConfig(config)
+
+        const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(
             this.contractName,
             optional,

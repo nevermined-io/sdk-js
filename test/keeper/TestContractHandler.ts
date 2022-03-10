@@ -1,12 +1,9 @@
 import { Contract } from 'web3-eth-contract'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
-import { Logger } from '../../src/utils/Logger'
+import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
-import GenericContract from '../../src/keeper/contracts/GenericContract'
-import Config from '../../src/models/Config'
-import Web3 from 'web3'
 
 interface ContractTest extends Contract {
     testContract?: boolean
@@ -14,9 +11,8 @@ interface ContractTest extends Contract {
 }
 
 export default abstract class TestContractHandler extends ContractHandler {
-    public static async prepareContracts(web3?: Web3, logger?: Logger, addressBook?: {}) {
-        TestContractHandler.setConfig(config, web3, logger)
-        TestContractHandler.setAddressBook(addressBook)
+    public static async prepareContracts() {
+        TestContractHandler.setConfig(config)
         const [deployerAddress] = await TestContractHandler.web3.eth.getAccounts()
         TestContractHandler.networkId = await TestContractHandler.web3.eth.net.getId()
         TestContractHandler.minter = await TestContractHandler.web3.utils.toHex('minter')
@@ -27,22 +23,15 @@ export default abstract class TestContractHandler extends ContractHandler {
     private static networkId: number
     private static minter: string
     private static config = config
-    private static logger: Logger
     private static web3 = Web3Provider.getWeb3(config)
-    public static addressBook: {}
 
-    public static setAddressBook(addressBook: {}) {
-        TestContractHandler.addressBook = addressBook ? addressBook : {}
-    }
-
-    public static setConfig(config: Config, web3: Web3, logger: Logger) {
+    public static setConfig(config) {
         TestContractHandler.config = config
-        TestContractHandler.logger = logger
         TestContractHandler.web3 = Web3Provider.getWeb3(TestContractHandler.config)
     }
 
     private static async deployContracts(deployerAddress: string) {
-        TestContractHandler.logger.log('Trying to deploy contracts')
+        Logger.log('Trying to deploy contracts')
 
         // Libraries
         const epochLibrary = await TestContractHandler.deployContract(
@@ -322,33 +311,18 @@ export default abstract class TestContractHandler extends ContractHandler {
         tokens: { [name: string]: string } = {}
     ): Promise<ContractTest> {
         const where = TestContractHandler.networkId
-        const address =
-            TestContractHandler.addressBook && TestContractHandler.addressBook[name]
-                ? TestContractHandler.addressBook[name]
-                : undefined
+
         // dont redeploy if there is already something loaded
         if (TestContractHandler.hasContract(name, where)) {
             const contract: ContractTest = await ContractHandler.getContract(name, where)
             if (contract.testContract) {
                 return { ...contract, $initialized: true } as any
             }
-        } else if (address && TestContractHandler.web3) {
-            const gcontract = await GenericContract.getInstance(
-                TestContractHandler.web3,
-                TestContractHandler.logger,
-                name,
-                address
-            )
-            const contract: ContractTest = gcontract.getContract() //await ContractHandler.getContract(name, where, address)
-            contract.testContract = true
-            ContractHandler.setContract(name, where, contract, address)
-            ContractHandler.setContract(name, where, contract)
-            return { ...contract, $initialized: true } as any
         }
 
         let contractInstance: ContractTest
         try {
-            TestContractHandler.logger.log('Deploying', name)
+            Logger.log('Deploying', name)
             const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
@@ -359,7 +333,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             contractInstance.testContract = true
             ContractHandler.setContract(name, where, contractInstance)
         } catch (err) {
-            TestContractHandler.logger.error(
+            Logger.error(
                 'Deployment failed for',
                 name,
                 'with args',
@@ -368,8 +342,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             )
             throw err
         }
-        console.log(`deployed contract: ${name}, ${contractInstance.options.address}`)
-        TestContractHandler.addressBook[name] = contractInstance.options.address
+
         return contractInstance
     }
 
@@ -395,7 +368,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
         const isZos = !!tempContract.methods.initialize
 
-        TestContractHandler.logger.debug({
+        Logger.debug({
             name: artifact.name,
             from,
             isZos,
@@ -419,7 +392,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         if (isZos) {
             await contractInstance.methods.initialize(...args).send(sendConfig)
         }
-        // TestContractHandler.logger.log('Deployed', name, 'at', contractInstance.options.address)
+        // Logger.log('Deployed', name, 'at', contractInstance.options.address)
 
         return contractInstance
     }

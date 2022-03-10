@@ -4,7 +4,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
 import GenericContract from '../keeper/contracts/GenericContract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import AaveConfig from '../models/AaveConfig'
+import { AaveConfig } from '../models/AaveConfig'
 import { ConditionState, Nft721 } from '..'
 import { AaveCreditTemplate } from '../keeper/contracts/defi/AaveCreditTemplate'
 import { didZeroX, generateId, zeroX } from '../utils'
@@ -432,8 +432,7 @@ export class AaveCredit extends Instantiable {
             vaultAddress = await this.template.getAgreementVaultAddress(agreementId, from)
         }
         return GenericContract.getInstance(
-            this.instanceConfig.web3,
-            this.instanceConfig.logger,
+            this.instanceConfig,
             'AaveCreditVault',
             vaultAddress
         )
