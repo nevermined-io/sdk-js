@@ -6,5 +6,3 @@ export class AaveConfig {
     treasuryAddress: string
     agreementFee: number
 }
-
-export default AaveConfig

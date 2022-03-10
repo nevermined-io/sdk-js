@@ -56,7 +56,7 @@ export abstract class ContractBase extends Instantiable {
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
 
-        const eventEmitter = new EventHandler(config)
+        const eventEmitter = new EventHandler(config.web3)
         if (this.config.graphHttpUri) {
             this.events = SubgraphEvent.getInstance(
                 this,
