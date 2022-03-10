@@ -13,7 +13,9 @@ describe('AccessCondition', () => {
 
     before(async () => {
         await TestContractHandler.prepareContracts()
+        console.log('aaa')
         const nevermined = await Nevermined.getInstance(config)
+        console.log('bbb: ', nevermined.keeper)
         condition = nevermined.keeper.conditions.accessCondition
     })
 

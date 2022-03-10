@@ -22,11 +22,9 @@ export class TemplateStoreManager extends ContractBase {
         config: InstantiableConfig
     ): Promise<TemplateStoreManager> {
         const templateStoreManeger: TemplateStoreManager = new TemplateStoreManager(
-            'TemplateStoreManager',
-            config.web3,
-            config.logger
+            'TemplateStoreManager'
         )
-        await templateStoreManeger.init()
+        await templateStoreManeger.init(config)
         return templateStoreManeger
     }
 

@@ -3,8 +3,6 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import ContractHandler from '../ContractHandler'
 import { Contract } from 'web3-eth-contract'
 import { TransactionReceipt } from 'web3-core'
-import Web3 from 'web3'
-import { Logger } from '../../utils'
 
 export default class GenericContract extends ContractBase {
     protected fixedAddress: string

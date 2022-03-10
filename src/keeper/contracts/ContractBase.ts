@@ -26,8 +26,7 @@ export abstract class ContractBase extends Instantiable {
     }
 
     constructor(
-        contractName: string,
-        private optional: boolean = false
+        contractName: string
     ) {
         super()
         this.contractName = contractName
@@ -56,7 +55,7 @@ export abstract class ContractBase extends Instantiable {
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
 
-        const eventEmitter = new EventHandler(config.web3)
+        const eventEmitter = new EventHandler()
         if (this.config.graphHttpUri) {
             this.events = SubgraphEvent.getInstance(
                 this,

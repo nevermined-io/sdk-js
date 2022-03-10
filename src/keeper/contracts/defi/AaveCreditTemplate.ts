@@ -8,7 +8,7 @@ import Account from '../../../nevermined/Account'
 import BigNumber from 'bignumber.js'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
-import AaveConfig from '../../../models/AaveConfig'
+import { AaveConfig } from '../../../models/AaveConfig'
 import AssetRewards from '../../../models/AssetRewards'
 import web3Utils from 'web3-utils'
 
@@ -294,7 +294,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             aaveRepayCondition,
             aaveCollateralWithdrawCondition,
             distributeNftCollateralCondition
-        } = this.keeper.conditions
+        } = this.nevermined.keeper.conditions
 
         const lockNftId = await nft721LockCondition.generateId(
             agreementId,
@@ -377,7 +377,7 @@ export class AaveCreditTemplate extends BaseTemplate {
     }
 
     public async getAgreementDid(agreementId: string): Promise<string> {
-        const { did } = await this.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { did } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         return did
     }
 }

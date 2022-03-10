@@ -1,11 +1,8 @@
-import Web3 from 'web3'
 
 export class EventHandler {
     get count(): number {
         return this.events.size
     }
-
-    private web3: Web3
 
     private events = new Set<(blockNumber) => void>()
 
@@ -19,8 +16,7 @@ export class EventHandler {
 
     private getBlockNumber: () => Promise<number>
 
-    constructor(web3: Web3) {
-        this.web3 = web3
+    constructor() {
     }
 
     public subscribe(

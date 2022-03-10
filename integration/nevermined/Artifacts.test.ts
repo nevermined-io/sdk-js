@@ -1,6 +1,5 @@
 import { assert } from 'chai'
 import { Config, Nevermined } from '../../src'
-import { LogLevel } from '../../src/utils'
 
 describe('Artifacts', () => {
     const infuraToken = process.env.INFURA_TOKEN

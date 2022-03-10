@@ -1,5 +1,5 @@
 import { Condition } from '../conditions/Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '../../../utils/index'
+import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import BigNumber from 'bignumber.js'
