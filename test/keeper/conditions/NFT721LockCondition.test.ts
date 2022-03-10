@@ -1,6 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, ConditionState, DDO, Nevermined, utils } from '../../../src'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { Account, ConditionState, DDO, utils } from '../../../src'
 import { NFT721LockCondition } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'

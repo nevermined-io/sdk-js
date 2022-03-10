@@ -44,9 +44,7 @@ export class Nevermined extends Instantiable {
         }
         instance.setInstanceConfig(instanceConfig)
 
-        console.log('N 111')
         instance.keeper = await Keeper.getInstance(instanceConfig)
-        console.log('N 222', (instance.keeper === undefined))
 
         instance.gateway = new Gateway(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)

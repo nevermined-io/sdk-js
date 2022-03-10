@@ -66,9 +66,8 @@ export class Keeper extends Instantiable {
 
         // Adding keeper inside to prevent `Keeper not defined yet` error
         // config.nevermined.keeper = keeper
-        console.log('111')
         keeper.instances = {}
-        // try {
+        try {
             keeper.instances = await objectPromiseAll({
                 // Main contracts
                 dispenser: undefined, // Optional
@@ -119,17 +118,15 @@ export class Keeper extends Instantiable {
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
                 aaveCreditTemplate: AaveCreditTemplate.getInstance(config)
             })
-            console.log('222')
             keeper.connected = true
-        // } catch (err) {
-        //     keeper.connected = false
-        //     console.error(
-        //         `'Keeper could not connect to: ${await keeper.getNetworkName()}`,
-        //         err.message
-        //     )
-        //     console.log('333 ERROR')
-        //     return
-        // }
+        } catch (err) {
+            keeper.connected = false
+            keeper.logger.warn(
+                `'Keeper could not connect to: ${await keeper.getNetworkName()}`,
+                err.message
+            )
+            return
+        }
 
         // Optionals
         try {
@@ -149,7 +146,6 @@ export class Keeper extends Instantiable {
         } catch {
             keeper.logger.warn('NFTUpgradeable not available on this network.')
         }
-        console.log('4444')
         // Main contracts
         keeper.dispenser = keeper.instances.dispenser
         keeper.token = keeper.instances.token
@@ -200,7 +196,6 @@ export class Keeper extends Instantiable {
         keeper.utils = {
             eventHandler: new EventHandler()
         }
-        console.log('555 DONE')
         return keeper
     }
 
