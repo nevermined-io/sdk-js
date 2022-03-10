@@ -1,8 +1,7 @@
 import ContractBase, { TxParameters } from '../ContractBase'
-import { Logger, zeroX } from '../../../utils'
+import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
-import Web3 from 'web3'
 
 export enum ConditionState {
     Uninitialized = 0,
