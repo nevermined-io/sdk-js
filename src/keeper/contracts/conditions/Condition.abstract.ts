@@ -26,16 +26,10 @@ export abstract class Condition extends ContractBase {
         optional: boolean = false
     ): Promise<Condition & any> {
         const condition: Condition = new (conditionsClass as any)(
-            conditionName,
-            config.web3,
-            config.logger
+            conditionName
         )
-        await condition.init(optional)
+        await condition.init(config, optional)
         return condition
-    }
-
-    protected constructor(contractName: string, web3: Web3, logger: Logger) {
-        super(contractName, web3, logger)
     }
 
     public hashValues(...args: any[]): Promise<string> {

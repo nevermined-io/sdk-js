@@ -93,7 +93,7 @@ export class AccessTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         consumer: string
     ) {
-        const { conditions } = this.keeper
+        const { conditions } = this.nevermined.keeper
 
         const {
             accessCondition,

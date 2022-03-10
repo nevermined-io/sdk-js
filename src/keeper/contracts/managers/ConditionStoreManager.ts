@@ -19,11 +19,9 @@ export class ConditionStoreManager extends ContractBase {
         config: InstantiableConfig
     ): Promise<ConditionStoreManager> {
         const templateStoreManeger: ConditionStoreManager = new ConditionStoreManager(
-            'ConditionStoreManager',
-            config.web3,
-            config.logger
+            'ConditionStoreManager'
         )
-        await templateStoreManeger.init()
+        await templateStoreManeger.init(config)
         return templateStoreManeger
     }
 
