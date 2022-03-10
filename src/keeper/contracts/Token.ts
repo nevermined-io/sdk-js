@@ -7,8 +7,7 @@ import web3Utils from 'web3-utils'
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
         const token: Token = new Token(
-            process.env.TOKEN_CONTRACT_NAME || 'NeverminedToken',
-            true
+            process.env.TOKEN_CONTRACT_NAME || 'NeverminedToken'
         )
         await token.init(config, true)
         return token
