@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
-import { Account, ConditionState, DDO, utils } from '../../../src'
+import { Account, ConditionState, utils } from '../../../src'
 import { NFT721LockCondition } from '../../../src/keeper/contracts/conditions'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
@@ -9,9 +9,8 @@ import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import ERC721 from '../../../src/artifacts/ERC721.json'
 import { Contract } from 'web3-eth-contract'
-import AssetRewards from '../../../src/models/AssetRewards'
 import { Nft721 } from '../../../src'
-import { getMetadata } from '../../../integration/utils'
+import DIDRegistry from "../../../src/keeper/contracts/DIDRegistry"
 
 chai.use(chaiAsPromised)
 
@@ -19,13 +18,14 @@ describe('NFT721LockCondition', () => {
     let nevermined: Nevermined
     let nft721LockCondition: NFT721LockCondition
     let conditionStoreManager: ConditionStoreManager
+    let didRegistry: DIDRegistry
     let nftContractAddress: string
     let _nftContract: Contract
     let nft721Wrapper: Nft721
     let lockAddress: Account
     let owner: Account
-    let ddo: DDO
     let did: string
+    let didSeed: string
 
     let agreementId: string
     const amount = 10
@@ -34,7 +34,7 @@ describe('NFT721LockCondition', () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
         ;({ nft721LockCondition } = nevermined.keeper.conditions)
-        ;({ conditionStoreManager } = nevermined.keeper)
+        ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
         ;[owner, lockAddress] = await nevermined.accounts.list()
         _nftContract = await TestContractHandler.deployArtifact(ERC721)
         nft721Wrapper = await nevermined.contracts.loadNft721(
@@ -46,16 +46,11 @@ describe('NFT721LockCondition', () => {
 
     beforeEach(async () => {
         agreementId = utils.generateId()
-        ddo = await nevermined.nfts.create721(
-            getMetadata(),
-            owner,
-            new AssetRewards(),
-            nft721Wrapper.address
-        )
-        assert.isDefined(ddo)
-        did = ddo.id
+        didSeed = `did:nv:${utils.generateId()}`
+        did = await didRegistry.hashDID(didSeed, owner.getId())
 
-        await nft721Wrapper.mint(zeroX(ddo.shortId()), owner)
+
+        await nft721Wrapper.mint(didZeroX(did), owner)
         await nft721Wrapper.setApprovalForAll(
             nft721LockCondition.getAddress(),
             true,
