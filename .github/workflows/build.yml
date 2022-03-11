@@ -79,11 +79,6 @@ jobs:
     - name: Install dependencies
       run: |
         yarn
-    - name: Install minikube v1.22.0
-      run: |
-        wget https://storage.googleapis.com/minikube/releases/v1.22.0/minikube-linux-amd64
-        chmod +x minikube-linux-amd64
-        sudo mv minikube-linux-amd64 /usr/local/bin/minikube
     - name: Run tools (network)
       run: |
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
@@ -97,9 +92,9 @@ jobs:
         # Disabling the compute api for now
         # Check https://github.com/nevermined-io/sdk-js/issues/33
         # ./start_nevermined.sh --latest --no-marketplace --compute ${{ matrix.network }} &
-        ./start_nevermined.sh --latest --no-marketplace --no-graph --no-faucet --local-ganache-node 2>&1 | tee nevermined_tools.txt &
+        ./start_nevermined.sh --latest --no-marketplace --no-faucet --local-ganache-node 2>&1 | tee nevermined_tools.txt &
         cd ..
-        sleep 120
+        ./scripts/wait-subgraphs.sh
     - name: Run aave integration test
       run: |
         npm run integration:aave
