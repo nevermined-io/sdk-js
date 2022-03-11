@@ -92,9 +92,7 @@ jobs:
         git clone https://github.com/nevermined-io/tools
         cd tools
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-        export GANACHE_COMMAND_OPTIONS="-d -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/${{ secrets.KOVAN_ALCHEMY_TOKEN }}@28000000"
-        export KEEPER_VERSION=v1.3.6
-        rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
+        export GANACHE_COMMAND_OPTIONS="-d -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
 
         # Disabling the compute api for now
         # Check https://github.com/nevermined-io/sdk-js/issues/33
