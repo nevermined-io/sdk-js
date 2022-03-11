@@ -104,9 +104,9 @@ jobs:
         # ./start_nevermined.sh --latest --no-marketplace --compute ${{ matrix.network }} &
         ./start_nevermined.sh --latest --no-marketplace --no-graph --no-faucet --local-ganache-node 2>&1 | tee nevermined_tools.txt &
         cd ..
+        ./scripts/wait-nevermined.sh
     - name: Run aave integration test
       run: |
-        ./scripts/wait-nevermined.sh
         npm run integration:aave
     - name: Upload logs
       uses: actions/upload-artifact@v2
