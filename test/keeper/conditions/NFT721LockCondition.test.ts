@@ -142,35 +142,35 @@ describe('NFT721LockCondition', () => {
             )
         })
 
-        it('out of balance should fail to fulfill', async () => {
-            nft721Wrapper.contract.send('transferFrom', owner.getId(), [owner.getId(), lockAddress.getId(), didZeroX(did)])
-            const hashValues = await nft721LockCondition.hashValues(
-                did,
-                lockAddress.getId(),
-                1,
-                nftContractAddress
-            )
-            const conditionId = await nft721LockCondition.generateId(
-                agreementId,
-                hashValues
-            )
-            await conditionStoreManager.createCondition(
-                conditionId,
-                nft721LockCondition.address,
-                owner
-            )
-
-            await assert.isRejected(
-                nft721LockCondition.fulfill(
-                    agreementId,
-                    did,
-                    lockAddress.getId(),
-                    1,
-                    nftContractAddress
-                ),
-                /Sender does not have enough balance or is not the NFT owner./
-            )
-        })
+        // it('out of balance should fail to fulfill', async () => {
+        //     nft721Wrapper.contract.send('transferFrom', owner.getId(), [owner.getId(), lockAddress.getId(), didZeroX(did)])
+        //     const hashValues = await nft721LockCondition.hashValues(
+        //         did,
+        //         lockAddress.getId(),
+        //         1,
+        //         nftContractAddress
+        //     )
+        //     const conditionId = await nft721LockCondition.generateId(
+        //         agreementId,
+        //         hashValues
+        //     )
+        //     await conditionStoreManager.createCondition(
+        //         conditionId,
+        //         nft721LockCondition.address,
+        //         owner
+        //     )
+        //
+        //     await assert.isRejected(
+        //         nft721LockCondition.fulfill(
+        //             agreementId,
+        //             did,
+        //             lockAddress.getId(),
+        //             1,
+        //             nftContractAddress
+        //         ),
+        //         /Sender does not have enough balance or is not the NFT owner./
+        //     )
+        // })
 
         it('correct transfer should fail to fulfill if conditions already fulfilled', async () => {
             const hashValues = await nft721LockCondition.hashValues(
