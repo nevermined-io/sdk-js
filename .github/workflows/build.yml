@@ -99,7 +99,7 @@ jobs:
         # ./start_nevermined.sh --latest --no-marketplace --compute ${{ matrix.network }} &
         ./start_nevermined.sh --latest --no-marketplace --no-graph --no-faucet --local-ganache-node 2>&1 | tee nevermined_tools.txt &
         cd ..
-        ./scripts/wait-nevermined.sh
+        sleep 120
     - name: Run aave integration test
       run: |
         npm run integration:aave
