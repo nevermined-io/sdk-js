@@ -84,7 +84,7 @@ jobs:
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
         sudo chmod go+r /etc/hosts
         sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-        git clone https://github.com/nevermined-io/
+        git clone https://github.com/nevermined-io/tools
         git checkout set-rpc-port
         cd tools
         export KEEPER_RPC_PORT="18545"
