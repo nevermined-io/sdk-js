@@ -76,7 +76,7 @@ describe('AaveCredit', () => {
 
     before(async () => {
         // startBlock = await web3.eth.getBlockNumber()
-        await TestContractHandler.prepareContracts()
+        // await TestContractHandler.prepareContracts()
 
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee

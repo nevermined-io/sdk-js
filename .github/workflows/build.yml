@@ -81,6 +81,7 @@ jobs:
         yarn
     - name: Run tools (network)
       run: |
+        sudo apt-get install mmv
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
         sudo chmod go+r /etc/hosts
         sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
@@ -94,7 +95,7 @@ jobs:
 
         ./start_nevermined.sh --latest --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
         cd ..
-        ./scripts/wait-nevermined.sh
+        ./scripts/wait-nevermined-external.sh
     - name: Run aave integration test
       run: |
         npm run integration:aave
