@@ -84,10 +84,12 @@ jobs:
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
         sudo chmod go+r /etc/hosts
         sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-        git clone https://github.com/nevermined-io/tools
+        git clone https://github.com/nevermined-io/
+        git checkout set-rpc-port
         cd tools
+        export KEEPER_RPC_PORT="18545"
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-        export GANACHE_COMMAND_OPTIONS="-d -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
+        export GANACHE_COMMAND_OPTIONS="-d -p 18545 -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
 
         # Disabling the compute api for now
         # Check https://github.com/nevermined-io/sdk-js/issues/33
