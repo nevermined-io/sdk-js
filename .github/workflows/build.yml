@@ -103,7 +103,7 @@ jobs:
         ./scripts/wait-nevermined-external.sh
     - name: Run aave integration test
       run: |
-        ls node_modules/@nevermined-io/contracts/artifacts/
+        export ETH_PORT=18545
         npm run integration:aave
     - name: Upload logs
       uses: actions/upload-artifact@v2
