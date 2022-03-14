@@ -10,7 +10,7 @@ export class NFT721LockCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721LockCondition> {
-        return Condition.getInstance(config, 'NFT721LockCondition', NFT721LockCondition)
+        return Condition.getInstance(config, 'NFT721LockCondition', NFT721LockCondition, true)
     }
 
     /**

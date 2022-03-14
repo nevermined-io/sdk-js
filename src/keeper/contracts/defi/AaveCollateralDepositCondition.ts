@@ -12,7 +12,8 @@ export class AaveCollateralDepositCondition extends Condition {
         return Condition.getInstance(
             config,
             'AaveCollateralDepositCondition',
-            AaveCollateralDepositCondition
+            AaveCollateralDepositCondition,
+            true
         )
     }
 

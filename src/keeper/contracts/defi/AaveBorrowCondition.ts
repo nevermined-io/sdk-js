@@ -7,9 +7,9 @@ import { TxParameters } from '../ContractBase'
 
 export class AaveBorrowCondition extends Condition {
     public static async getInstance(
-        config: InstantiableConfig
+        config: InstantiableConfig,
     ): Promise<AaveBorrowCondition> {
-        return Condition.getInstance(config, 'AaveBorrowCondition', AaveBorrowCondition)
+        return Condition.getInstance(config, 'AaveBorrowCondition', AaveBorrowCondition, true)
     }
 
     public hashValues(

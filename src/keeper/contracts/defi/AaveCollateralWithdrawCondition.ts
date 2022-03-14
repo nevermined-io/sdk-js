@@ -11,7 +11,8 @@ export class AaveCollateralWithdrawCondition extends Condition {
         return Condition.getInstance(
             config,
             'AaveCollateralWithdrawCondition',
-            AaveCollateralWithdrawCondition
+            AaveCollateralWithdrawCondition,
+            true
         )
     }
 
