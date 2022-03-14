@@ -90,10 +90,10 @@ describe('AaveCredit', () => {
         ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
         timeLocks = [0, 0, 0, 0, 0, 0]
         timeOuts = [0, 0, 0, 0, 0, 0]
-        await nevermined.keeper.conditionStoreManager.delegateCreateRole(
-            nevermined.keeper.agreementStoreManager.getAddress(),
-            deployer.getId()
-        )
+        // await nevermined.keeper.conditionStoreManager.delegateCreateRole(
+        //     nevermined.keeper.agreementStoreManager.getAddress(),
+        //     deployer.getId()
+        // )
 
         // agreementId = '0xf2f7338941f5469cb8bbf8b2e600ecb8d53e6755ec5d45658cf1a764e0d40f0e'
         // did = 'did:nv:1af704df5b61eea09af8f327a0453480d5a218f4c4f8a7c6d4145c7b7b52d7b8'
