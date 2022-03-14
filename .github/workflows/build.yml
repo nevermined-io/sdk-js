@@ -79,9 +79,14 @@ jobs:
     - name: Install dependencies
       run: |
         yarn
+        sudo apt-get install mmv
+    - name: Install minikube v1.22.0
+      run: |
+        wget https://storage.googleapis.com/minikube/releases/v1.22.0/minikube-linux-amd64
+        chmod +x minikube-linux-amd64
+        sudo mv minikube-linux-amd64 /usr/local/bin/minikube
     - name: Run tools (network)
       run: |
-        sudo apt-get install mmv
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
         sudo chmod go+r /etc/hosts
         sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
@@ -98,6 +103,7 @@ jobs:
         ./scripts/wait-nevermined-external.sh
     - name: Run aave integration test
       run: |
+        ls node_modules/@nevermined-io/contracts/artifacts/
         npm run integration:aave
     - name: Upload logs
       uses: actions/upload-artifact@v2
