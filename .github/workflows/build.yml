@@ -39,16 +39,7 @@ jobs:
         # Disabling the compute api for now
         # Check https://github.com/nevermined-io/sdk-js/issues/33
         # ./start_nevermined.sh --latest --no-marketplace --compute ${{ matrix.network }} &
-        export KEEPER_VERSION=v1.3.6
-        export COMPUTE_API_VERSION=latest
-        export CONTROL_CENTER_BACKEND_VERSION=latest
-        export BAZAART_SERVER_VERSION=latest
-        export BAZAART_CLIENT_VERSION=latest
-        export FAUCET_VERSION=latest
-        export EVENTS_HANDLER_VERSION=latest
-        export GATEWAY_VERSION=latest
-        export METADATA_VERSION=latest
-        ./start_nevermined.sh --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+        ./start_nevermined.sh --latest --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
 
         cd ..
         ./scripts/wait-subgraphs.sh
@@ -93,7 +84,6 @@ jobs:
         export KEEPER_NETWORK_NAME="spree"
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
         export GANACHE_COMMAND_OPTIONS="-d -p 18545 -m 'taxi music thumb unique chat sand crew more leg another off lamp' -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
-        export KEEPER_VERSION=latest
         ./start_nevermined.sh --latest --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
         cd ..
         ./scripts/wait-nevermined-external.sh
