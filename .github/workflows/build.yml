@@ -80,11 +80,6 @@ jobs:
       run: |
         yarn
         sudo apt-get install mmv
-    - name: Install minikube v1.22.0
-      run: |
-        wget https://storage.googleapis.com/minikube/releases/v1.22.0/minikube-linux-amd64
-        chmod +x minikube-linux-amd64
-        sudo mv minikube-linux-amd64 /usr/local/bin/minikube
     - name: Run tools (network)
       run: |
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
