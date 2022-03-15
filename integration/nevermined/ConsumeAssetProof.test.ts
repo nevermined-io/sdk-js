@@ -4,12 +4,12 @@ import { config } from '../config'
 import { getMetadata, getMetadataForDTP } from '../utils'
 
 import { Nevermined, Account, DDO } from '../../src'
-import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
-import KeyTransfer from '../../src/utils/KeyTransfer'
+// import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
+// import KeyTransfer from '../../src/utils/KeyTransfer'
 
 describe('Consume Asset (Gateway w/ proofs)', () => {
     let nevermined: Nevermined
-    const keyTransfer = new KeyTransfer()
+    // const keyTransfer = new KeyTransfer()
 
     let publisher: Account
     let consumer: Account
@@ -89,12 +89,12 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
         assert.deepEqual(passwd, origPasswd)
     })
 
-    it('buyer should have the key', async () => {
-        const key = await nevermined.agreements.conditions.readKey(
-            agreementId,
-            keyTransfer.makeKey(consumer.babySecret),
-            new BabyjubPublicKey(providerKey.x, providerKey.y)
-        )
-        assert.equal(key.toString('hex'), origPasswd)
-    })
+    // it('buyer should have the key', async () => {
+    //     const key = await nevermined.agreements.conditions.readKey(
+    //         agreementId,
+    //         keyTransfer.makeKey(consumer.babySecret),
+    //         new BabyjubPublicKey(providerKey.x, providerKey.y)
+    //     )
+    //     assert.equal(key.toString('hex'), origPasswd)
+    // })
 })
