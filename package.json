@@ -21,6 +21,7 @@
     "integration:integration": "export NETWORK_NAME=integration; yarn integration",
     "integration:watch": "mocha -w --watch-extensions js,ts,json --opts integration/mocha.opts ./integration/**/*.test.ts",
     "integration:cover": "nyc --report-dir coverage/integration mocha --opts integration/mocha.opts ./integration/**/*.test.ts",
+    "integration:aave": "mocha --opts aave_integration/mocha.opts ./aave_integration/**/*.test.ts",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint --ignore-path .gitignore --ext .ts,.tsx .",
     "lint:fix": "eslint --fix --ignore-path .gitignore --ext .ts,.tsx .",
@@ -53,7 +54,7 @@
     "web3": "^1.2.3"
   },
   "dependencies": {
-    "@nevermined-io/contracts": "^1.3.7",
+    "@nevermined-io/contracts": "1.3.7",
     "@nevermined-io/secret-store-client": "^0.0.16",
     "@nevermined-io/subgraphs": "^0.2.8",
     "assert": "^2.0.0",

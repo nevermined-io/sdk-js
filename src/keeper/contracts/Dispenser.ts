@@ -3,7 +3,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 
 export default class Dispenser extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Dispenser> {
-        const dispenser: Dispenser = new Dispenser('Dispenser', true)
+        const dispenser: Dispenser = new Dispenser('Dispenser')
         await dispenser.init(config, true)
         return dispenser
     }

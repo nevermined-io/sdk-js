@@ -1,7 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import {
-    NFTOrderProgressStep,
-    SubscribableObserver,
     ZeroAddress,
     zeroX
 } from '../../../utils'

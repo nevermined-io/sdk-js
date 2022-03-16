@@ -2,9 +2,9 @@ import { Contract } from 'web3-eth-contract'
 import { TransactionReceipt } from 'web3-core'
 import ContractHandler from '../ContractHandler'
 
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
+import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract";
 
 export interface TxParameters {
     value?: string
@@ -17,8 +17,6 @@ export interface TxParameters {
 }
 
 export abstract class ContractBase extends Instantiable {
-    protected static instance = null
-
     public contractName: string
     public contract: Contract = null
     public events: ContractEvent | SubgraphEvent = null
@@ -27,9 +25,15 @@ export abstract class ContractBase extends Instantiable {
         return this.getAddress()
     }
 
-    constructor(contractName: string, private optional: boolean = false) {
+    constructor(
+        contractName: string
+    ) {
         super()
         this.contractName = contractName
+    }
+
+    public getContract(): Contract {
+        return this.contract
     }
 
     public getAddress(): string {
@@ -51,7 +55,7 @@ export abstract class ContractBase extends Instantiable {
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
 
-        const eventEmitter = new EventHandler(config)
+        const eventEmitter = new EventHandler()
         if (this.config.graphHttpUri) {
             this.events = SubgraphEvent.getInstance(
                 this,
@@ -70,7 +74,7 @@ export abstract class ContractBase extends Instantiable {
         return from
     }
 
-    protected async sendFrom(
+    public async sendFrom(
         name: string,
         args: any[],
         from?: Account,
@@ -90,7 +94,7 @@ export abstract class ContractBase extends Instantiable {
         return receipt
     }
 
-    protected async send(
+    public async send(
         name: string,
         from: string,
         args: any[],
@@ -255,7 +259,7 @@ export abstract class ContractBase extends Instantiable {
         }
     }
 
-    protected async call<T extends any>(
+    public async call<T extends any>(
         name: string,
         args: any[],
         from?: string

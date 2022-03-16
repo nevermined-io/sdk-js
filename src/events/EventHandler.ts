@@ -1,6 +1,5 @@
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
-export class EventHandler extends Instantiable {
+export class EventHandler {
     get count(): number {
         return this.events.size
     }
@@ -17,9 +16,7 @@ export class EventHandler extends Instantiable {
 
     private getBlockNumber: () => Promise<number>
 
-    constructor(config: InstantiableConfig) {
-        super()
-        this.setInstanceConfig(config)
+    constructor() {
     }
 
     public subscribe(

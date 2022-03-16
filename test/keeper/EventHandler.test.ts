@@ -12,7 +12,7 @@ describe('EventHandler', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        eventHandler = new EventHandler((nevermined as any).instanceConfig)
+        eventHandler = new EventHandler()
     })
 
     afterEach(() => {

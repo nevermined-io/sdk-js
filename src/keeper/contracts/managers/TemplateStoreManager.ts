@@ -85,7 +85,7 @@ export class TemplateStoreManager extends ContractBase {
         } as TemplateMetadata
     }
 
-    public async isApproved(templateId: string) {
+    public async isApproved(templateId: string): Promise<boolean> {
         return await this.call('isTemplateApproved', [templateId])
     }
 

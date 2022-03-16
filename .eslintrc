@@ -18,7 +18,8 @@
     "project": [
       "./tsconfig.json",
       "./test/tsconfig.json",
-      "./integration/tsconfig.json"
+      "./integration/tsconfig.json",
+      "./aave_integration/tsconfig.json"
     ],
     "sourceType": "module"
   },

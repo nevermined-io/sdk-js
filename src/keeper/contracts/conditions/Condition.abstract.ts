@@ -24,13 +24,11 @@ export abstract class Condition extends ContractBase {
         conditionsClass: any,
         optional: boolean = false
     ): Promise<Condition & any> {
-        const condition: Condition = new (conditionsClass as any)(conditionName)
+        const condition: Condition = new (conditionsClass as any)(
+            conditionName
+        )
         await condition.init(config, optional)
         return condition
-    }
-
-    protected constructor(contractName: string) {
-        super(contractName)
     }
 
     public hashValues(...args: any[]): Promise<string> {
