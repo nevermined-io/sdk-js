@@ -3,11 +3,11 @@ import { AaveCollateralDepositCondition } from '../../../src/keeper/contracts/co
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import {zeroX} from "../../../src/utils";
-import BigNumber from "bignumber.js"
-import Account from "../../../src/nevermined/Account"
-import * as utils from "../../../src/utils"
-import DIDRegistry from "../../../src/keeper/contracts/DIDRegistry"
+import { zeroX } from '../../../src/utils'
+import BigNumber from 'bignumber.js'
+import Account from '../../../src/nevermined/Account'
+import * as utils from '../../../src/utils'
+import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 
 let condition: AaveCollateralDepositCondition
 
@@ -27,7 +27,7 @@ describe('AaveCollateralDepositCondition', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;[user, ] = await nevermined.accounts.list()
+        ;[user] = await nevermined.accounts.list()
         ;({ didRegistry } = nevermined.keeper)
         condition = (await Nevermined.getInstance(config)).keeper.conditions
             .aaveCollateralDepositCondition
@@ -66,8 +66,6 @@ describe('AaveCollateralDepositCondition', () => {
             //     interestRateMode
             //     user
             // )
-
         })
     })
-
 })

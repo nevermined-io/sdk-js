@@ -7,7 +7,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
 import {
     findServiceConditionByName,
-    NFTOrderProgressStep,
+    OrderProgressStep,
     ZeroAddress
 } from '../../../utils'
 import Account from '../../../nevermined/Account'
@@ -59,7 +59,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         consumerAddress: Account,
         from?: Account,
         txParams?: TxParameters,
-        observer?: (NFTOrderProgressStep) => void
+        observer?: (OrderProgressStep) => void
     ): Promise<boolean> {
         observer = observer ? observer : _ => {}
         const {
@@ -75,9 +75,9 @@ export class NFT721SalesTemplate extends BaseTemplate {
             consumerAddress.getId()
         )
 
-        observer(NFTOrderProgressStep.ApprovingPayment)
+        observer(OrderProgressStep.ApprovingPayment)
         await this.lockTokens(tokenAddress, amounts, from, txParams)
-        observer(NFTOrderProgressStep.ApprovedPayment)
+        observer(OrderProgressStep.ApprovedPayment)
 
         const totalAmount = amounts.reduce((a, b) => a + b, 0)
         const value =
@@ -85,7 +85,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 ? String(totalAmount)
                 : undefined
 
-        observer(NFTOrderProgressStep.CreatingAgreement)
+        observer(OrderProgressStep.CreatingAgreement)
         const res = !!(await this.createAgreementAndPay(
             agreementId,
             ddo.shortId(),
@@ -101,7 +101,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             from,
             { ...txParams, value }
         ))
-        observer(NFTOrderProgressStep.AgreementInitialized)
+        observer(OrderProgressStep.AgreementInitialized)
         return res
     }
 

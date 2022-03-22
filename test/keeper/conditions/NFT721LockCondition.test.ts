@@ -10,7 +10,7 @@ import TestContractHandler from '../TestContractHandler'
 import ERC721 from '../../../src/artifacts/ERC721.json'
 import { Contract } from 'web3-eth-contract'
 import { Nft721 } from '../../../src'
-import DIDRegistry from "../../../src/keeper/contracts/DIDRegistry"
+import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 
 chai.use(chaiAsPromised)
 
@@ -41,14 +41,12 @@ describe('NFT721LockCondition', () => {
             _nftContract.options.address
         )
         nftContractAddress = nft721Wrapper.address
-
     })
 
     beforeEach(async () => {
         agreementId = utils.generateId()
         didSeed = `did:nv:${utils.generateId()}`
         did = await didRegistry.hashDID(didSeed, owner.getId())
-
 
         await nft721Wrapper.mint(didZeroX(did), owner)
         await nft721Wrapper.setApprovalForAll(

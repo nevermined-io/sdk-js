@@ -143,25 +143,52 @@ export class WebServiceConnector extends Instantiable {
         return this.fetch(url, { method: 'POST', body: form })
     }
 
-    public async fetchToken(url: string, grantToken: string): Promise<Response> {
-        return await this.nevermined.utils.fetch.fetch(url, {
-            method: 'POST',
-            body: `grant_type=${encodeURI(
-                this.nevermined.utils.jwt.GRANT_TYPE
-            )}&assertion=${encodeURI(grantToken)}`,
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded'
-            }
-        })
+    public async fetchToken(
+        url: string,
+        grantToken: string,
+        numberTries: number = 1
+    ): Promise<Response> {
+        return await this.nevermined.utils.fetch.fetch(
+            url,
+            {
+                method: 'POST',
+                body: `grant_type=${encodeURI(
+                    this.nevermined.utils.jwt.GRANT_TYPE
+                )}&assertion=${encodeURI(grantToken)}`,
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded'
+                }
+            },
+            numberTries
+        )
     }
 
-    private async fetch(url: string, opts: RequestInit): Promise<Response> {
-        const result = await fetch(url, opts)
-        if (!result.ok) {
-            this.logger.error(`Error requesting [${opts.method}] ${url}`)
-            this.logger.error(`Response message: \n${await result.clone().text()}`)
-            throw result
+    private async fetch(
+        url: string,
+        opts: RequestInit,
+        numberTries: number = 1
+    ): Promise<Response> {
+        let counterTries = 1
+        let result: Response
+        while (counterTries <= numberTries) {
+            result = await fetch(url, opts)
+            if (result.ok) return result
+
+            counterTries++
+            this.logger.error(`Sleeping ...`)
+            await this.nevermined.utils.fetch._sleep(500)
         }
-        return result
+
+        this.logger.error(`Error requesting [${opts.method}] ${url}`)
+        this.logger.error(`Response message: \n${await result.clone().text()}`)
+        throw result
+
+        // if (!result.ok) {
+        // }
+        // return result
+    }
+
+    private _sleep(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms))
     }
 }

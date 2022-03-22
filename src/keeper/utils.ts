@@ -1,4 +1,4 @@
-import Web3 from "web3"
+import Web3 from 'web3'
 
 export function getNetworkId(web3: Web3): Promise<number> {
     return web3.eth.net.getId()
@@ -54,5 +54,3 @@ export function getNetworkName(web3): Promise<string> {
         }
     })
 }
-
-

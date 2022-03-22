@@ -377,7 +377,9 @@ export class AaveCreditTemplate extends BaseTemplate {
     }
 
     public async getAgreementDid(agreementId: string): Promise<string> {
-        const { did } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { did } = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+            agreementId
+        )
         return did
     }
 }
