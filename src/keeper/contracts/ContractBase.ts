@@ -4,7 +4,7 @@ import ContractHandler from '../ContractHandler'
 
 import Account from '../../nevermined/Account'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
-import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract";
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 
 export interface TxParameters {
     value?: string
@@ -25,9 +25,7 @@ export abstract class ContractBase extends Instantiable {
         return this.getAddress()
     }
 
-    constructor(
-        contractName: string
-    ) {
+    constructor(contractName: string) {
         super()
         this.contractName = contractName
     }

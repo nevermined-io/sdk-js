@@ -3,10 +3,10 @@ import { DistributeNFTCollateralCondition } from '../../../src/keeper/contracts/
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import {zeroX} from "../../../src/utils";
-import Account from "../../../src/nevermined/Account"
-import * as utils from "../../../src/utils"
-import DIDRegistry from "../../../src/keeper/contracts/DIDRegistry"
+import { zeroX } from '../../../src/utils'
+import Account from '../../../src/nevermined/Account'
+import * as utils from '../../../src/utils'
+import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 
 let condition: DistributeNFTCollateralCondition
 
@@ -22,7 +22,7 @@ describe('DistributeNFTCollateralCondition', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;[user, ] = await nevermined.accounts.list()
+        ;[user] = await nevermined.accounts.list()
         ;({ didRegistry } = nevermined.keeper)
         condition = (await Nevermined.getInstance(config)).keeper.conditions
             .distributeNftCollateralCondition
@@ -36,11 +36,7 @@ describe('DistributeNFTCollateralCondition', () => {
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
-            const hash = await condition.hashValues(
-                zeroX(did),
-                vaultAddress,
-                nftAddress,
-            )
+            const hash = await condition.hashValues(zeroX(did), vaultAddress, nftAddress)
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
 
             const id = await condition.generateId(agreementId, hash)
@@ -53,8 +49,6 @@ describe('DistributeNFTCollateralCondition', () => {
             //     nftAddress,
             //     user
             // )
-
         })
     })
-
 })

@@ -12,18 +12,12 @@ export default class GenericContract extends ContractBase {
         contractName: string,
         address?: string
     ): Promise<GenericContract> {
-        const contract: GenericContract = new GenericContract(
-            contractName,
-            address
-        )
+        const contract: GenericContract = new GenericContract(contractName, address)
         await contract.init(config)
         return contract
     }
 
-    private constructor(
-        contractName: string,
-        address?: string
-    ) {
+    private constructor(contractName: string, address?: string) {
         super(contractName)
         this.fixedAddress = address
     }

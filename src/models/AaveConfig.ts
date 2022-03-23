@@ -1,4 +1,3 @@
-
 export class AaveConfig {
     lendingPoolAddress: string
     dataProviderAddress: string

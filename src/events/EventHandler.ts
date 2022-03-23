@@ -1,4 +1,3 @@
-
 export class EventHandler {
     get count(): number {
         return this.events.size
@@ -16,8 +15,7 @@ export class EventHandler {
 
     private getBlockNumber: () => Promise<number>
 
-    constructor() {
-    }
+    constructor() {}
 
     public subscribe(
         callback: (blockNumber: number) => void,

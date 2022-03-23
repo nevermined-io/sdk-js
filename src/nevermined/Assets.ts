@@ -18,6 +18,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 import { ServiceAgreementTemplate } from '../ddo/ServiceAgreementTemplate'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { GenericAccess } from '../keeper/contracts/templates/GenericAccess'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -871,6 +872,7 @@ export class Assets extends Instantiable {
         useSecretStore?: boolean
     ): Promise<string>
 
+    // eslint-disable-next-line no-dupe-class-members
     public async consume(
         agreementId: string,
         did: string,
@@ -880,6 +882,7 @@ export class Assets extends Instantiable {
         useSecretStore?: boolean
     ): Promise<true>
 
+    // eslint-disable-next-line no-dupe-class-members
     public async consume(
         agreementId: string,
         did: string,
@@ -977,69 +980,32 @@ export class Assets extends Instantiable {
         params?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
         return new SubscribablePromise(async observer => {
-            const { agreements } = this.nevermined
-
             const agreementId = zeroX(generateId())
             const ddo = await this.resolve(did)
 
             const { keeper } = this.nevermined
             const service = ddo.findServiceByType(serviceType)
             const templateName = service.attributes.serviceAgreementTemplate.contractName
-            const template = keeper.getTemplateByName(templateName)
+
+            const template = keeper.getAccessTemplateByName(templateName)
             const assetRewards = getAssetRewardsFromService(service)
 
-            // eslint-disable-next-line no-async-promise-executor
-            const paymentFlow = new Promise(async (resolve, reject) => {
-                await template.getAgreementCreatedEvent(agreementId)
-
-                this.logger.log('Agreement initialized')
-                observer.next(OrderProgressStep.AgreementInitialized)
-
-                this.logger.log('Locking payment')
-                observer.next(OrderProgressStep.LockingPayment)
-
-                const payment = findServiceConditionByName(service, 'lockPayment')
-                if (!payment) throw new Error('Payment condition not found!')
-
-                const paid = await agreements.conditions.lockPayment(
-                    agreementId,
-                    ddo.id,
-                    assetRewards.getAmounts(),
-                    assetRewards.getReceivers(),
-                    payment.parameters.find(p => p.name === '_tokenAddress')
-                        .value as string,
-                    consumer
-                )
-                observer.next(OrderProgressStep.LockedPayment)
-
-                if (paid) {
-                    this.logger.log('Payment was OK')
-                } else {
-                    this.logger.error('Payment was KO')
-                    this.logger.error('Agreement ID: ', agreementId)
-                    this.logger.error('DID: ', ddo.id)
-                    reject(new Error('Error on payment'))
-                }
-
-                resolve(did)
-            })
-
-            observer.next(OrderProgressStep.CreatingAgreement)
-            this.logger.log('Creating agreement')
-            await agreements.create(
-                did,
+            this.logger.log(`Creating ${serviceType} agreement and paying`)
+            const result = await template.createAgreementWithPaymentFromDDO(
                 agreementId,
+                ddo,
+                assetRewards,
+                consumer,
                 serviceType,
+                undefined,
                 consumer,
-                consumer,
-                params
+                undefined,
+                params,
+                a => observer.next(a)
             )
-            this.logger.log('Agreement created')
 
-            try {
-                await paymentFlow
-            } catch (e) {
-                throw new Error('Error paying the asset.')
+            if (!result) {
+                throw Error(`Error creating ${serviceType} agreement`)
             }
 
             return agreementId

@@ -47,6 +47,7 @@ import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
+import { GenericAccess } from './contracts/templates/GenericAccess'
 
 /**
  * Interface with Nevermined contracts.
@@ -315,6 +316,17 @@ export class Keeper extends Instantiable {
         return Object.values(this.templates).find(
             template => template.contractName === name
         )
+    }
+
+    /**
+     * Returns a Access template by name.
+     * @param  {string} name Template name.
+     * @return {GenericAccess} Agreement template instance.
+     */
+    public getAccessTemplateByName(name: string): GenericAccess {
+        return Object.values(this.templates).find(
+            template => template.contractName === name
+        ) as GenericAccess
     }
 
     /**

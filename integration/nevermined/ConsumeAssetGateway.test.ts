@@ -4,7 +4,9 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, ConditionState } from '../../src'
+import AssetRewards from '../../src/models/AssetRewards'
+import Web3 from 'web3'
 
 describe('Consume Asset (Gateway)', () => {
     let nevermined: Nevermined
@@ -16,6 +18,7 @@ describe('Consume Asset (Gateway)', () => {
     let agreementId: string
 
     let metadata = getMetadata()
+    let assetRewards: AssetRewards
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -23,9 +26,13 @@ describe('Consume Asset (Gateway)', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
+        assetRewards = new AssetRewards(publisher.getId(), 0)
+
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
         }
+        metadata.main.price = assetRewards.getTotalPrice().toString()
+        metadata.main.name = `${metadata.main.name} - ${Math.random()}`
     })
 
     after(() => {
@@ -47,20 +54,19 @@ describe('Consume Asset (Gateway)', () => {
     it('should register an asset', async () => {
         const steps = []
         ddo = await nevermined.assets
-            .create(metadata, publisher)
+            .create(metadata, publisher, assetRewards)
             .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+        const assetProviders = await nevermined.provider.list(ddo.id)
+        assert.deepEqual(assetProviders, [
+            Web3.utils.toChecksumAddress(config.gatewayAddress)
+        ])
     })
 
     it('should order the asset', async () => {
-        try {
-            await consumer.requestTokens(
-                +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
-            )
-        } catch {}
-
         const steps = []
         agreementId = await nevermined.assets
             .order(ddo.id, 'access', consumer)
@@ -68,6 +74,16 @@ describe('Consume Asset (Gateway)', () => {
 
         assert.isDefined(agreementId)
         assert.deepEqual(steps, [0, 1, 2, 3])
+    })
+
+    it('should get the lockPayment condition fulfilled', async () => {
+        const status = await nevermined.agreements.status(agreementId)
+
+        assert.deepEqual(status, {
+            lockPayment: ConditionState.Fulfilled,
+            access: ConditionState.Unfulfilled,
+            escrowPayment: ConditionState.Unfulfilled
+        })
     })
 
     it('should be able to download the asset if you are the owner', async () => {

@@ -94,9 +94,7 @@ export type ProvenanceEvent<
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
-        const didRegistry: DIDRegistry = new DIDRegistry(
-            'DIDRegistry'
-        )
+        const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')
         await didRegistry.init(config)
         return didRegistry
     }

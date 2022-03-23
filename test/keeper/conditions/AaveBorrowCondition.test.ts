@@ -3,16 +3,16 @@ import { AaveBorrowCondition } from '../../../src/keeper/contracts/conditions/'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import {zeroX} from "../../../src/utils";
-import BigNumber from "bignumber.js"
-import Account from "../../../src/nevermined/Account"
-import * as utils from "../../../src/utils"
-import DIDRegistry from "../../../src/keeper/contracts/DIDRegistry"
+import { zeroX } from '../../../src/utils'
+import BigNumber from 'bignumber.js'
+import Account from '../../../src/nevermined/Account'
+import * as utils from '../../../src/utils'
+import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 
 let condition: AaveBorrowCondition
 
 describe('AaveBorrowCondition', () => {
-    let did: string  // = `did:nv:${'a'.repeat(64)}`
+    let did: string // = `did:nv:${'a'.repeat(64)}`
     let agreementId: string
     const vaultAddress = `0x${'a'.repeat(40)}`
     const assetToBorrow = `0x${'a'.repeat(40)}`
@@ -25,7 +25,7 @@ describe('AaveBorrowCondition', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;[user, ] = await nevermined.accounts.list()
+        ;[user] = await nevermined.accounts.list()
         ;({ didRegistry } = nevermined.keeper)
         condition = (await Nevermined.getInstance(config)).keeper.conditions
             .aaveBorrowCondition
@@ -60,8 +60,6 @@ describe('AaveBorrowCondition', () => {
             //     interestRateMode,
             //     user
             // )
-
         })
     })
-
 })

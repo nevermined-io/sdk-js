@@ -3,10 +3,10 @@ import { AaveCollateralWithdrawCondition } from '../../../src/keeper/contracts/c
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import {zeroX} from "../../../src/utils";
-import Account from "../../../src/nevermined/Account"
-import * as utils from "../../../src/utils"
-import DIDRegistry from "../../../src/keeper/contracts/DIDRegistry"
+import { zeroX } from '../../../src/utils'
+import Account from '../../../src/nevermined/Account'
+import * as utils from '../../../src/utils'
+import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 
 let condition: AaveCollateralWithdrawCondition
 
@@ -22,7 +22,7 @@ describe('AaveCollateralWithdrawCondition', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;[user, ] = await nevermined.accounts.list()
+        ;[user] = await nevermined.accounts.list()
         ;({ didRegistry } = nevermined.keeper)
         condition = (await Nevermined.getInstance(config)).keeper.conditions
             .aaveCollateralWithdrawCondition
@@ -39,7 +39,7 @@ describe('AaveCollateralWithdrawCondition', () => {
             const hash = await condition.hashValues(
                 zeroX(did),
                 vaultAddress,
-                depositedAsset,
+                depositedAsset
             )
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
 
@@ -53,8 +53,6 @@ describe('AaveCollateralWithdrawCondition', () => {
             //     depositedAsset,
             //     user
             // )
-
         })
     })
-
 })

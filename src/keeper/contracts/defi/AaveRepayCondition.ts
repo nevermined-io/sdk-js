@@ -9,7 +9,12 @@ export class AaveRepayCondition extends Condition {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveRepayCondition> {
-        return Condition.getInstance(config, 'AaveRepayCondition', AaveRepayCondition, true)
+        return Condition.getInstance(
+            config,
+            'AaveRepayCondition',
+            AaveRepayCondition,
+            true
+        )
     }
 
     public hashValues(
