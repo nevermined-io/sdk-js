@@ -1,7 +1,13 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
-import { findServiceConditionByName, generateId, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
+import {
+    findServiceConditionByName,
+    generateId,
+    OrderProgressStep,
+    ZeroAddress,
+    zeroX
+} from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { accessTemplateServiceAgreementTemplate } from './AccessProofTemplate.serviceAgreementTemplate'
@@ -128,7 +134,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         serviceType: ServiceType = 'access-proof'
     ) {
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-
+        const keytransfer = new KeyTransfer()
         const service = ddo.findServiceByType(serviceType)
         const { _hash, _providerPub } = service.attributes.main
         const buyerPub: BabyjubPublicKey = keytransfer.makePublic(

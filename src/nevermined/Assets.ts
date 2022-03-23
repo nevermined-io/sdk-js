@@ -990,8 +990,6 @@ export class Assets extends Instantiable {
             const template = keeper.getAccessTemplateByName(templateName)
             const assetRewards = getAssetRewardsFromService(service)
 
-            console.log(`Template: ${JSON.stringify(templateName)}`)
-
             this.logger.log(`Creating ${serviceType} agreement and paying`)
             const result = await template.createAgreementWithPaymentFromDDO(
                 agreementId,
