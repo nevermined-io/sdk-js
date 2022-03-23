@@ -1,7 +1,7 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
-import { findServiceConditionByName, generateId, zeroX } from '../../../utils'
+import { findServiceConditionByName, generateId, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { accessTemplateServiceAgreementTemplate } from './AccessProofTemplate.serviceAgreementTemplate'
@@ -10,10 +10,12 @@ import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import KeyTransfer from '../../../utils/KeyTransfer'
 import { TxParameters } from '../ContractBase'
+import { GenericAccess } from './GenericAccess'
+import { ServiceType } from '../../../ddo/Service'
 
 const keytransfer = new KeyTransfer()
 
-export class AccessProofTemplate extends BaseTemplate {
+export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessProofTemplate> {
@@ -58,6 +60,107 @@ export class AccessProofTemplate extends BaseTemplate {
             from,
             params
         ))
+    }
+
+    public async createAgreementWithPaymentFromDDO(
+        agreementId: string,
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        consumerAddress: Account,
+        serviceType?: ServiceType,
+        provider?: Account,
+        from?: Account,
+        timeOuts?: number[],
+        txParams?: TxParameters,
+        observer?: (OrderProgressStep) => void
+    ): Promise<boolean> {
+        observer = observer ? observer : _ => {}
+
+        const {
+            ids,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers
+        } = await this.getAgreementDataFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumerAddress,
+            serviceType
+        )
+
+        observer(OrderProgressStep.ApprovingPayment)
+        await this.lockTokens(tokenAddress, amounts, from, txParams)
+        observer(OrderProgressStep.ApprovedPayment)
+
+        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const value =
+            tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
+                ? String(totalAmount)
+                : undefined
+
+        observer(OrderProgressStep.CreatingAgreement)
+        const res = !!(await this.createAgreementAndPay(
+            agreementId,
+            ddo.shortId(),
+            ids,
+            [0, 0, 0],
+            timeOuts ? timeOuts : [0, 0, 0],
+            consumerAddress.getId(),
+            1,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers,
+            from,
+            { ...txParams, value }
+        ))
+        observer(OrderProgressStep.AgreementInitialized)
+
+        return res
+    }
+
+    public async getAgreementDataFromDDO(
+        agreementId: string,
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        consumer: Account,
+        serviceType: ServiceType = 'access-proof'
+    ) {
+        const { escrowPaymentCondition } = this.nevermined.keeper.conditions
+
+        const service = ddo.findServiceByType(serviceType)
+        const { _hash, _providerPub } = service.attributes.main
+        const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
+            consumer.babyX,
+            consumer.babyY
+        )
+        const providerPub: BabyjubPublicKey = keytransfer.makePublic(
+            _providerPub[0],
+            _providerPub[1]
+        )
+
+        const ids = await this.getAgreementIdsFromDDO(
+            agreementId,
+            ddo,
+            assetRewards,
+            _hash,
+            buyerPub,
+            providerPub
+        )
+        const accessService = ddo.findServiceByType(serviceType)
+        const payment = findServiceConditionByName(accessService, 'lockPayment')
+        if (!payment) throw new Error('Payment Condition not found!')
+
+        return {
+            ids,
+            rewardAddress: escrowPaymentCondition.getAddress(),
+            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
+                .value as string,
+            amounts: assetRewards.getAmounts(),
+            receivers: assetRewards.getReceivers()
+        }
     }
 
     public async getAgreementIdsFromDDO(

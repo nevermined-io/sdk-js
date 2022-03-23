@@ -175,7 +175,7 @@ export class WebServiceConnector extends Instantiable {
             if (result.ok) return result
 
             counterTries++
-            this.logger.error(`Sleeping ...`)
+            this.logger.debug(`Sleeping ...`)
             await this.nevermined.utils.fetch._sleep(500)
         }
 

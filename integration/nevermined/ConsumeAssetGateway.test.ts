@@ -13,7 +13,6 @@ describe('Consume Asset (Gateway)', () => {
 
     let publisher: Account
     let consumer: Account
-    let providers: string[]
 
     let ddo: DDO
     let agreementId: string
@@ -26,7 +25,7 @@ describe('Consume Asset (Gateway)', () => {
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
-        providers = [Web3.utils.toChecksumAddress(config.gatewayAddress)]
+
         assetRewards = new AssetRewards(publisher.getId(), 0)
 
         if (!nevermined.keeper.dispenser) {

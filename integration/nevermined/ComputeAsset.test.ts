@@ -18,12 +18,15 @@ describe('Compute Asset', () => {
 
     let agreementId: string
     let workflowId: string
+    let assetRewards: AssetRewards
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
+        assetRewards = new AssetRewards(publisher.getId(), 0)
+
     })
 
     it('should register the assets', async () => {
@@ -34,7 +37,7 @@ describe('Compute Asset', () => {
         computeDdo = await nevermined.assets.create(
             workflowMetadatas.compute(),
             publisher,
-            new AssetRewards(),
+            assetRewards,
             ['compute']
         )
         workflowDdo = await nevermined.assets.create(
