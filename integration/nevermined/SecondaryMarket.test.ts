@@ -181,6 +181,7 @@ describe('Secondary Markets', () => {
                     agreementId,
                     ddo,
                     assetRewards1,
+                    collector1.getId(),
                     collector1,
                     numberNFTs
                 )
@@ -277,6 +278,7 @@ describe('Secondary Markets', () => {
                     ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
+                    collector1.getId(),
                     numberNFTs,
                     artist
                 )
@@ -420,6 +422,7 @@ describe('Secondary Markets', () => {
                     agreementId2,
                     ddo,
                     assetRewardsFromServiceAgreement,
+                    collector2.getId(),
                     collector2,
                     numberNFTs2,
                     collector1,
@@ -544,6 +547,7 @@ describe('Secondary Markets', () => {
                     ddo,
                     assetRewardsFromServiceAgreement.getAmounts(),
                     assetRewardsFromServiceAgreement.getReceivers(),
+                    collector2.getId(),
                     numberNFTs2,
                     collector1,
                     undefined,
@@ -674,6 +678,7 @@ describe('Secondary Markets', () => {
             it('As collector2 I see the bid locked and trigger the reward release', async () => {
                 const result = await nevermined.nfts.releaseSecondaryMarketRewards(
                     collector2,
+                    collector1,
                     agreementId3
                 )
                 assert.isTrue(result)

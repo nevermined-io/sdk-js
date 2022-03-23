@@ -201,6 +201,7 @@ describe('NFT721Templates E2E', () => {
                         ddo.shortId(),
                         amounts,
                         receivers,
+                        collector1.getId(),
                         escrowPaymentCondition.getAddress(),
                         token.getAddress(),
                         conditionIdLockPayment,
@@ -303,6 +304,7 @@ describe('NFT721Templates E2E', () => {
                     ddo.shortId(),
                     amounts,
                     receivers,
+                    collector1.getId(),
                     escrowPaymentCondition.getAddress(),
                     token.getAddress(),
                     conditionIdLockPayment,
@@ -461,6 +463,7 @@ describe('NFT721Templates E2E', () => {
                         ddo.shortId(),
                         amounts2,
                         receivers2,
+                        collector2.getId(),
                         escrowPaymentCondition.getAddress(),
                         token.getAddress(),
                         conditionIdLockPayment2,
@@ -579,6 +582,7 @@ describe('NFT721Templates E2E', () => {
                     ddo.shortId(),
                     amounts2,
                     receivers2,
+                    collector2.getId(),
                     escrowPaymentCondition.getAddress(),
                     token.getAddress(),
                     conditionIdLockPayment2,
@@ -663,6 +667,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId,
                     ddo,
                     assetRewards1,
+                    collector1.getId(),
                     collector1,
                     collector1
                 )
@@ -714,6 +719,7 @@ describe('NFT721Templates E2E', () => {
                     ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
+                    collector1.getId(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -811,6 +817,7 @@ describe('NFT721Templates E2E', () => {
                     agreementId2,
                     ddo,
                     assetRewards2,
+                    collector2.getId(),
                     collector2,
                     collector2
                 )
@@ -885,6 +892,7 @@ describe('NFT721Templates E2E', () => {
                     ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
+                    collector2.getId(),
                     collector1
                 )
                 assert.isTrue(receipt)

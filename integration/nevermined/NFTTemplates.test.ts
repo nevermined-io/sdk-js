@@ -194,6 +194,7 @@ describe('NFTTemplates E2E', () => {
                         ddo.id,
                         amounts,
                         receivers,
+                        collector1.getId(),
                         escrowPaymentCondition.getAddress(),
                         token.getAddress(),
                         conditionIdLockPayment,
@@ -322,6 +323,7 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     amounts,
                     receivers,
+                    collector1.getId(),
                     escrowPaymentCondition.getAddress(),
                     token.getAddress(),
                     conditionIdLockPayment,
@@ -479,6 +481,7 @@ describe('NFTTemplates E2E', () => {
                         ddo.id,
                         amounts2,
                         receivers2,
+                        collector2.getId(),
                         escrowPaymentCondition.getAddress(),
                         token.getAddress(),
                         conditionIdLockPayment2,
@@ -606,6 +609,7 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     amounts2,
                     receivers2,
+                    collector2.getId(),
                     escrowPaymentCondition.getAddress(),
                     token.getAddress(),
                     conditionIdLockPayment2,
@@ -691,6 +695,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId,
                     ddo,
                     assetRewards1,
+                    collector1.getId(),
                     collector1,
                     numberNFTs,
                     undefined,
@@ -766,6 +771,7 @@ describe('NFTTemplates E2E', () => {
                     ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
+                    collector1.getId(),
                     numberNFTs,
                     artist
                 )
@@ -866,6 +872,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId2,
                     ddo,
                     assetRewards2,
+                    collector2.getId(),
                     collector2,
                     numberNFTs2,
                     collector1
@@ -964,6 +971,7 @@ describe('NFTTemplates E2E', () => {
                     ddo,
                     assetRewards2.getAmounts(),
                     assetRewards2.getReceivers(),
+                    collector2.getId(),
                     numberNFTs2,
                     collector1
                 )
@@ -1037,6 +1045,7 @@ describe('NFTTemplates E2E', () => {
                     agreementId,
                     ddo,
                     assetRewards1,
+                    collector1.getId(),
                     collector1,
                     numberNFTs
                 )
@@ -1133,6 +1142,7 @@ describe('NFTTemplates E2E', () => {
                     ddo,
                     assetRewards1.getAmounts(),
                     assetRewards1.getReceivers(),
+                    collector1.getId(),
                     numberNFTs,
                     artist,
                     gallery
