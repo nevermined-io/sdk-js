@@ -11,8 +11,6 @@ import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import KeyTransfer from '../../../utils/KeyTransfer'
 import { TxParameters } from '../ContractBase'
 
-const keytransfer = new KeyTransfer()
-
 export class AccessProofTemplate extends BaseTemplate {
     public static async getInstance(
         config: InstantiableConfig
@@ -37,6 +35,7 @@ export class AccessProofTemplate extends BaseTemplate {
         from?: Account,
         params?: TxParameters
     ) {
+        const keytransfer = new KeyTransfer()
         const service = ddo.findServiceByType('access-proof')
         const { _hash, _providerPub } = service.attributes.main
         const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
