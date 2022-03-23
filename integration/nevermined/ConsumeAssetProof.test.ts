@@ -89,8 +89,7 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
         assert.deepEqual(passwd, origPasswd)
     })
 
-    // Skipping this test until https://github.com/nevermined-io/gateway/issues/109
-    it.skip('buyer should have the key', async () => {
+    it('buyer should have the key', async () => {
         const key = await nevermined.agreements.conditions.readKey(
             agreementId,
             keyTransfer.makeKey(consumer.babySecret),

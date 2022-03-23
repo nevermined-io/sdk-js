@@ -13,8 +13,6 @@ import { TxParameters } from '../ContractBase'
 import { GenericAccess } from './GenericAccess'
 import { ServiceType } from '../../../ddo/Service'
 
-const keytransfer = new KeyTransfer()
-
 export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
     public static async getInstance(
         config: InstantiableConfig
@@ -39,6 +37,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         from?: Account,
         params?: TxParameters
     ) {
+        const keytransfer = new KeyTransfer()
         const service = ddo.findServiceByType('access-proof')
         const { _hash, _providerPub } = service.attributes.main
         const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
