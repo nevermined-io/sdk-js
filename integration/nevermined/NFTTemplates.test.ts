@@ -889,7 +889,8 @@ describe('NFTTemplates E2E', () => {
                     collector2.getId(),
                     collector2,
                     numberNFTs2,
-                    collector1
+                    collector1,
+                    collector2
                 )
                 assert.isTrue(result)
 
@@ -1021,9 +1022,13 @@ describe('NFTTemplates E2E', () => {
                     await token.balanceOf(escrowPaymentCondition.getAddress())
                 )
             }
-            agreementId = utils.generateId()
-            agreementAccessId = utils.generateId()
-            agreementId2 = utils.generateId()
+            agreementIdSeed = utils.generateId()
+            agreementAccessIdSeed = utils.generateId()
+            agreementId2Seed = utils.generateId()
+
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, collector1.getId())
+            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(agreementAccessIdSeed, collector1.getId())
+            agreementId2 = await nevermined.keeper.agreementStoreManager.agreementId(agreementId2Seed, collector2.getId())
 
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
