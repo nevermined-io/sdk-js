@@ -13,7 +13,7 @@ describe('Agreement Store Manager', () => {
         ;[account1, account2] = await nevermined.accounts.list()
     })
 
-    it('should get agreements for did', async () => {
+    it.skip('should get agreements for did', async () => {
         const ddo = await nevermined.assets.create(getMetadata(), account1)
 
         let agreements = await nevermined.agreements.getAgreements(ddo.id)

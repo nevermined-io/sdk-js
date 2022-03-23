@@ -22,7 +22,7 @@ export class NFTSalesTemplate extends BaseTemplate {
     }
 
     public async createAgreementFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         returnAddress: string,
@@ -34,19 +34,20 @@ export class NFTSalesTemplate extends BaseTemplate {
         txParams?: TxParameters,
         nftSalesService?: Service
     ): Promise<boolean> {
-        const { ids } = await this.getAgreementIdsFromDDO(
-            agreementId,
+        const { ids, agreementId } = await this.getAgreementIdsFromDDO(
+            agreementIdSeed,
             ddo,
             assetRewards,
             returnAddress,
             consumer.getId(),
+            from.getId(),
             nftAmount,
             provider === undefined ? undefined : provider.getId()
         )
         return !!(await this.createAgreement(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
-            ids,
+            ids.map(a => a[0]),
             [0, 0, 0],
             timeOuts ? timeOuts : [0, 0, 0],
             consumer.getId(),
@@ -56,7 +57,7 @@ export class NFTSalesTemplate extends BaseTemplate {
     }
 
     public async createAgreementWithPaymentFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         returnAddress: string,
@@ -74,13 +75,15 @@ export class NFTSalesTemplate extends BaseTemplate {
             rewardAddress,
             tokenAddress,
             amounts,
+            agreementId,
             receivers
         } = await this.getAgreementIdsFromDDO(
-            agreementId,
+            agreementIdSeed,
             ddo,
             assetRewards,
             returnAddress,
             consumerAddress.getId(),
+            from.getId(),
             nftAmount,
             provider === undefined ? undefined : provider.getId()
         )
@@ -97,9 +100,9 @@ export class NFTSalesTemplate extends BaseTemplate {
 
         observer(NFTOrderProgressStep.CreatingAgreement)
         const res = !!(await this.createAgreementAndPay(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
-            ids,
+            ids.map(a => a[0]),
             [0, 0, 0],
             timeOuts ? timeOuts : [0, 0, 0],
             consumerAddress.getId(),
@@ -117,11 +120,12 @@ export class NFTSalesTemplate extends BaseTemplate {
     }
 
     public async getAgreementIdsFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         returnAddress: string,
         consumer: string,
+        creator: string,
         nftAmount?: number,
         provider?: string,
         nftSalesService?: Service
@@ -133,11 +137,12 @@ export class NFTSalesTemplate extends BaseTemplate {
         } = this.nevermined.keeper.conditions
 
         const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        const lockPaymentConditionId = await lockPaymentCondition.generateId(
+        const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
@@ -155,14 +160,14 @@ export class NFTSalesTemplate extends BaseTemplate {
             provider ||
             (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
 
-        const transferNftConditionId = await transferNftCondition.generateId(
+        const transferNftConditionId = await transferNftCondition.generateId2(
             agreementId,
             await transferNftCondition.hashValues2(
                 ddo.shortId(),
                 nftHolder,
                 consumer,
                 nftAmount,
-                lockPaymentConditionId,
+                lockPaymentConditionId[1],
                 this.nevermined.keeper.nftUpgradeable.address
             )
         )
@@ -170,7 +175,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateId2(
             agreementId,
             await escrowPaymentCondition.hashValues(
                 ddo.shortId(),
@@ -179,8 +184,8 @@ export class NFTSalesTemplate extends BaseTemplate {
                 returnAddress,
                 escrowPaymentCondition.getAddress(),
                 escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-                lockPaymentConditionId,
-                transferNftConditionId
+                lockPaymentConditionId[1],
+                transferNftConditionId[1]
             )
         )
 
@@ -190,6 +195,7 @@ export class NFTSalesTemplate extends BaseTemplate {
                 transferNftConditionId,
                 escrowPaymentConditionId
             ],
+            agreementId,
             rewardAddress: escrowPaymentCondition.getAddress(),
             tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
                 .value as string,

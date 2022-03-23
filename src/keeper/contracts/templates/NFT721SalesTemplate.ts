@@ -26,7 +26,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
     }
 
     public async createAgreementFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         returnAddress: string,
@@ -35,17 +35,18 @@ export class NFT721SalesTemplate extends BaseTemplate {
         txParams?: TxParameters
     ): Promise<boolean> {
         const { ids } = await this.getAgreementIdsFromDDO(
-            agreementId,
+            agreementIdSeed,
             ddo,
             assetRewards,
             returnAddress,
-            consumerAddress.getId()
+            consumerAddress.getId(),
+            from.getId()
         )
 
         return !!(await this.createAgreement(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
-            ids,
+            ids.map(a => a[0]),
             [0, 0, 0],
             [0, 0, 0],
             consumerAddress.getId(),
@@ -55,7 +56,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
     }
 
     public async createAgreementWithPaymentFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         returnAddress: string,
@@ -72,11 +73,12 @@ export class NFT721SalesTemplate extends BaseTemplate {
             amounts,
             receivers
         } = await this.getAgreementIdsFromDDO(
-            agreementId,
+            agreementIdSeed,
             ddo,
             assetRewards,
             returnAddress,
-            consumerAddress.getId()
+            consumerAddress.getId(),
+            from.getId()
         )
 
         observer(NFTOrderProgressStep.ApprovingPayment)
@@ -91,9 +93,9 @@ export class NFT721SalesTemplate extends BaseTemplate {
 
         observer(NFTOrderProgressStep.CreatingAgreement)
         const res = !!(await this.createAgreementAndPay(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
-            ids,
+            ids.map(a => a[0]),
             [0, 0, 0],
             [0, 0, 0],
             consumerAddress.getId(),
@@ -110,11 +112,12 @@ export class NFT721SalesTemplate extends BaseTemplate {
     }
 
     public async getAgreementIdsFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         returnAddress: string,
-        consumer: string
+        consumer: string,
+        creator: string,
     ): Promise<any> {
         const {
             lockPaymentCondition,
@@ -129,7 +132,9 @@ export class NFT721SalesTemplate extends BaseTemplate {
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment condition not found!')
 
-        const lockPaymentConditionId = await lockPaymentCondition.generateId(
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
+
+        const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
@@ -149,13 +154,13 @@ export class NFT721SalesTemplate extends BaseTemplate {
 
         const nftOwner = await nft.ownerOf(ddo.id)
 
-        const transferNftConditionId = await transferNft721Condition.generateId(
+        const transferNftConditionId = await transferNft721Condition.generateId2(
             agreementId,
             await transferNft721Condition.hashValues(
                 ddo.shortId(),
                 nftOwner,
                 consumer,
-                lockPaymentConditionId,
+                lockPaymentConditionId[1],
                 transfer.parameters.find(p => p.name === '_contract').value as string
             )
         )
@@ -172,8 +177,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 returnAddress,
                 escrowPaymentCondition.getAddress(),
                 escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-                lockPaymentConditionId,
-                transferNftConditionId
+                lockPaymentConditionId[1],
+                transferNftConditionId[1]
             )
         )
 
