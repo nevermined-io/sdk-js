@@ -85,12 +85,13 @@ describe('Register Escrow Access Proof Template', () => {
 
     describe('Full flow', () => {
         let agreementId: string
+        let agreementIdSeed: string
         let didSeed: string
         let did: string
 
-        let conditionIdAccess: string
-        let conditionIdLock: string
-        let conditionIdEscrow: string
+        let conditionIdAccess: [string,string]
+        let conditionIdLock: [string,string]
+        let conditionIdEscrow: [string,string]
 
         let buyerK: string
         let providerK: string
@@ -105,7 +106,8 @@ describe('Register Escrow Access Proof Template', () => {
         let hash: string
 
         before(async () => {
-            agreementId = utils.generateId()
+            agreementIdSeed = utils.generateId()
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, publisher.getId())
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
 
@@ -130,29 +132,36 @@ describe('Register Escrow Access Proof Template', () => {
         })
 
         it('should generate the condition IDs', async () => {
-            conditionIdAccess = await accessProofCondition.generateIdHash(
+            conditionIdAccess = await accessProofCondition.generateId2(
                 agreementId,
-                hash,
-                buyerPub,
-                providerPub
+                await accessProofCondition.hashValues(
+                    hash,
+                    buyerPub,
+                    providerPub
+                )
             )
-            conditionIdLock = await lockPaymentCondition.generateIdHash(
+            conditionIdLock = await lockPaymentCondition.generateId2(
                 agreementId,
-                did,
-                escrowPaymentCondition.getAddress(),
-                token.getAddress(),
-                amounts,
-                receivers
+                await lockPaymentCondition.hashValues(
+                    did,
+                    escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
+                    amounts,
+                    receivers
+                )
             )
-            conditionIdEscrow = await escrowPaymentCondition.generateIdHash(
+            conditionIdEscrow = await escrowPaymentCondition.generateId2(
                 agreementId,
-                did,
-                amounts,
-                receivers,
-                escrowPaymentCondition.getAddress(),
-                token.getAddress(),
-                conditionIdLock,
-                conditionIdAccess
+                await escrowPaymentCondition.hashValues(
+                    did,
+                    amounts,
+                    receivers,
+                    consumer.getId(),
+                    escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
+                    conditionIdLock[1],
+                    conditionIdAccess[1]
+                )
             )
         })
 
@@ -196,9 +205,9 @@ describe('Register Escrow Access Proof Template', () => {
 
         it('should create a new agreement', async () => {
             const agreement = await accessProofTemplate.createAgreement(
-                agreementId,
+                agreementIdSeed,
                 did,
-                [conditionIdAccess, conditionIdLock, conditionIdEscrow],
+                [conditionIdAccess[0], conditionIdLock[0], conditionIdEscrow[0]],
                 [0, 0, 0],
                 [0, 0, 0],
                 consumer.getId(),
@@ -259,8 +268,8 @@ describe('Register Escrow Access Proof Template', () => {
                 consumer.getId(),
                 escrowPaymentCondition.getAddress(),
                 token.getAddress(),
-                conditionIdLock,
-                conditionIdAccess,
+                conditionIdLock[1],
+                conditionIdAccess[1],
                 consumer
             )
 
