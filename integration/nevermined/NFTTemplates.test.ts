@@ -715,7 +715,7 @@ describe('NFTTemplates E2E', () => {
                     undefined,
                     collector1
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftSalesTemplate.getAgreementStatus(agreementId)
                 assert.equal(status && status.lockPayment.state, ConditionState.Fulfilled)
