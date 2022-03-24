@@ -6,7 +6,7 @@ import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 
-describe('Consume Asset (Documentation example)', () => {
+describe.skip('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
 
     let publisher: Account
