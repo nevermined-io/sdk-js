@@ -185,7 +185,7 @@ describe('Secondary Markets', () => {
                     collector1,
                     numberNFTs
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftSalesTemplate.getAgreementStatus(agreementId)
                 assert.equal(
@@ -313,7 +313,7 @@ describe('Secondary Markets', () => {
                     numberNFTs,
                     collector1
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftAccessTemplate.getAgreementStatus(
                     agreementAccessId
@@ -430,7 +430,7 @@ describe('Secondary Markets', () => {
                     undefined,
                     nftSalesServiceAgreement as TxParameters
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftSalesTemplate.getAgreementStatus(agreementId2)
                 assert.equal(
@@ -584,7 +584,7 @@ describe('Secondary Markets', () => {
                     numberNFTs,
                     collector2
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftAccessTemplate.getAgreementStatus(
                     agreementAccessId2

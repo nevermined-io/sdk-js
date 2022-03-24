@@ -47,7 +47,7 @@ export class AccessProofTemplate extends BaseTemplate {
             _providerPub[0],
             _providerPub[1]
         )
-        return !!(await this.createFullAgreement(
+        return await this.createFullAgreement(
             ddo,
             assetRewards,
             consumer.getId(),
@@ -57,7 +57,7 @@ export class AccessProofTemplate extends BaseTemplate {
             agreementId,
             from,
             params
-        ))
+        )
     }
 
     public async getAgreementIdsFromDDO(

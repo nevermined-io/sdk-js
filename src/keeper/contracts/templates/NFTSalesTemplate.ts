@@ -33,7 +33,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         timeOuts?: number[],
         txParams?: TxParameters,
         nftSalesService?: Service
-    ): Promise<boolean> {
+    ): Promise<string> {
         const { ids, agreementId } = await this.getAgreementIdsFromDDO(
             agreementIdSeed,
             ddo,
@@ -44,7 +44,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             nftAmount,
             provider === undefined ? undefined : provider.getId()
         )
-        return !!(await this.createAgreement(
+        await this.createAgreement(
             agreementIdSeed,
             ddo.shortId(),
             ids.map(a => a[0]),
@@ -53,7 +53,8 @@ export class NFTSalesTemplate extends BaseTemplate {
             consumer.getId(),
             from,
             txParams
-        ))
+        )
+        return await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, from.getId())
     }
 
     public async createAgreementWithPaymentFromDDO(
@@ -68,7 +69,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         timeOuts?: number[],
         txParams?: TxParameters,
         observer?: (NFTOrderProgressStep) => void
-    ): Promise<boolean> {
+    ): Promise<string> {
         observer = observer ? observer : _ => {}
         const {
             ids,
@@ -99,7 +100,7 @@ export class NFTSalesTemplate extends BaseTemplate {
                 : undefined
 
         observer(NFTOrderProgressStep.CreatingAgreement)
-        const res = !!(await this.createAgreementAndPay(
+        await this.createAgreementAndPay(
             agreementIdSeed,
             ddo.shortId(),
             ids.map(a => a[0]),
@@ -113,10 +114,10 @@ export class NFTSalesTemplate extends BaseTemplate {
             receivers,
             from,
             { ...txParams, value }
-        ))
+        )
         observer(NFTOrderProgressStep.AgreementInitialized)
 
-        return res
+        return agreementId
     }
 
     public async getAgreementIdsFromDDO(

@@ -752,7 +752,7 @@ describe('NFT721Templates E2E', () => {
                     collector1,
                     collector1
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nft721AccessTemplate.getAgreementStatus(
                     agreementAccessId
@@ -821,7 +821,7 @@ describe('NFT721Templates E2E', () => {
                     collector2,
                     collector2
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nft721SalesTemplate.getAgreementStatus(agreementId2)
                 assert.equal(

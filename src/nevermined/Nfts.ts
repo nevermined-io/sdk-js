@@ -165,15 +165,15 @@ export class Nfts extends Instantiable {
         return new SubscribablePromise<NFTOrderProgressStep, string>(async observer => {
             const { nftSalesTemplate } = this.nevermined.keeper.templates
 
-            const agreementId = zeroX(generateId())
+            const agreementIdSeed = zeroX(generateId())
             const ddo = await this.nevermined.assets.resolve(did)
 
             const salesService = ddo.findServiceByType('nft-sales')
             const assetRewards = getAssetRewardsFromService(salesService)
 
             this.logger.log('Creating nft-sales agreement and paying')
-            const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
-                agreementId,
+            const agreementId = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
+                agreementIdSeed,
                 ddo,
                 assetRewards,
                 consumer.getId(),
@@ -185,7 +185,7 @@ export class Nfts extends Instantiable {
                 txParams,
                 a => observer.next(a)
             )
-            if (!result) {
+            if (!agreementId) {
                 throw Error('Error creating nft-sales agreement')
             }
 

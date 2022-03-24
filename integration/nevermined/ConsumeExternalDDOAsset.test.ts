@@ -4,6 +4,7 @@ import { config } from '../config'
 import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
+import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -14,11 +15,9 @@ describe('Consume Asset (Documentation example)', () => {
     let metadata: MetaData
 
     let ddo: DDO
-    let serviceAgreementSignatureResult: {
-        agreementId: string
-        signature: string
-    }
+    let serviceAgreementSignatureResult: AgreementPrepareResult
     let assetRewards: AssetRewards
+    let agreementId: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -66,9 +65,9 @@ describe('Consume Asset (Documentation example)', () => {
             consumer
         )
 
-        const { agreementId, signature } = serviceAgreementSignatureResult
+        const { agreementIdSeed, signature } = serviceAgreementSignatureResult
         assert.match(
-            agreementId,
+            agreementIdSeed,
             /^0x[a-f0-9]{64}$/,
             'Service agreement ID seems not valid'
         )
@@ -80,21 +79,19 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should execute the service agreement', async () => {
-        const success = await nevermined.agreements.create(
+        agreementId = await nevermined.agreements.create(
             ddo.id,
-            serviceAgreementSignatureResult.agreementId,
+            serviceAgreementSignatureResult.agreementIdSeed,
             'access',
             consumer,
             publisher
         )
 
-        assert.isTrue(success)
+        assert.isDefined(agreementId)
     })
 
     it('should get the agreement conditions status not fulfilled', async () => {
-        const status = await nevermined.agreements.status(
-            serviceAgreementSignatureResult.agreementId
-        )
+        const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
@@ -108,7 +105,7 @@ describe('Consume Asset (Documentation example)', () => {
         const assetRewards = new AssetRewards(publisher.getId(), Number(price))
 
         const paid = await nevermined.agreements.conditions.lockPayment(
-            serviceAgreementSignatureResult.agreementId,
+            agreementId,
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
@@ -123,7 +120,7 @@ describe('Consume Asset (Documentation example)', () => {
     it('should grant the access by the publisher', async () => {
         try {
             const granted = await nevermined.agreements.conditions.grantAccess(
-                serviceAgreementSignatureResult.agreementId,
+                agreementId,
                 ddo.id,
                 consumer.getId(),
                 publisher
@@ -141,9 +138,7 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should get the agreement conditions status fulfilled', async () => {
-        const status = await nevermined.agreements.status(
-            serviceAgreementSignatureResult.agreementId
-        )
+        const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Fulfilled,
@@ -155,7 +150,7 @@ describe('Consume Asset (Documentation example)', () => {
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js-1'
         const path = await nevermined.assets.consume(
-            serviceAgreementSignatureResult.agreementId,
+            agreementId,
             ddo.id,
             consumer,
             folder
@@ -179,7 +174,7 @@ describe('Consume Asset (Documentation example)', () => {
     it('should consume and store one asset', async () => {
         const folder = '/tmp/nevermined/sdk-js-2'
         const path = await nevermined.assets.consume(
-            serviceAgreementSignatureResult.agreementId,
+            agreementId,
             ddo.id,
             consumer,
             folder,

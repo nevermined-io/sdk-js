@@ -32,14 +32,14 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate {
         from?: Account,
         params?: TxParameters
     ) {
-        return !!(await this.createFullAgreement(
+        return await this.createFullAgreement(
             ddo,
             assetRewards,
             consumer.getId(),
             agreementId,
             from,
             params
-        ))
+        )
     }
 
     public async getAgreementIdsFromDDO(

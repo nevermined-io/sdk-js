@@ -27,7 +27,7 @@ export class NFTAccessTemplate extends BaseTemplate {
         nftAmount?: number,
         from?: Account,
         params?: TxParameters
-    ): Promise<boolean> {
+    ): Promise<string> {
         const [
             nftHolderConditionId,
             nftAccessConditionId
@@ -40,7 +40,7 @@ export class NFTAccessTemplate extends BaseTemplate {
             nftAmount
         )
 
-        return !!(await this.createAgreement(
+        await this.createAgreement(
             agreementIdSeed,
             ddo.shortId(),
             [nftHolderConditionId[0], nftAccessConditionId[0]],
@@ -49,7 +49,10 @@ export class NFTAccessTemplate extends BaseTemplate {
             holderAddress.getId(),
             from,
             params
-        ))
+        )
+
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, from.getId())
+        return agreementId
     }
 
     public async getAgreementIdsFromDDO(

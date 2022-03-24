@@ -820,7 +820,7 @@ describe('NFTTemplates E2E', () => {
                     numberNFTs,
                     collector1
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftAccessTemplate.getAgreementStatus(
                     agreementAccessId
@@ -892,7 +892,7 @@ describe('NFTTemplates E2E', () => {
                     collector1,
                     collector2
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftSalesTemplate.getAgreementStatus(agreementId2)
                 assert.equal(
@@ -1070,7 +1070,7 @@ describe('NFTTemplates E2E', () => {
                     undefined,
                     collector1
                 )
-                assert.isTrue(result)
+                assert.isDefined(result)
 
                 const status = await nftSalesTemplate.getAgreementStatus(agreementId)
                 assert.equal(

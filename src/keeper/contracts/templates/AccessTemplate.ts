@@ -26,14 +26,14 @@ export class AccessTemplate extends BaseTemplate {
         from?: Account,
         params?: TxParameters
     ) {
-        return !!(await this.createFullAgreement(
+        return await this.createFullAgreement(
             ddo,
             assetRewards,
             consumer.getId(),
             agreementIdSeed,
             from,
             params
-        ))
+        )
     }
 
     public async getAgreementIdsFromDDO(

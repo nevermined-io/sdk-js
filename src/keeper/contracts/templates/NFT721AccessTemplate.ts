@@ -28,7 +28,8 @@ export class NFT721AccessTemplate extends BaseTemplate {
         holderAddress: Account,
         from?: Account,
         params?: TxParameters
-    ): Promise<boolean> {
+    ): Promise<string> {
+        const creator = from.getId()
         const [
             nftHolderConditionId,
             nftAccessConditionId
@@ -37,9 +38,9 @@ export class NFT721AccessTemplate extends BaseTemplate {
             ddo,
             assetRewards,
             holderAddress.getId(),
-            from.getId()
+            creator
         )
-        return !!(await this.createAgreement(
+        await this.createAgreement(
             agreementIdSeed,
             ddo.shortId(),
             [nftHolderConditionId[0], nftAccessConditionId[0]],
@@ -48,7 +49,8 @@ export class NFT721AccessTemplate extends BaseTemplate {
             holderAddress.getId(),
             from,
             params
-        ))
+        )
+        return await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
     }
 
     public async getAgreementIdsFromDDO(

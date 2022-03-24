@@ -123,7 +123,7 @@ export abstract class AgreementTemplate extends ContractBase {
             | Service
             | TxParameters
         )[]
-    ): Promise<boolean>
+    ): Promise<string>
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
 

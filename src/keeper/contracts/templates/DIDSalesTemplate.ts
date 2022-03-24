@@ -22,7 +22,7 @@ export class DIDSalesTemplate extends BaseTemplate {
         consumer: Account,
         from?: Account,
         params?: TxParameters
-    ): Promise<boolean> {
+    ): Promise<string> {
         throw new Error('Not implemented')
     }
 

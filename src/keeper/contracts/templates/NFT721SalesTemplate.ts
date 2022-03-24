@@ -33,8 +33,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
         consumerAddress: Account,
         from?: Account,
         txParams?: TxParameters
-    ): Promise<boolean> {
-        const { ids } = await this.getAgreementIdsFromDDO(
+    ): Promise<string> {
+        const { ids, agreementId } = await this.getAgreementIdsFromDDO(
             agreementIdSeed,
             ddo,
             assetRewards,
@@ -43,7 +43,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             from.getId()
         )
 
-        return !!(await this.createAgreement(
+        await this.createAgreement(
             agreementIdSeed,
             ddo.shortId(),
             ids.map(a => a[0]),
@@ -52,7 +52,8 @@ export class NFT721SalesTemplate extends BaseTemplate {
             consumerAddress.getId(),
             from,
             txParams
-        ))
+        )
+        return agreementId
     }
 
     public async createAgreementWithPaymentFromDDO(
@@ -183,6 +184,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         )
 
         return {
+            agreementId,
             ids: [
                 lockPaymentConditionId,
                 transferNftConditionId,
