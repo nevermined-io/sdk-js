@@ -979,8 +979,9 @@ export class Assets extends Instantiable {
         return new SubscribablePromise(async observer => {
             const { agreements } = this.nevermined
 
-            const agreementId = zeroX(generateId())
+            const agreementIdSeed = zeroX(generateId())
             const ddo = await this.resolve(did)
+            let agreementId: string
 
             const { keeper } = this.nevermined
             const service = ddo.findServiceByType(serviceType)
@@ -988,6 +989,17 @@ export class Assets extends Instantiable {
             const template = keeper.getTemplateByName(templateName)
             const assetRewards = getAssetRewardsFromService(service)
 
+            observer.next(OrderProgressStep.CreatingAgreement)
+            this.logger.log('Creating agreement')
+            agreementId = await agreements.create(
+                did,
+                agreementIdSeed,
+                serviceType,
+                consumer,
+                consumer,
+                params
+            )
+            this.logger.log('Agreement created')
             // eslint-disable-next-line no-async-promise-executor
             const paymentFlow = new Promise(async (resolve, reject) => {
                 await template.getAgreementCreatedEvent(agreementId)
@@ -1023,18 +1035,6 @@ export class Assets extends Instantiable {
 
                 resolve(did)
             })
-
-            observer.next(OrderProgressStep.CreatingAgreement)
-            this.logger.log('Creating agreement')
-            await agreements.create(
-                did,
-                agreementId,
-                serviceType,
-                consumer,
-                consumer,
-                params
-            )
-            this.logger.log('Agreement created')
 
             try {
                 await paymentFlow

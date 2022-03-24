@@ -3,7 +3,7 @@ import { config } from '../config'
 import { assert } from 'chai'
 import Web3 from 'web3'
 
-describe('SubgraphEvent', () => {
+describe.skip('SubgraphEvent', () => {
     let account: Account
     let nevermined: Nevermined
     let executeTransaction: () => Promise<any>
