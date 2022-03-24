@@ -8,7 +8,8 @@ import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTempla
 import {
     findServiceConditionByName,
     NFTOrderProgressStep,
-    ZeroAddress
+    ZeroAddress,
+    zeroX
 } from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
@@ -65,10 +66,11 @@ export class NFT721SalesTemplate extends BaseTemplate {
         from?: Account,
         txParams?: TxParameters,
         observer?: (NFTOrderProgressStep) => void
-    ): Promise<boolean> {
+    ): Promise<string> {
         observer = observer ? observer : _ => {}
         const {
             ids,
+            agreementId,
             rewardAddress,
             tokenAddress,
             amounts,
@@ -93,7 +95,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
                 : undefined
 
         observer(NFTOrderProgressStep.CreatingAgreement)
-        const res = !!(await this.createAgreementAndPay(
+        await this.createAgreementAndPay(
             agreementIdSeed,
             ddo.shortId(),
             ids.map(a => a[0]),
@@ -107,9 +109,9 @@ export class NFT721SalesTemplate extends BaseTemplate {
             receivers,
             from,
             { ...txParams, value }
-        ))
+        )
         observer(NFTOrderProgressStep.AgreementInitialized)
-        return res
+        return agreementId
     }
 
     public async getAgreementIdsFromDDO(
@@ -169,10 +171,10 @@ export class NFT721SalesTemplate extends BaseTemplate {
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateId(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateId2(
             agreementId,
             await escrowPaymentCondition.hashValues(
-                ddo.shortId(),
+                zeroX(ddo.shortId()),
                 assetRewards.getAmounts(),
                 assetRewards.getReceivers(),
                 returnAddress,
