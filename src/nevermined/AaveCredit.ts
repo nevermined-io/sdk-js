@@ -68,17 +68,21 @@ export class AaveCredit extends Instantiable {
         timeOuts?: number[],
         txParams?: TxParameters
     ): Promise<string> {
-        const agreementId = zeroX(generateId())
+        const agreementIdSeed = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
         if (!ddo) {
             throw Error(`Failed to resolve DDO for DID ${did}`)
         }
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            from.getId()
+        )
 
         const [
             txReceipt,
             vaultAddress
         ] = await this.template.createAgreementAndDeployVault(
-            agreementId,
+            agreementIdSeed,
             ddo,
             nftTokenContract,
             nftAmount,

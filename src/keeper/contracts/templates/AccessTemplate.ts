@@ -70,6 +70,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             ddo,
             assetRewards,
             consumerAddress.getId(),
+            from.getId(),
             serviceType
         )
 
@@ -85,7 +86,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
 
         observer(OrderProgressStep.CreatingAgreement)
         await this.createAgreementAndPay(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
             ids.map(a => a[0]),
             [0, 0, 0],
@@ -229,6 +230,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             agreementIdSeed,
             creator
         )
+        console.log('create', agreementId, "seed", agreementIdSeed, "creator", creator)
         const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,
             await lockPaymentCondition.hashValues(

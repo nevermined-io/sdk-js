@@ -145,7 +145,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         const txAgreement = await this.send(
             'createVaultAgreement',
             from.getId(),
-            [agreementId, didZeroX(did), ids, timeLocks, timeOuts, vaultAddress],
+            [agreementIdSeed, didZeroX(did), ids.map(a => a[0]), timeLocks, timeOuts, vaultAddress],
             txParams
         )
 
@@ -157,7 +157,7 @@ export class AaveCreditTemplate extends BaseTemplate {
     }
 
     public async createAgreementAndDeployVault(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         nftTokenContract: string,
         nftAmount: number,
@@ -189,7 +189,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             weth=${this.aaveConfig.wethAddress}. agreementFee=${this.aaveConfig.agreementFee}`)
 
         const txAgreement = await this._createAgreement(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
             vaultAddress,
             nftTokenContract,
@@ -213,7 +213,7 @@ export class AaveCreditTemplate extends BaseTemplate {
      * @return {Promise<string>}                Agreement ID.
      */
     public async createFullAgreement(
-        agreementId: string,
+        agreementIdSeed: string,
         did: string,
         vaultAddress: string,
         nftTokenContract: string,
@@ -229,7 +229,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         from?: Account
     ): Promise<string> {
         await this._createAgreement(
-            agreementId,
+            agreementIdSeed,
             did,
             vaultAddress,
             nftTokenContract,
@@ -243,6 +243,10 @@ export class AaveCreditTemplate extends BaseTemplate {
             timeOuts,
             txParams,
             from
+        )
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            from.getId()
         )
         return zeroX(agreementId)
     }
@@ -318,7 +322,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             lockNftId=${lockNftId}, 
             `)
 
-        const depositCollateralId = await aaveCollateralDepositCondition.generateId(
+        const depositCollateralId = await aaveCollateralDepositCondition.generateId2(
             agreementId,
             await aaveCollateralDepositCondition.hashValues(
                 did,
@@ -330,7 +334,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 interestRateMode
             )
         )
-        const borrowId = await aaveBorrowCondition.generateId(
+        const borrowId = await aaveBorrowCondition.generateId2(
             agreementId,
             await aaveBorrowCondition.hashValues(
                 did,
@@ -340,7 +344,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 interestRateMode
             )
         )
-        const repayId = await aaveRepayCondition.generateId(
+        const repayId = await aaveRepayCondition.generateId2(
             agreementId,
             await aaveRepayCondition.hashValues(
                 did,
@@ -350,7 +354,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 interestRateMode
             )
         )
-        const withdrawId = await aaveCollateralWithdrawCondition.generateId(
+        const withdrawId = await aaveCollateralWithdrawCondition.generateId2(
             agreementId,
             await aaveCollateralWithdrawCondition.hashValues(
                 did,
@@ -358,7 +362,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 collateralToken
             )
         )
-        const distributeId = await distributeNftCollateralCondition.generateId(
+        const distributeId = await distributeNftCollateralCondition.generateId2(
             agreementId,
             await distributeNftCollateralCondition.hashValues(
                 did,

@@ -93,6 +93,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
             ddo,
             assetRewards,
             consumerAddress,
+            from.getId(),
             serviceType
         )
 

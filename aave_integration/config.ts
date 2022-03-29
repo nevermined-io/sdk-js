@@ -9,7 +9,7 @@ export default {
     gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     faucetUri: 'http://localhost:3001',
     nodeUri: `http://localhost:${process.env.ETH_PORT || 8545}`,
-    graphHttpUri: 'http://localhost:9000/subgraphs/name/neverminedio',
+    // graphHttpUri: 'http://localhost:9000/subgraphs/name/neverminedio',
     secretStoreUri: 'http://localhost:12001',
     gasMultiplier: 1.1,
     verbose: LogLevel.Error,
