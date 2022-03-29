@@ -30,7 +30,9 @@ export class EscrowPaymentCondition extends Condition {
             didZeroX(did),
             amountsString,
             receivers,
-            ...[returnAddress, sender, tokenAddress, lockCondition, releaseCondition].map(zeroX)
+            ...[returnAddress, sender, tokenAddress, lockCondition, releaseCondition].map(
+                zeroX
+            )
         )
     }
 

@@ -647,7 +647,10 @@ export class Nfts extends Instantiable {
         const did = getDIDFromService(service)
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, consumer.getId())
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            consumer.getId()
+        )
 
         let receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,

@@ -54,7 +54,10 @@ export class NFTSalesTemplate extends BaseTemplate {
             from,
             txParams
         )
-        return await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, from.getId())
+        return await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            from.getId()
+        )
     }
 
     public async createAgreementWithPaymentFromDDO(
@@ -138,7 +141,10 @@ export class NFTSalesTemplate extends BaseTemplate {
         } = this.nevermined.keeper.conditions
 
         const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')

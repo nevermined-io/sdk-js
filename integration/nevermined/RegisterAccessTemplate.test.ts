@@ -87,13 +87,16 @@ describe('Register Escrow Access Secret Store Template', () => {
         let didSeed: string
         let did: string
 
-        let conditionIdAccess: [string,string]
-        let conditionIdLock: [string,string]
-        let conditionIdEscrow: [string,string]
+        let conditionIdAccess: [string, string]
+        let conditionIdLock: [string, string]
+        let conditionIdEscrow: [string, string]
 
         before(async () => {
             agreementIdSeed = utils.generateId()
-            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, publisher.getId())
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                publisher.getId()
+            )
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
@@ -111,10 +114,7 @@ describe('Register Escrow Access Secret Store Template', () => {
         it('should generate the condition IDs', async () => {
             conditionIdAccess = await accessCondition.generateId2(
                 agreementId,
-                await accessCondition.hashValues(
-                    did,
-                    consumer.getId()
-                )
+                await accessCondition.hashValues(did, consumer.getId())
             )
             conditionIdLock = await lockPaymentCondition.generateId2(
                 agreementId,

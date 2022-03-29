@@ -153,9 +153,18 @@ describe('NFT721Templates E2E', () => {
             agreementAccessIdSeed = utils.generateId()
             agreementId2Seed = utils.generateId()
 
-            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, collector1.getId())
-            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(agreementAccessIdSeed, collector1.getId())
-            agreementId2 = await nevermined.keeper.agreementStoreManager.agreementId(agreementId2Seed, collector2.getId())
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                collector1.getId()
+            )
+            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementAccessIdSeed,
+                collector1.getId()
+            )
+            agreementId2 = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementId2Seed,
+                collector2.getId()
+            )
 
             ddo = await nevermined.assets.createNft721(
                 getMetadata(),
@@ -235,7 +244,11 @@ describe('NFT721Templates E2E', () => {
                 const result = await nft721SalesTemplate.createAgreementAndPay(
                     agreementIdSeed,
                     ddo.shortId(),
-                    [conditionIdLockPayment[0], conditionIdTransferNFT[0], conditionIdEscrow[0]],
+                    [
+                        conditionIdLockPayment[0],
+                        conditionIdTransferNFT[0],
+                        conditionIdEscrow[0]
+                    ],
                     [0, 0, 0],
                     [0, 0, 0],
                     collector1.getId(),
@@ -249,7 +262,8 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(result.status)
                 assert.nestedProperty(result, 'events.AgreementCreated')
                 assert.equal(
-                    (await conditionStoreManager.getCondition(conditionIdEscrow[1])).state,
+                    (await conditionStoreManager.getCondition(conditionIdEscrow[1]))
+                        .state,
                     ConditionState.Unfulfilled
                 )
                 assert.equal(
@@ -258,7 +272,9 @@ describe('NFT721Templates E2E', () => {
                     ConditionState.Unfulfilled
                 )
 
-                const { state } = await conditionStoreManager.getCondition(conditionIdLockPayment[1])
+                const { state } = await conditionStoreManager.getCondition(
+                    conditionIdLockPayment[1]
+                )
                 assert.equal(state, ConditionState.Fulfilled)
 
                 const collector1BalanceAfter = await token.balanceOf(collector1.getId())
@@ -293,7 +309,9 @@ describe('NFT721Templates E2E', () => {
                     artist
                 )
 
-                const { state } = await conditionStoreManager.getCondition(conditionIdTransferNFT[1])
+                const { state } = await conditionStoreManager.getCondition(
+                    conditionIdTransferNFT[1]
+                )
                 assert.equal(state, ConditionState.Fulfilled)
 
                 const ownerAfter = await nft.ownerOf(ddo.shortId())
@@ -314,7 +332,9 @@ describe('NFT721Templates E2E', () => {
                     artist
                 )
 
-                const { state } = await conditionStoreManager.getCondition(conditionIdEscrow[1])
+                const { state } = await conditionStoreManager.getCondition(
+                    conditionIdEscrow[1]
+                )
                 assert.equal(state, ConditionState.Fulfilled)
 
                 const escrowPaymentConditionBalance = await token.balanceOf(
@@ -494,7 +514,8 @@ describe('NFT721Templates E2E', () => {
                     ConditionState.Unfulfilled
                 )
                 assert.equal(
-                    (await conditionStoreManager.getCondition(conditionIdEscrow2[1])).state,
+                    (await conditionStoreManager.getCondition(conditionIdEscrow2[1]))
+                        .state,
                     ConditionState.Unfulfilled
                 )
                 assert.equal(
@@ -632,9 +653,18 @@ describe('NFT721Templates E2E', () => {
             agreementAccessIdSeed = utils.generateId()
             agreementId2Seed = utils.generateId()
 
-            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, collector1.getId())
-            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(agreementAccessIdSeed, collector1.getId())
-            agreementId2 = await nevermined.keeper.agreementStoreManager.agreementId(agreementId2Seed, collector2.getId())
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                collector1.getId()
+            )
+            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementAccessIdSeed,
+                collector1.getId()
+            )
+            agreementId2 = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementId2Seed,
+                collector2.getId()
+            )
 
             const nftContract = await TestContractHandler.deployArtifact(ERC721)
             nft = await nevermined.contracts.loadNft721(nftContract.options.address)

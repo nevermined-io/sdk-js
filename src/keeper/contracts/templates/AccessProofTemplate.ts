@@ -239,7 +239,11 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         await this.createAgreement(
             agreementIdSeed,
             ddo.shortId(),
-            [accessConditionId[0], lockPaymentConditionId[0], escrowPaymentConditionId[0]],
+            [
+                accessConditionId[0],
+                lockPaymentConditionId[0],
+                escrowPaymentConditionId[0]
+            ],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -273,7 +277,10 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
         const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,
             await lockPaymentCondition.hashValues(
@@ -287,11 +294,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
 
         const accessConditionId = await accessProofCondition.generateId2(
             agreementId,
-            await accessProofCondition.hashValues(
-                hash,
-                buyerPub,
-                providerPub
-            )
+            await accessProofCondition.hashValues(hash, buyerPub, providerPub)
         )
 
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')

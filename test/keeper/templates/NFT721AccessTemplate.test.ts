@@ -55,11 +55,20 @@ describe('NFT721AccessTemplate', () => {
 
     beforeEach(async () => {
         agreementIdSeed = zeroX(utils.generateId())
-        agreementId = await agreementStoreManager.agreementId(agreementIdSeed, sender.getId())
+        agreementId = await agreementStoreManager.agreementId(
+            agreementIdSeed,
+            sender.getId()
+        )
         conditionIdSeeds = [zeroX(utils.generateId()), zeroX(utils.generateId())]
         conditionIds = [
-            await nevermined.keeper.conditions.nft721HolderCondition.generateId(agreementId, conditionIdSeeds[0]),
-            await nevermined.keeper.conditions.nftAccessCondition.generateId(agreementId, conditionIdSeeds[1]),
+            await nevermined.keeper.conditions.nft721HolderCondition.generateId(
+                agreementId,
+                conditionIdSeeds[0]
+            ),
+            await nevermined.keeper.conditions.nftAccessCondition.generateId(
+                agreementId,
+                conditionIdSeeds[1]
+            )
         ]
         didSeed = `did:nv:${utils.generateId()}`
         checksum = utils.generateId()
@@ -152,15 +161,17 @@ describe('NFT721AccessTemplate', () => {
             )*/
 
             const conditionTypes = await nft721AccessTemplate.getConditionTypes()
-            await Promise.all(conditionIds.map(async (conditionId, i) => {
-                const storedCondition = await conditionStoreManager.getCondition(
-                    conditionId
-                )
-                assert.equal(storedCondition.typeRef, conditionTypes[i])
-                assert.equal(storedCondition.state, ConditionState.Unfulfilled)
-                assert.equal(storedCondition.timeLock, timeLocks[i])
-                assert.equal(storedCondition.timeOut, timeOuts[i])
-            }))
+            await Promise.all(
+                conditionIds.map(async (conditionId, i) => {
+                    const storedCondition = await conditionStoreManager.getCondition(
+                        conditionId
+                    )
+                    assert.equal(storedCondition.typeRef, conditionTypes[i])
+                    assert.equal(storedCondition.state, ConditionState.Unfulfilled)
+                    assert.equal(storedCondition.timeLock, timeLocks[i])
+                    assert.equal(storedCondition.timeOut, timeOuts[i])
+                })
+            )
         })
     })
 })

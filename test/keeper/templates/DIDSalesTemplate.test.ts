@@ -55,16 +55,28 @@ describe('DIDSalesTemplate', () => {
 
     beforeEach(async () => {
         agreementIdSeed = zeroX(utils.generateId())
-        agreementId = await agreementStoreManager.agreementId(agreementIdSeed, sender.getId())
+        agreementId = await agreementStoreManager.agreementId(
+            agreementIdSeed,
+            sender.getId()
+        )
         conditionIdSeeds = [
             zeroX(utils.generateId()),
             zeroX(utils.generateId()),
             zeroX(utils.generateId())
         ]
         conditionIds = [
-            await nevermined.keeper.conditions.lockPaymentCondition.generateId(agreementId, conditionIdSeeds[0]),
-            await nevermined.keeper.conditions.transferDidOwnershipCondition.generateId(agreementId, conditionIdSeeds[1]),
-            await nevermined.keeper.conditions.escrowPaymentCondition.generateId(agreementId, conditionIdSeeds[2])
+            await nevermined.keeper.conditions.lockPaymentCondition.generateId(
+                agreementId,
+                conditionIdSeeds[0]
+            ),
+            await nevermined.keeper.conditions.transferDidOwnershipCondition.generateId(
+                agreementId,
+                conditionIdSeeds[1]
+            ),
+            await nevermined.keeper.conditions.escrowPaymentCondition.generateId(
+                agreementId,
+                conditionIdSeeds[2]
+            )
         ]
         didSeed = `did:nv:${utils.generateId()}`
         checksum = utils.generateId()
@@ -152,15 +164,17 @@ describe('DIDSalesTemplate', () => {
             // assert.deepEqual(storedAgreement.lastUpdatedBy, didSalesTemplate.getAddress())
 
             const conditionTypes = await didSalesTemplate.getConditionTypes()
-            await Promise.all(conditionIds.map(async (conditionId, i) => {
-                const storedCondition = await conditionStoreManager.getCondition(
-                    conditionId
-                )
-                assert.equal(storedCondition.typeRef, conditionTypes[i])
-                assert.equal(storedCondition.state, ConditionState.Unfulfilled)
-                assert.equal(storedCondition.timeLock, timeLocks[i])
-                assert.equal(storedCondition.timeOut, timeOuts[i])
-            }))
+            await Promise.all(
+                conditionIds.map(async (conditionId, i) => {
+                    const storedCondition = await conditionStoreManager.getCondition(
+                        conditionId
+                    )
+                    assert.equal(storedCondition.typeRef, conditionTypes[i])
+                    assert.equal(storedCondition.state, ConditionState.Unfulfilled)
+                    assert.equal(storedCondition.timeLock, timeLocks[i])
+                    assert.equal(storedCondition.timeOut, timeOuts[i])
+                })
+            )
         })
     })
 })

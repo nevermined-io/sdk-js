@@ -120,7 +120,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         assetRewards: AssetRewards,
         returnAddress: string,
         consumer: string,
-        creator: string,
+        creator: string
     ): Promise<any> {
         const {
             lockPaymentCondition,
@@ -135,7 +135,10 @@ export class NFT721SalesTemplate extends BaseTemplate {
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment condition not found!')
 
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,

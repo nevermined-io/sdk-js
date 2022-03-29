@@ -53,8 +53,14 @@ export abstract class Condition extends ContractBase {
         return this.call<string>('generateId', [zeroX(agreementId), valueHash])
     }
 
-    public async generateId2(agreementId: string, valueHash: string): Promise<[string, string]> {
-        return [valueHash, await this.call<string>('generateId', [zeroX(agreementId), valueHash])]
+    public async generateId2(
+        agreementId: string,
+        valueHash: string
+    ): Promise<[string, string]> {
+        return [
+            valueHash,
+            await this.call<string>('generateId', [zeroX(agreementId), valueHash])
+        ]
     }
 
     public abortByTimeOut(agreementId: string, from?: Account, params?: TxParameters) {

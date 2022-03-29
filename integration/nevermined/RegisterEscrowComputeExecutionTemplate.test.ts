@@ -87,13 +87,16 @@ describe('Register Escrow Compute Execution Template', () => {
         let didSeed: string
         let did: string
 
-        let conditionIdCompute: [string,string]
-        let conditionIdLock: [string,string]
-        let conditionIdEscrow: [string,string]
+        let conditionIdCompute: [string, string]
+        let conditionIdLock: [string, string]
+        let conditionIdEscrow: [string, string]
 
         before(async () => {
             agreementIdSeed = utils.generateId()
-            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, publisher.getId())
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                publisher.getId()
+            )
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
@@ -111,10 +114,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should generate the condition IDs', async () => {
             conditionIdCompute = await computeExecutionCondition.generateId2(
                 agreementId,
-                await computeExecutionCondition.hashValues(
-                    did,
-                    consumer.getId()
-                )
+                await computeExecutionCondition.hashValues(did, consumer.getId())
             )
             conditionIdLock = await lockPaymentCondition.generateId2(
                 agreementId,

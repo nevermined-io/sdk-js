@@ -128,10 +128,10 @@ export class Keeper extends Instantiable {
                 keeper.instances.nft721AccessTemplate,
                 keeper.instances.didSalesTemplate,
                 keeper.instances.nftSalesTemplate,
-                keeper.instances.nft721SalesTemplate,
+                keeper.instances.nft721SalesTemplate
             ]
 
-            const templateObj : any = {}
+            const templateObj: any = {}
             for (const i of templates) {
                 templateObj[i.address] = i
             }

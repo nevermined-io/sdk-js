@@ -65,7 +65,13 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[sender, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
+        ;[
+            sender,
+            artist,
+            collector1,
+            collector2,
+            gallery
+        ] = await nevermined.accounts.list()
 
         receivers = [artist.getId(), gallery.getId()]
 
@@ -117,8 +123,14 @@ describe('NFTTemplates With Ether E2E', async () => {
             agreementIdSeed = utils.generateId()
             agreementAccessIdSeed = utils.generateId()
 
-            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, sender.getId())
-            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(agreementAccessIdSeed, sender.getId())
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                sender.getId()
+            )
+            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementAccessIdSeed,
+                sender.getId()
+            )
 
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
@@ -190,7 +202,11 @@ describe('NFTTemplates With Ether E2E', async () => {
                 const result = await nftSalesTemplate.createAgreement(
                     agreementIdSeed,
                     ddo.shortId(),
-                    [conditionIdLockPayment[0], conditionIdTransferNFT[0], conditionIdEscrow[0]],
+                    [
+                        conditionIdLockPayment[0],
+                        conditionIdTransferNFT[0],
+                        conditionIdEscrow[0]
+                    ],
                     [0, 0, 0],
                     [0, 0, 0],
                     collector1.getId(),
@@ -206,7 +222,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     ConditionState.Unfulfilled
                 )
                 assert.equal(
-                    (await conditionStoreManager.getCondition(conditionIdEscrow[1])).state,
+                    (await conditionStoreManager.getCondition(conditionIdEscrow[1]))
+                        .state,
                     ConditionState.Unfulfilled
                 )
                 assert.equal(
@@ -312,12 +329,12 @@ describe('NFTTemplates With Ether E2E', async () => {
                 assert.closeTo(
                     receiver0Balance,
                     initialBalances.artist + amounts[0],
-                    10**16
+                    10 ** 16
                 )
                 assert.closeTo(
                     receiver1Balance,
                     initialBalances.gallery + amounts[1],
-                    10**16
+                    10 ** 16
                 )
                 assert.equal(
                     escrowPaymentConditionBalance -

@@ -147,7 +147,13 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer, creator)
+        } = await this.createFullAgreementData(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumer,
+            creator
+        )
         return [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId]
     }
 
@@ -173,12 +179,22 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             lockPaymentConditionId,
             agreementId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementIdSeed, ddo, assetRewards, consumer, from.getId())
+        } = await this.createFullAgreementData(
+            agreementIdSeed,
+            ddo,
+            assetRewards,
+            consumer,
+            from.getId()
+        )
 
         await this.createAgreement(
             agreementIdSeed,
             ddo.shortId(),
-            [accessConditionId[0], lockPaymentConditionId[0], escrowPaymentConditionId[0]],
+            [
+                accessConditionId[0],
+                lockPaymentConditionId[0],
+                escrowPaymentConditionId[0]
+            ],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -209,7 +225,10 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
         const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,
             await lockPaymentCondition.hashValues(
@@ -223,10 +242,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
 
         const accessConditionId = await accessCondition.generateId2(
             agreementId,
-            await accessCondition.hashValues(
-                ddo.shortId(),
-                consumer
-            )
+            await accessCondition.hashValues(ddo.shortId(), consumer)
         )
 
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')

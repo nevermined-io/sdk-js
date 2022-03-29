@@ -51,7 +51,10 @@ export class NFTAccessTemplate extends BaseTemplate {
             params
         )
 
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, from.getId())
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            from.getId()
+        )
         return agreementId
     }
 
@@ -67,7 +70,10 @@ export class NFTAccessTemplate extends BaseTemplate {
             nftHolderCondition,
             nftAccessCondition
         } = this.nevermined.keeper.conditions
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
 
         const nftHolderConditionId = await nftHolderCondition.generateId2(
             agreementId,

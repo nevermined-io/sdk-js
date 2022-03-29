@@ -56,7 +56,10 @@ describe('NFTAccessCondition', () => {
 
     beforeEach(async () => {
         agreementIdSeed = utils.generateId()
-        agreementId = await agreementStoreManager.agreementId(agreementIdSeed, owner.getId())
+        agreementId = await agreementStoreManager.agreementId(
+            agreementIdSeed,
+            owner.getId()
+        )
 
         checksum = utils.generateId()
         didSeed = `did:nv:${utils.generateId()}`

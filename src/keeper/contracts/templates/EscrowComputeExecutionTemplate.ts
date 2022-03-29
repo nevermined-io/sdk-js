@@ -154,7 +154,13 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
             computeExecutionConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer, creator)
+        } = await this.createFullAgreementData(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumer,
+            creator
+        )
         return [
             computeExecutionConditionId,
             lockPaymentConditionId,
@@ -184,7 +190,13 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
             lockPaymentConditionId,
             escrowPaymentConditionId,
             agreementId
-        } = await this.createFullAgreementData(agreementIdSeed, ddo, assetRewards, consumer, from.getId())
+        } = await this.createFullAgreementData(
+            agreementIdSeed,
+            ddo,
+            assetRewards,
+            consumer,
+            from.getId()
+        )
 
         await this.createAgreement(
             agreementIdSeed,
@@ -224,7 +236,10 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, creator)
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,
@@ -239,10 +254,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
 
         const computeExecutionConditionId = await computeExecutionCondition.generateId2(
             agreementId,
-            await computeExecutionCondition.hashValues(
-                ddo.shortId(),
-                consumer
-            )
+            await computeExecutionCondition.hashValues(ddo.shortId(), consumer)
         )
 
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')

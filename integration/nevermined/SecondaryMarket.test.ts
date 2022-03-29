@@ -154,10 +154,22 @@ describe('Secondary Markets', () => {
             agreementAccessIdSeed = utils.generateId()
             agreementAccessId2Seed = utils.generateId()
 
-            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(agreementIdSeed, collector1.getId())
-            agreementId2 = await nevermined.keeper.agreementStoreManager.agreementId(agreementId2Seed, collector2.getId())
-            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(agreementAccessIdSeed, collector1.getId())
-            agreementAccessId2 = await nevermined.keeper.agreementStoreManager.agreementId(agreementAccessId2Seed, collector2.getId())
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                collector1.getId()
+            )
+            agreementId2 = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementId2Seed,
+                collector2.getId()
+            )
+            agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementAccessIdSeed,
+                collector1.getId()
+            )
+            agreementAccessId2 = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementAccessId2Seed,
+                collector2.getId()
+            )
 
             ddo = await nevermined.assets.createNft(
                 getMetadata(),
