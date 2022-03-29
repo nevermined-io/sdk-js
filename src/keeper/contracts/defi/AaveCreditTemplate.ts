@@ -50,7 +50,7 @@ export class AaveCreditTemplate extends BaseTemplate {
     }
 
     public async getAgreementIds(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         vaultAddress: string,
         nftTokenContract: string,
@@ -59,8 +59,9 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralAmount: number,
         delegatedToken: string,
         delegatedAmount: number,
-        interestRateMode: number
-    ): Promise<string[]> {
+        interestRateMode: number,
+        creator: string
+    ) {
         const aaveService = ddo.findServiceByType('aave-credit')
         if (!aaveService) throw new Error('aave-credit service not found in this DDO!')
 
@@ -87,7 +88,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             web3Utils.toWei(delegatedAmount.toString(), 'ether')
         )
         return this.createFullAgreementData(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
             vaultAddress,
             nftTokenContract,
@@ -96,7 +97,8 @@ export class AaveCreditTemplate extends BaseTemplate {
             _collateralAmount,
             delegatedToken,
             _delegatedAmount,
-            interestRateMode
+            interestRateMode,
+            creator
         )
     }
 
@@ -105,7 +107,7 @@ export class AaveCreditTemplate extends BaseTemplate {
     }
 
     private async _createAgreement(
-        agreementId: string,
+        agreementIdSeed: string,
         did: string,
         vaultAddress: string,
         nftTokenContract: string,
@@ -126,8 +128,8 @@ export class AaveCreditTemplate extends BaseTemplate {
         const _delegatedAmount = new BigNumber(
             web3Utils.toWei(delegatedAmount.toString(), 'ether')
         )
-        const conditionIds = await this.createFullAgreementData(
-            agreementId,
+        const { ids, agreementId } = await this.createFullAgreementData(
+            agreementIdSeed,
             did,
             vaultAddress,
             nftTokenContract,
@@ -136,13 +138,14 @@ export class AaveCreditTemplate extends BaseTemplate {
             _collateralAmount,
             delegatedToken,
             _delegatedAmount,
-            interestRateMode
+            interestRateMode,
+            from.getId()
         )
 
         const txAgreement = await this.send(
             'createVaultAgreement',
             from.getId(),
-            [agreementId, didZeroX(did), conditionIds, timeLocks, timeOuts, vaultAddress],
+            [agreementId, didZeroX(did), ids, timeLocks, timeOuts, vaultAddress],
             txParams
         )
 
@@ -276,7 +279,7 @@ export class AaveCreditTemplate extends BaseTemplate {
     }
 
     private async createFullAgreementData(
-        agreementId: string,
+        agreementIdSeed: string,
         did: string,
         vaultAddress: string,
         nftTokenContract: string,
@@ -285,7 +288,8 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralAmount: BigNumber,
         delegatedToken: string,
         delegatedAmount: BigNumber,
-        interestRateMode: number
+        interestRateMode: number,
+        creator: string
     ) {
         const {
             nft721LockCondition,
@@ -296,7 +300,11 @@ export class AaveCreditTemplate extends BaseTemplate {
             distributeNftCollateralCondition
         } = this.nevermined.keeper.conditions
 
-        const lockNftId = await nft721LockCondition.generateId(
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
+        const lockNftId = await nft721LockCondition.generateId2(
             agreementId,
             await nft721LockCondition.hashValues(
                 did,
@@ -359,14 +367,17 @@ export class AaveCreditTemplate extends BaseTemplate {
             )
         )
 
-        return [
-            lockNftId,
-            depositCollateralId,
-            borrowId,
-            repayId,
-            withdrawId,
-            distributeId
-        ]
+        return {
+            ids: [
+                lockNftId,
+                depositCollateralId,
+                borrowId,
+                repayId,
+                withdrawId,
+                distributeId
+            ],
+            agreementId
+        }
     }
 
     public async getAgreementVaultAddress(

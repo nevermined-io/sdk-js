@@ -291,6 +291,13 @@ export default abstract class TestContractHandler extends ContractHandler {
                 nft721LockCondition.options.address
             ]
         )
+        const vaultLibrary = await TestContractHandler.deployContract(
+            'AaveCreditVault',
+            deployerAddress,
+            [],
+            {},
+            false
+        )
 
         await TestContractHandler.deployContract('AaveCreditTemplate', deployerAddress, [
             deployerAddress,
@@ -300,7 +307,8 @@ export default abstract class TestContractHandler extends ContractHandler {
             aaveBorrowCondition.options.address,
             aaveRepayCondition.options.address,
             aaveCollateralWithdrawCondition.options.address,
-            distributeNFTCollateralCondition.options.address
+            distributeNFTCollateralCondition.options.address,
+            vaultLibrary.options.address
         ])
     }
 
@@ -308,7 +316,8 @@ export default abstract class TestContractHandler extends ContractHandler {
         name: string,
         from: string,
         args: any[] = [],
-        tokens: { [name: string]: string } = {}
+        tokens: { [name: string]: string } = {},
+        init = true
     ): Promise<ContractTest> {
         const where = TestContractHandler.networkId
 
@@ -328,7 +337,8 @@ export default abstract class TestContractHandler extends ContractHandler {
                 artifact,
                 from,
                 args,
-                tokens
+                tokens,
+                init
             )
             contractInstance.testContract = true
             ContractHandler.setContract(name, where, contractInstance)
@@ -350,7 +360,8 @@ export default abstract class TestContractHandler extends ContractHandler {
         artifact,
         from?: string,
         args = [],
-        tokens = {}
+        tokens = {},
+        init = true
     ): Promise<Contract> {
         if (!from) {
             from = (await TestContractHandler.web3.eth.getAccounts())[0]
@@ -366,7 +377,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             artifact.abi,
             artifact.address
         )
-        const isZos = !!tempContract.methods.initialize
+        const isZos = !!tempContract.methods.initialize && init
 
         Logger.debug({
             name: artifact.name,
