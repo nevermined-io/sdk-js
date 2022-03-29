@@ -36,7 +36,7 @@ export class Nfts extends Instantiable {
      * @param {MetaData}        metadata The metadata associated with the NFT.
      * @param {number}          cap The max number of nfts.
      * @param {Account}         publisher The account of the creator od the NFT.
-     * @param {number}          nftAmount The maximum amount of NFTs that can be minted for this asset. Set it to zero for unlimited.
+     * @param {number}          nftAmount The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
      * @param {number}          royalties The percentage that the `publisher` should get on secondary market sales. A number between 0 and 100.
      * @param {AssetRewards}    assetRewards The sales reward distribution.
      * @param {string}          erc20TokenAddress The sales reward distribution.
