@@ -997,7 +997,7 @@ export class Assets extends Instantiable {
                 assetRewards,
                 consumer,
                 serviceType,
-                undefined,
+                consumer,
                 consumer,
                 undefined,
                 params,

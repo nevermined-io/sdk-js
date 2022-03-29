@@ -77,6 +77,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
             ddo,
             assetRewards,
             consumerAddress.getId(),
+            from.getId(),
             serviceType
         )
 
