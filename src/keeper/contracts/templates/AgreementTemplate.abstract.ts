@@ -22,13 +22,15 @@ export interface AgreementConditionsStatus {
 export abstract class AgreementTemplate extends ContractBase {
     public static async getInstance(
         config: InstantiableConfig,
-        conditionName: string,
+        templateContractName: string,
         templateClass: any,
         optional: boolean = false
     ): Promise<AgreementTemplate & any> {
-        const condition: AgreementTemplate = new (templateClass as any)(conditionName)
-        await condition.init(config, optional)
-        return condition
+        const agreementTemplate: AgreementTemplate = new (templateClass as any)(
+            templateContractName
+        )
+        await agreementTemplate.init(config, optional)
+        return agreementTemplate
     }
 
     protected constructor(contractName: string) {
@@ -44,6 +46,7 @@ export abstract class AgreementTemplate extends ContractBase {
         ...args: any[]
     )
 
+    // eslint-disable-next-line no-dupe-class-members
     public createAgreement(
         agreementId: string,
         did: string,
@@ -63,6 +66,41 @@ export abstract class AgreementTemplate extends ContractBase {
                 timeLocks,
                 timeOuts,
                 ...extraArgs
+            ],
+            from,
+            params
+        )
+    }
+
+    public createAgreementAndPay(
+        agreementId: string,
+        did: string,
+        conditionIds: string[],
+        timeLocks: number[],
+        timeOuts: number[],
+        accessConsumer: string,
+        condIdx: number,
+        rewardAddress: string,
+        tokenAddress: string,
+        amounts: number[],
+        receivers: string[],
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom(
+            'createAgreementAndPayEscrow',
+            [
+                zeroX(agreementId),
+                zeroX(did),
+                conditionIds.map(zeroX),
+                timeLocks,
+                timeOuts,
+                accessConsumer,
+                condIdx,
+                rewardAddress,
+                tokenAddress,
+                amounts.map(a => a.toString(10)),
+                receivers
             ],
             from,
             params

@@ -1,15 +1,23 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
-import { findServiceConditionByName, generateId, zeroX } from '../../../utils'
+import {
+    findServiceConditionByName,
+    generateId,
+    OrderProgressStep,
+    ZeroAddress,
+    zeroX
+} from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+import { ServiceType } from '../../../ddo/Service'
+import { GenericAccess } from './GenericAccess'
 
-export class AccessTemplate extends BaseTemplate {
+export class AccessTemplate extends BaseTemplate implements GenericAccess {
     public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
         return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessTemplate)
     }
@@ -34,6 +42,98 @@ export class AccessTemplate extends BaseTemplate {
             from,
             params
         )
+    }
+
+    public async createAgreementWithPaymentFromDDO(
+        agreementIdSeed: string,
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        consumerAddress: Account,
+        serviceType?: ServiceType,
+        provider?: Account,
+        from?: Account,
+        timeOuts?: number[],
+        txParams?: TxParameters,
+        observer?: (OrderProgressStep) => void
+    ): Promise<string> {
+        observer = observer ? observer : _ => {}
+
+        const {
+            ids,
+            agreementId,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers
+        } = await this.getAgreementDataFromDDO(
+            agreementIdSeed,
+            ddo,
+            assetRewards,
+            consumerAddress.getId(),
+            serviceType
+        )
+
+        observer(OrderProgressStep.ApprovingPayment)
+        await this.lockTokens(tokenAddress, amounts, from, txParams)
+        observer(OrderProgressStep.ApprovedPayment)
+
+        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const value =
+            tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
+                ? String(totalAmount)
+                : undefined
+
+        observer(OrderProgressStep.CreatingAgreement)
+        await this.createAgreementAndPay(
+            agreementId,
+            ddo.shortId(),
+            ids.map(a => a[0]),
+            [0, 0, 0],
+            timeOuts ? timeOuts : [0, 0, 0],
+            consumerAddress.getId(),
+            1,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers,
+            from,
+            { ...txParams, value }
+        )
+        observer(OrderProgressStep.AgreementInitialized)
+
+        return agreementId
+    }
+
+    public async getAgreementDataFromDDO(
+        agreementIdSeed: string,
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        consumer: string,
+        creator: string,
+        serviceType: ServiceType = 'access'
+    ) {
+        const { escrowPaymentCondition } = this.nevermined.keeper.conditions
+
+        const { ids, agreementId } = await this.createFullAgreementData(
+            agreementIdSeed,
+            ddo,
+            assetRewards,
+            consumer,
+            creator
+        )
+        const accessService = ddo.findServiceByType(serviceType)
+        const payment = findServiceConditionByName(accessService, 'lockPayment')
+        if (!payment) throw new Error('Payment Condition not found!')
+
+        return {
+            ids,
+            agreementId,
+            rewardAddress: escrowPaymentCondition.getAddress(),
+            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
+                .value as string,
+            amounts: assetRewards.getAmounts(),
+            receivers: assetRewards.getReceivers()
+        }
     }
 
     public async getAgreementIdsFromDDO(
@@ -147,6 +247,7 @@ export class AccessTemplate extends BaseTemplate {
         )
 
         return {
+            ids: [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId],
             agreementId,
             accessConditionId,
             lockPaymentConditionId,

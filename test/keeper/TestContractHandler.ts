@@ -256,6 +256,52 @@ export default abstract class TestContractHandler extends ContractHandler {
             transferNft721Condition.options.address,
             escrowPaymentCondition.options.address
         ])
+
+        const aaveCollateralDepositCondition = await TestContractHandler.deployContract(
+            'AaveCollateralDepositCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const aaveBorrowCondition = await TestContractHandler.deployContract(
+            'AaveBorrowCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const aaveRepayCondition = await TestContractHandler.deployContract(
+            'AaveRepayCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const aaveCollateralWithdrawCondition = await TestContractHandler.deployContract(
+            'AaveCollateralWithdrawCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const nft721LockCondition = await TestContractHandler.deployContract(
+            'NFT721LockCondition',
+            deployerAddress,
+            [deployerAddress, conditionStoreManager.options.address]
+        )
+        const distributeNFTCollateralCondition = await TestContractHandler.deployContract(
+            'DistributeNFTCollateralCondition',
+            deployerAddress,
+            [
+                deployerAddress,
+                conditionStoreManager.options.address,
+                nft721LockCondition.options.address
+            ]
+        )
+
+        await TestContractHandler.deployContract('AaveCreditTemplate', deployerAddress, [
+            deployerAddress,
+            agreementStoreManager.options.address,
+            nft721LockCondition.options.address,
+            aaveCollateralDepositCondition.options.address,
+            aaveBorrowCondition.options.address,
+            aaveRepayCondition.options.address,
+            aaveCollateralWithdrawCondition.options.address,
+            distributeNFTCollateralCondition.options.address
+        ])
     }
 
     private static async deployContract(

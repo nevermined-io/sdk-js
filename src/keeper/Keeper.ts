@@ -16,7 +16,13 @@ import {
     TransferNFTCondition,
     TransferDIDOwnershipCondition,
     TransferNFT721Condition,
-    NFT721HolderCondition
+    NFT721HolderCondition,
+    AaveBorrowCondition,
+    AaveCollateralDepositCondition,
+    AaveCollateralWithdrawCondition,
+    AaveRepayCondition,
+    NFT721LockCondition,
+    DistributeNFTCollateralCondition
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -27,19 +33,21 @@ import {
     NFTAccessTemplate,
     NFT721AccessTemplate,
     NFTSalesTemplate,
-    NFT721SalesTemplate
+    NFT721SalesTemplate,
+    AaveCreditTemplate
 } from './contracts/templates'
 import {
     TemplateStoreManager,
     AgreementStoreManager,
     ConditionStoreManager
 } from './contracts/managers'
-
+import * as KeeperUtils from './utils'
 import { objectPromiseAll } from '../utils'
 import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
+import { GenericAccess } from './contracts/templates/GenericAccess'
 
 /**
  * Interface with Nevermined contracts.
@@ -58,8 +66,7 @@ export class Keeper extends Instantiable {
         keeper.setInstanceConfig(config)
 
         // Adding keeper inside to prevent `Keeper not defined yet` error
-        config.nevermined.keeper = keeper
-
+        // config.nevermined.keeper = keeper
         keeper.instances = {}
         try {
             keeper.instances = await objectPromiseAll({
@@ -87,6 +94,18 @@ export class Keeper extends Instantiable {
                 transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
                     config
                 ),
+                aaveBorrowCondition: AaveBorrowCondition.getInstance(config),
+                aaveCollateralDepositCondition: AaveCollateralDepositCondition.getInstance(
+                    config
+                ),
+                aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition.getInstance(
+                    config
+                ),
+                aaveRepayCondition: AaveRepayCondition.getInstance(config),
+                nft721LockCondition: NFT721LockCondition.getInstance(config),
+                distributeNftCollateralCondition: DistributeNFTCollateralCondition.getInstance(
+                    config
+                ),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(config),
                 accessProofTemplate: AccessProofTemplate.getInstance(config),
@@ -97,7 +116,8 @@ export class Keeper extends Instantiable {
                 nft721AccessTemplate: NFT721AccessTemplate.getInstance(config),
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
-                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config)
+                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
+                aaveCreditTemplate: AaveCreditTemplate.getInstance(config)
             })
 
             const templates = [
@@ -147,7 +167,6 @@ export class Keeper extends Instantiable {
         } catch {
             keeper.logger.warn('NFTUpgradeable not available on this network.')
         }
-
         // Main contracts
         keeper.dispenser = keeper.instances.dispenser
         keeper.token = keeper.instances.token
@@ -170,7 +189,16 @@ export class Keeper extends Instantiable {
             nftAccessCondition: keeper.instances.nftAccessCondition,
             transferNftCondition: keeper.instances.transferNftCondition,
             transferNft721Condition: keeper.instances.transferNft721Condition,
-            transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition
+            transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition,
+            aaveBorrowCondition: keeper.instances.aaveBorrowCondition,
+            aaveCollateralDepositCondition:
+                keeper.instances.aaveCollateralDepositCondition,
+            aaveCollateralWithdrawCondition:
+                keeper.instances.aaveCollateralWithdrawCondition,
+            aaveRepayCondition: keeper.instances.aaveRepayCondition,
+            nft721LockCondition: keeper.instances.nft721LockCondition,
+            distributeNftCollateralCondition:
+                keeper.instances.distributeNftCollateralCondition
         }
         // Templates
         keeper.templates = {
@@ -182,13 +210,13 @@ export class Keeper extends Instantiable {
             nftAccessTemplate: keeper.instances.nftAccessTemplate,
             nft721AccessTemplate: keeper.instances.nft721AccessTemplate,
             nftSalesTemplate: keeper.instances.nftSalesTemplate,
-            nft721SalesTemplate: keeper.instances.nft721SalesTemplate
+            nft721SalesTemplate: keeper.instances.nft721SalesTemplate,
+            aaveCreditTemplate: keeper.instances.aaveCreditTemplate
         }
         // Utils
         keeper.utils = {
-            eventHandler: new EventHandler(config)
+            eventHandler: new EventHandler()
         }
-
         return keeper
     }
 
@@ -256,6 +284,12 @@ export class Keeper extends Instantiable {
         transferNftCondition: TransferNFTCondition
         transferNft721Condition: TransferNFT721Condition
         transferDidOwnershipCondition: TransferDIDOwnershipCondition
+        nft721LockCondition: NFT721LockCondition
+        aaveCollateralDepositCondition: AaveCollateralDepositCondition
+        aaveBorrowCondition: AaveBorrowCondition
+        aaveRepayCondition: AaveRepayCondition
+        aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition
+        distributeNftCollateralCondition: DistributeNFTCollateralCondition
     }
 
     /**
@@ -270,6 +304,7 @@ export class Keeper extends Instantiable {
         nft721AccessTemplate: NFT721AccessTemplate
         nftSalesTemplate: NFTSalesTemplate
         nft721SalesTemplate: NFT721SalesTemplate
+        aaveCreditTemplate: AaveCreditTemplate
     }
 
     /**
@@ -304,6 +339,17 @@ export class Keeper extends Instantiable {
     }
 
     /**
+     * Returns a Access template by name.
+     * @param  {string} name Template name.
+     * @return {GenericAccess} Agreement template instance.
+     */
+    public getAccessTemplateByName(name: string): GenericAccess {
+        return Object.values(this.templates).find(
+            template => template.contractName === name
+        ) as GenericAccess
+    }
+
+    /**
      * Returns a template by address.
      * @param  {string} address Template address.
      * @return {AgreementTemplate} Agreement template instance.
@@ -319,7 +365,11 @@ export class Keeper extends Instantiable {
      * @return {Promise<number>} Network ID.
      */
     public getNetworkId(): Promise<number> {
-        return this.web3.eth.net.getId()
+        return Keeper.getNetworkId(this.web3)
+    }
+
+    public static getNetworkId(web3): Promise<number> {
+        return KeeperUtils.getNetworkId(web3)
     }
 
     /**
@@ -327,56 +377,11 @@ export class Keeper extends Instantiable {
      * @return {Promise<string>} Network name.
      */
     public getNetworkName(): Promise<string> {
-        return this.web3.eth.net.getId().then((networkId: number) => {
-            switch (networkId) {
-                case 1:
-                    return 'Mainnet'
-                case 2:
-                    return 'Morden'
-                case 3:
-                    return 'Ropsten'
-                case 4:
-                    return 'Rinkeby'
-                case 77:
-                    return 'POA_Sokol'
-                case 99:
-                    return 'POA_Core'
-                case 42:
-                    return 'Kovan'
-                case 100:
-                    return 'xDai'
-                case 137:
-                    return 'matic'
-                case 1337:
-                    return 'geth-localnet'
-                case 2199:
-                   return 'Duero'
-                case 8996:
-                    return 'Spree'
-                case 8997:
-                    return 'polygon-localnet'
-                case 8995:
-                    return 'Nile'
-                case 0xcea11:
-                    return 'Pacific'
-                case 42220:
-                    return 'celo'
-                case 44787:
-                    return 'celo-alfajores'
-                case 62320:
-                    return 'celo-baklava'
-                case 80001:
-                    return 'mumbai'
-                case 1313161554:
-                    return 'aurora'
-                case 1313161555:
-                    return 'aurora-testnet'
-                case 1313161556:
-                    return 'aurora-betanet'
-                default:
-                    return 'Development'
-            }
-        })
+        return Keeper.getNetworkName(this.web3)
+    }
+
+    public static getNetworkName(web3): Promise<string> {
+        return KeeperUtils.getNetworkName(web3)
     }
 
     public getAllInstances() {

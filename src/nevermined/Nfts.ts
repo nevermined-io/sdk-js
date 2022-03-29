@@ -11,7 +11,7 @@ import {
     getDIDFromService,
     getNftAmountFromService,
     getNftHolderFromService,
-    NFTOrderProgressStep,
+    OrderProgressStep,
     noZeroX,
     SubscribablePromise,
     zeroX
@@ -161,8 +161,8 @@ export class Nfts extends Instantiable {
         nftAmount: number,
         consumer: Account,
         txParams?: TxParameters
-    ): SubscribablePromise<NFTOrderProgressStep, string> {
-        return new SubscribablePromise<NFTOrderProgressStep, string>(async observer => {
+    ): SubscribablePromise<OrderProgressStep, string> {
+        return new SubscribablePromise<OrderProgressStep, string>(async observer => {
             const { nftSalesTemplate } = this.nevermined.keeper.templates
 
             const agreementIdSeed = zeroX(generateId())
@@ -197,8 +197,8 @@ export class Nfts extends Instantiable {
         did: string,
         consumer: Account,
         txParams?: TxParameters
-    ): SubscribablePromise<NFTOrderProgressStep, string> {
-        return new SubscribablePromise<NFTOrderProgressStep, string>(async observer => {
+    ): SubscribablePromise<OrderProgressStep, string> {
+        return new SubscribablePromise<OrderProgressStep, string>(async observer => {
             const { nft721SalesTemplate } = this.nevermined.keeper.templates
 
             const agreementIdSeed = zeroX(generateId())

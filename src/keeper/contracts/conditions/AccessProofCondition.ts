@@ -1,5 +1,5 @@
 import { Condition } from './Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '../../../utils'
+import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey, MimcCipher } from '../../../models/KeyTransfer'

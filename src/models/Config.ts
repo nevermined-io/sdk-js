@@ -1,4 +1,5 @@
 import { LogLevel } from '../utils/Logger'
+import { AaveConfig } from './AaveConfig'
 export { LogLevel } from '../utils/Logger'
 
 export class Config {
@@ -70,6 +71,8 @@ export class Config {
      * Enpoint for the graph-node http query
      */
     public graphHttpUri?: string
+
+    public aaveConfig?: AaveConfig
 }
 
 export default Config

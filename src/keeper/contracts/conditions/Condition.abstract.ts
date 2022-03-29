@@ -29,10 +29,6 @@ export abstract class Condition extends ContractBase {
         return condition
     }
 
-    protected constructor(contractName: string) {
-        super(contractName)
-    }
-
     public hashValues(...args: any[]): Promise<string> {
         return this.call('hashValues', args)
     }

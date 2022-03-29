@@ -1,10 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import {
-    NFTOrderProgressStep,
-    SubscribableObserver,
-    ZeroAddress,
-    zeroX
-} from '../../../utils'
+import { ZeroAddress, zeroX } from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import Token from '../Token'
@@ -59,21 +54,18 @@ export abstract class BaseTemplate extends AgreementTemplate {
         from?: Account,
         params?: TxParameters
     ) {
-        return this.sendFrom(
-            'createAgreementAndPayEscrow',
-            [
-                zeroX(agreementId),
-                zeroX(did),
-                conditionIds.map(zeroX),
-                timeLocks,
-                timeOuts,
-                accessConsumer,
-                condIdx,
-                rewardAddress,
-                tokenAddress,
-                amounts.map(a => a.toString(10)),
-                receivers
-            ],
+        return super.createAgreementAndPay(
+            zeroX(agreementId),
+            zeroX(did),
+            conditionIds.map(zeroX),
+            timeLocks,
+            timeOuts,
+            accessConsumer,
+            condIdx,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers,
             from,
             params
         )

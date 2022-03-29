@@ -31,11 +31,11 @@ export default class AssetRewards {
     }
 
     public getAmounts(): number[] {
-        return [...this.rewards.values()]
+        return [...Array.from(this.rewards.values())]
     }
 
     public getReceivers(): string[] {
-        return [...this.rewards.keys()]
+        return [...Array.from(this.rewards.keys())]
     }
 
     public getAmountsString(): string {

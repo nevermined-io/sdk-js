@@ -8,7 +8,6 @@ describe('ContractHandler', () => {
 
     before(async () => {
         const { instanceConfig } = (await Nevermined.getInstance(config)) as any
-
         contractHandler = new ContractHandler(instanceConfig)
     })
 
