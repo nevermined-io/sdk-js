@@ -33,7 +33,6 @@ describe('SubgraphEvent', () => {
                 value: true
             }
         })
-        console.log(response)
         assert.strictEqual(
             Web3.utils.toChecksumAddress(response.pop().to),
             Web3.utils.toChecksumAddress(account.getId())
