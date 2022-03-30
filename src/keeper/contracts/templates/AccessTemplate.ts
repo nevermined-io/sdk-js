@@ -230,7 +230,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             agreementIdSeed,
             creator
         )
-        console.log('create', agreementId, "seed", agreementIdSeed, "creator", creator)
+        console.log('create', agreementId, 'seed', agreementIdSeed, 'creator', creator)
         const lockPaymentConditionId = await lockPaymentCondition.generateId2(
             agreementId,
             await lockPaymentCondition.hashValues(

@@ -37,7 +37,7 @@ export class AgreementStoreManager extends ContractBase {
         const templateId: string = await this.call('getAgreementTemplate', [
             zeroX(agreementId)
         ])
-        console.log("template", templateId, agreementId)
+        console.log('template', templateId, agreementId)
         const events = await this.templates[templateId].getAgreementCreatedEvent(
             agreementId
         )

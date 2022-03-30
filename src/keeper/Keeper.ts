@@ -137,7 +137,7 @@ export class Keeper extends Instantiable {
                 templateObj[i.address] = i
             }
 
-            console.log("setting templates", keeper.instances.aaveCreditTemplate.address)
+            console.log('setting templates', keeper.instances.aaveCreditTemplate.address)
 
             keeper.instances.agreementStoreManager.setTemplates(templateObj)
 

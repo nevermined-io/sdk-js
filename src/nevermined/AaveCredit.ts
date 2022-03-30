@@ -67,7 +67,7 @@ export class AaveCredit extends Instantiable {
         timeLocks?: number[],
         timeOuts?: number[],
         txParams?: TxParameters
-    ): Promise<string> {
+    ) {
         const agreementIdSeed = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
         if (!ddo) {
@@ -80,7 +80,8 @@ export class AaveCredit extends Instantiable {
 
         const [
             txReceipt,
-            vaultAddress
+            vaultAddress,
+            data
         ] = await this.template.createAgreementAndDeployVault(
             agreementIdSeed,
             ddo,
@@ -102,7 +103,10 @@ export class AaveCredit extends Instantiable {
             `new Aave credit vault is deployed and a service agreement is created:
              status=${txReceipt.status}, vaultAddress=${vaultAddress}, agreementId=${agreementId}`
         )
-        return agreementId
+        return {
+            agreementId,
+            data
+        }
     }
 
     public async lockNft(
@@ -116,6 +120,7 @@ export class AaveCredit extends Instantiable {
         const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
             agreementId
         )
+        console.log(agreementData)
         if (!vaultAddress) {
             vaultAddress = await this.template.getAgreementVaultAddress(
                 agreementId,
@@ -139,6 +144,7 @@ export class AaveCredit extends Instantiable {
             }
         }
         // console.log(`nft lock approved for nft721LockCondition ${lockCond.address}`)
+        /*
         const _id = await lockCond.generateId(
             agreementId,
             await lockCond.hashValues(did, vaultAddress, nftAmount, nftContractAddress)
@@ -146,7 +152,7 @@ export class AaveCredit extends Instantiable {
         if (_id !== agreementData.conditionIds[0]) {
             console.log(`condition id mismatch.`)
             return false
-        }
+        }*/
         const txReceipt: TransactionReceipt = await lockCond.fulfill(
             agreementId,
             did,
