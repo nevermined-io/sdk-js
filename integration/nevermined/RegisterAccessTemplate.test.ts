@@ -112,11 +112,11 @@ describe('Register Escrow Access Secret Store Template', () => {
         })
 
         it('should generate the condition IDs', async () => {
-            conditionIdAccess = await accessCondition.generateId2(
+            conditionIdAccess = await accessCondition.generateIdWithSeed(
                 agreementId,
                 await accessCondition.hashValues(did, consumer.getId())
             )
-            conditionIdLock = await lockPaymentCondition.generateId2(
+            conditionIdLock = await lockPaymentCondition.generateIdWithSeed(
                 agreementId,
                 await lockPaymentCondition.hashValues(
                     did,
@@ -126,7 +126,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                     receivers
                 )
             )
-            conditionIdEscrow = await escrowPaymentCondition.generateId2(
+            conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                 agreementId,
                 await escrowPaymentCondition.hashValues(
                     did,

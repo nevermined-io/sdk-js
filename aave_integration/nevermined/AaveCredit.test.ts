@@ -210,11 +210,6 @@ describe('AaveCredit', () => {
                 agreementId,
                 borrower.getId()
             )
-            console.log(`agreement:
-                 agreementId=${agreementId}, vaultAddress=${vaultAddress},
-                 nftContractAddress=${nftContractAddress}, nft721Wrapper.address=${nft721Wrapper.address},
-                 did=${did}, nft721LockCondition.address=${nft721LockCondition.address},
-                 lockNftId=${conditionIds[0]}`)
         })
 
         it('The borrower locks the NFT', async () => {

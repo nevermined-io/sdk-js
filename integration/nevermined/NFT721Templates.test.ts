@@ -190,7 +190,7 @@ describe('NFT721Templates E2E', () => {
 
         describe('As a collector I want to buy some art', () => {
             it('I am setting an agreement for buying a NFT', async () => {
-                conditionIdLockPayment = await lockPaymentCondition.generateId2(
+                conditionIdLockPayment = await lockPaymentCondition.generateIdWithSeed(
                     agreementId,
                     await lockPaymentCondition.hashValues(
                         ddo.shortId(),
@@ -200,7 +200,7 @@ describe('NFT721Templates E2E', () => {
                         receivers
                     )
                 )
-                conditionIdTransferNFT = await transferNft721Condition.generateId2(
+                conditionIdTransferNFT = await transferNft721Condition.generateIdWithSeed(
                     agreementId,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
@@ -210,7 +210,7 @@ describe('NFT721Templates E2E', () => {
                         nft.address
                     )
                 )
-                conditionIdEscrow = await escrowPaymentCondition.generateId2(
+                conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                     agreementId,
                     await escrowPaymentCondition.hashValues(
                         ddo.shortId(),
@@ -358,7 +358,7 @@ describe('NFT721Templates E2E', () => {
         describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
             it('The collector sets up the NFT access agreement', async () => {
                 // Collector1: Create NFT access agreement
-                conditionIdNFTHolder = await nft721HolderCondition.generateId2(
+                conditionIdNFTHolder = await nft721HolderCondition.generateIdWithSeed(
                     agreementAccessId,
                     await nft721HolderCondition.hashValues(
                         ddo.shortId(),
@@ -366,7 +366,7 @@ describe('NFT721Templates E2E', () => {
                         nft.address
                     )
                 )
-                conditionIdNFTAccess = await nftAccessCondition.generateId2(
+                conditionIdNFTAccess = await nftAccessCondition.generateIdWithSeed(
                     agreementAccessId,
                     await nftAccessCondition.hashValues(ddo.shortId(), collector1.getId())
                 )
@@ -458,7 +458,7 @@ describe('NFT721Templates E2E', () => {
                 }
             })
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
-                conditionIdLockPayment2 = await lockPaymentCondition.generateId2(
+                conditionIdLockPayment2 = await lockPaymentCondition.generateIdWithSeed(
                     agreementId2,
                     await lockPaymentCondition.hashValues(
                         ddo.shortId(),
@@ -468,7 +468,7 @@ describe('NFT721Templates E2E', () => {
                         receivers2
                     )
                 )
-                conditionIdTransferNFT2 = await transferNft721Condition.generateId2(
+                conditionIdTransferNFT2 = await transferNft721Condition.generateIdWithSeed(
                     agreementId2,
                     await transferNft721Condition.hashValues(
                         ddo.shortId(),
@@ -478,7 +478,7 @@ describe('NFT721Templates E2E', () => {
                         nft.address
                     )
                 )
-                conditionIdEscrow2 = await escrowPaymentCondition.generateId2(
+                conditionIdEscrow2 = await escrowPaymentCondition.generateIdWithSeed(
                     agreementId2,
                     await escrowPaymentCondition.hashValues(
                         ddo.shortId(),

@@ -149,7 +149,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         const payment = findServiceConditionByName(salesService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        const lockPaymentConditionId = await lockPaymentCondition.generateId2(
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
@@ -167,7 +167,7 @@ export class NFTSalesTemplate extends BaseTemplate {
             provider ||
             (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
 
-        const transferNftConditionId = await transferNftCondition.generateId2(
+        const transferNftConditionId = await transferNftCondition.generateIdWithSeed(
             agreementId,
             await transferNftCondition.hashValues2(
                 ddo.shortId(),
@@ -182,7 +182,7 @@ export class NFTSalesTemplate extends BaseTemplate {
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateId2(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdWithSeed(
             agreementId,
             await escrowPaymentCondition.hashValues(
                 ddo.shortId(),

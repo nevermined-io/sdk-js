@@ -230,8 +230,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             agreementIdSeed,
             creator
         )
-        console.log('create', agreementId, 'seed', agreementIdSeed, 'creator', creator)
-        const lockPaymentConditionId = await lockPaymentCondition.generateId2(
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
@@ -242,7 +241,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             )
         )
 
-        const accessConditionId = await accessCondition.generateId2(
+        const accessConditionId = await accessCondition.generateIdWithSeed(
             agreementId,
             await accessCondition.hashValues(ddo.shortId(), consumer)
         )
@@ -250,7 +249,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateId2(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdWithSeed(
             agreementId,
             await escrowPaymentCondition.hashValues(
                 ddo.shortId(),

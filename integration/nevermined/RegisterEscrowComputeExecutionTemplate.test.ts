@@ -112,11 +112,11 @@ describe('Register Escrow Compute Execution Template', () => {
         })
 
         it('should generate the condition IDs', async () => {
-            conditionIdCompute = await computeExecutionCondition.generateId2(
+            conditionIdCompute = await computeExecutionCondition.generateIdWithSeed(
                 agreementId,
                 await computeExecutionCondition.hashValues(did, consumer.getId())
             )
-            conditionIdLock = await lockPaymentCondition.generateId2(
+            conditionIdLock = await lockPaymentCondition.generateIdWithSeed(
                 agreementId,
                 await lockPaymentCondition.hashValues(
                     did,
@@ -126,7 +126,7 @@ describe('Register Escrow Compute Execution Template', () => {
                     receivers
                 )
             )
-            conditionIdEscrow = await escrowPaymentCondition.generateId2(
+            conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                 agreementId,
                 await escrowPaymentCondition.hashValues(
                     did,

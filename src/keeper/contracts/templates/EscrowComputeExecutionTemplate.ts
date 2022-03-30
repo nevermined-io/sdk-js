@@ -242,7 +242,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
             creator
         )
 
-        const lockPaymentConditionId = await lockPaymentCondition.generateId2(
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
@@ -253,7 +253,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
             )
         )
 
-        const computeExecutionConditionId = await computeExecutionCondition.generateId2(
+        const computeExecutionConditionId = await computeExecutionCondition.generateIdWithSeed(
             agreementId,
             await computeExecutionCondition.hashValues(ddo.shortId(), consumer)
         )
@@ -261,7 +261,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')
         if (!escrow) throw new Error('escrow Condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateId2(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdWithSeed(
             agreementId,
             await escrowPaymentCondition.hashValues(
                 ddo.shortId(),

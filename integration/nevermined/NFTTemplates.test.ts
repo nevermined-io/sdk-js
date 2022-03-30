@@ -184,7 +184,7 @@ describe('NFTTemplates E2E', () => {
 
         describe('As a collector I want to buy some art', () => {
             it('I am setting an agreement for buying a NFT', async () => {
-                conditionIdLockPayment = await lockPaymentCondition.generateId2(
+                conditionIdLockPayment = await lockPaymentCondition.generateIdWithSeed(
                     agreementId,
                     await lockPaymentCondition.hashValues(
                         ddo.id,
@@ -194,7 +194,7 @@ describe('NFTTemplates E2E', () => {
                         receivers
                     )
                 )
-                conditionIdTransferNFT = await transferNftCondition.generateId2(
+                conditionIdTransferNFT = await transferNftCondition.generateIdWithSeed(
                     agreementId,
                     await transferNftCondition.hashValues(
                         ddo.id,
@@ -204,7 +204,7 @@ describe('NFTTemplates E2E', () => {
                         conditionIdLockPayment[1]
                     )
                 )
-                conditionIdEscrow = await escrowPaymentCondition.generateId2(
+                conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                     agreementId,
                     await escrowPaymentCondition.hashValues(
                         ddo.id,
@@ -379,7 +379,7 @@ describe('NFTTemplates E2E', () => {
         describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
             it('The collector sets up the NFT access agreement', async () => {
                 // Collector1: Create NFT access agreement
-                conditionIdNFTHolder = await nftHolderCondition.generateId2(
+                conditionIdNFTHolder = await nftHolderCondition.generateIdWithSeed(
                     agreementAccessId,
                     await nftHolderCondition.hashValues(
                         ddo.id,
@@ -387,7 +387,7 @@ describe('NFTTemplates E2E', () => {
                         numberNFTs
                     )
                 )
-                conditionIdNFTAccess = await nftAccessCondition.generateId2(
+                conditionIdNFTAccess = await nftAccessCondition.generateIdWithSeed(
                     agreementAccessId,
                     await nftAccessCondition.hashValues(ddo.id, collector1.getId())
                 )
@@ -478,7 +478,7 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
-                conditionIdLockPayment2 = await lockPaymentCondition.generateId2(
+                conditionIdLockPayment2 = await lockPaymentCondition.generateIdWithSeed(
                     agreementId2,
                     await lockPaymentCondition.hashValues(
                         ddo.id,
@@ -488,7 +488,7 @@ describe('NFTTemplates E2E', () => {
                         receivers2
                     )
                 )
-                conditionIdTransferNFT2 = await transferNftCondition.generateId2(
+                conditionIdTransferNFT2 = await transferNftCondition.generateIdWithSeed(
                     agreementId2,
                     await transferNftCondition.hashValues(
                         ddo.id,
@@ -498,7 +498,7 @@ describe('NFTTemplates E2E', () => {
                         conditionIdLockPayment2[1]
                     )
                 )
-                conditionIdEscrow2 = await escrowPaymentCondition.generateId2(
+                conditionIdEscrow2 = await escrowPaymentCondition.generateIdWithSeed(
                     agreementId2,
                     await escrowPaymentCondition.hashValues(
                         ddo.id,

@@ -53,7 +53,7 @@ export abstract class Condition extends ContractBase {
         return this.call<string>('generateId', [zeroX(agreementId), valueHash])
     }
 
-    public async generateId2(
+    public async generateIdWithSeed(
         agreementId: string,
         valueHash: string
     ): Promise<[string, string]> {

@@ -315,7 +315,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             agreementIdSeed,
             creator
         )
-        const lockNftId = await nft721LockCondition.generateId2(
+        const lockNftId = await nft721LockCondition.generateIdWithSeed(
             agreementId,
             await nft721LockCondition.hashValues(
                 did,
@@ -324,21 +324,13 @@ export class AaveCreditTemplate extends BaseTemplate {
                 nftTokenContract
             )
         )
-        console.log(
-            'nft lock condition',
-            agreementId,
-            did,
-            vaultAddress,
-            nftAmount,
-            nftTokenContract
-        )
         console.log(`createFullAgreementData: 
             nft721LockCondition.address=${nft721LockCondition.address}, 
             lockNftId=${lockNftId}, 
             creator=${creator},
             `)
 
-        const depositCollateralId = await aaveCollateralDepositCondition.generateId2(
+        const depositCollateralId = await aaveCollateralDepositCondition.generateIdWithSeed(
             agreementId,
             await aaveCollateralDepositCondition.hashValues(
                 did,
@@ -350,7 +342,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 interestRateMode
             )
         )
-        const borrowId = await aaveBorrowCondition.generateId2(
+        const borrowId = await aaveBorrowCondition.generateIdWithSeed(
             agreementId,
             await aaveBorrowCondition.hashValues(
                 did,
@@ -360,7 +352,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 interestRateMode
             )
         )
-        const repayId = await aaveRepayCondition.generateId2(
+        const repayId = await aaveRepayCondition.generateIdWithSeed(
             agreementId,
             await aaveRepayCondition.hashValues(
                 did,
@@ -370,7 +362,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 interestRateMode
             )
         )
-        const withdrawId = await aaveCollateralWithdrawCondition.generateId2(
+        const withdrawId = await aaveCollateralWithdrawCondition.generateIdWithSeed(
             agreementId,
             await aaveCollateralWithdrawCondition.hashValues(
                 did,
@@ -378,7 +370,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 collateralToken
             )
         )
-        const distributeId = await distributeNftCollateralCondition.generateId2(
+        const distributeId = await distributeNftCollateralCondition.generateIdWithSeed(
             agreementId,
             await distributeNftCollateralCondition.hashValues(
                 did,

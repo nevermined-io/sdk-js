@@ -140,7 +140,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
             creator
         )
 
-        const lockPaymentConditionId = await lockPaymentCondition.generateId2(
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
             agreementId,
             await lockPaymentCondition.hashValues(
                 ddo.shortId(),
@@ -160,7 +160,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
 
         const nftOwner = await nft.ownerOf(ddo.id)
 
-        const transferNftConditionId = await transferNft721Condition.generateId2(
+        const transferNftConditionId = await transferNft721Condition.generateIdWithSeed(
             agreementId,
             await transferNft721Condition.hashValues(
                 ddo.shortId(),
@@ -174,7 +174,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateId2(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdWithSeed(
             agreementId,
             await escrowPaymentCondition.hashValues(
                 zeroX(ddo.shortId()),

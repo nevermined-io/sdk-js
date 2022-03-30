@@ -79,7 +79,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
             creator
         )
 
-        const nftHolderConditionId = await nft721HolderCondition.generateId2(
+        const nftHolderConditionId = await nft721HolderCondition.generateIdWithSeed(
             agreementId,
             await nft721HolderCondition.hashValues(
                 zeroX(ddo.shortId()),
@@ -87,7 +87,7 @@ export class NFT721AccessTemplate extends BaseTemplate {
                 holder.parameters.find(p => p.name === '_contractAddress').value as string
             )
         )
-        const nftAccessConditionId = await nftAccessCondition.generateId2(
+        const nftAccessConditionId = await nftAccessCondition.generateIdWithSeed(
             agreementId,
             await nftAccessCondition.hashValues(ddo.shortId(), holderAddress)
         )

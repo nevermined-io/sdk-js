@@ -141,24 +141,9 @@ describe('NFT721SalesTemplate', () => {
             assert.isTrue(agreement.status)
             assert.nestedProperty(agreement, 'events.AgreementCreated')
 
-            const {
-                _agreementId,
-                _did,
-                _accessProvider,
-                _accessConsumer
-            } = agreement.events.AgreementCreated.returnValues
+            const { _agreementId, _did } = agreement.events.AgreementCreated.returnValues
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
-            /*
-            assert.equal(_accessProvider, sender.getId())
-            assert.equal(_accessConsumer, receiver.getId())
-
-            const storedAgreementData = await nft721SalesTemplate.getAgreementData(
-                agreementId
-            )
-            assert.equal(storedAgreementData.accessConsumer, receiver.getId())
-            assert.equal(storedAgreementData.accessProvider, sender.getId())
-            */
 
             const storedAgreement = await agreementStoreManager.getAgreement(agreementId)
             assert.deepEqual(storedAgreement.conditionIds, conditionIds)

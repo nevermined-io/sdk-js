@@ -135,11 +135,11 @@ describe('Register Escrow Access Proof Template', () => {
         })
 
         it('should generate the condition IDs', async () => {
-            conditionIdAccess = await accessProofCondition.generateId2(
+            conditionIdAccess = await accessProofCondition.generateIdWithSeed(
                 agreementId,
                 await accessProofCondition.hashValues(hash, buyerPub, providerPub)
             )
-            conditionIdLock = await lockPaymentCondition.generateId2(
+            conditionIdLock = await lockPaymentCondition.generateIdWithSeed(
                 agreementId,
                 await lockPaymentCondition.hashValues(
                     did,
@@ -149,7 +149,7 @@ describe('Register Escrow Access Proof Template', () => {
                     receivers
                 )
             )
-            conditionIdEscrow = await escrowPaymentCondition.generateId2(
+            conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                 agreementId,
                 await escrowPaymentCondition.hashValues(
                     did,

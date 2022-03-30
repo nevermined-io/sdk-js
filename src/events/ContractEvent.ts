@@ -39,7 +39,6 @@ export class ContractEvent extends NeverminedEvent {
         options.fromBlock = 0
         options.toBlock = 'latest'
 
-        // console.log('getting events', chainId, options)
         // Temporary workaround to work with mumbai
         // Infura as a 1000 blokcs limit on their api
         if (chainId === 80001 || chainId === 42) {
@@ -48,7 +47,6 @@ export class ContractEvent extends NeverminedEvent {
         }
 
         const data = await this.getEventData(options)
-        // console.log(data)
         return data
     }
 

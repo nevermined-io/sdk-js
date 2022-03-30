@@ -163,7 +163,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
         describe('As a collector I want to buy some art', async () => {
             it('I am setting an agreement for buying a NFT', async () => {
-                conditionIdLockPayment = await lockPaymentCondition.generateId2(
+                conditionIdLockPayment = await lockPaymentCondition.generateIdWithSeed(
                     agreementId,
                     await lockPaymentCondition.hashValues(
                         ddo.shortId(),
@@ -174,7 +174,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     )
                 )
 
-                conditionIdTransferNFT = await transferNftCondition.generateId2(
+                conditionIdTransferNFT = await transferNftCondition.generateIdWithSeed(
                     agreementId,
                     await transferNftCondition.hashValues(
                         ddo.shortId(),
@@ -185,7 +185,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     )
                 )
 
-                conditionIdEscrow = await escrowPaymentCondition.generateId2(
+                conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                     agreementId,
                     await escrowPaymentCondition.hashValues(
                         ddo.shortId(),
@@ -347,7 +347,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', async () => {
             it('The collector sets up the NFT access agreement', async () => {
                 // Collector1: Create NFT access agreement
-                conditionIdNFTHolder = await nftHolderCondition.generateId2(
+                conditionIdNFTHolder = await nftHolderCondition.generateIdWithSeed(
                     agreementAccessId,
                     await nftHolderCondition.hashValues(
                         ddo.shortId(),
@@ -355,7 +355,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                         numberNFTs
                     )
                 )
-                conditionIdNFTAccess = await nftAccessCondition.generateId2(
+                conditionIdNFTAccess = await nftAccessCondition.generateIdWithSeed(
                     agreementAccessId,
                     await nftAccessCondition.hashValues(ddo.shortId(), collector1.getId())
                 )

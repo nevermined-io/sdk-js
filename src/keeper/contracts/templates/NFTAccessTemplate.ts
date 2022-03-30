@@ -75,12 +75,12 @@ export class NFTAccessTemplate extends BaseTemplate {
             creator
         )
 
-        const nftHolderConditionId = await nftHolderCondition.generateId2(
+        const nftHolderConditionId = await nftHolderCondition.generateIdWithSeed(
             agreementId,
             await nftHolderCondition.hashValues(ddo.shortId(), holder, nftAmount)
         )
 
-        const nftAccessConditionId = await nftAccessCondition.generateId2(
+        const nftAccessConditionId = await nftAccessCondition.generateIdWithSeed(
             agreementId,
             await nftAccessCondition.hashValues(ddo.shortId(), holder)
         )

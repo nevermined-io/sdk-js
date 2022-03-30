@@ -137,13 +137,10 @@ export class Keeper extends Instantiable {
                 templateObj[i.address] = i
             }
 
-            console.log('setting templates', keeper.instances.aaveCreditTemplate.address)
-
             keeper.instances.agreementStoreManager.setTemplates(templateObj)
 
             keeper.connected = true
         } catch (err) {
-            console.log(err)
             keeper.connected = false
             keeper.logger.warn(
                 `'Keeper could not connect to: ${await keeper.getNetworkName()}`,
