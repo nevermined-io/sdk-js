@@ -3,7 +3,7 @@ import { config } from '../config'
 import { assert } from 'chai'
 import Web3 from 'web3'
 
-describe.skip('SubgraphEvent', () => {
+describe('SubgraphEvent', () => {
     let account: Account
     let nevermined: Nevermined
     let executeTransaction: () => Promise<any>
@@ -33,6 +33,7 @@ describe.skip('SubgraphEvent', () => {
                 value: true
             }
         })
+        console.log(response)
         assert.strictEqual(
             Web3.utils.toChecksumAddress(response.pop().to),
             Web3.utils.toChecksumAddress(account.getId())

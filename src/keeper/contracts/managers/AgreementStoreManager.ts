@@ -33,7 +33,7 @@ export class AgreementStoreManager extends ContractBase {
         return this.call('owner', [])
     }
 
-    public async getAgreement(agreementId: string) {
+    public async getAgreement(agreementId: string): Promise<AgreementData> {
         const templateId: string = await this.call('getAgreementTemplate', [
             zeroX(agreementId)
         ])
@@ -57,13 +57,11 @@ export class AgreementStoreManager extends ContractBase {
     }
 
     public async getAgreements(did: string): Promise<AgreementData[]> {
-        const agreementIds: string[] = await this.call('getAgreementIdsForDID', [
-            didZeroX(did)
-        ])
-
-        return Promise.all(
-            agreementIds.map(agreementId => this.getAgreement(agreementId))
-        )
+        let res = []
+        for (const a of Object.values(this.templates) as any[]) {
+            res = res.concat(await a.getAgreementsForDID(did))
+        }
+        return Promise.all(res.map(async a => await this.getAgreement(a)))
     }
 
     public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {

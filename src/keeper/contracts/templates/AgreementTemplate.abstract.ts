@@ -303,4 +303,22 @@ export abstract class AgreementTemplate extends ContractBase {
         })
         return res
     }
+    public async getAgreementsForDID(did: string): Promise<string[]> {
+        const res = await this.events.getPastEvents({
+            eventName: 'AgreementCreated',
+            methodName: 'getAgreementCreateds',
+            filterJsonRpc: {
+                _did: zeroX(did)
+            },
+            filterSubgraph: {
+                where: {
+                    _did: zeroX(did)
+                }
+            },
+            result: {
+                _agreementId: true
+            }
+        })
+        return res.map(a => a.returnValues._agreementId)
+    }
 }

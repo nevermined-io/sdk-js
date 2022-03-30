@@ -8,7 +8,6 @@ import { Nevermined } from '../../src/nevermined/Nevermined'
 import AssetRewards from '../../src/models/AssetRewards'
 import { didZeroX, zeroX } from '../../src/utils/index'
 import {
-    AgreementData,
     AgreementStoreManager,
     ConditionStoreManager
 } from '../../src/keeper/contracts/managers/index'
@@ -130,7 +129,6 @@ describe('AaveCredit', () => {
         const _owner = agreementId ? await nft721Wrapper.ownerOf(did) : null
         if (!_owner) {
             await nft721Wrapper.mint(did, borrower.getId())
-            // await nft721Wrapper.send('approve', borrower.getId(), [nft721LockCondition.getAddress(), didZeroX(did)])
         }
         assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 1)
 
@@ -145,7 +143,6 @@ describe('AaveCredit', () => {
         isTemplateApproved = await nevermined.keeper.templateStoreManager.isApproved(
             aaveCreditTemplate.getAddress()
         )
-        console.log(`template approved: ${isTemplateApproved}`)
     })
 
     describe('Create a credit NFT collateral agreement', function() {

@@ -13,11 +13,11 @@ describe('Agreement Store Manager', () => {
         ;[account1, account2] = await nevermined.accounts.list()
     })
 
-    it.skip('should get agreements for did', async () => {
+    it('should get agreements for did', async () => {
         const ddo = await nevermined.assets.create(getMetadata(), account1)
 
         let agreements = await nevermined.agreements.getAgreements(ddo.id)
-        assert.isEmpty(agreements)
+        const num = agreements.length
 
         await account2.requestTokens(
             +getMetadata().main.price * 10 ** -(await nevermined.keeper.token.decimals())
@@ -26,7 +26,7 @@ describe('Agreement Store Manager', () => {
 
         agreements = await nevermined.agreements.getAgreements(ddo.id)
         assert.isNotEmpty(agreements)
-        assert.equal(agreements.length, 1)
-        assert.equal(agreements[0].agreementId, agreementId)
+        assert.equal(agreements.length, 1 + num)
+        assert.equal(agreements[num].agreementId, agreementId)
     })
 })
