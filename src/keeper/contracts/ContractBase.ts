@@ -188,6 +188,19 @@ export abstract class ContractBase extends Instantiable {
                     // no eip-1559 support
                 }
             }
+
+            // Something weird with celo eip-1559 implementation (mainnet, alfajores)
+            const chainId = await this.web3.eth.net.getId()
+            if (chainId == 44787 || chainId == 42220) {
+                console.log('Calling Celo...')
+                txparams = {
+                    from,
+                    value,
+                    gas,
+                    gasPrice,
+                    chainId
+                }
+            }
             const receipt = await tx
                 .send(txparams)
                 .on('sent', tx => {
