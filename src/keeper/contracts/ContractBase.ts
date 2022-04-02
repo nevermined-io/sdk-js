@@ -98,6 +98,7 @@ export abstract class ContractBase extends Instantiable {
         args: any[],
         params: TxParameters = {}
     ): Promise<TransactionReceipt> {
+        console.log('calling send 3')
         if (!this.contract.methods[name]) {
             throw new Error(
                 `Method "${name}" is not part of contract "${this.contractName}"`
@@ -152,6 +153,7 @@ export abstract class ContractBase extends Instantiable {
                 gas,
                 gasPrice
             }
+            console.log('estimating gas price')
             if (!gasPrice) {
                 let { maxPriorityFeePerGas } = params
                 try {
@@ -186,42 +188,111 @@ export abstract class ContractBase extends Instantiable {
                     }
                 } catch (err) {
                     // no eip-1559 support
+                    console.log('gas estimation failed')
+                    this.logger.warn(
+                        'Network does not support eip-1559. Trying without eip-1559 support...'
+                    )
+                    txparams = {
+                        from,
+                        value,
+                        gas,
+                        gasPrice
+                    }
                 }
             }
-            const receipt = await tx
-                .send(txparams)
-                .on('sent', tx => {
-                    if (params.progress) {
-                        params.progress({
-                            stage: 'sent',
-                            args: this.searchMethodInputs(name, args),
-                            tx,
-                            method: name,
-                            from,
-                            value,
-                            contractName: this.contractName,
-                            contractAddress: this.address,
-                            gas
-                        })
-                    }
-                })
-                .on('transactionHash', async txHash => {
-                    if (params.progress) {
-                        const tx = await this.web3.eth.getTransaction(txHash)
-                        params.progress({
-                            stage: 'txHash',
-                            args: this.searchMethodInputs(name, args),
-                            txHash,
-                            gasPrice: tx.gasPrice,
-                            method: name,
-                            from,
-                            value,
-                            contractName: this.contractName,
-                            contractAddress: this.address,
-                            gas: tx.gas
-                        })
-                    }
-                })
+            console.log('sending with', txparams)
+            let receipt
+            try {
+                receipt = await tx
+                    .send(txparams)
+                    .on('sent', tx => {
+                        console.log('event sent', tx)
+                        if (params.progress) {
+                            params.progress({
+                                stage: 'sent',
+                                args: this.searchMethodInputs(name, args),
+                                tx,
+                                method: name,
+                                from,
+                                value,
+                                contractName: this.contractName,
+                                contractAddress: this.address,
+                                gas
+                            })
+                        }
+                    })
+                    .on('transactionHash', async txHash => {
+                        if (params.progress) {
+                            const tx = await this.web3.eth.getTransaction(txHash)
+                            params.progress({
+                                stage: 'txHash',
+                                args: this.searchMethodInputs(name, args),
+                                txHash,
+                                gasPrice: tx.gasPrice,
+                                method: name,
+                                from,
+                                value,
+                                contractName: this.contractName,
+                                contractAddress: this.address,
+                                gas: tx.gas
+                            })
+                        }
+                    })
+                    .on('error', error => {
+                        console.log('transaction event error')
+                        throw error
+                    })
+                console.log('after sending transaction')
+            } catch (err) {
+                this.logger.warn(
+                    'Network does not support eip-1559. Re-trying without eip-1559 support...'
+                )
+                txparams = {
+                    from,
+                    value,
+                    gas,
+                    gasPrice
+                }
+                console.log(
+                    'trasanction failed. trying without eip-1559 support',
+                    txparams
+                )
+
+                receipt = await tx
+                    .send(txparams)
+                    .on('sent', tx => {
+                        if (params.progress) {
+                            params.progress({
+                                stage: 'sent',
+                                args: this.searchMethodInputs(name, args),
+                                tx,
+                                method: name,
+                                from,
+                                value,
+                                contractName: this.contractName,
+                                contractAddress: this.address,
+                                gas
+                            })
+                        }
+                    })
+                    .on('transactionHash', async txHash => {
+                        if (params.progress) {
+                            const tx = await this.web3.eth.getTransaction(txHash)
+                            params.progress({
+                                stage: 'txHash',
+                                args: this.searchMethodInputs(name, args),
+                                txHash,
+                                gasPrice: tx.gasPrice,
+                                method: name,
+                                from,
+                                value,
+                                contractName: this.contractName,
+                                contractAddress: this.address,
+                                gas: tx.gas
+                            })
+                        }
+                    })
+            }
             if (params.progress) {
                 params.progress({
                     stage: 'receipt',
@@ -238,6 +309,7 @@ export abstract class ContractBase extends Instantiable {
 
             return receipt
         } catch (err) {
+            console.log('final error check')
             const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
                 return {
                     name: input.name,
