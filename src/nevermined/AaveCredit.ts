@@ -23,7 +23,7 @@ export class AaveCredit extends Instantiable {
 
         aaveCredit.template = await AaveCreditTemplate.getInstance(config)
         aaveCredit.aaveConfig = config.config.aaveConfig
-        // console.log(`AaveCredit: aaveConfig=${JSON.stringify(config.config)}`)
+        console.log(`AaveCredit: aaveConfig=${JSON.stringify(config.config)}`)
 
         return aaveCredit
     }
@@ -134,7 +134,7 @@ export class AaveCredit extends Instantiable {
                 return false
             }
         }
-        // console.log(`nft lock approved for nft721LockCondition ${lockCond.address}`)
+        console.log(`nft lock approved for nft721LockCondition ${lockCond.address}`)
         const _id = await lockCond.generateId(
             agreementId,
             await lockCond.hashValues(did, vaultAddress, nftAmount, nftContractAddress)
@@ -157,7 +157,7 @@ export class AaveCredit extends Instantiable {
         } = await this.nevermined.keeper.conditionStoreManager.getCondition(
             agreementData.conditionIds[0]
         )
-        // console.log(`tx status=${txReceipt.status}, stateNftLock=${stateNftLock}`)
+        console.log(`tx status=${txReceipt.status}, stateNftLock=${stateNftLock}`)
         return txReceipt.status && stateNftLock === ConditionState.Fulfilled
     }
 
@@ -190,7 +190,9 @@ export class AaveCredit extends Instantiable {
         const _delegatedAmount = new BigNumber(
             web3Utils.toWei(delegatedAmount.toString(), 'ether')
         )
-        // console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
+        console.log(
+            `aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`
+        )
         const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
             agreementId,
             did,

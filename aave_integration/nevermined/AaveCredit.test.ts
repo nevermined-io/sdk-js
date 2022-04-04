@@ -114,7 +114,7 @@ describe('AaveCredit', () => {
         }
         nftContractAddress = nft721Wrapper.address
 
-        // console.log(`borrower=${borrower.getId()}, nft721=${nft721Wrapper.address}`)
+        console.log(`borrower=${borrower.getId()}, nft721=${nft721Wrapper.address}`)
         if (did) {
             ddo = await nevermined.assets.resolve(did)
         } else {
@@ -178,7 +178,10 @@ describe('AaveCredit', () => {
             )
             assert.equal(didRegAddress, didRegistry.address)
             const didBlockNumber = await didRegistry.getBlockNumberUpdated(did)
-            // console.log(`didReg: ${didRegAddress}, ${didRegistry.address}, didBlock=${didBlockNumber.toString()}`)
+            console.log(
+                `didReg: ${didRegAddress}, ${didRegistry.address
+                }, didBlock=${didBlockNumber.toString()}`
+            )
             if (
                 didBlockNumber === null ||
                 didBlockNumber === undefined ||
@@ -212,23 +215,29 @@ describe('AaveCredit', () => {
             agreementData = await nevermined.keeper.agreementStoreManager.getAgreement(
                 agreementId
             )
-            // console.log(`agreement:
-            //     agreementId=${agreementId}, vaultAddress=${vaultAddress},
-            //     nftContractAddress=${nftContractAddress}, nft721Wrapper.address=${nft721Wrapper.address},
-            //     did=${did}, nft721LockCondition.address=${nft721LockCondition.address},
-            //     lockNftId=${agreementData.conditionIds[0]}`)
+            console.log(`agreement:
+                agreementId=${agreementId}, vaultAddress=${vaultAddress},
+                nftContractAddress=${nftContractAddress}, nft721Wrapper.address=${nft721Wrapper.address},
+                did=${did}, nft721LockCondition.address=${nft721LockCondition.address},
+                lockNftId=${agreementData.conditionIds[0]}`)
         })
 
         it('The borrower locks the NFT', async () => {
-            // const ownerOfNft: string = await nft721Wrapper.ownerOf(did)
-            // const balance = await nft721Wrapper.balanceOf(borrower.getId())
-            // const approvedBefore = await nft721Wrapper.call('getApproved', [didZeroX(did)])
-            // console.log(`approvedBefore=${approvedBefore}`)
-            // console.log(`vault balance: ${await nft721Wrapper.balanceOf(vaultAddress)}`)
+            const ownerOfNft: string = await nft721Wrapper.ownerOf(did)
+            const balance = await nft721Wrapper.balanceOf(borrower.getId())
+            const approvedBefore = await nft721Wrapper.call('getApproved', [
+                didZeroX(did)
+            ])
+            console.log(`approvedBefore=${approvedBefore}`)
+            console.log(`vault balance: ${await nft721Wrapper.balanceOf(vaultAddress)}`)
             const _condition = await conditionStoreManager.getCondition(
                 agreementData.conditionIds[0]
             )
-            // console.log(`_stateNftLock=${_condition.state}, condition=${JSON.stringify(_condition)}`)
+            console.log(
+                `_stateNftLock=${_condition.state}, condition=${JSON.stringify(
+                    _condition
+                )}`
+            )
             if (_condition.state !== ConditionState.Fulfilled) {
                 const nftApproveStatus = (
                     await nft721Wrapper.send('approve', borrower.getId(), [
@@ -237,15 +246,26 @@ describe('AaveCredit', () => {
                     ])
                 ).status
                 assert.isTrue(nftApproveStatus)
-                // console.log(`approve nft status: ${nftApproveStatus}, nft721LockCondition.address=${nft721LockCondition.address}, did=${did}`)
+                console.log(
+                    `approve nft status: ${nftApproveStatus}, nft721LockCondition.address=${nft721LockCondition.address}, did=${did}`
+                )
                 const approved = await nft721Wrapper.call('getApproved', [didZeroX(did)])
                 assert.equal(approved, nft721LockCondition.address)
-                // console.log(`nft owner is: ${ownerOfNft}, borrower=${borrower.getId()}, balance=${balance}, approved=${approved}`)
+                console.log(
+                    `nft owner is: ${ownerOfNft}, borrower=${borrower.getId()}, balance=${balance}, approved=${approved}`
+                )
 
-                // const txReceipt = await nft721LockCondition.fulfill(
-                //     agreementId, did, vaultAddress, nftAmount, nftContractAddress, borrower
-                // )
-                // console.log(`lockNft: status=${txReceipt.status}, ${agreementId}, ${vaultAddress}, ${did}, ${nftContractAddress}`)
+                const txReceipt = await nft721LockCondition.fulfill(
+                    agreementId,
+                    did,
+                    vaultAddress,
+                    nftAmount,
+                    nftContractAddress,
+                    borrower
+                )
+                console.log(
+                    `lockNft: status=${txReceipt.status}, ${agreementId}, ${vaultAddress}, ${did}, ${nftContractAddress}`
+                )
                 await nevermined.aaveCredit.lockNft(
                     agreementId,
                     nftContractAddress,
@@ -284,14 +304,20 @@ describe('AaveCredit', () => {
             const { state: _stateDeposit } = await conditionStoreManager.getCondition(
                 agreementData.conditionIds[1]
             )
-            // console.log(`depositing collateral: colAmount=${collateralAmount}, delAmount=${delegatedAmount} `)
+            console.log(
+                `depositing collateral: colAmount=${collateralAmount}, delAmount=${delegatedAmount} `
+            )
             if (_stateDeposit !== ConditionState.Fulfilled) {
-                // const wethBalance = await weth.balanceOfConverted(lender.getId())
-                // const ethBalance = await lender.getEtherBalance()
-                // console.log(`lender balance: wethBalance=${wethBalance}, collateralAmount=${collateralAmount}, etherBalance=${ethBalance}`)
-                // if (wethBalance < collateralAmount) {
-                //     console.warn(`lender weth balance ${wethBalance} is less than the required deposit ${collateralAmount}.`)
-                // }
+                const wethBalance = await weth.balanceOfConverted(lender.getId())
+                const ethBalance = await lender.getEtherBalance()
+                console.log(
+                    `lender balance: wethBalance=${wethBalance}, collateralAmount=${collateralAmount}, etherBalance=${ethBalance}`
+                )
+                if (wethBalance < collateralAmount) {
+                    console.warn(
+                        `lender weth balance ${wethBalance} is less than the required deposit ${collateralAmount}.`
+                    )
+                }
                 const success = await nevermined.aaveCredit.depositCollateral(
                     agreementId,
                     collateralAsset,
@@ -327,7 +353,7 @@ describe('AaveCredit', () => {
             )
             if (_stateBorrow !== ConditionState.Fulfilled) {
                 const before = await dai.balanceOfConverted(borrower.getId())
-                // console.log(`dai balance = ${web3Utils.fromWei(before.toString())}`)
+                console.log(`dai balance = ${web3Utils.fromWei(before.toString())}`)
                 // Fullfill the aaveBorrowCredit condition
                 // Delegatee borrows DAI from Aave on behalf of Delegator
                 const success = await nevermined.aaveCredit.borrow(
@@ -344,7 +370,10 @@ describe('AaveCredit', () => {
                 assert.strictEqual(stateCredit, ConditionState.Fulfilled)
 
                 const after = await dai.balanceOfConverted(borrower.getId())
-                // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after-before}`)
+                console.log(
+                    `borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after -
+                    before}`
+                )
                 assert.strictEqual(new BigNumber(after - before), delegatedAmount)
             }
         })
