@@ -1,5 +1,7 @@
-export default class Balance {
-    public eth: number
+import BigNumber from 'bignumber.js'
 
-    public nevermined: number
+export default class Balance {
+    public eth: BigNumber
+
+    public nevermined: BigNumber
 }

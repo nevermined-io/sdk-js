@@ -15,7 +15,7 @@ export default class Token extends ContractBase {
 
     public async approve(
         to: string,
-        price: number | string,
+        price: number | string | BigNumber,
         from?: Account,
         params?: TxParameters
     ) {
@@ -34,9 +34,9 @@ export default class Token extends ContractBase {
         return this.call('balanceOf', [address])
     }
 
-    public async balanceOf(address: string): Promise<number> {
-        return this.call('balanceOf', [address]).then((balance: string) =>
-            new BigNumber(balance).toNumber()
+    public async balanceOf(address: string): Promise<BigNumber> {
+        return this.call('balanceOf', [address]).then(
+            (balance: string) => new BigNumber(balance)
         )
     }
 

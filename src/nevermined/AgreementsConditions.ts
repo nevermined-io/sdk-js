@@ -9,6 +9,8 @@ import KeyTransfer from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Service } from '../ddo/Service'
 import { EventOptions } from '../events/NeverminedEvent'
+import AssetRewards from '../models/AssetRewards'
+import BigNumber from 'bignumber.js'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -32,7 +34,7 @@ export class AgreementsConditions extends Instantiable {
      * This is required before access can be given to the asset data.
      * @param {string}      agreementId         Agreement ID.
      * @param {string}      did                 The Asset ID.
-     * @param {number[]}    amounts             Asset amounts to distribute.
+     * @param {BigNumber[]}    amounts             Asset amounts to distribute.
      * @param {string[]}    receivers           Receivers of the rewards
      * @param {string}      erc20TokenAddress   Account of sender.
      * @param {Account}     from                Account of sender.
@@ -40,7 +42,7 @@ export class AgreementsConditions extends Instantiable {
     public async lockPayment(
         agreementId: string,
         did: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         erc20TokenAddress?: string,
         from?: Account,
@@ -67,7 +69,7 @@ export class AgreementsConditions extends Instantiable {
             )
         }
 
-        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const totalAmount = AssetRewards.sumAmounts(amounts)
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)
@@ -260,7 +262,7 @@ export class AgreementsConditions extends Instantiable {
      */
     public async releaseReward(
         agreementId: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         did: string,
         consumer: string,
@@ -290,7 +292,7 @@ export class AgreementsConditions extends Instantiable {
                 )
             }
 
-            const totalAmount = amounts.reduce((a, b) => a + b, 0)
+            const totalAmount = AssetRewards.sumAmounts(amounts)
 
             const conditionIdAccess = await accessCondition.generateIdHash(
                 agreementId,
@@ -326,7 +328,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id for the nft sale.
      * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The amounts that should have been payed.
+     * @param {BigNumber[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
      * @param {Number} nftAmount Number of nfts bought.
      * @param publisher
@@ -335,7 +337,7 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNftReward(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         nftAmount: number,
         publisher: Account,
@@ -413,7 +415,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id for the nft sale.
      * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The amounts that should have been payed.
+     * @param {BigNumber[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
      * @param publisher
      * @returns {Boolean} True if the funds were released successfully.
@@ -421,7 +423,7 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNft721Reward(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         publisher: Account,
         from?: Account,
@@ -591,7 +593,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
      * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The expected that amounts that should have been payed.
+     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {Number} nftAmount The amount of nfts to transfer.
      * @param from
@@ -600,7 +602,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNft(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         nftAmount: number,
         from?: Account,
@@ -655,7 +657,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
      * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The expected that amounts that should have been payed.
+     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {Number} nftAmount The amount of nfts to transfer.
      * @param from
@@ -664,7 +666,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNftForDelegate(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         nftAmount: number,
         from?: Account,
@@ -732,7 +734,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNft721(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         publisher: Account,
         txParams?: TxParameters

@@ -20,30 +20,36 @@ describe('Account', () => {
         it('should get initial nevermined balance', async () => {
             const balance = await accounts[8].getNeverminedBalance()
 
-            assert.equal(0, balance, `Expected 0 got ${balance}`)
+            assert.equal(0, balance.toNumber(), `Expected 0 got ${balance}`)
         })
 
         it('should get the correct balance', async () => {
-            const amount = 100
+            const web3 = Web3Provider.getWeb3()
+            const amount = new BigNumber(100)
             const account: Account = accounts[0]
             const initialBalance = await account.getNeverminedBalance()
             await account.requestTokens(amount)
             const balance = await account.getNeverminedBalance()
 
-            assert.equal(balance, initialBalance + amount)
+            const balancePlusAmount = new BigNumber(web3.utils.toWei('100', 'ether'))
+            console.log(`Initial Balance :    ${initialBalance.toString()}`)
+            console.log(`Balance         :    ${balance.toString()}`)
+            console.log(`Balance + Amount:    ${balancePlusAmount.toString()}`)
+            assert.isTrue(balance.comparedTo(initialBalance.plus(balancePlusAmount)) >= 0)
+            // assert.equal(balance.toString(), initialBalance.plus(
+            //     new BigNumber(web3.utils.toWei('100', 'ether')).toString())
         })
     })
 
     describe('#getEthBalance()', () => {
         it('should get initial ether balance', async () => {
             const account: Account = accounts[9]
-            const balance = await account.getEtherBalance()
+            const balanceEth = await account.getEtherBalance()
             const web3 = Web3Provider.getWeb3()
 
+            console.log(`Balance ${balanceEth}`)
             assert.isTrue(
-                new BigNumber(balance).isEqualTo(
-                    new BigNumber(web3.utils.toWei('1000', 'ether'))
-                )
+                balanceEth.isEqualTo(new BigNumber(web3.utils.toWei('1000', 'ether')))
             )
         })
     })
@@ -55,11 +61,9 @@ describe('Account', () => {
             const web3 = Web3Provider.getWeb3()
 
             assert.isTrue(
-                new BigNumber(balance.eth).isEqualTo(
-                    new BigNumber(web3.utils.toWei('1000', 'ether'))
-                )
+                balance.eth.isEqualTo(new BigNumber(web3.utils.toWei('1000', 'ether')))
             )
-            assert.equal(balance.nevermined, 0)
+            assert.isTrue(balance.nevermined.comparedTo(new BigNumber(0)) === 0)
         })
     })
 

@@ -5,6 +5,7 @@ import { workflowMetadatas } from '../utils'
 
 import { Nevermined, DDO, Account } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
+import BigNumber from 'bignumber.js'
 
 describe('Compute Asset', () => {
     let nevermined: Nevermined
@@ -25,8 +26,7 @@ describe('Compute Asset', () => {
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
-        assetRewards = new AssetRewards(publisher.getId(), 0)
-
+        assetRewards = new AssetRewards(publisher.getId(), new BigNumber(0))
     })
 
     it('should register the assets', async () => {

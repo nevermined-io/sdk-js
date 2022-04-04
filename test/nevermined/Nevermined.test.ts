@@ -35,8 +35,8 @@ describe('Nevermined', () => {
         it('should list accounts', async () => {
             const accs: Account[] = await nevermined.accounts.list()
 
-            assert(accs.length === 10)
-            assert((await accs[5].getBalance()).nevermined === 0)
+            assert(accs.length === 10, `Expected 10 but the length is ${accs.length}`)
+            assert((await accs[5].getBalance()).nevermined.toNumber() === 0)
             assert(typeof accs[0].getId() === 'string')
         })
     })

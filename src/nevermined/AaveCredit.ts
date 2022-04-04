@@ -290,13 +290,13 @@ export class AaveCredit extends Instantiable {
         )
         const totalDebt = await this.getTotalActualDebt(agreementId, from, vaultAddress)
         const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
-        const weiAllowanceAmount = Number(
+        const weiAllowanceAmount = new BigNumber(
             web3Utils.toWei(allowanceAmount.toString(), 'ether')
         )
 
         // Verify that the borrower has sufficient balance for the repayment
         const weiBalance = await erc20Token.balanceOf(from.getId())
-        if (weiBalance < weiAllowanceAmount) {
+        if (weiBalance.comparedTo(weiAllowanceAmount) === -1) {
             this.logger.warn(
                 `borrower does not have enough balance to repay the debt: 
                 token=${delegatedAsset}, weiBalance=${weiBalance}, totalDebt(wei)=${weiAllowanceAmount}`

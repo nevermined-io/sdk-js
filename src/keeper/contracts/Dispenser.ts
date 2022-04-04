@@ -1,5 +1,6 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import BigNumber from 'bignumber.js'
 
 export default class Dispenser extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Dispenser> {
@@ -9,10 +10,15 @@ export default class Dispenser extends ContractBase {
     }
 
     public async requestTokens(
-        amount: number | string,
+        amount: number | string | BigNumber,
         receiverAddress: string,
         params?: TxParameters
     ) {
-        return this.send('requestTokens', receiverAddress, [String(amount)], params)
+        return this.send(
+            'requestTokens',
+            receiverAddress,
+            [new BigNumber(amount)],
+            params
+        )
     }
 }

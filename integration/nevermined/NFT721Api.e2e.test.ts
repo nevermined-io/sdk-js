@@ -9,6 +9,7 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Contract } from 'web3-eth-contract'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { zeroX } from '../../src/utils'
+import BigNumber from 'bignumber.js'
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -26,7 +27,7 @@ describe('NFTs721 Api End-to-End', () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     let nftPrice = 20
-    let amounts = [15, 5]
+    let amounts = [new BigNumber(15), new BigNumber(5)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
@@ -52,7 +53,7 @@ describe('NFTs721 Api End-to-End', () => {
         scale = 10 ** (await token.decimals())
 
         nftPrice = nftPrice * scale
-        amounts = amounts.map(v => v * scale)
+        amounts = amounts.map(v => v.multipliedBy(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -103,7 +104,10 @@ describe('NFTs721 Api End-to-End', () => {
             await collector1.requestTokens(nftPrice / scale)
 
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
-            assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
+            assert.equal(
+                collector1BalanceBefore,
+                initialBalances.collector1.plus(nftPrice)
+            )
 
             agreementId = await nevermined.nfts.order721(ddo.id, collector1)
 
@@ -113,9 +117,14 @@ describe('NFTs721 Api End-to-End', () => {
             const escrowPaymentConditionBalance = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-            assert.equal(collector1BalanceAfter - initialBalances.collector1, 0)
             assert.equal(
-                escrowPaymentConditionBalance - initialBalances.escrowPaymentCondition,
+                collector1BalanceAfter.minus(initialBalances.collector1).toNumber(),
+                0
+            )
+            assert.equal(
+                escrowPaymentConditionBalance
+                    .minus(initialBalances.escrowPaymentCondition)
+                    .toNumber(),
                 nftPrice
             )
         })
@@ -165,9 +174,11 @@ describe('NFTs721 Api End-to-End', () => {
                 initialBalances.gallery + assetRewards1.getAmounts()[1]
             )
 
-            assert.equal(collectorBalance - initialBalances.collector1, 0)
+            assert.equal(collectorBalance.minus(initialBalances.collector1).toNumber(), 0)
             assert.equal(
-                escrowPaymentConditionBalance - initialBalances.escrowPaymentCondition,
+                escrowPaymentConditionBalance
+                    .minus(initialBalances.escrowPaymentCondition)
+                    .toNumber(),
                 0
             )
         })

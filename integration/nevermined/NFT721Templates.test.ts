@@ -20,6 +20,7 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Nft721 } from '../../src'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { getMetadata } from '../utils'
+import BigNumber from 'bignumber.js'
 
 describe('NFT721Templates E2E', () => {
     let owner: Account
@@ -59,15 +60,15 @@ describe('NFT721Templates E2E', () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    let nftPrice = 20
-    let amounts = [15, 5]
+    let nftPrice = new BigNumber(20)
+    let amounts = [new BigNumber(15), new BigNumber(5)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
-    let nftPrice2 = 100
-    let amounts2 = [90, 10]
+    let nftPrice2 = new BigNumber(100)
+    let amounts2 = [new BigNumber(90), new BigNumber(10)]
     let receivers2: string[]
     let assetRewards2: AssetRewards
 
@@ -113,10 +114,10 @@ describe('NFT721Templates E2E', () => {
 
         scale = 10 ** (await token.decimals())
 
-        nftPrice = nftPrice * scale
-        amounts = amounts.map(v => v * scale)
-        nftPrice2 = nftPrice2 * scale
-        amounts2 = amounts2.map(v => v * scale)
+        nftPrice = nftPrice.multipliedBy(scale)
+        amounts = amounts.map(v => v.multipliedBy(scale))
+        nftPrice2 = nftPrice2.multipliedBy(scale)
+        amounts2 = amounts2.map(v => v.multipliedBy(scale))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -208,7 +209,7 @@ describe('NFT721Templates E2E', () => {
                     )
                 )
 
-                await collector1.requestTokens(nftPrice / scale)
+                await collector1.requestTokens(nftPrice.div(scale))
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 assert.equal(
                     collector1BalanceBefore,
@@ -260,11 +261,15 @@ describe('NFT721Templates E2E', () => {
                 const escrowPaymentConditionBalance = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
-                assert.equal(collector1BalanceAfter - initialBalances.collector1, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
-                    nftPrice
+                    collector1BalanceAfter.minus(initialBalances.collector1).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
+                    nftPrice.toNumber()
                 )
             })
 
@@ -322,12 +327,22 @@ describe('NFT721Templates E2E', () => {
                 const receiver1Balance = await token.balanceOf(receivers[1])
                 const collectorBalance = await token.balanceOf(collector1.getId())
 
-                assert.equal(receiver0Balance, initialBalances.artist + amounts[0])
-                assert.equal(receiver1Balance, initialBalances.gallery + amounts[1])
-                assert.equal(collectorBalance - initialBalances.collector1, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
+                    receiver0Balance.toNumber(),
+                    initialBalances.artist + amounts[0]
+                )
+                assert.equal(
+                    receiver1Balance.toNumber(),
+                    initialBalances.gallery + amounts[1]
+                )
+                assert.equal(
+                    collectorBalance.minus(initialBalances.collector1).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
                     0
                 )
             })
@@ -500,7 +515,7 @@ describe('NFT721Templates E2E', () => {
             })
 
             it('As collector2 I am locking the payment', async () => {
-                await collector2.requestTokens(nftPrice2 / scale)
+                await collector2.requestTokens(nftPrice2.div(scale))
                 const collector2BalanceBefore = await token.balanceOf(collector2.getId())
                 assert.equal(
                     collector2BalanceBefore,
@@ -531,11 +546,15 @@ describe('NFT721Templates E2E', () => {
                 const escrowPaymentConditionBalance = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
-                assert.equal(collector2BalanceAfter - initialBalances.collector2, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
-                    nftPrice2
+                    collector2BalanceAfter.minus(initialBalances.collector2).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
+                    nftPrice2.toNumber()
                 )
             })
 
@@ -598,12 +617,22 @@ describe('NFT721Templates E2E', () => {
                 const receiver1Balance = await token.balanceOf(receivers2[1])
                 const collectorBalance = await token.balanceOf(collector2.getId())
 
-                assert.equal(receiver0Balance, initialBalances.collector1 + amounts2[0])
-                assert.equal(receiver1Balance, initialBalances.artist + amounts2[1])
-                assert.equal(collectorBalance - initialBalances.collector2, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
+                    receiver0Balance.toNumber(),
+                    initialBalances.collector1 + amounts2[0]
+                )
+                assert.equal(
+                    receiver1Balance.toNumber(),
+                    initialBalances.artist + amounts2[1]
+                )
+                assert.equal(
+                    collectorBalance.minus(initialBalances.collector2).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
                     0
                 )
             })
@@ -640,7 +669,7 @@ describe('NFT721Templates E2E', () => {
                 [],
                 royalties
             )
-            await collector1.requestTokens(nftPrice / scale)
+            await collector1.requestTokens(nftPrice.div(scale))
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -683,11 +712,15 @@ describe('NFT721Templates E2E', () => {
                 const escrowPaymentConditionBalance = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
-                assert.equal(collector1BalanceAfter - initialBalances.collector1, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
-                    nftPrice
+                    collector1BalanceAfter.minus(initialBalances.collector1).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
+                    nftPrice.toNumber()
                 )
             })
 
@@ -725,12 +758,22 @@ describe('NFT721Templates E2E', () => {
                 const receiver1Balance = await token.balanceOf(receivers[1])
                 const collectorBalance = await token.balanceOf(collector1.getId())
 
-                assert.equal(receiver0Balance, initialBalances.artist + amounts[0])
-                assert.equal(receiver1Balance, initialBalances.gallery + amounts[1])
-                assert.equal(collectorBalance - initialBalances.collector1, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
+                    receiver0Balance.toNumber(),
+                    initialBalances.artist + amounts[0]
+                )
+                assert.equal(
+                    receiver1Balance.toNumber(),
+                    initialBalances.gallery + amounts[1]
+                )
+                assert.equal(
+                    collectorBalance.minus(initialBalances.collector1).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
                     0
                 )
             })
@@ -832,7 +875,7 @@ describe('NFT721Templates E2E', () => {
             })
 
             it('As collector2 I am locking the payment', async () => {
-                await collector2.requestTokens(nftPrice2 / scale)
+                await collector2.requestTokens(nftPrice2.div(scale))
 
                 const collector2BalanceBefore = await token.balanceOf(collector2.getId())
                 assert.equal(
@@ -854,11 +897,15 @@ describe('NFT721Templates E2E', () => {
                 const escrowPaymentConditionBalance = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
-                assert.equal(collector2BalanceAfter - initialBalances.collector2, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
-                    nftPrice2
+                    collector2BalanceAfter.minus(initialBalances.collector2).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
+                    nftPrice2.toNumber()
                 )
             })
 
@@ -896,12 +943,22 @@ describe('NFT721Templates E2E', () => {
                 const receiver1Balance = await token.balanceOf(receivers2[1])
                 const collectorBalance = await token.balanceOf(collector2.getId())
 
-                assert.equal(receiver0Balance, initialBalances.collector1 + amounts2[0])
-                assert.equal(receiver1Balance, initialBalances.artist + amounts2[1])
-                assert.equal(collectorBalance - initialBalances.collector2, 0)
                 assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
+                    receiver0Balance.toNumber(),
+                    initialBalances.collector1 + amounts2[0]
+                )
+                assert.equal(
+                    receiver1Balance.toNumber(),
+                    initialBalances.artist + amounts2[1]
+                )
+                assert.equal(
+                    collectorBalance.minus(initialBalances.collector2).toNumber(),
+                    0
+                )
+                assert.equal(
+                    escrowPaymentConditionBalance
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .toNumber(),
                     0
                 )
             })

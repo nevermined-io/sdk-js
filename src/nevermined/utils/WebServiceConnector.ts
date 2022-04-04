@@ -8,7 +8,7 @@ import fileDownload from 'js-file-download'
 let fetch
 if (typeof window !== 'undefined') {
     fetch = window.fetch.bind(window)
-} else {    
+} else {
     fetch = require('node-fetch')
 }
 

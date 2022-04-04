@@ -4,6 +4,8 @@ import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import Token from '../Token'
 import CustomToken from '../CustomToken'
+import BigNumber from 'bignumber.js'
+import AssetRewards from '../../../models/AssetRewards'
 
 export abstract class BaseTemplate extends AgreementTemplate {
     /**
@@ -49,7 +51,7 @@ export abstract class BaseTemplate extends AgreementTemplate {
         condIdx: number,
         rewardAddress: string,
         tokenAddress: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         from?: Account,
         params?: TxParameters
@@ -101,13 +103,13 @@ export abstract class BaseTemplate extends AgreementTemplate {
             )
         }
 
-        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const totalAmount = AssetRewards.sumAmounts(amounts)
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)
             await token.approve(
                 lockPaymentCondition.getAddress(),
-                totalAmount,
+                totalAmount.toString(),
                 from,
                 txParams
             )
