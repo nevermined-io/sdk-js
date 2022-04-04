@@ -106,7 +106,8 @@ describe('NFTs721 Api End-to-End', () => {
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
             assert.isTrue(
                 collector1BalanceBefore.isEqualTo(
-                initialBalances.collector1.plus(nftPrice))
+                    initialBalances.collector1.plus(nftPrice)
+                )
             )
 
             agreementId = await nevermined.nfts.order721(ddo.id, collector1)
@@ -161,12 +162,14 @@ describe('NFTs721 Api End-to-End', () => {
 
             assert.isTrue(
                 receiver0Balance.isEqualTo(
-                initialBalances.artist.plus(assetRewards1.getAmounts()[0]))
+                    initialBalances.artist.plus(assetRewards1.getAmounts()[0])
+                )
             )
 
             assert.isTrue(
                 receiver1Balance.isEqualTo(
-                initialBalances.gallery.plus(assetRewards1.getAmounts()[1]))
+                    initialBalances.gallery.plus(assetRewards1.getAmounts()[1])
+                )
             )
 
             assert.isTrue(collectorBalance.minus(initialBalances.collector1).isEqualTo(0))
