@@ -114,16 +114,9 @@ describe('NFTs721 Api End-to-End', () => {
             assert.isDefined(agreementId)
 
             const collector1BalanceAfter = await token.balanceOf(collector1.getId())
-            const escrowPaymentConditionBalance = await token.balanceOf(
-                escrowPaymentCondition.getAddress()
-            )
+
             assert.isTrue(
                 collector1BalanceAfter.minus(initialBalances.collector1).isEqualTo(0)
-            )
-            assert.isTrue(
-                escrowPaymentConditionBalance
-                    .minus(initialBalances.escrowPaymentCondition)
-                    .isEqualTo(nftPrice)
             )
         })
 
@@ -143,6 +136,10 @@ describe('NFTs721 Api End-to-End', () => {
         })
 
         it('the artist asks and receives the payment', async () => {
+            const escrowPaymentConditionBalanceBefore = await token.balanceOf(
+                escrowPaymentCondition.getAddress()
+            )
+
             const receipt = await nevermined.nfts.release721Rewards(
                 agreementId,
                 ddo.id,
@@ -151,7 +148,7 @@ describe('NFTs721 Api End-to-End', () => {
 
             assert.isTrue(receipt)
 
-            const escrowPaymentConditionBalance = await token.balanceOf(
+            const escrowPaymentConditionBalanceAfter = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
             const receiver0Balance = await token.balanceOf(
@@ -174,9 +171,9 @@ describe('NFTs721 Api End-to-End', () => {
 
             assert.isTrue(collectorBalance.minus(initialBalances.collector1).isEqualTo(0))
             assert.isTrue(
-                escrowPaymentConditionBalance
-                    .minus(initialBalances.escrowPaymentCondition)
-                    .isEqualTo(0)
+                escrowPaymentConditionBalanceBefore
+                    .minus(assetRewards1.getTotalPrice())
+                    .isEqualTo(escrowPaymentConditionBalanceAfter)
             )
         })
     })
