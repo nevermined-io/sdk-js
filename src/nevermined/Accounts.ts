@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import Balance from '../models/Balance'
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
@@ -53,7 +54,7 @@ export class Accounts extends Instantiable {
         params?: TxParameters
     ): Promise<boolean> {
         try {
-            await account.requestTokens(amount, params)
+            await account.requestTokens((new BigNumber(amount)).toString(10), params)
             return true
         } catch (e) {
             return false

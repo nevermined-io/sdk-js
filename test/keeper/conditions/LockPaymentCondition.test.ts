@@ -23,7 +23,7 @@ let buyer: Account
 let seller: Account
 
 describe('LockPaymentCondition', () => {
-    const amount = 15
+    const amount = 15e+4
     let agreementId
     let did
 
@@ -90,7 +90,7 @@ describe('LockPaymentCondition', () => {
             )
 
             await buyer.requestTokens(assetRewards.getTotalPrice())
-
+            console.log(await token.balanceOf(buyer.getId()), assetRewards.getTotalPrice())
             await token.approve(
                 lockPaymentCondition.getAddress(),
                 assetRewards.getTotalPrice(),
