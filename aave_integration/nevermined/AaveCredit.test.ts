@@ -345,7 +345,7 @@ describe('AaveCredit', () => {
 
                 const after = await dai.balanceOfConverted(borrower.getId())
                 // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after-before}`)
-                assert.strictEqual(new BigNumber(after - before), delegatedAmount)
+                assert.isTrue(new BigNumber(after - before).isEqualTo(delegatedAmount))
             }
         })
 
@@ -441,7 +441,7 @@ describe('AaveCredit', () => {
                 const daiFee = delegatedAmount.div(10000).multipliedBy(agreementFee)
 
                 // Compare the lender fees after withdraw
-                assert.strictEqual(daiFee, new BigNumber(daiAfter - daiBefore))
+                assert.isTrue(new BigNumber(daiAfter - daiBefore).isEqualTo(daiFee))
 
                 assert.isAbove(ethBalanceAfter - ethBalanceBefore - collateralAmount, 0)
             }
