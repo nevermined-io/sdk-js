@@ -113,7 +113,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralToken: string,
         collateralAmount: number,
         delegatedToken: string,
-        delegatedAmount: number,
+        delegatedAmount: BigNumber,
         interestRateMode: number,
         timeLocks: number[],
         timeOuts: number[],
@@ -146,9 +146,9 @@ export class AaveCreditTemplate extends BaseTemplate {
             txParams
         )
 
-        console.log(`createVaultAgreement: 
+        console.log(`createVaultAgreement:
             status=${txAgreement.status}, txHash=${txAgreement.transactionHash},
-            
+
             collateralAmount=${_collateralAmount}, delegatedAmount=${_delegatedAmount}`)
         return txAgreement
     }
@@ -161,7 +161,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralToken: string,
         collateralAmount: number,
         delegatedToken: string,
-        delegatedAmount: number,
+        delegatedAmount: BigNumber,
         interestRateMode: number,
         borrower: string,
         lender: string,
@@ -181,8 +181,8 @@ export class AaveCreditTemplate extends BaseTemplate {
             from.getId()
         )
 
-        console.log(`Deployed credit vault: 
-            vaultAddress=${vaultAddress}, lendingPool=${this.aaveConfig.lendingPoolAddress}. 
+        console.log(`Deployed credit vault:
+            vaultAddress=${vaultAddress}, lendingPool=${this.aaveConfig.lendingPoolAddress}.
             weth=${this.aaveConfig.wethAddress}. agreementFee=${this.aaveConfig.agreementFee}`)
 
         const txAgreement = await this._createAgreement(
@@ -218,7 +218,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralToken: string,
         collateralAmount: number,
         delegatedToken: string,
-        delegatedAmount: number,
+        delegatedAmount: BigNumber,
         interestRateMode: number,
         timeLocks: number[],
         timeOuts: number[],
@@ -305,9 +305,9 @@ export class AaveCreditTemplate extends BaseTemplate {
                 nftTokenContract
             )
         )
-        console.log(`createFullAgreementData: 
-            nft721LockCondition.address=${nft721LockCondition.address}, 
-            lockNftId=${lockNftId}, 
+        console.log(`createFullAgreementData:
+            nft721LockCondition.address=${nft721LockCondition.address},
+            lockNftId=${lockNftId},
             `)
 
         const depositCollateralId = await aaveCollateralDepositCondition.generateId(
