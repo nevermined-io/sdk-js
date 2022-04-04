@@ -255,17 +255,17 @@ describe('AaveCredit', () => {
                     `nft owner is: ${ownerOfNft}, borrower=${borrower.getId()}, balance=${balance}, approved=${approved}`
                 )
 
-                const txReceipt = await nft721LockCondition.fulfill(
-                    agreementId,
-                    did,
-                    vaultAddress,
-                    nftAmount,
-                    nftContractAddress,
-                    borrower
-                )
-                console.log(
-                    `lockNft: status=${txReceipt.status}, ${agreementId}, ${vaultAddress}, ${did}, ${nftContractAddress}`
-                )
+                // const txReceipt = await nft721LockCondition.fulfill(
+                //     agreementId,
+                //     did,
+                //     vaultAddress,
+                //     nftAmount,
+                //     nftContractAddress,
+                //     borrower
+                // )
+                // console.log(
+                //     `lockNft: status=${txReceipt.status}, ${agreementId}, ${vaultAddress}, ${did}, ${nftContractAddress}`
+                // )
                 await nevermined.aaveCredit.lockNft(
                     agreementId,
                     nftContractAddress,
