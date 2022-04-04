@@ -71,7 +71,6 @@ jobs:
     - name: Install dependencies
       run: |
         yarn
-        sudo apt-get install mmv
     - name: Run tools (network)
       run: |
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
