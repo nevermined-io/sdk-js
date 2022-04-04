@@ -197,8 +197,7 @@ export abstract class ContractBase extends Instantiable {
                     from,
                     value,
                     gas,
-                    gasPrice,
-                    chainId
+                    gasPrice
                 }
             }
             const receipt = await tx
