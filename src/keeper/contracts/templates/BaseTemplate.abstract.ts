@@ -109,7 +109,7 @@ export abstract class BaseTemplate extends AgreementTemplate {
             this.logger.debug('Approving tokens', totalAmount)
             await token.approve(
                 lockPaymentCondition.getAddress(),
-                totalAmount.toString(),
+                totalAmount,
                 from,
                 txParams
             )

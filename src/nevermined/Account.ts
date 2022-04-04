@@ -98,7 +98,6 @@ export default class Account extends Instantiable {
         return (await token.balanceOf(this.id))
             .div(10)
             .multipliedBy(await token.decimals())
-        // return (await token.balanceOf(this.id)) / 10 ** (await token.decimals())
     }
 
     /**

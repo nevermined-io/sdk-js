@@ -104,9 +104,9 @@ describe('NFTs721 Api End-to-End', () => {
             await collector1.requestTokens(nftPrice / scale)
 
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
-            assert.equal(
-                collector1BalanceBefore,
-                initialBalances.collector1.plus(nftPrice)
+            assert.isTrue(
+                collector1BalanceBefore.isEqualTo(
+                initialBalances.collector1.plus(nftPrice))
             )
 
             agreementId = await nevermined.nfts.order721(ddo.id, collector1)
@@ -117,15 +117,13 @@ describe('NFTs721 Api End-to-End', () => {
             const escrowPaymentConditionBalance = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-            assert.equal(
-                collector1BalanceAfter.minus(initialBalances.collector1).toNumber(),
-                0
+            assert.isTrue(
+                collector1BalanceAfter.minus(initialBalances.collector1).isEqualTo(0)
             )
-            assert.equal(
+            assert.isTrue(
                 escrowPaymentConditionBalance
                     .minus(initialBalances.escrowPaymentCondition)
-                    .toNumber(),
-                nftPrice
+                    .isEqualTo(nftPrice)
             )
         })
 
@@ -164,22 +162,21 @@ describe('NFTs721 Api End-to-End', () => {
             )
             const collectorBalance = await token.balanceOf(collector1.getId())
 
-            assert.equal(
-                receiver0Balance,
-                initialBalances.artist + assetRewards1.getAmounts()[0]
+            assert.isTrue(
+                receiver0Balance.isEqualTo(
+                initialBalances.artist.plus(assetRewards1.getAmounts()[0]))
             )
 
-            assert.equal(
-                receiver1Balance,
-                initialBalances.gallery + assetRewards1.getAmounts()[1]
+            assert.isTrue(
+                receiver1Balance.isEqualTo(
+                initialBalances.gallery.plus(assetRewards1.getAmounts()[1]))
             )
 
-            assert.equal(collectorBalance.minus(initialBalances.collector1).toNumber(), 0)
-            assert.equal(
+            assert.isTrue(collectorBalance.minus(initialBalances.collector1).isEqualTo(0))
+            assert.isTrue(
                 escrowPaymentConditionBalance
                     .minus(initialBalances.escrowPaymentCondition)
-                    .toNumber(),
-                0
+                    .isEqualTo(0)
             )
         })
     })

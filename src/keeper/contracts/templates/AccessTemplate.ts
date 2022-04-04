@@ -78,10 +78,6 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
         observer(OrderProgressStep.ApprovedPayment)
 
         const totalAmount = AssetRewards.sumAmounts(amounts)
-        // const totalAmount = amounts.reduce(
-        //     (a, b) => b.plus(new BigNumber(a)),
-        //     new BigNumber(0)
-        // )
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
                 ? String(totalAmount)
