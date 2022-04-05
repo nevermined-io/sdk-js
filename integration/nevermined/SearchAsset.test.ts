@@ -94,7 +94,7 @@ describe('Search Asset', () => {
             query: {},
             text: `Test2${testHash}`,
             sort: {
-                text: 1
+                text: 'asc'
             }
         })
 
