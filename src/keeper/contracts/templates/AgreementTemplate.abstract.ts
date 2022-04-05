@@ -8,6 +8,7 @@ import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import { Service } from '../../../ddo/Service'
+import BigNumber from 'bignumber.js'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -82,7 +83,7 @@ export abstract class AgreementTemplate extends ContractBase {
         condIdx: number,
         rewardAddress: string,
         tokenAddress: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         from?: Account,
         params?: TxParameters

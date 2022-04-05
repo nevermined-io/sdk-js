@@ -83,7 +83,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         await this.lockTokens(tokenAddress, amounts, from, txParams)
         observer(OrderProgressStep.ApprovedPayment)
 
-        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const totalAmount = AssetRewards.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
                 ? String(totalAmount)

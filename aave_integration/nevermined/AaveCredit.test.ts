@@ -21,6 +21,7 @@ import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCon
 import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import BigNumber from 'bignumber.js'
 
 chai.use(chaiAsPromised)
 
@@ -66,7 +67,7 @@ describe('AaveCredit', () => {
 
     const delegatedAsset = '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd' // DAI
     // const strDelegatedAmount = '500' + '000000000000000000' // 500 DAI
-    const delegatedAmount = 500
+    const delegatedAmount: BigNumber = new BigNumber(500)
     // daiProvider account holding Dai to allow borrower to pay back the loan
     const daiProvider = '0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167'
 
@@ -81,13 +82,13 @@ describe('AaveCredit', () => {
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee
         aaveCreditTemplate = nevermined.keeper.templates.aaveCreditTemplate
-        ;({
-            conditionStoreManager,
-            didRegistry,
-            agreementStoreManager
-        } = nevermined.keeper)
-        ;({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
-        ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
+            ; ({
+                conditionStoreManager,
+                didRegistry,
+                agreementStoreManager
+            } = nevermined.keeper)
+            ; ({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
+            ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
         timeLocks = [0, 0, 0, 0, 0, 0]
         timeOuts = [0, 0, 0, 0, 0, 0]
         // await nevermined.keeper.conditionStoreManager.delegateCreateRole(
@@ -148,7 +149,7 @@ describe('AaveCredit', () => {
         console.log(`template approved: ${isTemplateApproved}`)
     })
 
-    describe('Create a credit NFT collateral agreement', function() {
+    describe('Create a credit NFT collateral agreement', function () {
         this.timeout(100000)
         it('should propose the AaveCreditTemplate', async () => {
             if (!isTemplateApproved) {
@@ -344,7 +345,7 @@ describe('AaveCredit', () => {
 
                 const after = await dai.balanceOfConverted(borrower.getId())
                 // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after-before}`)
-                assert.strictEqual(after - before, delegatedAmount)
+                assert.isTrue(new BigNumber(after - before).isEqualTo(delegatedAmount))
             }
         })
 
@@ -368,7 +369,9 @@ describe('AaveCredit', () => {
                     agreementId,
                     borrower
                 )
-                const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
+                const allowanceAmount = new BigNumber(
+                    totalDebt + (totalDebt / 10000) * 10
+                )
 
                 // Delegatee allows Nevermined contracts spend DAI to repay the loan
                 await dai.approve(
@@ -378,7 +381,7 @@ describe('AaveCredit', () => {
                 )
                 // Send some DAI to borrower to pay the debt + fees
                 const transferAmount = web3Utils.toWei(
-                    (allowanceAmount - delegatedAmount).toString(),
+                    allowanceAmount.minus(delegatedAmount).toString(),
                     'ether'
                 )
                 await dai.send('transfer', daiProvider, [
@@ -435,10 +438,10 @@ describe('AaveCredit', () => {
 
                 const daiAfter = await dai.balanceOfConverted(lender.getId())
                 const ethBalanceAfter = await weth.balanceOfConverted(lender.getId())
-                const daiFee = (delegatedAmount / 10000) * agreementFee
+                const daiFee = delegatedAmount.div(10000).multipliedBy(agreementFee)
 
                 // Compare the lender fees after withdraw
-                assert.strictEqual(daiFee, daiAfter - daiBefore)
+                assert.isTrue(new BigNumber(daiAfter - daiBefore).isEqualTo(daiFee))
 
                 assert.isAbove(ethBalanceAfter - ethBalanceBefore - collateralAmount, 0)
             }

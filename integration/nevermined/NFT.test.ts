@@ -6,6 +6,7 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { Token } from '../../src/nevermined/Token'
 import { ZeroAddress } from '../../src/utils'
 import utils from 'web3-utils'
+import BigNumber from 'bignumber.js'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined
@@ -91,7 +92,10 @@ describe('Nfts operations', () => {
                 artist,
                 10,
                 0,
-                new AssetRewards(artist.getId(), Number(utils.toWei('0.1', 'ether'))),
+                new AssetRewards(
+                    artist.getId(),
+                    new BigNumber(utils.toWei('0.1', 'ether'))
+                ),
                 undefined,
                 ZeroAddress
             )

@@ -92,22 +92,24 @@ export default class Account extends Instantiable {
      * Balance of Nevermined Token.
      * @return {Promise<number>}
      */
-    public async getNeverminedBalance(): Promise<number> {
+    public async getNeverminedBalance(): Promise<BigNumber> {
         const { token } = this.nevermined.keeper
-        if (!token) return 0
-        return (await token.balanceOf(this.id)) / 10 ** (await token.decimals())
+        if (!token) return new BigNumber(0)
+        return (await token.balanceOf(this.id))
+            .div(10)
+            .multipliedBy(await token.decimals())
     }
 
     /**
      * Balance of Ether.
      * @return {Promise<number>}
      */
-    public async getEtherBalance(): Promise<number> {
-        return this.web3.eth
-            .getBalance(this.id, 'latest')
-            .then((balance: string): number => {
-                return new BigNumber(balance).toNumber()
-            })
+    public async getEtherBalance(): Promise<BigNumber> {
+        return this.web3.eth.getBalance(this.id, 'latest').then(
+            (balance: string): BigNumber => {
+                return new BigNumber(balance)
+            }
+        )
     }
 
     /**
@@ -127,10 +129,9 @@ export default class Account extends Instantiable {
      * @return {Promise<number>}
      */
     public async requestTokens(
-        amount: number | string,
+        amount: number | string | BigNumber,
         params?: TxParameters
     ): Promise<string> {
-        amount = String(amount)
         if (!this.nevermined.keeper.dispenser) {
             throw new Error('Dispenser not available on this network.')
         }
@@ -140,6 +141,6 @@ export default class Account extends Instantiable {
             this.logger.error(e)
             throw new Error('Error requesting tokens')
         }
-        return amount
+        return amount.toString()
     }
 }

@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { assert } from 'chai'
 import { EscrowPaymentCondition } from '../../../src/keeper/contracts/conditions'
 import Token from '../../../src/keeper/contracts/Token'
@@ -11,7 +12,7 @@ let token: Token
 describe('EscrowPaymentCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
     const did = `0x${'a'.repeat(64)}`
-    const amounts = [15, 3]
+    const amounts = [new BigNumber(15), new BigNumber(3)]
     const publisher = `0x${'a'.repeat(40)}`
     const consumer = `0x${'b'.repeat(40)}`
     const provider = `0x${'b'.repeat(40)}`

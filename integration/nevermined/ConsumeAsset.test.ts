@@ -6,6 +6,7 @@ import { getAssetRewards, getMetadata } from '../utils'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
+import BigNumber from 'bignumber.js'
 
 describe('Consume Asset', () => {
     let nevermined: Nevermined
@@ -49,19 +50,14 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens =
-            +assetRewards.getTotalPrice() *
-            10 ** -(await nevermined.keeper.token.decimals())
+        const claimedTokens = new BigNumber(1)
 
         try {
             await consumer.requestTokens(claimedTokens)
         } catch {}
 
-        assert.equal(
-            (await consumer.getBalance()).nevermined,
-            initialBalance + claimedTokens,
-            'Tokens not delivered'
-        )
+        const balanceAfter = (await consumer.getBalance()).nevermined
+        assert.isTrue(balanceAfter.isGreaterThan(initialBalance))
     })
 
     it('should sign the service agreement', async () => {

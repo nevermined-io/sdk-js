@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { DDO } from '../ddo/DDO'
 import { ConditionType, Service, ServiceType } from '../ddo/Service'
 import {
@@ -108,10 +109,10 @@ export function getAssetRewardsFromService(service: Service): AssetRewards {
     const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
         .value as string[]
 
-    const rewardsMap = new Map<string, number>()
+    const rewardsMap = new Map<string, BigNumber>()
 
     for (let i = 0; i < amounts.length; i++)
-        rewardsMap.set(receivers[i], Number(amounts[i]))
+        rewardsMap.set(receivers[i], new BigNumber(amounts[i]))
 
     return new AssetRewards(rewardsMap)
 }

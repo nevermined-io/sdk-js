@@ -3,6 +3,7 @@ import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+import BigNumber from 'bignumber.js'
 
 export class EscrowPaymentCondition extends Condition {
     public static async getInstance(
@@ -17,7 +18,7 @@ export class EscrowPaymentCondition extends Condition {
 
     public hashValues(
         did: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         sender: string,
         tokenAddress: string,
@@ -36,7 +37,7 @@ export class EscrowPaymentCondition extends Condition {
     public fulfill(
         agreementId: string,
         did: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         lockPaymentAddress: string,
         tokenAddress: string,
