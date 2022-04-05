@@ -95,6 +95,13 @@ jobs:
         ./start_nevermined.sh --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
         cd ..
         ./scripts/wait-nevermined-external.sh
+    - name: run marketplace api
+      run: |
+        git clone git@github.com:nevermined-io/marketplace-api.git
+        cd marketplace-api
+        npm run setup:dev
+        npm run dev &
+        sleep 10
     - name: Run aave integration test
       run: |
         export ETH_PORT=18545
