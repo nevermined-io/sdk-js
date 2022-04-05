@@ -16,8 +16,8 @@ describe('Artifacts', () => {
         },
         {
             nodeUri: 'http://localhost:8545',
-            networkName: ['spree', 'polygon-localnet'],
-            networkId: [8996, 8997]
+            networkName: ['spree', 'polygon-localnet', 'geth-localnet'],
+            networkId: [8996, 8997, 1337]
         },
         {
             nodeUri: 'https://matic-mumbai.chainstacklabs.com',

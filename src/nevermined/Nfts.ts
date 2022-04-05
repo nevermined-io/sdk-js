@@ -165,17 +165,18 @@ export class Nfts extends Instantiable {
         return new SubscribablePromise<OrderProgressStep, string>(async observer => {
             const { nftSalesTemplate } = this.nevermined.keeper.templates
 
-            const agreementId = zeroX(generateId())
+            const agreementIdSeed = zeroX(generateId())
             const ddo = await this.nevermined.assets.resolve(did)
 
             const salesService = ddo.findServiceByType('nft-sales')
             const assetRewards = getAssetRewardsFromService(salesService)
 
             this.logger.log('Creating nft-sales agreement and paying')
-            const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
-                agreementId,
+            const agreementId = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
+                agreementIdSeed,
                 ddo,
                 assetRewards,
+                consumer.getId(),
                 consumer,
                 nftAmount,
                 undefined,
@@ -184,7 +185,7 @@ export class Nfts extends Instantiable {
                 txParams,
                 a => observer.next(a)
             )
-            if (!result) {
+            if (!agreementId) {
                 throw Error('Error creating nft-sales agreement')
             }
 
@@ -200,23 +201,24 @@ export class Nfts extends Instantiable {
         return new SubscribablePromise<OrderProgressStep, string>(async observer => {
             const { nft721SalesTemplate } = this.nevermined.keeper.templates
 
-            const agreementId = zeroX(generateId())
+            const agreementIdSeed = zeroX(generateId())
             const ddo = await this.nevermined.assets.resolve(did)
 
             const salesService = ddo.findServiceByType('nft721-sales')
             const assetRewards = getAssetRewardsFromService(salesService)
 
             this.logger.log('Creating nft721-sales agreement')
-            const result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
-                agreementId,
+            const agreementId = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
+                agreementIdSeed,
                 ddo,
                 assetRewards,
+                consumer.getId(),
                 consumer,
                 consumer,
                 txParams,
                 a => observer.next(a)
             )
-            if (!result) {
+            if (!agreementId) {
                 throw Error('Error creating nft721-sales agreement')
             }
 
@@ -337,6 +339,7 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            consumer.getId(),
             nftAmount,
             publisher,
             undefined,
@@ -353,6 +356,7 @@ export class Nfts extends Instantiable {
     public async release721Rewards(
         agreementId: string,
         did: string,
+        consumer: Account,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
@@ -366,6 +370,7 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            consumer.getId(),
             publisher,
             undefined,
             txParams
@@ -525,7 +530,7 @@ export class Nfts extends Instantiable {
         owner: string
     ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const agreementId = zeroX(utils.generateId())
+        const agreementIdSeed = zeroX(utils.generateId())
         const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
         const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
@@ -540,7 +545,7 @@ export class Nfts extends Instantiable {
         )
 
         const nftSalesServiceAgreement: ServiceSecondary = {
-            agreementId: agreementId,
+            agreementId: agreementIdSeed,
             type: 'nft-sales',
             index: 6,
             serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
@@ -561,14 +566,14 @@ export class Nfts extends Instantiable {
         }
 
         const saveResult = await this.nevermined.metadata.storeService(
-            agreementId,
+            agreementIdSeed,
             nftSalesServiceAgreement
         )
 
         if (saveResult) {
-            return agreementId
+            return agreementIdSeed
         } else {
-            throw Error(`Error saving ${agreementId} to MetadataDB`)
+            throw Error(`Error saving ${agreementIdSeed} to MetadataDB`)
         }
     }
 
@@ -582,21 +587,22 @@ export class Nfts extends Instantiable {
     public async buySecondaryMarketNft(
         consumer: Account,
         nftAmount: number = 1,
-        agreementId: string,
+        agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const service = await this.nevermined.metadata.retrieveService(agreementId)
+        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
         const assetRewards = getAssetRewardsFromService(service)
         // has no privkeys, so we can't sign
         const currentNftHolder = new Account(getNftHolderFromService(service))
         const did = getDIDFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
 
-        const result = await nftSalesTemplate.createAgreementFromDDO(
-            agreementId,
+        const agreementId = await nftSalesTemplate.createAgreementFromDDO(
+            agreementIdSeed,
             ddo,
             assetRewards,
+            consumer.getId(),
             consumer,
             nftAmount,
             currentNftHolder,
@@ -606,7 +612,7 @@ export class Nfts extends Instantiable {
             service
         )
 
-        if (!result) throw new Error('Creating buy agreement failed')
+        if (!agreementId) throw new Error('Creating buy agreement failed')
 
         const payment = findServiceConditionByName(service, 'lockPayment')
 
@@ -632,14 +638,19 @@ export class Nfts extends Instantiable {
      */
     public async releaseSecondaryMarketRewards(
         owner: Account,
-        agreementId: string,
+        consumer: Account,
+        agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
-        const service = await this.nevermined.metadata.retrieveService(agreementId)
+        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
         const assetRewards = getAssetRewardsFromService(service)
         const did = getDIDFromService(service)
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            consumer.getId()
+        )
 
         let receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,
@@ -658,6 +669,7 @@ export class Nfts extends Instantiable {
             ddo,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
+            consumer.getId(),
             nftAmount,
             owner,
             undefined,

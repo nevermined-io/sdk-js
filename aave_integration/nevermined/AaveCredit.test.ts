@@ -8,7 +8,6 @@ import { Nevermined } from '../../src/nevermined/Nevermined'
 import AssetRewards from '../../src/models/AssetRewards'
 import { didZeroX, zeroX } from '../../src/utils/index'
 import {
-    AgreementData,
     AgreementStoreManager,
     ConditionStoreManager
 } from '../../src/keeper/contracts/managers/index'
@@ -34,7 +33,7 @@ describe('AaveCredit', () => {
     let dai: CustomToken
     let weth: CustomToken
     let agreementId: string
-    let agreementData: AgreementData
+    let conditionIds: string[]
     let vaultAddress: string
     let nftContractAddress: string
     let nftContract: Contract
@@ -130,7 +129,6 @@ describe('AaveCredit', () => {
         const _owner = agreementId ? await nft721Wrapper.ownerOf(did) : null
         if (!_owner) {
             await nft721Wrapper.mint(did, borrower.getId())
-            // await nft721Wrapper.send('approve', borrower.getId(), [nft721LockCondition.getAddress(), didZeroX(did)])
         }
         assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 1)
 
@@ -145,7 +143,6 @@ describe('AaveCredit', () => {
         isTemplateApproved = await nevermined.keeper.templateStoreManager.isApproved(
             aaveCreditTemplate.getAddress()
         )
-        console.log(`template approved: ${isTemplateApproved}`)
     })
 
     describe('Create a credit NFT collateral agreement', function() {
@@ -187,7 +184,7 @@ describe('AaveCredit', () => {
             }
             // Create agreement
             if (!agreementId) {
-                agreementId = await nevermined.aaveCredit.create(
+                const res = await nevermined.aaveCredit.create(
                     did,
                     nftContractAddress,
                     nftAmount,
@@ -202,20 +199,14 @@ describe('AaveCredit', () => {
                     timeLocks,
                     timeOuts
                 )
+                agreementId = res.agreementId
+                conditionIds = res.data.ids.map(a => a[1])
             }
 
             vaultAddress = await aaveCreditTemplate.getAgreementVaultAddress(
                 agreementId,
                 borrower.getId()
             )
-            agreementData = await nevermined.keeper.agreementStoreManager.getAgreement(
-                agreementId
-            )
-            // console.log(`agreement:
-            //     agreementId=${agreementId}, vaultAddress=${vaultAddress},
-            //     nftContractAddress=${nftContractAddress}, nft721Wrapper.address=${nft721Wrapper.address},
-            //     did=${did}, nft721LockCondition.address=${nft721LockCondition.address},
-            //     lockNftId=${agreementData.conditionIds[0]}`)
         })
 
         it('The borrower locks the NFT', async () => {
@@ -224,9 +215,7 @@ describe('AaveCredit', () => {
             // const approvedBefore = await nft721Wrapper.call('getApproved', [didZeroX(did)])
             // console.log(`approvedBefore=${approvedBefore}`)
             // console.log(`vault balance: ${await nft721Wrapper.balanceOf(vaultAddress)}`)
-            const _condition = await conditionStoreManager.getCondition(
-                agreementData.conditionIds[0]
-            )
+            const _condition = await conditionStoreManager.getCondition(conditionIds[0])
             // console.log(`_stateNftLock=${_condition.state}, condition=${JSON.stringify(_condition)}`)
             if (_condition.state !== ConditionState.Fulfilled) {
                 const nftApproveStatus = (
@@ -255,7 +244,7 @@ describe('AaveCredit', () => {
                 assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 0)
                 assert.equal(await nft721Wrapper.ownerOf(did), vaultAddress)
                 const { state: stateNftLock } = await conditionStoreManager.getCondition(
-                    agreementData.conditionIds[0]
+                    conditionIds[0]
                 )
                 assert.strictEqual(stateNftLock, ConditionState.Fulfilled)
             }
@@ -281,7 +270,7 @@ describe('AaveCredit', () => {
 
         it('Lender deposits ETH as collateral in Aave and approves borrower to borrow DAI', async () => {
             const { state: _stateDeposit } = await conditionStoreManager.getCondition(
-                agreementData.conditionIds[1]
+                conditionIds[1]
             )
             // console.log(`depositing collateral: colAmount=${collateralAmount}, delAmount=${delegatedAmount} `)
             if (_stateDeposit !== ConditionState.Fulfilled) {
@@ -302,7 +291,7 @@ describe('AaveCredit', () => {
                 )
                 assert.isTrue(success)
                 const { state: stateDeposit } = await conditionStoreManager.getCondition(
-                    agreementData.conditionIds[1]
+                    conditionIds[1]
                 )
                 assert.strictEqual(stateDeposit, ConditionState.Fulfilled)
             }
@@ -322,7 +311,7 @@ describe('AaveCredit', () => {
 
         it('Borrower/Delegatee borrows DAI from Aave on behalf of Delegator', async () => {
             const { state: _stateBorrow } = await conditionStoreManager.getCondition(
-                agreementData.conditionIds[2]
+                conditionIds[2]
             )
             if (_stateBorrow !== ConditionState.Fulfilled) {
                 const before = await dai.balanceOfConverted(borrower.getId())
@@ -338,7 +327,7 @@ describe('AaveCredit', () => {
                 )
                 assert.isTrue(success)
                 const { state: stateCredit } = await conditionStoreManager.getCondition(
-                    agreementData.conditionIds[2]
+                    conditionIds[2]
                 )
                 assert.strictEqual(stateCredit, ConditionState.Fulfilled)
 
@@ -353,7 +342,7 @@ describe('AaveCredit', () => {
                 nevermined.aaveCredit.unlockNft(agreementId, nftContractAddress, borrower)
             )
             const { state: stateTransfer } = await conditionStoreManager.getCondition(
-                agreementData.conditionIds[5]
+                conditionIds[5]
             )
             assert.strictEqual(stateTransfer, ConditionState.Unfulfilled)
             assert.equal(await nft721Wrapper.balanceOf(vaultAddress), 1)
@@ -361,7 +350,7 @@ describe('AaveCredit', () => {
 
         it('Borrower/Delegatee repays the loan with DAI', async () => {
             const { state: _stateRepay } = await conditionStoreManager.getCondition(
-                agreementData.conditionIds[3]
+                conditionIds[3]
             )
             if (_stateRepay !== ConditionState.Fulfilled) {
                 const totalDebt = await nevermined.aaveCredit.getTotalActualDebt(
@@ -395,7 +384,7 @@ describe('AaveCredit', () => {
                     borrower
                 )
                 const { state: stateRepay } = await conditionStoreManager.getCondition(
-                    agreementData.conditionIds[3]
+                    conditionIds[3]
                 )
                 assert.strictEqual(stateRepay, ConditionState.Fulfilled)
 
@@ -410,7 +399,7 @@ describe('AaveCredit', () => {
 
         it('Delegator withdraw collateral and fees', async () => {
             const { state: _stateWithdraw } = await conditionStoreManager.getCondition(
-                agreementData.conditionIds[4]
+                conditionIds[4]
             )
             if (_stateWithdraw !== ConditionState.Fulfilled) {
                 const daiBefore = await dai.balanceOfConverted(lender.getId())
@@ -429,7 +418,7 @@ describe('AaveCredit', () => {
                 assert.isTrue(success)
 
                 const { state: stateWithdraw } = await conditionStoreManager.getCondition(
-                    agreementData.conditionIds[4]
+                    conditionIds[4]
                 )
                 assert.strictEqual(stateWithdraw, ConditionState.Fulfilled)
 
@@ -454,7 +443,7 @@ describe('AaveCredit', () => {
             )
 
             const { state: stateTransfer } = await conditionStoreManager.getCondition(
-                agreementData.conditionIds[5]
+                conditionIds[5]
             )
             assert.strictEqual(stateTransfer, ConditionState.Fulfilled)
             assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 2)

@@ -67,18 +67,23 @@ export class AaveCredit extends Instantiable {
         timeLocks?: number[],
         timeOuts?: number[],
         txParams?: TxParameters
-    ): Promise<string> {
-        const agreementId = zeroX(generateId())
+    ) {
+        const agreementIdSeed = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
         if (!ddo) {
             throw Error(`Failed to resolve DDO for DID ${did}`)
         }
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            from.getId()
+        )
 
         const [
             txReceipt,
-            vaultAddress
+            vaultAddress,
+            data
         ] = await this.template.createAgreementAndDeployVault(
-            agreementId,
+            agreementIdSeed,
             ddo,
             nftTokenContract,
             nftAmount,
@@ -98,7 +103,10 @@ export class AaveCredit extends Instantiable {
             `new Aave credit vault is deployed and a service agreement is created:
              status=${txReceipt.status}, vaultAddress=${vaultAddress}, agreementId=${agreementId}`
         )
-        return agreementId
+        return {
+            agreementId,
+            data
+        }
     }
 
     public async lockNft(
@@ -133,15 +141,6 @@ export class AaveCredit extends Instantiable {
             if (!approvalTxReceipt.status) {
                 return false
             }
-        }
-        // console.log(`nft lock approved for nft721LockCondition ${lockCond.address}`)
-        const _id = await lockCond.generateId(
-            agreementId,
-            await lockCond.hashValues(did, vaultAddress, nftAmount, nftContractAddress)
-        )
-        if (_id !== agreementData.conditionIds[0]) {
-            console.log(`condition id mismatch.`)
-            return false
         }
         const txReceipt: TransactionReceipt = await lockCond.fulfill(
             agreementId,

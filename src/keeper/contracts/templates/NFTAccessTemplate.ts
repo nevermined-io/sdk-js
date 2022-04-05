@@ -20,55 +20,67 @@ export class NFTAccessTemplate extends BaseTemplate {
     }
 
     public async createAgreementFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         holderAddress: Account,
         nftAmount?: number,
         from?: Account,
         params?: TxParameters
-    ): Promise<boolean> {
+    ): Promise<string> {
         const [
             nftHolderConditionId,
             nftAccessConditionId
         ] = await this.getAgreementIdsFromDDO(
-            agreementId,
+            agreementIdSeed,
             ddo,
             assetRewards,
             holderAddress.getId(),
+            from.getId(),
             nftAmount
         )
 
-        return !!(await this.createAgreement(
-            agreementId,
+        await this.createAgreement(
+            agreementIdSeed,
             ddo.shortId(),
-            [nftHolderConditionId, nftAccessConditionId],
+            [nftHolderConditionId[0], nftAccessConditionId[0]],
             [0, 0],
             [0, 0],
             holderAddress.getId(),
             from,
             params
-        ))
+        )
+
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            from.getId()
+        )
+        return agreementId
     }
 
     public async getAgreementIdsFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         holder: string,
+        creator: string,
         nftAmount?: number
-    ): Promise<string[]> {
+    ): Promise<any> {
         const {
             nftHolderCondition,
             nftAccessCondition
         } = this.nevermined.keeper.conditions
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
 
-        const nftHolderConditionId = await nftHolderCondition.generateId(
+        const nftHolderConditionId = await nftHolderCondition.generateIdWithSeed(
             agreementId,
             await nftHolderCondition.hashValues(ddo.shortId(), holder, nftAmount)
         )
 
-        const nftAccessConditionId = await nftAccessCondition.generateId(
+        const nftAccessConditionId = await nftAccessCondition.generateIdWithSeed(
             agreementId,
             await nftAccessCondition.hashValues(ddo.shortId(), holder)
         )

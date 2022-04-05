@@ -119,6 +119,26 @@ export class Keeper extends Instantiable {
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
                 aaveCreditTemplate: AaveCreditTemplate.getInstance(config)
             })
+
+            const templates = [
+                keeper.instances.accessTemplate,
+                keeper.instances.accessProofTemplate,
+                keeper.instances.escrowComputeExecutionTemplate,
+                keeper.instances.nftAccessTemplate,
+                keeper.instances.nft721AccessTemplate,
+                keeper.instances.didSalesTemplate,
+                keeper.instances.nftSalesTemplate,
+                keeper.instances.nft721SalesTemplate,
+                keeper.instances.aaveCreditTemplate
+            ]
+
+            const templateObj: any = {}
+            for (const i of templates) {
+                templateObj[i.address] = i
+            }
+
+            keeper.instances.agreementStoreManager.setTemplates(templateObj)
+
             keeper.connected = true
         } catch (err) {
             keeper.connected = false

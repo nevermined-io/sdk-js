@@ -25,6 +25,8 @@ export function getNetworkName(web3): Promise<string> {
                 return 'xDai'
             case 137:
                 return 'matic'
+            case 1337:
+                return 'geth-localnet'
             case 2199:
                 return 'Duero'
             case 8996:

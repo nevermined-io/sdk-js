@@ -980,7 +980,7 @@ export class Assets extends Instantiable {
         params?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
         return new SubscribablePromise(async observer => {
-            const agreementId = zeroX(generateId())
+            const agreementIdSeed = zeroX(generateId())
             const ddo = await this.resolve(did)
 
             const { keeper } = this.nevermined
@@ -991,20 +991,20 @@ export class Assets extends Instantiable {
             const assetRewards = getAssetRewardsFromService(service)
 
             this.logger.log(`Creating ${serviceType} agreement and paying`)
-            const result = await template.createAgreementWithPaymentFromDDO(
-                agreementId,
+            const agreementId = await template.createAgreementWithPaymentFromDDO(
+                agreementIdSeed,
                 ddo,
                 assetRewards,
                 consumer,
                 serviceType,
-                undefined,
+                consumer,
                 consumer,
                 undefined,
                 params,
                 a => observer.next(a)
             )
 
-            if (!result) {
+            if (!agreementId) {
                 throw Error(`Error creating ${serviceType} agreement`)
             }
 

@@ -26,7 +26,6 @@ describe('Compute Asset', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
         assetRewards = new AssetRewards(publisher.getId(), 0)
-
     })
 
     it('should register the assets', async () => {

@@ -16,5 +16,5 @@ export interface GenericAccess {
         timeOuts?: number[],
         txParams?: TxParameters,
         observer?: (OrderProgressStep) => void
-    ): Promise<boolean>
+    ): Promise<string>
 }

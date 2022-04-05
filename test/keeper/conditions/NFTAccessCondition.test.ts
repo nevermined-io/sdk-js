@@ -28,6 +28,7 @@ describe('NFTAccessCondition', () => {
     let other: Account
 
     let agreementId: string
+    let agreementIdSeed: string
     let checksum: string
     let didSeed: string
     const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
@@ -54,7 +55,12 @@ describe('NFTAccessCondition', () => {
     })
 
     beforeEach(async () => {
-        agreementId = utils.generateId()
+        agreementIdSeed = utils.generateId()
+        agreementId = await agreementStoreManager.agreementId(
+            agreementIdSeed,
+            owner.getId()
+        )
+
         checksum = utils.generateId()
         didSeed = `did:nv:${utils.generateId()}`
     })
@@ -104,7 +110,7 @@ describe('NFTAccessCondition', () => {
                 agreementId,
                 did,
                 [nftAccessCondition.getAddress()],
-                [conditionId],
+                [hashValues],
                 [0],
                 [2],
                 templateId
@@ -148,7 +154,7 @@ describe('NFTAccessCondition', () => {
                 agreementId,
                 did,
                 [nftAccessCondition.getAddress()],
-                [conditionId],
+                [hashValues],
                 [0],
                 [2],
                 templateId
@@ -174,7 +180,7 @@ describe('NFTAccessCondition', () => {
                 agreementId,
                 did,
                 [nftAccessCondition.getAddress()],
-                [conditionId],
+                [hashValues],
                 [0],
                 [2],
                 templateId

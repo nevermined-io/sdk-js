@@ -54,7 +54,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
             _providerPub[0],
             _providerPub[1]
         )
-        return !!(await this.createFullAgreement(
+        return await this.createFullAgreement(
             ddo,
             assetRewards,
             consumer.getId(),
@@ -64,11 +64,11 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
             agreementId,
             from,
             params
-        ))
+        )
     }
 
     public async createAgreementWithPaymentFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         consumerAddress: Account,
@@ -78,7 +78,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         timeOuts?: number[],
         txParams?: TxParameters,
         observer?: (OrderProgressStep) => void
-    ): Promise<boolean> {
+    ): Promise<string> {
         observer = observer ? observer : _ => {}
 
         const {
@@ -86,12 +86,14 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
             rewardAddress,
             tokenAddress,
             amounts,
-            receivers
+            receivers,
+            agreementId
         } = await this.getAgreementDataFromDDO(
-            agreementId,
+            agreementIdSeed,
             ddo,
             assetRewards,
             consumerAddress,
+            from.getId(),
             serviceType
         )
 
@@ -106,10 +108,10 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)
-        const res = !!(await this.createAgreementAndPay(
-            agreementId,
+        await this.createAgreementAndPay(
+            agreementIdSeed,
             ddo.shortId(),
-            ids,
+            ids.map(a => a[0]),
             [0, 0, 0],
             timeOuts ? timeOuts : [0, 0, 0],
             consumerAddress.getId(),
@@ -120,17 +122,18 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
             receivers,
             from,
             { ...txParams, value }
-        ))
+        )
         observer(OrderProgressStep.AgreementInitialized)
 
-        return res
+        return agreementId
     }
 
     public async getAgreementDataFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: Account,
+        creator: string,
         serviceType: ServiceType = 'access-proof'
     ) {
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
@@ -146,13 +149,15 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
             _providerPub[1]
         )
 
-        const ids = await this.getAgreementIdsFromDDO(
-            agreementId,
+        const { ids, agreementId } = await this.createFullAgreementData(
+            agreementIdSeed,
             ddo,
             assetRewards,
             _hash,
             buyerPub,
-            providerPub
+            providerPub,
+            consumer.getId(),
+            creator
         )
         const accessService = ddo.findServiceByType(serviceType)
         const payment = findServiceConditionByName(accessService, 'lockPayment')
@@ -160,6 +165,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
 
         return {
             ids,
+            agreementId,
             rewardAddress: escrowPaymentCondition.getAddress(),
             tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
                 .value as string,
@@ -174,8 +180,10 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         assetRewards: AssetRewards,
         hash: string,
         buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey
-    ) {
+        providerPub: BabyjubPublicKey,
+        creator: string,
+        consumer: string
+    ): Promise<any> {
         const {
             accessConditionId,
             lockPaymentConditionId,
@@ -186,7 +194,9 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
             assetRewards,
             hash,
             buyerPub,
-            providerPub
+            providerPub,
+            creator,
+            consumer
         )
         return [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId]
     }
@@ -207,27 +217,34 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         hash: string,
         buyerPub: BabyjubPublicKey,
         providerPub: BabyjubPublicKey,
-        agreementId: string = generateId(),
+        agreementIdSeed: string = generateId(),
         from?: Account,
         params?: TxParameters
     ): Promise<string> {
         const {
+            agreementId,
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
         } = await this.createFullAgreementData(
-            agreementId,
+            agreementIdSeed,
             ddo,
             assetRewards,
             hash,
             buyerPub,
-            providerPub
+            providerPub,
+            from.getId(),
+            consumer
         )
 
         await this.createAgreement(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
-            [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId],
+            [
+                accessConditionId[0],
+                lockPaymentConditionId[0],
+                escrowPaymentConditionId[0]
+            ],
             [0, 0, 0],
             [0, 0, 0],
             consumer,
@@ -239,12 +256,14 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
     }
 
     private async createFullAgreementData(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         hash: string,
         buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey
+        providerPub: BabyjubPublicKey,
+        creator: string,
+        consumer: string
     ) {
         const { conditions } = this.nevermined.keeper
 
@@ -259,37 +278,46 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
             agreementId,
-            ddo.shortId(),
-            escrowPaymentCondition.getAddress(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers()
+            await lockPaymentCondition.hashValues(
+                ddo.shortId(),
+                escrowPaymentCondition.getAddress(),
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
         )
 
-        const accessConditionId = await accessProofCondition.generateIdHash(
+        const accessConditionId = await accessProofCondition.generateIdWithSeed(
             agreementId,
-            hash,
-            buyerPub,
-            providerPub
+            await accessProofCondition.hashValues(hash, buyerPub, providerPub)
         )
 
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdWithSeed(
             agreementId,
-            ddo.shortId(),
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            escrowPaymentCondition.getAddress(),
-            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-            lockPaymentConditionId,
-            accessConditionId
+            await escrowPaymentCondition.hashValues(
+                ddo.shortId(),
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers(),
+                consumer,
+                escrowPaymentCondition.getAddress(),
+                escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
+                lockPaymentConditionId[1],
+                accessConditionId[1]
+            )
         )
 
         return {
+            ids: [accessConditionId, lockPaymentConditionId, escrowPaymentConditionId],
+            agreementId,
             accessConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId

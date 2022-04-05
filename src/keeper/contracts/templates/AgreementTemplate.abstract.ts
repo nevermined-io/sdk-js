@@ -161,7 +161,7 @@ export abstract class AgreementTemplate extends ContractBase {
             | Service
             | TxParameters
         )[]
-    ): Promise<boolean>
+    ): Promise<string>
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
 
@@ -278,8 +278,8 @@ export abstract class AgreementTemplate extends ContractBase {
      * @param  {string} agreementId Agreement ID.
      * @return {Event}              Agreement created event.
      */
-    public getAgreementCreatedEvent(agreementId: string) {
-        return this.events.once(events => events, {
+    public async getAgreementCreatedEvent(agreementId: string) {
+        const res = await this.events.once(events => events, {
             eventName: 'AgreementCreated',
             methodName: 'getAgreementCreateds',
             filterJsonRpc: {
@@ -295,9 +295,30 @@ export abstract class AgreementTemplate extends ContractBase {
                 _did: true,
                 _accessConsumer: true,
                 _accessProvider: true,
+                _conditionIds: true,
+                _conditionIdSeeds: true,
                 _timeLocks: true,
                 _timeOuts: true
             }
         })
+        return res
+    }
+    public async getAgreementsForDID(did: string): Promise<string[]> {
+        const res = await this.events.getPastEvents({
+            eventName: 'AgreementCreated',
+            methodName: 'getAgreementCreateds',
+            filterJsonRpc: {
+                _did: zeroX(did)
+            },
+            filterSubgraph: {
+                where: {
+                    _did: zeroX(did)
+                }
+            },
+            result: {
+                _agreementId: true
+            }
+        })
+        return res.map(a => a.returnValues._agreementId)
     }
 }
