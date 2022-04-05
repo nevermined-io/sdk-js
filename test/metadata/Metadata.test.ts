@@ -47,7 +47,7 @@ describe('Metadata', () => {
                 value: 1
             },
             sort: {
-                value: 1
+                created: 'desc'
             },
             text: 'Office'
         } as SearchQuery
@@ -120,7 +120,7 @@ describe('Metadata', () => {
                 value: 1
             },
             sort: {
-                value: 1
+                created: 'desc'
             },
             text: 'Office'
         } as SearchQuery
