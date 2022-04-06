@@ -6,7 +6,7 @@ LoggerInstance.setLevel(LogLevel.Error)
 
 const configBase: Config = {
     nodeUri: 'http://localhost:8545',
-    metadataUri: 'http://nevermined-metadata:3100',
+    metadataUri: 'http://nevermined-metadata:3100/api',
     faucetUri: 'http://localhost:3001',
     gatewayUri: 'http://localhost:8030',
     secretStoreUri: 'http://localhost:12001',
@@ -19,7 +19,7 @@ const configBase: Config = {
 if (process.env.NETWORK_NAME === 'production') {
     Object.assign(configBase, {
         nodeUri: 'http://localhost:8545',
-        metadataUri: 'http://nevermined-metadata:3100',
+        metadataUri: 'http://nevermined-metadata:3100/api',
         faucetUri: 'http://localhost:3001',
         gatewayUri: 'http://localhost:8030',
         secretStoreUri: 'http://localhost:12001',
@@ -30,7 +30,7 @@ if (process.env.NETWORK_NAME === 'production') {
 if (process.env.NETWORK_NAME === 'integration') {
     Object.assign(configBase, {
         nodeUri: 'http://localhost:8545',
-        metadataUri: 'http://nevermined-metadata:3100',
+        metadataUri: 'http://nevermined-metadata:3100/api',
         faucetUri: 'http://localhost:3001',
         gatewayUri: 'http://localhost:8030',
         secretStoreUri: 'http://localhost:12001',
@@ -41,7 +41,7 @@ if (process.env.NETWORK_NAME === 'integration') {
 if (process.env.NETWORK_NAME === 'testing') {
     Object.assign(configBase, {
         nodeUri: 'http://localhost:8545',
-        metadataUri: 'http://nevermined-metadata:3100',
+        metadataUri: 'http://nevermined-metadata:3100/api',
         faucetUri: 'http://localhost:3001',
         gatewayUri: 'http://localhost:8030',
         secretStoreUri: 'http://localhost:12001',
