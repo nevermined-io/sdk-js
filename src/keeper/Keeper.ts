@@ -197,6 +197,8 @@ export class Keeper extends Instantiable {
         keeper.utils = {
             eventHandler: new EventHandler()
         }
+        // version
+        keeper.version = keeper.didRegistry.version.replace('v', '')
         return keeper
     }
 
@@ -293,6 +295,11 @@ export class Keeper extends Instantiable {
     public utils: {
         eventHandler: EventHandler
     }
+
+    /**
+     * Version of the artifacts in use
+     */
+    public version: string
 
     private instances: { [contractRef: string]: ContractBase & any }
 

@@ -58,6 +58,12 @@ export default class ContractHandler extends Instantiable {
         }
     }
 
+    public async getVersion(contractName: string): Promise<string> {
+        const where = (await KeeperUtils.getNetworkName(this.web3)).toLowerCase()
+        const artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
+        return artifact.version
+    }
+
     private async load(
         what: string,
         where: string,
