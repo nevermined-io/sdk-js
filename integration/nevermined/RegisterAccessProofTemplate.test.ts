@@ -114,12 +114,13 @@ describe('Register Escrow Access Proof Template', () => {
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
 
-            keyTransfer = new KeyTransfer()
+            keyTransfer = await makeKeyTransfer()
 
             buyerK = keyTransfer.makeKey('abd')
             providerK = keyTransfer.makeKey('abc')
             buyerPub = await keyTransfer.secretToPublic(buyerK)
             providerPub = await keyTransfer.secretToPublic(providerK)
+            console.log(buyerK, providerK)
 
             hash = await keyTransfer.hashKey(data)
         })
@@ -298,20 +299,20 @@ describe('Register Escrow Access Proof Template', () => {
         let hash: string
 
         before(async () => {
-            ddo = await nevermined.assets.create(metadata, publisher, undefined, [
-                'access-proof'
-            ])
-            keyTransfer = new KeyTransfer()
-            buyerK = await keyTransfer.makeKey('abd')
-            providerK = await keyTransfer.makeKey('abc')
-            buyerPub = await keyTransfer.secretToPublic(buyerK)
-            providerPub = await keyTransfer.secretToPublic(providerK)
-
             metadata = await getMetadataForDTP(
                 'foo' + Math.random(),
                 data.toString('hex'),
                 providerKey
             )
+            ddo = await nevermined.assets.create(metadata, publisher, undefined, [
+                'access-proof'
+            ])
+            keyTransfer = await makeKeyTransfer()
+            buyerK = await keyTransfer.makeKey('abd')
+            providerK = await keyTransfer.makeKey('abc')
+            buyerPub = await keyTransfer.secretToPublic(buyerK)
+            providerPub = await keyTransfer.secretToPublic(providerK)
+
             hash = await keyTransfer.hashKey(data)
         })
 

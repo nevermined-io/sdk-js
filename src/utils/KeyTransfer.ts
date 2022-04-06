@@ -115,11 +115,11 @@ export class KeyTransfer {
         const s = BigInt(this.makeKey(provider_secret))
         const R8 = babyjub.mulPointEscalar(base8, r)
         const A = babyjub.mulPointEscalar(base8, s)
-        const hm = poseidon([R8[0], R8[1], A[0], A[1], msg % F])
+        const hm = this.F.toObject(poseidon([R8[0], R8[1], A[0], A[1], msg % F]))
         const S = (r + hm * s) % subOrder
         return {
             R8: [this.toHex(R8[0]), this.toHex(R8[1])],
-            S: this.toHex(S)
+            S: this.bigToHex(S)
         }
     }
 
@@ -164,6 +164,8 @@ export class KeyTransfer {
         const poseidon = this.circom.getPoseidon()
         const [orig1, orig2] = this.split(data)
 
+        console.log("orig", orig1, orig2)
+
         const k = await this.ecdh(providerK, buyerPub)
         const cipher = mimcsponge.hash(orig1, orig2, k)
         const origHash = poseidon([orig1, orig2])
@@ -176,17 +178,18 @@ export class KeyTransfer {
     
         /* eslint @typescript-eslint/camelcase: "off" */
         const snarkParams = {
+            xL_in: orig1,
+            xR_in: orig2,
+            provider_k: BigInt(providerK),
             buyer_x: BigInt(buyerPub.x),
             buyer_y: BigInt(buyerPub.y),
             provider_x: BigInt(providerPub.x),
             provider_y: BigInt(providerPub.y),
-            xL_in: orig1,
-            xR_in: orig2,
             cipher_xL_in: conv(cipher.xL),
             cipher_xR_in: conv(cipher.xR),
-            provider_k: BigInt(providerK),
             hash_plain: conv(origHash)
         }
+        console.log(snarkParams)
 
         const { proof } = await this.snarkjs.plonk.fullProve(
             snarkParams,
@@ -195,15 +198,16 @@ export class KeyTransfer {
         )
 
         const signals = [
-            buyerPub.x,
-            buyerPub.y,
-            providerPub.x,
-            providerPub.y,
+            this.F.e(buyerPub.x),
+            this.F.e(buyerPub.y),
+            this.F.e(providerPub.x),
+            this.F.e(providerPub.y),
             cipher.xL,
             cipher.xR,
             origHash
         ]
 
+        console.log(signals)
         const proofSolidity = await this.snarkjs.plonk.exportSolidityCallData(
             this.ffjavascript.utils.unstringifyBigInts(proof),
             signals
@@ -241,14 +245,16 @@ export class KeyTransfer {
         return res
     }
 
-    private toHex(a) {
-        return this.arrayToHex(a)
-        /*
+    private bigToHex(a) {
         let str = a.toString(16)
         while (str.length < 64) {
             str = '0' + str
         }
-        return '0x' + str*/
+        return '0x' + str
+    }
+
+    private toHex(a) {
+        return this.arrayToHex(a)
     }
 
     private arrayToHex(a: Uint8Array): string {
