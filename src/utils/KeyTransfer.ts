@@ -164,8 +164,6 @@ export class KeyTransfer {
         const poseidon = this.circom.getPoseidon()
         const [orig1, orig2] = this.split(data)
 
-        console.log("orig", orig1, orig2)
-
         const k = await this.ecdh(providerK, buyerPub)
         const cipher = mimcsponge.hash(orig1, orig2, k)
         const origHash = poseidon([orig1, orig2])
@@ -189,7 +187,6 @@ export class KeyTransfer {
             cipher_xR_in: conv(cipher.xR),
             hash_plain: conv(origHash)
         }
-        console.log(snarkParams)
 
         const { proof } = await this.snarkjs.plonk.fullProve(
             snarkParams,
@@ -207,7 +204,6 @@ export class KeyTransfer {
             origHash
         ]
 
-        console.log(signals)
         const proofSolidity = await this.snarkjs.plonk.exportSolidityCallData(
             this.ffjavascript.utils.unstringifyBigInts(proof),
             signals

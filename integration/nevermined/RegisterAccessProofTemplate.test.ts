@@ -120,8 +120,6 @@ describe('Register Escrow Access Proof Template', () => {
             providerK = keyTransfer.makeKey('abc')
             buyerPub = await keyTransfer.secretToPublic(buyerK)
             providerPub = await keyTransfer.secretToPublic(providerK)
-            console.log(buyerK, providerK)
-
             hash = await keyTransfer.hashKey(data)
         })
 
