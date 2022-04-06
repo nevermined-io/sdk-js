@@ -74,14 +74,14 @@ export class KeyTransfer {
             const xRtmp = this.F.e(xR)
             if (i < NROUNDS - 1) {
                 xR = xL
-                xL = this.F.sub(xRtmp, this.F.pow(t, 5))
+                xL = this.F.sub(xRtmp, this.F.exp(t, 5))
             } else {
-                xR = this.F.sub(xRtmp, this.F.pow(t, 5))
+                xR = this.F.sub(xRtmp, this.F.exp(t, 5))
             }
         }
         return {
-            xL: this.F.normalize(xL),
-            xR: this.F.normalize(xR)
+            xL,
+            xR
         }
     }
 
@@ -99,7 +99,7 @@ export class KeyTransfer {
     public async secretToPublic(secret: string): Promise<BabyjubPublicKey> {
         const babyjub = await this.circom.getBabyjub()
 
-        const [x, y] = babyjub.mulPointEscalar(babyjub.Base8, this.F.e(secret))
+        const [x, y] = babyjub.mulPointEscalar(babyjub.Base8, BigInt(secret))
         return new BabyjubPublicKey(this.toHex(x), this.toHex(y))
     }
 
@@ -135,8 +135,8 @@ export class KeyTransfer {
         const babyjub = this.circom.getBabyjub()
 
         const [x, _y] = babyjub.mulPointEscalar(
-            [BigInt(pub.x), BigInt(pub.y)],
-            this.F.e(secret)
+            [this.F.e(pub.x), this.F.e(pub.y)],
+            BigInt(secret)
         )
         return this.toHex(x)
     }
@@ -164,10 +164,16 @@ export class KeyTransfer {
         const poseidon = this.circom.getPoseidon()
         const [orig1, orig2] = this.split(data)
 
-        const k = this.ecdh(providerK, buyerPub)
+        const k = await this.ecdh(providerK, buyerPub)
         const cipher = mimcsponge.hash(orig1, orig2, k)
         const origHash = poseidon([orig1, orig2])
+        const F = this.F
 
+        function conv(x) {
+            const res = F.toObject(x)
+            return res
+        }
+    
         /* eslint @typescript-eslint/camelcase: "off" */
         const snarkParams = {
             buyer_x: BigInt(buyerPub.x),
@@ -176,10 +182,10 @@ export class KeyTransfer {
             provider_y: BigInt(providerPub.y),
             xL_in: orig1,
             xR_in: orig2,
-            cipher_xL_in: cipher.xL,
-            cipher_xR_in: cipher.xR,
-            provider_k: providerK,
-            hash_plain: origHash
+            cipher_xL_in: conv(cipher.xL),
+            cipher_xR_in: conv(cipher.xR),
+            provider_k: BigInt(providerK),
+            hash_plain: conv(origHash)
         }
 
         const { proof } = await this.snarkjs.plonk.fullProve(
@@ -236,15 +242,17 @@ export class KeyTransfer {
     }
 
     private toHex(a) {
+        return this.arrayToHex(a)
+        /*
         let str = a.toString(16)
         while (str.length < 64) {
             str = '0' + str
         }
-        return '0x' + str
+        return '0x' + str*/
     }
 
     private arrayToHex(a: Uint8Array): string {
-        let str = this.F.toObject(a)
+        let str = this.F.toObject(a).toString(16)
         while (str.length < 64) {
             str = '0' + str
         }

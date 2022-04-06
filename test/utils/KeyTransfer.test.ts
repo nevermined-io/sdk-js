@@ -28,8 +28,8 @@ describe('KeyTransfer', () => {
         })
         it('can get the secret using ecdh', async () => {
             assert.equal(
-                keyTransfer.ecdh(providerK, buyerPub),
-                keyTransfer.ecdh(buyerK, providerPub)
+                await keyTransfer.ecdh(providerK, buyerPub),
+                await keyTransfer.ecdh(buyerK, providerPub)
             )
         })
         it('can encrypt and decrypt the key', async () => {
