@@ -13,7 +13,7 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { AccessProofTemplate } from '../../src/keeper/contracts/templates'
 import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
-import KeyTransfer from '../../src/utils/KeyTransfer'
+import { makeKeyTransfer, KeyTransfer } from '../../src/utils/KeyTransfer'
 
 describe('Register Escrow Access Proof Template', () => {
     let nevermined: Nevermined
@@ -118,10 +118,10 @@ describe('Register Escrow Access Proof Template', () => {
 
             buyerK = keyTransfer.makeKey('abd')
             providerK = keyTransfer.makeKey('abc')
-            buyerPub = keyTransfer.secretToPublic(buyerK)
-            providerPub = keyTransfer.secretToPublic(providerK)
+            buyerPub = await keyTransfer.secretToPublic(buyerK)
+            providerPub = await keyTransfer.secretToPublic(providerK)
 
-            hash = keyTransfer.hashKey(data)
+            hash = await keyTransfer.hashKey(data)
         })
 
         it('should register a DID', async () => {
@@ -241,9 +241,9 @@ describe('Register Escrow Access Proof Template', () => {
         })
 
         it('should fulfill AccessCondition', async () => {
-            const cipher = keyTransfer.encryptKey(
+            const cipher = await keyTransfer.encryptKey(
                 data,
-                keyTransfer.ecdh(providerK, buyerPub)
+                await keyTransfer.ecdh(providerK, buyerPub)
             )
             const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
             const fulfill = await accessProofCondition.fulfill(
@@ -294,12 +294,7 @@ describe('Register Escrow Access Proof Template', () => {
         const origPasswd = 'passwd_32_letters_1234567890asdf'
         const data = Buffer.from(origPasswd)
 
-        const metadata = getMetadataForDTP(
-            'foo' + Math.random(),
-            data.toString('hex'),
-            providerKey
-        )
-        // let metadata = getMetadata()
+        let metadata
         let hash: string
 
         before(async () => {
@@ -307,12 +302,17 @@ describe('Register Escrow Access Proof Template', () => {
                 'access-proof'
             ])
             keyTransfer = new KeyTransfer()
-            buyerK = keyTransfer.makeKey('abd')
-            providerK = keyTransfer.makeKey('abc')
-            buyerPub = keyTransfer.secretToPublic(buyerK)
-            providerPub = keyTransfer.secretToPublic(providerK)
+            buyerK = await keyTransfer.makeKey('abd')
+            providerK = await keyTransfer.makeKey('abc')
+            buyerPub = await keyTransfer.secretToPublic(buyerK)
+            providerPub = await keyTransfer.secretToPublic(providerK)
 
-            hash = keyTransfer.hashKey(data)
+            metadata = await getMetadataForDTP(
+                'foo' + Math.random(),
+                data.toString('hex'),
+                providerKey
+            )
+            hash = await keyTransfer.hashKey(data)
         })
 
         it('should create a new agreement (short way)', async () => {

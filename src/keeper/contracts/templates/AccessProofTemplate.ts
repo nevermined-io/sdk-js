@@ -14,7 +14,7 @@ import { accessTemplateServiceAgreementTemplate } from './AccessProofTemplate.se
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
-import KeyTransfer from '../../../utils/KeyTransfer'
+import { makeKeyTransfer } from '../../../utils/KeyTransfer'
 import { TxParameters } from '../ContractBase'
 import { GenericAccess } from './GenericAccess'
 import { ServiceType } from '../../../ddo/Service'
@@ -43,7 +43,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         from?: Account,
         params?: TxParameters
     ) {
-        const keytransfer = new KeyTransfer()
+        const keytransfer = await makeKeyTransfer()
         const service = ddo.findServiceByType('access-proof')
         const { _hash, _providerPub } = service.attributes.main
         const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
@@ -137,7 +137,7 @@ export class AccessProofTemplate extends BaseTemplate implements GenericAccess {
         serviceType: ServiceType = 'access-proof'
     ) {
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-        const keytransfer = new KeyTransfer()
+        const keytransfer = await makeKeyTransfer()
         const service = ddo.findServiceByType(serviceType)
         const { _hash, _providerPub } = service.attributes.main
         const buyerPub: BabyjubPublicKey = keytransfer.makePublic(

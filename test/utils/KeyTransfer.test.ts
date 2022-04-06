@@ -1,17 +1,20 @@
 import { assert } from 'chai'
-import KeyTransfer from '../../src/utils/KeyTransfer'
+import { makeKeyTransfer } from '../../src/utils/KeyTransfer'
 
 describe('KeyTransfer', () => {
-    const keyTransfer = new KeyTransfer()
+    let keyTransfer
 
-    const buyerK = keyTransfer.makeKey('a b c')
-    const providerK = keyTransfer.makeKey('e f g')
+    let buyerK
+    let providerK
     let buyerPub
     let providerPub
 
     const data = Buffer.from('12345678901234567890123456789012')
 
     before(async () => {
+        keyTransfer = await makeKeyTransfer()
+        buyerK = await keyTransfer.makeKey('a b c')
+        providerK = await keyTransfer.makeKey('e f g')
         buyerPub = await keyTransfer.secretToPublic(buyerK)
         providerPub = await keyTransfer.secretToPublic(providerK)
     })

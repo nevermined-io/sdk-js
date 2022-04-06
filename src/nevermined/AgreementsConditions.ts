@@ -5,7 +5,7 @@ import { findServiceConditionByName, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import KeyTransfer from '../utils/KeyTransfer'
+import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Service } from '../ddo/Service'
 import { EventOptions } from '../events/NeverminedEvent'
@@ -150,7 +150,7 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { accessProofCondition } = this.nevermined.keeper.conditions
 
-            const keyTransfer = new KeyTransfer()
+            const keyTransfer = await makeKeyTransfer()
             const cipher = await keyTransfer.encryptKey(
                 data,
                 await keyTransfer.ecdh(providerK, buyerPub)
@@ -206,7 +206,7 @@ export class AgreementsConditions extends Instantiable {
             ? ev[0].returnValues._cipher
             : ev[0]._cipher
 
-        const keyTransfer = new KeyTransfer()
+        const keyTransfer = await makeKeyTransfer()
         return keyTransfer.decryptKey(
             new MimcCipher(cipherL, cipherR),
             await keyTransfer.ecdh(buyerK, providerPub)
