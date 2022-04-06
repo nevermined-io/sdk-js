@@ -122,7 +122,7 @@ export class JwtUtils extends Instantiable {
             aud: this.BASE_AUD + '/access-proof',
             sub: serviceAgreementId,
             did: did,
-            babysig: account.signBabyjub(BigInt(account.getId())),
+            babysig: await account.signBabyjub(BigInt(account.getId())),
             buyer: account.getPublic(),
             eths: 'personal'
         })
