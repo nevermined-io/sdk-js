@@ -5,33 +5,41 @@ import vKey from './verification_key.json'
 const SEED = 'mimcsponge'
 const NROUNDS = 220
 
-function toHex(a) {
-    let str = a.toString(16)
-    while (str.length < 64) {
-        str = '0' + str
-    }
-    return '0x' + str
-}
+class Circom {
+    private babyjub
+    private poseidon
+    private mimcsponge
 
-function split(a: Buffer) {
-    const str = a.toString('hex')
-    const left = BigInt('0x' + str.substr(0, 32))
-    const right = BigInt('0x' + str.substr(32, 32))
-    return [left, right]
+    constructor() {
+        this.babyjub = require('circomlibjs').buildBabyjub()
+        this.poseidon = require('circomlibjs').buildPoseidon()
+        this.mimcsponge = require('circomlibjs').buildMimcSponge()
+    }
+
+    public async getBabyjub() {
+        return this.babyjub
+    }
+
+    public async getPoseidon() {
+        return this.poseidon
+    }
+
+    public async getMimcSponge() {
+        return this.mimcsponge
+    }
 }
 
 export default class KeyTransfer {
     cts
     F
-
-    circomlib
     snarkjs
     ffjavascript
+    circom: Circom
 
     constructor() {
         this.snarkjs = require('snarkjs')
-        this.circomlib = require('circomlib')
         this.ffjavascript = require('ffjavascript')
+        this.circom = new Circom()
 
         this.F = new this.ffjavascript.ZqField(
             this.ffjavascript.Scalar.fromString(
@@ -91,55 +99,62 @@ export default class KeyTransfer {
         return new BabyjubPublicKey(x, y)
     }
 
-    public secretToPublic(secret: string): BabyjubPublicKey {
-        const [x, y] = this.circomlib.babyJub.mulPointEscalar(
-            this.circomlib.babyJub.Base8,
-            this.F.e(secret)
-        )
-        return new BabyjubPublicKey(toHex(x), toHex(y))
+    public async secretToPublic(secret: string): Promise<BabyjubPublicKey> {
+        const babyjub = await this.circom.getBabyjub()
+
+        const [x, y] = babyjub.mulPointEscalar(babyjub.Base8, this.F.e(secret))
+        return new BabyjubPublicKey(this.toHex(x), this.toHex(y))
     }
 
-    public signBabyjub(provider_secret, msg) {
+    public async signBabyjub(provider_secret, msg) {
+        const babyjub = await this.circom.getBabyjub()
+        const poseidon = await this.circom.getPoseidon()
+
         let r = BigInt(this.makeKey(provider_secret + 'a'))
-        const { subOrder } = this.circomlib.babyJub
-        const base8 = this.circomlib.babyJub.Base8
-        const F = this.circomlib.babyJub.p
+        const { subOrder } = babyjub
+        const base8 = babyjub.Base8
+        const F = babyjub.p
         r = r % subOrder
         const s = BigInt(this.makeKey(provider_secret))
-        const R8 = this.circomlib.babyJub.mulPointEscalar(base8, r)
-        const A = this.circomlib.babyJub.mulPointEscalar(base8, s)
-        const hm = this.circomlib.poseidon([R8[0], R8[1], A[0], A[1], msg % F])
+        const R8 = babyjub.mulPointEscalar(base8, r)
+        const A = babyjub.mulPointEscalar(base8, s)
+        const hm = poseidon([R8[0], R8[1], A[0], A[1], msg % F])
         const S = (r + hm * s) % subOrder
         return {
-            R8: [toHex(R8[0]), toHex(R8[1])],
-            S: toHex(S)
+            R8: [this.toHex(R8[0]), this.toHex(R8[1])],
+            S: this.toHex(S)
         }
     }
 
     // generate hash from plain text key
     // Buffer should have 32 elems
-    public hashKey(a: Buffer) {
-        const hash = this.circomlib.poseidon(split(a))
-        return toHex(hash)
+    public async hashKey(a: Buffer) {
+        const poseidon = await this.circom.getPoseidon()
+        const hash = poseidon(this.split(a))
+        return this.arrayToHex(hash)
     }
 
-    public ecdh(secret: string, pub: BabyjubPublicKey): string {
-        const [x, _y] = this.circomlib.babyJub.mulPointEscalar(
+    public async ecdh(secret: string, pub: BabyjubPublicKey): Promise<string> {
+        const babyjub = await this.circom.getBabyjub()
+
+        const [x, _y] = babyjub.mulPointEscalar(
             [BigInt(pub.x), BigInt(pub.y)],
             this.F.e(secret)
         )
-        return toHex(x)
+        return this.toHex(x)
     }
 
-    public encryptKey(a: Buffer, secret: string): MimcCipher {
-        const [left, right] = split(a)
-        const { xL, xR } = this.circomlib.mimcsponge.hash(left, right, BigInt(secret))
-        return new MimcCipher(toHex(xL), toHex(xR))
+    public async encryptKey(a: Buffer, secret: string): Promise<MimcCipher> {
+        const mimcsponge = await this.circom.getMimcSponge()
+
+        const [left, right] = this.split(a)
+        const { xL, xR } = mimcsponge.hash(left, right, BigInt(secret))
+        return new MimcCipher(this.toHex(xL), this.toHex(xR))
     }
 
     public decryptKey(a: MimcCipher, secret: string): Buffer {
         const { xL, xR } = this.decrypt(BigInt(a.x), BigInt(a.y), BigInt(secret))
-        return Buffer.from(toHex(xL).substr(34) + toHex(xR).substr(34), 'hex')
+        return Buffer.from(this.toHex(xL).substr(34) + this.toHex(xR).substr(34), 'hex')
     }
 
     public async prove(
@@ -148,11 +163,13 @@ export default class KeyTransfer {
         providerK: string,
         data: Buffer
     ): Promise<string> {
-        const [orig1, orig2] = split(data)
+        const mimcsponge = await this.circom.getMimcSponge()
+        const poseidon = await this.circom.getPoseidon()
+        const [orig1, orig2] = this.split(data)
 
         const k = this.ecdh(providerK, buyerPub)
-        const cipher = this.circomlib.mimcsponge.hash(orig1, orig2, k)
-        const origHash = this.circomlib.poseidon([orig1, orig2])
+        const cipher = mimcsponge.hash(orig1, orig2, k)
+        const origHash = poseidon([orig1, orig2])
 
         /* eslint @typescript-eslint/camelcase: "off" */
         const snarkParams = {
@@ -200,10 +217,12 @@ export default class KeyTransfer {
         data: Buffer,
         proof: any
     ): Promise<string> {
-        const [orig1, orig2] = split(data)
+        const mimcsponge = await this.circom.getMimcSponge()
+        const poseidon = await this.circom.getPoseidon()
+        const [orig1, orig2] = this.split(data)
         const k = this.ecdh(providerK, buyerPub)
-        const cipher = this.circomlib.mimcsponge.mimcjs.hash(orig1, orig2, k)
-        const origHash = this.circomlib.poseidon([orig1, orig2])
+        const cipher = mimcsponge.mimcjs.hash(orig1, orig2, k)
+        const origHash = poseidon([orig1, orig2])
         const signals = [
             buyerPub.x,
             buyerPub.y,
@@ -217,5 +236,29 @@ export default class KeyTransfer {
         const res = await this.snarkjs.plonk.verify(vKey, signals, proof)
 
         return res
+    }
+
+    private toHex(a) {
+        let str = a.toString(16)
+        while (str.length < 64) {
+            str = '0' + str
+        }
+        return '0x' + str
+    }
+
+    private arrayToHex(a: Uint8Array): string {
+        let str = [...new Uint8Array(a.buffer)].map(x => x.toString(16)).join('')
+
+        while (str.length < 64) {
+            str = '0' + str
+        }
+        return '0x' + str
+    }
+
+    private split(a: Buffer) {
+        const str = a.toString('hex')
+        const left = BigInt('0x' + str.substr(0, 32))
+        const right = BigInt('0x' + str.substr(32, 32))
+        return [left, right]
     }
 }
