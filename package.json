@@ -54,7 +54,7 @@
     "web3": "^1.2.3"
   },
   "dependencies": {
-    "@nevermined-io/contracts": "1.99.6",
+    "@nevermined-io/contracts": "1.99.7",
     "@nevermined-io/secret-store-client": "^0.0.16",
     "@nevermined-io/subgraphs": "^0.2.9",
     "assert": "^2.0.0",
