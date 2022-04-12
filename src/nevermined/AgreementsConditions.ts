@@ -5,7 +5,7 @@ import { findServiceConditionByName, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import KeyTransfer from '../utils/KeyTransfer'
+import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Service } from '../ddo/Service'
 import { EventOptions } from '../events/NeverminedEvent'
@@ -150,13 +150,13 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { accessProofCondition } = this.nevermined.keeper.conditions
 
-            const keyTransfer = new KeyTransfer()
-            const cipher = keyTransfer.encryptKey(
+            const keyTransfer = await makeKeyTransfer()
+            const cipher = await keyTransfer.encryptKey(
                 data,
-                keyTransfer.ecdh(providerK, buyerPub)
+                await keyTransfer.ecdh(providerK, buyerPub)
             )
             const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
-            const hash = keyTransfer.hashKey(data)
+            const hash = await keyTransfer.hashKey(data)
             const receipt = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
@@ -206,10 +206,10 @@ export class AgreementsConditions extends Instantiable {
             ? ev[0].returnValues._cipher
             : ev[0]._cipher
 
-        const keyTransfer = new KeyTransfer()
+        const keyTransfer = await makeKeyTransfer()
         return keyTransfer.decryptKey(
             new MimcCipher(cipherL, cipherR),
-            keyTransfer.ecdh(buyerK, providerPub)
+            await keyTransfer.ecdh(buyerK, providerPub)
         )
     }
 

@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import Balance from '../models/Balance'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import KeyTransfer from '../utils/KeyTransfer'
+import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
 /**
@@ -36,8 +36,8 @@ export default class Account extends Instantiable {
         return this.babyX.substr(2) + this.babyY.substr(2)
     }
 
-    public signBabyjub(num: BigInt) {
-        const keytransfer = new KeyTransfer()
+    public async signBabyjub(num: BigInt) {
+        const keytransfer = await makeKeyTransfer()
         return keytransfer.signBabyjub(this.babySecret, num)
     }
 
