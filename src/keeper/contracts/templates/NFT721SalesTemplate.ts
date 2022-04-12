@@ -82,7 +82,7 @@ export class NFT721SalesTemplate extends BaseTemplate {
         const totalAmount = AssetRewards.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-                ? String(totalAmount)
+                ? totalAmount.toFixed()
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)

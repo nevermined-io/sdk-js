@@ -35,13 +35,13 @@ describe('NFTs Api End-to-End', () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let nftPrice = new BigNumber(20)
-    let amounts = [new BigNumber(15), new BigNumber(5)]
+    let nftPrice = new BigNumber(100)
+    let amounts = [new BigNumber(75), new BigNumber(25)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
     let initialBalances: any
-    let scale: number
+    let scale: BigNumber
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -53,7 +53,7 @@ describe('NFTs Api End-to-End', () => {
         // components
         ;({ token } = nevermined.keeper)
 
-        scale = 10 ** (await token.decimals())
+        scale = new BigNumber(10).exponentiatedBy(await token.decimals())
 
         nftPrice = nftPrice.multipliedBy(scale)
         amounts = amounts.map(v => v.multipliedBy(scale))
@@ -64,6 +64,7 @@ describe('NFTs Api End-to-End', () => {
                 [receivers[1], amounts[1]]
             ])
         )
+        await collector1.requestTokens(nftPrice.div(scale))
 
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
@@ -109,14 +110,10 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('I am ordering the NFT', async () => {
-            await collector1.requestTokens(nftPrice.div(scale))
 
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
-            assert.isTrue(
-                collector1BalanceBefore.isEqualTo(
-                    initialBalances.collector1.plus(nftPrice)
-                )
-            )
+
+            assert.isTrue(collector1BalanceBefore.isGreaterThanOrEqualTo(nftPrice))
             const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
@@ -127,8 +124,9 @@ describe('NFTs Api End-to-End', () => {
             const escrowPaymentConditionBalanceAfter = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
+
             assert.isTrue(
-                collector1BalanceAfter.minus(initialBalances.collector1).isEqualTo(0)
+                collector1BalanceBefore.minus(nftPrice).isEqualTo(collector1BalanceAfter)
             )
             assert.isTrue(
                 escrowPaymentConditionBalanceBefore
@@ -201,7 +199,7 @@ describe('NFTs Api End-to-End', () => {
                     initialBalances.gallery.plus(assetRewards1.getAmounts()[1])
                 )
             )
-            assert.isTrue(collectorBalance.minus(initialBalances.collector1).isEqualTo(0))
+            assert.isTrue(initialBalances.collector1.minus(nftPrice).isEqualTo(collectorBalance))
             assert.isTrue(
                 escrowPaymentConditionBefore
                     .minus(nftPrice)

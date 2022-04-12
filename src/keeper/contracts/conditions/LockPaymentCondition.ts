@@ -19,7 +19,7 @@ export class LockPaymentCondition extends Condition {
         amounts: BigNumber[],
         receivers: string[]
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.hashValues(
             didZeroX(did),
             zeroX(rewardAddress),
@@ -39,7 +39,7 @@ export class LockPaymentCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.fulfill(
             agreementId,
             [

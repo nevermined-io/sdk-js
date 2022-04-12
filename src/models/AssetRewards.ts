@@ -47,7 +47,9 @@ export default class AssetRewards {
 
     public getAmountsString(): string {
         if (this.rewards.size == 0) return '[]'
-        return '["' + Array.from(this.rewards.values()).join('","') + '"]'
+        const _amounts: string[] = []
+        this.rewards.forEach(value => _amounts.push(value.toFixed()))
+        return '["' + _amounts.join('","') + '"]'
     }
 
     public getReceiversString(): string {
