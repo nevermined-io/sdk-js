@@ -33,7 +33,7 @@ jobs:
         sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
         git clone https://github.com/nevermined-io/tools
         cd tools
-        
+
         export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
         export KEEPER_VERSION=v1.3.9
         export GATEWAY_VERSION=v0.12.8
@@ -43,7 +43,7 @@ jobs:
         # Disabling the compute api for now
         # Check https://github.com/nevermined-io/sdk-js/issues/33        
         # ./start_nevermined.sh --latest --no-marketplace --compute ${{ matrix.network }} &
-        ./start_nevermined.sh --latest --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+        ./start_nevermined.sh --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
 
         cd ..
         ./scripts/wait-subgraphs.sh
