@@ -110,7 +110,6 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('I am ordering the NFT', async () => {
-
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
 
             assert.isTrue(collector1BalanceBefore.isGreaterThanOrEqualTo(nftPrice))
@@ -199,7 +198,9 @@ describe('NFTs Api End-to-End', () => {
                     initialBalances.gallery.plus(assetRewards1.getAmounts()[1])
                 )
             )
-            assert.isTrue(initialBalances.collector1.minus(nftPrice).isEqualTo(collectorBalance))
+            assert.isTrue(
+                initialBalances.collector1.minus(nftPrice).isEqualTo(collectorBalance)
+            )
             assert.isTrue(
                 escrowPaymentConditionBefore
                     .minus(nftPrice)

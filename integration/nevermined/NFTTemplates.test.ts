@@ -273,7 +273,8 @@ describe('NFTTemplates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalance
-                        .minus(initialBalances.escrowPaymentCondition).isEqualTo(nftPrice)
+                        .minus(initialBalances.escrowPaymentCondition)
+                        .isEqualTo(nftPrice)
                 )
             })
 

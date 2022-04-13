@@ -82,13 +82,13 @@ describe('AaveCredit', () => {
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee
         aaveCreditTemplate = nevermined.keeper.templates.aaveCreditTemplate
-            ; ({
-                conditionStoreManager,
-                didRegistry,
-                agreementStoreManager
-            } = nevermined.keeper)
-            ; ({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
-            ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
+        ;({
+            conditionStoreManager,
+            didRegistry,
+            agreementStoreManager
+        } = nevermined.keeper)
+        ;({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
+        ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
         timeLocks = [0, 0, 0, 0, 0, 0]
         timeOuts = [0, 0, 0, 0, 0, 0]
         // await nevermined.keeper.conditionStoreManager.delegateCreateRole(
@@ -149,7 +149,7 @@ describe('AaveCredit', () => {
         console.log(`template approved: ${isTemplateApproved}`)
     })
 
-    describe('Create a credit NFT collateral agreement', function () {
+    describe('Create a credit NFT collateral agreement', function() {
         this.timeout(100000)
         it('should propose the AaveCreditTemplate', async () => {
             if (!isTemplateApproved) {
@@ -443,7 +443,12 @@ describe('AaveCredit', () => {
                 // Compare the lender fees after withdraw
                 assert.isTrue(daiAfter.minus(daiBefore).isEqualTo(daiFee))
 
-                assert.isTrue(ethBalanceAfter.minus(ethBalanceBefore).minus(collateralAmount).isGreaterThan(0))
+                assert.isTrue(
+                    ethBalanceAfter
+                        .minus(ethBalanceBefore)
+                        .minus(collateralAmount)
+                        .isGreaterThan(0)
+                )
             }
         })
 
