@@ -22,7 +22,7 @@ describe('Register Escrow Access Secret Store Template', () => {
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
-    const totalAmount = 12
+    const totalAmount = new BigNumber(12)
     const amounts = [new BigNumber(10), new BigNumber(2)]
 
     let templateManagerOwner: Account

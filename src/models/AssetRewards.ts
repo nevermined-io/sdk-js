@@ -46,8 +46,11 @@ export default class AssetRewards {
     }
 
     public getAmountsString(): string {
-        if (this.rewards.size == 0) return '[]'
-        return '["' + Array.from(this.rewards.values()).join('","') + '"]'
+        return this.rewards.size
+            ? JSON.stringify(
+                  Array.from(this.rewards.values()).map(value => value.toFixed())
+              )
+            : '[]'
     }
 
     public getReceiversString(): string {
