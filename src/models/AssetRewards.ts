@@ -46,10 +46,11 @@ export default class AssetRewards {
     }
 
     public getAmountsString(): string {
-        if (this.rewards.size == 0) return '[]'
-        const _amounts: string[] = []
-        this.rewards.forEach(value => _amounts.push(value.toFixed()))
-        return '["' + _amounts.join('","') + '"]'
+        return this.rewards.size
+            ? JSON.stringify(
+                  Array.from(this.rewards.values()).map(value => value.toFixed())
+              )
+            : '[]'
     }
 
     public getReceiversString(): string {
