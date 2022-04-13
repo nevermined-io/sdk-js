@@ -71,7 +71,7 @@
     "node-fetch": "^2.6.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
-    "snarkjs": "^0.4.6",
+    "snarkjs": "0.4.10",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
