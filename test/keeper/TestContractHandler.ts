@@ -44,6 +44,12 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
 
         // Contracts
+        const nvmConfig = await TestContractHandler.deployContract(
+            'NeverminedConfig',
+            deployerAddress,
+            [deployerAddress, deployerAddress]
+        )
+
         const token = await TestContractHandler.deployContract(
             'NeverminedToken',
             deployerAddress,
@@ -91,7 +97,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const conditionStoreManager = await TestContractHandler.deployContract(
             'ConditionStoreManager',
             deployerAddress,
-            [deployerAddress, deployerAddress],
+            [deployerAddress, deployerAddress, nvmConfig.options.address],
             {
                 EpochLibrary: epochLibrary.options.address
             }

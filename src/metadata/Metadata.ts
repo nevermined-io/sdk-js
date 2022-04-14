@@ -19,7 +19,7 @@ export interface SearchQuery {
     offset?: number
     page?: number
     query: { [property: string]: string | number | string[] | number[] }
-    sort?: { [jsonPath: string]: number }
+    sort?: { [jsonPath: string]: string }
     show_unlisted?: boolean
 }
 

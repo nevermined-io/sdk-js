@@ -26,7 +26,7 @@ describe('Assets', () => {
                 query: {},
                 text: 'Office',
                 sort: {
-                    created: -1
+                    created: 'desc'
                 }
             } as SearchQuery
 

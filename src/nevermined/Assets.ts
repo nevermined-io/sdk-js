@@ -1113,7 +1113,7 @@ export class Assets extends Instantiable {
         text: string,
         offset: number = 100,
         page: number = 1,
-        sort: number = 1
+        sort: string = 'desc'
     ) {
         return this.nevermined.metadata.queryMetadataByText({
             text,
@@ -1123,7 +1123,7 @@ export class Assets extends Instantiable {
                 value: 1
             },
             sort: {
-                value: sort
+                created: sort
             }
         } as SearchQuery)
     }
