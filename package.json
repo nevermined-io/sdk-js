@@ -14,7 +14,7 @@
     "build:watch": "tsc -w",
     "test": "mocha",
     "test:watch": "mocha -w --watch-extensions js,ts,json",
-    "test:cover": "nyc --report-dir coverage/unit mocha",
+    "test:cover": "nyc --report-dir coverage/unit mocha --opts test/mocha.opts ./test/**/*.test.ts",
     "integration": "mocha --opts integration/mocha.opts ./integration/**/*.test.ts",
     "integration:production": "export NETWORK_NAME=production; yarn integration",
     "integration:staging": "export NETWORK_NAME=staging; yarn integration",
