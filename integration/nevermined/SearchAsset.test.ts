@@ -93,9 +93,7 @@ describe('Search Asset', () => {
             offset: 1,
             query: {},
             text: `Test2${testHash}`,
-            sort: {
-                text: 'asc'
-            }
+            sort: undefined
         })
 
         assert.equal(ddos.length, 1, 'Something was wrong searching the assets')

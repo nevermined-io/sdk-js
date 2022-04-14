@@ -51,8 +51,7 @@
   },
   "homepage": "https://github.com/nevermined-io/sdk-js#readme",
   "dependencies": {
-
-    "@nevermined-io/contracts": "1.99.8",
+    "@nevermined-io/contracts": "^1.99.8",
     "@nevermined-io/secret-store-client": "^0.0.16",
     "@nevermined-io/subgraphs": "^0.2.9",
     "assert": "^2.0.0",
