@@ -43,15 +43,17 @@ describe('NFTs Api End-to-End', () => {
     let initialBalances: any
     let scale: BigNumber
 
+    const ETHEREUM_BURN_ADDRESS = '0x000000000000000000000000000000000000dEaD'
+
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
+            ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
 
-        // conditions
-        ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
+            // conditions
+            ; ({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
 
-        // components
-        ;({ token } = nevermined.keeper)
+            // components
+            ; ({ token } = nevermined.keeper)
 
         scale = new BigNumber(10).exponentiatedBy(await token.decimals())
 
@@ -213,6 +215,30 @@ describe('NFTs Api End-to-End', () => {
         it('The collector access the files', async () => {
             const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
+        })
+    })
+
+    describe('NFT holders should be able to burn', () => {
+        it('The artist burns his remaining nfts', async () => {
+            const result = await nevermined.nfts.burn(ddo.id, 4, artist)
+            assert.isTrue(result.status)
+
+            const balance = await nevermined.nfts.balance(ddo.id, artist)
+            assert.equal(balance, 0)
+        })
+
+        it('The collector burns his nft', async () => {
+            // const result = await nevermined.nfts.burn(ddo.id, 1, collector1)
+            const result = await nevermined.keeper.nftUpgradeable.transferNft(
+                ddo.id,
+                ETHEREUM_BURN_ADDRESS,
+                1,
+                collector1.getId()
+            )
+            assert.isTrue(result.status)
+
+            const balance = await nevermined.nfts.balance(ddo.id, collector1)
+            assert.equal(balance, 0)
         })
     })
 
