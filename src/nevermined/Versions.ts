@@ -1,4 +1,3 @@
-import * as keeperPackageJson from '@nevermined-io/contracts/package.json'
 import * as metadata from '../metadata.json'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
@@ -59,7 +58,7 @@ export class Versions extends Instantiable {
             commit: metadata.commit,
             status: PlatformTechStatus.Working,
             network: (await this.nevermined.keeper.getNetworkName()).toLowerCase(),
-            keeperVersion: keeperPackageJson.version,
+            keeperVersion: this.nevermined.keeper.version,
             contracts: Object.values(await this.nevermined.keeper.getAllInstances())
                 .filter(_ => !!_)
                 .reduce(

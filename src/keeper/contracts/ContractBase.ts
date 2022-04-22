@@ -20,6 +20,7 @@ export abstract class ContractBase extends Instantiable {
     public contractName: string
     public contract: Contract = null
     public events: ContractEvent | SubgraphEvent = null
+    public version: string
 
     get address() {
         return this.getAddress()
@@ -52,6 +53,12 @@ export abstract class ContractBase extends Instantiable {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
+
+        try {
+            this.version = await contractHandler.getVersion(this.contractName)
+        } catch {
+            this.logger.warn(`${this.contractName} not available on this network.`)
+        }
 
         const eventEmitter = new EventHandler()
         if (this.config.graphHttpUri) {
