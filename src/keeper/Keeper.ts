@@ -117,7 +117,7 @@ export class Keeper extends Instantiable {
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
-                aaveCreditTemplate: AaveCreditTemplate.getInstance(config)
+                aaveCreditTemplate: undefined // optional
             })
             keeper.connected = true
         } catch (err) {
@@ -147,6 +147,15 @@ export class Keeper extends Instantiable {
         } catch {
             keeper.logger.warn('NFTUpgradeable not available on this network.')
         }
+
+        try {
+            keeper.instances.aaveCreditTemplate = await AaveCreditTemplate.getInstance(
+                config
+            )
+        } catch {
+            keeper.logger.warn('AaveCreditTemplate not available on this network.')
+        }
+
         // Main contracts
         keeper.dispenser = keeper.instances.dispenser
         keeper.token = keeper.instances.token

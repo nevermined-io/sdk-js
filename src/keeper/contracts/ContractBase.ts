@@ -53,7 +53,12 @@ export abstract class ContractBase extends Instantiable {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
-        this.version = await contractHandler.getVersion(this.contractName)
+
+        try {
+            this.version = await contractHandler.getVersion(this.contractName)
+        } catch {
+            this.logger.warn(`${this.contractName} not available on this network.`)
+        }
 
         const eventEmitter = new EventHandler()
         if (this.config.graphHttpUri) {
