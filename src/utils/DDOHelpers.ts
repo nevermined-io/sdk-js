@@ -19,7 +19,7 @@ function fillParameterWithDDO(
     const getValue = name => {
         switch (name) {
             case 'amounts':
-                return Array.from(assetRewards.getAmounts(), v => String(v))
+                return Array.from(assetRewards.getAmounts(), v => v.toFixed())
             case 'receivers':
                 return assetRewards.getReceivers()
             case 'amount':

@@ -36,8 +36,6 @@ describe('Account', () => {
             console.log(`Balance         :    ${balance.toString()}`)
             console.log(`Balance + Amount:    ${balancePlusAmount.toString()}`)
             assert.isTrue(balance.comparedTo(initialBalance.plus(balancePlusAmount)) >= 0)
-            // assert.equal(balance.toString(), initialBalance.plus(
-            //     new BigNumber(web3.utils.toWei('100', 'ether')).toString())
         })
     })
 

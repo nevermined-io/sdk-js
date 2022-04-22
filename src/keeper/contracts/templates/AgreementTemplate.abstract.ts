@@ -100,7 +100,7 @@ export abstract class AgreementTemplate extends ContractBase {
                 condIdx,
                 rewardAddress,
                 tokenAddress,
-                amounts.map(a => a.toString(10)),
+                amounts.map(a => a.toFixed()),
                 receivers
             ],
             from,

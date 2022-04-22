@@ -15,19 +15,19 @@ export default class Token extends ContractBase {
 
     public async approve(
         to: string,
-        price: number | string | BigNumber,
+        price: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {
-        return this.sendFrom('approve', [to, String(price)], from, params)
+        return this.sendFrom('approve', [to, price.toFixed()], from, params)
     }
 
     public async decimals(): Promise<number> {
         return this.call('decimals', [])
     }
 
-    public async balanceOfConverted(address: string): Promise<number> {
-        return Number(web3Utils.fromWei(await this.call('balanceOf', [address])))
+    public async balanceOfConverted(address: string): Promise<BigNumber> {
+        return new BigNumber(web3Utils.fromWei(await this.call('balanceOf', [address])))
     }
 
     public async strBalanceOf(address: string): Promise<string> {
@@ -54,10 +54,10 @@ export default class Token extends ContractBase {
 
     public async transfer(
         to: string,
-        amount: number,
+        amount: BigNumber,
         from: string,
         params?: TxParameters
     ) {
-        return this.send('transfer', from, [to, amount], params)
+        return this.send('transfer', from, [to, amount.toFixed()], params)
     }
 }

@@ -82,13 +82,13 @@ describe('AaveCredit', () => {
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee
         aaveCreditTemplate = nevermined.keeper.templates.aaveCreditTemplate
-            ; ({
-                conditionStoreManager,
-                didRegistry,
-                agreementStoreManager
-            } = nevermined.keeper)
-            ; ({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
-            ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
+        ;({
+            conditionStoreManager,
+            didRegistry,
+            agreementStoreManager
+        } = nevermined.keeper)
+        ;({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
+        ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
         timeLocks = [0, 0, 0, 0, 0, 0]
         timeOuts = [0, 0, 0, 0, 0, 0]
         // await nevermined.keeper.conditionStoreManager.delegateCreateRole(
@@ -149,7 +149,7 @@ describe('AaveCredit', () => {
         console.log(`template approved: ${isTemplateApproved}`)
     })
 
-    describe('Create a credit NFT collateral agreement', function () {
+    describe('Create a credit NFT collateral agreement', function() {
         this.timeout(100000)
         it('should propose the AaveCreditTemplate', async () => {
             if (!isTemplateApproved) {
@@ -345,7 +345,7 @@ describe('AaveCredit', () => {
 
                 const after = await dai.balanceOfConverted(borrower.getId())
                 // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after-before}`)
-                assert.isTrue(new BigNumber(after - before).isEqualTo(delegatedAmount))
+                assert.isTrue(after.minus(before).isEqualTo(delegatedAmount))
             }
         })
 
@@ -376,7 +376,7 @@ describe('AaveCredit', () => {
                 // Delegatee allows Nevermined contracts spend DAI to repay the loan
                 await dai.approve(
                     aaveRepayCondition.address,
-                    web3Utils.toWei(allowanceAmount.toString(), 'ether'),
+                    new BigNumber(web3Utils.toWei(allowanceAmount.toFixed(), 'ether')),
                     borrower
                 )
                 // Send some DAI to borrower to pay the debt + fees
@@ -441,9 +441,14 @@ describe('AaveCredit', () => {
                 const daiFee = delegatedAmount.div(10000).multipliedBy(agreementFee)
 
                 // Compare the lender fees after withdraw
-                assert.isTrue(new BigNumber(daiAfter - daiBefore).isEqualTo(daiFee))
+                assert.isTrue(daiAfter.minus(daiBefore).isEqualTo(daiFee))
 
-                assert.isAbove(ethBalanceAfter - ethBalanceBefore - collateralAmount, 0)
+                assert.isTrue(
+                    ethBalanceAfter
+                        .minus(ethBalanceBefore)
+                        .minus(collateralAmount)
+                        .isGreaterThan(0)
+                )
             }
         })
 

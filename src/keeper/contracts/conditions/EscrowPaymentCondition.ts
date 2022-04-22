@@ -25,7 +25,7 @@ export class EscrowPaymentCondition extends Condition {
         lockCondition: string,
         releaseCondition: string
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.hashValues(
             didZeroX(did),
             amountsString,
@@ -46,7 +46,7 @@ export class EscrowPaymentCondition extends Condition {
         from?: Account,
         txParams?: TxParameters
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.fulfill(
             agreementId,
             [

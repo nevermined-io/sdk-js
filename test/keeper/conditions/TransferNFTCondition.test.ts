@@ -132,7 +132,7 @@ describe('TransferNFTCondition', () => {
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
-                10,
+                new BigNumber(10),
                 nftReceiver
             )
 
@@ -236,7 +236,7 @@ describe('TransferNFTCondition', () => {
                 amounts,
                 receivers,
                 nftReceiver,
-                { value: String(amounts[0]) }
+                { value: amounts[0].toFixed() }
             )
 
             let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
@@ -325,7 +325,7 @@ describe('TransferNFTCondition', () => {
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
-                10,
+                new BigNumber(10),
                 nftReceiver
             )
 
