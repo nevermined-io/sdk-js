@@ -1485,7 +1485,7 @@ export class Assets extends Instantiable {
     ): Promise<Service> {
         const { aaveCreditTemplate } = this.nevermined.keeper.templates
         return {
-            type: this.nevermined.aaveCredit.serviceType,
+            type: 'aave-credit',
             index: 11,
             serviceEndpoint: this.nevermined.gateway.getNft721Endpoint(),
             templateId: aaveCreditTemplate.getAddress(),
