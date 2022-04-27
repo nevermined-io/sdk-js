@@ -58,6 +58,8 @@ describe('AaveCredit', () => {
     // ### These values come from the config (AaveConfig)
     // const lendingPoolAddress = '0xE0fBa4Fc209b4948668006B2bE61711b7f465bAe' // Kovan
     // const dataProviderAddress = '0x744C1aaA95232EeF8A9994C4E0b3a89659D9AB79' // Kovan
+
+    // This is the WETHGATEWAY which facilitates wrapping/unwrapping Eth to/from WETH
     // const wethAddress = '0xA61ca04DF33B72b235a8A28CfB535bb7A5271B70' // Kovan
     // const wethAddress = '0xd0A1E359811322d97991E03f863a0C30C2cF029C' // Kovan
 
