@@ -297,6 +297,11 @@ export class Assets extends Instantiable {
                         rating: 0,
                         numVotes: 0
                     },
+                    additionalInformation: {
+                        customData: {
+                            nftContractAddress: nftTokenAddress
+                        }
+                    },
                     // Overwrites defaults
                     ...metadata,
                     encryptedFiles,
