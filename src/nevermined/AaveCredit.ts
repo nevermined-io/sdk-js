@@ -60,7 +60,7 @@ export class AaveCredit extends Instantiable {
         collateralToken: string,
         collateralAmount: number,
         delegatedToken: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         borrower: string,
         lender: string,
@@ -167,9 +167,10 @@ export class AaveCredit extends Instantiable {
         collateralAsset: string,
         collateralAmount: number,
         delegatedAsset: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         from: Account,
+        useWethGateway: boolean=false,
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
@@ -185,13 +186,23 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             did = agreementData.did
         }
-        const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
-        )
-        const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+        const _collateralAmount = web3Utils.toWei(collateralAmount.toString(), 'ether').toString()
+        const _delegatedAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether').toString()
         // console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
+        const _value = useWethGateway ? _collateralAmount.toString() : '0'
+        if (!useWethGateway) {
+            this.logger.log(`sending erc20Token.approve for token ${collateralAsset} because we are not using the WethGateway.`)
+            const erc20Token = await CustomToken.getInstanceByAddress(
+                this.instanceConfig,
+                collateralAsset
+            )
+            await erc20Token.approve(
+                this.nevermined.keeper.conditions.aaveCollateralDepositCondition.address,
+                new BigNumber(web3Utils.toWei(collateralAmount.toString(), 'ether')),
+                from
+            )
+        }
+
         const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
             agreementId,
             did,
@@ -202,7 +213,7 @@ export class AaveCredit extends Instantiable {
             _delegatedAmount,
             interestRateMode,
             from,
-            { value: _collateralAmount.toString() }
+            { value: _value }
         )
         const {
             state: stateDeposit
@@ -220,7 +231,7 @@ export class AaveCredit extends Instantiable {
     public async borrow(
         agreementId: string,
         delegatedAsset: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         from: Account,
         did?: string,
@@ -238,7 +249,7 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             did = agreementData.did
         }
-        const amount = new BigNumber(web3Utils.toWei(delegatedAmount.toString(), 'ether'))
+        const amount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
         console.log(
             `about to borrow ${delegatedAsset}: amountWei=${amount}, delegatedAmount=${delegatedAmount}`
         )
@@ -266,7 +277,7 @@ export class AaveCredit extends Instantiable {
     public async repayDebt(
         agreementId: string,
         delegatedAsset: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         from?: Account,
         did?: string,
@@ -311,9 +322,7 @@ export class AaveCredit extends Instantiable {
             from
         )
 
-        const weiAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+        const weiAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
         // use the aaveRepayCondition to apply the repayment
         const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
             agreementId,
@@ -345,7 +354,7 @@ export class AaveCredit extends Instantiable {
         collateralAsset: string,
         collateralAmount: number,
         delegatedAsset: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         from?: Account,
         did?: string,

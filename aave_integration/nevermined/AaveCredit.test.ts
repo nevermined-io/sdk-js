@@ -69,7 +69,7 @@ describe('AaveCredit', () => {
 
     const delegatedAsset = '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd' // DAI
     // const strDelegatedAmount = '500' + '000000000000000000' // 500 DAI
-    const delegatedAmount: BigNumber = new BigNumber(500)
+    const delegatedAmount = 500
     // daiProvider account holding Dai to allow borrower to pay back the loan
     const daiProvider = '0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167'
 
@@ -301,7 +301,8 @@ describe('AaveCredit', () => {
                     delegatedAsset,
                     delegatedAmount,
                     INTEREST_RATE_MODE,
-                    lender
+                    lender,
+                    true
                 )
                 assert.isTrue(success)
                 const { state: stateDeposit } = await conditionStoreManager.getCondition(
@@ -438,9 +439,10 @@ describe('AaveCredit', () => {
                 )
                 assert.strictEqual(stateWithdraw, ConditionState.Fulfilled)
 
+                const _delegatedAmount = new BigNumber(delegatedAmount)
                 const daiAfter = await dai.balanceOfConverted(lender.getId())
                 const ethBalanceAfter = await weth.balanceOfConverted(lender.getId())
-                const daiFee = delegatedAmount.div(10000).multipliedBy(agreementFee)
+                const daiFee = _delegatedAmount.div(10000).multipliedBy(agreementFee)
 
                 // Compare the lender fees after withdraw
                 assert.isTrue(daiAfter.minus(daiBefore).isEqualTo(daiFee))

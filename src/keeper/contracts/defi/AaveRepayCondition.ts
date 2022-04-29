@@ -21,7 +21,7 @@ export class AaveRepayCondition extends Condition {
         did: string,
         vaultAddress: string,
         assetToRepay: string,
-        amountToRepay: BigNumber,
+        amountToRepay: string,
         interestRateMode: number
     ) {
         return super.hashValues(
@@ -37,7 +37,7 @@ export class AaveRepayCondition extends Condition {
         did: string,
         vaultAddress: string,
         assetToRepay: string,
-        amountToRepay: BigNumber,
+        amountToRepay: string,
         interestRateMode: number,
         from?: Account,
         params?: TxParameters
