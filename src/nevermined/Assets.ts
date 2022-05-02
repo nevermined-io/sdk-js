@@ -190,6 +190,18 @@ export class Assets extends Instantiable {
                 )
             )
 
+            this.logger.debug('NTF721 Aave Credit Template')
+            const nftAaveCreditServiceAgreementTemplate = await templates.aaveCreditTemplate.getServiceAgreementTemplate()
+
+            await ddo.addService(
+                this.nevermined,
+                await this.createNftAaveCreditService(
+                    metadata,
+                    publisher,
+                    nftAaveCreditServiceAgreementTemplate
+                )
+            )
+
             this.logger.log('Services Added')
             observer.next(CreateProgressStep.ServicesAdded)
 
@@ -229,6 +241,16 @@ export class Assets extends Instantiable {
             const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
             nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                 nft721AccessTemplateConditions,
+                ddo,
+                assetRewards,
+                erc20TokenAddress || this.nevermined.token.getAddress(),
+                nftTokenAddress,
+                publisher.getId()
+            )
+
+            const nft721AaveCreditTemplateConditions = await templates.aaveCreditTemplate.getServiceAgreementTemplateConditions()
+            nftAaveCreditServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                nft721AaveCreditTemplateConditions,
                 ddo,
                 assetRewards,
                 erc20TokenAddress || this.nevermined.token.getAddress(),
@@ -1449,6 +1471,33 @@ export class Assets extends Instantiable {
                 serviceAgreementTemplate
             }
         }
+    }
+
+    private async createNftAaveCreditService(
+        metadata: MetaData,
+        publisher: Account,
+        serviceAgreementTemplate: ServiceAgreementTemplate
+    ): Promise<Service> {
+        const { aaveCreditTemplate } = this.nevermined.keeper.templates
+        return {
+            type: 'aave-credit',
+            index: 11,
+            serviceEndpoint: this.nevermined.gateway.getNft721Endpoint(),
+            templateId: aaveCreditTemplate.getAddress(),
+            attributes: {
+                main: {
+                    name: 'aaveCreditAgreement',
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.datePublished,
+                    timeout: 86400
+                },
+                additionalInformation: {
+                    description: 'Aave credit agreement using NFT721 as collateral'
+                },
+                serviceAgreementTemplate
+            }
+        }
+
     }
 
     private async createNft721AccessService(

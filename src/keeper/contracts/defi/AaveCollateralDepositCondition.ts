@@ -21,9 +21,9 @@ export class AaveCollateralDepositCondition extends Condition {
         did: string,
         vaultAddress: string,
         collateralAsset: string,
-        collateralAmount: BigNumber,
+        collateralAmount: string,
         delegatedAsset: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: string,
         interestRateMode: number
     ) {
         return super.hashValues(
@@ -41,9 +41,9 @@ export class AaveCollateralDepositCondition extends Condition {
         did: string,
         vaultAddress: string,
         collateralAsset: string,
-        collateralAmount: BigNumber,
+        collateralAmount: string,
         delegatedAsset: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: string,
         interestRateMode: number,
         from?: Account,
         params?: TxParameters

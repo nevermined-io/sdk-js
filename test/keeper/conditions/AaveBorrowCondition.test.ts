@@ -43,7 +43,7 @@ describe('AaveBorrowCondition', () => {
                 zeroX(did),
                 vaultAddress,
                 assetToBorrow,
-                amount,
+                amount.toString(),
                 interestRateMode
             )
             assert.match(hash, /^0x[a-f0-9]{64}$/i)

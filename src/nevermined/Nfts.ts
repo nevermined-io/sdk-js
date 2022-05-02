@@ -440,6 +440,17 @@ export class Nfts extends Instantiable {
         }
     }
 
+    public getNftContractAddress(ddo: DDO) {
+        const service = ddo.findServiceByType('nft721-access')
+        if (!!service) {
+            const cond = service.attributes.serviceAgreementTemplate.conditions.find(
+                c => c.name === 'nftHolder'
+            )
+            return !cond ? null : cond.parameters.find(p => p.name === '_contractAddress').value
+        }
+        return null
+    }
+
     private async downloadFiles(
         agreementId: string,
         ddo: DDO,

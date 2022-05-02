@@ -5,7 +5,6 @@ import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { TransactionReceipt } from 'web3-core'
 import Account from '../../../nevermined/Account'
-import BigNumber from 'bignumber.js'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
@@ -80,12 +79,8 @@ export class AaveCreditTemplate extends BaseTemplate {
         if (!withdraw) throw new Error('withdraw collateral Condition not found!')
         if (!distributeNft) throw new Error('distributeNft Condition not found!')
 
-        const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
-        )
-        const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+        const _collateralAmount = web3Utils.toWei(collateralAmount.toString(), 'ether').toString()
+        const _delegatedAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether').toString()
         return this.createFullAgreementData(
             agreementId,
             ddo.shortId(),
@@ -113,19 +108,15 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralToken: string,
         collateralAmount: number,
         delegatedToken: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         timeLocks: number[],
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
     ): Promise<TransactionReceipt> {
-        const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
-        )
-        const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+        const _collateralAmount = web3Utils.toWei(collateralAmount.toString(), 'ether').toString()
+        const _delegatedAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether').toString()
         const conditionIds = await this.createFullAgreementData(
             agreementId,
             did,
@@ -161,7 +152,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralToken: string,
         collateralAmount: number,
         delegatedToken: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         borrower: string,
         lender: string,
@@ -218,7 +209,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         collateralToken: string,
         collateralAmount: number,
         delegatedToken: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: number,
         interestRateMode: number,
         timeLocks: number[],
         timeOuts: number[],
@@ -282,9 +273,9 @@ export class AaveCreditTemplate extends BaseTemplate {
         nftTokenContract: string,
         nftAmount: number,
         collateralToken: string,
-        collateralAmount: BigNumber,
+        collateralAmount: string,
         delegatedToken: string,
-        delegatedAmount: BigNumber,
+        delegatedAmount: string,
         interestRateMode: number
     ) {
         const {
