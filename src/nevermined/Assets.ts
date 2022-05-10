@@ -588,6 +588,7 @@ export class Assets extends Instantiable {
             // create ddo itself
             const ddo: DDO = new DDO({
                 id: '',
+                userId: metadata.userId,
                 authentication: [
                     {
                         type: 'RsaSignatureAuthentication2018',

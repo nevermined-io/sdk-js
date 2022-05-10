@@ -25,6 +25,7 @@ import { Files } from './Files'
 import { Nfts } from './Nfts'
 import { Nft721 } from './Nft721'
 import { AaveCredit } from './AaveCredit'
+import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -47,6 +48,7 @@ export class Nevermined extends Instantiable {
         instance.keeper = await Keeper.getInstance(instanceConfig)
 
         instance.gateway = new Gateway(instanceConfig)
+        instance.marketplace = new MarketplaceApi(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)
         instance.faucet = new Faucet(instanceConfig)
 
@@ -96,6 +98,12 @@ export class Nevermined extends Instantiable {
      * @type {Metadata}
      */
     public metadata: Metadata
+
+    /**
+     * marketplace instance.
+     * @type {marketplace}
+     */
+    public marketplace: MarketplaceApi
 
     /**
      * Metadata instance.

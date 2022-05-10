@@ -1,8 +1,8 @@
 import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ServiceSecondary } from '../ddo/Service'
+import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -38,20 +38,15 @@ export interface DDOStatus {
     }
 }
 
+export interface AuthToken {
+    access_token: string
+}
+
 /**
  * Provides a interface with Metadata.
  * Metadata provides an off-chain database store for metadata about data assets.
  */
-export class Metadata extends Instantiable {
-    private get url() {
-        return this.config.metadataUri
-    }
-
-    constructor(config: InstantiableConfig) {
-        super()
-        this.setInstanceConfig(config)
-    }
-
+export class Metadata extends MarketplaceApi {
     public async getVersionInfo() {
         return (await this.nevermined.utils.fetch.get(this.url)).json()
     }
@@ -218,7 +213,9 @@ export class Metadata extends Instantiable {
     public async storeDDO(ddo: DDO): Promise<DDO> {
         const fullUrl = `${this.url}${apiPath}`
         const result: DDO = await this.nevermined.utils.fetch
-            .post(fullUrl, DDO.serialize(ddo))
+            .post(fullUrl, DDO.serialize(ddo), {
+                Authorization: `Bearer ${this.config.marketplaceAuthToken}`
+            })
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()
