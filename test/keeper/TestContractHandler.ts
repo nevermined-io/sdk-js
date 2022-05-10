@@ -62,6 +62,12 @@ export default abstract class TestContractHandler extends ContractHandler {
             ['']
         )
 
+        const erc721 = await TestContractHandler.deployContract(
+            'NFT721Upgradeable',
+            deployerAddress,
+            []
+        )
+
         const dispenser = await TestContractHandler.deployContract(
             'Dispenser',
             deployerAddress,
@@ -85,6 +91,10 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
 
         await erc1155.methods
+            .addMinter(didRegistry.options.address)
+            .send({ from: deployerAddress })
+
+        await erc721.methods
             .addMinter(didRegistry.options.address)
             .send({ from: deployerAddress })
 
@@ -173,6 +183,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 didRegistry.options.address,
+                erc721.options.address,
                 lockPaymentCondition.options.address
             ]
         )
@@ -183,6 +194,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
+                didRegistry.options.address,
                 erc1155.options.address,
                 ZeroAddress
             ]

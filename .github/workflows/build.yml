@@ -39,7 +39,7 @@ jobs:
         # Disabling the compute api for now
         # Check https://github.com/nevermined-io/sdk-js/issues/33
         # ./start_nevermined.sh --latest --no-marketplace --compute ${{ matrix.network }} &
-        export KEEPER_VERSION=v1.99.7
+        export KEEPER_VERSION=v1.99.9
         export GATEWAY_VERSION=develop
         export COMPUTE_API_VERSION=latest
         export METADATA_VERSION=latest
