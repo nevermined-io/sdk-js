@@ -7,6 +7,12 @@ export class Config {
      * MarketPlace URL.
      * @type {string}
      */
+    public metadataUri?: string
+
+    /**
+     * MarketPlace URL.
+     * @type {string}
+     */
     public marketplaceUri: string
 
     /**
