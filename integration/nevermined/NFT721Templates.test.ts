@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { Account, DDO, Nevermined, utils } from '../../src'
 import {
     ConditionState,
@@ -92,6 +93,10 @@ describe('NFT721Templates E2E', () => {
             gallery
         ] = await nevermined.accounts.list()
 
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+
         receivers = [artist.getId(), gallery.getId()]
         receivers2 = [collector1.getId(), artist.getId()]
 
@@ -166,8 +171,12 @@ describe('NFT721Templates E2E', () => {
                 collector2.getId()
             )
 
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
             ddo = await nevermined.assets.createNft721(
-                getMetadata(),
+                metadata,
                 artist,
                 assetRewards1,
                 'PSK-RSA',

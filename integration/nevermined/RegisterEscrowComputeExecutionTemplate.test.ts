@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -270,8 +271,17 @@ describe('Register Escrow Compute Execution Template', () => {
         let ddo: DDO
 
         before(async () => {
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                publisher
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             ddo = await nevermined.assets.create(
-                getMetadata(),
+                metadata,
                 publisher,
                 undefined,
                 ['access', 'compute'],

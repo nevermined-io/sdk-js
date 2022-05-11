@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 
@@ -269,7 +270,16 @@ describe('Register Escrow Access Secret Store Template', () => {
         let ddo: DDO
 
         before(async () => {
-            ddo = await nevermined.assets.create(getMetadata(), publisher)
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                publisher
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+            ddo = await nevermined.assets.create(metadata, publisher)
         })
 
         it('should create a new agreement (short way)', async () => {

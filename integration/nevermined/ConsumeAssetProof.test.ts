@@ -1,9 +1,10 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getMetadata, getMetadataForDTP } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
 import { makeKeyTransfer } from '../../src/utils/KeyTransfer'
 
@@ -24,13 +25,21 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
 
     const origPasswd = Buffer.from('passwd_32_letters_1234567890asdF').toString('hex')
 
-    let metadata
+    let metadata: MetaData
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         keyTransfer = await makeKeyTransfer()
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
+
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
         consumer.babyX =
             '0x0d7cdd240c2f5b0640839c49fbaaf016a8c5571b8f592e2b62ea939063545981'
         consumer.babyY =
@@ -40,8 +49,14 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
         if (!nevermined.keeper.dispenser) {
             metadata = await getMetadata(0)
         } else {
-            metadata = await getMetadataForDTP('foo' + Math.random(), origPasswd, providerKey)
+            metadata = await getMetadataForDTP(
+                'foo' + Math.random(),
+                origPasswd,
+                providerKey
+            )
         }
+
+        metadata.userId = payload.sub
     })
 
     after(() => {

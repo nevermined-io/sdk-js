@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
@@ -15,6 +16,7 @@ describe('Nfts operations', () => {
     let ddo: DDO
 
     let token: Token
+    let payload: JWTPayload
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -22,12 +24,18 @@ describe('Nfts operations', () => {
 
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+        payload = decodeJwt(config.marketplaceAuthToken)
     })
 
     describe('with default token', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                metadata,
                 artist,
                 10,
                 0,
@@ -55,8 +63,10 @@ describe('Nfts operations', () => {
 
     describe('with custom token', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                metadata,
                 artist,
                 10,
                 0,
@@ -86,8 +96,10 @@ describe('Nfts operations', () => {
 
     describe('with ether', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                metadata,
                 artist,
                 10,
                 0,

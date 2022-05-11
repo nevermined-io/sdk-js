@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { Nevermined, Account, DDO, MetaData } from '../../src'
 import fs from 'fs'
@@ -43,6 +44,15 @@ describe('Filecoin Integration', () => {
     })
 
     it('should register an asset with a cid://', async () => {
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        const payload = decodeJwt(config.marketplaceAuthToken)
+        metadata.userId = payload.sub
+
         metadata.main.files = [
             {
                 index: 0,

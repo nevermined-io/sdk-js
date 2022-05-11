@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
@@ -19,28 +20,37 @@ describe('Compute Asset', () => {
     let agreementId: string
     let workflowId: string
     let assetRewards: AssetRewards
+    let userId: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+        userId = payload.sub
+
         assetRewards = new AssetRewards(publisher.getId(), 0)
     })
 
     it('should register the assets', async () => {
         algorithmDdo = await nevermined.assets.create(
-            workflowMetadatas.algorithm(),
+            workflowMetadatas.algorithm(userId),
             publisher
         )
         computeDdo = await nevermined.assets.create(
-            workflowMetadatas.compute(),
+            workflowMetadatas.compute(userId),
             publisher,
             assetRewards,
             ['compute']
         )
         workflowDdo = await nevermined.assets.create(
-            workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id),
+            workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id, userId),
             publisher
         )
     })
