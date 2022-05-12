@@ -17,6 +17,7 @@ import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import web3Utils from 'web3-utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import BigNumber from 'bignumber.js'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -55,7 +56,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
     let nftPrice = 0.2
-    let amounts = [0.15, 0.05]
+    let amounts = [new BigNumber(0.15), new BigNumber(0.05)]
 
     let receivers: string[]
     let assetRewards: AssetRewards
@@ -92,7 +93,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
         // eth
         nftPrice = Number(web3Utils.toWei(String(nftPrice), 'ether'))
-        amounts = amounts.map(v => Number(web3Utils.toWei(String(v), 'ether')))
+        amounts = amounts.map(v => new BigNumber(web3Utils.toWei(String(v), 'ether')))
 
         // ether
         assetRewards = new AssetRewards(
@@ -242,7 +243,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     assetRewards.getAmounts(),
                     assetRewards.getReceivers(),
                     collector1,
-                    { value: String(assetRewards.getTotalPrice() - 1) }
+                    { value: assetRewards.getTotalPrice().toString() }
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -327,12 +328,12 @@ describe('NFTTemplates With Ether E2E', async () => {
                 const receiver1Balance = await new Account(receivers[1]).getEtherBalance()
 
                 assert.closeTo(
-                    receiver0Balance,
+                    receiver0Balance.toNumber(),
                     initialBalances.artist + amounts[0],
                     10 ** 16
                 )
                 assert.closeTo(
-                    receiver1Balance,
+                    receiver1Balance.toNumber(),
                     initialBalances.gallery + amounts[1],
                     10 ** 16
                 )

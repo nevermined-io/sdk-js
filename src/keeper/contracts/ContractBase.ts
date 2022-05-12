@@ -20,6 +20,7 @@ export abstract class ContractBase extends Instantiable {
     public contractName: string
     public contract: Contract = null
     public events: ContractEvent | SubgraphEvent = null
+    public version: string
 
     get address() {
         return this.getAddress()
@@ -52,6 +53,12 @@ export abstract class ContractBase extends Instantiable {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
         this.contract = await contractHandler.get(this.contractName, optional)
+
+        try {
+            this.version = await contractHandler.getVersion(this.contractName)
+        } catch {
+            this.logger.warn(`${this.contractName} not available on this network.`)
+        }
 
         const eventEmitter = new EventHandler()
         if (this.config.graphHttpUri) {
@@ -186,6 +193,18 @@ export abstract class ContractBase extends Instantiable {
                     }
                 } catch (err) {
                     // no eip-1559 support
+                }
+            }
+
+            // Something weird with celo eip-1559 implementation (mainnet, alfajores)
+            const chainId = await this.web3.eth.net.getId()
+            if (chainId == 44787 || chainId == 42220) {
+                console.log('Calling Celo...')
+                txparams = {
+                    from,
+                    value,
+                    gas,
+                    gasPrice
                 }
             }
             const receipt = await tx

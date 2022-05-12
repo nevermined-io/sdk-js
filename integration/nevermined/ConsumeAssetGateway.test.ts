@@ -7,6 +7,7 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, ConditionState } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Web3 from 'web3'
+import BigNumber from 'bignumber.js'
 
 describe('Consume Asset (Gateway)', () => {
     let nevermined: Nevermined
@@ -26,7 +27,7 @@ describe('Consume Asset (Gateway)', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
-        assetRewards = new AssetRewards(publisher.getId(), 0)
+        assetRewards = new AssetRewards(publisher.getId(), new BigNumber(0))
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)

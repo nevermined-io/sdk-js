@@ -5,12 +5,12 @@ import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { TransactionReceipt } from 'web3-core'
 import Account from '../../../nevermined/Account'
-import BigNumber from 'bignumber.js'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
 import AssetRewards from '../../../models/AssetRewards'
 import web3Utils from 'web3-utils'
+import BigNumber from 'bignumber.js'
 
 export class AaveCreditTemplate extends BaseTemplate {
     aaveConfig: AaveConfig
@@ -81,12 +81,8 @@ export class AaveCreditTemplate extends BaseTemplate {
         if (!withdraw) throw new Error('withdraw collateral Condition not found!')
         if (!distributeNft) throw new Error('distributeNft Condition not found!')
 
-        const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
-        )
-        const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+        const _collateralAmount = web3Utils.toWei(collateralAmount.toString(), 'ether').toString()
+        const _delegatedAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether').toString()
         return this.createFullAgreementData(
             agreementIdSeed,
             ddo.shortId(),
@@ -96,7 +92,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             collateralToken,
             _collateralAmount,
             delegatedToken,
-            _delegatedAmount,
+            new BigNumber(_delegatedAmount),
             interestRateMode,
             creator
         )
@@ -135,7 +131,7 @@ export class AaveCreditTemplate extends BaseTemplate {
             nftTokenContract,
             nftAmount,
             collateralToken,
-            _collateralAmount,
+            _collateralAmount.toString(),
             delegatedToken,
             _delegatedAmount,
             interestRateMode,
@@ -156,9 +152,9 @@ export class AaveCreditTemplate extends BaseTemplate {
             txParams
         )
 
-        console.log(`createVaultAgreement: 
+        console.log(`createVaultAgreement:
             status=${txAgreement.status}, txHash=${txAgreement.transactionHash},
-            
+
             collateralAmount=${_collateralAmount}, delegatedAmount=${_delegatedAmount}`)
         return [txAgreement, data]
     }
@@ -191,8 +187,8 @@ export class AaveCreditTemplate extends BaseTemplate {
             from.getId()
         )
 
-        console.log(`Deployed credit vault: 
-            vaultAddress=${vaultAddress}, lendingPool=${this.aaveConfig.lendingPoolAddress}. 
+        console.log(`Deployed credit vault:
+            vaultAddress=${vaultAddress}, lendingPool=${this.aaveConfig.lendingPoolAddress}.
             weth=${this.aaveConfig.wethAddress}. agreementFee=${this.aaveConfig.agreementFee}`)
 
         const [txAgreement, data] = await this._createAgreement(
@@ -296,7 +292,7 @@ export class AaveCreditTemplate extends BaseTemplate {
         nftTokenContract: string,
         nftAmount: number,
         collateralToken: string,
-        collateralAmount: BigNumber,
+        collateralAmount: string,
         delegatedToken: string,
         delegatedAmount: BigNumber,
         interestRateMode: number,
@@ -338,7 +334,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 collateralToken,
                 collateralAmount,
                 delegatedToken,
-                delegatedAmount,
+                delegatedAmount.toString(),
                 interestRateMode
             )
         )
@@ -348,7 +344,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 did,
                 vaultAddress,
                 delegatedToken,
-                delegatedAmount,
+                delegatedAmount.toString(),
                 interestRateMode
             )
         )
@@ -358,7 +354,7 @@ export class AaveCreditTemplate extends BaseTemplate {
                 did,
                 vaultAddress,
                 delegatedToken,
-                delegatedAmount,
+                delegatedAmount.toString(),
                 interestRateMode
             )
         )

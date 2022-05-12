@@ -5,6 +5,7 @@ import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
+import BigNumber from 'bignumber.js'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -27,7 +28,10 @@ describe('Consume Asset (Documentation example)', () => {
 
         metadata = await getDocsCommonMetadata()
         metadata.main.price = '0'
-        assetRewards = new AssetRewards(publisher.getId(), Number(metadata.main.price))
+        assetRewards = new AssetRewards(
+            publisher.getId(),
+            new BigNumber(metadata.main.price)
+        )
     })
 
     it('should register an asset', async () => {
@@ -44,18 +48,14 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens =
-            +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
+        const claimedTokens = new BigNumber(1)
 
         try {
             await consumer.requestTokens(claimedTokens)
         } catch {}
 
-        assert.equal(
-            (await consumer.getBalance()).nevermined,
-            initialBalance + claimedTokens,
-            'Tokens not delivered'
-        )
+        const balanceAfter = (await consumer.getBalance()).nevermined
+        assert.isTrue(balanceAfter.isGreaterThan(initialBalance))
     })
 
     it('should sign the service agreement', async () => {
@@ -102,7 +102,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should lock the payment by the consumer', async () => {
         const { price } = ddo.findServiceByType('metadata').attributes.main
-        const assetRewards = new AssetRewards(publisher.getId(), Number(price))
+        const assetRewards = new AssetRewards(publisher.getId(), new BigNumber(price))
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,

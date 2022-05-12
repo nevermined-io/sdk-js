@@ -16,6 +16,7 @@ import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { ServiceType } from '../../../ddo/Service'
 import { GenericAccess } from './GenericAccess'
+import BigNumber from 'bignumber.js'
 
 export class AccessTemplate extends BaseTemplate implements GenericAccess {
     public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
@@ -78,10 +79,10 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
         await this.lockTokens(tokenAddress, amounts, from, txParams)
         observer(OrderProgressStep.ApprovedPayment)
 
-        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const totalAmount = AssetRewards.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-                ? String(totalAmount)
+                ? totalAmount.toFixed()
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)

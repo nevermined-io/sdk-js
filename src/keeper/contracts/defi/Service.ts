@@ -25,10 +25,8 @@ export type AaveConditionType =
     | 'withdrawCollateral'
     | 'distributeNft'
 
-export type SERVICE_AAVE_CREDIT = 'aave-credit'
-
 export interface ServiceAaveCredit extends ServiceCommon {
-    type: SERVICE_AAVE_CREDIT
+    type: 'aave-credit'
     templateId?: string
     attributes: {
         main: {

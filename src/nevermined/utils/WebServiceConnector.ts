@@ -1,9 +1,9 @@
 import { BodyInit, RequestInit, Response } from 'node-fetch'
 import fs, { ReadStream } from 'fs'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import save from 'save-file'
 import FormData from 'form-data'
 import * as path from 'path'
+import fileDownload from 'js-file-download'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -112,13 +112,12 @@ export class WebServiceConnector extends Instantiable {
                 fileStream.on('close', resolve)
             })
         } else {
-            await save(await response.arrayBuffer(), filename)
+            const buff = await response.arrayBuffer()
+            fileDownload(buff, filename)
             destination = process.cwd()
         }
-
         const d = path.join(destination, filename)
         this.logger.log(`Downloaded: ${d}`)
-
         return d
     }
 

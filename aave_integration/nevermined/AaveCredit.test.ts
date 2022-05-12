@@ -20,6 +20,7 @@ import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCon
 import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import BigNumber from 'bignumber.js'
 
 chai.use(chaiAsPromised)
 
@@ -56,6 +57,8 @@ describe('AaveCredit', () => {
     // ### These values come from the config (AaveConfig)
     // const lendingPoolAddress = '0xE0fBa4Fc209b4948668006B2bE61711b7f465bAe' // Kovan
     // const dataProviderAddress = '0x744C1aaA95232EeF8A9994C4E0b3a89659D9AB79' // Kovan
+
+    // This is the WETHGATEWAY which facilitates wrapping/unwrapping Eth to/from WETH
     // const wethAddress = '0xA61ca04DF33B72b235a8A28CfB535bb7A5271B70' // Kovan
     // const wethAddress = '0xd0A1E359811322d97991E03f863a0C30C2cF029C' // Kovan
 
@@ -287,7 +290,8 @@ describe('AaveCredit', () => {
                     delegatedAsset,
                     delegatedAmount,
                     INTEREST_RATE_MODE,
-                    lender
+                    lender,
+                    true
                 )
                 assert.isTrue(success)
                 const { state: stateDeposit } = await conditionStoreManager.getCondition(
@@ -333,7 +337,7 @@ describe('AaveCredit', () => {
 
                 const after = await dai.balanceOfConverted(borrower.getId())
                 // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after-before}`)
-                assert.strictEqual(after - before, delegatedAmount)
+                assert.isTrue(after.minus(before).isEqualTo(delegatedAmount))
             }
         })
 
@@ -357,17 +361,19 @@ describe('AaveCredit', () => {
                     agreementId,
                     borrower
                 )
-                const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
+                const allowanceAmount = new BigNumber(
+                    totalDebt + (totalDebt / 10000) * 10
+                )
 
                 // Delegatee allows Nevermined contracts spend DAI to repay the loan
                 await dai.approve(
                     aaveRepayCondition.address,
-                    web3Utils.toWei(allowanceAmount.toString(), 'ether'),
+                    new BigNumber(web3Utils.toWei(allowanceAmount.toFixed(), 'ether')),
                     borrower
                 )
                 // Send some DAI to borrower to pay the debt + fees
                 const transferAmount = web3Utils.toWei(
-                    (allowanceAmount - delegatedAmount).toString(),
+                    allowanceAmount.minus(delegatedAmount).toString(),
                     'ether'
                 )
                 await dai.send('transfer', daiProvider, [
@@ -422,14 +428,20 @@ describe('AaveCredit', () => {
                 )
                 assert.strictEqual(stateWithdraw, ConditionState.Fulfilled)
 
+                const _delegatedAmount = new BigNumber(delegatedAmount)
                 const daiAfter = await dai.balanceOfConverted(lender.getId())
                 const ethBalanceAfter = await weth.balanceOfConverted(lender.getId())
-                const daiFee = (delegatedAmount / 10000) * agreementFee
+                const daiFee = _delegatedAmount.div(10000).multipliedBy(agreementFee)
 
                 // Compare the lender fees after withdraw
-                assert.strictEqual(daiFee, daiAfter - daiBefore)
+                assert.isTrue(daiAfter.minus(daiBefore).isEqualTo(daiFee))
 
-                assert.isAbove(ethBalanceAfter - ethBalanceBefore - collateralAmount, 0)
+                assert.isTrue(
+                    ethBalanceAfter
+                        .minus(ethBalanceBefore)
+                        .minus(collateralAmount)
+                        .isGreaterThan(0)
+                )
             }
         })
 

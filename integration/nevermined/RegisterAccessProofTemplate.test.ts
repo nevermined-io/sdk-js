@@ -14,6 +14,7 @@ import {
 import { AccessProofTemplate } from '../../src/keeper/contracts/templates'
 import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
 import { makeKeyTransfer, KeyTransfer } from '../../src/utils/KeyTransfer'
+import BigNumber from 'bignumber.js'
 
 describe('Register Escrow Access Proof Template', () => {
     let nevermined: Nevermined
@@ -23,8 +24,8 @@ describe('Register Escrow Access Proof Template', () => {
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
-    const totalAmount = 12
-    const amounts = [10, 2]
+    const totalAmount = new BigNumber(12)
+    const amounts = [new BigNumber(10), new BigNumber(2)]
 
     let templateManagerOwner: Account
     let publisher: Account

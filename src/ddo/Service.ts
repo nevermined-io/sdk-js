@@ -2,7 +2,6 @@ import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
 import {
     AaveConditionType,
-    SERVICE_AAVE_CREDIT,
     ServiceAaveCredit
 } from '../keeper/contracts/defi/Service'
 
@@ -24,7 +23,7 @@ export type ServiceType =
     | 'nft-sales'
     | 'nft721-access'
     | 'nft721-sales'
-    | SERVICE_AAVE_CREDIT
+    | 'aave-credit'
 
 export interface ServiceCommon {
     type: ServiceType
@@ -121,7 +120,7 @@ export type Service<
     ? ServiceAccessProof
     : T extends 'compute'
     ? ServiceCompute
-    : T extends SERVICE_AAVE_CREDIT
+    : T extends 'aave-credit'
     ? ServiceAaveCredit
     : T extends 'default'
     ? ServiceCommon

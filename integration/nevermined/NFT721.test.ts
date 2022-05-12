@@ -9,6 +9,7 @@ import { Contract } from 'web3-eth-contract'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import utils from 'web3-utils'
+import BigNumber from 'bignumber.js'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
@@ -127,7 +128,10 @@ describe('Nfts721 operations', async () => {
             ddo = await nevermined.nfts.create721(
                 getMetadata(),
                 artist,
-                new AssetRewards(artist.getId(), Number(utils.toWei('0.1', 'ether'))),
+                new AssetRewards(
+                    artist.getId(),
+                    new BigNumber(utils.toWei('0.1', 'ether'))
+                ),
                 nft.options.address,
                 ZeroAddress
             )
