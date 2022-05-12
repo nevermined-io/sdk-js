@@ -42,6 +42,7 @@ describe('NFTs Api End-to-End', () => {
 
     let initialBalances: any
     let scale: number
+    let payload: JWTPayload
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -50,7 +51,7 @@ describe('NFTs Api End-to-End', () => {
 
         await nevermined.marketplace.login(clientAssertion)
 
-        const payload = decodeJwt(config.marketplaceAuthToken)
+        payload = decodeJwt(config.marketplaceAuthToken)
 
         metadata.userId = payload.sub
 
@@ -226,8 +227,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints the nfts', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 cappedAmount,
                 royalties,
@@ -284,8 +287,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints one nft', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 1,
                 royalties,
