@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { generateMetadata } from '../utils'
 import { Nevermined, Account, DDO, MetaData } from '../../src'
@@ -12,18 +13,32 @@ describe('Search Asset', () => {
         .toString(36)
         .substr(2)
     let price
-    const metadataGenerator = (name: string) =>
-        generateMetadata(`${name}${testHash}`, price) as MetaData
+    const metadataGenerator = (name: string, userId: string) => {
+        const metadata = generateMetadata(`${name}${testHash}`, price) as MetaData
+        metadata.userId = userId
+        return metadata
+    }
 
     let test1length
     let test2length
     let test3length
+    let userId: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts
         ;[publisher] = await nevermined.accounts.list()
+
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
+        userId = payload.sub
     })
 
     it('should be able to search the assets', async () => {
@@ -42,19 +57,19 @@ describe('Search Asset', () => {
 
     it('should register an asset', async () => {
         assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test1'), publisher),
+            await nevermined.assets.create(metadataGenerator('Test1', userId), publisher),
             DDO
         )
         assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test2'), publisher),
+            await nevermined.assets.create(metadataGenerator('Test2', userId), publisher),
             DDO
         )
         assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test2'), publisher),
+            await nevermined.assets.create(metadataGenerator('Test2', userId), publisher),
             DDO
         )
         assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test3'), publisher),
+            await nevermined.assets.create(metadataGenerator('Test3', userId), publisher),
             DDO
         )
     })

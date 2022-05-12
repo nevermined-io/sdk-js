@@ -1,20 +1,42 @@
 import { assert } from 'chai'
-import { Account, Nevermined } from '../../src'
+import { Account, Nevermined, MetaData } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-
-let nevermined: Nevermined
-let account1: Account
-let account2: Account
+import { decodeJwt } from 'jose'
 
 describe('Agreement Store Manager', () => {
+    let nevermined: Nevermined
+
+    let account1: Account
+    let account2: Account
+
+    let newMetadata: (token: string) => MetaData
+
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
+
+        // Accounts
         ;[account1, account2] = await nevermined.accounts.list()
+
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            account1
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        newMetadata = (token: string) => {
+            const metadata = getMetadata(0)
+            const jwtPayload = decodeJwt(token)
+            metadata.userId = jwtPayload.sub
+            return metadata
+        }
     })
 
     it('should get agreements for did', async () => {
-        const ddo = await nevermined.assets.create(getMetadata(), account1)
+        const ddo = await nevermined.assets.create(
+            newMetadata(config.marketplaceAuthToken),
+            account1
+        )
 
         let agreements = await nevermined.agreements.getAgreements(ddo.id)
         const num = agreements.length

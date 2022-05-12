@@ -119,7 +119,10 @@ describe('AaveCredit', () => {
             ddo = await nevermined.assets.resolve(did)
         } else {
             const [account1] = await nevermined.accounts.list()
-            await nevermined.utils.jwt.generateClientAssertion(account1)
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                account1
+            )
+            await nevermined.marketplace.login(clientAssertion)
             const payload = decodeJwt(config.marketplaceAuthToken)
             const marketplace = getMetadata()
             marketplace.userId = payload.sub

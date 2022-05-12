@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { Account, DDO, Nevermined, utils } from '../../src'
 import {
     ConditionState,
@@ -157,8 +158,18 @@ describe('NFTTemplates E2E', () => {
                 collector2.getId()
             )
 
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                artist
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
             ddo = await nevermined.assets.createNft(
-                getMetadata(),
+                metadata,
                 artist,
                 assetRewards1,
                 undefined,

@@ -43,7 +43,7 @@ jobs:
         export KEEPER_VERSION=v1.99.9
         export GATEWAY_VERSION=develop
         export COMPUTE_API_VERSION=latest
-        export METADATA_VERSION=latest
+        export MARKETPLACE_API_VERSION=latest
         ./start_nevermined.sh --marketplace-api --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
 
         cd ..

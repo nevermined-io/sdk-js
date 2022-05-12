@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
@@ -21,6 +22,7 @@ describe('Nfts721 operations', async () => {
     let ddo: DDO
 
     let token: Token
+    let payload: JWTPayload
 
     before(async () => {
         TestContractHandler.setConfig(config)
@@ -32,14 +34,21 @@ describe('Nfts721 operations', async () => {
 
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+        payload = decodeJwt(config.marketplaceAuthToken)
         ;({ token } = nevermined)
     })
 
     describe('with default token', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                metadata,
                 artist,
                 new AssetRewards(),
                 nft.options.address
@@ -80,9 +89,11 @@ describe('Nfts721 operations', async () => {
 
     describe('with custom token', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                metadata,
                 artist,
                 new AssetRewards(),
                 nft.options.address,
@@ -124,9 +135,11 @@ describe('Nfts721 operations', async () => {
 
     describe('with ether', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                metadata,
                 artist,
                 new AssetRewards(
                     artist.getId(),

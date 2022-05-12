@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
+import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
@@ -42,10 +43,18 @@ describe('NFTs Api End-to-End', () => {
 
     let initialBalances: any
     let scale: BigNumber
+    let payload: JWTPayload
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        payload = decodeJwt(config.marketplaceAuthToken)
+
+        metadata.userId = payload.sub
 
         // conditions
         ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
@@ -233,8 +242,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints the nfts', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 cappedAmount,
                 royalties,
@@ -291,8 +302,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints one nft', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 1,
                 royalties,
