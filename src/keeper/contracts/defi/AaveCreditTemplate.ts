@@ -81,8 +81,12 @@ export class AaveCreditTemplate extends BaseTemplate {
         if (!withdraw) throw new Error('withdraw collateral Condition not found!')
         if (!distributeNft) throw new Error('distributeNft Condition not found!')
 
-        const _collateralAmount = web3Utils.toWei(collateralAmount.toString(), 'ether').toString()
-        const _delegatedAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether').toString()
+        const _collateralAmount = web3Utils
+            .toWei(collateralAmount.toString(), 'ether')
+            .toString()
+        const _delegatedAmount = web3Utils
+            .toWei(delegatedAmount.toString(), 'ether')
+            .toString()
         return this.createFullAgreementData(
             agreementIdSeed,
             ddo.shortId(),

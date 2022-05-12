@@ -346,6 +346,7 @@ export interface AdditionalInformation {
 }
 
 export interface MetaData {
+    userId?: string
     main: MetaDataMain
     encryptedFiles?: string
     additionalInformation?: AdditionalInformation

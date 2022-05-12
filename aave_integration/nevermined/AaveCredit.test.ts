@@ -21,6 +21,7 @@ import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import BigNumber from 'bignumber.js'
+import { decodeJwt } from 'jose'
 
 chai.use(chaiAsPromised)
 
@@ -76,7 +77,7 @@ describe('AaveCredit', () => {
 
     before(async () => {
         // startBlock = await web3.eth.getBlockNumber()
-        // await TestContractHandler.prepareContracts()
+        await TestContractHandler.prepareContracts()
 
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee
@@ -117,8 +118,13 @@ describe('AaveCredit', () => {
         if (did) {
             ddo = await nevermined.assets.resolve(did)
         } else {
+            const [account1] = await nevermined.accounts.list()
+            await nevermined.utils.jwt.generateClientAssertion(account1)
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const marketplace = getMetadata()
+            marketplace.userId = payload.sub
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                marketplace,
                 borrower,
                 new AssetRewards(),
                 nft721Wrapper.address
@@ -431,10 +437,11 @@ describe('AaveCredit', () => {
                 assert.strictEqual(daiFee, daiAfter.minus(daiBefore).toNumber())
 
                 assert.isTrue(
-                    ethBalanceAfter.minus(ethBalanceBefore)
-                    .minus(collateralAmount)
-                    .isGreaterThan(new BigNumber(0))
-                    )
+                    ethBalanceAfter
+                        .minus(ethBalanceBefore)
+                        .minus(collateralAmount)
+                        .isGreaterThan(new BigNumber(0))
+                )
             }
         })
 

@@ -41,6 +41,8 @@ export class DDO {
      */
     public id: string = null
 
+    public userId: string
+
     public created: string
 
     public publicKey: PublicKey[] = []

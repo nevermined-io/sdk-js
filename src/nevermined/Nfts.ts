@@ -451,7 +451,9 @@ export class Nfts extends Instantiable {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
                 c => c.name === 'nftHolder'
             )
-            return !cond ? null : cond.parameters.find(p => p.name === '_contractAddress').value
+            return !cond
+                ? null
+                : cond.parameters.find(p => p.name === '_contractAddress').value
         }
         return null
     }

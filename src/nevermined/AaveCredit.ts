@@ -169,7 +169,7 @@ export class AaveCredit extends Instantiable {
         delegatedAmount: number,
         interestRateMode: number,
         from: Account,
-        useWethGateway: boolean=false,
+        useWethGateway: boolean = false,
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
@@ -185,12 +185,18 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             did = agreementData.did
         }
-        const _collateralAmount = web3Utils.toWei(collateralAmount.toString(), 'ether').toString()
-        const _delegatedAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether').toString()
+        const _collateralAmount = web3Utils
+            .toWei(collateralAmount.toString(), 'ether')
+            .toString()
+        const _delegatedAmount = web3Utils
+            .toWei(delegatedAmount.toString(), 'ether')
+            .toString()
         // console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
         const _value = useWethGateway ? _collateralAmount.toString() : '0'
         if (!useWethGateway) {
-            this.logger.log(`sending erc20Token.approve for token ${collateralAsset} because we are not using the WethGateway.`)
+            this.logger.log(
+                `sending erc20Token.approve for token ${collateralAsset} because we are not using the WethGateway.`
+            )
             const erc20Token = await CustomToken.getInstanceByAddress(
                 this.instanceConfig,
                 collateralAsset

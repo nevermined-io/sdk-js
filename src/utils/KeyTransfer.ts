@@ -167,13 +167,13 @@ export class KeyTransfer {
         const k = await this.ecdh(providerK, buyerPub)
         const cipher = mimcsponge.hash(orig1, orig2, k)
         const origHash = poseidon([orig1, orig2])
-        const F = this.F
+        const { F } = this
 
         function conv(x) {
             const res = F.toObject(x)
             return res
         }
-    
+
         /* eslint @typescript-eslint/camelcase: "off" */
         const snarkParams = {
             xL_in: orig1,

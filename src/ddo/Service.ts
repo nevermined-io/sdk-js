@@ -1,9 +1,6 @@
 import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
-import {
-    AaveConditionType,
-    ServiceAaveCredit
-} from '../keeper/contracts/defi/Service'
+import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
 
 export type ConditionType =
     | 'lockPayment'

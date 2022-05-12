@@ -40,7 +40,11 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
         if (!nevermined.keeper.dispenser) {
             metadata = await getMetadata(0)
         } else {
-            metadata = await getMetadataForDTP('foo' + Math.random(), origPasswd, providerKey)
+            metadata = await getMetadataForDTP(
+                'foo' + Math.random(),
+                origPasswd,
+                providerKey
+            )
         }
     })
 
