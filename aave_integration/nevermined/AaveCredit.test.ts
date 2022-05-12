@@ -21,6 +21,7 @@ import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import BigNumber from 'bignumber.js'
+import { decodeJwt } from 'jose'
 
 chai.use(chaiAsPromised)
 
@@ -119,8 +120,16 @@ describe('AaveCredit', () => {
         if (did) {
             ddo = await nevermined.assets.resolve(did)
         } else {
+            const [account1] = await nevermined.accounts.list()
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                account1
+            )
+            await nevermined.marketplace.login(clientAssertion)
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const marketplace = getMetadata()
+            marketplace.userId = payload.sub
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                marketplace,
                 borrower,
                 new AssetRewards(),
                 nft721Wrapper.address

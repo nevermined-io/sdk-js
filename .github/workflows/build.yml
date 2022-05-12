@@ -47,7 +47,7 @@ jobs:
         export KEEPER_VERSION=v1.99.9
         export GATEWAY_VERSION=develop
         export COMPUTE_API_VERSION=latest
-        export METADATA_VERSION=latest
+        export MARKETPLACE_API_VERSION=latest
         ./start_nevermined.sh --marketplace-api --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
 
         cd ..
@@ -97,7 +97,7 @@ jobs:
         export GATEWAY_VERSION=v0.99.1
         export COMPUTE_API_VERSION=latest
         export METADATA_VERSION=latest
-        ./start_nevermined.sh --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
+        ./start_nevermined.sh --marketplace-api --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
         cd ..
         ./scripts/wait-nevermined-external.sh
     - name: Run aave integration test

@@ -13,7 +13,7 @@ class EthSignJWT extends SignJWT {
     }
 
     async ethSign(
-        account: Account,
+        address: string,
         signatureUtils: SignatureUtils,
         web3: Web3
     ): Promise<string> {
@@ -28,10 +28,8 @@ class EthSignJWT extends SignJWT {
         )
         const data = this.concat(encodedHeader, encoder.encode('.'), encodedPayload)
 
-        const sign = await signatureUtils.signText(decoder.decode(data), account.getId())
-        const signed = this.base64url(
-            Uint8Array.from(web3.utils.hexToBytes(sign).slice(0, 64))
-        )
+        const sign = await signatureUtils.signText(decoder.decode(data), address)
+        const signed = this.base64url(Uint8Array.from(web3.utils.hexToBytes(sign)))
         const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
             encodedPayload
         )}.${signed}`
@@ -94,13 +92,25 @@ export class JwtUtils extends Instantiable {
         })
     }
 
+    public async generateClientAssertion(account: Account) {
+        const address = this.web3.utils.toChecksumAddress(account.getId())
+        return new EthSignJWT({
+            iss: address
+        })
+            .setProtectedHeader({ alg: 'ES256K' })
+            .setIssuedAt()
+            .setExpirationTime('1h')
+            .ethSign(address, this.nevermined.utils.signature, this.web3)
+    }
+
     public async generateAccessGrantToken(
         account: Account,
         serviceAgreementId: string,
         did: string
     ): Promise<string> {
+        const address = this.web3.utils.toChecksumAddress(account.getId())
         return new EthSignJWT({
-            iss: account.getId(),
+            iss: address,
             aud: this.BASE_AUD + '/access',
             sub: serviceAgreementId,
             did: did,
@@ -109,7 +119,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(account, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateAccessProofToken(
@@ -117,27 +127,29 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         did: string
     ): Promise<string> {
+        const address = this.web3.utils.toChecksumAddress(account.getId())
         return new EthSignJWT({
-            iss: account.getId(),
+            iss: address,
             aud: this.BASE_AUD + '/access-proof',
             sub: serviceAgreementId,
             did: did,
-            babysig: await account.signBabyjub(BigInt(account.getId())),
+            babysig: await account.signBabyjub(BigInt(address)),
             buyer: account.getPublic(),
             eths: 'personal'
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(account, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateDownloadGrantToken(
         account: Account,
         did: string
     ): Promise<string> {
+        const address = this.web3.utils.toChecksumAddress(account.getId())
         return new EthSignJWT({
-            iss: account.getId(),
+            iss: address,
             aud: this.BASE_AUD + '/download',
             did: did,
             eths: 'personal'
@@ -145,7 +157,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(account, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateExecuteGrantToken(
@@ -153,8 +165,9 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         workflowId: string
     ): Promise<string> {
+        const address = this.web3.utils.toChecksumAddress(account.getId())
         return new EthSignJWT({
-            iss: account.getId(),
+            iss: address,
             aud: this.BASE_AUD + '/execute',
             sub: serviceAgreementId,
             did: workflowId,
@@ -163,7 +176,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(account, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateComputeGrantToken(
@@ -171,8 +184,9 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         executionId: string
     ): Promise<string> {
+        const address = this.web3.utils.toChecksumAddress(account.getId())
         return new EthSignJWT({
-            iss: account.getId(),
+            iss: address,
             aud: this.BASE_AUD + '/compute',
             sub: serviceAgreementId,
             eths: 'personal',
@@ -181,7 +195,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(account, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateNftAccessGrantToken(
@@ -189,8 +203,9 @@ export class JwtUtils extends Instantiable {
         did: string,
         account: Account
     ): Promise<string> {
+        const address = this.web3.utils.toChecksumAddress(account.getId())
         const params = {
-            iss: account.getId(),
+            iss: address,
             aud: this.BASE_AUD + '/nft-access',
             sub: agreementId,
             did,
@@ -201,6 +216,6 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(account, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 }

@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, ProvenanceMethod, utils } from '../../src'
@@ -23,13 +24,23 @@ describe('Provenance', () => {
         // Accounts
         ;[publisher, intermediary] = await nevermined.accounts.list()
 
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
         if (!nevermined.keeper.dispenser) {
             newMetadata = () => getMetadata(0)
         }
     })
 
     it('should be able to get the provenance data from a new asset', async () => {
-        ddo = await nevermined.assets.create(newMetadata(), publisher)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+        const metadata = newMetadata()
+        metadata.userId = payload.sub
+
+        ddo = await nevermined.assets.create(metadata, publisher)
         const provenance = await nevermined.provenance.getProvenanceEntry(ddo.shortId())
 
         assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))

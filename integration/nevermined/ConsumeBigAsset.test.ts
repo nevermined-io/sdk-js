@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import * as fs from 'fs'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -25,11 +26,19 @@ describe.skip('Consume Asset (Large size)', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
         if (!nevermined.keeper.dispenser) {
             baseMetadata = getMetadata(0)
         }
         metadata = {
             ...baseMetadata,
+            userId: payload.sub,
             main: {
                 ...baseMetadata.main,
                 files: [

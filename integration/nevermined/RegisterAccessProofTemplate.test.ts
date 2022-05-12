@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 
@@ -303,6 +304,16 @@ describe('Register Escrow Access Proof Template', () => {
                 data.toString('hex'),
                 providerKey
             )
+
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                publisher
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            metadata.userId = payload.sub
+
             ddo = await nevermined.assets.create(metadata, publisher, undefined, [
                 'access-proof'
             ])

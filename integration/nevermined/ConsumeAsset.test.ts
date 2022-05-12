@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import * as fs from 'fs'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
@@ -28,11 +29,20 @@ describe('Consume Asset', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
         assetRewards = getAssetRewards(publisher.getId())
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
         }
+
+        metadata.userId = payload.sub
     })
 
     it('should register an asset', async () => {
