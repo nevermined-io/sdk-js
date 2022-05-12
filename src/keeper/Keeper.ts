@@ -117,7 +117,7 @@ export class Keeper extends Instantiable {
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
-                aaveCreditTemplate: undefined // optional
+                aaveCreditTemplate: AaveCreditTemplate.getInstance(config) // optional
             })
 
             const templates = [
