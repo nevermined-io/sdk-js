@@ -3,6 +3,7 @@ import { Account, Nevermined, MetaData } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
+import { generateId } from '../../src/utils'
 
 describe('Agreement Store Manager', () => {
     let nevermined: Nevermined
@@ -47,8 +48,13 @@ describe('Agreement Store Manager', () => {
         const agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 
         agreements = await nevermined.agreements.getAgreements(ddo.id)
+
         assert.isNotEmpty(agreements)
         assert.equal(agreements.length, 1 + num)
-        assert.equal(agreements[num].agreementId, agreementId)
+        const agreementFound = agreements.find(a => a.agreementId === agreementId)
+
+        assert.isTrue(agreementFound != undefined)
+        assert.equal(agreementFound.agreementId, agreementId)
+
     })
 })

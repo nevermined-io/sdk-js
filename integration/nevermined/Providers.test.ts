@@ -10,10 +10,6 @@ describe('Providers operations', () => {
     let account2: Account
     let ddo: DDO
 
-    // let newMetadata = () => {
-    //     const getMetadata()
-    // }
-
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
@@ -29,10 +25,6 @@ describe('Providers operations', () => {
         const metadata = getMetadata(0)
         const payload = decodeJwt(config.marketplaceAuthToken)
         metadata.userId = payload.sub
-
-        // if (!nevermined.keeper.dispenser) {
-        //     newMetadata = () => getMetadata(0)
-        // }
 
         ddo = await nevermined.assets.create(metadata, account1)
     })
