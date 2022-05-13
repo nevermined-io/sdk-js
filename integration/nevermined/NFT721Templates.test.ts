@@ -708,8 +708,12 @@ describe('NFT721Templates E2E', () => {
             const nftContract = await TestContractHandler.deployArtifact(ERC721)
             nft = await nevermined.contracts.loadNft721(nftContract.options.address)
 
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
             ddo = await nevermined.assets.createNft721(
-                getMetadata(),
+                metadata,
                 artist,
                 assetRewards1,
                 'PSK-RSA',
