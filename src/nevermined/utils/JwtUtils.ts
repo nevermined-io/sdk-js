@@ -15,7 +15,8 @@ class EthSignJWT extends SignJWT {
     async ethSign(
         address: string,
         signatureUtils: SignatureUtils,
-        web3: Web3
+        web3: Web3,
+        isEtherSign: boolean = false
     ): Promise<string> {
         const encoder = new TextEncoder()
         const decoder = new TextDecoder()
@@ -29,9 +30,14 @@ class EthSignJWT extends SignJWT {
         const data = this.concat(encodedHeader, encoder.encode('.'), encodedPayload)
 
         const sign = await signatureUtils.signText(decoder.decode(data), address)
-        const signed = this.base64url(
-            Uint8Array.from(web3.utils.hexToBytes(sign).slice(0, 64))
-        )
+
+        let input = Uint8Array.from(web3.utils.hexToBytes(sign))
+
+        if (!isEtherSign) {
+            input = input.slice(0, 64)
+        }
+
+        const signed = this.base64url(input)
         const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
             encodedPayload
         )}.${signed}`
@@ -102,7 +108,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3, true)
     }
 
     public async generateAccessGrantToken(
