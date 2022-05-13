@@ -29,7 +29,9 @@ class EthSignJWT extends SignJWT {
         const data = this.concat(encodedHeader, encoder.encode('.'), encodedPayload)
 
         const sign = await signatureUtils.signText(decoder.decode(data), address)
-        const signed = this.base64url(Uint8Array.from(web3.utils.hexToBytes(sign)))
+        const signed = this.base64url(
+            Uint8Array.from(web3.utils.hexToBytes(sign).slice(0, 64))
+        )
         const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
             encodedPayload
         )}.${signed}`
