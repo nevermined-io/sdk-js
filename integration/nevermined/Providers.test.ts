@@ -10,7 +10,9 @@ describe('Providers operations', () => {
     let account2: Account
     let ddo: DDO
 
-    let newMetadata = () => getMetadata()
+    // let newMetadata = () => {
+    //     const getMetadata()
+    // }
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -24,15 +26,15 @@ describe('Providers operations', () => {
 
         await nevermined.marketplace.login(clientAssertion)
 
-        if (!nevermined.keeper.dispenser) {
-            newMetadata = () => getMetadata(0)
-        }
-
-        const metadata = newMetadata()
+        const metadata = getMetadata(0)
         const payload = decodeJwt(config.marketplaceAuthToken)
         metadata.userId = payload.sub
 
-        ddo = await nevermined.assets.create(newMetadata(), account1)
+        // if (!nevermined.keeper.dispenser) {
+        //     newMetadata = () => getMetadata(0)
+        // }
+
+        ddo = await nevermined.assets.create(metadata, account1)
     })
 
     it('should add and remove providers addresses', async () => {

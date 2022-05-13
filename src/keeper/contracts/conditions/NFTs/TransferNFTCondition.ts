@@ -119,6 +119,7 @@ export class TransferNFTCondition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockPaymentCondition: string,
+        transferAsset: boolean = true,
         from?: Account,
         params?: TxParameters
     ) {
@@ -129,7 +130,8 @@ export class TransferNFTCondition extends Condition {
                 zeroX(nftHolder),
                 zeroX(nftReceiver),
                 String(nftAmount),
-                lockPaymentCondition
+                lockPaymentCondition,
+                transferAsset
             ],
             from,
             params,

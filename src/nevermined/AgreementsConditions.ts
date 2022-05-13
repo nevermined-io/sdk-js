@@ -720,6 +720,7 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             nftAmount,
             lockPaymentConditionId,
+            true,
             from,
             params
         )
