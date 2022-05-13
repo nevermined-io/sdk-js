@@ -1,0 +1,14 @@
+name: Push documentation to docs repo
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v*
+
+jobs:
+  push-to-docs:
+    uses: nevermined-io/reusable-workflows/.github/workflows/push-to-docs.yml@main
+    with:
+      path-to-push: external/sdk-js
+    secrets: inherit
