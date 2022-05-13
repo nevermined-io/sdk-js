@@ -299,7 +299,7 @@ export abstract class AgreementTemplate extends ContractBase {
                 _conditionIds: true,
                 _conditionIdSeeds: true,
                 _timeLocks: true,
-                _timeOuts: true
+                _timeOuts: true,
             }
         })
         return res

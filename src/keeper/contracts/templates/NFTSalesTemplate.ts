@@ -169,13 +169,14 @@ export class NFTSalesTemplate extends BaseTemplate {
 
         const transferNftConditionId = await transferNftCondition.generateIdWithSeed(
             agreementId,
-            await transferNftCondition.hashValues2(
+            await transferNftCondition.hashValuesComplete(
                 ddo.shortId(),
                 nftHolder,
                 consumer,
                 nftAmount,
                 lockPaymentConditionId[1],
-                this.nevermined.keeper.nftUpgradeable.address
+                this.nevermined.keeper.nftUpgradeable.address,
+                true
             )
         )
 

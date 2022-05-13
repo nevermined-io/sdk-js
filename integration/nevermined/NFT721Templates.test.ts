@@ -318,6 +318,7 @@ describe('NFT721Templates E2E', () => {
                     collector1.getId(),
                     conditionIdLockPayment[1],
                     nft.address,
+                    true,
                     artist
                 )
                 await nft.setApprovalForAll(
@@ -610,6 +611,7 @@ describe('NFT721Templates E2E', () => {
                     collector2.getId(),
                     conditionIdLockPayment2[1],
                     nft.address,
+                    true,
                     collector1
                 )
 

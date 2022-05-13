@@ -3,6 +3,7 @@ import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import { triggerAsyncId } from 'async_hooks'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -20,12 +21,13 @@ export class TransferNFT721Condition extends Condition {
     }
 
     /**
-     * Generates the ash of condition inputs.
+     * Generates the hash of condition inputs.
      * @param {String} did The DID of the asset with NFTs.
      * @param {String} nftReceiver The address of the granted user or the DID provider.
      * @param {String} nftHolder The address of the Holder of the NFT.
      * @param {String} lockCondition Lock condition identifier.
      * @param {String} nftTokenAddress The address of the NFT token to use.
+     * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
      * @returns Hash of all the values
      */
     public hashValues(
@@ -33,7 +35,8 @@ export class TransferNFT721Condition extends Condition {
         nftHolder: string,
         nftReceiver: string,
         lockCondition: string,
-        nftTokenAddress: string
+        nftTokenAddress: string,
+        willBeTransferred: boolean = true
     ) {
         return super.hashValues(
             didZeroX(did),
@@ -41,7 +44,8 @@ export class TransferNFT721Condition extends Condition {
             zeroX(nftReceiver),
             String(1),
             lockCondition,
-            nftTokenAddress
+            nftTokenAddress,
+            willBeTransferred
         )
     }
 
@@ -54,6 +58,7 @@ export class TransferNFT721Condition extends Condition {
      * @param {String} nftReceiver The address of the account to receive the NFT.
      * @param {String} lockPaymentCondition lock payment condition identifier.
      * @param {String} nftTokenAddress address of the nft token to use.
+     * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
      * @param {String} from
      * @returns Condition state.
      */
@@ -63,6 +68,7 @@ export class TransferNFT721Condition extends Condition {
         nftReceiver: string,
         lockPaymentCondition: string,
         nftTokenAddress: string,
+        willBeTransferred: boolean = true,
         from?: Account,
         txParams?: TxParameters
     ) {
@@ -73,7 +79,8 @@ export class TransferNFT721Condition extends Condition {
                 zeroX(nftReceiver),
                 String(1),
                 lockPaymentCondition,
-                nftTokenAddress
+                nftTokenAddress,
+                willBeTransferred
             ],
             from,
             txParams

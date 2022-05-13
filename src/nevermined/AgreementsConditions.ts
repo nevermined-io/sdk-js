@@ -794,6 +794,7 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             lockPaymentConditionId,
             transfer.parameters.find(p => p.name === '_contract').value as string,
+            true,
             publisher,
             txParams
         )
