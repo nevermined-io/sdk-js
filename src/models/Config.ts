@@ -79,6 +79,8 @@ export class Config {
     public graphHttpUri?: string
 
     public aaveConfig?: AaveConfig
+
+    public artifactsFolder?: string
 }
 
 export default Config

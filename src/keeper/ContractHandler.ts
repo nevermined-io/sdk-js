@@ -41,14 +41,16 @@ export default class ContractHandler extends Instantiable {
     public async get(
         what: string,
         optional: boolean = false,
-        address?: string
+        address?: string,
+        artifactsFolder?: string
     ): Promise<Contract> {
         const where = (await KeeperUtils.getNetworkName(this.web3)).toLowerCase()
         const networkId = await KeeperUtils.getNetworkId(this.web3)
         try {
+            this.logger.debug(`ContractHandler :: GET :: ${artifactsFolder}`)
             return (
                 ContractHandler.getContract(what, networkId, address) ||
-                (await this.load(what, where, networkId, address))
+                (await this.load(what, where, networkId, address, artifactsFolder))
             )
         } catch (err) {
             if (!optional) {
@@ -58,9 +60,16 @@ export default class ContractHandler extends Instantiable {
         }
     }
 
-    public async getVersion(contractName: string): Promise<string> {
+    public async getVersion(
+        contractName: string,
+        artifactsFolder?: string
+    ): Promise<string> {
         const where = (await KeeperUtils.getNetworkName(this.web3)).toLowerCase()
-        const artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
+        let artifact
+        if (artifactsFolder === undefined)
+            artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
+        else artifact = require(`${artifactsFolder}/${contractName}.${where}.json`)
+
         return artifact.version
     }
 
@@ -68,11 +77,15 @@ export default class ContractHandler extends Instantiable {
         what: string,
         where: string,
         networkId: number,
-        address?: string
+        address?: string,
+        artifactsFolder?: string
     ): Promise<Contract> {
-        this.logger.debug('Loading', what, 'from', where)
-        const artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
-        // Logger.log('Loaded artifact', artifact)
+        this.logger.debug('Loading', what, 'from', where, 'and folder', artifactsFolder)
+        let artifact
+        if (artifactsFolder === undefined)
+            artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
+        else artifact = require(`${artifactsFolder}/${what}.${where}.json`)
+
         const _address = address ? address : artifact.address
         const code = await this.web3.eth.getCode(_address)
         if (code === '0x0') {

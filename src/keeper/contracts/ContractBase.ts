@@ -52,10 +52,17 @@ export abstract class ContractBase extends Instantiable {
     protected async init(config: InstantiableConfig, optional: boolean = false) {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
-        this.contract = await contractHandler.get(this.contractName, optional)
-
+        this.contract = await contractHandler.get(
+            this.contractName,
+            optional,
+            undefined,
+            config.artifactsFolder
+        )
         try {
-            this.version = await contractHandler.getVersion(this.contractName)
+            this.version = await contractHandler.getVersion(
+                this.contractName,
+                config.artifactsFolder
+            )
         } catch {
             this.logger.warn(`${this.contractName} not available on this network.`)
         }
