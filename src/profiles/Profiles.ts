@@ -1,5 +1,6 @@
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 import { NewProfile, Profile } from '../profiles/Profiles.interfaces'
+import { HttpError, ApiError } from '../errors'
 
 const profilePath = '/api/v1/metadata/profiles'
 
@@ -22,17 +23,12 @@ export class Profiles extends MarketplaceApi {
                 return response.json() as Promise<Profile>
             }
 
-            this.logger.error(
-                'Create profile fail:',
-                response.status,
-                response.statusText,
-                newProfile
+            throw new HttpError(
+                `Create profile fail - ${response.statusText} ${response.url}`,
+                response.status
             )
-
-            return null
         } catch (error) {
-            this.logger.error('Error creating profile: ', error)
-            return null
+            throw new ApiError(error)
         }
     }
 
@@ -55,17 +51,12 @@ export class Profiles extends MarketplaceApi {
                 return response.json() as Promise<Profile>
             }
 
-            this.logger.error(
-                'Update profile fail:',
-                response.status,
-                response.statusText,
-                profile
+            throw new HttpError(
+                `Update profile fail - ${response.statusText} ${response.url}`,
+                response.status
             )
-
-            return null
         } catch (error) {
-            this.logger.error('Error updating profile: ', error)
-            return null
+            throw new ApiError(error)
         }
     }
 
@@ -79,16 +70,12 @@ export class Profiles extends MarketplaceApi {
                 return response.json() as Promise<Profile>
             }
 
-            this.logger.error(
-                `Find profile with userId ${userId} fail:`,
-                response.status,
-                response.statusText
+            throw new HttpError(
+                `Find profile with userId ${userId} fail - ${response.statusText} ${response.url}`,
+                response.status
             )
-
-            return null
         } catch (error) {
-            this.logger.error(`Error getting profile with userID ${userId}: `, error)
-            return null
+            throw new ApiError(error)
         }
     }
 
@@ -102,16 +89,12 @@ export class Profiles extends MarketplaceApi {
                 return response.json() as Promise<Profile>
             }
 
-            this.logger.error(
-                `Find profile with address ${address} fail:`,
-                response.status,
-                response.statusText
+            throw new HttpError(
+                `Find profile with address ${address} fail - ${response.statusText} ${response.url}`,
+                response.status
             )
-
-            return null
         } catch (error) {
-            this.logger.error(`Error getting profile with address ${address}: `, error)
-            return null
+            throw new ApiError(error)
         }
     }
 
@@ -125,16 +108,12 @@ export class Profiles extends MarketplaceApi {
                 return response.json() as Promise<Profile>
             }
 
-            this.logger.error(
-                `Find profile with userId ${userId} fail:`,
-                response.status,
-                response.statusText
+            throw new HttpError(
+                `Disable profile with userId ${userId} fail - ${response.statusText} ${response.url}`,
+                response.status
             )
-
-            return null
         } catch (error) {
-            this.logger.error(`Error getting profile with userID ${userId}: `, error)
-            return null
+            throw new ApiError(error)
         }
     }
 }

@@ -11,14 +11,13 @@ import {
     generateId,
     zeroX,
     didZeroX,
-    getAssetRewardsFromService,
-    findServiceConditionByName
+    getAssetRewardsFromService
 } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 import { ServiceAgreementTemplate } from '../ddo/ServiceAgreementTemplate'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { GenericAccess } from '../keeper/contracts/templates/GenericAccess'
+import { AssetError } from '../errors'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -922,7 +921,7 @@ export class Assets extends Instantiable {
         const { files } = attributes.main
 
         if (!serviceEndpoint) {
-            throw new Error(
+            throw new AssetError(
                 'Consume asset failed, service definition is missing the `serviceEndpoint`.'
             )
         }
@@ -971,12 +970,10 @@ export class Assets extends Instantiable {
         consumerAccount: Account
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
-        const { attributes } = ddo.findServiceByType('metadata')
         const { serviceEndpoint } = ddo.findServiceByType('access-proof')
-        const { files } = attributes.main
 
         if (!serviceEndpoint) {
-            throw new Error(
+            throw new AssetError(
                 'Consume asset failed, service definition is missing the `serviceEndpoint`.'
             )
         }
@@ -985,8 +982,7 @@ export class Assets extends Instantiable {
             did,
             agreementId,
             serviceEndpoint,
-            consumerAccount,
-            files
+            consumerAccount
         )
     }
 
@@ -1030,7 +1026,7 @@ export class Assets extends Instantiable {
             )
 
             if (!agreementId) {
-                throw Error(`Error creating ${serviceType} agreement`)
+                throw new AssetError(`Error creating ${serviceType} agreement`)
             }
 
             return agreementId
@@ -1187,7 +1183,7 @@ export class Assets extends Instantiable {
         const { serviceEndpoint, index } = ddo.findServiceByType('access')
 
         if (!serviceEndpoint) {
-            throw new Error(
+            throw new AssetError(
                 'Consume asset failed, service definition is missing the `serviceEndpoint`.'
             )
         }

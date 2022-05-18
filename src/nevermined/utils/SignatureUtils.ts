@@ -1,4 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { Web3Error } from '../../errors'
 
 export class SignatureUtils extends Instantiable {
     constructor(config: InstantiableConfig) {
@@ -19,16 +20,14 @@ export class SignatureUtils extends Instantiable {
             return await this.web3.eth.personal.sign(text, publicKey, password)
         } catch (e) {
             if (isMetaMask) {
-                throw e
+                throw new Web3Error(e)
             }
             this.logger.warn('Error on personal sign.')
             this.logger.warn(e)
             try {
                 return await this.web3.eth.sign(text, publicKey)
             } catch (e2) {
-                this.logger.error('Error on sign.')
-                this.logger.error(e2)
-                throw new Error('Error executing personal sign')
+                throw new Web3Error(`Error executing personal sign - ${e}`)
             }
         }
     }

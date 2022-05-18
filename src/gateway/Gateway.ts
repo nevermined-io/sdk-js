@@ -3,6 +3,7 @@ import Account from '../nevermined/Account'
 import { noZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ReadStream } from 'fs'
+import { GatewayError, HttpError } from '../errors'
 
 const apiPath = '/api/v1/gateway/services'
 
@@ -132,8 +133,7 @@ export class Gateway extends Instantiable {
                 decodeURI(JSON.stringify(args))
             )
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('HTTP request failed')
+            throw new GatewayError(e)
         }
     }
 
@@ -177,9 +177,7 @@ export class Gateway extends Instantiable {
                         headers
                     )
                 } catch (e) {
-                    this.logger.error('Error consuming assets')
-                    this.logger.error(e)
-                    throw e
+                    throw new GatewayError(`Error consuming assets - ${e}`)
                 }
             })
         await Promise.all(filesPromises)
@@ -190,8 +188,7 @@ export class Gateway extends Instantiable {
         did: string,
         agreementId: string,
         serviceEndpoint: string,
-        account: Account,
-        files: MetaDataFile[]
+        account: Account
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string
@@ -216,9 +213,7 @@ export class Gateway extends Instantiable {
         try {
             return await this.nevermined.utils.fetch.downloadUrl(consumeUrl, headers)
         } catch (e) {
-            this.logger.error('Error consuming assets')
-            this.logger.error(e)
-            throw e
+            throw new GatewayError(`Error consuming assets - ${e}`)
         }
     }
 
@@ -241,12 +236,14 @@ export class Gateway extends Instantiable {
                 decodeURI(JSON.stringify(args))
             )
             if (!response.ok) {
-                throw new Error('HTTP request failed')
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
             }
             return await response.text()
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('HTTP request failed')
+            throw new GatewayError(e)
         }
     }
 
@@ -262,12 +259,14 @@ export class Gateway extends Instantiable {
                 decodeURI(JSON.stringify(payload))
             )
             if (!response.ok) {
-                throw new Error('HTTP request failed')
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
             }
             return await response.text()
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('HTTP request failed')
+            throw new GatewayError(e)
         }
     }
 
@@ -303,12 +302,14 @@ export class Gateway extends Instantiable {
                 headers
             )
             if (!response.ok) {
-                throw new Error('HTTP request failed')
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
             }
             return await response.json()
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('HTTP request failed')
+            throw new GatewayError(e)
         }
     }
 
@@ -346,9 +347,7 @@ export class Gateway extends Instantiable {
                         headers
                     )
                 } catch (e) {
-                    this.logger.error('Error consuming assets')
-                    this.logger.error(e)
-                    throw e
+                    throw new GatewayError(`Error consuming assets - ${e}`)
                 }
             })
         await Promise.all(filesPromises)
@@ -386,12 +385,14 @@ export class Gateway extends Instantiable {
             )
 
             if (!response.ok) {
-                throw new Error('HTTP request failed')
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
             }
             return await response.text()
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('HTTP request failed')
+            throw new GatewayError(e)
         }
     }
 
@@ -426,12 +427,14 @@ export class Gateway extends Instantiable {
             )
 
             if (!response.ok) {
-                throw new Error('HTTP request failed')
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
             }
             return await response.text()
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('HTTP request failed')
+            throw new GatewayError(e)
         }
     }
 
@@ -452,12 +455,14 @@ export class Gateway extends Instantiable {
                 })
             )
             if (!response.ok) {
-                throw new Error(await response.text())
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
             }
             return true
         } catch (e) {
-            this.logger.error(e)
-            throw new Error(e)
+            throw new GatewayError(e)
         }
     }
 
@@ -471,7 +476,7 @@ export class Gateway extends Instantiable {
         )
 
         if (!response.ok) {
-            throw new Error(await response.text())
+            throw new HttpError(`${response.statusText} ${response.url}`, response.status)
         }
 
         const jsonPayload = await response.json()

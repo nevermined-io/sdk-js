@@ -5,6 +5,7 @@ import ContractHandler from '../ContractHandler'
 import Account from '../../nevermined/Account'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { KeeperError } from '../../errors'
 
 export interface TxParameters {
     value?: string
@@ -57,7 +58,7 @@ export abstract class ContractBase extends Instantiable {
         try {
             this.version = await contractHandler.getVersion(this.contractName)
         } catch {
-            this.logger.warn(`${this.contractName} not available on this network.`)
+            throw new KeeperError(`${this.contractName} not available on this network.`)
         }
 
         const eventEmitter = new EventHandler()
@@ -193,6 +194,7 @@ export abstract class ContractBase extends Instantiable {
                     }
                 } catch (err) {
                     // no eip-1559 support
+                    throw new KeeperError(err)
                 }
             }
 
@@ -263,16 +265,14 @@ export abstract class ContractBase extends Instantiable {
                     value: args[i]
                 }
             })
-            this.logger.error('-'.repeat(40))
-            this.logger.error(
-                `Sending transaction "${name}" on contract "${this.contractName}" failed.`
-            )
-            this.logger.error(`Error: ${err.message}`)
-            this.logger.error(`From: ${from}`)
-            this.logger.error(`Parameters: ${JSON.stringify(mappedArgs, null, 2)}`)
-            if (value) this.logger.error(`Value: ${value}`)
-            this.logger.error('-'.repeat(40))
-            throw err
+            throw new KeeperError(`
+                ${'-'.repeat(40)}\n
+                Sending transaction "${name}" on contract "${this.contractName}" failed.\n
+                Error: ${err.message}\n
+                From: ${from}\n
+                Parameters: ${JSON.stringify(mappedArgs, null, 2)}\n
+                ${'-'.repeat(40)}
+            `)
         }
     }
 
@@ -288,11 +288,9 @@ export abstract class ContractBase extends Instantiable {
             const method = this.contract.methods[name](...args)
             return await method.call(from ? { from } : null)
         } catch (err) {
-            this.logger.error(
-                `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args}`,
-                err
+            throw new KeeperError(
+                `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`
             )
-            throw err
         }
     }
 
@@ -306,7 +304,7 @@ export abstract class ContractBase extends Instantiable {
         const foundMethod =
             methods.find(({ inputs }) => inputs.length === args.length) || methods[0]
         if (!foundMethod) {
-            throw new Error(
+            throw new KeeperError(
                 `Method "${methodName}" is not part of contract "${this.contractName}"`
             )
         }

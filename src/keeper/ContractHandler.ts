@@ -1,6 +1,7 @@
 import { Contract } from 'web3-eth-contract'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import * as KeeperUtils from './utils'
+import { KeeperError } from '../errors/KeeperError'
 
 export default class ContractHandler extends Instantiable {
     protected static getContract(what: string, networkId: number, address?: string) {
@@ -52,8 +53,7 @@ export default class ContractHandler extends Instantiable {
             )
         } catch (err) {
             if (!optional) {
-                this.logger.error('Failed to load', what, 'from', where, err)
-                throw err
+                throw new KeeperError(`Failed to load ${what} from ${where} - ${err}`)
             }
         }
     }

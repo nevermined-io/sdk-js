@@ -4,6 +4,7 @@ import Balance from '../models/Balance'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { KeeperError } from '../errors'
 
 /**
  * Account information.
@@ -133,13 +134,12 @@ export default class Account extends Instantiable {
         params?: TxParameters
     ): Promise<string> {
         if (!this.nevermined.keeper.dispenser) {
-            throw new Error('Dispenser not available on this network.')
+            throw new KeeperError('Dispenser not available on this network.')
         }
         try {
             await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, params)
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('Error requesting tokens')
+            throw new KeeperError('Error requesting tokens')
         }
         return amount.toString()
     }
