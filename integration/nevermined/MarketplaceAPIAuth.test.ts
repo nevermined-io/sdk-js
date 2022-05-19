@@ -4,7 +4,7 @@ import { Nevermined, Account } from '../../src'
 
 describe('Marketplace api auth', () => {
     let nevermined: Nevermined
-    let account2: Account
+    let account1: Account
 
     before(async () => {
         try {
@@ -15,12 +15,12 @@ describe('Marketplace api auth', () => {
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts
-        ;[, account2] = await nevermined.accounts.list()
+        ;[account1] = await nevermined.accounts.list()
     })
 
     it('should login in marketplace API', async () => {
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
-            account2
+            account1
         )
 
         try {

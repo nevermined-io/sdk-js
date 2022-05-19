@@ -4,7 +4,7 @@ import { Nevermined, Account } from '../../src'
 import { NewProfile, State } from '../../src/profiles/Profiles.interfaces'
 import { faker } from '@faker-js/faker'
 
-describe('Marketplace api auth', () => {
+describe('User Profiles', () => {
     let nevermined: Nevermined
     let account2: Account
     let newProfile: NewProfile
@@ -37,7 +37,7 @@ describe('Marketplace api auth', () => {
 
         userId = response.userId // eslint-disable-line prefer-destructuring
 
-        assert.equal(response, {
+        assert.deepEqual(response, {
             ...newProfile,
             userId: userId,
             creationDate: response.creationDate,
@@ -48,7 +48,7 @@ describe('Marketplace api auth', () => {
     it('should get a profile by userId', async () => {
         const response = await nevermined.profiles.findOneByUserId(userId)
 
-        assert.equal(response, {
+        assert.deepEqual(response, {
             ...newProfile,
             userId: response.userId,
             creationDate: response.creationDate,
@@ -56,15 +56,17 @@ describe('Marketplace api auth', () => {
         })
     })
 
-    it('should get a profile by address', async () => {
-        const response = await nevermined.profiles.findOneByAddress(account2.getId())
+    it('should get a profile by address', () => {
+        setTimeout(async () => {
+            const response = await nevermined.profiles.findOneByAddress(account2.getId())
 
-        assert.equal(response, {
-            ...newProfile,
-            userId: response.userId,
-            creationDate: response.creationDate,
-            updateDate: response.updateDate
-        })
+            assert.deepEqual(response, {
+                ...newProfile,
+                userId: response.userId,
+                creationDate: response.creationDate,
+                updateDate: response.updateDate
+            })
+        }, 2000)
     })
 
     it('should update a profile by userid', async () => {
@@ -72,7 +74,7 @@ describe('Marketplace api auth', () => {
             isListed: false
         })
 
-        assert.equal(response, {
+        assert.deepEqual(response, {
             ...newProfile,
             userId: response.userId,
             isListed: false,
@@ -84,7 +86,7 @@ describe('Marketplace api auth', () => {
     it('should disable a profile by userId', async () => {
         const response = await nevermined.profiles.disableOneByUserId(userId)
 
-        assert.equal(response, {
+        assert.deepEqual(response, {
             ...newProfile,
             userId: response.userId,
             state: State.Disabled,

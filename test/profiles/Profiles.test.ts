@@ -53,7 +53,7 @@ describe('Profiles', () => {
 
     it('should create a profile', async () => {
         spy.on(nevermined.utils.fetch, 'post', () => {
-            reponsify(profile)
+            return reponsify(profile)
         })
 
         const result = await profiles.create(newProfile)
@@ -63,7 +63,7 @@ describe('Profiles', () => {
 
     it('should get a profile by userId', async () => {
         spy.on(nevermined.utils.fetch, 'get', () => {
-            reponsify(profile)
+            return reponsify(profile)
         })
 
         const result = await profiles.findOneByUserId(profile.userId)
@@ -73,7 +73,7 @@ describe('Profiles', () => {
 
     it('should get a profile by address', async () => {
         spy.on(nevermined.utils.fetch, 'get', () => {
-            reponsify(profile)
+            return reponsify(profile)
         })
 
         const result = await profiles.findOneByAddress(profile.addresses[0])
@@ -84,8 +84,8 @@ describe('Profiles', () => {
     it('should update a profile by address', async () => {
         const updatedProfile = { ...profile, isListed: false }
 
-        spy.on(nevermined.utils.fetch, 'get', () => {
-            reponsify(updatedProfile)
+        spy.on(nevermined.utils.fetch, 'put', () => {
+            return reponsify(updatedProfile)
         })
 
         const result = await profiles.update(profile.userId, { isListed: false })
@@ -96,11 +96,11 @@ describe('Profiles', () => {
     it('should disable a profile by userId', async () => {
         const disabledProfile = { ...profile, state: State.Disabled }
 
-        spy.on(nevermined.utils.fetch, 'get', () => {
-            reponsify(disabledProfile)
+        spy.on(nevermined.utils.fetch, 'delete', () => {
+            return reponsify(disabledProfile)
         })
 
-        const result = await profiles.update(profile.userId, { isListed: false })
+        const result = await profiles.disableOneByUserId(profile.userId)
 
         assert.equal(result, disabledProfile)
     })

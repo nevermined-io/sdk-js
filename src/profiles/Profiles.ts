@@ -102,7 +102,13 @@ export class Profiles extends MarketplaceApi {
         const fullUrl = `${this.url}${profilePath}/${userId}`
 
         try {
-            const response = await this.nevermined.utils.fetch.get(fullUrl)
+            const response = await this.nevermined.utils.fetch.delete(
+                fullUrl,
+                undefined,
+                {
+                    Authorization: `Bearer ${this.config.marketplaceAuthToken}`
+                }
+            )
 
             if (response.ok) {
                 return response.json() as Promise<Profile>
