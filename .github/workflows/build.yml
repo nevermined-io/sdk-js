@@ -44,10 +44,10 @@ jobs:
         export GATEWAY_VERSION=develop
         export COMPUTE_API_VERSION=latest
         export MARKETPLACE_API_VERSION=latest
-        ./start_nevermined.sh --marketplace-api --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+        ./start_nevermined.sh --marketplace-api --no-marketplace --no-graph ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
 
         cd ..
-        ./scripts/wait-subgraphs.sh
+        ./scripts/wait-nevermined.sh
     - name: Run linters
       run: npm run lint
     - name: Run unit tests
@@ -57,7 +57,6 @@ jobs:
         SEED_WORDS: ${{ secrets.seedWords }}
         INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
       run: |
-        ./scripts/wait-nevermined.sh
         npm run integration:cover
     - name: Upload logs
       uses: actions/upload-artifact@v2
