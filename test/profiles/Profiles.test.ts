@@ -22,9 +22,6 @@ describe('Profiles', () => {
 
     let profile: Profile
 
-    /* eslint-disable @typescript-eslint/camelcase */
-    /* eslint-enable @typescript-eslint/camelcase */
-
     beforeEach(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[account] = await nevermined.accounts.list()
@@ -81,7 +78,7 @@ describe('Profiles', () => {
         assert.equal(result, profile)
     })
 
-    it('should update a profile by address', async () => {
+    it('should update a profile by userId', async () => {
         const updatedProfile = { ...profile, isListed: false }
 
         spy.on(nevermined.utils.fetch, 'put', () => {
