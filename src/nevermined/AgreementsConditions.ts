@@ -11,6 +11,7 @@ import { Service } from '../ddo/Service'
 import { EventOptions } from '../events/NeverminedEvent'
 import AssetRewards from '../models/AssetRewards'
 import BigNumber from 'bignumber.js'
+import { KeeperError } from '../errors/KeeperError'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -126,8 +127,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -170,8 +171,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -240,8 +241,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -320,8 +321,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -363,7 +364,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -377,7 +378,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
@@ -391,7 +392,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow condition not found!')
+        if (!escrow) throw new KeeperError('Escrow condition not found!')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
@@ -449,7 +450,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -463,7 +464,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
@@ -477,7 +478,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow condition not found!')
+        if (!escrow) throw new KeeperError('Escrow condition not found!')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
@@ -494,7 +495,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         if (!receipt.events.Fulfilled) {
-            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+            throw new KeeperError(`Failed to fulfill escrowPaymentCondition ${receipt}`)
         }
 
         return !!receipt.events.Fulfilled
@@ -630,7 +631,7 @@ export class AgreementsConditions extends Instantiable {
         const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -693,7 +694,7 @@ export class AgreementsConditions extends Instantiable {
         const salesService = ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -768,7 +769,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const nft = await this.nevermined.contracts.loadNft721(
             transfer.parameters.find(p => p.name === '_contract').value as string

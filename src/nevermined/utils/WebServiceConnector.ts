@@ -4,6 +4,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import FormData from 'form-data'
 import * as path from 'path'
 import fileDownload from 'js-file-download'
+import { HttpError } from '../../errors'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -178,9 +179,13 @@ export class WebServiceConnector extends Instantiable {
             await this.nevermined.utils.fetch._sleep(500)
         }
 
-        this.logger.error(`Error requesting [${opts.method}] ${url}`)
-        this.logger.error(`Response message: \n${await result.clone().text()}`)
-        throw result
+        throw new HttpError(
+            `Request ${opts.method} ${url} fail - ${await result.clone().text()}`,
+            result.status
+        )
+        // this.logger.error(`Error requesting [${opts.method}] ${url}`)
+        // this.logger.error(`Response message: \n${await result.clone().text()}`)
+        // throw result
 
         // if (!result.ok) {
         // }

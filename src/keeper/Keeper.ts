@@ -48,6 +48,7 @@ import { EventHandler } from '../events/EventHandler'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 import { GenericAccess } from './contracts/templates/GenericAccess'
+import { KeeperError } from '../errors'
 
 /**
  * Interface with Nevermined contracts.
@@ -142,30 +143,30 @@ export class Keeper extends Instantiable {
             keeper.connected = true
         } catch (err) {
             keeper.connected = false
-            keeper.logger.warn(
-                `'Keeper could not connect to: ${await keeper.getNetworkName()}`,
-                err.message
+            throw new KeeperError(
+                `Keeper could not connect to ${await keeper.getNetworkName()} - ${
+                    err.message
+                }`
             )
-            return
         }
 
         // Optionals
         try {
             keeper.instances.dispenser = await Dispenser.getInstance(config)
         } catch {
-            keeper.logger.warn('Dispenser not available on this network.')
+            throw new KeeperError('Dispenser not available on this network.')
         }
 
         try {
             keeper.instances.token = await Token.getInstance(config)
         } catch {
-            keeper.logger.warn('Token not available on this network.')
+            throw new KeeperError('Token not available on this network.')
         }
 
         try {
             keeper.instances.nftUpgradeable = await NFTUpgradeable.getInstance(config)
         } catch {
-            keeper.logger.warn('NFTUpgradeable not available on this network.')
+            throw new KeeperError('NFTUpgradeable not available on this network.')
         }
 
         try {
@@ -173,7 +174,7 @@ export class Keeper extends Instantiable {
                 config
             )
         } catch {
-            keeper.logger.warn('AaveCreditTemplate not available on this network.')
+            throw new KeeperError('AaveCreditTemplate not available on this network.')
         }
 
         // Main contracts

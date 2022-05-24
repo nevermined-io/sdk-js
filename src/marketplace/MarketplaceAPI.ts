@@ -1,4 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { ApiError, HttpError } from '../errors'
 
 const authPath = '/api/v1/auth'
 
@@ -24,9 +25,13 @@ export class MarketplaceApi extends Instantiable {
       try {
           const response = await this.nevermined.utils.fetch.post(`${this.url}${authPath}/login`, JSON.stringify(payload));
 
+          if (!response.ok) {
+              throw new HttpError(`Error Login - ${response.statusText} ${response.url}`, response.status)
+          }
+
           this.config.marketplaceAuthToken = (await response.json()).access_token
       } catch (error) {
-          this.logger.error( 'Error login:', error)
+          throw new ApiError(error)
       }
     }
 }

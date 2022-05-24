@@ -3,6 +3,7 @@ import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
 import { ServiceSecondary } from '../ddo/Service'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
+import { ApiError, HttpError } from '../errors'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -58,19 +59,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.text()
                 }
-                this.logger.error('Failed: ', response.status, response.statusText)
-                return null
+                throw new HttpError(
+                    `getAccessUrl Failed - ${response.statusText} ${response.url}`,
+                    response.status
+                )
             })
             .then((consumptionUrl: string): string => {
-                this.logger.error('Success accessing consume endpoint: ', consumptionUrl)
+                this.logger.log('Success accessing consume endpoint: ', consumptionUrl)
                 return consumptionUrl
             })
             .catch(error => {
-                this.logger.error(
-                    'Error fetching the data asset consumption url: ',
-                    error
-                )
-                return null
+                throw new ApiError(error)
             })
 
         return accessUrl
@@ -88,19 +87,16 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json() as DDO[]
                 }
-                this.logger.error(
-                    'queryMetadata failed:',
-                    response.status,
-                    response.statusText
+                throw new HttpError(
+                    `queryMetadata failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return this.transformResult()
             })
             .then(results => {
                 return this.transformResult(results)
             })
             .catch(error => {
-                this.logger.error('Error querying metadata: ', error)
-                return this.transformResult()
+                throw new ApiError(error)
             })
 
         return result
@@ -120,15 +116,13 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json() as ServiceSecondary[]
                 }
-                this.logger.error(
-                    'query services from metadata failed:',
-                    response.status,
-                    response.statusText
+                throw new HttpError(
+                    `queryServicesMetadata failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
             })
             .catch(error => {
-                this.logger.error('Error querying service metadata: ', error)
-                return []
+                throw new ApiError(error)
             })
 
         return result
@@ -154,19 +148,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json() as DDO[]
                 }
-                this.logger.log(
-                    'queryMetadataByText failed:',
-                    response.status,
-                    response.statusText
+
+                throw new HttpError(
+                    `queryMetadataByText failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return this.transformResult()
             })
             .then(results => {
                 return this.transformResult(results)
             })
             .catch(error => {
-                this.logger.error('Error querying metadata by text: ', error)
-                return this.transformResult()
+                throw new ApiError(error)
             })
 
         return result
@@ -186,20 +178,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.error(
-                    'updateDDO failed:',
-                    response.status,
-                    response.statusText,
-                    ddo
+
+                throw new HttpError(
+                    `updateDDO failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDO
             })
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error updating metadata: ', error)
-                return null as DDO
+                throw new ApiError(error)
             })
 
         return result
@@ -220,20 +209,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.error(
-                    'storeDDO failed:',
-                    response.status,
-                    response.statusText,
-                    ddo
+
+                throw new HttpError(
+                    `storeDDO failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDO
             })
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error storing metadata: ', error)
-                return null as DDO
+                throw new ApiError(error)
             })
 
         return result
@@ -256,20 +242,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.log(
-                    'retrieveDDO failed:',
-                    response.status,
-                    response.statusText,
-                    did
+
+                throw new HttpError(
+                    `retrieveDDO failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDO
             })
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error retrieving metadata: ', error)
-                return null as DDO
+                throw new ApiError(error)
             })
 
         return result
@@ -305,20 +288,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.log(
-                    'retrieve DDO status failed:',
-                    response.status,
-                    response.statusText,
-                    did
+
+                throw new HttpError(
+                    `status failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDOStatus
             })
             .then((response: DDOStatus) => {
                 return response as DDOStatus
             })
             .catch(error => {
-                this.logger.error('Error fetching status of DDO: ', error)
-                return null as DDOStatus
+                throw new ApiError(error)
             })
 
         return result
@@ -341,20 +321,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.log(
-                    'retrieveService failed:',
-                    response.status,
-                    response.statusText,
-                    agreementId
+
+                throw new HttpError(
+                    `retrieveService failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as ServiceSecondary
             })
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
             .catch(error => {
-                this.logger.error('Error retrieving service: ', error)
-                return null as ServiceSecondary
+                throw new ApiError(error)
             })
 
         return result
@@ -378,20 +355,17 @@ export class Metadata extends MarketplaceApi {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.error(
-                    'storeService failed:',
-                    response.status,
-                    response.statusText,
-                    agreement
+
+                throw new HttpError(
+                    `storeService failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as ServiceSecondary
             })
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
             .catch(error => {
-                this.logger.error('Error storing service: ', error)
-                throw new Error(error)
+                throw new ApiError(error)
             })
         return result
     }

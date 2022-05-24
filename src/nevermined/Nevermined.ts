@@ -9,6 +9,7 @@ import { Provenance } from './Provenance'
 import { Utils } from './utils/Utils'
 
 import { Metadata } from '../metadata/Metadata'
+import { Profiles } from '../profiles/Profiles'
 import { Gateway } from '../gateway/Gateway'
 
 import Keeper from '../keeper/Keeper'
@@ -50,6 +51,7 @@ export class Nevermined extends Instantiable {
         instance.gateway = new Gateway(instanceConfig)
         instance.marketplace = new MarketplaceApi(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)
+        instance.profiles = new Profiles(instanceConfig)
         instance.faucet = new Faucet(instanceConfig)
 
         instance.accounts = await Accounts.getInstance(instanceConfig)
@@ -100,10 +102,16 @@ export class Nevermined extends Instantiable {
     public metadata: Metadata
 
     /**
-     * marketplace instance.
-     * @type {marketplace}
+     * Marketplace instance.
+     * @type {MarketplaceApi}
      */
     public marketplace: MarketplaceApi
+
+    /**
+     * Profile
+     * @type {Profiles}
+     */
+    public profiles: Profiles
 
     /**
      * Metadata instance.
