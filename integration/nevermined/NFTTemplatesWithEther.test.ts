@@ -340,12 +340,12 @@ describe('NFTTemplates With Ether E2E', async () => {
 
                 assert.closeTo(
                     receiver0Balance.toNumber(),
-                    initialBalances.artist + amounts[0],
+                    new BigNumber(initialBalances.artist).plus(amounts[0]).toNumber(),
                     10 ** 16
                 )
                 assert.closeTo(
                     receiver1Balance.toNumber(),
-                    initialBalances.gallery + amounts[1],
+                    new BigNumber(initialBalances.gallery).plus(amounts[1]).toNumber(),
                     10 ** 16
                 )
                 assert.equal(
