@@ -3,6 +3,7 @@ import { config } from '../config'
 import { Nevermined, Account } from '../../src'
 import { NewProfile, State } from '../../src/profiles/Profiles.interfaces'
 import { faker } from '@faker-js/faker'
+import { sleep } from '../utils/utils'
 
 describe('User Profiles', () => {
     let nevermined: Nevermined
@@ -56,17 +57,16 @@ describe('User Profiles', () => {
         })
     })
 
-    it('should get a profile by address', () => {
-        setTimeout(async () => {
-            const response = await nevermined.profiles.findOneByAddress(account2.getId())
+    it('should get a profile by address', async () => {
+        await sleep(2000)
+        const response = await nevermined.profiles.findOneByAddress(account2.getId())
 
-            assert.deepEqual(response, {
-                ...newProfile,
-                userId: response.userId,
-                creationDate: response.creationDate,
-                updateDate: response.updateDate
-            })
-        }, 2000)
+        assert.deepEqual(response, {
+            ...newProfile,
+            userId: response.userId,
+            creationDate: response.creationDate,
+            updateDate: response.updateDate
+        })
     })
 
     it('should update a profile by userid', async () => {
