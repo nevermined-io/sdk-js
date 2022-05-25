@@ -1,6 +1,7 @@
 import { Contract } from 'web3-eth-contract'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
+import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
@@ -349,8 +350,11 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         let contractInstance: ContractTest
         try {
+            const networkName = (
+                await KeeperUtils.getNetworkName(this.web3)
+            ).toLowerCase()
             Logger.log('Deploying', name)
-            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
+            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.${networkName}.json`)
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
                 from,
