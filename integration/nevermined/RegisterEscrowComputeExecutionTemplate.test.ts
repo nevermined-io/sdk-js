@@ -348,8 +348,6 @@ describe('Register Escrow Compute Execution Template', () => {
                 receivers,
                 consumer.getId(),
                 ddo.shortId(),
-                consumer.getId(),
-                publisher.getId(),
                 token.getAddress(),
                 publisher
             )

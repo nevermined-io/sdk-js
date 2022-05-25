@@ -267,18 +267,12 @@ export class AgreementsConditions extends Instantiable {
         receivers: string[],
         returnAddress: string,
         did: string,
-        consumer: string,
-        publisher: string,
         erc20TokenAddress?: string,
         from?: Account,
         params?: TxParameters
     ) {
         try {
-            const {
-                escrowPaymentCondition,
-                accessCondition,
-                lockPaymentCondition
-            } = this.nevermined.keeper.conditions
+            const { escrowPaymentCondition } = this.nevermined.keeper.conditions
 
             let token
 
@@ -294,29 +288,18 @@ export class AgreementsConditions extends Instantiable {
                 )
             }
 
-            const totalAmount = AssetRewards.sumAmounts(amounts)
-
-            const conditionIdAccess = await accessCondition.generateIdHash(
-                agreementId,
-                did,
-                consumer
-            )
-            const conditionIdLock = await lockPaymentCondition.generateIdHash(
-                agreementId,
-                escrowPaymentCondition.getAddress(),
-                totalAmount
-            )
-
+            const storedAgreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+            storedAgreement.conditionIds
             const receipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 did,
                 amounts,
                 receivers,
                 returnAddress,
-                publisher,
+                escrowPaymentCondition.getAddress(),
                 token ? token.getAddress() : erc20TokenAddress,
-                conditionIdLock,
-                conditionIdAccess,
+                storedAgreement.conditionIds[1],
+                storedAgreement.conditionIds[0],
                 from,
                 params
             )

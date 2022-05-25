@@ -337,8 +337,6 @@ describe('Register Escrow Access Secret Store Template', () => {
                 receivers,
                 consumer.getId(),
                 ddo.shortId(),
-                consumer.getId(),
-                publisher.getId(),
                 token.getAddress(),
                 publisher
             )

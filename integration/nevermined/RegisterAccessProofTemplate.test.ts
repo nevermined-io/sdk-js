@@ -376,8 +376,6 @@ describe('Register Escrow Access Proof Template', () => {
                 receivers,
                 consumer.getId(),
                 ddo.shortId(),
-                consumer.getId(),
-                publisher.getId(),
                 token.getAddress(),
                 publisher
             )

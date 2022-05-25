@@ -3,7 +3,6 @@ import { mkdtempSync, writeFileSync } from 'fs'
 import { Config, Nevermined } from '../../src'
 import fetch from 'node-fetch'
 import { x } from 'tar'
-import { LogLevel } from '../../src/utils/Logger'
 
 describe('Artifacts', () => {
     const artifactsRepo = 'https://artifacts.nevermined.rocks/'
@@ -83,7 +82,7 @@ describe('Artifacts', () => {
 
             const nvm = await Nevermined.getInstance({
                 nodeUri: nodeUri,
-                artifactsFolder: tempDir,
+                artifactsFolder: tempDir
                 // verbose: LogLevel.Verbose
             } as Config)
 

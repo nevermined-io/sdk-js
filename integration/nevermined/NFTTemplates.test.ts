@@ -265,7 +265,9 @@ describe('NFTTemplates E2E', () => {
 
             it('I am locking the payment', async () => {
                 await collector1.requestTokens(nftPrice.dividedBy(scale))
-                const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
+                const escrowPaymentConditionBefore = await token.balanceOf(
+                    escrowPaymentCondition.address
+                )
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 assert.isTrue(
                     collector1BalanceBefore.isEqualTo(
@@ -308,8 +310,9 @@ describe('NFTTemplates E2E', () => {
                 )
 
                 assert.isTrue(
-                    escrowPaymentConditionBefore.plus(nftPrice)
-                    .isEqualTo(escrowPaymentConditionBalance)
+                    escrowPaymentConditionBefore
+                        .plus(nftPrice)
+                        .isEqualTo(escrowPaymentConditionBalance)
                 )
             })
 
@@ -576,7 +579,9 @@ describe('NFTTemplates E2E', () => {
 
             it('As collector2 I am locking the payment', async () => {
                 await collector2.requestTokens(nftPrice2.dividedBy(scale))
-                const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
+                const escrowPaymentConditionBefore = await token.balanceOf(
+                    escrowPaymentCondition.address
+                )
                 const collector2BalanceBefore = await token.balanceOf(collector2.getId())
                 assert.isTrue(
                     collector2BalanceBefore.isEqualTo(
@@ -776,7 +781,9 @@ describe('NFTTemplates E2E', () => {
 
         describe('As a collector I want to buy some art', () => {
             it('I am setting an agreement for buying a NFT', async () => {
-                const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
+                const escrowPaymentConditionBefore = await token.balanceOf(
+                    escrowPaymentCondition.address
+                )
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 assert.isTrue(
                     collector1BalanceBefore.isEqualTo(
