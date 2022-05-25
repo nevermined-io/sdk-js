@@ -649,6 +649,16 @@ describe('Secondary Markets', () => {
         })
 
         describe('As collector1 I want to give exclusive access to the collectors owning a specific NFT', () => {
+            let ddo2: DDO
+
+            before(async () => {
+                const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                    collector2
+                )
+
+                await nevermined.marketplace.login(clientAssertion)
+            })
+
             it('The collector2 sets up the NFT access agreement', async () => {
                 // Collector1: Create NFT access agreement
                 const result = await nftAccessTemplate.createAgreementFromDDO(
