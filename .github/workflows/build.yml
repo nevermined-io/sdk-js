@@ -45,7 +45,7 @@ jobs:
         export COMPUTE_API_VERSION=latest
         export MARKETPLACE_API_VERSION=latest
         export SUBGRAPH_VERSION=v0.3.0-rc0
-        ./start_nevermined.sh --marketplace-api --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+        ./start_nevermined.sh --marketplace-api --no-marketplace | tee nevermined_tools.txt &
 
         cd ..
         ./scripts/wait-subgraphs.sh
