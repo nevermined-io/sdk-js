@@ -17,7 +17,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 import { ServiceAgreementTemplate } from '../ddo/ServiceAgreementTemplate'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { AssetError } from '../errors'
+import { ApiError, AssetError } from '../errors'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -365,219 +365,223 @@ export class Assets extends Instantiable {
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
         return new SubscribablePromise(async observer => {
-            const { gatewayUri } = this.config
-            const { didRegistry, templates } = this.nevermined.keeper
+            try {
+                const { gatewayUri } = this.config
+                const { didRegistry, templates } = this.nevermined.keeper
 
-            // create ddo itself
-            const ddo: DDO = new DDO({
-                id: '',
-                userId: metadata.userId,
-                authentication: [
-                    {
-                        type: 'RsaSignatureAuthentication2018',
-                        publicKey: ''
-                    }
-                ],
-                publicKey: [
-                    {
-                        id: '',
-                        type: 'EthereumECDSAKey',
-                        owner: publisher.getId()
-                    }
-                ]
-            })
+                // create ddo itself
+                const ddo: DDO = new DDO({
+                    id: '',
+                    userId: metadata.userId,
+                    authentication: [
+                        {
+                            type: 'RsaSignatureAuthentication2018',
+                            publicKey: ''
+                        }
+                    ],
+                    publicKey: [
+                        {
+                            id: '',
+                            type: 'EthereumECDSAKey',
+                            owner: publisher.getId()
+                        }
+                    ]
+                })
 
-            let publicKey = await this.nevermined.gateway.getRsaPublicKey()
-            if (method == 'PSK_ECDSA') {
-                publicKey = this.nevermined.gateway.getEcdsaPublicKey()
-            }
-
-            await ddo.addService(
-                this.nevermined,
-                this.createAuthorizationService(gatewayUri, publicKey, method)
-            )
-
-            await ddo.addService(this.nevermined, {
-                type: 'metadata',
-                index: 0,
-                serviceEndpoint: '',
-                attributes: {
-                    // Default values
-                    curation: {
-                        rating: 0,
-                        numVotes: 0
-                    },
-                    // Overwrites defaults
-                    ...metadata,
-                    // Cleaning not needed information
-                    main: {
-                        ...metadata.main
-                    } as any
+                let publicKey = await this.nevermined.gateway.getRsaPublicKey()
+                if (method == 'PSK_ECDSA') {
+                    publicKey = this.nevermined.gateway.getEcdsaPublicKey()
                 }
-            } as Service)
 
-            this.logger.debug('NTF Sales Template')
-            const nftSalesServiceAgreementTemplate = await templates.nftSalesTemplate.getServiceAgreementTemplate()
-
-            await ddo.addService(
-                this.nevermined,
-                await this.createNftSalesService(
-                    metadata,
-                    publisher,
-                    nftSalesServiceAgreementTemplate
+                await ddo.addService(
+                    this.nevermined,
+                    this.createAuthorizationService(gatewayUri, publicKey, method)
                 )
-            )
 
-            this.logger.debug('NTF Access Template')
-            const nftAccessServiceAgreementTemplate = await templates.nftAccessTemplate.getServiceAgreementTemplate()
+                await ddo.addService(this.nevermined, {
+                    type: 'metadata',
+                    index: 0,
+                    serviceEndpoint: '',
+                    attributes: {
+                        // Default values
+                        curation: {
+                            rating: 0,
+                            numVotes: 0
+                        },
+                        // Overwrites defaults
+                        ...metadata,
+                        // Cleaning not needed information
+                        main: {
+                            ...metadata.main
+                        } as any
+                    }
+                } as Service)
 
-            await ddo.addService(
-                this.nevermined,
-                await this.createNftAccessService(
-                    metadata,
-                    publisher,
-                    nftAccessServiceAgreementTemplate
+                this.logger.debug('NTF Sales Template')
+                const nftSalesServiceAgreementTemplate = await templates.nftSalesTemplate.getServiceAgreementTemplate()
+
+                await ddo.addService(
+                    this.nevermined,
+                    await this.createNftSalesService(
+                        metadata,
+                        publisher,
+                        nftSalesServiceAgreementTemplate
+                    )
                 )
-            )
 
-            this.logger.log('Services Added')
-            observer.next(CreateProgressStep.ServicesAdded)
+                this.logger.debug('NTF Access Template')
+                const nftAccessServiceAgreementTemplate = await templates.nftAccessTemplate.getServiceAgreementTemplate()
 
-            ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
-
-            this.logger.log('Generating proof')
-            observer.next(CreateProgressStep.GeneratingProof)
-
-            await ddo.addProof(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
-
-            const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
-            await ddo.assignDid(didSeed, didRegistry, publisher)
-
-            await ddo.addSignature(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
-
-            this.logger.log('Proof generated')
-            observer.next(CreateProgressStep.ProofGenerated)
-
-            this.logger.log('Filling Conditions')
-            const nftAccessTemplateConditions = await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
-            nftAccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nftAccessTemplateConditions,
-                ddo,
-                assetRewards,
-                erc20TokenAddress || this.nevermined.token.getAddress(),
-                undefined,
-                publisher.getId(),
-                nftAmount
-            )
-
-            const nftSalesTemplateConditions = await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
-            nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nftSalesTemplateConditions,
-                ddo,
-                assetRewards,
-                erc20TokenAddress || this.nevermined.token.getAddress(),
-                undefined,
-                publisher.getId(),
-                nftAmount
-            )
-
-            this.logger.log('Conditions filled')
-            observer.next(CreateProgressStep.ConditionsFilled)
-
-            this.logger.log('Encrypting files')
-            observer.next(CreateProgressStep.EncryptingFiles)
-
-            let encryptedFiles
-            if (!['workflow'].includes(metadata.main.type)) {
-                if (method === 'SecretStore') {
-                    // TODO- Continue keeping the support for the secret-store client
-                    encryptedFiles = await this.nevermined.secretStore.encrypt(
-                        ddo.id,
-                        metadata.main.files,
-                        publisher
+                await ddo.addService(
+                    this.nevermined,
+                    await this.createNftAccessService(
+                        metadata,
+                        publisher,
+                        nftAccessServiceAgreementTemplate
                     )
-                } else {
-                    const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
-                        ddo.id,
-                        JSON.stringify(metadata.main.files),
-                        method
-                    )
-                    encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
+                )
+
+                this.logger.log('Services Added')
+                observer.next(CreateProgressStep.ServicesAdded)
+
+                ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
+
+                this.logger.log('Generating proof')
+                observer.next(CreateProgressStep.GeneratingProof)
+
+                await ddo.addProof(
+                    this.nevermined,
+                    publisher.getId(),
+                    publisher.getPassword()
+                )
+
+                const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
+                await ddo.assignDid(didSeed, didRegistry, publisher)
+
+                await ddo.addSignature(
+                    this.nevermined,
+                    publisher.getId(),
+                    publisher.getPassword()
+                )
+
+                this.logger.log('Proof generated')
+                observer.next(CreateProgressStep.ProofGenerated)
+
+                this.logger.log('Filling Conditions')
+                const nftAccessTemplateConditions = await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
+                nftAccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    nftAccessTemplateConditions,
+                    ddo,
+                    assetRewards,
+                    erc20TokenAddress || this.nevermined.token.getAddress(),
+                    undefined,
+                    publisher.getId(),
+                    nftAmount
+                )
+
+                const nftSalesTemplateConditions = await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
+                nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    nftSalesTemplateConditions,
+                    ddo,
+                    assetRewards,
+                    erc20TokenAddress || this.nevermined.token.getAddress(),
+                    undefined,
+                    publisher.getId(),
+                    nftAmount
+                )
+
+                this.logger.log('Conditions filled')
+                observer.next(CreateProgressStep.ConditionsFilled)
+
+                this.logger.log('Encrypting files')
+                observer.next(CreateProgressStep.EncryptingFiles)
+
+                let encryptedFiles
+                if (!['workflow'].includes(metadata.main.type)) {
+                    if (method === 'SecretStore') {
+                        // TODO- Continue keeping the support for the secret-store client
+                        encryptedFiles = await this.nevermined.secretStore.encrypt(
+                            ddo.id,
+                            metadata.main.files,
+                            publisher
+                        )
+                    } else {
+                        const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
+                            ddo.id,
+                            JSON.stringify(metadata.main.files),
+                            method
+                        )
+                        encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
+                    }
                 }
-            }
 
-            let serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
-                DID.parse(ddo.id)
-            )
+                let serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
+                    DID.parse(ddo.id)
+                )
 
-            await ddo.updateService(this.nevermined, {
-                type: 'metadata',
-                index: 0,
-                serviceEndpoint,
-                attributes: {
-                    // Default values
-                    curation: {
-                        rating: 0,
-                        numVotes: 0
-                    },
-                    // Overwrites defaults
-                    ...metadata,
-                    encryptedFiles,
-                    // Cleaning not needed information
-                    main: {
-                        ...metadata.main,
-                        files: metadata.main.files?.map((file, index) => ({
-                            ...file,
-                            index,
-                            url: undefined
-                        }))
-                    } as any
+                await ddo.updateService(this.nevermined, {
+                    type: 'metadata',
+                    index: 0,
+                    serviceEndpoint,
+                    attributes: {
+                        // Default values
+                        curation: {
+                            rating: 0,
+                            numVotes: 0
+                        },
+                        // Overwrites defaults
+                        ...metadata,
+                        encryptedFiles,
+                        // Cleaning not needed information
+                        main: {
+                            ...metadata.main,
+                            files: metadata.main.files?.map((file, index) => ({
+                                ...file,
+                                index,
+                                url: undefined
+                            }))
+                        } as any
+                    }
+                } as Service)
+
+                this.logger.log('Files encrypted')
+                observer.next(CreateProgressStep.FilesEncrypted)
+
+                this.logger.log('Storing DDO', ddo.id)
+                observer.next(CreateProgressStep.StoringDdo)
+                const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
+                this.logger.log('DDO stored')
+                observer.next(CreateProgressStep.DdoStored)
+
+                const ddoStatus = await this.nevermined.metadata.status(storedDdo.id)
+                if (ddoStatus.external) {
+                    serviceEndpoint = ddoStatus.external.url
                 }
-            } as Service)
 
-            this.logger.log('Files encrypted')
-            observer.next(CreateProgressStep.FilesEncrypted)
+                this.logger.log('Registering Mintable DID', ddo.id)
+                observer.next(CreateProgressStep.RegisteringDid)
 
-            this.logger.log('Storing DDO', ddo.id)
-            observer.next(CreateProgressStep.StoringDdo)
-            const storedDdo = await this.nevermined.metadata.storeDDO(ddo)
-            this.logger.log('DDO stored')
-            observer.next(CreateProgressStep.DdoStored)
+                await didRegistry.registerMintableDID(
+                    didSeed,
+                    ddo.checksum(ddo.shortId()),
+                    providers || [this.config.gatewayAddress],
+                    serviceEndpoint,
+                    '0x1',
+                    nftMetadata ? nftMetadata : '',
+                    cap,
+                    royalties,
+                    preMint,
+                    publisher.getId(),
+                    txParams
+                )
 
-            const ddoStatus = await this.nevermined.metadata.status(storedDdo.id)
-            if (ddoStatus.external) {
-                serviceEndpoint = ddoStatus.external.url
+                this.logger.log('Mintable DID registred')
+                observer.next(CreateProgressStep.DidRegistered)
+
+                return storedDdo
+            } catch (error) {
+                throw new ApiError(error)
             }
-
-            this.logger.log('Registering Mintable DID', ddo.id)
-            observer.next(CreateProgressStep.RegisteringDid)
-
-            await didRegistry.registerMintableDID(
-                didSeed,
-                ddo.checksum(ddo.shortId()),
-                providers || [this.config.gatewayAddress],
-                serviceEndpoint,
-                '0x1',
-                nftMetadata ? nftMetadata : '',
-                cap,
-                royalties,
-                preMint,
-                publisher.getId(),
-                txParams
-            )
-
-            this.logger.log('Mintable DID registred')
-            observer.next(CreateProgressStep.DidRegistered)
-
-            return storedDdo
         })
     }
 

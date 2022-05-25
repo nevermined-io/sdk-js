@@ -194,6 +194,8 @@ describe('Secondary Markets', () => {
                 royalties,
                 token.getAddress()
             )
+
+            console.log(ddo)
         })
 
         describe('As an artist I want to register a new artwork', () => {
