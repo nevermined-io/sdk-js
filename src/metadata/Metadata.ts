@@ -350,7 +350,9 @@ export class Metadata extends MarketplaceApi {
         const fullUrl = `${this.url}${servicePath}`
         agreement['agreementId'] = agreementId
         const result: ServiceSecondary = await this.nevermined.utils.fetch
-            .post(fullUrl, JSON.stringify(agreement))
+            .post(fullUrl, JSON.stringify(agreement), {
+                Authorization: `Bearer ${this.config.marketplaceAuthToken}`
+            })
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()
