@@ -27,7 +27,10 @@ describe('Keeper', () => {
         it('should get spree as default', async () => {
             const networkName: string = await keeper.getNetworkName()
             console.log(networkName)
-            assert(networkName.toLowerCase() === 'spree')
+            assert(
+                networkName.toLowerCase() === 'spree' ||
+                    networkName.toLowerCase() === 'polygon-localnet'
+            )
         })
     })
 })
