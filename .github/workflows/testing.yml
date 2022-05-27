@@ -48,7 +48,7 @@ jobs:
         # Disabling the compute api for now
         # Check https://github.com/nevermined-io/sdk-js/issues/33        
         
-        ./start_nevermined.sh --marketplace-api --no-marketplace 2>&1 | tee nevermined_tools.txt &
+        ./start_nevermined.sh --marketplace-api --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
         cd ..
         ./scripts/wait-nevermined.sh
         ./scripts/wait-subgraphs.sh
