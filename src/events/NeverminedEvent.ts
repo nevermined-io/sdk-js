@@ -39,9 +39,7 @@ export abstract class NeverminedEvent {
     ): ContractEventSubscription {
         const onEvent = async () => {
             const events = await this.getEventData(options)
-            if (events.length) {
-                callback(events)
-            }
+            callback(events)
         }
         this.eventEmitter.subscribe(onEvent, () => this.getBlockNumber())
         return {
@@ -52,7 +50,7 @@ export abstract class NeverminedEvent {
     public async once(
         callback?: (events: EventResult[]) => void,
         options?: EventOptions
-    ) {
+    ): Promise<EventResult> {
         // Check if the event already happened and return that instead
         // before subscribing
         const events = await this.getPastEvents(options)
@@ -63,7 +61,10 @@ export abstract class NeverminedEvent {
 
         return new Promise(resolve => {
             const subscription = this.subscribe(events => {
-                subscription.unsubscribe()
+                if (events.length) {
+                    subscription.unsubscribe()
+                }
+
                 if (callback) {
                     callback(events)
                 }
