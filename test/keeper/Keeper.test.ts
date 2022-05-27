@@ -28,7 +28,7 @@ describe('Keeper', () => {
             const networkName: string = await keeper.getNetworkName()
             console.log(networkName)
             assert(
-                networkName.toLowerCase() === 'spree' ||
+                networkName.toLowerCase() === 'development' ||
                     networkName.toLowerCase() === 'polygon-localnet'
             )
         })
