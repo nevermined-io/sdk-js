@@ -205,6 +205,11 @@ export class AgreementsConditions extends Instantiable {
             }
         }
         const ev = await accessProofCondition.events.once(events => events, evOptions)
+
+        if (!ev.length) {
+            throw new KeeperError('No events are returned')
+        }
+
         const [cipherL, cipherR] = ev[0].returnValues
             ? ev[0].returnValues._cipher
             : ev[0]._cipher
@@ -288,7 +293,9 @@ export class AgreementsConditions extends Instantiable {
                 )
             }
 
-            const storedAgreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+            const storedAgreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+                agreementId
+            )
             storedAgreement.conditionIds
             const receipt = await escrowPaymentCondition.fulfill(
                 agreementId,
