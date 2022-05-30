@@ -2,6 +2,7 @@ import { Contract } from 'web3-eth-contract'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import * as KeeperUtils from './utils'
 import { KeeperError } from '../errors/KeeperError'
+import fs from 'fs'
 
 export default class ContractHandler extends Instantiable {
     protected static getContract(what: string, networkId: number, address?: string) {
@@ -65,10 +66,16 @@ export default class ContractHandler extends Instantiable {
         artifactsFolder?: string
     ): Promise<string> {
         const where = (await KeeperUtils.getNetworkName(this.web3)).toLowerCase()
+        let artifactFile
         let artifact
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
-        else artifact = require(`${artifactsFolder}/${contractName}.${where}.json`)
+        else {
+            artifactFile = fs.readFileSync(
+                `${artifactsFolder}/${contractName}.${where}.json`
+            )
+            artifact = JSON.parse(artifactFile)
+        }
 
         return artifact.version
     }
@@ -81,10 +88,14 @@ export default class ContractHandler extends Instantiable {
         artifactsFolder?: string
     ): Promise<Contract> {
         this.logger.debug('Loading', what, 'from', where, 'and folder', artifactsFolder)
+        let artifactFile
         let artifact
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
-        else artifact = require(`${artifactsFolder}/${what}.${where}.json`)
+        else {
+            artifactFile = fs.readFileSync(`${artifactsFolder}/${what}.${where}.json`)
+            artifact = JSON.parse(artifactFile)
+        }
 
         const _address = address ? address : artifact.address
         const code = await this.web3.eth.getCode(_address)
