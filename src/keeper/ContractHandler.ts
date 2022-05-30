@@ -2,7 +2,7 @@ import { Contract } from 'web3-eth-contract'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import * as KeeperUtils from './utils'
 import { KeeperError } from '../errors/KeeperError'
-import fs from 'fs'
+import * as fs from 'fs'
 
 export default class ContractHandler extends Instantiable {
     protected static getContract(what: string, networkId: number, address?: string) {
