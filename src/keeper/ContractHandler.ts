@@ -2,7 +2,14 @@ import { Contract } from 'web3-eth-contract'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import * as KeeperUtils from './utils'
 import { KeeperError } from '../errors/KeeperError'
-import * as fs from 'fs'
+import { ApiError } from '../errors/ApiError'
+
+let fetch
+if (typeof window !== 'undefined') {
+    fetch = window.fetch.bind(window)
+} else {
+    fetch = require('node-fetch')
+}
 
 export default class ContractHandler extends Instantiable {
     protected static getContract(what: string, networkId: number, address?: string) {
@@ -66,15 +73,13 @@ export default class ContractHandler extends Instantiable {
         artifactsFolder?: string
     ): Promise<string> {
         const where = (await KeeperUtils.getNetworkName(this.web3)).toLowerCase()
-        let artifactFile
         let artifact
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
         else {
-            artifactFile = fs.readFileSync(
+            artifact = await this.fetchJson(
                 `${artifactsFolder}/${contractName}.${where}.json`
             )
-            artifact = JSON.parse(artifactFile)
         }
 
         return artifact.version
@@ -88,13 +93,11 @@ export default class ContractHandler extends Instantiable {
         artifactsFolder?: string
     ): Promise<Contract> {
         this.logger.debug('Loading', what, 'from', where, 'and folder', artifactsFolder)
-        let artifactFile
         let artifact
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
         else {
-            artifactFile = fs.readFileSync(`${artifactsFolder}/${what}.${where}.json`)
-            artifact = JSON.parse(artifactFile)
+            artifact = await this.fetchJson(`${artifactsFolder}/${what}.${where}.json`)
         }
 
         const _address = address ? address : artifact.address
@@ -118,5 +121,24 @@ export default class ContractHandler extends Instantiable {
             return ContractHandler.getContract(what, networkId)
         }
         return contract
+    }
+
+    private async fetchJson(path) {
+        try {
+            const jsonFile = await fetch(path, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+
+            if (jsonFile.ok) {
+                return jsonFile.json()
+            }
+
+            throw new ApiError(`Error to fetch json file from url ${path}`)
+        } catch (error) {
+            throw new KeeperError(error)
+        }
     }
 }
