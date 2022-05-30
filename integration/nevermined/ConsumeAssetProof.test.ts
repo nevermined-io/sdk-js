@@ -27,6 +27,7 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
 
     let metadata: MetaData
     before(async () => {
+        config.graphHttpUri = undefined
         nevermined = await Nevermined.getInstance(config)
         keyTransfer = await makeKeyTransfer()
 
