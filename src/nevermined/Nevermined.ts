@@ -11,6 +11,7 @@ import { Utils } from './utils/Utils'
 import { Metadata } from '../metadata/Metadata'
 import { Profiles } from '../profiles/Profiles'
 import { Bookmarks } from '../bookmarks/Bookmarks'
+import { Permissions } from '../permissions/Permissions'
 import { Gateway } from '../gateway/Gateway'
 
 import Keeper from '../keeper/Keeper'
@@ -54,6 +55,7 @@ export class Nevermined extends Instantiable {
         instance.metadata = new Metadata(instanceConfig)
         instance.profiles = new Profiles(instanceConfig)
         instance.bookmarks = new Bookmarks(instanceConfig)
+        instance.permissions = new Permissions(instanceConfig)
         instance.faucet = new Faucet(instanceConfig)
 
         instance.accounts = await Accounts.getInstance(instanceConfig)
@@ -120,6 +122,12 @@ export class Nevermined extends Instantiable {
      * @type {Bookmarks}
      */
     public bookmarks: Bookmarks
+
+    /**
+     * Permissions instance
+     * @type {Permissions}
+     */
+    public permissions: Permissions
 
     /**
      * Metadata instance.

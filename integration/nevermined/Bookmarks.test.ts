@@ -12,9 +12,6 @@ describe('Bookmarks', () => {
     let id: string
 
     before(async () => {
-        try {
-            localStorage.clear()
-        } catch {}
         config.marketplaceAuthToken = undefined
 
         nevermined = await Nevermined.getInstance(config)
@@ -90,18 +87,16 @@ describe('Bookmarks', () => {
     it('should delete a bookmark by id', async () => {
         await nevermined.bookmarks.deleteOneById(id)
 
-        setTimeout(async () => {
-            const response = await nevermined.bookmarks.findManyByUserId(
-                newBookmark.userId
-            )
+        await sleep(1000)
 
-            /* eslint-disable @typescript-eslint/camelcase */
-            assert.deepEqual(response, {
-                page: 1,
-                total_pages: 1,
-                total_results: 1,
-                results: []
-            })
-        }, 2000)
+        const response = await nevermined.bookmarks.findManyByUserId(newBookmark.userId)
+
+        /* eslint-disable @typescript-eslint/camelcase */
+        assert.deepEqual(response, {
+            page: 1,
+            total_pages: 1,
+            total_results: 1,
+            results: []
+        })
     })
 })

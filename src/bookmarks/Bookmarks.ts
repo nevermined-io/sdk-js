@@ -2,6 +2,8 @@ import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 import { NewBookmark, Bookmark } from './Bookmarks.interfaces'
 import { HttpError, ApiError } from '../errors'
 import { MarketplaceResults } from '../common/interfaces'
+import { SearchQuery } from '../common/interfaces'
+import { buildQuery } from '../common/helpers'
 
 const bookmarkPath = '/api/v1/ugc/bookmarks'
 
@@ -58,8 +60,11 @@ export class Bookmarks extends MarketplaceApi {
     /**
      * Get bookmarks by userId
      */
-    public async findManyByUserId(userId: string): Promise<MarketplaceResults<Bookmark>> {
-        const fullUrl = `${this.url}${bookmarkPath}/user/${userId}`
+    public async findManyByUserId(
+        userId: string,
+        query?: SearchQuery
+    ): Promise<MarketplaceResults<Bookmark>> {
+        const fullUrl = buildQuery(`${this.url}${bookmarkPath}/user/${userId}`, query)
 
         try {
             const response = await this.nevermined.utils.fetch.get(fullUrl)

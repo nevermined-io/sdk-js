@@ -10,7 +10,7 @@ import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
 import { Nft721 } from './nevermined/Nft721'
 import { Accounts } from './nevermined/Accounts'
-import { SearchQuery } from './metadata/Metadata'
+import { SearchQuery } from './common/interfaces'
 
 // Exports
 export * from './ddo/DDO'
@@ -28,6 +28,13 @@ export {
 export { AgreementTemplate } from './keeper/contracts/templates'
 export { Condition, ConditionState } from './keeper/contracts/conditions'
 export { ClientError } from './errors'
+export { Bookmark, NewBookmark } from './bookmarks/Bookmarks.interfaces'
+export { Profile, NewProfile, State } from './profiles/Profiles.interfaces'
+export {
+    Permission,
+    NewPermission,
+    PermissionType
+} from './permissions/Permissions.interfaces'
 
 import * as events from './events'
 import * as subgraphs from './subgraphs'

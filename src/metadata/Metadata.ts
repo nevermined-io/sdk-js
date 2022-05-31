@@ -1,9 +1,10 @@
-import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
 import { ServiceSecondary } from '../ddo/Service'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 import { ApiError, HttpError } from '../errors'
+import { SearchQuery } from '../common/interfaces'
+import { buildQuery } from '../common/helpers'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -13,15 +14,6 @@ export interface QueryResult {
     page: number
     totalPages: number
     totalResults: number
-}
-
-export interface SearchQuery {
-    text?: string
-    offset?: number
-    page?: number
-    query: { [property: string]: string | number | string[] | number[] }
-    sort?: { [jsonPath: string]: string }
-    show_unlisted?: boolean
 }
 
 export interface DDOStatus {
@@ -134,14 +126,7 @@ export class Metadata extends MarketplaceApi {
      * @return {Promise<QueryResult>}
      */
     public async queryMetadataByText(query: SearchQuery): Promise<QueryResult> {
-        const fullUrl = new URL(`${this.url}${apiPath}/query`)
-        fullUrl.searchParams.append('text', query.text)
-        fullUrl.searchParams.append(
-            'sort',
-            decodeURIComponent(JSON.stringify(query.sort))
-        )
-        fullUrl.searchParams.append('offset', query.offset.toString())
-        fullUrl.searchParams.append('page', query.page.toString())
+        const fullUrl = buildQuery(`${this.url}${apiPath}/query`, query)
         const result: QueryResult = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
