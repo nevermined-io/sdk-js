@@ -19,3 +19,10 @@ ganache*
 .editorconfig
 .eslintrc
 SQUID_INTERFACE.md
+
+
+# Exclude jsii outdir
+dist
+
+# Include .jsii
+!.jsii
