@@ -1,5 +1,5 @@
 import { TransactionReceipt } from 'web3-core'
-import { SearchQuery } from '../metadata/Metadata'
+import { SearchQuery } from '../common/interfaces'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
 import { Service, ServiceType } from '../ddo/Service'
