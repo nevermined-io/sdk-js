@@ -5,6 +5,7 @@ import FormData from 'form-data'
 import * as path from 'path'
 import fileDownload from 'js-file-download'
 import { HttpError } from '../../errors'
+import { URL } from 'whatwg-url'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -23,7 +24,7 @@ export class WebServiceConnector extends Instantiable {
     }
 
     public post(
-        url: string,
+        url: string | URL,
         payload: BodyInit,
         headers: { [header: string]: string } = {}
     ): Promise<Response> {
@@ -89,11 +90,12 @@ export class WebServiceConnector extends Instantiable {
         if (!response.ok) {
             throw new Error('Response error.')
         }
-        let filename: string
+        let filename: string | undefined
         try {
-            filename = response.headers
-                .get('content-disposition')
-                .match(/attachment;filename=(.+)/)[1]
+            // eslint-disable-next-line prefer-destructuring
+            filename = response?.headers
+                ?.get('content-disposition')
+                ?.match(/attachment;filename=(.+)/)?.[1]
         } catch {
             try {
                 filename = url.split('/').pop()
@@ -114,10 +116,10 @@ export class WebServiceConnector extends Instantiable {
             })
         } else {
             const buff = await response.arrayBuffer()
-            fileDownload(buff, filename)
+            fileDownload(buff, filename || '')
             destination = process.cwd()
         }
-        const d = path.join(destination, filename)
+        const d = path.join(destination, filename || '')
         this.logger.log(`Downloaded: ${d}`)
         return d
     }
@@ -164,7 +166,7 @@ export class WebServiceConnector extends Instantiable {
     }
 
     private async fetch(
-        url: string,
+        url: string | URL,
         opts: RequestInit,
         numberTries: number = 1
     ): Promise<Response> {

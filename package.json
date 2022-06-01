@@ -93,6 +93,7 @@
     "@types/node": "^12.19.8",
     "@types/node-fetch": "^2.5.7",
     "@types/temp": "^0.8.34",
+    "@types/whatwg-url": "^8.2.1",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "auto-changelog": "^1.16.4",
@@ -132,8 +133,7 @@
     "@nevermined-io/subgraphs",
     "assert",
     "bignumber.js",
-    "circom",
-    "circomlib",
+    "circomlibjs",
     "codegen-graph-ts",
     "crypto-browserify",
     "deprecated-decorator",
@@ -152,7 +152,10 @@
     "web3",
     "web3-eth-contract",
     "web3-utils",
-    "whatwg-url"
+    "whatwg-url",
+    "circomlibjs",
+    "ethers",
+    "save-file"
   ],
   "nyc": {
     "include": [
@@ -207,10 +210,17 @@
   "browser": {
     "fs": false
   },
-  "stability": "experimental",
+  "stability": "stable",
   "types": "index.d.ts",
   "jsii": {
-    "outdir": "dist",
+    "excludeTypescript": [
+      "**/*.test.ts"
+    ],
+    "tsc": {
+      "outDir": "./dist/node/",
+      "rootDir": "./src/"
+    },
+    "outdir": "dist/node",
     "versionFormat": "short",
     "targets": {
       "python": {
