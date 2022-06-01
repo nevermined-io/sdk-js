@@ -1,7 +1,7 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import { SearchQuery } from '../../src/metadata/Metadata'
+import { SearchQuery } from '../../src/common/interfaces'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 
