@@ -20,6 +20,7 @@ describe('User Profiles', () => {
         nevermined = await Nevermined.getInstance(config)
         account3 = (await nevermined.accounts.list())[2] // eslint-disable-line prefer-destructuring
 
+        //TODO admin token which will expire in within 3 years. In the future a admin account will be created in elasticsearch directly to run theses tests
         config.marketplaceAuthToken =
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweGUyREQwOWQ3MTlEYTg5ZTVhM0QwRjI1NDljN0UyNDU2NmU5NDcyNjAiLCJzdWIiOiJ1LWU2YzI2NDhjLTIwZjktNDJlMC1iMWZlLWZjZWEwNzA4ODY3NyIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTY1MTI0ODM1NCwiZXhwIjoxNzUxMjUxOTU0fQ.p9fr_c_HVlJzY1cJSGDod1zMdhRCRWdExOB_UxMDrKg'
 
