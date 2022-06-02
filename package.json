@@ -40,7 +40,10 @@
     "changelog": "auto-changelog --commit-limit false && sed -i 's/keyko-io/nevermind-/nevermined-io//' CHANGELOG.md",
     "prepublishOnly": "npm run build",
     "prebuild": "npm run build:metadata",
-    "prepare": "npm run build:metadata"
+    "prepare": "npm run build:metadata",
+    "asbuild:debug": "asc assembly/index.ts --target debug",
+    "asbuild:release": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release"
   },
   "repository": {
     "type": "git",
@@ -91,11 +94,11 @@
     "@types/chai-spies": "^1.0.1",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.19.8",
-    "@types/node-fetch": "^2.5.7",
     "@types/temp": "^0.8.34",
     "@types/whatwg-url": "^8.2.1",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
+    "assemblyscript": "^0.20.7",
     "auto-changelog": "^1.16.4",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -127,36 +130,6 @@
     "webpack-cli": "^4.9.2",
     "webpack-merge": "^5.8.0"
   },
-  "bundledDependencies": [
-    "@nevermined-io/contracts",
-    "@nevermined-io/secret-store-client",
-    "@nevermined-io/subgraphs",
-    "assert",
-    "bignumber.js",
-    "circomlibjs",
-    "codegen-graph-ts",
-    "crypto-browserify",
-    "deprecated-decorator",
-    "ffjavascript",
-    "https-browserify",
-    "jose",
-    "js-file-download",
-    "node-fetch",
-    "os-browserify",
-    "path-browserify",
-    "snarkjs",
-    "stream-browserify",
-    "stream-http",
-    "url",
-    "uuid",
-    "web3",
-    "web3-eth-contract",
-    "web3-utils",
-    "whatwg-url",
-    "circomlibjs",
-    "ethers",
-    "save-file"
-  ],
   "nyc": {
     "include": [
       "src/**/*.ts"
@@ -212,21 +185,11 @@
   },
   "stability": "stable",
   "types": "index.d.ts",
-  "jsii": {
-    "excludeTypescript": [
-      "**/*.test.ts"
-    ],
-    "tsc": {
-      "outDir": "./dist/node/",
-      "rootDir": "./src/"
-    },
-    "outdir": "dist/node",
-    "versionFormat": "short",
-    "targets": {
-      "python": {
-        "distName": "sdk.core",
-        "module": "sdk.core"
-      }
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./build/release.js",
+      "types": "./build/release.d.ts"
     }
   }
 }

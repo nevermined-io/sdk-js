@@ -155,7 +155,7 @@ export class Metadata extends MarketplaceApi {
      * @return {Promise<DDO>} Final DDO.
      */
     public async updateDDO(did: DID | string, ddo: DDO): Promise<DDO> {
-        did = did && DID.parse(did)
+        did = DID.parse(did)
         const fullUrl = `${this.url}${apiPath}/${did.getDid()}`
         const result: DDO = await this.nevermined.utils.fetch
             .put(fullUrl, DDO.serialize(ddo))
@@ -216,10 +216,10 @@ export class Metadata extends MarketplaceApi {
      * @return {Promise<DDO>} DDO of the asset.
      */
     public async retrieveDDO(
-        did: DID | string,
+        did: DID | string | undefined,
         metadataServiceEndpoint?: string
     ): Promise<DDO> {
-        did = did && DID.parse(did)
+        did = DID.parse(did || '')
         const fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
         const result = await this.nevermined.utils.fetch
             .get(fullUrl)
@@ -244,7 +244,7 @@ export class Metadata extends MarketplaceApi {
     }
 
     public async delete(did: DID | string) {
-        did = did && DID.parse(did)
+        did = DID.parse(did)
         const result = await this.nevermined.utils.fetch.delete(
             `${this.url}${apiPath}/${did.getDid()}`
         )
@@ -264,7 +264,7 @@ export class Metadata extends MarketplaceApi {
         did: DID | string,
         metadataServiceEndpoint?: string
     ): Promise<DDOStatus> {
-        did = did && DID.parse(did)
+        did = DID.parse(did)
         const fullUrl =
             metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}/status`
         const result = await this.nevermined.utils.fetch
@@ -370,7 +370,7 @@ export class Metadata extends MarketplaceApi {
         }
     ): QueryResult {
         return {
-            results: (results || []).map(ddo => new DDO(ddo as DDO)),
+            results: (results || []).map((ddo: DDO) => new DDO(ddo)),
             page,
             totalPages,
             totalResults

@@ -1,11 +1,12 @@
 import { BodyInit, RequestInit, Response } from 'node-fetch'
-import fs, { ReadStream } from 'fs'
+import * as fs from 'fs'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import FormData from 'form-data'
+import * as FormData from 'form-data'
 import * as path from 'path'
 import fileDownload from 'js-file-download'
 import { HttpError } from '../../errors'
 import { URL } from 'whatwg-url'
+import {} from 'node-fetch'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -39,7 +40,7 @@ export class WebServiceConnector extends Instantiable {
     }
 
     public get(
-        url: string,
+        url: string | URL,
         headers: { [header: string]: string } = {}
     ): Promise<Response> {
         return this.fetch(url, {
@@ -134,7 +135,7 @@ export class WebServiceConnector extends Instantiable {
 
     public async uploadFile(
         url: string,
-        stream: ReadStream,
+        stream: fs.ReadStream,
         encrypt?: boolean
     ): Promise<any> {
         const form = new FormData()
