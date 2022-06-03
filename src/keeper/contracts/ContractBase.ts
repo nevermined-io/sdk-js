@@ -200,7 +200,7 @@ export abstract class ContractBase extends Instantiable {
                         type: '0x2'
                     }
                 } catch (err) {
-                    // See https://github.com/nevermined-io/sdk-js/issues/265
+                    // TODO: https://github.com/nevermined-io/sdk-js/issues/265
                     // If the error is because of no support for eip-1559, just continue
                     const chainId = await this.web3.eth.net.getId()
                     // no eip-1559 support
