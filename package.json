@@ -53,7 +53,7 @@
   "dependencies": {
     "@nevermined-io/contracts": "^2.0.0-rc5",
     "@nevermined-io/secret-store-client": "^0.0.16",
-    "@nevermined-io/subgraphs": "0.3.0-rc1",
+    "@nevermined-io/subgraphs": "0.3.0-rc2",
     "assert": "^2.0.0",
     "bignumber.js": "^9.0.2",
     "circomlibjs": "^0.1.1",

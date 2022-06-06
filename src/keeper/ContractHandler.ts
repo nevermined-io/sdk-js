@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { Contract } from 'web3-eth-contract'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import * as KeeperUtils from './utils'
@@ -77,9 +78,19 @@ export default class ContractHandler extends Instantiable {
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
         else {
-            artifact = await this.fetchJson(
-                `${artifactsFolder}/${contractName}.${where}.json`
+            this.logger.debug(
+                `Trying to fetch ${artifactsFolder}/${contractName}.${where}.json`
             )
+            if (artifactsFolder.startsWith('http'))
+                artifact = await this.fetchJson(
+                    `${artifactsFolder}/${contractName}.${where}.json`)
+            else
+                artifact = JSON.parse(
+                    fs.readFileSync(
+                        `${artifactsFolder}/${contractName}.${where}.json`,
+                        'utf8'
+                    )
+                )
         }
 
         return artifact.version
@@ -94,13 +105,22 @@ export default class ContractHandler extends Instantiable {
     ): Promise<Contract> {
         this.logger.debug('Loading', what, 'from', where, 'and folder', artifactsFolder)
         let artifact
+        this.logger.debug(`Artifacts folder: ${artifactsFolder}`)
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
         else {
-            artifact = await this.fetchJson(`${artifactsFolder}/${what}.${where}.json`)
+            if (artifactsFolder.startsWith('http'))
+                artifact = await this.fetchJson(
+                    `${artifactsFolder}/${what}.${where}.json`
+                )
+            else
+                artifact = JSON.parse(
+                    fs.readFileSync(`${artifactsFolder}/${what}.${where}.json`, 'utf8')
+                )
         }
 
         const _address = address ? address : artifact.address
+        this.logger.debug(`Loading from address ${_address}`)
         const code = await this.web3.eth.getCode(_address)
         if (code === '0x0') {
             // no code in the blockchain dude

@@ -87,10 +87,11 @@ describe('Bookmarks', () => {
     it('should delete a bookmark by id', async () => {
         await nevermined.bookmarks.deleteOneById(id)
 
-        await sleep(1000)
+        await sleep(2000)
 
         const response = await nevermined.bookmarks.findManyByUserId(newBookmark.userId)
 
+        console.log(JSON.stringify(response))
         /* eslint-disable @typescript-eslint/camelcase */
         assert.deepEqual(response, {
             page: 1,

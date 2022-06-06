@@ -11,7 +11,14 @@ describe('Artifacts', () => {
             nodeUri: 'https://matic-mumbai.chainstacklabs.com',
             networkName: ['mumbai'],
             networkId: [80001],
-            versions: ['v1.3.6'],
+            versions: ['v1.3.8'],
+            tag: 'common'
+        },
+        {
+            nodeUri: 'https://matic-mumbai.chainstacklabs.com',
+            networkName: ['mumbai'],
+            networkId: [80001],
+            versions: ['v2.0.0-rc3'],
             tag: 'common'
         },
         {
@@ -21,43 +28,6 @@ describe('Artifacts', () => {
             versions: ['v1.3.5'],
             tag: 'common'
         }
-
-        // {
-        //     nodeUri: `https://mainnet.infura.io/v3/${infuraToken}`,
-        //     networkName: ['mainnet'],
-        //     networkId: [1]
-        // },
-        // {
-        //     nodeUri: `https://rinkeby.infura.io/v3/${infuraToken}`,
-        //     networkName: ['rinkeby'],
-        //     networkId: [4]
-        // },
-        // {
-        //     nodeUri: 'http://localhost:8545',
-        //     networkName: ['spree', 'polygon-localnet', 'geth-localnet'],
-        //     networkId: [8996, 8997, 1337]
-        // },
-        // {
-        //     nodeUri: 'https://matic-mumbai.chainstacklabs.com',
-        //     networkName: ['mumbai'],
-        //     networkId: [80001]
-        // },
-        // {
-        //     nodeUri: 'https://alfajores-forno.celo-testnet.org',
-        //     networkName: ['celo-alfajores'],
-        //     networkId: [44787]
-        // },
-        // {
-        //     nodeUri: `https://polygon-mainnet.infura.io/v3/${infuraToken}`,
-        //     networkName: ['matic'],
-        //     networkId: [137]
-        // }
-        // No celo mainnet deployment
-        // {
-        //     nodeUri: 'https://forno.celo.org',
-        //     networkName: ['celo'],
-        //     networkId: [42220]
-        // }
     ]
 
     const downloadFile = async (url, path) => {
@@ -80,10 +50,13 @@ describe('Artifacts', () => {
                 cwd: tempDir
             })
 
+            // console.log(`Sleeping`)
+            // await new Promise(r => setTimeout(r, 3000))
+            // console.log(`Awake`)
+
             const nvm = await Nevermined.getInstance({
                 nodeUri: nodeUri,
                 artifactsFolder: tempDir
-                // verbose: LogLevel.Verbose
             } as Config)
 
             assert.isDefined(nvm)
