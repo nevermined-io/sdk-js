@@ -305,7 +305,6 @@ export abstract class AgreementTemplate extends ContractBase {
         return res
     }
     public async getAgreementsForDID(did: string): Promise<string[]> {
-        console.log('didZeroX', didZeroX(did))
         const res = await this.events.getPastEvents({
             eventName: 'AgreementCreated',
             methodName: 'getAgreementCreateds',
