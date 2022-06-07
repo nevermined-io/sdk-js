@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 
@@ -12,6 +13,7 @@ import {
     LockPaymentCondition
 } from '../../src/keeper/contracts/conditions'
 import { AccessTemplate } from '../../src/keeper/contracts/templates'
+import BigNumber from 'bignumber.js'
 
 describe('Register Escrow Access Secret Store Template', () => {
     let nevermined: Nevermined
@@ -21,8 +23,8 @@ describe('Register Escrow Access Secret Store Template', () => {
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
-    const totalAmount = 12
-    const amounts = [10, 2]
+    const totalAmount = new BigNumber(12)
+    const amounts = [new BigNumber(10), new BigNumber(2)]
 
     let templateManagerOwner: Account
     let publisher: Account
@@ -269,7 +271,16 @@ describe('Register Escrow Access Secret Store Template', () => {
         let ddo: DDO
 
         before(async () => {
-            ddo = await nevermined.assets.create(getMetadata(), publisher)
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                publisher
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+            ddo = await nevermined.assets.create(metadata, publisher)
         })
 
         it('should create a new agreement (short way)', async () => {
@@ -326,8 +337,6 @@ describe('Register Escrow Access Secret Store Template', () => {
                 receivers,
                 consumer.getId(),
                 ddo.shortId(),
-                consumer.getId(),
-                publisher.getId(),
                 token.getAddress(),
                 publisher
             )

@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 
 import { config } from '../config'
@@ -21,9 +22,19 @@ describe('Publisher Download Asset', () => {
         // Accounts
         ;[publisher] = await nevermined.accounts.list()
 
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
         }
+
+        metadata.userId = payload.sub
     })
 
     it('should register an asset', async () => {

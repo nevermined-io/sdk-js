@@ -9,6 +9,9 @@ import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Service } from '../ddo/Service'
 import { EventOptions } from '../events/NeverminedEvent'
+import AssetRewards from '../models/AssetRewards'
+import BigNumber from 'bignumber.js'
+import { KeeperError } from '../errors/KeeperError'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -32,7 +35,7 @@ export class AgreementsConditions extends Instantiable {
      * This is required before access can be given to the asset data.
      * @param {string}      agreementId         Agreement ID.
      * @param {string}      did                 The Asset ID.
-     * @param {number[]}    amounts             Asset amounts to distribute.
+     * @param {BigNumber[]}    amounts             Asset amounts to distribute.
      * @param {string[]}    receivers           Receivers of the rewards
      * @param {string}      erc20TokenAddress   Account of sender.
      * @param {Account}     from                Account of sender.
@@ -40,7 +43,7 @@ export class AgreementsConditions extends Instantiable {
     public async lockPayment(
         agreementId: string,
         did: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         erc20TokenAddress?: string,
         from?: Account,
@@ -67,7 +70,7 @@ export class AgreementsConditions extends Instantiable {
             )
         }
 
-        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const totalAmount = AssetRewards.sumAmounts(amounts)
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)
@@ -91,7 +94,7 @@ export class AgreementsConditions extends Instantiable {
                 ...txParams,
                 value:
                     erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
-                        ? String(totalAmount)
+                        ? totalAmount.toFixed()
                         : undefined
             }
         )
@@ -124,8 +127,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -168,8 +171,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -202,6 +205,11 @@ export class AgreementsConditions extends Instantiable {
             }
         }
         const ev = await accessProofCondition.events.once(events => events, evOptions)
+
+        if (!ev.length) {
+            throw new KeeperError('No events are returned')
+        }
+
         const [cipherL, cipherR] = ev[0].returnValues
             ? ev[0].returnValues._cipher
             : ev[0]._cipher
@@ -238,8 +246,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -260,22 +268,16 @@ export class AgreementsConditions extends Instantiable {
      */
     public async releaseReward(
         agreementId: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         returnAddress: string,
         did: string,
-        consumer: string,
-        publisher: string,
         erc20TokenAddress?: string,
         from?: Account,
         params?: TxParameters
     ) {
         try {
-            const {
-                escrowPaymentCondition,
-                accessCondition,
-                lockPaymentCondition
-            } = this.nevermined.keeper.conditions
+            const { escrowPaymentCondition } = this.nevermined.keeper.conditions
 
             let token
 
@@ -291,35 +293,26 @@ export class AgreementsConditions extends Instantiable {
                 )
             }
 
-            const totalAmount = amounts.reduce((a, b) => a + b, 0)
-
-            const conditionIdAccess = await accessCondition.generateIdHash(
-                agreementId,
-                did,
-                consumer
+            const storedAgreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+                agreementId
             )
-            const conditionIdLock = await lockPaymentCondition.generateIdHash(
-                agreementId,
-                escrowPaymentCondition.getAddress(),
-                totalAmount
-            )
-
+            storedAgreement.conditionIds
             const receipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 did,
                 amounts,
                 receivers,
                 returnAddress,
-                publisher,
+                escrowPaymentCondition.getAddress(),
                 token ? token.getAddress() : erc20TokenAddress,
-                conditionIdLock,
-                conditionIdAccess,
+                storedAgreement.conditionIds[1],
+                storedAgreement.conditionIds[0],
                 from,
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -328,7 +321,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id for the nft sale.
      * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The amounts that should have been payed.
+     * @param {BigNumber[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
      * @param {Number} nftAmount Number of nfts bought.
      * @param publisher
@@ -337,7 +330,7 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNftReward(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         returnAddress: string,
         nftAmount: number,
@@ -361,7 +354,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -375,7 +368,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
@@ -389,7 +382,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow condition not found!')
+        if (!escrow) throw new KeeperError('Escrow condition not found!')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
@@ -417,7 +410,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id for the nft sale.
      * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The amounts that should have been payed.
+     * @param {BigNumber[]} amounts The amounts that should have been payed.
      * @param {String[]} receivers The addresses that should receive the amounts.
      * @param publisher
      * @returns {Boolean} True if the funds were released successfully.
@@ -425,7 +418,7 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNft721Reward(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         returnAddress: string,
         publisher: Account,
@@ -447,7 +440,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -461,7 +454,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
@@ -475,7 +468,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow condition not found!')
+        if (!escrow) throw new KeeperError('Escrow condition not found!')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
@@ -492,7 +485,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         if (!receipt.events.Fulfilled) {
-            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+            throw new KeeperError(`Failed to fulfill escrowPaymentCondition ${receipt}`)
         }
 
         return !!receipt.events.Fulfilled
@@ -597,7 +590,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
      * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The expected that amounts that should have been payed.
+     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {Number} nftAmount The amount of nfts to transfer.
      * @param from
@@ -606,7 +599,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNft(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         nftAmount: number,
         from?: Account,
@@ -628,7 +621,7 @@ export class AgreementsConditions extends Instantiable {
         const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -661,7 +654,7 @@ export class AgreementsConditions extends Instantiable {
      *
      * @param {String} agreementId The service agreement id of the nft transfer.
      * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The expected that amounts that should have been payed.
+     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
      * @param {String[]} receivers The addresses of the expected receivers of the payment.
      * @param {Number} nftAmount The amount of nfts to transfer.
      * @param from
@@ -670,7 +663,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNftForDelegate(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         nftAmount: number,
         from?: Account,
@@ -691,7 +684,7 @@ export class AgreementsConditions extends Instantiable {
         const salesService = ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -718,6 +711,7 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             nftAmount,
             lockPaymentConditionId,
+            true,
             from,
             params
         )
@@ -738,7 +732,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNft721(
         agreementId: string,
         ddo: DDO,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         publisher: Account,
         txParams?: TxParameters
@@ -765,7 +759,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const nft = await this.nevermined.contracts.loadNft721(
             transfer.parameters.find(p => p.name === '_contract').value as string
@@ -792,6 +786,7 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             lockPaymentConditionId,
             transfer.parameters.find(p => p.name === '_contract').value as string,
+            true,
             publisher,
             txParams
         )

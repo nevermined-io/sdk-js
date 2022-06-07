@@ -96,10 +96,10 @@ export class NFTSalesTemplate extends BaseTemplate {
         await this.lockTokens(tokenAddress, amounts, from, txParams)
         observer(OrderProgressStep.ApprovedPayment)
 
-        const totalAmount = amounts.reduce((a, b) => a + b, 0)
+        const totalAmount = AssetRewards.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-                ? String(totalAmount)
+                ? totalAmount.toFixed()
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)
@@ -169,13 +169,14 @@ export class NFTSalesTemplate extends BaseTemplate {
 
         const transferNftConditionId = await transferNftCondition.generateIdWithSeed(
             agreementId,
-            await transferNftCondition.hashValues2(
+            await transferNftCondition.hashValuesComplete(
                 ddo.shortId(),
                 nftHolder,
                 consumer,
                 nftAmount,
                 lockPaymentConditionId[1],
-                this.nevermined.keeper.nftUpgradeable.address
+                this.nevermined.keeper.nftUpgradeable.address,
+                true
             )
         )
 

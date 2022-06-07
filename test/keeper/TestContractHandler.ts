@@ -1,6 +1,7 @@
 import { Contract } from 'web3-eth-contract'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
+import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
@@ -62,6 +63,12 @@ export default abstract class TestContractHandler extends ContractHandler {
             ['']
         )
 
+        const erc721 = await TestContractHandler.deployContract(
+            'NFT721Upgradeable',
+            deployerAddress,
+            []
+        )
+
         const dispenser = await TestContractHandler.deployContract(
             'Dispenser',
             deployerAddress,
@@ -85,6 +92,10 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
 
         await erc1155.methods
+            .addMinter(didRegistry.options.address)
+            .send({ from: deployerAddress })
+
+        await erc721.methods
             .addMinter(didRegistry.options.address)
             .send({ from: deployerAddress })
 
@@ -173,6 +184,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 didRegistry.options.address,
+                erc721.options.address,
                 lockPaymentCondition.options.address
             ]
         )
@@ -183,6 +195,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
+                didRegistry.options.address,
                 erc1155.options.address,
                 ZeroAddress
             ]
@@ -337,8 +350,11 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         let contractInstance: ContractTest
         try {
+            const networkName = (
+                await KeeperUtils.getNetworkName(this.web3)
+            ).toLowerCase()
             Logger.log('Deploying', name)
-            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
+            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.${networkName}.json`)
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
                 from,

@@ -5,7 +5,8 @@ import Account from './Account'
 import GenericContract from '../keeper/contracts/GenericContract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { AaveConfig } from '../models/AaveConfig'
-import { ConditionState, Nft721 } from '..'
+import { ConditionState } from '../keeper/contracts/conditions/Condition.abstract'
+import { Nft721 } from '..'
 import { AaveCreditTemplate } from '../keeper/contracts/defi/AaveCreditTemplate'
 import { didZeroX, generateId, zeroX } from '../utils'
 import { AgreementData } from '../keeper/contracts/managers'
@@ -168,6 +169,7 @@ export class AaveCredit extends Instantiable {
         delegatedAmount: number,
         interestRateMode: number,
         from: Account,
+        useWethGateway: boolean = false,
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
@@ -183,13 +185,29 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             did = agreementData.did
         }
-        const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
-        )
-        const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+        const _collateralAmount = web3Utils
+            .toWei(collateralAmount.toString(), 'ether')
+            .toString()
+        const _delegatedAmount = web3Utils
+            .toWei(delegatedAmount.toString(), 'ether')
+            .toString()
         // console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
+        const _value = useWethGateway ? _collateralAmount.toString() : '0'
+        if (!useWethGateway) {
+            this.logger.log(
+                `sending erc20Token.approve for token ${collateralAsset} because we are not using the WethGateway.`
+            )
+            const erc20Token = await CustomToken.getInstanceByAddress(
+                this.instanceConfig,
+                collateralAsset
+            )
+            await erc20Token.approve(
+                this.nevermined.keeper.conditions.aaveCollateralDepositCondition.address,
+                new BigNumber(web3Utils.toWei(collateralAmount.toString(), 'ether')),
+                from
+            )
+        }
+
         const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
             agreementId,
             did,
@@ -200,7 +218,7 @@ export class AaveCredit extends Instantiable {
             _delegatedAmount,
             interestRateMode,
             from,
-            { value: _collateralAmount.toString() }
+            { value: _value }
         )
         const {
             state: stateDeposit
@@ -236,7 +254,7 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             did = agreementData.did
         }
-        const amount = new BigNumber(web3Utils.toWei(delegatedAmount.toString(), 'ether'))
+        const amount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
         console.log(
             `about to borrow ${delegatedAsset}: amountWei=${amount}, delegatedAmount=${delegatedAmount}`
         )
@@ -289,15 +307,15 @@ export class AaveCredit extends Instantiable {
         )
         const totalDebt = await this.getTotalActualDebt(agreementId, from, vaultAddress)
         const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
-        const weiAllowanceAmount = Number(
+        const weiAllowanceAmount = new BigNumber(
             web3Utils.toWei(allowanceAmount.toString(), 'ether')
         )
 
         // Verify that the borrower has sufficient balance for the repayment
         const weiBalance = await erc20Token.balanceOf(from.getId())
-        if (weiBalance < weiAllowanceAmount) {
+        if (weiBalance.comparedTo(weiAllowanceAmount) === -1) {
             this.logger.warn(
-                `borrower does not have enough balance to repay the debt: 
+                `borrower does not have enough balance to repay the debt:
                 token=${delegatedAsset}, weiBalance=${weiBalance}, totalDebt(wei)=${weiAllowanceAmount}`
             )
             return false
@@ -309,9 +327,7 @@ export class AaveCredit extends Instantiable {
             from
         )
 
-        const weiAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+        const weiAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
         // use the aaveRepayCondition to apply the repayment
         const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
             agreementId,

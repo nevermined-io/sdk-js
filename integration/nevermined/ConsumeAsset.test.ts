@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import * as fs from 'fs'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
@@ -7,6 +8,7 @@ import { getAssetRewards, getMetadata } from '../utils'
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
+import BigNumber from 'bignumber.js'
 
 describe('Consume Asset', () => {
     let nevermined: Nevermined
@@ -27,11 +29,20 @@ describe('Consume Asset', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
         assetRewards = getAssetRewards(publisher.getId())
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)
         }
+
+        metadata.userId = payload.sub
     })
 
     it('should register an asset', async () => {
@@ -48,19 +59,14 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens =
-            +assetRewards.getTotalPrice() *
-            10 ** -(await nevermined.keeper.token.decimals())
+        const claimedTokens = new BigNumber(1)
 
         try {
             await consumer.requestTokens(claimedTokens)
         } catch {}
 
-        assert.equal(
-            (await consumer.getBalance()).nevermined,
-            initialBalance + claimedTokens,
-            'Tokens not delivered'
-        )
+        const balanceAfter = (await consumer.getBalance()).nevermined
+        assert.isTrue(balanceAfter.isGreaterThan(initialBalance))
     })
 
     it('should sign the service agreement', async () => {

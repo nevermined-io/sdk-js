@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
@@ -9,6 +10,7 @@ import { Contract } from 'web3-eth-contract'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import utils from 'web3-utils'
+import BigNumber from 'bignumber.js'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
@@ -20,6 +22,7 @@ describe('Nfts721 operations', async () => {
     let ddo: DDO
 
     let token: Token
+    let payload: JWTPayload
 
     before(async () => {
         TestContractHandler.setConfig(config)
@@ -31,14 +34,21 @@ describe('Nfts721 operations', async () => {
 
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+        payload = decodeJwt(config.marketplaceAuthToken)
         ;({ token } = nevermined)
     })
 
     describe('with default token', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                metadata,
                 artist,
                 new AssetRewards(),
                 nft.options.address
@@ -79,9 +89,11 @@ describe('Nfts721 operations', async () => {
 
     describe('with custom token', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                metadata,
                 artist,
                 new AssetRewards(),
                 nft.options.address,
@@ -123,11 +135,16 @@ describe('Nfts721 operations', async () => {
 
     describe('with ether', async () => {
         before(async () => {
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             // artist creates the nft
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                metadata,
                 artist,
-                new AssetRewards(artist.getId(), Number(utils.toWei('0.1', 'ether'))),
+                new AssetRewards(
+                    artist.getId(),
+                    new BigNumber(utils.toWei('0.1', 'ether'))
+                ),
                 nft.options.address,
                 ZeroAddress
             )

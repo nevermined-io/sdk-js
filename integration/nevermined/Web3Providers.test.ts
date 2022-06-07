@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -25,7 +26,17 @@ describe('Web3Providers', () => {
         // Accounts
         ;[account] = await nevermined.accounts.list()
 
-        const ddo = await nevermined.assets.create(getMetadata(), account)
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            account
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        const payload = decodeJwt(config.marketplaceAuthToken)
+        const metadata = getMetadata()
+        metadata.userId = payload.sub
+
+        const ddo = await nevermined.assets.create(metadata, account)
         assert.isDefined(ddo)
     })
 
@@ -45,7 +56,17 @@ describe('Web3Providers', () => {
         // Accounts
         ;[account] = await nevermined.accounts.list()
 
-        const ddo = await nevermined.assets.create(getMetadata(), account)
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            account
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        const payload = decodeJwt(config.marketplaceAuthToken)
+        const metadata = getMetadata()
+        metadata.userId = payload.sub
+
+        const ddo = await nevermined.assets.create(metadata, account)
         assert.isDefined(ddo)
     })
 })

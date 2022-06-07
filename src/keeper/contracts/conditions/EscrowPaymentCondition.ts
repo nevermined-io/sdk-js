@@ -3,6 +3,7 @@ import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+import BigNumber from 'bignumber.js'
 
 export class EscrowPaymentCondition extends Condition {
     public static async getInstance(
@@ -17,7 +18,7 @@ export class EscrowPaymentCondition extends Condition {
 
     public hashValues(
         did: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         returnAddress: string,
         sender: string,
@@ -25,7 +26,7 @@ export class EscrowPaymentCondition extends Condition {
         lockCondition: string,
         releaseCondition: string
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.hashValues(
             didZeroX(did),
             amountsString,
@@ -39,7 +40,7 @@ export class EscrowPaymentCondition extends Condition {
     public fulfill(
         agreementId: string,
         did: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         returnAddress: string,
         lockPaymentAddress: string,
@@ -49,7 +50,7 @@ export class EscrowPaymentCondition extends Condition {
         from?: Account,
         txParams?: TxParameters
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.fulfill(
             agreementId,
             [

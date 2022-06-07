@@ -3,6 +3,7 @@ import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+import BigNumber from 'bignumber.js'
 
 export class LockPaymentCondition extends Condition {
     public static async getInstance(
@@ -15,10 +16,10 @@ export class LockPaymentCondition extends Condition {
         did: string,
         rewardAddress: string,
         tokenAddress: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[]
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.hashValues(
             didZeroX(did),
             zeroX(rewardAddress),
@@ -33,12 +34,12 @@ export class LockPaymentCondition extends Condition {
         did: string,
         rewardAddress: string,
         tokenAddress: string,
-        amounts: number[],
+        amounts: BigNumber[],
         receivers: string[],
         from?: Account,
         params?: TxParameters
     ) {
-        const amountsString = amounts.map(v => String(v))
+        const amountsString = amounts.map(v => v.toFixed())
         return super.fulfill(
             agreementId,
             [

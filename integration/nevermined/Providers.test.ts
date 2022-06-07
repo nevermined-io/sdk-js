@@ -1,3 +1,4 @@
+import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
@@ -9,18 +10,23 @@ describe('Providers operations', () => {
     let account2: Account
     let ddo: DDO
 
-    let newMetadata = () => getMetadata()
-
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts
         ;[account1, account2] = await nevermined.accounts.list()
 
-        if (!nevermined.keeper.dispenser) {
-            newMetadata = () => getMetadata(0)
-        }
-        ddo = await nevermined.assets.create(newMetadata(), account1)
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            account1
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        const metadata = getMetadata(0)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+        metadata.userId = payload.sub
+
+        ddo = await nevermined.assets.create(metadata, account1)
     })
 
     it('should add and remove providers addresses', async () => {

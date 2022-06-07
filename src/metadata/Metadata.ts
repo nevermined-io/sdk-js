@@ -1,8 +1,10 @@
-import { URL } from 'whatwg-url'
 import { DDO } from '../ddo/DDO'
 import DID from '../nevermined/DID'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ServiceSecondary } from '../ddo/Service'
+import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
+import { ApiError, HttpError } from '../errors'
+import { SearchQuery } from '../common/interfaces'
+import { buildQuery } from '../common/helpers'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -12,15 +14,6 @@ export interface QueryResult {
     page: number
     totalPages: number
     totalResults: number
-}
-
-export interface SearchQuery {
-    text?: string
-    offset?: number
-    page?: number
-    query: { [property: string]: string | number | string[] | number[] }
-    sort?: { [jsonPath: string]: string }
-    show_unlisted?: boolean
 }
 
 export interface DDOStatus {
@@ -38,20 +31,15 @@ export interface DDOStatus {
     }
 }
 
+export interface AuthToken {
+    access_token: string
+}
+
 /**
  * Provides a interface with Metadata.
  * Metadata provides an off-chain database store for metadata about data assets.
  */
-export class Metadata extends Instantiable {
-    private get url() {
-        return this.config.metadataUri
-    }
-
-    constructor(config: InstantiableConfig) {
-        super()
-        this.setInstanceConfig(config)
-    }
-
+export class Metadata extends MarketplaceApi {
     public async getVersionInfo() {
         return (await this.nevermined.utils.fetch.get(this.url)).json()
     }
@@ -63,19 +51,17 @@ export class Metadata extends Instantiable {
                 if (response.ok) {
                     return response.text()
                 }
-                this.logger.error('Failed: ', response.status, response.statusText)
-                return null
+                throw new HttpError(
+                    `getAccessUrl Failed - ${response.statusText} ${response.url}`,
+                    response.status
+                )
             })
             .then((consumptionUrl: string): string => {
-                this.logger.error('Success accessing consume endpoint: ', consumptionUrl)
+                this.logger.log('Success accessing consume endpoint: ', consumptionUrl)
                 return consumptionUrl
             })
             .catch(error => {
-                this.logger.error(
-                    'Error fetching the data asset consumption url: ',
-                    error
-                )
-                return null
+                throw new ApiError(error)
             })
 
         return accessUrl
@@ -93,19 +79,16 @@ export class Metadata extends Instantiable {
                 if (response.ok) {
                     return response.json() as DDO[]
                 }
-                this.logger.error(
-                    'queryMetadata failed:',
-                    response.status,
-                    response.statusText
+                throw new HttpError(
+                    `queryMetadata failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return this.transformResult()
             })
             .then(results => {
                 return this.transformResult(results)
             })
             .catch(error => {
-                this.logger.error('Error querying metadata: ', error)
-                return this.transformResult()
+                throw new ApiError(error)
             })
 
         return result
@@ -125,15 +108,13 @@ export class Metadata extends Instantiable {
                 if (response.ok) {
                     return response.json() as ServiceSecondary[]
                 }
-                this.logger.error(
-                    'query services from metadata failed:',
-                    response.status,
-                    response.statusText
+                throw new HttpError(
+                    `queryServicesMetadata failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
             })
             .catch(error => {
-                this.logger.error('Error querying service metadata: ', error)
-                return []
+                throw new ApiError(error)
             })
 
         return result
@@ -145,33 +126,24 @@ export class Metadata extends Instantiable {
      * @return {Promise<QueryResult>}
      */
     public async queryMetadataByText(query: SearchQuery): Promise<QueryResult> {
-        const fullUrl = new URL(`${this.url}${apiPath}/query`)
-        fullUrl.searchParams.append('text', query.text)
-        fullUrl.searchParams.append(
-            'sort',
-            decodeURIComponent(JSON.stringify(query.sort))
-        )
-        fullUrl.searchParams.append('offset', query.offset.toString())
-        fullUrl.searchParams.append('page', query.page.toString())
+        const fullUrl = buildQuery(`${this.url}${apiPath}/query`, query)
         const result: QueryResult = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
                 if (response.ok) {
                     return response.json() as DDO[]
                 }
-                this.logger.log(
-                    'queryMetadataByText failed:',
-                    response.status,
-                    response.statusText
+
+                throw new HttpError(
+                    `queryMetadataByText failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return this.transformResult()
             })
             .then(results => {
                 return this.transformResult(results)
             })
             .catch(error => {
-                this.logger.error('Error querying metadata by text: ', error)
-                return this.transformResult()
+                throw new ApiError(error)
             })
 
         return result
@@ -191,20 +163,17 @@ export class Metadata extends Instantiable {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.error(
-                    'updateDDO failed:',
-                    response.status,
-                    response.statusText,
-                    ddo
+
+                throw new HttpError(
+                    `updateDDO failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDO
             })
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error updating metadata: ', error)
-                return null as DDO
+                throw new ApiError(error)
             })
 
         return result
@@ -218,25 +187,24 @@ export class Metadata extends Instantiable {
     public async storeDDO(ddo: DDO): Promise<DDO> {
         const fullUrl = `${this.url}${apiPath}`
         const result: DDO = await this.nevermined.utils.fetch
-            .post(fullUrl, DDO.serialize(ddo))
+            .post(fullUrl, DDO.serialize(ddo), {
+                Authorization: `Bearer ${this.config.marketplaceAuthToken}`
+            })
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.error(
-                    'storeDDO failed:',
-                    response.status,
-                    response.statusText,
-                    ddo
+
+                throw new HttpError(
+                    `storeDDO failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDO
             })
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error storing metadata: ', error)
-                return null as DDO
+                throw new ApiError(error)
             })
 
         return result
@@ -259,20 +227,17 @@ export class Metadata extends Instantiable {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.log(
-                    'retrieveDDO failed:',
-                    response.status,
-                    response.statusText,
-                    did
+
+                throw new HttpError(
+                    `retrieveDDO failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDO
             })
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
             .catch(error => {
-                this.logger.error('Error retrieving metadata: ', error)
-                return null as DDO
+                throw new ApiError(error)
             })
 
         return result
@@ -308,20 +273,17 @@ export class Metadata extends Instantiable {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.log(
-                    'retrieve DDO status failed:',
-                    response.status,
-                    response.statusText,
-                    did
+
+                throw new HttpError(
+                    `status failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as DDOStatus
             })
             .then((response: DDOStatus) => {
                 return response as DDOStatus
             })
             .catch(error => {
-                this.logger.error('Error fetching status of DDO: ', error)
-                return null as DDOStatus
+                throw new ApiError(error)
             })
 
         return result
@@ -344,20 +306,17 @@ export class Metadata extends Instantiable {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.log(
-                    'retrieveService failed:',
-                    response.status,
-                    response.statusText,
-                    agreementId
+
+                throw new HttpError(
+                    `retrieveService failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as ServiceSecondary
             })
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
             .catch(error => {
-                this.logger.error('Error retrieving service: ', error)
-                return null as ServiceSecondary
+                throw new ApiError(error)
             })
 
         return result
@@ -376,25 +335,24 @@ export class Metadata extends Instantiable {
         const fullUrl = `${this.url}${servicePath}`
         agreement['agreementId'] = agreementId
         const result: ServiceSecondary = await this.nevermined.utils.fetch
-            .post(fullUrl, JSON.stringify(agreement))
+            .post(fullUrl, JSON.stringify(agreement), {
+                Authorization: `Bearer ${this.config.marketplaceAuthToken}`
+            })
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()
                 }
-                this.logger.error(
-                    'storeService failed:',
-                    response.status,
-                    response.statusText,
-                    agreement
+
+                throw new HttpError(
+                    `storeService failed - ${response.statusText} ${response.url}`,
+                    response.status
                 )
-                return null as ServiceSecondary
             })
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
             .catch(error => {
-                this.logger.error('Error storing service: ', error)
-                throw new Error(error)
+                throw new ApiError(error)
             })
         return result
     }

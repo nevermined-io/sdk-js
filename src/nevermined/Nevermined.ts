@@ -9,6 +9,9 @@ import { Provenance } from './Provenance'
 import { Utils } from './utils/Utils'
 
 import { Metadata } from '../metadata/Metadata'
+import { Profiles } from '../profiles/Profiles'
+import { Bookmarks } from '../bookmarks/Bookmarks'
+import { Permissions } from '../permissions/Permissions'
 import { Gateway } from '../gateway/Gateway'
 
 import Keeper from '../keeper/Keeper'
@@ -25,6 +28,7 @@ import { Files } from './Files'
 import { Nfts } from './Nfts'
 import { Nft721 } from './Nft721'
 import { AaveCredit } from './AaveCredit'
+import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -47,7 +51,11 @@ export class Nevermined extends Instantiable {
         instance.keeper = await Keeper.getInstance(instanceConfig)
 
         instance.gateway = new Gateway(instanceConfig)
+        instance.marketplace = new MarketplaceApi(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)
+        instance.profiles = new Profiles(instanceConfig)
+        instance.bookmarks = new Bookmarks(instanceConfig)
+        instance.permissions = new Permissions(instanceConfig)
         instance.faucet = new Faucet(instanceConfig)
 
         instance.accounts = await Accounts.getInstance(instanceConfig)
@@ -96,6 +104,30 @@ export class Nevermined extends Instantiable {
      * @type {Metadata}
      */
     public metadata: Metadata
+
+    /**
+     * Marketplace instance.
+     * @type {MarketplaceApi}
+     */
+    public marketplace: MarketplaceApi
+
+    /**
+     * Profiles instance
+     * @type {Profiles}
+     */
+    public profiles: Profiles
+
+    /**
+     * Bookmarks instance
+     * @type {Bookmarks}
+     */
+    public bookmarks: Bookmarks
+
+    /**
+     * Permissions instance
+     * @type {Permissions}
+     */
+    public permissions: Permissions
 
     /**
      * Metadata instance.

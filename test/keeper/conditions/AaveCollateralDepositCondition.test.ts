@@ -45,9 +45,9 @@ describe('AaveCollateralDepositCondition', () => {
                 zeroX(did),
                 vaultAddress,
                 assetToDeposit,
-                depositAmount,
+                depositAmount.toString(),
                 assetToBorrow,
-                borrowAmount,
+                borrowAmount.toString(),
                 interestRateMode
             )
             assert.match(hash, /^0x[a-f0-9]{64}$/i)

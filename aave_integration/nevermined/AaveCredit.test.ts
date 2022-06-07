@@ -20,6 +20,8 @@ import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCon
 import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import BigNumber from 'bignumber.js'
+import { decodeJwt } from 'jose'
 
 chai.use(chaiAsPromised)
 
@@ -75,7 +77,7 @@ describe('AaveCredit', () => {
 
     before(async () => {
         // startBlock = await web3.eth.getBlockNumber()
-        // await TestContractHandler.prepareContracts()
+        await TestContractHandler.prepareContracts()
 
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee
@@ -116,8 +118,16 @@ describe('AaveCredit', () => {
         if (did) {
             ddo = await nevermined.assets.resolve(did)
         } else {
+            const [account1] = await nevermined.accounts.list()
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                account1
+            )
+            await nevermined.marketplace.login(clientAssertion)
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const marketplace = getMetadata()
+            marketplace.userId = payload.sub
             ddo = await nevermined.nfts.create721(
-                getMetadata(),
+                marketplace,
                 borrower,
                 new AssetRewards(),
                 nft721Wrapper.address
@@ -333,7 +343,7 @@ describe('AaveCredit', () => {
 
                 const after = await dai.balanceOfConverted(borrower.getId())
                 // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after-before}`)
-                assert.strictEqual(after - before, delegatedAmount)
+                assert.isTrue(after.minus(before).isEqualTo(delegatedAmount))
             }
         })
 
@@ -362,7 +372,7 @@ describe('AaveCredit', () => {
                 // Delegatee allows Nevermined contracts spend DAI to repay the loan
                 await dai.approve(
                     aaveRepayCondition.address,
-                    web3Utils.toWei(allowanceAmount.toString(), 'ether'),
+                    new BigNumber(web3Utils.toWei(allowanceAmount.toString(), 'ether')),
                     borrower
                 )
                 // Send some DAI to borrower to pay the debt + fees
@@ -427,9 +437,14 @@ describe('AaveCredit', () => {
                 const daiFee = (delegatedAmount / 10000) * agreementFee
 
                 // Compare the lender fees after withdraw
-                assert.strictEqual(daiFee, daiAfter - daiBefore)
+                assert.strictEqual(daiFee, daiAfter.minus(daiBefore).toNumber())
 
-                assert.isAbove(ethBalanceAfter - ethBalanceBefore - collateralAmount, 0)
+                assert.isTrue(
+                    ethBalanceAfter
+                        .minus(ethBalanceBefore)
+                        .minus(collateralAmount)
+                        .isGreaterThan(new BigNumber(0))
+                )
             }
         })
 

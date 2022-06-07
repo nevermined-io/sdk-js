@@ -1,10 +1,12 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 import { config } from '../config'
 import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
+import BigNumber from 'bignumber.js'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -25,9 +27,20 @@ describe('Consume Asset (Documentation example)', () => {
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
         metadata = await getDocsCommonMetadata()
         metadata.main.price = '0'
-        assetRewards = new AssetRewards(publisher.getId(), Number(metadata.main.price))
+        metadata.userId = payload.sub
+        assetRewards = new AssetRewards(
+            publisher.getId(),
+            new BigNumber(metadata.main.price)
+        )
     })
 
     it('should register an asset', async () => {
@@ -44,18 +57,14 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens =
-            +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
+        const claimedTokens = new BigNumber(1)
 
         try {
             await consumer.requestTokens(claimedTokens)
         } catch {}
 
-        assert.equal(
-            (await consumer.getBalance()).nevermined,
-            initialBalance + claimedTokens,
-            'Tokens not delivered'
-        )
+        const balanceAfter = (await consumer.getBalance()).nevermined
+        assert.isTrue(balanceAfter.isGreaterThan(initialBalance))
     })
 
     it('should sign the service agreement', async () => {
@@ -102,7 +111,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should lock the payment by the consumer', async () => {
         const { price } = ddo.findServiceByType('metadata').attributes.main
-        const assetRewards = new AssetRewards(publisher.getId(), Number(price))
+        const assetRewards = new AssetRewards(publisher.getId(), new BigNumber(price))
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,

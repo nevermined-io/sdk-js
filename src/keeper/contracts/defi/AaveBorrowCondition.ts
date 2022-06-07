@@ -21,7 +21,7 @@ export class AaveBorrowCondition extends Condition {
         did: string,
         vaultAddress: string,
         assetToBorrow: string,
-        amount: BigNumber,
+        amount: string,
         interestRateMode: number
     ) {
         return super.hashValues(
@@ -38,7 +38,7 @@ export class AaveBorrowCondition extends Condition {
         did: string,
         vaultAddress: string,
         assetToBorrow: string,
-        amount: BigNumber,
+        amount: string,
         interestRateMode: number,
         from?: Account,
         params?: TxParameters

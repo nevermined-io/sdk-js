@@ -21,6 +21,7 @@ import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { NFTError, HttpError } from '../errors'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -186,7 +187,7 @@ export class Nfts extends Instantiable {
                 a => observer.next(a)
             )
             if (!agreementId) {
-                throw Error('Error creating nft-sales agreement')
+                throw new NFTError('Error creating nft-sales agreement')
             }
 
             return agreementId
@@ -219,7 +220,7 @@ export class Nfts extends Instantiable {
                 a => observer.next(a)
             )
             if (!agreementId) {
-                throw Error('Error creating nft721-sales agreement')
+                throw new NFTError('Error creating nft721-sales agreement')
             }
 
             return agreementId
@@ -262,7 +263,7 @@ export class Nfts extends Instantiable {
         )
 
         if (!result) {
-            throw Error('Error transferring nft.')
+            throw new NFTError('Error transferring nft.')
         }
 
         return true
@@ -302,7 +303,7 @@ export class Nfts extends Instantiable {
             txParams
         )
         if (!result) {
-            throw Error('Error transferring nft721.')
+            throw new NFTError('Error transferring nft721.')
         }
 
         return true
@@ -347,7 +348,7 @@ export class Nfts extends Instantiable {
         )
 
         if (!result) {
-            throw Error('Error releasing the rewards.')
+            throw new NFTError('Error releasing the rewards.')
         }
 
         return true
@@ -377,7 +378,7 @@ export class Nfts extends Instantiable {
         )
 
         if (!result) {
-            throw Error('Error releasing the 721 rewards.')
+            throw new NFTError('Error releasing the 721 rewards.')
         }
 
         return true
@@ -443,6 +444,19 @@ export class Nfts extends Instantiable {
             mintCap: Number(details[7]),
             royalties: Number(details[8])
         }
+    }
+
+    public getNftContractAddress(ddo: DDO) {
+        const service = ddo.findServiceByType('nft721-access')
+        if (!!service) {
+            const cond = service.attributes.serviceAgreementTemplate.conditions.find(
+                c => c.name === 'nftHolder'
+            )
+            return !cond
+                ? null
+                : cond.parameters.find(p => p.name === '_contractAddress').value
+        }
+        return null
     }
 
     private async downloadFiles(
@@ -573,7 +587,7 @@ export class Nfts extends Instantiable {
         if (saveResult) {
             return agreementIdSeed
         } else {
-            throw Error(`Error saving ${agreementIdSeed} to MetadataDB`)
+            throw new NFTError(`Error saving ${agreementIdSeed} to MetadataDB`)
         }
     }
 

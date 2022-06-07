@@ -1,4 +1,6 @@
+import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
+import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
@@ -34,17 +36,25 @@ describe('NFTs Api End-to-End', () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let nftPrice = 20
-    let amounts = [15, 5]
+    let nftPrice = new BigNumber(100)
+    let amounts = [new BigNumber(75), new BigNumber(25)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
     let initialBalances: any
-    let scale: number
+    let scale: BigNumber
+    let payload: JWTPayload
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        payload = decodeJwt(config.marketplaceAuthToken)
+
+        metadata.userId = payload.sub
 
         // conditions
         ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
@@ -52,10 +62,10 @@ describe('NFTs Api End-to-End', () => {
         // components
         ;({ token } = nevermined.keeper)
 
-        scale = 10 ** (await token.decimals())
+        scale = new BigNumber(10).exponentiatedBy(await token.decimals())
 
-        nftPrice = nftPrice * scale
-        amounts = amounts.map(v => v * scale)
+        nftPrice = nftPrice.multipliedBy(scale)
+        amounts = amounts.map(v => v.multipliedBy(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -63,14 +73,15 @@ describe('NFTs Api End-to-End', () => {
                 [receivers[1], amounts[1]]
             ])
         )
+        await collector1.requestTokens(nftPrice.div(scale))
 
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
             collector1: await token.balanceOf(collector1.getId()),
             collector2: await token.balanceOf(collector2.getId()),
             gallery: await token.balanceOf(gallery.getId()),
-            escrowPaymentCondition: Number(
-                await token.balanceOf(escrowPaymentCondition.getAddress())
+            escrowPaymentCondition: await token.balanceOf(
+                escrowPaymentCondition.getAddress()
             )
         }
     })
@@ -108,22 +119,27 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('I am ordering the NFT', async () => {
-            await collector1.requestTokens(nftPrice / scale)
-
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
-            assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
 
+            assert.isTrue(collector1BalanceBefore.isGreaterThanOrEqualTo(nftPrice))
+            const escrowPaymentConditionBalanceBefore = await token.balanceOf(
+                escrowPaymentCondition.getAddress()
+            )
             agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
             assert.isDefined(agreementId)
 
             const collector1BalanceAfter = await token.balanceOf(collector1.getId())
-            const escrowPaymentConditionBalance = await token.balanceOf(
+            const escrowPaymentConditionBalanceAfter = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-            assert.equal(collector1BalanceAfter - initialBalances.collector1, 0)
-            assert.equal(
-                escrowPaymentConditionBalance - initialBalances.escrowPaymentCondition,
-                nftPrice
+
+            assert.isTrue(
+                collector1BalanceBefore.minus(nftPrice).isEqualTo(collector1BalanceAfter)
+            )
+            assert.isTrue(
+                escrowPaymentConditionBalanceBefore
+                    .plus(nftPrice)
+                    .isEqualTo(escrowPaymentConditionBalanceAfter)
             )
         })
 
@@ -158,6 +174,9 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('the artist asks and receives the payment', async () => {
+            const escrowPaymentConditionBefore = await token.balanceOf(
+                escrowPaymentCondition.getAddress()
+            )
             const receipt = await nevermined.nfts.releaseRewards(
                 agreementId,
                 ddo.id,
@@ -167,7 +186,7 @@ describe('NFTs Api End-to-End', () => {
             )
             assert.isTrue(receipt)
 
-            const escrowPaymentConditionBalance = await token.balanceOf(
+            const escrowPaymentConditionBalanceAfter = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
             const receiver0Balance = await token.balanceOf(
@@ -178,18 +197,23 @@ describe('NFTs Api End-to-End', () => {
             )
             const collectorBalance = await token.balanceOf(collector1.getId())
 
-            assert.equal(
-                receiver0Balance,
-                initialBalances.artist + assetRewards1.getAmounts()[0]
+            assert.isTrue(
+                receiver0Balance.isEqualTo(
+                    initialBalances.artist.plus(assetRewards1.getAmounts()[0])
+                )
             )
-            assert.equal(
-                receiver1Balance,
-                initialBalances.gallery + assetRewards1.getAmounts()[1]
+            assert.isTrue(
+                receiver1Balance.isEqualTo(
+                    initialBalances.gallery.plus(assetRewards1.getAmounts()[1])
+                )
             )
-            assert.equal(collectorBalance - initialBalances.collector1, 0)
-            assert.equal(
-                escrowPaymentConditionBalance - initialBalances.escrowPaymentCondition,
-                0
+            assert.isTrue(
+                initialBalances.collector1.minus(nftPrice).isEqualTo(collectorBalance)
+            )
+            assert.isTrue(
+                escrowPaymentConditionBefore
+                    .minus(nftPrice)
+                    .isEqualTo(escrowPaymentConditionBalanceAfter)
             )
         })
     })
@@ -218,8 +242,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints the nfts', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 cappedAmount,
                 royalties,
@@ -232,7 +258,7 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('The collector orders the nft', async () => {
-            await collector1.requestTokens(nftPrice / scale)
+            await collector1.requestTokens(nftPrice.div(scale))
 
             agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
             assert.isDefined(agreementId)
@@ -276,8 +302,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints one nft', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 1,
                 royalties,
@@ -290,7 +318,7 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('Collector1 orders the nft', async () => {
-            await collector1.requestTokens(nftPrice / scale)
+            await collector1.requestTokens(nftPrice.div(scale))
 
             agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
             assert.isDefined(agreementId)
@@ -322,7 +350,7 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('Collector 2 setups a service agreement to buy the nft', async () => {
-            await collector2.requestTokens(nftPrice / scale)
+            await collector2.requestTokens(nftPrice.div(scale))
 
             agreementId2 = await nevermined.nfts.order(ddo.id, numberNFTs, collector2)
             assert.isDefined(agreementId2)

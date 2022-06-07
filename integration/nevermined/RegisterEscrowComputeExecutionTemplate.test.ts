@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -10,6 +11,7 @@ import {
     EscrowPaymentCondition,
     LockPaymentCondition
 } from '../../src/keeper/contracts/conditions'
+import BigNumber from 'bignumber.js'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -20,8 +22,8 @@ describe('Register Escrow Compute Execution Template', () => {
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = 'b'.repeat(32)
 
-    const totalAmount = 12
-    const amounts = [10, 2]
+    const totalAmount = new BigNumber(12)
+    const amounts = [new BigNumber(10), new BigNumber(2)]
 
     let templateManagerOwner: Account
     let publisher: Account
@@ -270,8 +272,17 @@ describe('Register Escrow Compute Execution Template', () => {
         let ddo: DDO
 
         before(async () => {
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                publisher
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             ddo = await nevermined.assets.create(
-                getMetadata(),
+                metadata,
                 publisher,
                 undefined,
                 ['access', 'compute'],
@@ -337,8 +348,6 @@ describe('Register Escrow Compute Execution Template', () => {
                 receivers,
                 consumer.getId(),
                 ddo.shortId(),
-                consumer.getId(),
-                publisher.getId(),
                 token.getAddress(),
                 publisher
             )

@@ -6,6 +6,7 @@ import {
     NeverminedEvent
 } from './NeverminedEvent'
 import ContractBase from '../keeper/contracts/ContractBase'
+import { KeeperError } from '../errors'
 
 export class ContractEvent extends NeverminedEvent {
     private web3: Web3
@@ -22,7 +23,7 @@ export class ContractEvent extends NeverminedEvent {
 
     public async getEventData(options: EventOptions): EventResult {
         if (!this.contract.contract.events[options.eventName]) {
-            throw new Error(
+            throw new KeeperError(
                 `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`
             )
         }

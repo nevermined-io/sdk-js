@@ -5,6 +5,7 @@ import ContractHandler from '../ContractHandler'
 import Account from '../../nevermined/Account'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { KeeperError } from '../../errors'
 
 export interface TxParameters {
     value?: string
@@ -20,6 +21,7 @@ export abstract class ContractBase extends Instantiable {
     public contractName: string
     public contract: Contract = null
     public events: ContractEvent | SubgraphEvent = null
+    public version: string
 
     get address() {
         return this.getAddress()
@@ -51,7 +53,20 @@ export abstract class ContractBase extends Instantiable {
     protected async init(config: InstantiableConfig, optional: boolean = false) {
         this.setInstanceConfig(config)
         const contractHandler = new ContractHandler(config)
-        this.contract = await contractHandler.get(this.contractName, optional)
+        this.contract = await contractHandler.get(
+            this.contractName,
+            optional,
+            undefined,
+            config.artifactsFolder
+        )
+        try {
+            this.version = await contractHandler.getVersion(
+                this.contractName,
+                config.artifactsFolder
+            )
+        } catch {
+            throw new KeeperError(`${this.contractName} not available on this network.`)
+        }
 
         const eventEmitter = new EventHandler()
         if (this.config.graphHttpUri) {
@@ -185,7 +200,25 @@ export abstract class ContractBase extends Instantiable {
                         type: '0x2'
                     }
                 } catch (err) {
+                    // TODO: https://github.com/nevermined-io/sdk-js/issues/265
+                    // If the error is because of no support for eip-1559, just continue
+                    const chainId = await this.web3.eth.net.getId()
                     // no eip-1559 support
+                    if (![42220, 44787, 80001, 8997, 137].includes(chainId)) {
+                        throw new KeeperError(err)
+                    }
+                }
+            }
+
+            // Something weird with celo eip-1559 implementation (mainnet, alfajores)
+            const chainId = await this.web3.eth.net.getId()
+            if (chainId == 44787 || chainId == 42220) {
+                console.log('Calling Celo...')
+                txparams = {
+                    from,
+                    value,
+                    gas,
+                    gasPrice
                 }
             }
             const receipt = await tx
@@ -244,16 +277,14 @@ export abstract class ContractBase extends Instantiable {
                     value: args[i]
                 }
             })
-            this.logger.error('-'.repeat(40))
-            this.logger.error(
-                `Sending transaction "${name}" on contract "${this.contractName}" failed.`
-            )
-            this.logger.error(`Error: ${err.message}`)
-            this.logger.error(`From: ${from}`)
-            this.logger.error(`Parameters: ${JSON.stringify(mappedArgs, null, 2)}`)
-            if (value) this.logger.error(`Value: ${value}`)
-            this.logger.error('-'.repeat(40))
-            throw err
+            throw new KeeperError(`
+                ${'-'.repeat(40)}\n
+                Sending transaction "${name}" on contract "${this.contractName}" failed.\n
+                Error: ${err.message}\n
+                From: ${from}\n
+                Parameters: ${JSON.stringify(mappedArgs, null, 2)}\n
+                ${'-'.repeat(40)}
+            `)
         }
     }
 
@@ -269,11 +300,9 @@ export abstract class ContractBase extends Instantiable {
             const method = this.contract.methods[name](...args)
             return await method.call(from ? { from } : null)
         } catch (err) {
-            this.logger.error(
-                `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args}`,
-                err
+            throw new KeeperError(
+                `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`
             )
-            throw err
         }
     }
 
@@ -287,7 +316,7 @@ export abstract class ContractBase extends Instantiable {
         const foundMethod =
             methods.find(({ inputs }) => inputs.length === args.length) || methods[0]
         if (!foundMethod) {
-            throw new Error(
+            throw new KeeperError(
                 `Method "${methodName}" is not part of contract "${this.contractName}"`
             )
         }

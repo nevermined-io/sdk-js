@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import { Account, DDO, Nevermined, utils } from '../../src'
+import { decodeJwt } from 'jose'
 import {
     ConditionState,
     EscrowPaymentCondition,
@@ -17,6 +18,7 @@ import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import web3Utils from 'web3-utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import BigNumber from 'bignumber.js'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -55,7 +57,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
     let nftPrice = 0.2
-    let amounts = [0.15, 0.05]
+    let amounts = [new BigNumber(0.15), new BigNumber(0.05)]
 
     let receivers: string[]
     let assetRewards: AssetRewards
@@ -92,7 +94,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
         // eth
         nftPrice = Number(web3Utils.toWei(String(nftPrice), 'ether'))
-        amounts = amounts.map(v => Number(web3Utils.toWei(String(v), 'ether')))
+        amounts = amounts.map(v => new BigNumber(web3Utils.toWei(String(v), 'ether')))
 
         // ether
         assetRewards = new AssetRewards(
@@ -132,8 +134,18 @@ describe('NFTTemplates With Ether E2E', async () => {
                 sender.getId()
             )
 
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                artist
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
             ddo = await nevermined.assets.createNft(
-                getMetadata(),
+                metadata,
                 artist,
                 assetRewards,
                 undefined,
@@ -242,7 +254,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     assetRewards.getAmounts(),
                     assetRewards.getReceivers(),
                     collector1,
-                    { value: String(assetRewards.getTotalPrice() - 1) }
+                    { value: assetRewards.getTotalPrice().toString() }
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -327,13 +339,13 @@ describe('NFTTemplates With Ether E2E', async () => {
                 const receiver1Balance = await new Account(receivers[1]).getEtherBalance()
 
                 assert.closeTo(
-                    receiver0Balance,
-                    initialBalances.artist + amounts[0],
+                    receiver0Balance.toNumber(),
+                    new BigNumber(initialBalances.artist).plus(amounts[0]).toNumber(),
                     10 ** 16
                 )
                 assert.closeTo(
-                    receiver1Balance,
-                    initialBalances.gallery + amounts[1],
+                    receiver1Balance.toNumber(),
+                    new BigNumber(initialBalances.gallery).plus(amounts[1]).toNumber(),
                     10 ** 16
                 )
                 assert.equal(

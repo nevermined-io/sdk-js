@@ -4,6 +4,7 @@ import Balance from '../models/Balance'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { KeeperError } from '../errors'
 
 /**
  * Account information.
@@ -92,22 +93,24 @@ export default class Account extends Instantiable {
      * Balance of Nevermined Token.
      * @return {Promise<number>}
      */
-    public async getNeverminedBalance(): Promise<number> {
+    public async getNeverminedBalance(): Promise<BigNumber> {
         const { token } = this.nevermined.keeper
-        if (!token) return 0
-        return (await token.balanceOf(this.id)) / 10 ** (await token.decimals())
+        if (!token) return new BigNumber(0)
+        return (await token.balanceOf(this.id))
+            .div(10)
+            .multipliedBy(await token.decimals())
     }
 
     /**
      * Balance of Ether.
      * @return {Promise<number>}
      */
-    public async getEtherBalance(): Promise<number> {
-        return this.web3.eth
-            .getBalance(this.id, 'latest')
-            .then((balance: string): number => {
-                return new BigNumber(balance).toNumber()
-            })
+    public async getEtherBalance(): Promise<BigNumber> {
+        return this.web3.eth.getBalance(this.id, 'latest').then(
+            (balance: string): BigNumber => {
+                return new BigNumber(balance)
+            }
+        )
     }
 
     /**
@@ -127,19 +130,17 @@ export default class Account extends Instantiable {
      * @return {Promise<number>}
      */
     public async requestTokens(
-        amount: number | string,
+        amount: number | string | BigNumber,
         params?: TxParameters
     ): Promise<string> {
-        amount = String(amount)
         if (!this.nevermined.keeper.dispenser) {
-            throw new Error('Dispenser not available on this network.')
+            throw new KeeperError('Dispenser not available on this network.')
         }
         try {
             await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, params)
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('Error requesting tokens')
+            throw new KeeperError('Error requesting tokens')
         }
-        return amount
+        return amount.toString()
     }
 }
