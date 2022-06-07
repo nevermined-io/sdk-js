@@ -14,7 +14,7 @@ export class MarketplaceApi extends Instantiable {
     }
 
     // prettier-ignore
-    public async login(clientAssertion: string): Promise<void> {
+    public async login(clientAssertion: string): Promise<string> {
 
       const payload = {
           'client_assertion_type':
@@ -30,6 +30,8 @@ export class MarketplaceApi extends Instantiable {
           }
 
           this.config.marketplaceAuthToken = (await response.json()).access_token
+
+          return this.config.marketplaceAuthToken
       } catch (error) {
           throw new ApiError(error)
       }
