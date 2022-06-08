@@ -42,6 +42,7 @@ import {
     ConditionStoreManager
 } from './contracts/managers'
 import {
+    RewardsDistributor,
     StandardRoyalties,
     CurveRoyalties
 } from './contracts/royalties'
@@ -53,7 +54,6 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 import { GenericAccess } from './contracts/templates/GenericAccess'
 import { KeeperError } from '../errors'
-import RewardsDistributor from './contracts/royalties/RewardsDistributor'
 
 /**
  * Interface with Nevermined contracts.

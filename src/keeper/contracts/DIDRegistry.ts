@@ -310,6 +310,20 @@ export default class DIDRegistry extends ContractBase {
         )
     }
 
+    public async setDIDRoyalties(
+        did: string,
+        scheme: string,
+        ownerAddress: string,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'setDIDRoyalties',
+            ownerAddress,
+            [zeroX(did), zeroX(scheme)],
+            params
+        )
+    }
+
     public async getPermission(did: string, grantee: string): Promise<boolean> {
         return this.call('getPermission', [didZeroX(did), zeroX(grantee)])
     }

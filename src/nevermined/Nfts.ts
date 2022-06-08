@@ -16,7 +16,7 @@ import {
     SubscribablePromise,
     zeroX
 } from '../utils'
-import { CreateProgressStep } from './Assets'
+import { CreateProgressStep, RoyaltyKind } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
@@ -43,7 +43,7 @@ export class Nfts extends Instantiable {
      * @param {string}          erc20TokenAddress The sales reward distribution.
      * @returns {DDO} The newly registered DDO.
      */
-    public create(
+     public create(
         metadata: MetaData,
         publisher: Account,
         cap: number,
@@ -63,6 +63,36 @@ export class Nfts extends Instantiable {
             cap,
             undefined,
             nftAmount,
+            royalties,
+            erc20TokenAddress,
+            preMint,
+            nftMetadata ? nftMetadata : '',
+            txParams
+        )
+    }
+
+    public createWithRoyalties(
+        metadata: MetaData,
+        publisher: Account,
+        cap: number,
+        royaltyKind: RoyaltyKind,
+        royalties: number,
+        assetRewards: AssetRewards,
+        nftAmount: number = 1,
+        erc20TokenAddress?: string,
+        preMint?: boolean,
+        nftMetadata?: string,
+        txParams?: TxParameters
+    ): SubscribablePromise<CreateProgressStep, DDO> {
+        return this.nevermined.assets.createNftWithRoyalties(
+            metadata,
+            publisher,
+            assetRewards,
+            undefined,
+            cap,
+            undefined,
+            nftAmount,
+            royaltyKind,
             royalties,
             erc20TokenAddress,
             preMint,
