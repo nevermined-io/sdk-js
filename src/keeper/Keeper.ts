@@ -53,6 +53,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 import { GenericAccess } from './contracts/templates/GenericAccess'
 import { KeeperError } from '../errors'
+import RewardsDistributor from './contracts/royalties/RewardsDistributor'
 
 /**
  * Interface with Nevermined contracts.
@@ -124,13 +125,16 @@ export class Keeper extends Instantiable {
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
                 aaveCreditTemplate: AaveCreditTemplate.getInstance(config), // optional
                 standardRoyalties: StandardRoyalties.getInstance(config), // optional
-                curveRoyalties: CurveRoyalties.getInstance(config) // optional
+                curveRoyalties: CurveRoyalties.getInstance(config), // optional
+                rewardsDistributor: RewardsDistributor.getInstance(config)
             })
 
             keeper.royalties = {
                 standard: keeper.instances.standardRoyalties,
                 curve: keeper.instances.curveRoyalties
             }
+
+            keeper.rewardsDistributor = keeper.instances.rewardsDistributor
 
             const templates = [
                 keeper.instances.accessTemplate,
@@ -334,6 +338,8 @@ export class Keeper extends Instantiable {
         standard: StandardRoyalties
         curve: CurveRoyalties
     }
+
+    rewardsDistributor: RewardsDistributor
 
     /**
      * Helpers for contracts.
