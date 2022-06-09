@@ -831,9 +831,9 @@ export class Assets extends Instantiable {
                 this.logger.log('Mintable DID registred')
                 const scheme = getRoyaltyScheme(this.nevermined, royaltyKind)
                 observer.next(CreateProgressStep.SettingRoyaltyScheme)
-                await didRegistry.setDIDRoyalties(ddo.id, scheme.address, publisher.getId(), txParams)
+                await didRegistry.setDIDRoyalties(ddo.shortId(), scheme.address, publisher.getId(), txParams)
                 observer.next(CreateProgressStep.SettingRoyalties)
-                await scheme.setRoyalty(ddo.id, royalties, publisher, txParams)
+                await scheme.setRoyalty(ddo.shortId(), royalties, publisher, txParams)
                 observer.next(CreateProgressStep.DidRegistered)
 
 
