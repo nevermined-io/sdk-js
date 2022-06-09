@@ -79,8 +79,6 @@ describe('AaveCredit', () => {
         // startBlock = await web3.eth.getBlockNumber()
         // await TestContractHandler.prepareContracts()
 
-        console.log('prepared contracts')
-
         nevermined = await Nevermined.getInstance(config)
         agreementFee = config.aaveConfig.agreementFee
         aaveCreditTemplate = nevermined.keeper.templates.aaveCreditTemplate
@@ -334,7 +332,7 @@ describe('AaveCredit', () => {
             )
             if (_stateBorrow !== ConditionState.Fulfilled) {
                 const before = await dai.balanceOfConverted(borrower.getId())
-                // console.log(`dai balance = ${web3Utils.fromWei(before.toString())}`)
+                console.log(`dai balance = ${before.toString()}`)
                 // Fullfill the aaveBorrowCredit condition
                 // Delegatee borrows DAI from Aave on behalf of Delegator
                 const success = await nevermined.aaveCredit.borrow(
@@ -351,7 +349,7 @@ describe('AaveCredit', () => {
                 assert.strictEqual(stateCredit, ConditionState.Fulfilled)
 
                 const after = await dai.balanceOfConverted(borrower.getId())
-                // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}, after-before=${after-before}`)
+                console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}`)
                 assert.isTrue(after.minus(before).isEqualTo(delegatedAmount))
             }
         })
@@ -386,7 +384,7 @@ describe('AaveCredit', () => {
                 )
                 // Send some DAI to borrower to pay the debt + fees
                 const transferAmount = web3Utils.toWei(
-                    (allowanceAmount - delegatedAmount).toString(),
+                    (2*(allowanceAmount - delegatedAmount)).toString(),
                     'ether'
                 )
                 await dai.send('transfer', daiProvider, [
