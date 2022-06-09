@@ -67,7 +67,7 @@ jobs:
 
   aave-integration:
     # TODO: This disables the workflow. See https://github.com/nevermined-io/sdk-js/issues/274
-    if: ${{ false }}
+    # if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

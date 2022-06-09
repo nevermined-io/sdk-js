@@ -191,7 +191,7 @@ export class AaveCredit extends Instantiable {
         const _delegatedAmount = web3Utils
             .toWei(delegatedAmount.toString(), 'ether')
             .toString()
-        // console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
+        console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
         const _value = useWethGateway ? _collateralAmount.toString() : '0'
         if (!useWethGateway) {
             this.logger.log(
@@ -207,6 +207,8 @@ export class AaveCredit extends Instantiable {
                 from
             )
         }
+
+        console.log('value', _value)
 
         const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
             agreementId,
