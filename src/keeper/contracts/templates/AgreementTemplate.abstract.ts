@@ -2,7 +2,7 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { Condition, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { zeroX } from '../../../utils'
+import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
@@ -299,7 +299,7 @@ export abstract class AgreementTemplate extends ContractBase {
                 _conditionIds: true,
                 _conditionIdSeeds: true,
                 _timeLocks: true,
-                _timeOuts: true,
+                _timeOuts: true
             }
         })
         return res
@@ -309,17 +309,18 @@ export abstract class AgreementTemplate extends ContractBase {
             eventName: 'AgreementCreated',
             methodName: 'getAgreementCreateds',
             filterJsonRpc: {
-                _did: zeroX(did)
+                _did: didZeroX(did)
             },
             filterSubgraph: {
                 where: {
-                    _did: zeroX(did)
+                    _did: didZeroX(did)
                 }
             },
             result: {
                 _agreementId: true
             }
         })
-        return res.map(a => a.returnValues._agreementId)
+
+        return res.map(event => event.returnValues?._agreementId || event._agreementId)
     }
 }
