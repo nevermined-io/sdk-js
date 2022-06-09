@@ -125,7 +125,7 @@ export class Keeper extends Instantiable {
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
                 aaveCreditTemplate: AaveCreditTemplate.getInstance(config), // optional
                 standardRoyalties: StandardRoyalties.getInstance(config), // optional
-                curveRoyalties: CurveRoyalties.getInstance(config), // optional
+                // curveRoyalties: CurveRoyalties.getInstance(config), // optional
                 rewardsDistributor: RewardsDistributor.getInstance(config)
             })
 
