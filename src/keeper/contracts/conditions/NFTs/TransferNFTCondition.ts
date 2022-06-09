@@ -49,7 +49,8 @@ export class TransferNFTCondition extends Condition {
      * @param {String} nftContractAddress The address of the NFT token to use.
      * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
      * @returns Hash of all the values
-     */    
+     */
+
     public hashValuesComplete(
         did: string,
         nftHolder: string,
