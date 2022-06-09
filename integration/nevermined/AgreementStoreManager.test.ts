@@ -4,6 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
 import { generateId } from '../../src/utils'
+import { sleep } from '../utils/utils'
 
 describe('Agreement Store Manager', () => {
     let nevermined: Nevermined
@@ -16,8 +17,8 @@ describe('Agreement Store Manager', () => {
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
 
-            // Accounts
-            ;[account1, account2] = await nevermined.accounts.list()
+        // Accounts
+        ;[account1, account2] = await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
             account1
@@ -48,7 +49,7 @@ describe('Agreement Store Manager', () => {
         const agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 
         // wait for the graph to pickup the event
-        await new Promise(r => setTimeout(r, 3000))
+        await sleep(3000)
 
         agreements = await nevermined.agreements.getAgreements(ddo.id)
 
