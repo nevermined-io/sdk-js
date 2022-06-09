@@ -7,6 +7,7 @@ import { getMetadata, getMetadataForDTP } from '../utils'
 import { Nevermined, Account, DDO, MetaData } from '../../src'
 import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
 import { makeKeyTransfer } from '../../src/utils/KeyTransfer'
+import { sleep } from '../utils/utils'
 
 describe('Consume Asset (Gateway w/ proofs)', () => {
     let nevermined: Nevermined
@@ -63,7 +64,7 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
     after(() => {
         try {
             localStorage.clear()
-        } catch {}
+        } catch { }
     })
 
     it('should fetch the RSA publicKey from the gateway', async () => {
@@ -91,7 +92,7 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
             await consumer.requestTokens(
                 +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
             )
-        } catch {}
+        } catch { }
 
         const steps = []
         agreementId = await nevermined.assets
@@ -108,6 +109,8 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
     })
 
     it('buyer should have the key', async () => {
+        // wait for subgraph to pick up the events
+        await sleep(3000)
         const key = await nevermined.agreements.conditions.readKey(
             agreementId,
             keyTransfer.makeKey(consumer.babySecret),
