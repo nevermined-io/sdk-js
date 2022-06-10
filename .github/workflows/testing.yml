@@ -35,10 +35,8 @@ jobs:
           cd tools
 
           export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          export KEEPER_VERSION=develop
+          export KEEPER_VERSION=latest
           export GATEWAY_VERSION=develop
-          export COMPUTE_API_VERSION=latest
-          export MARKETPLACE_API_VERSION=latest
           export SUBGRAPH_VERSION=v0.3.0-rc4
           rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
