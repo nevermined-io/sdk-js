@@ -5,7 +5,7 @@ import { Nevermined, Account } from '../../src'
 describe('Marketplace api auth', () => {
     let nevermined: Nevermined
     let account1: Account
-    let account2: Account // eslint-disable-line @typescript-eslint/no-unused-vars
+    let account2: Account
 
     before(async () => {
         try {
