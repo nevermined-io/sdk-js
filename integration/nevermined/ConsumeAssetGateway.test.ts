@@ -68,7 +68,7 @@ describe('Consume Asset (Gateway)', () => {
             .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
-        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 11])
 
         const assetProviders = await nevermined.provider.list(ddo.id)
         assert.deepEqual(assetProviders, [
