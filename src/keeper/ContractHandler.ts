@@ -83,7 +83,8 @@ export default class ContractHandler extends Instantiable {
             )
             if (artifactsFolder.startsWith('http'))
                 artifact = await this.fetchJson(
-                    `${artifactsFolder}/${contractName}.${where}.json`)
+                    `${artifactsFolder}/${contractName}.${where}.json`
+                )
             else
                 artifact = JSON.parse(
                     fs.readFileSync(

@@ -40,12 +40,8 @@ export class AgreementStoreManager extends ContractBase {
         const events = await this.templates[templateId].getAgreementCreatedEvent(
             agreementId
         )
-        const {
-            _did,
-            _didOwner,
-            _conditionIds,
-            _conditionIdSeeds
-        } = events[0].returnValues
+        const values = events.map(e => e.returnValues || e)
+        const { _did, _didOwner, _conditionIds, _conditionIdSeeds } = values[0]
         return {
             did: _did,
             agreementId,

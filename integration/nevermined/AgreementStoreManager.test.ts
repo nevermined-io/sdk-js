@@ -4,6 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
 import { generateId } from '../../src/utils'
+import { sleep } from '../utils/utils'
 
 describe('Agreement Store Manager', () => {
     let nevermined: Nevermined
@@ -47,6 +48,9 @@ describe('Agreement Store Manager', () => {
         )
         const agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 
+        // wait for the graph to pickup the event
+        await sleep(3000)
+
         agreements = await nevermined.agreements.getAgreements(ddo.id)
 
         assert.isNotEmpty(agreements)
@@ -55,6 +59,5 @@ describe('Agreement Store Manager', () => {
 
         assert.isTrue(agreementFound != undefined)
         assert.equal(agreementFound.agreementId, agreementId)
-
     })
 })
