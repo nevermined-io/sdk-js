@@ -114,7 +114,7 @@ describe('AaveCredit', () => {
         }
         nftContractAddress = nft721Wrapper.address
 
-        console.log(`borrower=${borrower.getId()}, nft721=${nft721Wrapper.address}`)
+        // console.log(`borrower=${borrower.getId()}, nft721=${nft721Wrapper.address}`)
         if (did) {
             ddo = await nevermined.assets.resolve(did)
         } else {
@@ -158,14 +158,6 @@ describe('AaveCredit', () => {
     describe('Create a credit NFT collateral agreement', function() {
         this.timeout(100000)
         it('should propose the AaveCreditTemplate', async () => {
-            console.log(
-                'lender',
-                lender.getId(),
-                'lender balance:',
-                await weth.balanceOfConverted(lender.getId()),
-                'lender balance:',
-                await dai.balanceOfConverted(lender.getId())
-            )
             if (!isTemplateApproved) {
                 await nevermined.keeper.templateStoreManager.proposeTemplate(
                     aaveCreditTemplate.getAddress(),
@@ -290,19 +282,14 @@ describe('AaveCredit', () => {
             const { state: _stateDeposit } = await conditionStoreManager.getCondition(
                 conditionIds[1]
             )
-            console.log(
-                `depositing collateral: colAmount=${collateralAmount}, delAmount=${delegatedAmount} `
-            )
+            // console.log(`depositing collateral: colAmount=${collateralAmount}, delAmount=${delegatedAmount}`)
             if (_stateDeposit !== ConditionState.Fulfilled) {
-                const wethBalance = await weth.balanceOfConverted(lender.getId())
-                const ethBalance = await lender.getEtherBalance()
-                console.log(
-                    `lender balance: wethBalance=${wethBalance}, collateralAmount=${collateralAmount}, etherBalance=${ethBalance}`
-                )
-                /*
-                if (wethBalance < collateralAmount) {
-                     console.warn(`lender weth balance ${wethBalance} is less than the required deposit ${collateralAmount}.`)
-                }*/
+                // const wethBalance = await weth.balanceOfConverted(lender.getId())
+                // const ethBalance = await lender.getEtherBalance()
+                // console.log(`lender balance: wethBalance=${wethBalance}, collateralAmount=${collateralAmount}, etherBalance=${ethBalance}`)
+                // if (wethBalance < collateralAmount) {
+                //      console.warn(`lender weth balance ${wethBalance} is less than the required deposit ${collateralAmount}.`)
+                // }
                 const success = await nevermined.aaveCredit.depositCollateral(
                     agreementId,
                     collateralAsset,
@@ -339,7 +326,7 @@ describe('AaveCredit', () => {
             )
             if (_stateBorrow !== ConditionState.Fulfilled) {
                 const before = await dai.balanceOfConverted(borrower.getId())
-                console.log(`dai balance = ${before.toString()}`)
+                // console.log(`dai balance = ${before.toString()}`)
                 // Fullfill the aaveBorrowCredit condition
                 // Delegatee borrows DAI from Aave on behalf of Delegator
                 const success = await nevermined.aaveCredit.borrow(
@@ -356,9 +343,7 @@ describe('AaveCredit', () => {
                 assert.strictEqual(stateCredit, ConditionState.Fulfilled)
 
                 const after = await dai.balanceOfConverted(borrower.getId())
-                console.log(
-                    `borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}`
-                )
+                // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}`)
                 assert.isTrue(after.minus(before).isEqualTo(delegatedAmount))
             }
         })

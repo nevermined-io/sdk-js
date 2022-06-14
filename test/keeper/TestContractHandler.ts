@@ -354,7 +354,6 @@ export default abstract class TestContractHandler extends ContractHandler {
                 await KeeperUtils.getNetworkName(this.web3)
             ).toLowerCase()
             Logger.log('Deploying', name)
-            console.log('Deploying', name, 'to', networkName)
             const artifact = require(`@nevermined-io/contracts/artifacts/${name}.${networkName}.json`)
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
