@@ -38,6 +38,7 @@ jobs:
           export KEEPER_VERSION=latest
           export GATEWAY_VERSION=develop
           export SUBGRAPH_VERSION=v0.3.0-rc5
+          export MARKETPLACE_API_VERSION=latest
           rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
           # Disabling the compute api for now
