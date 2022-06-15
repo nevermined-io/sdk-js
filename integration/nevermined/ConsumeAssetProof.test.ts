@@ -1,15 +1,17 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getMetadata, getMetadataForDTP } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
-import KeyTransfer from '../../src/utils/KeyTransfer'
+import { makeKeyTransfer } from '../../src/utils/KeyTransfer'
+import { sleep } from '../utils/utils'
 
 describe('Consume Asset (Gateway w/ proofs)', () => {
     let nevermined: Nevermined
-    const keyTransfer = new KeyTransfer()
+    let keyTransfer
 
     let publisher: Account
     let consumer: Account
@@ -24,13 +26,22 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
 
     const origPasswd = Buffer.from('passwd_32_letters_1234567890asdF').toString('hex')
 
-    let metadata = getMetadataForDTP('foo' + Math.random(), origPasswd, providerKey)
-
+    let metadata: MetaData
     before(async () => {
+        config.graphHttpUri = undefined
         nevermined = await Nevermined.getInstance(config)
+        keyTransfer = await makeKeyTransfer()
 
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
+
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
+
+        await nevermined.marketplace.login(clientAssertion)
+        const payload = decodeJwt(config.marketplaceAuthToken)
+
         consumer.babyX =
             '0x0d7cdd240c2f5b0640839c49fbaaf016a8c5571b8f592e2b62ea939063545981'
         consumer.babyY =
@@ -38,8 +49,16 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
         consumer.babySecret = 'abd'
 
         if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
+            metadata = await getMetadata(0)
+        } else {
+            metadata = await getMetadataForDTP(
+                'foo' + Math.random(),
+                origPasswd,
+                providerKey
+            )
         }
+
+        metadata.userId = payload.sub
     })
 
     after(() => {
@@ -65,7 +84,7 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
             .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
-        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 11])
     })
 
     it('should order the asset', async () => {
@@ -90,6 +109,8 @@ describe('Consume Asset (Gateway w/ proofs)', () => {
     })
 
     it('buyer should have the key', async () => {
+        // wait for subgraph to pick up the events
+        await sleep(3000)
         const key = await nevermined.agreements.conditions.readKey(
             agreementId,
             keyTransfer.makeKey(consumer.babySecret),

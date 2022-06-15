@@ -9,11 +9,12 @@ export interface AgreementData {
     didOwner: string
     templateId: string
     conditionIds: string[]
-    lastUpdatedBy: string
-    blockNumberUpdated: number
+    conditionIdSeeds: string[]
 }
 
 export class AgreementStoreManager extends ContractBase {
+    templates: any
+
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AgreementStoreManager> {
@@ -24,38 +25,43 @@ export class AgreementStoreManager extends ContractBase {
         return templateStoreManeger
     }
 
+    public setTemplates(temp: any) {
+        this.templates = temp
+    }
+
     public getOwner(): Promise<string> {
         return this.call('owner', [])
     }
 
-    public async getAgreement(agreementId: string) {
-        const {
-            did,
-            didOwner,
-            templateId,
-            conditionIds,
-            lastUpdatedBy,
-            blockNumberUpdated
-        } = await this.call('getAgreement', [zeroX(agreementId)])
+    public async getAgreement(agreementId: string): Promise<AgreementData> {
+        const templateId: string = await this.call('getAgreementTemplate', [
+            zeroX(agreementId)
+        ])
+        const events = await this.templates[templateId].getAgreementCreatedEvent(
+            agreementId
+        )
+        const values = events.map(e => e.returnValues || e)
+        const { _did, _didOwner, _conditionIds, _conditionIdSeeds } = values[0]
         return {
-            did,
+            did: _did,
             agreementId,
-            didOwner,
+            didOwner: _didOwner,
             templateId,
-            conditionIds,
-            lastUpdatedBy,
-            blockNumberUpdated: +blockNumberUpdated
+            conditionIdSeeds: _conditionIdSeeds,
+            conditionIds: _conditionIds
         } as AgreementData
     }
 
     public async getAgreements(did: string): Promise<AgreementData[]> {
-        const agreementIds: string[] = await this.call('getAgreementIdsForDID', [
-            didZeroX(did)
-        ])
+        let res = []
+        for (const a of Object.values(this.templates) as any[]) {
+            res = res.concat(await a.getAgreementsForDID(did))
+        }
+        return Promise.all(res.map(async a => await this.getAgreement(a)))
+    }
 
-        return Promise.all(
-            agreementIds.map(agreementId => this.getAgreement(agreementId))
-        )
+    public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {
+        return await this.call('agreementId', [zeroX(agreementIdSeed), creator])
     }
 
     public async createAgreement(

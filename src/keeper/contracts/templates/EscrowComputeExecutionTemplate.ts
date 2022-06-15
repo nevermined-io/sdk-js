@@ -41,18 +41,18 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         from?: Account,
         params?: TxParameters
     ) {
-        return !!(await this.createFullAgreement(
+        return await this.createFullAgreement(
             ddo,
             assetRewards,
             consumer.getId(),
             agreementId,
             from,
             params
-        ))
+        )
     }
 
     public async createAgreementWithPaymentFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         consumerAddress: Account,
@@ -62,20 +62,22 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         timeOuts?: number[],
         txParams?: TxParameters,
         observer?: (OrderProgressStep) => void
-    ): Promise<boolean> {
+    ): Promise<string> {
         observer = observer ? observer : _ => {}
 
         const {
+            agreementId,
             ids,
             rewardAddress,
             tokenAddress,
             amounts,
             receivers
         } = await this.getAgreementDataFromDDO(
-            agreementId,
+            agreementIdSeed,
             ddo,
             assetRewards,
             consumerAddress.getId(),
+            from.getId(),
             serviceType
         )
 
@@ -90,10 +92,10 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)
-        const res = !!(await this.createAgreementAndPay(
-            agreementId,
+        await this.createAgreementAndPay(
+            agreementIdSeed,
             ddo.shortId(),
-            ids,
+            ids.map(a => a[0]),
             [0, 0, 0],
             timeOuts ? timeOuts : [0, 0, 0],
             consumerAddress.getId(),
@@ -104,26 +106,28 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
             receivers,
             from,
             { ...txParams, value }
-        ))
+        )
         observer(OrderProgressStep.AgreementInitialized)
 
-        return res
+        return agreementId
     }
 
     public async getAgreementDataFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
+        creator: string,
         serviceType: ServiceType = 'compute'
     ) {
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
 
-        const ids = await this.getAgreementIdsFromDDO(
-            agreementId,
+        const { agreementId, ids } = await this.createFullAgreementData(
+            agreementIdSeed,
             ddo,
             assetRewards,
-            consumer
+            consumer,
+            creator
         )
         const computeService = ddo.findServiceByType(serviceType)
         const payment = findServiceConditionByName(computeService, 'lockPayment')
@@ -131,6 +135,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
 
         return {
             ids,
+            agreementId,
             rewardAddress: escrowPaymentCondition.getAddress(),
             tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
                 .value as string,
@@ -143,13 +148,20 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         agreementId: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string
-    ) {
+        consumer: string,
+        creator: string
+    ): Promise<any> {
         const {
             computeExecutionConditionId,
             lockPaymentConditionId,
             escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer)
+        } = await this.createFullAgreementData(
+            agreementId,
+            ddo,
+            assetRewards,
+            consumer,
+            creator
+        )
         return [
             computeExecutionConditionId,
             lockPaymentConditionId,
@@ -170,23 +182,30 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         ddo: DDO,
         assetRewards: AssetRewards,
         consumer: string,
-        agreementId: string = generateId(),
+        agreementIdSeed: string = generateId(),
         from?: Account,
         params?: TxParameters
     ): Promise<string> {
         const {
             computeExecutionConditionId,
             lockPaymentConditionId,
-            escrowPaymentConditionId
-        } = await this.createFullAgreementData(agreementId, ddo, assetRewards, consumer)
+            escrowPaymentConditionId,
+            agreementId
+        } = await this.createFullAgreementData(
+            agreementIdSeed,
+            ddo,
+            assetRewards,
+            consumer,
+            from.getId()
+        )
 
         await this.createAgreement(
-            agreementId,
+            agreementIdSeed,
             ddo.shortId(),
             [
-                computeExecutionConditionId,
-                lockPaymentConditionId,
-                escrowPaymentConditionId
+                computeExecutionConditionId[0],
+                lockPaymentConditionId[0],
+                escrowPaymentConditionId[0]
             ],
             [0, 0, 0],
             [0, 0, 0],
@@ -199,10 +218,11 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
     }
 
     private async createFullAgreementData(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         assetRewards: AssetRewards,
-        consumer: string
+        consumer: string,
+        creator: string
     ) {
         const { conditions } = this.nevermined.keeper
 
@@ -217,37 +237,52 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate
         const payment = findServiceConditionByName(accessService, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
 
-        const lockPaymentConditionId = await lockPaymentCondition.generateIdHash(
-            agreementId,
-            ddo.shortId(),
-            escrowPaymentCondition.getAddress(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers()
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
         )
 
-        const computeExecutionConditionId = await computeExecutionCondition.generateIdHash(
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
             agreementId,
-            ddo.shortId(),
-            consumer
+            await lockPaymentCondition.hashValues(
+                ddo.shortId(),
+                escrowPaymentCondition.getAddress(),
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
+        )
+
+        const computeExecutionConditionId = await computeExecutionCondition.generateIdWithSeed(
+            agreementId,
+            await computeExecutionCondition.hashValues(ddo.shortId(), consumer)
         )
 
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')
         if (!escrow) throw new Error('escrow Condition not found!')
 
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdHash(
+        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdWithSeed(
             agreementId,
-            ddo.shortId(),
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            escrowPaymentCondition.getAddress(),
-            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-            lockPaymentConditionId,
-            computeExecutionConditionId
+            await escrowPaymentCondition.hashValues(
+                ddo.shortId(),
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers(),
+                consumer,
+                escrowPaymentCondition.getAddress(),
+                escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
+                lockPaymentConditionId[1],
+                computeExecutionConditionId[1]
+            )
         )
 
         return {
+            ids: [
+                computeExecutionConditionId,
+                lockPaymentConditionId,
+                escrowPaymentConditionId
+            ],
             computeExecutionConditionId,
+            agreementId,
             lockPaymentConditionId,
             escrowPaymentConditionId
         }

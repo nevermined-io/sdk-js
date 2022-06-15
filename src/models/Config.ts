@@ -4,10 +4,16 @@ export { LogLevel } from '../utils/Logger'
 
 export class Config {
     /**
-     * Metadata URL.
+     * MarketPlace URL.
      * @type {string}
      */
-    public metadataUri: string
+    public marketplaceUri: string
+
+    /**
+     * Marketplace auth token.
+     * @type {string}
+     */
+    public marketplaceAuthToken: string
 
     /**
      * Gateway URL.
@@ -73,6 +79,8 @@ export class Config {
     public graphHttpUri?: string
 
     public aaveConfig?: AaveConfig
+
+    public artifactsFolder?: string
 }
 
 export default Config

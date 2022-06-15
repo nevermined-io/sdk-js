@@ -1,6 +1,7 @@
 import { Contract } from 'web3-eth-contract'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
+import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
@@ -44,6 +45,12 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
 
         // Contracts
+        const nvmConfig = await TestContractHandler.deployContract(
+            'NeverminedConfig',
+            deployerAddress,
+            [deployerAddress, deployerAddress]
+        )
+
         const token = await TestContractHandler.deployContract(
             'NeverminedToken',
             deployerAddress,
@@ -54,6 +61,12 @@ export default abstract class TestContractHandler extends ContractHandler {
             'NFTUpgradeable',
             deployerAddress,
             ['']
+        )
+
+        const erc721 = await TestContractHandler.deployContract(
+            'NFT721Upgradeable',
+            deployerAddress,
+            []
         )
 
         const dispenser = await TestContractHandler.deployContract(
@@ -82,6 +95,10 @@ export default abstract class TestContractHandler extends ContractHandler {
             .addMinter(didRegistry.options.address)
             .send({ from: deployerAddress })
 
+        await erc721.methods
+            .addMinter(didRegistry.options.address)
+            .send({ from: deployerAddress })
+
         // Managers
         const templateStoreManager = await TestContractHandler.deployContract(
             'TemplateStoreManager',
@@ -91,7 +108,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const conditionStoreManager = await TestContractHandler.deployContract(
             'ConditionStoreManager',
             deployerAddress,
-            [deployerAddress, deployerAddress],
+            [deployerAddress, deployerAddress, nvmConfig.options.address],
             {
                 EpochLibrary: epochLibrary.options.address
             }
@@ -167,6 +184,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 deployerAddress,
                 conditionStoreManager.options.address,
                 didRegistry.options.address,
+                erc721.options.address,
                 lockPaymentCondition.options.address
             ]
         )
@@ -177,6 +195,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             [
                 deployerAddress,
                 conditionStoreManager.options.address,
+                didRegistry.options.address,
                 erc1155.options.address,
                 ZeroAddress
             ]
@@ -291,6 +310,13 @@ export default abstract class TestContractHandler extends ContractHandler {
                 nft721LockCondition.options.address
             ]
         )
+        const vaultLibrary = await TestContractHandler.deployContract(
+            'AaveCreditVault',
+            deployerAddress,
+            [],
+            {},
+            false
+        )
 
         await TestContractHandler.deployContract('AaveCreditTemplate', deployerAddress, [
             deployerAddress,
@@ -300,7 +326,8 @@ export default abstract class TestContractHandler extends ContractHandler {
             aaveBorrowCondition.options.address,
             aaveRepayCondition.options.address,
             aaveCollateralWithdrawCondition.options.address,
-            distributeNFTCollateralCondition.options.address
+            distributeNFTCollateralCondition.options.address,
+            vaultLibrary.options.address
         ])
     }
 
@@ -308,7 +335,8 @@ export default abstract class TestContractHandler extends ContractHandler {
         name: string,
         from: string,
         args: any[] = [],
-        tokens: { [name: string]: string } = {}
+        tokens: { [name: string]: string } = {},
+        init = true
     ): Promise<ContractTest> {
         const where = TestContractHandler.networkId
 
@@ -322,13 +350,17 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         let contractInstance: ContractTest
         try {
+            const networkName = (
+                await KeeperUtils.getNetworkName(this.web3)
+            ).toLowerCase()
             Logger.log('Deploying', name)
-            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.development.json`)
+            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.${networkName}.json`)
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
                 from,
                 args,
-                tokens
+                tokens,
+                init
             )
             contractInstance.testContract = true
             ContractHandler.setContract(name, where, contractInstance)
@@ -350,7 +382,8 @@ export default abstract class TestContractHandler extends ContractHandler {
         artifact,
         from?: string,
         args = [],
-        tokens = {}
+        tokens = {},
+        init = true
     ): Promise<Contract> {
         if (!from) {
             from = (await TestContractHandler.web3.eth.getAccounts())[0]
@@ -366,7 +399,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             artifact.abi,
             artifact.address
         )
-        const isZos = !!tempContract.methods.initialize
+        const isZos = !!tempContract.methods.initialize && init
 
         Logger.debug({
             name: artifact.name,

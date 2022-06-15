@@ -1,7 +1,8 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 import { Nevermined } from '../../src/nevermined/Nevermined'
-import { Metadata, SearchQuery } from '../../src/metadata/Metadata'
+import { Metadata } from '../../src/metadata/Metadata'
+import { SearchQuery } from '../../src/common/interfaces'
 import { DDO } from '../../src/ddo/DDO'
 import DID from '../../src/nevermined/DID'
 import config from '../config'
@@ -47,7 +48,7 @@ describe('Metadata', () => {
                 value: 1
             },
             sort: {
-                value: 1
+                created: 'desc'
             },
             text: 'Office'
         } as SearchQuery
@@ -120,7 +121,7 @@ describe('Metadata', () => {
                 value: 1
             },
             sort: {
-                value: 1
+                created: 'desc'
             },
             text: 'Office'
         } as SearchQuery

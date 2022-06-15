@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
+import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
@@ -11,6 +12,7 @@ import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
+import { RoyaltyKind } from '../../src/nevermined/Assets'
 
 chai.use(chaiAsPromised)
 
@@ -27,6 +29,7 @@ describe('NFTs Api End-to-End', () => {
     let ddo: DDO
 
     const metadata = getMetadata()
+    const royalties1 = 100000 // 10% of royalties in the secondary market
     const royalties = 10 // 10% of royalties in the secondary market
     const cappedAmount = 5
     let agreementId: string
@@ -42,10 +45,18 @@ describe('NFTs Api End-to-End', () => {
 
     let initialBalances: any
     let scale: BigNumber
+    let payload: JWTPayload
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+
+        payload = decodeJwt(config.marketplaceAuthToken)
+
+        metadata.userId = payload.sub
 
         // conditions
         ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
@@ -79,11 +90,12 @@ describe('NFTs Api End-to-End', () => {
 
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-            ddo = await nevermined.nfts.create(
+            ddo = await nevermined.nfts.createWithRoyalties(
                 metadata,
                 artist,
                 cappedAmount,
-                royalties,
+                RoyaltyKind.Standard,
+                royalties1,
                 assetRewards1
             )
             assert.isDefined(ddo)
@@ -105,7 +117,8 @@ describe('NFTs Api End-to-End', () => {
             const details = await nevermined.nfts.details(ddo.id)
             assert.equal(details.mintCap, 5)
             assert.equal(details.nftSupply, 5)
-            assert.equal(details.royalties, 10)
+            assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
+            assert.equal(details.royalties, 100000)
             assert.equal(details.owner, artist.getId())
         })
 
@@ -233,8 +246,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints the nfts', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 cappedAmount,
                 royalties,
@@ -291,8 +306,10 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(result)
         })
         it('The artist creates and mints one nft', async () => {
+            const newMetadata = getMetadata()
+            newMetadata.userId = payload.sub
             ddo = await nevermined.nfts.create(
-                getMetadata(),
+                newMetadata,
                 artist,
                 1,
                 royalties,

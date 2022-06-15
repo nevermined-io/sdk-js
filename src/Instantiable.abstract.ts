@@ -9,6 +9,7 @@ export interface InstantiableConfig {
     config?: Config
     web3?: Web3
     logger?: Logger
+    artifactsFolder?: string
 }
 
 export function generateIntantiableConfigFromConfig(
@@ -23,7 +24,8 @@ export function generateIntantiableConfigFromConfig(
     return {
         config,
         web3: Web3Provider.getWeb3(config),
-        logger: new Logger(logLevel)
+        logger: new Logger(logLevel),
+        artifactsFolder: config.artifactsFolder
     }
 }
 
@@ -60,9 +62,13 @@ export abstract class Instantiable {
         return this._logger
     }
 
+    protected get artifactsFolder() {
+        return this._artifactsFolder
+    }
+
     protected get instanceConfig(): InstantiableConfig {
-        const { nevermined, web3, config, logger } = this
-        return { nevermined, web3, config, logger }
+        const { nevermined, web3, config, logger, artifactsFolder } = this
+        return { nevermined, web3, config, logger, artifactsFolder }
     }
 
     public static getInstance(...args: any[]): any
@@ -74,12 +80,13 @@ export abstract class Instantiable {
 
     protected static setInstanceConfig<T extends Instantiable>(
         instance: T,
-        { nevermined, config, web3, logger }: InstantiableConfig
+        { nevermined, config, web3, logger, artifactsFolder }: InstantiableConfig
     ) {
         instance._nevermined = nevermined
         instance._config = config
         instance._web3 = web3
         instance._logger = logger
+        instance._artifactsFolder = artifactsFolder
     }
 
     private _nevermined: Nevermined
@@ -89,6 +96,8 @@ export abstract class Instantiable {
     private _config: Config
 
     private _logger: Logger
+
+    private _artifactsFolder: string
 
     protected setInstanceConfig(config: InstantiableConfig) {
         Instantiable.setInstanceConfig(this, config)

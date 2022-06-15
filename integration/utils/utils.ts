@@ -4,3 +4,5 @@ export const transformMetadata = (metadata: any): any => {
     } catch {}
     return metadata
 }
+
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))

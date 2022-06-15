@@ -86,9 +86,7 @@ describe('AssetRewards', () => {
     })
 
     it('it uses a big number', async () => {
-        const rewardsMap = new Map([
-            ['0x123', new BigNumber(10000000000000000000000)]
-        ])
+        const rewardsMap = new Map([['0x123', new BigNumber(10000000000000000000000)]])
 
         const assetRewards = new AssetRewards(rewardsMap)
 

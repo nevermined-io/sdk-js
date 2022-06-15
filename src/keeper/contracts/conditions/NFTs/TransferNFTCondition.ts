@@ -15,7 +15,7 @@ export class TransferNFTCondition extends Condition {
     }
 
     /**
-     * Generates the ash of condition inputs.
+     * Generates the hash of condition inputs.
      * @param {String} did The DID of the asset with NFTs.
      * @param {String} nftHolder The address of the holder of the NFT.
      * @param {String} nftReceiver The address of the granted user or the DID provider.
@@ -39,13 +39,26 @@ export class TransferNFTCondition extends Condition {
         )
     }
 
-    public hashValues2(
+    /**
+     * Generates the hash of condition inputs.
+     * @param {String} did The DID of the asset with NFTs.
+     * @param {String} nftHolder The address of the holder of the NFT.
+     * @param {String} nftReceiver The address of the granted user or the DID provider.
+     * @param {Number} nftAmount Amount of NFTs to transfer.
+     * @param {String} lockCondition Lock condition identifier.
+     * @param {String} nftContractAddress The address of the NFT token to use.
+     * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
+     * @returns Hash of all the values
+     */
+
+    public hashValuesComplete(
         did: string,
         nftHolder: string,
         nftReceiver: string,
         nftAmount: number,
         lockCondition: string,
-        nftcont: string
+        nftContractAddress: string,
+        willBeTransferred: boolean = true
     ) {
         return super.hashValues(
             didZeroX(did),
@@ -53,7 +66,8 @@ export class TransferNFTCondition extends Condition {
             zeroX(nftReceiver),
             String(nftAmount),
             lockCondition,
-            nftcont
+            zeroX(nftContractAddress),
+            willBeTransferred
         )
     }
 
@@ -106,6 +120,7 @@ export class TransferNFTCondition extends Condition {
         nftReceiver: string,
         nftAmount: number,
         lockPaymentCondition: string,
+        transferAsset: boolean = true,
         from?: Account,
         params?: TxParameters
     ) {
@@ -116,7 +131,8 @@ export class TransferNFTCondition extends Condition {
                 zeroX(nftHolder),
                 zeroX(nftReceiver),
                 String(nftAmount),
-                lockPaymentCondition
+                lockPaymentCondition,
+                transferAsset
             ],
             from,
             params,

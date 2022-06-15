@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined } from '../../src'
 import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
@@ -36,6 +37,8 @@ describe('NFTs721 Api End-to-End', () => {
 
     let nftContract: Contract
 
+    let payload: JWTPayload
+
     before(async () => {
         TestContractHandler.setConfig(config)
 
@@ -43,6 +46,12 @@ describe('NFTs721 Api End-to-End', () => {
 
         nevermined = await Nevermined.getInstance(config)
         ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
+
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        await nevermined.marketplace.login(clientAssertion)
+        payload = decodeJwt(config.marketplaceAuthToken)
+        metadata.userId = payload.sub
 
         // conditions
         ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
@@ -144,6 +153,7 @@ describe('NFTs721 Api End-to-End', () => {
             const receipt = await nevermined.nfts.release721Rewards(
                 agreementId,
                 ddo.id,
+                collector1,
                 artist
             )
 

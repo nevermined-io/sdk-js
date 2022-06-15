@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -84,15 +85,20 @@ describe('Register Escrow Compute Execution Template', () => {
 
     describe('Full flow', () => {
         let agreementId: string
+        let agreementIdSeed: string
         let didSeed: string
         let did: string
 
-        let conditionIdCompute: string
-        let conditionIdLock: string
-        let conditionIdEscrow: string
+        let conditionIdCompute: [string, string]
+        let conditionIdLock: [string, string]
+        let conditionIdEscrow: [string, string]
 
         before(async () => {
-            agreementId = utils.generateId()
+            agreementIdSeed = utils.generateId()
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                publisher.getId()
+            )
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
@@ -108,28 +114,32 @@ describe('Register Escrow Compute Execution Template', () => {
         })
 
         it('should generate the condition IDs', async () => {
-            conditionIdCompute = await computeExecutionCondition.generateIdHash(
+            conditionIdCompute = await computeExecutionCondition.generateIdWithSeed(
                 agreementId,
-                did,
-                consumer.getId()
+                await computeExecutionCondition.hashValues(did, consumer.getId())
             )
-            conditionIdLock = await lockPaymentCondition.generateIdHash(
+            conditionIdLock = await lockPaymentCondition.generateIdWithSeed(
                 agreementId,
-                did,
-                escrowPaymentCondition.getAddress(),
-                token.getAddress(),
-                amounts,
-                receivers
+                await lockPaymentCondition.hashValues(
+                    did,
+                    escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
+                    amounts,
+                    receivers
+                )
             )
-            conditionIdEscrow = await escrowPaymentCondition.generateIdHash(
+            conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                 agreementId,
-                did,
-                amounts,
-                receivers,
-                escrowPaymentCondition.getAddress(),
-                token.getAddress(),
-                conditionIdLock,
-                conditionIdCompute
+                await escrowPaymentCondition.hashValues(
+                    did,
+                    amounts,
+                    receivers,
+                    consumer.getId(),
+                    escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
+                    conditionIdLock[1],
+                    conditionIdCompute[1]
+                )
             )
         })
 
@@ -174,9 +184,9 @@ describe('Register Escrow Compute Execution Template', () => {
 
         it('should create a new agreement', async () => {
             const agreement = await escrowComputeExecutionTemplate.createAgreement(
-                agreementId,
+                agreementIdSeed,
                 did,
-                [conditionIdCompute, conditionIdLock, conditionIdEscrow],
+                [conditionIdCompute[0], conditionIdLock[0], conditionIdEscrow[0]],
                 [0, 0, 0],
                 [0, 0, 0],
                 consumer.getId(),
@@ -236,10 +246,11 @@ describe('Register Escrow Compute Execution Template', () => {
                 did,
                 amounts,
                 receivers,
+                consumer.getId(),
                 escrowPaymentCondition.getAddress(),
                 token.getAddress(),
-                conditionIdLock,
-                conditionIdCompute,
+                conditionIdLock[1],
+                conditionIdCompute[1],
                 consumer
             )
 
@@ -261,8 +272,17 @@ describe('Register Escrow Compute Execution Template', () => {
         let ddo: DDO
 
         before(async () => {
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                publisher
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
             ddo = await nevermined.assets.create(
-                getMetadata(),
+                metadata,
                 publisher,
                 undefined,
                 ['access', 'compute'],
@@ -326,9 +346,8 @@ describe('Register Escrow Compute Execution Template', () => {
                 agreementId,
                 amounts,
                 receivers,
-                ddo.shortId(),
                 consumer.getId(),
-                publisher.getId(),
+                ddo.shortId(),
                 token.getAddress(),
                 publisher
             )

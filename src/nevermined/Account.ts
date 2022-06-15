@@ -2,8 +2,9 @@ import BigNumber from 'bignumber.js'
 import Balance from '../models/Balance'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import KeyTransfer from '../utils/KeyTransfer'
+import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { KeeperError } from '../errors'
 
 /**
  * Account information.
@@ -36,8 +37,8 @@ export default class Account extends Instantiable {
         return this.babyX.substr(2) + this.babyY.substr(2)
     }
 
-    public signBabyjub(num: BigInt) {
-        const keytransfer = new KeyTransfer()
+    public async signBabyjub(num: BigInt) {
+        const keytransfer = await makeKeyTransfer()
         return keytransfer.signBabyjub(this.babySecret, num)
     }
 
@@ -133,13 +134,12 @@ export default class Account extends Instantiable {
         params?: TxParameters
     ): Promise<string> {
         if (!this.nevermined.keeper.dispenser) {
-            throw new Error('Dispenser not available on this network.')
+            throw new KeeperError('Dispenser not available on this network.')
         }
         try {
             await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, params)
         } catch (e) {
-            this.logger.error(e)
-            throw new Error('Error requesting tokens')
+            throw new KeeperError('Error requesting tokens')
         }
         return amount.toString()
     }

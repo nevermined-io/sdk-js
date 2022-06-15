@@ -31,7 +31,7 @@ describe('Accounts', () => {
                 try {
                     await nevermined.faucet.requestEth(account.getId())
                 } catch (e) {
-                    assert.include(await e.text(), 'Already requested')
+                    assert.include(await e.message, 'Already requested')
                 }
             } else {
                 assert.isTrue(success)

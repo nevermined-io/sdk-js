@@ -30,7 +30,6 @@ describe('ContractEvent', () => {
             const waitForEvents = new Promise(resolve => {
                 subscription = nevermined.keeper.token.events.subscribe(
                     events => {
-                        console.log(events)
                         assert.isDefined(events)
                         assert.isAtLeast(events.length, 1)
 
@@ -49,11 +48,9 @@ describe('ContractEvent', () => {
                     }
                 )
             })
-            console.log('before request tokens')
             await nevermined.keeper.dispenser.requestTokens(1, account1.getId())
             await nevermined.keeper.dispenser.requestTokens(2, account2.getId())
             await nevermined.keeper.dispenser.requestTokens(3, account3.getId())
-            console.log('after request tokens')
 
             await waitForEvents
             subscription.unsubscribe()

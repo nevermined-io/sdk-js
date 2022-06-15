@@ -6,6 +6,7 @@ import {
     NeverminedEvent
 } from './NeverminedEvent'
 import ContractBase from '../keeper/contracts/ContractBase'
+import { KeeperError } from '../errors'
 
 export class ContractEvent extends NeverminedEvent {
     private web3: Web3
@@ -22,7 +23,7 @@ export class ContractEvent extends NeverminedEvent {
 
     public async getEventData(options: EventOptions): EventResult {
         if (!this.contract.contract.events[options.eventName]) {
-            throw new Error(
+            throw new KeeperError(
                 `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`
             )
         }
@@ -41,12 +42,13 @@ export class ContractEvent extends NeverminedEvent {
 
         // Temporary workaround to work with mumbai
         // Infura as a 1000 blokcs limit on their api
-        if (chainId === 80001) {
+        if (chainId === 80001 || chainId === 42) {
             const latestBlock = await this.web3.eth.getBlockNumber()
-            options.fromBlock = latestBlock - 990
+            options.fromBlock = latestBlock - 99
         }
 
-        return this.getEventData(options)
+        const data = await this.getEventData(options)
+        return data
     }
 
     public async getBlockNumber(): Promise<number> {

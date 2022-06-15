@@ -1,5 +1,6 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { Web3Error } from '../errors'
 
 const defaultAuthMessage = 'Nevermined Protocol Authentication'
 const defaultExpirationTime = 30 * 24 * 60 * 60 * 1000 // 30 days
@@ -38,7 +39,7 @@ export class Auth extends Instantiable {
 
             return `${signature}-${time}`
         } catch {
-            throw new Error('User denied the signature.')
+            throw new Web3Error('User denied the signature.')
         }
     }
 
@@ -127,7 +128,7 @@ export class Auth extends Instantiable {
         try {
             localStorage.getItem('')
         } catch {
-            throw new Error(
+            throw new Web3Error(
                 'LocalStorage is not supported. This feature is only available on browsers.'
             )
         }

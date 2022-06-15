@@ -1,4 +1,5 @@
 import { assert } from 'chai'
+import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 
@@ -84,15 +85,20 @@ describe('Register Escrow Access Secret Store Template', () => {
 
     describe('Full flow', () => {
         let agreementId: string
+        let agreementIdSeed: string
         let didSeed: string
         let did: string
 
-        let conditionIdAccess: string
-        let conditionIdLock: string
-        let conditionIdEscrow: string
+        let conditionIdAccess: [string, string]
+        let conditionIdLock: [string, string]
+        let conditionIdEscrow: [string, string]
 
         before(async () => {
-            agreementId = utils.generateId()
+            agreementIdSeed = utils.generateId()
+            agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                publisher.getId()
+            )
             didSeed = utils.generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
@@ -108,28 +114,32 @@ describe('Register Escrow Access Secret Store Template', () => {
         })
 
         it('should generate the condition IDs', async () => {
-            conditionIdAccess = await accessCondition.generateIdHash(
+            conditionIdAccess = await accessCondition.generateIdWithSeed(
                 agreementId,
-                did,
-                consumer.getId()
+                await accessCondition.hashValues(did, consumer.getId())
             )
-            conditionIdLock = await lockPaymentCondition.generateIdHash(
+            conditionIdLock = await lockPaymentCondition.generateIdWithSeed(
                 agreementId,
-                did,
-                escrowPaymentCondition.getAddress(),
-                token.getAddress(),
-                amounts,
-                receivers
+                await lockPaymentCondition.hashValues(
+                    did,
+                    escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
+                    amounts,
+                    receivers
+                )
             )
-            conditionIdEscrow = await escrowPaymentCondition.generateIdHash(
+            conditionIdEscrow = await escrowPaymentCondition.generateIdWithSeed(
                 agreementId,
-                did,
-                amounts,
-                receivers,
-                escrowPaymentCondition.getAddress(),
-                token.getAddress(),
-                conditionIdLock,
-                conditionIdAccess
+                await escrowPaymentCondition.hashValues(
+                    did,
+                    amounts,
+                    receivers,
+                    consumer.getId(),
+                    escrowPaymentCondition.getAddress(),
+                    token.getAddress(),
+                    conditionIdLock[1],
+                    conditionIdAccess[1]
+                )
             )
         })
 
@@ -173,9 +183,9 @@ describe('Register Escrow Access Secret Store Template', () => {
 
         it('should create a new agreement', async () => {
             const agreement = await accessTemplate.createAgreement(
-                agreementId,
+                agreementIdSeed,
                 did,
-                [conditionIdAccess, conditionIdLock, conditionIdEscrow],
+                [conditionIdAccess[0], conditionIdLock[0], conditionIdEscrow[0]],
                 [0, 0, 0],
                 [0, 0, 0],
                 consumer.getId(),
@@ -235,10 +245,11 @@ describe('Register Escrow Access Secret Store Template', () => {
                 did,
                 amounts,
                 receivers,
+                consumer.getId(),
                 escrowPaymentCondition.getAddress(),
                 token.getAddress(),
-                conditionIdLock,
-                conditionIdAccess,
+                conditionIdLock[1],
+                conditionIdAccess[1],
                 consumer
             )
 
@@ -260,7 +271,16 @@ describe('Register Escrow Access Secret Store Template', () => {
         let ddo: DDO
 
         before(async () => {
-            ddo = await nevermined.assets.create(getMetadata(), publisher)
+            const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                publisher
+            )
+
+            await nevermined.marketplace.login(clientAssertion)
+
+            const payload = decodeJwt(config.marketplaceAuthToken)
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+            ddo = await nevermined.assets.create(metadata, publisher)
         })
 
         it('should create a new agreement (short way)', async () => {
@@ -315,9 +335,8 @@ describe('Register Escrow Access Secret Store Template', () => {
                 agreementId,
                 amounts,
                 receivers,
-                ddo.shortId(),
                 consumer.getId(),
-                publisher.getId(),
+                ddo.shortId(),
                 token.getAddress(),
                 publisher
             )

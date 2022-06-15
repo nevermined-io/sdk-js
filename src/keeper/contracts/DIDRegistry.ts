@@ -305,9 +305,27 @@ export default class DIDRegistry extends ContractBase {
         return this.send(
             'revokePermission',
             ownerAddress,
-            [zeroX(did), zeroX(grantee)],
+            [didZeroX(did), zeroX(grantee)],
             params
         )
+    }
+
+    public async setDIDRoyalties(
+        did: string,
+        scheme: string,
+        ownerAddress: string,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'setDIDRoyalties',
+            ownerAddress,
+            [didZeroX(did), zeroX(scheme)],
+            params
+        )
+    }
+
+    public async getDIDRoyalties(did: string) {
+        return this.call('getDIDRoyaltyScheme', [didZeroX(did)])
     }
 
     public async getPermission(did: string, grantee: string): Promise<boolean> {

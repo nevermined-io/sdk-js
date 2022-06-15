@@ -8,6 +8,7 @@ import * as subgraphs from '@nevermined-io/subgraphs'
 import axios from 'codegen-graph-ts/build/src/lib/axios'
 import generateGql from 'codegen-graph-ts/build/src/lib/gql'
 import ContractBase from '../keeper/contracts/ContractBase'
+import { GraphError } from '../errors'
 
 export class SubgraphEvent extends NeverminedEvent {
     private graphHttpUri: string
@@ -26,12 +27,12 @@ export class SubgraphEvent extends NeverminedEvent {
 
     public async getEventData(options: EventOptions): EventResult {
         if (!this.subgraph) {
-            throw new Error(
+            throw new GraphError(
                 `Subgraph client for ${this.contract.contractName} is not implemented!`
             )
         }
         if (!this.subgraph[options.methodName]) {
-            throw new Error(
+            throw new GraphError(
                 `Method "${options.methodName}" not found on subgraph "neverminedio/${this.contract.contractName}"`
             )
         }

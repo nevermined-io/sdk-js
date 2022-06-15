@@ -1,9 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
-import KeyTransfer from '../../src/utils/KeyTransfer'
-
-const keytransfer = new KeyTransfer()
+import { makeKeyTransfer } from '../../src/utils/KeyTransfer'
 
 const metadata: Partial<MetaData> = {
     main: {
@@ -50,11 +48,12 @@ const metadata: Partial<MetaData> = {
     }
 }
 
-export function getMetadataForDTP(
+export async function getMetadataForDTP(
     name: string,
     passwd: string,
     providerKey: any
-): MetaData {
+): Promise<MetaData> {
+    const keytransfer = await makeKeyTransfer()
     return {
         main: {
             name,
@@ -78,7 +77,7 @@ export function getMetadataForDTP(
             workExample: '423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68',
             inLanguage: 'en',
             categories: ['Economy', 'Data Science'],
-            poseidonHash: keytransfer.hashKey(Buffer.from(passwd, 'hex')),
+            poseidonHash: await keytransfer.hashKey(Buffer.from(passwd, 'hex')),
             providerKey,
             tags: ['weather', 'uk', '2011', 'temperature', 'humidity']
         }

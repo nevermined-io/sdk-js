@@ -5,12 +5,13 @@ import { findServiceConditionByName, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import KeyTransfer from '../utils/KeyTransfer'
+import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Service } from '../ddo/Service'
 import { EventOptions } from '../events/NeverminedEvent'
 import AssetRewards from '../models/AssetRewards'
 import BigNumber from 'bignumber.js'
+import { KeeperError } from '../errors/KeeperError'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -126,8 +127,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -152,13 +153,13 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { accessProofCondition } = this.nevermined.keeper.conditions
 
-            const keyTransfer = new KeyTransfer()
-            const cipher = keyTransfer.encryptKey(
+            const keyTransfer = await makeKeyTransfer()
+            const cipher = await keyTransfer.encryptKey(
                 data,
-                keyTransfer.ecdh(providerK, buyerPub)
+                await keyTransfer.ecdh(providerK, buyerPub)
             )
             const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
-            const hash = keyTransfer.hashKey(data)
+            const hash = await keyTransfer.hashKey(data)
             const receipt = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
@@ -170,8 +171,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -204,14 +205,19 @@ export class AgreementsConditions extends Instantiable {
             }
         }
         const ev = await accessProofCondition.events.once(events => events, evOptions)
+
+        if (!ev.length) {
+            throw new KeeperError('No events are returned')
+        }
+
         const [cipherL, cipherR] = ev[0].returnValues
             ? ev[0].returnValues._cipher
             : ev[0]._cipher
 
-        const keyTransfer = new KeyTransfer()
+        const keyTransfer = await makeKeyTransfer()
         return keyTransfer.decryptKey(
             new MimcCipher(cipherL, cipherR),
-            keyTransfer.ecdh(buyerK, providerPub)
+            await keyTransfer.ecdh(buyerK, providerPub)
         )
     }
 
@@ -240,8 +246,8 @@ export class AgreementsConditions extends Instantiable {
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -264,19 +270,14 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         amounts: BigNumber[],
         receivers: string[],
+        returnAddress: string,
         did: string,
-        consumer: string,
-        publisher: string,
         erc20TokenAddress?: string,
         from?: Account,
         params?: TxParameters
     ) {
         try {
-            const {
-                escrowPaymentCondition,
-                accessCondition,
-                lockPaymentCondition
-            } = this.nevermined.keeper.conditions
+            const { escrowPaymentCondition } = this.nevermined.keeper.conditions
 
             let token
 
@@ -292,34 +293,26 @@ export class AgreementsConditions extends Instantiable {
                 )
             }
 
-            const totalAmount = AssetRewards.sumAmounts(amounts)
-
-            const conditionIdAccess = await accessCondition.generateIdHash(
-                agreementId,
-                did,
-                consumer
+            const storedAgreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+                agreementId
             )
-            const conditionIdLock = await lockPaymentCondition.generateIdHash(
-                agreementId,
-                escrowPaymentCondition.getAddress(),
-                totalAmount
-            )
-
+            storedAgreement.conditionIds
             const receipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 did,
                 amounts,
                 receivers,
-                publisher,
+                returnAddress,
+                escrowPaymentCondition.getAddress(),
                 token ? token.getAddress() : erc20TokenAddress,
-                conditionIdLock,
-                conditionIdAccess,
+                storedAgreement.conditionIds[1],
+                storedAgreement.conditionIds[0],
                 from,
                 params
             )
             return !!receipt.events.Fulfilled
-        } catch {
-            return false
+        } catch (e) {
+            throw new KeeperError(e)
         }
     }
 
@@ -339,6 +332,7 @@ export class AgreementsConditions extends Instantiable {
         ddo: DDO,
         amounts: BigNumber[],
         receivers: string[],
+        returnAddress: string,
         nftAmount: number,
         publisher: Account,
         from?: Account,
@@ -360,7 +354,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -374,7 +368,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const transferNftConditionId = await transferNftCondition.generateId(
             agreementId,
@@ -388,13 +382,14 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow condition not found!')
+        if (!escrow) throw new KeeperError('Escrow condition not found!')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
             ddo.shortId(),
             amounts,
             receivers,
+            returnAddress,
             escrowPaymentCondition.getAddress(),
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
@@ -425,6 +420,7 @@ export class AgreementsConditions extends Instantiable {
         ddo: DDO,
         amounts: BigNumber[],
         receivers: string[],
+        returnAddress: string,
         publisher: Account,
         from?: Account,
         txParams?: TxParameters
@@ -444,7 +440,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -458,7 +454,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const transferNftConditionId = await transferNft721Condition.generateId(
             agreementId,
@@ -472,13 +468,14 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow condition not found!')
+        if (!escrow) throw new KeeperError('Escrow condition not found!')
 
         const receipt = await escrowPaymentCondition.fulfill(
             agreementId,
             ddo.shortId(),
             amounts,
             receivers,
+            returnAddress,
             escrowPaymentCondition.getAddress(),
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lockPaymentConditionId,
@@ -488,7 +485,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         if (!receipt.events.Fulfilled) {
-            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+            throw new KeeperError(`Failed to fulfill escrowPaymentCondition ${receipt}`)
         }
 
         return !!receipt.events.Fulfilled
@@ -624,7 +621,7 @@ export class AgreementsConditions extends Instantiable {
         const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -687,7 +684,7 @@ export class AgreementsConditions extends Instantiable {
         const salesService = ddo.findServiceByType('nft-sales')
 
         const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment condition not found!')
+        if (!payment) throw new KeeperError('Payment condition not found!')
 
         const lockPaymentConditionId = await lockPaymentCondition.generateId(
             agreementId,
@@ -714,6 +711,7 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             nftAmount,
             lockPaymentConditionId,
+            true,
             from,
             params
         )
@@ -761,7 +759,7 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
+        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
 
         const nft = await this.nevermined.contracts.loadNft721(
             transfer.parameters.find(p => p.name === '_contract').value as string
@@ -788,6 +786,7 @@ export class AgreementsConditions extends Instantiable {
             accessConsumer,
             lockPaymentConditionId,
             transfer.parameters.find(p => p.name === '_contract').value as string,
+            true,
             publisher,
             txParams
         )

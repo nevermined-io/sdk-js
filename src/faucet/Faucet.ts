@@ -1,4 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { HttpError, FaucetError } from '../errors'
 
 /**
  * Provides a interface with Faucet.
@@ -26,12 +27,14 @@ export class Faucet extends Instantiable {
                 decodeURI(JSON.stringify(args))
             )
             if (!response.ok) {
-                throw new Error(await response.text())
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
             }
             return await response.text()
         } catch (e) {
-            this.logger.error(e)
-            throw e
+            throw new FaucetError(e)
         }
     }
 
