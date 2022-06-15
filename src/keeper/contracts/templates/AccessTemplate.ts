@@ -207,6 +207,72 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
         return zeroX(agreementId)
     }
 
+    /**
+     * Return parameters needed for escrow payment condition
+     * @param agreementIdSeed agreement id seed
+     * @param ddo DDO
+     * @param assetRewards rewards
+     * @param consumer consumer
+     * @param creator creator of the agreement
+     * @returns 
+     */
+    public async escrowPaymentParams(
+        agreementIdSeed: string,
+        ddo: DDO,
+        assetRewards: AssetRewards,
+        consumer: string,
+        creator: string
+    ) {
+        const { conditions } = this.nevermined.keeper
+
+        const {
+            accessCondition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = conditions
+
+        const accessService = ddo.findServiceByType('access')
+
+        const payment = findServiceConditionByName(accessService, 'lockPayment')
+        if (!payment) throw new Error('Payment Condition not found!')
+
+        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
+        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
+            agreementId,
+            await lockPaymentCondition.hashValues(
+                ddo.shortId(),
+                escrowPaymentCondition.getAddress(),
+                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+                assetRewards.getAmounts(),
+                assetRewards.getReceivers()
+            )
+        )
+
+        const accessConditionId = await accessCondition.generateIdWithSeed(
+            agreementId,
+            await accessCondition.hashValues(ddo.shortId(), consumer)
+        )
+
+        const escrow = findServiceConditionByName(accessService, 'escrowPayment')
+        if (!escrow) throw new Error('Escrow Condition not found!')
+
+        return [
+            agreementId,
+            ddo.shortId(),
+            assetRewards.getAmounts(),
+            assetRewards.getReceivers(),
+            consumer,
+            escrowPaymentCondition.getAddress(),
+            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
+            lockPaymentConditionId[1],
+            accessConditionId[1]
+        ]
+
+    }
+
     private async createFullAgreementData(
         agreementIdSeed: string,
         ddo: DDO,

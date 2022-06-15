@@ -1,5 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { ZeroAddress, zeroX } from '../../../utils'
+import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import Token from '../Token'
@@ -58,7 +58,7 @@ export abstract class BaseTemplate extends AgreementTemplate {
     ) {
         return super.createAgreementAndPay(
             zeroX(agreementId),
-            zeroX(did),
+            didZeroX(did),
             conditionIds.map(zeroX),
             timeLocks,
             timeOuts,

@@ -41,6 +41,11 @@ import {
     AgreementStoreManager,
     ConditionStoreManager
 } from './contracts/managers'
+import {
+    RewardsDistributor,
+    StandardRoyalties,
+    CurveRoyalties
+} from './contracts/royalties'
 import * as KeeperUtils from './utils'
 import { objectPromiseAll } from '../utils'
 import { EventHandler } from '../events/EventHandler'
@@ -118,8 +123,18 @@ export class Keeper extends Instantiable {
                 didSalesTemplate: DIDSalesTemplate.getInstance(config),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(config),
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
-                aaveCreditTemplate: AaveCreditTemplate.getInstance(config) // optional
+                aaveCreditTemplate: AaveCreditTemplate.getInstance(config), // optional
+                standardRoyalties: StandardRoyalties.getInstance(config), // optional
+                curveRoyalties: CurveRoyalties.getInstance(config), // optional
+                rewardsDistributor: RewardsDistributor.getInstance(config)
             })
+
+            keeper.royalties = {
+                standard: keeper.instances.standardRoyalties,
+                curve: keeper.instances.curveRoyalties
+            }
+
+            keeper.rewardsDistributor = keeper.instances.rewardsDistributor
 
             const templates = [
                 keeper.instances.accessTemplate,
@@ -318,6 +333,13 @@ export class Keeper extends Instantiable {
         nft721SalesTemplate: NFT721SalesTemplate
         aaveCreditTemplate: AaveCreditTemplate
     }
+
+    public royalties: {
+        standard: StandardRoyalties
+        curve: CurveRoyalties
+    }
+
+    rewardsDistributor: RewardsDistributor
 
     /**
      * Helpers for contracts.

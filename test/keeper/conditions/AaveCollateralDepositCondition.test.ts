@@ -3,7 +3,7 @@ import { AaveCollateralDepositCondition } from '../../../src/keeper/contracts/co
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { zeroX } from '../../../src/utils'
+import { didZeroX } from '../../../src/utils'
 import BigNumber from 'bignumber.js'
 import Account from '../../../src/nevermined/Account'
 import * as utils from '../../../src/utils'
@@ -42,7 +42,7 @@ describe('AaveCollateralDepositCondition', () => {
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const hash = await condition.hashValues(
-                zeroX(did),
+                didZeroX(did),
                 vaultAddress,
                 assetToDeposit,
                 depositAmount.toString(),

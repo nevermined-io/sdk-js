@@ -16,7 +16,7 @@ import {
     SubscribablePromise,
     zeroX
 } from '../utils'
-import { CreateProgressStep } from './Assets'
+import { CreateProgressStep, RoyaltyKind } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
@@ -43,7 +43,7 @@ export class Nfts extends Instantiable {
      * @param {string}          erc20TokenAddress The sales reward distribution.
      * @returns {DDO} The newly registered DDO.
      */
-    public create(
+     public create(
         metadata: MetaData,
         publisher: Account,
         cap: number,
@@ -63,6 +63,36 @@ export class Nfts extends Instantiable {
             cap,
             undefined,
             nftAmount,
+            royalties,
+            erc20TokenAddress,
+            preMint,
+            nftMetadata ? nftMetadata : '',
+            txParams
+        )
+    }
+
+    public createWithRoyalties(
+        metadata: MetaData,
+        publisher: Account,
+        cap: number,
+        royaltyKind: RoyaltyKind,
+        royalties: number,
+        assetRewards: AssetRewards,
+        nftAmount: number = 1,
+        erc20TokenAddress?: string,
+        preMint?: boolean,
+        nftMetadata?: string,
+        txParams?: TxParameters
+    ): SubscribablePromise<CreateProgressStep, DDO> {
+        return this.nevermined.assets.createNftWithRoyalties(
+            metadata,
+            publisher,
+            assetRewards,
+            undefined,
+            cap,
+            undefined,
+            nftAmount,
+            royaltyKind,
             royalties,
             erc20TokenAddress,
             preMint,
@@ -433,6 +463,17 @@ export class Nfts extends Instantiable {
      */
     public async details(did: string) {
         const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
+        const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
+        let royalties = Number(details[8])
+        let royaltyScheme = RoyaltyKind.Legacy
+        if (this.nevermined.keeper.royalties.curve && royaltySchemeAddress === this.nevermined.keeper.royalties.curve.address) {
+            royaltyScheme = RoyaltyKind.Curve
+            royalties = await this.nevermined.keeper.royalties.curve.getRoyalty(did)
+        } else if (this.nevermined.keeper.royalties.standard && royaltySchemeAddress === this.nevermined.keeper.royalties.standard.address) {
+            royaltyScheme = RoyaltyKind.Standard
+            royalties = await this.nevermined.keeper.royalties.standard.getRoyalty(did)
+        }
+
         return {
             owner: details[0],
             lastChecksum: details[1],
@@ -442,7 +483,8 @@ export class Nfts extends Instantiable {
             providers: details[5],
             nftSupply: Number(details[6]),
             mintCap: Number(details[7]),
-            royalties: Number(details[8])
+            royalties,
+            royaltyScheme,
         }
     }
 
