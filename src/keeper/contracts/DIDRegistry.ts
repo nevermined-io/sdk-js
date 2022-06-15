@@ -324,6 +324,10 @@ export default class DIDRegistry extends ContractBase {
         )
     }
 
+    public async getDIDRoyalties(did: string) {
+        return this.call('getDIDRoyaltyScheme', [didZeroX(did)])
+    }
+
     public async getPermission(did: string, grantee: string): Promise<boolean> {
         return this.call('getPermission', [didZeroX(did), zeroX(grantee)])
     }

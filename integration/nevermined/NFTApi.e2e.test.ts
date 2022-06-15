@@ -117,7 +117,8 @@ describe('NFTs Api End-to-End', () => {
             const details = await nevermined.nfts.details(ddo.id)
             assert.equal(details.mintCap, 5)
             assert.equal(details.nftSupply, 5)
-            // assert.equal(details.royalties, 10)
+            assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
+            assert.equal(details.royalties, 100000)
             assert.equal(details.owner, artist.getId())
         })
 

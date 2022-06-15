@@ -7,11 +7,11 @@ import BigNumber from 'bignumber.js'
 export class RewardsDistributor extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<RewardsDistributor> {
         try {
-            const token: RewardsDistributor = new RewardsDistributor('RewardsDistributor')
-            await token.init(config, true)
-            return token
+            const instance: RewardsDistributor = new RewardsDistributor('RewardsDistributor')
+            await instance.init(config, true)
+            return instance
         } catch (e) {
-            
+            config.logger.warn('Cannot load optional contract RewardsDistributor')
         }
     }
     public setReceivers(did: string, addr: string[], from?: Account, params?: TxParameters) {

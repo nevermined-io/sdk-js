@@ -52,7 +52,8 @@ export enum ExecuteProgressStep {
 
 export enum RoyaltyKind {
     Standard,
-    Curve
+    Curve,
+    Legacy
 }
 
 function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme {
