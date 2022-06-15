@@ -42,7 +42,7 @@ describe('Bookmarks', () => {
             page: 1,
             results: [bookmark],
             total_pages: 1,
-            total_results: 1
+            total_results: { value: 1, relation: 'eq' }
         }
     })
 

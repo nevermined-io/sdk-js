@@ -15,7 +15,7 @@ describe('Bookmarks', () => {
         config.marketplaceAuthToken = undefined
 
         nevermined = await Nevermined.getInstance(config)
-            ;[account1] = await nevermined.accounts.list()
+        ;[account1] = await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
             account1
@@ -95,8 +95,7 @@ describe('Bookmarks', () => {
         assert.deepEqual(response, {
             page: 1,
             total_pages: response.total_pages,
-            // TODO: The type returned by the call is different from the expected
-            total_results: { value: 0, relation: 'eq' } as any,
+            total_results: { value: 0, relation: 'eq' },
             results: []
         })
     })
