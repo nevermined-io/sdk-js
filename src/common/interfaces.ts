@@ -1,8 +1,13 @@
+interface SearchResults {
+    value: number
+    relation: 'eq' | 'gte'
+}
+
 export interface MarketplaceResults<Entity> {
     page: number
     results: Entity[]
     total_pages: number
-    total_results: number
+    total_results: SearchResults
 }
 
 export interface SearchQuery {

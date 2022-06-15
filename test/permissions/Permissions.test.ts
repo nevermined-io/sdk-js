@@ -42,7 +42,7 @@ describe('Permissions', () => {
             page: 1,
             results: [permission],
             total_pages: 1,
-            total_results: 1
+            total_results: { value: 1, relation: 'eq' }
         }
     })
 
