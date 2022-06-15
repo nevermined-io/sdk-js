@@ -36,7 +36,7 @@ describe('DistributeNFTCollateralCondition', () => {
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
-            const hash = await condition.hashValues(zeroX(did), vaultAddress, nftAddress)
+            const hash = await condition.hashValues(didZeroX(did), vaultAddress, nftAddress)
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
 
             const id = await condition.generateId(agreementId, hash)

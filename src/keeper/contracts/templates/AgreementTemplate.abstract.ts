@@ -62,7 +62,7 @@ export abstract class AgreementTemplate extends ContractBase {
             'createAgreement',
             [
                 zeroX(agreementId),
-                zeroX(did),
+                didZeroX(did),
                 conditionIds.map(zeroX),
                 timeLocks,
                 timeOuts,
@@ -92,7 +92,7 @@ export abstract class AgreementTemplate extends ContractBase {
             'createAgreementAndPayEscrow',
             [
                 zeroX(agreementId),
-                zeroX(did),
+                didZeroX(did),
                 conditionIds.map(zeroX),
                 timeLocks,
                 timeOuts,

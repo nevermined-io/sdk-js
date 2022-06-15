@@ -11,7 +11,7 @@ export class RewardsDistributor extends ContractBase {
         return token
     }
     public setReceivers(did: string, addr: string[], from?: Account, params?: TxParameters) {
-        return this.sendFrom('setReceivers', [zeroX(did), addr], from, params)
+        return this.sendFrom('setReceivers', [didZeroX(did), addr], from, params)
     }
     public claimReward(
         agreementId: string,

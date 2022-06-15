@@ -58,7 +58,7 @@ export abstract class BaseTemplate extends AgreementTemplate {
     ) {
         return super.createAgreementAndPay(
             zeroX(agreementId),
-            zeroX(did),
+            didZeroX(did),
             conditionIds.map(zeroX),
             timeLocks,
             timeOuts,

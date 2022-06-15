@@ -305,7 +305,7 @@ export default class DIDRegistry extends ContractBase {
         return this.send(
             'revokePermission',
             ownerAddress,
-            [zeroX(did), zeroX(grantee)],
+            [didZeroX(did), zeroX(grantee)],
             params
         )
     }
@@ -319,7 +319,7 @@ export default class DIDRegistry extends ContractBase {
         return this.send(
             'setDIDRoyalties',
             ownerAddress,
-            [zeroX(did), zeroX(scheme)],
+            [didZeroX(did), zeroX(scheme)],
             params
         )
     }

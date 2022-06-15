@@ -16,7 +16,7 @@ export abstract class RoyaltyScheme extends ContractBase {
     }
 
     public setRoyalty(did: string, amount: number, from?: Account, params?: TxParameters) {
-        return this.sendFrom('setRoyalty', [zeroX(did), amount], from, params)
+        return this.sendFrom('setRoyalty', [didZeroX(did), amount], from, params)
     }
 
 }

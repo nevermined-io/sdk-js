@@ -40,7 +40,7 @@ describe('AaveBorrowCondition', () => {
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
             const hash = await condition.hashValues(
-                zeroX(did),
+                didZeroX(did),
                 vaultAddress,
                 assetToBorrow,
                 amount.toString(),
