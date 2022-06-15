@@ -6,9 +6,13 @@ import BigNumber from 'bignumber.js'
 
 export class RewardsDistributor extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<RewardsDistributor> {
-        const token: RewardsDistributor = new RewardsDistributor('RewardsDistributor')
-        await token.init(config, true)
-        return token
+        try {
+            const token: RewardsDistributor = new RewardsDistributor('RewardsDistributor')
+            await token.init(config, true)
+            return token
+        } catch (e) {
+            
+        }
     }
     public setReceivers(did: string, addr: string[], from?: Account, params?: TxParameters) {
         return this.sendFrom('setReceivers', [didZeroX(did), addr], from, params)

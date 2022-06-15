@@ -10,9 +10,13 @@ export abstract class RoyaltyScheme extends ContractBase {
         conditionsClass: any,
         optional: boolean = true
     ): Promise<RoyaltyScheme & any> {
-        const condition: RoyaltyScheme = new (conditionsClass as any)(conditionName)
-        await condition.init(config, optional)
-        return condition
+        try {
+            const condition: RoyaltyScheme = new (conditionsClass as any)(conditionName)
+            await condition.init(config, optional)
+            return condition
+        } catch (e) {
+            
+        }
     }
 
     public setRoyalty(did: string, amount: number, from?: Account, params?: TxParameters) {
