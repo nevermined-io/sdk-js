@@ -3,7 +3,7 @@ import { DistributeNFTCollateralCondition } from '../../../src/keeper/contracts/
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { zeroX } from '../../../src/utils'
+import { didZeroX } from '../../../src/utils'
 import Account from '../../../src/nevermined/Account'
 import * as utils from '../../../src/utils'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'

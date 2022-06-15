@@ -1,5 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { ZeroAddress, zeroX } from '../../../utils'
+import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import Token from '../Token'
