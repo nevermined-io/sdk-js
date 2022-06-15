@@ -466,10 +466,10 @@ export class Nfts extends Instantiable {
         const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
         let royalties = Number(details[8])
         let royaltyScheme = RoyaltyKind.Legacy
-        if (royaltySchemeAddress === this.nevermined.keeper.royalties.curve.address) {
+        if (this.nevermined.keeper.royalties.curve && royaltySchemeAddress === this.nevermined.keeper.royalties.curve.address) {
             royaltyScheme = RoyaltyKind.Curve
             royalties = await this.nevermined.keeper.royalties.curve.getRoyalty(did)
-        } else if (royaltySchemeAddress === this.nevermined.keeper.royalties.standard.address) {
+        } else if (this.nevermined.keeper.royalties.standard && royaltySchemeAddress === this.nevermined.keeper.royalties.standard.address) {
             royaltyScheme = RoyaltyKind.Standard
             royalties = await this.nevermined.keeper.royalties.standard.getRoyalty(did)
         }
