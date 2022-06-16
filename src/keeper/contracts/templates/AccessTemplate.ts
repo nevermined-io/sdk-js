@@ -2,29 +2,20 @@ import { AgreementInstance, AgreementParameters, AgreementTemplate } from './Agr
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
 import {
-    findServiceConditionByName,
-    generateId,
     getAssetRewardsFromService,
-    OrderProgressStep,
-    ZeroAddress,
-    zeroX
 } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
-import { TxParameters } from '../ContractBase'
 import { ServiceType } from '../../../ddo/Service'
-import { GenericAccess } from './GenericAccess'
-import BigNumber from 'bignumber.js'
 
 export class AccessTemplate extends BaseTemplate {
     public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
         return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessTemplate)
     }
 
-    public service() {
+    public service(): ServiceType {
         return 'access'
     }
 
@@ -54,38 +45,24 @@ export class AccessTemplate extends BaseTemplate {
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        const accessService = ddo.findServiceByType('access')
+        const accessService = ddo.findServiceByType(this.service())
         const assetRewards = getAssetRewardsFromService(accessService)
-
         const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
             agreementIdSeed,
             creator
         )
+
         const lockPaymentConditionInstance = await lockPaymentCondition.instance(
             agreementId,
             await lockPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards)
         )
-
         const accessConditionInstance = await accessCondition.instance(
             agreementId,
             await accessCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer)
         )
-
-        const escrow = findServiceConditionByName(accessService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow Condition not found!')
-
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instance(
             agreementId,
-            await escrowPaymentCondition.params(
-                ddo.shortId(),
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers(),
-                consumer,
-                escrowPaymentCondition.getAddress(),
-                escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-                lockPaymentConditionInstance.id,
-                accessConditionInstance.id
-            )
+            await escrowPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer, accessConditionInstance, lockPaymentConditionInstance)
         )
 
         return {

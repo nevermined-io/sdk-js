@@ -41,12 +41,6 @@ export interface AgreementInstance {
     list: ParameterType[]
     agreementId: string
     instances: ConditionInstance[]
-    /*
-    rewardAddress: string
-    tokenAddress: string
-    amounts: any[]
-    receivers: string[]
-    */
 }
 
 export interface PaymentData {
@@ -263,7 +257,7 @@ export abstract class AgreementTemplate extends ContractBase {
             parameters
         )
 
-        const accessService = ddo.findServiceByType(this.service())
+        const service = ddo.findServiceByType(this.service())
         const assetRewards = getAssetRewardsFromService(service)
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
