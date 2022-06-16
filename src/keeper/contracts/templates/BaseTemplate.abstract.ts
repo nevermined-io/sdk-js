@@ -1,4 +1,4 @@
-import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementParameters, AgreementTemplate } from './AgreementTemplate.abstract'
 import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
@@ -6,6 +6,10 @@ import Token from '../Token'
 import CustomToken from '../CustomToken'
 import BigNumber from 'bignumber.js'
 import AssetRewards from '../../../models/AssetRewards'
+import { DDO } from '../../../ddo/DDO'
+import { BabyjubPublicKey } from '../../../models/KeyTransfer'
+import { Service } from '../../../ddo/Service'
+
 
 export abstract class BaseTemplate extends AgreementTemplate {
     /**
@@ -79,40 +83,4 @@ export abstract class BaseTemplate extends AgreementTemplate {
         return this.call<any>('getAgreementData', [zeroX(agreementId)])
     }
 
-    public async lockTokens(
-        tokenAddress,
-        amounts,
-        from: Account,
-        txParams: TxParameters
-    ): Promise<void> {
-        let token: Token
-
-        const { lockPaymentCondition } = this.nevermined.keeper.conditions
-
-        if (!tokenAddress) {
-            ;({ token } = this.nevermined.keeper)
-        } else if (tokenAddress.toLowerCase() !== ZeroAddress) {
-            token = await CustomToken.getInstanceByAddress(
-                {
-                    nevermined: this.nevermined,
-                    web3: this.web3,
-                    logger: this.logger,
-                    config: this.config
-                },
-                tokenAddress
-            )
-        }
-
-        const totalAmount = AssetRewards.sumAmounts(amounts)
-
-        if (token) {
-            this.logger.debug('Approving tokens', totalAmount)
-            await token.approve(
-                lockPaymentCondition.getAddress(),
-                totalAmount,
-                from,
-                txParams
-            )
-        }
-    }
 }

@@ -10,6 +10,17 @@ export enum ConditionState {
     Aborted = 3
 }
 
+export interface ConditionParameters {
+    list: any[]
+}
+
+export interface ConditionInstance {
+    list: any[]
+    seed: string
+    id: string
+    params: any[] // for fullfill
+}
+
 export const conditionStateNames = [
     'Uninitialized',
     'Unfulfilled',
@@ -31,6 +42,10 @@ export abstract class Condition extends ContractBase {
 
     public hashValues(...args: any[]): Promise<string> {
         return this.call('hashValues', args)
+    }
+
+    public params(...args: any[]): ConditionParameters {
+        return { list: args }
     }
 
     public fulfill(agreementId: string, ...args: any[])
@@ -61,6 +76,19 @@ export abstract class Condition extends ContractBase {
             valueHash,
             await this.call<string>('generateId', [zeroX(agreementId), valueHash])
         ]
+    }
+
+    public async instance(
+        agreementId: string,
+        params: ConditionParameters
+    ): Promise<ConditionInstance> {
+        const valueHash = await this.hashValues(...params.list)
+        return {
+            seed: valueHash,
+            id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
+            list: params.list,
+            params: params.list,
+        }
     }
 
     public abortByTimeOut(agreementId: string, from?: Account, params?: TxParameters) {

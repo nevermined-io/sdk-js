@@ -1,14 +1,16 @@
 import ContractBase, { TxParameters } from '../ContractBase'
-import { Condition, ConditionState, conditionStateNames } from '../conditions'
+import { Condition, ConditionInstance, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { didZeroX, zeroX } from '../../../utils'
+import { didZeroX, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
-import { Service } from '../../../ddo/Service'
+import { Service, ServiceType } from '../../../ddo/Service'
 import BigNumber from 'bignumber.js'
+import Token from '../Token'
+import CustomToken from '../CustomToken'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -18,6 +20,31 @@ export interface AgreementConditionsStatus {
         blocked: boolean
         blockedBy: string[]
     }
+}
+
+export type ParameterType = (
+    | string
+    | number
+    | number[]
+    | Account
+    | BabyjubPublicKey
+    | Service
+    | ServiceType
+    | TxParameters
+)
+
+export interface AgreementParameters {
+    list: ParameterType[]
+}
+
+export interface AgreementInstance {
+    list: ParameterType[]
+    agreementId: string
+    instances: ConditionInstance[]
+    rewardAddress: string
+    tokenAddress: string
+    amounts: any[]
+    receivers: string[]
 }
 
 export abstract class AgreementTemplate extends ContractBase {
@@ -36,6 +63,10 @@ export abstract class AgreementTemplate extends ContractBase {
 
     protected constructor(contractName: string) {
         super(contractName)
+    }
+
+    public params(...args: any[]): AgreementParameters {
+        return { list: args }
     }
 
     public createAgreement(
@@ -134,12 +165,20 @@ export abstract class AgreementTemplate extends ContractBase {
      * @param  parameters
      * @return {Promise<string[]>}             Condition IDs.
      */
-    public abstract getAgreementIdsFromDDO(
+     public async getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
-        assetRewards: AssetRewards,
         ...parameters: (string | number | Account | BabyjubPublicKey | Service)[]
-    ): Promise<string[]>
+    ): Promise<string[]> {
+        const { instances } = await this.instanceFromDDO(agreementId, ddo, {list: parameters})
+        return instances.map(a => a.id)
+    }
+
+    public abstract instanceFromDDO(
+        agreementId: string,
+        ddo: DDO,
+        parameters: AgreementParameters
+    ): Promise<AgreementInstance>
 
     /**
      * Create a new agreement using the data of a DDO.
@@ -149,20 +188,92 @@ export abstract class AgreementTemplate extends ContractBase {
      * @param  parameters
      * @return {Promise<boolean>}              Success.
      */
-    public abstract createAgreementFromDDO(
-        agreementId: string,
+     public async createAgreementFromDDO(
+        agreementIdSeed: string,
         ddo: DDO,
-        assetRewards: AssetRewards,
-        ...parameters: (
-            | string
-            | number
-            | number[]
-            | Account
-            | BabyjubPublicKey
-            | Service
-            | TxParameters
-        )[]
-    ): Promise<string>
+        parameters: AgreementParameters,
+        consumer: Account,
+        from: Account,
+        params?: TxParameters
+    ): Promise<string> {
+        const {
+            agreementId,
+            instances,
+        } = await this.instanceFromDDO(
+            agreementIdSeed,
+            ddo,
+            parameters
+        )
+
+        await this.createAgreement(
+            agreementIdSeed,
+            ddo.shortId(),
+            instances.map(a => a.seed),
+            instances.map(_ => 0),
+            instances.map(_ => 0),
+            consumer.getId(),
+            from,
+            params
+        )
+
+        return zeroX(agreementId)
+    }
+
+    public async createAgreementWithPaymentFromDDO(
+        agreementIdSeed: string,
+        ddo: DDO,
+        parameters: AgreementParameters,
+        consumer: Account,
+        from?: Account,
+        timeOuts?: number[],
+        txParams?: TxParameters,
+        observer?: (OrderProgressStep) => void
+    ): Promise<string> {
+        observer = observer ? observer : _ => {}
+
+        const {
+            instances,
+            agreementId,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers
+        } = await this.instanceFromDDO(
+            agreementIdSeed,
+            ddo,
+            parameters
+        )
+
+        observer(OrderProgressStep.ApprovingPayment)
+        await this.lockTokens(tokenAddress, amounts, from, txParams)
+        observer(OrderProgressStep.ApprovedPayment)
+
+        const totalAmount = AssetRewards.sumAmounts(amounts)
+        const value =
+            tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
+                ? totalAmount.toFixed()
+                : undefined
+
+        observer(OrderProgressStep.CreatingAgreement)
+        await this.createAgreementAndPay(
+            agreementIdSeed,
+            ddo.shortId(),
+            instances.map(a => a.seed),
+            instances.map(_ => 0),
+            timeOuts ? timeOuts : instances.map(_ => 0),
+            consumer.getId(),
+            1,
+            rewardAddress,
+            tokenAddress,
+            amounts,
+            receivers,
+            from,
+            { ...txParams, value }
+        )
+        observer(OrderProgressStep.AgreementInitialized)
+
+        return agreementId
+    }
 
     public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
 
@@ -243,6 +354,43 @@ export abstract class AgreementTemplate extends ContractBase {
                 }
             }
         }, {})
+    }
+
+    public async lockTokens(
+        tokenAddress,
+        amounts,
+        from: Account,
+        txParams: TxParameters
+    ): Promise<void> {
+        let token: Token
+
+        const { lockPaymentCondition } = this.nevermined.keeper.conditions
+
+        if (!tokenAddress) {
+            ;({ token } = this.nevermined.keeper)
+        } else if (tokenAddress.toLowerCase() !== ZeroAddress) {
+            token = await CustomToken.getInstanceByAddress(
+                {
+                    nevermined: this.nevermined,
+                    web3: this.web3,
+                    logger: this.logger,
+                    config: this.config
+                },
+                tokenAddress
+            )
+        }
+
+        const totalAmount = AssetRewards.sumAmounts(amounts)
+
+        if (token) {
+            this.logger.debug('Approving tokens', totalAmount)
+            await token.approve(
+                lockPaymentCondition.getAddress(),
+                totalAmount,
+                from,
+                txParams
+            )
+        }
     }
 
     /**
