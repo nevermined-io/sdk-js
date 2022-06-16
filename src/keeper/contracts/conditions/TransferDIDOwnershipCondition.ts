@@ -3,6 +3,9 @@ import { didZeroX, zeroX } from '../../../utils'
 import { Condition } from './Condition.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+import { DDO } from '../../../ddo/DDO'
+import { Service } from '../../../ddo/Service'
+import AssetRewards from '../../../models/AssetRewards'
 
 /**
  * Condition allowing to transfer the ownership between the original owner and a receiver.
@@ -24,8 +27,12 @@ export class TransferDIDOwnershipCondition extends Condition {
      * @param receiver Address of the granted user or the DID provider.
      * @returns Hash of all the values.
      */
-    public hashValues(did: string, receiver: string) {
-        return super.hashValues(didZeroX(did), zeroX(receiver))
+    public params(did: string, receiver: string) {
+        return {list: [didZeroX(did), zeroX(receiver)]}
+    }
+
+    public async paramsFromDDO(ddo: DDO, _service: Service, _rewards: AssetRewards, creator: string) {
+        return this.params(ddo.shortId(), creator)
     }
 
     /**

@@ -24,6 +24,10 @@ export class AccessTemplate extends BaseTemplate {
         return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessTemplate)
     }
 
+    public service() {
+        return 'access'
+    }
+
     public async getServiceAgreementTemplate() {
         return accessTemplateServiceAgreementTemplate
     }
@@ -53,27 +57,18 @@ export class AccessTemplate extends BaseTemplate {
         const accessService = ddo.findServiceByType('access')
         const assetRewards = getAssetRewardsFromService(accessService)
 
-        const payment = findServiceConditionByName(accessService, 'lockPayment')
-        if (!payment) throw new Error('Payment Condition not found!')
-
         const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
             agreementIdSeed,
             creator
         )
         const lockPaymentConditionInstance = await lockPaymentCondition.instance(
             agreementId,
-            await lockPaymentCondition.params(
-                ddo.shortId(),
-                escrowPaymentCondition.getAddress(),
-                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
-            )
+            await lockPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards)
         )
 
         const accessConditionInstance = await accessCondition.instance(
             agreementId,
-            await accessCondition.params(ddo.shortId(), consumer)
+            await accessCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer)
         )
 
         const escrow = findServiceConditionByName(accessService, 'escrowPayment')
@@ -97,10 +92,6 @@ export class AccessTemplate extends BaseTemplate {
             instances: [lockPaymentConditionInstance, accessConditionInstance, escrowPaymentConditionInstance],
             list: parameters.list,
             agreementId,
-            rewardAddress: escrowPaymentCondition.getAddress(),
-            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            amounts: assetRewards.getAmounts(),
-            receivers: assetRewards.getReceivers()
         }
     }
 

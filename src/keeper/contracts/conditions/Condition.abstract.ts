@@ -2,6 +2,9 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
+import { DDO } from '../../..'
+import { Service } from '../../../ddo/Service'
+import AssetRewards from '../../../models/AssetRewards'
 
 export enum ConditionState {
     Uninitialized = 0,
@@ -47,6 +50,8 @@ export abstract class Condition extends ContractBase {
     public params(...args: any[]): ConditionParameters {
         return { list: args }
     }
+
+    public abstract paramsFromDDO(ddo: DDO, service: Service, rewards: AssetRewards, ...args: any[]): Promise<ConditionParameters>
 
     public fulfill(agreementId: string, ...args: any[])
 

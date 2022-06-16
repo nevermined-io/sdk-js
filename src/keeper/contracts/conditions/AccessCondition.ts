@@ -4,6 +4,9 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { EventOptions } from '../../../events/NeverminedEvent'
+import { DDO } from '../../../ddo/DDO'
+import { Service } from '../../../ddo/Service'
+import AssetRewards from '../../../models/AssetRewards'
 
 export class AccessCondition extends Condition {
     public static async getInstance(
@@ -12,8 +15,12 @@ export class AccessCondition extends Condition {
         return Condition.getInstance(config, 'AccessCondition', AccessCondition)
     }
 
-    public hashValues(did: string, grantee: string) {
-        return super.hashValues(didZeroX(did), zeroX(grantee))
+    public params(did: string, grantee: string) {
+        return {list: [didZeroX(did), zeroX(grantee)]}
+    }
+
+    public async paramsFromDDO(ddo: DDO, _service: Service, _rewards: AssetRewards, creator: string) {
+        return this.params(ddo.shortId(), creator)
     }
 
     public fulfill(

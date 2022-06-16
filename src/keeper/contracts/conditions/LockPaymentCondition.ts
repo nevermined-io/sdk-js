@@ -1,9 +1,12 @@
 import { Condition } from './Condition.abstract'
-import { didZeroX, zeroX } from '../../../utils'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import BigNumber from 'bignumber.js'
+import { DDO } from '../../../ddo/DDO'
+import { Service } from '../../../ddo/Service'
+import AssetRewards from '../../../models/AssetRewards'
 
 export class LockPaymentCondition extends Condition {
     public static async getInstance(
@@ -12,7 +15,7 @@ export class LockPaymentCondition extends Condition {
         return Condition.getInstance(config, 'LockPaymentCondition', LockPaymentCondition)
     }
 
-    public hashValues(
+    public params(
         did: string,
         rewardAddress: string,
         tokenAddress: string,
@@ -20,12 +23,23 @@ export class LockPaymentCondition extends Condition {
         receivers: string[]
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return super.hashValues(
+        return {list: [
             didZeroX(did),
             zeroX(rewardAddress),
             zeroX(tokenAddress),
             amountsString,
             receivers
+        ]}
+    }
+
+    public async paramsFromDDO(ddo: DDO, service: Service, rewards: AssetRewards) {
+        const payment = findServiceConditionByName(service, 'lockPayment')
+        return this.params(
+            ddo.shortId(),
+            this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            rewards.getAmounts(),
+            rewards.getReceivers()
         )
     }
 

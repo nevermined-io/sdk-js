@@ -2,7 +2,7 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { Condition, ConditionInstance, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { didZeroX, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
+import { didZeroX, findServiceConditionByName, getAssetRewardsFromService, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
@@ -41,9 +41,18 @@ export interface AgreementInstance {
     list: ParameterType[]
     agreementId: string
     instances: ConditionInstance[]
+    /*
     rewardAddress: string
     tokenAddress: string
     amounts: any[]
+    receivers: string[]
+    */
+}
+
+export interface PaymentData {
+    rewardAddress: string
+    tokenAddress: string
+    amounts: BigNumber[]
     receivers: string[]
 }
 
@@ -67,6 +76,18 @@ export abstract class AgreementTemplate extends ContractBase {
 
     public params(...args: any[]): AgreementParameters {
         return { list: args }
+    }
+
+    public paymentData(service: Service): PaymentData {
+        const assetRewards = getAssetRewardsFromService(service)
+        const payment = findServiceConditionByName(service, 'lockPayment')
+        if (!payment) throw new Error('Payment Condition not found!')
+        return {
+            rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            amounts: assetRewards.getAmounts(),
+            receivers: assetRewards.getReceivers()
+        }
     }
 
     public createAgreement(
@@ -180,6 +201,8 @@ export abstract class AgreementTemplate extends ContractBase {
         parameters: AgreementParameters
     ): Promise<AgreementInstance>
 
+    public abstract service(): ServiceType
+
     /**
      * Create a new agreement using the data of a DDO.
      * @param  {string}            agreementId Agreement ID.
@@ -234,15 +257,20 @@ export abstract class AgreementTemplate extends ContractBase {
         const {
             instances,
             agreementId,
-            rewardAddress,
-            tokenAddress,
-            amounts,
-            receivers
         } = await this.instanceFromDDO(
             agreementIdSeed,
             ddo,
             parameters
         )
+
+        const accessService = ddo.findServiceByType(this.service())
+        const assetRewards = getAssetRewardsFromService(service)
+        const payment = findServiceConditionByName(service, 'lockPayment')
+        if (!payment) throw new Error('Payment Condition not found!')
+        const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
+        const tokenAddress = payment.parameters.find(p => p.name === '_tokenAddress').value as string
+        const amounts = assetRewards.getAmounts()
+        const receivers = assetRewards.getReceivers()
 
         observer(OrderProgressStep.ApprovingPayment)
         await this.lockTokens(tokenAddress, amounts, from, txParams)
