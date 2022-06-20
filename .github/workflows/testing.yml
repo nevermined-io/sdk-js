@@ -35,15 +35,12 @@ jobs:
           cd tools
 
           export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          export KEEPER_VERSION=latest
-          export GATEWAY_VERSION=develop
-          export SUBGRAPH_VERSION=v0.3.0-rc5
           rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
-          ./start_nevermined.sh --no-marketplace ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh --latest ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
           ./scripts/wait-subgraphs.sh
@@ -85,11 +82,8 @@ jobs:
           export KEEPER_RPC_PORT="18545"
           export KEEPER_NETWORK_NAME="spree"
           export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          export KEEPER_VERSION=latest
-          export GATEWAY_VERSION=develop
-          export MARKETPLACE_API_VERSION=latest
           export GANACHE_COMMAND_OPTIONS="-d -p 18545 -m 'taxi music thumb unique chat sand crew more leg another off lamp' -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
-          ./start_nevermined.sh --marketplace-api --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh --latest --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined-external.sh
       - name: Run aave integration test
