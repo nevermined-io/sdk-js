@@ -54,7 +54,6 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 import { GenericAccess } from './contracts/templates/GenericAccess'
 import { KeeperError } from '../errors'
-import base = Mocha.reporters.base;
 
 /**
  * Interface with Nevermined contracts.
