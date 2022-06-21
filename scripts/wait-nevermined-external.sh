@@ -6,6 +6,7 @@ printf '\n\e[33m◯ Waiting for contracts to be generated...\e[0m\n'
 
 while [ ! -f "$HOME/.nevermined/nevermined-contracts/artifacts/ready" ]; do
   sleep 2
+  echo 'waiting for contracts'
 done
 
 printf '\e[32m✔ Found new contract artifacts.\e[0m\n'
