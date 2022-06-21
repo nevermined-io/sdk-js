@@ -1,14 +1,15 @@
-import { Condition, ConditionInstance, ConditionParameters } from './Condition.abstract'
+import { Condition, ConditionContext, ConditionInstance, ConditionInstanceSmall, ConditionParameters } from './Condition.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import BigNumber from 'bignumber.js'
-import { DDO } from '../../../ddo/DDO'
-import { ServiceCommon } from '../../../ddo/Service'
-import AssetRewards from '../../../models/AssetRewards'
 
-export class EscrowPaymentCondition extends Condition {
+export interface EscrowPaymentConditionContext extends ConditionContext {
+    consumer: string
+}
+
+export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<EscrowPaymentCondition> {
@@ -41,13 +42,10 @@ export class EscrowPaymentCondition extends Condition {
     }
 
     public async paramsFromDDO(
-        ddo: DDO,
-        service: ServiceCommon,
-        rewards: AssetRewards,
-        consumer: string,
-        access: ConditionInstance, 
-        lock: ConditionInstance
-    ): Promise<ConditionParameters> {
+        {ddo, service, rewards, consumer}: EscrowPaymentConditionContext,
+        access: ConditionInstanceSmall, 
+        lock: ConditionInstanceSmall
+    ) {
         const escrow = findServiceConditionByName(service, 'escrowPayment')
         if (!escrow) throw new Error('Escrow Condition not found!')
         return this.params(

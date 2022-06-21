@@ -13,16 +13,29 @@ export enum ConditionState {
     Aborted = 3
 }
 
-export interface ConditionParameters {
-    list: any[]
-    params: (...args: any[]) => Promise<any[]> // for fullfill
+export interface ConditionContext {
+    ddo: DDO
+    service: Service
+    rewards: AssetRewards
 }
 
-export interface ConditionInstance {
+export interface ConditionParameters<Extra> {
+    list: any[]
+    params: (arg: Extra) => Promise<any[]> // for fullfill
+}
+
+export interface ConditionInstanceSmall {
     list: any[]
     seed: string
     id: string
-    params: (...args: any[]) => Promise<any[]> // for fullfill
+    agreementId: string
+}
+
+export interface ConditionInstance<Extra> {
+    list: any[]
+    seed: string
+    id: string
+    params: (arg: Extra) => Promise<any[]> // for fullfill
     agreementId: string
 }
 
@@ -33,14 +46,14 @@ export const conditionStateNames = [
     'Aborted'
 ]
 
-export abstract class Condition extends ContractBase {
-    public static async getInstance(
+export abstract class ConditionSmall extends ContractBase {
+    public static async getInstance<Ctx extends ConditionContext, Extra>(
         config: InstantiableConfig,
         conditionName: string,
         conditionsClass: any,
         optional: boolean = false
-    ): Promise<Condition & any> {
-        const condition: Condition = new (conditionsClass as any)(conditionName)
+    ): Promise<ConditionSmall & any> {
+        const condition: ConditionSmall = new (conditionsClass as any)(conditionName)
         await condition.init(config, optional)
         return condition
     }
@@ -48,15 +61,6 @@ export abstract class Condition extends ContractBase {
     public hashValues(...args: any[]): Promise<string> {
         return this.call('hashValues', args)
     }
-
-    public params(...args: any[]): ConditionParameters {
-        return {
-            list: args,
-            params: async () => args
-        }
-    }
-
-    public abstract paramsFromDDO(ddo: DDO, service: Service, rewards: AssetRewards, ...args: any[]): Promise<ConditionParameters>
 
     public fulfill(agreementId: string, ...args: any[])
 
@@ -68,15 +72,6 @@ export abstract class Condition extends ContractBase {
         method: string = 'fulfill'
     ) {
         return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
-    }
-
-    public async fulfillInstance(
-        cond: ConditionInstance,
-        additionalParams: any[] = [],
-        from?: Account,
-        params?: TxParameters,
-    ) {
-        return this.sendFrom('fulfill', [zeroX(cond.agreementId), ...await cond.params(...additionalParams)], from, params)
     }
 
     public async generateIdHash(agreementId: string, ...values: any[]) {
@@ -97,20 +92,6 @@ export abstract class Condition extends ContractBase {
         ]
     }
 
-    public async instance(
-        agreementId: string,
-        params: ConditionParameters
-    ): Promise<ConditionInstance> {
-        const valueHash = await this.hashValues(...params.list)
-        return {
-            seed: valueHash,
-            agreementId,
-            id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
-            list: params.list,
-            params: params.params,
-        }
-    }
-
     public abortByTimeOut(agreementId: string, from?: Account, params?: TxParameters) {
         return this.sendFrom('abortByTimeOut', [zeroX(agreementId)], from, params)
     }
@@ -129,4 +110,50 @@ export abstract class Condition extends ContractBase {
             }
         })
     }
+}
+
+export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extends ConditionSmall {
+    public static async getInstance<Ctx extends ConditionContext, Extra>(
+        config: InstantiableConfig,
+        conditionName: string,
+        conditionsClass: any,
+        optional: boolean = false
+    ): Promise<Condition<Ctx,Extra> & any> {
+        const condition: Condition<Ctx,Extra> = new (conditionsClass as any)(conditionName)
+        await condition.init(config, optional)
+        return condition
+    }
+
+    public params(...args: any[]): ConditionParameters<Extra> {
+        return {
+            list: args,
+            params: async () => args
+        }
+    }
+
+    public abstract paramsFromDDO(ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionParameters<Extra>>
+
+    public async fulfillInstance(
+        cond: ConditionInstance<Extra>,
+        additionalParams: Extra,
+        from?: Account,
+        params?: TxParameters,
+    ) {
+        return this.sendFrom('fulfill', [zeroX(cond.agreementId), ...await cond.params(additionalParams)], from, params)
+    }
+
+    public async instance(
+        agreementId: string,
+        params: ConditionParameters<Extra>
+    ): Promise<ConditionInstance<Extra>> {
+        const valueHash = await this.hashValues(...params.list)
+        return {
+            seed: valueHash,
+            agreementId,
+            id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
+            list: params.list,
+            params: params.params,
+        }
+    }
+
 }

@@ -1,14 +1,15 @@
-import { Condition } from './Condition.abstract'
+import { Condition, ConditionContext } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { EventOptions } from '../../../events/NeverminedEvent'
-import { DDO } from '../../../ddo/DDO'
-import { Service } from '../../../ddo/Service'
-import AssetRewards from '../../../models/AssetRewards'
 
-export class AccessCondition extends Condition {
+export interface AccessConditionContext extends ConditionContext {
+    creator: string
+}
+
+export class AccessCondition extends Condition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessCondition> {
@@ -19,7 +20,7 @@ export class AccessCondition extends Condition {
         return super.params([didZeroX(did), zeroX(grantee)])
     }
 
-    public async paramsFromDDO(ddo: DDO, _service: Service, _rewards: AssetRewards, creator: string) {
+    public async paramsFromDDO({ddo, creator}: AccessConditionContext) {
         return this.params(ddo.shortId(), creator)
     }
 

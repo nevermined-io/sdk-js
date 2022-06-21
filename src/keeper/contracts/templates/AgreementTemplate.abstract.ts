@@ -1,5 +1,5 @@
 import ContractBase, { TxParameters } from '../ContractBase'
-import { Condition, ConditionInstance, ConditionState, conditionStateNames } from '../conditions'
+import { ConditionInstanceSmall, ConditionSmall, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { didZeroX, findServiceConditionByName, getAssetRewardsFromService, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
@@ -33,14 +33,15 @@ export type ParameterType = (
     | TxParameters
 )
 
+/*
 export interface AgreementParameters {
     list: ParameterType[]
-}
+}*/
 
-export interface AgreementInstance {
-    list: ParameterType[]
+export interface AgreementInstance<Params> {
+    list: Params
     agreementId: string
-    instances: ConditionInstance[]
+    instances: ConditionInstanceSmall[]
 }
 
 export interface PaymentData {
@@ -50,14 +51,14 @@ export interface PaymentData {
     receivers: string[]
 }
 
-export abstract class AgreementTemplate extends ContractBase {
-    public static async getInstance(
+export abstract class AgreementTemplate<Params> extends ContractBase {
+    public static async getInstance<Params>(
         config: InstantiableConfig,
         templateContractName: string,
         templateClass: any,
         optional: boolean = false
-    ): Promise<AgreementTemplate & any> {
-        const agreementTemplate: AgreementTemplate = new (templateClass as any)(
+    ): Promise<AgreementTemplate<Params> & any> {
+        const agreementTemplate: AgreementTemplate<Params> = new (templateClass as any)(
             templateContractName
         )
         await agreementTemplate.init(config, optional)
@@ -68,9 +69,10 @@ export abstract class AgreementTemplate extends ContractBase {
         super(contractName)
     }
 
+    /*
     public params(...args: any[]): AgreementParameters {
         return { list: args }
-    }
+    }*/
 
     public paymentData(service: Service): PaymentData {
         const assetRewards = getAssetRewardsFromService(service)
@@ -166,7 +168,7 @@ export abstract class AgreementTemplate extends ContractBase {
      * List of condition contracts.
      * @return {Promise<Condition[]>} Conditions contracts.
      */
-    public async getConditions(): Promise<Condition[]> {
+    public async getConditions(): Promise<ConditionSmall[]> {
         return (await this.getConditionTypes()).map(address =>
             this.nevermined.keeper.getConditionByAddress(address)
         )
@@ -184,9 +186,10 @@ export abstract class AgreementTemplate extends ContractBase {
         agreementId: string,
         ddo: DDO,
         creator: string,
-        ...parameters: (string | number | Account | BabyjubPublicKey | Service)[]
+        params: Params
+//        ...parameters: (string | number | Account | BabyjubPublicKey | Service)[]
     ): Promise<string[]> {
-        const { instances } = await this.instanceFromDDO(agreementId, ddo, creator, {list: parameters})
+        const { instances } = await this.instanceFromDDO(agreementId, ddo, creator, params)
         return instances.map(a => a.id)
     }
 
@@ -194,8 +197,8 @@ export abstract class AgreementTemplate extends ContractBase {
         agreementId: string,
         ddo: DDO,
         creator: string,
-        parameters: AgreementParameters
-    ): Promise<AgreementInstance>
+        parameters: Params
+    ): Promise<AgreementInstance<Params>>
 
     public abstract service(): ServiceType
 
@@ -210,7 +213,7 @@ export abstract class AgreementTemplate extends ContractBase {
      public async createAgreementFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
-        parameters: AgreementParameters,
+        parameters: Params,
         consumer: Account,
         from: Account,
         params?: TxParameters
@@ -242,7 +245,7 @@ export abstract class AgreementTemplate extends ContractBase {
     public async createAgreementWithPaymentFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
-        parameters: AgreementParameters,
+        parameters: Params,
         consumer: Account,
         from: Account,
         timeOuts?: number[],

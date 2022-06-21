@@ -1,14 +1,20 @@
-import { Condition } from './Condition.abstract'
-import { zeroX, didZeroX, makeKeyTransfer } from '../../../utils'
+import { Condition, ConditionContext } from './Condition.abstract'
+import { zeroX, makeKeyTransfer } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey, MimcCipher } from '../../../models/KeyTransfer'
 import { TxParameters } from '../ContractBase'
-import { DDO } from '../../../ddo/DDO'
-import { Service } from '../../../ddo/Service'
-import AssetRewards from '../../../models/AssetRewards'
 
-export class AccessProofCondition extends Condition {
+export interface AccessProofConditionContext extends ConditionContext {
+    consumer: Account
+}
+
+export interface AccessProofConditionExtra {
+    data: Buffer
+    providerK: string
+}
+
+export class AccessProofCondition extends Condition<AccessProofConditionContext, AccessProofConditionExtra> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessProofCondition> {
@@ -20,7 +26,7 @@ export class AccessProofCondition extends Condition {
         )
     }
 
-    public async paramsFromDDO(ddo: DDO, service: Service, _rewards: AssetRewards, consumer: Account) {
+    public async paramsFromDDO({service, consumer}: AccessProofConditionContext) {
         const keytransfer = await makeKeyTransfer()
         const { _hash, _providerPub } = service.attributes.main
         const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
@@ -33,7 +39,7 @@ export class AccessProofCondition extends Condition {
         )
         return {
             list: [zeroX(_hash), buyerPub.param(), providerPub.param()],
-            params: async (data: Buffer, providerK: string) => {
+            params: async ({data, providerK}) => {
                 const cipher = await keytransfer.encryptKey(
                     data,
                     await keytransfer.ecdh(providerK, buyerPub)

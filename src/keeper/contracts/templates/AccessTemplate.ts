@@ -1,16 +1,17 @@
-import { AgreementInstance, AgreementParameters, AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
-import {
-    getAssetRewardsFromService,
-} from '../../../utils'
+import { getAssetRewardsFromService } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import Account from '../../../nevermined/Account'
 import { ServiceType } from '../../../ddo/Service'
 
-export class AccessTemplate extends BaseTemplate {
+export interface AccessTemplateParams {
+    consumer: string, 
+    serviceType: ServiceType
+}
+
+export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
     public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
         return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessTemplate)
     }
@@ -23,22 +24,16 @@ export class AccessTemplate extends BaseTemplate {
         return accessTemplateServiceAgreementTemplate
     }
 
-    public params(consumer: string, serviceType: ServiceType = 'access'): AgreementParameters {
-        return {
-            list: [consumer, serviceType]
-        }
+    public params(consumer: string, serviceType: ServiceType = 'access'): AccessTemplateParams {
+        return { consumer, serviceType }
     }
 
     public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
         creator: string,
-        parameters: AgreementParameters
-    ): Promise<AgreementInstance> {
-        let consumer: string
-        let serviceType: ServiceType
-        [consumer, serviceType] = parameters.list as any
-
+        parameters: AccessTemplateParams
+    ): Promise<AgreementInstance<AccessTemplateParams>> {
         const {
             accessCondition,
             lockPaymentCondition,
@@ -52,22 +47,30 @@ export class AccessTemplate extends BaseTemplate {
             creator
         )
 
+        const ctx = {
+            ddo,
+            service: accessService,
+            rewards: assetRewards,
+            creator: parameters.consumer,
+            consumer: parameters.consumer
+        }
+
         const lockPaymentConditionInstance = await lockPaymentCondition.instance(
             agreementId,
-            await lockPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards)
+            await lockPaymentCondition.paramsFromDDO(ctx)
         )
         const accessConditionInstance = await accessCondition.instance(
             agreementId,
-            await accessCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer)
+            await accessCondition.paramsFromDDO(ctx)
         )
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instance(
             agreementId,
-            await escrowPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer, accessConditionInstance, lockPaymentConditionInstance)
+            await escrowPaymentCondition.paramsFromDDO(ctx, accessConditionInstance, lockPaymentConditionInstance)
         )
 
         return {
             instances: [lockPaymentConditionInstance, accessConditionInstance, escrowPaymentConditionInstance],
-            list: parameters.list,
+            list: parameters,
             agreementId,
         }
     }

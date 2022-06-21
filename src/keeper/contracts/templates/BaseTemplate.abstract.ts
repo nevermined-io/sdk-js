@@ -1,17 +1,10 @@
-import { AgreementParameters, AgreementTemplate } from './AgreementTemplate.abstract'
-import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { didZeroX, zeroX } from '../../../utils'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
-import Token from '../Token'
-import CustomToken from '../CustomToken'
 import BigNumber from 'bignumber.js'
-import AssetRewards from '../../../models/AssetRewards'
-import { DDO } from '../../../ddo/DDO'
-import { BabyjubPublicKey } from '../../../models/KeyTransfer'
-import { Service } from '../../../ddo/Service'
 
-
-export abstract class BaseTemplate extends AgreementTemplate {
+export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
     /**
      * Create a agreement using BaseEscrowTemplate.
      * @param {string}   agreementId    Generated agreement ID.

@@ -1,19 +1,11 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import AssetRewards from '../../../models/AssetRewards'
 import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementParameters, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
-import Account from '../../../nevermined/Account'
-import {
-    findServiceConditionByName,
-    getAssetRewardsFromService,
-    OrderProgressStep,
-    ZeroAddress
-} from '../../../utils'
-import { TxParameters } from '../ContractBase'
-import { Service, ServiceType } from '../../../ddo/Service'
+import { getAssetRewardsFromService } from '../../../utils'
+import { ServiceType } from '../../../ddo/Service'
 
 export class NFTSalesTemplate extends BaseTemplate {
     public static async getInstance(

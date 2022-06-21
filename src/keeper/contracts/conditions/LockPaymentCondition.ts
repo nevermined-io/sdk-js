@@ -1,14 +1,11 @@
-import { Condition } from './Condition.abstract'
+import { Condition, ConditionContext } from './Condition.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import BigNumber from 'bignumber.js'
-import { DDO } from '../../../ddo/DDO'
-import { Service } from '../../../ddo/Service'
-import AssetRewards from '../../../models/AssetRewards'
 
-export class LockPaymentCondition extends Condition {
+export class LockPaymentCondition extends Condition<ConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<LockPaymentCondition> {
@@ -32,7 +29,7 @@ export class LockPaymentCondition extends Condition {
         )
     }
 
-    public async paramsFromDDO(ddo: DDO, service: Service, rewards: AssetRewards) {
+    public async paramsFromDDO({ddo, service, rewards}: ConditionContext) {
         const payment = findServiceConditionByName(service, 'lockPayment')
         return this.params(
             ddo.shortId(),
