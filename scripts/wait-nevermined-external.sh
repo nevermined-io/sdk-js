@@ -18,6 +18,7 @@ ls $HOME/.nevermined/nevermined-contracts/artifacts
 #cp -rf $HOME/.nevermined/nevermined-contracts/artifacts/* node_modules/@nevermined-io/contracts/artifacts/
 rm -f node_modules/@nevermined-io/contracts/artifacts/*.kovan.json
 mmv $HOME/.nevermined/nevermined-contracts/artifacts/\*.spree.json node_modules/@nevermined-io/contracts/artifacts/\#1.kovan.json
+mmv node_modules/@nevermined-io/contracts/artifacts/\*.spree.json node_modules/@nevermined-io/contracts/artifacts/\#1.kovan.json
 cp node_modules/@nevermined-io/contracts/artifacts/*.kovan.json $HOME/.nevermined/nevermined-contracts/artifacts
 
 ls $HOME/.nevermined/nevermined-contracts/artifacts

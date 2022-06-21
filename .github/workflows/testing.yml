@@ -91,6 +91,12 @@ jobs:
           cd ..
 
           ./scripts/wait-nevermined-external.sh
+
+      - name: Check artifacts
+        run: |
+          ls -l node_modules/@nevermined-io/contracts/artifacts
+          ls -l $HOME/.nevermined/nevermined-contracts/artifacts
+
       - name: Run aave integration test
         run: |
           export ETH_PORT=18545
