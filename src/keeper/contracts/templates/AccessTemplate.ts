@@ -23,21 +23,21 @@ export class AccessTemplate extends BaseTemplate {
         return accessTemplateServiceAgreementTemplate
     }
 
-    public params(consumer: Account, from: Account, serviceType: ServiceType = 'access'): AgreementParameters {
+    public params(consumer: string, serviceType: ServiceType = 'access'): AgreementParameters {
         return {
-            list: [consumer, from, serviceType]
+            list: [consumer, serviceType]
         }
     }
 
     public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
+        creator: string,
         parameters: AgreementParameters
     ): Promise<AgreementInstance> {
         let consumer: string
-        let creator: string
         let serviceType: ServiceType
-        [consumer, creator, serviceType] = parameters.list as any
+        [consumer, serviceType] = parameters.list as any
 
         const {
             accessCondition,

@@ -183,15 +183,17 @@ export abstract class AgreementTemplate extends ContractBase {
      public async getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
+        creator: string,
         ...parameters: (string | number | Account | BabyjubPublicKey | Service)[]
     ): Promise<string[]> {
-        const { instances } = await this.instanceFromDDO(agreementId, ddo, {list: parameters})
+        const { instances } = await this.instanceFromDDO(agreementId, ddo, creator, {list: parameters})
         return instances.map(a => a.id)
     }
 
     public abstract instanceFromDDO(
         agreementId: string,
         ddo: DDO,
+        creator: string,
         parameters: AgreementParameters
     ): Promise<AgreementInstance>
 
@@ -219,6 +221,7 @@ export abstract class AgreementTemplate extends ContractBase {
         } = await this.instanceFromDDO(
             agreementIdSeed,
             ddo,
+            from.getId(),
             parameters
         )
 
@@ -241,7 +244,7 @@ export abstract class AgreementTemplate extends ContractBase {
         ddo: DDO,
         parameters: AgreementParameters,
         consumer: Account,
-        from?: Account,
+        from: Account,
         timeOuts?: number[],
         txParams?: TxParameters,
         observer?: (OrderProgressStep) => void
@@ -254,6 +257,7 @@ export abstract class AgreementTemplate extends ContractBase {
         } = await this.instanceFromDDO(
             agreementIdSeed,
             ddo,
+            from.getId(),
             parameters
         )
 

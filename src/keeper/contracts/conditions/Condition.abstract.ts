@@ -15,14 +15,14 @@ export enum ConditionState {
 
 export interface ConditionParameters {
     list: any[]
-    params: () => any[] // for fullfill
+    params: (...args: any[]) => Promise<any[]> // for fullfill
 }
 
 export interface ConditionInstance {
     list: any[]
     seed: string
     id: string
-    params: () => any[] // for fullfill
+    params: (...args: any[]) => Promise<any[]> // for fullfill
     agreementId: string
 }
 
@@ -52,7 +52,7 @@ export abstract class Condition extends ContractBase {
     public params(...args: any[]): ConditionParameters {
         return {
             list: args,
-            params: () => args
+            params: async () => args
         }
     }
 
@@ -70,12 +70,13 @@ export abstract class Condition extends ContractBase {
         return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
     }
 
-    public fulfillInstance(
+    public async fulfillInstance(
         cond: ConditionInstance,
+        additionalParams: any[] = [],
         from?: Account,
         params?: TxParameters,
     ) {
-        return this.sendFrom('fulfill', [zeroX(cond.agreementId), ...cond.params()], from, params)
+        return this.sendFrom('fulfill', [zeroX(cond.agreementId), ...await cond.params(...additionalParams)], from, params)
     }
 
     public async generateIdHash(agreementId: string, ...values: any[]) {
