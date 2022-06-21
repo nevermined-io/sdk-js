@@ -1,8 +1,11 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
-import { Condition } from '../Condition.abstract'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { Condition, ConditionInstance, ConditionParameters } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import { ServiceCommon } from '../../../../ddo/Service'
+import AssetRewards from '../../../../models/AssetRewards'
+import { DDO } from '../../../../sdk'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -21,37 +24,12 @@ export class TransferNFTCondition extends Condition {
      * @param {String} nftReceiver The address of the granted user or the DID provider.
      * @param {Number} nftAmount Amount of NFTs to transfer.
      * @param {String} lockCondition Lock condition identifier.
-     * @returns Hash of all the values
-     */
-    public hashValues(
-        did: string,
-        nftHolder: string,
-        nftReceiver: string,
-        nftAmount: number,
-        lockCondition: string
-    ) {
-        return super.hashValues(
-            didZeroX(did),
-            zeroX(nftHolder),
-            zeroX(nftReceiver),
-            String(nftAmount),
-            lockCondition
-        )
-    }
-
-    /**
-     * Generates the hash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} nftHolder The address of the holder of the NFT.
-     * @param {String} nftReceiver The address of the granted user or the DID provider.
-     * @param {Number} nftAmount Amount of NFTs to transfer.
-     * @param {String} lockCondition Lock condition identifier.
      * @param {String} nftContractAddress The address of the NFT token to use.
      * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
      * @returns Hash of all the values
      */
 
-    public hashValuesComplete(
+    public params(
         did: string,
         nftHolder: string,
         nftReceiver: string,
@@ -60,7 +38,7 @@ export class TransferNFTCondition extends Condition {
         nftContractAddress: string,
         willBeTransferred: boolean = true
     ) {
-        return super.hashValues(
+        return super.params(
             didZeroX(did),
             zeroX(nftHolder),
             zeroX(nftReceiver),
@@ -68,6 +46,29 @@ export class TransferNFTCondition extends Condition {
             lockCondition,
             zeroX(nftContractAddress),
             willBeTransferred
+        )
+    }
+
+    public async paramsFromDDO(
+        ddo: DDO,
+        service: ServiceCommon,
+        _rewards: AssetRewards,
+        provider: string,
+        consumer: string,
+        nftAmount: number, 
+        lockCondition: ConditionInstance
+    ): Promise<ConditionParameters> {
+        const transfer = findServiceConditionByName(service, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+        const nftHolder = provider || (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
+        return this.params(
+            ddo.shortId(),
+            nftHolder,
+            consumer,
+            nftAmount,
+            lockCondition.id,
+            this.nevermined.keeper.nftUpgradeable.address,
+            true
         )
     }
 

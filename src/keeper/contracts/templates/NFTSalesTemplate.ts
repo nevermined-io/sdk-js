@@ -2,17 +2,18 @@ import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
 import { DDO } from '../../../sdk'
-import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementInstance, AgreementParameters, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
 import {
     findServiceConditionByName,
+    getAssetRewardsFromService,
     OrderProgressStep,
     ZeroAddress
 } from '../../../utils'
 import { TxParameters } from '../ContractBase'
-import { Service } from '../../../ddo/Service'
+import { Service, ServiceType } from '../../../ddo/Service'
 
 export class NFTSalesTemplate extends BaseTemplate {
     public static async getInstance(
@@ -21,194 +22,57 @@ export class NFTSalesTemplate extends BaseTemplate {
         return AgreementTemplate.getInstance(config, 'NFTSalesTemplate', NFTSalesTemplate)
     }
 
-    public async createAgreementFromDDO(
-        agreementIdSeed: string,
-        ddo: DDO,
-        assetRewards: AssetRewards,
-        returnAddress: string,
-        consumer: Account,
-        nftAmount?: number,
-        provider?: Account,
-        from?: Account,
-        timeOuts?: number[],
-        txParams?: TxParameters,
-        nftSalesService?: Service
-    ): Promise<string> {
-        const { ids, agreementId } = await this.getAgreementIdsFromDDO(
-            agreementIdSeed,
-            ddo,
-            assetRewards,
-            returnAddress,
-            consumer.getId(),
-            from.getId(),
-            nftAmount,
-            provider === undefined ? undefined : provider.getId()
-        )
-        await this.createAgreement(
-            agreementIdSeed,
-            ddo.shortId(),
-            ids.map(a => a[0]),
-            [0, 0, 0],
-            timeOuts ? timeOuts : [0, 0, 0],
-            consumer.getId(),
-            from,
-            txParams
-        )
-        return await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            from.getId()
-        )
+    public service(): ServiceType {
+        return 'nft-sales'
     }
 
-    public async createAgreementWithPaymentFromDDO(
-        agreementIdSeed: string,
-        ddo: DDO,
-        assetRewards: AssetRewards,
-        returnAddress: string,
-        consumerAddress: Account,
-        nftAmount?: number,
-        provider?: Account,
-        from?: Account,
-        timeOuts?: number[],
-        txParams?: TxParameters,
-        observer?: (OrderProgressStep) => void
-    ): Promise<string> {
-        observer = observer ? observer : _ => {}
-        const {
-            ids,
-            rewardAddress,
-            tokenAddress,
-            amounts,
-            agreementId,
-            receivers
-        } = await this.getAgreementIdsFromDDO(
-            agreementIdSeed,
-            ddo,
-            assetRewards,
-            returnAddress,
-            consumerAddress.getId(),
-            from.getId(),
-            nftAmount,
-            provider === undefined ? undefined : provider.getId()
-        )
-
-        observer(OrderProgressStep.ApprovingPayment)
-        await this.lockTokens(tokenAddress, amounts, from, txParams)
-        observer(OrderProgressStep.ApprovedPayment)
-
-        const totalAmount = AssetRewards.sumAmounts(amounts)
-        const value =
-            tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-                ? totalAmount.toFixed()
-                : undefined
-
-        observer(OrderProgressStep.CreatingAgreement)
-        await this.createAgreementAndPay(
-            agreementIdSeed,
-            ddo.shortId(),
-            ids.map(a => a[0]),
-            [0, 0, 0],
-            timeOuts ? timeOuts : [0, 0, 0],
-            consumerAddress.getId(),
-            0,
-            rewardAddress,
-            tokenAddress,
-            amounts,
-            receivers,
-            from,
-            { ...txParams, value }
-        )
-        observer(OrderProgressStep.AgreementInitialized)
-
-        return agreementId
+    public params(consumer: string, provider: string, nftAmount: number): AgreementParameters {
+        return {
+            list: [consumer, provider, nftAmount]
+        }
     }
 
-    public async getAgreementIdsFromDDO(
+    public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
-        assetRewards: AssetRewards,
-        returnAddress: string,
-        consumer: string,
         creator: string,
-        nftAmount?: number,
-        provider?: string,
-        nftSalesService?: Service
-    ): Promise<any> {
+        parameters: AgreementParameters
+    ): Promise<AgreementInstance> {
+        let consumer: string
+        let provider: string
+        let nftAmount: number
+        [consumer, provider, nftAmount] = parameters.list as any
+
         const {
-            lockPaymentCondition,
             transferNftCondition,
+            lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
+        const accessService = ddo.findServiceByType(this.service())
+        const assetRewards = getAssetRewardsFromService(accessService)
         const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
             agreementIdSeed,
             creator
         )
 
-        const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new Error('Payment Condition not found!')
-
-        const lockPaymentConditionId = await lockPaymentCondition.generateIdWithSeed(
+        const lockPaymentConditionInstance = await lockPaymentCondition.instance(
             agreementId,
-            await lockPaymentCondition.hashValues(
-                ddo.shortId(),
-                escrowPaymentCondition.getAddress(),
-                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
-            )
+            await lockPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards)
         )
-
-        const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
-
-        const nftHolder =
-            provider ||
-            (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
-
-        const transferNftConditionId = await transferNftCondition.generateIdWithSeed(
+        const transferConditionInstance = await transferNftCondition.instance(
             agreementId,
-            await transferNftCondition.hashValuesComplete(
-                ddo.shortId(),
-                nftHolder,
-                consumer,
-                nftAmount,
-                lockPaymentConditionId[1],
-                this.nevermined.keeper.nftUpgradeable.address,
-                true
-            )
+            await transferNftCondition.paramsFromDDO(ddo, accessService, assetRewards, provider, consumer, nftAmount, lockPaymentConditionInstance)
         )
-
-        const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow Condition not found!')
-
-        const escrowPaymentConditionId = await escrowPaymentCondition.generateIdWithSeed(
+        const escrowPaymentConditionInstance = await escrowPaymentCondition.instance(
             agreementId,
-            await escrowPaymentCondition.hashValues(
-                ddo.shortId(),
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers(),
-                returnAddress,
-                escrowPaymentCondition.getAddress(),
-                escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-                lockPaymentConditionId[1],
-                transferNftConditionId[1]
-            )
+            await escrowPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer, transferConditionInstance, lockPaymentConditionInstance)
         )
 
         return {
-            ids: [
-                lockPaymentConditionId,
-                transferNftConditionId,
-                escrowPaymentConditionId
-            ],
+            instances: [lockPaymentConditionInstance, transferConditionInstance, escrowPaymentConditionInstance],
+            list: parameters.list,
             agreementId,
-            rewardAddress: escrowPaymentCondition.getAddress(),
-            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
-                .value as string,
-            amounts: assetRewards.getAmounts(),
-            receivers: assetRewards.getReceivers()
         }
     }
 

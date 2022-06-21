@@ -1,9 +1,11 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
-import { Condition } from '../Condition.abstract'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { Condition, ConditionInstance, ConditionParameters } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
-import { triggerAsyncId } from 'async_hooks'
+import { ServiceCommon } from '../../../../ddo/Service'
+import AssetRewards from '../../../../models/AssetRewards'
+import { DDO } from '../../../../sdk'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -30,7 +32,7 @@ export class TransferNFT721Condition extends Condition {
      * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
      * @returns Hash of all the values
      */
-    public hashValues(
+    public params(
         did: string,
         nftHolder: string,
         nftReceiver: string,
@@ -38,7 +40,7 @@ export class TransferNFT721Condition extends Condition {
         nftTokenAddress: string,
         willBeTransferred: boolean = true
     ) {
-        return super.hashValues(
+        return super.params(
             didZeroX(did),
             zeroX(nftHolder),
             zeroX(nftReceiver),
@@ -46,6 +48,31 @@ export class TransferNFT721Condition extends Condition {
             lockCondition,
             nftTokenAddress,
             willBeTransferred
+        )
+    }
+
+    public async paramsFromDDO(
+        ddo: DDO,
+        service: ServiceCommon,
+        _rewards: AssetRewards,
+        consumer: string,
+        lockCondition: ConditionInstance
+    ): Promise<ConditionParameters> {
+        const transfer = findServiceConditionByName(service, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+
+        const nft = await this.nevermined.contracts.loadNft721(
+            transfer.parameters.find(p => p.name === '_contract').value as string
+        )
+
+        const nftOwner = await nft.ownerOf(ddo.id)
+        return this.params(
+            ddo.shortId(),
+            nftOwner,
+            consumer,
+            lockCondition.id,
+            nft.address,
+            true
         )
     }
 
