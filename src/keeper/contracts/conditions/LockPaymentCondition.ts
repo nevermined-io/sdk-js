@@ -23,13 +23,13 @@ export class LockPaymentCondition extends Condition {
         receivers: string[]
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return {list: [
+        return super.params(
             didZeroX(did),
             zeroX(rewardAddress),
             zeroX(tokenAddress),
             amountsString,
             receivers
-        ]}
+        )
     }
 
     public async paramsFromDDO(ddo: DDO, service: Service, rewards: AssetRewards) {

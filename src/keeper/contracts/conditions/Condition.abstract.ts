@@ -15,13 +15,15 @@ export enum ConditionState {
 
 export interface ConditionParameters {
     list: any[]
+    params: () => any[] // for fullfill
 }
 
 export interface ConditionInstance {
     list: any[]
     seed: string
     id: string
-    params: any[] // for fullfill
+    params: () => any[] // for fullfill
+    agreementId: string
 }
 
 export const conditionStateNames = [
@@ -48,7 +50,10 @@ export abstract class Condition extends ContractBase {
     }
 
     public params(...args: any[]): ConditionParameters {
-        return { list: args }
+        return {
+            list: args,
+            params: () => args
+        }
     }
 
     public abstract paramsFromDDO(ddo: DDO, service: Service, rewards: AssetRewards, ...args: any[]): Promise<ConditionParameters>
@@ -63,6 +68,14 @@ export abstract class Condition extends ContractBase {
         method: string = 'fulfill'
     ) {
         return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
+    }
+
+    public fulfillInstance(
+        cond: ConditionInstance,
+        from?: Account,
+        params?: TxParameters,
+    ) {
+        return this.sendFrom('fulfill', [zeroX(cond.agreementId), ...cond.params()], from, params)
     }
 
     public async generateIdHash(agreementId: string, ...values: any[]) {
@@ -90,9 +103,10 @@ export abstract class Condition extends ContractBase {
         const valueHash = await this.hashValues(...params.list)
         return {
             seed: valueHash,
+            agreementId,
             id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
             list: params.list,
-            params: params.list,
+            params: params.params,
         }
     }
 

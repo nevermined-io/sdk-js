@@ -30,14 +30,14 @@ export class EscrowPaymentCondition extends Condition {
         releaseCondition: string
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return {list: [
+        return super.params(
             didZeroX(did),
             amountsString,
             receivers,
             ...[returnAddress, sender, tokenAddress, lockCondition, releaseCondition].map(
                 zeroX
             )
-        ]}
+        )
     }
 
     public async paramsFromDDO(

@@ -16,7 +16,7 @@ export class AccessCondition extends Condition {
     }
 
     public params(did: string, grantee: string) {
-        return {list: [didZeroX(did), zeroX(grantee)]}
+        return super.params([didZeroX(did), zeroX(grantee)])
     }
 
     public async paramsFromDDO(ddo: DDO, _service: Service, _rewards: AssetRewards, creator: string) {

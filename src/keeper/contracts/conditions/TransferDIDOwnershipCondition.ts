@@ -28,7 +28,7 @@ export class TransferDIDOwnershipCondition extends Condition {
      * @returns Hash of all the values.
      */
     public params(did: string, receiver: string) {
-        return {list: [didZeroX(did), zeroX(receiver)]}
+        return super.params(didZeroX(did), zeroX(receiver))
     }
 
     public async paramsFromDDO(ddo: DDO, _service: Service, _rewards: AssetRewards, creator: string) {
