@@ -1,8 +1,11 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
-import { Condition } from '../Condition.abstract'
+import { Condition, ConditionParameters } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import { ServiceCommon } from '../../../../ddo/Service'
+import AssetRewards from '../../../../models/AssetRewards'
+import { DDO } from '../../../../sdk'
 
 /**
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
@@ -22,8 +25,12 @@ export class NFTHolderCondition extends Condition {
      * @param {Number} amount The amouunt of NFTs that need to be hold by the holder
      * @returns hash of all the values
      */
-    public hashValues(did: string, holderAddress: string, amount: number) {
-        return super.hashValues(didZeroX(did), zeroX(holderAddress), String(amount))
+    public params(did: string, holderAddress: string, amount: number) {
+        return super.params(didZeroX(did), zeroX(holderAddress), String(amount))
+    }
+
+    public async paramsFromDDO(ddo: DDO, _service: ServiceCommon, _rewards: AssetRewards, holderAddress: string, amount: number): Promise<ConditionParameters> {
+        return this.params(ddo.shortId(), holderAddress, amount)
     }
 
     /**
