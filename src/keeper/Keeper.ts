@@ -400,19 +400,11 @@ export class Keeper extends Instantiable {
     }
 
     /**
-     * Returns network id.
-     * @return {Promise<number>} Network ID.
-     */
-    public getNetworkId(): Promise<number> {
-        return super.getNetworkId()
-    }
-
-    /**
      * Returns the network by name.
      * @return {Promise<string>} Network name.
      */
     public async getNetworkName(): Promise<string> {
-        const networkId = await super.getNetworkId()
+        const networkId = await this.getNetworkId()
         return KeeperUtils.getNetworkName(networkId)
     }
 

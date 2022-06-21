@@ -39,6 +39,10 @@ export abstract class Instantiable {
         return this._nevermined
     }
 
+    /**
+     * Returns network id.
+     * @return {Promise<number>} Network ID.
+     */
     public async getNetworkId(): Promise<number> {
         if(!this.networkId) {
             this.networkId = await this.web3.eth.net.getId()
