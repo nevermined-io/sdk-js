@@ -30,11 +30,21 @@ export function generateIntantiableConfigFromConfig(
 }
 
 export abstract class Instantiable {
+    networkId: number
+
     protected get nevermined() {
         if (!this._nevermined) {
             this.logger.error('Nevermined instance is not defined.')
         }
         return this._nevermined
+    }
+
+    public async getNetworkId(): Promise<number> {
+        if(!this.networkId) {
+            this.networkId = await this.web3.eth.net.getId()
+        }
+
+        return this.networkId
     }
 
     protected get web3() {

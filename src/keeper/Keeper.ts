@@ -54,6 +54,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 import { GenericAccess } from './contracts/templates/GenericAccess'
 import { KeeperError } from '../errors'
+import base = Mocha.reporters.base;
 
 /**
  * Interface with Nevermined contracts.
@@ -404,23 +405,16 @@ export class Keeper extends Instantiable {
      * @return {Promise<number>} Network ID.
      */
     public getNetworkId(): Promise<number> {
-        return Keeper.getNetworkId(this.web3)
-    }
-
-    public static getNetworkId(web3): Promise<number> {
-        return KeeperUtils.getNetworkId(web3)
+        return super.getNetworkId()
     }
 
     /**
      * Returns the network by name.
      * @return {Promise<string>} Network name.
      */
-    public getNetworkName(): Promise<string> {
-        return Keeper.getNetworkName(this.web3)
-    }
-
-    public static getNetworkName(web3): Promise<string> {
-        return KeeperUtils.getNetworkName(web3)
+    public async getNetworkName(): Promise<string> {
+        const networkId = await super.getNetworkId()
+        return KeeperUtils.getNetworkName(networkId)
     }
 
     public getAllInstances() {

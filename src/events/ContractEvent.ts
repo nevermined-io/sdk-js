@@ -7,16 +7,20 @@ import {
 } from './NeverminedEvent'
 import ContractBase from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
+import { Nevermined } from "../nevermined/Nevermined";
 
 export class ContractEvent extends NeverminedEvent {
-    private web3: Web3
     public static getInstance(
         contract: ContractBase,
         eventEmitter: EventEmitter,
+        nevermined: Nevermined,
         web3: Web3
     ): ContractEvent {
         const instance = new ContractEvent(contract, eventEmitter)
-        instance.web3 = web3
+        instance.setInstanceConfig({
+            nevermined,
+            web3
+        })
 
         return instance
     }
@@ -35,7 +39,7 @@ export class ContractEvent extends NeverminedEvent {
     }
 
     public async getPastEvents(options: EventOptions): EventResult {
-        const chainId = await this.web3.eth.net.getId()
+        const chainId = await this.getNetworkId()
 
         options.fromBlock = 0
         options.toBlock = 'latest'
