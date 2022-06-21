@@ -33,11 +33,6 @@ export type ParameterType = (
     | TxParameters
 )
 
-/*
-export interface AgreementParameters {
-    list: ParameterType[]
-}*/
-
 export interface AgreementInstance<Params> {
     list: Params
     agreementId: string
@@ -69,10 +64,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         super(contractName)
     }
 
-    /*
-    public params(...args: any[]): AgreementParameters {
-        return { list: args }
-    }*/
+    public abstract params(...args: any[]): Params
 
     public paymentData(service: Service): PaymentData {
         const assetRewards = getAssetRewardsFromService(service)
@@ -187,7 +179,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         ddo: DDO,
         creator: string,
         params: Params
-//        ...parameters: (string | number | Account | BabyjubPublicKey | Service)[]
     ): Promise<string[]> {
         const { instances } = await this.instanceFromDDO(agreementId, ddo, creator, params)
         return instances.map(a => a.id)
