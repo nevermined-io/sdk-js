@@ -1,13 +1,12 @@
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
-import { getAssetRewardsFromService } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
 import { ServiceType } from '../../../ddo/Service'
 
 export interface AccessTemplateParams {
-    consumer: string, 
+    consumerId: string, 
     serviceType: ServiceType
 }
 
@@ -24,8 +23,8 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
         return accessTemplateServiceAgreementTemplate
     }
 
-    public params(consumer: string, serviceType: ServiceType = 'access'): AccessTemplateParams {
-        return { consumer, serviceType }
+    public params(consumerId: string, serviceType: ServiceType = 'access'): AccessTemplateParams {
+        return { consumerId, serviceType }
     }
 
     public async instanceFromDDO(
@@ -40,32 +39,18 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        const accessService = ddo.findServiceByType(this.service())
-        const assetRewards = getAssetRewardsFromService(accessService)
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            creator
-        )
+        const agreementId = await this.agreementId(agreementIdSeed, creator)
 
         const ctx = {
-            ddo,
-            service: accessService,
-            rewards: assetRewards,
-            creator: parameters.consumer,
-            consumer: parameters.consumer
+            ...this.standardContext(ddo),
+            creator: parameters.consumerId,
+            consumerId: parameters.consumerId
         }
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instance(
-            agreementId,
-            await lockPaymentCondition.paramsFromDDO(ctx)
-        )
-        const accessConditionInstance = await accessCondition.instance(
-            agreementId,
-            await accessCondition.paramsFromDDO(ctx)
-        )
-        const escrowPaymentConditionInstance = await escrowPaymentCondition.instance(
-            agreementId,
-            await escrowPaymentCondition.paramsFromDDO(ctx, accessConditionInstance, lockPaymentConditionInstance)
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
+        const accessConditionInstance = await accessCondition.instanceFromDDO(agreementId, ctx)
+        const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
+            agreementId, ctx, accessConditionInstance, lockPaymentConditionInstance
         )
 
         return {

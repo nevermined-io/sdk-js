@@ -133,6 +133,10 @@ export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extend
 
     public abstract paramsFromDDO(ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionParameters<Extra>>
 
+    public async instanceFromDDO(agreementId: string, ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionInstance<Extra>> {
+        return this.instance(agreementId, await this.paramsFromDDO(ctx, ...args))
+    }
+
     public async fulfillInstance(
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,

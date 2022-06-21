@@ -6,7 +6,7 @@ import { TxParameters } from '../ContractBase'
 import BigNumber from 'bignumber.js'
 
 export interface EscrowPaymentConditionContext extends ConditionContext {
-    consumer: string
+    consumerId: string
 }
 
 export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionContext> {
@@ -42,7 +42,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
     }
 
     public async paramsFromDDO(
-        {ddo, service, rewards, consumer}: EscrowPaymentConditionContext,
+        {ddo, service, rewards, consumerId}: EscrowPaymentConditionContext,
         access: ConditionInstanceSmall, 
         lock: ConditionInstanceSmall
     ) {
@@ -52,7 +52,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
             ddo.shortId(),
             rewards.getAmounts(),
             rewards.getReceivers(),
-            consumer,
+            consumerId,
             this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
             escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
             lock.id,

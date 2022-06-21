@@ -1,5 +1,5 @@
 import ContractBase, { TxParameters } from '../ContractBase'
-import { ConditionInstanceSmall, ConditionSmall, ConditionState, conditionStateNames } from '../conditions'
+import { ConditionContext, ConditionInstanceSmall, ConditionSmall, ConditionState, conditionStateNames } from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { didZeroX, findServiceConditionByName, getAssetRewardsFromService, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
@@ -202,6 +202,18 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     public abstract service(): ServiceType
 
+    public standardContext(ddo: DDO): ConditionContext {
+        const service = ddo.findServiceByType(this.service())
+        const rewards = getAssetRewardsFromService(service)
+        return { ddo, service, rewards }
+    }
+
+    public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {
+        return await this.nevermined.keeper.agreementStoreManager.agreementId(
+            agreementIdSeed,
+            creator
+        )
+    }
     /**
      * Create a new agreement using the data of a DDO.
      * @param  {string}            agreementId Agreement ID.

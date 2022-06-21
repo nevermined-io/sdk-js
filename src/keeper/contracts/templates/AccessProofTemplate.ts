@@ -1,16 +1,16 @@
-import { AgreementInstance, AgreementParameters, AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
-import {
-    getAssetRewardsFromService,
-} from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-
 import { accessTemplateServiceAgreementTemplate } from './AccessProofTemplate.serviceAgreementTemplate'
 import Account from '../../../nevermined/Account'
 import { ServiceType } from '../../../ddo/Service'
 
-export class AccessProofTemplate extends BaseTemplate {
+export interface AccessProofTemplateParams {
+    consumer: Account
+}
+
+export class AccessProofTemplate extends BaseTemplate<AccessProofTemplateParams> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessProofTemplate> {
@@ -30,50 +30,39 @@ export class AccessProofTemplate extends BaseTemplate {
         return 'access-proof'
     }
 
-    public params(consumer: Account): AgreementParameters {
-        return {
-            list: [consumer]
-        }
+    public params(consumer: Account): AccessProofTemplateParams {
+        return { consumer }
     }
 
     public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
         creator: string,
-        parameters: AgreementParameters
-    ): Promise<AgreementInstance> {
-        let consumer: Account
-        [consumer] = parameters.list as any
-
+        parameters: AccessProofTemplateParams
+    ): Promise<AgreementInstance<AccessProofTemplateParams>> {
         const {
             accessProofCondition,
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        const accessService = ddo.findServiceByType(this.service())
-        const assetRewards = getAssetRewardsFromService(accessService)
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            creator
-        )
+        const agreementId = await this.agreementId(agreementIdSeed, creator)
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instance(
-            agreementId,
-            await lockPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards)
-        )
-        const accessConditionInstance = await accessProofCondition.instance(
-            agreementId,
-            await accessProofCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer)
-        )
-        const escrowPaymentConditionInstance = await escrowPaymentCondition.instance(
-            agreementId,
-            await escrowPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer.getId(), accessConditionInstance, lockPaymentConditionInstance)
+        const ctx = {
+            ...this.standardContext(ddo),
+            consumer: parameters.consumer,
+            consumerId: parameters.consumer.getId()
+        }
+
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
+        const accessConditionInstance = await accessProofCondition.instanceFromDDO(agreementId, ctx)
+        const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
+            agreementId, ctx, accessConditionInstance, lockPaymentConditionInstance
         )
 
         return {
             instances: [lockPaymentConditionInstance, accessConditionInstance, escrowPaymentConditionInstance],
-            list: parameters.list,
+            list: parameters,
             agreementId,
         }
     }
