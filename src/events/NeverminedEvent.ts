@@ -1,4 +1,5 @@
 import ContractBase from '../keeper/contracts/ContractBase'
+import { Instantiable } from "../Instantiable.abstract";
 
 export interface EventOptions {
     methodName?: string
@@ -21,7 +22,7 @@ export interface ContractEventSubscription {
 
 export type EventResult = Promise<Array<any>>
 
-export abstract class NeverminedEvent {
+export abstract class NeverminedEvent extends Instantiable {
     protected eventEmitter: EventEmitter
     protected contract: ContractBase = null
     public abstract getEventData(options: EventOptions): EventResult
@@ -29,6 +30,7 @@ export abstract class NeverminedEvent {
     public abstract getBlockNumber(...args: any[]): Promise<number>
 
     protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
+        super()
         this.contract = contract
         this.eventEmitter = eventEmitter
     }
