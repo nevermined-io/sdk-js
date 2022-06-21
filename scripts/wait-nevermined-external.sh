@@ -15,6 +15,6 @@ printf '\e[32m✔ Found new contract artifacts.\e[0m\n'
 ls $HOME/.nevermined/nevermined-contracts/artifacts
 
 mmv $HOME/.nevermined/nevermined-contracts/artifacts/\*.spree.json node_modules/@nevermined-io/contracts/artifacts/\#1.kovan.json
-cp node_modules/@nevermined-io/contracts/artifacts/*.kovan.json $HOME/.nevermined/nevermined-contracts/artifacts
+# cp node_modules/@nevermined-io/contracts/artifacts/*.kovan.json $HOME/.nevermined/nevermined-contracts/artifacts
 
 printf '\e[32m✔ Copied new contract artifacts.\e[0m\n'
