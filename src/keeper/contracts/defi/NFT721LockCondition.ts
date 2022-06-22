@@ -1,12 +1,18 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils/index'
-import { Condition } from '../conditions/Condition.abstract'
+import { Condition, ConditionContext } from '../conditions/Condition.abstract'
 import Account from '../../../nevermined/Account'
+
+export interface NFT721LockConditionContext extends ConditionContext {
+    lockAddress: string
+    amount: number
+    nftContractAddress: string
+}
 
 /**
  * Implementation of the NFT Lock Condition
  */
-export class NFT721LockCondition extends Condition {
+export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721LockCondition> {
@@ -26,18 +32,22 @@ export class NFT721LockCondition extends Condition {
      * @param {String} nftContractAddress The NFT721 contract address
      * @returns Hash of all the values.
      */
-    public hashValues(
+    public params(
         did: string,
         lockAddress: string,
         amount: number,
         nftContractAddress: string
     ) {
-        return super.hashValues(
+        return super.params(
             didZeroX(did),
             zeroX(lockAddress),
             String(amount),
             zeroX(nftContractAddress)
         )
+    }
+
+    public async paramsFromDDO({ ddo, lockAddress, amount, nftContractAddress }: NFT721LockConditionContext) {
+        return this.params(ddo.shortId(), lockAddress, amount, nftContractAddress)
     }
 
     /**

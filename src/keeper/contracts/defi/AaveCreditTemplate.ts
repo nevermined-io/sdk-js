@@ -12,7 +12,11 @@ import AssetRewards from '../../../models/AssetRewards'
 import web3Utils from 'web3-utils'
 import BigNumber from 'bignumber.js'
 
-export class AaveCreditTemplate extends BaseTemplate {
+export interface AaveCreditTemplateParams {
+    
+}
+
+export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
     aaveConfig: AaveConfig
 
     public static async getInstance(
