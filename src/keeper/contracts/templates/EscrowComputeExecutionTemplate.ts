@@ -5,6 +5,7 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
 import { ServiceType } from '../../../ddo/Service'
+import { Account } from '../../../sdk'
 
 export interface EscrowComputeExecutionParams {
     consumerId: string, 
@@ -29,8 +30,8 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
         return 'compute'
     }
 
-    public params(consumerId: string): EscrowComputeExecutionParams {
-        return { consumerId }
+    public params(consumer: Account): EscrowComputeExecutionParams {
+        return { consumerId: consumer.getId() }
     }
 
     public async instanceFromDDO(

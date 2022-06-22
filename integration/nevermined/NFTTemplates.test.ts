@@ -240,7 +240,7 @@ describe('NFTTemplates E2E', () => {
                     ],
                     [0, 0, 0],
                     [0, 0, 0],
-                    collector1.getId(),
+                    [collector1.getId()],
                     collector1
                 )
                 assert.isTrue(result.status)
@@ -430,7 +430,7 @@ describe('NFTTemplates E2E', () => {
                     [conditionIdNFTHolder[0], conditionIdNFTAccess[0]],
                     [0, 0],
                     [0, 0],
-                    collector1.getId(),
+                    [collector1.getId()],
                     collector1
                 )
                 assert.isTrue(result.status)
@@ -554,7 +554,7 @@ describe('NFTTemplates E2E', () => {
                     ],
                     [0, 0, 0],
                     [0, 0, 0],
-                    collector2.getId(),
+                    [collector2.getId()],
                     collector2
                 )
                 assert.isTrue(result.status)
@@ -793,11 +793,8 @@ describe('NFTTemplates E2E', () => {
                 const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
                     agreementIdSeed,
                     ddo,
-                    assetRewards1,
-                    collector1.getId(),
+                    nftSalesTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
-                    undefined,
                     collector1
                 )
                 assert.isDefined(result)
@@ -914,9 +911,8 @@ describe('NFTTemplates E2E', () => {
                 const result = await nftAccessTemplate.createAgreementFromDDO(
                     agreementAccessIdSeed,
                     ddo,
-                    new AssetRewards(),
+                    nftAccessTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
                     collector1
                 )
                 assert.isDefined(result)
@@ -984,11 +980,8 @@ describe('NFTTemplates E2E', () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2Seed,
                     ddo,
-                    assetRewards2,
-                    collector2.getId(),
+                    nftSalesTemplate.params(collector2.getId(), numberNFTs2),
                     collector2,
-                    numberNFTs2,
-                    collector1,
                     collector2
                 )
                 assert.isDefined(result)
@@ -1196,11 +1189,8 @@ describe('NFTTemplates E2E', () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementIdSeed,
                     ddo,
-                    assetRewards1,
-                    collector1.getId(),
+                    nftSalesTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
-                    undefined,
                     collector1
                 )
                 assert.isDefined(result)

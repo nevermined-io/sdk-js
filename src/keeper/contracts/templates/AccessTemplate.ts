@@ -4,6 +4,7 @@ import { DDO } from '../../../ddo/DDO'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
 import { ServiceType } from '../../../ddo/Service'
+import { Account } from '../../../sdk'
 
 export interface AccessTemplateParams {
     consumerId: string, 
@@ -24,8 +25,8 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
         return accessTemplateServiceAgreementTemplate
     }
 
-    public params(consumerId: string, serviceType: ServiceType = 'access'): AccessTemplateParams {
-        return { consumerId, serviceType, creator: consumerId }
+    public params(consumer: Account, serviceType: ServiceType = 'access'): AccessTemplateParams {
+        return { consumerId: consumer.getId(), serviceType, creator: consumer.getId() }
     }
 
     public async instanceFromDDO(

@@ -221,7 +221,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     ],
                     [0, 0, 0],
                     [0, 0, 0],
-                    collector1.getId(),
+                    [collector1.getId()],
                     sender
                 )
 
@@ -378,7 +378,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     [conditionIdNFTHolder[0], conditionIdNFTAccess[0]],
                     [0, 0],
                     [0, 0],
-                    collector1.getId()
+                    [collector1.getId()]
                 )
                 assert.isTrue(result.status)
                 assert.nestedProperty(result, 'events.AgreementCreated')

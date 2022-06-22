@@ -214,11 +214,8 @@ describe('Secondary Markets', () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementIdSeed,
                     ddo,
-                    assetRewards1,
-                    collector1.getId(),
+                    nftSalesTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
-                    undefined,
                     collector1
                 )
                 assert.isDefined(result)
@@ -361,9 +358,8 @@ describe('Secondary Markets', () => {
                 const result = await nftAccessTemplate.createAgreementFromDDO(
                     agreementAccessIdSeed,
                     ddo,
-                    new AssetRewards(),
+                    nftAccessTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
                     collector1
                 )
                 assert.isDefined(result)
@@ -466,22 +462,12 @@ describe('Secondary Markets', () => {
             })
 
             it('As collector2 I am setting an agreement up for buying an NFT', async () => {
-                // After fetching the previously created sales agreement
-                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
-                    nftSalesServiceAgreement
-                )
-
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2Seed,
                     ddo,
-                    assetRewardsFromServiceAgreement,
-                    collector2.getId(),
+                    nftSalesTemplate.params(collector2.getId(), numberNFTs2),
                     collector2,
-                    numberNFTs2,
-                    collector1,
                     collector2,
-                    undefined,
-                    nftSalesServiceAgreement as TxParameters
                 )
                 assert.isDefined(result)
 
@@ -649,8 +635,6 @@ describe('Secondary Markets', () => {
         })
 
         describe('As collector1 I want to give exclusive access to the collectors owning a specific NFT', () => {
-            let ddo2: DDO
-
             before(async () => {
                 const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
                     collector2
@@ -664,9 +648,8 @@ describe('Secondary Markets', () => {
                 const result = await nftAccessTemplate.createAgreementFromDDO(
                     agreementAccessId2Seed,
                     ddo,
-                    new AssetRewards(),
+                    nftAccessTemplate.params(collector2.getId(), numberNFTs),
                     collector2,
-                    numberNFTs,
                     collector2
                 )
                 assert.isDefined(result)

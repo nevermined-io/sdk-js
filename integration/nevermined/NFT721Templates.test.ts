@@ -404,7 +404,7 @@ describe('NFT721Templates E2E', () => {
                     [conditionIdNFTHolder[0], conditionIdNFTAccess[0]],
                     [0, 0],
                     [0, 0],
-                    collector1.getId(),
+                    [collector1.getId()],
                     collector1
                 )
                 assert.isTrue(result.status)
@@ -529,7 +529,7 @@ describe('NFT721Templates E2E', () => {
                     ],
                     [0, 0, 0],
                     [0, 0, 0],
-                    collector2.getId(),
+                    [collector2.getId()],
                     collector2
                 )
                 assert.isTrue(result.status)
@@ -749,8 +749,7 @@ describe('NFT721Templates E2E', () => {
                 const result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
                     agreementIdSeed,
                     ddo,
-                    assetRewards1,
-                    collector1.getId(),
+                    nft721SalesTemplate.params(collector1.getId()),
                     collector1,
                     collector1
                 )
@@ -842,7 +841,7 @@ describe('NFT721Templates E2E', () => {
                 const result = await nft721AccessTemplate.createAgreementFromDDO(
                     agreementAccessIdSeed,
                     ddo,
-                    new AssetRewards(),
+                    nft721AccessTemplate.params(collector1.getId()),
                     collector1,
                     collector1
                 )
@@ -910,8 +909,7 @@ describe('NFT721Templates E2E', () => {
                 const result = await nft721SalesTemplate.createAgreementFromDDO(
                     agreementId2Seed,
                     ddo,
-                    assetRewards2,
-                    collector2.getId(),
+                    nft721SalesTemplate.params(collector1.getId()),
                     collector2,
                     collector2
                 )

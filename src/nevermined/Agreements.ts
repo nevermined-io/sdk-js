@@ -59,7 +59,7 @@ export class Agreements extends Instantiable {
             agreementIdSeed,
             ddo,
             consumer.getId(),
-            accessTemplate.params(consumer.getId())
+            accessTemplate.params(consumer)
         )
         /*
         const templateName = ddo.findServiceByType('access').attributes

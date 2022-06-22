@@ -3,7 +3,7 @@ import { Account, Nevermined, MetaData } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
-import { generateId } from '../../src/utils'
+// import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 
 describe('Agreement Store Manager', () => {

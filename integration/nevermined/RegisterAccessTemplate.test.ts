@@ -14,6 +14,7 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { AccessTemplate } from '../../src/keeper/contracts/templates'
 import BigNumber from 'bignumber.js'
+import { generateId } from '../../src/utils'
 
 describe('Register Escrow Access Secret Store Template', () => {
     let nevermined: Nevermined
@@ -188,7 +189,7 @@ describe('Register Escrow Access Secret Store Template', () => {
                 [conditionIdAccess[0], conditionIdLock[0], conditionIdEscrow[0]],
                 [0, 0, 0],
                 [0, 0, 0],
-                consumer.getId(),
+                [consumer.getId()],
                 publisher
             )
 
@@ -280,20 +281,22 @@ describe('Register Escrow Access Secret Store Template', () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-            ddo = await nevermined.assets.create(metadata, publisher)
+            const assetRewards = new AssetRewards(
+                new Map([
+                    [receivers[0], amounts[0]],
+                    [receivers[1], amounts[1]]
+                ])
+            )
+
+            ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
         })
 
         it('should create a new agreement (short way)', async () => {
-            agreementId = await accessTemplate.createFullAgreement(
+            agreementId = await accessTemplate.createAgreementFromDDO(
+                generateId(),
                 ddo,
-                new AssetRewards(
-                    new Map([
-                        [receivers[0], amounts[0]],
-                        [receivers[1], amounts[1]]
-                    ])
-                ),
-                consumer.getId(),
-                undefined,
+                accessTemplate.params(consumer),
+                consumer,
                 publisher
             )
 
