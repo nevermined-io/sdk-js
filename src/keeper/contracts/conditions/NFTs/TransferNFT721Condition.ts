@@ -5,9 +5,7 @@ import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
-    providerId: string
     consumerId: string
-    nftAmount: number
 }
 
 /**

@@ -1,16 +1,17 @@
-import { Condition, ConditionParameters } from './Condition.abstract'
+import { Condition, ConditionContext } from './Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
-import { DDO } from '../../../ddo/DDO'
-import { ServiceCommon } from '../../../ddo/Service'
-import AssetRewards from '../../../models/AssetRewards'
 
-export class ComputeExecutionCondition extends Condition {
+export interface ComputeExecutionConditionContext extends ConditionContext {
+    consumerId: string
+}
 
-    public async paramsFromDDO(ddo: DDO, _service: ServiceCommon, _rewards: AssetRewards, consumer: string): Promise<ConditionParameters> {
-        return this.params(ddo.shortId(), consumer)
+export class ComputeExecutionCondition extends Condition<ComputeExecutionConditionContext> {
+
+    public async paramsFromDDO({ ddo, consumerId }: ComputeExecutionConditionContext) {
+        return this.params(ddo.shortId(), consumerId)
     }
 
     public static async getInstance(

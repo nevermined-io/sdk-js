@@ -1,13 +1,18 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO } from '../../../sdk'
-import { AgreementInstance, AgreementParameters, AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
-import { getAssetRewardsFromService } from '../../../utils'
 import { ServiceType } from '../../../ddo/Service'
 
-export class NFTSalesTemplate extends BaseTemplate {
+export interface NFTSalesTemplateParams {
+    consumerId: string
+    providerId: string
+    nftAmount: number
+}
+
+export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTSalesTemplate> {
@@ -18,52 +23,39 @@ export class NFTSalesTemplate extends BaseTemplate {
         return 'nft-sales'
     }
 
-    public params(consumer: string, provider: string, nftAmount: number): AgreementParameters {
-        return {
-            list: [consumer, provider, nftAmount]
-        }
+    public params(consumerId: string, providerId: string, nftAmount: number): NFTSalesTemplateParams {
+        return { consumerId, providerId, nftAmount }
     }
 
     public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
         creator: string,
-        parameters: AgreementParameters
-    ): Promise<AgreementInstance> {
-        let consumer: string
-        let provider: string
-        let nftAmount: number
-        [consumer, provider, nftAmount] = parameters.list as any
-
+        parameters: NFTSalesTemplateParams
+    ): Promise<AgreementInstance<NFTSalesTemplateParams>> {
         const {
             transferNftCondition,
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
 
-        const accessService = ddo.findServiceByType(this.service())
-        const assetRewards = getAssetRewardsFromService(accessService)
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            creator
-        )
+        const agreementId = await this.agreementId(agreementIdSeed, creator)
+        const ctx = {
+            ...this.standardContext(ddo),
+            ...parameters,
+        }
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instance(
-            agreementId,
-            await lockPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards)
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
+        const transferConditionInstance = await transferNftCondition.instanceFromDDO(
+            agreementId, ctx, lockPaymentConditionInstance
         )
-        const transferConditionInstance = await transferNftCondition.instance(
-            agreementId,
-            await transferNftCondition.paramsFromDDO(ddo, accessService, assetRewards, provider, consumer, nftAmount, lockPaymentConditionInstance)
-        )
-        const escrowPaymentConditionInstance = await escrowPaymentCondition.instance(
-            agreementId,
-            await escrowPaymentCondition.paramsFromDDO(ddo, accessService, assetRewards, consumer, transferConditionInstance, lockPaymentConditionInstance)
+        const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
+            agreementId, ctx, transferConditionInstance, lockPaymentConditionInstance
         )
 
         return {
             instances: [lockPaymentConditionInstance, transferConditionInstance, escrowPaymentConditionInstance],
-            list: parameters.list,
+            list: parameters,
             agreementId,
         }
     }
