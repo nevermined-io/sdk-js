@@ -58,12 +58,12 @@ export class AccessProofCondition extends Condition<AccessProofConditionContext,
         }
     }
 
-    public hashValues(
+    public params(
         hash: string,
         grantee: BabyjubPublicKey,
         provider: BabyjubPublicKey
     ) {
-        return super.hashValues(zeroX(hash), grantee.param(), provider.param())
+        return super.params(zeroX(hash), grantee.param(), provider.param())
     }
 
     public fulfill(

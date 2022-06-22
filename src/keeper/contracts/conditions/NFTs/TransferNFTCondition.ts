@@ -38,7 +38,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         nftReceiver: string,
         nftAmount: number,
         lockCondition: string,
-        nftContractAddress: string,
+        nftContractAddress?: string,
         willBeTransferred: boolean = true
     ) {
         return super.params(
@@ -47,7 +47,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
             zeroX(nftReceiver),
             String(nftAmount),
             lockCondition,
-            zeroX(nftContractAddress),
+            zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
             willBeTransferred
         )
     }

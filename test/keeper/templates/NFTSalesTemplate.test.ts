@@ -92,7 +92,7 @@ describe('NFTSalesTemplate', () => {
                     conditionIds,
                     timeLocks,
                     timeOuts,
-                    receiver.getId(),
+                    [receiver.getId()],
                     sender
                 ),
                 /Template not Approved/
@@ -112,7 +112,7 @@ describe('NFTSalesTemplate', () => {
                     conditionIds,
                     timeLocks,
                     timeOuts,
-                    receiver.getId(),
+                    [receiver.getId()],
                     sender
                 ),
                 /DID not registered/
@@ -135,7 +135,7 @@ describe('NFTSalesTemplate', () => {
                 conditionIdSeeds,
                 timeLocks,
                 timeOuts,
-                receiver.getId(),
+                [receiver.getId()],
                 sender
             )
             assert.isTrue(agreement.status)

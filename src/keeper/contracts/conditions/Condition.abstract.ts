@@ -60,6 +60,7 @@ export abstract class ConditionSmall extends ContractBase {
     }
 
     public hashValues(...args: any[]): Promise<string> {
+        console.log('hashing', args)
         return this.call('hashValues', args)
     }
 
@@ -130,6 +131,10 @@ export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extend
             list: args,
             params: async () => args
         }
+    }
+
+    public hashValues(...args: any[]): Promise<string> {
+        return super.hashValues(...this.params(...args).list)
     }
 
     public abstract paramsFromDDO(ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionParameters<Extra>>

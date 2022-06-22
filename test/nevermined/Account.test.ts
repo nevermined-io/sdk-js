@@ -47,7 +47,7 @@ describe('Account', () => {
 
             console.log(`Balance ${balanceEth}`)
             assert.isTrue(
-                balanceEth.isEqualTo(new BigNumber(web3.utils.toWei('1000', 'ether')))
+                balanceEth.isEqualTo(new BigNumber(web3.utils.toWei('100', 'ether')))
             )
         })
     })
@@ -59,7 +59,7 @@ describe('Account', () => {
             const web3 = Web3Provider.getWeb3()
 
             assert.isTrue(
-                balance.eth.isEqualTo(new BigNumber(web3.utils.toWei('1000', 'ether')))
+                balance.eth.isEqualTo(new BigNumber(web3.utils.toWei('100', 'ether')))
             )
             assert.isTrue(balance.nevermined.comparedTo(new BigNumber(0)) === 0)
         })
