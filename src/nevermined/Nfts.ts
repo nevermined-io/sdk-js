@@ -199,18 +199,12 @@ export class Nfts extends Instantiable {
             const agreementIdSeed = zeroX(generateId())
             const ddo = await this.nevermined.assets.resolve(did)
 
-            const salesService = ddo.findServiceByType('nft-sales')
-            const assetRewards = getAssetRewardsFromService(salesService)
-
             this.logger.log('Creating nft-sales agreement and paying')
             const agreementId = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
                 agreementIdSeed,
                 ddo,
-                assetRewards,
-                consumer.getId(),
+                nftSalesTemplate.params(consumer.getId(), nftAmount),
                 consumer,
-                nftAmount,
-                undefined,
                 consumer,
                 undefined,
                 txParams,
@@ -242,10 +236,10 @@ export class Nfts extends Instantiable {
             const agreementId = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
                 agreementIdSeed,
                 ddo,
-                assetRewards,
-                consumer.getId(),
+                nft721SalesTemplate.params(consumer.getId()),
                 consumer,
                 consumer,
+                undefined,
                 txParams,
                 a => observer.next(a)
             )
@@ -657,15 +651,11 @@ export class Nfts extends Instantiable {
         const agreementId = await nftSalesTemplate.createAgreementFromDDO(
             agreementIdSeed,
             ddo,
-            assetRewards,
-            consumer.getId(),
+            nftSalesTemplate.params(consumer.getId(), nftAmount, currentNftHolder.getId()),
             consumer,
-            nftAmount,
-            currentNftHolder,
             consumer,
             [86400, 86400, 86400],
-            params,
-            service
+            params
         )
 
         if (!agreementId) throw new Error('Creating buy agreement failed')

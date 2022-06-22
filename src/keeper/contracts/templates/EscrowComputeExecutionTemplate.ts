@@ -48,7 +48,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
-            ...this.standardContext(ddo),
+            ...this.standardContext(ddo, creator),
             ...parameters,
         }
 

@@ -17,6 +17,7 @@ export interface ConditionContext {
     ddo: DDO
     service: Service
     rewards: AssetRewards
+    creator: string
 }
 
 export interface ConditionParameters<Extra> {

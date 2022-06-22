@@ -84,16 +84,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         conditionIds: string[],
         timeLocks: number[],
         timeOuts: number[],
-        ...args: any[]
-    )
-
-    // eslint-disable-next-line no-dupe-class-members
-    public createAgreement(
-        agreementId: string,
-        did: string,
-        conditionIds: string[],
-        timeLocks: number[],
-        timeOuts: number[],
         extraArgs: any[],
         from?: Account,
         params?: TxParameters
@@ -193,10 +183,10 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     public abstract service(): ServiceType
 
-    public standardContext(ddo: DDO): ConditionContext {
+    public standardContext(ddo: DDO, creator: string): ConditionContext {
         const service = ddo.findServiceByType(this.service())
         const rewards = getAssetRewardsFromService(service)
-        return { ddo, service, rewards }
+        return { ddo, service, rewards, creator }
     }
 
     public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {
@@ -219,6 +209,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         parameters: Params,
         consumer: Account,
         from: Account,
+        timeOuts?: number[],
         params?: TxParameters
     ): Promise<string> {
         const {
@@ -236,8 +227,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             ddo.shortId(),
             instances.map(a => a.seed),
             instances.map(_ => 0),
-            instances.map(_ => 0),
-            consumer.getId(),
+            timeOuts ? timeOuts : instances.map(_ => 0),
+            [consumer.getId()],
             from,
             params
         )

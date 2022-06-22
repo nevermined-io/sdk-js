@@ -50,7 +50,7 @@ export class AccessProofTemplate extends BaseTemplate<AccessProofTemplateParams>
         const agreementId = await this.agreementId(agreementIdSeed, creator)
 
         const ctx = {
-            ...this.standardContext(ddo),
+            ...this.standardContext(ddo, creator),
             ...parameters,
         }
 

@@ -1,16 +1,17 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
-import { Condition } from './Condition.abstract'
+import { Condition, ConditionContext } from './Condition.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
-import { DDO } from '../../../ddo/DDO'
-import { Service } from '../../../ddo/Service'
-import AssetRewards from '../../../models/AssetRewards'
+
+export interface AccessConditionContext extends ConditionContext {
+    receiverId: string
+}
 
 /**
  * Condition allowing to transfer the ownership between the original owner and a receiver.
  */
-export class TransferDIDOwnershipCondition extends Condition {
+export class TransferDIDOwnershipCondition extends Condition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferDIDOwnershipCondition> {
@@ -31,8 +32,8 @@ export class TransferDIDOwnershipCondition extends Condition {
         return super.params(didZeroX(did), zeroX(receiver))
     }
 
-    public async paramsFromDDO(ddo: DDO, _service: Service, _rewards: AssetRewards, creator: string) {
-        return this.params(ddo.shortId(), creator)
+    public async paramsFromDDO({ddo, receiverId}: AccessConditionContext) {
+        return this.params(ddo.shortId(), receiverId)
     }
 
     /**

@@ -23,7 +23,7 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         return 'nft-sales'
     }
 
-    public params(consumerId: string, providerId: string, nftAmount: number): NFTSalesTemplateParams {
+    public params(consumerId: string, nftAmount: number, providerId?: string): NFTSalesTemplateParams {
         return { consumerId, providerId, nftAmount }
     }
 
@@ -41,7 +41,7 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
-            ...this.standardContext(ddo),
+            ...this.standardContext(ddo, creator),
             ...parameters,
         }
 

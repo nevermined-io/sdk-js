@@ -39,6 +39,7 @@ export class Agreements extends Instantiable {
 
     /**
      * Creates a consumer signature for the specified asset service.
+     * TODO: Only works for access service?
      * @param  {string} did Decentralized ID.
      * @param  {ServiceType} serviceType Service.
      * @param  {Account} consumer Consumer account.
@@ -53,25 +54,32 @@ export class Agreements extends Instantiable {
         const ddo = await this.nevermined.metadata.retrieveDDO(d)
         const agreementIdSeed: string = zeroX(generateId())
 
+        const accessTemplate = this.nevermined.keeper.templates.accessTemplate
+        const agreementConditionsIds = await this.nevermined.keeper.templates.accessTemplate.getAgreementIdsFromDDO(
+            agreementIdSeed,
+            ddo,
+            consumer.getId(),
+            accessTemplate.params(consumer.getId())
+        )
+        /*
         const templateName = ddo.findServiceByType('access').attributes
             .serviceAgreementTemplate.contractName
-        const assetRewards = getAssetRewardsFromDDOByService(ddo, serviceType)
 
         const agreementConditionsIds = await this.nevermined.keeper
             .getTemplateByName(templateName)
             .getAgreementIdsFromDDO(
                 agreementIdSeed,
                 ddo,
-                assetRewards,
                 consumer.getId(),
-                consumer.getId()
+                {grantee: consumer.getId()}
             )
+        */
 
         const signature = await this.nevermined.utils.agreements.signServiceAgreement(
             ddo,
             serviceType,
             agreementIdSeed,
-            agreementConditionsIds.map(a => a[1]),
+            agreementConditionsIds,
             consumer
         )
 
@@ -93,6 +101,7 @@ export class Agreements extends Instantiable {
         did: string,
         agreementIdSeed: string,
         serviceType: ServiceType,
+        agreementParams: any,
         consumer: Account,
         publisher: Account,
         params?: TxParameters
@@ -101,16 +110,16 @@ export class Agreements extends Instantiable {
 
         const templateName = ddo.findServiceByType(serviceType).attributes
             .serviceAgreementTemplate.contractName
-        const assetRewards = getAssetRewardsFromDDOByService(ddo, serviceType)
 
         const agreementId = await this.nevermined.keeper
             .getTemplateByName(templateName)
             .createAgreementFromDDO(
                 agreementIdSeed,
                 ddo,
-                assetRewards,
+                agreementParams,
                 consumer,
                 publisher,
+                undefined,
                 params
             )
 

@@ -43,7 +43,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
         const agreementId = await this.agreementId(agreementIdSeed, creator)
 
         const ctx = {
-            ...this.standardContext(ddo),
+            ...this.standardContext(ddo, creator),
             ...parameters,
         }
 

@@ -15,7 +15,6 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
      * @param {string}   accessConsumer Consumer address.
      * @param {string}   from           Action sender.
      * @param {any}                     Transaction receipt.
-     */
     public createAgreement(
         agreementId: string,
         did: string,
@@ -69,6 +68,7 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
             params
         )
     }
+    */
 
     public async getAgreementData(
         agreementId: string

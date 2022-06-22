@@ -1261,6 +1261,7 @@ export class Assets extends Instantiable {
     public order(
         did: string,
         serviceType: ServiceType,
+        agreementParams: any,
         consumer: Account,
         params?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
@@ -1273,15 +1274,12 @@ export class Assets extends Instantiable {
             const templateName = service.attributes.serviceAgreementTemplate.contractName
 
             const template = keeper.getAccessTemplateByName(templateName)
-            const assetRewards = getAssetRewardsFromService(service)
 
             this.logger.log(`Creating ${serviceType} agreement and paying`)
             const agreementId = await template.createAgreementWithPaymentFromDDO(
                 agreementIdSeed,
                 ddo,
-                assetRewards,
-                consumer,
-                serviceType,
+                agreementParams,
                 consumer,
                 consumer,
                 undefined,

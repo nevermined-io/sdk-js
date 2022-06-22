@@ -22,7 +22,8 @@ import {
     AaveCollateralWithdrawCondition,
     AaveRepayCondition,
     NFT721LockCondition,
-    DistributeNFTCollateralCondition
+    DistributeNFTCollateralCondition,
+    ConditionSmall
 } from './contracts/conditions'
 import {
     AgreementTemplate,
@@ -360,7 +361,7 @@ export class Keeper extends Instantiable {
      * @param  {string} address Address of deployed condition.
      * @return {Condition} Condition instance.
      */
-    public getConditionByAddress(address: string): Condition {
+    public getConditionByAddress(address: string): ConditionSmall {
         return Object.values(this.conditions).find(
             condition => condition.getAddress() === address
         )
@@ -371,7 +372,7 @@ export class Keeper extends Instantiable {
      * @param  {string} name Template name.
      * @return {AgreementTemplate} Agreement template instance.
      */
-    public getTemplateByName(name: string): AgreementTemplate {
+    public getTemplateByName(name: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
             template => template.contractName === name
         )
@@ -393,7 +394,7 @@ export class Keeper extends Instantiable {
      * @param  {string} address Template address.
      * @return {AgreementTemplate} Agreement template instance.
      */
-    public getTemplateByAddress(address: string): AgreementTemplate {
+    public getTemplateByAddress(address: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
             template => template.getAddress() === address
         )

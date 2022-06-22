@@ -44,7 +44,7 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
-            ...this.standardContext(ddo),
+            ...this.standardContext(ddo, creator),
             ...parameters,
         }
 

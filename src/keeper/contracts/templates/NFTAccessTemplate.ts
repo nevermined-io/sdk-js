@@ -39,7 +39,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
-            ...this.standardContext(ddo),
+            ...this.standardContext(ddo, creator),
             ...parameters,
         }
 

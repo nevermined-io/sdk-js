@@ -6,13 +6,11 @@ import { ServiceType } from '../../../ddo/Service'
 
 export interface GenericAccess {
     createAgreementWithPaymentFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
-        assetRewards: AssetRewards,
-        consumerAddress: Account,
-        serviceType?: ServiceType,
-        provider?: Account,
-        from?: Account,
+        parameters: any,
+        consumer: Account,
+        from: Account,
         timeOuts?: number[],
         txParams?: TxParameters,
         observer?: (OrderProgressStep) => void
