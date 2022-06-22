@@ -76,7 +76,12 @@ export abstract class ContractBase extends Instantiable {
                 this.config.graphHttpUri
             )
         } else {
-            this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.web3)
+            this.events = ContractEvent.getInstance(
+                this,
+                eventEmitter,
+                config.nevermined,
+                this.web3
+            )
         }
     }
 

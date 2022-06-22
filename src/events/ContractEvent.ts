@@ -7,7 +7,7 @@ import {
 } from './NeverminedEvent'
 import ContractBase from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
-import { Nevermined } from "../nevermined/Nevermined";
+import { Nevermined } from '../nevermined/Nevermined'
 
 export class ContractEvent extends NeverminedEvent {
     public static getInstance(
@@ -39,20 +39,22 @@ export class ContractEvent extends NeverminedEvent {
     }
 
     public async getPastEvents(options: EventOptions): EventResult {
-        const chainId = await this.getNetworkId()
+        try {
+            const chainId = await this.getNetworkId()
+            options.fromBlock = 0
+            options.toBlock = 'latest'
 
-        options.fromBlock = 0
-        options.toBlock = 'latest'
-
-        // Temporary workaround to work with mumbai
-        // Infura as a 1000 blokcs limit on their api
-        if (chainId === 80001 || chainId === 42) {
-            const latestBlock = await this.web3.eth.getBlockNumber()
-            options.fromBlock = latestBlock - 99
+            // Temporary workaround to work with mumbai
+            // Infura as a 1000 blokcs limit on their api
+            if (chainId === 80001 || chainId === 42) {
+                const latestBlock = await this.web3.eth.getBlockNumber()
+                options.fromBlock = latestBlock - 99
+            }
+            const data = await this.getEventData(options)
+            return data
+        } catch (error) {
+            return []
         }
-
-        const data = await this.getEventData(options)
-        return data
     }
 
     public async getBlockNumber(): Promise<number> {

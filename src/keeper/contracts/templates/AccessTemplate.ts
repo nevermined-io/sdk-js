@@ -214,7 +214,7 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
      * @param assetRewards rewards
      * @param consumer consumer
      * @param creator creator of the agreement
-     * @returns 
+     * @returns
      */
     public async escrowPaymentParams(
         agreementIdSeed: string,
@@ -270,7 +270,6 @@ export class AccessTemplate extends BaseTemplate implements GenericAccess {
             lockPaymentConditionId[1],
             accessConditionId[1]
         ]
-
     }
 
     private async createFullAgreementData(

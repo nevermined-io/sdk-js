@@ -5,6 +5,11 @@ export class StandardRoyalties extends RoyaltyScheme {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<StandardRoyalties> {
-        return RoyaltyScheme.getInstance(config, 'StandardRoyalties', StandardRoyalties, true)
+        return RoyaltyScheme.getInstance(
+            config,
+            'StandardRoyalties',
+            StandardRoyalties,
+            true
+        )
     }
 }
