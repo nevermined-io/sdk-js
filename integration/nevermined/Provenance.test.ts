@@ -42,6 +42,7 @@ describe('Provenance', () => {
         metadata.userId = payload.sub
 
         ddo = await nevermined.assets.create(metadata, publisher)
+        await sleep(2000)
         const provenance = await nevermined.provenance.getProvenanceEntry(ddo.shortId())
 
         assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))
@@ -145,6 +146,7 @@ describe('Provenance', () => {
     })
 
     it('should return the events of an specific method by DID', async () => {
+        await sleep(2000)
         const events = await Promise.all(
             [
                 'WAS_GENERATED_BY',

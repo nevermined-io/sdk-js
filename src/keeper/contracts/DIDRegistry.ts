@@ -427,7 +427,7 @@ export default class DIDRegistry extends ContractBase {
         const events = await this.events.getPastEvents(eventOptions)
         return events
             .map(event => eventToObject(event))
-            .map(event => ({ ...event, method: +event.method }))
+            .map(event => ({ ...event, method: +method }))
             .sort(
                 (
                     firstEvent: ProvenanceAttributeRegisteredEvent,

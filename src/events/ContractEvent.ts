@@ -50,8 +50,7 @@ export class ContractEvent extends NeverminedEvent {
                 const latestBlock = await this.web3.eth.getBlockNumber()
                 options.fromBlock = latestBlock - 99
             }
-            const data = await this.getEventData(options)
-            return data
+            return await this.getEventData(options)
         } catch (error) {
             return []
         }
