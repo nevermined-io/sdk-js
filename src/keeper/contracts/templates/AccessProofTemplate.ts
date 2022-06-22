@@ -61,7 +61,7 @@ export class AccessProofTemplate extends BaseTemplate<AccessProofTemplateParams>
         )
 
         return {
-            instances: [lockPaymentConditionInstance, accessConditionInstance, escrowPaymentConditionInstance],
+            instances: [accessConditionInstance, lockPaymentConditionInstance, escrowPaymentConditionInstance],
             list: parameters,
             agreementId,
         }

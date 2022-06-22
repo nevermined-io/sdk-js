@@ -60,7 +60,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
         )
 
         return {
-            instances: [lockPaymentConditionInstance, computeConditionInstance, escrowPaymentConditionInstance],
+            instances: [computeConditionInstance, lockPaymentConditionInstance, escrowPaymentConditionInstance],
             list: parameters,
             agreementId,
         }

@@ -47,15 +47,18 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
             ...this.standardContext(ddo, creator),
             ...parameters,
         }
+        // console.log("here", ctx)
 
         const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
+        // console.log("hmmmm", lockPaymentConditionInstance.id, await lockPaymentCondition.generateIdWithSeed(agreementId, lockPaymentConditionInstance.seed))
         const accessConditionInstance = await accessCondition.instanceFromDDO(agreementId, ctx)
+        // console.log(accessConditionInstance)
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
             agreementId, ctx, accessConditionInstance, lockPaymentConditionInstance
         )
 
         return {
-            instances: [lockPaymentConditionInstance, accessConditionInstance, escrowPaymentConditionInstance],
+            instances: [accessConditionInstance, lockPaymentConditionInstance, escrowPaymentConditionInstance],
             list: parameters,
             agreementId,
         }

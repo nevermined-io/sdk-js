@@ -60,7 +60,7 @@ export abstract class ConditionSmall extends ContractBase {
     }
 
     public hashValues(...args: any[]): Promise<string> {
-        console.log('hashing', args)
+        // console.log('hashing', args)
         return this.call('hashValues', args)
     }
 
@@ -137,6 +137,10 @@ export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extend
         return super.hashValues(...this.params(...args).list)
     }
 
+    public hashValuesPlain(...args: any[]): Promise<string> {
+        return super.hashValues(...args)
+    }
+
     public abstract paramsFromDDO(ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionParameters<Extra>>
 
     public async instanceFromDDO(agreementId: string, ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionInstance<Extra>> {
@@ -156,7 +160,10 @@ export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extend
         agreementId: string,
         params: ConditionParameters<Extra>
     ): Promise<ConditionInstance<Extra>> {
-        const valueHash = await this.hashValues(...params.list)
+        const valueHash = await this.hashValuesPlain(...params.list)
+        // console.log("instance", zeroX(agreementId), await this.call<string>('generateId', [zeroX(agreementId), '0x4d32ef9ea71586fc311d701237ded3284968e6735280f6f95c1321b3e0e96bdc']))
+        // console.log("instance", zeroX(agreementId), await this.call<string>('generateId', [zeroX(agreementId), valueHash]))
+        // console.log("instance", zeroX(agreementId), params.list, await this.call<string>('generateId', [zeroX(agreementId), valueHash]))
         return {
             seed: valueHash,
             agreementId,
