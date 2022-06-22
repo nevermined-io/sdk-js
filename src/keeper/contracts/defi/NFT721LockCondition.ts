@@ -5,7 +5,7 @@ import Account from '../../../nevermined/Account'
 
 export interface NFT721LockConditionContext extends ConditionContext {
     lockAddress: string
-    amount: number
+    nftAmount: number
     nftContractAddress: string
 }
 
@@ -46,8 +46,8 @@ export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
         )
     }
 
-    public async paramsFromDDO({ ddo, lockAddress, amount, nftContractAddress }: NFT721LockConditionContext) {
-        return this.params(ddo.shortId(), lockAddress, amount, nftContractAddress)
+    public async paramsFromDDO({ ddo, lockAddress, nftAmount, nftContractAddress }: NFT721LockConditionContext) {
+        return this.params(ddo.shortId(), lockAddress, nftAmount, nftContractAddress)
     }
 
     /**

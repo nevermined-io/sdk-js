@@ -1,19 +1,31 @@
-import { AgreementTemplate } from '../templates'
+import { AgreementInstance, AgreementTemplate } from '../templates'
 import { BaseTemplate } from '../templates'
 import { DDO } from '../../..'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
+import { didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { TransactionReceipt } from 'web3-core'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
-import AssetRewards from '../../../models/AssetRewards'
 import web3Utils from 'web3-utils'
 import BigNumber from 'bignumber.js'
+import { ServiceType } from '../../../ddo/Service'
 
 export interface AaveCreditTemplateParams {
-    
+    vaultAddress: string
+    assetToBorrow: string
+    amountToBorrow: string
+    interestRateMode: number
+    collateralAsset: string
+    collateralAmount: string
+    delegatedAsset: string
+    delegatedAmount: string
+    assetToRepay: string
+    amountToRepay: string
+    nftContractAddress: string
+    lockAddress: string
+    nftAmount: number
 }
 
 export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
@@ -32,78 +44,35 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         return templateInst
     }
 
-    /*
-     * WARNING: THIS IS A NO-OP FUNCTION to appease the base class, please do not use
-     */
-    public async createAgreementFromDDO(
-        agreementId: string,
-        ddo: DDO,
-        assetRewards: AssetRewards | null
-    ): Promise<string> {
-        throw Error('This function is not supported.')
+    public service(): ServiceType {
+        return 'aave-credit'
     }
 
-    /*
-     * WARNING: THIS IS A NO-OP FUNCTION to appease the base class, please do not use
-     */
-    public async getAgreementIdsFromDDO(
-        agreementId: string,
-        ddo: DDO
-    ): Promise<string[]> {
-        throw Error('This function is not supported.')
-    }
-
-    public async getAgreementIds(
-        agreementIdSeed: string,
-        ddo: DDO,
+    public params(
         vaultAddress: string,
-        nftTokenContract: string,
+        nftContractAddress: string,
         nftAmount: number,
-        collateralToken: string,
-        collateralAmount: number,
-        delegatedToken: string,
-        delegatedAmount: number,
+        collateralAsset: string,
+        collateralAmount: string,
+        delegatedAsset: string,
+        delegatedAmount: string,
         interestRateMode: number,
-        creator: string
-    ) {
-        const aaveService = ddo.findServiceByType('aave-credit')
-        if (!aaveService) throw new Error('aave-credit service not found in this DDO!')
-
-        const lockNft = findServiceConditionByName(aaveService, 'lockNft')
-        const depositCollateral = findServiceConditionByName(
-            aaveService,
-            'depositCollateral'
-        )
-        const borrow = findServiceConditionByName(aaveService, 'borrowCredit')
-        const repay = findServiceConditionByName(aaveService, 'repayCredit')
-        const withdraw = findServiceConditionByName(aaveService, 'withdrawCollateral')
-        const distributeNft = findServiceConditionByName(aaveService, 'distributeNft')
-        if (!lockNft) throw new Error('lockNft Condition not found!')
-        if (!depositCollateral) throw new Error('depositCollateral Condition not found!')
-        if (!borrow) throw new Error('borrow credit Condition not found!')
-        if (!repay) throw new Error('repay credit Condition not found!')
-        if (!withdraw) throw new Error('withdraw collateral Condition not found!')
-        if (!distributeNft) throw new Error('distributeNft Condition not found!')
-
-        const _collateralAmount = web3Utils
-            .toWei(collateralAmount.toString(), 'ether')
-            .toString()
-        const _delegatedAmount = web3Utils
-            .toWei(delegatedAmount.toString(), 'ether')
-            .toString()
-        return this.createFullAgreementData(
-            agreementIdSeed,
-            ddo.shortId(),
+    ): AaveCreditTemplateParams {
+        return {
             vaultAddress,
-            nftTokenContract,
-            nftAmount,
-            collateralToken,
-            _collateralAmount,
-            delegatedToken,
-            new BigNumber(_delegatedAmount),
+            assetToBorrow: delegatedAsset,
+            amountToBorrow: delegatedAmount,
             interestRateMode,
-            creator
-        )
+            collateralAsset,
+            collateralAmount,
+            delegatedAsset,
+            delegatedAmount,
+            assetToRepay: delegatedAsset,
+            amountToRepay: delegatedAmount,
+            nftContractAddress,
+            lockAddress: vaultAddress,
+            nftAmount,
+        }
     }
 
     public async getServiceAgreementTemplate() {
@@ -112,7 +81,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
 
     private async _createAgreement(
         agreementIdSeed: string,
-        did: string,
+        ddo: DDO,
         vaultAddress: string,
         nftTokenContract: string,
         nftAmount: number,
@@ -132,18 +101,20 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         const _delegatedAmount = new BigNumber(
             web3Utils.toWei(delegatedAmount.toString(), 'ether')
         )
-        const data = await this.createFullAgreementData(
+        const data = await this.instanceFromDDO(
             agreementIdSeed,
-            did,
-            vaultAddress,
-            nftTokenContract,
-            nftAmount,
-            collateralToken,
-            _collateralAmount.toString(),
-            delegatedToken,
-            _delegatedAmount,
-            interestRateMode,
-            from.getId()
+            ddo,
+            from.getId(),
+            this.params(
+                vaultAddress,
+                nftTokenContract,
+                nftAmount,
+                collateralToken,
+                _collateralAmount.toString(10),
+                delegatedToken,
+                _delegatedAmount.toString(10),
+                interestRateMode,
+            )
         )
 
         const txAgreement = await this.send(
@@ -151,8 +122,8 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             from.getId(),
             [
                 agreementIdSeed,
-                didZeroX(did),
-                data.ids.map(a => a[0]),
+                didZeroX(ddo.shortId()),
+                data.instances.map(a => a.id),
                 timeLocks,
                 timeOuts,
                 vaultAddress
@@ -201,7 +172,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
 
         const [txAgreement, data] = await this._createAgreement(
             agreementIdSeed,
-            ddo.shortId(),
+            ddo,
             vaultAddress,
             nftTokenContract,
             nftAmount,
@@ -216,50 +187,6 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             from
         )
         return [txAgreement, vaultAddress, data]
-    }
-
-    /**
-     * Create agreement and credit vault
-     *
-     * @return {Promise<string>}                Agreement ID.
-     */
-    public async createFullAgreement(
-        agreementIdSeed: string,
-        did: string,
-        vaultAddress: string,
-        nftTokenContract: string,
-        nftAmount: number,
-        collateralToken: string,
-        collateralAmount: number,
-        delegatedToken: string,
-        delegatedAmount: number,
-        interestRateMode: number,
-        timeLocks: number[],
-        timeOuts: number[],
-        txParams?: TxParameters,
-        from?: Account
-    ): Promise<string> {
-        await this._createAgreement(
-            agreementIdSeed,
-            did,
-            vaultAddress,
-            nftTokenContract,
-            nftAmount,
-            collateralToken,
-            collateralAmount,
-            delegatedToken,
-            delegatedAmount,
-            interestRateMode,
-            timeLocks,
-            timeOuts,
-            txParams,
-            from
-        )
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            from.getId()
-        )
-        return zeroX(agreementId)
     }
 
     /**
@@ -293,19 +220,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         return _vaultAddress
     }
 
-    private async createFullAgreementData(
-        agreementIdSeed: string,
-        did: string,
-        vaultAddress: string,
-        nftTokenContract: string,
-        nftAmount: number,
-        collateralToken: string,
-        collateralAmount: string,
-        delegatedToken: string,
-        delegatedAmount: BigNumber,
-        interestRateMode: number,
-        creator: string
-    ) {
+    public async instanceFromDDO(agreementIdSeed: string, ddo: DDO, creator: string, parameters: AaveCreditTemplateParams): Promise<AgreementInstance<AaveCreditTemplateParams>> {
         const {
             nft721LockCondition,
             aaveCollateralDepositCondition,
@@ -315,84 +230,30 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             distributeNftCollateralCondition
         } = this.nevermined.keeper.conditions
 
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            creator
-        )
-        const lockNftId = await nft721LockCondition.generateIdWithSeed(
-            agreementId,
-            await nft721LockCondition.hashValues(
-                did,
-                vaultAddress,
-                nftAmount,
-                nftTokenContract
-            )
-        )
-        console.log(`createFullAgreementData: 
-            nft721LockCondition.address=${nft721LockCondition.address}, 
-            lockNftId=${lockNftId}, 
-            creator=${creator},
-            `)
+        const agreementId = await this.agreementId(agreementIdSeed, creator)
+        const ctx = {
+            ...this.standardContext(ddo),
+            ...parameters,
+        }
 
-        const depositCollateralId = await aaveCollateralDepositCondition.generateIdWithSeed(
-            agreementId,
-            await aaveCollateralDepositCondition.hashValues(
-                did,
-                vaultAddress,
-                collateralToken,
-                collateralAmount,
-                delegatedToken,
-                delegatedAmount.toString(),
-                interestRateMode
-            )
-        )
-        const borrowId = await aaveBorrowCondition.generateIdWithSeed(
-            agreementId,
-            await aaveBorrowCondition.hashValues(
-                did,
-                vaultAddress,
-                delegatedToken,
-                delegatedAmount.toString(),
-                interestRateMode
-            )
-        )
-        const repayId = await aaveRepayCondition.generateIdWithSeed(
-            agreementId,
-            await aaveRepayCondition.hashValues(
-                did,
-                vaultAddress,
-                delegatedToken,
-                delegatedAmount.toString(),
-                interestRateMode
-            )
-        )
-        const withdrawId = await aaveCollateralWithdrawCondition.generateIdWithSeed(
-            agreementId,
-            await aaveCollateralWithdrawCondition.hashValues(
-                did,
-                vaultAddress,
-                collateralToken
-            )
-        )
-        const distributeId = await distributeNftCollateralCondition.generateIdWithSeed(
-            agreementId,
-            await distributeNftCollateralCondition.hashValues(
-                did,
-                vaultAddress,
-                nftTokenContract
-            )
-        )
+        const lockNftInstance = await nft721LockCondition.instanceFromDDO(agreementId, ctx)
+        const depositCollateralInstance = await aaveCollateralDepositCondition.instanceFromDDO(agreementId, ctx)
+        const borrowInstance = await aaveBorrowCondition.instanceFromDDO(agreementId, ctx)
+        const repayInstance = await aaveRepayCondition.instanceFromDDO(agreementId, ctx)
+        const withdrawInstance = await aaveCollateralWithdrawCondition.instanceFromDDO(agreementId, ctx)
+        const distributeInstance = await distributeNftCollateralCondition.instanceFromDDO(agreementId, ctx)
 
         return {
-            ids: [
-                lockNftId,
-                depositCollateralId,
-                borrowId,
-                repayId,
-                withdrawId,
-                distributeId
+            instances: [
+                lockNftInstance,
+                depositCollateralInstance,
+                borrowInstance,
+                repayInstance,
+                withdrawInstance,
+                distributeInstance
             ],
-            agreementId
+            list: parameters,
+            agreementId,
         }
     }
 

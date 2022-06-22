@@ -7,7 +7,7 @@ import { TxParameters } from '../ContractBase'
 export interface AaveBorrowConditionContext extends ConditionContext {
     vaultAddress: string
     assetToBorrow: string
-    amount: string
+    amountToBorrow: string
     interestRateMode: number
 }
 
@@ -39,8 +39,8 @@ export class AaveBorrowCondition extends Condition<AaveBorrowConditionContext> {
         )
     }
 
-    public async paramsFromDDO({ ddo, vaultAddress, assetToBorrow, amount, interestRateMode }: AaveBorrowConditionContext) {
-        return this.params(ddo.shortId(), vaultAddress, assetToBorrow, amount, interestRateMode)
+    public async paramsFromDDO({ ddo, vaultAddress, assetToBorrow, amountToBorrow, interestRateMode }: AaveBorrowConditionContext) {
+        return this.params(ddo.shortId(), vaultAddress, assetToBorrow, amountToBorrow, interestRateMode)
     }
 
     public fulfill(

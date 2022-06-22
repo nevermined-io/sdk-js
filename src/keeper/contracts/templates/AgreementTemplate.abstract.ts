@@ -185,7 +185,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     }
 
     public abstract instanceFromDDO(
-        agreementId: string,
+        agreementIdSeed: string,
         ddo: DDO,
         creator: string,
         parameters: Params
