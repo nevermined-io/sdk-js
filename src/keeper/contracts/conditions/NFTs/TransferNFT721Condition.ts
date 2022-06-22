@@ -1,16 +1,19 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionInstance, ConditionParameters } from '../Condition.abstract'
+import { Condition, ConditionContext } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../../ddo/Service'
-import AssetRewards from '../../../../models/AssetRewards'
-import { DDO } from '../../../../sdk'
+
+export interface TransferNFT721ConditionContext extends ConditionContext {
+    providerId: string
+    consumerId: string
+    nftAmount: number
+}
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class TransferNFT721Condition extends Condition {
+export class TransferNFT721Condition extends Condition<TransferNFT721ConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferNFT721Condition> {
@@ -52,12 +55,9 @@ export class TransferNFT721Condition extends Condition {
     }
 
     public async paramsFromDDO(
-        ddo: DDO,
-        service: ServiceCommon,
-        _rewards: AssetRewards,
-        consumer: string,
-        lockCondition: ConditionInstance
-    ): Promise<ConditionParameters> {
+        { ddo, service, consumerId }: TransferNFT721ConditionContext,
+        lockCondition
+    ) {
         const transfer = findServiceConditionByName(service, 'transferNFT')
         if (!transfer) throw new Error('TransferNFT condition not found!')
 
@@ -69,7 +69,7 @@ export class TransferNFT721Condition extends Condition {
         return this.params(
             ddo.shortId(),
             nftOwner,
-            consumer,
+            consumerId,
             lockCondition.id,
             nft.address,
             true

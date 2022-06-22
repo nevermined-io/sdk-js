@@ -1,4 +1,4 @@
-import { Condition, ConditionParameters } from '../Condition.abstract'
+import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
 import { zeroX, didZeroX, findServiceConditionByName } from '../../../../utils'
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import Account from '../../../../nevermined/Account'
@@ -7,7 +7,11 @@ import { ServiceCommon } from '../../../../ddo/Service'
 import AssetRewards from '../../../../models/AssetRewards'
 import { DDO } from '../../../../sdk'
 
-export class NFTAccessCondition extends Condition {
+export interface NFTAccessConditionContext extends ConditionContext {
+    grantee: string
+}
+
+export class NFTAccessCondition extends Condition<NFTAccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTAccessCondition> {
@@ -18,7 +22,7 @@ export class NFTAccessCondition extends Condition {
         return super.params(didZeroX(did), zeroX(grantee))
     }
 
-    public async paramsFromDDO(ddo: DDO, _service: ServiceCommon, _rewards: AssetRewards, grantee: string): Promise<ConditionParameters> {
+    public async paramsFromDDO({ddo, grantee}: NFTAccessConditionContext) {
         return this.params(ddo.shortId(), grantee)
     }
 

@@ -1,16 +1,17 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionParameters } from '../Condition.abstract'
+import { Condition, ConditionContext } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../../ddo/Service'
-import AssetRewards from '../../../../models/AssetRewards'
-import { DDO } from '../../../../sdk'
+
+export interface NFT721HolderConditionContext extends ConditionContext {
+    holderAddress: string
+}
 
 /**
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
  */
-export class NFT721HolderCondition extends Condition {
+export class NFT721HolderCondition extends Condition<NFT721HolderConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721HolderCondition> {
@@ -39,7 +40,7 @@ export class NFT721HolderCondition extends Condition {
         )
     }
 
-    public async paramsFromDDO(ddo: DDO, service: ServiceCommon, _rewards: AssetRewards, holderAddress: string): Promise<ConditionParameters> {
+    public async paramsFromDDO({ ddo, service, holderAddress }: NFT721HolderConditionContext) {
         const holder = findServiceConditionByName(service, 'nftHolder')
         if (!holder) throw new Error('Holder condition not found!')
         return this.params(ddo.shortId(), holderAddress, holder.parameters.find(p => p.name === '_contractAddress').value as string)

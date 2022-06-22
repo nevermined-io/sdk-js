@@ -1,16 +1,19 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionInstance, ConditionParameters } from '../Condition.abstract'
+import { Condition, ConditionContext } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../../ddo/Service'
-import AssetRewards from '../../../../models/AssetRewards'
-import { DDO } from '../../../../sdk'
+
+export interface TransferNFTConditionContext extends ConditionContext {
+    providerId: string
+    consumerId: string
+    nftAmount: number
+}
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class TransferNFTCondition extends Condition {
+export class TransferNFTCondition extends Condition<TransferNFTConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferNFTCondition> {
@@ -50,21 +53,16 @@ export class TransferNFTCondition extends Condition {
     }
 
     public async paramsFromDDO(
-        ddo: DDO,
-        service: ServiceCommon,
-        _rewards: AssetRewards,
-        provider: string,
-        consumer: string,
-        nftAmount: number, 
-        lockCondition: ConditionInstance
-    ): Promise<ConditionParameters> {
+        { ddo, service, providerId, consumerId, nftAmount}: TransferNFTConditionContext, 
+        lockCondition
+    ) {
         const transfer = findServiceConditionByName(service, 'transferNFT')
         if (!transfer) throw new Error('TransferNFT condition not found!')
-        const nftHolder = provider || (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
+        const nftHolder = providerId || (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
         return this.params(
             ddo.shortId(),
             nftHolder,
-            consumer,
+            consumerId,
             nftAmount,
             lockCondition.id,
             this.nevermined.keeper.nftUpgradeable.address,

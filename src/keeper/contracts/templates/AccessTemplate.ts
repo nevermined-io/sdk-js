@@ -7,6 +7,7 @@ import { ServiceType } from '../../../ddo/Service'
 
 export interface AccessTemplateParams {
     consumerId: string, 
+    creator: string,
     serviceType: ServiceType
 }
 
@@ -24,7 +25,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
     }
 
     public params(consumerId: string, serviceType: ServiceType = 'access'): AccessTemplateParams {
-        return { consumerId, serviceType }
+        return { consumerId, serviceType, creator: consumerId }
     }
 
     public async instanceFromDDO(
@@ -43,8 +44,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
 
         const ctx = {
             ...this.standardContext(ddo),
-            creator: parameters.consumerId,
-            consumerId: parameters.consumerId
+            ...parameters,
         }
 
         const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
