@@ -349,38 +349,36 @@ export default class DIDRegistry extends ContractBase {
     // Provenance
     public async getDIDProvenanceEvents(did: string) {
         return (
-            (
-                await this.events.getPastEvents({
-                    eventName: 'ProvenanceAttributeRegistered',
-                    methodName: 'getProvenanceAttributeRegistereds',
-                    filterJsonRpc: { _did: didZeroX(did) },
-                    filterSubgraph: { where: { _did: didZeroX(did) } },
-                    result: {
-                        provId: true,
-                        _did: true,
-                        _agentId: true,
-                        _activityId: true,
-                        _relatedDid: true,
-                        _agentInvolvedId: true,
-                        _method: true,
-                        _attributes: true,
-                        _blockNumberUpdated: true
-                    }
-                })
-            )
-                .map(event => eventToObject(event) as ProvenanceAttributeRegisteredEvent)
-                .map(event => ({ ...event, method: +event.method }))
-                .sort(
-                    (
-                        firstEvent: ProvenanceAttributeRegisteredEvent,
-                        secondEvent: ProvenanceAttributeRegisteredEvent
-                    ) =>
-                        Number(firstEvent.blockNumberUpdated) >
-                        Number(secondEvent.blockNumberUpdated)
-                            ? 1
-                            : -1
-                )
+            await this.events.getPastEvents({
+                eventName: 'ProvenanceAttributeRegistered',
+                methodName: 'getProvenanceAttributeRegistereds',
+                filterJsonRpc: { _did: didZeroX(did) },
+                filterSubgraph: { where: { _did: didZeroX(did) } },
+                result: {
+                    provId: true,
+                    _did: true,
+                    _agentId: true,
+                    _activityId: true,
+                    _relatedDid: true,
+                    _agentInvolvedId: true,
+                    _method: true,
+                    _attributes: true,
+                    _blockNumberUpdated: true
+                }
+            })
         )
+            .map(event => eventToObject(event) as ProvenanceAttributeRegisteredEvent)
+            .map(event => ({ ...event, method: +event.method }))
+            .sort(
+                (
+                    firstEvent: ProvenanceAttributeRegisteredEvent,
+                    secondEvent: ProvenanceAttributeRegisteredEvent
+                ) =>
+                    Number(firstEvent.blockNumberUpdated) >
+                    Number(secondEvent.blockNumberUpdated)
+                        ? 1
+                        : -1
+            )
     }
 
     public async getDIDProvenanceMethodEvents<T extends ProvenanceMethod>(
