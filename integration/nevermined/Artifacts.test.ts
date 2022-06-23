@@ -37,7 +37,9 @@ describe('Artifacts', () => {
         writeFileSync(path, buffer)
     }
 
-    tests.forEach(({ nodeUri, networkId, networkName, versions, tag }) => {
+    for(const test of tests) {
+        const { nodeUri, networkId, networkName, versions, tag } = test;
+
         it(`Should get the correct artifacts for ${networkName}-${versions} with tag ${tag}`, async () => {
             const tempDir = mkdtempSync('/tmp/artifacts_')
 
@@ -67,5 +69,5 @@ describe('Artifacts', () => {
             assert.oneOf((await nvm.keeper.getNetworkName()).toLowerCase(), networkName)
             assert.oneOf(await nvm.keeper.getNetworkId(), networkId)
         })
-    })
+    }
 })
