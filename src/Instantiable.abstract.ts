@@ -30,7 +30,7 @@ export function generateIntantiableConfigFromConfig(
 }
 
 export abstract class Instantiable {
-    networkId: number
+    static networkId: number
 
     protected get nevermined() {
         if (!this._nevermined) {
@@ -44,11 +44,11 @@ export abstract class Instantiable {
      * @return {Promise<number>} Network ID.
      */
     public async getNetworkId(): Promise<number> {
-        if(!this.networkId) {
-            this.networkId = await this.web3.eth.net.getId()
+        if(!Instantiable.networkId) {
+            Instantiable.networkId = await this.web3.eth.net.getId()
         }
 
-        return this.networkId
+        return Instantiable.networkId
     }
 
     protected get web3() {
