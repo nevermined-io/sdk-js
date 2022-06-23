@@ -94,7 +94,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<[TransactionReceipt, any]> {
+    ): Promise<[TransactionReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
         const _collateralAmount = new BigNumber(
             web3Utils.toWei(collateralAmount.toString(), 'ether')
         )
@@ -123,7 +123,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             [
                 agreementIdSeed,
                 didZeroX(ddo.shortId()),
-                data.instances.map(a => a.id),
+                data.instances.map(a => a.seed),
                 timeLocks,
                 timeOuts,
                 vaultAddress
@@ -154,7 +154,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<[TransactionReceipt, string, any]> {
+    ): Promise<[TransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
         const vaultAddress = await this.deployVault(
             this.aaveConfig.lendingPoolAddress,
             this.aaveConfig.dataProviderAddress,

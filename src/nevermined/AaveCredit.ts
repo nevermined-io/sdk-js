@@ -7,11 +7,12 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { AaveConfig } from '../models/AaveConfig'
 import { ConditionState } from '../keeper/contracts/conditions/Condition.abstract'
 import { Nft721 } from '..'
-import { AaveCreditTemplate } from '../keeper/contracts/defi/AaveCreditTemplate'
+import { AaveCreditTemplate, AaveCreditTemplateParams } from '../keeper/contracts/defi/AaveCreditTemplate'
 import { didZeroX, generateId, zeroX } from '../utils'
 import { AgreementData } from '../keeper/contracts/managers'
 import CustomToken from '../keeper/contracts/CustomToken'
 import web3Utils from 'web3-utils'
+import { AgreementInstance } from '../keeper/contracts/templates'
 
 export class AaveCredit extends Instantiable {
     template: AaveCreditTemplate
@@ -68,7 +69,7 @@ export class AaveCredit extends Instantiable {
         timeLocks?: number[],
         timeOuts?: number[],
         txParams?: TxParameters
-    ) {
+    ): Promise<{ agreementId: string, data: AgreementInstance<AaveCreditTemplateParams> }> {
         const agreementIdSeed = zeroX(generateId())
         const ddo = await this.nevermined.assets.resolve(did)
         if (!ddo) {
