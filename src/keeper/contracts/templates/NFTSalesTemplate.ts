@@ -27,6 +27,10 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         return { consumerId, providerId, nftAmount }
     }
 
+    public lockConditionIndex(): number {
+        return 0
+    }
+
     public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
@@ -49,6 +53,7 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         const transferConditionInstance = await transferNftCondition.instanceFromDDO(
             agreementId, ctx, lockPaymentConditionInstance
         )
+        // console.log(transferConditionInstance)
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
             agreementId, ctx, transferConditionInstance, lockPaymentConditionInstance
         )

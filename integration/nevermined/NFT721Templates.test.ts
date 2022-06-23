@@ -22,6 +22,7 @@ import { Nft721 } from '../../src'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { getMetadata } from '../utils'
 import BigNumber from 'bignumber.js'
+import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 
 describe('NFT721Templates E2E', () => {
     let owner: Account
@@ -904,12 +905,13 @@ describe('NFT721Templates E2E', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
+                setNFTRewardsFromDDOByService(ddo, "nft721-sales", assetRewards2, collector1.getId())
             })
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 const result = await nft721SalesTemplate.createAgreementFromDDO(
                     agreementId2Seed,
                     ddo,
-                    nft721SalesTemplate.params(collector1.getId()),
+                    nft721SalesTemplate.params(collector2.getId()),
                     collector2,
                     collector2
                 )

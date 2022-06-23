@@ -30,6 +30,10 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
         return { consumerId }
     }
 
+    public lockConditionIndex(): number {
+        return 0
+    }
+
     public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,

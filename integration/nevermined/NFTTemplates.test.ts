@@ -15,6 +15,7 @@ import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
+import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
@@ -974,6 +975,7 @@ describe('NFTTemplates E2E', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
+                setNFTRewardsFromDDOByService(ddo, "nft-sales", assetRewards2, collector1.getId())
             })
 
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {

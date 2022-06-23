@@ -66,6 +66,10 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     public abstract params(...args: any[]): Params
 
+    public lockConditionIndex(): number {
+        return 1
+    }
+
     public paymentData(service: Service): PaymentData {
         const assetRewards = getAssetRewardsFromService(service)
         const payment = findServiceConditionByName(service, 'lockPayment')
@@ -295,7 +299,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             instances.map(_ => 0),
             timeOuts ? timeOuts : instances.map(_ => 0),
             consumer.getId(),
-            1,
+            this.lockConditionIndex(),
             rewardAddress,
             tokenAddress,
             amounts,
