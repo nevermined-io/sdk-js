@@ -54,7 +54,7 @@ export class Agreements extends Instantiable {
         const ddo = await this.nevermined.metadata.retrieveDDO(d)
         const agreementIdSeed: string = zeroX(generateId())
 
-        const accessTemplate = this.nevermined.keeper.templates.accessTemplate
+        const { accessTemplate } = this.nevermined.keeper.templates
         const agreementConditionsIds = await this.nevermined.keeper.templates.accessTemplate.getAgreementIdsFromDDO(
             agreementIdSeed,
             ddo,

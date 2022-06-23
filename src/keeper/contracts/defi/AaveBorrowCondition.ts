@@ -1,4 +1,9 @@
-import { Condition, ConditionContext, ConditionInstanceSmall, ConditionParameters } from '../conditions/Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ConditionInstanceSmall,
+    ConditionParameters
+} from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -39,8 +44,20 @@ export class AaveBorrowCondition extends Condition<AaveBorrowConditionContext> {
         )
     }
 
-    public async paramsFromDDO({ ddo, vaultAddress, assetToBorrow, amountToBorrow, interestRateMode }: AaveBorrowConditionContext) {
-        return this.params(ddo.shortId(), vaultAddress, assetToBorrow, amountToBorrow, interestRateMode)
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        assetToBorrow,
+        amountToBorrow,
+        interestRateMode
+    }: AaveBorrowConditionContext) {
+        return this.params(
+            ddo.shortId(),
+            vaultAddress,
+            assetToBorrow,
+            amountToBorrow,
+            interestRateMode
+        )
     }
 
     public fulfill(

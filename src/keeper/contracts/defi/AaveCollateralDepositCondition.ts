@@ -13,7 +13,9 @@ export interface AaveCollateralDepositConditionContext extends ConditionContext 
     interestRateMode: number
 }
 
-export class AaveCollateralDepositCondition extends Condition<AaveCollateralDepositConditionContext> {
+export class AaveCollateralDepositCondition extends Condition<
+    AaveCollateralDepositConditionContext
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralDepositCondition> {
@@ -44,8 +46,24 @@ export class AaveCollateralDepositCondition extends Condition<AaveCollateralDepo
         )
     }
 
-    public async paramsFromDDO({ ddo, vaultAddress, collateralAsset, collateralAmount, delegatedAsset, delegatedAmount, interestRateMode }: AaveCollateralDepositConditionContext) {
-        return this.params(ddo.shortId(), vaultAddress, collateralAsset, collateralAmount, delegatedAsset, delegatedAmount, interestRateMode)
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        collateralAsset,
+        collateralAmount,
+        delegatedAsset,
+        delegatedAmount,
+        interestRateMode
+    }: AaveCollateralDepositConditionContext) {
+        return this.params(
+            ddo.shortId(),
+            vaultAddress,
+            collateralAsset,
+            collateralAmount,
+            delegatedAsset,
+            delegatedAmount,
+            interestRateMode
+        )
     }
 
     public fulfill(

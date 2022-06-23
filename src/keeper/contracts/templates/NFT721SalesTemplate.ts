@@ -49,21 +49,33 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         const transferConditionInstance = await transferNft721Condition.instanceFromDDO(
-            agreementId, ctx, lockPaymentConditionInstance
+            agreementId,
+            ctx,
+            lockPaymentConditionInstance
         )
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId, ctx, transferConditionInstance, lockPaymentConditionInstance
+            agreementId,
+            ctx,
+            transferConditionInstance,
+            lockPaymentConditionInstance
         )
 
         return {
-            instances: [lockPaymentConditionInstance, transferConditionInstance, escrowPaymentConditionInstance],
+            instances: [
+                lockPaymentConditionInstance,
+                transferConditionInstance,
+                escrowPaymentConditionInstance
+            ],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
 

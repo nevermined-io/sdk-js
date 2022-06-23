@@ -14,7 +14,10 @@ export interface AccessProofConditionExtra {
     providerK: string
 }
 
-export class AccessProofCondition extends Condition<AccessProofConditionContext, AccessProofConditionExtra> {
+export class AccessProofCondition extends Condition<
+    AccessProofConditionContext,
+    AccessProofConditionExtra
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessProofCondition> {
@@ -26,7 +29,7 @@ export class AccessProofCondition extends Condition<AccessProofConditionContext,
         )
     }
 
-    public async paramsFromDDO({service, consumer}: AccessProofConditionContext) {
+    public async paramsFromDDO({ service, consumer }: AccessProofConditionContext) {
         const keytransfer = await makeKeyTransfer()
         const { _hash, _providerPub } = service.attributes.main
         const buyerPub: BabyjubPublicKey = keytransfer.makePublic(
@@ -39,12 +42,17 @@ export class AccessProofCondition extends Condition<AccessProofConditionContext,
         )
         return {
             list: [zeroX(_hash), buyerPub.param(), providerPub.param()],
-            params: async ({data, providerK}) => {
+            params: async ({ data, providerK }) => {
                 const cipher = await keytransfer.encryptKey(
                     data,
                     await keytransfer.ecdh(providerK, buyerPub)
                 )
-                const proof = await keytransfer.prove(buyerPub, providerPub, providerK, data)
+                const proof = await keytransfer.prove(
+                    buyerPub,
+                    providerPub,
+                    providerK,
+                    data
+                )
                 const hash = await keytransfer.hashKey(data)
                 return [
                     zeroX(_hash),
@@ -58,11 +66,7 @@ export class AccessProofCondition extends Condition<AccessProofConditionContext,
         }
     }
 
-    public params(
-        hash: string,
-        grantee: BabyjubPublicKey,
-        provider: BabyjubPublicKey
-    ) {
+    public params(hash: string, grantee: BabyjubPublicKey, provider: BabyjubPublicKey) {
         return super.params(zeroX(hash), grantee.param(), provider.param())
     }
 

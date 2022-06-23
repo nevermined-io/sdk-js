@@ -9,7 +9,9 @@ export interface AaveCollateralWithdrawConditionContext extends ConditionContext
     collateralAsset: string
 }
 
-export class AaveCollateralWithdrawCondition extends Condition<AaveCollateralWithdrawConditionContext> {
+export class AaveCollateralWithdrawCondition extends Condition<
+    AaveCollateralWithdrawConditionContext
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralWithdrawCondition> {
@@ -22,13 +24,14 @@ export class AaveCollateralWithdrawCondition extends Condition<AaveCollateralWit
     }
 
     public params(did: string, vaultAddress: string, collateralAsset: string) {
-        return super.params(
-            didZeroX(did),
-            ...[vaultAddress, collateralAsset].map(zeroX)
-        )
+        return super.params(didZeroX(did), ...[vaultAddress, collateralAsset].map(zeroX))
     }
 
-    public async paramsFromDDO({ ddo, vaultAddress, collateralAsset }: AaveCollateralWithdrawConditionContext) {
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        collateralAsset
+    }: AaveCollateralWithdrawConditionContext) {
         return this.params(ddo.shortId(), vaultAddress, collateralAsset)
     }
 

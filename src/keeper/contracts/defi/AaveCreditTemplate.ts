@@ -56,7 +56,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         collateralAmount: string,
         delegatedAsset: string,
         delegatedAmount: string,
-        interestRateMode: number,
+        interestRateMode: number
     ): AaveCreditTemplateParams {
         return {
             vaultAddress,
@@ -71,7 +71,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             amountToRepay: delegatedAmount,
             nftContractAddress,
             lockAddress: vaultAddress,
-            nftAmount,
+            nftAmount
         }
     }
 
@@ -113,7 +113,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
                 _collateralAmount.toString(10),
                 delegatedToken,
                 _delegatedAmount.toString(10),
-                interestRateMode,
+                interestRateMode
             )
         )
 
@@ -220,7 +220,12 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         return _vaultAddress
     }
 
-    public async instanceFromDDO(agreementIdSeed: string, ddo: DDO, creator: string, parameters: AaveCreditTemplateParams): Promise<AgreementInstance<AaveCreditTemplateParams>> {
+    public async instanceFromDDO(
+        agreementIdSeed: string,
+        ddo: DDO,
+        creator: string,
+        parameters: AaveCreditTemplateParams
+    ): Promise<AgreementInstance<AaveCreditTemplateParams>> {
         const {
             nft721LockCondition,
             aaveCollateralDepositCondition,
@@ -233,15 +238,27 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
 
-        const lockNftInstance = await nft721LockCondition.instanceFromDDO(agreementId, ctx)
-        const depositCollateralInstance = await aaveCollateralDepositCondition.instanceFromDDO(agreementId, ctx)
+        const lockNftInstance = await nft721LockCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
+        const depositCollateralInstance = await aaveCollateralDepositCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         const borrowInstance = await aaveBorrowCondition.instanceFromDDO(agreementId, ctx)
         const repayInstance = await aaveRepayCondition.instanceFromDDO(agreementId, ctx)
-        const withdrawInstance = await aaveCollateralWithdrawCondition.instanceFromDDO(agreementId, ctx)
-        const distributeInstance = await distributeNftCollateralCondition.instanceFromDDO(agreementId, ctx)
+        const withdrawInstance = await aaveCollateralWithdrawCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
+        const distributeInstance = await distributeNftCollateralCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
 
         return {
             instances: [
@@ -253,7 +270,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
                 distributeInstance
             ],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
 

@@ -38,8 +38,20 @@ export class AaveRepayCondition extends Condition<AaveRepayConditionContext> {
         )
     }
 
-    public async paramsFromDDO({ ddo, vaultAddress, assetToRepay, amountToRepay, interestRateMode }: AaveRepayConditionContext) {
-        return this.params(ddo.shortId(), vaultAddress, assetToRepay, amountToRepay, interestRateMode)
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        assetToRepay,
+        amountToRepay,
+        interestRateMode
+    }: AaveRepayConditionContext) {
+        return this.params(
+            ddo.shortId(),
+            vaultAddress,
+            assetToRepay,
+            amountToRepay,
+            interestRateMode
+        )
     }
 
     public fulfill(

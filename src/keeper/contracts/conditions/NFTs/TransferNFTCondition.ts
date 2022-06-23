@@ -53,12 +53,14 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
     }
 
     public async paramsFromDDO(
-        { ddo, service, providerId, consumerId, nftAmount}: TransferNFTConditionContext, 
+        { ddo, service, providerId, consumerId, nftAmount }: TransferNFTConditionContext,
         lockCondition
     ) {
         const transfer = findServiceConditionByName(service, 'transferNFT')
         if (!transfer) throw new Error('TransferNFT condition not found!')
-        const nftHolder = providerId || (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
+        const nftHolder =
+            providerId ||
+            (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
         return this.params(
             ddo.shortId(),
             nftHolder,

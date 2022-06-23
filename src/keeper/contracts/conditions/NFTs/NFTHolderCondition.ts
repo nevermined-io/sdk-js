@@ -13,7 +13,9 @@ export interface NFTHolderConditionContext extends ConditionContext {
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
  */
 export class NFTHolderCondition extends Condition<NFTHolderConditionContext> {
-    public static async getInstance(config: InstantiableConfig): Promise<NFTHolderCondition> {
+    public static async getInstance(
+        config: InstantiableConfig
+    ): Promise<NFTHolderCondition> {
         return Condition.getInstance(config, 'NFTHolderCondition', NFTHolderCondition)
     }
 
@@ -29,7 +31,11 @@ export class NFTHolderCondition extends Condition<NFTHolderConditionContext> {
         return super.params(didZeroX(did), zeroX(holderAddress), String(amount))
     }
 
-    public async paramsFromDDO({ ddo, holderAddress, amount }: NFTHolderConditionContext) {
+    public async paramsFromDDO({
+        ddo,
+        holderAddress,
+        amount
+    }: NFTHolderConditionContext) {
         return this.params(ddo.shortId(), holderAddress, amount)
     }
 

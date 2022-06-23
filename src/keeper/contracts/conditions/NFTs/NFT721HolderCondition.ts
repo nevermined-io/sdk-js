@@ -40,10 +40,18 @@ export class NFT721HolderCondition extends Condition<NFT721HolderConditionContex
         )
     }
 
-    public async paramsFromDDO({ ddo, service, holderAddress }: NFT721HolderConditionContext) {
+    public async paramsFromDDO({
+        ddo,
+        service,
+        holderAddress
+    }: NFT721HolderConditionContext) {
         const holder = findServiceConditionByName(service, 'nftHolder')
         if (!holder) throw new Error('Holder condition not found!')
-        return this.params(ddo.shortId(), holderAddress, holder.parameters.find(p => p.name === '_contractAddress').value as string)
+        return this.params(
+            ddo.shortId(),
+            holderAddress,
+            holder.parameters.find(p => p.name === '_contractAddress').value as string
+        )
     }
     /**
      * Fulfill requires a validation that holder as enough NFTs for a specific DID.

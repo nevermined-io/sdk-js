@@ -32,7 +32,7 @@ export class TransferDIDOwnershipCondition extends Condition<AccessConditionCont
         return super.params(didZeroX(did), zeroX(receiver))
     }
 
-    public async paramsFromDDO({ddo, receiverId}: AccessConditionContext) {
+    public async paramsFromDDO({ ddo, receiverId }: AccessConditionContext) {
         return this.params(ddo.shortId(), receiverId)
     }
 

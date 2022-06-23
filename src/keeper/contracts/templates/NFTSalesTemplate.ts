@@ -23,7 +23,11 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         return 'nft-sales'
     }
 
-    public params(consumerId: string, nftAmount: number, providerId?: string): NFTSalesTemplateParams {
+    public params(
+        consumerId: string,
+        nftAmount: number,
+        providerId?: string
+    ): NFTSalesTemplateParams {
         return { consumerId, providerId, nftAmount }
     }
 
@@ -46,22 +50,34 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         const transferConditionInstance = await transferNftCondition.instanceFromDDO(
-            agreementId, ctx, lockPaymentConditionInstance
+            agreementId,
+            ctx,
+            lockPaymentConditionInstance
         )
         // console.log(transferConditionInstance)
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId, ctx, transferConditionInstance, lockPaymentConditionInstance
+            agreementId,
+            ctx,
+            transferConditionInstance,
+            lockPaymentConditionInstance
         )
 
         return {
-            instances: [lockPaymentConditionInstance, transferConditionInstance, escrowPaymentConditionInstance],
+            instances: [
+                lockPaymentConditionInstance,
+                transferConditionInstance,
+                escrowPaymentConditionInstance
+            ],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
 

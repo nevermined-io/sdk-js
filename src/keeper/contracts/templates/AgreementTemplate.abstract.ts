@@ -1,8 +1,21 @@
 import ContractBase, { TxParameters } from '../ContractBase'
-import { ConditionContext, ConditionInstanceSmall, ConditionSmall, ConditionState, conditionStateNames } from '../conditions'
+import {
+    ConditionContext,
+    ConditionInstanceSmall,
+    ConditionSmall,
+    ConditionState,
+    conditionStateNames
+} from '../conditions'
 import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { didZeroX, findServiceConditionByName, getAssetRewardsFromService, OrderProgressStep, ZeroAddress, zeroX } from '../../../utils'
+import {
+    didZeroX,
+    findServiceConditionByName,
+    getAssetRewardsFromService,
+    OrderProgressStep,
+    ZeroAddress,
+    zeroX
+} from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
@@ -22,7 +35,7 @@ export interface AgreementConditionsStatus {
     }
 }
 
-export type ParameterType = (
+export type ParameterType =
     | string
     | number
     | number[]
@@ -31,7 +44,6 @@ export type ParameterType = (
     | Service
     | ServiceType
     | TxParameters
-)
 
 export interface AgreementInstance<Params> {
     list: Params
@@ -76,7 +88,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         if (!payment) throw new Error('Payment Condition not found!')
         return {
             rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
-            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
+                .value as string,
             amounts: assetRewards.getAmounts(),
             receivers: assetRewards.getReceivers()
         }
@@ -170,13 +183,18 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
      * @param  parameters
      * @return {Promise<string[]>}             Condition IDs.
      */
-     public async getAgreementIdsFromDDO(
+    public async getAgreementIdsFromDDO(
         agreementId: string,
         ddo: DDO,
         creator: string,
         params: Params
     ): Promise<string[]> {
-        const { instances } = await this.instanceFromDDO(agreementId, ddo, creator, params)
+        const { instances } = await this.instanceFromDDO(
+            agreementId,
+            ddo,
+            creator,
+            params
+        )
         return instances.map(a => a.id)
     }
 
@@ -209,7 +227,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
      * @param  parameters
      * @return {Promise<boolean>}              Success.
      */
-     public async createAgreementFromDDO(
+    public async createAgreementFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
         parameters: Params,
@@ -218,10 +236,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         timeOuts?: number[],
         params?: TxParameters
     ): Promise<string> {
-        const {
-            agreementId,
-            instances,
-        } = await this.instanceFromDDO(
+        const { agreementId, instances } = await this.instanceFromDDO(
             agreementIdSeed,
             ddo,
             from.getId(),
@@ -262,10 +277,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     ): Promise<string> {
         observer = observer ? observer : _ => {}
 
-        const {
-            instances,
-            agreementId,
-        } = await this.instanceFromDDO(
+        const { instances, agreementId } = await this.instanceFromDDO(
             agreementIdSeed,
             ddo,
             from.getId(),
@@ -277,7 +289,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
         const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
-        const tokenAddress = payment.parameters.find(p => p.name === '_tokenAddress').value as string
+        const tokenAddress = payment.parameters.find(p => p.name === '_tokenAddress')
+            .value as string
         const amounts = assetRewards.getAmounts()
         const receivers = assetRewards.getReceivers()
 

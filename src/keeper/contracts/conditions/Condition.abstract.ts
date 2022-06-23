@@ -114,14 +114,19 @@ export abstract class ConditionSmall extends ContractBase {
     }
 }
 
-export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extends ConditionSmall {
+export abstract class Condition<
+    Ctx extends ConditionContext,
+    Extra = {}
+> extends ConditionSmall {
     public static async getInstance<Ctx extends ConditionContext, Extra>(
         config: InstantiableConfig,
         conditionName: string,
         conditionsClass: any,
         optional: boolean = false
-    ): Promise<Condition<Ctx,Extra> & any> {
-        const condition: Condition<Ctx,Extra> = new (conditionsClass as any)(conditionName)
+    ): Promise<Condition<Ctx, Extra> & any> {
+        const condition: Condition<Ctx, Extra> = new (conditionsClass as any)(
+            conditionName
+        )
         await condition.init(config, optional)
         return condition
     }
@@ -141,9 +146,16 @@ export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extend
         return super.hashValues(...args)
     }
 
-    public abstract paramsFromDDO(ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionParameters<Extra>>
+    public abstract paramsFromDDO(
+        ctx: Ctx,
+        ...args: ConditionInstanceSmall[]
+    ): Promise<ConditionParameters<Extra>>
 
-    public async instanceFromDDO(agreementId: string, ctx: Ctx, ...args: ConditionInstanceSmall[]): Promise<ConditionInstance<Extra>> {
+    public async instanceFromDDO(
+        agreementId: string,
+        ctx: Ctx,
+        ...args: ConditionInstanceSmall[]
+    ): Promise<ConditionInstance<Extra>> {
         return this.instance(agreementId, await this.paramsFromDDO(ctx, ...args))
     }
 
@@ -151,9 +163,14 @@ export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extend
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
-        params?: TxParameters,
+        params?: TxParameters
     ) {
-        return this.sendFrom('fulfill', [zeroX(cond.agreementId), ...await cond.params(additionalParams)], from, params)
+        return this.sendFrom(
+            'fulfill',
+            [zeroX(cond.agreementId), ...(await cond.params(additionalParams))],
+            from,
+            params
+        )
     }
 
     public async instance(
@@ -169,8 +186,7 @@ export abstract class Condition<Ctx extends ConditionContext, Extra = {}> extend
             agreementId,
             id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
             list: params.list,
-            params: params.params,
+            params: params.params
         }
     }
-
 }

@@ -13,7 +13,9 @@ export interface DistributeNFTCollateralConditionContext extends ConditionContex
  * Condition allowing to transfer an NFT either to the original owner or a lender
  * depending on the loan status.
  */
-export class DistributeNFTCollateralCondition extends Condition<DistributeNFTCollateralConditionContext> {
+export class DistributeNFTCollateralCondition extends Condition<
+    DistributeNFTCollateralConditionContext
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<DistributeNFTCollateralCondition> {
@@ -33,14 +35,14 @@ export class DistributeNFTCollateralCondition extends Condition<DistributeNFTCol
      * @returns Hash of all the values
      */
     public params(did: string, vaultAddress: string, nftContractAddress: string) {
-        return super.params(
-            didZeroX(did),
-            zeroX(vaultAddress),
-            zeroX(nftContractAddress)
-        )
+        return super.params(didZeroX(did), zeroX(vaultAddress), zeroX(nftContractAddress))
     }
 
-    public async paramsFromDDO({ ddo, vaultAddress, nftContractAddress }: DistributeNFTCollateralConditionContext) {
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        nftContractAddress
+    }: DistributeNFTCollateralConditionContext) {
         return this.params(ddo.shortId(), vaultAddress, nftContractAddress)
     }
 

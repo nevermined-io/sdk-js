@@ -1,4 +1,10 @@
-import { Condition, ConditionContext, ConditionInstance, ConditionInstanceSmall, ConditionParameters } from './Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ConditionInstance,
+    ConditionInstanceSmall,
+    ConditionParameters
+} from './Condition.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -42,8 +48,8 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
     }
 
     public async paramsFromDDO(
-        {ddo, service, rewards, consumerId}: EscrowPaymentConditionContext,
-        access: ConditionInstanceSmall, 
+        { ddo, service, rewards, consumerId }: EscrowPaymentConditionContext,
+        access: ConditionInstanceSmall,
         lock: ConditionInstanceSmall
     ) {
         const escrow = findServiceConditionByName(service, 'escrowPayment')

@@ -76,7 +76,12 @@ export abstract class ContractBase extends Instantiable {
                 this.config.graphHttpUri
             )
         } else {
-            this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.web3)
+            this.events = ContractEvent.getInstance(
+                this,
+                eventEmitter,
+                config.nevermined,
+                this.web3
+            )
         }
     }
 
@@ -279,7 +284,9 @@ export abstract class ContractBase extends Instantiable {
             })
             throw new KeeperError(`
                 ${'-'.repeat(40)}\n
-                Sending transaction "${name}" on contract "${this.contractName}" at ${this.address} failed.\n
+                Sending transaction "${name}" on contract "${this.contractName}" at ${
+                this.address
+            } failed.\n
                 Error: ${err.message}\n
                 From: ${from}\n
                 Parameters: ${JSON.stringify(mappedArgs, null, 2)}\n

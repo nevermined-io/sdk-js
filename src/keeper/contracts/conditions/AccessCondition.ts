@@ -20,7 +20,7 @@ export class AccessCondition extends Condition<AccessConditionContext> {
         return super.params(didZeroX(did), zeroX(grantee))
     }
 
-    public async paramsFromDDO({ddo, creator}: AccessConditionContext) {
+    public async paramsFromDDO({ ddo, creator }: AccessConditionContext) {
         return this.params(ddo.shortId(), creator)
     }
 

@@ -905,7 +905,12 @@ describe('NFT721Templates E2E', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
-                setNFTRewardsFromDDOByService(ddo, "nft721-sales", assetRewards2, collector1.getId())
+                setNFTRewardsFromDDOByService(
+                    ddo,
+                    'nft721-sales',
+                    assetRewards2,
+                    collector1.getId()
+                )
             })
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 const result = await nft721SalesTemplate.createAgreementFromDDO(

@@ -422,7 +422,12 @@ describe('Secondary Markets', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
-                setNFTRewardsFromDDOByService(ddo, "nft-sales", assetRewards2, collector1.getId())
+                setNFTRewardsFromDDOByService(
+                    ddo,
+                    'nft-sales',
+                    assetRewards2,
+                    collector1.getId()
+                )
             })
 
             it('As collector1 I create and store an off-chain service agreement', async () => {
@@ -469,7 +474,7 @@ describe('Secondary Markets', () => {
                     ddo,
                     nftSalesTemplate.params(collector2.getId(), numberNFTs2),
                     collector2,
-                    collector2,
+                    collector2
                 )
                 assert.isDefined(result)
 
@@ -641,7 +646,12 @@ describe('Secondary Markets', () => {
                 const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
                     collector2
                 )
-                setNFTRewardsFromDDOByService(ddo, "nft-sales", assetRewards3, collector2.getId())
+                setNFTRewardsFromDDOByService(
+                    ddo,
+                    'nft-sales',
+                    assetRewards3,
+                    collector2.getId()
+                )
 
                 await nevermined.marketplace.login(clientAssertion)
             })

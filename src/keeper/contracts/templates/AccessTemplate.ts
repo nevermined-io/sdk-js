@@ -7,8 +7,8 @@ import { ServiceType } from '../../../ddo/Service'
 import { Account } from '../../../sdk'
 
 export interface AccessTemplateParams {
-    consumerId: string, 
-    creator: string,
+    consumerId: string
+    creator: string
     serviceType: ServiceType
 }
 
@@ -25,7 +25,10 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
         return accessTemplateServiceAgreementTemplate
     }
 
-    public params(consumer: Account, serviceType: ServiceType = 'access'): AccessTemplateParams {
+    public params(
+        consumer: Account,
+        serviceType: ServiceType = 'access'
+    ): AccessTemplateParams {
         return { consumerId: consumer.getId(), serviceType, creator: consumer.getId() }
     }
 
@@ -45,23 +48,35 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
 
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
         // console.log("here", ctx)
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         // console.log("hmmmm", lockPaymentConditionInstance.id, await lockPaymentCondition.generateIdWithSeed(agreementId, lockPaymentConditionInstance.seed))
-        const accessConditionInstance = await accessCondition.instanceFromDDO(agreementId, ctx)
+        const accessConditionInstance = await accessCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         // console.log(accessConditionInstance)
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId, ctx, accessConditionInstance, lockPaymentConditionInstance
+            agreementId,
+            ctx,
+            accessConditionInstance,
+            lockPaymentConditionInstance
         )
 
         return {
-            instances: [accessConditionInstance, lockPaymentConditionInstance, escrowPaymentConditionInstance],
+            instances: [
+                accessConditionInstance,
+                lockPaymentConditionInstance,
+                escrowPaymentConditionInstance
+            ],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
-
 }

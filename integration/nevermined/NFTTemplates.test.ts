@@ -975,7 +975,12 @@ describe('NFTTemplates E2E', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
-                setNFTRewardsFromDDOByService(ddo, "nft-sales", assetRewards2, collector1.getId())
+                setNFTRewardsFromDDOByService(
+                    ddo,
+                    'nft-sales',
+                    assetRewards2,
+                    collector1.getId()
+                )
             })
 
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {

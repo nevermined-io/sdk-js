@@ -31,7 +31,12 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
         return { holderAddress, amount, grantee: holderAddress }
     }
 
-    public async instanceFromDDO(agreementIdSeed: string, ddo: DDO, creator: string, parameters: NFTAccessTemplateParams): Promise<AgreementInstance<NFTAccessTemplateParams>> {
+    public async instanceFromDDO(
+        agreementIdSeed: string,
+        ddo: DDO,
+        creator: string,
+        parameters: NFTAccessTemplateParams
+    ): Promise<AgreementInstance<NFTAccessTemplateParams>> {
         const {
             nftHolderCondition,
             nftAccessCondition
@@ -40,16 +45,22 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
 
-        const holderConditionInstance = await nftHolderCondition.instanceFromDDO(agreementId, ctx)
-        const accessConditionInstance = await nftAccessCondition.instanceFromDDO(agreementId, ctx)
+        const holderConditionInstance = await nftHolderCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
+        const accessConditionInstance = await nftAccessCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
 
         return {
             instances: [holderConditionInstance, accessConditionInstance],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
 

@@ -43,7 +43,7 @@ export class Nfts extends Instantiable {
      * @param {string}          erc20TokenAddress The sales reward distribution.
      * @returns {DDO} The newly registered DDO.
      */
-     public create(
+    public create(
         metadata: MetaData,
         publisher: Account,
         cap: number,
@@ -457,13 +457,21 @@ export class Nfts extends Instantiable {
      */
     public async details(did: string) {
         const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
-        const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
+        const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(
+            did
+        )
         let royalties = Number(details[8])
         let royaltyScheme = RoyaltyKind.Legacy
-        if (this.nevermined.keeper.royalties.curve && royaltySchemeAddress === this.nevermined.keeper.royalties.curve.address) {
+        if (
+            this.nevermined.keeper.royalties.curve &&
+            royaltySchemeAddress === this.nevermined.keeper.royalties.curve.address
+        ) {
             royaltyScheme = RoyaltyKind.Curve
             royalties = await this.nevermined.keeper.royalties.curve.getRoyalty(did)
-        } else if (this.nevermined.keeper.royalties.standard && royaltySchemeAddress === this.nevermined.keeper.royalties.standard.address) {
+        } else if (
+            this.nevermined.keeper.royalties.standard &&
+            royaltySchemeAddress === this.nevermined.keeper.royalties.standard.address
+        ) {
             royaltyScheme = RoyaltyKind.Standard
             royalties = await this.nevermined.keeper.royalties.standard.getRoyalty(did)
         }
@@ -478,7 +486,7 @@ export class Nfts extends Instantiable {
             nftSupply: Number(details[6]),
             mintCap: Number(details[7]),
             royalties,
-            royaltyScheme,
+            royaltyScheme
         }
     }
 
@@ -652,7 +660,11 @@ export class Nfts extends Instantiable {
         const agreementId = await nftSalesTemplate.createAgreementFromDDO(
             agreementIdSeed,
             ddo,
-            nftSalesTemplate.params(consumer.getId(), nftAmount, currentNftHolder.getId()),
+            nftSalesTemplate.params(
+                consumer.getId(),
+                nftAmount,
+                currentNftHolder.getId()
+            ),
             consumer,
             consumer,
             [86400, 86400, 86400],

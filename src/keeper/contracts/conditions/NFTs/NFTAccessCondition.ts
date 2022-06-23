@@ -22,7 +22,7 @@ export class NFTAccessCondition extends Condition<NFTAccessConditionContext> {
         return super.params(didZeroX(did), zeroX(grantee))
     }
 
-    public async paramsFromDDO({ddo, grantee}: NFTAccessConditionContext) {
+    public async paramsFromDDO({ ddo, grantee }: NFTAccessConditionContext) {
         return this.params(ddo.shortId(), grantee)
     }
 

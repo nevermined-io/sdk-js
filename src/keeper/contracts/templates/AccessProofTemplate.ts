@@ -51,19 +51,32 @@ export class AccessProofTemplate extends BaseTemplate<AccessProofTemplateParams>
 
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
-        const accessConditionInstance = await accessProofCondition.instanceFromDDO(agreementId, ctx)
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
+        const accessConditionInstance = await accessProofCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId, ctx, accessConditionInstance, lockPaymentConditionInstance
+            agreementId,
+            ctx,
+            accessConditionInstance,
+            lockPaymentConditionInstance
         )
 
         return {
-            instances: [accessConditionInstance, lockPaymentConditionInstance, escrowPaymentConditionInstance],
+            instances: [
+                accessConditionInstance,
+                lockPaymentConditionInstance,
+                escrowPaymentConditionInstance
+            ],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
 }

@@ -37,7 +37,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         )
     }
 
-    public async paramsFromDDO({ddo, service, rewards}: ConditionContext) {
+    public async paramsFromDDO({ ddo, service, rewards }: ConditionContext) {
         const payment = findServiceConditionByName(service, 'lockPayment')
         return this.params(
             ddo.shortId(),

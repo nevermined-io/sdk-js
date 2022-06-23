@@ -13,7 +13,12 @@ export class DIDSalesTemplate extends BaseTemplate<{}> {
     public params(...args: any[]): {} {
         throw new Error('Method not implemented.')
     }
-    public instanceFromDDO(agreementId: string, ddo: DDO, creator: string, parameters: {}): Promise<AgreementInstance<{}>> {
+    public instanceFromDDO(
+        agreementId: string,
+        ddo: DDO,
+        creator: string,
+        parameters: {}
+    ): Promise<AgreementInstance<{}>> {
         throw new Error('Method not implemented.')
     }
     public service(): ServiceType {

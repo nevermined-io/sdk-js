@@ -46,7 +46,12 @@ export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
         )
     }
 
-    public async paramsFromDDO({ ddo, lockAddress, nftAmount, nftContractAddress }: NFT721LockConditionContext) {
+    public async paramsFromDDO({
+        ddo,
+        lockAddress,
+        nftAmount,
+        nftContractAddress
+    }: NFT721LockConditionContext) {
         return this.params(ddo.shortId(), lockAddress, nftAmount, nftContractAddress)
     }
 

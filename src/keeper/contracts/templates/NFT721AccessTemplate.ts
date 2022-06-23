@@ -31,7 +31,12 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
         return { holderAddress, grantee: holderAddress }
     }
 
-    public async instanceFromDDO(agreementIdSeed: string, ddo: DDO, creator: string, parameters: NFT721AccessTemplateParams): Promise<AgreementInstance<NFT721AccessTemplateParams>> {
+    public async instanceFromDDO(
+        agreementIdSeed: string,
+        ddo: DDO,
+        creator: string,
+        parameters: NFT721AccessTemplateParams
+    ): Promise<AgreementInstance<NFT721AccessTemplateParams>> {
         const {
             nft721HolderCondition,
             nftAccessCondition
@@ -40,16 +45,22 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
 
-        const holderConditionInstance = await nft721HolderCondition.instanceFromDDO(agreementId, ctx)
-        const accessConditionInstance = await nftAccessCondition.instanceFromDDO(agreementId, ctx)
+        const holderConditionInstance = await nft721HolderCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
+        const accessConditionInstance = await nftAccessCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
 
         return {
             instances: [holderConditionInstance, accessConditionInstance],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
 

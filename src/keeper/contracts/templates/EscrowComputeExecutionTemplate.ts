@@ -8,10 +8,12 @@ import { ServiceType } from '../../../ddo/Service'
 import { Account } from '../../../sdk'
 
 export interface EscrowComputeExecutionParams {
-    consumerId: string, 
+    consumerId: string
 }
 
-export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeExecutionParams> {
+export class EscrowComputeExecutionTemplate extends BaseTemplate<
+    EscrowComputeExecutionParams
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<EscrowComputeExecutionTemplate> {
@@ -40,7 +42,6 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
         creator: string,
         parameters: EscrowComputeExecutionParams
     ): Promise<AgreementInstance<EscrowComputeExecutionParams>> {
-
         const {
             computeExecutionCondition,
             lockPaymentCondition,
@@ -50,19 +51,32 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
             ...this.standardContext(ddo, creator),
-            ...parameters,
+            ...parameters
         }
 
-        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(agreementId, ctx)
-        const computeConditionInstance = await computeExecutionCondition.instanceFromDDO(agreementId, ctx)
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
+        const computeConditionInstance = await computeExecutionCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId, ctx, computeConditionInstance, lockPaymentConditionInstance
+            agreementId,
+            ctx,
+            computeConditionInstance,
+            lockPaymentConditionInstance
         )
 
         return {
-            instances: [computeConditionInstance, lockPaymentConditionInstance, escrowPaymentConditionInstance],
+            instances: [
+                computeConditionInstance,
+                lockPaymentConditionInstance,
+                escrowPaymentConditionInstance
+            ],
             list: parameters,
-            agreementId,
+            agreementId
         }
     }
 }
