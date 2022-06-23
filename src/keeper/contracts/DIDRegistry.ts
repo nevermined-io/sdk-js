@@ -39,7 +39,7 @@ export interface ProvenanceAttributeRegisteredEvent {
     relatedDid: string
     agentInvolvedId: string
     method: ProvenanceMethod
-    attributes: string
+    attributes?: string
     blockNumberUpdated: number
 }
 
@@ -48,7 +48,7 @@ interface ProvenanceBaseEvent {
     method: ProvenanceMethod
     activityId: string
     provId: string
-    attributes: string
+    attributes?: string
     blockNumberUpdated: number
 }
 export interface WasGeneratedByEvent extends ProvenanceBaseEvent {
@@ -367,41 +367,84 @@ export default class DIDRegistry extends ContractBase {
                 }
             })
         )
-            .map(
-                ({ returnValues }) =>
-                    eventToObject(returnValues) as ProvenanceAttributeRegisteredEvent
-            )
+            .map(event => {
+                if (event.returnValues === undefined)
+                    return eventToObject(event) as ProvenanceAttributeRegisteredEvent
+                else
+                    return eventToObject(
+                        event.returnValues
+                    ) as ProvenanceAttributeRegisteredEvent
+            })
             .map(event => ({ ...event, method: +event.method }))
+            .sort(
+                (
+                    firstEvent: ProvenanceAttributeRegisteredEvent,
+                    secondEvent: ProvenanceAttributeRegisteredEvent
+                ) =>
+                    Number(firstEvent.blockNumberUpdated) >
+                    Number(secondEvent.blockNumberUpdated)
+                        ? 1
+                        : -1
+            )
     }
 
     public async getDIDProvenanceMethodEvents<T extends ProvenanceMethod>(
         did: string,
         method: T
     ): Promise<ProvenanceEvent<T>[]> {
-        const capitalize = string =>
-            string.replace(
-                /([a-z]+)(?:_|$)/gi,
-                (_, w) => w.charAt(0).toUpperCase() + w.toLowerCase().slice(1)
-            )
         let filter: any = { _did: didZeroX(did) }
+        let methodName = ''
+        let eventName = ''
         switch (method) {
             case ProvenanceMethod.ACTED_ON_BEHALF:
+                filter = { _entityDid: didZeroX(did) }
+                eventName = 'ActedOnBehalf'
+                methodName = 'getActedOnBehalfs'
+                break
             case ProvenanceMethod.WAS_ASSOCIATED_WITH:
+                eventName = 'WasAssociatedWith'
+                methodName = 'getWasAssociatedWiths'
                 filter = { _entityDid: didZeroX(did) }
                 break
             case ProvenanceMethod.WAS_DERIVED_FROM:
+                eventName = 'WasDerivedFrom'
+                methodName = 'getWasDerivedFroms'
                 filter = { _usedEntityDid: didZeroX(did) }
                 break
+            case ProvenanceMethod.USED:
+                eventName = 'Used'
+                methodName = 'getUseds'
+                break
+            case ProvenanceMethod.WAS_GENERATED_BY:
+                eventName = 'WasGeneratedBy'
+                methodName = 'getWasGeneratedBys'
+                break
         }
-        return (
-            await this.events.getPastEvents({
-                eventName: capitalize(ProvenanceMethod[method as any]),
-                methodName: `get${capitalize(ProvenanceMethod[method as any])}s`,
-                filterJsonRpc: filter,
-                filterSubgraph: { where: filter },
-                result: {}
-            })
-        ).map(({ returnValues }) => eventToObject(returnValues))
+        const eventOptions = {
+            eventName,
+            methodName,
+            filterJsonRpc: filter,
+            filterSubgraph: { where: filter },
+            result: {
+                provId: true,
+                _activityId: true,
+                _blockNumberUpdated: true
+            }
+        }
+        const events = await this.events.getPastEvents(eventOptions)
+        return events
+            .map(event => eventToObject(event))
+            .map(event => ({ ...event, method: +method }))
+            .sort(
+                (
+                    firstEvent: ProvenanceAttributeRegisteredEvent,
+                    secondEvent: ProvenanceAttributeRegisteredEvent
+                ) =>
+                    Number(firstEvent.blockNumberUpdated) >
+                    Number(secondEvent.blockNumberUpdated)
+                        ? 1
+                        : -1
+            )
     }
 
     public async getProvenanceEntry(provId: string) {

@@ -1,5 +1,5 @@
 import ContractBase from '../keeper/contracts/ContractBase'
-import { Instantiable } from "../Instantiable.abstract";
+import { Instantiable } from '../Instantiable.abstract'
 
 export interface EventOptions {
     methodName?: string
