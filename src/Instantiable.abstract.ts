@@ -44,7 +44,7 @@ export abstract class Instantiable {
      * @return {Promise<number>} Network ID.
      */
     public async getNetworkId(): Promise<number> {
-        if(!this.networkId) {
+        if (!this.networkId) {
             this.networkId = await this.web3.eth.net.getId()
         }
 

@@ -5,7 +5,12 @@ export default class ContractBaseMock extends ContractBase {
     public async initMock(config: any) {
         await this.init(config)
         const eventEmitter = new EventHandler()
-        this.events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
+        this.events = ContractEvent.getInstance(
+            this,
+            eventEmitter,
+            this.nevermined,
+            this.web3
+        )
     }
 
     public async callMock(name: string, args: any[], from?: string) {
