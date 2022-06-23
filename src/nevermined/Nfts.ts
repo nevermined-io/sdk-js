@@ -647,6 +647,7 @@ export class Nfts extends Instantiable {
         const currentNftHolder = new Account(getNftHolderFromService(service))
         const did = getDIDFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
+        ddo.updateService(this.nevermined, service)
 
         const agreementId = await nftSalesTemplate.createAgreementFromDDO(
             agreementIdSeed,

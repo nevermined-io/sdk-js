@@ -18,7 +18,8 @@ import AssetRewards from '../../src/models/AssetRewards'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
-    getAssetRewardsFromService
+    getAssetRewardsFromService,
+    setNFTRewardsFromDDOByService
 } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -421,6 +422,7 @@ describe('Secondary Markets', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
+                setNFTRewardsFromDDOByService(ddo, "nft-sales", assetRewards2, collector1.getId())
             })
 
             it('As collector1 I create and store an off-chain service agreement', async () => {
@@ -639,6 +641,7 @@ describe('Secondary Markets', () => {
                 const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
                     collector2
                 )
+                setNFTRewardsFromDDOByService(ddo, "nft-sales", assetRewards3, collector2.getId())
 
                 await nevermined.marketplace.login(clientAssertion)
             })
