@@ -81,6 +81,8 @@ export abstract class Instantiable {
         if (!this._web3) {
             this.logger.error('Web3 instance is not defined.')
             this.logger.error('Using default instance.')
+            Instantiable.network.id = undefined
+            Instantiable.network.loading = true
             return Web3Provider.getWeb3()
         }
         return this._web3
@@ -127,6 +129,9 @@ export abstract class Instantiable {
         instance._web3 = web3
         instance._logger = logger
         instance._artifactsFolder = artifactsFolder
+
+        Instantiable.network.id = undefined
+        Instantiable.network.loading = true
     }
 
     private _nevermined: Nevermined

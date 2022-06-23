@@ -58,11 +58,12 @@ describe('Artifacts', () => {
             // console.log(`Awake`)
 
             const nvm = await Nevermined.getInstance({
-                nodeUri: nodeUri,
+                nodeUri,
                 verbose: LogLevel.Verbose,
                 artifactsFolder: tempDir
             } as Config)
 
+            assert.equal(networkId[0], await nvm.keeper.getNetworkId())
             assert.isDefined(nvm)
             assert.isDefined(nvm.keeper)
             assert.isDefined(nvm.keeper.didRegistry)
