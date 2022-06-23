@@ -549,7 +549,7 @@ describe('Secondary Markets', () => {
                     agreementId2,
                     ddo,
                     numberNFTs2,
-                    collector1,
+                    collector1
                 )
 
                 assert.isTrue(receipt)

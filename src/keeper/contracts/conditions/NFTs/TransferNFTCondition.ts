@@ -1,6 +1,11 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionContext, ConditionInstance, ConditionParameters } from '../Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ConditionInstance,
+    ConditionParameters
+} from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 
@@ -48,7 +53,9 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
                 zeroX(nftReceiver),
                 String(nftAmount),
                 lockCondition,
-                zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
+                zeroX(
+                    nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
+                ),
                 willBeTransferred
             ],
             params: async () => [
@@ -56,7 +63,9 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
                 zeroX(nftReceiver),
                 String(nftAmount),
                 lockCondition,
-                zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
+                zeroX(
+                    nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
+                ),
                 willBeTransferred
             ]
         }
