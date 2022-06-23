@@ -154,7 +154,9 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<[TransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
+    ): Promise<
+        [TransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]
+    > {
         const vaultAddress = await this.deployVault(
             this.aaveConfig.lendingPoolAddress,
             this.aaveConfig.dataProviderAddress,

@@ -45,7 +45,11 @@ describe('Account', () => {
             const balanceEth = await account.getEtherBalance()
             const web3 = Web3Provider.getWeb3()
 
-            console.log(`Balance ${balanceEth} should be ${new BigNumber(web3.utils.toWei('1000', 'ether'))}`)
+            console.log(
+                `Balance ${balanceEth} should be ${new BigNumber(
+                    web3.utils.toWei('1000', 'ether')
+                )}`
+            )
             assert.isTrue(
                 balanceEth.isEqualTo(new BigNumber(web3.utils.toWei('1000', 'ether')))
             )
