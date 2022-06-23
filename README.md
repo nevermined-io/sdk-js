@@ -207,7 +207,7 @@ It keeps the same Apache v2 License and adds some improvements. See [NOTICE file
 ## License
 
 ```
-Copyright 2020 Keyko GmbH
+Copyright 2022 Nevermined AG
 This product includes software developed at
 BigchainDB GmbH and Ocean Protocol (https://www.oceanprotocol.com/)
 
