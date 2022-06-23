@@ -30,7 +30,7 @@ export function generateIntantiableConfigFromConfig(
 }
 
 export abstract class Instantiable {
-    static networkId: number
+    protected static networkId: number
 
     protected get nevermined() {
         if (!this._nevermined) {

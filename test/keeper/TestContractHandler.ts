@@ -21,7 +21,6 @@ export default abstract class TestContractHandler extends ContractHandler {
         await TestContractHandler.deployContracts(deployerAddress)
     }
 
-    private static networkId: number
     private static minter: string
     private static config = config
     private static web3 = Web3Provider.getWeb3(config)
