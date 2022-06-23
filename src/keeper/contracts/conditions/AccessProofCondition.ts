@@ -80,7 +80,7 @@ export class AccessProofCondition extends Condition<
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 zeroX(origHash),

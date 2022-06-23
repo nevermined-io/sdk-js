@@ -64,7 +64,7 @@ export class AaveRepayCondition extends Condition<AaveRepayConditionContext> {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

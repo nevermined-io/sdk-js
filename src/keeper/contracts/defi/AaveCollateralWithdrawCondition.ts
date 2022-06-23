@@ -43,7 +43,7 @@ export class AaveCollateralWithdrawCondition extends Condition<
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), ...[vaultAddress, collateralAsset].map(zeroX)],
             from,

@@ -57,7 +57,7 @@ export class NFTHolderCondition extends Condition<NFTHolderConditionContext> {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(holderAddress), String(amount)],
             from,

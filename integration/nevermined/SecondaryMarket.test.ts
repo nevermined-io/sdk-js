@@ -11,7 +11,6 @@ import {
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
-import { TxParameters } from '../../src/keeper/contracts/ContractBase'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -285,8 +284,6 @@ describe('Secondary Markets', () => {
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
                     numberNFTs,
                     artist
                 )
@@ -548,19 +545,11 @@ describe('Secondary Markets', () => {
                     ddo.id
                 )
 
-                // After fetching the previously created sales agreement
-                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
-                    nftSalesServiceAgreement
-                )
-
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId2,
                     ddo,
-                    assetRewardsFromServiceAgreement.getAmounts(),
-                    assetRewardsFromServiceAgreement.getReceivers(),
                     numberNFTs2,
                     collector1,
-                    nftSalesServiceAgreement as TxParameters
                 )
 
                 assert.isTrue(receipt)

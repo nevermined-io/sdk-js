@@ -73,7 +73,7 @@ export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
         nftContractAddress: string,
         from?: Account
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

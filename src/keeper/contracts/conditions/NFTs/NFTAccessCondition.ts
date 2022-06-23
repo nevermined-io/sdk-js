@@ -33,7 +33,7 @@ export class NFTAccessCondition extends Condition<NFTAccessConditionContext> {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), grantee].map(zeroX),
             from,

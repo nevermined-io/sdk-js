@@ -65,7 +65,7 @@ export class DistributeNFTCollateralCondition extends Condition<
         from?: Account,
         txParams?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(vaultAddress), zeroX(nftContractAddress)],
             from,

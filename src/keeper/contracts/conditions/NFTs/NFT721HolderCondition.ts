@@ -71,7 +71,7 @@ export class NFT721HolderCondition extends Condition<NFT721HolderConditionContex
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(holderAddress), String(1), nftTokenAddress],
             from,

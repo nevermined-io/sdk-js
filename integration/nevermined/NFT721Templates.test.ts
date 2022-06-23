@@ -788,8 +788,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -978,8 +976,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
                     collector1
                 )
                 assert.isTrue(receipt)

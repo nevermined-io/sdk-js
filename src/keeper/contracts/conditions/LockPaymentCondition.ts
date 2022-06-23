@@ -59,7 +59,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         params?: TxParameters
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

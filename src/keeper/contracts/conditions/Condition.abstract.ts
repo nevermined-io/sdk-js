@@ -64,9 +64,9 @@ export abstract class ConditionSmall extends ContractBase {
         return this.call('hashValues', args)
     }
 
-    public fulfill(agreementId: string, ...args: any[])
+    public abstract fulfill(agreementId: string, ...args: any[])
 
-    public fulfill(
+    public fulfillPlain(
         agreementId: string,
         args: any[],
         from?: Account,

@@ -80,7 +80,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
         txParams?: TxParameters
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

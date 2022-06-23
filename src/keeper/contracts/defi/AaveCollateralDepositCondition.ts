@@ -78,7 +78,7 @@ export class AaveCollateralDepositCondition extends Condition<
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

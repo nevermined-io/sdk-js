@@ -36,7 +36,7 @@ export class ComputeExecutionCondition extends Condition<
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), computeConsumer].map(zeroX),
             from,

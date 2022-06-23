@@ -1,6 +1,6 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionContext } from '../Condition.abstract'
+import { Condition, ConditionContext, ConditionInstance, ConditionParameters } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 
@@ -40,16 +40,26 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         lockCondition: string,
         nftContractAddress?: string,
         willBeTransferred: boolean = true
-    ) {
-        return super.params(
-            didZeroX(did),
-            zeroX(nftHolder),
-            zeroX(nftReceiver),
-            String(nftAmount),
-            lockCondition,
-            zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
-            willBeTransferred
-        )
+    ): ConditionParameters<{}> {
+        return {
+            list: [
+                didZeroX(did),
+                zeroX(nftHolder),
+                zeroX(nftReceiver),
+                String(nftAmount),
+                lockCondition,
+                zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
+                willBeTransferred
+            ],
+            params: async () => [
+                didZeroX(did),
+                zeroX(nftReceiver),
+                String(nftAmount),
+                lockCondition,
+                zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
+                willBeTransferred
+            ]
+        }
     }
 
     public async paramsFromDDO(
@@ -93,7 +103,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         from?: Account,
         txParams?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition],
             from,
@@ -125,7 +135,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

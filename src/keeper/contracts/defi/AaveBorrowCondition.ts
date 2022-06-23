@@ -70,7 +70,7 @@ export class AaveBorrowCondition extends Condition<AaveBorrowConditionContext> {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

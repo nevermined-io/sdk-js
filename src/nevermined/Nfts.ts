@@ -271,13 +271,10 @@ export class Nfts extends Instantiable {
 
         const ddo = await this.nevermined.assets.resolve(did)
         const salesService = ddo.findServiceByType('nft-sales')
-        const assetRewards = getAssetRewardsFromService(salesService)
 
         const result = await agreements.conditions.transferNft(
             agreementId,
             ddo,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
             nftAmount,
             publisher,
             txParams
@@ -318,8 +315,6 @@ export class Nfts extends Instantiable {
         const result = await agreements.conditions.transferNft721(
             agreementId,
             ddo,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
             from,
             txParams
         )
@@ -690,7 +685,6 @@ export class Nfts extends Instantiable {
         params?: TxParameters
     ): Promise<boolean> {
         const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
-        const assetRewards = getAssetRewardsFromService(service)
         const did = getDIDFromService(service)
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
@@ -703,8 +697,6 @@ export class Nfts extends Instantiable {
         let receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,
             ddo,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
             nftAmount,
             owner,
             params

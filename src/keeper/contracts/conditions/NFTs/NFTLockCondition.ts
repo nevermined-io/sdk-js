@@ -51,7 +51,7 @@ export class NFTLockCondition extends Condition<NFTLockConditionContext> {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(rewardAddress), String(amount)],
             from,

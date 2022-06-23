@@ -1,6 +1,6 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionContext } from '../Condition.abstract'
+import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 
@@ -40,16 +40,26 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         lockCondition: string,
         nftTokenAddress: string,
         willBeTransferred: boolean = true
-    ) {
-        return super.params(
-            didZeroX(did),
-            zeroX(nftHolder),
-            zeroX(nftReceiver),
-            String(1),
-            lockCondition,
-            nftTokenAddress,
-            willBeTransferred
-        )
+    ): ConditionParameters<{}> {
+        return {
+            list: [
+                didZeroX(did),
+                zeroX(nftHolder),
+                zeroX(nftReceiver),
+                String(1),
+                lockCondition,
+                nftTokenAddress,
+                willBeTransferred
+            ],
+            params: async () => [
+                didZeroX(did),
+                zeroX(nftReceiver),
+                String(1),
+                lockCondition,
+                nftTokenAddress,
+                willBeTransferred
+            ]
+        }
     }
 
     public async paramsFromDDO(
@@ -65,7 +75,6 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         const nftHolder =
             (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
 
-        // const nftOwner = await nft.ownerOf(ddo.id)
         return this.params(
             ddo.shortId(),
             nftHolder,
@@ -99,7 +108,7 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         from?: Account,
         txParams?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

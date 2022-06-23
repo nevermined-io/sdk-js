@@ -54,6 +54,6 @@ export class TransferDIDOwnershipCondition extends Condition<AccessConditionCont
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(agreementId, [didZeroX(did), zeroX(receiver)], from, params)
+        return super.fulfillPlain(agreementId, [didZeroX(did), zeroX(receiver)], from, params)
     }
 }
