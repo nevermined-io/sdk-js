@@ -872,9 +872,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
                     artist
                 )
@@ -1094,9 +1091,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
                     collector1
                 )
@@ -1301,9 +1295,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
                     artist,
                     gallery

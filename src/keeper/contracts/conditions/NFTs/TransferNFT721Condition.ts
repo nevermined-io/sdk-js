@@ -62,11 +62,13 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         const nft = await this.nevermined.contracts.loadNft721(
             transfer.parameters.find(p => p.name === '_contract').value as string
         )
+        const nftHolder =
+            (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
 
-        const nftOwner = await nft.ownerOf(ddo.id)
+        // const nftOwner = await nft.ownerOf(ddo.id)
         return this.params(
             ddo.shortId(),
-            nftOwner,
+            nftHolder,
             consumerId,
             lockCondition.id,
             nft.address,

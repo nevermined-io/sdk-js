@@ -805,9 +805,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    collector1.getId(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -998,9 +995,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
-                    collector2.getId(),
                     collector1
                 )
                 assert.isTrue(receipt)

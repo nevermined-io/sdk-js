@@ -229,9 +229,6 @@ export class Nfts extends Instantiable {
             const agreementIdSeed = zeroX(generateId())
             const ddo = await this.nevermined.assets.resolve(did)
 
-            const salesService = ddo.findServiceByType('nft721-sales')
-            const assetRewards = getAssetRewardsFromService(salesService)
-
             this.logger.log('Creating nft721-sales agreement')
             const agreementId = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
                 agreementIdSeed,
@@ -356,15 +353,10 @@ export class Nfts extends Instantiable {
         const { agreements } = this.nevermined
 
         const ddo = await this.nevermined.assets.resolve(did)
-        const salesService = ddo.findServiceByType('nft-sales')
-        const assetRewards = getAssetRewardsFromService(salesService)
 
         const result = await agreements.conditions.releaseNftReward(
             agreementId,
             ddo,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            consumer.getId(),
             nftAmount,
             publisher,
             undefined,
@@ -388,14 +380,10 @@ export class Nfts extends Instantiable {
         const { agreements } = this.nevermined
 
         const ddo = await this.nevermined.assets.resolve(did)
-        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft721-sales')
 
         const result = await agreements.conditions.releaseNft721Reward(
             agreementId,
             ddo,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            consumer.getId(),
             publisher,
             undefined,
             txParams
@@ -706,6 +694,7 @@ export class Nfts extends Instantiable {
         const did = getDIDFromService(service)
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
+        ddo.updateService(this.nevermined, service)
         const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
             agreementIdSeed,
             consumer.getId()
@@ -726,9 +715,6 @@ export class Nfts extends Instantiable {
         receipt = await this.nevermined.agreements.conditions.releaseNftReward(
             agreementId,
             ddo,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            consumer.getId(),
             nftAmount,
             owner,
             undefined,

@@ -315,9 +315,6 @@ describe('Secondary Markets', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
                     artist
                 )
@@ -600,13 +597,8 @@ describe('Secondary Markets', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId2,
                     ddo,
-                    assetRewardsFromServiceAgreement.getAmounts(),
-                    assetRewardsFromServiceAgreement.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
-                    collector1,
-                    undefined,
-                    nftSalesServiceAgreement as TxParameters
+                    collector1
                 )
                 assert.isTrue(receipt)
 

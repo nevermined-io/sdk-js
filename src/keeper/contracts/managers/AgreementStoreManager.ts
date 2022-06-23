@@ -6,6 +6,8 @@ import Account from '../../../nevermined/Account'
 export interface AgreementData {
     did: string
     agreementId: string
+    agreementIdSeed: string
+    creator: string
     didOwner: string
     templateId: string
     conditionIds: string[]
@@ -41,10 +43,12 @@ export class AgreementStoreManager extends ContractBase {
             agreementId
         )
         const values = events.map(e => e.returnValues || e)
-        const { _did, _didOwner, _conditionIds, _conditionIdSeeds } = values[0]
+        const { _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator } = values[0]
         return {
             did: _did,
             agreementId,
+            agreementIdSeed: _idSeed,
+            creator: _creator,
             didOwner: _didOwner,
             templateId,
             conditionIdSeeds: _conditionIdSeeds,

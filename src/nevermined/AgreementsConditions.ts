@@ -330,73 +330,23 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNftReward(
         agreementId: string,
         ddo: DDO,
-        amounts: BigNumber[],
-        receivers: string[],
-        returnAddress: string,
         nftAmount: number,
         publisher: Account,
         from?: Account,
         txParams?: TxParameters,
-        nftSalesService?: Service
     ) {
-        const {
-            escrowPaymentCondition,
-            lockPaymentCondition,
-            transferNftCondition
-        } = this.nevermined.keeper.conditions
-
-        const salesService = nftSalesService || ddo.findServiceByType('nft-sales')
-
-        const {
-            accessConsumer
-        } = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
-            agreementId
+        const template = this.nevermined.keeper.templates.nftSalesTemplate
+        const { accessConsumer } = await template.getAgreementData(agreementId)
+        const { agreementIdSeed, creator } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const instance = await template.instanceFromDDO(
+            agreementIdSeed,
+            ddo,
+            creator,
+            template.params(accessConsumer, nftAmount)
         )
 
-        const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new KeeperError('Payment condition not found!')
-
-        const lockPaymentConditionId = await lockPaymentCondition.generateId(
-            agreementId,
-            await lockPaymentCondition.hashValues(
-                ddo.shortId(),
-                escrowPaymentCondition.getAddress(),
-                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-                amounts,
-                receivers
-            )
-        )
-
-        const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
-
-        const transferNftConditionId = await transferNftCondition.generateId(
-            agreementId,
-            await transferNftCondition.hashValues(
-                ddo.shortId(),
-                publisher.getId(),
-                accessConsumer,
-                nftAmount,
-                lockPaymentConditionId
-            )
-        )
-
-        const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new KeeperError('Escrow condition not found!')
-
-        const receipt = await escrowPaymentCondition.fulfill(
-            agreementId,
-            ddo.shortId(),
-            amounts,
-            receivers,
-            returnAddress,
-            escrowPaymentCondition.getAddress(),
-            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-            lockPaymentConditionId,
-            transferNftConditionId,
-            from || publisher,
-            txParams
-        )
+        const { escrowPaymentCondition } = this.nevermined.keeper.conditions
+        const receipt = await escrowPaymentCondition.fulfillInstance(instance.instances[2] as any, {}, from || publisher, txParams)
 
         if (!receipt.events.Fulfilled) {
             this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
@@ -418,74 +368,25 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNft721Reward(
         agreementId: string,
         ddo: DDO,
-        amounts: BigNumber[],
-        receivers: string[],
-        returnAddress: string,
         publisher: Account,
         from?: Account,
         txParams?: TxParameters
     ) {
-        const {
-            escrowPaymentCondition,
-            lockPaymentCondition,
-            transferNft721Condition
-        } = this.nevermined.keeper.conditions
-
-        const salesService = ddo.findServiceByType('nft721-sales')
-
-        const {
-            accessConsumer
-        } = await this.nevermined.keeper.templates.nft721SalesTemplate.getAgreementData(
-            agreementId
+        const template = this.nevermined.keeper.templates.nft721SalesTemplate
+        const { accessConsumer } = await template.getAgreementData(agreementId)
+        const { agreementIdSeed, creator } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const instance = await template.instanceFromDDO(
+            agreementIdSeed,
+            ddo,
+            creator,
+            template.params(accessConsumer)
         )
 
-        const payment = findServiceConditionByName(salesService, 'lockPayment')
-        if (!payment) throw new KeeperError('Payment condition not found!')
-
-        const lockPaymentConditionId = await lockPaymentCondition.generateId(
-            agreementId,
-            await lockPaymentCondition.hashValues(
-                ddo.shortId(),
-                escrowPaymentCondition.getAddress(),
-                payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-                amounts,
-                receivers
-            )
-        )
-
-        const transfer = findServiceConditionByName(salesService, 'transferNFT')
-        if (!transfer) throw new KeeperError('TransferNFT condition not found!')
-
-        const transferNftConditionId = await transferNft721Condition.generateId(
-            agreementId,
-            await transferNft721Condition.hashValues(
-                ddo.shortId(),
-                publisher.getId(),
-                accessConsumer,
-                lockPaymentConditionId,
-                transfer.parameters.find(p => p.name === '_contract').value as string
-            )
-        )
-
-        const escrow = findServiceConditionByName(salesService, 'escrowPayment')
-        if (!escrow) throw new KeeperError('Escrow condition not found!')
-
-        const receipt = await escrowPaymentCondition.fulfill(
-            agreementId,
-            ddo.shortId(),
-            amounts,
-            receivers,
-            returnAddress,
-            escrowPaymentCondition.getAddress(),
-            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
-            lockPaymentConditionId,
-            transferNftConditionId,
-            from || publisher,
-            txParams
-        )
+        const { escrowPaymentCondition } = this.nevermined.keeper.conditions
+        const receipt = await escrowPaymentCondition.fulfillInstance(instance.instances[2] as any, {}, from || publisher, txParams)
 
         if (!receipt.events.Fulfilled) {
-            throw new KeeperError(`Failed to fulfill escrowPaymentCondition ${receipt}`)
+            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
         }
 
         return !!receipt.events.Fulfilled
