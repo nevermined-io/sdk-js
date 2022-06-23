@@ -123,11 +123,10 @@ export default class ContractHandler extends Instantiable {
 
         const _address = address ? address : artifact.address
         this.logger.debug(`Loading from address ${_address}`)
-        const code = await this.web3.eth.getCode(_address)
-        if (code === '0x0') {
-            // no code in the blockchain dude
-            throw new Error(`No code deployed at address ${_address}, sorry.`)
-        }
+
+        // check if address is really a contract
+        await this.checkExists(_address)
+
         const contract = new this.web3.eth.Contract(artifact.abi, _address)
 
         this.logger.debug(

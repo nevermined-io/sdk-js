@@ -30,7 +30,12 @@ export function generateIntantiableConfigFromConfig(
 }
 
 export abstract class Instantiable {
-    protected static networkId: number
+    protected  static network: {
+        id?: number
+        loading: boolean
+    } = {
+        loading: true
+    }
 
     protected get nevermined() {
         if (!this._nevermined) {
@@ -44,11 +49,32 @@ export abstract class Instantiable {
      * @return {Promise<number>} Network ID.
      */
     public async getNetworkId(): Promise<number> {
-        if(!Instantiable.networkId) {
-            Instantiable.networkId = await this.web3.eth.net.getId()
+        if (Instantiable.network.loading) {
+            Instantiable.network.loading = false;
+            Instantiable.network.id = await this.web3.eth.net.getId()
         }
 
-        return Instantiable.networkId
+        while (!Instantiable.network.id) {
+            // give some time to catch up and not hammer the loop
+            await new Promise((resolve) => setTimeout(resolve, 1))
+        }
+
+        return Instantiable.network.id
+    }
+
+    /**
+     * Returns true of contract exists else it throws.
+     * @return {Promise<boolean>} Contract exists.
+     */
+    protected async checkExists(address: string): Promise<boolean> {
+        const code = await this.web3.eth.getStorageAt(address, 0);
+        if (code === '0x0000000000000000000000000000000000000000000000000000000000000000'
+        ) {
+            // no code in the blockchain dude
+            throw new Error(`No contract deployed at address ${address}, sorry.`);
+        }
+
+        return true;
     }
 
     protected get web3() {
