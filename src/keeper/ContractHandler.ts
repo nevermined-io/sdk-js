@@ -54,8 +54,8 @@ export default class ContractHandler extends Instantiable {
         address?: string,
         artifactsFolder?: string
     ): Promise<Contract> {
-        const networkId = await this.getNetworkId()
-        const where = (await KeeperUtils.getNetworkName(networkId)).toLowerCase()
+        const networkId = await this.nevermined.keeper.getNetworkId()
+        const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         try {
             this.logger.debug(`ContractHandler :: GET :: ${artifactsFolder}`)
             return (
@@ -73,8 +73,7 @@ export default class ContractHandler extends Instantiable {
         contractName: string,
         artifactsFolder?: string
     ): Promise<string> {
-        const networkId = await this.getNetworkId()
-        const where = (await KeeperUtils.getNetworkName(networkId)).toLowerCase()
+        const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         let artifact
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)

@@ -30,36 +30,11 @@ export function generateIntantiableConfigFromConfig(
 }
 
 export abstract class Instantiable {
-    protected  static network: {
-        id?: number
-        loading: boolean
-    } = {
-        loading: true
-    }
-
     protected get nevermined() {
-        if (!this._nevermined) {
+        if (!this._instantiableConfig.nevermined) {
             this.logger.error('Nevermined instance is not defined.')
         }
-        return this._nevermined
-    }
-
-    /**
-     * Returns network id.
-     * @return {Promise<number>} Network ID.
-     */
-    public async getNetworkId(): Promise<number> {
-        if (Instantiable.network.loading) {
-            Instantiable.network.loading = false;
-            Instantiable.network.id = await this.web3.eth.net.getId()
-        }
-
-        while (!Instantiable.network.id) {
-            // give some time to catch up and not hammer the loop
-            await new Promise((resolve) => setTimeout(resolve, 1))
-        }
-
-        return Instantiable.network.id
+        return this._instantiableConfig.nevermined
     }
 
     /**
@@ -78,34 +53,39 @@ export abstract class Instantiable {
     }
 
     protected get web3() {
-        if (!this._web3) {
+        if (!this._instantiableConfig.web3) {
             this.logger.error('Web3 instance is not defined.')
             this.logger.error('Using default instance.')
-            Instantiable.network.id = undefined
-            Instantiable.network.loading = true
             return Web3Provider.getWeb3()
         }
-        return this._web3
+        return this._instantiableConfig.web3
+    }
+
+    protected get instantiableConfig() {
+        if (!this._instantiableConfig) {
+            this.logger.error('Config instance is not defined.')
+        }
+        return this._instantiableConfig
     }
 
     protected get config() {
-        if (!this._config) {
+        if (!this._instantiableConfig.config) {
             this.logger.error('Config instance is not defined.')
         }
-        return this._config
+        return this._instantiableConfig.config
     }
 
     protected get logger() {
-        if (!this._logger) {
+        if (!this._instantiableConfig.logger) {
             LoggerInstance.error('Logger instance is not defined.')
             LoggerInstance.error('Using default instance.')
             return LoggerInstance
         }
-        return this._logger
+        return this._instantiableConfig.logger
     }
 
     protected get artifactsFolder() {
-        return this._artifactsFolder
+        return this._instantiableConfig.artifactsFolder
     }
 
     protected get instanceConfig(): InstantiableConfig {
@@ -122,27 +102,12 @@ export abstract class Instantiable {
 
     protected static setInstanceConfig<T extends Instantiable>(
         instance: T,
-        { nevermined, config, web3, logger, artifactsFolder }: InstantiableConfig
+        instantiableConfig: InstantiableConfig
     ) {
-        instance._nevermined = nevermined
-        instance._config = config
-        instance._web3 = web3
-        instance._logger = logger
-        instance._artifactsFolder = artifactsFolder
-
-        Instantiable.network.id = undefined
-        Instantiable.network.loading = true
+        instance._instantiableConfig = instantiableConfig
     }
 
-    private _nevermined: Nevermined
-
-    private _web3: Web3
-
-    private _config: Config
-
-    private _logger: Logger
-
-    private _artifactsFolder: string
+    private _instantiableConfig: InstantiableConfig
 
     protected setInstanceConfig(config: InstantiableConfig) {
         Instantiable.setInstanceConfig(this, config)

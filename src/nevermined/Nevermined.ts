@@ -49,6 +49,7 @@ export class Nevermined extends Instantiable {
         instance.setInstanceConfig(instanceConfig)
 
         instance.keeper = await Keeper.getInstance(instanceConfig)
+        await instance.keeper.init();
 
         instance.gateway = new Gateway(instanceConfig)
         instance.marketplace = new MarketplaceApi(instanceConfig)

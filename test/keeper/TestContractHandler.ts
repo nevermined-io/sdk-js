@@ -15,13 +15,14 @@ export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts() {
         TestContractHandler.setConfig(config)
         const [deployerAddress] = await TestContractHandler.web3.eth.getAccounts()
-        TestContractHandler.network.id = await TestContractHandler.web3.eth.net.getId()
+        TestContractHandler.networkId = await TestContractHandler.web3.eth.net.getId()
         TestContractHandler.minter = await TestContractHandler.web3.utils.toHex('minter')
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
     }
 
     private static minter: string
+    private static networkId: number
     private static config = config
     private static web3 = Web3Provider.getWeb3(config)
 
@@ -337,7 +338,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         tokens: { [name: string]: string } = {},
         init = true
     ): Promise<ContractTest> {
-        const where = TestContractHandler.network.id
+        const where = TestContractHandler.networkId
 
         // dont redeploy if there is already something loaded
         if (TestContractHandler.hasContract(name, where)) {
@@ -350,7 +351,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         let contractInstance: ContractTest
         try {
             const networkName = (
-                await KeeperUtils.getNetworkName(TestContractHandler.network.id)
+                await KeeperUtils.getNetworkName(TestContractHandler.networkId)
             ).toLowerCase()
             Logger.log('Deploying', name)
             const artifact = require(`@nevermined-io/contracts/artifacts/${name}.${networkName}.json`)
