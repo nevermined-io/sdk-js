@@ -40,7 +40,7 @@ export class ContractEvent extends NeverminedEvent {
 
     public async getPastEvents(options: EventOptions): EventResult {
         try {
-            const chainId = await this.getNetworkId()
+            const chainId = await this.nevermined.keeper.getNetworkId()
             options.fromBlock = 0
             options.toBlock = 'latest'
 

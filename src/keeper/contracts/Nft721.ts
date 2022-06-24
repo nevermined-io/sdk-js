@@ -12,11 +12,7 @@ export default class Nft721 extends ContractBase {
         const nft: Nft721 = new Nft721('NFT721')
         nft.setInstanceConfig(config)
 
-        const code = await nft.web3.eth.getCode(address)
-        if (code === '0x0') {
-            // no code in the blockchain dude
-            throw new Error(`No code deployed at address ${address}, sorry.`)
-        }
+        await nft.checkExists(address)
 
         // @ts-ignore
         nft.contract = new nft.web3.eth.Contract(abi, address)

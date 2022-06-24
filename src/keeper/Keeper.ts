@@ -70,82 +70,107 @@ export class Keeper extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Keeper> {
         const keeper = new Keeper()
         keeper.setInstanceConfig(config)
+        return keeper
+    }
 
+    public async init() {
         // Adding keeper inside to prevent `Keeper not defined yet` error
         // config.nevermined.keeper = keeper
-        keeper.instances = {}
+        this.instances = {}
         try {
-            keeper.instances = await objectPromiseAll({
+            this.instances = await objectPromiseAll({
                 // Main contracts
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
                 nftUpgradeable: undefined, // Optional
-                didRegistry: DIDRegistry.getInstance(config),
+                didRegistry: DIDRegistry.getInstance(this.instanceConfig),
                 // Managers
-                templateStoreManager: TemplateStoreManager.getInstance(config),
-                agreementStoreManager: AgreementStoreManager.getInstance(config),
-                conditionStoreManager: ConditionStoreManager.getInstance(config),
-                // Conditions
-                lockPaymentCondition: LockPaymentCondition.getInstance(config),
-                escrowPaymentCondition: EscrowPaymentCondition.getInstance(config),
-                accessCondition: AccessCondition.getInstance(config),
-                accessProofCondition: AccessProofCondition.getInstance(config),
-                computeExecutionCondition: ComputeExecutionCondition.getInstance(config),
-                nftHolderCondition: NFTHolderCondition.getInstance(config),
-                nft721HolderCondition: NFT721HolderCondition.getInstance(config),
-                nftLockCondition: NFTLockCondition.getInstance(config),
-                nftAccessCondition: NFTAccessCondition.getInstance(config),
-                transferNftCondition: TransferNFTCondition.getInstance(config),
-                transferNft721Condition: TransferNFT721Condition.getInstance(config),
-                transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
-                    config
+                templateStoreManager: TemplateStoreManager.getInstance(
+                    this.instanceConfig
                 ),
-                aaveBorrowCondition: AaveBorrowCondition.getInstance(config),
+                agreementStoreManager: AgreementStoreManager.getInstance(
+                    this.instanceConfig
+                ),
+                conditionStoreManager: ConditionStoreManager.getInstance(
+                    this.instanceConfig
+                ),
+                // Conditions
+                lockPaymentCondition: LockPaymentCondition.getInstance(
+                    this.instanceConfig
+                ),
+                escrowPaymentCondition: EscrowPaymentCondition.getInstance(
+                    this.instanceConfig
+                ),
+                accessCondition: AccessCondition.getInstance(this.instanceConfig),
+                accessProofCondition: AccessProofCondition.getInstance(
+                    this.instanceConfig
+                ),
+                computeExecutionCondition: ComputeExecutionCondition.getInstance(
+                    this.instanceConfig
+                ),
+                nftHolderCondition: NFTHolderCondition.getInstance(this.instanceConfig),
+                nft721HolderCondition: NFT721HolderCondition.getInstance(
+                    this.instanceConfig
+                ),
+                nftLockCondition: NFTLockCondition.getInstance(this.instanceConfig),
+                nftAccessCondition: NFTAccessCondition.getInstance(this.instanceConfig),
+                transferNftCondition: TransferNFTCondition.getInstance(
+                    this.instanceConfig
+                ),
+                transferNft721Condition: TransferNFT721Condition.getInstance(
+                    this.instanceConfig
+                ),
+                transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
+                    this.instanceConfig
+                ),
+                aaveBorrowCondition: AaveBorrowCondition.getInstance(this.instanceConfig),
                 aaveCollateralDepositCondition: AaveCollateralDepositCondition.getInstance(
-                    config
+                    this.instanceConfig
                 ),
                 aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition.getInstance(
-                    config
+                    this.instanceConfig
                 ),
-                aaveRepayCondition: AaveRepayCondition.getInstance(config),
-                nft721LockCondition: NFT721LockCondition.getInstance(config),
+                aaveRepayCondition: AaveRepayCondition.getInstance(this.instanceConfig),
+                nft721LockCondition: NFT721LockCondition.getInstance(this.instanceConfig),
                 distributeNftCollateralCondition: DistributeNFTCollateralCondition.getInstance(
-                    config
+                    this.instanceConfig
                 ),
                 // Templates
-                accessTemplate: AccessTemplate.getInstance(config),
-                accessProofTemplate: AccessProofTemplate.getInstance(config),
+                accessTemplate: AccessTemplate.getInstance(this.instanceConfig),
+                accessProofTemplate: AccessProofTemplate.getInstance(this.instanceConfig),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
-                    config
+                    this.instanceConfig
                 ),
-                nftAccessTemplate: NFTAccessTemplate.getInstance(config),
-                nft721AccessTemplate: NFT721AccessTemplate.getInstance(config),
-                didSalesTemplate: DIDSalesTemplate.getInstance(config),
-                nftSalesTemplate: NFTSalesTemplate.getInstance(config),
-                nft721SalesTemplate: NFT721SalesTemplate.getInstance(config),
-                aaveCreditTemplate: AaveCreditTemplate.getInstance(config), // optional
-                standardRoyalties: StandardRoyalties.getInstance(config), // optional
-                curveRoyalties: CurveRoyalties.getInstance(config), // optional
-                rewardsDistributor: RewardsDistributor.getInstance(config)
+                nftAccessTemplate: NFTAccessTemplate.getInstance(this.instanceConfig),
+                nft721AccessTemplate: NFT721AccessTemplate.getInstance(
+                    this.instanceConfig
+                ),
+                didSalesTemplate: DIDSalesTemplate.getInstance(this.instanceConfig),
+                nftSalesTemplate: NFTSalesTemplate.getInstance(this.instanceConfig),
+                nft721SalesTemplate: NFT721SalesTemplate.getInstance(this.instanceConfig),
+                aaveCreditTemplate: AaveCreditTemplate.getInstance(this.instanceConfig), // optional
+                standardRoyalties: StandardRoyalties.getInstance(this.instanceConfig), // optional
+                curveRoyalties: CurveRoyalties.getInstance(this.instanceConfig), // optional
+                rewardsDistributor: RewardsDistributor.getInstance(this.instanceConfig)
             })
 
-            keeper.royalties = {
-                standard: keeper.instances.standardRoyalties,
-                curve: keeper.instances.curveRoyalties
+            this.royalties = {
+                standard: this.instances.standardRoyalties,
+                curve: this.instances.curveRoyalties
             }
 
-            keeper.rewardsDistributor = keeper.instances.rewardsDistributor
+            this.rewardsDistributor = this.instances.rewardsDistributor
 
             const templates = [
-                keeper.instances.accessTemplate,
-                keeper.instances.accessProofTemplate,
-                keeper.instances.escrowComputeExecutionTemplate,
-                keeper.instances.nftAccessTemplate,
-                keeper.instances.nft721AccessTemplate,
-                keeper.instances.didSalesTemplate,
-                keeper.instances.nftSalesTemplate,
-                keeper.instances.nft721SalesTemplate,
-                keeper.instances.aaveCreditTemplate
+                this.instances.accessTemplate,
+                this.instances.accessProofTemplate,
+                this.instances.escrowComputeExecutionTemplate,
+                this.instances.nftAccessTemplate,
+                this.instances.nft721AccessTemplate,
+                this.instances.didSalesTemplate,
+                this.instances.nftSalesTemplate,
+                this.instances.nft721SalesTemplate,
+                this.instances.aaveCreditTemplate
             ]
 
             const templateObj: any = {}
@@ -153,98 +178,99 @@ export class Keeper extends Instantiable {
                 templateObj[i.address] = i
             }
 
-            keeper.instances.agreementStoreManager.setTemplates(templateObj)
+            this.instances.agreementStoreManager.setTemplates(templateObj)
 
-            keeper.connected = true
+            this.connected = true
         } catch (err) {
-            keeper.connected = false
+            this.connected = false
             throw new KeeperError(
-                `Keeper could not connect to ${await keeper.getNetworkName()} - ${
+                `Keeper could not connect to ${await this.getNetworkName()} - ${
                     err.message
-                }`
+                } ${err.stack}`
             )
         }
 
         // Optionals
         try {
-            keeper.instances.dispenser = await Dispenser.getInstance(config)
+            this.instances.dispenser = await Dispenser.getInstance(
+                this.instantiableConfig
+            )
         } catch {
             throw new KeeperError('Dispenser not available on this network.')
         }
 
         try {
-            keeper.instances.token = await Token.getInstance(config)
+            this.instances.token = await Token.getInstance(this.instantiableConfig)
         } catch {
             throw new KeeperError('Token not available on this network.')
         }
 
         try {
-            keeper.instances.nftUpgradeable = await NFTUpgradeable.getInstance(config)
+            this.instances.nftUpgradeable = await NFTUpgradeable.getInstance(
+                this.instanceConfig
+            )
         } catch {
             throw new KeeperError('NFTUpgradeable not available on this network.')
         }
 
         try {
-            keeper.instances.aaveCreditTemplate = await AaveCreditTemplate.getInstance(
-                config
+            this.instances.aaveCreditTemplate = await AaveCreditTemplate.getInstance(
+                this.instantiableConfig
             )
         } catch {
             throw new KeeperError('AaveCreditTemplate not available on this network.')
         }
 
         // Main contracts
-        keeper.dispenser = keeper.instances.dispenser
-        keeper.token = keeper.instances.token
-        keeper.didRegistry = keeper.instances.didRegistry
-        keeper.nftUpgradeable = keeper.instances.nftUpgradeable
+        this.dispenser = this.instances.dispenser
+        this.token = this.instances.token
+        this.didRegistry = this.instances.didRegistry
+        this.nftUpgradeable = this.instances.nftUpgradeable
         // Managers
-        keeper.templateStoreManager = keeper.instances.templateStoreManager
-        keeper.agreementStoreManager = keeper.instances.agreementStoreManager
-        keeper.conditionStoreManager = keeper.instances.conditionStoreManager
+        this.templateStoreManager = this.instances.templateStoreManager
+        this.agreementStoreManager = this.instances.agreementStoreManager
+        this.conditionStoreManager = this.instances.conditionStoreManager
         // Conditions
-        keeper.conditions = {
-            lockPaymentCondition: keeper.instances.lockPaymentCondition,
-            escrowPaymentCondition: keeper.instances.escrowPaymentCondition,
-            accessCondition: keeper.instances.accessCondition,
-            accessProofCondition: keeper.instances.accessProofCondition,
-            computeExecutionCondition: keeper.instances.computeExecutionCondition,
-            nftHolderCondition: keeper.instances.nftHolderCondition,
-            nft721HolderCondition: keeper.instances.nft721HolderCondition,
-            nftLockCondition: keeper.instances.nftLockCondition,
-            nftAccessCondition: keeper.instances.nftAccessCondition,
-            transferNftCondition: keeper.instances.transferNftCondition,
-            transferNft721Condition: keeper.instances.transferNft721Condition,
-            transferDidOwnershipCondition: keeper.instances.transferDidOwnershipCondition,
-            aaveBorrowCondition: keeper.instances.aaveBorrowCondition,
-            aaveCollateralDepositCondition:
-                keeper.instances.aaveCollateralDepositCondition,
-            aaveCollateralWithdrawCondition:
-                keeper.instances.aaveCollateralWithdrawCondition,
-            aaveRepayCondition: keeper.instances.aaveRepayCondition,
-            nft721LockCondition: keeper.instances.nft721LockCondition,
-            distributeNftCollateralCondition:
-                keeper.instances.distributeNftCollateralCondition
+        this.conditions = {
+            lockPaymentCondition: this.instances.lockPaymentCondition,
+            escrowPaymentCondition: this.instances.escrowPaymentCondition,
+            accessCondition: this.instances.accessCondition,
+            accessProofCondition: this.instances.accessProofCondition,
+            computeExecutionCondition: this.instances.computeExecutionCondition,
+            nftHolderCondition: this.instances.nftHolderCondition,
+            nft721HolderCondition: this.instances.nft721HolderCondition,
+            nftLockCondition: this.instances.nftLockCondition,
+            nftAccessCondition: this.instances.nftAccessCondition,
+            transferNftCondition: this.instances.transferNftCondition,
+            transferNft721Condition: this.instances.transferNft721Condition,
+            transferDidOwnershipCondition: this.instances.transferDidOwnershipCondition,
+            aaveBorrowCondition: this.instances.aaveBorrowCondition,
+            aaveCollateralDepositCondition: this.instances.aaveCollateralDepositCondition,
+            aaveCollateralWithdrawCondition: this.instances
+                .aaveCollateralWithdrawCondition,
+            aaveRepayCondition: this.instances.aaveRepayCondition,
+            nft721LockCondition: this.instances.nft721LockCondition,
+            distributeNftCollateralCondition: this.instances
+                .distributeNftCollateralCondition
         }
         // Templates
-        keeper.templates = {
-            accessTemplate: keeper.instances.accessTemplate,
-            accessProofTemplate: keeper.instances.accessProofTemplate,
-            escrowComputeExecutionTemplate:
-                keeper.instances.escrowComputeExecutionTemplate,
-            didSalesTemplate: keeper.instances.didSalesTemplate,
-            nftAccessTemplate: keeper.instances.nftAccessTemplate,
-            nft721AccessTemplate: keeper.instances.nft721AccessTemplate,
-            nftSalesTemplate: keeper.instances.nftSalesTemplate,
-            nft721SalesTemplate: keeper.instances.nft721SalesTemplate,
-            aaveCreditTemplate: keeper.instances.aaveCreditTemplate
+        this.templates = {
+            accessTemplate: this.instances.accessTemplate,
+            accessProofTemplate: this.instances.accessProofTemplate,
+            escrowComputeExecutionTemplate: this.instances.escrowComputeExecutionTemplate,
+            didSalesTemplate: this.instances.didSalesTemplate,
+            nftAccessTemplate: this.instances.nftAccessTemplate,
+            nft721AccessTemplate: this.instances.nft721AccessTemplate,
+            nftSalesTemplate: this.instances.nftSalesTemplate,
+            nft721SalesTemplate: this.instances.nft721SalesTemplate,
+            aaveCreditTemplate: this.instances.aaveCreditTemplate
         }
         // Utils
-        keeper.utils = {
+        this.utils = {
             eventHandler: new EventHandler()
         }
         // version
-        keeper.version = keeper.didRegistry.version.replace('v', '')
-        return keeper
+        this.version = this.didRegistry.version.replace('v', '')
     }
 
     /**
@@ -353,6 +379,17 @@ export class Keeper extends Instantiable {
      */
     public version: string
 
+    /**
+     * Network id loaded from web3
+     * @protected
+     */
+    protected network: {
+        id?: number
+        loading: boolean
+    } = {
+        loading: true
+    }
+
     private instances: { [contractRef: string]: ContractBase & any }
 
     /**
@@ -404,8 +441,24 @@ export class Keeper extends Instantiable {
      * @return {Promise<string>} Network name.
      */
     public async getNetworkName(): Promise<string> {
-        const networkId = await this.getNetworkId()
-        return KeeperUtils.getNetworkName(networkId)
+        return KeeperUtils.getNetworkName(await this.getNetworkId())
+    }
+
+    /**
+     * Returns the id of the network.
+     * @return {Promise<number>} Network ID.
+     */
+    public async getNetworkId(): Promise<number> {
+        if (this.network.loading) {
+            this.network.loading = false
+            this.network.id = await this.web3.eth.net.getId()
+        }
+
+        while (!this.network.id) {
+            await new Promise(resolve => setTimeout(resolve, 1))
+        }
+
+        return this.network.id
     }
 
     public getAllInstances() {

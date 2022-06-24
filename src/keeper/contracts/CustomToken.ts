@@ -10,11 +10,7 @@ export default class CustomToken extends Token {
         const token: CustomToken = new Token('Custom-Token')
         token.setInstanceConfig(config)
 
-        const code = await token.web3.eth.getCode(address)
-        if (code === '0x0') {
-            // no code in the blockchain dude
-            throw new Error(`No code deployed at address ${address}, sorry.`)
-        }
+        await token.checkExists(address)
 
         // @ts-ignore
         token.contract = new token.web3.eth.Contract(abi, address)
