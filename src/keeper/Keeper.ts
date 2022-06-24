@@ -85,21 +85,41 @@ export class Keeper extends Instantiable {
                 nftUpgradeable: undefined, // Optional
                 didRegistry: DIDRegistry.getInstance(this.instanceConfig),
                 // Managers
-                templateStoreManager: TemplateStoreManager.getInstance(this.instanceConfig),
-                agreementStoreManager: AgreementStoreManager.getInstance(this.instanceConfig),
-                conditionStoreManager: ConditionStoreManager.getInstance(this.instanceConfig),
+                templateStoreManager: TemplateStoreManager.getInstance(
+                    this.instanceConfig
+                ),
+                agreementStoreManager: AgreementStoreManager.getInstance(
+                    this.instanceConfig
+                ),
+                conditionStoreManager: ConditionStoreManager.getInstance(
+                    this.instanceConfig
+                ),
                 // Conditions
-                lockPaymentCondition: LockPaymentCondition.getInstance(this.instanceConfig),
-                escrowPaymentCondition: EscrowPaymentCondition.getInstance(this.instanceConfig),
+                lockPaymentCondition: LockPaymentCondition.getInstance(
+                    this.instanceConfig
+                ),
+                escrowPaymentCondition: EscrowPaymentCondition.getInstance(
+                    this.instanceConfig
+                ),
                 accessCondition: AccessCondition.getInstance(this.instanceConfig),
-                accessProofCondition: AccessProofCondition.getInstance(this.instanceConfig),
-                computeExecutionCondition: ComputeExecutionCondition.getInstance(this.instanceConfig),
+                accessProofCondition: AccessProofCondition.getInstance(
+                    this.instanceConfig
+                ),
+                computeExecutionCondition: ComputeExecutionCondition.getInstance(
+                    this.instanceConfig
+                ),
                 nftHolderCondition: NFTHolderCondition.getInstance(this.instanceConfig),
-                nft721HolderCondition: NFT721HolderCondition.getInstance(this.instanceConfig),
+                nft721HolderCondition: NFT721HolderCondition.getInstance(
+                    this.instanceConfig
+                ),
                 nftLockCondition: NFTLockCondition.getInstance(this.instanceConfig),
                 nftAccessCondition: NFTAccessCondition.getInstance(this.instanceConfig),
-                transferNftCondition: TransferNFTCondition.getInstance(this.instanceConfig),
-                transferNft721Condition: TransferNFT721Condition.getInstance(this.instanceConfig),
+                transferNftCondition: TransferNFTCondition.getInstance(
+                    this.instanceConfig
+                ),
+                transferNft721Condition: TransferNFT721Condition.getInstance(
+                    this.instanceConfig
+                ),
                 transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
                     this.instanceConfig
                 ),
@@ -122,7 +142,9 @@ export class Keeper extends Instantiable {
                     this.instanceConfig
                 ),
                 nftAccessTemplate: NFTAccessTemplate.getInstance(this.instanceConfig),
-                nft721AccessTemplate: NFT721AccessTemplate.getInstance(this.instanceConfig),
+                nft721AccessTemplate: NFT721AccessTemplate.getInstance(
+                    this.instanceConfig
+                ),
                 didSalesTemplate: DIDSalesTemplate.getInstance(this.instanceConfig),
                 nftSalesTemplate: NFTSalesTemplate.getInstance(this.instanceConfig),
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(this.instanceConfig),
@@ -170,7 +192,9 @@ export class Keeper extends Instantiable {
 
         // Optionals
         try {
-            this.instances.dispenser = await Dispenser.getInstance(this.instantiableConfig)
+            this.instances.dispenser = await Dispenser.getInstance(
+                this.instantiableConfig
+            )
         } catch {
             throw new KeeperError('Dispenser not available on this network.')
         }
@@ -182,7 +206,9 @@ export class Keeper extends Instantiable {
         }
 
         try {
-            this.instances.nftUpgradeable = await NFTUpgradeable.getInstance(this.instanceConfig)
+            this.instances.nftUpgradeable = await NFTUpgradeable.getInstance(
+                this.instanceConfig
+            )
         } catch {
             throw new KeeperError('NFTUpgradeable not available on this network.')
         }
@@ -219,21 +245,19 @@ export class Keeper extends Instantiable {
             transferNft721Condition: this.instances.transferNft721Condition,
             transferDidOwnershipCondition: this.instances.transferDidOwnershipCondition,
             aaveBorrowCondition: this.instances.aaveBorrowCondition,
-            aaveCollateralDepositCondition:
-            this.instances.aaveCollateralDepositCondition,
-            aaveCollateralWithdrawCondition:
-            this.instances.aaveCollateralWithdrawCondition,
+            aaveCollateralDepositCondition: this.instances.aaveCollateralDepositCondition,
+            aaveCollateralWithdrawCondition: this.instances
+                .aaveCollateralWithdrawCondition,
             aaveRepayCondition: this.instances.aaveRepayCondition,
             nft721LockCondition: this.instances.nft721LockCondition,
-            distributeNftCollateralCondition:
-            this.instances.distributeNftCollateralCondition
+            distributeNftCollateralCondition: this.instances
+                .distributeNftCollateralCondition
         }
         // Templates
         this.templates = {
             accessTemplate: this.instances.accessTemplate,
             accessProofTemplate: this.instances.accessProofTemplate,
-            escrowComputeExecutionTemplate:
-            this.instances.escrowComputeExecutionTemplate,
+            escrowComputeExecutionTemplate: this.instances.escrowComputeExecutionTemplate,
             didSalesTemplate: this.instances.didSalesTemplate,
             nftAccessTemplate: this.instances.nftAccessTemplate,
             nft721AccessTemplate: this.instances.nft721AccessTemplate,
@@ -430,7 +454,7 @@ export class Keeper extends Instantiable {
             this.network.id = await this.web3.eth.net.getId()
         }
 
-        while(!this.network.id) {
+        while (!this.network.id) {
             await new Promise(resolve => setTimeout(resolve, 1))
         }
 

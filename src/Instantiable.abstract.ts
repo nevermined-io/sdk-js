@@ -42,14 +42,15 @@ export abstract class Instantiable {
      * @return {Promise<boolean>} Contract exists.
      */
     protected async checkExists(address: string): Promise<boolean> {
-        const code = await this.web3.eth.getStorageAt(address, 0);
-        if (code === '0x0000000000000000000000000000000000000000000000000000000000000000'
+        const code = await this.web3.eth.getStorageAt(address, 0)
+        if (
+            code === '0x0000000000000000000000000000000000000000000000000000000000000000'
         ) {
             // no code in the blockchain dude
-            throw new Error(`No contract deployed at address ${address}, sorry.`);
+            throw new Error(`No contract deployed at address ${address}, sorry.`)
         }
 
-        return true;
+        return true
     }
 
     protected get web3() {

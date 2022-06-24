@@ -36,8 +36,8 @@ describe('Artifacts', () => {
         writeFileSync(path, buffer)
     }
 
-    for(const test of tests) {
-        const { nodeUri, networkId, networkName, versions, tag } = test;
+    for (const test of tests) {
+        const { nodeUri, networkId, networkName, versions, tag } = test
 
         it(`Should get the correct artifacts for ${networkName}-${versions} with tag ${tag}`, async () => {
             const tempDir = mkdtempSync('/tmp/artifacts_')
