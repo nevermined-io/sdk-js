@@ -31,7 +31,7 @@ export function generateIntantiableConfigFromConfig(
 
 export abstract class Instantiable {
     protected get nevermined() {
-        if (!this._instantiableConfig.nevermined) {
+        if (!this._instantiableConfig?.nevermined) {
             this.logger.error('Nevermined instance is not defined.')
         }
         return this._instantiableConfig.nevermined
@@ -53,7 +53,7 @@ export abstract class Instantiable {
     }
 
     protected get web3() {
-        if (!this._instantiableConfig.web3) {
+        if (!this._instantiableConfig?.web3) {
             this.logger.error('Web3 instance is not defined.')
             this.logger.error('Using default instance.')
             return Web3Provider.getWeb3()
@@ -63,20 +63,20 @@ export abstract class Instantiable {
 
     protected get instantiableConfig() {
         if (!this._instantiableConfig) {
-            this.logger.error('Config instance is not defined.')
+            this.logger.error('InstantiableConfig instance is not defined.')
         }
         return this._instantiableConfig
     }
 
     protected get config() {
-        if (!this._instantiableConfig.config) {
+        if (!this._instantiableConfig?.config) {
             this.logger.error('Config instance is not defined.')
         }
         return this._instantiableConfig.config
     }
 
     protected get logger() {
-        if (!this._instantiableConfig.logger) {
+        if (!this._instantiableConfig?.logger) {
             LoggerInstance.error('Logger instance is not defined.')
             LoggerInstance.error('Using default instance.')
             return LoggerInstance
@@ -85,7 +85,7 @@ export abstract class Instantiable {
     }
 
     protected get artifactsFolder() {
-        return this._instantiableConfig.artifactsFolder
+        return this._instantiableConfig?.artifactsFolder
     }
 
     protected get instanceConfig(): InstantiableConfig {
@@ -107,7 +107,7 @@ export abstract class Instantiable {
         instance._instantiableConfig = instantiableConfig
     }
 
-    private _instantiableConfig: InstantiableConfig
+    private _instantiableConfig?: InstantiableConfig
 
     protected setInstanceConfig(config: InstantiableConfig) {
         Instantiable.setInstanceConfig(this, config)
