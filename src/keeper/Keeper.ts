@@ -196,13 +196,13 @@ export class Keeper extends Instantiable {
                 this.instantiableConfig
             )
         } catch {
-            throw new KeeperError('Dispenser not available on this network.')
+            this.logger.debug('Dispenser not available on this network.')
         }
 
         try {
             this.instances.token = await Token.getInstance(this.instantiableConfig)
         } catch {
-            throw new KeeperError('Token not available on this network.')
+            this.logger.debug('Token not available on this network.')
         }
 
         try {
@@ -210,7 +210,7 @@ export class Keeper extends Instantiable {
                 this.instanceConfig
             )
         } catch {
-            throw new KeeperError('NFTUpgradeable not available on this network.')
+            this.logger.debug('NFTUpgradeable not available on this network.')
         }
 
         try {
@@ -218,7 +218,7 @@ export class Keeper extends Instantiable {
                 this.instantiableConfig
             )
         } catch {
-            throw new KeeperError('AaveCreditTemplate not available on this network.')
+            this.logger.debug('AaveCreditTemplate not available on this network.')
         }
 
         // Main contracts
@@ -387,8 +387,8 @@ export class Keeper extends Instantiable {
         id?: number
         loading: boolean
     } = {
-        loading: true
-    }
+            loading: true
+        }
 
     private instances: { [contractRef: string]: ContractBase & any }
 
