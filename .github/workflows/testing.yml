@@ -88,7 +88,7 @@ jobs:
           export KEEPER_VERSION=v2.0.0
           export GATEWAY_VERSION=latest
           export MARKETPLACE_API_VERSION=latest
-          yarn ganache -d -p 18545 -m 'taxi music thumb unique chat sand crew more leg another off lamp' -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://kovan.infura.io/v3/${{ secrets.INFURA_TOKEN }}@28000000
+          yarn ganache -p 18545 -m 'taxi music thumb unique chat sand crew more leg another off lamp' -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://kovan.infura.io/v3/${{ secrets.INFURA_TOKEN }}@28000000 > ganache-cli.log &
           ./start_nevermined.sh --marketplace-api --no-marketplace --no-faucet --no-graph 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined-external.sh
