@@ -9,6 +9,9 @@ describe('SubgraphEvent', () => {
     let executeTransaction: () => Promise<any>
 
     before(async () => {
+        config.graphHttpUri =
+            config.graphHttpUri ||
+            'http://localhost:9000/subgraphs/name/nevermined-io/development'
         nevermined = await Nevermined.getInstance(config)
             ;[account] = await nevermined.accounts.list()
 
