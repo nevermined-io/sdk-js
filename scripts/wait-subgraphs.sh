@@ -1,6 +1,3 @@
-set -u
-set -e
-
 NETWORK=$1
 
 RETRY_COUNT=0
