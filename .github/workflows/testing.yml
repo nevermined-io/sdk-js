@@ -64,6 +64,7 @@ jobs:
           path: tools/nevermined_tools.txt
 
   aave-integration:
+    if: ${{ false }}  # See https://github.com/nevermined-io/internal/issues/230
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
