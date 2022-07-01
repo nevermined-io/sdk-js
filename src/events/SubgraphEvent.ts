@@ -13,14 +13,17 @@ import { GraphError } from '../errors'
 export class SubgraphEvent extends NeverminedEvent {
     private graphHttpUri: string
     public subgraph
+    private networkName: string
     public static getInstance(
         contract: ContractBase,
         eventEmitter: EventEmitter,
-        graphHttpUri: string
+        graphHttpUri: string,
+        networkName: string
     ): SubgraphEvent {
         const instance = new SubgraphEvent(contract, eventEmitter)
         instance.graphHttpUri = graphHttpUri
         instance.subgraph = subgraphs[contract.contractName]
+        instance.networkName = networkName.toLowerCase()
 
         return instance
     }
@@ -37,7 +40,7 @@ export class SubgraphEvent extends NeverminedEvent {
             )
         }
         return this.subgraph[options.methodName](
-            `${this.graphHttpUri}/${this.contract.contractName}`,
+            await this.subgraphUrl(),
             options.filterSubgraph,
             options.result
         )
@@ -48,12 +51,15 @@ export class SubgraphEvent extends NeverminedEvent {
     }
 
     public async getBlockNumber(): Promise<number> {
-        const result = await axios.post(
-            `${this.graphHttpUri}/${this.contract.contractName}`,
-            {
-                query: generateGql('_meta', {}, { block: { number: true } })
-            }
-        )
+        const result = await axios.post(await this.subgraphUrl(), {
+            query: generateGql('_meta', {}, { block: { number: true } })
+        })
         return result.data.data._meta.block.number
+    }
+
+    private async subgraphUrl(): Promise<string> {
+        const version = this.contract.version.replace(/\./g, '')
+        const contractName = this.contract.contractName.toLowerCase()
+        return `${this.graphHttpUri}${this.networkName}${version}${contractName}`
     }
 }
