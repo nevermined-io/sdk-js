@@ -73,7 +73,8 @@ export abstract class ContractBase extends Instantiable {
             this.events = SubgraphEvent.getInstance(
                 this,
                 eventEmitter,
-                this.config.graphHttpUri
+                this.config.graphHttpUri,
+                await this.nevermined.keeper.getNetworkName()
             )
         } else {
             this.events = ContractEvent.getInstance(
@@ -207,7 +208,7 @@ export abstract class ContractBase extends Instantiable {
                 } catch (err) {
                     // TODO: https://github.com/nevermined-io/sdk-js/issues/265
                     // If the error is because of no support for eip-1559, just continue
-                    const chainId = await this.getNetworkId()
+                    const chainId = await this.nevermined.keeper.getNetworkId()
                     // no eip-1559 support
                     if (![42220, 44787, 80001, 8997, 137].includes(chainId)) {
                         throw new KeeperError(err)
@@ -216,7 +217,7 @@ export abstract class ContractBase extends Instantiable {
             }
 
             // Something weird with celo eip-1559 implementation (mainnet, alfajores)
-            const chainId = await this.getNetworkId()
+            const chainId = await this.nevermined.keeper.getNetworkId()
             if (chainId == 44787 || chainId == 42220) {
                 console.log('Calling Celo...')
                 txparams = {

@@ -33,6 +33,22 @@ export class Accounts extends Instantiable {
     }
 
     /**
+     * Returns the list of accounts including the addresses not controlled by the node,
+     * only can be used by providers like metamask, Status or Trustwallet but not by default
+     * provider
+     * @return {Promise<Account[]>}
+     */
+    public async requestList(): Promise<Account[]> {
+        // retrieve eth accounts
+        const ethAccounts: string[] = await this.web3.eth.requestAccounts()
+
+        const accountPromises = ethAccounts.map(
+            address => new Account(address, this.instanceConfig)
+        )
+        return Promise.all(accountPromises)
+    }
+
+    /**
      * Return account balance.
      * @param  {Account}          account Account instance.
      * @return {Promise<Balance>}         Ether and Nevermined Token balance.

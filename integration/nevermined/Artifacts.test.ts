@@ -22,6 +22,13 @@ describe('Artifacts', () => {
             tag: 'common'
         },
         {
+            nodeUri: 'https://polygon-rpc.com',
+            networkName: ['matic'],
+            networkId: [137],
+            versions: ['v2.0.0'],
+            tag: 'common'
+        },
+        {
             nodeUri: 'https://alfajores-forno.celo-testnet.org',
             networkName: ['celo-alfajores'],
             networkId: [44787],
@@ -36,7 +43,9 @@ describe('Artifacts', () => {
         writeFileSync(path, buffer)
     }
 
-    tests.forEach(({ nodeUri, networkId, networkName, versions, tag }) => {
+    for (const test of tests) {
+        const { nodeUri, networkId, networkName, versions, tag } = test
+
         it(`Should get the correct artifacts for ${networkName}-${versions} with tag ${tag}`, async () => {
             const tempDir = mkdtempSync('/tmp/artifacts_')
 
@@ -55,15 +64,16 @@ describe('Artifacts', () => {
             // console.log(`Awake`)
 
             const nvm = await Nevermined.getInstance({
-                nodeUri: nodeUri,
+                nodeUri,
                 artifactsFolder: tempDir
             } as Config)
 
+            assert.equal(networkId[0], await nvm.keeper.getNetworkId())
             assert.isDefined(nvm)
             assert.isDefined(nvm.keeper)
             assert.isDefined(nvm.keeper.didRegistry)
             assert.oneOf((await nvm.keeper.getNetworkName()).toLowerCase(), networkName)
             assert.oneOf(await nvm.keeper.getNetworkId(), networkId)
         })
-    })
+    }
 })

@@ -54,8 +54,8 @@ export default class ContractHandler extends Instantiable {
         address?: string,
         artifactsFolder?: string
     ): Promise<Contract> {
-        const networkId = await this.getNetworkId()
-        const where = (await KeeperUtils.getNetworkName(networkId)).toLowerCase()
+        const networkId = await this.nevermined.keeper.getNetworkId()
+        const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         try {
             this.logger.debug(`ContractHandler :: GET :: ${artifactsFolder}`)
             return (
@@ -73,8 +73,7 @@ export default class ContractHandler extends Instantiable {
         contractName: string,
         artifactsFolder?: string
     ): Promise<string> {
-        const networkId = await this.getNetworkId()
-        const where = (await KeeperUtils.getNetworkName(networkId)).toLowerCase()
+        const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         let artifact
         if (artifactsFolder === undefined)
             artifact = require(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
@@ -123,11 +122,10 @@ export default class ContractHandler extends Instantiable {
 
         const _address = address ? address : artifact.address
         this.logger.debug(`Loading from address ${_address}`)
-        const code = await this.web3.eth.getCode(_address)
-        if (code === '0x0') {
-            // no code in the blockchain dude
-            throw new Error(`No code deployed at address ${_address}, sorry.`)
-        }
+
+        // check if address is really a contract
+        await this.checkExists(_address)
+
         const contract = new this.web3.eth.Contract(artifact.abi, _address)
 
         this.logger.debug(

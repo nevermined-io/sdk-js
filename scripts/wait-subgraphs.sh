@@ -1,8 +1,16 @@
+NETWORK=$1
+
 RETRY_COUNT=0
 HTTP_CODE=0
 GRAPH_NODE_URL=${GRAPH_NODE_URL:-http://localhost:9000}
-SUBGRAPH=WhitelistingCondition
-SUBGRAPH_URL=$GRAPH_NODE_URL/subgraphs/name/neverminedio/$SUBGRAPH
+
+# get contract version
+VERSION=$(jq ".version" node_modules/@nevermined-io/contracts/artifacts/DIDRegistry.$NETWORK.json)
+# remove dots and quotes
+VERSION=$(echo ${VERSION//./} | tr -d '"')
+
+SUBGRAPH=whitelistingcondition
+SUBGRAPH_URL=$GRAPH_NODE_URL/subgraphs/name/nevermined-io/development$NETWORK$VERSION$SUBGRAPH
 SUBGRAPH_CAN_QUERY=false
 
 COMMAND=(curl -g -X POST \

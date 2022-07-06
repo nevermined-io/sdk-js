@@ -103,6 +103,8 @@ describe('Consume Asset', () => {
     })
 
     it('should get the agreement conditions status not fulfilled', async () => {
+        // todo change this, a test should never dependent on the previous test because the order might change during runtime
+        await new Promise(resolve => setTimeout(resolve, 500))
         const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {
@@ -157,6 +159,8 @@ describe('Consume Asset', () => {
     })
 
     it('should get the agreement conditions status fulfilled', async () => {
+        // todo change this, a test should never dependent on the previous test because the order might change during runtime
+        await new Promise(resolve => setTimeout(resolve, 500))
         const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {
