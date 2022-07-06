@@ -61,19 +61,6 @@ export class Agreements extends Instantiable {
             consumer.getId(),
             accessTemplate.params(consumer)
         )
-        /*
-        const templateName = ddo.findServiceByType('access').attributes
-            .serviceAgreementTemplate.contractName
-
-        const agreementConditionsIds = await this.nevermined.keeper
-            .getTemplateByName(templateName)
-            .getAgreementIdsFromDDO(
-                agreementIdSeed,
-                ddo,
-                consumer.getId(),
-                {grantee: consumer.getId()}
-            )
-        */
 
         const signature = await this.nevermined.utils.agreements.signServiceAgreement(
             ddo,

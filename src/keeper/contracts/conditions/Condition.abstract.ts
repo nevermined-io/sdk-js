@@ -178,9 +178,6 @@ export abstract class Condition<
         params: ConditionParameters<Extra>
     ): Promise<ConditionInstance<Extra>> {
         const valueHash = await this.hashValuesPlain(...params.list)
-        // console.log("instance", zeroX(agreementId), await this.call<string>('generateId', [zeroX(agreementId), '0x4d32ef9ea71586fc311d701237ded3284968e6735280f6f95c1321b3e0e96bdc']))
-        // console.log("instance", zeroX(agreementId), await this.call<string>('generateId', [zeroX(agreementId), valueHash]))
-        // console.log("instance", zeroX(agreementId), params.list, await this.call<string>('generateId', [zeroX(agreementId), valueHash]))
         return {
             seed: valueHash,
             agreementId,

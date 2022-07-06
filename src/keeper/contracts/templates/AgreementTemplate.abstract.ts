@@ -105,13 +105,11 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         from?: Account,
         params?: TxParameters
     ) {
-        // console.log("creating agreement", conditionIds.map(zeroX), from.getId(), this.address)
         return this.sendFrom(
             'createAgreement',
             [
                 zeroX(agreementId),
                 didZeroX(did),
-                // conditionIds.map(a => '0x4d32ef9ea71586fc311d701237ded3284968e6735280f6f95c1321b3e0e96bdc'),
                 conditionIds.map(zeroX),
                 timeLocks,
                 timeOuts,
@@ -253,14 +251,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             from,
             params
         )
-
-        // check if agreement exists
-        /*
-        console.log("created agreement", agreementId, await this.nevermined.agreements.getAgreement(agreementId))
-
-        for (let x of instances) {
-            console.log("condition", x.id, await this.nevermined.keeper.conditionStoreManager.getCondition(x.id))
-        }*/
 
         return zeroX(agreementId)
     }

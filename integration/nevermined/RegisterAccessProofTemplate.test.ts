@@ -297,7 +297,6 @@ describe('Register Escrow Access Proof Template', () => {
         const data = Buffer.from(origPasswd)
 
         let metadata
-        // let hash: string
 
         before(async () => {
             metadata = await getMetadataForDTP(
@@ -332,8 +331,6 @@ describe('Register Escrow Access Proof Template', () => {
             consumer.babyX = buyerPub.x
             consumer.babyY = buyerPub.y
             consumer.babySecret = buyerK
-
-            // hash = await keyTransfer.hashKey(data)
         })
 
         it('should create a new agreement (short way)', async () => {

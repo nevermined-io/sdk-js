@@ -20,14 +20,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         receivers: string[]
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        /*
-        console.log("lock", [
-            didZeroX(did),
-            zeroX(rewardAddress),
-            zeroX(tokenAddress),
-            amountsString,
-            receivers
-        ])*/
+
         return super.params(
             didZeroX(did),
             zeroX(rewardAddress),

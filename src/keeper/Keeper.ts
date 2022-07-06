@@ -4,7 +4,6 @@ import DIDRegistry from './contracts/DIDRegistry'
 import Dispenser from './contracts/Dispenser'
 import Token from './contracts/Token'
 import {
-    Condition,
     LockPaymentCondition,
     EscrowPaymentCondition,
     AccessCondition,
@@ -388,8 +387,8 @@ export class Keeper extends Instantiable {
         id?: number
         loading: boolean
     } = {
-            loading: true
-        }
+        loading: true
+    }
 
     private instances: { [contractRef: string]: ContractBase & any }
 
