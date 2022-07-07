@@ -1,10 +1,20 @@
-import { Condition } from './Condition.abstract'
+import { Condition, ConditionContext } from './Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 
-export class ComputeExecutionCondition extends Condition {
+export interface ComputeExecutionConditionContext extends ConditionContext {
+    consumerId: string
+}
+
+export class ComputeExecutionCondition extends Condition<
+    ComputeExecutionConditionContext
+> {
+    public async paramsFromDDO({ ddo, consumerId }: ComputeExecutionConditionContext) {
+        return this.params(ddo.shortId(), consumerId)
+    }
+
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<ComputeExecutionCondition> {
@@ -15,8 +25,8 @@ export class ComputeExecutionCondition extends Condition {
         )
     }
 
-    public hashValues(did: string, computeConsumer: string) {
-        return super.hashValues(didZeroX(did), zeroX(computeConsumer))
+    public params(did: string, computeConsumer: string) {
+        return super.params(didZeroX(did), zeroX(computeConsumer))
     }
 
     public fulfill(
@@ -26,7 +36,7 @@ export class ComputeExecutionCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), computeConsumer].map(zeroX),
             from,

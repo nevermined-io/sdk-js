@@ -1,13 +1,18 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
-import { Condition } from '../Condition.abstract'
+import { Condition, ConditionContext } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+
+export interface NFTLockConditionContext extends ConditionContext {
+    rewardAddress: string
+    amount: number
+}
 
 /**
  * Implementation of the NFT Lock Condition
  */
-export class NFTLockCondition extends Condition {
+export class NFTLockCondition extends Condition<NFTLockConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTLockCondition> {
@@ -21,8 +26,12 @@ export class NFTLockCondition extends Condition {
      * @param {Number} amount The amount of locked tokens.
      * @returns Hash of all the values.
      */
-    public hashValues(did: string, rewardAddress: string, amount: number) {
-        return super.hashValues(didZeroX(did), zeroX(rewardAddress), String(amount))
+    public params(did: string, rewardAddress: string, amount: number) {
+        return super.params(didZeroX(did), zeroX(rewardAddress), String(amount))
+    }
+
+    public async paramsFromDDO({ ddo, rewardAddress, amount }: NFTLockConditionContext) {
+        return this.params(ddo.shortId(), rewardAddress, amount)
     }
 
     /**
@@ -42,7 +51,7 @@ export class NFTLockCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(rewardAddress), String(amount)],
             from,

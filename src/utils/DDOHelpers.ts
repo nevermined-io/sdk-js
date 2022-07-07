@@ -101,8 +101,43 @@ export function getAssetRewardsFromDDOByService(
     return getAssetRewardsFromService(ddo.findServiceByType(service))
 }
 
+export function setNFTRewardsFromDDOByService(
+    ddo: DDO,
+    serviceType: ServiceType,
+    rewards: AssetRewards,
+    holderAddress: string
+) {
+    setAssetRewardsFromDDOByService(ddo, serviceType, rewards)
+    const service = ddo.findServiceByType(serviceType)
+    const transferCondition = findServiceConditionByName(service, 'transferNFT')
+    if (!transferCondition) {
+        return
+    }
+    const holder = transferCondition.parameters.find(p => p.name === '_nftHolder')
+    holder.value = holderAddress
+}
+
+export function setAssetRewardsFromDDOByService(
+    ddo: DDO,
+    serviceType: ServiceType,
+    rewards: AssetRewards
+) {
+    const service = ddo.findServiceByType(serviceType)
+    const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
+    if (!escrowPaymentCondition) {
+        return
+    }
+    const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts')
+    const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
+    amounts.value = Array.from(rewards.getAmounts(), v => v.toFixed())
+    receivers.value = rewards.getReceivers()
+}
+
 export function getAssetRewardsFromService(service: Service): AssetRewards {
     const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
+    if (!escrowPaymentCondition) {
+        return
+    }
 
     const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts')
         .value as string[]

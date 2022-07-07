@@ -94,6 +94,7 @@ describe('Consume Asset', () => {
             ddo.id,
             serviceAgreementSignatureResult.agreementIdSeed,
             'access',
+            nevermined.keeper.templates.accessTemplate.params(consumer),
             consumer,
             publisher
         )

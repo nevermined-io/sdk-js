@@ -1,14 +1,18 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import AssetRewards from '../../../models/AssetRewards'
 import { DDO } from '../../../sdk'
-import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
-import Account from '../../../nevermined/Account'
-import { TxParameters } from '../ContractBase'
+import { ServiceType } from '../../../ddo/Service'
 
-export class NFTAccessTemplate extends BaseTemplate {
+export interface NFTAccessTemplateParams {
+    holderAddress: string
+    amount: number
+    grantee: string
+}
+
+export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTAccessTemplate> {
@@ -19,73 +23,45 @@ export class NFTAccessTemplate extends BaseTemplate {
         )
     }
 
-    public async createAgreementFromDDO(
-        agreementIdSeed: string,
-        ddo: DDO,
-        assetRewards: AssetRewards,
-        holderAddress: Account,
-        nftAmount?: number,
-        from?: Account,
-        params?: TxParameters
-    ): Promise<string> {
-        const [
-            nftHolderConditionId,
-            nftAccessConditionId
-        ] = await this.getAgreementIdsFromDDO(
-            agreementIdSeed,
-            ddo,
-            assetRewards,
-            holderAddress.getId(),
-            from.getId(),
-            nftAmount
-        )
-
-        await this.createAgreement(
-            agreementIdSeed,
-            ddo.shortId(),
-            [nftHolderConditionId[0], nftAccessConditionId[0]],
-            [0, 0],
-            [0, 0],
-            holderAddress.getId(),
-            from,
-            params
-        )
-
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            from.getId()
-        )
-        return agreementId
+    public service(): ServiceType {
+        return 'nft-access'
     }
 
-    public async getAgreementIdsFromDDO(
+    public params(holderAddress: string, amount: number): NFTAccessTemplateParams {
+        return { holderAddress, amount, grantee: holderAddress }
+    }
+
+    public async instanceFromDDO(
         agreementIdSeed: string,
         ddo: DDO,
-        assetRewards: AssetRewards,
-        holder: string,
         creator: string,
-        nftAmount?: number
-    ): Promise<any> {
+        parameters: NFTAccessTemplateParams
+    ): Promise<AgreementInstance<NFTAccessTemplateParams>> {
         const {
             nftHolderCondition,
             nftAccessCondition
         } = this.nevermined.keeper.conditions
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            creator
-        )
 
-        const nftHolderConditionId = await nftHolderCondition.generateIdWithSeed(
+        const agreementId = await this.agreementId(agreementIdSeed, creator)
+        const ctx = {
+            ...this.standardContext(ddo, creator),
+            ...parameters
+        }
+
+        const holderConditionInstance = await nftHolderCondition.instanceFromDDO(
             agreementId,
-            await nftHolderCondition.hashValues(ddo.shortId(), holder, nftAmount)
+            ctx
         )
-
-        const nftAccessConditionId = await nftAccessCondition.generateIdWithSeed(
+        const accessConditionInstance = await nftAccessCondition.instanceFromDDO(
             agreementId,
-            await nftAccessCondition.hashValues(ddo.shortId(), holder)
+            ctx
         )
 
-        return [nftHolderConditionId, nftAccessConditionId]
+        return {
+            instances: [holderConditionInstance, accessConditionInstance],
+            list: parameters,
+            agreementId
+        }
     }
 
     public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {

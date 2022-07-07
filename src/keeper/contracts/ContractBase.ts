@@ -285,7 +285,9 @@ export abstract class ContractBase extends Instantiable {
             })
             throw new KeeperError(`
                 ${'-'.repeat(40)}\n
-                Sending transaction "${name}" on contract "${this.contractName}" failed.\n
+                Sending transaction "${name}" on contract "${this.contractName}" at ${
+                this.address
+            } failed.\n
                 Error: ${err.message}\n
                 From: ${from}\n
                 Parameters: ${JSON.stringify(mappedArgs, null, 2)}\n

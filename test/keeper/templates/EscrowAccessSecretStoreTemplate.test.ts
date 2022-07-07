@@ -3,11 +3,11 @@ import { AccessTemplate } from '../../../src/keeper/contracts/templates'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
-import { Condition } from '../../../src'
 import Token from '../../../src/keeper/contracts/Token'
+import { ConditionSmall } from '../../../src/keeper/contracts/conditions'
 
 let template: AccessTemplate
-let condition: Condition
+let condition: ConditionSmall
 let token: Token
 
 describe('AccessTemplate', () => {

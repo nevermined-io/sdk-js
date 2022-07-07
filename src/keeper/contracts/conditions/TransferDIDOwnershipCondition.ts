@@ -1,13 +1,17 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
-import { Condition } from './Condition.abstract'
+import { Condition, ConditionContext } from './Condition.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
+
+export interface AccessConditionContext extends ConditionContext {
+    receiverId: string
+}
 
 /**
  * Condition allowing to transfer the ownership between the original owner and a receiver.
  */
-export class TransferDIDOwnershipCondition extends Condition {
+export class TransferDIDOwnershipCondition extends Condition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferDIDOwnershipCondition> {
@@ -24,8 +28,12 @@ export class TransferDIDOwnershipCondition extends Condition {
      * @param receiver Address of the granted user or the DID provider.
      * @returns Hash of all the values.
      */
-    public hashValues(did: string, receiver: string) {
-        return super.hashValues(didZeroX(did), zeroX(receiver))
+    public params(did: string, receiver: string) {
+        return super.params(didZeroX(did), zeroX(receiver))
+    }
+
+    public async paramsFromDDO({ ddo, receiverId }: AccessConditionContext) {
+        return this.params(ddo.shortId(), receiverId)
     }
 
     /**
@@ -46,6 +54,11 @@ export class TransferDIDOwnershipCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(agreementId, [didZeroX(did), zeroX(receiver)], from, params)
+        return super.fulfillPlain(
+            agreementId,
+            [didZeroX(did), zeroX(receiver)],
+            from,
+            params
+        )
     }
 }

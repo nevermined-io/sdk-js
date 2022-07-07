@@ -1,14 +1,17 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
-import { Condition } from '../Condition.abstract'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
-import { triggerAsyncId } from 'async_hooks'
+
+export interface TransferNFT721ConditionContext extends ConditionContext {
+    consumerId: string
+}
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class TransferNFT721Condition extends Condition {
+export class TransferNFT721Condition extends Condition<TransferNFT721ConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferNFT721Condition> {
@@ -30,22 +33,55 @@ export class TransferNFT721Condition extends Condition {
      * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
      * @returns Hash of all the values
      */
-    public hashValues(
+    public params(
         did: string,
         nftHolder: string,
         nftReceiver: string,
         lockCondition: string,
         nftTokenAddress: string,
         willBeTransferred: boolean = true
+    ): ConditionParameters<{}> {
+        return {
+            list: [
+                didZeroX(did),
+                zeroX(nftHolder),
+                zeroX(nftReceiver),
+                String(1),
+                lockCondition,
+                nftTokenAddress,
+                willBeTransferred
+            ],
+            params: async () => [
+                didZeroX(did),
+                zeroX(nftReceiver),
+                String(1),
+                lockCondition,
+                nftTokenAddress,
+                willBeTransferred
+            ]
+        }
+    }
+
+    public async paramsFromDDO(
+        { ddo, service, consumerId }: TransferNFT721ConditionContext,
+        lockCondition
     ) {
-        return super.hashValues(
-            didZeroX(did),
-            zeroX(nftHolder),
-            zeroX(nftReceiver),
-            String(1),
-            lockCondition,
-            nftTokenAddress,
-            willBeTransferred
+        const transfer = findServiceConditionByName(service, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+
+        const nft = await this.nevermined.contracts.loadNft721(
+            transfer.parameters.find(p => p.name === '_contract').value as string
+        )
+        const nftHolder = transfer.parameters.find(p => p.name === '_nftHolder')
+            .value as string
+
+        return this.params(
+            ddo.shortId(),
+            nftHolder,
+            consumerId,
+            lockCondition.id,
+            nft.address,
+            true
         )
     }
 
@@ -72,7 +108,7 @@ export class TransferNFT721Condition extends Condition {
         from?: Account,
         txParams?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

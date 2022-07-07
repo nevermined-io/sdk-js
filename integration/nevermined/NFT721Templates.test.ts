@@ -22,6 +22,7 @@ import { Nft721 } from '../../src'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { getMetadata } from '../utils'
 import BigNumber from 'bignumber.js'
+import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 
 describe('NFT721Templates E2E', () => {
     let owner: Account
@@ -404,7 +405,7 @@ describe('NFT721Templates E2E', () => {
                     [conditionIdNFTHolder[0], conditionIdNFTAccess[0]],
                     [0, 0],
                     [0, 0],
-                    collector1.getId(),
+                    [collector1.getId()],
                     collector1
                 )
                 assert.isTrue(result.status)
@@ -529,7 +530,7 @@ describe('NFT721Templates E2E', () => {
                     ],
                     [0, 0, 0],
                     [0, 0, 0],
-                    collector2.getId(),
+                    [collector2.getId()],
                     collector2
                 )
                 assert.isTrue(result.status)
@@ -749,8 +750,7 @@ describe('NFT721Templates E2E', () => {
                 const result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
                     agreementIdSeed,
                     ddo,
-                    assetRewards1,
-                    collector1.getId(),
+                    nft721SalesTemplate.params(collector1.getId()),
                     collector1,
                     collector1
                 )
@@ -788,8 +788,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -805,9 +803,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    collector1.getId(),
                     artist
                 )
                 assert.isTrue(receipt)
@@ -842,7 +837,7 @@ describe('NFT721Templates E2E', () => {
                 const result = await nft721AccessTemplate.createAgreementFromDDO(
                     agreementAccessIdSeed,
                     ddo,
-                    new AssetRewards(),
+                    nft721AccessTemplate.params(collector1.getId()),
                     collector1,
                     collector1
                 )
@@ -905,13 +900,18 @@ describe('NFT721Templates E2E', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
+                setNFTRewardsFromDDOByService(
+                    ddo,
+                    'nft721-sales',
+                    assetRewards2,
+                    collector1.getId()
+                )
             })
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 const result = await nft721SalesTemplate.createAgreementFromDDO(
                     agreementId2Seed,
                     ddo,
-                    assetRewards2,
-                    collector2.getId(),
+                    nft721SalesTemplate.params(collector2.getId()),
                     collector2,
                     collector2
                 )
@@ -976,8 +976,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.transferNft721(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
                     collector1
                 )
                 assert.isTrue(receipt)
@@ -993,9 +991,6 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
-                    collector2.getId(),
                     collector1
                 )
                 assert.isTrue(receipt)

@@ -84,7 +84,7 @@ describe('NFT721AccessTemplate', () => {
                     conditionIds,
                     timeLocks,
                     timeOuts,
-                    receiver.getId(),
+                    [receiver.getId()],
                     sender
                 ),
                 /Template not Approved/
@@ -104,7 +104,7 @@ describe('NFT721AccessTemplate', () => {
                     conditionIds,
                     timeLocks,
                     timeOuts,
-                    receiver.getId(),
+                    [receiver.getId()],
                     sender
                 ),
                 /DID not registered/
@@ -127,7 +127,7 @@ describe('NFT721AccessTemplate', () => {
                 conditionIdSeeds,
                 timeLocks,
                 timeOuts,
-                receiver.getId(),
+                [receiver.getId()],
                 sender
             )
             assert.isTrue(agreement.status)

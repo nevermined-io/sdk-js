@@ -1,42 +1,28 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
-import { Condition } from '../Condition.abstract'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import {
+    Condition,
+    ConditionContext,
+    ConditionInstance,
+    ConditionParameters
+} from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+
+export interface TransferNFTConditionContext extends ConditionContext {
+    providerId: string
+    consumerId: string
+    nftAmount: number
+}
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class TransferNFTCondition extends Condition {
+export class TransferNFTCondition extends Condition<TransferNFTConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferNFTCondition> {
         return Condition.getInstance(config, 'TransferNFTCondition', TransferNFTCondition)
-    }
-
-    /**
-     * Generates the hash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} nftHolder The address of the holder of the NFT.
-     * @param {String} nftReceiver The address of the granted user or the DID provider.
-     * @param {Number} nftAmount Amount of NFTs to transfer.
-     * @param {String} lockCondition Lock condition identifier.
-     * @returns Hash of all the values
-     */
-    public hashValues(
-        did: string,
-        nftHolder: string,
-        nftReceiver: string,
-        nftAmount: number,
-        lockCondition: string
-    ) {
-        return super.hashValues(
-            didZeroX(did),
-            zeroX(nftHolder),
-            zeroX(nftReceiver),
-            String(nftAmount),
-            lockCondition
-        )
     }
 
     /**
@@ -51,23 +37,57 @@ export class TransferNFTCondition extends Condition {
      * @returns Hash of all the values
      */
 
-    public hashValuesComplete(
+    public params(
         did: string,
         nftHolder: string,
         nftReceiver: string,
         nftAmount: number,
         lockCondition: string,
-        nftContractAddress: string,
+        nftContractAddress?: string,
         willBeTransferred: boolean = true
+    ): ConditionParameters<{}> {
+        return {
+            list: [
+                didZeroX(did),
+                zeroX(nftHolder),
+                zeroX(nftReceiver),
+                String(nftAmount),
+                lockCondition,
+                zeroX(
+                    nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
+                ),
+                willBeTransferred
+            ],
+            params: async () => [
+                didZeroX(did),
+                zeroX(nftReceiver),
+                String(nftAmount),
+                lockCondition,
+                zeroX(
+                    nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
+                ),
+                willBeTransferred
+            ]
+        }
+    }
+
+    public async paramsFromDDO(
+        { ddo, service, providerId, consumerId, nftAmount }: TransferNFTConditionContext,
+        lockCondition
     ) {
-        return super.hashValues(
-            didZeroX(did),
-            zeroX(nftHolder),
-            zeroX(nftReceiver),
-            String(nftAmount),
-            lockCondition,
-            zeroX(nftContractAddress),
-            willBeTransferred
+        const transfer = findServiceConditionByName(service, 'transferNFT')
+        if (!transfer) throw new Error('TransferNFT condition not found!')
+        const nftHolder =
+            providerId ||
+            (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
+        return this.params(
+            ddo.shortId(),
+            nftHolder,
+            consumerId,
+            nftAmount,
+            lockCondition.id,
+            this.nevermined.keeper.nftUpgradeable.address,
+            true
         )
     }
 
@@ -92,7 +112,7 @@ export class TransferNFTCondition extends Condition {
         from?: Account,
         txParams?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition],
             from,
@@ -124,7 +144,7 @@ export class TransferNFTCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

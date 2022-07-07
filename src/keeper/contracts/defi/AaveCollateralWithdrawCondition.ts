@@ -1,10 +1,17 @@
-import { Condition } from '../conditions/Condition.abstract'
+import { Condition, ConditionContext } from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 
-export class AaveCollateralWithdrawCondition extends Condition {
+export interface AaveCollateralWithdrawConditionContext extends ConditionContext {
+    vaultAddress: string
+    collateralAsset: string
+}
+
+export class AaveCollateralWithdrawCondition extends Condition<
+    AaveCollateralWithdrawConditionContext
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralWithdrawCondition> {
@@ -16,11 +23,16 @@ export class AaveCollateralWithdrawCondition extends Condition {
         )
     }
 
-    public hashValues(did: string, vaultAddress: string, collateralAsset: string) {
-        return super.hashValues(
-            didZeroX(did),
-            ...[vaultAddress, collateralAsset].map(zeroX)
-        )
+    public params(did: string, vaultAddress: string, collateralAsset: string) {
+        return super.params(didZeroX(did), ...[vaultAddress, collateralAsset].map(zeroX))
+    }
+
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        collateralAsset
+    }: AaveCollateralWithdrawConditionContext) {
+        return this.params(ddo.shortId(), vaultAddress, collateralAsset)
     }
 
     public fulfill(
@@ -31,7 +43,7 @@ export class AaveCollateralWithdrawCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), ...[vaultAddress, collateralAsset].map(zeroX)],
             from,

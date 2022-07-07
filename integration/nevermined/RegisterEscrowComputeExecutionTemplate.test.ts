@@ -12,6 +12,7 @@ import {
     LockPaymentCondition
 } from '../../src/keeper/contracts/conditions'
 import BigNumber from 'bignumber.js'
+import { generateId } from '../../src/utils'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -189,7 +190,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 [conditionIdCompute[0], conditionIdLock[0], conditionIdEscrow[0]],
                 [0, 0, 0],
                 [0, 0, 0],
-                consumer.getId(),
+                [consumer.getId()],
                 publisher
             )
 
@@ -281,10 +282,17 @@ describe('Register Escrow Compute Execution Template', () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
+            const assetRewards = new AssetRewards(
+                new Map([
+                    [receivers[0], amounts[0]],
+                    [receivers[1], amounts[1]]
+                ])
+            )
+
             ddo = await nevermined.assets.create(
                 metadata,
                 publisher,
-                undefined,
+                assetRewards,
                 ['access', 'compute'],
                 undefined,
                 undefined,
@@ -294,16 +302,11 @@ describe('Register Escrow Compute Execution Template', () => {
         })
 
         it('should create a new agreement (short way)', async () => {
-            agreementId = await escrowComputeExecutionTemplate.createFullAgreement(
+            agreementId = await escrowComputeExecutionTemplate.createAgreementFromDDO(
+                generateId(),
                 ddo,
-                new AssetRewards(
-                    new Map([
-                        [receivers[0], amounts[0]],
-                        [receivers[1], amounts[1]]
-                    ])
-                ),
-                consumer.getId(),
-                undefined,
+                escrowComputeExecutionTemplate.params(consumer),
+                consumer,
                 publisher
             )
 

@@ -1277,15 +1277,12 @@ export class Assets extends Instantiable {
             const templateName = service.attributes.serviceAgreementTemplate.contractName
 
             const template = keeper.getAccessTemplateByName(templateName)
-            const assetRewards = getAssetRewardsFromService(service)
 
             this.logger.log(`Creating ${serviceType} agreement and paying`)
             const agreementId = await template.createAgreementWithPaymentFromDDO(
                 agreementIdSeed,
                 ddo,
-                assetRewards,
-                consumer,
-                serviceType,
+                template.params(consumer),
                 consumer,
                 consumer,
                 undefined,

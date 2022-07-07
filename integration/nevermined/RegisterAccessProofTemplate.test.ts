@@ -16,6 +16,7 @@ import { AccessProofTemplate } from '../../src/keeper/contracts/templates'
 import { BabyjubPublicKey } from '../../src/models/KeyTransfer'
 import { makeKeyTransfer, KeyTransfer } from '../../src/utils/KeyTransfer'
 import BigNumber from 'bignumber.js'
+import { generateId } from '../../src/utils'
 
 describe('Register Escrow Access Proof Template', () => {
     let nevermined: Nevermined
@@ -210,7 +211,7 @@ describe('Register Escrow Access Proof Template', () => {
                 [conditionIdAccess[0], conditionIdLock[0], conditionIdEscrow[0]],
                 [0, 0, 0],
                 [0, 0, 0],
-                consumer.getId(),
+                [consumer.getId()],
                 publisher
             )
 
@@ -296,7 +297,6 @@ describe('Register Escrow Access Proof Template', () => {
         const data = Buffer.from(origPasswd)
 
         let metadata
-        let hash: string
 
         before(async () => {
             metadata = await getMetadataForDTP(
@@ -314,7 +314,13 @@ describe('Register Escrow Access Proof Template', () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             metadata.userId = payload.sub
 
-            ddo = await nevermined.assets.create(metadata, publisher, undefined, [
+            const assetRewards = new AssetRewards(
+                new Map([
+                    [receivers[0], amounts[0]],
+                    [receivers[1], amounts[1]]
+                ])
+            )
+            ddo = await nevermined.assets.create(metadata, publisher, assetRewards, [
                 'access-proof'
             ])
             keyTransfer = await makeKeyTransfer()
@@ -322,24 +328,17 @@ describe('Register Escrow Access Proof Template', () => {
             providerK = await keyTransfer.makeKey('abc')
             buyerPub = await keyTransfer.secretToPublic(buyerK)
             providerPub = await keyTransfer.secretToPublic(providerK)
-
-            hash = await keyTransfer.hashKey(data)
+            consumer.babyX = buyerPub.x
+            consumer.babyY = buyerPub.y
+            consumer.babySecret = buyerK
         })
 
         it('should create a new agreement (short way)', async () => {
-            agreementId = await accessProofTemplate.createFullAgreement(
+            agreementId = await accessProofTemplate.createAgreementFromDDO(
+                generateId(),
                 ddo,
-                new AssetRewards(
-                    new Map([
-                        [receivers[0], amounts[0]],
-                        [receivers[1], amounts[1]]
-                    ])
-                ),
-                consumer.getId(),
-                hash,
-                buyerPub,
-                providerPub,
-                undefined,
+                accessProofTemplate.params(consumer),
+                consumer,
                 publisher
             )
 

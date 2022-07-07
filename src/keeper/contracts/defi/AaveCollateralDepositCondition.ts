@@ -1,11 +1,21 @@
-import { Condition } from '../conditions/Condition.abstract'
+import { Condition, ConditionContext } from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
-import BigNumber from 'bignumber.js'
 
-export class AaveCollateralDepositCondition extends Condition {
+export interface AaveCollateralDepositConditionContext extends ConditionContext {
+    vaultAddress: string
+    collateralAsset: string
+    collateralAmount: string
+    delegatedAsset: string
+    delegatedAmount: string
+    interestRateMode: number
+}
+
+export class AaveCollateralDepositCondition extends Condition<
+    AaveCollateralDepositConditionContext
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralDepositCondition> {
@@ -17,7 +27,7 @@ export class AaveCollateralDepositCondition extends Condition {
         )
     }
 
-    public hashValues(
+    public params(
         did: string,
         vaultAddress: string,
         collateralAsset: string,
@@ -26,11 +36,31 @@ export class AaveCollateralDepositCondition extends Condition {
         delegatedAmount: string,
         interestRateMode: number
     ) {
-        return super.hashValues(
+        return super.params(
             didZeroX(did),
             ...[vaultAddress, collateralAsset].map(zeroX),
             collateralAmount,
             zeroX(delegatedAsset),
+            delegatedAmount,
+            interestRateMode
+        )
+    }
+
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        collateralAsset,
+        collateralAmount,
+        delegatedAsset,
+        delegatedAmount,
+        interestRateMode
+    }: AaveCollateralDepositConditionContext) {
+        return this.params(
+            ddo.shortId(),
+            vaultAddress,
+            collateralAsset,
+            collateralAmount,
+            delegatedAsset,
             delegatedAmount,
             interestRateMode
         )
@@ -48,7 +78,7 @@ export class AaveCollateralDepositCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

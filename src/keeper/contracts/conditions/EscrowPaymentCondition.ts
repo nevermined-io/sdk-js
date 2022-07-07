@@ -1,11 +1,21 @@
-import { Condition } from './Condition.abstract'
-import { didZeroX, zeroX } from '../../../utils'
+import {
+    Condition,
+    ConditionContext,
+    ConditionInstance,
+    ConditionInstanceSmall,
+    ConditionParameters
+} from './Condition.abstract'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import BigNumber from 'bignumber.js'
 
-export class EscrowPaymentCondition extends Condition {
+export interface EscrowPaymentConditionContext extends ConditionContext {
+    consumerId: string
+}
+
+export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<EscrowPaymentCondition> {
@@ -16,7 +26,7 @@ export class EscrowPaymentCondition extends Condition {
         )
     }
 
-    public hashValues(
+    public params(
         did: string,
         amounts: BigNumber[],
         receivers: string[],
@@ -27,13 +37,32 @@ export class EscrowPaymentCondition extends Condition {
         releaseCondition: string
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return super.hashValues(
+        return super.params(
             didZeroX(did),
             amountsString,
             receivers,
             ...[returnAddress, sender, tokenAddress, lockCondition, releaseCondition].map(
                 zeroX
             )
+        )
+    }
+
+    public async paramsFromDDO(
+        { ddo, service, rewards, consumerId }: EscrowPaymentConditionContext,
+        access: ConditionInstanceSmall,
+        lock: ConditionInstanceSmall
+    ) {
+        const escrow = findServiceConditionByName(service, 'escrowPayment')
+        if (!escrow) throw new Error('Escrow Condition not found!')
+        return this.params(
+            ddo.shortId(),
+            rewards.getAmounts(),
+            rewards.getReceivers(),
+            consumerId,
+            this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
+            lock.id,
+            access.id
         )
     }
 
@@ -51,7 +80,7 @@ export class EscrowPaymentCondition extends Condition {
         txParams?: TxParameters
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

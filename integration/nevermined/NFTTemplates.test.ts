@@ -15,6 +15,7 @@ import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
+import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
@@ -240,7 +241,7 @@ describe('NFTTemplates E2E', () => {
                     ],
                     [0, 0, 0],
                     [0, 0, 0],
-                    collector1.getId(),
+                    [collector1.getId()],
                     collector1
                 )
                 assert.isTrue(result.status)
@@ -430,7 +431,7 @@ describe('NFTTemplates E2E', () => {
                     [conditionIdNFTHolder[0], conditionIdNFTAccess[0]],
                     [0, 0],
                     [0, 0],
-                    collector1.getId(),
+                    [collector1.getId()],
                     collector1
                 )
                 assert.isTrue(result.status)
@@ -554,7 +555,7 @@ describe('NFTTemplates E2E', () => {
                     ],
                     [0, 0, 0],
                     [0, 0, 0],
-                    collector2.getId(),
+                    [collector2.getId()],
                     collector2
                 )
                 assert.isTrue(result.status)
@@ -793,11 +794,8 @@ describe('NFTTemplates E2E', () => {
                 const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
                     agreementIdSeed,
                     ddo,
-                    assetRewards1,
-                    collector1.getId(),
+                    nftSalesTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
-                    undefined,
                     collector1
                 )
                 assert.isDefined(result)
@@ -841,8 +839,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
                     numberNFTs,
                     artist
                 )
@@ -874,9 +870,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
                     artist
                 )
@@ -914,9 +907,8 @@ describe('NFTTemplates E2E', () => {
                 const result = await nftAccessTemplate.createAgreementFromDDO(
                     agreementAccessIdSeed,
                     ddo,
-                    new AssetRewards(),
+                    nftAccessTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
                     collector1
                 )
                 assert.isDefined(result)
@@ -978,17 +970,20 @@ describe('NFTTemplates E2E', () => {
                         await token.balanceOf(escrowPaymentCondition.getAddress())
                     )
                 }
+                setNFTRewardsFromDDOByService(
+                    ddo,
+                    'nft-sales',
+                    assetRewards2,
+                    collector1.getId()
+                )
             })
 
             it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementId2Seed,
                     ddo,
-                    assetRewards2,
-                    collector2.getId(),
+                    nftSalesTemplate.params(collector2.getId(), numberNFTs2),
                     collector2,
-                    numberNFTs2,
-                    collector1,
                     collector2
                 )
                 assert.isDefined(result)
@@ -1060,8 +1055,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.transferNft(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
                     numberNFTs2,
                     collector1
                 )
@@ -1094,9 +1087,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId2,
                     ddo,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
-                    collector2.getId(),
                     numberNFTs2,
                     collector1
                 )
@@ -1196,11 +1186,8 @@ describe('NFTTemplates E2E', () => {
                 const result = await nftSalesTemplate.createAgreementFromDDO(
                     agreementIdSeed,
                     ddo,
-                    assetRewards1,
-                    collector1.getId(),
+                    nftSalesTemplate.params(collector1.getId(), numberNFTs),
                     collector1,
-                    numberNFTs,
-                    undefined,
                     collector1
                 )
                 assert.isDefined(result)
@@ -1271,8 +1258,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.transferNftForDelegate(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
                     numberNFTs,
                     gallery
                 )
@@ -1304,9 +1289,6 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.releaseNftReward(
                     agreementId,
                     ddo,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
-                    collector1.getId(),
                     numberNFTs,
                     artist,
                     gallery

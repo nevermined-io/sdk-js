@@ -1,18 +1,18 @@
-import { Condition } from './Condition.abstract'
-import { didZeroX, zeroX } from '../../../utils'
+import { Condition, ConditionContext } from './Condition.abstract'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import BigNumber from 'bignumber.js'
 
-export class LockPaymentCondition extends Condition {
+export class LockPaymentCondition extends Condition<ConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<LockPaymentCondition> {
         return Condition.getInstance(config, 'LockPaymentCondition', LockPaymentCondition)
     }
 
-    public hashValues(
+    public params(
         did: string,
         rewardAddress: string,
         tokenAddress: string,
@@ -20,12 +20,24 @@ export class LockPaymentCondition extends Condition {
         receivers: string[]
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return super.hashValues(
+
+        return super.params(
             didZeroX(did),
             zeroX(rewardAddress),
             zeroX(tokenAddress),
             amountsString,
             receivers
+        )
+    }
+
+    public async paramsFromDDO({ ddo, service, rewards }: ConditionContext) {
+        const payment = findServiceConditionByName(service, 'lockPayment')
+        return this.params(
+            ddo.shortId(),
+            this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            rewards.getAmounts(),
+            rewards.getReceivers()
         )
     }
 
@@ -40,7 +52,7 @@ export class LockPaymentCondition extends Condition {
         params?: TxParameters
     ) {
         const amountsString = amounts.map(v => v.toFixed())
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),

@@ -1,19 +1,27 @@
-import { Condition } from './Condition.abstract'
+import { Condition, ConditionContext } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { EventOptions } from '../../../events/NeverminedEvent'
 
-export class AccessCondition extends Condition {
+export interface AccessConditionContext extends ConditionContext {
+    creator: string
+}
+
+export class AccessCondition extends Condition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessCondition> {
         return Condition.getInstance(config, 'AccessCondition', AccessCondition)
     }
 
-    public hashValues(did: string, grantee: string) {
-        return super.hashValues(didZeroX(did), zeroX(grantee))
+    public params(did: string, grantee: string) {
+        return super.params(didZeroX(did), zeroX(grantee))
+    }
+
+    public async paramsFromDDO({ ddo, creator }: AccessConditionContext) {
+        return this.params(ddo.shortId(), creator)
     }
 
     public fulfill(
@@ -23,7 +31,7 @@ export class AccessCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [didZeroX(did), grantee].map(zeroX),
             from,

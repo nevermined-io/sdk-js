@@ -1,11 +1,22 @@
-import { Condition } from '../conditions/Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ConditionInstanceSmall,
+    ConditionParameters
+} from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
-import BigNumber from 'bignumber.js'
 import { TxParameters } from '../ContractBase'
 
-export class AaveBorrowCondition extends Condition {
+export interface AaveBorrowConditionContext extends ConditionContext {
+    vaultAddress: string
+    assetToBorrow: string
+    amountToBorrow: string
+    interestRateMode: number
+}
+
+export class AaveBorrowCondition extends Condition<AaveBorrowConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveBorrowCondition> {
@@ -17,18 +28,34 @@ export class AaveBorrowCondition extends Condition {
         )
     }
 
-    public hashValues(
+    public params(
         did: string,
         vaultAddress: string,
         assetToBorrow: string,
         amount: string,
         interestRateMode: number
     ) {
-        return super.hashValues(
+        return super.params(
             didZeroX(did),
             zeroX(vaultAddress),
             zeroX(assetToBorrow),
             amount,
+            interestRateMode
+        )
+    }
+
+    public async paramsFromDDO({
+        ddo,
+        vaultAddress,
+        assetToBorrow,
+        amountToBorrow,
+        interestRateMode
+    }: AaveBorrowConditionContext) {
+        return this.params(
+            ddo.shortId(),
+            vaultAddress,
+            assetToBorrow,
+            amountToBorrow,
             interestRateMode
         )
     }
@@ -43,7 +70,7 @@ export class AaveBorrowCondition extends Condition {
         from?: Account,
         params?: TxParameters
     ) {
-        return super.fulfill(
+        return super.fulfillPlain(
             agreementId,
             [
                 didZeroX(did),
