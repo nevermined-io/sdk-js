@@ -34,13 +34,31 @@ jobs:
           yarn add --dev auto-changelog
           npx auto-changelog
 
+      - name: Detect branch to commit changelog
+        id: branch-changelog
+        run: |
+          tagged_branches=$(git --no-pager branch -a --contains tags/${{ env.RELEASE_VERSION }} --no-column)
+          echo "$tagged_branches"
+          if echo "$tagged_branches" | grep -E '^[[:space:]]*main$' > /dev/null; then
+            commit_branch=main
+          elif echo "$tagged_branches" | grep -E '^[[:space:]]*master$' > /dev/null; then
+            commit_branch=master
+          elif echo "$tagged_branches" | grep -E '^[[:space:]]*develop$' > /dev/null; then
+            commit_branch=develop
+          else
+            commit_branch=$(echo "$tagged_branches" | tail -n1)
+            commit_branch=${commit_branch//[[:blank:]]/}
+          fi
+          commit_branch="${commit_branch//remotes\/origin\//}"
+          echo "COMMIT_BRANCH=${commit_branch}" >> $GITHUB_ENV
+
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Automated CHANGELOG.md update
           commit_options: "--no-verify --signoff"
           file_pattern: CHANGELOG.md
-          branch: master
+          branch: ${{ env.COMMIT_BRANCH }}
 
       - name: Publish Github relase
         uses: "marvinpinto/action-automatic-releases@latest"
