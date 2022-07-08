@@ -1,10 +1,11 @@
 import ContractBase from '../keeper/contracts/ContractBase'
 import { Instantiable } from '../Instantiable.abstract'
+import { Filter } from 'web3-eth-contract'
 
 export interface EventOptions {
     methodName?: string
     eventName?: string
-    filterJsonRpc?: Record<string, unknown>
+    filterJsonRpc?: Filter
     filterSubgraph?: Record<string, unknown>
     result?: Record<string, unknown>
     fromBlock?: number | string
