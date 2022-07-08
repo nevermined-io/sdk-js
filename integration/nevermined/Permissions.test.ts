@@ -56,7 +56,7 @@ describe('Permissions', () => {
             newPermission.userId
         )
 
-        /* eslint-disable @typescript-eslint/camelcase */
+        /* eslint-disable @typescript-eslint/naming-convention */
         assert.deepEqual(response, {
             page: 1,
             total_pages: response.total_pages,
@@ -74,7 +74,7 @@ describe('Permissions', () => {
             PermissionType.Read
         )
 
-        /* eslint-disable @typescript-eslint/camelcase */
+        /* eslint-disable @typescript-eslint/naming-convention */
         assert.deepEqual(response, {
             page: 1,
             total_pages: response.total_pages,
@@ -107,7 +107,7 @@ describe('Permissions', () => {
             newPermission.userId
         )
 
-        /* eslint-disable @typescript-eslint/camelcase */
+        /* eslint-disable @typescript-eslint/naming-convention */
         assert.deepEqual(response, {
             page: response.page,
             total_pages: response.total_pages,

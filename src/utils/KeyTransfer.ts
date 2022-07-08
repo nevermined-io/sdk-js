@@ -174,7 +174,7 @@ export class KeyTransfer {
             return res
         }
 
-        /* eslint @typescript-eslint/camelcase: "off" */
+        /* eslint-disable @typescript-eslint/naming-convention */
         const snarkParams = {
             xL_in: orig1,
             xR_in: orig2,

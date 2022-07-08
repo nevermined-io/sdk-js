@@ -37,7 +37,7 @@ describe('Bookmarks', () => {
             createdAt: faker.date.recent()
         }
 
-        /* eslint-disable @typescript-eslint/camelcase */
+        /* eslint-disable @typescript-eslint/naming-convention */
         bookmarksResults = {
             page: 1,
             results: [bookmark],

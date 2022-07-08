@@ -4,16 +4,16 @@ import { Instantiable } from '../Instantiable.abstract'
 export interface EventOptions {
     methodName?: string
     eventName?: string
-    filterJsonRpc?: {}
-    filterSubgraph?: {}
-    result?: {}
+    filterJsonRpc?: Record<string, unknown>
+    filterSubgraph?: Record<string, unknown>
+    result?: Record<string, unknown>
     fromBlock?: number | string
     toBlock?: number | string
 }
 
 export interface EventEmitter {
-    subscribe: Function
-    unsubscribe: Function
+    subscribe: (callback: () => Promise<void>, arg1: () => Promise<number>) => void
+    unsubscribe: (arg0: () => Promise<void>) => void
 }
 
 export interface ContractEventSubscription {

@@ -7,7 +7,6 @@ import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
 import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { Service } from '../ddo/Service'
 import { EventOptions } from '../events/NeverminedEvent'
 import AssetRewards from '../models/AssetRewards'
 import BigNumber from 'bignumber.js'
@@ -57,7 +56,7 @@ export class AgreementsConditions extends Instantiable {
         let token: Token
 
         if (!erc20TokenAddress) {
-            ;({ token } = this.nevermined.keeper)
+            ({ token } = this.nevermined.keeper)
         } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {
@@ -282,7 +281,7 @@ export class AgreementsConditions extends Instantiable {
             let token
 
             if (!erc20TokenAddress) {
-                ;({ token } = this.nevermined.keeper)
+                ({ token } = this.nevermined.keeper)
             } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
                 token = await CustomToken.getInstanceByAddress(
                     {

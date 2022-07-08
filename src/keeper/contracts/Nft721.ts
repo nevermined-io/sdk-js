@@ -14,6 +14,7 @@ export default class Nft721 extends ContractBase {
 
         await nft.checkExists(address)
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         nft.contract = new nft.web3.eth.Contract(abi, address)
 

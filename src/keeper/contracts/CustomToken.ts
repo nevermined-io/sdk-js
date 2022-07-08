@@ -12,6 +12,7 @@ export default class CustomToken extends Token {
 
         await token.checkExists(address)
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         token.contract = new token.web3.eth.Contract(abi, address)
 

@@ -1,11 +1,6 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import {
-    Condition,
-    ConditionContext,
-    ConditionInstance,
-    ConditionParameters
-} from '../Condition.abstract'
+import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 
@@ -45,7 +40,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         lockCondition: string,
         nftContractAddress?: string,
         willBeTransferred: boolean = true
-    ): ConditionParameters<{}> {
+    ): ConditionParameters<Record<string, unknown>> {
         return {
             list: [
                 didZeroX(did),

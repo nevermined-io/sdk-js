@@ -40,7 +40,7 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         lockCondition: string,
         nftTokenAddress: string,
         willBeTransferred: boolean = true
-    ): ConditionParameters<{}> {
+    ): ConditionParameters<Record<string, unknown>> {
         return {
             list: [
                 didZeroX(did),

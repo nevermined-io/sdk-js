@@ -37,7 +37,7 @@ export default class Account extends Instantiable {
         return this.babyX.substr(2) + this.babyY.substr(2)
     }
 
-    public async signBabyjub(num: BigInt) {
+    public async signBabyjub(num: bigint) {
         const keytransfer = await makeKeyTransfer()
         return keytransfer.signBabyjub(this.babySecret, num)
     }

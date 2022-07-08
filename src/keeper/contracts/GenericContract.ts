@@ -35,11 +35,7 @@ export default class GenericContract extends ContractBase {
         )
     }
 
-    public async call<T extends any>(
-        name: string,
-        args: any[],
-        from?: string
-    ): Promise<T> {
+    public async call<T>(name: string, args: any[], from?: string): Promise<T> {
         return super.call(name, args, from)
     }
 

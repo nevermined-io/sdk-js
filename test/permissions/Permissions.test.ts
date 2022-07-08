@@ -37,7 +37,7 @@ describe('Permissions', () => {
             issuanceDate: faker.date.recent()
         }
 
-        /* eslint-disable @typescript-eslint/camelcase */
+        /* eslint-disable @typescript-eslint/naming-convention */
         permissionsResults = {
             page: 1,
             results: [permission],
