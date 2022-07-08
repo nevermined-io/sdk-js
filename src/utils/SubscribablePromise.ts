@@ -1,6 +1,6 @@
 import { SubscribableObserver } from './SubscribableObserver'
 
-export class SubscribablePromise<T extends any, P extends any> {
+export class SubscribablePromise<T, P> {
     private observer = new SubscribableObserver<T, P>()
 
     private promise = Object.assign(

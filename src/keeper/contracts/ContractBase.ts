@@ -296,11 +296,7 @@ export abstract class ContractBase extends Instantiable {
         }
     }
 
-    public async call<T extends any>(
-        name: string,
-        args: any[],
-        from?: string
-    ): Promise<T> {
+    public async call<T>(name: string, args: any[], from?: string): Promise<T> {
         if (!this.contract.methods[name]) {
             throw new Error(`Method ${name} is not part of contract ${this.contractName}`)
         }

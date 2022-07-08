@@ -116,7 +116,7 @@ export abstract class ConditionSmall extends ContractBase {
 
 export abstract class Condition<
     Ctx extends ConditionContext,
-    Extra = {}
+    Extra = Record<string, unknown>
 > extends ConditionSmall {
     public static async getInstance<Ctx extends ConditionContext, Extra>(
         config: InstantiableConfig,

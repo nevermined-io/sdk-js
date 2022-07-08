@@ -1,24 +1,21 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import AssetRewards from '../../../models/AssetRewards'
 import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.serviceAgreementTemplate'
-import Account from '../../../nevermined/Account'
-import { TxParameters } from '../ContractBase'
 import { ServiceType } from '../../../ddo/Service'
 
-export class DIDSalesTemplate extends BaseTemplate<{}> {
-    public params(...args: any[]): {} {
+export class DIDSalesTemplate extends BaseTemplate<Record<string, unknown>> {
+    public params(...args: any[]): Record<string, unknown> {
         throw new Error('Method not implemented.')
     }
     public instanceFromDDO(
         agreementId: string,
         ddo: DDO,
         creator: string,
-        parameters: {}
-    ): Promise<AgreementInstance<{}>> {
+        parameters: Record<string, unknown>
+    ): Promise<AgreementInstance<Record<string, unknown>>> {
         throw new Error('Method not implemented.')
     }
     public service(): ServiceType {

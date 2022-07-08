@@ -1,12 +1,14 @@
 import { WebServiceConnector } from '../../src/nevermined/utils/WebServiceConnector'
 import { InstantiableConfig } from '../../src/Instantiable.abstract'
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export default class WebServiceConnectorMock extends WebServiceConnector {
     constructor(config: InstantiableConfig, private returnData: any) {
         super(config)
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     private async fetch(url, opts): Promise<any> {
         return new Promise((resolve, reject) => {

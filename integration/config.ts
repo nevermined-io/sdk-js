@@ -73,6 +73,7 @@ if (process.env.NETWORK_NAME === 'mumbai') {
 if (process.env.SEED_WORDS) {
     const seedphrase = process.env.SEED_WORDS
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 10)
 }

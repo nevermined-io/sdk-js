@@ -361,12 +361,13 @@ export class Metadata extends MarketplaceApi {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
     }
 
+    /* eslint-disable @typescript-eslint/naming-convention */
     private transformResult(
         { results, page, total_pages: totalPages, total_results: totalResults }: any = {
             result: [],
             page: 0,
-            total_pages: 0, // eslint-disable-line @typescript-eslint/camelcase
-            total_results: 0 // eslint-disable-line @typescript-eslint/camelcase
+            total_pages: 0,
+            total_results: 0
         }
     ): QueryResult {
         return {

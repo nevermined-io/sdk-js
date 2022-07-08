@@ -60,7 +60,7 @@ describe('Bookmarks', () => {
         await sleep(1000)
         const response = await nevermined.bookmarks.findManyByUserId(newBookmark.userId)
 
-        /* eslint-disable @typescript-eslint/camelcase */
+        /* eslint-disable @typescript-eslint/naming-convention */
         assert.deepEqual(response, {
             page: 1,
             total_pages: response.total_pages,
@@ -91,7 +91,7 @@ describe('Bookmarks', () => {
 
         const response = await nevermined.bookmarks.findManyByUserId(newBookmark.userId)
 
-        /* eslint-disable @typescript-eslint/camelcase */
+        /* eslint-disable @typescript-eslint/naming-convention */
         assert.deepEqual(response, {
             page: 1,
             total_pages: response.total_pages,

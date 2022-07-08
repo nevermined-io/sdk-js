@@ -5,10 +5,8 @@
     "mocha": true
   },
   "extends": [
-    "prettier/standard",
-    "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -25,6 +23,7 @@
   },
   "plugins": [
     "@typescript-eslint",
+    "eslint-plugin-tsdoc",
     "prettier"
   ],
   "rules": {
@@ -75,6 +74,7 @@
     "prefer-destructuring": [
       "warn"
     ],
-    "prettier/prettier": "warn"
+    "prettier/prettier": "warn",
+    "tsdoc/syntax": "warn"
   }
 }

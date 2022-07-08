@@ -17,7 +17,7 @@ const reponsify = async data => ({
 describe('Metadata', () => {
     let nevermined: Nevermined
     let metadata: Metadata
-    /* eslint-disable @typescript-eslint/camelcase */
+    /* eslint-disable @typescript-eslint/naming-convention */
     const getResults = (
         results: DDO[],
         page = 0,
@@ -29,7 +29,6 @@ describe('Metadata', () => {
         total_pages,
         total_results
     })
-    /* eslint-enable @typescript-eslint/camelcase */
 
     beforeEach(async () => {
         nevermined = await Nevermined.getInstance(config)
