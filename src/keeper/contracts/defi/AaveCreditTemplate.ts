@@ -132,10 +132,6 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             txParams
         )
 
-        console.log(`createVaultAgreement:
-            status=${txAgreement.status}, txHash=${txAgreement.transactionHash},
-
-            collateralAmount=${_collateralAmount}, delegatedAmount=${_delegatedAmount}`)
         return [txAgreement, data]
     }
 
@@ -166,10 +162,6 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             lender,
             from.getId()
         )
-
-        console.log(`Deployed credit vault:
-            vaultAddress=${vaultAddress}, lendingPool=${this.aaveConfig.lendingPoolAddress}.
-            weth=${this.aaveConfig.wethAddress}. agreementFee=${this.aaveConfig.agreementFee}`)
 
         const [txAgreement, data] = await this._createAgreement(
             agreementIdSeed,

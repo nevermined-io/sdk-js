@@ -52,16 +52,13 @@ export abstract class ContractBase extends Instantiable {
 
     protected async init(config: InstantiableConfig, optional: boolean = false) {
         this.setInstanceConfig(config)
-        console.log('didregistry init setConfig')
         const contractHandler = new ContractHandler(config)
-        console.log('didregistry.init contractHandler')
         this.contract = await contractHandler.get(
             this.contractName,
             optional,
             undefined,
             config.artifactsFolder
         )
-        console.log('didregistry.init get contract')
         try {
             this.version = await contractHandler.getVersion(
                 this.contractName,
@@ -203,7 +200,6 @@ export abstract class ContractBase extends Instantiable {
             // Something weird with celo eip-1559 implementation (mainnet, alfajores)
             const chainId = await this.nevermined.keeper.getNetworkId()
             if (chainId == 44787 || chainId == 42220) {
-                console.log('Calling Celo...')
                 txparams = {
                     from,
                     value,

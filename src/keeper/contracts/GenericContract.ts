@@ -25,7 +25,6 @@ export default class GenericContract extends ContractBase {
         this.setInstanceConfig(config)
 
         const contractHandler = new ContractHandler(config)
-        console.log(`GenericContract :: INIT :: ${config.artifactsFolder}`)
         this.contract = await contractHandler.get(
             this.contractName,
             optional,

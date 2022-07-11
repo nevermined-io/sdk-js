@@ -74,7 +74,6 @@ export class Keeper extends Instantiable {
     }
 
     public async init() {
-        console.log('keeper init')
         this.instances = {}
         try {
             this.instances = await objectPromiseAll({

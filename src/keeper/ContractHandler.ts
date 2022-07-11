@@ -56,9 +56,7 @@ export default class ContractHandler extends Instantiable {
         address?: string,
         artifactsFolder?: string
     ): Promise<ethers.Contract> {
-        console.log('contracthandler get')
         const networkId = await this.nevermined.keeper.getNetworkId()
-        console.log('contracthandler networkId')
         const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         try {
             this.logger.debug(`ContractHandler :: GET :: ${artifactsFolder}`)

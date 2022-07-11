@@ -28,7 +28,6 @@ export class AaveCredit extends Instantiable {
 
         aaveCredit.template = await AaveCreditTemplate.getInstance(config)
         aaveCredit.aaveConfig = config.config.aaveConfig
-        // console.log(`AaveCredit: aaveConfig=${JSON.stringify(config.config)}`)
 
         return aaveCredit
     }
@@ -164,7 +163,6 @@ export class AaveCredit extends Instantiable {
         } = await this.nevermined.keeper.conditionStoreManager.getCondition(
             agreementData.conditionIds[0]
         )
-        // console.log(`tx status=${txReceipt.status}, stateNftLock=${stateNftLock}`)
         return contractReceipt.status && stateNftLock === ConditionState.Fulfilled
     }
 
@@ -190,7 +188,7 @@ export class AaveCredit extends Instantiable {
             )
         }
         if (!did) {
-            did = agreementData.did
+            ;({ did } = agreementData)
         }
         const _collateralAmount = web3Utils
             .toWei(collateralAmount.toString(), 'ether')
@@ -198,7 +196,6 @@ export class AaveCredit extends Instantiable {
         const _delegatedAmount = web3Utils
             .toWei(delegatedAmount.toString(), 'ether')
             .toString()
-        // console.log(`aaveCollateralDepositCondition.fulfill: ${_collateralAmount}, ${_collateralAmount.toString()}, ${collateralAmount}`)
         const _value = useWethGateway ? _collateralAmount.toString() : '0'
         if (!useWethGateway) {
             this.logger.log(
@@ -259,12 +256,10 @@ export class AaveCredit extends Instantiable {
             )
         }
         if (!did) {
-            did = agreementData.did
+            ;({ did } = agreementData)
         }
         const amount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        console.log(
-            `about to borrow ${delegatedAsset}: amountWei=${amount}, delegatedAmount=${delegatedAmount}`
-        )
+
         const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
             agreementId,
             did,
