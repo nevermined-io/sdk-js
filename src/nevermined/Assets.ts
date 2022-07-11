@@ -20,6 +20,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { ApiError, AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
+import { ContractReceipt } from 'ethers'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -237,11 +238,7 @@ export class Assets extends Instantiable {
             const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
             await ddo.assignDid(didSeed, didRegistry, publisher)
 
-            await ddo.addSignature(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
+            await ddo.addSignature(this.nevermined, publisher.getId())
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
@@ -476,11 +473,7 @@ export class Assets extends Instantiable {
                 const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
                 await ddo.assignDid(didSeed, didRegistry, publisher)
 
-                await ddo.addSignature(
-                    this.nevermined,
-                    publisher.getId(),
-                    publisher.getPassword()
-                )
+                await ddo.addSignature(this.nevermined, publisher.getId())
 
                 this.logger.log('Proof generated')
                 observer.next(CreateProgressStep.ProofGenerated)
@@ -713,11 +706,7 @@ export class Assets extends Instantiable {
                 const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
                 await ddo.assignDid(didSeed, didRegistry, publisher)
 
-                await ddo.addSignature(
-                    this.nevermined,
-                    publisher.getId(),
-                    publisher.getPassword()
-                )
+                await ddo.addSignature(this.nevermined, publisher.getId())
 
                 this.logger.log('Proof generated')
                 observer.next(CreateProgressStep.ProofGenerated)
@@ -988,11 +977,7 @@ export class Assets extends Instantiable {
             const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
             await ddo.assignDid(didSeed, didRegistry, publisher)
 
-            await ddo.addSignature(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
+            await ddo.addSignature(this.nevermined, publisher.getId())
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
@@ -1358,7 +1343,7 @@ export class Assets extends Instantiable {
         did: string,
         newOwner: string,
         params?: TxParameters
-    ): Promise<TransactionReceipt> {
+    ): Promise<ContractReceipt> {
         const owner = await this.nevermined.assets.owner(did)
         return this.nevermined.keeper.didRegistry.transferDIDOwnership(
             did,

@@ -229,7 +229,7 @@ describe('Register Escrow Access Proof Template', () => {
                 consumer
             )
 
-            const fulfill = await lockPaymentCondition.fulfill(
+            const contractReceipt = await lockPaymentCondition.fulfill(
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
@@ -239,7 +239,10 @@ describe('Register Escrow Access Proof Template', () => {
                 consumer
             )
 
-            assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                'Not Fulfilled event.'
+            )
         })
 
         it('should fulfill AccessCondition', async () => {
@@ -248,7 +251,7 @@ describe('Register Escrow Access Proof Template', () => {
                 await keyTransfer.ecdh(providerK, buyerPub)
             )
             const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
-            const fulfill = await accessProofCondition.fulfill(
+            const contractReceipt = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
                 buyerPub,
@@ -257,11 +260,14 @@ describe('Register Escrow Access Proof Template', () => {
                 proof
             )
 
-            assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                'Not Fulfilled event.'
+            )
         })
 
         it('should fulfill EscrowPaymentCondition', async () => {
-            const fulfill = await escrowPaymentCondition.fulfill(
+            const contractReceipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 did,
                 amounts,
@@ -274,7 +280,10 @@ describe('Register Escrow Access Proof Template', () => {
                 consumer
             )
 
-            assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                'Not Fulfilled event.'
+            )
         })
     })
 

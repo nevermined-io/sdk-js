@@ -268,9 +268,7 @@ export class Nfts extends Instantiable {
         txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
-
         const ddo = await this.nevermined.assets.resolve(did)
-        const salesService = ddo.findServiceByType('nft-sales')
 
         const result = await agreements.conditions.transferNft(
             agreementId,

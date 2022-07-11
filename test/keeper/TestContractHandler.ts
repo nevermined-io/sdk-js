@@ -1,12 +1,12 @@
-import { Contract } from 'web3-eth-contract'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
+import { ethers } from 'ethers'
 
-interface ContractTest extends Contract {
+interface ContractTest extends ethers.Contract {
     testContract?: boolean
     $initialized?: boolean
 }
@@ -14,9 +14,11 @@ interface ContractTest extends Contract {
 export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts() {
         TestContractHandler.setConfig(config)
-        const [deployerAddress] = await TestContractHandler.web3.eth.getAccounts()
-        TestContractHandler.networkId = await TestContractHandler.web3.eth.net.getId()
-        TestContractHandler.minter = await TestContractHandler.web3.utils.toHex('minter')
+        const [deployerAddress] = await TestContractHandler.web3.listAccounts()
+        TestContractHandler.networkId = (
+            await TestContractHandler.web3.getNetwork()
+        ).chainId
+        TestContractHandler.minter = ethers.utils.hexlify('minter')
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
     }
@@ -342,7 +344,10 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         // dont redeploy if there is already something loaded
         if (TestContractHandler.hasContract(name, where)) {
-            const contract: ContractTest = await ContractHandler.getContract(name, where)
+            const contract: ethers.Contract = await ContractHandler.getContract(
+                name,
+                where
+            )
             if (contract.testContract) {
                 return { ...contract, $initialized: true } as any
             }
@@ -384,9 +389,9 @@ export default abstract class TestContractHandler extends ContractHandler {
         args = [],
         tokens = {},
         init = true
-    ): Promise<Contract> {
+    ): Promise<ethers.Contract> {
         if (!from) {
-            from = (await TestContractHandler.web3.eth.getAccounts())[0]
+            ;[from] = await TestContractHandler.web3.listAccounts()
         }
 
         const sendConfig = {
@@ -395,9 +400,10 @@ export default abstract class TestContractHandler extends ContractHandler {
             gasPrice: '875000000'
         }
 
-        const tempContract = new TestContractHandler.web3.eth.Contract(
+        const tempContract = new ethers.Contract(
+            artifact.address,
             artifact.abi,
-            artifact.address
+            TestContractHandler.web3
         )
         const isZos = !!tempContract.methods.initialize && init
 
@@ -413,7 +419,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 .splice(1)
         })
 
-        const contractInstance: Contract = await tempContract
+        const contractInstance: ethers.Contract = await tempContract
             .deploy({
                 data: TestContractHandler.replaceTokens(
                     artifact.bytecode.toString(),
@@ -425,7 +431,6 @@ export default abstract class TestContractHandler extends ContractHandler {
         if (isZos) {
             await contractInstance.methods.initialize(...args).send(sendConfig)
         }
-        // Logger.log('Deployed', name, 'at', contractInstance.options.address)
 
         return contractInstance
     }

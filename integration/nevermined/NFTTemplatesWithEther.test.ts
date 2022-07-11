@@ -116,7 +116,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 collector2: await collector2.getEtherBalance(),
                 gallery: await gallery.getEtherBalance(),
                 escrowPaymentCondition: Number(
-                    await Web3Provider.getWeb3(config).eth.getBalance(
+                    await Web3Provider.getWeb3(config).getBalance(
                         escrowPaymentCondition.getAddress()
                     )
                 )
@@ -331,7 +331,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 assert.equal(state, ConditionState.Fulfilled)
 
                 const escrowPaymentConditionBalance = Number(
-                    await Web3Provider.getWeb3(config).eth.getBalance(
+                    await Web3Provider.getWeb3(config).getBalance(
                         escrowPaymentCondition.getAddress()
                     )
                 )

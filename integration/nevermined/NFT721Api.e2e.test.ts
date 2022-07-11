@@ -7,10 +7,10 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Contract } from 'web3-eth-contract'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { zeroX } from '../../src/utils'
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -35,7 +35,7 @@ describe('NFTs721 Api End-to-End', () => {
     let initialBalances: any
     let scale: number
 
-    let nftContract: Contract
+    let nftContract: ethers.Contract
 
     let payload: JWTPayload
 

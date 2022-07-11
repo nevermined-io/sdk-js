@@ -36,7 +36,7 @@ export default class Token extends ContractBase {
 
     public async balanceOf(address: string): Promise<BigNumber> {
         return this.call('balanceOf', [address]).then(
-            (balance: string) => new BigNumber(balance)
+            (balance: string) => new BigNumber(balance.toString())
         )
     }
 

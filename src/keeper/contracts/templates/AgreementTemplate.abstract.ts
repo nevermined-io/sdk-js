@@ -487,7 +487,9 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 _conditionIds: true,
                 _conditionIdSeeds: true,
                 _timeLocks: true,
-                _timeOuts: true
+                _timeOuts: true,
+                _idSeed: true,
+                _creator: true
             }
         })
         return res

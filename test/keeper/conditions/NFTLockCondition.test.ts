@@ -1,5 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import { ContractReceipt, Event } from 'ethers'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { NFTLockCondition } from '../../../src/keeper/contracts/conditions'
 import { NFTUpgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
@@ -105,7 +106,7 @@ describe('NFTLockCondition', () => {
                 owner
             )
 
-            const result = await nftLockCondition.fulfill(
+            const contractReceipt: ContractReceipt = await nftLockCondition.fulfill(
                 agreementId,
                 did,
                 rewardAddress.getId(),
@@ -116,13 +117,8 @@ describe('NFTLockCondition', () => {
             const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
             assert.equal(nftBalance, amount)
 
-            const {
-                _agreementId,
-                _did,
-                _lockAddress,
-                _conditionId,
-                _amount
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _did, _lockAddress, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))

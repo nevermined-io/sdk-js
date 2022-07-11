@@ -11,6 +11,7 @@ import { AaveConfig } from '../../../models/AaveConfig'
 import web3Utils from 'web3-utils'
 import BigNumber from 'bignumber.js'
 import { ServiceType } from '../../../ddo/Service'
+import { ContractReceipt } from 'ethers'
 
 export interface AaveCreditTemplateParams {
     vaultAddress: string
@@ -94,7 +95,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<[TransactionReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
+    ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
         const _collateralAmount = new BigNumber(
             web3Utils.toWei(collateralAmount.toString(), 'ether')
         )
@@ -154,9 +155,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<
-        [TransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]
-    > {
+    ): Promise<[ContractReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
         const vaultAddress = await this.deployVault(
             this.aaveConfig.lendingPoolAddress,
             this.aaveConfig.dataProviderAddress,
@@ -206,9 +205,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         lender: string,
         from: string
     ): Promise<string> {
-        // console.log(`deployVault: ${lendingPool}, ${dataProvider}, ${weth}, ${agreementFee}, ${treasuryAddress}, ${borrower}, ${lender}, ${from}, `)
-        // console.log(`\n\npastEvents=${JSON.stringify(await this.getEventData('VaultCreated', {}))}`)
-        const tx = await this.send('deployVault', from, [
+        const contractReceipt: ContractReceipt = await this.send('deployVault', from, [
             lendingPool,
             dataProvider,
             weth,
@@ -217,8 +214,10 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             borrower,
             lender
         ])
-        // console.log(`events: ${tx}, ${JSON.stringify(tx.events)}, ${tx.events.VaultCreated}`)
-        const { _vaultAddress } = tx.events.VaultCreated.returnValues
+        const vaultCreatedEvent = contractReceipt.events.find(
+            e => e.event === 'VaultCreated'
+        )
+        const { _vaultAddress } = vaultCreatedEvent.args
         return _vaultAddress
     }
 

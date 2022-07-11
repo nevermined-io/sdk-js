@@ -2,6 +2,7 @@ import { TransactionReceipt } from 'web3-core'
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import { ContractReceipt, ethers } from 'ethers'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -94,8 +95,11 @@ export type ProvenanceEvent<
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
+        console.log('DIDRegistry getInstance')
         const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')
+        console.log('DIDRegistry new instance')
         await didRegistry.init(config)
+        console.log('DIDRegistry init')
         return didRegistry
     }
 
@@ -164,7 +168,7 @@ export default class DIDRegistry extends ContractBase {
                 String(cap),
                 String(royalties),
                 mint,
-                zeroX(activityId),
+                ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 nftMetadata
             ],
             params
@@ -337,7 +341,7 @@ export default class DIDRegistry extends ContractBase {
         newOwnerAddress: string,
         ownerAddress: string,
         params?: TxParameters
-    ): Promise<TransactionReceipt> {
+    ): Promise<ContractReceipt> {
         return this.send(
             'transferDIDOwnership',
             ownerAddress,

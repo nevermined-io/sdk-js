@@ -1,13 +1,13 @@
-import Web3 from 'web3'
 import Config from './models/Config'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import Web3Provider from './keeper/Web3Provider'
 import { Nevermined } from './nevermined/Nevermined'
+import { ethers } from 'ethers'
 
 export interface InstantiableConfig {
     nevermined: Nevermined
     config?: Config
-    web3?: Web3
+    web3?: ethers.providers.JsonRpcProvider
     logger?: Logger
     artifactsFolder?: string
 }
@@ -42,7 +42,7 @@ export abstract class Instantiable {
      * @return {Promise<boolean>} Contract exists.
      */
     protected async checkExists(address: string): Promise<boolean> {
-        const storage = await this.web3.eth.getStorageAt(address, 0)
+        const storage = await this.web3.getStorageAt(address, 0)
         // check if storage is 0x0 at position 0, this is the case most of the cases
         if (
             storage ===
@@ -50,7 +50,7 @@ export abstract class Instantiable {
         ) {
             // if the storage is empty, check if there is no code for this contract,
             // if so we can be sure it does not exist
-            const code = await this.web3.eth.getCode(address)
+            const code = await this.web3.getCode(address)
             if (code === '0x0') {
                 // no contract in the blockchain dude
                 throw new Error(`No contract deployed at address ${address}, sorry.`)

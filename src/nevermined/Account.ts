@@ -5,6 +5,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
+import { ethers } from 'ethers'
 
 /**
  * Account information.
@@ -106,9 +107,9 @@ export default class Account extends Instantiable {
      * @return {Promise<number>}
      */
     public async getEtherBalance(): Promise<BigNumber> {
-        return this.web3.eth.getBalance(this.id, 'latest').then(
-            (balance: string): BigNumber => {
-                return new BigNumber(balance)
+        return this.web3.getBalance(this.id).then(
+            (balance: ethers.BigNumber): BigNumber => {
+                return new BigNumber(balance.toString())
             }
         )
     }
@@ -139,7 +140,7 @@ export default class Account extends Instantiable {
         try {
             await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, params)
         } catch (e) {
-            throw new KeeperError('Error requesting tokens')
+            throw new KeeperError(`Error requesting tokens: ${e}`)
         }
         return amount.toString()
     }

@@ -1,6 +1,7 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { Web3Error } from '../errors'
+import { ethers } from 'ethers'
 
 const defaultAuthMessage = 'Nevermined Protocol Authentication'
 const defaultExpirationTime = 30 * 24 * 60 * 60 * 1000 // 30 days
@@ -33,8 +34,7 @@ export class Auth extends Instantiable {
         try {
             const signature = await this.nevermined.utils.signature.signText(
                 message,
-                account.getId(),
-                account.getPassword()
+                account.getId()
             )
 
             return `${signature}-${time}`
@@ -58,7 +58,7 @@ export class Auth extends Instantiable {
             return `0x${'0'.repeat(40)}`
         }
 
-        return this.web3.utils.toChecksumAddress(
+        return ethers.utils.getAddress(
             await this.nevermined.utils.signature.verifyText(message, signature)
         )
     }

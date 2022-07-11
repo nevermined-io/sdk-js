@@ -43,14 +43,9 @@ export class AgreementStoreManager extends ContractBase {
             agreementId
         )
         const values = events.map(e => e.returnValues || e)
-        const {
-            _did,
-            _didOwner,
-            _conditionIds,
-            _conditionIdSeeds,
-            _idSeed,
-            _creator
-        } = values[0]
+        const [
+            { _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }
+        ] = values
         return {
             did: _did,
             agreementId,

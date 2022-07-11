@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { TransactionReceipt } from 'web3-core'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
 import GenericContract from '../keeper/contracts/GenericContract'
@@ -16,6 +15,7 @@ import { AgreementData } from '../keeper/contracts/managers'
 import CustomToken from '../keeper/contracts/CustomToken'
 import web3Utils from 'web3-utils'
 import { AgreementInstance } from '../keeper/contracts/templates'
+import { ContractReceipt } from 'ethers'
 
 export class AaveCredit extends Instantiable {
     template: AaveCreditTemplate
@@ -150,7 +150,7 @@ export class AaveCredit extends Instantiable {
                 return false
             }
         }
-        const txReceipt: TransactionReceipt = await lockCond.fulfill(
+        const contractReceipt: ContractReceipt = await lockCond.fulfill(
             agreementId,
             did,
             vaultAddress,
@@ -165,7 +165,7 @@ export class AaveCredit extends Instantiable {
             agreementData.conditionIds[0]
         )
         // console.log(`tx status=${txReceipt.status}, stateNftLock=${stateNftLock}`)
-        return txReceipt.status && stateNftLock === ConditionState.Fulfilled
+        return contractReceipt.status && stateNftLock === ConditionState.Fulfilled
     }
 
     public async depositCollateral(
@@ -215,7 +215,7 @@ export class AaveCredit extends Instantiable {
             )
         }
 
-        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
+        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
             agreementId,
             did,
             vaultAddress,
@@ -237,7 +237,7 @@ export class AaveCredit extends Instantiable {
         }
         // this.logger.log(`aaveCollateralDepositCondition fulfilled at conditionId=${agreementData.conditionIds[1]}`)
 
-        return txReceipt.status
+        return contractReceipt.status === 1
     }
 
     public async borrow(
@@ -265,7 +265,7 @@ export class AaveCredit extends Instantiable {
         console.log(
             `about to borrow ${delegatedAsset}: amountWei=${amount}, delegatedAmount=${delegatedAmount}`
         )
-        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
+        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
             agreementId,
             did,
             vaultAddress,
@@ -282,8 +282,7 @@ export class AaveCredit extends Instantiable {
         if (stateBorrow !== ConditionState.Fulfilled) {
             return false
         }
-        // this.logger.log(`aaveBorrowCondition fulfilled at conditionId=${agreementData.conditionIds[2]}`)
-        return txReceipt.status
+        return contractReceipt.status === 1
     }
 
     public async repayDebt(
@@ -336,7 +335,7 @@ export class AaveCredit extends Instantiable {
 
         const weiAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
         // use the aaveRepayCondition to apply the repayment
-        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
+        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
             agreementId,
             did,
             vaultAddress,
@@ -353,12 +352,8 @@ export class AaveCredit extends Instantiable {
         if (stateRepay !== ConditionState.Fulfilled) {
             return false
         }
-        // this.logger.log(`aaveRepayCondition fulfilled at conditionId=${agreementData.conditionIds[3]}`)
 
-        // const vaultBalancesAfter: number = await this.getActualCreditDebt(agreementId, from)
-        // Compare the vault debt after repayment
-        // this.logger.log(`owned debt after repayment is: ${vaultBalancesAfter.toString()}`)
-        return txReceipt.status
+        return contractReceipt.status === 1
     }
 
     public async withdrawCollateral(
@@ -384,7 +379,7 @@ export class AaveCredit extends Instantiable {
             ).address
         }
 
-        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
+        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
             agreementId,
             did,
             vaultAddress,
@@ -399,9 +394,8 @@ export class AaveCredit extends Instantiable {
         if (stateWithdraw !== ConditionState.Fulfilled) {
             return false
         }
-        // this.logger.log(`aaveCollateralWithdrawCondition fulfilled at conditionId=${agreementData.conditionIds[4]}`)
 
-        return txReceipt.status
+        return contractReceipt.status === 1
     }
 
     public async unlockNft(
@@ -425,7 +419,7 @@ export class AaveCredit extends Instantiable {
         vaultAddress = vaultContract.address
 
         // use the distributeNftCollateralCondition to withdraw the lender's collateral
-        const txReceipt: TransactionReceipt = await this.nevermined.keeper.conditions.distributeNftCollateralCondition.fulfill(
+        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.distributeNftCollateralCondition.fulfill(
             agreementId,
             did,
             vaultAddress,
@@ -440,9 +434,8 @@ export class AaveCredit extends Instantiable {
         if (stateUnlock !== ConditionState.Fulfilled) {
             return false
         }
-        // this.logger.log(`distributeNftCollateralCondition fulfilled at conditionId=${agreementData.conditionIds[5]}`)
 
-        return txReceipt.status
+        return contractReceipt.status === 1
     }
 
     public async getVaultContract(

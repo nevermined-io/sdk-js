@@ -39,8 +39,7 @@ export class NeverminedSecretStore extends Instantiable {
             (await publisher.getToken()) ||
             (await this.nevermined.utils.signature.signText(
                 noDidPrefixed(did),
-                publisher.getId(),
-                publisher.getPassword()
+                publisher.getId()
             ))
 
         return this.nevermined.gateway.secretStoreEncrypt(

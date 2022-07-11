@@ -5,6 +5,7 @@ import { generateId } from '../../src/utils/GeneratorHelpers'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
+import { ContractReceipt } from 'ethers'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -21,15 +22,17 @@ describe('DIDRegistry', () => {
             const [ownerAccount] = await nevermined.accounts.list()
             const did = generateId()
             const data = 'my nice provider, is nice'
-            const receipt = await didRegistry.registerAttribute(
+            const contractReceipt: ContractReceipt = await didRegistry.registerAttribute(
                 did,
                 `0123456789abcdef`,
                 [],
                 data,
                 ownerAccount.getId()
             )
-            assert(receipt.status)
-            assert(receipt.events.DIDAttributeRegistered)
+            assert.equal(contractReceipt.status, 1)
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'DIDAttributeRegistered')
+            )
         })
     })
 

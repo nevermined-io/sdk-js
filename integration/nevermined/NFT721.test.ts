@@ -6,16 +6,16 @@ import { Nevermined, Account, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
-import { Contract } from 'web3-eth-contract'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import utils from 'web3-utils'
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
 
-    let nft: Contract
+    let nft: ethers.Contract
 
     let artist: Account
     let collector: Account
