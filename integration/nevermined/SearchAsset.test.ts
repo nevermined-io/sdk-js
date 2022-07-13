@@ -72,12 +72,13 @@ describe('Search Asset', () => {
             await nevermined.assets.create(metadataGenerator('Test3', userId), publisher),
             DDO
         )
+        await new Promise(r => setTimeout(r, 1000))
     })
 
     it('should search by text and see the increment of DDOs', async () => {
+        const result1 = await nevermined.assets.search(`Test2${testHash}`)
         assert.equal(
-            (await nevermined.assets.search(`Test2${testHash}`)).results.length -
-                test2length,
+            result1.results.length - test2length,
             2,
             'Something was wrong searching the assets'
         )
