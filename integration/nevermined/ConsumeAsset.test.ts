@@ -59,7 +59,7 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens = new BigNumber(1)
+        const claimedTokens = new BigNumber(100)
 
         try {
             await consumer.requestTokens(claimedTokens)
