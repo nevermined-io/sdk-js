@@ -12,11 +12,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ["--spree-embedded-contracts", "--polygon"]
+        network: ["--geth", "--polygon"]
         node: ["14"]
         include:
-          - network: "--spree-embedded-contracts"
-            network-name: spree
+          - network: "--geth"
+            network-name: geth-localnet
           - network: "--polygon"
             network-name: polygon-localnet
 
