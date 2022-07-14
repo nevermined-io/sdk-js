@@ -258,7 +258,6 @@ export class Keeper extends Instantiable {
         // Templates
         this.templates = {
             accessTemplate: this.instances.accessTemplate,
-            // accessProofTemplate: this.instances.accessProofTemplate,
             escrowComputeExecutionTemplate: this.instances.escrowComputeExecutionTemplate,
             didSalesTemplate: this.instances.didSalesTemplate,
             nftAccessTemplate: this.instances.nftAccessTemplate,
@@ -267,7 +266,12 @@ export class Keeper extends Instantiable {
             nft721SalesTemplate: this.instances.nft721SalesTemplate,
             aaveCreditTemplate: this.instances.aaveCreditTemplate
         }
-        this.templateList = [this.instances.accessTemplate]
+        this.templateList = [
+            this.instances.accessTemplate,
+            this.instances.escrowComputeExecutionTemplate,
+            this.instances.nft721AccessTemplate,
+            this.instances.nftAccessTemplate
+        ]
         // Utils
         this.utils = {
             eventHandler: new EventHandler()
