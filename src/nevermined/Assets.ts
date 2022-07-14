@@ -2,7 +2,7 @@ import { TransactionReceipt } from 'web3-core'
 import { SearchQuery } from '../common/interfaces'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
-import { Service, ServiceType } from '../ddo/Service'
+import { Service, ServiceType, ServiceCommon } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
 import {
@@ -20,6 +20,13 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { ApiError, AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
+
+export interface ServicePlugin {
+    createService(
+        publisher: Account,
+        metadata: MetaData,
+    ): Promise<ServiceCommon>
+}
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -74,6 +81,7 @@ export class Assets extends Instantiable {
      */
     public static async getInstance(config: InstantiableConfig): Promise<Assets> {
         const instance = new Assets()
+        instance.servicePlugin = {}
         instance.setInstanceConfig(config)
 
         return instance
@@ -849,6 +857,8 @@ export class Assets extends Instantiable {
         })
     }
 
+    public servicePlugin: { [key: string]: ServicePlugin }
+
     /**
      * Creates a new DDO.
      * @param {MetaData} metadata DDO metadata.
@@ -945,6 +955,13 @@ export class Assets extends Instantiable {
                 )
             }
 
+            for (let name of serviceTypes) {
+                const plugin = this.servicePlugin[name]
+                if (plugin) {
+                    await ddo.addService(this.nevermined, await plugin.createService(publisher, metadata))
+                }
+            }
+
             /*
             if (serviceTypes.includes('access-proof')) {
                 this.logger.log('Access proof service Added')
@@ -999,6 +1016,21 @@ export class Assets extends Instantiable {
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
 
+            for (let name of serviceTypes) {
+                console.log(ddo)
+                const service = ddo.findServiceByType(name)
+                const sat : ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+                // const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
+                sat.conditions = fillConditionsWithDDO(
+                    sat.conditions,
+                    ddo,
+                    assetRewards,
+                    erc20TokenAddress || this.nevermined.token.getAddress()
+                )
+
+            }
+
+            /*
             if (serviceTypes.includes('access')) {
                 const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
                 accessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
@@ -1009,7 +1041,6 @@ export class Assets extends Instantiable {
                 )
             }
 
-            /*
             if (serviceTypes.includes('access-proof')) {
                 const templateConditions = await templates.accessProofTemplate.getServiceAgreementTemplateConditions()
                 accessProofServiceAgreementTemplate.conditions = fillConditionsWithDDO(
@@ -1018,7 +1049,7 @@ export class Assets extends Instantiable {
                     assetRewards,
                     erc20TokenAddress || this.nevermined.token.getAddress()
                 )
-            }*/
+            }
 
             if (serviceTypes.includes('compute')) {
                 const escrowComputeExecutionTemplateConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
@@ -1028,7 +1059,7 @@ export class Assets extends Instantiable {
                     assetRewards,
                     erc20TokenAddress || this.nevermined.token.getAddress()
                 )
-            }
+            }*/
 
             this.logger.log('Conditions filled')
             observer.next(CreateProgressStep.ConditionsFilled)
@@ -1617,6 +1648,7 @@ export class Assets extends Instantiable {
         } as Service
     }
 
+    /*
     private createAccessProofService(
         templates,
         publisher,
@@ -1642,8 +1674,9 @@ export class Assets extends Instantiable {
                 },
                 serviceAgreementTemplate
             }
-        } as Service
+        } as ServiceAccessProof
     }
+    */
 
     private createComputeService(
         templates,

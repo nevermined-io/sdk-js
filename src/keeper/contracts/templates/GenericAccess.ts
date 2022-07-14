@@ -15,4 +15,5 @@ export interface GenericAccess {
     ): Promise<string>
 
     params(consumer: any): any
+    contractName: string
 }

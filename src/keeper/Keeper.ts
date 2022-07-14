@@ -267,6 +267,7 @@ export class Keeper extends Instantiable {
             nft721SalesTemplate: this.instances.nft721SalesTemplate,
             aaveCreditTemplate: this.instances.aaveCreditTemplate
         }
+        this.templateList = [this.instances.accessTemplate]
         // Utils
         this.utils = {
             eventHandler: new EventHandler()
@@ -348,6 +349,7 @@ export class Keeper extends Instantiable {
     }
 
     public conditionsList: ConditionSmall[]
+    public templateList: GenericAccess[]
 
     /**
      * Templates instances.
@@ -424,9 +426,9 @@ export class Keeper extends Instantiable {
      * @return {GenericAccess} Agreement template instance.
      */
     public getAccessTemplateByName(name: string): GenericAccess {
-        return Object.values(this.templates).find(
+        return this.templateList.find(
             template => template.contractName === name
-        ) as GenericAccess
+        )
     }
 
     /**
