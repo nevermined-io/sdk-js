@@ -22,10 +22,7 @@ import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
 
 export interface ServicePlugin {
-    createService(
-        publisher: Account,
-        metadata: MetaData,
-    ): Promise<ServiceCommon>
+    createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
 }
 
 export enum CreateProgressStep {
@@ -955,10 +952,13 @@ export class Assets extends Instantiable {
                 )
             }
 
-            for (let name of serviceTypes) {
+            for (const name of serviceTypes) {
                 const plugin = this.servicePlugin[name]
                 if (plugin) {
-                    await ddo.addService(this.nevermined, await plugin.createService(publisher, metadata))
+                    await ddo.addService(
+                        this.nevermined,
+                        await plugin.createService(publisher, metadata)
+                    )
                 }
             }
 
@@ -1016,9 +1016,10 @@ export class Assets extends Instantiable {
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
 
-            for (let name of serviceTypes) {
+            for (const name of serviceTypes) {
                 const service = ddo.findServiceByType(name)
-                const sat : ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+                const sat: ServiceAgreementTemplate =
+                    service.attributes.serviceAgreementTemplate
                 // const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
                 sat.conditions = fillConditionsWithDDO(
                     sat.conditions,
@@ -1026,7 +1027,6 @@ export class Assets extends Instantiable {
                     assetRewards,
                     erc20TokenAddress || this.nevermined.token.getAddress()
                 )
-
             }
 
             /*

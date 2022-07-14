@@ -404,9 +404,7 @@ export class Keeper extends Instantiable {
      * @return {Condition} Condition instance.
      */
     public getConditionByAddress(address: string): ConditionSmall {
-        return this.conditionsList.find(
-            condition => condition.getAddress() === address
-        )
+        return this.conditionsList.find(condition => condition.getAddress() === address)
     }
 
     /**
@@ -426,9 +424,7 @@ export class Keeper extends Instantiable {
      * @return {GenericAccess} Agreement template instance.
      */
     public getAccessTemplateByName(name: string): GenericAccess {
-        return this.templateList.find(
-            template => template.contractName === name
-        )
+        return this.templateList.find(template => template.contractName === name)
     }
 
     /**

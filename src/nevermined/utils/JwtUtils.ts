@@ -146,7 +146,7 @@ export class JwtUtils extends Instantiable {
             sub: serviceAgreementId,
             did: did,
             ...obj,
-            eths: 'personal',
+            eths: 'personal'
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()

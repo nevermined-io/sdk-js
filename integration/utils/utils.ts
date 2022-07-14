@@ -11,8 +11,7 @@ export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
     for (let i = 0; i < n; i++) {
         try {
             return await p
-        } catch (err) {
-        }
+        } catch (err) {}
         await sleep(500)
     }
     return p
