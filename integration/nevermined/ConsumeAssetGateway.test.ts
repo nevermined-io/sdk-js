@@ -89,7 +89,7 @@ describe('Consume Asset (Gateway)', () => {
 
     it('should get the lockPayment condition fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await new Promise(resolve => setTimeout(resolve, 3000))
         const status = await repeat(3, nevermined.agreements.status(agreementId))
 
         assert.deepEqual(status, {
