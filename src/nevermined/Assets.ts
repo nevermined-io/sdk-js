@@ -929,7 +929,7 @@ export class Assets extends Instantiable {
             } as Service)
 
             const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
-            const accessProofServiceAgreementTemplate = await templates.accessProofTemplate.getServiceAgreementTemplate()
+            // const accessProofServiceAgreementTemplate = await templates.accessProofTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
 
             if (serviceTypes.includes('access')) {
@@ -945,6 +945,7 @@ export class Assets extends Instantiable {
                 )
             }
 
+            /*
             if (serviceTypes.includes('access-proof')) {
                 this.logger.log('Access proof service Added')
                 await ddo.addService(
@@ -957,6 +958,7 @@ export class Assets extends Instantiable {
                     )
                 )
             }
+            */
 
             if (serviceTypes.includes('compute')) {
                 this.logger.log('Compute service Added')
@@ -1007,6 +1009,7 @@ export class Assets extends Instantiable {
                 )
             }
 
+            /*
             if (serviceTypes.includes('access-proof')) {
                 const templateConditions = await templates.accessProofTemplate.getServiceAgreementTemplateConditions()
                 accessProofServiceAgreementTemplate.conditions = fillConditionsWithDDO(
@@ -1015,7 +1018,7 @@ export class Assets extends Instantiable {
                     assetRewards,
                     erc20TokenAddress || this.nevermined.token.getAddress()
                 )
-            }
+            }*/
 
             if (serviceTypes.includes('compute')) {
                 const escrowComputeExecutionTemplateConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
@@ -1232,6 +1235,7 @@ export class Assets extends Instantiable {
         return true
     }
 
+    /*
     public async consumeProof(
         agreementId: string,
         did: string,
@@ -1252,7 +1256,7 @@ export class Assets extends Instantiable {
             serviceEndpoint,
             consumerAccount
         )
-    }
+    }*/
 
     /**
      * Start the purchase/order of an asset's service. Starts by signing the service agreement

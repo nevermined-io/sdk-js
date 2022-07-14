@@ -184,6 +184,7 @@ export class Gateway extends Instantiable {
         return destination
     }
 
+    /*
     public async consumeProofService(
         did: string,
         agreementId: string,
@@ -216,6 +217,7 @@ export class Gateway extends Instantiable {
             throw new GatewayError(`Error consuming assets - ${e}`)
         }
     }
+    */
 
     public async secretStoreEncrypt(
         did: string,

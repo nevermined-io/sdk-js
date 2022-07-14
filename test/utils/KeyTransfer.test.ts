@@ -1,3 +1,4 @@
+/*
 import { assert } from 'chai'
 import { makeKeyTransfer } from '../../src/utils/KeyTransfer'
 
@@ -45,3 +46,4 @@ describe('KeyTransfer', () => {
         })
     })
 })
+*/

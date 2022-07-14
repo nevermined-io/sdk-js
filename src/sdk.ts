@@ -37,6 +37,7 @@ export {
 } from './permissions/Permissions.interfaces'
 
 import * as events from './events'
+import * as KeyTransfer from './models/KeyTransfer'
 import * as subgraphs from './subgraphs'
 
 export {
@@ -48,6 +49,7 @@ export {
     DID,
     Logger,
     Keeper,
+    KeyTransfer,
     conditions,
     templates,
     SearchQuery,

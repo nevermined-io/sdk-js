@@ -5,7 +5,7 @@ import { findServiceConditionByName, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import { makeKeyTransfer } from '../utils/KeyTransfer'
+// import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { EventOptions } from '../events/NeverminedEvent'
 import AssetRewards from '../models/AssetRewards'
@@ -140,6 +140,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {BabyjubPublicKey}  providerPub Provider public key.
      * @param {Account} from        Account of sender.
      */
+    /*
     public async transferKey(
         agreementId: string,
         data: Buffer,
@@ -173,7 +174,7 @@ export class AgreementsConditions extends Instantiable {
         } catch (e) {
             throw new KeeperError(e)
         }
-    }
+    }*/
 
     /**
      * Read the transferred key from chain.
@@ -182,6 +183,7 @@ export class AgreementsConditions extends Instantiable {
      * @param {BabyjubPublicKey}  providerPub Provider public key.
      * @param {Account} from        Account of sender.
      */
+    /*
     public async readKey(
         agreementId: string,
         buyerK: string,
@@ -219,6 +221,7 @@ export class AgreementsConditions extends Instantiable {
             await keyTransfer.ecdh(buyerK, providerPub)
         )
     }
+    */
 
     /**
      * Authorize the consumer defined in the agreement to execute a remote service associated with this asset.

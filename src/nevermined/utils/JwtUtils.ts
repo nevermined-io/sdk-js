@@ -132,6 +132,7 @@ export class JwtUtils extends Instantiable {
             .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 
+    /*
     public async generateAccessProofToken(
         account: Account,
         serviceAgreementId: string,
@@ -151,7 +152,7 @@ export class JwtUtils extends Instantiable {
             .setIssuedAt()
             .setExpirationTime('1h')
             .ethSign(address, this.nevermined.utils.signature, this.web3)
-    }
+    }*/
 
     public async generateDownloadGrantToken(
         account: Account,

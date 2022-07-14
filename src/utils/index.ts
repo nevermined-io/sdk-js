@@ -1,4 +1,4 @@
-export * from './KeyTransfer'
+// export * from './KeyTransfer'
 
 export * from './PromiseResolver'
 export * from './Logger'
