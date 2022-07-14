@@ -4,7 +4,7 @@ import { Account } from '../../../src'
 import { SignatureUtils } from './SignatureUtils'
 import Web3 from 'web3'
 
-class EthSignJWT extends SignJWT {
+export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
 
     setProtectedHeader(protectedHeader: JWSHeaderParameters) {
@@ -132,27 +132,27 @@ export class JwtUtils extends Instantiable {
             .ethSign(address, this.nevermined.utils.signature, this.web3)
     }
 
-    /*
-    public async generateAccessProofToken(
+    public async generateToken(
         account: Account,
         serviceAgreementId: string,
-        did: string
+        did: string,
+        aud: string,
+        obj: any
     ): Promise<string> {
         const address = this.web3.utils.toChecksumAddress(account.getId())
         return new EthSignJWT({
             iss: address,
-            aud: this.BASE_AUD + '/access-proof',
+            aud: this.BASE_AUD + aud,
             sub: serviceAgreementId,
             did: did,
-            babysig: await account.signBabyjub(BigInt(address)),
-            buyer: account.getPublic(),
-            eths: 'personal'
+            ...obj,
+            eths: 'personal',
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
             .ethSign(address, this.nevermined.utils.signature, this.web3)
-    }*/
+    }
 
     public async generateDownloadGrantToken(
         account: Account,

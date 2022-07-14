@@ -1017,7 +1017,6 @@ export class Assets extends Instantiable {
             observer.next(CreateProgressStep.ProofGenerated)
 
             for (let name of serviceTypes) {
-                console.log(ddo)
                 const service = ddo.findServiceByType(name)
                 const sat : ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
                 // const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
