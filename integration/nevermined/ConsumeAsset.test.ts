@@ -4,6 +4,7 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
+import { repeat } from '../utils/utils'
 
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -104,13 +105,9 @@ describe('Consume Asset', () => {
 
     it('should get the agreement conditions status not fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        // await new Promise(resolve => setTimeout(resolve, 100))
-        let status
-        try {
-            status = await nevermined.agreements.status(agreementId)
-        } catch (err) {
-            status = await nevermined.agreements.status(agreementId)
-        }
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        const status = await repeat(3, nevermined.agreements.status(agreementId))
+        // const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
