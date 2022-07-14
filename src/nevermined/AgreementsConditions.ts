@@ -4,10 +4,7 @@ import { DDO } from '../ddo/DDO'
 import { findServiceConditionByName, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
-import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-// import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { EventOptions } from '../events/NeverminedEvent'
 import AssetRewards from '../models/AssetRewards'
 import BigNumber from 'bignumber.js'
 import { KeeperError } from '../errors/KeeperError'
@@ -130,98 +127,6 @@ export class AgreementsConditions extends Instantiable {
             throw new KeeperError(e)
         }
     }
-
-    /**
-     * Transfer the key to the buyer.
-     * @param {string}  agreementId Agreement ID.
-     * @param {Buffer}  data        key plain text.
-     * @param {string}  providerK   Provider secret key.
-     * @param {BabyjubPublicKey}  buyerPub Buyer public key.
-     * @param {BabyjubPublicKey}  providerPub Provider public key.
-     * @param {Account} from        Account of sender.
-     */
-    /*
-    public async transferKey(
-        agreementId: string,
-        data: Buffer,
-        providerK: string,
-        buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey,
-        from?: Account,
-        params?: TxParameters
-    ) {
-        try {
-            const { accessProofCondition } = this.nevermined.keeper.conditions
-
-            const keyTransfer = await makeKeyTransfer()
-            const cipher = await keyTransfer.encryptKey(
-                data,
-                await keyTransfer.ecdh(providerK, buyerPub)
-            )
-            const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
-            const hash = await keyTransfer.hashKey(data)
-            const receipt = await accessProofCondition.fulfill(
-                agreementId,
-                hash,
-                buyerPub,
-                providerPub,
-                cipher,
-                proof,
-                from,
-                params
-            )
-            return !!receipt.events.Fulfilled
-        } catch (e) {
-            throw new KeeperError(e)
-        }
-    }*/
-
-    /**
-     * Read the transferred key from chain.
-     * @param {string}  agreementId Agreement ID.
-     * @param {string}  buyerK   Buyer secret key.
-     * @param {BabyjubPublicKey}  providerPub Provider public key.
-     * @param {Account} from        Account of sender.
-     */
-    /*
-    public async readKey(
-        agreementId: string,
-        buyerK: string,
-        providerPub: BabyjubPublicKey
-    ) {
-        const { accessProofCondition } = this.nevermined.keeper.conditions
-        const evOptions: EventOptions = {
-            eventName: 'Fulfilled',
-            methodName: 'getFulfilleds',
-            filterJsonRpc: { _agreementId: agreementId },
-            filterSubgraph: { where: { _agreementId: agreementId } },
-            result: {
-                _agreementId: true,
-                _origHash: true,
-                _buyer: true,
-                _provider: true,
-                _cipher: true,
-                _proof: true,
-                _conditionId: true
-            }
-        }
-        const ev = await accessProofCondition.events.once(events => events, evOptions)
-
-        if (!ev.length) {
-            throw new KeeperError('No events are returned')
-        }
-
-        const [cipherL, cipherR] = ev[0].returnValues
-            ? ev[0].returnValues._cipher
-            : ev[0]._cipher
-
-        const keyTransfer = await makeKeyTransfer()
-        return keyTransfer.decryptKey(
-            new MimcCipher(cipherL, cipherR),
-            await keyTransfer.ecdh(buyerK, providerPub)
-        )
-    }
-    */
 
     /**
      * Authorize the consumer defined in the agreement to execute a remote service associated with this asset.

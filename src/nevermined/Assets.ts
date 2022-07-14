@@ -10,8 +10,7 @@ import {
     SubscribablePromise,
     generateId,
     zeroX,
-    didZeroX,
-    getAssetRewardsFromService
+    didZeroX
 } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
@@ -936,7 +935,6 @@ export class Assets extends Instantiable {
             } as Service)
 
             const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
-            // const accessProofServiceAgreementTemplate = await templates.accessProofTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
 
             if (serviceTypes.includes('access')) {
@@ -961,21 +959,6 @@ export class Assets extends Instantiable {
                     )
                 }
             }
-
-            /*
-            if (serviceTypes.includes('access-proof')) {
-                this.logger.log('Access proof service Added')
-                await ddo.addService(
-                    this.nevermined,
-                    this.createAccessProofService(
-                        templates,
-                        publisher,
-                        metadata,
-                        accessProofServiceAgreementTemplate
-                    )
-                )
-            }
-            */
 
             if (serviceTypes.includes('compute')) {
                 this.logger.log('Compute service Added')
@@ -1020,7 +1003,6 @@ export class Assets extends Instantiable {
                 const service = ddo.findServiceByType(name)
                 const sat: ServiceAgreementTemplate =
                     service.attributes.serviceAgreementTemplate
-                // const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
                 sat.conditions = fillConditionsWithDDO(
                     sat.conditions,
                     ddo,
@@ -1028,37 +1010,6 @@ export class Assets extends Instantiable {
                     erc20TokenAddress || this.nevermined.token.getAddress()
                 )
             }
-
-            /*
-            if (serviceTypes.includes('access')) {
-                const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
-                accessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    accessTemplateConditions,
-                    ddo,
-                    assetRewards,
-                    erc20TokenAddress || this.nevermined.token.getAddress()
-                )
-            }
-
-            if (serviceTypes.includes('access-proof')) {
-                const templateConditions = await templates.accessProofTemplate.getServiceAgreementTemplateConditions()
-                accessProofServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    templateConditions,
-                    ddo,
-                    assetRewards,
-                    erc20TokenAddress || this.nevermined.token.getAddress()
-                )
-            }
-
-            if (serviceTypes.includes('compute')) {
-                const escrowComputeExecutionTemplateConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
-                computeServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    escrowComputeExecutionTemplateConditions,
-                    ddo,
-                    assetRewards,
-                    erc20TokenAddress || this.nevermined.token.getAddress()
-                )
-            }*/
 
             this.logger.log('Conditions filled')
             observer.next(CreateProgressStep.ConditionsFilled)
@@ -1264,29 +1215,6 @@ export class Assets extends Instantiable {
         }
         return true
     }
-
-    /*
-    public async consumeProof(
-        agreementId: string,
-        did: string,
-        consumerAccount: Account
-    ): Promise<string | true> {
-        const ddo = await this.resolve(did)
-        const { serviceEndpoint } = ddo.findServiceByType('access-proof')
-
-        if (!serviceEndpoint) {
-            throw new AssetError(
-                'Consume asset failed, service definition is missing the `serviceEndpoint`.'
-            )
-        }
-
-        return await this.nevermined.gateway.consumeProofService(
-            did,
-            agreementId,
-            serviceEndpoint,
-            consumerAccount
-        )
-    }*/
 
     /**
      * Start the purchase/order of an asset's service. Starts by signing the service agreement
@@ -1646,36 +1574,6 @@ export class Assets extends Instantiable {
             }
         } as Service
     }
-
-    /*
-    private createAccessProofService(
-        templates,
-        publisher,
-        metadata: MetaData,
-        serviceAgreementTemplate
-    ) {
-        return {
-            type: 'access-proof',
-            index: 10,
-            serviceEndpoint: this.nevermined.gateway.getAccessProofEndpoint(),
-            templateId: templates.accessProofTemplate.getAddress(),
-            attributes: {
-                main: {
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    name: 'dataAssetAccessProofServiceAgreement',
-                    timeout: 3600,
-                    _hash: metadata.additionalInformation.poseidonHash,
-                    _providerPub: [
-                        metadata.additionalInformation.providerKey.x,
-                        metadata.additionalInformation.providerKey.y
-                    ]
-                },
-                serviceAgreementTemplate
-            }
-        } as ServiceAccessProof
-    }
-    */
 
     private createComputeService(
         templates,

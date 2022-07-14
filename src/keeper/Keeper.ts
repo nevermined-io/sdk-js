@@ -7,7 +7,6 @@ import {
     LockPaymentCondition,
     EscrowPaymentCondition,
     AccessCondition,
-    // AccessProofCondition,
     ComputeExecutionCondition,
     NFTHolderCondition,
     NFTLockCondition,
@@ -27,7 +26,6 @@ import {
 import {
     AgreementTemplate,
     AccessTemplate,
-    // AccessProofTemplate,
     EscrowComputeExecutionTemplate,
     DIDSalesTemplate,
     NFTAccessTemplate,
@@ -102,10 +100,6 @@ export class Keeper extends Instantiable {
                     this.instanceConfig
                 ),
                 accessCondition: AccessCondition.getInstance(this.instanceConfig),
-                /*
-                accessProofCondition: AccessProofCondition.getInstance(
-                    this.instanceConfig
-                ),*/
                 computeExecutionCondition: ComputeExecutionCondition.getInstance(
                     this.instanceConfig
                 ),
@@ -164,7 +158,6 @@ export class Keeper extends Instantiable {
 
             const templates = [
                 this.instances.accessTemplate,
-                // this.instances.accessProofTemplate,
                 this.instances.escrowComputeExecutionTemplate,
                 this.instances.nftAccessTemplate,
                 this.instances.nft721AccessTemplate,

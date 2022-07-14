@@ -184,41 +184,6 @@ export class Gateway extends Instantiable {
         return destination
     }
 
-    /*
-    public async consumeProofService(
-        did: string,
-        agreementId: string,
-        serviceEndpoint: string,
-        account: Account
-    ): Promise<string> {
-        const { jwt } = this.nevermined.utils
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, did)
-
-        if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateAccessProofToken(
-                account,
-                agreementId,
-                did
-            )
-            accessToken = await this.fetchToken(grantToken)
-            jwt.tokenCache.set(cacheKey, accessToken)
-        } else {
-            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-        }
-        const headers = {
-            Authorization: 'Bearer ' + accessToken
-        }
-
-        const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/0`
-        try {
-            return await this.nevermined.utils.fetch.downloadUrl(consumeUrl, headers)
-        } catch (e) {
-            throw new GatewayError(`Error consuming assets - ${e}`)
-        }
-    }
-    */
-
     public async secretStoreEncrypt(
         did: string,
         signature: string,
