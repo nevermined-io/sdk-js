@@ -56,7 +56,7 @@ export class AgreementsConditions extends Instantiable {
         let token: Token
 
         if (!erc20TokenAddress) {
-            ({ token } = this.nevermined.keeper)
+            ;({ token } = this.nevermined.keeper)
         } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {
@@ -281,7 +281,7 @@ export class AgreementsConditions extends Instantiable {
             let token
 
             if (!erc20TokenAddress) {
-                ({ token } = this.nevermined.keeper)
+                ;({ token } = this.nevermined.keeper)
             } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
                 token = await CustomToken.getInstanceByAddress(
                     {

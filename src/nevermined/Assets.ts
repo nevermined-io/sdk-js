@@ -354,7 +354,7 @@ export class Assets extends Instantiable {
                 serviceEndpoint,
                 '0x1',
                 nftMetadata ? nftMetadata : '',
-                royalties,
+                Math.floor(royalties * 10000),
                 preMint,
                 publisher.getId(),
                 txParams
@@ -375,7 +375,7 @@ export class Assets extends Instantiable {
         cap?: number,
         providers?: string[],
         nftAmount?: number,
-        royalties?: number,
+        royalties: number = 0,
         erc20TokenAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
@@ -587,7 +587,7 @@ export class Assets extends Instantiable {
                     '0x1',
                     nftMetadata ? nftMetadata : '',
                     cap,
-                    royalties,
+                    Math.floor(royalties * 10000),
                     preMint,
                     publisher.getId(),
                     txParams

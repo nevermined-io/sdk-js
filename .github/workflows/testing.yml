@@ -12,11 +12,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ["--spree-embedded-contracts", "--polygon"]
+        network: ["--geth", "--polygon"]
         node: ["14"]
         include:
-          - network: "--spree-embedded-contracts"
-            network-name: spree
+          - network: "--geth"
+            network-name: geth-localnet
           - network: "--polygon"
             network-name: polygon-localnet
 
@@ -45,7 +45,8 @@ jobs:
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
-          ./start_nevermined.sh --latest ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+          export KEEPER_VERSION=develop
+          ./start_nevermined.sh ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
           ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}

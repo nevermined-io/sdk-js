@@ -4,6 +4,8 @@ import { LoggerInstance, LogLevel } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
+const nograph = process.env['NO_GRAPH'] === 'true'
+
 const configBase: Config = {
     nodeUri: 'http://localhost:8545',
     marketplaceUri: 'http://nevermined-metadata:3100',
@@ -12,7 +14,9 @@ const configBase: Config = {
     secretStoreUri: 'http://localhost:12001',
     gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
-    graphHttpUri: 'http://localhost:9000/subgraphs/name/nevermined-io/development',
+    graphHttpUri: nograph
+        ? undefined
+        : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
     gasMultiplier: 1.1,
     verbose: LogLevel.Error
 }
@@ -79,4 +83,4 @@ if (process.env.SEED_WORDS) {
 }
 
 export const config: Config & { forceVerbose: Config } = configBase as any
-    ; (config as any).forceVerbose = { ...configBase, verbose: true }
+;(config as any).forceVerbose = { ...configBase, verbose: true }
