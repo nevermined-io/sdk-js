@@ -8,6 +8,7 @@ import ContractBase from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
 import { Nevermined } from '../nevermined/Nevermined'
 import { ethers } from 'ethers'
+import { Filter } from 'web3-eth-contract'
 
 export class ContractEvent extends NeverminedEvent {
     public static getInstance(
@@ -26,16 +27,20 @@ export class ContractEvent extends NeverminedEvent {
     }
 
     public async getEventData(options: EventOptions): EventResult {
-        if (!this.contract.contract.events[options.eventName]) {
+        if (!this.eventExists(options.eventName)) {
             throw new KeeperError(
                 `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`
             )
         }
-        return this.contract.contract.getPastEvents(options.eventName, {
-            filter: options.filterJsonRpc,
-            fromBlock: options.fromBlock,
-            toBlock: options.toBlock
-        })
+        const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
+        const eventFilter: ethers.EventFilter = this.contract.contract.filters[
+            options.eventName
+        ](...args)
+        return this.contract.contract.queryFilter(
+            eventFilter,
+            options.fromBlock,
+            options.toBlock
+        )
     }
 
     public async getPastEvents(options: EventOptions): EventResult {
@@ -58,5 +63,14 @@ export class ContractEvent extends NeverminedEvent {
 
     public async getBlockNumber(): Promise<number> {
         return this.web3.getBlockNumber()
+    }
+
+    private eventExists(eventName: string): boolean {
+        return !!this.contract.contract.interface.getEvent(eventName)
+    }
+
+    private filterToArgs(eventName: string, filter: Filter): Array<any> {
+        const event = this.contract.contract.interface.getEvent(eventName)
+        return event.inputs.map(i => filter[i.name])
     }
 }

@@ -48,9 +48,13 @@ describe('ContractEvent', () => {
                     }
                 )
             })
+            console.log('before request tokens')
             await nevermined.keeper.dispenser.requestTokens(1, account1.getId())
+            console.log('after request tokens account1')
             await nevermined.keeper.dispenser.requestTokens(2, account2.getId())
+            console.log('after request tokens account2')
             await nevermined.keeper.dispenser.requestTokens(3, account3.getId())
+            console.log('after request tokens account3')
 
             await waitForEvents
             subscription.unsubscribe()

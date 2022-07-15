@@ -25,7 +25,7 @@ describe('EventHandler', () => {
 
             const subscription = eventHandler.subscribe(
                 () => null,
-                (nevermined as any).web3.eth.getBlockNumber
+                () => (nevermined as any).web3.getBlockNumber()
             )
             assert.isDefined(subscription)
 
@@ -40,7 +40,7 @@ describe('EventHandler', () => {
 
             const subscription = eventHandler.subscribe(
                 () => null,
-                (nevermined as any).web3.eth.getBlockNumber
+                () => (nevermined as any).web3.getBlockNumber()
             )
             assert.isDefined(subscription)
 
@@ -56,7 +56,9 @@ describe('EventHandler', () => {
             const countBefore = eventHandler.count
             const callback = () => null
 
-            eventHandler.subscribe(callback, (nevermined as any).web3.eth.getBlockNumber)
+            eventHandler.subscribe(callback, () =>
+                (nevermined as any).web3.getBlockNumber()
+            )
             eventHandler.unsubscribe(callback)
 
             const countAfter = eventHandler.count
@@ -69,11 +71,10 @@ describe('EventHandler', () => {
             let blockNumber = 100000000000
             const callbackSpy = spy()
 
-            spy.on((nevermined as any).web3.eth, 'getBlockNumber', () => blockNumber)
+            spy.on((nevermined as any).web3, 'getBlockNumber', () => blockNumber)
 
-            const subscription = eventHandler.subscribe(
-                callbackSpy,
-                (nevermined as any).web3.eth.getBlockNumber
+            const subscription = eventHandler.subscribe(callbackSpy, () =>
+                (nevermined as any).web3.getBlockNumber()
             )
 
             await new Promise(resolve => setTimeout(resolve, 300))

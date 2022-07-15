@@ -38,8 +38,8 @@ export class Auth extends Instantiable {
             )
 
             return `${signature}-${time}`
-        } catch {
-            throw new Web3Error('User denied the signature.')
+        } catch (e) {
+            throw new Web3Error(`User denied the signature: ${e.error.message}`)
         }
     }
 

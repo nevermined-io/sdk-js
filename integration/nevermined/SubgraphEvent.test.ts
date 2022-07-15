@@ -13,7 +13,7 @@ describe('SubgraphEvent', () => {
             config.graphHttpUri ||
             'http://localhost:9000/subgraphs/name/nevermined-io/development'
         nevermined = await Nevermined.getInstance(config)
-            ;[account] = await nevermined.accounts.list()
+        ;[account] = await nevermined.accounts.list()
 
         await nevermined.keeper.dispenser.requestTokens(1, account.getId())
 

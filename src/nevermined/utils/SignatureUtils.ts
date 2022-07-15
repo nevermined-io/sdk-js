@@ -9,7 +9,14 @@ export class SignatureUtils extends Instantiable {
 
     public async signText(text: string, address: string): Promise<string> {
         const signer = this.web3.getSigner(address)
-        return signer.signMessage(text)
+        try {
+            return await signer.signMessage(text)
+        } catch (e) {
+            // Possibly the provider does not support personal_sign
+            // Fallback to eth_sign
+            this.logger.warn(`Trying legacy sign: ${e.error.message}`)
+            return signer._legacySignMessage(text)
+        }
     }
 
     public async verifyText(text: string, signature: string): Promise<string> {

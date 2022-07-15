@@ -122,6 +122,10 @@ export abstract class ContractBase extends Instantiable {
         const methodSignature = this.getSignatureOfMethod(name, args)
         const { value, gasPrice } = params
 
+        // get signer
+        const signer = this.web3.getSigner(from)
+        const contract = this.contract.connect(signer)
+
         try {
             let { gasLimit } = params
             if (params.progress) {
@@ -136,7 +140,7 @@ export abstract class ContractBase extends Instantiable {
                 })
             }
             if (!gasLimit) {
-                gasLimit = await this.contract.estimateGas[methodSignature](...args, {
+                gasLimit = await contract.estimateGas[methodSignature](...args, {
                     from,
                     value
                 })
@@ -165,7 +169,6 @@ export abstract class ContractBase extends Instantiable {
                 })
             }
             let txparams: any = {
-                from,
                 value,
                 gasLimit,
                 gasPrice
@@ -179,7 +182,6 @@ export abstract class ContractBase extends Instantiable {
                         maxPriorityFeePerGas = fee
                     }
                     txparams = {
-                        from,
                         value,
                         gasLimit,
                         maxPriorityFeePerGas,
@@ -201,16 +203,11 @@ export abstract class ContractBase extends Instantiable {
             const chainId = await this.nevermined.keeper.getNetworkId()
             if (chainId == 44787 || chainId == 42220) {
                 txparams = {
-                    from,
                     value,
                     gasLimit,
                     gasPrice
                 }
             }
-
-            // get signer
-            const signer = this.web3.getSigner(from)
-            const contract = this.contract.connect(signer)
 
             const transactionResponse: TransactionResponse = await contract[
                 methodSignature

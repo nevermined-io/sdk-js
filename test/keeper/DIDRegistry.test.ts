@@ -5,16 +5,18 @@ import { generateId } from '../../src/utils/GeneratorHelpers'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
-import { ContractReceipt } from 'ethers'
+import { ContractReceipt, ethers } from 'ethers'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
+let checksum: string
 
 describe('DIDRegistry', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
         ;({ didRegistry } = nevermined.keeper)
+        checksum = ethers.utils.hexlify(ethers.utils.randomBytes(32))
     })
 
     describe('#registerAttribute()', () => {
@@ -24,7 +26,7 @@ describe('DIDRegistry', () => {
             const data = 'my nice provider, is nice'
             const contractReceipt: ContractReceipt = await didRegistry.registerAttribute(
                 did,
-                `0123456789abcdef`,
+                checksum,
                 [],
                 data,
                 ownerAccount.getId()
@@ -43,7 +45,7 @@ describe('DIDRegistry', () => {
             const data = 'my nice provider, is nice'
             await didRegistry.registerAttribute(
                 didSeed,
-                '0123456789abcdef',
+                checksum,
                 [],
                 data,
                 ownerAccount.getId()
@@ -60,8 +62,8 @@ describe('DIDRegistry', () => {
         })
 
         it('should get 0x0 for a not registered did', async () => {
-            const owner = await didRegistry.getDIDOwner('1234')
-            assert.equal(owner, `0x${'0'.repeat(40)}`)
+            const owner = await didRegistry.getDIDOwner(generateId())
+            assert.equal(owner, ethers.constants.AddressZero)
         })
     })
 
@@ -73,7 +75,7 @@ describe('DIDRegistry', () => {
             const data = 'my nice provider, is nice'
             await didRegistry.registerAttribute(
                 didSeed,
-                '12345678',
+                checksum,
                 [],
                 data,
                 ownerAccount.getId()

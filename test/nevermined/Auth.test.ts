@@ -6,6 +6,7 @@ import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import { Auth } from '../../src/nevermined/Auth'
 import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 use(spies)
 
@@ -16,9 +17,9 @@ describe('Auth', () => {
 
     before(async () => {
         const nevermined = await Nevermined.getInstance(config)
-        auth = nevermined.auth
-        account = (await nevermined.accounts.list())[0]
-        web3 = (nevermined as any).web3
+        ;({ auth } = nevermined)
+        ;[account] = await nevermined.accounts.list()
+        ;({ web3 } = nevermined as any)
     })
 
     afterEach(() => {
@@ -38,7 +39,7 @@ describe('Auth', () => {
         it('should return the account of a signature', async () => {
             const token = await auth.get(account)
 
-            spy.on(web3.eth.personal, 'ecRecover', () => account.getId())
+            spy.on(ethers.utils, 'verifyMessage', () => account.getId())
 
             const address = await auth.check(token)
 
