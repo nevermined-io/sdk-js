@@ -6,9 +6,9 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account } from '../../src'
 
 import HDWalletProvider from '@truffle/hdwallet-provider'
-import Web3 from 'web3'
 
 import * as keyFile from '../KeyFile.json'
+import { ethers } from 'ethers'
 
 describe('Web3Providers', () => {
     let nevermined: Nevermined
@@ -42,8 +42,10 @@ describe('Web3Providers', () => {
 
     it('should register an asset (keyfile)', async () => {
         // Get account from keyfile
-        const w3 = new Web3()
-        const keyFileAccount = w3.eth.accounts.decrypt(keyFile, 'test')
+        const keyFileAccount = ethers.Wallet.fromEncryptedJsonSync(
+            JSON.stringify(keyFile),
+            'test'
+        )
 
         // Create provider with private key
         config.web3Provider = new HDWalletProvider(

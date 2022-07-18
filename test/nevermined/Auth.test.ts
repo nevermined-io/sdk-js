@@ -5,7 +5,6 @@ import config from '../config'
 import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import { Auth } from '../../src/nevermined/Auth'
-import Web3 from 'web3'
 import { ethers } from 'ethers'
 
 use(spies)
@@ -13,13 +12,11 @@ use(spies)
 describe('Auth', () => {
     let auth: Auth
     let account: Account
-    let web3: Web3
 
     before(async () => {
         const nevermined = await Nevermined.getInstance(config)
         ;({ auth } = nevermined)
         ;[account] = await nevermined.accounts.list()
-        ;({ web3 } = nevermined as any)
     })
 
     afterEach(() => {

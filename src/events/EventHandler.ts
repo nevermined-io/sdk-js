@@ -14,14 +14,17 @@ export class EventHandler {
     private lastTimeout: NodeJS.Timeout
 
     private getBlockNumber: () => Promise<number>
-
+    constructor() {}
     public subscribe(
         callback: (blockNumber: number) => void,
         getBlockNumber: () => Promise<number>
     ) {
+        console.log('--- EventHandler subscribe')
         this.getBlockNumber = getBlockNumber
         this.events.add(callback)
+        console.log('---- EventHandler brefore calling checkBlock')
         this.checkBlock()
+        console.log('---- EventHandler after calling checkBlock')
 
         return {
             unsubscribe: () => this.unsubscribe(callback)
@@ -29,6 +32,7 @@ export class EventHandler {
     }
 
     public unsubscribe(callback: (blockNumber: number) => void) {
+        console.log('---- EventHandler calling unsubscribe')
         this.events.delete(callback)
         if (!this.count) {
             clearTimeout(this.lastTimeout)

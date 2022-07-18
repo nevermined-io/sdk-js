@@ -13,9 +13,8 @@ import {
 import { didZeroX, generateId, zeroX } from '../utils'
 import { AgreementData } from '../keeper/contracts/managers'
 import CustomToken from '../keeper/contracts/CustomToken'
-import web3Utils from 'web3-utils'
 import { AgreementInstance } from '../keeper/contracts/templates'
-import { ContractReceipt } from 'ethers'
+import { ContractReceipt, ethers } from 'ethers'
 
 export class AaveCredit extends Instantiable {
     template: AaveCreditTemplate
@@ -190,11 +189,11 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             ;({ did } = agreementData)
         }
-        const _collateralAmount = web3Utils
-            .toWei(collateralAmount.toString(), 'ether')
+        const _collateralAmount = ethers.utils
+            .parseEther(collateralAmount.toString())
             .toString()
-        const _delegatedAmount = web3Utils
-            .toWei(delegatedAmount.toString(), 'ether')
+        const _delegatedAmount = ethers.utils
+            .parseEther(delegatedAmount.toString())
             .toString()
         const _value = useWethGateway ? _collateralAmount.toString() : '0'
         if (!useWethGateway) {
@@ -207,7 +206,9 @@ export class AaveCredit extends Instantiable {
             )
             await erc20Token.approve(
                 this.nevermined.keeper.conditions.aaveCollateralDepositCondition.address,
-                new BigNumber(web3Utils.toWei(collateralAmount.toString(), 'ether')),
+                new BigNumber(
+                    ethers.utils.parseEther(collateralAmount.toString()).toString()
+                ),
                 from
             )
         }
@@ -258,7 +259,7 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             ;({ did } = agreementData)
         }
-        const amount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
+        const amount = ethers.utils.parseEther(delegatedAmount.toString()).toString()
 
         const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
             agreementId,
@@ -309,7 +310,7 @@ export class AaveCredit extends Instantiable {
         const totalDebt = await this.getTotalActualDebt(agreementId, from, vaultAddress)
         const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
         const weiAllowanceAmount = new BigNumber(
-            web3Utils.toWei(allowanceAmount.toString(), 'ether')
+            ethers.utils.parseEther(allowanceAmount.toString()).toString()
         )
 
         // Verify that the borrower has sufficient balance for the repayment
@@ -328,7 +329,7 @@ export class AaveCredit extends Instantiable {
             from
         )
 
-        const weiAmount = web3Utils.toWei(delegatedAmount.toString(), 'ether')
+        const weiAmount = ethers.utils.parseEther(delegatedAmount.toString()).toString()
         // use the aaveRepayCondition to apply the repayment
         const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
             agreementId,
@@ -465,7 +466,7 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         const totalDebt = await vault.call('getTotalActualDebt', [], from.getId())
-        return Number(web3Utils.fromWei(totalDebt.toString()))
+        return Number(ethers.utils.formatEther(totalDebt.toString()))
     }
 
     /**
@@ -485,7 +486,9 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            web3Utils.fromWei(await vault.call('getActualCreditDebt', [], from.getId()))
+            ethers.utils.formatEther(
+                await vault.call('getActualCreditDebt', [], from.getId())
+            )
         )
     }
 
@@ -506,7 +509,9 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            web3Utils.fromWei(await vault.call('getCreditAssetDebt', [], from.getId()))
+            ethers.utils.formatEther(
+                await vault.call('getCreditAssetDebt', [], from.getId())
+            )
         )
     }
 
@@ -541,7 +546,9 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            web3Utils.fromWei(await vault.call('getBorrowedAmount', [], from.getId()))
+            ethers.utils.formatEther(
+                await vault.call('getBorrowedAmount', [], from.getId())
+            )
         )
     }
 
@@ -565,7 +572,7 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            web3Utils.fromWei(
+            ethers.utils.formatEther(
                 await vault.call(
                     'delegatedAmount',
                     [borrower, delegatedToken, interestRateMode],

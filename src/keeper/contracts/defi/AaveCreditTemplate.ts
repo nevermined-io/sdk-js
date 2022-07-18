@@ -3,15 +3,13 @@ import { BaseTemplate } from '../templates'
 import { DDO } from '../../..'
 import { didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { TransactionReceipt } from 'web3-core'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
-import web3Utils from 'web3-utils'
 import BigNumber from 'bignumber.js'
 import { ServiceType } from '../../../ddo/Service'
-import { ContractReceipt } from 'ethers'
+import { ContractReceipt, ethers } from 'ethers'
 
 export interface AaveCreditTemplateParams {
     vaultAddress: string
@@ -97,10 +95,10 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         from?: Account
     ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
         const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
+            ethers.utils.parseEther(collateralAmount.toString()).toString()
         )
         const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
+            ethers.utils.parseEther(delegatedAmount.toString()).toString()
         )
         const data = await this.instanceFromDDO(
             agreementIdSeed,

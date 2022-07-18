@@ -1337,7 +1337,7 @@ export class Assets extends Instantiable {
      * Transfer ownership of an asset.
      * @param  {string} did Asset DID.
      * @param  {string} newOwner Ethereum address of the new owner of the DID.
-     * @return {Promise<TransactionReceipt>} Returns Web3 transaction receipt.
+     * @return {Promise<TransactionReceipt>} Returns ethers transaction receipt.
      */
     public async transferOwnership(
         did: string,

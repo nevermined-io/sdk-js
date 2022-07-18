@@ -8,7 +8,6 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
-import utils from 'web3-utils'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 
@@ -143,7 +142,7 @@ describe('Nfts721 operations', async () => {
                 artist,
                 new AssetRewards(
                     artist.getId(),
-                    new BigNumber(utils.toWei('0.1', 'ether'))
+                    new BigNumber(ethers.utils.parseEther('0.1').toString())
                 ),
                 nft.options.address,
                 ZeroAddress

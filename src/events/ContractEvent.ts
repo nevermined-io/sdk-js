@@ -2,13 +2,13 @@ import {
     EventEmitter,
     EventOptions,
     EventResult,
+    Filter,
     NeverminedEvent
 } from './NeverminedEvent'
 import ContractBase from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
 import { Nevermined } from '../nevermined/Nevermined'
 import { ethers } from 'ethers'
-import { Filter } from 'web3-eth-contract'
 
 export class ContractEvent extends NeverminedEvent {
     public static getInstance(
@@ -27,20 +27,32 @@ export class ContractEvent extends NeverminedEvent {
     }
 
     public async getEventData(options: EventOptions): EventResult {
+        console.log('----- ContractEvent getEventData')
         if (!this.eventExists(options.eventName)) {
             throw new KeeperError(
                 `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`
             )
         }
         const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
+        console.log('----- ContractEvent getEventData args', args)
         const eventFilter: ethers.EventFilter = this.contract.contract.filters[
             options.eventName
         ](...args)
-        return this.contract.contract.queryFilter(
-            eventFilter,
-            options.fromBlock,
-            options.toBlock
-        )
+        console.log('----- ContractEvent getEventData eventFilter', eventFilter)
+        console.log('----- ContractEvent getEventData queryFilter options', options)
+        // console.log(
+        //     '----- ContractEvent getEventData queryFilter',
+        //     await this.contract.contract.queryFilter(
+        //         eventFilter,
+        //         options.fromBlock,
+        //         options.toBlock
+        //     )
+        // )
+
+        return this.contract.contract
+            .queryFilter(eventFilter, options.fromBlock, options.toBlock)
+            .catch(e => console.log('////////', e))
+            .then()
     }
 
     public async getPastEvents(options: EventOptions): EventResult {
@@ -53,10 +65,12 @@ export class ContractEvent extends NeverminedEvent {
             // Infura as a 1000 blokcs limit on their api
             if (chainId === 80001 || chainId === 42) {
                 const latestBlock = await this.web3.getBlockNumber()
+                console.log('---- ContractEvent latestBlock', latestBlock)
                 options.fromBlock = latestBlock - 99
             }
             return await this.getEventData(options)
         } catch (error) {
+            console.log('------ ContractEvent error', error)
             return []
         }
     }

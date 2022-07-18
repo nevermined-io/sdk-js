@@ -16,9 +16,9 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
-import web3Utils from 'web3-utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -93,8 +93,10 @@ describe('NFTTemplates With Ether E2E', async () => {
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
         // eth
-        nftPrice = Number(web3Utils.toWei(String(nftPrice), 'ether'))
-        amounts = amounts.map(v => new BigNumber(web3Utils.toWei(String(v), 'ether')))
+        nftPrice = ethers.utils.parseEther(nftPrice.toString()).toNumber()
+        amounts = amounts.map(
+            v => new BigNumber(ethers.utils.parseEther(v.toString()).toString())
+        )
 
         // ether
         assetRewards = new AssetRewards(

@@ -14,7 +14,7 @@ const configBase: Config = {
     marketplaceAuthToken: undefined,
     graphHttpUri: 'http://localhost:9000/subgraphs/name/nevermined-io/development',
     gasMultiplier: 1.1,
-    verbose: LogLevel.Verbose
+    verbose: LogLevel.Error
 }
 
 if (process.env.NETWORK_NAME === 'production') {

@@ -1,8 +1,8 @@
 import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
-import Web3 from 'web3'
 import { ContractEvent } from '../../src/events'
+import { ethers } from 'ethers'
 
 describe('ContractEvent', () => {
     let account: Account
@@ -36,8 +36,8 @@ describe('ContractEvent', () => {
             eventName: 'Transfer'
         })
         assert.strictEqual(
-            Web3.utils.toChecksumAddress(response.pop().returnValues.to),
-            Web3.utils.toChecksumAddress(account.getId())
+            ethers.utils.getAddress(response.pop().args.to),
+            ethers.utils.getAddress(account.getId())
         )
     })
 
@@ -48,6 +48,7 @@ describe('ContractEvent', () => {
         const waitUntilEvent = new Promise(resolve => {
             subscription = nevermined.keeper.token.events.subscribe(
                 events => {
+                    console.log('--- inside events', events)
                     assert.isDefined(events)
                     assert.isAtLeast(events.length, 1)
                     if (validResolve) {

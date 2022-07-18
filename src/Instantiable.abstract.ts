@@ -62,8 +62,9 @@ export abstract class Instantiable {
 
     protected get web3() {
         if (!this._instantiableConfig?.web3) {
-            this.logger.error('Web3 instance is not defined.')
-            this.logger.error('Using default instance.')
+            this.logger.warn(
+                'ethers.Provider instance is not defined. Using default instance.'
+            )
             return Web3Provider.getWeb3()
         }
         return this._instantiableConfig.web3

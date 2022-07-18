@@ -1,7 +1,7 @@
 import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
-import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 describe('SubgraphEvent', () => {
     let account: Account
@@ -35,8 +35,8 @@ describe('SubgraphEvent', () => {
             }
         })
         assert.strictEqual(
-            Web3.utils.toChecksumAddress(response.pop().to),
-            Web3.utils.toChecksumAddress(account.getId())
+            ethers.utils.getAddress(response.pop().to),
+            ethers.utils.getAddress(account.getId())
         )
     })
 

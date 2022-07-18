@@ -7,8 +7,8 @@ import { getMetadata } from '../utils'
 
 import { Nevermined, Account, DDO, ConditionState } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
-import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
 describe('Consume Asset (Gateway)', () => {
     let nevermined: Nevermined
@@ -71,9 +71,7 @@ describe('Consume Asset (Gateway)', () => {
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 11])
 
         const assetProviders = await nevermined.provider.list(ddo.id)
-        assert.deepEqual(assetProviders, [
-            Web3.utils.toChecksumAddress(config.gatewayAddress)
-        ])
+        assert.deepEqual(assetProviders, [ethers.utils.getAddress(config.gatewayAddress)])
     })
 
     it('should order the asset', async () => {
