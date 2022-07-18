@@ -47,11 +47,11 @@ export class KeyTransfer {
         this.cts = this.getConstants(SEED, NROUNDS)
     }
 
-    private getConstants(seed, nRounds) {
-        if (typeof seed === 'undefined') seed = SEED
-        if (typeof nRounds === 'undefined') nRounds = NROUNDS
+    private getConstants(seed: string = SEED, nRounds: number = NROUNDS) {
+        const seedBytes = ethers.utils.toUtf8Bytes(seed)
         const cts = new Array(nRounds)
-        let c = ethers.utils.keccak256(SEED)
+        let c = ethers.utils.keccak256(seedBytes)
+
         for (let i = 1; i < nRounds; i++) {
             c = ethers.utils.keccak256(c)
 
@@ -61,8 +61,10 @@ export class KeyTransfer {
             const c2 = ethers.utils.hexZeroPad(n1.toHexString(), 32)
             cts[i] = this.F.e(ethers.BigNumber.from(c2).toString())
         }
+
         cts[0] = this.F.e(0)
         cts[cts.length - 1] = this.F.e(0)
+
         return cts
     }
 
@@ -90,7 +92,7 @@ export class KeyTransfer {
     // mnemonic to secret key
 
     public makeKey(str: string) {
-        const c = ethers.utils.keccak256(str)
+        const c = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(str))
         return c.substr(0, 60)
     }
 
