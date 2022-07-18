@@ -184,13 +184,6 @@ export class WebServiceConnector extends Instantiable {
             `Request ${opts.method} ${url} fail - ${await result.clone().text()}`,
             result.status
         )
-        // this.logger.error(`Error requesting [${opts.method}] ${url}`)
-        // this.logger.error(`Response message: \n${await result.clone().text()}`)
-        // throw result
-
-        // if (!result.ok) {
-        // }
-        // return result
     }
 
     private _sleep(ms: number) {

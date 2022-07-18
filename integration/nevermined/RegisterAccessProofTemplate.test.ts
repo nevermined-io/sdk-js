@@ -25,7 +25,7 @@ describe('Register Escrow Access Proof Template', () => {
     let accessProofTemplate: AccessProofTemplate
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
-    const checksum = 'b'.repeat(32)
+    const checksum = generateId()
     const totalAmount = new BigNumber(12)
     const amounts = [new BigNumber(10), new BigNumber(2)]
 
@@ -215,7 +215,7 @@ describe('Register Escrow Access Proof Template', () => {
                 publisher
             )
 
-            assert.isTrue(agreement.status)
+            assert.equal(agreement.status, 1)
         })
 
         it('should fulfill LockPaymentCondition', async () => {

@@ -18,7 +18,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { ApiError, AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
-import { ContractReceipt } from 'ethers'
+import { ContractReceipt, ethers } from 'ethers'
 
 export enum CreateProgressStep {
     ServicesAdded,

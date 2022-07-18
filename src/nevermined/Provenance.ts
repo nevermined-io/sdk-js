@@ -2,6 +2,8 @@ import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ProvenanceMethod } from '../keeper/contracts/DIDRegistry'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { ethers } from 'ethers'
+import { zeroX } from '../utils'
 
 /**
  * Provenance submodule of Nevermined.
@@ -47,7 +49,7 @@ export class Provenance extends Instantiable {
             provenanceId,
             did,
             agentId,
-            activityId,
+            ethers.utils.hexZeroPad(zeroX(activityId), 32),
             signature,
             attributes,
             from.getId(),
@@ -82,7 +84,7 @@ export class Provenance extends Instantiable {
             newEntityDid,
             usedEntityDid,
             agentId,
-            activityId,
+            ethers.utils.hexZeroPad(zeroX(activityId), 32),
             attributes,
             from.getId(),
             params
@@ -113,7 +115,7 @@ export class Provenance extends Instantiable {
             provenanceId,
             did,
             agentId,
-            activityId,
+            ethers.utils.hexZeroPad(zeroX(activityId), 32),
             attributes,
             from.getId(),
             params
@@ -149,7 +151,7 @@ export class Provenance extends Instantiable {
             did,
             delegateAgentId,
             responsibleAgentId,
-            activityId,
+            ethers.utils.hexZeroPad(zeroX(activityId), 32),
             signature,
             attributes,
             from.getId(),

@@ -48,7 +48,6 @@ describe('ContractEvent', () => {
         const waitUntilEvent = new Promise(resolve => {
             subscription = nevermined.keeper.token.events.subscribe(
                 events => {
-                    console.log('--- inside events', events)
                     assert.isDefined(events)
                     assert.isAtLeast(events.length, 1)
                     if (validResolve) {

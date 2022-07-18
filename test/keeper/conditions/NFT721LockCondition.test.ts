@@ -37,9 +37,7 @@ describe('NFT721LockCondition', () => {
         ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
         ;[owner, lockAddress] = await nevermined.accounts.list()
         _nftContract = await TestContractHandler.deployArtifact(ERC721)
-        nft721Wrapper = await nevermined.contracts.loadNft721(
-            _nftContract.options.address
-        )
+        nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
         nftContractAddress = nft721Wrapper.address
     })
 

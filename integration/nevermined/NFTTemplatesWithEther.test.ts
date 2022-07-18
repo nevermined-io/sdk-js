@@ -56,14 +56,12 @@ describe('NFTTemplates With Ether E2E', async () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let nftPrice = 0.2
     let amounts = [new BigNumber(0.15), new BigNumber(0.05)]
 
     let receivers: string[]
     let assetRewards: AssetRewards
 
     let initialBalances: any
-    let networkName: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -93,7 +91,6 @@ describe('NFTTemplates With Ether E2E', async () => {
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
         // eth
-        nftPrice = ethers.utils.parseEther(nftPrice.toString()).toNumber()
         amounts = amounts.map(
             v => new BigNumber(ethers.utils.parseEther(v.toString()).toString())
         )
@@ -105,8 +102,6 @@ describe('NFTTemplates With Ether E2E', async () => {
                 [receivers[1], amounts[1]]
             ])
         )
-
-        networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
     })
 
     describe('Full flow', async () => {
@@ -227,8 +222,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     sender
                 )
 
-                assert.isTrue(result.status)
-                assert.nestedProperty(result, 'events.AgreementCreated')
+                assert.equal(result.status, 1)
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment[1]))
@@ -309,11 +304,6 @@ describe('NFTTemplates With Ether E2E', async () => {
             })
 
             it('the artist asks and receives the payment', async function() {
-                // See https://github.com/nevermined-io/sdk-js/issues/137
-                if (networkName === 'polygon-localnet') {
-                    this.skip()
-                }
-
                 await escrowPaymentCondition.fulfill(
                     agreementId,
                     ddo.shortId(),
@@ -382,8 +372,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     [0, 0],
                     [collector1.getId()]
                 )
-                assert.isTrue(result.status)
-                assert.nestedProperty(result, 'events.AgreementCreated')
+                assert.equal(result.status, 1)
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -398,11 +388,6 @@ describe('NFTTemplates With Ether E2E', async () => {
             })
 
             it('The collector demonstrates it onws the NFT', async function() {
-                // See https://github.com/nevermined-io/sdk-js/issues/137
-                if (networkName === 'polygon-localnet') {
-                    this.skip()
-                }
-
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -421,11 +406,6 @@ describe('NFTTemplates With Ether E2E', async () => {
             })
 
             it(' The artist gives access to the collector to the content', async function() {
-                // See https://github.com/nevermined-io/sdk-js/issues/137
-                if (networkName === 'polygon-localnet') {
-                    this.skip()
-                }
-
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),

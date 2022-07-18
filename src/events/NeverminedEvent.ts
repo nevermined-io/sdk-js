@@ -42,13 +42,10 @@ export abstract class NeverminedEvent extends Instantiable {
         callback: (events: EventResult[]) => void,
         options: EventOptions
     ): ContractEventSubscription {
-        console.log('---- caling subscribe')
         const onEvent = async () => {
-            console.log('>>>>>>> inside onEvent')
             const events = await this.getEventData(options)
             callback(events)
         }
-        console.log('--- calling subscribe on the eventEmitter')
         this.eventEmitter.subscribe(onEvent, () => this.getBlockNumber())
         return {
             unsubscribe: () => this.eventEmitter.unsubscribe(onEvent)
@@ -61,13 +58,11 @@ export abstract class NeverminedEvent extends Instantiable {
     ): Promise<EventResult> {
         // Check if the event already happened and return that instead
         // before subscribing
-        console.log('----- calling once')
         const events = await this.getPastEvents(options)
         if (events.length) {
             callback(events)
             return new Promise(resolve => resolve(events))
         }
-        console.log('------ calling once returning promise')
         return new Promise(resolve => {
             const subscription = this.subscribe(events => {
                 if (events.length) {

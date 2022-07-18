@@ -193,7 +193,7 @@ export default class DIDRegistry extends ContractBase {
                 value,
                 String(royalties),
                 mint,
-                zeroX(activityId),
+                ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 nftMetadata
             ],
             params

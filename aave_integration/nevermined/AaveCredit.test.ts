@@ -107,9 +107,8 @@ describe('AaveCredit', () => {
                 ERC721,
                 deployer.getId()
             )
-            nft721Wrapper = (
-                await nevermined.contracts.loadNft721(nftContract.options.address)
-            ).contract
+            nft721Wrapper = (await nevermined.contracts.loadNft721(nftContract.address))
+                .contract
         }
         nftContractAddress = nft721Wrapper.address
 
