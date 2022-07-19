@@ -10,7 +10,6 @@ import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import { TransactionResponse } from '@ethersproject/abstract-provider'
 import Nft721 from '../../src/keeper/contracts/Nft721'
 
 describe('Nfts721 operations', async () => {
