@@ -262,8 +262,8 @@ export default class DIDRegistry extends ContractBase {
             })
         )
             .map(event => {
-                if (event.returnValues) {
-                    return event.returnValues._did
+                if (event.args) {
+                    return event.args._did
                 } else {
                     return event._did
                 }
@@ -368,12 +368,10 @@ export default class DIDRegistry extends ContractBase {
             })
         )
             .map(event => {
-                if (event.returnValues === undefined)
+                if (event.args === undefined)
                     return eventToObject(event) as ProvenanceAttributeRegisteredEvent
                 else
-                    return eventToObject(
-                        event.returnValues
-                    ) as ProvenanceAttributeRegisteredEvent
+                    return eventToObject(event.args) as ProvenanceAttributeRegisteredEvent
             })
             .map(event => ({ ...event, method: +event.method }))
             .sort(

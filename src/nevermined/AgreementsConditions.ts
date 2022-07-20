@@ -57,7 +57,7 @@ export class AgreementsConditions extends Instantiable {
         let token: Token
 
         if (!erc20TokenAddress) {
-            ({ token } = this.nevermined.keeper)
+            ;({ token } = this.nevermined.keeper)
         } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {
@@ -210,9 +210,7 @@ export class AgreementsConditions extends Instantiable {
             throw new KeeperError('No events are returned')
         }
 
-        const [cipherL, cipherR] = ev[0].returnValues
-            ? ev[0].returnValues._cipher
-            : ev[0]._cipher
+        const [cipherL, cipherR] = ev[0].args ? ev[0].args._cipher : ev[0]._cipher
 
         const keyTransfer = await makeKeyTransfer()
         return keyTransfer.decryptKey(
@@ -282,7 +280,7 @@ export class AgreementsConditions extends Instantiable {
             let token
 
             if (!erc20TokenAddress) {
-                ({ token } = this.nevermined.keeper)
+                ;({ token } = this.nevermined.keeper)
             } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
                 token = await CustomToken.getInstanceByAddress(
                     {

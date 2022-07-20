@@ -10,8 +10,7 @@ describe('ContractEvent', () => {
     let executeTransaction: () => Promise<any>
 
     before(async () => {
-        config.graphHttpUri = undefined
-        nevermined = await Nevermined.getInstance(config)
+        nevermined = await Nevermined.getInstance({ ...config, graphHttpUri: undefined })
         ;[account] = await nevermined.accounts.list()
 
         await nevermined.keeper.dispenser.requestTokens(1, account.getId())

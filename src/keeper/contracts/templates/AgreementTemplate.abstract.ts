@@ -511,6 +511,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             }
         })
 
-        return res.map(event => event.returnValues?._agreementId || event._agreementId)
+        return res.map(event => event.args?._agreementId || event._agreementId)
     }
 }
