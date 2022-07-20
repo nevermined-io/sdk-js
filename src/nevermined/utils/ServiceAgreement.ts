@@ -61,7 +61,7 @@ export class ServiceAgreement extends Instantiable {
         )
 
         const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
-            serviceAgreementHash,
+            ethers.utils.arrayify(serviceAgreementHash),
             consumer.getId()
         )
 

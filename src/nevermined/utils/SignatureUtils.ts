@@ -1,5 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ethers } from 'ethers'
+import { Bytes, ethers } from 'ethers'
 
 export class SignatureUtils extends Instantiable {
     constructor(config: InstantiableConfig) {
@@ -7,7 +7,7 @@ export class SignatureUtils extends Instantiable {
         this.setInstanceConfig(config)
     }
 
-    public async signText(text: string, address: string): Promise<string> {
+    public async signText(text: string | Bytes, address: string): Promise<string> {
         const signer = this.web3.getSigner(address)
         try {
             return await signer.signMessage(text)
