@@ -120,14 +120,22 @@ export abstract class ContractBase extends Instantiable {
         params: TxParameters = {}
     ): Promise<ContractReceipt> {
         const methodSignature = this.getSignatureOfMethod(name, args)
-        const { value, gasPrice } = params
 
         // get signer
         const signer = this.web3.getSigner(from)
         const contract = this.contract.connect(signer)
 
+        // calculate gas cost
+        let { gasLimit } = params
+        const {
+            gasMultiplier,
+            value,
+            gasPrice,
+            maxFeePerGas,
+            maxPriorityFeePerGas
+        } = params
+
         try {
-            let { gasLimit } = params
             if (params.progress) {
                 params.progress({
                     stage: 'estimateGas',
@@ -139,23 +147,32 @@ export abstract class ContractBase extends Instantiable {
                     contractAddress: this.address
                 })
             }
-            if (!gasLimit) {
-                gasLimit = await contract.estimateGas[methodSignature](...args, {
-                    from,
-                    value
-                })
-                if (value) gasLimit = gasLimit.add(21500)
 
-                const gasMultiplier = params.gasMultiplier || this.config.gasMultiplier
-                if (gasMultiplier) {
-                    const gasMultiplierParsed = ethers.utils.parseUnits(
-                        gasMultiplier.toString(),
-                        2
-                    )
-                    gasLimit = gasLimit.mul(gasMultiplierParsed).div(100)
-                }
+            if (!gasLimit) {
+                gasLimit = await this.estimateGas(
+                    contract,
+                    methodSignature,
+                    args,
+                    from,
+                    value,
+                    gasMultiplier
+                )
             }
 
+            // get correct fee data
+            const feeData = await this.getFeeData(
+                gasPrice && ethers.BigNumber.from(gasPrice),
+                maxFeePerGas && ethers.BigNumber.from(maxFeePerGas),
+                maxPriorityFeePerGas && ethers.BigNumber.from(maxPriorityFeePerGas)
+            )
+
+            const txparams = {
+                value,
+                gasLimit,
+                ...feeData
+            }
+
+            // make the call
             if (params.progress) {
                 params.progress({
                     stage: 'sending',
@@ -167,46 +184,6 @@ export abstract class ContractBase extends Instantiable {
                     contractAddress: this.address,
                     gasLimit
                 })
-            }
-            let txparams: any = {
-                value,
-                gasLimit,
-                gasPrice
-            }
-            if (!gasPrice) {
-                let { maxPriorityFeePerGas } = params
-                try {
-                    const fee = await this.web3.send('eth_maxPriorityFeePerGas', [])
-                    const { maxFeePerGas } = params
-                    if (!maxPriorityFeePerGas) {
-                        maxPriorityFeePerGas = fee
-                    }
-                    txparams = {
-                        value,
-                        gasLimit,
-                        maxPriorityFeePerGas,
-                        maxFeePerGas,
-                        type: '0x2'
-                    }
-                } catch (err) {
-                    // TODO: https://github.com/nevermined-io/sdk-js/issues/265
-                    // If the error is because of no support for eip-1559, just continue
-                    const chainId = await this.nevermined.keeper.getNetworkId()
-                    // no eip-1559 support
-                    if (![42220, 44787, 80001, 8997, 137].includes(chainId)) {
-                        throw new KeeperError(err)
-                    }
-                }
-            }
-
-            // Something weird with celo eip-1559 implementation (mainnet, alfajores)
-            const chainId = await this.nevermined.keeper.getNetworkId()
-            if (chainId == 44787 || chainId == 42220) {
-                txparams = {
-                    value,
-                    gasLimit,
-                    gasPrice
-                }
             }
 
             const transactionResponse: TransactionResponse = await contract[
@@ -294,6 +271,55 @@ export abstract class ContractBase extends Instantiable {
                 value: args[i]
             }
         })
+    }
+
+    private async estimateGas(
+        contract: ethers.Contract,
+        methodSignature: string,
+        args: any[],
+        from: string,
+        value: string,
+        gasMultiplier?: number
+    ): Promise<ethers.BigNumber> {
+        let gasLimit = await contract.estimateGas[methodSignature](...args, {
+            from,
+            value
+        })
+        if (value) gasLimit = gasLimit.add(21500)
+
+        gasMultiplier = gasMultiplier || this.config.gasMultiplier
+        if (gasMultiplier) {
+            const gasMultiplierParsed = ethers.utils.parseUnits(
+                gasMultiplier.toString(),
+                2
+            )
+            gasLimit = gasLimit.mul(gasMultiplierParsed).div(100)
+        }
+
+        return gasLimit
+    }
+
+    private async getFeeData(
+        gasPrice?: ethers.BigNumber,
+        maxFeePerGas?: ethers.BigNumber,
+        maxPriorityFeePerGas?: ethers.BigNumber
+    ) {
+        const feeData = await this.web3.getFeeData()
+
+        // EIP-1559 fee parameters
+        if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
+            return {
+                maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
+                maxPriorityFeePerGas:
+                    maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
+                type: '0x2'
+            }
+        }
+
+        // Non EIP-1559 fee parameters
+        return {
+            gasPrice: gasPrice || feeData.gasPrice
+        }
     }
 }
 
