@@ -39,7 +39,7 @@ describe('Account', () => {
         })
     })
 
-    describe.skip('#getEthBalance()', () => {
+    describe('#getEthBalance()', () => {
         it('should get initial ether balance', async () => {
             const account: Account = accounts[9]
             const balanceEth = await account.getEtherBalance()
@@ -56,7 +56,7 @@ describe('Account', () => {
         })
     })
 
-    describe.skip('#getBalance()', () => {
+    describe('#getBalance()', () => {
         it('should get initial balance', async () => {
             const account: Account = accounts[9]
             const balance = await account.getBalance()

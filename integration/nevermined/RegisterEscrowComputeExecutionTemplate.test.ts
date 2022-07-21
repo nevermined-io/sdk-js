@@ -13,6 +13,7 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import BigNumber from 'bignumber.js'
 import { generateId } from '../../src/utils'
+import { sleep } from '../utils/utils'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -70,7 +71,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 true
             )
             // TODO: Use a event to detect template mined
-            await new Promise(resolve => setTimeout(resolve, 2 * 1000))
+            await sleep(2000)
         })
 
         it('should approve the template', async () => {
@@ -80,7 +81,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 true
             )
             // TODO: Use a event to detect template mined
-            await new Promise(resolve => setTimeout(resolve, 2 * 1000))
+            await sleep(2000)
         })
     })
 

@@ -132,7 +132,6 @@ export class Keeper extends Instantiable {
                 ),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(this.instanceConfig),
-                // accessProofTemplate: AccessProofTemplate.getInstance(this.instanceConfig),
                 escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
                     this.instanceConfig
                 ),
@@ -229,7 +228,6 @@ export class Keeper extends Instantiable {
             lockPaymentCondition: this.instances.lockPaymentCondition,
             escrowPaymentCondition: this.instances.escrowPaymentCondition,
             accessCondition: this.instances.accessCondition,
-            // accessProofCondition: this.instances.accessProofCondition,
             computeExecutionCondition: this.instances.computeExecutionCondition,
             nftHolderCondition: this.instances.nftHolderCondition,
             nft721HolderCondition: this.instances.nft721HolderCondition,
@@ -328,7 +326,6 @@ export class Keeper extends Instantiable {
         lockPaymentCondition: LockPaymentCondition
         escrowPaymentCondition: EscrowPaymentCondition
         accessCondition: AccessCondition
-        // accessProofCondition: AccessProofCondition
         computeExecutionCondition: ComputeExecutionCondition
         nftHolderCondition: NFTHolderCondition
         nft721HolderCondition: NFT721HolderCondition
@@ -353,7 +350,6 @@ export class Keeper extends Instantiable {
      */
     public templates: {
         accessTemplate: AccessTemplate
-        // accessProofTemplate: AccessProofTemplate
         escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
         didSalesTemplate: DIDSalesTemplate
         nftAccessTemplate: NFTAccessTemplate
