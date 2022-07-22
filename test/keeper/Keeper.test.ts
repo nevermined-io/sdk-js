@@ -10,7 +10,7 @@ describe('Keeper', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         const nevermined = await Nevermined.getInstance(config)
-        keeper = nevermined.keeper
+        ;({ keeper } = nevermined)
     })
 
     describe('public interface', () => {
@@ -25,12 +25,8 @@ describe('Keeper', () => {
 
     describe('#getNetworkName()', () => {
         it('should get spree as default', async () => {
-            const networkName: string = await keeper.getNetworkName()
-            console.log(networkName)
-            assert(
-                networkName.toLowerCase() === 'development' ||
-                    networkName.toLowerCase() === 'polygon-localnet'
-            )
+            const networkName: string = (await keeper.getNetworkName()).toLowerCase()
+            assert(networkName === 'geth-localnet' || networkName === 'polygon-localnet')
         })
     })
 })
