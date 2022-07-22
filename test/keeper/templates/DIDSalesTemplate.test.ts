@@ -1,5 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import { ContractReceipt, Event } from 'ethers'
 import { Nevermined, Account, utils, ConditionState } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import {
@@ -129,7 +130,7 @@ describe('DIDSalesTemplate', () => {
             )
             const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-            const agreement = await didSalesTemplate.createAgreement(
+            const contractReceipt: ContractReceipt = await didSalesTemplate.createAgreement(
                 agreementIdSeed,
                 didZeroX(did),
                 conditionIdSeeds,
@@ -138,10 +139,15 @@ describe('DIDSalesTemplate', () => {
                 [receiver.getId()],
                 sender
             )
-            assert.isTrue(agreement.status)
-            assert.nestedProperty(agreement, 'events.AgreementCreated')
+            assert.equal(contractReceipt.status, 1)
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'AgreementCreated')
+            )
 
-            const { _agreementId, _did } = agreement.events.AgreementCreated.returnValues
+            const event: Event = contractReceipt.events.find(
+                e => e.event === 'AgreementCreated'
+            )
+            const { _agreementId, _did } = event.args
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
 

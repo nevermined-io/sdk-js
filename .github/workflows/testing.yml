@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         network: ["--geth", "--polygon"]
-        node: ["14"]
+        node: ["14", "16"]
         include:
           - network: "--geth"
             network-name: geth-localnet

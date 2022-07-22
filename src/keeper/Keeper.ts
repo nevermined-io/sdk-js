@@ -72,8 +72,6 @@ export class Keeper extends Instantiable {
     }
 
     public async init() {
-        // Adding keeper inside to prevent `Keeper not defined yet` error
-        // config.nevermined.keeper = keeper
         this.instances = {}
         try {
             this.instances = await objectPromiseAll({
@@ -446,7 +444,7 @@ export class Keeper extends Instantiable {
     public async getNetworkId(): Promise<number> {
         if (this.network.loading) {
             this.network.loading = false
-            this.network.id = await this.web3.eth.net.getId()
+            this.network.id = (await this.web3.getNetwork()).chainId
         }
 
         while (!this.network.id) {

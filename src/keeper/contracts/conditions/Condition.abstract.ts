@@ -60,7 +60,6 @@ export abstract class ConditionSmall extends ContractBase {
     }
 
     public hashValues(...args: any[]): Promise<string> {
-        // console.log('hashing', args)
         return this.call('hashValues', args)
     }
 

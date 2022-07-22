@@ -1,15 +1,15 @@
-import { Contract } from 'web3-eth-contract'
-import { TransactionReceipt } from 'web3-core'
 import ContractHandler from '../ContractHandler'
 
 import Account from '../../nevermined/Account'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
+import { ContractReceipt, ethers } from 'ethers'
+import { TransactionResponse } from '@ethersproject/abstract-provider'
 
 export interface TxParameters {
     value?: string
-    gas?: number
+    gasLimit?: ethers.BigNumber
     gasMultiplier?: number
     gasPrice?: string
     maxPriorityFeePerGas?: string
@@ -19,7 +19,7 @@ export interface TxParameters {
 
 export abstract class ContractBase extends Instantiable {
     public contractName: string
-    public contract: Contract = null
+    public contract: ethers.Contract = null
     public events: ContractEvent | SubgraphEvent = null
     public version: string
 
@@ -32,17 +32,17 @@ export abstract class ContractBase extends Instantiable {
         this.contractName = contractName
     }
 
-    public getContract(): Contract {
+    public getContract(): ethers.Contract {
         return this.contract
     }
 
     public getAddress(): string {
-        return this.contract?.options?.address
+        return this.contract.address
     }
 
-    public getSignatureOfMethod(methodName: string): string {
-        const foundMethod = this.searchMethod(methodName)
-        return foundMethod.signature
+    public getSignatureOfMethod(methodName: string, args: any[] = []): string {
+        const foundMethod = this.searchMethod(methodName, args)
+        return foundMethod.format()
     }
 
     public getInputsOfMethod(methodName: string): any[] {
@@ -88,7 +88,7 @@ export abstract class ContractBase extends Instantiable {
 
     protected async getFromAddress(from?: string): Promise<string> {
         if (!from) {
-            ;[from] = await this.web3.eth.getAccounts()
+            ;[from] = await this.web3.listAccounts()
         }
         return from
     }
@@ -98,7 +98,7 @@ export abstract class ContractBase extends Instantiable {
         args: any[],
         from?: Account,
         value?: TxParameters
-    ): Promise<TransactionReceipt> {
+    ): Promise<ContractReceipt> {
         const fromAddress = await this.getFromAddress(from && from.getId())
         const receipt = await this.send(name, fromAddress, args, value)
         if (!receipt.status) {
@@ -118,18 +118,24 @@ export abstract class ContractBase extends Instantiable {
         from: string,
         args: any[],
         params: TxParameters = {}
-    ): Promise<TransactionReceipt> {
-        if (!this.contract.methods[name]) {
-            throw new Error(
-                `Method "${name}" is not part of contract "${this.contractName}"`
-            )
-        }
+    ): Promise<ContractReceipt> {
+        const methodSignature = this.getSignatureOfMethod(name, args)
 
-        const method = this.contract.methods[name]
-        const { value, gasPrice } = params
+        // get signer
+        const signer = this.web3.getSigner(from)
+        const contract = this.contract.connect(signer)
+
+        // calculate gas cost
+        let { gasLimit } = params
+        const {
+            gasMultiplier,
+            value,
+            gasPrice,
+            maxFeePerGas,
+            maxPriorityFeePerGas
+        } = params
+
         try {
-            const tx = method(...args)
-            let { gas } = params
             if (params.progress) {
                 params.progress({
                     stage: 'estimateGas',
@@ -141,20 +147,32 @@ export abstract class ContractBase extends Instantiable {
                     contractAddress: this.address
                 })
             }
-            if (!gas) {
-                gas = await tx.estimateGas(args, {
-                    from,
-                    value
-                })
-                if (value) gas += 21500
 
-                if (params.gasMultiplier) {
-                    gas = Math.floor(gas * params.gasMultiplier)
-                } else if (this.config && this.config.gasMultiplier) {
-                    gas = Math.floor(gas * this.config.gasMultiplier)
-                }
+            if (!gasLimit) {
+                gasLimit = await this.estimateGas(
+                    contract,
+                    methodSignature,
+                    args,
+                    from,
+                    value,
+                    gasMultiplier
+                )
             }
 
+            // get correct fee data
+            const feeData = await this.getFeeData(
+                gasPrice && ethers.BigNumber.from(gasPrice),
+                maxFeePerGas && ethers.BigNumber.from(maxFeePerGas),
+                maxPriorityFeePerGas && ethers.BigNumber.from(maxPriorityFeePerGas)
+            )
+
+            const txparams = {
+                value,
+                gasLimit,
+                ...feeData
+            }
+
+            // make the call
             if (params.progress) {
                 params.progress({
                     stage: 'sending',
@@ -164,118 +182,43 @@ export abstract class ContractBase extends Instantiable {
                     value,
                     contractName: this.contractName,
                     contractAddress: this.address,
-                    gas
+                    gasLimit
                 })
-            }
-            let txparams: any = {
-                from,
-                value,
-                gas,
-                gasPrice
-            }
-            if (!gasPrice) {
-                let { maxPriorityFeePerGas } = params
-                try {
-                    const fee: string = await new Promise((resolve, reject) =>
-                        (this.web3.currentProvider as any).send(
-                            {
-                                method: 'eth_maxPriorityFeePerGas',
-                                params: [],
-                                jsonrpc: '2.0',
-                                id: new Date().getTime()
-                            },
-                            (err, res) => {
-                                if (err) {
-                                    reject(err)
-                                } else {
-                                    resolve(res.result)
-                                }
-                            }
-                        )
-                    )
-                    const { maxFeePerGas } = params
-                    if (!maxPriorityFeePerGas) {
-                        maxPriorityFeePerGas = fee
-                    }
-                    txparams = {
-                        from,
-                        value,
-                        gas,
-                        maxPriorityFeePerGas,
-                        maxFeePerGas,
-                        type: '0x2'
-                    }
-                } catch (err) {
-                    // TODO: https://github.com/nevermined-io/sdk-js/issues/265
-                    // If the error is because of no support for eip-1559, just continue
-                    const chainId = await this.nevermined.keeper.getNetworkId()
-                    // no eip-1559 support
-                    if (![42220, 44787, 80001, 8997, 137].includes(chainId)) {
-                        throw new KeeperError(err)
-                    }
-                }
             }
 
-            // Something weird with celo eip-1559 implementation (mainnet, alfajores)
-            const chainId = await this.nevermined.keeper.getNetworkId()
-            if (chainId == 44787 || chainId == 42220) {
-                console.log('Calling Celo...')
-                txparams = {
-                    from,
-                    value,
-                    gas,
-                    gasPrice
-                }
-            }
-            const receipt = await tx
-                .send(txparams)
-                .on('sent', tx => {
-                    if (params.progress) {
-                        params.progress({
-                            stage: 'sent',
-                            args: this.searchMethodInputs(name, args),
-                            tx,
-                            method: name,
-                            from,
-                            value,
-                            contractName: this.contractName,
-                            contractAddress: this.address,
-                            gas
-                        })
-                    }
-                })
-                .on('transactionHash', async txHash => {
-                    if (params.progress) {
-                        const tx = await this.web3.eth.getTransaction(txHash)
-                        params.progress({
-                            stage: 'txHash',
-                            args: this.searchMethodInputs(name, args),
-                            txHash,
-                            gasPrice: tx.gasPrice,
-                            method: name,
-                            from,
-                            value,
-                            contractName: this.contractName,
-                            contractAddress: this.address,
-                            gas: tx.gas
-                        })
-                    }
-                })
+            const transactionResponse: TransactionResponse = await contract[
+                methodSignature
+            ](...args, txparams)
             if (params.progress) {
                 params.progress({
-                    stage: 'receipt',
+                    stage: 'sent',
                     args: this.searchMethodInputs(name, args),
-                    receipt,
+                    transactionResponse,
                     method: name,
                     from,
                     value,
                     contractName: this.contractName,
                     contractAddress: this.address,
-                    gas
+                    gasLimit
                 })
             }
 
-            return receipt
+            const ContractReceipt: ContractReceipt = await transactionResponse.wait()
+            if (params.progress) {
+                params.progress({
+                    stage: 'receipt',
+                    args: this.searchMethodInputs(name, args),
+                    ContractReceipt,
+                    method: name,
+                    from,
+                    value,
+                    contractName: this.contractName,
+                    contractAddress: this.address,
+                    gasLimit
+                })
+            }
+
+            return ContractReceipt
         } catch (err) {
             const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
                 return {
@@ -297,12 +240,9 @@ export abstract class ContractBase extends Instantiable {
     }
 
     public async call<T>(name: string, args: any[], from?: string): Promise<T> {
-        if (!this.contract.methods[name]) {
-            throw new Error(`Method ${name} is not part of contract ${this.contractName}`)
-        }
+        const methodSignature = this.getSignatureOfMethod(name, args)
         try {
-            const method = this.contract.methods[name](...args)
-            return await method.call(from ? { from } : null)
+            return await this.contract[methodSignature](...args, { from })
         } catch (err) {
             throw new KeeperError(
                 `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`
@@ -311,14 +251,11 @@ export abstract class ContractBase extends Instantiable {
     }
 
     private searchMethod(methodName: string, args: any[] = []) {
-        const methods = this.contract.options.jsonInterface
-            .map(method => ({
-                ...method,
-                signature: (method as any).signature
-            }))
-            .filter((method: any) => method.name === methodName)
+        const methods = this.contract.interface.fragments.filter(
+            f => f.name === methodName
+        )
         const foundMethod =
-            methods.find(({ inputs }) => inputs.length === args.length) || methods[0]
+            methods.find(f => f.inputs.length === args.length) || methods[0]
         if (!foundMethod) {
             throw new KeeperError(
                 `Method "${methodName}" is not part of contract "${this.contractName}"`
@@ -334,6 +271,55 @@ export abstract class ContractBase extends Instantiable {
                 value: args[i]
             }
         })
+    }
+
+    private async estimateGas(
+        contract: ethers.Contract,
+        methodSignature: string,
+        args: any[],
+        from: string,
+        value: string,
+        gasMultiplier?: number
+    ): Promise<ethers.BigNumber> {
+        let gasLimit = await contract.estimateGas[methodSignature](...args, {
+            from,
+            value
+        })
+        if (value) gasLimit = gasLimit.add(21500)
+
+        gasMultiplier = gasMultiplier || this.config.gasMultiplier
+        if (gasMultiplier) {
+            const gasMultiplierParsed = ethers.utils.parseUnits(
+                gasMultiplier.toString(),
+                2
+            )
+            gasLimit = gasLimit.mul(gasMultiplierParsed).div(100)
+        }
+
+        return gasLimit
+    }
+
+    private async getFeeData(
+        gasPrice?: ethers.BigNumber,
+        maxFeePerGas?: ethers.BigNumber,
+        maxPriorityFeePerGas?: ethers.BigNumber
+    ) {
+        const feeData = await this.web3.getFeeData()
+
+        // EIP-1559 fee parameters
+        if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
+            return {
+                maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
+                maxPriorityFeePerGas:
+                    maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
+                type: '0x2'
+            }
+        }
+
+        // Non EIP-1559 fee parameters
+        return {
+            gasPrice: gasPrice || feeData.gasPrice
+        }
     }
 }
 

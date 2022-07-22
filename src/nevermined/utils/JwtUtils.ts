@@ -2,7 +2,7 @@ import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../../src'
 import { SignatureUtils } from './SignatureUtils'
-import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -15,7 +15,7 @@ export class EthSignJWT extends SignJWT {
     async ethSign(
         address: string,
         signatureUtils: SignatureUtils,
-        web3: Web3,
+        web3: ethers.providers.JsonRpcProvider,
         isEtherSign: boolean = false
     ): Promise<string> {
         const encoder = new TextEncoder()
@@ -31,7 +31,7 @@ export class EthSignJWT extends SignJWT {
 
         const sign = await signatureUtils.signText(decoder.decode(data), address)
 
-        let input = Uint8Array.from(web3.utils.hexToBytes(sign))
+        let input = ethers.utils.arrayify(sign)
 
         if (!isEtherSign) {
             input = input.slice(0, 64)
@@ -103,7 +103,7 @@ export class JwtUtils extends Instantiable {
     }
 
     public async generateClientAssertion(account: Account) {
-        const address = this.web3.utils.toChecksumAddress(account.getId())
+        const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
             iss: address
         })
@@ -118,7 +118,7 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         did: string
     ): Promise<string> {
-        const address = this.web3.utils.toChecksumAddress(account.getId())
+        const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
             iss: address,
             aud: this.BASE_AUD + '/access',
@@ -139,7 +139,7 @@ export class JwtUtils extends Instantiable {
         aud: string,
         obj: any
     ): Promise<string> {
-        const address = this.web3.utils.toChecksumAddress(account.getId())
+        const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
             iss: address,
             aud: this.BASE_AUD + aud,
@@ -158,7 +158,7 @@ export class JwtUtils extends Instantiable {
         account: Account,
         did: string
     ): Promise<string> {
-        const address = this.web3.utils.toChecksumAddress(account.getId())
+        const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
             iss: address,
             aud: this.BASE_AUD + '/download',
@@ -176,7 +176,7 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         workflowId: string
     ): Promise<string> {
-        const address = this.web3.utils.toChecksumAddress(account.getId())
+        const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
             iss: address,
             aud: this.BASE_AUD + '/execute',
@@ -195,7 +195,7 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         executionId: string
     ): Promise<string> {
-        const address = this.web3.utils.toChecksumAddress(account.getId())
+        const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
             iss: address,
             aud: this.BASE_AUD + '/compute',
@@ -214,7 +214,7 @@ export class JwtUtils extends Instantiable {
         did: string,
         account: Account
     ): Promise<string> {
-        const address = this.web3.utils.toChecksumAddress(account.getId())
+        const address = ethers.utils.getAddress(account.getId())
         const params = {
             iss: address,
             aud: this.BASE_AUD + '/nft-access',

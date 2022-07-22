@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import { ContractReceipt, Event } from 'ethers'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import {
     EscrowPaymentCondition,
@@ -167,7 +168,7 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            const result = await transferNftCondition.fulfill(
+            const contractReceipt: ContractReceipt = await transferNftCondition.fulfill(
                 agreementId,
                 did,
                 nftReceiver.getId(),
@@ -177,13 +178,8 @@ describe('TransferNFTCondition', () => {
             ;({ state } = await conditionStoreManager.getCondition(conditionId))
             assert.equal(state, ConditionState.Fulfilled)
 
-            const {
-                _agreementId,
-                _did,
-                _receiver,
-                _conditionId,
-                _amount
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
@@ -261,7 +257,7 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            const result = await transferNftCondition.fulfill(
+            const contractReceipt: ContractReceipt = await transferNftCondition.fulfill(
                 agreementId,
                 did,
                 nftReceiver.getId(),
@@ -271,13 +267,8 @@ describe('TransferNFTCondition', () => {
             ;({ state } = await conditionStoreManager.getCondition(conditionId))
             assert.equal(state, ConditionState.Fulfilled)
 
-            const {
-                _agreementId,
-                _did,
-                _receiver,
-                _conditionId,
-                _amount
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))

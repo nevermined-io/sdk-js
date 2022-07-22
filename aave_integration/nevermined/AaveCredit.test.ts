@@ -1,5 +1,3 @@
-import { Contract } from 'web3-eth-contract'
-import web3Utils from 'web3-utils'
 import { getMetadata } from '../../integration/utils/index'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Account, ConditionState, DDO, utils } from '../../src/index'
@@ -22,6 +20,7 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import BigNumber from 'bignumber.js'
 import { decodeJwt } from 'jose'
+import { Contract, ethers } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -80,8 +79,8 @@ describe('AaveCredit', () => {
         // await TestContractHandler.prepareContracts()
 
         nevermined = await Nevermined.getInstance(config)
-        agreementFee = config.aaveConfig.agreementFee
-        aaveCreditTemplate = nevermined.keeper.templates.aaveCreditTemplate
+        ;({ agreementFee } = config.aaveConfig)
+        ;({ aaveCreditTemplate } = nevermined.keeper.templates)
         ;({
             conditionStoreManager,
             didRegistry,
@@ -108,9 +107,8 @@ describe('AaveCredit', () => {
                 ERC721,
                 deployer.getId()
             )
-            nft721Wrapper = (
-                await nevermined.contracts.loadNft721(nftContract.options.address)
-            ).contract
+            nft721Wrapper = (await nevermined.contracts.loadNft721(nftContract.address))
+                .contract
         }
         nftContractAddress = nft721Wrapper.address
 
@@ -209,7 +207,7 @@ describe('AaveCredit', () => {
                     timeLocks,
                     timeOuts
                 )
-                agreementId = res.agreementId
+                ;({ agreementId } = res)
                 conditionIds = res.data.instances.map(a => a.id)
             }
 
@@ -373,13 +371,14 @@ describe('AaveCredit', () => {
                 // Delegatee allows Nevermined contracts spend DAI to repay the loan
                 await dai.approve(
                     aaveRepayCondition.address,
-                    new BigNumber(web3Utils.toWei(allowanceAmount.toString(), 'ether')),
+                    new BigNumber(
+                        ethers.utils.parseEther(allowanceAmount.toString()).toString()
+                    ),
                     borrower
                 )
                 // Send some DAI to borrower to pay the debt + fees
-                const transferAmount = web3Utils.toWei(
-                    (2 * (allowanceAmount - delegatedAmount)).toString(),
-                    'ether'
+                const transferAmount = ethers.utils.parseEther(
+                    (2 * (allowanceAmount - delegatedAmount)).toString()
                 )
                 await dai.send('transfer', daiProvider, [
                     borrower.getId(),

@@ -1,8 +1,7 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import ContractHandler from '../ContractHandler'
-import { Contract } from 'web3-eth-contract'
-import { TransactionReceipt } from 'web3-core'
+import { ContractReceipt, ethers } from 'ethers'
 
 export default class GenericContract extends ContractBase {
     protected fixedAddress: string
@@ -26,7 +25,6 @@ export default class GenericContract extends ContractBase {
         this.setInstanceConfig(config)
 
         const contractHandler = new ContractHandler(config)
-        console.log(`GenericContract :: INIT :: ${config.artifactsFolder}`)
         this.contract = await contractHandler.get(
             this.contractName,
             optional,
@@ -44,11 +42,11 @@ export default class GenericContract extends ContractBase {
         from: string,
         args: any[],
         params: TxParameters = {}
-    ): Promise<TransactionReceipt> {
+    ): Promise<ContractReceipt> {
         return super.send(name, from, args, params)
     }
 
-    public getContract(): Contract {
+    public getContract(): ethers.Contract {
         return this.contract
     }
 }

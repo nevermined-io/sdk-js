@@ -15,8 +15,6 @@ export class EventHandler {
 
     private getBlockNumber: () => Promise<number>
 
-    constructor() {}
-
     public subscribe(
         callback: (blockNumber: number) => void,
         getBlockNumber: () => Promise<number>

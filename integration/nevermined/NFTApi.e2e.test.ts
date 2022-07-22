@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
 import {
     EscrowPaymentCondition,
@@ -13,6 +12,7 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { RoyaltyKind } from '../../src/nevermined/Assets'
+import { ethers } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -106,9 +106,7 @@ describe('NFTs Api End-to-End', () => {
 
         it('Should set the gateway as a provider by default', async () => {
             const providers = await nevermined.provider.list(ddo.id)
-            assert.deepEqual(providers, [
-                Web3.utils.toChecksumAddress(config.gatewayAddress)
-            ])
+            assert.deepEqual(providers, [ethers.utils.getAddress(config.gatewayAddress)])
         })
     })
 

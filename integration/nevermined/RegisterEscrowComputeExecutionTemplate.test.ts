@@ -22,7 +22,7 @@ describe('Register Escrow Compute Execution Template', () => {
     let escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate
 
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
-    const checksum = 'b'.repeat(32)
+    const checksum = generateId()
 
     const totalAmount = new BigNumber(12)
     const amounts = [new BigNumber(10), new BigNumber(2)]
@@ -195,7 +195,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 publisher
             )
 
-            assert.isTrue(agreement.status)
+            assert.equal(agreement.status, 1)
         })
 
         it('should not trigger the compute', async () => {
@@ -218,7 +218,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 consumer
             )
 
-            const fulfill = await lockPaymentCondition.fulfill(
+            const contractReceipt = await lockPaymentCondition.fulfill(
                 agreementId,
                 did,
                 escrowPaymentCondition.getAddress(),
@@ -228,22 +228,28 @@ describe('Register Escrow Compute Execution Template', () => {
                 consumer
             )
 
-            assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                'Not Fulfilled event.'
+            )
         })
 
         it('should fulfill ComputeExecutionCondition', async () => {
-            const fulfill = await computeExecutionCondition.fulfill(
+            const contractReceipt = await computeExecutionCondition.fulfill(
                 agreementId,
                 did,
                 consumer.getId(),
                 publisher
             )
 
-            assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                'Not Fulfilled event.'
+            )
         })
 
         it('should fulfill EscrowPaymentCondition', async () => {
-            const fulfill = await escrowPaymentCondition.fulfill(
+            const contractReceipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 did,
                 amounts,
@@ -256,7 +262,10 @@ describe('Register Escrow Compute Execution Template', () => {
                 consumer
             )
 
-            assert.isDefined(fulfill.events.Fulfilled, 'Not Fulfilled event.')
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                'Not Fulfilled event.'
+            )
         })
 
         it('should grant the access to the consumer', async () => {

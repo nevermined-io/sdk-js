@@ -1,7 +1,9 @@
 import ContractBase from '../keeper/contracts/ContractBase'
 import { Instantiable } from '../Instantiable.abstract'
-import { Filter } from 'web3-eth-contract'
 
+export interface Filter {
+    [key: string]: number | string | string[] | number[]
+}
 export interface EventOptions {
     methodName?: string
     eventName?: string
@@ -61,7 +63,6 @@ export abstract class NeverminedEvent extends Instantiable {
             callback(events)
             return new Promise(resolve => resolve(events))
         }
-
         return new Promise(resolve => {
             const subscription = this.subscribe(events => {
                 if (events.length) {
