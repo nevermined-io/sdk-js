@@ -1,4 +1,3 @@
-import Web3Provider from '../keeper/Web3Provider'
 import { Nevermined } from '../nevermined/Nevermined'
 import { Authentication } from './Authentication'
 import { Proof } from './Proof'
@@ -7,6 +6,7 @@ import { Service, ServiceType } from './Service'
 import { didPrefixed, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
+import { ethers } from 'ethers'
 
 /**
  * DID Descriptor Object.
@@ -95,9 +95,9 @@ export class DDO {
         return this.service.find(s => s.type === serviceType) as Service<T>
     }
 
-    public checksum(seed): string {
-        return Web3Provider.getWeb3()
-            .utils.sha3(seed)
+    public checksum(seed: string): string {
+        return ethers.utils
+            .keccak256(ethers.utils.toUtf8Bytes(seed))
             .replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
     }
 
@@ -165,15 +165,10 @@ export class DDO {
         return zeroX(this.checksum(JSON.stringify(seed)))
     }
 
-    public async addSignature(
-        nevermined: Nevermined,
-        publicKey: string,
-        password?: string
-    ) {
+    public async addSignature(nevermined: Nevermined, publicKey: string) {
         this.proof.signatureValue = await nevermined.utils.signature.signText(
             this.shortId(),
-            publicKey,
-            password
+            publicKey
         )
     }
 }

@@ -1,4 +1,3 @@
-import { TransactionReceipt } from 'web3-core'
 import { SearchQuery } from '../common/interfaces'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
@@ -10,8 +9,7 @@ import {
     SubscribablePromise,
     generateId,
     zeroX,
-    didZeroX,
-    getAssetRewardsFromService
+    didZeroX
 } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
@@ -20,6 +18,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { ApiError, AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
+import { ContractReceipt, ethers } from 'ethers'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -237,11 +236,7 @@ export class Assets extends Instantiable {
             const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
             await ddo.assignDid(didSeed, didRegistry, publisher)
 
-            await ddo.addSignature(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
+            await ddo.addSignature(this.nevermined, publisher.getId())
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
@@ -476,11 +471,7 @@ export class Assets extends Instantiable {
                 const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
                 await ddo.assignDid(didSeed, didRegistry, publisher)
 
-                await ddo.addSignature(
-                    this.nevermined,
-                    publisher.getId(),
-                    publisher.getPassword()
-                )
+                await ddo.addSignature(this.nevermined, publisher.getId())
 
                 this.logger.log('Proof generated')
                 observer.next(CreateProgressStep.ProofGenerated)
@@ -713,11 +704,7 @@ export class Assets extends Instantiable {
                 const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
                 await ddo.assignDid(didSeed, didRegistry, publisher)
 
-                await ddo.addSignature(
-                    this.nevermined,
-                    publisher.getId(),
-                    publisher.getPassword()
-                )
+                await ddo.addSignature(this.nevermined, publisher.getId())
 
                 this.logger.log('Proof generated')
                 observer.next(CreateProgressStep.ProofGenerated)
@@ -988,11 +975,7 @@ export class Assets extends Instantiable {
             const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
             await ddo.assignDid(didSeed, didRegistry, publisher)
 
-            await ddo.addSignature(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
+            await ddo.addSignature(this.nevermined, publisher.getId())
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
@@ -1352,13 +1335,13 @@ export class Assets extends Instantiable {
      * Transfer ownership of an asset.
      * @param  {string} did Asset DID.
      * @param  {string} newOwner Ethereum address of the new owner of the DID.
-     * @return {Promise<TransactionReceipt>} Returns Web3 transaction receipt.
+     * @return {Promise<TransactionReceipt>} Returns ethers transaction receipt.
      */
     public async transferOwnership(
         did: string,
         newOwner: string,
         params?: TxParameters
-    ): Promise<TransactionReceipt> {
+    ): Promise<ContractReceipt> {
         const owner = await this.nevermined.assets.owner(did)
         return this.nevermined.keeper.didRegistry.transferDIDOwnership(
             did,

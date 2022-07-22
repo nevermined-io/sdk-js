@@ -1,6 +1,7 @@
 import Token from './Token'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { abi } from './../../artifacts/ERC20.json'
+import { ethers } from 'ethers'
 
 export default class CustomToken extends Token {
     public static async getInstanceByAddress(
@@ -12,9 +13,7 @@ export default class CustomToken extends Token {
 
         await token.checkExists(address)
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        token.contract = new token.web3.eth.Contract(abi, address)
+        token.contract = new ethers.Contract(address, abi, token.web3)
 
         return token
     }

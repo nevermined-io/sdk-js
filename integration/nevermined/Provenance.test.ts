@@ -4,6 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, ProvenanceMethod, utils } from '../../src'
 import { sleep } from '../utils/utils'
+import { ethers } from 'ethers'
 
 describe('Provenance', () => {
     let nevermined: Nevermined
@@ -75,7 +76,7 @@ describe('Provenance', () => {
             intermediary.getId(),
             publisher.getId(),
             activitiesIds.intermediary,
-            '0x0',
+            ethers.utils.hexZeroPad('0x0', 32),
             'FirstIntermediaryStuff',
             publisher
         )
@@ -114,7 +115,7 @@ describe('Provenance', () => {
             ddo.shortId(),
             intermediary.getId(),
             activitiesIds.intermediary,
-            '0x0',
+            ethers.utils.hexZeroPad('0x0', 32),
             'FirstIntermediaryStuff',
             intermediary
         )

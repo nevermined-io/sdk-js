@@ -3,14 +3,13 @@ import { BaseTemplate } from '../templates'
 import { DDO } from '../../..'
 import { didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { TransactionReceipt } from 'web3-core'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
-import web3Utils from 'web3-utils'
 import BigNumber from 'bignumber.js'
 import { ServiceType } from '../../../ddo/Service'
+import { ContractReceipt, ethers } from 'ethers'
 
 export interface AaveCreditTemplateParams {
     vaultAddress: string
@@ -94,12 +93,12 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<[TransactionReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
+    ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
         const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
+            ethers.utils.parseEther(collateralAmount.toString()).toString()
         )
         const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
+            ethers.utils.parseEther(delegatedAmount.toString()).toString()
         )
         const data = await this.instanceFromDDO(
             agreementIdSeed,
@@ -131,10 +130,6 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             txParams
         )
 
-        console.log(`createVaultAgreement:
-            status=${txAgreement.status}, txHash=${txAgreement.transactionHash},
-
-            collateralAmount=${_collateralAmount}, delegatedAmount=${_delegatedAmount}`)
         return [txAgreement, data]
     }
 
@@ -154,9 +149,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<
-        [TransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]
-    > {
+    ): Promise<[ContractReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
         const vaultAddress = await this.deployVault(
             this.aaveConfig.lendingPoolAddress,
             this.aaveConfig.dataProviderAddress,
@@ -167,10 +160,6 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             lender,
             from.getId()
         )
-
-        console.log(`Deployed credit vault:
-            vaultAddress=${vaultAddress}, lendingPool=${this.aaveConfig.lendingPoolAddress}.
-            weth=${this.aaveConfig.wethAddress}. agreementFee=${this.aaveConfig.agreementFee}`)
 
         const [txAgreement, data] = await this._createAgreement(
             agreementIdSeed,
@@ -206,9 +195,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         lender: string,
         from: string
     ): Promise<string> {
-        // console.log(`deployVault: ${lendingPool}, ${dataProvider}, ${weth}, ${agreementFee}, ${treasuryAddress}, ${borrower}, ${lender}, ${from}, `)
-        // console.log(`\n\npastEvents=${JSON.stringify(await this.getEventData('VaultCreated', {}))}`)
-        const tx = await this.send('deployVault', from, [
+        const contractReceipt: ContractReceipt = await this.send('deployVault', from, [
             lendingPool,
             dataProvider,
             weth,
@@ -217,8 +204,10 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             borrower,
             lender
         ])
-        // console.log(`events: ${tx}, ${JSON.stringify(tx.events)}, ${tx.events.VaultCreated}`)
-        const { _vaultAddress } = tx.events.VaultCreated.returnValues
+        const vaultCreatedEvent = contractReceipt.events.find(
+            e => e.event === 'VaultCreated'
+        )
+        const { _vaultAddress } = vaultCreatedEvent.args
         return _vaultAddress
     }
 

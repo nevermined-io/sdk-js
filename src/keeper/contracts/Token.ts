@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
-import web3Utils from 'web3-utils'
+import { ethers } from 'ethers'
 
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
@@ -27,7 +27,9 @@ export default class Token extends ContractBase {
     }
 
     public async balanceOfConverted(address: string): Promise<BigNumber> {
-        return new BigNumber(web3Utils.fromWei(await this.call('balanceOf', [address])))
+        return new BigNumber(
+            ethers.utils.formatEther(await this.call('balanceOf', [address]))
+        )
     }
 
     public async strBalanceOf(address: string): Promise<string> {
@@ -36,7 +38,7 @@ export default class Token extends ContractBase {
 
     public async balanceOf(address: string): Promise<BigNumber> {
         return this.call('balanceOf', [address]).then(
-            (balance: string) => new BigNumber(balance)
+            (balance: string) => new BigNumber(balance.toString())
         )
     }
 

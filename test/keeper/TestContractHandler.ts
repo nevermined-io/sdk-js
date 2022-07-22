@@ -1,12 +1,13 @@
-import { Contract } from 'web3-eth-contract'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
+import { ContractReceipt, ethers } from 'ethers'
+import { TransactionResponse } from '@ethersproject/abstract-provider'
 
-interface ContractTest extends Contract {
+interface ContractTest extends ethers.Contract {
     testContract?: boolean
     $initialized?: boolean
 }
@@ -14,9 +15,12 @@ interface ContractTest extends Contract {
 export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts() {
         TestContractHandler.setConfig(config)
-        const [deployerAddress] = await TestContractHandler.web3.eth.getAccounts()
-        TestContractHandler.networkId = await TestContractHandler.web3.eth.net.getId()
-        TestContractHandler.minter = await TestContractHandler.web3.utils.toHex('minter')
+        const [deployerAddress] = await TestContractHandler.web3.listAccounts()
+        TestContractHandler.networkId = (
+            await TestContractHandler.web3.getNetwork()
+        ).chainId
+        TestContractHandler.minter = ethers.utils.formatBytes32String('minter')
+
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
     }
@@ -72,32 +76,46 @@ export default abstract class TestContractHandler extends ContractHandler {
         const dispenser = await TestContractHandler.deployContract(
             'Dispenser',
             deployerAddress,
-            [token.options.address, deployerAddress]
+            [token.address, deployerAddress]
         )
 
         // Add dispenser as Token minter
         if (!token.$initialized) {
-            await token.methods
-                .grantRole(TestContractHandler.minter, dispenser.options.address)
-                .send({ from: deployerAddress })
+            const signer = this.web3.getSigner(deployerAddress)
+            const contract = token.connect(signer)
+            const args = [TestContractHandler.minter, dispenser.address]
+            const methodSignature = this.getSignatureOfMethod(contract, 'grantRole', args)
+            const transactionResponse: TransactionResponse = await contract[
+                methodSignature
+            ](...args)
+            const contractReceipt: ContractReceipt = await transactionResponse.wait()
+            if (contractReceipt.status !== 1) {
+                throw new Error('Error calling "grantRole" on "token"')
+            }
         }
 
         const didRegistry = await TestContractHandler.deployContract(
             'DIDRegistry',
             deployerAddress,
-            [deployerAddress, erc1155.options.address, deployerAddress],
+            [deployerAddress, erc1155.address, deployerAddress],
             {
-                DIDRegistryLibrary: didRegistryLibrary.options.address
+                DIDRegistryLibrary: didRegistryLibrary.address
             }
         )
 
-        await erc1155.methods
-            .addMinter(didRegistry.options.address)
-            .send({ from: deployerAddress })
+        let transactionResponse: TransactionResponse = await erc1155.addMinter(
+            didRegistry.address
+        )
+        let contractReceipt: ContractReceipt = await transactionResponse.wait()
+        if (contractReceipt.status !== 1) {
+            throw new Error('Error calling "addMinter" on "erc1155"')
+        }
 
-        await erc721.methods
-            .addMinter(didRegistry.options.address)
-            .send({ from: deployerAddress })
+        transactionResponse = await erc721.addMinter(didRegistry.address)
+        contractReceipt = await transactionResponse.wait()
+        if (contractReceipt.status !== 1) {
+            throw new Error('Error calling "addMinter" on "erc721"')
+        }
 
         // Managers
         const templateStoreManager = await TestContractHandler.deployContract(
@@ -108,9 +126,9 @@ export default abstract class TestContractHandler extends ContractHandler {
         const conditionStoreManager = await TestContractHandler.deployContract(
             'ConditionStoreManager',
             deployerAddress,
-            [deployerAddress, deployerAddress, nvmConfig.options.address],
+            [deployerAddress, deployerAddress, nvmConfig.address],
             {
-                EpochLibrary: epochLibrary.options.address
+                EpochLibrary: epochLibrary.address
             }
         )
         const agreementStoreManager = await TestContractHandler.deployContract(
@@ -118,9 +136,9 @@ export default abstract class TestContractHandler extends ContractHandler {
             deployerAddress,
             [
                 deployerAddress,
-                conditionStoreManager.options.address,
-                templateStoreManager.options.address,
-                didRegistry.options.address
+                conditionStoreManager.address,
+                templateStoreManager.address,
+                didRegistry.address
             ]
         )
 
@@ -128,11 +146,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const lockPaymentCondition = await TestContractHandler.deployContract(
             'LockPaymentCondition',
             deployerAddress,
-            [
-                deployerAddress,
-                conditionStoreManager.options.address,
-                didRegistry.options.address
-            ]
+            [deployerAddress, conditionStoreManager.address, didRegistry.address]
         )
 
         const accessCondition = await TestContractHandler.deployContract(
@@ -140,41 +154,33 @@ export default abstract class TestContractHandler extends ContractHandler {
             deployerAddress,
             [
                 deployerAddress,
-                conditionStoreManager.options.address,
-                agreementStoreManager.options.address
+                conditionStoreManager.address,
+                agreementStoreManager.address
             ]
         )
 
         const nftHolderCondition = await TestContractHandler.deployContract(
             'NFTHolderCondition',
             deployerAddress,
-            [
-                deployerAddress,
-                conditionStoreManager.options.address,
-                erc1155.options.address
-            ]
+            [deployerAddress, conditionStoreManager.address, erc1155.address]
         )
 
         const nft721HolderCondition = await TestContractHandler.deployContract(
             'NFT721HolderCondition',
             deployerAddress,
-            [deployerAddress, conditionStoreManager.options.address]
+            [deployerAddress, conditionStoreManager.address]
         )
 
         await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
             deployerAddress,
-            conditionStoreManager.options.address,
-            erc1155.options.address
+            conditionStoreManager.address,
+            erc1155.address
         ])
 
         const nftAcessCondition = await TestContractHandler.deployContract(
             'NFTAccessCondition',
             deployerAddress,
-            [
-                deployerAddress,
-                conditionStoreManager.options.address,
-                didRegistry.options.address
-            ]
+            [deployerAddress, conditionStoreManager.address, didRegistry.address]
         )
 
         const transferNft721Condition = await TestContractHandler.deployContract(
@@ -182,10 +188,10 @@ export default abstract class TestContractHandler extends ContractHandler {
             deployerAddress,
             [
                 deployerAddress,
-                conditionStoreManager.options.address,
-                didRegistry.options.address,
-                erc721.options.address,
-                lockPaymentCondition.options.address
+                conditionStoreManager.address,
+                didRegistry.address,
+                erc721.address,
+                lockPaymentCondition.address
             ]
         )
 
@@ -194,59 +200,63 @@ export default abstract class TestContractHandler extends ContractHandler {
             deployerAddress,
             [
                 deployerAddress,
-                conditionStoreManager.options.address,
-                didRegistry.options.address,
-                erc1155.options.address,
+                conditionStoreManager.address,
+                didRegistry.address,
+                erc1155.address,
                 ZeroAddress
             ]
         )
-        await erc1155.methods
-            .setProxyApproval(transferNftCondition.options.address, true)
-            .send({ from: deployerAddress })
-        await erc1155.methods
-            .setProxyApproval(didRegistry.options.address, true)
-            .send({ from: deployerAddress })
+        transactionResponse = await erc1155.setProxyApproval(
+            transferNftCondition.address,
+            true
+        )
+        contractReceipt = await transactionResponse.wait()
+        if (contractReceipt.status !== 1) {
+            throw new Error('Error calling "addMinter" on "erc721"')
+        }
+
+        transactionResponse = await erc1155.setProxyApproval(didRegistry.address, true)
+        contractReceipt = await transactionResponse.wait()
+        if (contractReceipt.status !== 1) {
+            throw new Error('Error calling "addMinter" on "erc721"')
+        }
 
         const transferDidOwnershipCondition = await TestContractHandler.deployContract(
             'TransferDIDOwnershipCondition',
             deployerAddress,
-            [
-                deployerAddress,
-                conditionStoreManager.options.address,
-                didRegistry.options.address
-            ]
+            [deployerAddress, conditionStoreManager.address, didRegistry.address]
         )
 
         // Conditions rewards
         const escrowPaymentCondition = await TestContractHandler.deployContract(
             'EscrowPaymentCondition',
             deployerAddress,
-            [deployerAddress, conditionStoreManager.options.address]
+            [deployerAddress, conditionStoreManager.address]
         )
 
         // Templates
         await TestContractHandler.deployContract('AccessTemplate', deployerAddress, [
             deployerAddress,
-            agreementStoreManager.options.address,
-            didRegistry.options.address,
-            accessCondition.options.address,
-            lockPaymentCondition.options.address,
-            escrowPaymentCondition.options.address
+            agreementStoreManager.address,
+            didRegistry.address,
+            accessCondition.address,
+            lockPaymentCondition.address,
+            escrowPaymentCondition.address
         ])
 
         await TestContractHandler.deployContract('DIDSalesTemplate', deployerAddress, [
             deployerAddress,
-            agreementStoreManager.options.address,
-            lockPaymentCondition.options.address,
-            transferDidOwnershipCondition.options.address,
-            escrowPaymentCondition.options.address
+            agreementStoreManager.address,
+            lockPaymentCondition.address,
+            transferDidOwnershipCondition.address,
+            escrowPaymentCondition.address
         ])
 
         await TestContractHandler.deployContract('NFTAccessTemplate', deployerAddress, [
             deployerAddress,
-            agreementStoreManager.options.address,
-            nftHolderCondition.options.address,
-            nftAcessCondition.options.address
+            agreementStoreManager.address,
+            nftHolderCondition.address,
+            nftAcessCondition.address
         ])
 
         await TestContractHandler.deployContract(
@@ -254,61 +264,57 @@ export default abstract class TestContractHandler extends ContractHandler {
             deployerAddress,
             [
                 deployerAddress,
-                agreementStoreManager.options.address,
-                nft721HolderCondition.options.address,
-                nftAcessCondition.options.address
+                agreementStoreManager.address,
+                nft721HolderCondition.address,
+                nftAcessCondition.address
             ]
         )
 
         await TestContractHandler.deployContract('NFTSalesTemplate', deployerAddress, [
             deployerAddress,
-            agreementStoreManager.options.address,
-            lockPaymentCondition.options.address,
-            transferNftCondition.options.address,
-            escrowPaymentCondition.options.address
+            agreementStoreManager.address,
+            lockPaymentCondition.address,
+            transferNftCondition.address,
+            escrowPaymentCondition.address
         ])
 
         await TestContractHandler.deployContract('NFT721SalesTemplate', deployerAddress, [
             deployerAddress,
-            agreementStoreManager.options.address,
-            lockPaymentCondition.options.address,
-            transferNft721Condition.options.address,
-            escrowPaymentCondition.options.address
+            agreementStoreManager.address,
+            lockPaymentCondition.address,
+            transferNft721Condition.address,
+            escrowPaymentCondition.address
         ])
 
         const aaveCollateralDepositCondition = await TestContractHandler.deployContract(
             'AaveCollateralDepositCondition',
             deployerAddress,
-            [deployerAddress, conditionStoreManager.options.address]
+            [deployerAddress, conditionStoreManager.address]
         )
         const aaveBorrowCondition = await TestContractHandler.deployContract(
             'AaveBorrowCondition',
             deployerAddress,
-            [deployerAddress, conditionStoreManager.options.address]
+            [deployerAddress, conditionStoreManager.address]
         )
         const aaveRepayCondition = await TestContractHandler.deployContract(
             'AaveRepayCondition',
             deployerAddress,
-            [deployerAddress, conditionStoreManager.options.address]
+            [deployerAddress, conditionStoreManager.address]
         )
         const aaveCollateralWithdrawCondition = await TestContractHandler.deployContract(
             'AaveCollateralWithdrawCondition',
             deployerAddress,
-            [deployerAddress, conditionStoreManager.options.address]
+            [deployerAddress, conditionStoreManager.address]
         )
         const nft721LockCondition = await TestContractHandler.deployContract(
             'NFT721LockCondition',
             deployerAddress,
-            [deployerAddress, conditionStoreManager.options.address]
+            [deployerAddress, conditionStoreManager.address]
         )
         const distributeNFTCollateralCondition = await TestContractHandler.deployContract(
             'DistributeNFTCollateralCondition',
             deployerAddress,
-            [
-                deployerAddress,
-                conditionStoreManager.options.address,
-                nft721LockCondition.options.address
-            ]
+            [deployerAddress, conditionStoreManager.address, nft721LockCondition.address]
         )
         const vaultLibrary = await TestContractHandler.deployContract(
             'AaveCreditVault',
@@ -320,14 +326,14 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         await TestContractHandler.deployContract('AaveCreditTemplate', deployerAddress, [
             deployerAddress,
-            agreementStoreManager.options.address,
-            nft721LockCondition.options.address,
-            aaveCollateralDepositCondition.options.address,
-            aaveBorrowCondition.options.address,
-            aaveRepayCondition.options.address,
-            aaveCollateralWithdrawCondition.options.address,
-            distributeNFTCollateralCondition.options.address,
-            vaultLibrary.options.address
+            agreementStoreManager.address,
+            nft721LockCondition.address,
+            aaveCollateralDepositCondition.address,
+            aaveBorrowCondition.address,
+            aaveRepayCondition.address,
+            aaveCollateralWithdrawCondition.address,
+            distributeNFTCollateralCondition.address,
+            vaultLibrary.address
         ])
     }
 
@@ -342,7 +348,10 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         // dont redeploy if there is already something loaded
         if (TestContractHandler.hasContract(name, where)) {
-            const contract: ContractTest = await ContractHandler.getContract(name, where)
+            const contract: ethers.Contract = await ContractHandler.getContract(
+                name,
+                where
+            )
             if (contract.testContract) {
                 return { ...contract, $initialized: true } as any
             }
@@ -384,22 +393,26 @@ export default abstract class TestContractHandler extends ContractHandler {
         args = [],
         tokens = {},
         init = true
-    ): Promise<Contract> {
+    ): Promise<ethers.Contract> {
         if (!from) {
-            from = (await TestContractHandler.web3.eth.getAccounts())[0]
+            ;[from] = await TestContractHandler.web3.listAccounts()
         }
 
         const sendConfig = {
-            from,
-            gas: 6721975,
+            gasLimit: 6721975,
             gasPrice: '875000000'
         }
 
-        const tempContract = new TestContractHandler.web3.eth.Contract(
+        const signer = this.web3.getSigner(from)
+        const tempContract = new ethers.ContractFactory(
             artifact.abi,
-            artifact.address
+            TestContractHandler.replaceTokens(artifact.bytecode, tokens),
+            signer
         )
-        const isZos = !!tempContract.methods.initialize && init
+        const initializeExists = tempContract.interface.fragments.some(
+            f => f.name === 'initialize'
+        )
+        const isZos = initializeExists && init
 
         Logger.debug({
             name: artifact.name,
@@ -413,19 +426,28 @@ export default abstract class TestContractHandler extends ContractHandler {
                 .splice(1)
         })
 
-        const contractInstance: Contract = await tempContract
-            .deploy({
-                data: TestContractHandler.replaceTokens(
-                    artifact.bytecode.toString(),
-                    tokens
-                ),
-                arguments: isZos ? undefined : args
-            })
-            .send(sendConfig)
+        const argument = isZos ? [] : args
+        const contractInstance: ethers.Contract = await tempContract.deploy(
+            ...argument,
+            sendConfig
+        )
+        await contractInstance.deployTransaction.wait()
+
         if (isZos) {
-            await contractInstance.methods.initialize(...args).send(sendConfig)
+            const methodSignature = TestContractHandler.getSignatureOfMethod(
+                contractInstance,
+                'initialize',
+                args
+            )
+            const contract = contractInstance.connect(signer)
+            const transactionResponse: TransactionResponse = await contract[
+                methodSignature
+            ](...args, sendConfig)
+            const contractReceipt: ContractReceipt = await transactionResponse.wait()
+            if (contractReceipt.status !== 1) {
+                throw new Error(`Error deploying contract ${artifact.name}`)
+            }
         }
-        // Logger.log('Deployed', name, 'at', contractInstance.options.address)
 
         return contractInstance
     }
@@ -442,5 +464,21 @@ export default abstract class TestContractHandler extends ContractHandler {
                 ),
             bytecode
         )
+    }
+
+    private static getSignatureOfMethod(
+        contractInstace: ethers.Contract,
+        methodName: string,
+        args: any[]
+    ): string {
+        const methods = contractInstace.interface.fragments.filter(
+            f => f.name === methodName
+        )
+        const foundMethod =
+            methods.find(f => f.inputs.length === args.length) || methods[0]
+        if (!foundMethod) {
+            throw new Error(`Method "${methodName}" not found in contract`)
+        }
+        return foundMethod.format()
     }
 }

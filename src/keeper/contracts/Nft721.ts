@@ -3,6 +3,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
 import { abi } from './../../artifacts/ERC721.json'
 import { Account } from '../..'
+import { ethers } from 'ethers'
 
 export default class Nft721 extends ContractBase {
     public static async getInstance(
@@ -13,10 +14,7 @@ export default class Nft721 extends ContractBase {
         nft.setInstanceConfig(config)
 
         await nft.checkExists(address)
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        nft.contract = new nft.web3.eth.Contract(abi, address)
+        nft.contract = new ethers.Contract(address, abi, nft.web3)
 
         return nft
     }

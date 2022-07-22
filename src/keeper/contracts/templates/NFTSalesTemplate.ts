@@ -62,7 +62,6 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
             ctx,
             lockPaymentConditionInstance
         )
-        // console.log(transferConditionInstance)
         const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
             agreementId,
             ctx,

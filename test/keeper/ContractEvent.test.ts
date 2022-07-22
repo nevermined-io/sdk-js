@@ -5,7 +5,7 @@ import TestContractHandler from './TestContractHandler'
 import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
 import { Account } from '../../src'
 import Web3Provider from '../../src/keeper/Web3Provider'
-import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 describe('ContractEvent', () => {
     let nevermined: Nevermined
@@ -13,7 +13,7 @@ describe('ContractEvent', () => {
     let account2: Account
     let account3: Account
     let account4: Account
-    let web3: Web3
+    let web3: ethers.providers.JsonRpcProvider
 
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
@@ -25,7 +25,7 @@ describe('ContractEvent', () => {
     describe('#subscribe()', () => {
         it('should be able to listen to events', async () => {
             let subscription: ContractEventSubscription
-            const fromBlock = await web3.eth.getBlockNumber()
+            const fromBlock = await web3.getBlockNumber()
 
             const waitForEvents = new Promise(resolve => {
                 subscription = nevermined.keeper.token.events.subscribe(
@@ -59,7 +59,7 @@ describe('ContractEvent', () => {
 
     describe('#once()', () => {
         it('should listen to event only once', async () => {
-            const fromBlock = await web3.eth.getBlockNumber()
+            const fromBlock = await web3.getBlockNumber()
 
             const eventsPromise = nevermined.keeper.token.events.once(e => e, {
                 eventName: 'Transfer',

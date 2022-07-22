@@ -1,6 +1,6 @@
 import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import Web3Utils from 'web3-utils'
 import vKey from './verification_key.json'
+import { ethers } from 'ethers'
 
 const SEED = 'mimcsponge'
 const NROUNDS = 220
@@ -47,20 +47,24 @@ export class KeyTransfer {
         this.cts = this.getConstants(SEED, NROUNDS)
     }
 
-    private getConstants(seed, nRounds) {
-        if (typeof seed === 'undefined') seed = SEED
-        if (typeof nRounds === 'undefined') nRounds = NROUNDS
+    private getConstants(seed: string = SEED, nRounds: number = NROUNDS) {
+        const seedBytes = ethers.utils.toUtf8Bytes(seed)
         const cts = new Array(nRounds)
-        let c = Web3Utils.keccak256(SEED)
-        for (let i = 1; i < nRounds; i++) {
-            c = Web3Utils.keccak256(c)
+        let c = ethers.utils.keccak256(seedBytes)
 
-            const n1 = Web3Utils.toBN(c).mod(Web3Utils.toBN(this.F.p.toString()))
-            const c2 = Web3Utils.padLeft(Web3Utils.toHex(n1), 64)
-            cts[i] = this.F.e(Web3Utils.toBN(c2).toString())
+        for (let i = 1; i < nRounds; i++) {
+            c = ethers.utils.keccak256(c)
+
+            const n1 = ethers.BigNumber.from(c).mod(
+                ethers.BigNumber.from(this.F.p.toString())
+            )
+            const c2 = ethers.utils.hexZeroPad(n1.toHexString(), 32)
+            cts[i] = this.F.e(ethers.BigNumber.from(c2).toString())
         }
+
         cts[0] = this.F.e(0)
         cts[cts.length - 1] = this.F.e(0)
+
         return cts
     }
 
@@ -88,7 +92,7 @@ export class KeyTransfer {
     // mnemonic to secret key
 
     public makeKey(str: string) {
-        const c = Web3Utils.keccak256(str)
+        const c = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(str))
         return c.substr(0, 60)
     }
 

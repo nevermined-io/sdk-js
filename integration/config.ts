@@ -6,7 +6,7 @@ LoggerInstance.setLevel(LogLevel.Error)
 
 const configBase: Config = {
     nodeUri: 'http://localhost:8545',
-    marketplaceUri: 'http://nevermined-metadata:3100',
+    marketplaceUri: 'http://172.17.0.1:3100',
     faucetUri: 'http://localhost:3001',
     gatewayUri: 'http://localhost:8030',
     secretStoreUri: 'http://localhost:12001',
@@ -79,4 +79,4 @@ if (process.env.SEED_WORDS) {
 }
 
 export const config: Config & { forceVerbose: Config } = configBase as any
-    ; (config as any).forceVerbose = { ...configBase, verbose: true }
+;(config as any).forceVerbose = { ...configBase, verbose: true }

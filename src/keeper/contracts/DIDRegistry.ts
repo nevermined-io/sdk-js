@@ -1,7 +1,7 @@
-import { TransactionReceipt } from 'web3-core'
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import { ContractReceipt, ethers } from 'ethers'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -164,7 +164,7 @@ export default class DIDRegistry extends ContractBase {
                 String(cap),
                 String(royalties),
                 mint,
-                zeroX(activityId),
+                ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 nftMetadata
             ],
             params
@@ -193,7 +193,7 @@ export default class DIDRegistry extends ContractBase {
                 value,
                 String(royalties),
                 mint,
-                zeroX(activityId),
+                ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 nftMetadata
             ],
             params
@@ -262,8 +262,8 @@ export default class DIDRegistry extends ContractBase {
             })
         )
             .map(event => {
-                if (event.returnValues) {
-                    return event.returnValues._did
+                if (event.args) {
+                    return event.args._did
                 } else {
                     return event._did
                 }
@@ -337,7 +337,7 @@ export default class DIDRegistry extends ContractBase {
         newOwnerAddress: string,
         ownerAddress: string,
         params?: TxParameters
-    ): Promise<TransactionReceipt> {
+    ): Promise<ContractReceipt> {
         return this.send(
             'transferDIDOwnership',
             ownerAddress,
@@ -368,12 +368,10 @@ export default class DIDRegistry extends ContractBase {
             })
         )
             .map(event => {
-                if (event.returnValues === undefined)
+                if (event.args === undefined)
                     return eventToObject(event) as ProvenanceAttributeRegisteredEvent
                 else
-                    return eventToObject(
-                        event.returnValues
-                    ) as ProvenanceAttributeRegisteredEvent
+                    return eventToObject(event.args) as ProvenanceAttributeRegisteredEvent
             })
             .map(event => ({ ...event, method: +event.method }))
             .sort(

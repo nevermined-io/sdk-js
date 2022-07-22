@@ -7,10 +7,11 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Contract } from 'web3-eth-contract'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { zeroX } from '../../src/utils'
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
+import Nft721 from '../../src/keeper/contracts/Nft721'
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -35,16 +36,21 @@ describe('NFTs721 Api End-to-End', () => {
     let initialBalances: any
     let scale: number
 
-    let nftContract: Contract
+    let nft: ethers.Contract
+    let nftContract: Nft721
 
     let payload: JWTPayload
 
     before(async () => {
         TestContractHandler.setConfig(config)
 
-        nftContract = await TestContractHandler.deployArtifact(ERC721)
+        nft = await TestContractHandler.deployArtifact(ERC721)
 
         nevermined = await Nevermined.getInstance(config)
+        nftContract = await Nft721.getInstance(
+            (nevermined.keeper as any).instanceConfig,
+            nft.address
+        )
         ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
@@ -87,18 +93,13 @@ describe('NFTs721 Api End-to-End', () => {
                 metadata,
                 artist,
                 assetRewards1,
-                nftContract.options.address
+                nftContract.address
             )
             assert.isDefined(ddo)
 
-            await nftContract.methods
-                .mint(zeroX(ddo.shortId()))
-                .send({ from: artist.getId() })
+            await nftContract.mint(zeroX(ddo.shortId()), artist.getId())
 
-            const owner = await nevermined.nfts.ownerOf(
-                ddo.id,
-                nftContract.options.address
-            )
+            const owner = await nevermined.nfts.ownerOf(ddo.id, nftContract.address)
             assert.equal(owner, artist.getId())
         })
     })
@@ -132,7 +133,7 @@ describe('NFTs721 Api End-to-End', () => {
 
         it('The artist can check the payment and transfer the NFT to the collector', async () => {
             assert.equal(
-                await nevermined.nfts.ownerOf(ddo.id, nftContract.options.address),
+                await nevermined.nfts.ownerOf(ddo.id, nftContract.address),
                 artist.getId()
             )
 
@@ -140,7 +141,7 @@ describe('NFTs721 Api End-to-End', () => {
             assert.isTrue(receipt)
 
             assert.equal(
-                await nevermined.nfts.ownerOf(ddo.id, nftContract.options.address),
+                await nevermined.nfts.ownerOf(ddo.id, nftContract.address),
                 collector1.getId()
             )
         })

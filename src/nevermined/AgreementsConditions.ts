@@ -11,6 +11,7 @@ import { EventOptions } from '../events/NeverminedEvent'
 import AssetRewards from '../models/AssetRewards'
 import BigNumber from 'bignumber.js'
 import { KeeperError } from '../errors/KeeperError'
+import { ContractReceipt } from 'ethers'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -47,7 +48,7 @@ export class AgreementsConditions extends Instantiable {
         erc20TokenAddress?: string,
         from?: Account,
         txParams?: TxParameters
-    ) {
+    ): Promise<boolean> {
         const {
             lockPaymentCondition,
             escrowPaymentCondition
@@ -56,7 +57,7 @@ export class AgreementsConditions extends Instantiable {
         let token: Token
 
         if (!erc20TokenAddress) {
-            ({ token } = this.nevermined.keeper)
+            ;({ token } = this.nevermined.keeper)
         } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {
@@ -81,7 +82,7 @@ export class AgreementsConditions extends Instantiable {
             )
         }
 
-        const receipt = await lockPaymentCondition.fulfill(
+        const contractReceipt: ContractReceipt = await lockPaymentCondition.fulfill(
             agreementId,
             did,
             escrowPaymentCondition.getAddress(),
@@ -98,7 +99,7 @@ export class AgreementsConditions extends Instantiable {
             }
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -118,14 +119,14 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { accessCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await accessCondition.fulfill(
+            const contractReceipt: ContractReceipt = await accessCondition.fulfill(
                 agreementId,
                 did,
                 grantee,
                 from,
                 params
             )
-            return !!receipt.events.Fulfilled
+            return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
         }
@@ -159,7 +160,7 @@ export class AgreementsConditions extends Instantiable {
             )
             const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
             const hash = await keyTransfer.hashKey(data)
-            const receipt = await accessProofCondition.fulfill(
+            const contractReceipt: ContractReceipt = await accessProofCondition.fulfill(
                 agreementId,
                 hash,
                 buyerPub,
@@ -169,7 +170,7 @@ export class AgreementsConditions extends Instantiable {
                 from,
                 params
             )
-            return !!receipt.events.Fulfilled
+            return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
         }
@@ -209,9 +210,7 @@ export class AgreementsConditions extends Instantiable {
             throw new KeeperError('No events are returned')
         }
 
-        const [cipherL, cipherR] = ev[0].returnValues
-            ? ev[0].returnValues._cipher
-            : ev[0]._cipher
+        const [cipherL, cipherR] = ev[0].args ? ev[0].args._cipher : ev[0]._cipher
 
         const keyTransfer = await makeKeyTransfer()
         return keyTransfer.decryptKey(
@@ -237,14 +236,14 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { computeExecutionCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await computeExecutionCondition.fulfill(
+            const contractReceipt: ContractReceipt = await computeExecutionCondition.fulfill(
                 agreementId,
                 did,
                 grantee,
                 from,
                 params
             )
-            return !!receipt.events.Fulfilled
+            return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
         }
@@ -281,7 +280,7 @@ export class AgreementsConditions extends Instantiable {
             let token
 
             if (!erc20TokenAddress) {
-                ({ token } = this.nevermined.keeper)
+                ;({ token } = this.nevermined.keeper)
             } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
                 token = await CustomToken.getInstanceByAddress(
                     {
@@ -296,7 +295,7 @@ export class AgreementsConditions extends Instantiable {
                 agreementId
             )
             storedAgreement.conditionIds
-            const receipt = await escrowPaymentCondition.fulfill(
+            const contractReceipt: ContractReceipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 did,
                 amounts,
@@ -309,7 +308,7 @@ export class AgreementsConditions extends Instantiable {
                 from,
                 params
             )
-            return !!receipt.events.Fulfilled
+            return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
         }
@@ -348,18 +347,18 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-        const receipt = await escrowPaymentCondition.fulfillInstance(
+        const contractReceipt: ContractReceipt = await escrowPaymentCondition.fulfillInstance(
             instance.instances[2] as any,
             {},
             from || publisher,
             txParams
         )
 
-        if (!receipt.events.Fulfilled) {
-            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+        if (!this.isFulfilled(contractReceipt)) {
+            this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
         }
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -393,18 +392,18 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-        const receipt = await escrowPaymentCondition.fulfillInstance(
+        const contractReceipt: ContractReceipt = await escrowPaymentCondition.fulfillInstance(
             instance.instances[2] as any,
             {},
             from || publisher,
             txParams
         )
 
-        if (!receipt.events.Fulfilled) {
-            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+        if (!this.isFulfilled(contractReceipt)) {
+            this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
         }
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -428,7 +427,7 @@ export class AgreementsConditions extends Instantiable {
     ) {
         const { nftHolderCondition } = this.nevermined.keeper.conditions
 
-        const receipt = await nftHolderCondition.fulfill(
+        const contractReceipt: ContractReceipt = await nftHolderCondition.fulfill(
             agreementId,
             did,
             holder,
@@ -436,7 +435,7 @@ export class AgreementsConditions extends Instantiable {
             from,
             params
         )
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -461,7 +460,7 @@ export class AgreementsConditions extends Instantiable {
 
         const holder = findServiceConditionByName(accessService, 'nftHolder')
 
-        const receipt = await nft721HolderCondition.fulfill(
+        const contractReceipt: ContractReceipt = await nft721HolderCondition.fulfill(
             agreementId,
             ddo.shortId(),
             holderAddress,
@@ -470,7 +469,7 @@ export class AgreementsConditions extends Instantiable {
             params
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -491,14 +490,14 @@ export class AgreementsConditions extends Instantiable {
     ) {
         const { nftAccessCondition } = this.nevermined.keeper.conditions
 
-        const receipt = await nftAccessCondition.fulfill(
+        const contractReceipt: ContractReceipt = await nftAccessCondition.fulfill(
             agreementId,
             did,
             grantee,
             from,
             params
         )
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -534,14 +533,14 @@ export class AgreementsConditions extends Instantiable {
             template.params(accessConsumer, nftAmount)
         )
 
-        const receipt = await transferNftCondition.fulfillInstance(
+        const contractReceipt: ContractReceipt = await transferNftCondition.fulfillInstance(
             instance.instances[1] as any,
             {},
             from,
             txParams
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -585,7 +584,7 @@ export class AgreementsConditions extends Instantiable {
             ,
             transferAsset
         ] = instance.instances[1].list
-        const receipt = await transferNftCondition.fulfillPlain(
+        const contractReceipt: ContractReceipt = await transferNftCondition.fulfillPlain(
             agreementId,
             [
                 did,
@@ -600,7 +599,7 @@ export class AgreementsConditions extends Instantiable {
             'fulfillForDelegate'
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
@@ -645,7 +644,7 @@ export class AgreementsConditions extends Instantiable {
             txParams
         )
 
-        const receipt = await transferNft721Condition.fulfillInstance(
+        const contractReceipt: ContractReceipt = await transferNft721Condition.fulfillInstance(
             instance.instances[1] as any,
             {},
             publisher,
@@ -659,6 +658,10 @@ export class AgreementsConditions extends Instantiable {
             txParams
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
+    }
+
+    private isFulfilled(contractReceipt: ContractReceipt): boolean {
+        return contractReceipt.events.some(e => e.event === 'Fulfilled')
     }
 }

@@ -1,8 +1,8 @@
 import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
-import Web3 from 'web3'
 import { ContractEvent } from '../../src/events'
+import { ethers } from 'ethers'
 
 describe('ContractEvent', () => {
     let account: Account
@@ -10,8 +10,7 @@ describe('ContractEvent', () => {
     let executeTransaction: () => Promise<any>
 
     before(async () => {
-        config.graphHttpUri = undefined
-        nevermined = await Nevermined.getInstance(config)
+        nevermined = await Nevermined.getInstance({ ...config, graphHttpUri: undefined })
         ;[account] = await nevermined.accounts.list()
 
         await nevermined.keeper.dispenser.requestTokens(1, account.getId())
@@ -36,8 +35,8 @@ describe('ContractEvent', () => {
             eventName: 'Transfer'
         })
         assert.strictEqual(
-            Web3.utils.toChecksumAddress(response.pop().returnValues.to),
-            Web3.utils.toChecksumAddress(account.getId())
+            ethers.utils.getAddress(response.pop().args.to),
+            ethers.utils.getAddress(account.getId())
         )
     })
 

@@ -62,9 +62,12 @@ export class AccessCondition extends Condition<AccessConditionContext> {
                 _conditionId: true
             }
         }
-        return (await this.events.getPastEvents(evOptions)).map(({ returnValues }) => ({
-            did: didPrefixed(returnValues._documentId),
-            agreementId: zeroX(returnValues._agreementId)
+        const events = await this.events.getPastEvents(evOptions)
+        const values = events.map(e => e.args || e)
+
+        return values.map(v => ({
+            did: didPrefixed(v._documentId),
+            agreementId: zeroX(v._agreementId)
         }))
     }
 }
