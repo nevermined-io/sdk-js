@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ["--geth", "--polygon"]
+        network: ["--spree-embedded-contracts", "--polygon"]
         node: ["14", "16"]
         include:
           - network: "--geth"
