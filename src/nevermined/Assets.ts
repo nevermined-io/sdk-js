@@ -128,7 +128,8 @@ export class Assets extends Instantiable {
         providers?: string[],
         royalties: number = 0,
         nftMetadata?: string,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        nftTransfer: boolean = false
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')
         return new SubscribablePromise(async observer => {
@@ -191,7 +192,7 @@ export class Assets extends Instantiable {
                 await this.createNft721SalesService(
                     metadata,
                     publisher,
-                    nft721SalesServiceAgreementTemplate
+                    nft721SalesServiceAgreementTemplate,
                 )
             )
 
@@ -248,7 +249,9 @@ export class Assets extends Instantiable {
                 assetRewards,
                 erc20TokenAddress || this.nevermined.token.getAddress(),
                 nftTokenAddress,
-                publisher.getId()
+                publisher.getId(),
+                undefined,
+                nftTransfer
             )
 
             const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
