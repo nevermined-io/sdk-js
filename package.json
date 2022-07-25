@@ -22,6 +22,8 @@
     "integration:watch": "mocha -w --watch-extensions js,ts,json --opts integration/mocha.opts ./integration/**/*.test.ts",
     "integration:cover": "nyc --report-dir coverage/integration mocha --opts integration/mocha.opts ./integration/**/*.test.ts",
     "integration:aave": "mocha --opts aave_integration/mocha.opts ./aave_integration/**/*.test.ts",
+    "integration:e2e": "mocha --opts integration/mocha.opts ./integration/nevermined/NFTApi.e2e.test.ts",
+    "integration:e2e:mumbai": "export NETWORK_NAME=mumbai; yarn integration:e2e",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint --ignore-path .gitignore --ext .ts,.tsx .",
     "lint:fix": "eslint --fix --ignore-path .gitignore --ext .ts,.tsx .",
@@ -37,7 +39,8 @@
     "changelog": "auto-changelog --commit-limit false && sed -i 's/keyko-io/nevermind-/nevermined-io//' CHANGELOG.md",
     "prepublishOnly": "npm run build",
     "prebuild": "npm run build:metadata",
-    "prepare": "npm run build:metadata"
+    "prepare": "npm run build:metadata",
+    "artifacts:download": "./scripts/download-artifacts.sh"
   },
   "repository": {
     "type": "git",

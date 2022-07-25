@@ -5,6 +5,7 @@ import { LoggerInstance, LogLevel } from '../src/utils'
 LoggerInstance.setLevel(LogLevel.Error)
 
 const nograph = process.env['NO_GRAPH'] === 'true'
+const infuraToken = process.env['INFURA_TOKEN']
 
 const configBase: Config = {
     nodeUri: 'http://localhost:8545',
@@ -59,18 +60,19 @@ if (process.env.NETWORK_NAME === 'rinkeby') {
         marketplaceUri: 'https://metadata.rinkeby.nevermined.rocks',
         faucetUri: 'https://faucet.rinkeby.nevermined.rocks',
         gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
-        nodeUri: `https://rinkeby.infura.io/v3/52b6d403f7de4757ab9ed23c3778a35b`,
+        nodeUri: `https://rinkeby.infura.io/v3/${infuraToken}`,
         gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
     } as Config)
 }
 
 if (process.env.NETWORK_NAME === 'mumbai') {
     Object.assign(configBase, {
-        marketplaceUri: 'https://metadata.mumbai.nevermined.rocks',
-        faucetUri: 'https://faucet.mumbai.nevermined.rocks',
-        gatewayUri: 'https://gateway.mumbai.nevermined.rocks',
-        nodeUri: `https://rpc-mumbai.maticvigil.com/v1/e145ac0424e2a2b3c340685c80a08e77099ce020`,
-        gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
+        marketplaceUri: 'https://marketplace-api.mumbai.public.nevermined.rocks',
+        faucetUri: 'https://faucet.mumbai.public.nevermined.rocks',
+        gatewayUri: 'https://gateway.mumbai.public.nevermined.rocks',
+        nodeUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
+        gatewayAddress: '0xB82dc620BB4dE6712376055a5cfc0DF11112D442',
+        graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
     } as Config)
 }
 
