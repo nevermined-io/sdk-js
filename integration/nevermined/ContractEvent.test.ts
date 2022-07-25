@@ -2,6 +2,7 @@ import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
 import { ContractEvent } from '../../src/events'
+import { sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 
 describe('ContractEvent', () => {
@@ -64,7 +65,7 @@ describe('ContractEvent', () => {
 
         await Promise.all([executeTransaction(), executeTransaction()])
 
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await sleep(2000)
         validResolve = true
 
         await Promise.all([executeTransaction(), executeTransaction()])
@@ -98,7 +99,7 @@ describe('ContractEvent', () => {
 
         await executeTransaction()
 
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await sleep(2000)
         canBeRejected = true
 
         await executeTransaction()
@@ -115,7 +116,7 @@ describe('ContractEvent', () => {
             filterJsonRpc: { to }
         })
 
-        await new Promise(resolve => setTimeout(resolve, 400))
+        await sleep(400)
 
         await executeTransaction()
 

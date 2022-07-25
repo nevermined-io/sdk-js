@@ -7,6 +7,7 @@ import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 import BigNumber from 'bignumber.js'
+import { repeat, sleep } from '../utils/utils'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -102,8 +103,8 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should get the agreement conditions status not fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 500))
-        const status = await nevermined.agreements.status(agreementId)
+        await sleep(3000)
+        const status = await repeat(3, nevermined.agreements.status(agreementId))
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
@@ -151,7 +152,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should get the agreement conditions status fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 500))
+        await sleep(500)
         const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {

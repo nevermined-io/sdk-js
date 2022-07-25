@@ -31,6 +31,10 @@ export class AgreementStoreManager extends ContractBase {
         this.templates = temp
     }
 
+    public addTemplate(name: string, obj: any) {
+        this.templates[name] = obj
+    }
+
     public getOwner(): Promise<string> {
         return this.call('owner', [])
     }

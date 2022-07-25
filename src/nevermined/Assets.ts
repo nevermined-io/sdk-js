@@ -1,7 +1,7 @@
 import { SearchQuery } from '../common/interfaces'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
-import { Service, ServiceType } from '../ddo/Service'
+import { Service, ServiceType, ServiceCommon } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
 import {
@@ -19,6 +19,10 @@ import { ApiError, AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
 import { ContractReceipt, ethers } from 'ethers'
+
+export interface ServicePlugin {
+    createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
+}
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -73,6 +77,7 @@ export class Assets extends Instantiable {
      */
     public static async getInstance(config: InstantiableConfig): Promise<Assets> {
         const instance = new Assets()
+        instance.servicePlugin = {}
         instance.setInstanceConfig(config)
 
         return instance
@@ -373,7 +378,7 @@ export class Assets extends Instantiable {
         cap?: number,
         providers?: string[],
         nftAmount?: number,
-        royalties?: number,
+        royalties: number = 0,
         erc20TokenAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
@@ -839,6 +844,8 @@ export class Assets extends Instantiable {
         })
     }
 
+    public servicePlugin: { [key: string]: ServicePlugin }
+
     /**
      * Creates a new DDO.
      * @param {MetaData} metadata DDO metadata.
@@ -919,7 +926,6 @@ export class Assets extends Instantiable {
             } as Service)
 
             const accessServiceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
-            const accessProofServiceAgreementTemplate = await templates.accessProofTemplate.getServiceAgreementTemplate()
             const computeServiceAgreementTemplate = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
 
             if (serviceTypes.includes('access')) {
@@ -935,17 +941,14 @@ export class Assets extends Instantiable {
                 )
             }
 
-            if (serviceTypes.includes('access-proof')) {
-                this.logger.log('Access proof service Added')
-                await ddo.addService(
-                    this.nevermined,
-                    this.createAccessProofService(
-                        templates,
-                        publisher,
-                        metadata,
-                        accessProofServiceAgreementTemplate
+            for (const name of serviceTypes) {
+                const plugin = this.servicePlugin[name]
+                if (plugin) {
+                    await ddo.addService(
+                        this.nevermined,
+                        await plugin.createService(publisher, metadata)
                     )
-                )
+                }
             }
 
             if (serviceTypes.includes('compute')) {
@@ -983,30 +986,12 @@ export class Assets extends Instantiable {
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
 
-            if (serviceTypes.includes('access')) {
-                const accessTemplateConditions = await templates.accessTemplate.getServiceAgreementTemplateConditions()
-                accessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    accessTemplateConditions,
-                    ddo,
-                    assetRewards,
-                    erc20TokenAddress || this.nevermined.token.getAddress()
-                )
-            }
-
-            if (serviceTypes.includes('access-proof')) {
-                const templateConditions = await templates.accessProofTemplate.getServiceAgreementTemplateConditions()
-                accessProofServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    templateConditions,
-                    ddo,
-                    assetRewards,
-                    erc20TokenAddress || this.nevermined.token.getAddress()
-                )
-            }
-
-            if (serviceTypes.includes('compute')) {
-                const escrowComputeExecutionTemplateConditions = await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplateConditions()
-                computeServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                    escrowComputeExecutionTemplateConditions,
+            for (const name of serviceTypes) {
+                const service = ddo.findServiceByType(name)
+                const sat: ServiceAgreementTemplate =
+                    service.attributes.serviceAgreementTemplate
+                sat.conditions = fillConditionsWithDDO(
+                    sat.conditions,
                     ddo,
                     assetRewards,
                     erc20TokenAddress || this.nevermined.token.getAddress()
@@ -1216,28 +1201,6 @@ export class Assets extends Instantiable {
             return resultPath
         }
         return true
-    }
-
-    public async consumeProof(
-        agreementId: string,
-        did: string,
-        consumerAccount: Account
-    ): Promise<string | true> {
-        const ddo = await this.resolve(did)
-        const { serviceEndpoint } = ddo.findServiceByType('access-proof')
-
-        if (!serviceEndpoint) {
-            throw new AssetError(
-                'Consume asset failed, service definition is missing the `serviceEndpoint`.'
-            )
-        }
-
-        return await this.nevermined.gateway.consumeProofService(
-            did,
-            agreementId,
-            serviceEndpoint,
-            consumerAccount
-        )
     }
 
     /**
@@ -1593,34 +1556,6 @@ export class Assets extends Instantiable {
                     datePublished: metadata.main.datePublished,
                     name: 'dataAssetAccessServiceAgreement',
                     timeout: 3600
-                },
-                serviceAgreementTemplate
-            }
-        } as Service
-    }
-
-    private createAccessProofService(
-        templates,
-        publisher,
-        metadata: MetaData,
-        serviceAgreementTemplate
-    ) {
-        return {
-            type: 'access-proof',
-            index: 10,
-            serviceEndpoint: this.nevermined.gateway.getAccessProofEndpoint(),
-            templateId: templates.accessProofTemplate.getAddress(),
-            attributes: {
-                main: {
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    name: 'dataAssetAccessProofServiceAgreement',
-                    timeout: 3600,
-                    _hash: metadata.additionalInformation.poseidonHash,
-                    _providerPub: [
-                        metadata.additionalInformation.providerKey.x,
-                        metadata.additionalInformation.providerKey.y
-                    ]
                 },
                 serviceAgreementTemplate
             }

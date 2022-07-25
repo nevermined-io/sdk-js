@@ -20,9 +20,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
             return 'xDai'
         case 137:
             return 'matic'
-        // default ganache chainId
         case 1337:
-            return 'development'
+            return 'geth-localnet'
         case 8996:
             return 'Spree'
         case 8997:
