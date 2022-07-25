@@ -15,9 +15,9 @@ jobs:
         network: ["--spree-embedded-contracts", "--polygon"]
         node: ["14", "16"]
         include:
-          - network: "--geth"
-            network-name: geth-localnet
-            chainId: 1337
+          - network: "--spree-embedded-contracts"
+            network-name: spree
+            chainId: 8996
           - network: "--polygon"
             network-name: polygon-localnet
             chainId: 8997
