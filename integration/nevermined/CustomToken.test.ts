@@ -41,7 +41,7 @@ describe('CustomToken', () => {
     it('should get the token balance of an account', async () => {
         const tokenBalance = await customErc20Token.balanceOf(account.getId())
         console.log('tokenBalance', tokenBalance)
-        assert.equal(
+        assert.deepEqual(
             tokenBalance,
             await nevermined.keeper.token.balanceOf(account.getId())
         )
