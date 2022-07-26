@@ -1,0 +1,31 @@
+name: Tests Nightly
+
+on:
+  schedule:
+    - cron: '30 5 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Download artifacts
+        run: |
+          yarn artifacts:download v2.0.0 mumbai public
+          ls -l node_modules/@nevermined-io/contracts/artifacts
+
+      - name: Run nightly tests
+        env:
+          SEED_WORDS: ${{ secrets.TEST_MNEMONIC_NIGHTLY }}
+          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+        run: |
+          yarn integration:e2e:mumbai
