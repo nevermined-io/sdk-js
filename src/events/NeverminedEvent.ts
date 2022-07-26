@@ -23,13 +23,13 @@ export interface ContractEventSubscription {
     unsubscribe: () => void
 }
 
-export type EventResult = Promise<Array<any>>
+export type EventResult<T = any> = Promise<Array<T>>
 
 export abstract class NeverminedEvent extends Instantiable {
     protected eventEmitter: EventEmitter
     protected contract: ContractBase = null
-    public abstract getEventData(options: EventOptions): EventResult
-    public abstract getPastEvents(options: EventOptions): EventResult
+    public abstract getEventData<T = any>(options: EventOptions): EventResult<T>
+    public abstract getPastEvents<T = any>(options: EventOptions): EventResult<T>
     public abstract getBlockNumber(...args: any[]): Promise<number>
 
     protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
