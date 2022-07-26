@@ -31,11 +31,11 @@ export enum CreateProgressStep {
     ConditionsFilled,
     EncryptingFiles,
     FilesEncrypted,
-    StoringDdo,
-    DdoStored,
     RegisteringDid,
     SettingRoyaltyScheme,
     SettingRoyalties,
+    StoringDdo,
+    DdoStored,
     DidRegistered
 }
 
