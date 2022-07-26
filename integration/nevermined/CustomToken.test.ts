@@ -22,25 +22,21 @@ describe('CustomToken', () => {
 
     it('should get the token symbol', async () => {
         const tokenSymbol = await customErc20Token.symbol()
-        console.log('tokenSymbol', tokenSymbol)
         assert.equal(tokenSymbol, await nevermined.keeper.token.symbol())
     })
 
     it('should get the token name', async () => {
         const tokenName = await customErc20Token.name()
-        console.log('tokenName', tokenName)
         assert.equal(tokenName, await nevermined.keeper.token.name())
     })
 
     it('should get the token decimals', async () => {
         const tokenDecimals = await customErc20Token.decimals()
-        console.log('tokenDecimals', tokenDecimals)
         assert.equal(tokenDecimals, await nevermined.keeper.token.decimals())
     })
 
     it('should get the token balance of an account', async () => {
         const tokenBalance = await customErc20Token.balanceOf(account.getId())
-        console.log('tokenBalance', tokenBalance)
         assert.deepEqual(
             tokenBalance,
             await nevermined.keeper.token.balanceOf(account.getId())
