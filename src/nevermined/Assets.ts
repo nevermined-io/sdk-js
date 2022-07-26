@@ -375,7 +375,7 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         method: string = 'PSK-RSA',
-        cap: number,
+        cap: number = 0,
         providers?: string[],
         nftAmount?: number,
         royalties: number = 0,
