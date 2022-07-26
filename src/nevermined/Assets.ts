@@ -98,7 +98,7 @@ export class Assets extends Instantiable {
     public createMintable(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
+        cap: number = 0,
         royalties: number = 0,
         assetRewards: AssetRewards = new AssetRewards(),
         method: string = 'PSK-RSA',
@@ -607,7 +607,7 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         method: string = 'PSK-RSA',
-        cap: number,
+        cap: number = 0,
         providers?: string[],
         nftAmount?: number,
         royaltyKind?: RoyaltyKind,
