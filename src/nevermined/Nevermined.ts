@@ -29,6 +29,7 @@ import { Nfts } from './Nfts'
 import { Nft721 } from './Nft721'
 import { AaveCredit } from './AaveCredit'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
+import CustomToken from '../keeper/contracts/CustomToken'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -91,6 +92,9 @@ export class Nevermined extends Instantiable {
     public contracts = {
         loadNft721: async (address: string): Promise<Nft721> => {
             return await Nft721.getInstance(this.instanceConfig, address)
+        },
+        loadErc20: async (address: string): Promise<CustomToken> => {
+            return await CustomToken.getInstanceByAddress(this.instanceConfig, address)
         }
     }
 
