@@ -227,6 +227,6 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature, this.web3, true)
     }
 }
