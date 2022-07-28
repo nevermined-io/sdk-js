@@ -198,7 +198,7 @@ export class Assets extends Instantiable {
                 await this.createNft721SalesService(
                     metadata,
                     publisher,
-                    nft721SalesServiceAgreementTemplate,
+                    nft721SalesServiceAgreementTemplate
                 )
             )
 

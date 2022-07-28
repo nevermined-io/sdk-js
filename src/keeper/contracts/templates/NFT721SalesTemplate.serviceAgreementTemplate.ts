@@ -102,14 +102,14 @@ export const nft721SalesTemplateServiceAgreementTemplate: ServiceAgreementTempla
                     value: ''
                 },
                 {
-                    name: "_nftTransfer",
-                    type: "boolean",
-                    value: "false"
+                    name: '_nftTransfer',
+                    type: 'boolean',
+                    value: 'false'
                 },
                 {
-                    name: "_duration",
-                    type: "uint256",
-                    value: "0"
+                    name: '_duration',
+                    type: 'uint256',
+                    value: '0'
                 },
                 {
                     name: '_contract',
