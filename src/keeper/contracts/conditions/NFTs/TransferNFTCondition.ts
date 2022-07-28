@@ -68,8 +68,8 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
                 } else if (method === 'fulfillForDelegate') {
                     return [
                         didZeroX(did),
-                        zeroX(nftReceiver),
                         zeroX(nftHolder),
+                        zeroX(nftReceiver),
                         String(1),
                         lockCondition,
                         willBeTransferred
