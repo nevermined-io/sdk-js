@@ -54,8 +54,8 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
             params: async () => [
                 didZeroX(did),
                 zeroX(nftReceiver),
-                String(1),
                 lockCondition,
+                String(1),
                 nftTokenAddress,
                 willBeTransferred
             ]

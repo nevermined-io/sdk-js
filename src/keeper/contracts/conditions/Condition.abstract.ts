@@ -22,7 +22,7 @@ export interface ConditionContext {
 
 export interface ConditionParameters<Extra> {
     list: any[]
-    params: (arg: Extra) => Promise<any[]> // for fullfill
+    params: (method: string, arg: Extra) => Promise<any[]> // for fullfill
 }
 
 export interface ConditionInstanceSmall {
@@ -36,7 +36,7 @@ export interface ConditionInstance<Extra> {
     list: any[]
     seed: string
     id: string
-    params: (arg: Extra) => Promise<any[]> // for fullfill
+    params: (method: string, arg: Extra) => Promise<any[]> // for fullfill
     agreementId: string
 }
 
@@ -162,11 +162,12 @@ export abstract class Condition<
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
-        params?: TxParameters
+        params?: TxParameters,
+        method: string = 'fulfill'
     ) {
         return this.sendFrom(
             'fulfill',
-            [zeroX(cond.agreementId), ...(await cond.params(additionalParams))],
+            [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],
             from,
             params
         )
