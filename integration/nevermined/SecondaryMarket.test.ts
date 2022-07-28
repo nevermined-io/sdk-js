@@ -75,7 +75,7 @@ describe('Secondary Markets', () => {
     let assetRewards3: AssetRewards
 
     let initialBalances: any
-    let scale: BigNumber
+    let decimals: number
 
     let nftBalanceCollector1Before: number
     let nftBalanceCollector2Before: number
@@ -107,12 +107,12 @@ describe('Secondary Markets', () => {
         // templates
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
-        scale = BigNumber.from(10).pow(await token.decimals())
+        decimals = await token.decimals()
 
-        nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map(v => v.mul(scale))
-        nftPrice2 = nftPrice2.mul(scale)
-        amounts2 = amounts2.map(v => v.mul(scale))
+        nftPrice = BigNumber.parseUnits(nftPrice.toString(), decimals)
+        amounts = amounts.map(v => BigNumber.parseUnits(v.toString(), decimals))
+        nftPrice2 = BigNumber.parseUnits(nftPrice2.toString(), decimals)
+        amounts2 = amounts2.map(v => BigNumber.parseUnits(v.toString(), decimals))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -233,11 +233,11 @@ describe('Secondary Markets', () => {
             })
 
             it('I am locking the payment', async () => {
-                await collector1.requestTokens(nftPrice.div(scale))
+                await collector1.requestTokens(BigNumber.formatUnits(nftPrice, decimals))
 
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 assert.isTrue(
-                    collector1BalanceBefore.eq(initialBalances.collector1.plus(nftPrice))
+                    collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice))
                 )
 
                 const receipt = await nevermined.agreements.conditions.lockPayment(
@@ -318,11 +318,9 @@ describe('Secondary Markets', () => {
                 const receiver1Balance = await token.balanceOf(receivers[1])
                 const collectorBalance = await token.balanceOf(collector1.getId())
 
+                assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(amounts[0])))
                 assert.isTrue(
-                    receiver0Balance.eq(initialBalances.artist.plus(amounts[0]))
-                )
-                assert.isTrue(
-                    receiver1Balance.eq(initialBalances.gallery.plus(amounts[1]))
+                    receiver1Balance.eq(initialBalances.gallery.add(amounts[1]))
                 )
                 assert.equal(
                     collectorBalance.sub(initialBalances.collector1).toNumber(),
@@ -389,11 +387,11 @@ describe('Secondary Markets', () => {
                     collector2: await token.balanceOf(collector2.getId()),
                     gallery: await token.balanceOf(gallery.getId()),
                     owner: await token.balanceOf(owner.getId()),
-                    lockPaymentCondition: Number(
-                        await token.balanceOf(lockPaymentCondition.getAddress())
+                    lockPaymentCondition: await token.balanceOf(
+                        lockPaymentCondition.getAddress()
                     ),
-                    escrowPaymentCondition: Number(
-                        await token.balanceOf(escrowPaymentCondition.getAddress())
+                    escrowPaymentCondition: await token.balanceOf(
+                        escrowPaymentCondition.getAddress()
                     )
                 }
                 setNFTRewardsFromDDOByService(
@@ -470,11 +468,11 @@ describe('Secondary Markets', () => {
             it('As collector2 I am locking the payment', async () => {
                 // Collector2 gets the price from some marketplace
                 // (query the service agreements from the metadata)
-                await collector2.requestTokens(nftPrice2.div(scale))
+                await collector2.requestTokens(BigNumber.formatUnits(nftPrice2, decimals))
 
                 const collector2BalanceBefore = await token.balanceOf(collector2.getId())
                 assert.isTrue(
-                    collector2BalanceBefore.eq(initialBalances.collector2.plus(nftPrice2))
+                    collector2BalanceBefore.eq(initialBalances.collector2.add(nftPrice2))
                 )
 
                 // After fetching the previously created sales agreement
@@ -501,9 +499,8 @@ describe('Secondary Markets', () => {
                 const escrowPaymentConditionBalance = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
-                assert.equal(
-                    collector2BalanceAfter.sub(initialBalances.collector2).toNumber(),
-                    0
+                assert.isTrue(
+                    collector2BalanceAfter.sub(initialBalances.collector2).isZero()
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalance
@@ -576,10 +573,10 @@ describe('Secondary Markets', () => {
                 const collectorBalance = await token.balanceOf(collector2.getId())
 
                 assert.isTrue(
-                    receiver0Balance.eq(initialBalances.collector1.plus(amounts2[0]))
+                    receiver0Balance.eq(initialBalances.collector1.add(amounts2[0]))
                 )
                 assert.isTrue(
-                    receiver1Balance.eq(initialBalances.artist.plus(amounts2[1]))
+                    receiver1Balance.eq(initialBalances.artist.add(amounts2[1]))
                 )
                 assert.isTrue(
                     collectorBalance.sub(initialBalances.collector2).toNumber() === 0
@@ -677,8 +674,7 @@ describe('Secondary Markets', () => {
             })
 
             it('As collector1 I buy the secondary market NFT', async () => {
-                const scale = BigNumber.from(10).pow(await token.decimals())
-                await collector1.requestTokens(nftPrice2.div(scale))
+                await collector1.requestTokens(BigNumber.formatUnits(nftPrice2, decimals))
 
                 nftBalanceCollector1Before = await nftUpgradeable.balance(
                     collector1.getId(),
@@ -737,7 +733,7 @@ describe('Secondary Markets', () => {
                 const collector1Balance = await token.balanceOf(collector1.getId())
 
                 assert.isTrue(
-                    receiver0Balance.eq(initialBalances.collector2.plus(amounts2[0]))
+                    receiver0Balance.eq(initialBalances.collector2.add(amounts2[0]))
                 )
                 assert.isTrue(receiver1Balance.eq(artistBalance))
                 assert.isTrue(collector1Balance.gte(BigNumber.from(nftPrice2)))
