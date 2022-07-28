@@ -56,8 +56,8 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
                     return [
                         didZeroX(did),
                         zeroX(nftReceiver),
-                        lockCondition,
                         String(1),
+                        lockCondition,
                         nftTokenAddress,
                         willBeTransferred
                     ]
@@ -66,9 +66,8 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
                         didZeroX(did),
                         zeroX(nftReceiver),
                         zeroX(nftHolder),
-                        lockCondition,
                         String(1),
-                        nftTokenAddress,
+                        lockCondition,
                         willBeTransferred
                     ]
                 }
