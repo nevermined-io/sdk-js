@@ -15,7 +15,8 @@ function fillParameterWithDDO(
     nftTokenContract?: string,
     nftHolder?: string,
     nftAmount: number = 1,
-    nftTransfer: boolean = false
+    nftTransfer: boolean = false,
+    duration: number = 0
 ): ServiceAgreementTemplateParameter {
     const getValue = name => {
         switch (name) {
@@ -44,6 +45,8 @@ function fillParameterWithDDO(
                 return nftHolder ? nftHolder : ''
             case 'nftTransfer':
                 return String(nftTransfer)
+            case 'duration':
+                return String(duration)
         }
 
         return ''
@@ -71,7 +74,8 @@ export function fillConditionsWithDDO(
     nftTokenContract?: string,
     nftHolder?: string,
     nftAmount?: number,
-    nftTransfer: boolean = false
+    nftTransfer: boolean = false,
+    duration: number = 0
 ): ServiceAgreementTemplateCondition[] {
     return conditions.map(condition => ({
         ...condition,
@@ -84,7 +88,8 @@ export function fillConditionsWithDDO(
                 nftTokenContract,
                 nftHolder,
                 nftAmount,
-                nftTransfer
+                nftTransfer,
+                duration
             )
         }))
     }))
