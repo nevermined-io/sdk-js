@@ -103,7 +103,7 @@ describe('Nfts operations', () => {
                 artist,
                 10,
                 0,
-                new AssetRewards(artist.getId(), ethers.utils.parseEther('0.1')),
+                new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
                 undefined,
                 ZeroAddress
             )

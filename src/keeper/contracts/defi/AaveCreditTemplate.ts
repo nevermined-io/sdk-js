@@ -93,9 +93,9 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         txParams?: TxParameters,
         from?: Account
     ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
-        const _collateralAmount = ethers.utils.parseEther(collateralAmount.toString())
+        const _collateralAmount = BigNumber.parseEther(collateralAmount.toString())
 
-        const _delegatedAmount = ethers.utils.parseEther(delegatedAmount.toString())
+        const _delegatedAmount = BigNumber.parseEther(delegatedAmount.toString())
 
         const data = await this.instanceFromDDO(
             agreementIdSeed,

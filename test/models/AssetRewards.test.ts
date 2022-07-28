@@ -86,14 +86,14 @@ describe('AssetRewards', () => {
     })
 
     it('it uses a big number', async () => {
-        const rewardsMap = new Map([['0x123', BigNumber.from(10000000000000000000000)]])
+        const rewardsMap = new Map([['0x123', BigNumber.from(1000000000000000)]])
 
         const assetRewards = new AssetRewards(rewardsMap)
 
         assert.equal(
-            10000000000000000000000,
+            1000000000000000,
             assetRewards.getTotalPrice().toNumber(),
-            `Expected 10000000000000000000000 got ${assetRewards.getTotalPrice()}`
+            `Expected 1000000000000000 got ${assetRewards.getTotalPrice()}`
         )
         assert.equal(
             1,
@@ -101,14 +101,14 @@ describe('AssetRewards', () => {
             `Expected 1 size, got ${assetRewards.getRewards().size}`
         )
         assert.equal(
-            10000000000000000000000,
+            1000000000000000,
             assetRewards
                 .getRewards()
                 .get('0x123')
                 .toNumber(),
-            `Expected 10000000000000000000000 for address 0x123`
+            `Expected 1000000000000000 for address 0x123`
         )
-        assert.equal('["10000000000000000000000"]', assetRewards.getAmountsString())
+        assert.equal('["1000000000000000"]', assetRewards.getAmountsString())
         assert.equal('["0x123"]', assetRewards.getReceiversString())
     })
 })

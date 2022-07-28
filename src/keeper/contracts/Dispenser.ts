@@ -18,7 +18,7 @@ export default class Dispenser extends ContractBase {
         return this.send(
             'requestTokens',
             receiverAddress,
-            [ethers.utils.parseUnits(amount.toString(), 0)],
+            [BigNumber.parseUnits(amount.toString(), 0)],
             params
         )
     }

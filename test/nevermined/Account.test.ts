@@ -31,7 +31,7 @@ describe('Account', () => {
             const balance = await account.getNeverminedBalance()
 
             const balancePlusAmount = BigNumber.from(
-                ethers.utils.parseUnits('100', 'ether').toString()
+                BigNumber.parseUnits('100', 'ether').toString()
             )
             console.log(`Initial Balance :    ${initialBalance.toString()}`)
             console.log(`Balance         :    ${balance.toString()}`)
@@ -48,12 +48,10 @@ describe('Account', () => {
 
             console.log(
                 `Balance ${balanceEth} should be ${BigNumber.from(
-                    ethers.utils.parseUnits('1000', 'ether').toString()
+                    BigNumber.parseUnits('1000', 'ether').toString()
                 )}`
             )
-            assert.isTrue(
-                balanceEth.eq(ethers.utils.parseUnits('1000', 'ether').toString())
-            )
+            assert.isTrue(balanceEth.eq(BigNumber.parseUnits('1000', 'ether').toString()))
         })
     })
 
@@ -63,7 +61,7 @@ describe('Account', () => {
             const account: Account = accounts[9]
             const balance = await account.getBalance()
 
-            assert.isTrue(balance.eth.eq(ethers.utils.parseUnits('1000', 'ether')))
+            assert.isTrue(balance.eth.eq(BigNumber.parseUnits('1000', 'ether')))
             assert.isTrue(balance.nevermined.isZero())
         })
     })

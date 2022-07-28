@@ -1,7 +1,6 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
-import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 
 export default class Token extends ContractBase {
@@ -28,7 +27,7 @@ export default class Token extends ContractBase {
 
     public async balanceOfConverted(address: string): Promise<BigNumber> {
         return BigNumber.from(
-            ethers.utils.formatEther(await this.call('balanceOf', [address]))
+            BigNumber.formatEther(await this.call('balanceOf', [address]))
         )
     }
 

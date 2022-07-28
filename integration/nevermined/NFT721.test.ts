@@ -145,7 +145,7 @@ describe('Nfts721 operations', async () => {
             ddo = await nevermined.nfts.create721(
                 metadata,
                 artist,
-                new AssetRewards(artist.getId(), ethers.utils.parseEther('0.1')),
+                new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
                 nft.address,
                 ZeroAddress
             )

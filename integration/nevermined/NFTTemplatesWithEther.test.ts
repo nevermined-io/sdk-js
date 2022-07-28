@@ -56,7 +56,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let amounts = [ethers.utils.parseUnits('0.15', 2), ethers.utils.parseUnits('0.05', 2)]
+    let amounts = [BigNumber.parseUnits('0.15', 2), BigNumber.parseUnits('0.05', 2)]
 
     let receivers: string[]
     let assetRewards: AssetRewards
@@ -91,7 +91,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
         // eth
-        amounts = amounts.map(v => ethers.utils.parseEther(v.toString()))
+        amounts = amounts.map(v => BigNumber.parseEther(v.toString()))
 
         // ether
         assetRewards = new AssetRewards(

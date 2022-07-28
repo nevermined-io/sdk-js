@@ -290,10 +290,7 @@ export abstract class ContractBase extends Instantiable {
 
         gasMultiplier = gasMultiplier || this.config.gasMultiplier
         if (gasMultiplier) {
-            const gasMultiplierParsed = ethers.utils.parseUnits(
-                gasMultiplier.toString(),
-                2
-            )
+            const gasMultiplierParsed = BigNumber.parseUnits(gasMultiplier.toString(), 2)
             gasLimit = gasLimit.mul(gasMultiplierParsed).div(100)
         }
 

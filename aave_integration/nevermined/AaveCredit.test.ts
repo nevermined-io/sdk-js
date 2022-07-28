@@ -19,7 +19,8 @@ import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { decodeJwt } from 'jose'
-import { Contract, ethers } from 'ethers'
+import { Contract } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 chai.use(chaiAsPromised)
 
@@ -370,11 +371,11 @@ describe('AaveCredit', () => {
                 // Delegatee allows Nevermined contracts spend DAI to repay the loan
                 await dai.approve(
                     aaveRepayCondition.address,
-                    ethers.utils.parseEther(allowanceAmount.toString()),
+                    BigNumber.parseEther(allowanceAmount.toString()),
                     borrower
                 )
                 // Send some DAI to borrower to pay the debt + fees
-                const transferAmount = ethers.utils.parseEther(
+                const transferAmount = BigNumber.parseEther(
                     (2 * (allowanceAmount - delegatedAmount)).toString()
                 )
                 await dai.send('transfer', daiProvider, [
