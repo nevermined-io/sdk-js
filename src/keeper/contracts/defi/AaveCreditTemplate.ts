@@ -8,7 +8,8 @@ import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
 import { ServiceType } from '../../../ddo/Service'
-import { ContractReceipt, ethers } from 'ethers'
+import { ContractReceipt } from 'ethers'
+import BigNumber from '../../../utils/BigNumber'
 
 export interface AaveCreditTemplateParams {
     vaultAddress: string

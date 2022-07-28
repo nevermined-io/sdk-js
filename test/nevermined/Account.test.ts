@@ -1,5 +1,4 @@
 import { assert } from 'chai'
-import { ethers } from 'ethers'
 import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import BigNumber from '../../src/utils/BigNumber'
@@ -31,7 +30,7 @@ describe('Account', () => {
             const balance = await account.getNeverminedBalance()
 
             const balancePlusAmount = BigNumber.from(
-                BigNumber.parseUnits('100', 'ether').toString()
+                BigNumber.parseUnits('100').toString()
             )
             console.log(`Initial Balance :    ${initialBalance.toString()}`)
             console.log(`Balance         :    ${balance.toString()}`)
@@ -48,10 +47,10 @@ describe('Account', () => {
 
             console.log(
                 `Balance ${balanceEth} should be ${BigNumber.from(
-                    BigNumber.parseUnits('1000', 'ether').toString()
+                    BigNumber.parseUnits('1000').toString()
                 )}`
             )
-            assert.isTrue(balanceEth.eq(BigNumber.parseUnits('1000', 'ether').toString()))
+            assert.isTrue(balanceEth.eq(BigNumber.parseUnits('1000').toString()))
         })
     })
 
@@ -61,7 +60,7 @@ describe('Account', () => {
             const account: Account = accounts[9]
             const balance = await account.getBalance()
 
-            assert.isTrue(balance.eth.eq(BigNumber.parseUnits('1000', 'ether')))
+            assert.isTrue(balance.eth.eq(BigNumber.parseUnits('1000')))
             assert.isTrue(balance.nevermined.isZero())
         })
     })
