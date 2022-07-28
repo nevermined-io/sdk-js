@@ -166,7 +166,7 @@ export abstract class Condition<
         method: string = 'fulfill'
     ) {
         return this.sendFrom(
-            'fulfill',
+            method,
             [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],
             from,
             params

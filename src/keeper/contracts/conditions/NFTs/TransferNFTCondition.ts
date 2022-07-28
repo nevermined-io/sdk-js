@@ -53,16 +53,29 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
                 ),
                 willBeTransferred
             ],
-            params: async () => [
-                didZeroX(did),
-                zeroX(nftReceiver),
-                String(nftAmount),
-                lockCondition,
-                zeroX(
-                    nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
-                ),
-                willBeTransferred
-            ]
+            params: async (method) => {
+                if (method === 'fulfill') {
+                    return [
+                        didZeroX(did),
+                        zeroX(nftReceiver),
+                        String(1),
+                        lockCondition,
+                        zeroX(
+                            nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
+                        ),
+                        willBeTransferred
+                    ]
+                } else if (method === 'fulfillForDelegate') {
+                    return [
+                        didZeroX(did),
+                        zeroX(nftReceiver),
+                        zeroX(nftHolder),
+                        String(1),
+                        lockCondition,
+                        willBeTransferred
+                    ]
+                }
+            }
         }
     }
 
