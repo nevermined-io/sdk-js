@@ -10,6 +10,7 @@ import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import { ethers } from 'ethers'
 import Nft721 from '../../src/keeper/contracts/Nft721'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
