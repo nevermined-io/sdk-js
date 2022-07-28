@@ -1,10 +1,10 @@
-import BigNumber from 'bignumber.js'
 import Balance from '../models/Balance'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
 import { ethers } from 'ethers'
+import BigNumber from '../utils/BigNumber'
 
 /**
  * Account information.
@@ -90,10 +90,8 @@ export default class Account extends Instantiable {
      */
     public async getNeverminedBalance(): Promise<BigNumber> {
         const { token } = this.nevermined.keeper
-        if (!token) return new BigNumber(0)
-        return (await token.balanceOf(this.id))
-            .div(10)
-            .multipliedBy(await token.decimals())
+        if (!token) return BigNumber.from(0)
+        return (await token.balanceOf(this.id)).div(10).mul(await token.decimals())
     }
 
     /**
@@ -101,11 +99,7 @@ export default class Account extends Instantiable {
      * @return {Promise<number>}
      */
     public async getEtherBalance(): Promise<BigNumber> {
-        return this.web3.getBalance(this.id).then(
-            (balance: ethers.BigNumber): BigNumber => {
-                return new BigNumber(balance.toString())
-            }
-        )
+        return this.web3.getBalance(this.id)
     }
 
     /**

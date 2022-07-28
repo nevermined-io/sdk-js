@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
 import GenericContract from '../keeper/contracts/GenericContract'
@@ -206,9 +205,7 @@ export class AaveCredit extends Instantiable {
             )
             await erc20Token.approve(
                 this.nevermined.keeper.conditions.aaveCollateralDepositCondition.address,
-                new BigNumber(
-                    ethers.utils.parseEther(collateralAmount.toString()).toString()
-                ),
+                ethers.utils.parseEther(collateralAmount.toString()),
                 from
             )
         }
@@ -309,13 +306,11 @@ export class AaveCredit extends Instantiable {
         )
         const totalDebt = await this.getTotalActualDebt(agreementId, from, vaultAddress)
         const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
-        const weiAllowanceAmount = new BigNumber(
-            ethers.utils.parseEther(allowanceAmount.toString()).toString()
-        )
+        const weiAllowanceAmount = ethers.utils.parseEther(allowanceAmount.toString())
 
         // Verify that the borrower has sufficient balance for the repayment
         const weiBalance = await erc20Token.balanceOf(from.getId())
-        if (weiBalance.comparedTo(weiAllowanceAmount) === -1) {
+        if (weiBalance.lt(weiAllowanceAmount)) {
             this.logger.warn(
                 `borrower does not have enough balance to repay the debt:
                 token=${delegatedAsset}, weiBalance=${weiBalance}, totalDebt(wei)=${weiAllowanceAmount}`

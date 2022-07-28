@@ -9,9 +9,9 @@ import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { zeroX } from '../../src/utils'
-import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import Nft721 from '../../src/keeper/contracts/Nft721'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -28,13 +28,13 @@ describe('NFTs721 Api End-to-End', () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    let nftPrice = 20
-    let amounts = [new BigNumber(15), new BigNumber(5)]
+    let nftPrice = BigNumber.from(20)
+    let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
     let initialBalances: any
-    let scale: number
+    let scale: BigNumber
 
     let nft: ethers.Contract
     let nftContract: Nft721
@@ -65,10 +65,10 @@ describe('NFTs721 Api End-to-End', () => {
         // components
         ;({ token } = nevermined.keeper)
 
-        scale = 10 ** (await token.decimals())
+        scale = BigNumber.from(10).pow(await token.decimals())
 
-        nftPrice = nftPrice * scale
-        amounts = amounts.map(v => v.multipliedBy(scale))
+        nftPrice = nftPrice.mul(scale)
+        amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -111,13 +111,11 @@ describe('NFTs721 Api End-to-End', () => {
         })
 
         it('I am ordering the NFT', async () => {
-            await collector1.requestTokens(nftPrice / scale)
+            await collector1.requestTokens(nftPrice.div(scale))
 
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
             assert.isTrue(
-                collector1BalanceBefore.isEqualTo(
-                    initialBalances.collector1.plus(nftPrice)
-                )
+                collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice))
             )
 
             agreementId = await nevermined.nfts.order721(ddo.id, collector1)
@@ -126,9 +124,7 @@ describe('NFTs721 Api End-to-End', () => {
 
             const collector1BalanceAfter = await token.balanceOf(collector1.getId())
 
-            assert.isTrue(
-                collector1BalanceAfter.minus(initialBalances.collector1).isEqualTo(0)
-            )
+            assert.isTrue(collector1BalanceAfter.sub(initialBalances.collector1).eq(0))
         })
 
         it('The artist can check the payment and transfer the NFT to the collector', async () => {
@@ -172,22 +168,22 @@ describe('NFTs721 Api End-to-End', () => {
             const collectorBalance = await token.balanceOf(collector1.getId())
 
             assert.isTrue(
-                receiver0Balance.isEqualTo(
-                    initialBalances.artist.plus(assetRewards1.getAmounts()[0])
+                receiver0Balance.eq(
+                    initialBalances.artist.add(assetRewards1.getAmounts()[0])
                 )
             )
 
             assert.isTrue(
-                receiver1Balance.isEqualTo(
-                    initialBalances.gallery.plus(assetRewards1.getAmounts()[1])
+                receiver1Balance.eq(
+                    initialBalances.gallery.add(assetRewards1.getAmounts()[1])
                 )
             )
 
-            assert.isTrue(collectorBalance.minus(initialBalances.collector1).isEqualTo(0))
+            assert.isTrue(collectorBalance.sub(initialBalances.collector1).eq(0))
             assert.isTrue(
                 escrowPaymentConditionBalanceBefore
-                    .minus(assetRewards1.getTotalPrice())
-                    .isEqualTo(escrowPaymentConditionBalanceAfter)
+                    .sub(assetRewards1.getTotalPrice())
+                    .eq(escrowPaymentConditionBalanceAfter)
             )
         })
     })

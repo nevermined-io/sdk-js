@@ -17,8 +17,8 @@ import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
-import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -56,7 +56,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let amounts = [new BigNumber(0.15), new BigNumber(0.05)]
+    let amounts = [ethers.utils.parseUnits('0.15', 2), ethers.utils.parseUnits('0.05', 2)]
 
     let receivers: string[]
     let assetRewards: AssetRewards
@@ -91,9 +91,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
         // eth
-        amounts = amounts.map(
-            v => new BigNumber(ethers.utils.parseEther(v.toString()).toString())
-        )
+        amounts = amounts.map(v => ethers.utils.parseEther(v.toString()))
 
         // ether
         assetRewards = new AssetRewards(
@@ -332,12 +330,16 @@ describe('NFTTemplates With Ether E2E', async () => {
 
                 assert.closeTo(
                     receiver0Balance.toNumber(),
-                    new BigNumber(initialBalances.artist).plus(amounts[0]).toNumber(),
+                    BigNumber.from(initialBalances.artist)
+                        .add(amounts[0])
+                        .toNumber(),
                     10 ** 16
                 )
                 assert.closeTo(
                     receiver1Balance.toNumber(),
-                    new BigNumber(initialBalances.gallery).plus(amounts[1]).toNumber(),
+                    BigNumber.from(initialBalances.gallery)
+                        .add(amounts[1])
+                        .toNumber(),
                     10 ** 16
                 )
                 assert.equal(

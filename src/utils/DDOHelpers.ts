@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { DDO } from '../ddo/DDO'
 import { ConditionType, Service, ServiceType } from '../ddo/Service'
 import {
@@ -6,6 +5,7 @@ import {
     ServiceAgreementTemplateParameter
 } from '../ddo/ServiceAgreementTemplate'
 import AssetRewards from '../models/AssetRewards'
+import BigNumber from './BigNumber'
 
 function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,
@@ -21,7 +21,7 @@ function fillParameterWithDDO(
     const getValue = name => {
         switch (name) {
             case 'amounts':
-                return Array.from(assetRewards.getAmounts(), v => v.toFixed())
+                return Array.from(assetRewards.getAmounts(), v => v.toString())
             case 'receivers':
                 return assetRewards.getReceivers()
             case 'amount':
@@ -139,7 +139,7 @@ export function setAssetRewardsFromDDOByService(
     }
     const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts')
     const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
-    amounts.value = Array.from(rewards.getAmounts(), v => v.toFixed())
+    amounts.value = Array.from(rewards.getAmounts(), v => v.toString())
     receivers.value = rewards.getReceivers()
 }
 
@@ -157,7 +157,7 @@ export function getAssetRewardsFromService(service: Service): AssetRewards {
     const rewardsMap = new Map<string, BigNumber>()
 
     for (let i = 0; i < amounts.length; i++)
-        rewardsMap.set(receivers[i], new BigNumber(amounts[i]))
+        rewardsMap.set(receivers[i], BigNumber.from(amounts[i]))
 
     return new AssetRewards(rewardsMap)
 }

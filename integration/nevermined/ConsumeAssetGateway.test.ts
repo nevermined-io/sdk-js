@@ -7,9 +7,9 @@ import { getMetadata } from '../utils'
 
 import { Nevermined, Account, DDO, ConditionState } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
-import BigNumber from 'bignumber.js'
 import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Consume Asset (Gateway)', () => {
     let nevermined: Nevermined
@@ -36,7 +36,7 @@ describe('Consume Asset (Gateway)', () => {
         await nevermined.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetRewards = new AssetRewards(publisher.getId(), new BigNumber(0))
+        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(0))
 
         if (!nevermined.keeper.dispenser) {
             metadata = getMetadata(0)

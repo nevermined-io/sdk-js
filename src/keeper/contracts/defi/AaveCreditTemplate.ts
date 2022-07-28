@@ -7,7 +7,6 @@ import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
-import BigNumber from 'bignumber.js'
 import { ServiceType } from '../../../ddo/Service'
 import { ContractReceipt, ethers } from 'ethers'
 
@@ -94,12 +93,10 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         txParams?: TxParameters,
         from?: Account
     ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
-        const _collateralAmount = new BigNumber(
-            ethers.utils.parseEther(collateralAmount.toString()).toString()
-        )
-        const _delegatedAmount = new BigNumber(
-            ethers.utils.parseEther(delegatedAmount.toString()).toString()
-        )
+        const _collateralAmount = ethers.utils.parseEther(collateralAmount.toString())
+
+        const _delegatedAmount = ethers.utils.parseEther(delegatedAmount.toString())
+
         const data = await this.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -109,9 +106,9 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
                 nftTokenContract,
                 nftAmount,
                 collateralToken,
-                _collateralAmount.toString(10),
+                _collateralAmount.toString(),
                 delegatedToken,
-                _delegatedAmount.toString(10),
+                _delegatedAmount.toString(),
                 interestRateMode
             )
         )

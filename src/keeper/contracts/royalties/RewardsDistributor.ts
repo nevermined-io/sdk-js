@@ -2,7 +2,7 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { didZeroX, zeroX } from '../../../utils'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../../utils/BigNumber'
 
 export class RewardsDistributor extends ContractBase {
     public static async getInstance(
@@ -39,7 +39,7 @@ export class RewardsDistributor extends ContractBase {
         from?: Account,
         txParams?: TxParameters
     ) {
-        const amountsString = amounts.map(v => v.toFixed())
+        const amountsString = amounts.map(v => v.toString())
         return this.sendFrom(
             'claimReward',
             [

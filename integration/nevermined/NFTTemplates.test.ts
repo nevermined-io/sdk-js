@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { Account, DDO, Nevermined, utils } from '../../src'
@@ -15,6 +14,7 @@ import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
+import BigNumber from '../../src/utils/BigNumber'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -60,22 +60,21 @@ describe('NFTTemplates E2E', () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let nftPrice = new BigNumber(20)
-    let amounts = [new BigNumber(15), new BigNumber(5)]
+    let nftPrice = BigNumber.from(20)
+    let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
     const numberNFTs2 = 1
-    let nftPrice2 = new BigNumber(100)
-    let amounts2 = [new BigNumber(90), new BigNumber(10)]
+    let nftPrice2 = BigNumber.from(100)
+    let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
     let assetRewards2: AssetRewards
 
     let initialBalances: any
-    let scale: number
-    let networkName: string
+    let scale: BigNumber
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -105,12 +104,12 @@ describe('NFTTemplates E2E', () => {
         // templates
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
-        scale = 10 ** (await token.decimals())
+        scale = BigNumber.from(10).pow(await token.decimals())
 
-        nftPrice = nftPrice.multipliedBy(scale)
-        amounts = amounts.map(v => v.multipliedBy(scale))
-        nftPrice2 = nftPrice2.multipliedBy(scale)
-        amounts2 = amounts2.map(v => v.multipliedBy(scale))
+        nftPrice = nftPrice.mul(scale)
+        amounts = amounts.map(v => v.mul(scale))
+        nftPrice2 = nftPrice2.mul(scale)
+        amounts2 = amounts2.map(v => v.mul(scale))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -125,8 +124,6 @@ describe('NFTTemplates E2E', () => {
                 [receivers2[1], amounts2[1]]
             ])
         )
-
-        networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
     })
 
     describe('Full flow', () => {
@@ -265,15 +262,13 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('I am locking the payment', async () => {
-                await collector1.requestTokens(nftPrice.dividedBy(scale))
+                await collector1.requestTokens(nftPrice.div(scale))
                 const escrowPaymentConditionBefore = await token.balanceOf(
                     escrowPaymentCondition.address
                 )
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 assert.isTrue(
-                    collector1BalanceBefore.isEqualTo(
-                        initialBalances.collector1.plus(nftPrice)
-                    )
+                    collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice))
                 )
 
                 await token.approve(
@@ -306,14 +301,14 @@ describe('NFTTemplates E2E', () => {
                     escrowPaymentCondition.getAddress()
                 )
                 assert.equal(
-                    collector1BalanceAfter.minus(initialBalances.collector1).toNumber(),
+                    collector1BalanceAfter.sub(initialBalances.collector1).toNumber(),
                     0
                 )
 
                 assert.isTrue(
                     escrowPaymentConditionBefore
-                        .plus(nftPrice)
-                        .isEqualTo(escrowPaymentConditionBalance)
+                        .add(nftPrice)
+                        .eq(escrowPaymentConditionBalance)
                 )
             })
 
@@ -390,21 +385,15 @@ describe('NFTTemplates E2E', () => {
                 const receiver1Balance = await token.balanceOf(receivers[1])
                 const collectorBalance = await token.balanceOf(collector1.getId())
 
+                assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(amounts[0])))
                 assert.isTrue(
-                    receiver0Balance.isEqualTo(initialBalances.artist.plus(amounts[0]))
+                    receiver1Balance.eq(initialBalances.gallery.add(amounts[1]))
                 )
-                assert.isTrue(
-                    receiver1Balance.isEqualTo(initialBalances.gallery.plus(amounts[1]))
-                )
-                assert.isTrue(
-                    collectorBalance
-                        .minus(initialBalances.collector1)
-                        .isEqualTo(new BigNumber(0))
-                )
+                assert.isTrue(collectorBalance.sub(initialBalances.collector1).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .minus(AssetRewards.sumAmounts(amounts))
-                        .isEqualTo(escrowPaymentConditionBalanceAfter)
+                        .sub(AssetRewards.sumAmounts(amounts))
+                        .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
         })
@@ -570,15 +559,13 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('As collector2 I am locking the payment', async () => {
-                await collector2.requestTokens(nftPrice2.dividedBy(scale))
+                await collector2.requestTokens(nftPrice2.div(scale))
                 const escrowPaymentConditionBefore = await token.balanceOf(
                     escrowPaymentCondition.address
                 )
                 const collector2BalanceBefore = await token.balanceOf(collector2.getId())
                 assert.isTrue(
-                    collector2BalanceBefore.isEqualTo(
-                        initialBalances.collector2.plus(nftPrice2)
-                    )
+                    collector2BalanceBefore.eq(initialBalances.collector2.add(nftPrice2))
                 )
 
                 await token.approve(
@@ -606,13 +593,13 @@ describe('NFTTemplates E2E', () => {
                     escrowPaymentCondition.getAddress()
                 )
                 assert.equal(
-                    collector2BalanceAfter.minus(initialBalances.collector2).toNumber(),
+                    collector2BalanceAfter.sub(initialBalances.collector2).toNumber(),
                     0
                 )
                 assert.isTrue(
                     escrowPaymentConditionBefore
-                        .plus(nftPrice2)
-                        .isEqualTo(escrowPaymentConditionBalance)
+                        .add(nftPrice2)
+                        .eq(escrowPaymentConditionBalance)
                 )
             })
 
@@ -690,22 +677,16 @@ describe('NFTTemplates E2E', () => {
                 const collectorBalance = await token.balanceOf(collector2.getId())
 
                 assert.isTrue(
-                    receiver0Balance.isEqualTo(
-                        initialBalances.collector1.plus(amounts2[0])
-                    )
+                    receiver0Balance.eq(initialBalances.collector1.add(amounts2[0]))
                 )
                 assert.isTrue(
-                    receiver1Balance.isEqualTo(initialBalances.artist.plus(amounts2[1]))
+                    receiver1Balance.eq(initialBalances.artist.add(amounts2[1]))
                 )
-                assert.isTrue(
-                    collectorBalance
-                        .minus(initialBalances.collector2)
-                        .isEqualTo(new BigNumber(0))
-                )
+                assert.isTrue(collectorBalance.sub(initialBalances.collector2).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBefore
-                        .minus(AssetRewards.sumAmounts(amounts2))
-                        .isEqualTo(escrowPaymentConditionBalanceAfter)
+                        .sub(AssetRewards.sumAmounts(amounts2))
+                        .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
         })
@@ -755,7 +736,7 @@ describe('NFTTemplates E2E', () => {
                 royalties,
                 token.getAddress()
             )
-            await collector1.requestTokens(nftPrice.dividedBy(scale))
+            await collector1.requestTokens(nftPrice.div(scale))
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -778,9 +759,7 @@ describe('NFTTemplates E2E', () => {
                 )
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 assert.isTrue(
-                    collector1BalanceBefore.isEqualTo(
-                        initialBalances.collector1.plus(nftPrice)
-                    )
+                    collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice))
                 )
                 const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
                     agreementIdSeed,
@@ -807,13 +786,13 @@ describe('NFTTemplates E2E', () => {
                     escrowPaymentCondition.getAddress()
                 )
                 assert.equal(
-                    collector1BalanceAfter.minus(initialBalances.collector1).toNumber(),
+                    collector1BalanceAfter.sub(initialBalances.collector1).toNumber(),
                     0
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalance
-                        .minus(nftPrice)
-                        .isEqualTo(escrowPaymentConditionBefore)
+                        .sub(nftPrice)
+                        .eq(escrowPaymentConditionBefore)
                 )
             })
 
@@ -873,21 +852,15 @@ describe('NFTTemplates E2E', () => {
                 const receiver1Balance = await token.balanceOf(receivers[1])
                 const collectorBalance = await token.balanceOf(collector1.getId())
 
+                assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(amounts[0])))
                 assert.isTrue(
-                    receiver0Balance.isEqualTo(initialBalances.artist.plus(amounts[0]))
+                    receiver1Balance.eq(initialBalances.gallery.add(amounts[1]))
                 )
-                assert.isTrue(
-                    receiver1Balance.isEqualTo(initialBalances.gallery.plus(amounts[1]))
-                )
-                assert.isTrue(
-                    collectorBalance
-                        .minus(initialBalances.collector1)
-                        .isEqualTo(new BigNumber(0))
-                )
+                assert.isTrue(collectorBalance.sub(initialBalances.collector1).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .minus(assetRewards1.getTotalPrice())
-                        .isEqualTo(escrowPaymentConditionBalanceAfter)
+                        .sub(assetRewards1.getTotalPrice())
+                        .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
         })
@@ -985,13 +958,11 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('As collector2 I am locking the payment', async () => {
-                await collector2.requestTokens(nftPrice2.dividedBy(scale))
+                await collector2.requestTokens(nftPrice2.div(scale))
 
                 const collector2BalanceBefore = await token.balanceOf(collector2.getId())
                 assert.isTrue(
-                    collector2BalanceBefore.isEqualTo(
-                        initialBalances.collector2.plus(nftPrice2)
-                    )
+                    collector2BalanceBefore.eq(initialBalances.collector2.add(nftPrice2))
                 )
 
                 const escrowPaymentConditionBalanceBefore = await token.balanceOf(
@@ -1012,14 +983,12 @@ describe('NFTTemplates E2E', () => {
                     escrowPaymentCondition.getAddress()
                 )
                 assert.isTrue(
-                    collector2BalanceAfter
-                        .minus(initialBalances.collector2)
-                        .isEqualTo(new BigNumber(0))
+                    collector2BalanceAfter.sub(initialBalances.collector2).isZero()
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .plus(assetRewards2.getTotalPrice())
-                        .isEqualTo(escrowPaymentConditionBalanceAfter)
+                        .add(assetRewards2.getTotalPrice())
+                        .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
 
@@ -1081,22 +1050,16 @@ describe('NFTTemplates E2E', () => {
                 const collectorBalance = await token.balanceOf(collector2.getId())
 
                 assert.isTrue(
-                    receiver0Balance.isEqualTo(
-                        initialBalances.collector1.plus(amounts2[0])
-                    )
+                    receiver0Balance.eq(initialBalances.collector1.add(amounts2[0]))
                 )
                 assert.isTrue(
-                    receiver1Balance.isEqualTo(initialBalances.artist.plus(amounts2[1]))
+                    receiver1Balance.eq(initialBalances.artist.add(amounts2[1]))
                 )
-                assert.isTrue(
-                    collectorBalance
-                        .minus(initialBalances.collector2)
-                        .isEqualTo(new BigNumber(0))
-                )
+                assert.isTrue(collectorBalance.sub(initialBalances.collector2).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .minus(assetRewards2.getTotalPrice())
-                        .isEqualTo(escrowPaymentConditionBalanceAfter)
+                        .sub(assetRewards2.getTotalPrice())
+                        .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
         })
@@ -1189,16 +1152,14 @@ describe('NFTTemplates E2E', () => {
             })
 
             it('I am locking the payment', async () => {
-                await collector1.requestTokens(nftPrice.dividedBy(scale))
+                await collector1.requestTokens(nftPrice.div(scale))
 
                 const collector1BalanceBefore = await token.balanceOf(collector1.getId())
                 const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
                 assert.isTrue(
-                    collector1BalanceBefore.isEqualTo(
-                        initialBalances.collector1.plus(nftPrice)
-                    )
+                    collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice))
                 )
 
                 const receipt = await nevermined.agreements.conditions.lockPayment(
@@ -1216,13 +1177,13 @@ describe('NFTTemplates E2E', () => {
                     escrowPaymentCondition.getAddress()
                 )
                 assert.equal(
-                    collector1BalanceAfter.minus(initialBalances.collector1).toNumber(),
+                    collector1BalanceAfter.sub(initialBalances.collector1).toNumber(),
                     0
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .plus(assetRewards1.getTotalPrice())
-                        .isEqualTo(escrowPaymentConditionBalanceAfter)
+                        .add(assetRewards1.getTotalPrice())
+                        .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
 
@@ -1283,21 +1244,15 @@ describe('NFTTemplates E2E', () => {
                 const receiver1Balance = await token.balanceOf(receivers[1])
                 const collectorBalance = await token.balanceOf(collector1.getId())
 
+                assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(amounts[0])))
                 assert.isTrue(
-                    receiver0Balance.isEqualTo(initialBalances.artist.plus(amounts[0]))
+                    receiver1Balance.eq(initialBalances.gallery.add(amounts[1]))
                 )
-                assert.isTrue(
-                    receiver1Balance.isEqualTo(initialBalances.gallery.plus(amounts[1]))
-                )
-                assert.isTrue(
-                    collectorBalance
-                        .minus(initialBalances.collector1)
-                        .isEqualTo(new BigNumber(0))
-                )
+                assert.isTrue(collectorBalance.sub(initialBalances.collector1).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .minus(assetRewards1.getTotalPrice())
-                        .isEqualTo(escrowPaymentConditionBalanceAfter)
+                        .sub(assetRewards1.getTotalPrice())
+                        .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
         })

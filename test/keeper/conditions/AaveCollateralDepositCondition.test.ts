@@ -4,10 +4,10 @@ import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { didZeroX } from '../../../src/utils'
-import BigNumber from 'bignumber.js'
 import Account from '../../../src/nevermined/Account'
 import * as utils from '../../../src/utils'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import BigNumber from '../../../src/utils/BigNumber'
 
 let condition: AaveCollateralDepositCondition
 
@@ -17,8 +17,8 @@ describe('AaveCollateralDepositCondition', () => {
     const vaultAddress = `0x${'a'.repeat(40)}`
     const assetToDeposit = `0x${'b'.repeat(40)}`
     const assetToBorrow = `0x${'a'.repeat(40)}`
-    const depositAmount = new BigNumber('7000000000000000000')
-    const borrowAmount = new BigNumber('11000000000000000000')
+    const depositAmount = BigNumber.from('7000000000000000000')
+    const borrowAmount = BigNumber.from('11000000000000000000')
     const interestRateMode = 1
     let user: Account
     let nevermined: Nevermined

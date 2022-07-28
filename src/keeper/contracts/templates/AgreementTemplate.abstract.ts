@@ -21,9 +21,9 @@ import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import { Service, ServiceType } from '../../../ddo/Service'
-import BigNumber from 'bignumber.js'
 import Token from '../Token'
 import CustomToken from '../CustomToken'
+import BigNumber from '../../../utils/BigNumber'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -147,7 +147,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 condIdx,
                 rewardAddress,
                 tokenAddress,
-                amounts.map(a => a.toFixed()),
+                amounts.map(a => a.toString()),
                 receivers
             ],
             from,
@@ -291,7 +291,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const totalAmount = AssetRewards.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-                ? totalAmount.toFixed()
+                ? totalAmount.toString()
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)

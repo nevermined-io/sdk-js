@@ -11,9 +11,9 @@ import {
     EscrowPaymentCondition,
     LockPaymentCondition
 } from '../../src/keeper/contracts/conditions'
-import BigNumber from 'bignumber.js'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -24,8 +24,8 @@ describe('Register Escrow Compute Execution Template', () => {
     const url = 'https://example.com/did/nevermined/test-attr-example.txt'
     const checksum = generateId()
 
-    const totalAmount = new BigNumber(12)
-    const amounts = [new BigNumber(10), new BigNumber(2)]
+    const totalAmount = BigNumber.from(12)
+    const amounts = [BigNumber.from(10), BigNumber.from(2)]
 
     let templateManagerOwner: Account
     let publisher: Account

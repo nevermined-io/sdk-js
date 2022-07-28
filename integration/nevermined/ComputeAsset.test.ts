@@ -6,7 +6,7 @@ import { workflowMetadatas } from '../utils'
 
 import { Nevermined, DDO, Account } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Compute Asset', () => {
     let nevermined: Nevermined
@@ -36,7 +36,7 @@ describe('Compute Asset', () => {
         const payload = decodeJwt(config.marketplaceAuthToken)
         userId = payload.sub
 
-        assetRewards = new AssetRewards(publisher.getId(), new BigNumber(0))
+        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(0))
     })
 
     it('should register the assets', async () => {

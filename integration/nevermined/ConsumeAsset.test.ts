@@ -9,7 +9,7 @@ import { repeat, sleep } from '../utils/utils'
 import { Nevermined, DDO, Account, ConditionState } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Consume Asset', () => {
     let nevermined: Nevermined
@@ -60,14 +60,14 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens = new BigNumber(100)
+        const claimedTokens = BigNumber.from(100)
 
         try {
             await consumer.requestTokens(claimedTokens)
         } catch {}
 
         const balanceAfter = (await consumer.getBalance()).nevermined
-        assert.isTrue(balanceAfter.isGreaterThan(initialBalance))
+        assert.isTrue(balanceAfter.gt(initialBalance))
     })
 
     it('should sign the service agreement', async () => {
