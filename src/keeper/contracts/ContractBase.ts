@@ -6,10 +6,11 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
+import BigNumber from '../../utils/BigNumber'
 
 export interface TxParameters {
     value?: string
-    gasLimit?: ethers.BigNumber
+    gasLimit?: BigNumber
     gasMultiplier?: number
     gasPrice?: string
     maxPriorityFeePerGas?: string
@@ -161,9 +162,9 @@ export abstract class ContractBase extends Instantiable {
 
             // get correct fee data
             const feeData = await this.getFeeData(
-                gasPrice && ethers.BigNumber.from(gasPrice),
-                maxFeePerGas && ethers.BigNumber.from(maxFeePerGas),
-                maxPriorityFeePerGas && ethers.BigNumber.from(maxPriorityFeePerGas)
+                gasPrice && BigNumber.from(gasPrice),
+                maxFeePerGas && BigNumber.from(maxFeePerGas),
+                maxPriorityFeePerGas && BigNumber.from(maxPriorityFeePerGas)
             )
 
             const txparams = {
@@ -280,7 +281,7 @@ export abstract class ContractBase extends Instantiable {
         from: string,
         value: string,
         gasMultiplier?: number
-    ): Promise<ethers.BigNumber> {
+    ): Promise<BigNumber> {
         let gasLimit = await contract.estimateGas[methodSignature](...args, {
             from,
             value
@@ -300,9 +301,9 @@ export abstract class ContractBase extends Instantiable {
     }
 
     private async getFeeData(
-        gasPrice?: ethers.BigNumber,
-        maxFeePerGas?: ethers.BigNumber,
-        maxPriorityFeePerGas?: ethers.BigNumber
+        gasPrice?: BigNumber,
+        maxFeePerGas?: BigNumber,
+        maxPriorityFeePerGas?: BigNumber
     ) {
         const feeData = await this.web3.getFeeData()
 
