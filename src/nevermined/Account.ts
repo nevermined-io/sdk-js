@@ -3,7 +3,6 @@ import Balance from '../models/Balance'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
-import { ethers } from 'ethers'
 import BigNumber from '../utils/BigNumber'
 
 /**

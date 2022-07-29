@@ -3,7 +3,6 @@ import { assert } from 'chai'
 import { config } from '../config'
 
 import { Nevermined, PlatformTechStatus } from '../../src'
-import { version } from 'process'
 
 describe('Versions', () => {
     let nevermined: Nevermined

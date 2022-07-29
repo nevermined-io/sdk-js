@@ -7,9 +7,11 @@ import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.ser
 import { ServiceType } from '../../../ddo/Service'
 
 export class DIDSalesTemplate extends BaseTemplate<Record<string, unknown>> {
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     public params(...args: any[]): Record<string, unknown> {
         throw new Error('Method not implemented.')
     }
+
     public instanceFromDDO(
         agreementId: string,
         ddo: DDO,
@@ -21,6 +23,7 @@ export class DIDSalesTemplate extends BaseTemplate<Record<string, unknown>> {
     public service(): ServiceType {
         throw new Error('Method not implemented.')
     }
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<DIDSalesTemplate> {

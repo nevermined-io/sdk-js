@@ -6,7 +6,6 @@ import {
     fillConditionsWithDDO,
     findServiceConditionByName,
     generateId,
-    getAssetRewardsFromDDOByService,
     getAssetRewardsFromService,
     getDIDFromService,
     getNftAmountFromService,
@@ -21,7 +20,7 @@ import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { NFTError, HttpError } from '../errors'
+import { NFTError } from '../errors'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -82,7 +81,7 @@ export class Nfts extends Instantiable {
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
-        txParams?: TxParameters,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNftWithRoyalties(
             metadata,
