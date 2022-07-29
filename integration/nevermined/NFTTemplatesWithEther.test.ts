@@ -17,8 +17,7 @@ import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
-import BigNumber from 'bignumber.js'
-import { ethers } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -56,7 +55,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let amounts = [new BigNumber(0.15), new BigNumber(0.05)]
+    const amounts = [BigNumber.parseEther('0.15'), BigNumber.parseEther('0.05')]
 
     let receivers: string[]
     let assetRewards: AssetRewards
@@ -90,11 +89,6 @@ describe('NFTTemplates With Ether E2E', async () => {
         // templates
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
-        // eth
-        amounts = amounts.map(
-            v => new BigNumber(ethers.utils.parseEther(v.toString()).toString())
-        )
-
         // ether
         assetRewards = new AssetRewards(
             new Map([
@@ -112,10 +106,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                 collector1: await collector1.getEtherBalance(),
                 collector2: await collector2.getEtherBalance(),
                 gallery: await gallery.getEtherBalance(),
-                escrowPaymentCondition: Number(
-                    await Web3Provider.getWeb3(config).getBalance(
-                        escrowPaymentCondition.getAddress()
-                    )
+                escrowPaymentCondition: await Web3Provider.getWeb3(config).getBalance(
+                    escrowPaymentCondition.getAddress()
                 )
             }
 
@@ -322,28 +314,29 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const escrowPaymentConditionBalance = Number(
-                    await Web3Provider.getWeb3(config).getBalance(
-                        escrowPaymentCondition.getAddress()
-                    )
-                )
+                const escrowPaymentConditionBalance = await Web3Provider.getWeb3(
+                    config
+                ).getBalance(escrowPaymentCondition.getAddress())
+
                 const receiver0Balance = await new Account(receivers[0]).getEtherBalance()
                 const receiver1Balance = await new Account(receivers[1]).getEtherBalance()
 
-                assert.closeTo(
-                    receiver0Balance.toNumber(),
-                    new BigNumber(initialBalances.artist).plus(amounts[0]).toNumber(),
-                    10 ** 16
+                // for this assert we use a delta to account for the transaction fees
+                // of all the transactions from the artist
+                const delta = BigNumber.from(10).pow(16)
+                assert.isTrue(
+                    receiver0Balance.gte(
+                        initialBalances.artist.add(amounts[0]).sub(delta)
+                    )
                 )
-                assert.closeTo(
-                    receiver1Balance.toNumber(),
-                    new BigNumber(initialBalances.gallery).plus(amounts[1]).toNumber(),
-                    10 ** 16
+
+                assert.isTrue(
+                    receiver1Balance.eq(initialBalances.gallery.add(amounts[1]))
                 )
-                assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
-                    0
+                assert.isTrue(
+                    escrowPaymentConditionBalance
+                        .sub(initialBalances.escrowPaymentCondition)
+                        .isZero()
                 )
             })
         })

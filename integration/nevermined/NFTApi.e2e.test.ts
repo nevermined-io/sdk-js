@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
@@ -13,6 +12,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { RoyaltyKind } from '../../src/nevermined/Assets'
 import { ethers } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 chai.use(chaiAsPromised)
 
@@ -38,8 +38,8 @@ describe('NFTs Api End-to-End', () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = 1
-    let nftPrice = new BigNumber(100)
-    let amounts = [new BigNumber(75), new BigNumber(25)]
+    let nftPrice = BigNumber.from(100)
+    let amounts = [BigNumber.from(75), BigNumber.from(25)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
@@ -64,10 +64,10 @@ describe('NFTs Api End-to-End', () => {
         // components
         ;({ token } = nevermined.keeper)
 
-        scale = new BigNumber(10).exponentiatedBy(await token.decimals())
+        scale = BigNumber.from(10).pow(await token.decimals())
 
-        nftPrice = nftPrice.multipliedBy(scale)
-        amounts = amounts.map(v => v.multipliedBy(scale))
+        nftPrice = nftPrice.mul(scale)
+        amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -123,7 +123,7 @@ describe('NFTs Api End-to-End', () => {
         it('I am ordering the NFT', async () => {
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
 
-            assert.isTrue(collector1BalanceBefore.isGreaterThanOrEqualTo(nftPrice))
+            assert.isTrue(collector1BalanceBefore.gte(nftPrice))
             const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
@@ -136,12 +136,12 @@ describe('NFTs Api End-to-End', () => {
             )
 
             assert.isTrue(
-                collector1BalanceBefore.minus(nftPrice).isEqualTo(collector1BalanceAfter)
+                collector1BalanceBefore.sub(nftPrice).eq(collector1BalanceAfter)
             )
             assert.isTrue(
                 escrowPaymentConditionBalanceBefore
-                    .plus(nftPrice)
-                    .isEqualTo(escrowPaymentConditionBalanceAfter)
+                    .add(nftPrice)
+                    .eq(escrowPaymentConditionBalanceAfter)
             )
         })
 
@@ -200,22 +200,20 @@ describe('NFTs Api End-to-End', () => {
             const collectorBalance = await token.balanceOf(collector1.getId())
 
             assert.isTrue(
-                receiver0Balance.isEqualTo(
-                    initialBalances.artist.plus(assetRewards1.getAmounts()[0])
+                receiver0Balance.eq(
+                    initialBalances.artist.add(assetRewards1.getAmounts()[0])
                 )
             )
             assert.isTrue(
-                receiver1Balance.isEqualTo(
-                    initialBalances.gallery.plus(assetRewards1.getAmounts()[1])
+                receiver1Balance.eq(
+                    initialBalances.gallery.add(assetRewards1.getAmounts()[1])
                 )
             )
-            assert.isTrue(
-                initialBalances.collector1.minus(nftPrice).isEqualTo(collectorBalance)
-            )
+            assert.isTrue(initialBalances.collector1.sub(nftPrice).eq(collectorBalance))
             assert.isTrue(
                 escrowPaymentConditionBefore
-                    .minus(nftPrice)
-                    .isEqualTo(escrowPaymentConditionBalanceAfter)
+                    .sub(nftPrice)
+                    .eq(escrowPaymentConditionBalanceAfter)
             )
         })
     })

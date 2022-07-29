@@ -6,9 +6,9 @@ import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import AssetRewards from '../models/AssetRewards'
-import BigNumber from 'bignumber.js'
 import { KeeperError } from '../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
+import BigNumber from '../utils/BigNumber'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -91,7 +91,7 @@ export class AgreementsConditions extends Instantiable {
                 ...txParams,
                 value:
                     erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
-                        ? totalAmount.toFixed()
+                        ? totalAmount.toString()
                         : undefined
             }
         )

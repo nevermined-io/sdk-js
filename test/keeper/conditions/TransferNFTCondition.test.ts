@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
@@ -12,6 +11,7 @@ import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import Token from '../../../src/keeper/contracts/Token'
 import { didZeroX, ZeroAddress, zeroX } from '../../../src/utils'
+import BigNumber from '../../../src/utils/BigNumber'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -38,7 +38,7 @@ describe('TransferNFTCondition', () => {
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const nftAmount = 2
-    const amounts = [new BigNumber(10)]
+    const amounts = [BigNumber.from(10)]
 
     before(async () => {
         await TestContractHandler.prepareContracts()
@@ -133,7 +133,7 @@ describe('TransferNFTCondition', () => {
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
-                new BigNumber(10),
+                BigNumber.from(10),
                 nftReceiver
             )
 
@@ -232,7 +232,7 @@ describe('TransferNFTCondition', () => {
                 amounts,
                 receivers,
                 nftReceiver,
-                { value: amounts[0].toFixed() }
+                { value: amounts[0].toString() }
             )
 
             let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
@@ -316,7 +316,7 @@ describe('TransferNFTCondition', () => {
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
-                new BigNumber(10),
+                BigNumber.from(10),
                 nftReceiver
             )
 

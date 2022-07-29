@@ -1,7 +1,7 @@
-import BigNumber from 'bignumber.js'
 import { assert } from 'chai'
 import { Nevermined } from '../../src'
 import { LockPaymentCondition } from '../../src/keeper/contracts/conditions'
+import BigNumber from '../../src/utils/BigNumber'
 import { config } from '../config'
 
 describe('Test Encoding', () => {
@@ -10,7 +10,7 @@ describe('Test Encoding', () => {
     const agreementId =
         '0x6098b775850142a1bd13ceca600a1dfad5c58aae6cd8499c9f02c0cf1e052a17'
     const tokenAddress = '0x80163Dec819063F87ad4F1b6A24DA551C93c5777'
-    const amounts = [new BigNumber(10), new BigNumber(2)]
+    const amounts = [BigNumber.from(10), BigNumber.from(2)]
     const receivers = [
         '0x00Bd138aBD70e2F00903268F3Db08f2D25677C9e',
         '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'

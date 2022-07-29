@@ -6,8 +6,8 @@ import { Nevermined, Account, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { Token } from '../../src/nevermined/Token'
 import { ZeroAddress } from '../../src/utils'
-import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined
@@ -104,10 +104,7 @@ describe('Nfts operations', () => {
                 artist,
                 10,
                 0,
-                new AssetRewards(
-                    artist.getId(),
-                    new BigNumber(ethers.utils.parseEther('0.1').toString())
-                ),
+                new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
                 undefined,
                 ZeroAddress
             )

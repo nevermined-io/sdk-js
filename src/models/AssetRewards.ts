@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+import BigNumber from '../utils/BigNumber'
 
 export default class AssetRewards {
     private totalPrice: BigNumber
@@ -14,11 +14,11 @@ export default class AssetRewards {
 
     // eslint-disable-next-line no-dupe-class-members
     public constructor(..._params: any[]) {
-        this.totalPrice = new BigNumber(0)
+        this.totalPrice = BigNumber.from(0)
         this.rewards = new Map()
         if (_params.length === 1) {
             this.rewards = _params[0]
-            this.rewards.forEach(v => (this.totalPrice = this.totalPrice.plus(v)))
+            this.rewards.forEach(v => (this.totalPrice = this.totalPrice.add(v)))
         } else if (_params.length === 2) {
             this.rewards.set(_params[0], _params[1])
             this.totalPrice = _params[1]
@@ -26,7 +26,7 @@ export default class AssetRewards {
     }
 
     public static sumAmounts(amounts: BigNumber[]) {
-        return amounts.reduce((a, b) => b.plus(new BigNumber(a)), new BigNumber(0))
+        return amounts.reduce((a, b) => b.add(a), BigNumber.from(0))
     }
 
     public getTotalPrice(): BigNumber {
@@ -48,7 +48,7 @@ export default class AssetRewards {
     public getAmountsString(): string {
         return this.rewards.size
             ? JSON.stringify(
-                  Array.from(this.rewards.values()).map(value => value.toFixed())
+                  Array.from(this.rewards.values()).map(value => value.toString())
               )
             : '[]'
     }

@@ -1,6 +1,6 @@
-import BigNumber from 'bignumber.js'
 import { MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
+import BigNumber from '../../src/utils/BigNumber'
 
 const metadata: Partial<MetaData> = {
     main: {
@@ -70,4 +70,4 @@ export const getMetadata = (
 ): MetaData => generateMetadata('TestAsset', price, nonce) as MetaData
 
 export const getAssetRewards = (receiver: string) =>
-    new AssetRewards(receiver, new BigNumber(Number(21 + '0'.repeat(18))))
+    new AssetRewards(receiver, BigNumber.from('21' + '0'.repeat(18)))
