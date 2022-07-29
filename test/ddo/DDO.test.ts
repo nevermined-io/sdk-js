@@ -230,7 +230,7 @@ describe('DDO', function() {
                     JSON.stringify(ddo.findServiceByType(svc.type).attributes.main)
                 )
             }
-            const proof = await ddo.generateProof(nevermined, publicKey)
+            const proof = await ddo.generateProof(publicKey)
             assert.include(proof as any, {
                 creator: publicKey,
                 type: 'DDOIntegritySignature',
@@ -251,7 +251,7 @@ describe('DDO', function() {
             } as any
             const ddo = new DDO(testDDO)
             const generateProofSpy = spy.on(ddo, 'generateProof', () => fakeProof)
-            await ddo.addProof(nevermined, publicKey)
+            await ddo.addProof(publicKey)
 
             assert.equal(ddo.proof, fakeProof)
             expect(generateProofSpy).to.have.been.called.with(publicKey)
