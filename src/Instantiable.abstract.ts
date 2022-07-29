@@ -103,9 +103,9 @@ export abstract class Instantiable {
     }
 
     public static getInstance(...args: any[]): any
-    // public static async getInstance(...args: any[]): Promise<any>
 
-    public static async getInstance(config: InstantiableConfig): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public static async getInstance(_config: InstantiableConfig): Promise<any> {
         LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
     }
 

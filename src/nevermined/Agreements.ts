@@ -1,7 +1,7 @@
 import { generateId } from '../utils/GeneratorHelpers'
 import Account from './Account'
 import DID from './DID'
-import { zeroX, getAssetRewardsFromDDOByService } from '../utils'
+import { zeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { AgreementConditionsStatus } from '../keeper/contracts/templates/AgreementTemplate.abstract'
 import { ConditionState } from '../keeper/contracts/conditions/Condition.abstract'

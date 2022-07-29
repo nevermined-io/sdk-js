@@ -1,6 +1,5 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 
 export default class Dispenser extends ContractBase {
