@@ -6,6 +6,7 @@ import { ReadStream } from 'fs'
 import { GatewayError, HttpError } from '../errors'
 
 const apiPath = '/api/v1/gateway/services'
+export type NftTypes = 721 | 1155
 
 /**
  * Provides a interface with Gateway.
@@ -409,7 +410,8 @@ export class Gateway extends Instantiable {
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number
+        nftAmount: number,
+        nftType: NftTypes = 1155
     ): Promise<boolean> {
         try {
             const response = await this.nevermined.utils.fetch.post(
@@ -418,7 +420,8 @@ export class Gateway extends Instantiable {
                     agreementId,
                     nftHolder,
                     nftReceiver,
-                    nftAmount
+                    nftAmount,
+                    nftType
                 })
             )
             if (!response.ok) {
