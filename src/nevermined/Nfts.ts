@@ -21,6 +21,7 @@ import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { NFTError } from '../errors'
+import { NftTypes } from '../gateway/Gateway'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -292,13 +293,15 @@ export class Nfts extends Instantiable {
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number
+        nftAmount: number,
+        nftType: NftTypes = 1155
     ): Promise<boolean> {
         return await this.nevermined.gateway.nftTransferForDelegate(
             agreementId,
             nftHolder,
             nftReceiver,
-            nftAmount
+            nftAmount,
+            nftType
         )
     }
 
