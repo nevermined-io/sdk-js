@@ -1,7 +1,7 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../utils/BigNumber'
 
 /**
  * Tokens submodule of Nevermined.

@@ -1,11 +1,8 @@
-import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
-import { zeroX, didZeroX, findServiceConditionByName } from '../../../../utils'
+import { Condition, ConditionContext } from '../Condition.abstract'
+import { zeroX, didZeroX } from '../../../../utils'
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../../ddo/Service'
-import AssetRewards from '../../../../models/AssetRewards'
-import { DDO } from '../../../../sdk'
 
 export interface NFTAccessConditionContext extends ConditionContext {
     grantee: string

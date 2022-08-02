@@ -1,6 +1,6 @@
-import BigNumber from 'bignumber.js'
 import { assert } from 'chai'
 import AssetRewards from '../../src/models/AssetRewards'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('AssetRewards', () => {
     describe('Initialize asset rewards', () => {
@@ -22,7 +22,7 @@ describe('AssetRewards', () => {
         })
 
         it('it initialize with an address and amount', async () => {
-            const assetRewards = new AssetRewards('0x123', new BigNumber(7))
+            const assetRewards = new AssetRewards('0x123', BigNumber.from(7))
 
             assert.equal(
                 7,
@@ -48,8 +48,8 @@ describe('AssetRewards', () => {
 
         it('it initialize with a map', async () => {
             const rewardsMap = new Map([
-                ['0x123', new BigNumber(10)],
-                ['0x456', new BigNumber(2)]
+                ['0x123', BigNumber.from(10)],
+                ['0x456', BigNumber.from(2)]
             ])
 
             const assetRewards = new AssetRewards(rewardsMap)
@@ -86,14 +86,14 @@ describe('AssetRewards', () => {
     })
 
     it('it uses a big number', async () => {
-        const rewardsMap = new Map([['0x123', new BigNumber(10000000000000000000000)]])
+        const rewardsMap = new Map([['0x123', BigNumber.from(1000000000000000)]])
 
         const assetRewards = new AssetRewards(rewardsMap)
 
         assert.equal(
-            10000000000000000000000,
+            1000000000000000,
             assetRewards.getTotalPrice().toNumber(),
-            `Expected 10000000000000000000000 got ${assetRewards.getTotalPrice()}`
+            `Expected 1000000000000000 got ${assetRewards.getTotalPrice()}`
         )
         assert.equal(
             1,
@@ -101,14 +101,14 @@ describe('AssetRewards', () => {
             `Expected 1 size, got ${assetRewards.getRewards().size}`
         )
         assert.equal(
-            10000000000000000000000,
+            1000000000000000,
             assetRewards
                 .getRewards()
                 .get('0x123')
                 .toNumber(),
-            `Expected 10000000000000000000000 for address 0x123`
+            `Expected 1000000000000000 for address 0x123`
         )
-        assert.equal('["10000000000000000000000"]', assetRewards.getAmountsString())
+        assert.equal('["1000000000000000"]', assetRewards.getAmountsString())
         assert.equal('["0x123"]', assetRewards.getReceiversString())
     })
 })

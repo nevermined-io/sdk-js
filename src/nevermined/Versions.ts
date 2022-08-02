@@ -20,6 +20,7 @@ export interface PlatformKeeperTech extends PlatformTech {
     network?: string
     keeperVersion?: string
     contracts?: { [contractName: string]: string }
+    providerAddress?: string
 }
 
 export interface PlatformVersions {
@@ -86,7 +87,8 @@ export class Versions extends Instantiable {
                 version,
                 contracts,
                 network,
-                keeperVersion: keeperVersion.replace(/^v/, '')
+                keeperVersion: keeperVersion.replace(/^v/, ''),
+                providerAddress
             }
         } catch {
             versions.gateway = {

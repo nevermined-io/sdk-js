@@ -3,7 +3,7 @@ import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../../utils/BigNumber'
 
 export class LockPaymentCondition extends Condition<ConditionContext> {
     public static async getInstance(
@@ -19,7 +19,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         amounts: BigNumber[],
         receivers: string[]
     ) {
-        const amountsString = amounts.map(v => v.toFixed())
+        const amountsString = amounts.map(v => v.toString())
 
         return super.params(
             didZeroX(did),
@@ -51,7 +51,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         from?: Account,
         params?: TxParameters
     ) {
-        const amountsString = amounts.map(v => v.toFixed())
+        const amountsString = amounts.map(v => v.toString())
         return super.fulfillPlain(
             agreementId,
             [

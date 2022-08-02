@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
 import GenericContract from '../keeper/contracts/GenericContract'
@@ -15,6 +14,7 @@ import { AgreementData } from '../keeper/contracts/managers'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { AgreementInstance } from '../keeper/contracts/templates'
 import { ContractReceipt, ethers } from 'ethers'
+import BigNumber from '../utils/BigNumber'
 
 export class AaveCredit extends Instantiable {
     template: AaveCreditTemplate
@@ -206,9 +206,7 @@ export class AaveCredit extends Instantiable {
             )
             await erc20Token.approve(
                 this.nevermined.keeper.conditions.aaveCollateralDepositCondition.address,
-                new BigNumber(
-                    ethers.utils.parseEther(collateralAmount.toString()).toString()
-                ),
+                BigNumber.parseEther(collateralAmount.toString()),
                 from
             )
         }
@@ -259,7 +257,7 @@ export class AaveCredit extends Instantiable {
         if (!did) {
             ;({ did } = agreementData)
         }
-        const amount = ethers.utils.parseEther(delegatedAmount.toString()).toString()
+        const amount = BigNumber.parseEther(delegatedAmount.toString()).toString()
 
         const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
             agreementId,
@@ -309,13 +307,11 @@ export class AaveCredit extends Instantiable {
         )
         const totalDebt = await this.getTotalActualDebt(agreementId, from, vaultAddress)
         const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
-        const weiAllowanceAmount = new BigNumber(
-            ethers.utils.parseEther(allowanceAmount.toString()).toString()
-        )
+        const weiAllowanceAmount = BigNumber.parseEther(allowanceAmount.toString())
 
         // Verify that the borrower has sufficient balance for the repayment
         const weiBalance = await erc20Token.balanceOf(from.getId())
-        if (weiBalance.comparedTo(weiAllowanceAmount) === -1) {
+        if (weiBalance.lt(weiAllowanceAmount)) {
             this.logger.warn(
                 `borrower does not have enough balance to repay the debt:
                 token=${delegatedAsset}, weiBalance=${weiBalance}, totalDebt(wei)=${weiAllowanceAmount}`
@@ -329,7 +325,7 @@ export class AaveCredit extends Instantiable {
             from
         )
 
-        const weiAmount = ethers.utils.parseEther(delegatedAmount.toString()).toString()
+        const weiAmount = BigNumber.parseEther(delegatedAmount.toString()).toString()
         // use the aaveRepayCondition to apply the repayment
         const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
             agreementId,
@@ -465,8 +461,12 @@ export class AaveCredit extends Instantiable {
             from.getId(),
             vaultAddress
         )
-        const totalDebt = await vault.call('getTotalActualDebt', [], from.getId())
-        return Number(ethers.utils.formatEther(totalDebt.toString()))
+        const totalDebt: BigNumber = await vault.call(
+            'getTotalActualDebt',
+            [],
+            from.getId()
+        )
+        return Number(BigNumber.formatEther(totalDebt))
     }
 
     /**
@@ -486,7 +486,7 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            ethers.utils.formatEther(
+            BigNumber.formatEther(
                 await vault.call('getActualCreditDebt', [], from.getId())
             )
         )
@@ -509,7 +509,7 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            ethers.utils.formatEther(
+            BigNumber.formatEther(
                 await vault.call('getCreditAssetDebt', [], from.getId())
             )
         )
@@ -546,9 +546,7 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            ethers.utils.formatEther(
-                await vault.call('getBorrowedAmount', [], from.getId())
-            )
+            BigNumber.formatEther(await vault.call('getBorrowedAmount', [], from.getId()))
         )
     }
 
@@ -572,7 +570,7 @@ export class AaveCredit extends Instantiable {
             vaultAddress
         )
         return Number(
-            ethers.utils.formatEther(
+            BigNumber.formatEther(
                 await vault.call(
                     'delegatedAmount',
                     [borrower, delegatedToken, interestRateMode],

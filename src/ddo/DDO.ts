@@ -103,16 +103,10 @@ export class DDO {
 
     /**
      * Generates proof using personal sign.
-     * @param  {Nevermined}     nevermined Nevermined instance.
      * @param  {string}         publicKey Public key to be used on personal sign.
-     * @param  {string}         password  Password if it's required.
      * @return {Promise<Proof>}           Proof object.
      */
-    public async generateProof(
-        nevermined: Nevermined,
-        publicKey: string,
-        password?: string
-    ): Promise<Proof> {
+    public async generateProof(publicKey: string): Promise<Proof> {
         const checksum = {}
         this.service.forEach(svc => {
             checksum[svc.index] = this.checksum(
@@ -130,20 +124,14 @@ export class DDO {
 
     /**
      * Generates and adds a proof using personal sign on the DDO.
-     * @param  {Nevermined}     nevermined     Nevermined instance.
      * @param  {string}         publicKey Public key to be used on personal sign.
-     * @param  {string}         password  Password if it's required.
      * @return {Promise<Proof>}           Proof object.
      */
-    public async addProof(
-        nevermined: Nevermined,
-        publicKey: string,
-        password?: string
-    ): Promise<void> {
+    public async addProof(publicKey: string): Promise<void> {
         if (this.proof) {
             throw new Error('Proof already exists')
         }
-        this.proof = await this.generateProof(nevermined, publicKey, password)
+        this.proof = await this.generateProof(publicKey)
     }
 
     public async addService(nevermined: Nevermined, service: any): Promise<void> {

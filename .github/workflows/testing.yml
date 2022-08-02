@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         network: ["--spree-embedded-contracts", "--polygon"]
-        node: ["14", "16"]
+        node: ["16"]
         include:
           - network: "--spree-embedded-contracts"
             network-name: spree

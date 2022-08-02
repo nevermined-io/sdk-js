@@ -11,7 +11,7 @@ import TestContractHandler from '../TestContractHandler'
 import { Account } from '../../../src'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { generateId, ZeroAddress } from '../../../src/utils'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../../src/utils/BigNumber'
 
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition
@@ -24,7 +24,7 @@ let buyer: Account
 let seller: Account
 
 describe('LockPaymentCondition', () => {
-    const amount = new BigNumber(15)
+    const amount = BigNumber.from(15)
     let agreementId
     let did
 
@@ -196,7 +196,7 @@ describe('LockPaymentCondition', () => {
                     assetRewards.getAmounts(),
                     assetRewards.getReceivers(),
                     buyer,
-                    { value: String(assetRewards.getTotalPrice().minus(1)) }
+                    { value: String(assetRewards.getTotalPrice().sub(1)) }
                 ),
                 /Transaction value does not match amount/
             )

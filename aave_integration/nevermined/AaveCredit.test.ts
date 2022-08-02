@@ -18,9 +18,9 @@ import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCon
 import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import BigNumber from 'bignumber.js'
 import { decodeJwt } from 'jose'
-import { Contract, ethers } from 'ethers'
+import { Contract } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 chai.use(chaiAsPromised)
 
@@ -342,7 +342,7 @@ describe('AaveCredit', () => {
 
                 const after = await dai.balanceOfConverted(borrower.getId())
                 // console.log(`borrower balances: before=${before}, after=${after}, delegatedAmount${delegatedAmount}`)
-                assert.isTrue(after.minus(before).isEqualTo(delegatedAmount))
+                assert.isTrue(after.sub(before).eq(delegatedAmount))
             }
         })
 
@@ -371,13 +371,11 @@ describe('AaveCredit', () => {
                 // Delegatee allows Nevermined contracts spend DAI to repay the loan
                 await dai.approve(
                     aaveRepayCondition.address,
-                    new BigNumber(
-                        ethers.utils.parseEther(allowanceAmount.toString()).toString()
-                    ),
+                    BigNumber.parseEther(allowanceAmount.toString()),
                     borrower
                 )
                 // Send some DAI to borrower to pay the debt + fees
-                const transferAmount = ethers.utils.parseEther(
+                const transferAmount = BigNumber.parseEther(
                     (2 * (allowanceAmount - delegatedAmount)).toString()
                 )
                 await dai.send('transfer', daiProvider, [
@@ -437,13 +435,13 @@ describe('AaveCredit', () => {
                 const daiFee = (delegatedAmount / 10000) * agreementFee
 
                 // Compare the lender fees after withdraw
-                assert.strictEqual(daiFee, daiAfter.minus(daiBefore).toNumber())
+                assert.strictEqual(daiFee, daiAfter.sub(daiBefore).toNumber())
 
                 assert.isTrue(
                     ethBalanceAfter
-                        .minus(ethBalanceBefore)
-                        .minus(collateralAmount)
-                        .isGreaterThan(new BigNumber(0))
+                        .sub(ethBalanceBefore)
+                        .sub(collateralAmount)
+                        .gt(0)
                 )
             }
         })

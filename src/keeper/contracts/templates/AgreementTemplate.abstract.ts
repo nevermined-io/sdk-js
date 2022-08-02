@@ -21,9 +21,9 @@ import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import { Service, ServiceType } from '../../../ddo/Service'
-import BigNumber from 'bignumber.js'
 import Token from '../Token'
 import CustomToken from '../CustomToken'
+import BigNumber from '../../../utils/BigNumber'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -147,7 +147,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 condIdx,
                 rewardAddress,
                 tokenAddress,
-                amounts.map(a => a.toFixed()),
+                amounts.map(a => a.toString()),
                 receivers
             ],
             from,
@@ -196,7 +196,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         return instances.map(a => a.id)
     }
 
-    public abstract instanceFromDDO(
+    public abstract instanceFromDDO?(
         agreementIdSeed: string,
         ddo: DDO,
         creator: string,
@@ -245,8 +245,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             agreementIdSeed,
             ddo.shortId(),
             instances.map(a => a.seed),
-            instances.map(_ => 0),
-            timeOuts ? timeOuts : instances.map(_ => 0),
+            new Array(instances.length).fill(0),
+            timeOuts ? timeOuts : new Array(instances.length).fill(0),
             [consumer.getId()],
             from,
             params
@@ -265,6 +265,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         txParams?: TxParameters,
         observer?: (OrderProgressStep) => void
     ): Promise<string> {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         observer = observer ? observer : _ => {}
 
         const { instances, agreementId } = await this.instanceFromDDO(
@@ -291,7 +292,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const totalAmount = AssetRewards.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-                ? totalAmount.toFixed()
+                ? totalAmount.toString()
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)
@@ -299,8 +300,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             agreementIdSeed,
             ddo.shortId(),
             instances.map(a => a.seed),
-            instances.map(_ => 0),
-            timeOuts ? timeOuts : instances.map(_ => 0),
+            new Array(instances.length).fill(0),
+            timeOuts ? timeOuts : new Array(instances.length).fill(0),
             consumer.getId(),
             this.lockConditionIndex(),
             rewardAddress,
@@ -363,7 +364,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             {}
         )
 
-        const statesPromises = Object.keys(dependencies).map(async (ref, i) => {
+        const statesPromises = Object.keys(dependencies).map(async ref => {
             const { contractName } = await this.getServiceAgreementTemplateConditionByRef(
                 ref
             )

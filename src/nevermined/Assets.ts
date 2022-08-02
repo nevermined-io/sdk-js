@@ -18,7 +18,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { ApiError, AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
-import { ContractReceipt, ethers } from 'ethers'
+import { ContractReceipt } from 'ethers'
 
 export interface ServicePlugin {
     createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
@@ -234,11 +234,7 @@ export class Assets extends Instantiable {
             this.logger.log('Generating proof')
             observer.next(CreateProgressStep.GeneratingProof)
 
-            await ddo.addProof(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
+            await ddo.addProof(publisher.getId())
 
             const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
             await ddo.assignDid(didSeed, didRegistry, publisher)
@@ -472,11 +468,7 @@ export class Assets extends Instantiable {
                 this.logger.log('Generating proof')
                 observer.next(CreateProgressStep.GeneratingProof)
 
-                await ddo.addProof(
-                    this.nevermined,
-                    publisher.getId(),
-                    publisher.getPassword()
-                )
+                await ddo.addProof(publisher.getId())
 
                 const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
                 await ddo.assignDid(didSeed, didRegistry, publisher)
@@ -705,11 +697,7 @@ export class Assets extends Instantiable {
                 this.logger.log('Generating proof')
                 observer.next(CreateProgressStep.GeneratingProof)
 
-                await ddo.addProof(
-                    this.nevermined,
-                    publisher.getId(),
-                    publisher.getPassword()
-                )
+                await ddo.addProof(publisher.getId())
 
                 const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
                 await ddo.assignDid(didSeed, didRegistry, publisher)
@@ -974,11 +962,7 @@ export class Assets extends Instantiable {
             this.logger.log('Generating proof')
             observer.next(CreateProgressStep.GeneratingProof)
 
-            await ddo.addProof(
-                this.nevermined,
-                publisher.getId(),
-                publisher.getPassword()
-            )
+            await ddo.addProof(publisher.getId())
 
             const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
             await ddo.assignDid(didSeed, didRegistry, publisher)
@@ -1091,11 +1075,10 @@ export class Assets extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
-        service: Service[] = [],
         method: string = 'PSK-RSA',
         params?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return new SubscribablePromise(async observer => {
+        return new SubscribablePromise(async () => {
             const computeService = {
                 main: {
                     name: 'dataAssetComputeServiceAgreement',

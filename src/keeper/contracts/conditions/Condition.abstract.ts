@@ -50,6 +50,7 @@ export const conditionStateNames = [
 ]
 
 export abstract class ConditionSmall extends ContractBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public static async getInstance<Ctx extends ConditionContext, Extra>(
         config: InstantiableConfig,
         conditionName: string,

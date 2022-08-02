@@ -8,9 +8,9 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
-import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import Nft721 from '../../src/keeper/contracts/Nft721'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
@@ -146,10 +146,7 @@ describe('Nfts721 operations', async () => {
             ddo = await nevermined.nfts.create721(
                 metadata,
                 artist,
-                new AssetRewards(
-                    artist.getId(),
-                    new BigNumber(ethers.utils.parseEther('0.1').toString())
-                ),
+                new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
                 nft.address,
                 ZeroAddress
             )
