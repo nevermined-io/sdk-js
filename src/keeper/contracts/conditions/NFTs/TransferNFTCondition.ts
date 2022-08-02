@@ -63,7 +63,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
                         lockCondition,
                         willBeTransferred
                     ]
-                } else {
+                } else if (method === 'fulfill') {
                     return [
                         didZeroX(did),
                         zeroX(nftReceiver),

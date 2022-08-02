@@ -13,6 +13,8 @@ export enum ConditionState {
     Aborted = 3
 }
 
+export type ConditionMethod = 'fulfill' | 'fulfillForDelegate'
+
 export interface ConditionContext {
     ddo: DDO
     service: Service
@@ -22,7 +24,7 @@ export interface ConditionContext {
 
 export interface ConditionParameters<Extra> {
     list: any[]
-    params: (method: string, arg: Extra) => Promise<any[]> // for fullfill
+    params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
 
 export interface ConditionInstanceSmall {
@@ -70,7 +72,7 @@ export abstract class ConditionSmall extends ContractBase {
         args: any[],
         from?: Account,
         params?: TxParameters,
-        method: string = 'fulfill'
+        method: ConditionMethod = 'fulfill'
     ) {
         return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
     }
