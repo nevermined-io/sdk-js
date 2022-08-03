@@ -94,6 +94,11 @@ export class Gateway extends Instantiable {
         return this.nevermined.utils.fetch.get(`${this.url}`).then(res => res.json())
     }
 
+    public async getProviderAddress() {
+        const json = await this.getGatewayInfo()
+        return json['0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0']
+    }
+
     public async getRsaPublicKey() {
         const json = await this.getGatewayInfo()
         return json['rsa-public-key']

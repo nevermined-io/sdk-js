@@ -134,6 +134,7 @@ export class Assets extends Instantiable {
         royalties: number = 0,
         nftMetadata?: string,
         txParams?: TxParameters,
+        services: string[] = ['nft721-sales', 'nft721-access'],
         nftTransfer: boolean = false,
         duration: number = 0
     ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -190,41 +191,80 @@ export class Assets extends Instantiable {
                 }
             } as Service)
 
-            this.logger.debug('NTF721 Sales Template')
-            const nft721SalesServiceAgreementTemplate = await templates.nft721SalesTemplate.getServiceAgreementTemplate()
+            if (services.includes('nft721-sales')) {
+                this.logger.debug('Adding NTF721 Sales Service')
+                const nft721SalesServiceAgreementTemplate = await templates.nft721SalesTemplate.getServiceAgreementTemplate()
 
-            await ddo.addService(
-                this.nevermined,
-                await this.createNft721SalesService(
-                    metadata,
-                    publisher,
-                    nft721SalesServiceAgreementTemplate
+                await ddo.addService(
+                    this.nevermined,
+                    await this.createNft721SalesService(
+                        metadata,
+                        publisher,
+                        nft721SalesServiceAgreementTemplate
+                    )
                 )
-            )
 
-            this.logger.debug('NTF721 Access Template')
-            const nft721AccessServiceAgreementTemplate = await templates.nft721AccessTemplate.getServiceAgreementTemplate()
-
-            await ddo.addService(
-                this.nevermined,
-                await this.createNft721AccessService(
-                    metadata,
-                    publisher,
-                    nft721AccessServiceAgreementTemplate
+                const nft721SalesTemplateConditions = await templates.nft721SalesTemplate.getServiceAgreementTemplateConditions()
+                nft721SalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    nft721SalesTemplateConditions,
+                    ddo,
+                    assetRewards,
+                    erc20TokenAddress || this.nevermined.token.getAddress(),
+                    nftTokenAddress,
+                    publisher.getId(),
+                    undefined,
+                    nftTransfer,
+                    duration
                 )
-            )
+            }
 
-            this.logger.debug('NTF721 Aave Credit Template')
-            const nftAaveCreditServiceAgreementTemplate = await templates.aaveCreditTemplate.getServiceAgreementTemplate()
+            if (services.includes('nft721-access')) {
+                this.logger.debug('Adding NTF721 Access Service')
+                const nft721AccessServiceAgreementTemplate = await templates.nft721AccessTemplate.getServiceAgreementTemplate()
 
-            await ddo.addService(
-                this.nevermined,
-                await this.createNftAaveCreditService(
-                    metadata,
-                    publisher,
-                    nftAaveCreditServiceAgreementTemplate
+                await ddo.addService(
+                    this.nevermined,
+                    await this.createNft721AccessService(
+                        metadata,
+                        publisher,
+                        nft721AccessServiceAgreementTemplate
+                    )
                 )
-            )
+
+                const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
+                nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    nft721AccessTemplateConditions,
+                    ddo,
+                    assetRewards,
+                    erc20TokenAddress || this.nevermined.token.getAddress(),
+                    nftTokenAddress,
+                    publisher.getId()
+                )
+            }
+
+            if (services.includes('aave-credit')) {
+                this.logger.debug('Adding NTF721 Aave Credit Service')
+                const nftAaveCreditServiceAgreementTemplate = await templates.aaveCreditTemplate.getServiceAgreementTemplate()
+
+                await ddo.addService(
+                    this.nevermined,
+                    await this.createNftAaveCreditService(
+                        metadata,
+                        publisher,
+                        nftAaveCreditServiceAgreementTemplate
+                    )
+                )
+
+                const nft721AaveCreditTemplateConditions = await templates.aaveCreditTemplate.getServiceAgreementTemplateConditions()
+                nftAaveCreditServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                    nft721AaveCreditTemplateConditions,
+                    ddo,
+                    assetRewards,
+                    erc20TokenAddress || this.nevermined.token.getAddress(),
+                    nftTokenAddress,
+                    publisher.getId()
+                )
+            }
 
             this.logger.log('Services Added')
             observer.next(CreateProgressStep.ServicesAdded)
@@ -243,39 +283,6 @@ export class Assets extends Instantiable {
 
             this.logger.log('Proof generated')
             observer.next(CreateProgressStep.ProofGenerated)
-
-            const nft721SalesTemplateConditions = await templates.nft721SalesTemplate.getServiceAgreementTemplateConditions()
-            nft721SalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nft721SalesTemplateConditions,
-                ddo,
-                assetRewards,
-                erc20TokenAddress || this.nevermined.token.getAddress(),
-                nftTokenAddress,
-                publisher.getId(),
-                undefined,
-                nftTransfer,
-                duration
-            )
-
-            const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
-            nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nft721AccessTemplateConditions,
-                ddo,
-                assetRewards,
-                erc20TokenAddress || this.nevermined.token.getAddress(),
-                nftTokenAddress,
-                publisher.getId()
-            )
-
-            const nft721AaveCreditTemplateConditions = await templates.aaveCreditTemplate.getServiceAgreementTemplateConditions()
-            nftAaveCreditServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                nft721AaveCreditTemplateConditions,
-                ddo,
-                assetRewards,
-                erc20TokenAddress || this.nevermined.token.getAddress(),
-                nftTokenAddress,
-                publisher.getId()
-            )
 
             this.logger.log('Conditions filled')
             observer.next(CreateProgressStep.ConditionsFilled)

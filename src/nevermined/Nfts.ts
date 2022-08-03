@@ -125,6 +125,7 @@ export class Nfts extends Instantiable {
             royalties,
             nftMetadata ? nftMetadata : '',
             txParams,
+            ['nft721-sales', 'nft721-access'],
             nftTransfer,
             duration
         )
