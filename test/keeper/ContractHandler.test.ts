@@ -13,11 +13,11 @@ describe('ContractHandler', () => {
 
     describe('#get()', () => {
         it('should load and get NeverminedToken correctly', async () => {
-            assert(await contractHandler.get('NeverminedToken'))
+            assert(await contractHandler.get('NeverminedToken', false, './node_modules/@neverminde-io/contracts/artifacts'))
         })
 
         it('should fail to load an unknown contract', done => {
-            contractHandler.get('NeverminedXXX').catch(() => {
+            contractHandler.get('NeverminedXXX', false, './node_modules/@neverminde-io/contracts/artifacts').catch(() => {
                 done()
             })
         })

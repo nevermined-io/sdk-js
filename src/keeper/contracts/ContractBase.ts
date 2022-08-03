@@ -57,7 +57,6 @@ export abstract class ContractBase extends Instantiable {
         this.contract = await contractHandler.get(
             this.contractName,
             optional,
-            undefined,
             config.artifactsFolder
         )
         try {

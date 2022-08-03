@@ -53,8 +53,8 @@ export default class ContractHandler extends Instantiable {
     public async get(
         what: string,
         optional: boolean = false,
-        address?: string,
-        artifactsFolder?: string
+        artifactsFolder: string,
+        address?: string
     ): Promise<ethers.Contract> {
         const networkId = await this.nevermined.keeper.getNetworkId()
         const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
@@ -62,7 +62,7 @@ export default class ContractHandler extends Instantiable {
             this.logger.debug(`ContractHandler :: GET :: ${artifactsFolder}`)
             return (
                 ContractHandler.getContract(what, networkId, address) ||
-                (await this.load(what, where, networkId, address, artifactsFolder))
+                (await this.load(what, where, networkId, artifactsFolder, address))
             )
         } catch (err) {
             if (!optional) {
@@ -73,12 +73,12 @@ export default class ContractHandler extends Instantiable {
 
     public async getVersion(
         contractName: string,
-        artifactsFolder?: string
+        artifactsFolder: string
     ): Promise<string> {
         const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         let artifact
         if (artifactsFolder === undefined) {
-            // artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
+            artifact = eval('require')(`@nevermined-io/contracts/artifacts/${contractName}.${where}.json`)
         } else {
             this.logger.debug(
                 `Trying to fetch ${artifactsFolder}/${contractName}.${where}.json`
@@ -103,14 +103,14 @@ export default class ContractHandler extends Instantiable {
         what: string,
         where: string,
         networkId: number,
-        address?: string,
-        artifactsFolder?: string
+        artifactsFolder: string,
+        address?: string
     ): Promise<ethers.Contract> {
         this.logger.debug('Loading', what, 'from', where, 'and folder', artifactsFolder)
         let artifact
         this.logger.debug(`Artifacts folder: ${artifactsFolder}`)
         if (artifactsFolder === undefined) {
-            // artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
+            artifact = eval('require')(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
         } else {
             if (artifactsFolder.startsWith('http'))
                 artifact = await this.fetchJson(
