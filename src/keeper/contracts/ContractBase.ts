@@ -15,6 +15,7 @@ export interface TxParameters {
     gasPrice?: string
     maxPriorityFeePerGas?: string
     maxFeePerGas?: string
+    nonce?: number
     progress?: (data: any) => void
 }
 
@@ -133,7 +134,8 @@ export abstract class ContractBase extends Instantiable {
             value,
             gasPrice,
             maxFeePerGas,
-            maxPriorityFeePerGas
+            maxPriorityFeePerGas,
+            nonce
         } = params
 
         try {
@@ -170,9 +172,10 @@ export abstract class ContractBase extends Instantiable {
             const txparams = {
                 value,
                 gasLimit,
+                nonce: nonce ? nonce : undefined,
                 ...feeData
             }
-
+            console.log(`TXParams: ${JSON.stringify(txparams)}`)
             // make the call
             if (params.progress) {
                 params.progress({
