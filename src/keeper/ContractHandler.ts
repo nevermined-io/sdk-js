@@ -78,6 +78,7 @@ export default class ContractHandler extends Instantiable {
         const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         let artifact
         if (artifactsFolder === undefined) {
+            // artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
         } else {
             this.logger.debug(
                 `Trying to fetch ${artifactsFolder}/${contractName}.${where}.json`
@@ -110,8 +111,7 @@ export default class ContractHandler extends Instantiable {
         this.logger.debug(`Artifacts folder: ${artifactsFolder}`)
         if (artifactsFolder === undefined) {
             // artifact = require(`@nevermined-io/contracts/artifacts/${what}.${where}.json`)
-        }
-        else {
+        } else {
             if (artifactsFolder.startsWith('http'))
                 artifact = await this.fetchJson(
                     `${artifactsFolder}/${what}.${where}.json`
