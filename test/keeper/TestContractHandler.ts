@@ -6,6 +6,7 @@ import config from '../config'
 import { ZeroAddress } from '../../src/utils'
 import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
+import fs from 'fs'
 
 interface ContractTest extends ethers.Contract {
     testContract?: boolean
@@ -408,7 +409,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 await KeeperUtils.getNetworkName(TestContractHandler.networkId)
             ).toLowerCase()
             Logger.log('Deploying', name)
-            const artifact = require(`@nevermined-io/contracts/artifacts/${name}.${networkName}.json`)
+            const artifact = JSON.parse(fs.readFileSync(`./artifacts/${name}.${networkName}.json`).toString())
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
                 from,
