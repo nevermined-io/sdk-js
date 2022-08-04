@@ -96,7 +96,7 @@ export class Gateway extends Instantiable {
 
     public async getProviderAddress() {
         const json = await this.getGatewayInfo()
-        return json['0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0']
+        return json['provider-address']
     }
 
     public async getRsaPublicKey() {

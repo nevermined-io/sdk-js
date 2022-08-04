@@ -172,10 +172,10 @@ export abstract class ContractBase extends Instantiable {
             const txparams = {
                 value,
                 gasLimit,
-                nonce: nonce ? nonce : undefined,
+                // nonce: nonce ? nonce : undefined,
+                nonce,
                 ...feeData
             }
-            console.log(`TXParams: ${JSON.stringify(txparams)}`)
             // make the call
             if (params.progress) {
                 params.progress({

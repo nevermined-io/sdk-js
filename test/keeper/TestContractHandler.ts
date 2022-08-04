@@ -337,6 +337,51 @@ export default abstract class TestContractHandler extends ContractHandler {
         ])
     }
 
+    public static async deployAbi(
+        artifact: any,
+        from: string,
+        args: string[] = []
+    ): Promise<ethers.Contract> {
+
+        const signer = this.web3.getSigner(from)
+        const contract = new ethers.ContractFactory(
+            artifact.abi,
+            artifact.bytecode,
+            signer
+        )
+        const isZos = contract.interface.fragments.some(f => f.name === 'initialize')
+
+        if (args.length > 0) console.info(`Using Params: ${JSON.stringify(args)}`)
+
+        const argument = isZos ? [] : args
+        console.log(`Let's deploy`)
+        let contractInstance: ethers.Contract
+        try {
+            contractInstance = await contract.deploy(...argument)
+            await contractInstance.deployTransaction.wait()
+        } catch (error) {
+            console.error(JSON.stringify(error))
+            throw new Error(error.message)
+        }
+
+        if (isZos) {
+            const methodSignature = TestContractHandler.getSignatureOfMethod(
+                contractInstance,
+                'initialize',
+                args
+            )
+            const contract = contractInstance.connect(signer)
+            const transactionResponse: TransactionResponse = await contract[
+                methodSignature
+            ](...args)
+            const contractReceipt: ContractReceipt = await transactionResponse.wait()
+            if (contractReceipt.status !== 1) {
+                throw new Error(`Error deploying contract ${artifact.name}`)
+            }
+        }
+        return contractInstance
+    }
+
     private static async deployContract(
         name: string,
         from: string,
