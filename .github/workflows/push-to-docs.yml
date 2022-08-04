@@ -20,6 +20,7 @@ jobs:
     - name: Replace env vars in push-to-docs script
       env:
         REPO_TO_PUSH: nvm-docs
+        BRANCH_TO_CLONE: main
         PATH_TO_PUSH: external/sdk-js
         REPOSITORY_NAME: ${{ github.repository }}
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
