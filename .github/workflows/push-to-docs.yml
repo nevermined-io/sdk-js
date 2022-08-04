@@ -8,7 +8,30 @@ on:
 
 jobs:
   push-to-docs:
-    uses: nevermined-io/reusable-workflows/.github/workflows/push-to-docs.yml@main
-    with:
-      path-to-push: external/sdk-js
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+      - name: Install envsubst
+        run: |
+          sudo apt update
+          sudo apt install -y gettext
+      - name: Download push-to-docs script template
+        run: |
+          curl -o push-to-docs.sh.template https://raw.githubusercontent.com/nevermined-io/reusable-workflows/main/scripts/push-to-docs.sh
+      - name: Replace env vars in push-to-docs script
+        env:
+          BRANCH_TO_CLONE: main
+          REPO_TO_PUSH: nvm-docs
+          PATH_TO_COPY: docs/
+          PATH_TO_PUSH: docs/architecture/components/sdks
+          REPOSITORY_NAME: ${{ github.repository }}
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        run: |
+          export REPOSITORY_NAME=$(echo $REPOSITORY_NAME | awk -F '/' '{print $2}')
+          envsubst < push-to-docs.sh.template > push-to-docs.sh
+          env > env.file
+          chmod +x push-to-docs.sh
+          ./push-to-docs.sh
