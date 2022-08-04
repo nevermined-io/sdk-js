@@ -53,7 +53,7 @@ jobs:
           ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
 
       - name: Check artifacts
-        run: ls -l node_modules/@nevermined-io/contracts/artifacts
+        run: ls -l artifacts
 
       - name: Run unit tests
         run: export ETH_PORT=18545; npm run test:cover

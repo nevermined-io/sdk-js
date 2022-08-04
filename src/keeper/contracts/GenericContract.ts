@@ -28,8 +28,8 @@ export default class GenericContract extends ContractBase {
         this.contract = await contractHandler.get(
             this.contractName,
             optional,
-            this.fixedAddress,
-            config.artifactsFolder
+            config.artifactsFolder,
+            this.fixedAddress
         )
     }
 
