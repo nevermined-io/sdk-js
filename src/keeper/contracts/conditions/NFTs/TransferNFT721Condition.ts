@@ -83,7 +83,7 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         if (!transfer) throw new Error('TransferNFT condition not found!')
 
         const nft = await this.nevermined.contracts.loadNft721(
-            transfer.parameters.find(p => p.name === '_contract').value as string
+            transfer.parameters.find(p => p.name === '_contractAddress').value as string
         )
         const nftHolder = transfer.parameters.find(p => p.name === '_nftHolder')
             .value as string

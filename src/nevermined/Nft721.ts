@@ -54,6 +54,10 @@ export class Nft721 extends Instantiable {
         )
     }
 
+    public async isApprovedForAll(accountAddress: string, operatorAddress: string) {
+        return await this.contract.isApprovedForAll(accountAddress, operatorAddress)
+    }
+
     public async balanceOf(owner: Account) {
         return await this.contract.balanceOf(owner.getId())
     }

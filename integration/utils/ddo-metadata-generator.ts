@@ -66,8 +66,9 @@ export const generateMetadata = (
 
 export const getMetadata = (
     price?: number,
-    nonce: string | number = Math.random()
-): MetaData => generateMetadata('TestAsset', price, nonce) as MetaData
+    nonce: string | number = Math.random(),
+    title: string = 'TestAsset'
+): MetaData => generateMetadata(title, price, nonce) as MetaData
 
 export const getAssetRewards = (receiver: string) =>
     new AssetRewards(receiver, BigNumber.from('21' + '0'.repeat(18)))

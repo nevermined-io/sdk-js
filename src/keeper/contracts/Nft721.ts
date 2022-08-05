@@ -42,6 +42,13 @@ export default class Nft721 extends ContractBase {
         return this.send('setApprovalForAll', from, [target, state], params)
     }
 
+    public isApprovedForAll(accountAddress: string, operatorAddress: string) {
+        return this.call('isApprovedForAll', [
+            didZeroX(accountAddress),
+            didZeroX(operatorAddress)
+        ])
+    }
+
     public async balanceOf(owner: string) {
         return this.call('balanceOf', [owner])
     }
