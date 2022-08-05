@@ -5,7 +5,6 @@ import { ethers } from 'ethers'
 import Nft721 from './Nft721'
 
 export default class SubscriptionNft721 extends Nft721 {
-    
     public static async getInstance(
         config: InstantiableConfig,
         address: string

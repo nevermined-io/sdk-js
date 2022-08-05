@@ -343,7 +343,6 @@ export default abstract class TestContractHandler extends ContractHandler {
         from: string,
         args: string[] = []
     ): Promise<ethers.Contract> {
-
         const signer = this.web3.getSigner(from)
         const contract = new ethers.ContractFactory(
             artifact.abi,
@@ -406,7 +405,9 @@ export default abstract class TestContractHandler extends ContractHandler {
                 await KeeperUtils.getNetworkName(TestContractHandler.networkId)
             ).toLowerCase()
             Logger.log('Deploying', name)
-            const artifact = JSON.parse(fs.readFileSync(`./artifacts/${name}.${networkName}.json`).toString())
+            const artifact = JSON.parse(
+                fs.readFileSync(`./artifacts/${name}.${networkName}.json`).toString()
+            )
             contractInstance = await TestContractHandler.deployArtifact(
                 artifact,
                 from,

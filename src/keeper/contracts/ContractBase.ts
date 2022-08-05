@@ -171,7 +171,6 @@ export abstract class ContractBase extends Instantiable {
             const txparams = {
                 value,
                 gasLimit,
-                // nonce: nonce ? nonce : undefined,
                 nonce,
                 ...feeData
             }

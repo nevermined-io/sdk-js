@@ -135,7 +135,7 @@ export class Assets extends Instantiable {
         nftMetadata?: string,
         txParams?: TxParameters,
         services: string[] = ['nft721-sales', 'nft721-access'],
-        nftTransfer: boolean = false,
+        nftTransfer: boolean = true,
         duration: number = 0
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT721')

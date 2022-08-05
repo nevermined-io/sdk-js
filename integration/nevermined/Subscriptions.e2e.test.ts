@@ -33,7 +33,11 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let receivers: string[]
     let assetRewards1: AssetRewards
 
-    const subscriptionMetadata = getMetadata(subscriptionPrice.toNumber(), Math.random(), 'Subscription NFT')
+    const subscriptionMetadata = getMetadata(
+        subscriptionPrice.toNumber(),
+        Math.random(),
+        'Subscription NFT'
+    )
     const assetMetadata = getMetadata(0)
 
     const preMint = false
@@ -96,8 +100,10 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         it('I want to register a subscriptions NFT that gives acess to exclusive contents to the holders', async () => {
             // Deploy NFT
             TestContractHandler.setConfig(config)
-            nft = await TestContractHandler.deployAbi(SubscriptionNFT, editor.getId(), ['Subscription', 'NVM'])
-
+            nft = await TestContractHandler.deployAbi(SubscriptionNFT, editor.getId(), [
+                'Subscription',
+                'NVM'
+            ])
 
             subscriptionNFT = await SubscriptionNft721.getInstance(
                 (nevermined.keeper as any).instanceConfig,
@@ -214,7 +220,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             )
 
             assert.isTrue(
-                receiver0Balance.eq(initialBalances.editor.add(assetRewards1.getAmounts()[0]))
+                receiver0Balance.eq(
+                    initialBalances.editor.add(assetRewards1.getAmounts()[0])
+                )
             )
 
             assert.isTrue(
