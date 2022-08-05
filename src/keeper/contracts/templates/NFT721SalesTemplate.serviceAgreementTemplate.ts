@@ -112,7 +112,7 @@ export const nft721SalesTemplateServiceAgreementTemplate: ServiceAgreementTempla
                     value: '0'
                 },
                 {
-                    name: '_contract',
+                    name: '_contractAddress',
                     type: 'address',
                     value: ''
                 }

@@ -6,6 +6,9 @@ import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
 import { ContractReceipt, ethers } from 'ethers'
+import { TxParameters } from '../../src/keeper/contracts/ContractBase'
+import Web3Provider from '../../src/keeper/Web3Provider'
+// import { NonceManager } from '@ethersproject/experimental'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -30,6 +33,31 @@ describe('DIDRegistry', () => {
                 [],
                 data,
                 ownerAccount.getId()
+            )
+            assert.equal(contractReceipt.status, 1)
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'DIDAttributeRegistered')
+            )
+        })
+
+        it('should register an attribute in a new did modifying the nonce', async () => {
+            const [ownerAccount] = await nevermined.accounts.list()
+            const did = generateId()
+            const data = 'hola hola'
+            const provider = Web3Provider.getWeb3(config)
+            const txCount = await provider.getTransactionCount(
+                ownerAccount.getId(),
+                'pending'
+            )
+            const txParams: TxParameters = { nonce: txCount }
+
+            const contractReceipt: ContractReceipt = await didRegistry.registerAttribute(
+                did,
+                checksum,
+                [],
+                data,
+                ownerAccount.getId(),
+                txParams
             )
             assert.equal(contractReceipt.status, 1)
             assert.isTrue(
