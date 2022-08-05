@@ -352,10 +352,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
         const isZos = contract.interface.fragments.some(f => f.name === 'initialize')
 
-        if (args.length > 0) console.info(`Using Params: ${JSON.stringify(args)}`)
-
         const argument = isZos ? [] : args
-        console.log(`Let's deploy`)
         let contractInstance: ethers.Contract
         try {
             contractInstance = await contract.deploy(...argument)

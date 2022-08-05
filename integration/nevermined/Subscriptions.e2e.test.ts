@@ -9,7 +9,7 @@ import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import SubscriptionNFT from '../../src/artifacts/NFT721SubscriptionUpgradeable.json'
 import { ethers } from 'ethers'
-import Nft721 from '../../src/keeper/contracts/Nft721'
+import SubscriptionNft721 from '../../src/keeper/contracts/SubscriptionNft721'
 import BigNumber from '../../src/utils/BigNumber'
 import { zeroX } from '../../src/utils'
 
@@ -33,7 +33,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let receivers: string[]
     let assetRewards1: AssetRewards
 
-
     const subscriptionMetadata = getMetadata(subscriptionPrice.toNumber(), Math.random(), 'Subscription NFT')
     const assetMetadata = getMetadata(0)
 
@@ -41,12 +40,14 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     const royalties = 0
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
+    const nftAmount = 1
 
     let initialBalances: any
     let scale: BigNumber
 
     let nft: ethers.Contract
-    let nftContract: Nft721
+    let subscriptionNFT: SubscriptionNft721
+    let gatewayAddress
 
     let payload: JWTPayload
 
@@ -61,6 +62,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         await nevermined.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
         assetMetadata.userId = payload.sub
+        gatewayAddress = await nevermined.gateway.getProviderAddress()
 
         // conditions
         ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
@@ -93,16 +95,14 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     describe('As an editor I want to register new content and provide a subscriptions to my content', () => {
         it('I want to register a subscriptions NFT that gives acess to exclusive contents to the holders', async () => {
             // Deploy NFT
-            console.log(`Deploying Subscriptions NFT Contract`)
             TestContractHandler.setConfig(config)
             nft = await TestContractHandler.deployAbi(SubscriptionNFT, editor.getId(), ['Subscription', 'NVM'])
 
-            console.log(`Subscriptions NFT Contract deployed at address ${nft.address}`)
-            nftContract = await Nft721.getInstance(
+
+            subscriptionNFT = await SubscriptionNft721.getInstance(
                 (nevermined.keeper as any).instanceConfig,
                 nft.address
             )
-            const gatewayAddress = await nevermined.gateway.getProviderAddress()
             subscriptionDDO = await nevermined.assets.createNft721(
                 subscriptionMetadata,
                 editor,
@@ -120,29 +120,22 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 subscriptionDuration
             )
             assert.isDefined(subscriptionDDO)
-            console.log(`Subscription DID: ${subscriptionDDO.id}`)
 
-            await nftContract.setApprovalForAll(
-                // nevermined.keeper.conditions.transferNft721Condition.address,
-                gatewayAddress,
-                true,
+            // INFO: We allow transferNFT condition to mint NFTs
+            // Typically this only needs to happen once per NFT contract
+            await subscriptionNFT.addMinter(
+                nevermined.keeper.conditions.transferNft721Condition.address,
                 editor.getId()
             )
-            const isApproved = await nftContract.isApprovedForAll(editor.getId(), gatewayAddress)
-            // console.log(JSON.stringify(approval))
+
+            // INFO: We allow the gateway to fulfill the transfer condition in behalf of the user
+            // Typically this only needs to happen once per NFT contract
+            await subscriptionNFT.setApprovalForAll(gatewayAddress, true, editor.getId())
+            const isApproved = await subscriptionNFT.isApprovedForAll(
+                editor.getId(),
+                gatewayAddress
+            )
             assert.isTrue(isApproved)
-            // assert.isTrue(isApproved)
-            // // await nftContract.mint(zeroX(subscriptionDDO.shortId()), editor.getId())
-            // console.log(`NFT Address: ${nft.address}`)
-            // const ownerDirect = await nftContract.ownerOf(subscriptionDDO.id)
-            // console.log(`Is Owner: ${ownerDirect}`)
-            // const owner = await nevermined.nfts.ownerOf(subscriptionDDO.id, nft.address)
-            // console.log(`Owner: ${owner}`)
-            // // const owner = await nevermined.nfts.ownerOf(
-            // //     zeroX(subscriptionDDO.shortId()),
-            // //     nft.address
-            // // )
-            // assert.equal(owner, editor.getId())
         })
 
         it('I want to register a new asset and tokenize (via NFT)', async () => {
@@ -154,7 +147,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 nft.address,
                 token.address,
                 preMint,
-                [await nevermined.gateway.getProviderAddress()],
+                [gatewayAddress],
                 royalties,
                 undefined,
                 undefined,
@@ -163,8 +156,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 subscriptionDuration
             )
             assert.isDefined(assetDDO)
-            console.log(`Asset DID: ${assetDDO.id}`)
-
         })
     })
 
@@ -195,11 +186,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
         it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
             // Let's use the gateway to mint the subscription and release the payments
+
             const receipt = await nevermined.nfts.transferForDelegate(
                 agreementId,
                 editor.getId(),
                 subscriber.getId(),
-                1,
+                nftAmount,
                 721
             )
             assert.isTrue(receipt)
@@ -222,12 +214,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             )
 
             assert.isTrue(
-                receiver0Balance.eq(initialBalances.editor(assetRewards1.getAmounts()[0]))
+                receiver0Balance.eq(initialBalances.editor.add(assetRewards1.getAmounts()[0]))
             )
 
             assert.isTrue(
                 receiver1Balance.eq(
-                    initialBalances.reseller(assetRewards1.getAmounts()[1])
+                    initialBalances.reseller.add(assetRewards1.getAmounts()[1])
                 )
             )
         })
