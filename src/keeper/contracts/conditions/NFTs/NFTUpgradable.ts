@@ -3,6 +3,7 @@ import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import ContractBase, { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -99,9 +100,9 @@ export class NFTUpgradeable extends ContractBase {
      *
      * @param address Account address to check the balance
      * @param did The NFT id
-     * @returns {Number}
+     * @returns {BigNumber}
      */
-    public async balance(address: string, did: string): Promise<number> {
+    public async balance(address: string, did: string): Promise<BigNumber> {
         return this.call('balanceOf', [zeroX(address), didZeroX(did)])
     }
 
