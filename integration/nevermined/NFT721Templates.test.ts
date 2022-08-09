@@ -192,7 +192,7 @@ describe('NFT721Templates E2E', () => {
                 await nft.mint(ddo.shortId(), artist)
 
                 const balance = await nft.balanceOf(artist)
-                assert.equal(balance, 1)
+                assert.deepEqual(balance, BigNumber.from(1))
             })
         })
 
@@ -707,7 +707,7 @@ describe('NFT721Templates E2E', () => {
                 await nft.mint(ddo.shortId(), artist)
 
                 const balance = await nft.balanceOf(artist)
-                assert.equal(balance, 1)
+                assert.deepEqual(balance, BigNumber.from(1))
             })
         })
 

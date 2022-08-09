@@ -7,6 +7,7 @@ import { NFTUpgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NF
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
+import BigNumber from '../../../src/utils/BigNumber'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -115,7 +116,7 @@ describe('NFTLockCondition', () => {
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
             const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
-            assert.equal(nftBalance, amount)
+            assert.deepEqual(nftBalance, BigNumber.from(amount))
 
             const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
             const { _agreementId, _did, _lockAddress, _conditionId, _amount } = event.args
