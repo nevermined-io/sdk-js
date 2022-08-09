@@ -150,7 +150,7 @@ describe('Nfts operations', () => {
             )
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, collector),
-                BigNumber.from(8)
+                BigNumber.from(2)
             )
         })
 
