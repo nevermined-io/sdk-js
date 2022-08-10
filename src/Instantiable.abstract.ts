@@ -103,7 +103,7 @@ export abstract class Instantiable {
     }
 
     public async findSigner(from: string): Promise<ethers.Signer> {
-        for (let acc of this.config.accounts) {
+        for (const acc of this.config.accounts) {
             const addr = await acc.getAddress()
             if (addr === from) {
                 return acc.connect(this.web3)

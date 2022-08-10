@@ -82,9 +82,9 @@ if (process.env.NETWORK_NAME === 'mumbai') {
 if (process.env.SEED_WORDS) {
     const seedphrase = process.env.SEED_WORDS
     const node = HDNode.fromMnemonic(seedphrase)
-    const accounts : ethers.Wallet[] = []
+    const accounts: ethers.Wallet[] = []
     for (let i = 0; i < 10; i++) {
-        const acc = node.derivePath("m/44'/60'/0'/0/"+i)
+        const acc = node.derivePath("m/44'/60'/0'/0/" + i)
         const wallet = new ethers.Wallet(acc.privateKey)
         accounts.push(wallet)
     }
