@@ -101,7 +101,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 5)
+            assert.deepEqual(balance, BigNumber.from(5))
         })
 
         it('Should set the gateway as a provider by default', async () => {
@@ -254,7 +254,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 5)
+            assert.deepEqual(balance, BigNumber.from(5))
         })
 
         it('The collector orders the nft', async () => {
@@ -314,7 +314,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 1)
+            assert.deepEqual(balance, BigNumber.from(1))
         })
 
         it('Collector1 orders the nft', async () => {
@@ -346,7 +346,7 @@ describe('NFTs Api End-to-End', () => {
 
         it('The artist nft balance should be zero', async () => {
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 0)
+            assert.deepEqual(balance, BigNumber.from(0))
         })
 
         it('Collector 2 setups a service agreement to buy the nft', async () => {

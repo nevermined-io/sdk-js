@@ -4,6 +4,7 @@ import { didZeroX } from '../../utils'
 import { abi } from './../../artifacts/ERC721.json'
 import { Account } from '../..'
 import { ethers } from 'ethers'
+import BigNumber from '../../utils/BigNumber'
 
 export default class Nft721 extends ContractBase {
     public static async getInstance(
@@ -49,7 +50,7 @@ export default class Nft721 extends ContractBase {
         ])
     }
 
-    public async balanceOf(owner: string) {
+    public async balanceOf(owner: string): Promise<BigNumber> {
         return this.call('balanceOf', [owner])
     }
 

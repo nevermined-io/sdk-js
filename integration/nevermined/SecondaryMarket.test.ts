@@ -77,8 +77,8 @@ describe('Secondary Markets', () => {
     let initialBalances: any
     let decimals: number
 
-    let nftBalanceCollector1Before: number
-    let nftBalanceCollector2Before: number
+    let nftBalanceCollector1Before: BigNumber
+    let nftBalanceCollector2Before: BigNumber
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -202,7 +202,7 @@ describe('Secondary Markets', () => {
                 )
 
                 const balance = await nftUpgradeable.balance(artist.getId(), ddo.id)
-                assert.equal(balance, 5)
+                assert.deepEqual(balance, BigNumber.from(5))
             })
         })
 

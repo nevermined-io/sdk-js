@@ -22,6 +22,7 @@ import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { NFTError } from '../errors'
 import { NftTypes } from '../gateway/Gateway'
+import BigNumber from '../utils/BigNumber'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -426,9 +427,9 @@ export class Nfts extends Instantiable {
      *
      * @param {String} did The Decentralized Identifier of the NFT asset.
      * @param {Account} account The account to check the balance of.
-     * @returns {Number} The ammount of NFTs owned by the account.
+     * @returns {BigNumber} The ammount of NFTs owned by the account.
      */
-    public async balance(did: string, account: Account) {
+    public async balance(did: string, account: Account): Promise<BigNumber> {
         return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
     }
 

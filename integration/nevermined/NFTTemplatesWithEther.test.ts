@@ -158,7 +158,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     artist.getId(),
                     ddo.shortId()
                 )
-                assert.equal(balance, 5)
+                assert.deepEqual(balance, BigNumber.from(5))
             })
         })
 

@@ -11,6 +11,7 @@ import ERC721 from '../../../src/artifacts/ERC721.json'
 import { Nft721 } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { Contract, ContractReceipt, Event } from 'ethers'
+import BigNumber from '../../../src/utils/BigNumber'
 
 chai.use(chaiAsPromised)
 
@@ -97,7 +98,7 @@ describe('NFT721LockCondition', () => {
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
             const nftBalance = await nft721Wrapper.balanceOf(lockAddress)
-            assert.equal(nftBalance, 1)
+            assert.deepEqual(nftBalance, BigNumber.from(1))
 
             const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
             const {
