@@ -26,7 +26,7 @@ export class Accounts extends Instantiable {
         // retrieve eth accounts
         const ethAccounts: string[] = await this.web3.listAccounts()
         const addresses: string[] = await Promise.all(
-            this.config.accounts.map(a => a.getAddress())
+            (this.config.accounts || []).map(a => a.getAddress())
         )
 
         return addresses
