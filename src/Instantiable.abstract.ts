@@ -102,6 +102,16 @@ export abstract class Instantiable {
         return { nevermined, web3, config, logger, artifactsFolder }
     }
 
+    public async findSigner(from: string): Promise<ethers.Signer> {
+        for (let acc of this.config.accounts) {
+            const addr = await acc.getAddress()
+            if (addr === from) {
+                return acc.connect(this.web3)
+            }
+        }
+        return this.web3.getSigner(from)
+    }
+
     public static getInstance(...args: any[]): any
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,3 +1,4 @@
+import { ethers } from 'ethers'
 import { LogLevel } from '../utils/Logger'
 import { AaveConfig } from './AaveConfig'
 export { LogLevel } from '../utils/Logger'
@@ -81,6 +82,8 @@ export class Config {
     public aaveConfig?: AaveConfig
 
     public artifactsFolder?: string
+
+    public accounts?: ethers.Signer[]
 }
 
 export default Config

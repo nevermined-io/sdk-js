@@ -1,5 +1,7 @@
+import { ethers } from 'ethers'
+import { HDNode } from 'ethers/lib/utils'
 import { Config } from '../src'
-import HDWalletProvider from '@truffle/hdwallet-provider'
+// import HDWalletProvider from '@truffle/hdwallet-provider'
 import { LoggerInstance, LogLevel } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
@@ -79,10 +81,16 @@ if (process.env.NETWORK_NAME === 'mumbai') {
 
 if (process.env.SEED_WORDS) {
     const seedphrase = process.env.SEED_WORDS
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 10)
+    const node = HDNode.fromMnemonic(seedphrase)
+    const accounts : ethers.Wallet[] = []
+    for (let i = 0; i < 10; i++) {
+        const acc = node.derivePath("m/44'/60'/0'/0/"+i)
+        const wallet = new ethers.Wallet(acc.privateKey)
+        accounts.push(wallet)
+    }
+    configBase.accounts = accounts
+    // configBase.web3Provider = ethers.Wallet.fromMnemonic(seedphrase)
+    // configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 10)
 }
 
 export const config: Config & { forceVerbose: Config } = configBase as any

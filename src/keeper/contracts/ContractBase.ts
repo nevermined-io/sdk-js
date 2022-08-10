@@ -123,7 +123,7 @@ export abstract class ContractBase extends Instantiable {
         const methodSignature = this.getSignatureOfMethod(name, args)
 
         // get signer
-        const signer = this.web3.getSigner(from)
+        const signer = await this.findSigner(from)
         const contract = this.contract.connect(signer)
 
         // calculate gas cost
@@ -311,7 +311,7 @@ export abstract class ContractBase extends Instantiable {
                 maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
                 maxPriorityFeePerGas:
                     maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
-                type: '0x2'
+                type: 2
             }
         }
 
