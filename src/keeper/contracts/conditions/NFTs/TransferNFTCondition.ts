@@ -53,7 +53,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
                 ),
                 willBeTransferred
             ],
-            params: async method => {
+            params: async (method) => {
                 if (method === 'fulfillForDelegate') {
                     return [
                         didZeroX(did),
@@ -88,7 +88,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         if (!transfer) throw new Error('TransferNFT condition not found!')
         const nftHolder =
             providerId ||
-            (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
+            (transfer.parameters.find((p) => p.name === '_nftHolder').value as string)
         return this.params(
             ddo.shortId(),
             nftHolder,

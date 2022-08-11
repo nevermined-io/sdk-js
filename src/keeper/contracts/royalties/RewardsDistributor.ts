@@ -39,7 +39,7 @@ export class RewardsDistributor extends ContractBase {
         from?: Account,
         txParams?: TxParameters
     ) {
-        const amountsString = amounts.map(v => v.toString())
+        const amountsString = amounts.map((v) => v.toString())
         return this.sendFrom(
             'claimReward',
             [

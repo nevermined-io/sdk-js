@@ -16,7 +16,10 @@ interface ContractTest extends ethers.Contract {
 export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts() {
         TestContractHandler.setConfig(config)
-        const [deployerAddress] = await TestContractHandler.web3.listAccounts()
+        const [deployerAddress] = await TestContractHandler.addressesStatic(
+            TestContractHandler.config,
+            TestContractHandler.web3
+        )
         TestContractHandler.networkId = (
             await TestContractHandler.web3.getNetwork()
         ).chainId
@@ -82,7 +85,11 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         // Add dispenser as Token minter
         if (!token.$initialized) {
-            const signer = this.web3.getSigner(deployerAddress)
+            const signer = await TestContractHandler.findSignerStatic(
+                TestContractHandler.config,
+                TestContractHandler.web3,
+                deployerAddress
+            )
             const contract = token.connect(signer)
             const args = [TestContractHandler.minter, dispenser.address]
             const methodSignature = this.getSignatureOfMethod(contract, 'grantRole', args)
@@ -343,13 +350,17 @@ export default abstract class TestContractHandler extends ContractHandler {
         from: string,
         args: string[] = []
     ): Promise<ethers.Contract> {
-        const signer = this.web3.getSigner(from)
+        const signer = await TestContractHandler.findSignerStatic(
+            TestContractHandler.config,
+            TestContractHandler.web3,
+            from
+        )
         const contract = new ethers.ContractFactory(
             artifact.abi,
             artifact.bytecode,
             signer
         )
-        const isZos = contract.interface.fragments.some(f => f.name === 'initialize')
+        const isZos = contract.interface.fragments.some((f) => f.name === 'initialize')
 
         const argument = isZos ? [] : args
         let contractInstance: ethers.Contract
@@ -439,22 +450,29 @@ export default abstract class TestContractHandler extends ContractHandler {
         init = true
     ): Promise<ethers.Contract> {
         if (!from) {
-            ;[from] = await TestContractHandler.web3.listAccounts()
+            ;[from] = await TestContractHandler.addressesStatic(
+                TestContractHandler.config,
+                TestContractHandler.web3
+            )
         }
 
         const sendConfig = {
             gasLimit: 6721975,
-            gasPrice: '875000000'
+            gasPrice: '0x87500000'
         }
 
-        const signer = this.web3.getSigner(from)
+        const signer = await TestContractHandler.findSignerStatic(
+            TestContractHandler.config,
+            TestContractHandler.web3,
+            from
+        )
         const tempContract = new ethers.ContractFactory(
             artifact.abi,
             TestContractHandler.replaceTokens(artifact.bytecode, tokens),
             signer
         )
         const initializeExists = tempContract.interface.fragments.some(
-            f => f.name === 'initialize'
+            (f) => f.name === 'initialize'
         )
         const isZos = initializeExists && init
 
@@ -516,10 +534,10 @@ export default abstract class TestContractHandler extends ContractHandler {
         args: any[]
     ): string {
         const methods = contractInstace.interface.fragments.filter(
-            f => f.name === methodName
+            (f) => f.name === methodName
         )
         const foundMethod =
-            methods.find(f => f.inputs.length === args.length) || methods[0]
+            methods.find((f) => f.inputs.length === args.length) || methods[0]
         if (!foundMethod) {
             throw new Error(`Method "${methodName}" not found in contract`)
         }

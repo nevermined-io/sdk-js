@@ -79,32 +79,30 @@ export class AaveCredit extends Instantiable {
         if (!ddo) {
             throw Error(`Failed to resolve DDO for DID ${did}`)
         }
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            from.getId()
-        )
+        const agreementId =
+            await this.nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                from.getId()
+            )
 
-        const [
-            txReceipt,
-            vaultAddress,
-            data
-        ] = await this.template.createAgreementAndDeployVault(
-            agreementIdSeed,
-            ddo,
-            nftTokenContract,
-            nftAmount,
-            collateralToken,
-            collateralAmount,
-            delegatedToken,
-            delegatedAmount,
-            interestRateMode,
-            borrower,
-            lender,
-            timeLocks,
-            timeOuts,
-            txParams,
-            from
-        )
+        const [txReceipt, vaultAddress, data] =
+            await this.template.createAgreementAndDeployVault(
+                agreementIdSeed,
+                ddo,
+                nftTokenContract,
+                nftAmount,
+                collateralToken,
+                collateralAmount,
+                delegatedToken,
+                delegatedAmount,
+                interestRateMode,
+                borrower,
+                lender,
+                timeLocks,
+                timeOuts,
+                txParams,
+                from
+            )
         this.logger.log(
             `new Aave credit vault is deployed and a service agreement is created:
              status=${txReceipt.status}, vaultAddress=${vaultAddress}, agreementId=${agreementId}`
@@ -123,9 +121,8 @@ export class AaveCredit extends Instantiable {
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-            agreementId
-        )
+        const agreementData: AgreementData =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         if (!vaultAddress) {
             vaultAddress = await this.template.getAgreementVaultAddress(
                 agreementId,
@@ -157,11 +154,10 @@ export class AaveCredit extends Instantiable {
             from
         )
 
-        const {
-            state: stateNftLock
-        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
-            agreementData.conditionIds[0]
-        )
+        const { state: stateNftLock } =
+            await this.nevermined.keeper.conditionStoreManager.getCondition(
+                agreementData.conditionIds[0]
+            )
         return contractReceipt.status && stateNftLock === ConditionState.Fulfilled
     }
 
@@ -177,9 +173,8 @@ export class AaveCredit extends Instantiable {
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-            agreementId
-        )
+        const agreementData: AgreementData =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         if (!vaultAddress) {
             vaultAddress = await this.template.getAgreementVaultAddress(
                 agreementId,
@@ -211,23 +206,23 @@ export class AaveCredit extends Instantiable {
             )
         }
 
-        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
-            agreementId,
-            did,
-            vaultAddress,
-            collateralAsset,
-            _collateralAmount,
-            delegatedAsset,
-            _delegatedAmount,
-            interestRateMode,
-            from,
-            { value: _value }
-        )
-        const {
-            state: stateDeposit
-        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
-            agreementData.conditionIds[1]
-        )
+        const contractReceipt: ContractReceipt =
+            await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
+                agreementId,
+                did,
+                vaultAddress,
+                collateralAsset,
+                _collateralAmount,
+                delegatedAsset,
+                _delegatedAmount,
+                interestRateMode,
+                from,
+                { value: _value }
+            )
+        const { state: stateDeposit } =
+            await this.nevermined.keeper.conditionStoreManager.getCondition(
+                agreementData.conditionIds[1]
+            )
         if (stateDeposit !== ConditionState.Fulfilled) {
             return false
         }
@@ -245,9 +240,8 @@ export class AaveCredit extends Instantiable {
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-            agreementId
-        )
+        const agreementData: AgreementData =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         if (!vaultAddress) {
             vaultAddress = await this.template.getAgreementVaultAddress(
                 agreementId,
@@ -259,20 +253,20 @@ export class AaveCredit extends Instantiable {
         }
         const amount = BigNumber.parseEther(delegatedAmount.toString()).toString()
 
-        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
-            agreementId,
-            did,
-            vaultAddress,
-            delegatedAsset,
-            amount,
-            interestRateMode,
-            from
-        )
-        const {
-            state: stateBorrow
-        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
-            agreementData.conditionIds[2]
-        )
+        const contractReceipt: ContractReceipt =
+            await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
+                agreementId,
+                did,
+                vaultAddress,
+                delegatedAsset,
+                amount,
+                interestRateMode,
+                from
+            )
+        const { state: stateBorrow } =
+            await this.nevermined.keeper.conditionStoreManager.getCondition(
+                agreementData.conditionIds[2]
+            )
         if (stateBorrow !== ConditionState.Fulfilled) {
             return false
         }
@@ -288,9 +282,8 @@ export class AaveCredit extends Instantiable {
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-            agreementId
-        )
+        const agreementData: AgreementData =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         if (!did) {
             did = agreementData.did
         }
@@ -327,20 +320,20 @@ export class AaveCredit extends Instantiable {
 
         const weiAmount = BigNumber.parseEther(delegatedAmount.toString()).toString()
         // use the aaveRepayCondition to apply the repayment
-        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
-            agreementId,
-            did,
-            vaultAddress,
-            delegatedAsset,
-            weiAmount,
-            interestRateMode,
-            from
-        )
-        const {
-            state: stateRepay
-        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
-            agreementData.conditionIds[3]
-        )
+        const contractReceipt: ContractReceipt =
+            await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
+                agreementId,
+                did,
+                vaultAddress,
+                delegatedAsset,
+                weiAmount,
+                interestRateMode,
+                from
+            )
+        const { state: stateRepay } =
+            await this.nevermined.keeper.conditionStoreManager.getCondition(
+                agreementData.conditionIds[3]
+            )
         if (stateRepay !== ConditionState.Fulfilled) {
             return false
         }
@@ -359,9 +352,8 @@ export class AaveCredit extends Instantiable {
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-            agreementId
-        )
+        const agreementData: AgreementData =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         if (!did) {
             did = agreementData.did
         }
@@ -371,18 +363,18 @@ export class AaveCredit extends Instantiable {
             ).address
         }
 
-        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
-            agreementId,
-            did,
-            vaultAddress,
-            collateralAsset,
-            from
-        )
-        const {
-            state: stateWithdraw
-        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
-            agreementData.conditionIds[4]
-        )
+        const contractReceipt: ContractReceipt =
+            await this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
+                agreementId,
+                did,
+                vaultAddress,
+                collateralAsset,
+                from
+            )
+        const { state: stateWithdraw } =
+            await this.nevermined.keeper.conditionStoreManager.getCondition(
+                agreementData.conditionIds[4]
+            )
         if (stateWithdraw !== ConditionState.Fulfilled) {
             return false
         }
@@ -397,9 +389,8 @@ export class AaveCredit extends Instantiable {
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
-        const agreementData: AgreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-            agreementId
-        )
+        const agreementData: AgreementData =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         if (!did) {
             did = agreementData.did
         }
@@ -411,18 +402,18 @@ export class AaveCredit extends Instantiable {
         vaultAddress = vaultContract.address
 
         // use the distributeNftCollateralCondition to withdraw the lender's collateral
-        const contractReceipt: ContractReceipt = await this.nevermined.keeper.conditions.distributeNftCollateralCondition.fulfill(
-            agreementId,
-            did,
-            vaultAddress,
-            nftContractAddress,
-            from
-        )
-        const {
-            state: stateUnlock
-        } = await this.nevermined.keeper.conditionStoreManager.getCondition(
-            agreementData.conditionIds[5]
-        )
+        const contractReceipt: ContractReceipt =
+            await this.nevermined.keeper.conditions.distributeNftCollateralCondition.fulfill(
+                agreementId,
+                did,
+                vaultAddress,
+                nftContractAddress,
+                from
+            )
+        const { state: stateUnlock } =
+            await this.nevermined.keeper.conditionStoreManager.getCondition(
+                agreementData.conditionIds[5]
+            )
         if (stateUnlock !== ConditionState.Fulfilled) {
             return false
         }

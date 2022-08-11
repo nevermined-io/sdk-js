@@ -77,12 +77,12 @@ describe('EventHandler', () => {
                 (nevermined as any).web3.getBlockNumber()
             )
 
-            await new Promise(resolve => setTimeout(resolve, 300))
+            await new Promise((resolve) => setTimeout(resolve, 300))
 
             expect(callbackSpy).not.to.has.been.called()
             blockNumber++
 
-            await new Promise(resolve => setTimeout(resolve, 300))
+            await new Promise((resolve) => setTimeout(resolve, 300))
 
             expect(callbackSpy).to.has.been.called.with(blockNumber)
 

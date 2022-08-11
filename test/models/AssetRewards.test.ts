@@ -36,10 +36,7 @@ describe('AssetRewards', () => {
             )
             assert.equal(
                 7,
-                assetRewards
-                    .getRewards()
-                    .get('0x123')
-                    .toNumber(),
+                assetRewards.getRewards().get('0x123').toNumber(),
                 `Expected 7 for address 0x123`
             )
             assert.equal('["7"]', assetRewards.getAmountsString())
@@ -66,18 +63,12 @@ describe('AssetRewards', () => {
             )
             assert.equal(
                 10,
-                assetRewards
-                    .getRewards()
-                    .get('0x123')
-                    .toNumber(),
+                assetRewards.getRewards().get('0x123').toNumber(),
                 `Expected 10 for address 0x123`
             )
             assert.equal(
                 2,
-                assetRewards
-                    .getRewards()
-                    .get('0x456')
-                    .toNumber(),
+                assetRewards.getRewards().get('0x456').toNumber(),
                 `Expected 2 for address 0x456`
             )
             assert.equal('["10","2"]', assetRewards.getAmountsString())
@@ -102,10 +93,7 @@ describe('AssetRewards', () => {
         )
         assert.equal(
             1000000000000000,
-            assetRewards
-                .getRewards()
-                .get('0x123')
-                .toNumber(),
+            assetRewards.getRewards().get('0x123').toNumber(),
             `Expected 1000000000000000 for address 0x123`
         )
         assert.equal('["1000000000000000"]', assetRewards.getAmountsString())
