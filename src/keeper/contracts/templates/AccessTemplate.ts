@@ -38,11 +38,8 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
         creator: string,
         parameters: AccessTemplateParams
     ): Promise<AgreementInstance<AccessTemplateParams>> {
-        const {
-            accessCondition,
-            lockPaymentCondition,
-            escrowPaymentCondition
-        } = this.nevermined.keeper.conditions
+        const { accessCondition, lockPaymentCondition, escrowPaymentCondition } =
+            this.nevermined.keeper.conditions
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
 
@@ -59,12 +56,13 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
             agreementId,
             ctx
         )
-        const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId,
-            ctx,
-            accessConditionInstance,
-            lockPaymentConditionInstance
-        )
+        const escrowPaymentConditionInstance =
+            await escrowPaymentCondition.instanceFromDDO(
+                agreementId,
+                ctx,
+                accessConditionInstance,
+                lockPaymentConditionInstance
+            )
 
         return {
             instances: [

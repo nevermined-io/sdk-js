@@ -11,9 +11,7 @@ export interface EscrowComputeExecutionParams {
     consumerId: string
 }
 
-export class EscrowComputeExecutionTemplate extends BaseTemplate<
-    EscrowComputeExecutionParams
-> {
+export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeExecutionParams> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<EscrowComputeExecutionTemplate> {
@@ -62,12 +60,13 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
             agreementId,
             ctx
         )
-        const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId,
-            ctx,
-            computeConditionInstance,
-            lockPaymentConditionInstance
-        )
+        const escrowPaymentConditionInstance =
+            await escrowPaymentCondition.instanceFromDDO(
+                agreementId,
+                ctx,
+                computeConditionInstance,
+                lockPaymentConditionInstance
+            )
 
         return {
             instances: [

@@ -10,7 +10,7 @@ import TestContractHandler from '../TestContractHandler'
 import ERC721 from '../../../src/artifacts/ERC721.json'
 import { Nft721 } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
-import { Contract, ContractReceipt, Event, ethers } from 'ethers'
+import { Contract, ContractReceipt, Event } from 'ethers'
 import BigNumber from '../../../src/utils/BigNumber'
 
 chai.use(chaiAsPromised)
@@ -97,17 +97,12 @@ describe('NFT721LockCondition', () => {
             )
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
-            /*
             const nftBalance = await nft721Wrapper.balanceOf(lockAddress)
-            const one = BigNumber.from(1)
-            console.log(nftBalance instanceof ethers.BigNumber, one instanceof ethers.BigNumber)
-            console.log(nftBalance.constructor.prototype, one.constructor.prototype)
-            console.log(nftBalance._hex, nftBalance._isBigNumber, one._hex, one._isBigNumber)
-            console.log(JSON.stringify(nftBalance), JSON.stringify(BigNumber.from(1)), nftBalance._hex, nftBalance._isBigNumber)
             assert.deepEqual(nftBalance, BigNumber.from(1))
-            */
 
-            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const event: Event = contractReceipt.events.find(
+                (e) => e.event === 'Fulfilled'
+            )
             const {
                 _agreementId,
                 _did,

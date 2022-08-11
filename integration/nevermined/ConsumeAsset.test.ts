@@ -139,10 +139,11 @@ describe('Consume Asset', () => {
 
             assert.isTrue(granted, 'The asset has not been granted correctly')
 
-            const accessGranted = await nevermined.keeper.conditions.accessCondition.checkPermissions(
-                consumer.getId(),
-                ddo.id
-            )
+            const accessGranted =
+                await nevermined.keeper.conditions.accessCondition.checkPermissions(
+                    consumer.getId(),
+                    ddo.id
+                )
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
         } catch {}
@@ -182,7 +183,7 @@ describe('Consume Asset', () => {
 
         assert.include(path, folder, 'The storage path is not correct.')
 
-        const files = await new Promise<string[]>(resolve => {
+        const files = await new Promise<string[]>((resolve) => {
             fs.readdir(path, (e, fileList) => {
                 resolve(fileList)
             })
@@ -207,7 +208,7 @@ describe('Consume Asset', () => {
 
         assert.include(path, folder, 'The storage path is not correct.')
 
-        const files = await new Promise<string[]>(resolve => {
+        const files = await new Promise<string[]>((resolve) => {
             fs.readdir(path, (e, fileList) => {
                 resolve(fileList)
             })

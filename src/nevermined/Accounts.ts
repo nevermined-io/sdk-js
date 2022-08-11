@@ -24,14 +24,19 @@ export class Accounts extends Instantiable {
      */
     public async list(): Promise<Account[]> {
         // retrieve eth accounts
-        const ethAccounts: string[] = await this.web3.listAccounts()
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await this.web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
         const addresses: string[] = await Promise.all(
-            (this.config.accounts || []).map(a => a.getAddress())
+            (this.config.accounts || []).map((a) => a.getAddress())
         )
 
         return addresses
             .concat(ethAccounts)
-            .map(address => new Account(address, this.instanceConfig))
+            .map((address) => new Account(address, this.instanceConfig))
     }
 
     /**
@@ -45,7 +50,7 @@ export class Accounts extends Instantiable {
         const ethAccounts: string[] = await this.web3.listAccounts()
 
         const accountPromises = ethAccounts.map(
-            address => new Account(address, this.instanceConfig)
+            (address) => new Account(address, this.instanceConfig)
         )
         return Promise.all(accountPromises)
     }

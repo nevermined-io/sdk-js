@@ -22,7 +22,7 @@ describe('ContractHandler', () => {
             )
         })
 
-        it('should fail to load an unknown contract', done => {
+        it('should fail to load an unknown contract', (done) => {
             contractHandler
                 .get(
                     'NeverminedXXX',

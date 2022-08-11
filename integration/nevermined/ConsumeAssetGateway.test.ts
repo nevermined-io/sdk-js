@@ -66,7 +66,7 @@ describe('Consume Asset (Gateway)', () => {
         const steps = []
         ddo = await nevermined.assets
             .create(metadata, publisher, assetRewards)
-            .next(step => steps.push(step))
+            .next((step) => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 11])
@@ -79,7 +79,7 @@ describe('Consume Asset (Gateway)', () => {
         const steps = []
         agreementId = await nevermined.assets
             .order(ddo.id, 'access', consumer)
-            .next(step => steps.push(step))
+            .next((step) => steps.push(step))
 
         assert.isDefined(agreementId)
         assert.deepEqual(steps, [0, 1, 2, 3])
@@ -107,7 +107,7 @@ describe('Consume Asset (Gateway)', () => {
             false
         )
         assert.include(path, folder, 'The storage path is not correct.')
-        const files = await new Promise<string[]>(resolve => {
+        const files = await new Promise<string[]>((resolve) => {
             fs.readdir(path, (e, fileList) => {
                 resolve(fileList)
             })
@@ -133,7 +133,7 @@ describe('Consume Asset (Gateway)', () => {
 
         assert.include(path, folder, 'The storage path is not correct.')
 
-        const files = await new Promise<string[]>(resolve => {
+        const files = await new Promise<string[]>((resolve) => {
             fs.readdir(path, (e, fileList) => {
                 resolve(fileList)
             })

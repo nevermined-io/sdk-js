@@ -51,7 +51,7 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
                 nftTokenAddress,
                 willBeTransferred
             ],
-            params: async method => {
+            params: async (method) => {
                 if (method === 'fulfill') {
                     return [
                         didZeroX(did),
@@ -83,13 +83,14 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         if (!transfer) throw new Error('TransferNFT condition not found!')
 
         const nft = await this.nevermined.contracts.loadNft721(
-            transfer.parameters.find(p => p.name === '_contractAddress').value as string
+            transfer.parameters.find((p) => p.name === '_contractAddress').value as string
         )
-        const nftHolder = transfer.parameters.find(p => p.name === '_nftHolder')
+        const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder')
             .value as string
 
-        const nftTransferString = transfer.parameters.find(p => p.name === '_nftTransfer')
-            .value as string
+        const nftTransferString = transfer.parameters.find(
+            (p) => p.name === '_nftTransfer'
+        ).value as string
         return this.params(
             ddo.shortId(),
             nftHolder,

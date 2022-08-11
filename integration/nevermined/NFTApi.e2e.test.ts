@@ -49,7 +49,6 @@ describe('NFTs Api End-to-End', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        // console.log(await nevermined.accounts.list())
         ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
@@ -68,7 +67,7 @@ describe('NFTs Api End-to-End', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map(v => v.mul(scale))
+        amounts = amounts.map((v) => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -102,7 +101,6 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            console.log(balance, BigNumber.from(5))
             assert.deepEqual(balance, BigNumber.from(5))
         })
 

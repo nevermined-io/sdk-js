@@ -13,9 +13,7 @@ export interface DistributeNFTCollateralConditionContext extends ConditionContex
  * Condition allowing to transfer an NFT either to the original owner or a lender
  * depending on the loan status.
  */
-export class DistributeNFTCollateralCondition extends Condition<
-    DistributeNFTCollateralConditionContext
-> {
+export class DistributeNFTCollateralCondition extends Condition<DistributeNFTCollateralConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<DistributeNFTCollateralCondition> {

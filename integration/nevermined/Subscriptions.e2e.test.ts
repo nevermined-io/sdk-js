@@ -77,7 +77,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         subscriptionPrice = subscriptionPrice.mul(scale)
-        amounts = amounts.map(v => v.mul(scale))
+        amounts = amounts.map((v) => v.mul(scale))
         receivers = [editor.getId(), reseller.getId()]
         assetRewards1 = new AssetRewards(
             new Map([

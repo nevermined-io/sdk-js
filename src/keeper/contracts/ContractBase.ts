@@ -254,10 +254,10 @@ export abstract class ContractBase extends Instantiable {
 
     private searchMethod(methodName: string, args: any[] = []) {
         const methods = this.contract.interface.fragments.filter(
-            f => f.name === methodName
+            (f) => f.name === methodName
         )
         const foundMethod =
-            methods.find(f => f.inputs.length === args.length) || methods[0]
+            methods.find((f) => f.inputs.length === args.length) || methods[0]
         if (!foundMethod) {
             throw new KeeperError(
                 `Method "${methodName}" is not part of contract "${this.contractName}"`

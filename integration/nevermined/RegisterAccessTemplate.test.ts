@@ -46,21 +46,14 @@ describe('Register Escrow Access Secret Store Template', () => {
         ;({ token } = keeper)
 
         // Accounts
-        ;[
-            templateManagerOwner,
-            publisher,
-            consumer,
-            provider
-        ] = await nevermined.accounts.list()
+        ;[templateManagerOwner, publisher, consumer, provider] =
+            await nevermined.accounts.list()
 
         receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
-        ;({
-            accessCondition,
-            lockPaymentCondition,
-            escrowPaymentCondition
-        } = keeper.conditions)
+        ;({ accessCondition, lockPaymentCondition, escrowPaymentCondition } =
+            keeper.conditions)
     })
 
     describe('Propose and approve template', () => {
@@ -170,10 +163,10 @@ describe('Register Escrow Access Secret Store Template', () => {
                 EscrowPaymentCondition,
                 LockPaymentCondition
             ]
-            conditionClasses.forEach(conditionClass => {
+            conditionClasses.forEach((conditionClass) => {
                 if (
                     !conditionInstances.find(
-                        condition => condition instanceof conditionClass
+                        (condition) => condition instanceof conditionClass
                     )
                 ) {
                     throw new Error(
@@ -228,7 +221,7 @@ describe('Register Escrow Access Secret Store Template', () => {
             )
 
             assert.isTrue(
-                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                contractReceipt.events.some((e) => e.event === 'Fulfilled'),
                 'Not Fulfilled event.'
             )
         })
@@ -242,7 +235,7 @@ describe('Register Escrow Access Secret Store Template', () => {
             )
 
             assert.isTrue(
-                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                contractReceipt.events.some((e) => e.event === 'Fulfilled'),
                 'Not Fulfilled event.'
             )
         })
@@ -262,7 +255,7 @@ describe('Register Escrow Access Secret Store Template', () => {
             )
 
             assert.isTrue(
-                contractReceipt.events.some(e => e.event === 'Fulfilled'),
+                contractReceipt.events.some((e) => e.event === 'Fulfilled'),
                 'Not Fulfilled event.'
             )
         })
