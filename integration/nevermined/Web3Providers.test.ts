@@ -5,8 +5,6 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account } from '../../src'
 
-// import HDWalletProvider from '@truffle/hdwallet-provider'
-
 import * as keyFile from '../KeyFile.json'
 import { ethers } from 'ethers'
 import { HDNode } from 'ethers/lib/utils'
@@ -24,14 +22,6 @@ describe('Web3Providers', () => {
             accounts.push(wallet)
         }
         config.accounts = accounts
-        /*
-        config.web3Provider = new HDWalletProvider(
-            process.env.SEED_WORDS,
-            config.nodeUri,
-            0,
-            10
-        )
-        */
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts

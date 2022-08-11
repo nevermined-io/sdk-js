@@ -23,6 +23,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { NFTError } from '../errors'
 import { NftTypes } from '../gateway/Gateway'
 import BigNumber from '../utils/BigNumber'
+import { ethers } from 'ethers'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -434,8 +435,22 @@ export class Nfts extends Instantiable {
         return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
     }
 
-    public async ownerOf(did: string, nftTokenAddress: string) {
-        return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(did)
+    public async ownerOf(did: string, nftTokenAddress: string, agreementId?: string) {
+        if (!agreementId) {
+            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
+                did
+            )
+        } else {
+            const tokenId = ethers.utils.keccak256(
+                ethers.utils.defaultAbiCoder.encode(
+                    ['bytes32', 'bytes32'],
+                    [zeroX(did), zeroX(agreementId)]
+                )
+            )
+            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
+                tokenId
+            )
+        }
     }
 
     /**

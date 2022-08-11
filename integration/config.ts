@@ -1,7 +1,6 @@
 import { ethers } from 'ethers'
 import { HDNode } from 'ethers/lib/utils'
 import { Config } from '../src'
-// import HDWalletProvider from '@truffle/hdwallet-provider'
 import { LoggerInstance, LogLevel } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)

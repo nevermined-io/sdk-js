@@ -8,10 +8,9 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import SubscriptionNFT from '../../src/artifacts/NFT721SubscriptionUpgradeable.json'
-import { ethers, utils } from 'ethers'
+import { ethers } from 'ethers'
 import SubscriptionNft721 from '../../src/keeper/contracts/SubscriptionNft721'
 import BigNumber from '../../src/utils/BigNumber'
-import { zeroX } from '../../src/utils'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -99,7 +98,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     describe('As an editor I want to register new content and provide a subscriptions to my content', () => {
         it('I want to register a subscriptions NFT that gives acess to exclusive contents to the holders', async () => {
             // Deploy NFT
-            console.log(config.accounts)
             TestContractHandler.setConfig(config)
             nft = await TestContractHandler.deployAbi(SubscriptionNFT, editor.getId(), [
                 'Subscription',
@@ -203,15 +201,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             )
             assert.isTrue(receipt)
 
-            const tokenId = utils.keccak256(
-                utils.defaultAbiCoder.encode(
-                    ['bytes32', 'bytes32'],
-                    [zeroX(subscriptionDDO.shortId()), agreementId]
-                )
-            )
-
             assert.equal(
-                await nevermined.nfts.ownerOf(tokenId, nft.address),
+                await nevermined.nfts.ownerOf(
+                    subscriptionDDO.shortId(),
+                    nft.address,
+                    agreementId
+                ),
                 subscriber.getId()
             )
         })
