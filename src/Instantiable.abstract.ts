@@ -112,6 +112,19 @@ export abstract class Instantiable {
         return this.web3.getSigner(from)
     }
 
+    public async addresses(): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await this.web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (this.config.accounts || []).map((a) => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
     public static getInstance(...args: any[]): any
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
