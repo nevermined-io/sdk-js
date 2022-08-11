@@ -105,11 +105,23 @@ export abstract class Instantiable {
     public async findSigner(from: string): Promise<ethers.Signer> {
         for (const acc of this.config.accounts || []) {
             const addr = await acc.getAddress()
-            if (addr === from) {
+            if (addr.toLowerCase() === from.toLowerCase()) {
                 return acc.connect(this.web3)
             }
         }
+        // console.log('cannot find', from)
         return this.web3.getSigner(from)
+    }
+
+    public static async findSignerStatic(config: Config, web3: ethers.providers.JsonRpcProvider, from: string): Promise<ethers.Signer> {
+        for (const acc of config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(web3)
+            }
+        }
+        console.log('cannot find', from, config.accounts)
+        return web3.getSigner(from)
     }
 
     public async addresses(): Promise<string[]> {
