@@ -9,9 +9,7 @@ export interface AaveCollateralWithdrawConditionContext extends ConditionContext
     collateralAsset: string
 }
 
-export class AaveCollateralWithdrawCondition extends Condition<
-    AaveCollateralWithdrawConditionContext
-> {
+export class AaveCollateralWithdrawCondition extends Condition<AaveCollateralWithdrawConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralWithdrawCondition> {

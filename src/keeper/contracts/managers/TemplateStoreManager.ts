@@ -71,12 +71,10 @@ export class TemplateStoreManager extends ContractBase {
     }
 
     public async getTemplate(templateId: string) {
-        const {
-            state,
-            owner,
-            lastUpdatedBy,
-            blockNumberUpdated
-        } = await this.call('getTemplate', [zeroX(templateId)])
+        const { state, owner, lastUpdatedBy, blockNumberUpdated } = await this.call(
+            'getTemplate',
+            [zeroX(templateId)]
+        )
         return {
             state: +state,
             owner,

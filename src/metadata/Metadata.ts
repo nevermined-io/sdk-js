@@ -60,7 +60,7 @@ export class Metadata extends MarketplaceApi {
                 this.logger.log('Success accessing consume endpoint: ', consumptionUrl)
                 return consumptionUrl
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -84,10 +84,10 @@ export class Metadata extends MarketplaceApi {
                     response.status
                 )
             })
-            .then(results => {
+            .then((results) => {
                 return this.transformResult(results)
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -113,7 +113,7 @@ export class Metadata extends MarketplaceApi {
                     response.status
                 )
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -139,10 +139,10 @@ export class Metadata extends MarketplaceApi {
                     response.status
                 )
             })
-            .then(results => {
+            .then((results) => {
                 return this.transformResult(results)
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -172,7 +172,7 @@ export class Metadata extends MarketplaceApi {
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -203,7 +203,7 @@ export class Metadata extends MarketplaceApi {
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -236,7 +236,7 @@ export class Metadata extends MarketplaceApi {
             .then((response: DDO) => {
                 return new DDO(response) as DDO
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -282,7 +282,7 @@ export class Metadata extends MarketplaceApi {
             .then((response: DDOStatus) => {
                 return response as DDOStatus
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -315,7 +315,7 @@ export class Metadata extends MarketplaceApi {
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
 
@@ -351,7 +351,7 @@ export class Metadata extends MarketplaceApi {
             .then((response: ServiceSecondary) => {
                 return response as ServiceSecondary
             })
-            .catch(error => {
+            .catch((error) => {
                 throw new ApiError(error)
             })
         return result
@@ -371,7 +371,7 @@ export class Metadata extends MarketplaceApi {
         }
     ): QueryResult {
         return {
-            results: (results || []).map(ddo => new DDO(ddo as DDO)),
+            results: (results || []).map((ddo) => new DDO(ddo as DDO)),
             page,
             totalPages,
             totalResults

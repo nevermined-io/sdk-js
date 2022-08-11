@@ -349,7 +349,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             artifact.bytecode,
             signer
         )
-        const isZos = contract.interface.fragments.some(f => f.name === 'initialize')
+        const isZos = contract.interface.fragments.some((f) => f.name === 'initialize')
 
         const argument = isZos ? [] : args
         let contractInstance: ethers.Contract
@@ -454,7 +454,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             signer
         )
         const initializeExists = tempContract.interface.fragments.some(
-            f => f.name === 'initialize'
+            (f) => f.name === 'initialize'
         )
         const isZos = initializeExists && init
 
@@ -516,10 +516,10 @@ export default abstract class TestContractHandler extends ContractHandler {
         args: any[]
     ): string {
         const methods = contractInstace.interface.fragments.filter(
-            f => f.name === methodName
+            (f) => f.name === methodName
         )
         const foundMethod =
-            methods.find(f => f.inputs.length === args.length) || methods[0]
+            methods.find((f) => f.inputs.length === args.length) || methods[0]
         if (!foundMethod) {
             throw new Error(`Method "${methodName}" not found in contract`)
         }

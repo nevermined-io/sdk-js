@@ -55,7 +55,7 @@ describe('Publisher Download Asset', () => {
 
         assert.include(path, folder, 'The storage path is not correct.')
 
-        const files = await new Promise<string[]>(resolve => {
+        const files = await new Promise<string[]>((resolve) => {
             fs.readdir(path, (e, fileList) => {
                 resolve(fileList)
             })
@@ -74,7 +74,7 @@ describe('Publisher Download Asset', () => {
 
         assert.include(path, folder, 'The storage path is not correct.')
 
-        const files = await new Promise<string[]>(resolve => {
+        const files = await new Promise<string[]>((resolve) => {
             fs.readdir(path, (e, fileList) => {
                 resolve(fileList)
             })

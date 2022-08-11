@@ -105,20 +105,19 @@ export interface ServiceSecondary extends Service {
     did: string
 }
 
-export type Service<
-    T extends ServiceType | 'default' = 'default'
-> = T extends 'authorization'
-    ? ServiceAuthorization
-    : T extends 'metadata'
-    ? ServiceMetadata
-    : T extends 'access'
-    ? ServiceAccess
-    : T extends 'access-proof'
-    ? ServiceAccessProof
-    : T extends 'compute'
-    ? ServiceCompute
-    : T extends 'aave-credit'
-    ? ServiceAaveCredit
-    : T extends 'default'
-    ? ServiceCommon
-    : ServiceCommon
+export type Service<T extends ServiceType | 'default' = 'default'> =
+    T extends 'authorization'
+        ? ServiceAuthorization
+        : T extends 'metadata'
+        ? ServiceMetadata
+        : T extends 'access'
+        ? ServiceAccess
+        : T extends 'access-proof'
+        ? ServiceAccessProof
+        : T extends 'compute'
+        ? ServiceCompute
+        : T extends 'aave-credit'
+        ? ServiceAaveCredit
+        : T extends 'default'
+        ? ServiceCommon
+        : ServiceCommon

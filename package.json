@@ -102,7 +102,7 @@
     "mock-local-storage": "^1.1.15",
     "nyc": "^14.1.1",
     "ora": "^4.1.1",
-    "prettier": "^1.19.1",
+    "prettier": "^2.7.1",
     "resolve-url-loader": "^5.0.0",
     "source-map-support": "^0.5.19",
     "stream-browserify": "^3.0.0",

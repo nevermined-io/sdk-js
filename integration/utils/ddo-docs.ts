@@ -5,11 +5,11 @@ const fetch = require('node-fetch').default
 
 const getMetadataFromUrl = (url: string) => async (): Promise<MetaData> =>
     transformMetadata(
-        JSON.parse(await fetch(url).then(res => res.text())).service[0].attributes
+        JSON.parse(await fetch(url).then((res) => res.text())).service[0].attributes
     )
 
 const getFromUrl = (url: string) => async (): Promise<MetaData> =>
-    transformMetadata(JSON.parse(await fetch(url).then(res => res.text())))
+    transformMetadata(JSON.parse(await fetch(url).then((res) => res.text())))
 
 export const getDocsCommonMetadata = getFromUrl(
     'https://raw.githubusercontent.com/nevermined-io/docs/master/docs/architecture/specs/examples/metadata/v0.1/metadata1.json'

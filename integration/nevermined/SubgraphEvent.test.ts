@@ -45,9 +45,9 @@ describe('SubgraphEvent', () => {
         let validResolve = false
         let subscription
 
-        const waitUntilEvent = new Promise(resolve => {
+        const waitUntilEvent = new Promise((resolve) => {
             subscription = nevermined.keeper.token.events.subscribe(
-                events => {
+                (events) => {
                     assert.isDefined(events)
                     assert.isAtLeast(events.length, 1)
                     if (validResolve) {
@@ -121,7 +121,7 @@ describe('SubgraphEvent', () => {
     it('should get the event like a promise', async () => {
         const event = nevermined.keeper.token.events
 
-        const waitUntilEvent = event.once(events => events, {
+        const waitUntilEvent = event.once((events) => events, {
             methodName: 'getTransfers',
             filterSubgraph: {
                 where: {

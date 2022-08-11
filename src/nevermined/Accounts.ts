@@ -27,7 +27,7 @@ export class Accounts extends Instantiable {
         const ethAccounts: string[] = await this.web3.listAccounts()
 
         const accountPromises = ethAccounts.map(
-            address => new Account(address, this.instanceConfig)
+            (address) => new Account(address, this.instanceConfig)
         )
         return Promise.all(accountPromises)
     }
@@ -43,7 +43,7 @@ export class Accounts extends Instantiable {
         const ethAccounts: string[] = await this.web3.listAccounts()
 
         const accountPromises = ethAccounts.map(
-            address => new Account(address, this.instanceConfig)
+            (address) => new Account(address, this.instanceConfig)
         )
         return Promise.all(accountPromises)
     }
