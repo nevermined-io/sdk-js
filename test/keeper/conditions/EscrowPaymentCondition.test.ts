@@ -36,11 +36,11 @@ describe('EscrowPaymentCondition', () => {
                 amounts,
                 receivers
             )
-            .catch(e => {
+            .catch((e) => {
                 console.log(e)
                 throw e
             })
-            .then(v => {
+            .then((v) => {
                 return v
             })
         releaseCondition = await keeper.conditions.accessCondition.generateIdHash(

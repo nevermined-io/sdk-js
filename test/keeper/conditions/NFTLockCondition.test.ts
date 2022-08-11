@@ -116,9 +116,11 @@ describe('NFTLockCondition', () => {
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
             const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
-            assert.deepEqual(nftBalance, BigNumber.from(amount))
+            assert.deepEqual(BigNumber.from(nftBalance), BigNumber.from(amount))
 
-            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const event: Event = contractReceipt.events.find(
+                (e) => e.event === 'Fulfilled'
+            )
             const { _agreementId, _did, _lockAddress, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))

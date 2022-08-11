@@ -19,7 +19,7 @@ describe('AccessTemplate', () => {
 
         const conditions = await template.getConditions()
         condition = conditions.find(
-            condition => condition.contractName === 'LockPaymentCondition'
+            (condition) => condition.contractName === 'LockPaymentCondition'
         )
     })
 

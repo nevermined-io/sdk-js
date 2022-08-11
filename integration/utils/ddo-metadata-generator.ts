@@ -15,8 +15,7 @@ const metadata: Partial<MetaData> = {
             {
                 index: 0,
                 contentType: 'application/json',
-                url:
-                    'https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/examples/ddo-example.json'
+                url: 'https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/examples/ddo-example.json'
             },
             {
                 index: 1,

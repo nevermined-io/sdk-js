@@ -30,7 +30,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
         lockCondition: string,
         releaseCondition: string
     ) {
-        const amountsString = amounts.map(v => v.toString())
+        const amountsString = amounts.map((v) => v.toString())
         return super.params(
             didZeroX(did),
             amountsString,
@@ -54,7 +54,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
             rewards.getReceivers(),
             consumerId,
             this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
-            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
+            escrow.parameters.find((p) => p.name === '_tokenAddress').value as string,
             lock.id,
             access.id
         )
@@ -73,7 +73,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
         from?: Account,
         txParams?: TxParameters
     ) {
-        const amountsString = amounts.map(v => v.toString())
+        const amountsString = amounts.map((v) => v.toString())
         return super.fulfillPlain(
             agreementId,
             [

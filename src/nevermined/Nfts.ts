@@ -23,6 +23,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { NFTError } from '../errors'
 import { NftTypes } from '../gateway/Gateway'
 import BigNumber from '../utils/BigNumber'
+import { ethers } from 'ethers'
 
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
@@ -199,7 +200,7 @@ export class Nfts extends Instantiable {
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
-        return new SubscribablePromise<OrderProgressStep, string>(async observer => {
+        return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
             const { nftSalesTemplate } = this.nevermined.keeper.templates
 
             const agreementIdSeed = zeroX(generateId())
@@ -214,7 +215,7 @@ export class Nfts extends Instantiable {
                 consumer,
                 undefined,
                 txParams,
-                a => observer.next(a)
+                (a) => observer.next(a)
             )
             if (!agreementId) {
                 throw new NFTError('Error creating nft-sales agreement')
@@ -229,23 +230,24 @@ export class Nfts extends Instantiable {
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
-        return new SubscribablePromise<OrderProgressStep, string>(async observer => {
+        return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
             const { nft721SalesTemplate } = this.nevermined.keeper.templates
 
             const agreementIdSeed = zeroX(generateId())
             const ddo = await this.nevermined.assets.resolve(did)
 
             this.logger.log('Creating nft721-sales agreement')
-            const agreementId = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
-                agreementIdSeed,
-                ddo,
-                nft721SalesTemplate.params(consumer.getId()),
-                consumer,
-                consumer,
-                undefined,
-                txParams,
-                a => observer.next(a)
-            )
+            const agreementId =
+                await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
+                    agreementIdSeed,
+                    ddo,
+                    nft721SalesTemplate.params(consumer.getId()),
+                    consumer,
+                    consumer,
+                    undefined,
+                    txParams,
+                    (a) => observer.next(a)
+                )
             if (!agreementId) {
                 throw new NFTError('Error creating nft721-sales agreement')
             }
@@ -433,8 +435,22 @@ export class Nfts extends Instantiable {
         return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
     }
 
-    public async ownerOf(did: string, nftTokenAddress: string) {
-        return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(did)
+    public async ownerOf(did: string, nftTokenAddress: string, agreementId?: string) {
+        if (!agreementId) {
+            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
+                did
+            )
+        } else {
+            const tokenId = ethers.utils.keccak256(
+                ethers.utils.defaultAbiCoder.encode(
+                    ['bytes32', 'bytes32'],
+                    [zeroX(did), zeroX(agreementId)]
+                )
+            )
+            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
+                tokenId
+            )
+        }
     }
 
     /**
@@ -445,9 +461,8 @@ export class Nfts extends Instantiable {
      */
     public async details(did: string) {
         const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
-        const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(
-            did
-        )
+        const royaltySchemeAddress =
+            await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
         let royalties = Number(details[8])
         let royaltyScheme = RoyaltyKind.Legacy
         if (
@@ -482,11 +497,11 @@ export class Nfts extends Instantiable {
         const service = ddo.findServiceByType('nft721-access')
         if (!!service) {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
-                c => c.name === 'nftHolder'
+                (c) => c.name === 'nftHolder'
             )
             return !cond
                 ? null
-                : cond.parameters.find(p => p.name === '_contractAddress').value
+                : cond.parameters.find((p) => p.name === '_contractAddress').value
         }
         return null
     }
@@ -577,8 +592,10 @@ export class Nfts extends Instantiable {
     ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const agreementIdSeed = zeroX(utils.generateId())
-        const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
-        const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
+        const nftSalesServiceAgreementTemplate =
+            await nftSalesTemplate.getServiceAgreementTemplate()
+        const nftSalesTemplateConditions =
+            await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
         nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
             nftSalesTemplateConditions,
@@ -668,7 +685,7 @@ export class Nfts extends Instantiable {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
             consumer,
             params
         )
@@ -694,10 +711,11 @@ export class Nfts extends Instantiable {
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
         ddo.updateService(this.nevermined, service)
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            consumer.getId()
-        )
+        const agreementId =
+            await this.nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                consumer.getId()
+            )
 
         let receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,

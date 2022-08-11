@@ -27,9 +27,9 @@ describe('ContractEvent', () => {
             let subscription: ContractEventSubscription
             const fromBlock = await web3.getBlockNumber()
 
-            const waitForEvents = new Promise(resolve => {
+            const waitForEvents = new Promise((resolve) => {
                 subscription = nevermined.keeper.token.events.subscribe(
-                    events => {
+                    (events) => {
                         assert.isDefined(events)
                         assert.isAtLeast(events.length, 1)
 
@@ -61,7 +61,7 @@ describe('ContractEvent', () => {
         it('should listen to event only once', async () => {
             const fromBlock = await web3.getBlockNumber()
 
-            const eventsPromise = nevermined.keeper.token.events.once(e => e, {
+            const eventsPromise = nevermined.keeper.token.events.once((e) => e, {
                 eventName: 'Transfer',
                 filterJsonRpc: { to: account4.getId() },
                 fromBlock: fromBlock,

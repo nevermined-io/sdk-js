@@ -61,7 +61,7 @@ export class Versions extends Instantiable {
             network: (await this.nevermined.keeper.getNetworkName()).toLowerCase(),
             keeperVersion: this.nevermined.keeper.version,
             contracts: Object.values(await this.nevermined.keeper.getAllInstances())
-                .filter(_ => !!_)
+                .filter((_) => !!_)
                 .reduce(
                     (acc, { contractName, address }) => ({
                         ...acc,
@@ -99,10 +99,8 @@ export class Versions extends Instantiable {
 
         // Metadata
         try {
-            const {
-                software: name,
-                version
-            } = await this.nevermined.metadata.getVersionInfo()
+            const { software: name, version } =
+                await this.nevermined.metadata.getVersionInfo()
             versions.metadata = {
                 name,
                 status: PlatformTechStatus.Working,
@@ -120,19 +118,19 @@ export class Versions extends Instantiable {
 
         const networks = techs
             .map(({ network }) => network)
-            .filter(_ => !!_)
+            .filter((_) => !!_)
             .reduce((acc, network) => ({ ...acc, [network]: true }), {})
 
         let contractStatus = true
-        const contractList = techs.map(({ contracts }) => contracts).filter(_ => !!_)
+        const contractList = techs.map(({ contracts }) => contracts).filter((_) => !!_)
         Array.from(contractList.map(Object.keys))
             .reduce((acc, _) => [...acc, ..._], [])
             .filter((_, i, list) => list.indexOf(_) === i)
-            .forEach(name => {
+            .forEach((name) => {
                 let address
                 contractList
-                    .map(_ => _[name])
-                    .forEach(_ => {
+                    .map((_) => _[name])
+                    .forEach((_) => {
                         if (!address) {
                             address = _
                             return

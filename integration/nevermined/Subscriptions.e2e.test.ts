@@ -11,7 +11,6 @@ import SubscriptionNFT from '../../src/artifacts/NFT721SubscriptionUpgradeable.j
 import { ethers } from 'ethers'
 import SubscriptionNft721 from '../../src/keeper/contracts/SubscriptionNft721'
 import BigNumber from '../../src/utils/BigNumber'
-import { zeroX } from '../../src/utils'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -77,7 +76,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         subscriptionPrice = subscriptionPrice.mul(scale)
-        amounts = amounts.map(v => v.mul(scale))
+        amounts = amounts.map((v) => v.mul(scale))
         receivers = [editor.getId(), reseller.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -204,8 +203,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
             assert.equal(
                 await nevermined.nfts.ownerOf(
-                    zeroX(subscriptionDDO.shortId()),
-                    nft.address
+                    subscriptionDDO.shortId(),
+                    nft.address,
+                    agreementId
                 ),
                 subscriber.getId()
             )

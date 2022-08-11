@@ -100,7 +100,9 @@ describe('NFT721LockCondition', () => {
             const nftBalance = await nft721Wrapper.balanceOf(lockAddress)
             assert.deepEqual(nftBalance, BigNumber.from(1))
 
-            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const event: Event = contractReceipt.events.find(
+                (e) => e.event === 'Fulfilled'
+            )
             const {
                 _agreementId,
                 _did,

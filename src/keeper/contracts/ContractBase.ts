@@ -89,7 +89,7 @@ export abstract class ContractBase extends Instantiable {
 
     protected async getFromAddress(from?: string): Promise<string> {
         if (!from) {
-            ;[from] = await this.web3.listAccounts()
+            ;[from] = await this.addresses()
         }
         return from
     }
@@ -123,7 +123,7 @@ export abstract class ContractBase extends Instantiable {
         const methodSignature = this.getSignatureOfMethod(name, args)
 
         // get signer
-        const signer = this.web3.getSigner(from)
+        const signer = await this.findSigner(from)
         const contract = this.contract.connect(signer)
 
         // calculate gas cost
@@ -254,10 +254,10 @@ export abstract class ContractBase extends Instantiable {
 
     private searchMethod(methodName: string, args: any[] = []) {
         const methods = this.contract.interface.fragments.filter(
-            f => f.name === methodName
+            (f) => f.name === methodName
         )
         const foundMethod =
-            methods.find(f => f.inputs.length === args.length) || methods[0]
+            methods.find((f) => f.inputs.length === args.length) || methods[0]
         if (!foundMethod) {
             throw new KeeperError(
                 `Method "${methodName}" is not part of contract "${this.contractName}"`
@@ -311,7 +311,7 @@ export abstract class ContractBase extends Instantiable {
                 maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
                 maxPriorityFeePerGas:
                     maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
-                type: '0x2'
+                type: 2
             }
         }
 

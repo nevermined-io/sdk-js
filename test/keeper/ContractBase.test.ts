@@ -19,25 +19,25 @@ describe('ContractWrapperBase', () => {
     })
 
     describe('#call()', () => {
-        it('should fail to call on an unknown contract function', done => {
+        it('should fail to call on an unknown contract function', (done) => {
             wrappedContract.callMock('balanceOfxxx', []).catch(() => {
                 done()
             })
         })
 
-        it('should fail to call on an contract function with wrong set of parameters', done => {
+        it('should fail to call on an contract function with wrong set of parameters', (done) => {
             wrappedContract.callMock('balanceOf', []).catch(() => {
                 done()
             })
         })
 
-        it('should fail to call on an unknown contract function', done => {
+        it('should fail to call on an unknown contract function', (done) => {
             wrappedContract.sendMock('balanceOfxxx', '0x00', ['0x00']).catch(() => {
                 done()
             })
         })
 
-        it('should fail to call on an contract function with wrong set of parameters', done => {
+        it('should fail to call on an contract function with wrong set of parameters', (done) => {
             wrappedContract.sendMock('approve', '0x000', []).catch(() => {
                 done()
             })
@@ -45,7 +45,7 @@ describe('ContractWrapperBase', () => {
     })
 
     describe('#send()', () => {
-        it('should fail to call on an unknown contract function', done => {
+        it('should fail to call on an unknown contract function', (done) => {
             wrappedContract.sendMock('transferxxx', accounts[0].getId(), []).catch(() => {
                 done()
             })
@@ -61,7 +61,7 @@ describe('ContractWrapperBase', () => {
     })
 
     describe('#getEventData()', () => {
-        it('should fail on unknown event', done => {
+        it('should fail on unknown event', (done) => {
             wrappedContract.events
                 .getEventData({ eventName: 'crazyevent', filterJsonRpc: {} })
                 .catch(() => {

@@ -74,7 +74,7 @@ export class DDO {
             throw new Error('index is not set')
         }
 
-        const service = this.service.find(s => s.index === index)
+        const service = this.service.find((s) => s.index === index)
         if (service === undefined) {
             throw new Error(`No service with index ${index} found on DDO.`)
         }
@@ -92,7 +92,7 @@ export class DDO {
             throw new Error('serviceType not set')
         }
 
-        return this.service.find(s => s.type === serviceType) as Service<T>
+        return this.service.find((s) => s.type === serviceType) as Service<T>
     }
 
     public checksum(seed: string): string {
@@ -108,7 +108,7 @@ export class DDO {
      */
     public async generateProof(publicKey: string): Promise<Proof> {
         const checksum = {}
-        this.service.forEach(svc => {
+        this.service.forEach((svc) => {
             checksum[svc.index] = this.checksum(
                 JSON.stringify(this.findServiceByType(svc.type).attributes.main)
             )

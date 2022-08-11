@@ -102,6 +102,61 @@ export abstract class Instantiable {
         return { nevermined, web3, config, logger, artifactsFolder }
     }
 
+    public async findSigner(from: string): Promise<ethers.Signer> {
+        for (const acc of this.config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(this.web3)
+            }
+        }
+        // console.log('cannot find', from)
+        return this.web3.getSigner(from)
+    }
+
+    public static async findSignerStatic(
+        config: Config,
+        web3: ethers.providers.JsonRpcProvider,
+        from: string
+    ): Promise<ethers.Signer> {
+        for (const acc of config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(web3)
+            }
+        }
+        console.log('cannot find', from, config.accounts)
+        return web3.getSigner(from)
+    }
+
+    public async addresses(): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await this.web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (this.config.accounts || []).map((a) => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
+    public static async addressesStatic(
+        config: Config,
+        web3: ethers.providers.JsonRpcProvider
+    ): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (config.accounts || []).map((a) => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
     public static getInstance(...args: any[]): any
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
