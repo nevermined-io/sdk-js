@@ -16,7 +16,10 @@ interface ContractTest extends ethers.Contract {
 export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts() {
         TestContractHandler.setConfig(config)
-        const [deployerAddress] = await TestContractHandler.web3.listAccounts()
+        const [deployerAddress] = await TestContractHandler.addressesStatic(
+            TestContractHandler.config,
+            TestContractHandler.web3
+        )
         TestContractHandler.networkId = (
             await TestContractHandler.web3.getNetwork()
         ).chainId
@@ -447,12 +450,15 @@ export default abstract class TestContractHandler extends ContractHandler {
         init = true
     ): Promise<ethers.Contract> {
         if (!from) {
-            ;[from] = await TestContractHandler.web3.listAccounts()
+            ;[from] = await TestContractHandler.addressesStatic(
+                TestContractHandler.config,
+                TestContractHandler.web3
+            )
         }
 
         const sendConfig = {
             gasLimit: 6721975,
-            gasPrice: '875000000'
+            gasPrice: '0x87500000'
         }
 
         const signer = await TestContractHandler.findSignerStatic(

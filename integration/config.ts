@@ -89,9 +89,6 @@ if (process.env.SEED_WORDS) {
         accounts.push(wallet)
     }
     configBase.accounts = accounts
-    console.log('??????????????????????????')
-    // configBase.web3Provider = ethers.Wallet.fromMnemonic(seedphrase)
-    // configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 10)
 }
 
 export const config: Config & { forceVerbose: Config } = configBase as any

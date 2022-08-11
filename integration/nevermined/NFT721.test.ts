@@ -30,7 +30,6 @@ describe('Nfts721 operations', async () => {
 
         // deploy a nft contract we can use
         nft = await TestContractHandler.deployArtifact(ERC721)
-
         nevermined = await Nevermined.getInstance(config)
         nftContract = await Nft721.getInstance(
             (nevermined.keeper as any).instanceConfig,

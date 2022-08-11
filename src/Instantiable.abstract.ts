@@ -141,6 +141,22 @@ export abstract class Instantiable {
         return addresses.concat(ethAccounts)
     }
 
+    public static async addressesStatic(
+        config: Config,
+        web3: ethers.providers.JsonRpcProvider
+    ): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (config.accounts || []).map((a) => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
     public static getInstance(...args: any[]): any
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
