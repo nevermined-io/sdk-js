@@ -16,7 +16,7 @@ describe('Web3Providers', () => {
     let account: Account
 
     it('should register an asset (mnemonic)', async () => {
-        const node = HDNode.fromSeed(process.env.SEED_WORDS)
+        const node = HDNode.fromMnemonic(process.env.SEED_WORDS)
         const accounts: ethers.Wallet[] = []
         for (let i = 0; i < 10; i++) {
             const acc = node.derivePath("m/44'/60'/0'/0/" + i)
@@ -57,21 +57,8 @@ describe('Web3Providers', () => {
             JSON.stringify(keyFile),
             'test'
         )
-        const node = HDNode.fromSeed(keyFileAccount.privateKey)
-        const accounts: ethers.Wallet[] = []
-        for (let i = 0; i < 10; i++) {
-            const acc = node.derivePath("m/44'/60'/0'/0/" + i)
-            const wallet = new ethers.Wallet(acc.privateKey)
-            accounts.push(wallet)
-        }
+        const accounts: ethers.Wallet[] = [keyFileAccount]
         config.accounts = accounts
-
-        // Create provider with private key
-        /*
-        config.web3Provider = new HDWalletProvider(
-            [keyFileAccount.privateKey],
-            config.nodeUri
-        )*/
 
         nevermined = await Nevermined.getInstance(config)
 
