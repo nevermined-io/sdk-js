@@ -82,7 +82,11 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         // Add dispenser as Token minter
         if (!token.$initialized) {
-            const signer = await TestContractHandler.findSignerStatic(TestContractHandler.config, TestContractHandler.web3, deployerAddress)
+            const signer = await TestContractHandler.findSignerStatic(
+                TestContractHandler.config,
+                TestContractHandler.web3,
+                deployerAddress
+            )
             const contract = token.connect(signer)
             const args = [TestContractHandler.minter, dispenser.address]
             const methodSignature = this.getSignatureOfMethod(contract, 'grantRole', args)
@@ -343,7 +347,11 @@ export default abstract class TestContractHandler extends ContractHandler {
         from: string,
         args: string[] = []
     ): Promise<ethers.Contract> {
-        const signer = await TestContractHandler.findSignerStatic(TestContractHandler.config, TestContractHandler.web3, from)
+        const signer = await TestContractHandler.findSignerStatic(
+            TestContractHandler.config,
+            TestContractHandler.web3,
+            from
+        )
         const contract = new ethers.ContractFactory(
             artifact.abi,
             artifact.bytecode,
@@ -447,7 +455,11 @@ export default abstract class TestContractHandler extends ContractHandler {
             gasPrice: '875000000'
         }
 
-        const signer = await TestContractHandler.findSignerStatic(TestContractHandler.config, TestContractHandler.web3, from)
+        const signer = await TestContractHandler.findSignerStatic(
+            TestContractHandler.config,
+            TestContractHandler.web3,
+            from
+        )
         const tempContract = new ethers.ContractFactory(
             artifact.abi,
             TestContractHandler.replaceTokens(artifact.bytecode, tokens),

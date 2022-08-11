@@ -203,13 +203,15 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             )
             assert.isTrue(receipt)
 
-            const tokenId = utils.keccak256(utils.defaultAbiCoder.encode(['bytes32', 'bytes32'],[zeroX(subscriptionDDO.shortId()), agreementId]))
+            const tokenId = utils.keccak256(
+                utils.defaultAbiCoder.encode(
+                    ['bytes32', 'bytes32'],
+                    [zeroX(subscriptionDDO.shortId()), agreementId]
+                )
+            )
 
             assert.equal(
-                await nevermined.nfts.ownerOf(
-                    tokenId,
-                    nft.address
-                ),
+                await nevermined.nfts.ownerOf(tokenId, nft.address),
                 subscriber.getId()
             )
         })

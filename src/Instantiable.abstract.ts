@@ -113,7 +113,11 @@ export abstract class Instantiable {
         return this.web3.getSigner(from)
     }
 
-    public static async findSignerStatic(config: Config, web3: ethers.providers.JsonRpcProvider, from: string): Promise<ethers.Signer> {
+    public static async findSignerStatic(
+        config: Config,
+        web3: ethers.providers.JsonRpcProvider,
+        from: string
+    ): Promise<ethers.Signer> {
         for (const acc of config.accounts || []) {
             const addr = await acc.getAddress()
             if (addr.toLowerCase() === from.toLowerCase()) {
