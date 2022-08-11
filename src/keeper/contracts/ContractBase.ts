@@ -89,7 +89,7 @@ export abstract class ContractBase extends Instantiable {
 
     protected async getFromAddress(from?: string): Promise<string> {
         if (!from) {
-            ;[from] = await this.web3.listAccounts()
+            ;[from] = await this.addresses()
         }
         return from
     }
