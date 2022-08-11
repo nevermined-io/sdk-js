@@ -5,6 +5,7 @@ import { abi } from './../../artifacts/ERC721.json'
 import { Account } from '../..'
 import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
+import { ContractEvent, EventHandler } from '../../events'
 
 export default class Nft721 extends ContractBase {
     public static async getInstance(
@@ -13,6 +14,15 @@ export default class Nft721 extends ContractBase {
     ): Promise<Nft721> {
         const nft: Nft721 = new Nft721('NFT721')
         nft.setInstanceConfig(config)
+
+        // We don't have a subgraph for NFT721 so we can only use ContractEvent
+        const eventEmitter = new EventHandler()
+        nft.events = ContractEvent.getInstance(
+            nft,
+            eventEmitter,
+            config.nevermined,
+            config.web3
+        )
 
         await nft.checkExists(address)
         nft.contract = new ethers.Contract(address, abi, nft.web3)

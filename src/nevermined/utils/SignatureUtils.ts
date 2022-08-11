@@ -14,7 +14,7 @@ export class SignatureUtils extends Instantiable {
         } catch (e) {
             // Possibly the provider does not support personal_sign
             // Fallback to eth_sign
-            this.logger.warn(`Trying legacy sign: ${e.error.message}`)
+            this.logger.warn(`Trying legacy sign: ${e}`)
             return signer._legacySignMessage(text)
         }
     }
