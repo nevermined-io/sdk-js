@@ -69,12 +69,12 @@ describe('SubgraphEvent', () => {
             )
         })
 
-        await Promise.all([executeTransaction(), executeTransaction()])
+        await Promise.all([executeTransaction()])
 
         await sleep(2000)
         validResolve = true
 
-        await Promise.all([executeTransaction(), executeTransaction()])
+        await Promise.all([executeTransaction()])
 
         await waitUntilEvent
 
