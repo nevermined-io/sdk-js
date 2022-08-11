@@ -5,22 +5,33 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account } from '../../src'
 
-import HDWalletProvider from '@truffle/hdwallet-provider'
+// import HDWalletProvider from '@truffle/hdwallet-provider'
 
 import * as keyFile from '../KeyFile.json'
 import { ethers } from 'ethers'
+import { HDNode } from 'ethers/lib/utils'
 
 describe('Web3Providers', () => {
     let nevermined: Nevermined
     let account: Account
 
     it('should register an asset (mnemonic)', async () => {
+        const node = HDNode.fromSeed(process.env.SEED_WORDS)
+        const accounts: ethers.Wallet[] = []
+        for (let i = 0; i < 10; i++) {
+            const acc = node.derivePath("m/44'/60'/0'/0/" + i)
+            const wallet = new ethers.Wallet(acc.privateKey)
+            accounts.push(wallet)
+        }
+        config.accounts = accounts
+        /*
         config.web3Provider = new HDWalletProvider(
             process.env.SEED_WORDS,
             config.nodeUri,
             0,
             10
         )
+        */
         nevermined = await Nevermined.getInstance(config)
 
         // Accounts
@@ -46,12 +57,21 @@ describe('Web3Providers', () => {
             JSON.stringify(keyFile),
             'test'
         )
+        const node = HDNode.fromSeed(keyFileAccount.privateKey)
+        const accounts: ethers.Wallet[] = []
+        for (let i = 0; i < 10; i++) {
+            const acc = node.derivePath("m/44'/60'/0'/0/" + i)
+            const wallet = new ethers.Wallet(acc.privateKey)
+            accounts.push(wallet)
+        }
+        config.accounts = accounts
 
         // Create provider with private key
+        /*
         config.web3Provider = new HDWalletProvider(
             [keyFileAccount.privateKey],
             config.nodeUri
-        )
+        )*/
 
         nevermined = await Nevermined.getInstance(config)
 
