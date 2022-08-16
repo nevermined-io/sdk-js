@@ -7,6 +7,7 @@ export * from './DDOHelpers'
 export * from './SubscribablePromise'
 export * from './SubscribableObserver'
 export * from './BigNumber'
+export * from './MakeAccounts'
 
 export function makeBuffer(a, b) {
     return Buffer.from(a, b)
