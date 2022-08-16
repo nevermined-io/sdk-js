@@ -33,9 +33,10 @@ export class EthSignJWT extends SignJWT {
 
         let input = ethers.utils.arrayify(sign)
 
+        /*
         if (!isEtherSign) {
             input = input.slice(0, 64)
-        }
+        }*/
 
         const signed = this.base64url(input)
         const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
