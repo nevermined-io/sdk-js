@@ -31,7 +31,7 @@ export class EthSignJWT extends SignJWT {
 
         const sign = await signatureUtils.signText(decoder.decode(data), address)
 
-        let input = ethers.utils.arrayify(sign)
+        const input = ethers.utils.arrayify(sign)
 
         /*
         if (!isEtherSign) {
