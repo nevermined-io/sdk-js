@@ -7,7 +7,7 @@ GRAPH_NODE_URL=${GRAPH_NODE_URL:-http://localhost:9000}
 # get contract version
 VERSION=$(jq ".version" artifacts/DIDRegistry.$NETWORK.json)
 # remove dots and quotes
-VERSION=$(echo ${VERSION//./} | tr -d '"')
+VERSION=$(echo ${VERSION%%.*} | tr -d '"')
 
 SUBGRAPH=whitelistingcondition
 SUBGRAPH_URL=$GRAPH_NODE_URL/subgraphs/name/nevermined-io/development$NETWORK$VERSION$SUBGRAPH
