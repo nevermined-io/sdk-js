@@ -58,8 +58,8 @@ export class SubgraphEvent extends NeverminedEvent {
     }
 
     private async subgraphUrl(): Promise<string> {
-        const version = this.contract.version.replace(/\./g, '')
+        const [majorVersion] = this.contract.version.split('.')
         const contractName = this.contract.contractName.toLowerCase()
-        return `${this.graphHttpUri}${this.networkName}${version}${contractName}`
+        return `${this.graphHttpUri}${this.networkName}${majorVersion}${contractName}`
     }
 }
