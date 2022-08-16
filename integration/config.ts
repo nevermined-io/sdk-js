@@ -1,7 +1,5 @@
-import { ethers } from 'ethers'
-import { HDNode } from 'ethers/lib/utils'
 import { Config } from '../src'
-import { LoggerInstance, LogLevel } from '../src/utils'
+import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
@@ -79,15 +77,7 @@ if (process.env.NETWORK_NAME === 'mumbai') {
 }
 
 if (process.env.SEED_WORDS) {
-    const seedphrase = process.env.SEED_WORDS
-    const node = HDNode.fromMnemonic(seedphrase)
-    const accounts: ethers.Wallet[] = []
-    for (let i = 0; i < 10; i++) {
-        const acc = node.derivePath("m/44'/60'/0'/0/" + i)
-        const wallet = new ethers.Wallet(acc.privateKey)
-        accounts.push(wallet)
-    }
-    configBase.accounts = accounts
+    configBase.accounts = makeAccounts(process.env.SEED_WORDS)
 }
 
 export const config: Config & { forceVerbose: Config } = configBase as any
