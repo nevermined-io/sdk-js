@@ -9,7 +9,10 @@ describe('SubgraphEvent', () => {
     let nevermined: Nevermined
     let executeTransaction: () => Promise<any>
 
-    before(async () => {
+    before(async function () {
+        if (process.env.NO_GRAPH === 'true') {
+            this.skip()
+        }
         config.graphHttpUri =
             config.graphHttpUri ||
             'http://localhost:9000/subgraphs/name/nevermined-io/development'

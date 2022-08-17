@@ -235,7 +235,11 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     describe('As subscriber I want to get access to assets include as part of my subscription', () => {
         it('The collector access the files', async () => {
-            const result = await nevermined.nfts.access(assetDDO.id, subscriber, '/tmp/')
+            const result = await nevermined.nfts.access(
+                assetDDO.id,
+                subscriber,
+                '/tmp/'
+            )
             assert.isTrue(result)
         })
     })

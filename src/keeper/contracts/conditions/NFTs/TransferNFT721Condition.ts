@@ -6,6 +6,7 @@ import { TxParameters } from '../../ContractBase'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
     consumerId: string
+    expiration: number
 }
 
 /**
@@ -39,7 +40,8 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
         nftReceiver: string,
         lockCondition: string,
         nftTokenAddress: string,
-        willBeTransferred: boolean = true
+        willBeTransferred: boolean = true,
+        expiration: number = 0
     ): ConditionParameters<Record<string, unknown>> {
         return {
             list: [
@@ -64,11 +66,13 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
                 } else if (method === 'fulfillForDelegate') {
                     return [
                         didZeroX(did),
-                        zeroX(nftReceiver),
                         zeroX(nftHolder),
+                        zeroX(nftReceiver),
                         String(1),
                         lockCondition,
-                        willBeTransferred
+                        willBeTransferred,
+                        nftTokenAddress,
+                        expiration
                     ]
                 }
             }
@@ -76,7 +80,7 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
     }
 
     public async paramsFromDDO(
-        { ddo, service, consumerId }: TransferNFT721ConditionContext,
+        { ddo, service, consumerId, expiration }: TransferNFT721ConditionContext,
         lockCondition
     ) {
         const transfer = findServiceConditionByName(service, 'transferNFT')
@@ -97,7 +101,8 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
             consumerId,
             lockCondition.id,
             nft.address,
-            nftTransferString.toLowerCase() === 'true'
+            nftTransferString.toLowerCase() === 'true',
+            expiration
         )
     }
 

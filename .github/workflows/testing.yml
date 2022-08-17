@@ -61,6 +61,7 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+          OLD_GATEWAY: true
         run: |
           npm run integration:cover
       - name: Upload logs
