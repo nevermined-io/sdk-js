@@ -239,8 +239,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 assetDDO.id,
                 subscriber,
                 '/tmp/'
-                // undefined,
-                // agreementId
             )
             assert.isTrue(result)
         })
