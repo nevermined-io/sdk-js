@@ -8,6 +8,7 @@ import { ServiceType } from '../../../ddo/Service'
 
 export interface NFT721SalesTemplateParams {
     consumerId: string
+    expiration: number
 }
 
 export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams> {
@@ -26,8 +27,8 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
         return 'nft721-sales'
     }
 
-    public params(consumerId: string): NFT721SalesTemplateParams {
-        return { consumerId }
+    public params(consumerId: string, expiration: number = 0): NFT721SalesTemplateParams {
+        return { consumerId, expiration }
     }
 
     public lockConditionIndex(): number {

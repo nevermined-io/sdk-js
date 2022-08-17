@@ -66,6 +66,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         payload = decodeJwt(config.marketplaceAuthToken)
         assetMetadata.userId = payload.sub
         gatewayAddress = await nevermined.gateway.getProviderAddress()
+        console.log('gateway', gatewayAddress, 'editor', editor.getId())
 
         // conditions
         ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
@@ -103,6 +104,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 'Subscription',
                 'NVM'
             ])
+
+            console.log('nft address', nft.address)
 
             subscriptionNFT = await SubscriptionNft721.getInstance(
                 (nevermined.keeper as any).instanceConfig,
