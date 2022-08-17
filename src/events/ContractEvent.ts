@@ -33,7 +33,6 @@ export class ContractEvent extends NeverminedEvent {
             )
         }
         const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
-        console.log('args', args)
         const eventFilter: ethers.EventFilter = this.contract.contract.filters[
             options.eventName
         ](...args)

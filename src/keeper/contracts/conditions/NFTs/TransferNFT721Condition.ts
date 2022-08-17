@@ -81,7 +81,7 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
 
     public async paramsFromDDO(
         { ddo, service, consumerId, expiration }: TransferNFT721ConditionContext,
-        lockCondition,
+        lockCondition
     ) {
         const transfer = findServiceConditionByName(service, 'transferNFT')
         if (!transfer) throw new Error('TransferNFT condition not found!')

@@ -31,12 +31,11 @@ export class EthSignJWT extends SignJWT {
 
         const sign = await signatureUtils.signText(decoder.decode(data), address)
 
-        const input = ethers.utils.arrayify(sign)
+        let input = ethers.utils.arrayify(sign)
 
-        /*
-        if (!isEtherSign) {
+        if (!isEtherSign && process.env.OLD_GATEWAY === 'true') {
             input = input.slice(0, 64)
-        }*/
+        }
 
         const signed = this.base64url(input)
         const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
