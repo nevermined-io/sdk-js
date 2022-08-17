@@ -69,7 +69,7 @@ describe('Filecoin Integration', () => {
         const path = await nevermined.assets.download(ddo.id, publisher, folder, 0)
 
         assert.include(path, folder)
-        const data = fs.readFileSync(`${path}0`)
+        const data = fs.readFileSync(`${path}bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq`)
         assert.equal(data.toString(), 'Hello, Nevermined!')
     })
 })
