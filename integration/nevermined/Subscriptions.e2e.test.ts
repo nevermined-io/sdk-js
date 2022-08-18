@@ -11,6 +11,8 @@ import SubscriptionNFT from '../../src/artifacts/NFT721SubscriptionUpgradeable.j
 import { ethers } from 'ethers'
 import SubscriptionNft721 from '../../src/keeper/contracts/SubscriptionNft721'
 import BigNumber from '../../src/utils/BigNumber'
+import { didZeroX } from '../../src/utils'
+import { EventOptions } from '../../src/events'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -229,6 +231,49 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 receiver1Balance.eq(
                     initialBalances.reseller.add(assetRewards1.getAmounts()[1])
                 )
+            )
+        })
+
+        it('the subscription can be checked on chain', async () => {
+            const eventOptions: EventOptions = {
+                methodName: 'getFulfilleds',
+                eventName: 'Fulfilled',
+                filterSubgraph: {
+                    where: {
+                        _did: didZeroX(subscriptionDDO.id),
+                        _receiver: subscriber.getId()
+                    }
+                },
+                filterJsonRpc: {
+                    _did: didZeroX(subscriptionDDO.id),
+                    _receiver: subscriber.getId()
+                },
+                result: {
+                    _agreementId: true,
+                    _did: true,
+                    _receiver: true
+                }
+            }
+            // wait for the event to be picked by the subgraph
+            await nevermined.keeper.conditions.transferNft721Condition.events.once(
+                (e) => e,
+                eventOptions
+            )
+            const [event] =
+                await nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+                    eventOptions
+                )
+
+            // subgraph event or json-rpc event?
+            const eventValues = event.args || event
+
+            assert.equal(eventValues._agreementId, agreementId)
+            assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
+
+            // thegraph stores the addresses in lower case
+            assert.equal(
+                ethers.utils.getAddress(eventValues._receiver),
+                subscriber.getId()
             )
         })
     })
