@@ -14,6 +14,10 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.API_TOKEN_GITHUB }}
+      - name: Install dependencies
+        run: yarn
+      - name: Generate docs
+        run: yarn docs
       - name: Install envsubst
         run: |
           sudo apt update
