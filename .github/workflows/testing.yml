@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ["--geth", "--polygon", "--spree-embedded-contracts"]
+        network: ["--polygon", "--spree-embedded-contracts"]
         node: ["16"]
         include:
           - network: "--spree-embedded-contracts"
@@ -65,7 +65,6 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-          NO_GRAPH: true
         run: |
           npm run integration:cover
       - name: Upload logs
