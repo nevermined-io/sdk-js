@@ -1379,22 +1379,6 @@ export class Assets extends Instantiable {
     public async download(
         did: string,
         ownerAccount: Account,
-        resultPath: string,
-        fileIndex?: number,
-        useSecretStore?: boolean
-    ): Promise<string>
-
-    public async download(
-        did: string,
-        ownerAccount: Account,
-        resultPath?: undefined | null,
-        fileIndex?: number,
-        useSecretStore?: boolean
-    ): Promise<true>
-
-    public async download(
-        did: string,
-        ownerAccount: Account,
         resultPath?: string,
         fileIndex: number = -1,
         useSecretStore?: boolean

@@ -23,7 +23,7 @@ describe('Filecoin Integration', () => {
         const file = fs.openSync(testPath, 'w')
         fs.writeSync(file, 'Hello, Nevermined!')
         const stream = fs.createReadStream(testPath)
-        url = (await nevermined.files.uploadFilecoin(stream)).url
+        ;({ url } = await nevermined.files.uploadFilecoin(stream))
 
         assert.equal(url, 'cid://bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
 

@@ -134,11 +134,9 @@ describe('DDO', function () {
         ]
     })
 
-    let nevermined: Nevermined
-
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
-        nevermined = await Nevermined.getInstance(config)
+        await Nevermined.getInstance(config)
     })
 
     afterEach(() => {

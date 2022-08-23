@@ -157,10 +157,7 @@ export abstract class Instantiable {
         return addresses.concat(ethAccounts)
     }
 
-    public static getInstance(...args: any[]): any
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public static async getInstance(_config: InstantiableConfig): Promise<any> {
+    public static getInstance(..._args: any): any {
         LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
     }
 
