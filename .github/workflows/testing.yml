@@ -21,9 +21,9 @@ jobs:
           - network: "--polygon"
             network-name: polygon-localnet
             chainId: 8997
-          - network: "--geth"
-            network-name: geth-localnet
-            chainId: 8998
+#          - network: "--geth"
+#            network-name: geth-localnet
+#            chainId: 8998
 
     steps:
       - uses: actions/checkout@v2
