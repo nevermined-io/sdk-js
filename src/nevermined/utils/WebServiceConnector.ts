@@ -110,6 +110,7 @@ export class WebServiceConnector extends Instantiable {
                 const fileStream = fs.createWriteStream(`${destination}${filename}`)
                 response.body.pipe(fileStream)
                 response.body.on('error', reject)
+                fileStream.on('error', reject)
                 fileStream.on('finish', resolve)
                 fileStream.on('close', resolve)
             })
