@@ -29,6 +29,9 @@ export class SubgraphEvent extends NeverminedEvent {
     }
 
     public async getEventData(options: EventOptions): EventResult {
+        if (process.env.GRAPH_DELAY) {
+            await new Promise((resolve) => setTimeout(resolve, 3000))
+        }
         if (!this.subgraph) {
             throw new GraphError(
                 `Subgraph client for ${this.contract.contractName} is not implemented!`
