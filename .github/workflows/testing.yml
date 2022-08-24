@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ["--spree-embedded-contracts", "--polygon"]
+        network: ["--polygon", "--spree-embedded-contracts"]
         node: ["16"]
         include:
           - network: "--spree-embedded-contracts"
@@ -21,6 +21,9 @@ jobs:
           - network: "--polygon"
             network-name: polygon-localnet
             chainId: 8997
+#          - network: "--geth"
+#            network-name: geth-localnet
+#            chainId: 8998
 
     steps:
       - uses: actions/checkout@v2
@@ -47,7 +50,7 @@ jobs:
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
-          ./start_nevermined.sh --latest ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh --latest ${{ matrix.network }} --new-gateway 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
           ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
@@ -61,7 +64,6 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-          OLD_GATEWAY: true
         run: |
           npm run integration:cover
       - name: Upload logs

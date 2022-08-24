@@ -86,7 +86,7 @@ export class Versions extends Instantiable {
                 status: PlatformTechStatus.Working,
                 version,
                 contracts,
-                network,
+                network: network.toLowerCase(),
                 keeperVersion: keeperVersion.replace(/^v/, ''),
                 providerAddress
             }

@@ -283,7 +283,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             const result = await nevermined.nfts.access(
                 assetDDO.id,
                 subscriber,
-                '/tmp/'
+                '/tmp/',
+                undefined,
+                agreementId
             )
             assert.isTrue(result)
         })
