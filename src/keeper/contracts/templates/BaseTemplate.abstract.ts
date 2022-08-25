@@ -1,6 +1,6 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '../../../utils'
-import { ServiceCommon } from '../../../ddo/Service'
+import { ServiceCommon, serviceIndex, ServiceType } from '../../../ddo/Service'
 import { Account, MetaData } from '../../../sdk'
 
 export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
@@ -11,6 +11,9 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
     }
     public abstract name(): string
     public abstract description(): string
+    public serviceEndpoint(): ServiceType {
+        return this.service()        
+    }
     public async createService(
         publisher: Account,
         metadata: MetaData
@@ -18,8 +21,8 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
         const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
         return {
             type: this.service(),
-            index: 10,
-            serviceEndpoint: this.nevermined.gateway.getServiceEndpoint(this.service()),
+            index: serviceIndex[this.service()],
+            serviceEndpoint: this.nevermined.gateway.getServiceEndpoint(this.serviceEndpoint()),
             templateId: this.getAddress(),
             attributes: {
                 main: {

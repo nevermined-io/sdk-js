@@ -32,6 +32,9 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
     public service(): ServiceType {
         return 'nft721-access'
     }
+    public serviceEndpoint(): ServiceType {
+        return 'nft-access'        
+    }
 
     public params(holderAddress: string): NFT721AccessTemplateParams {
         return { holderAddress, grantee: holderAddress }
