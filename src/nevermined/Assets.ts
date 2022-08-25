@@ -19,6 +19,8 @@ import { ApiError, AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
 import { ContractReceipt } from 'ethers'
+import NFTAttributes from '../models/NFTAttributes'
+import { EncryptionMethod, EncryptionType } from '../metadata/Metadata'
 
 export interface ServicePlugin {
     createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
@@ -119,6 +121,29 @@ export class Assets extends Instantiable {
             nftMetadata,
             params
         )
+    }
+
+    public createNft(
+        metadata: MetaData,
+        publisher: Account,
+        assetRewards: AssetRewards = new AssetRewards(),
+        nftAttributes: NFTAttributes,
+        encryptionMethod: EncryptionMethod = 'PSK-RSA',
+        erc20TokenAddress?: string,
+        providers?: string[],
+        royalties: number = 0,
+        txParams?: TxParameters,
+    ): SubscribablePromise<CreateProgressStep, DDO> {
+        if (nftAttributes.ercType === 721) {
+            return this.createNft721(
+                metadata,
+                publisher,
+                assetRewards,
+                encryptionMethod,
+                nftAttributes.preMint,
+                providers
+            )
+        }
     }
 
     public createNft721(

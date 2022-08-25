@@ -16,6 +16,8 @@ export interface QueryResult {
     totalResults: number
 }
 
+export type EncryptionMethod = 'PSK-RSA' | 'PSK-ECDSA'
+
 export interface DDOStatus {
     internal: {
         id: string
