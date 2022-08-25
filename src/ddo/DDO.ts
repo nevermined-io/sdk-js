@@ -39,11 +39,11 @@ export class DDO {
      * DID, descentralized ID.
      * @type {string}
      */
-     public id: string = null
+    public id: string = null
 
-     public didSeed: string = null
+    public didSeed: string = null
 
-     public userId: string
+    public userId: string
 
     public created: string
 
@@ -144,7 +144,11 @@ export class DDO {
         this.service[0] = service
     }
 
-    public async assignDid(didSeed: string, didRegistry: DIDRegistry, publisher: Account) {
+    public async assignDid(
+        didSeed: string,
+        didRegistry: DIDRegistry,
+        publisher: Account
+    ) {
         const did = didPrefixed(await didRegistry.hashDID(didSeed, publisher.getId()))
         this.id = did
         this.didSeed = didSeed

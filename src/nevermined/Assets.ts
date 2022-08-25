@@ -78,13 +78,13 @@ export class Assets extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Assets> {
         const instance = new Assets()
         instance.servicePlugin = {
-            'access': config.nevermined.keeper.templates.accessTemplate,
-            'compute': config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
+            access: config.nevermined.keeper.templates.accessTemplate,
+            compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
             'nft-sales': config.nevermined.keeper.templates.nftSalesTemplate,
             'nft-access': config.nevermined.keeper.templates.nftAccessTemplate,
             'nft721-sales': config.nevermined.keeper.templates.nft721SalesTemplate,
             'nft721-access': config.nevermined.keeper.templates.nft721AccessTemplate,
-            'aave-credit': config.nevermined.keeper.templates.aaveCreditTemplate,
+            'aave-credit': config.nevermined.keeper.templates.aaveCreditTemplate
         }
         instance.setInstanceConfig(config)
 
@@ -143,7 +143,7 @@ export class Assets extends Instantiable {
         observer
     ): Promise<DDO> {
         const { gatewayUri } = this.config
-        const { didRegistry, templates } = this.nevermined.keeper
+        const { didRegistry } = this.nevermined.keeper
 
         // create ddo itself
         const ddo: DDO = new DDO({
@@ -254,7 +254,7 @@ export class Assets extends Instantiable {
             encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
         }
 
-        let serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
+        const serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
             DID.parse(ddo.id)
         )
 
@@ -373,7 +373,7 @@ export class Assets extends Instantiable {
         preMint: boolean = true,
         nftMetadata?: string,
         txParams?: TxParameters,
-        services : ServiceType[] = ['nft-access', 'nft-sales'],
+        services: ServiceType[] = ['nft-access', 'nft-sales']
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
         return new SubscribablePromise(async (observer) => {
@@ -391,13 +391,13 @@ export class Assets extends Instantiable {
                     undefined,
                     observer
                 )
-    
+
                 const { didRegistry } = this.nevermined.keeper
 
                 let serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
                     DID.parse(ddo.id)
                 )
-    
+
                 this.logger.log('Registering Mintable DID', ddo.id)
                 observer.next(CreateProgressStep.RegisteringDid)
 
@@ -450,7 +450,7 @@ export class Assets extends Instantiable {
         preMint: boolean = true,
         nftMetadata?: string,
         txParams?: TxParameters,
-        services : ServiceType[] = ['nft-access', 'nft-sales'],
+        services: ServiceType[] = ['nft-access', 'nft-sales']
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Creating NFT')
         return new SubscribablePromise(async (observer) => {
@@ -468,7 +468,7 @@ export class Assets extends Instantiable {
                     undefined,
                     observer
                 )
-    
+
                 const { didRegistry } = this.nevermined.keeper
 
                 let serviceEndpoint = this.nevermined.metadata.getServiceEndpoint(
@@ -540,7 +540,6 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         serviceTypes: ServiceType[] = ['access'],
-        services: Service[] = [],
         method: string = 'PSK-RSA',
         providers?: string[],
         erc20TokenAddress?: string,
@@ -611,7 +610,6 @@ export class Assets extends Instantiable {
                 publisher,
                 assetRewards,
                 ['compute'],
-                undefined,
                 method,
                 undefined,
                 undefined,
@@ -1002,5 +1000,4 @@ export class Assets extends Instantiable {
             }
         } as Service
     }
-
 }

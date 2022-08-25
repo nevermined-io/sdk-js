@@ -1,7 +1,7 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '../../../utils'
-import { ServiceCommon } from '../../../ddo/Service';
-import { Account, MetaData } from '../../../sdk';
+import { ServiceCommon } from '../../../ddo/Service'
+import { Account, MetaData } from '../../../sdk'
 
 export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
     public async getAgreementData(
@@ -14,25 +14,25 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
     public async createService(
         publisher: Account,
         metadata: MetaData
-      ): Promise<ServiceCommon> {
+    ): Promise<ServiceCommon> {
         const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
         return {
-          type: this.service(),
-          index: 10,
-          serviceEndpoint: this.nevermined.gateway.getServiceEndpoint(this.service()),
-          templateId: this.getAddress(),
-          attributes: {
-              main: {
-                  creator: publisher.getId(),
-                  datePublished: metadata.main.datePublished,
-                  name: this.name(),
-                  timeout: 3600,
-              },
-              additionalInformation: {
-                  description: this.description(),
-              },
-              serviceAgreementTemplate
-          }
+            type: this.service(),
+            index: 10,
+            serviceEndpoint: this.nevermined.gateway.getServiceEndpoint(this.service()),
+            templateId: this.getAddress(),
+            attributes: {
+                main: {
+                    creator: publisher.getId(),
+                    datePublished: metadata.main.datePublished,
+                    name: this.name(),
+                    timeout: 3600
+                },
+                additionalInformation: {
+                    description: this.description()
+                },
+                serviceAgreementTemplate
+            }
         } as ServiceCommon
-      }
+    }
 }

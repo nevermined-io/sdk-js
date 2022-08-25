@@ -5,7 +5,7 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
 import { ServiceCommon, ServiceType } from '../../../ddo/Service'
-import { Account, MetaData, Service, templates } from '../../../sdk'
+import { Account, MetaData } from '../../../sdk'
 
 export interface EscrowComputeExecutionParams {
     consumerId: string
@@ -80,7 +80,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
     public async createService(
         publisher: Account,
         metadata: MetaData
-      ): Promise<ServiceCommon> {
+    ): Promise<ServiceCommon> {
         const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
         return {
             type: 'compute',

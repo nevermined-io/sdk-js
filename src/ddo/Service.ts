@@ -27,12 +27,12 @@ export type ServiceType =
     | 'nft721-sales-proof'
 
 export const serviceIndex = {
-    'authorization': 2,
-    'metadata': 0,
-    'access': 3,
+    authorization: 2,
+    metadata: 0,
+    access: 3,
     'access-proof': 10,
-    'compute': 4,
-    'workflow': 5,
+    compute: 4,
+    workflow: 5,
     'nft-access': 7,
     'nft-sales': 6,
     'nft721-access': 9,

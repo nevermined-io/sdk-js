@@ -301,7 +301,6 @@ describe('Register Escrow Compute Execution Template', () => {
                 ['access', 'compute'],
                 undefined,
                 undefined,
-                undefined,
                 token.getAddress()
             )
         })
