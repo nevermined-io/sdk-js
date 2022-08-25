@@ -21,6 +21,10 @@ export type ServiceType =
     | 'nft721-access'
     | 'nft721-sales'
     | 'aave-credit'
+    | 'nft-access-proof'
+    | 'nft-sales-proof'
+    | 'nft721-access-proof'
+    | 'nft721-sales-proof'
 
 export interface ServiceCommon {
     type: ServiceType
