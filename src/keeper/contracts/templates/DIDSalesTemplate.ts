@@ -11,6 +11,12 @@ export class DIDSalesTemplate extends BaseTemplate<Record<string, unknown>> {
     public params(...args: any[]): Record<string, unknown> {
         throw new Error('Method not implemented.')
     }
+    public name(): string {
+        return 'didSalesAgreement'
+    }
+    public description(): string {
+        return 'DID sales Agreement'
+    }
 
     public instanceFromDDO(
         agreementId: string,

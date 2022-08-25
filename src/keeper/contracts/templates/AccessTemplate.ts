@@ -13,6 +13,12 @@ export interface AccessTemplateParams {
 }
 
 export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
+    public name(): string {
+        return 'AccessAgreement'
+    }
+    public description(): string {
+        return 'Access Agreement'
+    }
     public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
         return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessTemplate)
     }
