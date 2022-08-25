@@ -19,6 +19,7 @@ const configBase: Config = {
         ? undefined
         : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
     gasMultiplier: 1.1,
+    oldGateway: process.env.OLD_GATEWAY === 'true',
     verbose: LogLevel.Error
 }
 
