@@ -137,7 +137,7 @@ describe('NFT721LockCondition', () => {
                     1,
                     nftContractAddress
                 ),
-                /Invalid UpdateRole/
+                /Condition doesnt exist/
             )
         })
 

@@ -137,7 +137,7 @@ describe('NFTHolderCondition', () => {
 
             await assert.isRejected(
                 nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),
-                /Invalid UpdateRole/
+                /Condition doesnt exist/
             )
         })
     })
