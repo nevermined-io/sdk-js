@@ -14,6 +14,11 @@ import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 import BigNumber from '../../src/utils/BigNumber'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
@@ -75,6 +80,7 @@ describe('NFTTemplates E2E', () => {
 
     let initialBalances: any
     let scale: BigNumber
+    let royaltyAttributes: RoyaltyAttributes
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -166,6 +172,11 @@ describe('NFTTemplates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.assets.createNft(
                 metadata,
                 artist,
@@ -174,7 +185,7 @@ describe('NFTTemplates E2E', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
         })
@@ -733,7 +744,7 @@ describe('NFTTemplates E2E', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
             await collector1.requestTokens(nftPrice.div(scale))
@@ -1105,7 +1116,7 @@ describe('NFTTemplates E2E', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
         })

@@ -65,6 +65,7 @@ describe('Nfts721 operations', async () => {
         })
 
         it('should transfer an nft token with default token', async () => {
+            console.log(ddo.id)
             assert.equal(
                 await nevermined.nfts.ownerOf(zeroX(ddo.shortId()), nft.address),
                 artist.getId()

@@ -18,6 +18,7 @@ import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import BigNumber from '../../src/utils/BigNumber'
+import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -59,6 +60,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     let receivers: string[]
     let assetRewards: AssetRewards
+    let royaltyAttributes: RoyaltyAttributes
 
     let initialBalances: any
 
@@ -132,7 +134,11 @@ describe('NFTTemplates With Ether E2E', async () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.assets.createNft(
                 metadata,
                 artist,
@@ -141,7 +147,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 ZeroAddress
             )
         })

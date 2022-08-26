@@ -23,6 +23,7 @@ import ERC721 from '../../src/artifacts/ERC721.json'
 import { getMetadata } from '../utils'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import BigNumber from '../../src/utils/BigNumber'
+import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 
 describe('NFT721Templates E2E', () => {
     let owner: Account
@@ -55,6 +56,7 @@ describe('NFT721Templates E2E', () => {
     let conditionIdEscrow2: [string, string]
     let ddo: DDO
 
+    let royaltyAttributes: RoyaltyAttributes
     const royalties = 10 // 10% of royalties in the secondary market
     let agreementId: string
     let agreementAccessId: string
@@ -174,6 +176,12 @@ describe('NFT721Templates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
+
             ddo = await nevermined.assets.createNft721(
                 metadata,
                 artist,
@@ -183,7 +191,7 @@ describe('NFT721Templates E2E', () => {
                 token.getAddress(),
                 true,
                 [],
-                royalties
+                royaltyAttributes
             )
         })
 
@@ -697,7 +705,7 @@ describe('NFT721Templates E2E', () => {
                 token.getAddress(),
                 true,
                 [],
-                royalties
+                royaltyAttributes
             )
             await collector1.requestTokens(nftPrice.div(scale))
         })

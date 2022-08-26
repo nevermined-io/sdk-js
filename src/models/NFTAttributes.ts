@@ -1,4 +1,4 @@
-import { RoyaltyScheme } from '../keeper/contracts/royalties'
+import { RoyaltyAttributes } from "../nevermined/Assets"
 
 export type NFTType = 721 | 1155
 
@@ -21,5 +21,5 @@ export class NFTAttributes {
 
     amount: number = 1 // Number of editions
 
-    royaltyScheme: RoyaltyScheme | undefined
+    royaltyAttributes: RoyaltyAttributes | undefined
 }

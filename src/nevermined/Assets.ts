@@ -9,8 +9,7 @@ import {
     SubscribablePromise,
     generateId,
     zeroX,
-    didZeroX,
-    ZeroAddress
+    didZeroX
 } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
@@ -62,7 +61,13 @@ export enum RoyaltyKind {
     Legacy
 }
 
-function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme {
+export interface RoyaltyAttributes {
+    royaltyKind: RoyaltyKind
+    scheme: RoyaltyScheme
+    amount: number
+}
+
+export function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme {
     if (kind == RoyaltyKind.Standard) {
         return nvm.keeper.royalties.standard
     } else if (kind == RoyaltyKind.Curve) {
@@ -70,10 +75,19 @@ function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme {
     }
 }
 
+export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount: number) {
+    return {
+        scheme: getRoyaltyScheme(nvm, kind),
+        royaltyKind: kind,
+        amount
+    } as RoyaltyAttributes
+}
+
 /**
  * Assets submodule of Nevermined.
  */
 export class Assets extends Instantiable {
+
     /**
      * Returns the instance of Assets.
      * @return {Promise<Assets>}
@@ -101,14 +115,13 @@ export class Assets extends Instantiable {
     public registerAsset(
         metadata: MetaData,
         publisher: Account,
-        encryptionMethod: EncryptionMethod,
+        encryptionMethod: EncryptionMethod = 'PSK-RSA',
         assetRewards: AssetRewards | undefined,
         serviceTypes: ServiceType[],
         predefinedAssetServices: Service[] = [],
         nftAttributes: NFTAttributes | undefined,
         erc20TokenAddress: string | undefined,
         providers: string[] = [this.config.gatewayAddress],
-        royalties: number = 0,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
@@ -218,6 +231,56 @@ export class Assets extends Instantiable {
                     )
                 }
 
+                if (nftAttributes && serviceTypes.includes('nft-sales')) {
+                    this.logger.debug('Adding NTF Sales Service')
+                    const nftSalesServiceAgreementTemplate = await templates.nftSalesTemplate.getServiceAgreementTemplate()
+
+                    await ddo.addService(
+                        this.nevermined,
+                        await this.createNftSalesService(
+                            metadata,
+                            publisher,
+                            nftSalesServiceAgreementTemplate
+                        )
+                    )
+
+                    const nftSalesTemplateConditions = await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
+                    nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                        nftSalesTemplateConditions,
+                        ddo,
+                        assetRewards,
+                        erc20TokenAddress || this.nevermined.token.getAddress(),
+                        undefined,
+                        publisher.getId(),
+                        nftAttributes.amount
+                    )
+                }
+
+                if (nftAttributes && serviceTypes.includes('nft-access')) {
+                    this.logger.debug('Adding NTF Access Service')
+                    const nftAccessServiceAgreementTemplate = await templates.nftAccessTemplate.getServiceAgreementTemplate()
+
+                    await ddo.addService(
+                        this.nevermined,
+                        await this.createNftAccessService(
+                            metadata,
+                            publisher,
+                            nftAccessServiceAgreementTemplate
+                        )
+                    )
+
+                    const nftAccessTemplateConditions = await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
+                    nftAccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+                        nftAccessTemplateConditions,
+                        ddo,
+                        assetRewards,
+                        erc20TokenAddress || this.nevermined.token.getAddress(),
+                        undefined,
+                        publisher.getId(),
+                        nftAttributes.amount
+                    )
+                }
+
                 if (nftAttributes && serviceTypes.includes('nft721-access')) {
                     this.logger.debug('Adding NTF721 Access Service')
                     const nft721AccessServiceAgreementTemplate = await templates.nft721AccessTemplate.getServiceAgreementTemplate()
@@ -295,7 +358,7 @@ export class Assets extends Instantiable {
                     const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
                         ddo.id,
                         JSON.stringify(metadata.main.files),
-                        encryptionMethod
+                        new String(encryptionMethod)
                     )
                     encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
                 }
@@ -344,7 +407,7 @@ export class Assets extends Instantiable {
                             serviceEndpoint,
                             '0x1',
                             nftAttributes.nftMetadataUrl,
-                            royalties,
+                            0,
                             nftAttributes.preMint,
                             publisher.getId(),
                             txParams
@@ -358,25 +421,25 @@ export class Assets extends Instantiable {
                             '0x1',
                             nftAttributes.nftMetadataUrl,
                             nftAttributes.cap,
-                            royalties,
+                            0,
                             nftAttributes.preMint,
                             publisher.getId(),
                             txParams
                         )
                     }
 
-                    if (nftAttributes.royaltyScheme) {
+                    if (nftAttributes.royaltyAttributes) {
                         observer.next(CreateProgressStep.SettingRoyaltyScheme)
                         await didRegistry.setDIDRoyalties(
                             ddo.shortId(),
-                            nftAttributes.royaltyScheme.address,
+                            nftAttributes.royaltyAttributes.scheme.address,
                             publisher.getId(),
                             txParams
                         )
                         observer.next(CreateProgressStep.SettingRoyalties)
-                        await nftAttributes.royaltyScheme.setRoyalty(
+                        await nftAttributes.royaltyAttributes.scheme.setRoyalty(
                             ddo.shortId(),
-                            royalties,
+                            nftAttributes.royaltyAttributes.amount,
                             publisher,
                             txParams
                         )
@@ -418,7 +481,7 @@ export class Assets extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         cap: number = 0,
-        royalties: number = 0,
+        royaltyAttributes: RoyaltyAttributes | undefined,
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod,
         providers?: string[],
@@ -433,7 +496,7 @@ export class Assets extends Instantiable {
             cap,
             providers,
             1,
-            royalties,
+            royaltyAttributes,
             undefined,
             undefined,
             undefined,
@@ -451,7 +514,7 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string,
         preMint: boolean = true,
         providers?: string[],
-        royalties: number = 0,
+        royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
         txParams?: TxParameters,
         serviceTypes: ServiceType[] = ['nft721-sales', 'nft721-access'],
@@ -468,7 +531,7 @@ export class Assets extends Instantiable {
             nftTransfer: nftTransfer,
             isSubscription: duration > 0 ? true : false,
             duration: duration,
-            royaltyScheme: undefined
+            royaltyAttributes
         }
         return this.registerAsset(
             metadata,
@@ -480,7 +543,6 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
-            royalties,
             txParams
         )
     }
@@ -493,7 +555,7 @@ export class Assets extends Instantiable {
         cap: number = 0,
         providers?: string[],
         nftAmount?: number,
-        royalties: number = 0,
+        royaltyAttributes?: RoyaltyAttributes,
         erc20TokenAddress?: string,
         nftContractAddress?: string,
         preMint: boolean = true,
@@ -510,7 +572,7 @@ export class Assets extends Instantiable {
             nftTransfer: false,
             isSubscription: false,
             duration: 0,
-            royaltyScheme: undefined
+            royaltyAttributes
         }
         return this.registerAsset(
             metadata,
@@ -522,7 +584,6 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
-            royalties,
             txParams
         )
     }
@@ -535,13 +596,13 @@ export class Assets extends Instantiable {
         cap: number = 0,
         providers?: string[],
         nftAmount?: number,
-        royaltyKind?: RoyaltyKind,
-        royalties?: number,
+        royaltyAttributes?: RoyaltyAttributes,
         erc20TokenAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
+        
         const nftAttributes: NFTAttributes = {
             ercType: 1155,
             nftContractAddress: this.nevermined.keeper.nftUpgradeable.address,
@@ -552,7 +613,7 @@ export class Assets extends Instantiable {
             nftTransfer: false,
             isSubscription: false,
             duration: 0,
-            royaltyScheme: getRoyaltyScheme(this.nevermined, royaltyKind)
+            royaltyAttributes
         }
         return this.registerAsset(
             metadata,
@@ -564,7 +625,6 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
-            royalties,
             txParams
         )
     }
@@ -603,7 +663,6 @@ export class Assets extends Instantiable {
             undefined,
             erc20TokenAddress || this.nevermined.token.getAddress(),
             providers,
-            0,
             txParams
         )
     }
@@ -1258,4 +1317,5 @@ export class Assets extends Instantiable {
             }
         }
     }
+
 }

@@ -10,7 +10,7 @@ import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { RoyaltyKind } from '../../src/nevermined/Assets'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 
@@ -90,12 +90,16 @@ describe('NFTs Api End-to-End', () => {
 
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
+            const royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties1
+            )
             ddo = await nevermined.nfts.createWithRoyalties(
                 metadata,
                 artist,
                 cappedAmount,
-                RoyaltyKind.Standard,
-                royalties1,
+                royaltyAttributes,
                 assetRewards1
             )
             assert.isDefined(ddo)
@@ -127,6 +131,7 @@ describe('NFTs Api End-to-End', () => {
             const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
+            console.log(ddo.id)
             agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
             assert.isDefined(agreementId)
 
@@ -244,11 +249,16 @@ describe('NFTs Api End-to-End', () => {
         it('The artist creates and mints the nfts', async () => {
             const newMetadata = getMetadata()
             newMetadata.userId = payload.sub
+            const royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.nfts.create(
                 newMetadata,
                 artist,
                 cappedAmount,
-                royalties,
+                royaltyAttributes,
                 assetRewards1
             )
             assert.isDefined(ddo)
@@ -304,11 +314,16 @@ describe('NFTs Api End-to-End', () => {
         it('The artist creates and mints one nft', async () => {
             const newMetadata = getMetadata()
             newMetadata.userId = payload.sub
+            const royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.nfts.create(
                 newMetadata,
                 artist,
                 1,
-                royalties,
+                royaltyAttributes,
                 assetRewards1
             )
             assert.isDefined(ddo)

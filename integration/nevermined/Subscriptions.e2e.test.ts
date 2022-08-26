@@ -13,6 +13,7 @@ import SubscriptionNft721 from '../../src/keeper/contracts/SubscriptionNft721'
 import BigNumber from '../../src/utils/BigNumber'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
+import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -33,6 +34,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
     let assetRewards1: AssetRewards
+    let royaltyAttributes: RoyaltyAttributes
 
     const subscriptionMetadata = getMetadata(
         subscriptionPrice.toNumber(),
@@ -87,6 +89,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             ])
         )
 
+        royaltyAttributes = getRoyaltyAttributes(
+            nevermined,
+            RoyaltyKind.Standard,
+            royalties
+        )
+
         initialBalances = {
             editor: await token.balanceOf(editor.getId()),
             subscriber: await token.balanceOf(subscriber.getId()),
@@ -119,7 +127,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 token.address,
                 preMint,
                 [gatewayAddress],
-                royalties,
+                royaltyAttributes,
                 undefined,
                 undefined,
                 ['nft721-sales'],
@@ -155,7 +163,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 token.address,
                 preMint,
                 [gatewayAddress],
-                royalties,
+                royaltyAttributes,
                 undefined,
                 undefined,
                 ['nft721-access'],

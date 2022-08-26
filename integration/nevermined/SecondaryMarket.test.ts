@@ -22,6 +22,7 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 
 chai.use(chaiAsPromised)
 
@@ -45,6 +46,7 @@ describe('Secondary Markets', () => {
 
     const royalties = 10 // 10% of royalties in the secondary market
     const cappedAmount = 5
+    let royaltyAttributes: RoyaltyAttributes
     let agreementId: string
     let agreementId2: string
     let agreementId3: string
@@ -180,6 +182,12 @@ describe('Secondary Markets', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
+
             ddo = await nevermined.assets.createNft(
                 metadata,
                 artist,
@@ -188,7 +196,7 @@ describe('Secondary Markets', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
         })
