@@ -106,7 +106,7 @@ export class Assets extends Instantiable {
         serviceTypes: ServiceType[],
         predefinedAssetServices: Service[] = [],
         nftAttributes: NFTAttributes | undefined,
-        erc20TokenAddress: string = ZeroAddress,
+        erc20TokenAddress: string | undefined,
         providers: string[] = [this.config.gatewayAddress],
         royalties: number = 0,
         txParams?: TxParameters
