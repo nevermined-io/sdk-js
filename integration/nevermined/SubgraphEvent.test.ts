@@ -94,6 +94,7 @@ describe('SubgraphEvent', () => {
                     if (canBeRejected) {
                         reject(new Error(''))
                     }
+                    canBeRejected = true
                     setTimeout(resolve, 600)
                 },
                 {
@@ -112,13 +113,10 @@ describe('SubgraphEvent', () => {
         })
 
         await executeTransaction()
-
         await sleep(2000)
-        canBeRejected = true
-
         await executeTransaction()
-
         await waitUntilEvent
+        await sleep(2000)
     })
 
     it('should get the event like a promise', async () => {
