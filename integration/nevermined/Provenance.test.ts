@@ -135,7 +135,7 @@ describe('Provenance', () => {
         const events = await nevermined.provenance.getDIDProvenanceEvents(ddo.shortId())
 
         assert.deepEqual(
-            events.map((_) => _.method),
+            events.map(_ => _.method),
             [
                 pm.WAS_GENERATED_BY,
                 pm.WAS_ASSOCIATED_WITH,
@@ -155,7 +155,7 @@ describe('Provenance', () => {
                 'WAS_DERIVED_FROM',
                 'WAS_ASSOCIATED_WITH',
                 'ACTED_ON_BEHALF'
-            ].map(async (_) => [
+            ].map(async _ => [
                 _,
                 (
                     await nevermined.provenance.getProvenanceMethodEvents(

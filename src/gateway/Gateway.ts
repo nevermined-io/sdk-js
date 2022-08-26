@@ -91,7 +91,7 @@ export class Gateway extends Instantiable {
     }
 
     public async getGatewayInfo() {
-        return this.nevermined.utils.fetch.get(`${this.url}`).then((res) => res.json())
+        return this.nevermined.utils.fetch.get(`${this.url}`).then(res => res.json())
     }
 
     public async getProviderAddress() {

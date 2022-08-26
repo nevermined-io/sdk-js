@@ -86,8 +86,13 @@ describe('NFT721Templates E2E', () => {
         const nftContract = await TestContractHandler.deployArtifact(ERC721)
 
         nevermined = await Nevermined.getInstance(config)
-        ;[owner, artist, collector1, collector2, gallery] =
-            await nevermined.accounts.list()
+        ;[
+            owner,
+            artist,
+            collector1,
+            collector2,
+            gallery
+        ] = await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
@@ -117,9 +122,9 @@ describe('NFT721Templates E2E', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map((v) => v.mul(scale))
+        amounts = amounts.map(v => v.mul(scale))
         nftPrice2 = nftPrice2.mul(scale)
-        amounts2 = amounts2.map((v) => v.mul(scale))
+        amounts2 = amounts2.map(v => v.mul(scale))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -266,7 +271,7 @@ describe('NFT721Templates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdEscrow[1]))
                         .state,
@@ -395,7 +400,7 @@ describe('NFT721Templates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -409,10 +414,10 @@ describe('NFT721Templates E2E', () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it onws the NFT', async function() {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 await nft721HolderCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),
@@ -428,7 +433,7 @@ describe('NFT721Templates E2E', () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async function () {
+            it(' The artist gives access to the collector to the content', async function() {
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),
@@ -472,17 +477,16 @@ describe('NFT721Templates E2E', () => {
                         receivers2
                     )
                 )
-                conditionIdTransferNFT2 =
-                    await transferNft721Condition.generateIdWithSeed(
-                        agreementId2,
-                        await transferNft721Condition.hashValues(
-                            ddo.shortId(),
-                            collector1.getId(),
-                            collector2.getId(),
-                            conditionIdLockPayment2[1],
-                            nft.address
-                        )
+                conditionIdTransferNFT2 = await transferNft721Condition.generateIdWithSeed(
+                    agreementId2,
+                    await transferNft721Condition.hashValues(
+                        ddo.shortId(),
+                        collector1.getId(),
+                        collector2.getId(),
+                        conditionIdLockPayment2[1],
+                        nft.address
                     )
+                )
                 conditionIdEscrow2 = await escrowPaymentCondition.generateIdWithSeed(
                     agreementId2,
                     await escrowPaymentCondition.hashValues(
@@ -511,7 +515,7 @@ describe('NFT721Templates E2E', () => {
                     collector2
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment2[1]))
@@ -716,14 +720,13 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(
                     collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice))
                 )
-                const result =
-                    await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
-                        agreementIdSeed,
-                        ddo,
-                        nft721SalesTemplate.params(collector1.getId()),
-                        collector1,
-                        collector1
-                    )
+                const result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
+                    agreementIdSeed,
+                    ddo,
+                    nft721SalesTemplate.params(collector1.getId()),
+                    collector1,
+                    collector1
+                )
                 assert.isDefined(result)
 
                 const status = await nft721SalesTemplate.getAgreementStatus(agreementId)
@@ -770,12 +773,11 @@ describe('NFT721Templates E2E', () => {
                 const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
-                const receipt =
-                    await nevermined.agreements.conditions.releaseNft721Reward(
-                        agreementId,
-                        ddo,
-                        artist
-                    )
+                const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
+                    agreementId,
+                    ddo,
+                    artist
+                )
                 assert.isTrue(receipt)
 
                 const escrowPaymentConditionBalanceAfter = await token.balanceOf(
@@ -817,10 +819,10 @@ describe('NFT721Templates E2E', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it onws the NFT', async function() {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft721(
                     agreementAccessId,
                     ddo,
@@ -830,7 +832,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(result)
             })
 
-            it(' The artist gives access to the collector to the content', async function () {
+            it(' The artist gives access to the collector to the content', async function() {
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId,
                     ddo.shortId(),
@@ -943,12 +945,11 @@ describe('NFT721Templates E2E', () => {
                 const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                     escrowPaymentCondition.getAddress()
                 )
-                const receipt =
-                    await nevermined.agreements.conditions.releaseNft721Reward(
-                        agreementId2,
-                        ddo,
-                        collector1
-                    )
+                const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
+                    agreementId2,
+                    ddo,
+                    collector1
+                )
                 assert.isTrue(receipt)
 
                 const escrowPaymentConditionBalanceAfter = await token.balanceOf(

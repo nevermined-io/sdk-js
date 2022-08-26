@@ -50,7 +50,7 @@ export class NFT721HolderCondition extends Condition<NFT721HolderConditionContex
         return this.params(
             ddo.shortId(),
             holderAddress,
-            holder.parameters.find((p) => p.name === '_contractAddress').value as string
+            holder.parameters.find(p => p.name === '_contractAddress').value as string
         )
     }
     /**

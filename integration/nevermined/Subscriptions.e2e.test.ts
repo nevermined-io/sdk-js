@@ -78,7 +78,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         subscriptionPrice = subscriptionPrice.mul(scale)
-        amounts = amounts.map((v) => v.mul(scale))
+        amounts = amounts.map(v => v.mul(scale))
         receivers = [editor.getId(), reseller.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -256,13 +256,14 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             }
             // wait for the event to be picked by the subgraph
             await nevermined.keeper.conditions.transferNft721Condition.events.once(
-                (e) => e,
+                e => e,
                 eventOptions
             )
-            const [event] =
-                await nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
-                    eventOptions
-                )
+            const [
+                event
+            ] = await nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+                eventOptions
+            )
 
             // subgraph event or json-rpc event?
             const eventValues = event.args || event

@@ -1,20 +1,25 @@
-import { ServiceType } from "../ddo/Service"
+import { RoyaltyScheme } from '../keeper/contracts/royalties'
 
 export type NFTType = 721 | 1155
 
 export class NFTAttributes {
-
     ercType: NFTType
 
     nftContractAddress: string
 
-    preMint: boolean = true
+    cap: number = 0 // max number of nfts that can be minted, 0 means uncapped
 
-    nftMetadataUrl: string
+    preMint: boolean = true // if the asset is pre-minted
 
-    nftTransfer: boolean = true
+    nftMetadataUrl: string = '' // URL to the metadata definition of the NFT contract
 
-    duration: number = 0
+    nftTransfer: boolean = true // The asset is transferred (true) or minted (false) with Nevermined contracts
 
-    services: ServiceType[]
+    isSubscription: boolean = false
+
+    duration: number = 0 // If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
+
+    amount: number = 1 // Number of editions
+
+    royaltyScheme: RoyaltyScheme | undefined
 }

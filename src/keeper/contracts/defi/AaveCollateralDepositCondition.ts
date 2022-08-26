@@ -13,7 +13,9 @@ export interface AaveCollateralDepositConditionContext extends ConditionContext 
     interestRateMode: number
 }
 
-export class AaveCollateralDepositCondition extends Condition<AaveCollateralDepositConditionContext> {
+export class AaveCollateralDepositCondition extends Condition<
+    AaveCollateralDepositConditionContext
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralDepositCondition> {

@@ -78,8 +78,13 @@ describe('NFTTemplates E2E', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[owner, artist, collector1, collector2, gallery] =
-            await nevermined.accounts.list()
+        ;[
+            owner,
+            artist,
+            collector1,
+            collector2,
+            gallery
+        ] = await nevermined.accounts.list()
 
         receivers = [artist.getId(), gallery.getId()]
         receivers2 = [collector1.getId(), artist.getId()]
@@ -102,9 +107,9 @@ describe('NFTTemplates E2E', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map((v) => v.mul(scale))
+        amounts = amounts.map(v => v.mul(scale))
         nftPrice2 = nftPrice2.mul(scale)
-        amounts2 = amounts2.map((v) => v.mul(scale))
+        amounts2 = amounts2.map(v => v.mul(scale))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -237,7 +242,7 @@ describe('NFTTemplates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment[1]))
@@ -419,7 +424,7 @@ describe('NFTTemplates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -433,10 +438,10 @@ describe('NFTTemplates E2E', () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it onws the NFT', async function() {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 await nftHolderCondition.fulfill(
                     agreementAccessId,
                     ddo.id,
@@ -451,7 +456,7 @@ describe('NFTTemplates E2E', () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async function () {
+            it(' The artist gives access to the collector to the content', async function() {
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.id,
@@ -534,7 +539,7 @@ describe('NFTTemplates E2E', () => {
                     collector2
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment2[1]))
@@ -879,10 +884,10 @@ describe('NFTTemplates E2E', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it onws the NFT', async function() {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft(
                     agreementAccessId,
                     ddo.id,
@@ -892,7 +897,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(result)
             })
 
-            it(' The artist gives access to the collector to the content', async function () {
+            it(' The artist gives access to the collector to the content', async function() {
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId,
                     ddo.id,
@@ -1192,13 +1197,12 @@ describe('NFTTemplates E2E', () => {
                     ddo.id
                 )
 
-                const receipt =
-                    await nevermined.agreements.conditions.transferNftForDelegate(
-                        agreementId,
-                        ddo,
-                        numberNFTs,
-                        gallery
-                    )
+                const receipt = await nevermined.agreements.conditions.transferNftForDelegate(
+                    agreementId,
+                    ddo,
+                    numberNFTs,
+                    gallery
+                )
                 assert.isTrue(receipt)
 
                 const nftBalanceArtistAfter = await nftUpgradeable.balance(

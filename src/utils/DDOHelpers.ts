@@ -18,10 +18,10 @@ function fillParameterWithDDO(
     nftTransfer: boolean = false,
     duration: number = 0
 ): ServiceAgreementTemplateParameter {
-    const getValue = (name) => {
+    const getValue = name => {
         switch (name) {
             case 'amounts':
-                return Array.from(assetRewards.getAmounts(), (v) => v.toString())
+                return Array.from(assetRewards.getAmounts(), v => v.toString())
             case 'receivers':
                 return assetRewards.getReceivers()
             case 'amount':
@@ -77,9 +77,9 @@ export function fillConditionsWithDDO(
     nftTransfer: boolean = false,
     duration: number = 0
 ): ServiceAgreementTemplateCondition[] {
-    return conditions.map((condition) => ({
+    return conditions.map(condition => ({
         ...condition,
-        parameters: condition.parameters.map((parameter) => ({
+        parameters: condition.parameters.map(parameter => ({
             ...fillParameterWithDDO(
                 parameter,
                 ddo,
@@ -100,7 +100,7 @@ export function findServiceConditionByName(
     name: ConditionType
 ): ServiceAgreementTemplateCondition {
     return service.attributes.serviceAgreementTemplate.conditions.find(
-        (c) => c.name === name
+        c => c.name === name
     )
 }
 
@@ -123,7 +123,7 @@ export function setNFTRewardsFromDDOByService(
     if (!transferCondition) {
         return
     }
-    const holder = transferCondition.parameters.find((p) => p.name === '_nftHolder')
+    const holder = transferCondition.parameters.find(p => p.name === '_nftHolder')
     holder.value = holderAddress
 }
 
@@ -137,11 +137,9 @@ export function setAssetRewardsFromDDOByService(
     if (!escrowPaymentCondition) {
         return
     }
-    const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
-    const receivers = escrowPaymentCondition.parameters.find(
-        (p) => p.name === '_receivers'
-    )
-    amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
+    const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts')
+    const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
+    amounts.value = Array.from(rewards.getAmounts(), v => v.toString())
     receivers.value = rewards.getReceivers()
 }
 
@@ -151,11 +149,10 @@ export function getAssetRewardsFromService(service: Service): AssetRewards {
         return
     }
 
-    const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
+    const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts')
         .value as string[]
-    const receivers = escrowPaymentCondition.parameters.find(
-        (p) => p.name === '_receivers'
-    ).value as string[]
+    const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
+        .value as string[]
 
     const rewardsMap = new Map<string, BigNumber>()
 
@@ -168,17 +165,17 @@ export function getAssetRewardsFromService(service: Service): AssetRewards {
 export function getDIDFromService(service: Service): string {
     const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
     return ('did:nv:' +
-        escrowPaymentCondition.parameters.find((p) => p.name === '_did').value) as string
+        escrowPaymentCondition.parameters.find(p => p.name === '_did').value) as string
 }
 
 export function getNftHolderFromService(service: Service): string {
     const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-    return nftTransferCondition.parameters.find((p) => p.name === '_nftHolder')
+    return nftTransferCondition.parameters.find(p => p.name === '_nftHolder')
         .value as string
 }
 
 export function getNftAmountFromService(service: Service): number {
     const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-    return nftTransferCondition.parameters.find((p) => p.name === '_numberNfts')
+    return nftTransferCondition.parameters.find(p => p.name === '_numberNfts')
         .value as number
 }

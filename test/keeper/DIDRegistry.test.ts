@@ -36,7 +36,7 @@ describe('DIDRegistry', () => {
             )
             assert.equal(contractReceipt.status, 1)
             assert.isTrue(
-                contractReceipt.events.some((e) => e.event === 'DIDAttributeRegistered')
+                contractReceipt.events.some(e => e.event === 'DIDAttributeRegistered')
             )
         })
 
@@ -61,7 +61,7 @@ describe('DIDRegistry', () => {
             )
             assert.equal(contractReceipt.status, 1)
             assert.isTrue(
-                contractReceipt.events.some((e) => e.event === 'DIDAttributeRegistered')
+                contractReceipt.events.some(e => e.event === 'DIDAttributeRegistered')
             )
         })
     })

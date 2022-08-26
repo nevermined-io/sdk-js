@@ -136,7 +136,7 @@ export abstract class Instantiable {
             // ignore
         }
         const addresses = await Promise.all(
-            (this.config.accounts || []).map((a) => a.getAddress())
+            (this.config.accounts || []).map(a => a.getAddress())
         )
         return addresses.concat(ethAccounts)
     }
@@ -152,7 +152,7 @@ export abstract class Instantiable {
             // ignore
         }
         const addresses = await Promise.all(
-            (config.accounts || []).map((a) => a.getAddress())
+            (config.accounts || []).map(a => a.getAddress())
         )
         return addresses.concat(ethAccounts)
     }

@@ -64,8 +64,13 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[sender, artist, collector1, collector2, gallery] =
-            await nevermined.accounts.list()
+        ;[
+            sender,
+            artist,
+            collector1,
+            collector2,
+            gallery
+        ] = await nevermined.accounts.list()
 
         receivers = [artist.getId(), gallery.getId()]
 
@@ -210,7 +215,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
 
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment[1]))
@@ -290,7 +295,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it('the artist asks and receives the payment', async function () {
+            it('the artist asks and receives the payment', async function() {
                 await escrowPaymentCondition.fulfill(
                     agreementId,
                     ddo.shortId(),
@@ -361,7 +366,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     [collector1.getId()]
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -375,10 +380,10 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it onws the NFT', async function() {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 await nftHolderCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),
@@ -393,7 +398,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async function () {
+            it(' The artist gives access to the collector to the content', async function() {
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),

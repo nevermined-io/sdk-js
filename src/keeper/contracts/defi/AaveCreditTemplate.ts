@@ -120,7 +120,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             [
                 agreementIdSeed,
                 didZeroX(ddo.shortId()),
-                data.instances.map((a) => a.seed),
+                data.instances.map(a => a.seed),
                 timeLocks,
                 timeOuts,
                 vaultAddress
@@ -203,7 +203,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             lender
         ])
         const vaultCreatedEvent = contractReceipt.events.find(
-            (e) => e.event === 'VaultCreated'
+            e => e.event === 'VaultCreated'
         )
         const { _vaultAddress } = vaultCreatedEvent.args
         return _vaultAddress
@@ -234,8 +234,10 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             agreementId,
             ctx
         )
-        const depositCollateralInstance =
-            await aaveCollateralDepositCondition.instanceFromDDO(agreementId, ctx)
+        const depositCollateralInstance = await aaveCollateralDepositCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
         const borrowInstance = await aaveBorrowCondition.instanceFromDDO(agreementId, ctx)
         const repayInstance = await aaveRepayCondition.instanceFromDDO(agreementId, ctx)
         const withdrawInstance = await aaveCollateralWithdrawCondition.instanceFromDDO(
