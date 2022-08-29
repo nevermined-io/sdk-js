@@ -84,6 +84,8 @@ export class Config {
     public artifactsFolder?: string
 
     public accounts?: ethers.Signer[]
+
+    public newGateway?: boolean
 }
 
 export default Config

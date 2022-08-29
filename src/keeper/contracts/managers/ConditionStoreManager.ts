@@ -72,7 +72,7 @@ export class ConditionStoreManager extends ContractBase {
             blockNumber,
             lastUpdatedBy,
             blockNumberUpdated
-        } = await this.call('getCondition', [zeroX(conditionId)])
+        } = await this.call('getCondition', [zeroX(conditionId)]) as any
         return {
             typeRef,
             state: +state,

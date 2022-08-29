@@ -74,7 +74,7 @@ export class TemplateStoreManager extends ContractBase {
         const { state, owner, lastUpdatedBy, blockNumberUpdated } = await this.call(
             'getTemplate',
             [zeroX(templateId)]
-        )
+        ) as any
         return {
             state: +state,
             owner,
