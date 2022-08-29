@@ -67,7 +67,7 @@ describe('NFTs Api End-to-End', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map(v => v.mul(scale))
+        amounts = amounts.map((v) => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -131,7 +131,6 @@ describe('NFTs Api End-to-End', () => {
             const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-            console.log(ddo.id)
             agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
             assert.isDefined(agreementId)
 
