@@ -22,6 +22,7 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 
 chai.use(chaiAsPromised)
 
@@ -45,6 +46,7 @@ describe('Secondary Markets', () => {
 
     const royalties = 10 // 10% of royalties in the secondary market
     const cappedAmount = 5
+    let royaltyAttributes: RoyaltyAttributes
     let agreementId: string
     let agreementId2: string
     let agreementId3: string
@@ -82,8 +84,13 @@ describe('Secondary Markets', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[owner, artist, collector1, collector2, gallery] =
-            await nevermined.accounts.list()
+        ;[
+            owner,
+            artist,
+            collector1,
+            collector2,
+            gallery
+        ] = await nevermined.accounts.list()
 
         receivers = [artist.getId(), gallery.getId()]
         receivers2 = [collector1.getId(), artist.getId()]
@@ -93,8 +100,11 @@ describe('Secondary Markets', () => {
         ;({ token, nftUpgradeable } = nevermined.keeper)
 
         // conditions
-        ;({ transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
-            nevermined.keeper.conditions)
+        ;({
+            transferNftCondition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = nevermined.keeper.conditions)
 
         // templates
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
@@ -102,9 +112,9 @@ describe('Secondary Markets', () => {
         decimals = await token.decimals()
 
         nftPrice = BigNumber.parseUnits(nftPrice.toString(), decimals)
-        amounts = amounts.map((v) => BigNumber.parseUnits(v.toString(), decimals))
+        amounts = amounts.map(v => BigNumber.parseUnits(v.toString(), decimals))
         nftPrice2 = BigNumber.parseUnits(nftPrice2.toString(), decimals)
-        amounts2 = amounts2.map((v) => BigNumber.parseUnits(v.toString(), decimals))
+        amounts2 = amounts2.map(v => BigNumber.parseUnits(v.toString(), decimals))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -157,11 +167,10 @@ describe('Secondary Markets', () => {
                 agreementAccessIdSeed,
                 collector1.getId()
             )
-            agreementAccessId2 =
-                await nevermined.keeper.agreementStoreManager.agreementId(
-                    agreementAccessId2Seed,
-                    collector2.getId()
-                )
+            agreementAccessId2 = await nevermined.keeper.agreementStoreManager.agreementId(
+                agreementAccessId2Seed,
+                collector2.getId()
+            )
 
             const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
                 artist
@@ -173,6 +182,12 @@ describe('Secondary Markets', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
+
             ddo = await nevermined.assets.createNft(
                 metadata,
                 artist,
@@ -181,7 +196,7 @@ describe('Secondary Markets', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
         })
@@ -347,10 +362,10 @@ describe('Secondary Markets', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it onws the NFT', async function() {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft(
                     agreementAccessId,
                     ddo.id,
@@ -360,7 +375,7 @@ describe('Secondary Markets', () => {
                 assert.isTrue(result)
             })
 
-            it(' The artist gives access to the collector to the content', async function () {
+            it(' The artist gives access to the collector to the content', async function() {
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId,
                     ddo.id,
@@ -396,10 +411,8 @@ describe('Secondary Markets', () => {
             })
 
             it('As collector1 I create and store an off-chain service agreement', async () => {
-                const nftSalesServiceAgreementTemplate =
-                    await nftSalesTemplate.getServiceAgreementTemplate()
-                const nftSalesTemplateConditions =
-                    await nftSalesTemplate.getServiceAgreementTemplateConditions()
+                const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
+                const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
                 nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                     nftSalesTemplateConditions,
@@ -484,7 +497,7 @@ describe('Secondary Markets', () => {
                     ddo.id,
                     assetRewardsFromServiceAgreement.getAmounts(),
                     assetRewardsFromServiceAgreement.getReceivers(),
-                    payment.parameters.find((p) => p.name === '_tokenAddress')
+                    payment.parameters.find(p => p.name === '_tokenAddress')
                         .value as string,
                     collector2
                 )
@@ -587,8 +600,9 @@ describe('Secondary Markets', () => {
 
         describe('As collector1 I want to give exclusive access to the collectors owning a specific NFT', () => {
             before(async () => {
-                const clientAssertion =
-                    await nevermined.utils.jwt.generateClientAssertion(collector2)
+                const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+                    collector2
+                )
                 setNFTRewardsFromDDOByService(
                     ddo,
                     'nft-sales',
@@ -617,10 +631,10 @@ describe('Secondary Markets', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector2 demonstrates it onws the NFT', async function () {
+            it('The collector2 demonstrates it onws the NFT', async function() {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft(
                     agreementAccessId2,
                     ddo.id,
@@ -630,7 +644,7 @@ describe('Secondary Markets', () => {
                 assert.isTrue(result)
             })
 
-            it('The artist gives access to the collector2 to the content', async function () {
+            it('The artist gives access to the collector2 to the content', async function() {
                 const result = await nevermined.agreements.conditions.grantNftAccess(
                     agreementAccessId2,
                     ddo.id,

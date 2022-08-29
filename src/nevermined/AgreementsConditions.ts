@@ -46,8 +46,10 @@ export class AgreementsConditions extends Instantiable {
         from?: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
-        const { lockPaymentCondition, escrowPaymentCondition } =
-            this.nevermined.keeper.conditions
+        const {
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
 
         let token: Token
 
@@ -144,14 +146,13 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { computeExecutionCondition } = this.nevermined.keeper.conditions
 
-            const contractReceipt: ContractReceipt =
-                await computeExecutionCondition.fulfill(
-                    agreementId,
-                    did,
-                    grantee,
-                    from,
-                    params
-                )
+            const contractReceipt: ContractReceipt = await computeExecutionCondition.fulfill(
+                agreementId,
+                did,
+                grantee,
+                from,
+                params
+            )
             return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
@@ -200,10 +201,9 @@ export class AgreementsConditions extends Instantiable {
                 )
             }
 
-            const storedAgreement =
-                await this.nevermined.keeper.agreementStoreManager.getAgreement(
-                    agreementId
-                )
+            const storedAgreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+                agreementId
+            )
             storedAgreement.conditionIds
             const contractReceipt: ContractReceipt = await escrowPaymentCondition.fulfill(
                 agreementId,
@@ -245,8 +245,10 @@ export class AgreementsConditions extends Instantiable {
     ) {
         const template = this.nevermined.keeper.templates.nftSalesTemplate
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const { agreementIdSeed, creator } =
-            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const {
+            agreementIdSeed,
+            creator
+        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -255,13 +257,12 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-        const contractReceipt: ContractReceipt =
-            await escrowPaymentCondition.fulfillInstance(
-                instance.instances[2] as any,
-                {},
-                from || publisher,
-                txParams
-            )
+        const contractReceipt: ContractReceipt = await escrowPaymentCondition.fulfillInstance(
+            instance.instances[2] as any,
+            {},
+            from || publisher,
+            txParams
+        )
 
         if (!this.isFulfilled(contractReceipt)) {
             this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
@@ -289,8 +290,10 @@ export class AgreementsConditions extends Instantiable {
     ) {
         const template = this.nevermined.keeper.templates.nft721SalesTemplate
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const { agreementIdSeed, creator } =
-            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const {
+            agreementIdSeed,
+            creator
+        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -299,13 +302,12 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-        const contractReceipt: ContractReceipt =
-            await escrowPaymentCondition.fulfillInstance(
-                instance.instances[2] as any,
-                {},
-                from || publisher,
-                txParams
-            )
+        const contractReceipt: ContractReceipt = await escrowPaymentCondition.fulfillInstance(
+            instance.instances[2] as any,
+            {},
+            from || publisher,
+            txParams
+        )
 
         if (!this.isFulfilled(contractReceipt)) {
             this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
@@ -372,7 +374,7 @@ export class AgreementsConditions extends Instantiable {
             agreementId,
             ddo.shortId(),
             holderAddress,
-            holder.parameters.find((p) => p.name === '_contractAddress').value as string,
+            holder.parameters.find(p => p.name === '_contractAddress').value as string,
             from,
             params
         )
@@ -430,8 +432,10 @@ export class AgreementsConditions extends Instantiable {
         const template = this.nevermined.keeper.templates.nftSalesTemplate
 
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const { agreementIdSeed, creator } =
-            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const {
+            agreementIdSeed,
+            creator
+        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -439,13 +443,12 @@ export class AgreementsConditions extends Instantiable {
             template.params(accessConsumer, nftAmount)
         )
 
-        const contractReceipt: ContractReceipt =
-            await transferNftCondition.fulfillInstance(
-                instance.instances[1] as any,
-                {},
-                from,
-                txParams
-            )
+        const contractReceipt: ContractReceipt = await transferNftCondition.fulfillInstance(
+            instance.instances[1] as any,
+            {},
+            from,
+            txParams
+        )
 
         return this.isFulfilled(contractReceipt)
     }
@@ -472,8 +475,10 @@ export class AgreementsConditions extends Instantiable {
         const template = this.nevermined.keeper.templates.nftSalesTemplate
 
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const { agreementIdSeed, creator } =
-            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const {
+            agreementIdSeed,
+            creator
+        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -527,8 +532,10 @@ export class AgreementsConditions extends Instantiable {
         const template = this.nevermined.keeper.templates.nft721SalesTemplate
 
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const { agreementIdSeed, creator } =
-            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const {
+            agreementIdSeed,
+            creator
+        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -547,13 +554,12 @@ export class AgreementsConditions extends Instantiable {
             txParams
         )
 
-        const contractReceipt: ContractReceipt =
-            await transferNft721Condition.fulfillInstance(
-                instance.instances[1] as any,
-                {},
-                publisher,
-                txParams
-            )
+        const contractReceipt: ContractReceipt = await transferNft721Condition.fulfillInstance(
+            instance.instances[1] as any,
+            {},
+            publisher,
+            txParams
+        )
 
         await nft.setApprovalForAll(
             transferNft721Condition.address,
@@ -566,6 +572,6 @@ export class AgreementsConditions extends Instantiable {
     }
 
     private isFulfilled(contractReceipt: ContractReceipt): boolean {
-        return contractReceipt.events.some((e) => e.event === 'Fulfilled')
+        return contractReceipt.events.some(e => e.event === 'Fulfilled')
     }
 }

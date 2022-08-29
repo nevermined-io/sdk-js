@@ -37,8 +37,10 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
         creator: string,
         parameters: NFT721AccessTemplateParams
     ): Promise<AgreementInstance<NFT721AccessTemplateParams>> {
-        const { nft721HolderCondition, nftAccessCondition } =
-            this.nevermined.keeper.conditions
+        const {
+            nft721HolderCondition,
+            nftAccessCondition
+        } = this.nevermined.keeper.conditions
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {

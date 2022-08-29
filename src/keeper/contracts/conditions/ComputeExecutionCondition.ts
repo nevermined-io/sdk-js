@@ -8,7 +8,9 @@ export interface ComputeExecutionConditionContext extends ConditionContext {
     consumerId: string
 }
 
-export class ComputeExecutionCondition extends Condition<ComputeExecutionConditionContext> {
+export class ComputeExecutionCondition extends Condition<
+    ComputeExecutionConditionContext
+> {
     public async paramsFromDDO({ ddo, consumerId }: ComputeExecutionConditionContext) {
         return this.params(ddo.shortId(), consumerId)
     }

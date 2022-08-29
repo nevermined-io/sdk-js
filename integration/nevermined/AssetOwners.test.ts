@@ -100,7 +100,7 @@ describe('Asset Owners', () => {
         )
 
         // wait a bit for the subgraph to index the events
-        await new Promise((r) => setTimeout(r, 5000))
+        await new Promise(r => setTimeout(r, 5000))
 
         const { length: finalLength } = await nevermined.assets.ownerAssets(
             account2.getId()
