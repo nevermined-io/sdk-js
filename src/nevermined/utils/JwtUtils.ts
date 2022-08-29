@@ -36,7 +36,7 @@ export class EthSignJWT extends SignJWT {
         let input = ethers.utils.arrayify(sign)
 
         // TODO: remove once migration to new gateway is complete
-        if (!isEtherSign && config.oldGateway) {
+        if (!isEtherSign && !config.newGateway) {
             input = input.slice(0, 64)
         }
 

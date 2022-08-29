@@ -85,7 +85,7 @@ export class Config {
 
     public accounts?: ethers.Signer[]
 
-    public oldGateway?: boolean
+    public newGateway?: boolean
 }
 
 export default Config
