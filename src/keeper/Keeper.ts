@@ -79,6 +79,7 @@ export class Keeper extends Instantiable {
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
                 nftUpgradeable: undefined, // Optional
+                curveRoyalties: undefined, // Optional
                 didRegistry: DIDRegistry.getInstance(this.instanceConfig),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(
@@ -138,7 +139,6 @@ export class Keeper extends Instantiable {
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(this.instanceConfig),
                 aaveCreditTemplate: AaveCreditTemplate.getInstance(this.instanceConfig), // optional
                 standardRoyalties: StandardRoyalties.getInstance(this.instanceConfig), // optional
-                curveRoyalties: CurveRoyalties.getInstance(this.instanceConfig), // optional
                 rewardsDistributor: RewardsDistributor.getInstance(this.instanceConfig)
             })
 
@@ -206,6 +206,14 @@ export class Keeper extends Instantiable {
             )
         } catch {
             this.logger.debug('AaveCreditTemplate not available on this network.')
+        }
+
+        try {
+            this.instances.curveRoyalties = await CurveRoyalties.getInstance(
+                this.instanceConfig
+            )
+        } catch {
+            this.logger.debug('CurveRoyalties not available on this network.')
         }
 
         // Main contracts
