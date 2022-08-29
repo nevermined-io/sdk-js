@@ -67,7 +67,7 @@ describe('NFTs Api End-to-End', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map((v) => v.mul(scale))
+        amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
