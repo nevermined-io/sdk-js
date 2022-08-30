@@ -19,7 +19,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         amounts: BigNumber[],
         receivers: string[]
     ) {
-        const amountsString = amounts.map((v) => v.toString())
+        const amountsString = amounts.map(v => v.toString())
 
         return super.params(
             didZeroX(did),
@@ -35,7 +35,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         return this.params(
             ddo.shortId(),
             this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
-            payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             rewards.getAmounts(),
             rewards.getReceivers()
         )
@@ -51,7 +51,7 @@ export class LockPaymentCondition extends Condition<ConditionContext> {
         from?: Account,
         params?: TxParameters
     ) {
-        const amountsString = amounts.map((v) => v.toString())
+        const amountsString = amounts.map(v => v.toString())
         return super.fulfillPlain(
             agreementId,
             [

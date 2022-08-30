@@ -81,7 +81,7 @@ describe.skip('Consume Asset (Large size)', () => {
 
         assert.include(path, folder, 'The storage path is not correct.')
 
-        const files = await new Promise<string[]>((resolve) => {
+        const files = await new Promise<string[]>(resolve => {
             fs.readdir(path, (e, fileList) => {
                 resolve(fileList)
             })

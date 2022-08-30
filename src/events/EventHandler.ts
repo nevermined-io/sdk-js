@@ -50,7 +50,7 @@ export class EventHandler {
         }
 
         if (this.lastBlock !== blockNumber) {
-            this.events.forEach((fn) => fn(this.lastBlock + 1))
+            this.events.forEach(fn => fn(this.lastBlock + 1))
             this.lastBlock = blockNumber
         }
         this.lastTimeout = global.setTimeout(

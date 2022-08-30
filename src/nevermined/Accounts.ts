@@ -24,7 +24,7 @@ export class Accounts extends Instantiable {
      */
     public async list(): Promise<Account[]> {
         return (await this.addresses()).map(
-            (address) => new Account(address, this.instanceConfig)
+            address => new Account(address, this.instanceConfig)
         )
     }
 

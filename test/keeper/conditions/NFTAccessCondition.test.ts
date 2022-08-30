@@ -126,9 +126,7 @@ describe('NFTAccessCondition', () => {
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
 
-            const event: Event = contractReceipt.events.find(
-                (e) => e.event === 'Fulfilled'
-            )
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
             const { _agreementId, _documentId, _grantee, _conditionId } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))

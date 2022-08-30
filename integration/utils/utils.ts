@@ -5,7 +5,7 @@ export const transformMetadata = (metadata: any): any => {
     return metadata
 }
 
-export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
     for (let i = 0; i < n; i++) {

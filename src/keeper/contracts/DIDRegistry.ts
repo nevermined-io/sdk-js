@@ -260,7 +260,7 @@ export default class DIDRegistry extends ContractBase {
                 }
             })
         )
-            .map((event) => {
+            .map(event => {
                 if (event.args) {
                     return event.args._did
                 } else {
@@ -366,13 +366,13 @@ export default class DIDRegistry extends ContractBase {
                 }
             })
         )
-            .map((event) => {
+            .map(event => {
                 if (event.args === undefined)
                     return eventToObject(event) as ProvenanceAttributeRegisteredEvent
                 else
                     return eventToObject(event.args) as ProvenanceAttributeRegisteredEvent
             })
-            .map((event) => ({ ...event, method: +event.method }))
+            .map(event => ({ ...event, method: +event.method }))
             .sort(
                 (
                     firstEvent: ProvenanceAttributeRegisteredEvent,
@@ -430,8 +430,8 @@ export default class DIDRegistry extends ContractBase {
         }
         const events = await this.events.getPastEvents(eventOptions)
         return events
-            .map((event) => eventToObject(event))
-            .map((event) => ({ ...event, method: +method }))
+            .map(event => eventToObject(event))
+            .map(event => ({ ...event, method: +method }))
             .sort(
                 (
                     firstEvent: ProvenanceAttributeRegisteredEvent,

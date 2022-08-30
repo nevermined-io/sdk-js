@@ -61,10 +61,10 @@ export abstract class NeverminedEvent extends Instantiable {
         const events = await this.getPastEvents(options)
         if (events.length) {
             callback(events)
-            return new Promise((resolve) => resolve(events))
+            return new Promise(resolve => resolve(events))
         }
-        return new Promise((resolve) => {
-            const subscription = this.subscribe((events) => {
+        return new Promise(resolve => {
+            const subscription = this.subscribe(events => {
                 if (events.length) {
                     subscription.unsubscribe()
                 }

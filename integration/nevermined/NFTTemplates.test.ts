@@ -14,6 +14,11 @@ import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 import BigNumber from '../../src/utils/BigNumber'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
@@ -75,6 +80,7 @@ describe('NFTTemplates E2E', () => {
 
     let initialBalances: any
     let scale: BigNumber
+    let royaltyAttributes: RoyaltyAttributes
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -102,9 +108,9 @@ describe('NFTTemplates E2E', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map((v) => v.mul(scale))
+        amounts = amounts.map(v => v.mul(scale))
         nftPrice2 = nftPrice2.mul(scale)
-        amounts2 = amounts2.map((v) => v.mul(scale))
+        amounts2 = amounts2.map(v => v.mul(scale))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -161,6 +167,11 @@ describe('NFTTemplates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.assets.createNft(
                 metadata,
                 artist,
@@ -169,7 +180,7 @@ describe('NFTTemplates E2E', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
         })
@@ -237,7 +248,7 @@ describe('NFTTemplates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment[1]))
@@ -419,7 +430,7 @@ describe('NFTTemplates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -436,7 +447,7 @@ describe('NFTTemplates E2E', () => {
             it('The collector demonstrates it onws the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 await nftHolderCondition.fulfill(
                     agreementAccessId,
                     ddo.id,
@@ -534,7 +545,7 @@ describe('NFTTemplates E2E', () => {
                     collector2
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment2[1]))
@@ -728,7 +739,7 @@ describe('NFTTemplates E2E', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
             await collector1.requestTokens(nftPrice.div(scale))
@@ -882,7 +893,7 @@ describe('NFTTemplates E2E', () => {
             it('The collector demonstrates it onws the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft(
                     agreementAccessId,
                     ddo.id,
@@ -1100,7 +1111,7 @@ describe('NFTTemplates E2E', () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 token.getAddress()
             )
         })

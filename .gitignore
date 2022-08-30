@@ -15,3 +15,4 @@ src/metadata\.json
 circuits
 artifacts
 *.tgz
+.env*

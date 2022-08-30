@@ -79,6 +79,7 @@ export class Keeper extends Instantiable {
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
                 nftUpgradeable: undefined, // Optional
+                curveRoyalties: undefined, // Optional
                 didRegistry: DIDRegistry.getInstance(this.instanceConfig),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(
@@ -138,7 +139,6 @@ export class Keeper extends Instantiable {
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(this.instanceConfig),
                 aaveCreditTemplate: AaveCreditTemplate.getInstance(this.instanceConfig), // optional
                 standardRoyalties: StandardRoyalties.getInstance(this.instanceConfig), // optional
-                curveRoyalties: CurveRoyalties.getInstance(this.instanceConfig), // optional
                 rewardsDistributor: RewardsDistributor.getInstance(this.instanceConfig)
             })
 
@@ -206,6 +206,14 @@ export class Keeper extends Instantiable {
             )
         } catch {
             this.logger.debug('AaveCreditTemplate not available on this network.')
+        }
+
+        try {
+            this.instances.curveRoyalties = await CurveRoyalties.getInstance(
+                this.instanceConfig
+            )
+        } catch {
+            this.logger.debug('CurveRoyalties not available on this network.')
         }
 
         // Main contracts
@@ -391,7 +399,7 @@ export class Keeper extends Instantiable {
      * @return {Condition} Condition instance.
      */
     public getConditionByAddress(address: string): ConditionSmall {
-        return this.conditionsList.find((condition) => condition.getAddress() === address)
+        return this.conditionsList.find(condition => condition.getAddress() === address)
     }
 
     /**
@@ -401,7 +409,7 @@ export class Keeper extends Instantiable {
      */
     public getTemplateByName(name: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
-            (template) => template.contractName === name
+            template => template.contractName === name
         )
     }
 
@@ -411,7 +419,7 @@ export class Keeper extends Instantiable {
      * @return {GenericAccess} Agreement template instance.
      */
     public getAccessTemplateByName(name: string): GenericAccess {
-        return this.templateList.find((template) => template.contractName === name)
+        return this.templateList.find(template => template.contractName === name)
     }
 
     /**
@@ -421,7 +429,7 @@ export class Keeper extends Instantiable {
      */
     public getTemplateByAddress(address: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
-            (template) => template.getAddress() === address
+            template => template.getAddress() === address
         )
     }
 
@@ -444,7 +452,7 @@ export class Keeper extends Instantiable {
         }
 
         while (!this.network.id) {
-            await new Promise((resolve) => setTimeout(resolve, 1))
+            await new Promise(resolve => setTimeout(resolve, 1))
         }
 
         return this.network.id

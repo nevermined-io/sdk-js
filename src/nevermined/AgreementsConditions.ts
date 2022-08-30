@@ -372,7 +372,7 @@ export class AgreementsConditions extends Instantiable {
             agreementId,
             ddo.shortId(),
             holderAddress,
-            holder.parameters.find((p) => p.name === '_contractAddress').value as string,
+            holder.parameters.find(p => p.name === '_contractAddress').value as string,
             from,
             params
         )
@@ -566,6 +566,6 @@ export class AgreementsConditions extends Instantiable {
     }
 
     private isFulfilled(contractReceipt: ContractReceipt): boolean {
-        return contractReceipt.events.some((e) => e.event === 'Fulfilled')
+        return contractReceipt.events.some(e => e.event === 'Fulfilled')
     }
 }

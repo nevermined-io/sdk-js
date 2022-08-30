@@ -19,7 +19,7 @@ export default class AssetRewards {
         if (_params.length === 1) {
             const [rewards] = _params
             this.rewards = rewards
-            this.rewards.forEach((v) => (this.totalPrice = this.totalPrice.add(v)))
+            this.rewards.forEach(v => (this.totalPrice = this.totalPrice.add(v)))
         } else if (_params.length === 2) {
             const [address, amount] = _params
             this.rewards.set(address, amount)
@@ -50,7 +50,7 @@ export default class AssetRewards {
     public getAmountsString(): string {
         return this.rewards.size
             ? JSON.stringify(
-                  Array.from(this.rewards.values()).map((value) => value.toString())
+                  Array.from(this.rewards.values()).map(value => value.toString())
               )
             : '[]'
     }

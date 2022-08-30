@@ -18,7 +18,7 @@ describe('DID', () => {
             assert(did.getId() === id, did.getId())
         })
 
-        it('should throw if prefix does not match', (done) => {
+        it('should throw if prefix does not match', done => {
             const id = '1234'
             try {
                 const did: DID = DID.parse(`did:xxx:${id}`)
@@ -28,7 +28,7 @@ describe('DID', () => {
             }
         })
 
-        it('should throw if id does not match', (done) => {
+        it('should throw if id does not match', done => {
             const id = 'xyz'
             try {
                 const did: DID = DID.parse(`did:nv:${id}`)
