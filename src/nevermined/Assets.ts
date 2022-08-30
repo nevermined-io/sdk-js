@@ -125,7 +125,7 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards | undefined,
         serviceTypes: ServiceType[],
         predefinedAssetServices: Service[] = [],
-        nftAttributes: NFTAttributes = new NFTAttributes(),
+        nftAttributes: NFTAttributes | undefined,
         erc20TokenAddress: string | undefined,
         providers: string[] = [this.config.gatewayAddress],
         txParams?: TxParameters
@@ -194,6 +194,8 @@ export class Assets extends Instantiable {
 
                 for (const name of serviceTypes) {
                     const service = ddo.findServiceByType(name)
+                    const { nftContractAddress, amount, nftTransfer, duration } =
+                        nftAttributes || new NFTAttributes()
                     const sat: ServiceAgreementTemplate =
                         service.attributes.serviceAgreementTemplate
                     sat.conditions = fillConditionsWithDDO(
@@ -201,11 +203,11 @@ export class Assets extends Instantiable {
                         ddo,
                         assetRewards,
                         erc20TokenAddress || this.nevermined.token.getAddress(),
-                        nftAttributes.nftContractAddress,
+                        nftContractAddress,
                         publisher.getId(),
-                        nftAttributes.amount,
-                        nftAttributes.nftTransfer,
-                        nftAttributes.duration
+                        amount,
+                        nftTransfer,
+                        duration
                     )
                 }
 
