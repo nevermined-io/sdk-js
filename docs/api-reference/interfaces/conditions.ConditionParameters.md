@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / [conditions](../modules/conditions.md) / ConditionParameters
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / ConditionParameters
 
 # Interface: ConditionParameters<Extra\>
 
@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:26](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/keeper/contracts/conditions/Condition.abstract.ts#L26)
+[src/keeper/contracts/conditions/Condition.abstract.ts:26](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/conditions/Condition.abstract.ts#L26)
 
 ___
 
@@ -50,4 +50,4 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:27](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/keeper/contracts/conditions/Condition.abstract.ts#L27)
+[src/keeper/contracts/conditions/Condition.abstract.ts:27](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/conditions/Condition.abstract.ts#L27)

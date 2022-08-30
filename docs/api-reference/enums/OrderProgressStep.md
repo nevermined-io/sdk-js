@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / OrderProgressStep
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / OrderProgressStep
 
 # Enumeration: OrderProgressStep
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:44](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/nevermined/Assets.ts#L44)
+[src/nevermined/Assets.ts:44](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/nevermined/Assets.ts#L44)
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:43](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/nevermined/Assets.ts#L43)
+[src/nevermined/Assets.ts:43](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/nevermined/Assets.ts#L43)
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:46](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/nevermined/Assets.ts#L46)
+[src/nevermined/Assets.ts:46](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/nevermined/Assets.ts#L46)
 
 ___
 
@@ -49,4 +49,4 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:45](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/nevermined/Assets.ts#L45)
+[src/nevermined/Assets.ts:45](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/nevermined/Assets.ts#L45)

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / Config
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Config
 
 # Class: Config
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/models/Config.ts:82](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L82)
+[src/models/Config.ts:82](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L82)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/models/Config.ts:86](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L86)
+[src/models/Config.ts:86](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L86)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/models/Config.ts:84](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L84)
+[src/models/Config.ts:84](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L84)
 
 ___
 
@@ -74,7 +74,7 @@ Message shown when the user creates its own token.
 
 #### Defined in
 
-[src/models/Config.ts:65](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L65)
+[src/models/Config.ts:65](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L65)
 
 ___
 
@@ -86,7 +86,7 @@ Token expiration time in ms.
 
 #### Defined in
 
-[src/models/Config.ts:71](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L71)
+[src/models/Config.ts:71](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L71)
 
 ___
 
@@ -98,7 +98,7 @@ Faucet URL.
 
 #### Defined in
 
-[src/models/Config.ts:29](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L29)
+[src/models/Config.ts:29](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L29)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[src/models/Config.ts:75](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L75)
+[src/models/Config.ts:75](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L75)
 
 ___
 
@@ -120,7 +120,7 @@ Address of Gateway.
 
 #### Defined in
 
-[src/models/Config.ts:35](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L35)
+[src/models/Config.ts:35](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L35)
 
 ___
 
@@ -132,7 +132,7 @@ Gateway URL.
 
 #### Defined in
 
-[src/models/Config.ts:23](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L23)
+[src/models/Config.ts:23](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L23)
 
 ___
 
@@ -144,7 +144,7 @@ Enpoint for the graph-node http query
 
 #### Defined in
 
-[src/models/Config.ts:80](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L80)
+[src/models/Config.ts:80](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L80)
 
 ___
 
@@ -156,7 +156,7 @@ Marketplace auth token.
 
 #### Defined in
 
-[src/models/Config.ts:17](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L17)
+[src/models/Config.ts:17](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L17)
 
 ___
 
@@ -168,7 +168,7 @@ MarketPlace URL.
 
 #### Defined in
 
-[src/models/Config.ts:11](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L11)
+[src/models/Config.ts:11](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L11)
 
 ___
 
@@ -180,7 +180,7 @@ Ethereum node URL.
 
 #### Defined in
 
-[src/models/Config.ts:41](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L41)
+[src/models/Config.ts:41](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L41)
 
 ___
 
@@ -192,7 +192,7 @@ Secret Store URL.
 
 #### Defined in
 
-[src/models/Config.ts:53](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L53)
+[src/models/Config.ts:53](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L53)
 
 ___
 
@@ -202,7 +202,7 @@ ___
 
 #### Defined in
 
-[src/models/Config.ts:73](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L73)
+[src/models/Config.ts:73](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L73)
 
 ___
 
@@ -214,7 +214,7 @@ Log level.
 
 #### Defined in
 
-[src/models/Config.ts:59](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L59)
+[src/models/Config.ts:59](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L59)
 
 ___
 
@@ -226,4 +226,4 @@ Web3 Provider.
 
 #### Defined in
 
-[src/models/Config.ts:47](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/Config.ts#L47)
+[src/models/Config.ts:47](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/Config.ts#L47)

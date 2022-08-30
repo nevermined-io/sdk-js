@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / subgraphs
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / subgraphs
 
 # Namespace: subgraphs
 

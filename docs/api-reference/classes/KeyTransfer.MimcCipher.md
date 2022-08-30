@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / [KeyTransfer](../modules/KeyTransfer.md) / MimcCipher
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [KeyTransfer](../modules/KeyTransfer.md) / MimcCipher
 
 # Class: MimcCipher
 
@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:23](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/KeyTransfer.ts#L23)
+[src/models/KeyTransfer.ts:23](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/KeyTransfer.ts#L23)
 
 ## Properties
 
@@ -44,7 +44,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:20](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/KeyTransfer.ts#L20)
+[src/models/KeyTransfer.ts:20](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/KeyTransfer.ts#L20)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:21](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/KeyTransfer.ts#L21)
+[src/models/KeyTransfer.ts:21](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/KeyTransfer.ts#L21)
 
 ## Methods
 
@@ -68,4 +68,4 @@ ___
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:28](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/models/KeyTransfer.ts#L28)
+[src/models/KeyTransfer.ts:28](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/models/KeyTransfer.ts#L28)

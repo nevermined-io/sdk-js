@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / State
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / State
 
 # Enumeration: State
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/profiles/Profiles.interfaces.ts#L4)
+[src/profiles/Profiles.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/profiles/Profiles.interfaces.ts#L4)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/profiles/Profiles.interfaces.ts#L2)
+[src/profiles/Profiles.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/profiles/Profiles.interfaces.ts#L2)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/profiles/Profiles.interfaces.ts#L3)
+[src/profiles/Profiles.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/profiles/Profiles.interfaces.ts#L3)

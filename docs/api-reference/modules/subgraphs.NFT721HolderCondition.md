@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / [subgraphs](subgraphs.md) / NFT721HolderCondition
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721HolderCondition
 
 # Namespace: NFT721HolderCondition
 

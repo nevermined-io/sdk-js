@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / [events](../modules/events.md) / ContractEventSubscription
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [events](../modules/events.md) / ContractEventSubscription
 
 # Interface: ContractEventSubscription
 
@@ -26,4 +26,4 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:23](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L23)
+[src/events/NeverminedEvent.ts:23](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L23)

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / utils
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / utils
 
 # Namespace: utils
 
@@ -51,7 +51,7 @@
 
 ### LoggerInstance
 
-Renames and re-exports [Logger](../modules.md#logger)
+Renames and re-exports [Logger](../code-reference.md#logger)
 
 ## Variables
 
@@ -61,7 +61,7 @@ Renames and re-exports [Logger](../modules.md#logger)
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:53](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L53)
+[src/utils/ConversionTypeHelpers.ts:53](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L53)
 
 ## Functions
 
@@ -81,7 +81,7 @@ Renames and re-exports [Logger](../modules.md#logger)
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:17](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L17)
+[src/utils/ConversionTypeHelpers.ts:17](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L17)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:20](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L20)
+[src/utils/ConversionTypeHelpers.ts:20](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L20)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:30](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L30)
+[src/utils/ConversionTypeHelpers.ts:30](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L30)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/Events.ts#L1)
+[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/Events.ts#L1)
 
 ___
 
@@ -174,7 +174,7 @@ Filled conditions.
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:69](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L69)
+[src/utils/DDOHelpers.ts:69](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L69)
 
 ___
 
@@ -195,7 +195,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:98](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L98)
+[src/utils/DDOHelpers.ts:98](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L98)
 
 ___
 
@@ -215,7 +215,7 @@ ___
 
 #### Defined in
 
-[src/utils/GeneratorHelpers.ts:3](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/GeneratorHelpers.ts#L3)
+[src/utils/GeneratorHelpers.ts:3](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/GeneratorHelpers.ts#L3)
 
 ___
 
@@ -236,7 +236,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:107](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L107)
+[src/utils/DDOHelpers.ts:107](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L107)
 
 ___
 
@@ -256,7 +256,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:148](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L148)
+[src/utils/DDOHelpers.ts:148](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L148)
 
 ___
 
@@ -276,7 +276,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:168](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L168)
+[src/utils/DDOHelpers.ts:168](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L168)
 
 ___
 
@@ -296,7 +296,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:180](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L180)
+[src/utils/DDOHelpers.ts:180](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L180)
 
 ___
 
@@ -316,7 +316,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:174](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L174)
+[src/utils/DDOHelpers.ts:174](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L174)
 
 ___
 
@@ -336,7 +336,7 @@ ___
 
 #### Defined in
 
-[src/utils/MakeAccounts.ts:4](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/MakeAccounts.ts#L4)
+[src/utils/MakeAccounts.ts:4](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/MakeAccounts.ts#L4)
 
 ___
 
@@ -357,7 +357,7 @@ ___
 
 #### Defined in
 
-[src/utils/index.ts:12](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/index.ts#L12)
+[src/utils/index.ts:12](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/index.ts#L12)
 
 ___
 
@@ -377,7 +377,7 @@ ___
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:18](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L18)
+[src/utils/ConversionTypeHelpers.ts:18](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L18)
 
 ___
 
@@ -397,7 +397,7 @@ ___
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L5)
+[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L5)
 
 ___
 
@@ -417,7 +417,7 @@ ___
 
 #### Defined in
 
-[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/PromiseResolver.ts#L11)
+[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/PromiseResolver.ts#L11)
 
 ___
 
@@ -439,7 +439,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:130](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L130)
+[src/utils/DDOHelpers.ts:130](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L130)
 
 ___
 
@@ -462,7 +462,7 @@ ___
 
 #### Defined in
 
-[src/utils/DDOHelpers.ts:114](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/DDOHelpers.ts#L114)
+[src/utils/DDOHelpers.ts:114](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/DDOHelpers.ts#L114)
 
 ___
 
@@ -482,7 +482,7 @@ ___
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L4)
+[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L4)
 
 ___
 
@@ -503,4 +503,4 @@ ___
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/utils/ConversionTypeHelpers.ts#L7)
+[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/ConversionTypeHelpers.ts#L7)

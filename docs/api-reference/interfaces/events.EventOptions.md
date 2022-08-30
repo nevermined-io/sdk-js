@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / [events](../modules/events.md) / EventOptions
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [events](../modules/events.md) / EventOptions
 
 # Interface: EventOptions
 
@@ -24,7 +24,7 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:9](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L9)
+[src/events/NeverminedEvent.ts:9](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L9)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:10](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L10)
+[src/events/NeverminedEvent.ts:10](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L10)
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:11](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L11)
+[src/events/NeverminedEvent.ts:11](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L11)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:13](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L13)
+[src/events/NeverminedEvent.ts:13](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L13)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:8](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L8)
+[src/events/NeverminedEvent.ts:8](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L8)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:12](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L12)
+[src/events/NeverminedEvent.ts:12](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L12)
 
 ___
 
@@ -84,4 +84,4 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/events/NeverminedEvent.ts#L14)
+[src/events/NeverminedEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/events/NeverminedEvent.ts#L14)

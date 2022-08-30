@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / Workflow
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Workflow
 
 # Interface: Workflow
 
@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:35](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L35)
+[src/ddo/MetaData.ts:35](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L35)

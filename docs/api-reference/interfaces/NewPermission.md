@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / NewPermission
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / NewPermission
 
 # Interface: NewPermission
 
@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/permissions/Permissions.interfaces.ts#L12)
+[src/permissions/Permissions.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/permissions/Permissions.interfaces.ts#L12)
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/permissions/Permissions.interfaces.ts#L11)
+[src/permissions/Permissions.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/permissions/Permissions.interfaces.ts#L11)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/permissions/Permissions.interfaces.ts#L10)
+[src/permissions/Permissions.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/permissions/Permissions.interfaces.ts#L10)
 
 ___
 
@@ -55,4 +55,4 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/permissions/Permissions.interfaces.ts#L9)
+[src/permissions/Permissions.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/permissions/Permissions.interfaces.ts#L9)

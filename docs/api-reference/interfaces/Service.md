@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / Service
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Service
 
 # Interface: Service
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:68](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L68)
+[src/ddo/MetaData.ts:68](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L68)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:66](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L66)
+[src/ddo/MetaData.ts:66](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L66)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:67](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L67)
+[src/ddo/MetaData.ts:67](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L67)

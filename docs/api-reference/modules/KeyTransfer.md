@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / KeyTransfer
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / KeyTransfer
 
 # Namespace: KeyTransfer
 

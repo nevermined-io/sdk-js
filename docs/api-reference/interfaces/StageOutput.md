@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / StageOutput
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / StageOutput
 
 # Interface: StageOutput
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:21](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L21)
+[src/ddo/MetaData.ts:21](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L21)
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:22](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L22)
+[src/ddo/MetaData.ts:22](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L22)
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:19](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L19)
+[src/ddo/MetaData.ts:19](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L19)
 
 ___
 
@@ -49,4 +49,4 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:20](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L20)
+[src/ddo/MetaData.ts:20](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L20)

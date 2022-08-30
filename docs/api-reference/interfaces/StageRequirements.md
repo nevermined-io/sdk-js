@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../README.md) / [Exports](../modules.md) / StageRequirements
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / StageRequirements
 
 # Interface: StageRequirements
 
@@ -24,4 +24,4 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:2](https://github.com/nevermined-io/sdk-js/blob/9d31ebc/src/ddo/MetaData.ts#L2)
+[src/ddo/MetaData.ts:2](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L2)
