@@ -134,7 +134,7 @@ export class Assets extends Instantiable {
         return new SubscribablePromise(async observer => {
             try {
                 const { gatewayUri } = this.config
-                const { didRegistry, templates } = this.nevermined.keeper
+                const { didRegistry } = this.nevermined.keeper
                 assetRewards = assetRewards ? assetRewards : new AssetRewards()
 
                 // create ddo itself
@@ -174,7 +174,6 @@ export class Assets extends Instantiable {
                     }
                 }
 
-
                 this.logger.log('Services Added')
                 observer.next(CreateProgressStep.ServicesAdded)
 
@@ -209,7 +208,7 @@ export class Assets extends Instantiable {
                         nftAttributes.duration
                     )
                 }
-        
+
                 this.logger.log('Conditions filled')
                 observer.next(CreateProgressStep.ConditionsFilled)
 
@@ -443,7 +442,7 @@ export class Assets extends Instantiable {
             publisher,
             encryptionMethod,
             assetRewards,
-            ['nft-access', 'nft-sales'],
+            services,
             [],
             nftAttributes,
             erc20TokenAddress,
@@ -535,7 +534,7 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
-        serviceTimeout: number = 86400,
+        _serviceTimeout: number = 86400,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return new SubscribablePromise(async () => {
@@ -919,5 +918,4 @@ export class Assets extends Instantiable {
             }
         } as Service
     }
-
 }

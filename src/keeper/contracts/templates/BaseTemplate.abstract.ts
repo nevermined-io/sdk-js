@@ -12,7 +12,7 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
     public abstract name(): string
     public abstract description(): string
     public serviceEndpoint(): ServiceType {
-        return this.service()        
+        return this.service()
     }
     public async createService(
         publisher: Account,
@@ -22,7 +22,9 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
         return {
             type: this.service(),
             index: serviceIndex[this.service()],
-            serviceEndpoint: this.nevermined.gateway.getServiceEndpoint(this.serviceEndpoint()),
+            serviceEndpoint: this.nevermined.gateway.getServiceEndpoint(
+                this.serviceEndpoint()
+            ),
             templateId: this.getAddress(),
             attributes: {
                 main: {
