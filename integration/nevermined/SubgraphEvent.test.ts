@@ -9,7 +9,7 @@ describe('SubgraphEvent', () => {
     let nevermined: Nevermined
     let executeTransaction: () => Promise<any>
 
-    before(async function() {
+    before(async function () {
         if (process.env.NO_GRAPH === 'true') {
             this.skip()
         }

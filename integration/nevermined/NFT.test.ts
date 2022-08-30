@@ -7,7 +7,11 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { Token } from '../../src/nevermined/Token'
 import { ZeroAddress } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined

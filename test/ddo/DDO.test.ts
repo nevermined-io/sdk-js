@@ -11,7 +11,7 @@ import * as jsonDDO from '../testdata/ddo.json'
 
 use(spies)
 
-describe('DDO', function() {
+describe('DDO', function () {
     const testDDO: DDO = new DDO({
         id: `did:nv:${'a'.repeat(64)}`,
         publicKey: [
@@ -134,11 +134,9 @@ describe('DDO', function() {
         ]
     })
 
-    let nevermined: Nevermined
-
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
-        nevermined = await Nevermined.getInstance(config)
+        await Nevermined.getInstance(config)
     })
 
     afterEach(() => {

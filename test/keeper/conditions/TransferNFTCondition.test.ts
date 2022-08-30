@@ -43,11 +43,8 @@ describe('TransferNFTCondition', () => {
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;({
-            transferNftCondition,
-            lockPaymentCondition,
-            escrowPaymentCondition
-        } = nevermined.keeper.conditions)
+        ;({ transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
+            nevermined.keeper.conditions)
         ;({ conditionStoreManager, didRegistry, token } = nevermined.keeper)
         ;[owner, nftReceiver, other] = await nevermined.accounts.list()
         receivers = [nftReceiver.getId()]

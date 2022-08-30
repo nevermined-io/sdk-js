@@ -46,21 +46,14 @@ describe('Register Escrow Compute Execution Template', () => {
         ;({ token } = keeper)
 
         // Accounts
-        ;[
-            templateManagerOwner,
-            publisher,
-            consumer,
-            provider
-        ] = await nevermined.accounts.list()
+        ;[templateManagerOwner, publisher, consumer, provider] =
+            await nevermined.accounts.list()
 
         receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
-        ;({
-            lockPaymentCondition,
-            computeExecutionCondition,
-            escrowPaymentCondition
-        } = keeper.conditions)
+        ;({ lockPaymentCondition, computeExecutionCondition, escrowPaymentCondition } =
+            keeper.conditions)
     })
 
     describe('Propose and approve template', () => {
@@ -146,7 +139,8 @@ describe('Register Escrow Compute Execution Template', () => {
         })
 
         it('should have conditions types', async () => {
-            const conditionTypes = await escrowComputeExecutionTemplate.getConditionTypes()
+            const conditionTypes =
+                await escrowComputeExecutionTemplate.getConditionTypes()
 
             assert.equal(conditionTypes.length, 3, 'Expected 3 conditions.')
             assert.deepEqual(
@@ -161,7 +155,8 @@ describe('Register Escrow Compute Execution Template', () => {
         })
 
         it('should have condition instances associated', async () => {
-            const conditionInstances = await escrowComputeExecutionTemplate.getConditions()
+            const conditionInstances =
+                await escrowComputeExecutionTemplate.getConditions()
 
             assert.equal(conditionInstances.length, 3, 'Expected 3 conditions.')
 

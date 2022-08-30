@@ -87,7 +87,6 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
  * Assets submodule of Nevermined.
  */
 export class Assets extends Instantiable {
-
     /**
      * Returns the instance of Assets.
      * @return {Promise<Assets>}
@@ -114,9 +113,8 @@ export class Assets extends Instantiable {
      * @return {Promise<DDO>}
      */
     public async resolve(did: string): Promise<DDO> {
-        const {
-            serviceEndpoint
-        } = await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
+        const { serviceEndpoint } =
+            await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
     }
 
@@ -468,7 +466,6 @@ export class Assets extends Instantiable {
         nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        
         const nftAttributes: NFTAttributes = {
             ercType: 1155,
             nftContractAddress: this.nevermined.keeper.nftUpgradeable.address,
@@ -800,26 +797,10 @@ export class Assets extends Instantiable {
     public async download(
         did: string,
         ownerAccount: Account,
-        resultPath: string,
-        fileIndex?: number,
-        useSecretStore?: boolean
-    ): Promise<string>
-
-    public async download(
-        did: string,
-        ownerAccount: Account,
-        resultPath?: undefined | null,
-        fileIndex?: number,
-        useSecretStore?: boolean
-    ): Promise<true>
-
-    public async download(
-        did: string,
-        ownerAccount: Account,
         resultPath?: string,
         fileIndex: number = -1,
         useSecretStore?: boolean
-    ): Promise<string | boolean> {
+    ): Promise<string> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
@@ -865,7 +846,7 @@ export class Assets extends Instantiable {
         if (resultPath) {
             return resultPath
         }
-        return true
+        return 'success'
     }
 
     public async delegatePermissions(

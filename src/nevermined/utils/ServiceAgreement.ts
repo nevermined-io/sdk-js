@@ -60,10 +60,11 @@ export class ServiceAgreement extends Instantiable {
             timeoutValues
         )
 
-        const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
-            ethers.utils.arrayify(serviceAgreementHash),
-            consumer.getId()
-        )
+        const serviceAgreementHashSignature =
+            await this.nevermined.utils.signature.signText(
+                ethers.utils.arrayify(serviceAgreementHash),
+                consumer.getId()
+            )
 
         return serviceAgreementHashSignature
     }
@@ -92,9 +93,10 @@ export class ServiceAgreement extends Instantiable {
         service: ServiceAccess,
         type: 'timeout' | 'timelock'
     ): number[] {
-        const timeoutValues: number[] = service.attributes.serviceAgreementTemplate.conditions.map(
-            (condition: ServiceAgreementTemplateCondition) => condition[type]
-        )
+        const timeoutValues: number[] =
+            service.attributes.serviceAgreementTemplate.conditions.map(
+                (condition: ServiceAgreementTemplateCondition) => condition[type]
+            )
 
         return timeoutValues
     }

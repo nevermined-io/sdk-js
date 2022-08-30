@@ -73,24 +73,23 @@ export interface ActedOnBehalfEvent extends ProvenanceBaseEvent {
     delegateAgentId: string
     responsibleAgentId: string
 }
-export type ProvenanceEvent<
-    T extends ProvenanceMethod | any = any
-> = T extends ProvenanceMethod.WAS_GENERATED_BY
-    ? WasGeneratedByEvent
-    : T extends ProvenanceMethod.USED
-    ? UsedEvent
-    : T extends ProvenanceMethod.WAS_DERIVED_FROM
-    ? WasDerivedFromEvent
-    : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
-    ? WasAssociatedWithEvent
-    : T extends ProvenanceMethod.ACTED_ON_BEHALF
-    ? ActedOnBehalfEvent
-    :
-          | WasGeneratedByEvent
-          | UsedEvent
-          | WasDerivedFromEvent
-          | WasAssociatedWithEvent
-          | ActedOnBehalfEvent
+export type ProvenanceEvent<T extends ProvenanceMethod | any = any> =
+    T extends ProvenanceMethod.WAS_GENERATED_BY
+        ? WasGeneratedByEvent
+        : T extends ProvenanceMethod.USED
+        ? UsedEvent
+        : T extends ProvenanceMethod.WAS_DERIVED_FROM
+        ? WasDerivedFromEvent
+        : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
+        ? WasAssociatedWithEvent
+        : T extends ProvenanceMethod.ACTED_ON_BEHALF
+        ? ActedOnBehalfEvent
+        :
+              | WasGeneratedByEvent
+              | UsedEvent
+              | WasDerivedFromEvent
+              | WasAssociatedWithEvent
+              | ActedOnBehalfEvent
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {

@@ -48,7 +48,13 @@
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-useless-constructor": "warn",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error", {
+         "argsIgnorePattern": "^_",
+         "varsIgnorePattern": "^_",
+         "caughtErrorsIgnorePattern": "^_"
+    }],
+    "no-unused-vars": "off",
     "no-dupe-class-members": [
       "warn"
     ],
@@ -76,14 +82,6 @@
       "warn"
     ],
     "prettier/prettier": "warn",
-    "tsdoc/syntax": "warn"
-  },
-  "overrides": [
-    {
-      "files": ["./test/**/*.ts"],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": "warn"
-      }
-    }
-  ]
+    "tsdoc/syntax": "off"
+  }
 }

@@ -1,4 +1,4 @@
-import { RoyaltyAttributes } from "../nevermined/Assets"
+import { RoyaltyAttributes } from '../nevermined/Assets'
 
 export type NFTType = 721 | 1155
 

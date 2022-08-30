@@ -18,7 +18,11 @@ import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import BigNumber from '../../src/utils/BigNumber'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -66,13 +70,8 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[
-            sender,
-            artist,
-            collector1,
-            collector2,
-            gallery
-        ] = await nevermined.accounts.list()
+        ;[sender, artist, collector1, collector2, gallery] =
+            await nevermined.accounts.list()
 
         receivers = [artist.getId(), gallery.getId()]
 
@@ -301,7 +300,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it('the artist asks and receives the payment', async function() {
+            it('the artist asks and receives the payment', async function () {
                 await escrowPaymentCondition.fulfill(
                     agreementId,
                     ddo.shortId(),
@@ -386,7 +385,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async function() {
+            it('The collector demonstrates it onws the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -404,7 +403,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async function() {
+            it(' The artist gives access to the collector to the content', async function () {
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),
