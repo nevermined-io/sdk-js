@@ -17,11 +17,13 @@ export default class AssetRewards {
         this.totalPrice = BigNumber.from(0)
         this.rewards = new Map()
         if (_params.length === 1) {
-            this.rewards = _params[0]
-            this.rewards.forEach((v) => (this.totalPrice = this.totalPrice.add(v)))
+            const [rewards] = _params
+            this.rewards = rewards
+            this.rewards.forEach(v => (this.totalPrice = this.totalPrice.add(v)))
         } else if (_params.length === 2) {
-            this.rewards.set(_params[0], _params[1])
-            this.totalPrice = _params[1]
+            const [address, amount] = _params
+            this.rewards.set(address, amount)
+            this.totalPrice = amount
         }
     }
 
@@ -48,7 +50,7 @@ export default class AssetRewards {
     public getAmountsString(): string {
         return this.rewards.size
             ? JSON.stringify(
-                  Array.from(this.rewards.values()).map((value) => value.toString())
+                  Array.from(this.rewards.values()).map(value => value.toString())
               )
             : '[]'
     }

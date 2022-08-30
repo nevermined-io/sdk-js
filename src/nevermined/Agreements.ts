@@ -3,9 +3,6 @@ import Account from './Account'
 import DID from './DID'
 import { zeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { AgreementConditionsStatus } from '../keeper/contracts/templates/AgreementTemplate.abstract'
-import { ConditionState } from '../keeper/contracts/conditions/Condition.abstract'
-
 import { AgreementsConditions } from './AgreementsConditions'
 import { ServiceType } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
@@ -121,16 +118,6 @@ export class Agreements extends Instantiable {
      * @param  {boolean} extended Returns a complete status with dependencies.
      * @return {Promise<any>}
      */
-    public async status(
-        agreementId: string,
-        extended?: false
-    ): Promise<{ [condition: string]: ConditionState }>
-
-    public async status(
-        agreementId: string,
-        extended: true
-    ): Promise<AgreementConditionsStatus>
-
     public async status(agreementId: string, extended: boolean = false) {
         const { templateId } =
             await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)

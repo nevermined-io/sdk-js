@@ -23,6 +23,11 @@ import ERC721 from '../../src/artifacts/ERC721.json'
 import { getMetadata } from '../utils'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import BigNumber from '../../src/utils/BigNumber'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 
 describe('NFT721Templates E2E', () => {
     let owner: Account
@@ -55,6 +60,7 @@ describe('NFT721Templates E2E', () => {
     let conditionIdEscrow2: [string, string]
     let ddo: DDO
 
+    let royaltyAttributes: RoyaltyAttributes
     const royalties = 10 // 10% of royalties in the secondary market
     let agreementId: string
     let agreementAccessId: string
@@ -117,9 +123,9 @@ describe('NFT721Templates E2E', () => {
         scale = BigNumber.from(10).pow(await token.decimals())
 
         nftPrice = nftPrice.mul(scale)
-        amounts = amounts.map((v) => v.mul(scale))
+        amounts = amounts.map(v => v.mul(scale))
         nftPrice2 = nftPrice2.mul(scale)
-        amounts2 = amounts2.map((v) => v.mul(scale))
+        amounts2 = amounts2.map(v => v.mul(scale))
 
         assetRewards1 = new AssetRewards(
             new Map([
@@ -169,6 +175,12 @@ describe('NFT721Templates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
+
             ddo = await nevermined.assets.createNft721(
                 metadata,
                 artist,
@@ -178,7 +190,7 @@ describe('NFT721Templates E2E', () => {
                 token.getAddress(),
                 true,
                 [],
-                royalties
+                royaltyAttributes
             )
         })
 
@@ -266,7 +278,7 @@ describe('NFT721Templates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdEscrow[1]))
                         .state,
@@ -395,7 +407,7 @@ describe('NFT721Templates E2E', () => {
                     collector1
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -412,7 +424,7 @@ describe('NFT721Templates E2E', () => {
             it('The collector demonstrates it onws the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 await nft721HolderCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),
@@ -511,7 +523,7 @@ describe('NFT721Templates E2E', () => {
                     collector2
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment2[1]))
@@ -693,7 +705,7 @@ describe('NFT721Templates E2E', () => {
                 token.getAddress(),
                 true,
                 [],
-                royalties
+                royaltyAttributes
             )
             await collector1.requestTokens(nftPrice.div(scale))
         })
@@ -820,7 +832,7 @@ describe('NFT721Templates E2E', () => {
             it('The collector demonstrates it onws the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 const result = await nevermined.agreements.conditions.holderNft721(
                     agreementAccessId,
                     ddo,

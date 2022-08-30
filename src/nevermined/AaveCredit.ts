@@ -129,9 +129,7 @@ export class AaveCredit extends Instantiable {
                 from.getId()
             )
         }
-        if (!did) {
-            did = agreementData.did
-        }
+        did = did || agreementData.did
         const lockCond = this.nevermined.keeper.conditions.nft721LockCondition
         const nft721 = (await Nft721.getInstance(this.instanceConfig, nftContractAddress))
             .contract
@@ -284,9 +282,7 @@ export class AaveCredit extends Instantiable {
     ): Promise<boolean> {
         const agreementData: AgreementData =
             await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
-        if (!did) {
-            did = agreementData.did
-        }
+        did = did || agreementData.did
         const vaultContract: GenericContract = await this.getVaultContract(
             agreementId,
             from.getId(),
@@ -354,9 +350,7 @@ export class AaveCredit extends Instantiable {
     ): Promise<boolean> {
         const agreementData: AgreementData =
             await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
-        if (!did) {
-            did = agreementData.did
-        }
+        did = did || agreementData.did
         if (!vaultAddress) {
             vaultAddress = (
                 await this.getVaultContract(agreementId, from.getId(), vaultAddress)
@@ -391,9 +385,7 @@ export class AaveCredit extends Instantiable {
     ): Promise<boolean> {
         const agreementData: AgreementData =
             await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
-        if (!did) {
-            did = agreementData.did
-        }
+        did = did || agreementData.did
         const vaultContract: GenericContract = await this.getVaultContract(
             agreementId,
             from.getId(),

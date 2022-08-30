@@ -70,7 +70,7 @@ describe('Search Asset', () => {
             await nevermined.assets.create(metadataGenerator('Test3', userId), publisher),
             DDO
         )
-        await new Promise((r) => setTimeout(r, 1000))
+        await new Promise(r => setTimeout(r, 1000))
     })
 
     it('should search by text and see the increment of DDOs', async () => {
@@ -96,7 +96,7 @@ describe('Search Asset', () => {
             1,
             'Something was wrong searching the assets'
         )
-        ddos.map((ddo) =>
+        ddos.map(ddo =>
             assert.instanceOf(ddo, DDO, 'The DDO is not an instance of a DDO')
         )
     })
@@ -111,7 +111,7 @@ describe('Search Asset', () => {
         })
 
         assert.equal(ddos.length, 1, 'Something was wrong searching the assets')
-        ddos.map((ddo) =>
+        ddos.map(ddo =>
             assert.instanceOf(ddo, DDO, 'The DDO is not an instance of a DDO')
         )
     })

@@ -8,7 +8,7 @@ import config from '../config'
 
 use(spies)
 
-const reponsify = async (data) => ({
+const reponsify = async data => ({
     ok: true,
     json: () => Promise.resolve(data)
 })

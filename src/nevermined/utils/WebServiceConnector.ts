@@ -92,9 +92,9 @@ export class WebServiceConnector extends Instantiable {
         }
         let filename: string
         try {
-            filename = response.headers
+            ;[, filename] = response.headers
                 .get('content-disposition')
-                .match(/attachment;filename=(.+)/)[1]
+                .match(/attachment;filename=(.+)/)
         } catch {
             try {
                 filename = url.split('/').pop()
@@ -187,6 +187,6 @@ export class WebServiceConnector extends Instantiable {
     }
 
     private _sleep(ms: number) {
-        return new Promise((resolve) => setTimeout(resolve, ms))
+        return new Promise(resolve => setTimeout(resolve, ms))
     }
 }

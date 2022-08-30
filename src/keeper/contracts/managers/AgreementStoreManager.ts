@@ -46,7 +46,7 @@ export class AgreementStoreManager extends ContractBase {
         const events = await this.templates[templateId].getAgreementCreatedEvent(
             agreementId
         )
-        const values = events.map((e) => e.args || e)
+        const values = events.map(e => e.args || e)
         const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] =
             values
         return {
@@ -66,7 +66,7 @@ export class AgreementStoreManager extends ContractBase {
         for (const a of Object.values(this.templates) as any[]) {
             res = res.concat(await a.getAgreementsForDID(did))
         }
-        return Promise.all(res.map(async (a) => await this.getAgreement(a)))
+        return Promise.all(res.map(async a => await this.getAgreement(a)))
     }
 
     public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {

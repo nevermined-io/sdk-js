@@ -205,7 +205,7 @@ describe('AaveCredit', () => {
                     timeOuts
                 )
                 ;({ agreementId } = res)
-                conditionIds = res.data.instances.map((a) => a.id)
+                conditionIds = res.data.instances.map(a => a.id)
             }
 
             vaultAddress = await aaveCreditTemplate.getAgreementVaultAddress(

@@ -54,7 +54,7 @@ describe('Agreement Store Manager', () => {
 
         assert.isNotEmpty(agreements)
         assert.equal(agreements.length, 1 + num)
-        const agreementFound = agreements.find((a) => a.agreementId === agreementId)
+        const agreementFound = agreements.find(a => a.agreementId === agreementId)
 
         assert.isTrue(agreementFound != undefined)
         assert.equal(agreementFound.agreementId, agreementId)

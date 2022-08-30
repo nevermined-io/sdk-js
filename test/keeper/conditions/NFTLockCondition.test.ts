@@ -118,9 +118,7 @@ describe('NFTLockCondition', () => {
             const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
             assert.deepEqual(BigNumber.from(nftBalance), BigNumber.from(amount))
 
-            const event: Event = contractReceipt.events.find(
-                (e) => e.event === 'Fulfilled'
-            )
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
             const { _agreementId, _did, _lockAddress, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
@@ -156,7 +154,7 @@ describe('NFTLockCondition', () => {
 
             await assert.isRejected(
                 nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount),
-                /Invalid UpdateRole/
+                /Condition doesnt exist/
             )
         })
 

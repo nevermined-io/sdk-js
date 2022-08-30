@@ -18,6 +18,11 @@ import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import BigNumber from '../../src/utils/BigNumber'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -59,6 +64,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     let receivers: string[]
     let assetRewards: AssetRewards
+    let royaltyAttributes: RoyaltyAttributes
 
     let initialBalances: any
 
@@ -127,7 +133,11 @@ describe('NFTTemplates With Ether E2E', async () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.assets.createNft(
                 metadata,
                 artist,
@@ -136,7 +146,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 ZeroAddress
             )
         })
@@ -210,7 +220,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
 
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment[1]))
@@ -361,7 +371,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     [collector1.getId()]
                 )
                 assert.equal(result.status, 1)
-                assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -378,7 +388,7 @@ describe('NFTTemplates With Ether E2E', async () => {
             it('The collector demonstrates it onws the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
-                await new Promise((r) => setTimeout(r, 10000))
+                await new Promise(r => setTimeout(r, 10000))
                 await nftHolderCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),

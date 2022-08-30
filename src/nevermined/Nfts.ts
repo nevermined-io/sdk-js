@@ -15,7 +15,7 @@ import {
     SubscribablePromise,
     zeroX
 } from '../utils'
-import { CreateProgressStep, RoyaltyKind } from './Assets'
+import { CreateProgressStep, RoyaltyAttributes, RoyaltyKind } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
@@ -49,7 +49,7 @@ export class Nfts extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         cap: number,
-        royalties: number,
+        royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
         nftAmount: number = 1,
         erc20TokenAddress?: string,
@@ -61,12 +61,13 @@ export class Nfts extends Instantiable {
             metadata,
             publisher,
             assetRewards,
-            undefined,
+            'PSK-RSA',
             cap,
             undefined,
             nftAmount,
-            royalties,
+            royaltyAttributes,
             erc20TokenAddress,
+            this.nevermined.keeper.nftUpgradeable.address,
             preMint,
             nftMetadata ? nftMetadata : '',
             txParams
@@ -77,8 +78,7 @@ export class Nfts extends Instantiable {
         metadata: MetaData,
         publisher: Account,
         cap: number,
-        royaltyKind: RoyaltyKind,
-        royalties: number,
+        royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
         nftAmount: number = 1,
         erc20TokenAddress?: string,
@@ -94,8 +94,7 @@ export class Nfts extends Instantiable {
             cap,
             undefined,
             nftAmount,
-            royaltyKind,
-            royalties,
+            royaltyAttributes,
             erc20TokenAddress,
             preMint,
             nftMetadata ? nftMetadata : '',
@@ -109,7 +108,7 @@ export class Nfts extends Instantiable {
         assetRewards: AssetRewards,
         nftTokenAddress: string,
         erc20tokenAddress?: string,
-        royalties?: number,
+        royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
         txParams?: TxParameters,
         nftTransfer: boolean = true,
@@ -124,7 +123,7 @@ export class Nfts extends Instantiable {
             erc20tokenAddress,
             true,
             undefined,
-            royalties,
+            royaltyAttributes,
             nftMetadata ? nftMetadata : '',
             txParams,
             ['nft721-sales', 'nft721-access'],
@@ -200,7 +199,7 @@ export class Nfts extends Instantiable {
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
-        return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
+        return new SubscribablePromise<OrderProgressStep, string>(async observer => {
             const { nftSalesTemplate } = this.nevermined.keeper.templates
 
             const agreementIdSeed = zeroX(generateId())
@@ -215,7 +214,7 @@ export class Nfts extends Instantiable {
                 consumer,
                 undefined,
                 txParams,
-                (a) => observer.next(a)
+                a => observer.next(a)
             )
             if (!agreementId) {
                 throw new NFTError('Error creating nft-sales agreement')
@@ -230,7 +229,7 @@ export class Nfts extends Instantiable {
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
-        return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
+        return new SubscribablePromise<OrderProgressStep, string>(async observer => {
             const { nft721SalesTemplate } = this.nevermined.keeper.templates
 
             const agreementIdSeed = zeroX(generateId())
@@ -246,7 +245,7 @@ export class Nfts extends Instantiable {
                     consumer,
                     undefined,
                     txParams,
-                    (a) => observer.next(a)
+                    a => observer.next(a)
                 )
             if (!agreementId) {
                 throw new NFTError('Error creating nft721-sales agreement')
@@ -497,11 +496,11 @@ export class Nfts extends Instantiable {
         const service = ddo.findServiceByType('nft721-access')
         if (!!service) {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
-                (c) => c.name === 'nftHolder'
+                c => c.name === 'nftHolder'
             )
             return !cond
                 ? null
-                : cond.parameters.find((p) => p.name === '_contractAddress').value
+                : cond.parameters.find(p => p.name === '_contractAddress').value
         }
         return null
     }
@@ -685,7 +684,7 @@ export class Nfts extends Instantiable {
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             consumer,
             params
         )

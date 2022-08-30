@@ -166,10 +166,10 @@ describe('Register Escrow Compute Execution Template', () => {
                 LockPaymentCondition
             ]
 
-            conditionClasses.forEach((conditionClass) => {
+            conditionClasses.forEach(conditionClass => {
                 if (
                     !conditionInstances.find(
-                        (condition) => condition instanceof conditionClass
+                        condition => condition instanceof conditionClass
                     )
                 ) {
                     throw new Error(
@@ -224,7 +224,7 @@ describe('Register Escrow Compute Execution Template', () => {
             )
 
             assert.isTrue(
-                contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
                 'Not Fulfilled event.'
             )
         })
@@ -238,7 +238,7 @@ describe('Register Escrow Compute Execution Template', () => {
             )
 
             assert.isTrue(
-                contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
                 'Not Fulfilled event.'
             )
         })
@@ -258,7 +258,7 @@ describe('Register Escrow Compute Execution Template', () => {
             )
 
             assert.isTrue(
-                contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+                contractReceipt.events.some(e => e.event === 'Fulfilled'),
                 'Not Fulfilled event.'
             )
         })

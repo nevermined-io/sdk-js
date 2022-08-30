@@ -142,11 +142,11 @@ describe('DIDSalesTemplate', () => {
                 )
             assert.equal(contractReceipt.status, 1)
             assert.isTrue(
-                contractReceipt.events.some((e) => e.event === 'AgreementCreated')
+                contractReceipt.events.some(e => e.event === 'AgreementCreated')
             )
 
             const event: Event = contractReceipt.events.find(
-                (e) => e.event === 'AgreementCreated'
+                e => e.event === 'AgreementCreated'
             )
             const { _agreementId, _did } = event.args
             assert.equal(_agreementId, zeroX(agreementId))

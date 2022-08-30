@@ -109,7 +109,6 @@ export abstract class Instantiable {
                 return acc.connect(this.web3)
             }
         }
-        // console.log('cannot find', from)
         return this.web3.getSigner(from)
     }
 
@@ -124,7 +123,6 @@ export abstract class Instantiable {
                 return acc.connect(web3)
             }
         }
-        console.log('cannot find', from, config.accounts)
         return web3.getSigner(from)
     }
 
@@ -136,7 +134,7 @@ export abstract class Instantiable {
             // ignore
         }
         const addresses = await Promise.all(
-            (this.config.accounts || []).map((a) => a.getAddress())
+            (this.config.accounts || []).map(a => a.getAddress())
         )
         return addresses.concat(ethAccounts)
     }
@@ -152,15 +150,12 @@ export abstract class Instantiable {
             // ignore
         }
         const addresses = await Promise.all(
-            (config.accounts || []).map((a) => a.getAddress())
+            (config.accounts || []).map(a => a.getAddress())
         )
         return addresses.concat(ethAccounts)
     }
 
-    public static getInstance(...args: any[]): any
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public static async getInstance(_config: InstantiableConfig): Promise<any> {
+    public static getInstance(..._args: any): any {
         LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
     }
 
