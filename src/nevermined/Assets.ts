@@ -965,7 +965,7 @@ export class Assets extends Instantiable {
         resultPath?: string,
         fileIndex: number = -1,
         useSecretStore?: boolean
-    ): Promise<string | boolean> {
+    ): Promise<string> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
@@ -1011,7 +1011,7 @@ export class Assets extends Instantiable {
         if (resultPath) {
             return resultPath
         }
-        return true
+        return 'success'
     }
 
     public async delegatePermissions(
