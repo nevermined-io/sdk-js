@@ -29,7 +29,7 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
                     name: this.name(),
-                    timeout: 3600
+                    timeout: 0
                 },
                 additionalInformation: {
                     description: this.description()
