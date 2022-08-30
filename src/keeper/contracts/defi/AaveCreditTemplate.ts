@@ -234,10 +234,8 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             agreementId,
             ctx
         )
-        const depositCollateralInstance = await aaveCollateralDepositCondition.instanceFromDDO(
-            agreementId,
-            ctx
-        )
+        const depositCollateralInstance =
+            await aaveCollateralDepositCondition.instanceFromDDO(agreementId, ctx)
         const borrowInstance = await aaveBorrowCondition.instanceFromDDO(agreementId, ctx)
         const repayInstance = await aaveRepayCondition.instanceFromDDO(agreementId, ctx)
         const withdrawInstance = await aaveCollateralWithdrawCondition.instanceFromDDO(

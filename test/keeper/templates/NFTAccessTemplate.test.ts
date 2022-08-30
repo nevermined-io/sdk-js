@@ -122,15 +122,16 @@ describe('NFTAccessTemplate', () => {
             )
             const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-            const contractReceipt: ContractReceipt = await nftAccessTemplate.createAgreement(
-                agreementIdSeed,
-                didZeroX(did),
-                conditionIdSeeds,
-                timeLocks,
-                timeOuts,
-                [receiver.getId()],
-                sender
-            )
+            const contractReceipt: ContractReceipt =
+                await nftAccessTemplate.createAgreement(
+                    agreementIdSeed,
+                    didZeroX(did),
+                    conditionIdSeeds,
+                    timeLocks,
+                    timeOuts,
+                    [receiver.getId()],
+                    sender
+                )
             assert.equal(contractReceipt.status, 1)
             assert.isTrue(
                 contractReceipt.events.some(e => e.event === 'AgreementCreated')

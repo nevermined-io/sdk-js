@@ -3,9 +3,6 @@ import Account from './Account'
 import DID from './DID'
 import { zeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { AgreementConditionsStatus } from '../keeper/contracts/templates/AgreementTemplate.abstract'
-import { ConditionState } from '../keeper/contracts/conditions/Condition.abstract'
-
 import { AgreementsConditions } from './AgreementsConditions'
 import { ServiceType } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
@@ -55,12 +52,13 @@ export class Agreements extends Instantiable {
         const agreementIdSeed: string = zeroX(generateId())
 
         const { accessTemplate } = this.nevermined.keeper.templates
-        const agreementConditionsIds = await this.nevermined.keeper.templates.accessTemplate.getAgreementIdsFromDDO(
-            agreementIdSeed,
-            ddo,
-            consumer.getId(),
-            accessTemplate.params(consumer)
-        )
+        const agreementConditionsIds =
+            await this.nevermined.keeper.templates.accessTemplate.getAgreementIdsFromDDO(
+                agreementIdSeed,
+                ddo,
+                consumer.getId(),
+                accessTemplate.params(consumer)
+            )
 
         const signature = await this.nevermined.utils.agreements.signServiceAgreement(
             ddo,
@@ -95,8 +93,9 @@ export class Agreements extends Instantiable {
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
-        const templateName = ddo.findServiceByType(serviceType).attributes
-            .serviceAgreementTemplate.contractName
+        const templateName =
+            ddo.findServiceByType(serviceType).attributes.serviceAgreementTemplate
+                .contractName
 
         const agreementId = await this.nevermined.keeper
             .getTemplateByName(templateName)
@@ -119,20 +118,9 @@ export class Agreements extends Instantiable {
      * @param  {boolean} extended Returns a complete status with dependencies.
      * @return {Promise<any>}
      */
-    public async status(
-        agreementId: string,
-        extended?: false
-    ): Promise<{ [condition: string]: ConditionState }>
-
-    public async status(
-        agreementId: string,
-        extended: true
-    ): Promise<AgreementConditionsStatus>
-
     public async status(agreementId: string, extended: boolean = false) {
-        const {
-            templateId
-        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { templateId } =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const fullStatus = await this.nevermined.keeper
             .getTemplateByAddress(templateId)
             .getAgreementStatus(agreementId)
@@ -164,11 +152,10 @@ export class Agreements extends Instantiable {
         consumer: string,
         account: Account
     ): Promise<boolean> {
-        const {
-            accessConsumer
-        } = await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
-            agreementId
-        )
+        const { accessConsumer } =
+            await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
+                agreementId
+            )
         if (!consumer.includes(accessConsumer)) {
             this.logger.log(`This address [${consumer}] has not access granted`)
             return false

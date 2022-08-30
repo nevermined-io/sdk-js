@@ -87,7 +87,6 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
  * Assets submodule of Nevermined.
  */
 export class Assets extends Instantiable {
-
     /**
      * Returns the instance of Assets.
      * @return {Promise<Assets>}
@@ -106,9 +105,8 @@ export class Assets extends Instantiable {
      * @return {Promise<DDO>}
      */
     public async resolve(did: string): Promise<DDO> {
-        const {
-            serviceEndpoint
-        } = await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
+        const { serviceEndpoint } =
+            await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
     }
 
@@ -160,7 +158,8 @@ export class Assets extends Instantiable {
 
                 if (nftAttributes && serviceTypes.includes('nft721-sales')) {
                     this.logger.debug('Adding NTF721 Sales Service')
-                    const nft721SalesServiceAgreementTemplate = await templates.nft721SalesTemplate.getServiceAgreementTemplate()
+                    const nft721SalesServiceAgreementTemplate =
+                        await templates.nft721SalesTemplate.getServiceAgreementTemplate()
 
                     await ddo.addService(
                         this.nevermined,
@@ -171,18 +170,20 @@ export class Assets extends Instantiable {
                         )
                     )
 
-                    const nft721SalesTemplateConditions = await templates.nft721SalesTemplate.getServiceAgreementTemplateConditions()
-                    nft721SalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                        nft721SalesTemplateConditions,
-                        ddo,
-                        assetRewards,
-                        erc20TokenAddress || this.nevermined.token.getAddress(),
-                        nftAttributes.nftContractAddress,
-                        publisher.getId(),
-                        undefined,
-                        nftAttributes.nftTransfer,
-                        nftAttributes.duration
-                    )
+                    const nft721SalesTemplateConditions =
+                        await templates.nft721SalesTemplate.getServiceAgreementTemplateConditions()
+                    nft721SalesServiceAgreementTemplate.conditions =
+                        fillConditionsWithDDO(
+                            nft721SalesTemplateConditions,
+                            ddo,
+                            assetRewards,
+                            erc20TokenAddress || this.nevermined.token.getAddress(),
+                            nftAttributes.nftContractAddress,
+                            publisher.getId(),
+                            undefined,
+                            nftAttributes.nftTransfer,
+                            nftAttributes.duration
+                        )
                 }
 
                 if (serviceTypes.includes('access')) {
@@ -233,7 +234,8 @@ export class Assets extends Instantiable {
 
                 if (nftAttributes && serviceTypes.includes('nft-sales')) {
                     this.logger.debug('Adding NTF Sales Service')
-                    const nftSalesServiceAgreementTemplate = await templates.nftSalesTemplate.getServiceAgreementTemplate()
+                    const nftSalesServiceAgreementTemplate =
+                        await templates.nftSalesTemplate.getServiceAgreementTemplate()
 
                     await ddo.addService(
                         this.nevermined,
@@ -244,7 +246,8 @@ export class Assets extends Instantiable {
                         )
                     )
 
-                    const nftSalesTemplateConditions = await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
+                    const nftSalesTemplateConditions =
+                        await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
                     nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                         nftSalesTemplateConditions,
                         ddo,
@@ -258,7 +261,8 @@ export class Assets extends Instantiable {
 
                 if (nftAttributes && serviceTypes.includes('nft-access')) {
                     this.logger.debug('Adding NTF Access Service')
-                    const nftAccessServiceAgreementTemplate = await templates.nftAccessTemplate.getServiceAgreementTemplate()
+                    const nftAccessServiceAgreementTemplate =
+                        await templates.nftAccessTemplate.getServiceAgreementTemplate()
 
                     await ddo.addService(
                         this.nevermined,
@@ -269,7 +273,8 @@ export class Assets extends Instantiable {
                         )
                     )
 
-                    const nftAccessTemplateConditions = await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
+                    const nftAccessTemplateConditions =
+                        await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
                     nftAccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                         nftAccessTemplateConditions,
                         ddo,
@@ -283,7 +288,8 @@ export class Assets extends Instantiable {
 
                 if (nftAttributes && serviceTypes.includes('nft721-access')) {
                     this.logger.debug('Adding NTF721 Access Service')
-                    const nft721AccessServiceAgreementTemplate = await templates.nft721AccessTemplate.getServiceAgreementTemplate()
+                    const nft721AccessServiceAgreementTemplate =
+                        await templates.nft721AccessTemplate.getServiceAgreementTemplate()
 
                     await ddo.addService(
                         this.nevermined,
@@ -294,20 +300,23 @@ export class Assets extends Instantiable {
                         )
                     )
 
-                    const nft721AccessTemplateConditions = await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
-                    nft721AccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                        nft721AccessTemplateConditions,
-                        ddo,
-                        assetRewards,
-                        erc20TokenAddress || this.nevermined.token.getAddress(),
-                        nftAttributes.nftContractAddress,
-                        publisher.getId()
-                    )
+                    const nft721AccessTemplateConditions =
+                        await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
+                    nft721AccessServiceAgreementTemplate.conditions =
+                        fillConditionsWithDDO(
+                            nft721AccessTemplateConditions,
+                            ddo,
+                            assetRewards,
+                            erc20TokenAddress || this.nevermined.token.getAddress(),
+                            nftAttributes.nftContractAddress,
+                            publisher.getId()
+                        )
                 }
 
                 if (serviceTypes.includes('aave-credit')) {
                     this.logger.debug('Adding NTF721 Aave Credit Service')
-                    const nftAaveCreditServiceAgreementTemplate = await templates.aaveCreditTemplate.getServiceAgreementTemplate()
+                    const nftAaveCreditServiceAgreementTemplate =
+                        await templates.aaveCreditTemplate.getServiceAgreementTemplate()
 
                     await ddo.addService(
                         this.nevermined,
@@ -318,15 +327,17 @@ export class Assets extends Instantiable {
                         )
                     )
 
-                    const nft721AaveCreditTemplateConditions = await templates.aaveCreditTemplate.getServiceAgreementTemplateConditions()
-                    nftAaveCreditServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                        nft721AaveCreditTemplateConditions,
-                        ddo,
-                        assetRewards,
-                        erc20TokenAddress || this.nevermined.token.getAddress(),
-                        nftAttributes.nftContractAddress,
-                        publisher.getId()
-                    )
+                    const nft721AaveCreditTemplateConditions =
+                        await templates.aaveCreditTemplate.getServiceAgreementTemplateConditions()
+                    nftAaveCreditServiceAgreementTemplate.conditions =
+                        fillConditionsWithDDO(
+                            nft721AaveCreditTemplateConditions,
+                            ddo,
+                            assetRewards,
+                            erc20TokenAddress || this.nevermined.token.getAddress(),
+                            nftAttributes.nftContractAddress,
+                            publisher.getId()
+                        )
                 }
 
                 this.logger.log('Services Added')
@@ -602,7 +613,6 @@ export class Assets extends Instantiable {
         nftMetadata?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        
         const nftAttributes: NFTAttributes = {
             ercType: 1155,
             nftContractAddress: this.nevermined.keeper.nftUpgradeable.address,
@@ -952,26 +962,10 @@ export class Assets extends Instantiable {
     public async download(
         did: string,
         ownerAccount: Account,
-        resultPath: string,
-        fileIndex?: number,
-        useSecretStore?: boolean
-    ): Promise<string>
-
-    public async download(
-        did: string,
-        ownerAccount: Account,
-        resultPath?: undefined | null,
-        fileIndex?: number,
-        useSecretStore?: boolean
-    ): Promise<true>
-
-    public async download(
-        did: string,
-        ownerAccount: Account,
         resultPath?: string,
         fileIndex: number = -1,
         useSecretStore?: boolean
-    ): Promise<string | boolean> {
+    ): Promise<string> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
@@ -1017,7 +1011,7 @@ export class Assets extends Instantiable {
         if (resultPath) {
             return resultPath
         }
-        return true
+        return 'success'
     }
 
     public async delegatePermissions(
@@ -1317,5 +1311,4 @@ export class Assets extends Instantiable {
             }
         }
     }
-
 }

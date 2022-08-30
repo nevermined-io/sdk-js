@@ -155,12 +155,13 @@ describe('TransferDIDOwnershipCondition', () => {
             const storedDIDRegister: any = await didRegistry.getDIDRegister(did)
             assert.equal(storedDIDRegister.owner, owner.getId())
 
-            const contractReceipt: ContractReceipt = await transferDidOwnershipCondition.fulfill(
-                agreementId,
-                did,
-                receiver.getId(),
-                owner
-            )
+            const contractReceipt: ContractReceipt =
+                await transferDidOwnershipCondition.fulfill(
+                    agreementId,
+                    did,
+                    receiver.getId(),
+                    owner
+                )
 
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)

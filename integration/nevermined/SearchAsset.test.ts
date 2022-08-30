@@ -9,9 +9,7 @@ describe('Search Asset', () => {
 
     let publisher: Account
 
-    const testHash = Math.random()
-        .toString(36)
-        .substr(2)
+    const testHash = Math.random().toString(36).substr(2)
     let price
     const metadataGenerator = (name: string, userId: string) => {
         const metadata = generateMetadata(`${name}${testHash}`, price) as MetaData

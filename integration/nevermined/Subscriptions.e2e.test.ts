@@ -13,7 +13,11 @@ import SubscriptionNft721 from '../../src/keeper/contracts/SubscriptionNft721'
 import BigNumber from '../../src/utils/BigNumber'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -267,11 +271,10 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 e => e,
                 eventOptions
             )
-            const [
-                event
-            ] = await nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
-                eventOptions
-            )
+            const [event] =
+                await nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+                    eventOptions
+                )
 
             // subgraph event or json-rpc event?
             const eventValues = event.args || event

@@ -41,11 +41,8 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
         creator: string,
         parameters: NFT721SalesTemplateParams
     ): Promise<AgreementInstance<NFT721SalesTemplateParams>> {
-        const {
-            transferNft721Condition,
-            lockPaymentCondition,
-            escrowPaymentCondition
-        } = this.nevermined.keeper.conditions
+        const { transferNft721Condition, lockPaymentCondition, escrowPaymentCondition } =
+            this.nevermined.keeper.conditions
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
@@ -62,12 +59,13 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
             ctx,
             lockPaymentConditionInstance
         )
-        const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
-            agreementId,
-            ctx,
-            transferConditionInstance,
-            lockPaymentConditionInstance
-        )
+        const escrowPaymentConditionInstance =
+            await escrowPaymentCondition.instanceFromDDO(
+                agreementId,
+                ctx,
+                transferConditionInstance,
+                lockPaymentConditionInstance
+            )
 
         return {
             instances: [

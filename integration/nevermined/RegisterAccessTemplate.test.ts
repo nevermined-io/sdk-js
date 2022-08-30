@@ -46,21 +46,14 @@ describe('Register Escrow Access Secret Store Template', () => {
         ;({ token } = keeper)
 
         // Accounts
-        ;[
-            templateManagerOwner,
-            publisher,
-            consumer,
-            provider
-        ] = await nevermined.accounts.list()
+        ;[templateManagerOwner, publisher, consumer, provider] =
+            await nevermined.accounts.list()
 
         receivers = [publisher.getId(), provider.getId()]
 
         // Conditions
-        ;({
-            accessCondition,
-            lockPaymentCondition,
-            escrowPaymentCondition
-        } = keeper.conditions)
+        ;({ accessCondition, lockPaymentCondition, escrowPaymentCondition } =
+            keeper.conditions)
     })
 
     describe('Propose and approve template', () => {

@@ -37,10 +37,8 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
         creator: string,
         parameters: NFTAccessTemplateParams
     ): Promise<AgreementInstance<NFTAccessTemplateParams>> {
-        const {
-            nftHolderCondition,
-            nftAccessCondition
-        } = this.nevermined.keeper.conditions
+        const { nftHolderCondition, nftAccessCondition } =
+            this.nevermined.keeper.conditions
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
