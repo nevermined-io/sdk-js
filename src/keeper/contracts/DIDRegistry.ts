@@ -73,23 +73,24 @@ export interface ActedOnBehalfEvent extends ProvenanceBaseEvent {
     delegateAgentId: string
     responsibleAgentId: string
 }
-export type ProvenanceEvent<T extends ProvenanceMethod | any = any> =
-    T extends ProvenanceMethod.WAS_GENERATED_BY
-        ? WasGeneratedByEvent
-        : T extends ProvenanceMethod.USED
-        ? UsedEvent
-        : T extends ProvenanceMethod.WAS_DERIVED_FROM
-        ? WasDerivedFromEvent
-        : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
-        ? WasAssociatedWithEvent
-        : T extends ProvenanceMethod.ACTED_ON_BEHALF
-        ? ActedOnBehalfEvent
-        :
-              | WasGeneratedByEvent
-              | UsedEvent
-              | WasDerivedFromEvent
-              | WasAssociatedWithEvent
-              | ActedOnBehalfEvent
+export type ProvenanceEvent<
+    T extends ProvenanceMethod | any = any
+> = T extends ProvenanceMethod.WAS_GENERATED_BY
+    ? WasGeneratedByEvent
+    : T extends ProvenanceMethod.USED
+    ? UsedEvent
+    : T extends ProvenanceMethod.WAS_DERIVED_FROM
+    ? WasDerivedFromEvent
+    : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
+    ? WasAssociatedWithEvent
+    : T extends ProvenanceMethod.ACTED_ON_BEHALF
+    ? ActedOnBehalfEvent
+    :
+          | WasGeneratedByEvent
+          | UsedEvent
+          | WasDerivedFromEvent
+          | WasAssociatedWithEvent
+          | ActedOnBehalfEvent
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -260,7 +261,7 @@ export default class DIDRegistry extends ContractBase {
                 }
             })
         )
-            .map((event) => {
+            .map(event => {
                 if (event.args) {
                     return event.args._did
                 } else {
@@ -366,13 +367,13 @@ export default class DIDRegistry extends ContractBase {
                 }
             })
         )
-            .map((event) => {
+            .map(event => {
                 if (event.args === undefined)
                     return eventToObject(event) as ProvenanceAttributeRegisteredEvent
                 else
                     return eventToObject(event.args) as ProvenanceAttributeRegisteredEvent
             })
-            .map((event) => ({ ...event, method: +event.method }))
+            .map(event => ({ ...event, method: +event.method }))
             .sort(
                 (
                     firstEvent: ProvenanceAttributeRegisteredEvent,
@@ -430,8 +431,8 @@ export default class DIDRegistry extends ContractBase {
         }
         const events = await this.events.getPastEvents(eventOptions)
         return events
-            .map((event) => eventToObject(event))
-            .map((event) => ({ ...event, method: +method }))
+            .map(event => eventToObject(event))
+            .map(event => ({ ...event, method: +method }))
             .sort(
                 (
                     firstEvent: ProvenanceAttributeRegisteredEvent,

@@ -22,9 +22,9 @@ describe('SubscribablePromise', () => {
             assert.typeOf(subscription.unsubscribe, 'function')
         })
 
-        it('should listen the next values', (done) => {
+        it('should listen the next values', done => {
             const onNextSpy = spy()
-            const subscribable = new SubscribablePromise((observer) => {
+            const subscribable = new SubscribablePromise(observer => {
                 setTimeout(() => observer.next('test'), 10)
                 setTimeout(() => observer.next('test'), 20)
             })
@@ -39,10 +39,10 @@ describe('SubscribablePromise', () => {
     })
 
     describe('#then()', () => {
-        it('should resolve', (done) => {
+        it('should resolve', done => {
             const onCompleteSpy = spy()
             const onFinallySpy = spy()
-            const subscribable = new SubscribablePromise((observer) => {
+            const subscribable = new SubscribablePromise(observer => {
                 setTimeout(() => observer.next('test'), 10)
                 setTimeout(() => observer.complete('test'), 20)
             })
@@ -59,10 +59,10 @@ describe('SubscribablePromise', () => {
     })
 
     describe('#error()', () => {
-        it('should catch the error', (done) => {
+        it('should catch the error', done => {
             const onErrorSpy = spy()
             const onFinallySpy = spy()
-            const subscribable = new SubscribablePromise((observer) => {
+            const subscribable = new SubscribablePromise(observer => {
                 setTimeout(() => observer.next('test'), 10)
                 setTimeout(() => observer.error('test'), 20)
             })
@@ -80,7 +80,7 @@ describe('SubscribablePromise', () => {
 
     it('should be able to subscribe and wait for a promise', async () => {
         const onNextSpy = spy()
-        const subscribable = new SubscribablePromise((observer) => {
+        const subscribable = new SubscribablePromise(observer => {
             setTimeout(() => observer.next('test'), 10)
             setTimeout(() => observer.next('test'), 20)
             setTimeout(() => observer.complete('completed'), 30)
@@ -96,12 +96,12 @@ describe('SubscribablePromise', () => {
 
     it('should use the result of a the promise as executor to complete the observer', async () => {
         const onNextSpy = spy()
-        const subscribable = new SubscribablePromise(async (observer) => {
-            await new Promise((resolve) => setTimeout(resolve, 10))
+        const subscribable = new SubscribablePromise(async observer => {
+            await new Promise(resolve => setTimeout(resolve, 10))
             observer.next('test')
-            await new Promise((resolve) => setTimeout(resolve, 10))
+            await new Promise(resolve => setTimeout(resolve, 10))
             observer.next('test')
-            await new Promise((resolve) => setTimeout(resolve, 10))
+            await new Promise(resolve => setTimeout(resolve, 10))
             return 'completed'
         })
 

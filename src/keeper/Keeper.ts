@@ -79,6 +79,7 @@ export class Keeper extends Instantiable {
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
                 nftUpgradeable: undefined, // Optional
+                curveRoyalties: undefined, // Optional
                 didRegistry: DIDRegistry.getInstance(this.instanceConfig),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(
@@ -117,18 +118,22 @@ export class Keeper extends Instantiable {
                     this.instanceConfig
                 ),
                 aaveBorrowCondition: AaveBorrowCondition.getInstance(this.instanceConfig),
-                aaveCollateralDepositCondition:
-                    AaveCollateralDepositCondition.getInstance(this.instanceConfig),
-                aaveCollateralWithdrawCondition:
-                    AaveCollateralWithdrawCondition.getInstance(this.instanceConfig),
+                aaveCollateralDepositCondition: AaveCollateralDepositCondition.getInstance(
+                    this.instanceConfig
+                ),
+                aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition.getInstance(
+                    this.instanceConfig
+                ),
                 aaveRepayCondition: AaveRepayCondition.getInstance(this.instanceConfig),
                 nft721LockCondition: NFT721LockCondition.getInstance(this.instanceConfig),
-                distributeNftCollateralCondition:
-                    DistributeNFTCollateralCondition.getInstance(this.instanceConfig),
+                distributeNftCollateralCondition: DistributeNFTCollateralCondition.getInstance(
+                    this.instanceConfig
+                ),
                 // Templates
                 accessTemplate: AccessTemplate.getInstance(this.instanceConfig),
-                escrowComputeExecutionTemplate:
-                    EscrowComputeExecutionTemplate.getInstance(this.instanceConfig),
+                escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
+                    this.instanceConfig
+                ),
                 nftAccessTemplate: NFTAccessTemplate.getInstance(this.instanceConfig),
                 nft721AccessTemplate: NFT721AccessTemplate.getInstance(
                     this.instanceConfig
@@ -138,7 +143,6 @@ export class Keeper extends Instantiable {
                 nft721SalesTemplate: NFT721SalesTemplate.getInstance(this.instanceConfig),
                 aaveCreditTemplate: AaveCreditTemplate.getInstance(this.instanceConfig), // optional
                 standardRoyalties: StandardRoyalties.getInstance(this.instanceConfig), // optional
-                curveRoyalties: CurveRoyalties.getInstance(this.instanceConfig), // optional
                 rewardsDistributor: RewardsDistributor.getInstance(this.instanceConfig)
             })
 
@@ -208,6 +212,14 @@ export class Keeper extends Instantiable {
             this.logger.debug('AaveCreditTemplate not available on this network.')
         }
 
+        try {
+            this.instances.curveRoyalties = await CurveRoyalties.getInstance(
+                this.instanceConfig
+            )
+        } catch {
+            this.logger.debug('CurveRoyalties not available on this network.')
+        }
+
         // Main contracts
         this.dispenser = this.instances.dispenser
         this.token = this.instances.token
@@ -232,12 +244,12 @@ export class Keeper extends Instantiable {
             transferDidOwnershipCondition: this.instances.transferDidOwnershipCondition,
             aaveBorrowCondition: this.instances.aaveBorrowCondition,
             aaveCollateralDepositCondition: this.instances.aaveCollateralDepositCondition,
-            aaveCollateralWithdrawCondition:
-                this.instances.aaveCollateralWithdrawCondition,
+            aaveCollateralWithdrawCondition: this.instances
+                .aaveCollateralWithdrawCondition,
             aaveRepayCondition: this.instances.aaveRepayCondition,
             nft721LockCondition: this.instances.nft721LockCondition,
-            distributeNftCollateralCondition:
-                this.instances.distributeNftCollateralCondition
+            distributeNftCollateralCondition: this.instances
+                .distributeNftCollateralCondition
         }
         this.conditionsList = Object.values(this.conditions)
         // Templates
@@ -391,7 +403,7 @@ export class Keeper extends Instantiable {
      * @return {Condition} Condition instance.
      */
     public getConditionByAddress(address: string): ConditionSmall {
-        return this.conditionsList.find((condition) => condition.getAddress() === address)
+        return this.conditionsList.find(condition => condition.getAddress() === address)
     }
 
     /**
@@ -401,7 +413,7 @@ export class Keeper extends Instantiable {
      */
     public getTemplateByName(name: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
-            (template) => template.contractName === name
+            template => template.contractName === name
         )
     }
 
@@ -411,7 +423,7 @@ export class Keeper extends Instantiable {
      * @return {GenericAccess} Agreement template instance.
      */
     public getAccessTemplateByName(name: string): GenericAccess {
-        return this.templateList.find((template) => template.contractName === name)
+        return this.templateList.find(template => template.contractName === name)
     }
 
     /**
@@ -421,7 +433,7 @@ export class Keeper extends Instantiable {
      */
     public getTemplateByAddress(address: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
-            (template) => template.getAddress() === address
+            template => template.getAddress() === address
         )
     }
 
@@ -444,7 +456,7 @@ export class Keeper extends Instantiable {
         }
 
         while (!this.network.id) {
-            await new Promise((resolve) => setTimeout(resolve, 1))
+            await new Promise(resolve => setTimeout(resolve, 1))
         }
 
         return this.network.id

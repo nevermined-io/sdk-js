@@ -18,7 +18,7 @@ export default class AssetRewards {
         this.rewards = new Map()
         if (_params.length === 1) {
             this.rewards = _params[0]
-            this.rewards.forEach((v) => (this.totalPrice = this.totalPrice.add(v)))
+            this.rewards.forEach(v => (this.totalPrice = this.totalPrice.add(v)))
         } else if (_params.length === 2) {
             this.rewards.set(_params[0], _params[1])
             this.totalPrice = _params[1]
@@ -48,7 +48,7 @@ export default class AssetRewards {
     public getAmountsString(): string {
         return this.rewards.size
             ? JSON.stringify(
-                  Array.from(this.rewards.values()).map((value) => value.toString())
+                  Array.from(this.rewards.values()).map(value => value.toString())
               )
             : '[]'
     }

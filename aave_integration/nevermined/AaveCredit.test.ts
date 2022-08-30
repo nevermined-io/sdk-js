@@ -81,8 +81,11 @@ describe('AaveCredit', () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ agreementFee } = config.aaveConfig)
         ;({ aaveCreditTemplate } = nevermined.keeper.templates)
-        ;({ conditionStoreManager, didRegistry, agreementStoreManager } =
-            nevermined.keeper)
+        ;({
+            conditionStoreManager,
+            didRegistry,
+            agreementStoreManager
+        } = nevermined.keeper)
         ;({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
         ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
         timeLocks = [0, 0, 0, 0, 0, 0]
@@ -150,7 +153,7 @@ describe('AaveCredit', () => {
         )
     })
 
-    describe('Create a credit NFT collateral agreement', function () {
+    describe('Create a credit NFT collateral agreement', function() {
         this.timeout(100000)
         it('should propose the AaveCreditTemplate', async () => {
             if (!isTemplateApproved) {
@@ -205,7 +208,7 @@ describe('AaveCredit', () => {
                     timeOuts
                 )
                 ;({ agreementId } = res)
-                conditionIds = res.data.instances.map((a) => a.id)
+                conditionIds = res.data.instances.map(a => a.id)
             }
 
             vaultAddress = await aaveCreditTemplate.getAgreementVaultAddress(
@@ -393,8 +396,10 @@ describe('AaveCredit', () => {
                 )
                 assert.strictEqual(stateRepay, ConditionState.Fulfilled)
 
-                const vaultBalancesAfter =
-                    await nevermined.aaveCredit.getActualCreditDebt(agreementId, borrower)
+                const vaultBalancesAfter = await nevermined.aaveCredit.getActualCreditDebt(
+                    agreementId,
+                    borrower
+                )
                 // Compare the vault debt after repayment
                 assert.strictEqual(vaultBalancesAfter, 0)
             }
@@ -433,7 +438,10 @@ describe('AaveCredit', () => {
                 assert.strictEqual(daiFee, daiAfter.sub(daiBefore).toNumber())
 
                 assert.isTrue(
-                    ethBalanceAfter.sub(ethBalanceBefore).sub(collateralAmount).gt(0)
+                    ethBalanceAfter
+                        .sub(ethBalanceBefore)
+                        .sub(collateralAmount)
+                        .gt(0)
                 )
             }
         })

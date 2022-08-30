@@ -48,8 +48,11 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         creator: string,
         parameters: NFTSalesTemplateParams
     ): Promise<AgreementInstance<NFTSalesTemplateParams>> {
-        const { transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
-            this.nevermined.keeper.conditions
+        const {
+            transferNftCondition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
@@ -66,13 +69,12 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
             ctx,
             lockPaymentConditionInstance
         )
-        const escrowPaymentConditionInstance =
-            await escrowPaymentCondition.instanceFromDDO(
-                agreementId,
-                ctx,
-                transferConditionInstance,
-                lockPaymentConditionInstance
-            )
+        const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
+            agreementId,
+            ctx,
+            transferConditionInstance,
+            lockPaymentConditionInstance
+        )
 
         return {
             instances: [

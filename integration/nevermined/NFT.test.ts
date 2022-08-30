@@ -7,6 +7,7 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { Token } from '../../src/nevermined/Token'
 import { ZeroAddress } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined
@@ -17,6 +18,7 @@ describe('Nfts operations', () => {
 
     let token: Token
     let payload: JWTPayload
+    let royaltyAttributes: RoyaltyAttributes
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -34,11 +36,12 @@ describe('Nfts operations', () => {
         before(async () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
+            royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
             ddo = await nevermined.nfts.create(
                 metadata,
                 artist,
                 10,
-                0,
+                royaltyAttributes,
                 new AssetRewards()
             )
         })
@@ -81,7 +84,7 @@ describe('Nfts operations', () => {
                 metadata,
                 artist,
                 10,
-                0,
+                royaltyAttributes,
                 new AssetRewards(),
                 undefined,
                 token.getAddress()
@@ -126,7 +129,7 @@ describe('Nfts operations', () => {
                 metadata,
                 artist,
                 10,
-                0,
+                royaltyAttributes,
                 new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
                 undefined,
                 ZeroAddress

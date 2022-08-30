@@ -7,6 +7,7 @@ import { didPrefixed, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
+import { MetaData } from './MetaData'
 
 /**
  * DID Descriptor Object.
@@ -62,6 +63,26 @@ export class DDO {
         })
     }
 
+    public static getInstance(userId: string, publisherAddress: string): DDO {
+        return new DDO({
+            id: '',
+            userId: userId,
+            authentication: [
+                {
+                    type: 'RsaSignatureAuthentication2018',
+                    publicKey: ''
+                }
+            ],
+            publicKey: [
+                {
+                    id: '',
+                    type: 'EthereumECDSAKey',
+                    owner: publisherAddress
+                }
+            ]
+        })
+    }
+
     public shortId(): string {
         return this.id.replace('did:nv:', '')
     }
@@ -76,7 +97,7 @@ export class DDO {
             throw new Error('index is not set')
         }
 
-        const service = this.service.find((s) => s.index === index)
+        const service = this.service.find(s => s.index === index)
         if (service === undefined) {
             throw new Error(`No service with index ${index} found on DDO.`)
         }
@@ -94,7 +115,7 @@ export class DDO {
             throw new Error('serviceType not set')
         }
 
-        return this.service.find((s) => s.type === serviceType) as Service<T>
+        return this.service.find(s => s.type === serviceType) as Service<T>
     }
 
     public checksum(seed: string): string {
@@ -110,7 +131,7 @@ export class DDO {
      */
     public async generateProof(publicKey: string): Promise<Proof> {
         const checksum = {}
-        this.service.forEach((svc) => {
+        this.service.forEach(svc => {
             checksum[svc.index] = this.checksum(
                 JSON.stringify(this.findServiceByType(svc.type).attributes.main)
             )
@@ -138,6 +159,27 @@ export class DDO {
 
     public async addService(nevermined: Nevermined, service: any): Promise<void> {
         this.service.push(service)
+    }
+
+    public async addDefaultMetadataService(metadata: MetaData): Promise<void> {
+        this.service.push({
+            type: 'metadata',
+            index: 0,
+            serviceEndpoint: '',
+            attributes: {
+                // Default values
+                curation: {
+                    rating: 0,
+                    numVotes: 0
+                },
+                // Overwrites defaults
+                ...metadata,
+                // Cleaning not needed information
+                main: {
+                    ...metadata.main
+                } as any
+            }
+        } as Service)
     }
 
     public async updateService(nevermined: Nevermined, service: any): Promise<void> {

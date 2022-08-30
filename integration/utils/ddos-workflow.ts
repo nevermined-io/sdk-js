@@ -18,7 +18,8 @@ export const workflowMetadatas = {
                         checksum: `0000000000000000000000000000000`,
                         checksumType: 'MD5',
                         contentLength: '12057507',
-                        url: 'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
+                        url:
+                            'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
                     }
                 ],
                 type: 'dataset'
@@ -41,7 +42,8 @@ export const workflowMetadatas = {
                         checksum: `0000000000000000000000000000000`,
                         checksumType: 'MD5',
                         contentLength: '12057507',
-                        url: 'https://raw.githubusercontent.com/nevermined-io/docs/515d4f5da771dae0a4827ba757ce9b018e66276f/resources/word_count.py'
+                        url:
+                            'https://raw.githubusercontent.com/nevermined-io/docs/515d4f5da771dae0a4827ba757ce9b018e66276f/resources/word_count.py'
                     }
                 ],
                 type: 'algorithm',
@@ -78,7 +80,8 @@ export const workflowMetadatas = {
                         checksum: `0000000000000000000000000000000`,
                         checksumType: 'MD5',
                         contentLength: '12057507',
-                        url: 'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
+                        url:
+                            'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
                     }
                 ],
                 type: 'compute'

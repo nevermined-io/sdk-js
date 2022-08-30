@@ -12,18 +12,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ["--polygon", "--spree-embedded-contracts"]
+        network: ["--polygon", "--spree-embedded-contracts", "--geth"]
         node: ["16"]
         include:
           - network: "--spree-embedded-contracts"
             network-name: spree
             chainId: 8996
+            delay: none
           - network: "--polygon"
             network-name: polygon-localnet
             chainId: 8997
-#          - network: "--geth"
-#            network-name: geth-localnet
-#            chainId: 8998
+            delay: none
+          - network: "--geth"
+            network-name: geth-localnet
+            chainId: 8998
+            delay: GRAPH_DELAY
 
     steps:
       - uses: actions/checkout@v2
@@ -64,7 +67,9 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+          OLD_GATEWAY: false
         run: |
+          export ${{ matrix.delay }}=true
           npm run integration:cover
       - name: Upload logs
         uses: actions/upload-artifact@v2

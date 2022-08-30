@@ -3,6 +3,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../Account'
 import { SignatureUtils } from './SignatureUtils'
 import { ethers } from 'ethers'
+import { Config } from '../../sdk'
 
 export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -13,6 +14,7 @@ export class EthSignJWT extends SignJWT {
     }
 
     async ethSign(
+        config: Config,
         address: string,
         signatureUtils: SignatureUtils,
         web3: ethers.providers.JsonRpcProvider,
@@ -34,7 +36,7 @@ export class EthSignJWT extends SignJWT {
         let input = ethers.utils.arrayify(sign)
 
         // TODO: remove once migration to new gateway is complete
-        if (!isEtherSign && process.env.OLD_GATEWAY === 'true') {
+        if (!isEtherSign && !config.newGateway) {
             input = input.slice(0, 64)
         }
 
@@ -58,7 +60,7 @@ export class EthSignJWT extends SignJWT {
         const size = buffers.reduce((acc, { length }) => acc + length, 0)
         const buf = new Uint8Array(size)
         let i = 0
-        buffers.forEach((buffer) => {
+        buffers.forEach(buffer => {
             buf.set(buffer, i)
             i += buffer.length
         })
@@ -111,7 +113,13 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3, true)
+            .ethSign(
+                this.config,
+                address,
+                this.nevermined.utils.signature,
+                this.web3,
+                true
+            )
     }
 
     public async generateAccessGrantToken(
@@ -130,7 +138,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateToken(
@@ -152,7 +160,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateDownloadGrantToken(
@@ -169,7 +177,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateExecuteGrantToken(
@@ -188,7 +196,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateComputeGrantToken(
@@ -207,7 +215,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
     }
 
     public async generateNftAccessGrantToken(
@@ -228,6 +236,6 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(address, this.nevermined.utils.signature, this.web3)
+            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
     }
 }
