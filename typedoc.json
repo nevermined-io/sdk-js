@@ -4,5 +4,7 @@
      "./src/index.ts",
     ],
     "plugin": ["typedoc-plugin-markdown"],
-    "out": "./docs"
+    "out": "./docs/api-reference",
+    "readme": "none",
+    "entryDocument": "code-reference.md"
 }
