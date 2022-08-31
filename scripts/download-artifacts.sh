@@ -23,7 +23,7 @@ declare -A NETWORKS_MAP
 NETWORKS_MAP=( ["mainnet"]="1" ["rinkeby"]="4" ["kovan"]="42" ["matic"]="137" ["mumbai"]="80001" ["celo-alfajores"]="44787" ["celo"]="42220" ["aurora"]="1313161554" ["aurora-testnet"]="1313161555" )
 
 SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)
-UNPACK_DIR="$SCRIPT_DIR/../node_modules/@nevermined-io/contracts/artifacts"
+UNPACK_DIR="$SCRIPT_DIR/../artifacts"
 mkdir -p $UNPACK_DIR
 
 # Return numerical chainId given a network name (considering networks names from our hardhat config)
