@@ -42,6 +42,8 @@ export class DDO {
      */
     public id: string = null
 
+    public didSeed: string = null
+
     public userId: string
 
     public created: string
@@ -184,9 +186,14 @@ export class DDO {
         this.service[0] = service
     }
 
-    public async assignDid(didSeed, didRegistry: DIDRegistry, publisher: Account) {
+    public async assignDid(
+        didSeed: string,
+        didRegistry: DIDRegistry,
+        publisher: Account
+    ) {
         const did = didPrefixed(await didRegistry.hashDID(didSeed, publisher.getId()))
         this.id = did
+        this.didSeed = didSeed
         this.authentication[0].publicKey = did
         this.publicKey[0].id = did
     }

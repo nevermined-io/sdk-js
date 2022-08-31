@@ -93,7 +93,15 @@ export class Assets extends Instantiable {
      */
     public static async getInstance(config: InstantiableConfig): Promise<Assets> {
         const instance = new Assets()
-        instance.servicePlugin = {}
+        instance.servicePlugin = {
+            access: config.nevermined.keeper.templates.accessTemplate,
+            compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
+            'nft-sales': config.nevermined.keeper.templates.nftSalesTemplate,
+            'nft-access': config.nevermined.keeper.templates.nftAccessTemplate,
+            'nft721-sales': config.nevermined.keeper.templates.nft721SalesTemplate,
+            'nft721-access': config.nevermined.keeper.templates.nft721AccessTemplate,
+            'aave-credit': config.nevermined.keeper.templates.aaveCreditTemplate
+        }
         instance.setInstanceConfig(config)
 
         return instance
@@ -126,7 +134,7 @@ export class Assets extends Instantiable {
         return new SubscribablePromise(async observer => {
             try {
                 const { gatewayUri } = this.config
-                const { didRegistry, templates } = this.nevermined.keeper
+                const { didRegistry } = this.nevermined.keeper
                 assetRewards = assetRewards ? assetRewards : new AssetRewards()
 
                 // create ddo itself
@@ -156,188 +164,14 @@ export class Assets extends Instantiable {
                 this.logger.debug('Adding Metadata Service')
                 await ddo.addDefaultMetadataService(metadata)
 
-                if (nftAttributes && serviceTypes.includes('nft721-sales')) {
-                    this.logger.debug('Adding NTF721 Sales Service')
-                    const nft721SalesServiceAgreementTemplate =
-                        await templates.nft721SalesTemplate.getServiceAgreementTemplate()
-
-                    await ddo.addService(
-                        this.nevermined,
-                        await this.createNft721SalesService(
-                            metadata,
-                            publisher,
-                            nft721SalesServiceAgreementTemplate
+                for (const name of serviceTypes) {
+                    const plugin = this.servicePlugin[name]
+                    if (plugin) {
+                        await ddo.addService(
+                            this.nevermined,
+                            await plugin.createService(publisher, metadata)
                         )
-                    )
-
-                    const nft721SalesTemplateConditions =
-                        await templates.nft721SalesTemplate.getServiceAgreementTemplateConditions()
-                    nft721SalesServiceAgreementTemplate.conditions =
-                        fillConditionsWithDDO(
-                            nft721SalesTemplateConditions,
-                            ddo,
-                            assetRewards,
-                            erc20TokenAddress || this.nevermined.token.getAddress(),
-                            nftAttributes.nftContractAddress,
-                            publisher.getId(),
-                            undefined,
-                            nftAttributes.nftTransfer,
-                            nftAttributes.duration
-                        )
-                }
-
-                if (serviceTypes.includes('access')) {
-                    this.logger.log('Adding Access Service')
-                    await ddo.addService(
-                        this.nevermined,
-                        this.createAccessService(
-                            templates,
-                            publisher,
-                            metadata,
-                            await templates.accessTemplate.getServiceAgreementTemplate()
-                        )
-                    )
-
-                    const ddoService = ddo.findServiceByType('access')
-                    const sat: ServiceAgreementTemplate =
-                        ddoService.attributes.serviceAgreementTemplate
-                    sat.conditions = fillConditionsWithDDO(
-                        sat.conditions,
-                        ddo,
-                        assetRewards,
-                        erc20TokenAddress || this.nevermined.token.getAddress()
-                    )
-                }
-
-                if (serviceTypes.includes('compute')) {
-                    this.logger.log('Adding Compute Service')
-                    await ddo.addService(
-                        this.nevermined,
-                        this.createComputeService(
-                            templates,
-                            publisher,
-                            metadata,
-                            await templates.escrowComputeExecutionTemplate.getServiceAgreementTemplate()
-                        )
-                    )
-
-                    const ddoService = ddo.findServiceByType('compute')
-                    const sat: ServiceAgreementTemplate =
-                        ddoService.attributes.serviceAgreementTemplate
-                    sat.conditions = fillConditionsWithDDO(
-                        sat.conditions,
-                        ddo,
-                        assetRewards,
-                        erc20TokenAddress || this.nevermined.token.getAddress()
-                    )
-                }
-
-                if (nftAttributes && serviceTypes.includes('nft-sales')) {
-                    this.logger.debug('Adding NTF Sales Service')
-                    const nftSalesServiceAgreementTemplate =
-                        await templates.nftSalesTemplate.getServiceAgreementTemplate()
-
-                    await ddo.addService(
-                        this.nevermined,
-                        await this.createNftSalesService(
-                            metadata,
-                            publisher,
-                            nftSalesServiceAgreementTemplate
-                        )
-                    )
-
-                    const nftSalesTemplateConditions =
-                        await templates.nftSalesTemplate.getServiceAgreementTemplateConditions()
-                    nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                        nftSalesTemplateConditions,
-                        ddo,
-                        assetRewards,
-                        erc20TokenAddress || this.nevermined.token.getAddress(),
-                        undefined,
-                        publisher.getId(),
-                        nftAttributes.amount
-                    )
-                }
-
-                if (nftAttributes && serviceTypes.includes('nft-access')) {
-                    this.logger.debug('Adding NTF Access Service')
-                    const nftAccessServiceAgreementTemplate =
-                        await templates.nftAccessTemplate.getServiceAgreementTemplate()
-
-                    await ddo.addService(
-                        this.nevermined,
-                        await this.createNftAccessService(
-                            metadata,
-                            publisher,
-                            nftAccessServiceAgreementTemplate
-                        )
-                    )
-
-                    const nftAccessTemplateConditions =
-                        await templates.nftAccessTemplate.getServiceAgreementTemplateConditions()
-                    nftAccessServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-                        nftAccessTemplateConditions,
-                        ddo,
-                        assetRewards,
-                        erc20TokenAddress || this.nevermined.token.getAddress(),
-                        undefined,
-                        publisher.getId(),
-                        nftAttributes.amount
-                    )
-                }
-
-                if (nftAttributes && serviceTypes.includes('nft721-access')) {
-                    this.logger.debug('Adding NTF721 Access Service')
-                    const nft721AccessServiceAgreementTemplate =
-                        await templates.nft721AccessTemplate.getServiceAgreementTemplate()
-
-                    await ddo.addService(
-                        this.nevermined,
-                        await this.createNft721AccessService(
-                            metadata,
-                            publisher,
-                            nft721AccessServiceAgreementTemplate
-                        )
-                    )
-
-                    const nft721AccessTemplateConditions =
-                        await templates.nft721AccessTemplate.getServiceAgreementTemplateConditions()
-                    nft721AccessServiceAgreementTemplate.conditions =
-                        fillConditionsWithDDO(
-                            nft721AccessTemplateConditions,
-                            ddo,
-                            assetRewards,
-                            erc20TokenAddress || this.nevermined.token.getAddress(),
-                            nftAttributes.nftContractAddress,
-                            publisher.getId()
-                        )
-                }
-
-                if (serviceTypes.includes('aave-credit')) {
-                    this.logger.debug('Adding NTF721 Aave Credit Service')
-                    const nftAaveCreditServiceAgreementTemplate =
-                        await templates.aaveCreditTemplate.getServiceAgreementTemplate()
-
-                    await ddo.addService(
-                        this.nevermined,
-                        await this.createNftAaveCreditService(
-                            metadata,
-                            publisher,
-                            nftAaveCreditServiceAgreementTemplate
-                        )
-                    )
-
-                    const nft721AaveCreditTemplateConditions =
-                        await templates.aaveCreditTemplate.getServiceAgreementTemplateConditions()
-                    nftAaveCreditServiceAgreementTemplate.conditions =
-                        fillConditionsWithDDO(
-                            nft721AaveCreditTemplateConditions,
-                            ddo,
-                            assetRewards,
-                            erc20TokenAddress || this.nevermined.token.getAddress(),
-                            nftAttributes.nftContractAddress,
-                            publisher.getId()
-                        )
+                    }
                 }
 
                 this.logger.log('Services Added')
@@ -357,6 +191,25 @@ export class Assets extends Instantiable {
 
                 this.logger.log('Proof generated')
                 observer.next(CreateProgressStep.ProofGenerated)
+
+                for (const name of serviceTypes) {
+                    const service = ddo.findServiceByType(name)
+                    const { nftContractAddress, amount, nftTransfer, duration } =
+                        nftAttributes || new NFTAttributes()
+                    const sat: ServiceAgreementTemplate =
+                        service.attributes.serviceAgreementTemplate
+                    sat.conditions = fillConditionsWithDDO(
+                        sat.conditions,
+                        ddo,
+                        assetRewards,
+                        erc20TokenAddress || this.nevermined.token.getAddress(),
+                        nftContractAddress,
+                        publisher.getId(),
+                        amount,
+                        nftTransfer,
+                        duration
+                    )
+                }
 
                 this.logger.log('Conditions filled')
                 observer.next(CreateProgressStep.ConditionsFilled)
@@ -571,7 +424,8 @@ export class Assets extends Instantiable {
         nftContractAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        services: ServiceType[] = ['nft-access', 'nft-sales']
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: 1155,
@@ -590,7 +444,7 @@ export class Assets extends Instantiable {
             publisher,
             encryptionMethod,
             assetRewards,
-            ['nft-access', 'nft-sales'],
+            services,
             [],
             nftAttributes,
             erc20TokenAddress,
@@ -682,34 +536,16 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
-        serviceTimeout: number = 86400,
+        _serviceTimeout: number = 86400,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return new SubscribablePromise(async () => {
-            const computeService = {
-                main: {
-                    name: 'dataAssetComputeServiceAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.dateCreated,
-                    price: metadata.main.price,
-                    timeout: serviceTimeout,
-                    provider: this.providerConfig()
-                }
-            }
-
             return this.create(
                 metadata,
                 publisher,
                 assetRewards,
                 ['compute'],
-                [
-                    {
-                        type: 'compute',
-                        index: 4,
-                        serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
-                        attributes: computeService
-                    } as Service
-                ],
+                undefined,
                 encryptionMethod,
                 undefined,
                 undefined,
@@ -1066,103 +902,6 @@ export class Assets extends Instantiable {
         )
     }
 
-    private async providerConfig() {
-        return {
-            type: 'Azure',
-            description: '',
-            environment: {
-                cluster: {
-                    type: 'Kubernetes',
-                    url: 'http://10.0.0.17/xxx'
-                },
-                supportedContainers: [
-                    {
-                        image: 'tensorflow/tensorflow',
-                        tag: 'latest',
-                        checksum:
-                            'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
-                    },
-                    {
-                        image: 'tensorflow/tensorflow',
-                        tag: 'latest',
-                        checksum:
-                            'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'
-                    }
-                ],
-                supportedServers: [
-                    {
-                        serverId: '1',
-                        serverType: 'xlsize',
-                        price: '50',
-                        cpu: '16',
-                        gpu: '0',
-                        memory: '128gb',
-                        disk: '160gb',
-                        maxExecutionTime: 86400
-                    },
-                    {
-                        serverId: '2',
-                        serverType: 'medium',
-                        price: '10',
-                        cpu: '2',
-                        gpu: '0',
-                        memory: '8gb',
-                        disk: '80gb',
-                        maxExecutionTime: 86400
-                    }
-                ]
-            }
-        }
-    }
-
-    private createAccessService(
-        templates,
-        publisher,
-        metadata: MetaData,
-        serviceAgreementTemplate
-    ) {
-        return {
-            type: 'access',
-            index: 3,
-            serviceEndpoint: this.nevermined.gateway.getAccessEndpoint(),
-            templateId: templates.accessTemplate.getAddress(),
-            attributes: {
-                main: {
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    name: 'dataAssetAccessServiceAgreement',
-                    timeout: 3600
-                },
-                serviceAgreementTemplate
-            }
-        } as Service
-    }
-
-    private createComputeService(
-        templates,
-        publisher,
-        metadata: MetaData,
-        serviceAgreementTemplate
-    ) {
-        return {
-            type: 'compute',
-            index: 4,
-            serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
-            templateId: templates.escrowComputeExecutionTemplate.getAddress(),
-            attributes: {
-                main: {
-                    name: 'dataAssetComputeServiceAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    price: metadata.main.price,
-                    timeout: 86400,
-                    provider: this.providerConfig()
-                },
-                serviceAgreementTemplate
-            }
-        } as Service
-    }
-
     private createAuthorizationService(
         gatewayUri: string,
         publicKey: string,
@@ -1180,135 +919,5 @@ export class Assets extends Instantiable {
                 }
             }
         } as Service
-    }
-
-    private async createNftAccessService(
-        metadata: MetaData,
-        publisher: Account,
-        serviceAgreementTemplate: ServiceAgreementTemplate
-    ): Promise<Service> {
-        const { nftAccessTemplate } = this.nevermined.keeper.templates
-        return {
-            type: 'nft-access',
-            index: 7,
-            serviceEndpoint: this.nevermined.gateway.getNftAccessEndpoint(),
-            templateId: nftAccessTemplate.getAddress(),
-            attributes: {
-                main: {
-                    name: 'nftAccessAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    timeout: 86400
-                },
-                additionalInformation: {
-                    description: ''
-                },
-                serviceAgreementTemplate
-            }
-        }
-    }
-
-    private async createNftSalesService(
-        metadata: MetaData,
-        publisher: Account,
-        serviceAgreementTemplate: ServiceAgreementTemplate
-    ): Promise<Service> {
-        const { nftSalesTemplate } = this.nevermined.keeper.templates
-        return {
-            type: 'nft-sales',
-            index: 6,
-            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
-            templateId: nftSalesTemplate.getAddress(),
-            attributes: {
-                main: {
-                    name: 'nftSalesAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    timeout: 86400
-                },
-                additionalInformation: {
-                    description: ''
-                },
-                serviceAgreementTemplate
-            }
-        }
-    }
-
-    private async createNftAaveCreditService(
-        metadata: MetaData,
-        publisher: Account,
-        serviceAgreementTemplate: ServiceAgreementTemplate
-    ): Promise<Service> {
-        const { aaveCreditTemplate } = this.nevermined.keeper.templates
-        return {
-            type: 'aave-credit',
-            index: 11,
-            serviceEndpoint: this.nevermined.gateway.getNft721Endpoint(),
-            templateId: aaveCreditTemplate.getAddress(),
-            attributes: {
-                main: {
-                    name: 'aaveCreditAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    timeout: 86400
-                },
-                additionalInformation: {
-                    description: 'Aave credit agreement using NFT721 as collateral'
-                },
-                serviceAgreementTemplate
-            }
-        }
-    }
-
-    private async createNft721AccessService(
-        metadata: MetaData,
-        publisher: Account,
-        serviceAgreementTemplate: ServiceAgreementTemplate
-    ): Promise<Service> {
-        const { nft721AccessTemplate } = this.nevermined.keeper.templates
-        return {
-            type: 'nft721-access',
-            index: 9,
-            serviceEndpoint: this.nevermined.gateway.getNftAccessEndpoint(),
-            templateId: nft721AccessTemplate.getAddress(),
-            attributes: {
-                main: {
-                    name: 'nft721AccessAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    timeout: 86400
-                },
-                additionalInformation: {
-                    description: 'NFT721 Access Service Definition'
-                },
-                serviceAgreementTemplate
-            }
-        }
-    }
-
-    private async createNft721SalesService(
-        metadata: MetaData,
-        publisher: Account,
-        serviceAgreementTemplate: ServiceAgreementTemplate
-    ): Promise<Service> {
-        const { nft721SalesTemplate } = this.nevermined.keeper.templates
-        return {
-            type: 'nft721-sales',
-            index: 8,
-            serviceEndpoint: this.nevermined.gateway.getNft721Endpoint(),
-            templateId: nft721SalesTemplate.getAddress(),
-            attributes: {
-                main: {
-                    name: 'nft721SalesAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    timeout: 86400
-                },
-                additionalInformation: {
-                    description: 'NFT721 Sales Service Definition'
-                },
-                serviceAgreementTemplate
-            }
-        }
     }
 }

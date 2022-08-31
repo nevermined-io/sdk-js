@@ -23,6 +23,13 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         return 'nft-sales'
     }
 
+    public name(): string {
+        return 'nft1155SalesAgreement'
+    }
+    public description(): string {
+        return 'Sales Agreement with NFT-1155 token'
+    }
+
     public params(
         consumerId: string,
         nftAmount: number,

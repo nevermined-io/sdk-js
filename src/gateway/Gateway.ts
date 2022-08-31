@@ -4,6 +4,7 @@ import { noZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ReadStream } from 'fs'
 import { GatewayError, HttpError } from '../errors'
+import { ServiceType } from '../ddo/Service'
 
 const apiPath = '/api/v1/gateway/services'
 export type NftTypes = 721 | 1155
@@ -40,6 +41,10 @@ export class Gateway extends Instantiable {
 
     public getAccessProofEndpoint() {
         return `${this.url}${apiPath}/access-proof`
+    }
+
+    public getServiceEndpoint(service: ServiceType) {
+        return `${this.url}${apiPath}/${service}`
     }
 
     public getComputeLogsEndpoint(serviceAgreementId: string, executionId: string) {

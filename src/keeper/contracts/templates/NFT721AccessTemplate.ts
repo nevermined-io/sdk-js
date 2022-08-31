@@ -22,9 +22,18 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
             true
         )
     }
+    public name(): string {
+        return 'nft721AccessAgreement'
+    }
+    public description(): string {
+        return 'Access Agreement with NFT-721 token'
+    }
 
     public service(): ServiceType {
         return 'nft721-access'
+    }
+    public serviceEndpoint(): ServiceType {
+        return 'nft-access'
     }
 
     public params(holderAddress: string): NFT721AccessTemplateParams {

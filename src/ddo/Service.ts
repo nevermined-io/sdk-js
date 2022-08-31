@@ -21,7 +21,28 @@ export type ServiceType =
     | 'nft721-access'
     | 'nft721-sales'
     | 'aave-credit'
+    | 'nft-access-proof'
+    | 'nft-sales-proof'
+    | 'nft721-access-proof'
+    | 'nft721-sales-proof'
 
+export const serviceIndex = {
+    authorization: 2,
+    metadata: 0,
+    access: 3,
+    'access-proof': 10,
+    compute: 4,
+    workflow: 5,
+    'nft-access': 7,
+    'nft-sales': 6,
+    'nft721-access': 9,
+    'nft721-sales': 8,
+    'aave-credit': 11,
+    'nft-access-proof': 12,
+    'nft-sales-proof': 13,
+    'nft721-access-proof': 14,
+    'nft721-sales-proof': 15
+}
 export interface ServiceCommon {
     type: ServiceType
     index: number

@@ -26,6 +26,12 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
     public service(): ServiceType {
         return 'nft-access'
     }
+    public name(): string {
+        return 'nft1155AccessAgreement'
+    }
+    public description(): string {
+        return 'Access Agreement with NFT-1155 token'
+    }
 
     public params(holderAddress: string, amount: number): NFTAccessTemplateParams {
         return { holderAddress, amount, grantee: holderAddress }

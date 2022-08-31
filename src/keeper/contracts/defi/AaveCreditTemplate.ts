@@ -28,6 +28,12 @@ export interface AaveCreditTemplateParams {
 }
 
 export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
+    public name(): string {
+        return 'aaveCreditAgreement'
+    }
+    public description(): string {
+        return 'Aave credit agreement'
+    }
     aaveConfig: AaveConfig
 
     public static async getInstance(
