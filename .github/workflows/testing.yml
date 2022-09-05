@@ -12,17 +12,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        network: ["--polygon", "--spree-embedded-contracts", "--geth"]
+        network: ["--geth"]
         node: ["16"]
         include:
-          - network: "--spree-embedded-contracts"
-            network-name: spree
-            chainId: 8996
-            delay: none
-          - network: "--polygon"
-            network-name: polygon-localnet
-            chainId: 8997
-            delay: none
           - network: "--geth"
             network-name: geth-localnet
             chainId: 8998
@@ -71,47 +63,6 @@ jobs:
         run: |
           export ${{ matrix.delay }}=true
           npm run integration:cover
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt
-
-  aave-integration:
-    if: ${{ false }}  # See https://github.com/nevermined-io/internal/issues/230
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "14.x"
-      - name: Install dependencies
-        run: |
-          yarn
-          sudo apt-get install mmv
-      - name: Run tools (network)
-        run: |
-          docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          sudo chmod go+r /etc/hosts
-          sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-          git clone https://github.com/nevermined-io/tools
-          cd tools
-          git checkout set-rpc-port
-          export KEEPER_RPC_PORT="18545"
-          export KEEPER_NETWORK_NAME="spree"
-          export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          export KEEPER_VERSION=v2.0.0
-          export GATEWAY_VERSION=latest
-          export MARKETPLACE_API_VERSION=latest
-          export GANACHE_COMMAND_OPTIONS="-d -p 18545 -m 'taxi music thumb unique chat sand crew more leg another off lamp' -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
-          ./start_nevermined.sh --marketplace-api --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
-          cd ..
-          ./scripts/wait-nevermined-external.sh
-      - name: Run aave integration test
-        run: |
-          export ETH_PORT=18545
-          npm run integration:aave
       - name: Upload logs
         uses: actions/upload-artifact@v2
         if: failure()
