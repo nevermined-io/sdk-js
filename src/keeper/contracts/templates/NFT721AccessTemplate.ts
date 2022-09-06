@@ -5,6 +5,7 @@ import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstra
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
 import { ServiceType } from '../../../ddo/Service'
+import { NFT721HolderCondition, NFTAccessCondition } from '../conditions'
 
 export interface NFT721AccessTemplateParams {
     holderAddress: string
@@ -38,6 +39,15 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
 
     public params(holderAddress: string): NFT721AccessTemplateParams {
         return { holderAddress, grantee: holderAddress }
+    }
+
+    public conditions(): [NFT721HolderCondition, NFTAccessCondition] {
+        const { nft721HolderCondition, nftAccessCondition } =
+            this.nevermined.keeper.conditions
+        return [
+            nft721HolderCondition, 
+            nftAccessCondition
+        ]
     }
 
     public async instanceFromDDO(
