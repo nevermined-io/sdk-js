@@ -144,7 +144,7 @@ In another terminal window, run this script and export the seed phrase:
 # copies the contract artifacts once the local Nevermined network is up and running
 ./scripts/wait-nevermined.sh
 
-# export Spree accounts seed phrase
+# export local accounts seed phrase
 export SEED_WORDS="taxi music thumb unique chat sand crew more leg another off lamp"
 ```
 

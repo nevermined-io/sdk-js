@@ -653,7 +653,7 @@ describe('Secondary Markets', () => {
             })
 
             it('Collector 1 no longer has access the to the content', async () => {
-                // Not the best way to do this but on spree we don't get the revert reasons
+                // Not the best way to do this but on localnet we don't get the revert reasons
                 await assert.isRejected(
                     nevermined.agreements.conditions.holderNft(
                         agreementAccessId,
