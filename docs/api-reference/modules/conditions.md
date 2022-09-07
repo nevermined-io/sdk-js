@@ -65,7 +65,7 @@ Re-exports [ConditionState](../enums/ConditionState.md)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/conditions/Condition.abstract.ts#L16)
+[src/keeper/contracts/conditions/Condition.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/keeper/contracts/conditions/Condition.abstract.ts#L16)
 
 ## Variables
 
@@ -75,4 +75,4 @@ Re-exports [ConditionState](../enums/ConditionState.md)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:45](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/conditions/Condition.abstract.ts#L45)
+[src/keeper/contracts/conditions/Condition.abstract.ts:45](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/keeper/contracts/conditions/Condition.abstract.ts#L45)
