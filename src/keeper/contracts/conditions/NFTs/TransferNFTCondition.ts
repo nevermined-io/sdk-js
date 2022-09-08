@@ -8,11 +8,12 @@ import {
 } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
 
 export interface TransferNFTConditionContext extends ConditionContext {
     providerId: string
     consumerId: string
-    nftAmount: number
+    nftAmount: BigNumber
 }
 
 /**
@@ -41,7 +42,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         did: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockCondition: string,
         nftContractAddress?: string,
         willBeTransferred: boolean = true

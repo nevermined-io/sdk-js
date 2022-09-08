@@ -4,7 +4,7 @@ import { DDO } from '../../../ddo/DDO'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
-import { ServiceCommon, ServiceType } from '../../../ddo/Service'
+import { ServiceCommon, ServiceType, ValidationParams } from '../../../ddo/Service'
 import { Account, MetaData } from '../../../sdk'
 import {
     ComputeExecutionCondition,
@@ -17,6 +17,11 @@ export interface EscrowComputeExecutionParams {
 }
 
 export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeExecutionParams> {
+    public paramsGen(params: ValidationParams): EscrowComputeExecutionParams {
+        return {
+            consumerId: params.consumer_address
+        }
+    }
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<EscrowComputeExecutionTemplate> {

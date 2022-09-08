@@ -3,6 +3,8 @@ import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
 import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
 import { Account } from '../sdk'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import { Babysig } from '../models/KeyTransfer'
+import { BigNumber } from 'ethers'
 
 export type ConditionType =
     | 'lockPayment'
@@ -150,14 +152,20 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         ? ServiceCommon
         : ServiceCommon
 
-export interface ServicePlugin<Params> {
+export interface ValidationParams {
+    agreement_id: string
+    did: string
+    consumer_address?: string
+    buyer?: string
+    babysig?: Babysig
+    nft_amount?: BigNumber
+}
+
+export interface ServicePlugin {
     createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
-    validateAgreement(
-        agreement_id: string,
-        did: string,
-        params: Params,
+    process(
+        params: ValidationParams,
         from: Account,
-        extra: any,
         txparams: TxParameters
     ): Promise<void>
 }

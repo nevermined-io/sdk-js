@@ -4,12 +4,13 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import { NFTAccessCondition, NFTHolderCondition } from '../conditions'
+import BigNumber from '../../../utils/BigNumber'
 
 export interface NFTAccessTemplateParams {
     holderAddress: string
-    amount: number
+    amount: BigNumber
     grantee: string
 }
 
@@ -34,8 +35,11 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
         return 'Access Agreement with NFT-1155 token'
     }
 
-    public params(holderAddress: string, amount: number): NFTAccessTemplateParams {
+    public params(holderAddress: string, amount?: BigNumber): NFTAccessTemplateParams {
         return { holderAddress, amount, grantee: holderAddress }
+    }
+    public paramsGen({ consumer_address }: ValidationParams): NFTAccessTemplateParams {
+        return this.params(consumer_address)
     }
 
     public conditions(): [NFTHolderCondition, NFTAccessCondition] {

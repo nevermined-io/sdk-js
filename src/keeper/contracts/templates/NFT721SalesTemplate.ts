@@ -4,7 +4,7 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import {
     LockPaymentCondition,
     EscrowPaymentCondition,
@@ -44,6 +44,9 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
 
     public params(consumerId: string, expiration: number = 0): NFT721SalesTemplateParams {
         return { consumerId, expiration }
+    }
+    public paramsGen({ consumer_address }: ValidationParams): NFT721SalesTemplateParams {
+        return this.params(consumer_address)
     }
 
     public lockConditionIndex(): number {

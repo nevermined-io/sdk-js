@@ -1,11 +1,20 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '../../../utils'
-import { ServiceCommon, serviceIndex, ServiceType } from '../../../ddo/Service'
+import {
+    ServiceCommon,
+    serviceIndex,
+    ServicePlugin,
+    ServiceType,
+    ValidationParams
+} from '../../../ddo/Service'
 import { Account, Condition, MetaData } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
 
-export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
+export abstract class BaseTemplate<Params>
+    extends AgreementTemplate<Params>
+    implements ServicePlugin
+{
     public async getAgreementData(
         agreementId: string
     ): Promise<{ accessProvider: string; accessConsumer: string }> {
@@ -45,6 +54,31 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
                 serviceAgreementTemplate
             }
         } as ServiceCommon
+    }
+
+    /**
+     * Specialize params
+     * @param params Generic parameters
+     */
+    public abstract paramsGen(params: ValidationParams): Params
+
+    public async extraGen(_params: ValidationParams): Promise<any> {
+        return {}
+    }
+
+    public async process(
+        params: ValidationParams,
+        from: Account,
+        txparams: TxParameters
+    ): Promise<void> {
+        await this.validateAgreement(
+            params.agreement_id,
+            params.did,
+            this.paramsGen(params),
+            from,
+            await this.extraGen(params),
+            txparams
+        )
     }
 
     public async validateAgreement(

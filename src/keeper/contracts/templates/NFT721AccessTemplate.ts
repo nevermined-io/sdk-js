@@ -4,7 +4,7 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import { NFT721HolderCondition, NFTAccessCondition } from '../conditions'
 
 export interface NFT721AccessTemplateParams {
@@ -13,6 +13,9 @@ export interface NFT721AccessTemplateParams {
 }
 
 export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParams> {
+    public paramsGen({ consumer_address }: ValidationParams): NFT721AccessTemplateParams {
+        return this.params(consumer_address)
+    }
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721AccessTemplate> {

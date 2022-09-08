@@ -3,7 +3,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import { Account } from '../../../sdk'
 import {
     AccessCondition,
@@ -12,12 +12,21 @@ import {
 } from '../conditions'
 
 export interface AccessTemplateParams {
+    type: 'access'
     consumerId: string
     creator: string
     serviceType: ServiceType
 }
 
 export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
+    public paramsGen({ consumer_address }: ValidationParams): AccessTemplateParams {
+        return {
+            consumerId: consumer_address,
+            serviceType: 'access',
+            creator: consumer_address,
+            type: 'access'
+        }
+    }
     public name(): string {
         return 'AccessAgreement'
     }
@@ -40,7 +49,12 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
         consumer: Account,
         serviceType: ServiceType = 'access'
     ): AccessTemplateParams {
-        return { consumerId: consumer.getId(), serviceType, creator: consumer.getId() }
+        return {
+            consumerId: consumer.getId(),
+            serviceType,
+            creator: consumer.getId(),
+            type: 'access'
+        }
     }
 
     public conditions(): [AccessCondition, LockPaymentCondition, EscrowPaymentCondition] {

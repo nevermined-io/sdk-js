@@ -238,7 +238,7 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNftReward(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         from?: Account,
         txParams?: TxParameters
@@ -422,7 +422,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNft(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         txParams?: TxParameters
     ) {
@@ -464,7 +464,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNftForDelegate(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {

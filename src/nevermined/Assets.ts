@@ -490,7 +490,7 @@ export class Assets extends Instantiable {
         )
     }
 
-    public servicePlugin: { [key: string]: ServicePlugin<any> }
+    public servicePlugin: { [key: string]: ServicePlugin }
 
     /**
      * Creates a new DDO.

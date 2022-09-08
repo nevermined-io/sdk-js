@@ -174,8 +174,9 @@ export function getNftHolderFromService(service: Service): string {
         .value as string
 }
 
-export function getNftAmountFromService(service: Service): number {
+export function getNftAmountFromService(service: Service): BigNumber {
     const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-    return nftTransferCondition.parameters.find(p => p.name === '_numberNfts')
-        .value as number
+    return BigNumber.from(
+        nftTransferCondition.parameters.find(p => p.name === '_numberNfts').value
+    )
 }

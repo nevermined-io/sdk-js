@@ -4,7 +4,7 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import {
     EscrowPaymentCondition,
     LockPaymentCondition,
@@ -17,6 +17,9 @@ export interface DIDSalesTemplateParams {
 }
 
 export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams> {
+    public paramsGen(params: ValidationParams): DIDSalesTemplateParams {
+        return this.params(params.consumer_address)
+    }
     public params(receiverId: string): DIDSalesTemplateParams {
         return { receiverId, consumerId: receiverId }
     }

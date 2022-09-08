@@ -7,7 +7,7 @@ import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import { ContractReceipt } from 'ethers'
 import BigNumber from '../../../utils/BigNumber'
 import {
@@ -36,6 +36,9 @@ export interface AaveCreditTemplateParams {
 }
 
 export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
+    public paramsGen(_params: ValidationParams): AaveCreditTemplateParams {
+        throw new Error('Method not implemented.')
+    }
     public name(): string {
         return 'aaveCreditAgreement'
     }

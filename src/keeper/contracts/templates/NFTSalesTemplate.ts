@@ -4,17 +4,18 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import {
     EscrowPaymentCondition,
     LockPaymentCondition,
     TransferNFTCondition
 } from '../conditions'
+import BigNumber from '../../../utils/BigNumber'
 
 export interface NFTSalesTemplateParams {
     consumerId: string
     providerId: string
-    nftAmount: number
+    nftAmount: BigNumber
 }
 
 export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
@@ -37,10 +38,17 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
 
     public params(
         consumerId: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         providerId?: string
     ): NFTSalesTemplateParams {
         return { consumerId, providerId, nftAmount }
+    }
+
+    public paramsGen({
+        consumer_address,
+        nft_amount
+    }: ValidationParams): NFTSalesTemplateParams {
+        return this.params(consumer_address, nft_amount)
     }
 
     public lockConditionIndex(): number {

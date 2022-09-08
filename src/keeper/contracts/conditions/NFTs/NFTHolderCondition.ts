@@ -3,10 +3,11 @@ import { didZeroX, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
 
 export interface NFTHolderConditionContext extends ConditionContext {
     holderAddress: string
-    amount: number
+    amount?: BigNumber
 }
 
 /**
@@ -27,16 +28,23 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
      * @param {Number} amount The amouunt of NFTs that need to be hold by the holder
      * @returns hash of all the values
      */
-    public params(did: string, holderAddress: string, amount: number) {
-        return super.params(didZeroX(did), zeroX(holderAddress), String(amount))
+    public params(did: string, holderAddress: string, amount?: BigNumber) {
+        return super.params(didZeroX(did), zeroX(holderAddress), amount.toString())
     }
 
     public async paramsFromDDO({
         ddo,
+        service,
         holderAddress,
         amount
     }: NFTHolderConditionContext) {
-        return this.params(ddo.shortId(), holderAddress, amount)
+        const numberNfts =
+            amount ||
+            BigNumber.from(
+                service.attributes.serviceAgreementTemplate.conditions[0].parameters[2]
+                    .value
+            )
+        return this.params(ddo.shortId(), holderAddress, numberNfts)
     }
 
     /**

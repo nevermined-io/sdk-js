@@ -195,7 +195,7 @@ export class Nfts extends Instantiable {
      */
     public order(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
@@ -270,7 +270,7 @@ export class Nfts extends Instantiable {
     public async transfer(
         agreementId: string,
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
@@ -346,7 +346,7 @@ export class Nfts extends Instantiable {
     public async releaseRewards(
         agreementId: string,
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         consumer: Account,
         publisher: Account,
         txParams?: TxParameters
@@ -648,7 +648,7 @@ export class Nfts extends Instantiable {
      */
     public async buySecondaryMarketNft(
         consumer: Account,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
