@@ -207,6 +207,7 @@ export interface MetaDataMain {
     service?: Service
 
     isDTP: boolean
+    nftType: 721 | 1155
 }
 
 /**

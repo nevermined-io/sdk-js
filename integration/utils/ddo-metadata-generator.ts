@@ -6,6 +6,7 @@ const metadata: Partial<MetaData> = {
     main: {
         name: undefined,
         isDTP: false,
+        nftType: 1155,
         type: 'dataset',
         dateCreated: '2012-10-10T17:00:00Z',
         datePublished: '2012-10-10T17:00:00Z',
@@ -50,12 +51,14 @@ const metadata: Partial<MetaData> = {
 export const generateMetadata = (
     name: string,
     price?: number,
-    nonce: string | number = Math.random()
+    nonce: string | number = Math.random(),
+    nftType: 1155 | 721 = 1155
 ): Partial<MetaData> => ({
     ...metadata,
     main: {
         ...metadata.main,
-        name: name,
+        name,
+        nftType,
         price: (price || 21) + '0'.repeat(18),
         ...({ nonce } as any)
     },
@@ -69,6 +72,12 @@ export const getMetadata = (
     nonce: string | number = Math.random(),
     title: string = 'TestAsset'
 ): MetaData => generateMetadata(title, price, nonce) as MetaData
+
+export const getMetadata721 = (
+    price?: number,
+    nonce: string | number = Math.random(),
+    title: string = 'TestAsset'
+): MetaData => generateMetadata(title, price, nonce, 721) as MetaData
 
 export const getAssetRewards = (receiver: string) =>
     new AssetRewards(receiver, BigNumber.from('21' + '0'.repeat(18)))

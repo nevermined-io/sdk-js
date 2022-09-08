@@ -21,7 +21,7 @@ import { Nevermined } from '../sdk'
 import { ContractReceipt } from 'ethers'
 import { NFTAttributes } from '../models/NFTAttributes'
 import { EncryptionMethod } from '../metadata/Metadata'
-import { AccessService } from './AccessService'
+import { AccessService, NFTAccessService } from './AccessService'
 import BigNumber from '../utils/BigNumber'
 
 export enum CreateProgressStep {
@@ -92,12 +92,21 @@ export class Assets extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Assets> {
         const instance = new Assets()
         instance.servicePlugin = {
-            access: new AccessService(config),
+            access: new AccessService(
+                config,
+                config.nevermined.keeper.templates.accessTemplate
+            ),
             compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
-            'nft-sales': config.nevermined.keeper.templates.nftSalesTemplate,
-            'nft-access': config.nevermined.keeper.templates.nftAccessTemplate,
-            'nft721-sales': config.nevermined.keeper.templates.nft721SalesTemplate,
-            'nft721-access': config.nevermined.keeper.templates.nft721AccessTemplate,
+            'nft-sales': new NFTAccessService(
+                config,
+                config.nevermined.keeper.templates.nftSalesTemplate,
+                config.nevermined.keeper.templates.nft721SalesTemplate
+            ),
+            'nft-access': new NFTAccessService(
+                config,
+                config.nevermined.keeper.templates.nftAccessTemplate,
+                config.nevermined.keeper.templates.nft721AccessTemplate
+            ),
             'aave-credit': config.nevermined.keeper.templates.aaveCreditTemplate
         }
         instance.setInstanceConfig(config)
