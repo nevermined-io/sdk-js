@@ -48,10 +48,10 @@ export class Nfts extends Instantiable {
     public create(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
+        cap: BigNumber,
         royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
@@ -77,10 +77,10 @@ export class Nfts extends Instantiable {
     public createWithRoyalties(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
+        cap: BigNumber,
         royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
@@ -296,7 +296,7 @@ export class Nfts extends Instantiable {
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         nftType: NftTypes = 1155
     ): Promise<boolean> {
         return await this.nevermined.gateway.nftTransferForDelegate(
@@ -584,7 +584,7 @@ export class Nfts extends Instantiable {
     public async listOnSecondaryMarkets(
         ddo: DDO,
         assetRewards: AssetRewards,
-        nftAmount: number,
+        nftAmount: BigNumber,
         provider: string,
         token: Token,
         owner: string

@@ -5,6 +5,7 @@ import BigNumber from '../../src/utils/BigNumber'
 const metadata: Partial<MetaData> = {
     main: {
         name: undefined,
+        isDTP: false,
         type: 'dataset',
         dateCreated: '2012-10-10T17:00:00Z',
         datePublished: '2012-10-10T17:00:00Z',

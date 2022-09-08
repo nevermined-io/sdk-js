@@ -61,7 +61,7 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
         agreementId: string,
         did: string,
         holderAddress: string,
-        amount: number,
+        amount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {

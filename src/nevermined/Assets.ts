@@ -22,6 +22,7 @@ import { ContractReceipt } from 'ethers'
 import { NFTAttributes } from '../models/NFTAttributes'
 import { EncryptionMethod } from '../metadata/Metadata'
 import { AccessService } from './AccessService'
+import BigNumber from '../utils/BigNumber'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -341,7 +342,7 @@ export class Assets extends Instantiable {
     public createMintable(
         metadata: MetaData,
         publisher: Account,
-        cap: number = 0,
+        cap: BigNumber = BigNumber.from(0),
         royaltyAttributes: RoyaltyAttributes | undefined,
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod,
@@ -356,7 +357,7 @@ export class Assets extends Instantiable {
             encryptionMethod,
             cap,
             providers,
-            1,
+            BigNumber.from(1),
             royaltyAttributes,
             undefined,
             undefined,
@@ -385,10 +386,10 @@ export class Assets extends Instantiable {
         const nftAttributes: NFTAttributes = {
             ercType: 721,
             nftContractAddress: nftTokenAddress,
-            cap: 0,
+            cap: BigNumber.from(0),
             preMint: preMint,
             nftMetadataUrl: nftMetadata,
-            amount: 1,
+            amount: BigNumber.from(1),
             nftTransfer: nftTransfer,
             isSubscription: duration > 0 ? true : false,
             duration: duration,
@@ -413,9 +414,9 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod,
-        cap: number = 0,
+        cap: BigNumber = BigNumber.from(0),
         providers?: string[],
-        nftAmount?: number,
+        nftAmount?: BigNumber,
         royaltyAttributes?: RoyaltyAttributes,
         erc20TokenAddress?: string,
         nftContractAddress?: string,
@@ -455,9 +456,9 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
-        cap: number = 0,
+        cap: BigNumber = BigNumber.from(0),
         providers?: string[],
-        nftAmount?: number,
+        nftAmount?: BigNumber,
         royaltyAttributes?: RoyaltyAttributes,
         erc20TokenAddress?: string,
         preMint: boolean = true,
@@ -467,7 +468,7 @@ export class Assets extends Instantiable {
         const nftAttributes: NFTAttributes = {
             ercType: 1155,
             nftContractAddress: this.nevermined.keeper.nftUpgradeable.address,
-            cap: cap,
+            cap,
             preMint: preMint,
             nftMetadataUrl: nftMetadata,
             amount: nftAmount,

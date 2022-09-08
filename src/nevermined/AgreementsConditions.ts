@@ -329,7 +329,7 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         holder: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {

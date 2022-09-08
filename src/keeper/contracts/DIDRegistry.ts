@@ -2,6 +2,7 @@ import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
+import BigNumber from '../../utils/BigNumber'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -146,7 +147,7 @@ export default class DIDRegistry extends ContractBase {
         value: string,
         activityId: string,
         nftMetadata: string = '',
-        cap: number,
+        cap: BigNumber,
         royalties: number,
         mint: boolean = false,
         ownerAddress: string,

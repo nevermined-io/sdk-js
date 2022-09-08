@@ -50,7 +50,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     let ddo: DDO
 
     const royalties = 10 // 10% of royalties in the secondary market
-    const cappedAmount = 5
+    const cappedAmount = BigNumber.from(5)
 
     let agreementId: string
     let agreementAccessId: string
@@ -59,7 +59,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
+    const numberNFTs = BigNumber.from(1)
     const amounts = [BigNumber.parseEther('0.15'), BigNumber.parseEther('0.05')]
 
     let receivers: string[]
@@ -292,11 +292,11 @@ describe('NFTTemplates With Ether E2E', async () => {
 
                 assert.equal(
                     Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
+                    Number(nftBalanceArtistBefore) - Number(numberNFTs)
                 )
                 assert.equal(
                     Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
+                    Number(nftBalanceCollectorBefore) + Number(numberNFTs)
                 )
             })
 

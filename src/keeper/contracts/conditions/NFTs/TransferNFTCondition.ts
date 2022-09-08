@@ -122,7 +122,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         agreementId: string,
         did: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockPaymentCondition: string,
         from?: Account,
         txParams?: TxParameters
@@ -153,7 +153,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         did: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockPaymentCondition: string,
         transferAsset: boolean = true,
         from?: Account,

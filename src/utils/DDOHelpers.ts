@@ -14,7 +14,7 @@ function fillParameterWithDDO(
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
-    nftAmount: number = 1,
+    nftAmount: BigNumber = BigNumber.from(1),
     nftTransfer: boolean = false,
     duration: number = 0
 ): ServiceAgreementTemplateParameter {
@@ -73,7 +73,7 @@ export function fillConditionsWithDDO(
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
-    nftAmount?: number,
+    nftAmount?: BigNumber,
     nftTransfer: boolean = false,
     duration: number = 0
 ): ServiceAgreementTemplateCondition[] {

@@ -5,6 +5,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ReadStream } from 'fs'
 import { GatewayError, HttpError } from '../errors'
 import { ServiceType } from '../ddo/Service'
+import BigNumber from '../utils/BigNumber'
 
 const apiPath = '/api/v1/gateway/services'
 export type NftTypes = 721 | 1155
@@ -420,7 +421,7 @@ export class Gateway extends Instantiable {
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         nftType: NftTypes = 1155
     ): Promise<boolean> {
         try {
@@ -430,7 +431,7 @@ export class Gateway extends Instantiable {
                     agreementId,
                     nftHolder,
                     nftReceiver,
-                    nftAmount,
+                    nftAmount: nftAmount.toString(),
                     nftType
                 })
             )

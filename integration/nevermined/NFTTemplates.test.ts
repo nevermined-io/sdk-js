@@ -54,7 +54,7 @@ describe('NFTTemplates E2E', () => {
     let ddo: DDO
 
     const royalties = 10 // 10% of royalties in the secondary market
-    const cappedAmount = 5
+    const cappedAmount = BigNumber.from(5)
     let agreementId: string
     let agreementAccessId: string
     let agreementId2: string
@@ -64,7 +64,7 @@ describe('NFTTemplates E2E', () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
+    const numberNFTs = BigNumber.from(1)
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
@@ -72,7 +72,7 @@ describe('NFTTemplates E2E', () => {
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
-    const numberNFTs2 = 1
+    const numberNFTs2 = BigNumber.from(1)
     let nftPrice2 = BigNumber.from(100)
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
@@ -353,11 +353,11 @@ describe('NFTTemplates E2E', () => {
 
                 assert.equal(
                     Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
+                    Number(nftBalanceArtistBefore) - Number(numberNFTs)
                 )
                 assert.equal(
                     Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
+                    Number(nftBalanceCollectorBefore) + Number(numberNFTs)
                 )
             })
 
@@ -644,11 +644,11 @@ describe('NFTTemplates E2E', () => {
 
                 assert.equal(
                     Number(nftBalanceCollector1After),
-                    Number(nftBalanceCollector1Before) - numberNFTs2
+                    Number(nftBalanceCollector1Before) - Number(numberNFTs2)
                 )
                 assert.equal(
                     Number(nftBalanceCollector2After),
-                    Number(nftBalanceCollector2Before) + numberNFTs
+                    Number(nftBalanceCollector2Before) + Number(numberNFTs)
                 )
             })
 
@@ -831,11 +831,11 @@ describe('NFTTemplates E2E', () => {
 
                 assert.equal(
                     Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
+                    Number(nftBalanceArtistBefore) - Number(numberNFTs)
                 )
                 assert.equal(
                     Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
+                    Number(nftBalanceCollectorBefore) + Number(numberNFTs)
                 )
             })
 
@@ -1028,11 +1028,11 @@ describe('NFTTemplates E2E', () => {
 
                 assert.equal(
                     Number(nftBalanceCollector1After),
-                    Number(nftBalanceCollector1Before) - numberNFTs2
+                    Number(nftBalanceCollector1Before) - Number(numberNFTs2)
                 )
                 assert.equal(
                     Number(nftBalanceCollector2After),
-                    Number(nftBalanceCollector2Before) + numberNFTs
+                    Number(nftBalanceCollector2Before) + Number(numberNFTs)
                 )
             })
 
@@ -1223,11 +1223,11 @@ describe('NFTTemplates E2E', () => {
 
                 assert.equal(
                     Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
+                    Number(nftBalanceArtistBefore) - Number(numberNFTs)
                 )
                 assert.equal(
                     Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
+                    Number(nftBalanceCollectorBefore) + Number(numberNFTs)
                 )
             })
 

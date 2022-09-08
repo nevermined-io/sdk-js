@@ -1,4 +1,5 @@
 import { RoyaltyAttributes } from '../nevermined/Assets'
+import BigNumber from '../utils/BigNumber'
 
 export type NFTType = 721 | 1155
 
@@ -7,7 +8,7 @@ export class NFTAttributes {
 
     nftContractAddress: string
 
-    cap: number = 0 // max number of nfts that can be minted, 0 means uncapped
+    cap: BigNumber = BigNumber.from(0) // max number of nfts that can be minted, 0 means uncapped
 
     preMint: boolean = true // if the asset is pre-minted
 
@@ -19,7 +20,7 @@ export class NFTAttributes {
 
     duration: number = 0 // If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
 
-    amount: number = 1 // Number of editions
+    amount: BigNumber = BigNumber.from(0) // Number of editions
 
     royaltyAttributes: RoyaltyAttributes | undefined
 }

@@ -31,13 +31,13 @@ describe('NFTs Api End-to-End', () => {
     const metadata = getMetadata()
     const royalties1 = 100000 // 10% of royalties in the secondary market
     const royalties = 10 // 10% of royalties in the secondary market
-    const cappedAmount = 5
+    const cappedAmount = BigNumber.from(5)
     let agreementId: string
     let agreementId2: string
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
+    const numberNFTs = BigNumber.from(1)
     let nftPrice = BigNumber.from(100)
     let amounts = [BigNumber.from(75), BigNumber.from(25)]
     let receivers: string[]
@@ -171,11 +171,11 @@ describe('NFTs Api End-to-End', () => {
             )
             assert.equal(
                 Number(nftBalanceArtistAfter),
-                Number(nftBalanceArtistBefore) - numberNFTs
+                Number(nftBalanceArtistBefore) - Number(numberNFTs)
             )
             assert.equal(
                 Number(nftBalanceCollectorAfter),
-                Number(nftBalanceCollectorBefore) + numberNFTs
+                Number(nftBalanceCollectorBefore) + Number(numberNFTs)
             )
         })
 
@@ -321,7 +321,7 @@ describe('NFTs Api End-to-End', () => {
             ddo = await nevermined.nfts.create(
                 newMetadata,
                 artist,
-                1,
+                BigNumber.from(1),
                 royaltyAttributes,
                 assetRewards1
             )
@@ -343,7 +343,7 @@ describe('NFTs Api End-to-End', () => {
                 agreementId,
                 artist.getId(),
                 collector1.getId(),
-                1
+                BigNumber.from(1)
             )
             assert.isTrue(result)
         })
@@ -376,7 +376,7 @@ describe('NFTs Api End-to-End', () => {
                     agreementId2,
                     artist.getId(),
                     collector2.getId(),
-                    1
+                    BigNumber.from(1)
                 )
             )
         })
