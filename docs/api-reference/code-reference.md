@@ -36,6 +36,7 @@
 - [Keeper](classes/Keeper.md)
 - [Nevermined](classes/Nevermined.md)
 - [Nft721](classes/Nft721.md)
+- [Nfts](classes/Nfts.md)
 
 ### Interfaces
 
@@ -77,4 +78,4 @@
 
 #### Defined in
 
-[src/utils/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/utils/Logger.ts#L43)
+[src/utils/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/utils/Logger.ts#L43)

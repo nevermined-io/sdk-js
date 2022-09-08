@@ -33,7 +33,7 @@ true
 
 #### Defined in
 
-[src/ddo/MetaData.ts:241](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L241)
+[src/ddo/MetaData.ts:241](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/ddo/MetaData.ts#L241)
 
 ___
 
@@ -51,7 +51,7 @@ Number of votes. 0 is the default value.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:227](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L227)
+[src/ddo/MetaData.ts:227](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/ddo/MetaData.ts#L227)
 
 ___
 
@@ -69,7 +69,7 @@ Decimal value between 0 and 1. 0 is the default value.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:220](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L220)
+[src/ddo/MetaData.ts:220](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/ddo/MetaData.ts#L220)
 
 ___
 
@@ -87,4 +87,4 @@ Schema applied to calculate the rating.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:234](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/ddo/MetaData.ts#L234)
+[src/ddo/MetaData.ts:234](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/ddo/MetaData.ts#L234)

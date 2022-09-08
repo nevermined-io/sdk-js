@@ -85,7 +85,6 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts.release721Rewards(
                 agreementId,
                 ddo.id,
-                collector,
                 artist
             )
         })
@@ -131,7 +130,6 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts.release721Rewards(
                 agreementId,
                 ddo.id,
-                collector,
                 artist
             )
         })
@@ -177,7 +175,6 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts.release721Rewards(
                 agreementId,
                 ddo.id,
-                collector,
                 artist
             )
         })

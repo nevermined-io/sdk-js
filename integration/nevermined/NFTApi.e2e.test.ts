@@ -187,7 +187,6 @@ describe('NFTs Api End-to-End', () => {
                 agreementId,
                 ddo.id,
                 numberNFTs,
-                collector1,
                 artist
             )
             assert.isTrue(receipt)
