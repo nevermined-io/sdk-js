@@ -205,6 +205,8 @@ export interface MetaDataMain {
     algorithm?: Algorithm
 
     service?: Service
+
+    isDTP: boolean
 }
 
 /**

@@ -1,7 +1,7 @@
 import { SearchQuery } from '../common/interfaces'
 import { DDO } from '../ddo/DDO'
 import { MetaData } from '../ddo/MetaData'
-import { Service, ServiceType, ServiceCommon } from '../ddo/Service'
+import { Service, ServiceType, ServicePlugin } from '../ddo/Service'
 import Account from './Account'
 import DID from './DID'
 import {
@@ -21,10 +21,7 @@ import { Nevermined } from '../sdk'
 import { ContractReceipt } from 'ethers'
 import { NFTAttributes } from '../models/NFTAttributes'
 import { EncryptionMethod } from '../metadata/Metadata'
-
-export interface ServicePlugin {
-    createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
-}
+import { AccessService } from './AccessService'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -94,7 +91,7 @@ export class Assets extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Assets> {
         const instance = new Assets()
         instance.servicePlugin = {
-            access: config.nevermined.keeper.templates.accessTemplate,
+            access: new AccessService(config),
             compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
             'nft-sales': config.nevermined.keeper.templates.nftSalesTemplate,
             'nft-access': config.nevermined.keeper.templates.nftAccessTemplate,
@@ -493,7 +490,7 @@ export class Assets extends Instantiable {
         )
     }
 
-    public servicePlugin: { [key: string]: ServicePlugin }
+    public servicePlugin: { [key: string]: ServicePlugin<any> }
 
     /**
      * Creates a new DDO.

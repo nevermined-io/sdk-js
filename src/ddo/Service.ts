@@ -1,6 +1,8 @@
 import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
 import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
+import { Account } from '../sdk'
+import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export type ConditionType =
     | 'lockPayment'
@@ -73,16 +75,22 @@ export interface ServiceAccess extends ServiceCommon {
             datePublished: string
             price: string
             timeout: number
+            _hash?: string
+            _providerPub?: { x: string; y: string }
         }
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
         }
     }
+    isDTP: boolean
 }
 
-export interface ServiceAccessProof extends ServiceCommon {
-    type: 'access-proof'
+export interface ServiceAccessNormal extends ServiceAccess {
+    isDTP: false
+}
+
+export interface ServiceAccessProof extends ServiceAccess {
     templateId?: string
     attributes: {
         main: {
@@ -92,13 +100,14 @@ export interface ServiceAccessProof extends ServiceCommon {
             price: string
             timeout: number
             _hash: string
-            _providerPub: [string, string]
+            _providerPub: { x: string; y: string }
         }
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
         }
     }
+    isDTP: true
 }
 
 export interface ServiceCompute extends ServiceCommon {
@@ -132,9 +141,7 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         : T extends 'metadata'
         ? ServiceMetadata
         : T extends 'access'
-        ? ServiceAccess
-        : T extends 'access-proof'
-        ? ServiceAccessProof
+        ? ServiceAccessNormal | ServiceAccessProof
         : T extends 'compute'
         ? ServiceCompute
         : T extends 'aave-credit'
@@ -142,3 +149,15 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         : T extends 'default'
         ? ServiceCommon
         : ServiceCommon
+
+export interface ServicePlugin<Params> {
+    createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
+    validateAgreement(
+        agreement_id: string,
+        did: string,
+        params: Params,
+        from: Account,
+        extra: any,
+        txparams: TxParameters
+    ): Promise<void>
+}

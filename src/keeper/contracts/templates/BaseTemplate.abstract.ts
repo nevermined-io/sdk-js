@@ -54,7 +54,7 @@ export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
         from: Account,
         extra: any = {},
         txparams: TxParameters
-    ) {
+    ): Promise<void> {
         const ddo = await this.nevermined.assets.resolve(did)
         const agreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(
             agreement_id
