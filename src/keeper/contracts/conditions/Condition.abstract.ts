@@ -39,7 +39,7 @@ export interface ConditionInstance<Extra> {
     list: any[]
     seed: string
     id: string
-    params: (method: string, arg: Extra) => Promise<any[]> // for fullfill
+    params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
     agreementId: string
 }
 
@@ -167,7 +167,7 @@ export abstract class Condition<
         additionalParams: Extra,
         from?: Account,
         params?: TxParameters,
-        method: string = 'fulfill'
+        method: ConditionMethod = 'fulfill'
     ) {
         return this.sendFrom(
             method,
@@ -220,7 +220,7 @@ export abstract class ProviderCondition<
         )
     }
 
-    public gatewayMethod(): string {
+    public gatewayMethod(): ConditionMethod {
         return 'fulfill'
     }
 }
