@@ -5,7 +5,11 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
 import { ServiceType } from '../../../ddo/Service'
 import { Account } from '../../../sdk'
-import { AccessCondition, ConditionContext, EscrowPaymentCondition, LockPaymentCondition } from '../conditions'
+import {
+    AccessCondition,
+    EscrowPaymentCondition,
+    LockPaymentCondition
+} from '../conditions'
 
 export interface AccessTemplateParams {
     consumerId: string
@@ -41,12 +45,8 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
 
     public conditions(): [AccessCondition, LockPaymentCondition, EscrowPaymentCondition] {
         const { accessCondition, lockPaymentCondition, escrowPaymentCondition } =
-        this.nevermined.keeper.conditions
-        return [
-            accessCondition,
-            lockPaymentCondition,
-            escrowPaymentCondition,
-        ]
+            this.nevermined.keeper.conditions
+        return [accessCondition, lockPaymentCondition, escrowPaymentCondition]
     }
 
     public async instanceFromDDO(

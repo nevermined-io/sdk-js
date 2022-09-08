@@ -5,7 +5,11 @@ import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstra
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.serviceAgreementTemplate'
 import { ServiceType } from '../../../ddo/Service'
-import { EscrowPaymentCondition, LockPaymentCondition, TransferDIDOwnershipCondition } from '../conditions'
+import {
+    EscrowPaymentCondition,
+    LockPaymentCondition,
+    TransferDIDOwnershipCondition
+} from '../conditions'
 
 export interface DIDSalesTemplateParams {
     receiverId: string
@@ -23,8 +27,16 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams> {
         return 'DID sales Agreement'
     }
 
-    public conditions(): [LockPaymentCondition, TransferDIDOwnershipCondition, EscrowPaymentCondition] {
-        const { lockPaymentCondition, transferDidOwnershipCondition, escrowPaymentCondition } = this.nevermined.keeper.conditions
+    public conditions(): [
+        LockPaymentCondition,
+        TransferDIDOwnershipCondition,
+        EscrowPaymentCondition
+    ] {
+        const {
+            lockPaymentCondition,
+            transferDidOwnershipCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
         return [
             lockPaymentCondition,
             transferDidOwnershipCondition,
@@ -38,8 +50,11 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams> {
         creator: string,
         parameters: DIDSalesTemplateParams
     ): Promise<AgreementInstance<DIDSalesTemplateParams>> {
-        const { transferDidOwnershipCondition, lockPaymentCondition, escrowPaymentCondition } =
-        this.nevermined.keeper.conditions
+        const {
+            transferDidOwnershipCondition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
 
         const agreementId = await this.agreementId(agreementIdSeed, creator)
         const ctx = {
@@ -51,11 +66,12 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams> {
             agreementId,
             ctx
         )
-        const transferConditionInstance = await transferDidOwnershipCondition.instanceFromDDO(
-            agreementId,
-            ctx,
-            lockPaymentConditionInstance
-        )
+        const transferConditionInstance =
+            await transferDidOwnershipCondition.instanceFromDDO(
+                agreementId,
+                ctx,
+                lockPaymentConditionInstance
+            )
         const escrowPaymentConditionInstance =
             await escrowPaymentCondition.instanceFromDDO(
                 agreementId,

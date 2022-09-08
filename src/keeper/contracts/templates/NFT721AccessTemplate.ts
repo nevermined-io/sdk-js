@@ -44,10 +44,7 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
     public conditions(): [NFT721HolderCondition, NFTAccessCondition] {
         const { nft721HolderCondition, nftAccessCondition } =
             this.nevermined.keeper.conditions
-        return [
-            nft721HolderCondition, 
-            nftAccessCondition
-        ]
+        return [nft721HolderCondition, nftAccessCondition]
     }
 
     public async instanceFromDDO(

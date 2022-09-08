@@ -2,7 +2,6 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '../../../utils'
 import { ServiceCommon, serviceIndex, ServiceType } from '../../../ddo/Service'
 import { Account, Condition, MetaData } from '../../../sdk'
-import { ConditionContext } from '../conditions';
 
 export abstract class BaseTemplate<Params> extends AgreementTemplate<Params> {
     public async getAgreementData(

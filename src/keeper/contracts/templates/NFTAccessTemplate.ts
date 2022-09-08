@@ -41,10 +41,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
     public conditions(): [NFTHolderCondition, NFTAccessCondition] {
         const { nftHolderCondition, nftAccessCondition } =
             this.nevermined.keeper.conditions
-        return [
-            nftHolderCondition, 
-            nftAccessCondition
-        ]
+        return [nftHolderCondition, nftAccessCondition]
     }
 
     public async instanceFromDDO(

@@ -1,28 +1,33 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { escrowTemplate, lockPaymentTemplate, serviceExecutionTemplate } from './ConditionTemplates'
+import {
+    escrowTemplate,
+    lockPaymentTemplate,
+    serviceExecutionTemplate
+} from './ConditionTemplates'
 
-export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
-    contractName: 'EscrowComputeExecutionTemplate',
-    events: [
-        {
-            name: 'AgreementCreated',
-            actorType: 'consumer',
-            handler: {
-                moduleName: 'serviceExecutionTemplate',
-                functionName: 'fulfillLockPaymentCondition',
-                version: '0.1'
+export const escrowComputeExecutionTemplateServiceAgreementTemplate: ServiceAgreementTemplate =
+    {
+        contractName: 'EscrowComputeExecutionTemplate',
+        events: [
+            {
+                name: 'AgreementCreated',
+                actorType: 'consumer',
+                handler: {
+                    moduleName: 'serviceExecutionTemplate',
+                    functionName: 'fulfillLockPaymentCondition',
+                    version: '0.1'
+                }
             }
-        }
-    ],
-    fulfillmentOrder: [
-        'lockPayment.fulfill',
-        'serviceExecution.fulfill',
-        'escrowPayment.fulfill'
-    ],
-    conditionDependency: {
-        lockPayment: [],
-        serviceExecution: [],
-        escrowPaymentCondition: ['lockPayment', 'serviceExecution']
-    },
-    conditions: [lockPaymentTemplate(), serviceExecutionTemplate(), escrowTemplate()],
-}
+        ],
+        fulfillmentOrder: [
+            'lockPayment.fulfill',
+            'serviceExecution.fulfill',
+            'escrowPayment.fulfill'
+        ],
+        conditionDependency: {
+            lockPayment: [],
+            serviceExecution: [],
+            escrowPaymentCondition: ['lockPayment', 'serviceExecution']
+        },
+        conditions: [lockPaymentTemplate(), serviceExecutionTemplate(), escrowTemplate()]
+    }

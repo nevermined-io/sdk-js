@@ -6,7 +6,11 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
 import { ServiceCommon, ServiceType } from '../../../ddo/Service'
 import { Account, MetaData } from '../../../sdk'
-import { ComputeExecutionCondition, EscrowPaymentCondition, LockPaymentCondition } from '../conditions'
+import {
+    ComputeExecutionCondition,
+    EscrowPaymentCondition,
+    LockPaymentCondition
+} from '../conditions'
 
 export interface EscrowComputeExecutionParams {
     consumerId: string
@@ -114,17 +118,17 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
         return { consumerId: consumer.getId() }
     }
 
-    public conditions(): [ComputeExecutionCondition, LockPaymentCondition, EscrowPaymentCondition] {
+    public conditions(): [
+        ComputeExecutionCondition,
+        LockPaymentCondition,
+        EscrowPaymentCondition
+    ] {
         const {
             computeExecutionCondition,
             lockPaymentCondition,
             escrowPaymentCondition
         } = this.nevermined.keeper.conditions
-        return [
-            computeExecutionCondition,
-            lockPaymentCondition,
-            escrowPaymentCondition,
-        ]
+        return [computeExecutionCondition, lockPaymentCondition, escrowPaymentCondition]
     }
 
     public async instanceFromDDO(

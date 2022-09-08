@@ -1,5 +1,9 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { escrowTemplate, lockPaymentTemplate, transferNftTemplate } from './ConditionTemplates'
+import {
+    escrowTemplate,
+    lockPaymentTemplate,
+    transferNftTemplate
+} from './ConditionTemplates'
 
 export const nftSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
     contractName: 'NFTSalesTemplate',

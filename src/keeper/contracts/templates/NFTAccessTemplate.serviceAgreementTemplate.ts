@@ -19,5 +19,5 @@ export const nftAccessTemplateServiceAgreementTemplate: ServiceAgreementTemplate
         nftHolder: [],
         nftAccess: []
     },
-    conditions: [nftHolderTemplate(), nftAccessCondition()],
+    conditions: [nftHolderTemplate(), nftAccessCondition()]
 }

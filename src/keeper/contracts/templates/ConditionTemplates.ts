@@ -1,4 +1,3 @@
-
 export const lockPaymentTemplate = () => ({
     name: 'lockPayment',
     timelock: 0,
@@ -45,47 +44,45 @@ export const lockPaymentTemplate = () => ({
     ]
 })
 
-export const accessTemplate = () => (
-    {
-        name: 'access',
-        timelock: 0,
-        timeout: 0,
-        contractName: 'AccessCondition',
-        functionName: 'fulfill',
-        parameters: [
-            {
-                name: '_documentId',
-                type: 'bytes32',
-                value: ''
-            },
-            {
-                name: '_grantee',
-                type: 'address',
-                value: ''
+export const accessTemplate = () => ({
+    name: 'access',
+    timelock: 0,
+    timeout: 0,
+    contractName: 'AccessCondition',
+    functionName: 'fulfill',
+    parameters: [
+        {
+            name: '_documentId',
+            type: 'bytes32',
+            value: ''
+        },
+        {
+            name: '_grantee',
+            type: 'address',
+            value: ''
+        }
+    ],
+    events: [
+        {
+            name: 'Fulfilled',
+            actorType: 'publisher',
+            handler: {
+                moduleName: 'access',
+                functionName: 'fulfillEscrowPaymentCondition',
+                version: '0.1'
             }
-        ],
-        events: [
-            {
-                name: 'Fulfilled',
-                actorType: 'publisher',
-                handler: {
-                    moduleName: 'access',
-                    functionName: 'fulfillEscrowPaymentCondition',
-                    version: '0.1'
-                }
-            },
-            {
-                name: 'TimedOut',
-                actorType: 'consumer',
-                handler: {
-                    moduleName: 'access',
-                    functionName: 'fulfillEscrowPaymentCondition',
-                    version: '0.1'
-                }
+        },
+        {
+            name: 'TimedOut',
+            actorType: 'consumer',
+            handler: {
+                moduleName: 'access',
+                functionName: 'fulfillEscrowPaymentCondition',
+                version: '0.1'
             }
-        ]
-    }
-)
+        }
+    ]
+})
 
 export const escrowTemplate = () => ({
     name: 'escrowPayment',
@@ -464,4 +461,3 @@ export const transferNftTemplate = () => ({
         }
     ]
 })
-

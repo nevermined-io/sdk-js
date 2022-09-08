@@ -1,5 +1,9 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { didTransferTemplate, escrowTemplate, lockPaymentTemplate } from './ConditionTemplates'
+import {
+    didTransferTemplate,
+    escrowTemplate,
+    lockPaymentTemplate
+} from './ConditionTemplates'
 
 export const didSalesTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
     contractName: 'DIDSalesTemplate',
