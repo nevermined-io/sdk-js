@@ -27,7 +27,7 @@ describe('NFTLockCondition', () => {
     let didSeed: string
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
-    const amount = 10
+    const amount = BigNumber.from(10)
 
     before(async () => {
         await TestContractHandler.prepareContracts()
@@ -125,7 +125,7 @@ describe('NFTLockCondition', () => {
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
             assert.equal(_lockAddress, rewardAddress.getId())
-            assert.equal(Number(_amount), amount)
+            assert.equal(Number(_amount), Number(amount))
         })
     })
 
@@ -198,7 +198,7 @@ describe('NFTLockCondition', () => {
                     agreementId,
                     did,
                     rewardAddress.getId(),
-                    amount + 1
+                    amount.add(1)
                 ),
                 /insufficient balance/
             )

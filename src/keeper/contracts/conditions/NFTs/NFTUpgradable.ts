@@ -109,7 +109,7 @@ export class NFTUpgradeable extends ContractBase {
     public async transferNft(
         did: string,
         to: string,
-        amount: number,
+        amount: BigNumber,
         from: string,
         params?: TxParameters
     ) {

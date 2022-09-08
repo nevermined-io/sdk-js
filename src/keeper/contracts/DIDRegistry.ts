@@ -585,12 +585,12 @@ export default class DIDRegistry extends ContractBase {
         return this.call('getProvenanceOwner', [didZeroX(did)])
     }
 
-    public async mint(did: string, amount: number, from: string, params?: TxParameters) {
-        return this.send('mint', from, [didZeroX(did), amount], params)
+    public async mint(did: string, amount: BigNumber, from: string, params?: TxParameters) {
+        return this.send('mint', from, [didZeroX(did), String(amount)], params)
     }
 
-    public async burn(did: string, amount: number, from: string, params?: TxParameters) {
-        return this.send('burn', from, [didZeroX(did), amount], params)
+    public async burn(did: string, amount: BigNumber, from: string, params?: TxParameters) {
+        return this.send('burn', from, [didZeroX(did), String(amount)], params)
     }
 
     public async addProvider(

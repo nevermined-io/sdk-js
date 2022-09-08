@@ -144,7 +144,7 @@ export class Nfts extends Instantiable {
      */
     public async mint(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         params?: TxParameters
     ) {
@@ -168,7 +168,7 @@ export class Nfts extends Instantiable {
      */
     public async burn(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         params?: TxParameters
     ) {

@@ -76,7 +76,7 @@ describe('Nfts operations', () => {
         })
 
         it('should burn nft tokens', async () => {
-            await nevermined.nfts.burn(ddo.id, 6, artist)
+            await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
                 BigNumber.from(2)
@@ -125,7 +125,7 @@ describe('Nfts operations', () => {
         })
 
         it('should burn nft tokens', async () => {
-            await nevermined.nfts.burn(ddo.id, 6, artist)
+            await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
                 BigNumber.from(2)
@@ -174,7 +174,7 @@ describe('Nfts operations', () => {
         })
 
         it('should burn nft tokens', async () => {
-            await nevermined.nfts.burn(ddo.id, 6, artist)
+            await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
 
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
