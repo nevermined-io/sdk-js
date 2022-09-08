@@ -150,7 +150,6 @@ describe('NFTs721 Api End-to-End', () => {
             const receipt = await nevermined.nfts.release721Rewards(
                 agreementId,
                 ddo.id,
-                collector1,
                 artist
             )
 
