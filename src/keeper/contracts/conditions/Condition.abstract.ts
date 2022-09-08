@@ -5,6 +5,7 @@ import Account from '../../../nevermined/Account'
 import { DDO } from '../../..'
 import { Service } from '../../../ddo/Service'
 import AssetRewards from '../../../models/AssetRewards'
+import { ContractReceipt } from 'ethers'
 
 export enum ConditionState {
     Uninitialized = 0,
@@ -176,6 +177,13 @@ export abstract class Condition<
         )
     }
 
+    public abstract fulfillGateway(
+        cond: ConditionInstance<Extra>,
+        additionalParams: Extra,
+        from?: Account,
+        params?: TxParameters
+    ): Promise<ContractReceipt | void>
+
     public async instance(
         agreementId: string,
         params: ConditionParameters<Extra>
@@ -189,4 +197,42 @@ export abstract class Condition<
             params: params.params
         }
     }
+}
+
+export abstract class ProviderCondition<
+    Ctx extends ConditionContext,
+    Extra = Record<string, unknown>
+> extends Condition<Ctx, Extra> {
+    public async fulfillGateway(
+        cond: ConditionInstance<Extra>,
+        additionalParams: Extra,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom(
+            this.gatewayMethod(),
+            [
+                zeroX(cond.agreementId),
+                ...(await cond.params(this.gatewayMethod(), additionalParams))
+            ],
+            from,
+            params
+        )
+    }
+
+    public gatewayMethod(): string {
+        return 'fulfill'
+    }
+}
+
+export abstract class ConsumerCondition<
+    Ctx extends ConditionContext,
+    Extra = Record<string, unknown>
+> extends Condition<Ctx, Extra> {
+    public async fulfillGateway(
+        _cond: ConditionInstance<Extra>,
+        _additionalParams: Extra,
+        _from?: Account,
+        _params?: TxParameters
+    ) {}
 }

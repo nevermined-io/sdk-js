@@ -1,6 +1,6 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionContext } from '../Condition.abstract'
+import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 
@@ -11,7 +11,7 @@ export interface NFT721HolderConditionContext extends ConditionContext {
 /**
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
  */
-export class NFT721HolderCondition extends Condition<NFT721HolderConditionContext> {
+export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721HolderCondition> {

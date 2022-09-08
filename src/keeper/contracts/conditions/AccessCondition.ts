@@ -1,4 +1,4 @@
-import { Condition, ConditionContext } from './Condition.abstract'
+import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -9,7 +9,7 @@ export interface AccessConditionContext extends ConditionContext {
     creator: string
 }
 
-export class AccessCondition extends Condition<AccessConditionContext> {
+export class AccessCondition extends ProviderCondition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessCondition> {

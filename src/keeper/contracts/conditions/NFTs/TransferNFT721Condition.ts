@@ -1,6 +1,11 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ConditionParameters,
+    ProviderCondition
+} from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 
@@ -12,7 +17,7 @@ export interface TransferNFT721ConditionContext extends ConditionContext {
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class TransferNFT721Condition extends Condition<TransferNFT721ConditionContext> {
+export class TransferNFT721Condition extends ProviderCondition<TransferNFT721ConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferNFT721Condition> {
