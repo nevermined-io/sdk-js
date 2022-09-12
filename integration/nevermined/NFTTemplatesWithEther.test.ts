@@ -119,6 +119,16 @@ describe('NFTTemplates With Ether E2E', async () => {
         )
     })
 
+    after(async () => {
+        await nevermined.keeper.nvmConfig.setNetworkFees(0, ZeroAddress, governor)
+        console.debug(` --- Resetting Network Fees after the test`)
+        const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+        console.debug(`FEE RECEIVER = ${feeReceiver}`)
+
+        const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
+        console.debug(`NETWORK FEE = ${fee}`)
+    })
+
     describe('Full flow', async () => {
         before(async () => {
             // initial balances
