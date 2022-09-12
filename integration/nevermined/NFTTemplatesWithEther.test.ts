@@ -30,6 +30,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     let collector2: Account
     let gallery: Account
     let sender: Account
+    let governor: Account
 
     let nevermined: Nevermined
     let conditionStoreManager: ConditionStoreManager
@@ -57,10 +58,15 @@ describe('NFTTemplates With Ether E2E', async () => {
     let agreementIdSeed: string
     let agreementAccessIdSeed: string
 
+    const networkFee = 2500
     // Configuration of First Sale:
-    // Artist -> Collector1, the gallery get a cut (25%)
+    // Artist -> Collector1, the gallery & network get a cut (25% each)
     const numberNFTs = 1
-    const amounts = [BigNumber.parseEther('0.15'), BigNumber.parseEther('0.05')]
+    const amounts = [
+        BigNumber.parseEther('0.10'),
+        BigNumber.parseEther('0.05'),
+        BigNumber.parseEther('0.05')
+    ]
 
     let receivers: string[]
     let assetRewards: AssetRewards
@@ -70,10 +76,23 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[sender, artist, collector1, collector2, gallery] =
+        ;[sender, artist, collector1, collector2, gallery, , , , , governor] =
             await nevermined.accounts.list()
 
-        receivers = [artist.getId(), gallery.getId()]
+        console.debug(`ACCOUNT GOVERNOR = ${governor.getId()}`)
+
+        await nevermined.keeper.nvmConfig.setNetworkFees(
+            networkFee,
+            governor.getId(),
+            governor
+        )
+        const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+        console.debug(`FEE RECEIVER = ${feeReceiver}`)
+
+        const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
+        console.debug(`NETWORK FEE = ${fee}`)
+
+        receivers = [artist.getId(), gallery.getId(), governor.getId()]
 
         // components
         ;({ conditionStoreManager, nftUpgradeable } = nevermined.keeper)
@@ -94,7 +113,8 @@ describe('NFTTemplates With Ether E2E', async () => {
         assetRewards = new AssetRewards(
             new Map([
                 [receivers[0], amounts[0]],
-                [receivers[1], amounts[1]]
+                [receivers[1], amounts[1]],
+                [receivers[2], amounts[2]]
             ])
         )
     })
@@ -107,6 +127,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 collector1: await collector1.getEtherBalance(),
                 collector2: await collector2.getEtherBalance(),
                 gallery: await gallery.getEtherBalance(),
+                governor: await governor.getEtherBalance(),
                 escrowPaymentCondition: await Web3Provider.getWeb3(config).getBalance(
                     escrowPaymentCondition.getAddress()
                 )
@@ -325,6 +346,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
                 const receiver0Balance = await new Account(receivers[0]).getEtherBalance()
                 const receiver1Balance = await new Account(receivers[1]).getEtherBalance()
+                const receiver2Balance = await new Account(receivers[2]).getEtherBalance()
 
                 // for this assert we use a delta to account for the transaction fees
                 // of all the transactions from the artist
@@ -337,6 +359,9 @@ describe('NFTTemplates With Ether E2E', async () => {
 
                 assert.isTrue(
                     receiver1Balance.eq(initialBalances.gallery.add(amounts[1]))
+                )
+                assert.isTrue(
+                    receiver2Balance.eq(initialBalances.governor.add(amounts[2]))
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalance

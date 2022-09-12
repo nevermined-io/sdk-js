@@ -23,28 +23,6 @@ const configBase: Config = {
     verbose: LogLevel.Error
 }
 
-if (process.env.NETWORK_NAME === 'production') {
-    Object.assign(configBase, {
-        nodeUri: 'http://localhost:8545',
-        marketplaceUri: 'http://nevermined-metadata:3100',
-        faucetUri: 'http://localhost:3001',
-        gatewayUri: 'http://localhost:8030',
-        secretStoreUri: 'http://localhost:12001',
-        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    } as Config)
-}
-
-if (process.env.NETWORK_NAME === 'integration') {
-    Object.assign(configBase, {
-        nodeUri: 'http://localhost:8545',
-        marketplaceUri: 'http://nevermined-metadata:3100',
-        faucetUri: 'http://localhost:3001',
-        gatewayUri: 'http://localhost:8030',
-        secretStoreUri: 'http://localhost:12001',
-        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    } as Config)
-}
-
 if (process.env.NETWORK_NAME === 'testing') {
     Object.assign(configBase, {
         nodeUri: 'http://localhost:8545',
@@ -56,12 +34,12 @@ if (process.env.NETWORK_NAME === 'testing') {
     } as Config)
 }
 
-if (process.env.NETWORK_NAME === 'rinkeby') {
+if (process.env.NETWORK_NAME === 'goerli') {
     Object.assign(configBase, {
-        marketplaceUri: 'https://metadata.rinkeby.nevermined.rocks',
-        faucetUri: 'https://faucet.rinkeby.nevermined.rocks',
-        gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
-        nodeUri: `https://rinkeby.infura.io/v3/${infuraToken}`,
+        marketplaceUri: 'https://metadata.goerli.nevermined.rocks',
+        faucetUri: 'https://faucet.goerli.nevermined.rocks',
+        gatewayUri: 'https://gateway.goerli.nevermined.rocks',
+        nodeUri: `https://goerli.infura.io/v3/${infuraToken}`,
         gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
     } as Config)
 }

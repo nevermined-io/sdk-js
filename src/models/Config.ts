@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { ZeroAddress } from '../utils'
 import { LogLevel } from '../utils/Logger'
 import { AaveConfig } from './AaveConfig'
 export { LogLevel } from '../utils/Logger'
@@ -82,6 +83,16 @@ export class Config {
     public accounts?: ethers.Signer[]
 
     public newGateway?: boolean
+
+    /**
+     * The fee charged by Nevermined for using the Service Agreements
+     */
+    public networkFee?: number = 0
+
+    /**
+     * The address receiving the fee if this is higher than 0
+     */
+    public feeReceiver?: string = ZeroAddress
 }
 
 export default Config

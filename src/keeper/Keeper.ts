@@ -1,5 +1,6 @@
 import { ContractBase } from './contracts/ContractBase'
 
+import NeverminedConfig from './contracts/governance/NeverminedConfig'
 import DIDRegistry from './contracts/DIDRegistry'
 import Dispenser from './contracts/Dispenser'
 import Token from './contracts/Token'
@@ -80,6 +81,7 @@ export class Keeper extends Instantiable {
                 token: undefined, // Optional
                 nftUpgradeable: undefined, // Optional
                 curveRoyalties: undefined, // Optional
+                nvmConfig: NeverminedConfig.getInstance(this.instanceConfig),
                 didRegistry: DIDRegistry.getInstance(this.instanceConfig),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(
@@ -219,6 +221,7 @@ export class Keeper extends Instantiable {
         // Main contracts
         this.dispenser = this.instances.dispenser
         this.token = this.instances.token
+        this.nvmConfig = this.instances.nvmConfig
         this.didRegistry = this.instances.didRegistry
         this.nftUpgradeable = this.instances.nftUpgradeable
         // Managers
@@ -290,6 +293,12 @@ export class Keeper extends Instantiable {
      * @type {Dispenser}
      */
     public dispenser: Dispenser
+
+    /**
+     * Nevermined Config smart contract instance.
+     * @type {NeverminedConfig}
+     */
+    public nvmConfig: NeverminedConfig
 
     /**
      * DID registry smart contract instance.
