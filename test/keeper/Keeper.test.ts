@@ -49,13 +49,13 @@ describe('Keeper', () => {
         it('Get Network Fee', async () => {
             const networkFee = await keeper.nvmConfig.getNetworkFee()
             console.log(`NETWORK FEE = ${networkFee}`)
-            assert(networkFee === 0)
+            assert.equal(networkFee, 0)
         })
 
         it('Get Fee Receiver', async () => {
             const feeReceiver = await keeper.nvmConfig.getFeeReceiver()
             console.log(`FEE RECEIVER = ${feeReceiver}`)
-            assert(feeReceiver === ZeroAddress)
+            assert.equal(feeReceiver, ZeroAddress)
         })
 
         it('Set Network Fees', async () => {
@@ -66,8 +66,8 @@ describe('Keeper', () => {
             console.log(`NETWORK FEE = ${networkFee}`)
             console.log(`FEE RECEIVER = ${feeReceiver}`)
 
-            assert(networkFee === newNetworkFee)
-            assert(feeReceiver === deployerAddress)
+            assert.equal(networkFee, newNetworkFee)
+            assert.equal(feeReceiver, deployerAddress)
         })
     })
 })
