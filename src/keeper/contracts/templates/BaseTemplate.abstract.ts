@@ -23,7 +23,7 @@ export abstract class BaseTemplate<Params>
 
     public abstract name(): string
     public abstract description(): string
-    public abstract conditions(): Condition<any>[]
+    public abstract conditions(): Condition<any, any>[]
 
     public serviceEndpoint(): ServiceType {
         return this.service()

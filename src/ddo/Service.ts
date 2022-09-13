@@ -161,6 +161,7 @@ export interface ValidationParams {
     buyer?: string
     babysig?: Babysig
     nft_amount?: BigNumber
+    nft_holder?: string
 }
 
 export interface ServicePlugin {
