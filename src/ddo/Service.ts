@@ -169,7 +169,7 @@ export interface ServicePlugin {
     process(
         params: ValidationParams,
         from: Account,
-        txparams: TxParameters
+        txparams?: TxParameters
     ): Promise<void>
     // Check if service can be granted without agreement
     accept(params: ValidationParams): Promise<boolean>

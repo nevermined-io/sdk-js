@@ -33,7 +33,7 @@ export class AccessService extends Instantiable implements ServicePlugin {
     public async process(
         params: ValidationParams,
         from: Account,
-        txparams: TxParameters
+        txparams?: TxParameters
     ): Promise<void> {
         const ddo = await this.nevermined.assets.resolve(params.did)
         const metadata = ddo.findServiceByType('metadata').attributes.main

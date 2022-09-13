@@ -73,7 +73,7 @@ export abstract class BaseTemplate<Params>
     public async process(
         params: ValidationParams,
         from: Account,
-        txparams: TxParameters
+        txparams?: TxParameters
     ): Promise<void> {
         await this.validateAgreement(
             params.agreement_id,
@@ -91,7 +91,7 @@ export abstract class BaseTemplate<Params>
         params: Params,
         from: Account,
         extra: any = {},
-        txparams: TxParameters
+        txparams?: TxParameters
     ): Promise<void> {
         const ddo = await this.nevermined.assets.resolve(did)
         const agreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(

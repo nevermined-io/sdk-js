@@ -1,6 +1,6 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO, Nft721 } from '../../../sdk'
+import { Account, DDO, Nft721 } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
@@ -104,6 +104,14 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
             (this.nevermined.keeper as any).instanceConfig, // eslint-disable-line
             contractAddress
         )
+        if (params.agreement_id !== '0x') {
+            const deal = await this.getAgreementStatus(params.agreement_id)
+            if (deal) {
+                return (
+                    await nftContract.balanceOf(new Account(params.consumer_address))
+                ).gt(0)
+            }
+        }
         return (await nftContract.ownerOf(params.did)) == params.consumer_address
     }
 }
