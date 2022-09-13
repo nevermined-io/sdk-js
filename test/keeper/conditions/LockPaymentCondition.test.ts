@@ -37,6 +37,7 @@ describe('LockPaymentCondition', () => {
         await TestContractHandler.prepareContracts()
 
         const nevermined = await Nevermined.getInstance(config)
+        await nevermined.keeper.nvmConfig.setNetworkFees(0, ZeroAddress)
         ;({ conditionStoreManager } = nevermined.keeper)
         ;({ lockPaymentCondition, escrowPaymentCondition } = nevermined.keeper.conditions)
         ;({ token } = nevermined.keeper)

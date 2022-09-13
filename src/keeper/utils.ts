@@ -10,6 +10,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
             return 'Ropsten'
         case 4:
             return 'Rinkeby'
+        case 5:
+            return 'Goerli'
         case 77:
             return 'POA_Sokol'
         case 99:
@@ -38,6 +40,10 @@ export async function getNetworkName(networkId: number): Promise<string> {
             return 'celo-baklava'
         case 80001:
             return 'mumbai'
+        case 42161:
+            return 'arbitrum-one'
+        case 421613:
+            return 'arbitrum-goerli'
         case 1313161554:
             return 'aurora'
         case 1313161555:

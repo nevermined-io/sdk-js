@@ -14,7 +14,7 @@ interface ContractTest extends ethers.Contract {
 }
 
 export default abstract class TestContractHandler extends ContractHandler {
-    public static async prepareContracts() {
+    public static async prepareContracts(): Promise<string> {
         TestContractHandler.setConfig(config)
         const [deployerAddress] = await TestContractHandler.addressesStatic(
             TestContractHandler.config,
@@ -27,6 +27,7 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
+        return deployerAddress
     }
 
     private static networkId: number
