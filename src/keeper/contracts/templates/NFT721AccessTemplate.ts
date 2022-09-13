@@ -1,6 +1,6 @@
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
+import { DDO, Nft721 } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
@@ -83,5 +83,27 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
 
     public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {
         return nft721AccessTemplateServiceAgreementTemplate
+    }
+
+    public async accept(params: ValidationParams): Promise<boolean> {
+        if (
+            await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
+                params.consumer_address,
+                params.did
+            )
+        ) {
+            return true
+        }
+        const ddo = await this.nevermined.assets.resolve(params.did)
+        const service = ddo.findServiceByType(this.service())
+        const contractAddress =
+            this.nevermined.keeper.conditions.nft721HolderCondition.nftContractFromService(
+                service
+            )
+        const nftContract = await Nft721.getInstance(
+            (this.nevermined.keeper as any).instanceConfig, // eslint-disable-line
+            contractAddress
+        )
+        return (await nftContract.ownerOf(params.did)) == params.consumer_address
     }
 }

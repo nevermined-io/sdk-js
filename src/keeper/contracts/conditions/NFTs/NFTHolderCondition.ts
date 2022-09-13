@@ -1,9 +1,10 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
 import BigNumber from '../../../../utils/BigNumber'
+import { ServiceCommon } from '../../../../ddo/Service'
 
 export interface NFTHolderConditionContext extends ConditionContext {
     holderAddress: string
@@ -32,18 +33,19 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
         return super.params(didZeroX(did), zeroX(holderAddress), amount.toString())
     }
 
+    public amountFromService(service: ServiceCommon): BigNumber {
+        const holder = findServiceConditionByName(service, 'nftHolder')
+        if (!holder) throw new Error('Holder condition not found!')
+        return BigNumber.from(holder.parameters.find(p => p.name === '_numberNfts').value)
+    }
+
     public async paramsFromDDO({
         ddo,
         service,
         holderAddress,
         amount
     }: NFTHolderConditionContext) {
-        const numberNfts =
-            amount ||
-            BigNumber.from(
-                service.attributes.serviceAgreementTemplate.conditions[0].parameters[2]
-                    .value
-            )
+        const numberNfts = amount || this.amountFromService(service)
         return this.params(ddo.shortId(), holderAddress, numberNfts)
     }
 

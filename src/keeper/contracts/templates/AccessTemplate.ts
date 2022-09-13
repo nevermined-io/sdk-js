@@ -105,4 +105,12 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
             agreementId
         }
     }
+
+    // accept for asset owner
+    public async accept(params: ValidationParams): Promise<boolean> {
+        return this.nevermined.keeper.conditions.accessCondition.checkPermissions(
+            params.consumer_address,
+            params.did
+        )
+    }
 }

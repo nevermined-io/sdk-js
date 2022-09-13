@@ -16,7 +16,7 @@ export class AccessService extends Instantiable implements ServicePlugin {
     constructor(config: InstantiableConfig, normal: ServicePlugin) {
         super()
         this.setInstanceConfig(config)
-        this.normal = normal // this.nevermined.keeper.templates.accessTemplate
+        this.normal = normal
     }
 
     // essential method is to select between two services
@@ -38,6 +38,11 @@ export class AccessService extends Instantiable implements ServicePlugin {
         const ddo = await this.nevermined.assets.resolve(params.did)
         const metadata = ddo.findServiceByType('metadata').attributes.main
         return this.select(metadata).process(params, from, txparams)
+    }
+    public async accept(params: ValidationParams): Promise<boolean> {
+        const ddo = await this.nevermined.assets.resolve(params.did)
+        const metadata = ddo.findServiceByType('metadata').attributes.main
+        return this.select(metadata).accept(params)
     }
 }
 

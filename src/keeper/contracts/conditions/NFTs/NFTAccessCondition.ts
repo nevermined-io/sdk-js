@@ -37,4 +37,12 @@ export class NFTAccessCondition extends ProviderCondition<NFTAccessConditionCont
             params
         )
     }
+
+    public checkPermissions(grantee: string, did: string, from?: Account) {
+        return this.call<boolean>(
+            'checkPermissions',
+            [grantee, didZeroX(did)].map(zeroX),
+            from && from.getId()
+        )
+    }
 }

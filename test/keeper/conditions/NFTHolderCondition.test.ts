@@ -95,7 +95,12 @@ describe('NFTHolderCondition', () => {
                 owner.getId()
             )
             await didRegistry.mint(did, BigNumber.from(10), owner.getId())
-            await nftUpgradeable.transferNft(did, holder.getId(), BigNumber.from(10), owner.getId())
+            await nftUpgradeable.transferNft(
+                did,
+                holder.getId(),
+                BigNumber.from(10),
+                owner.getId()
+            )
 
             const contractReceipt: ContractReceipt = await nftHolderCondition.fulfill(
                 agreementId,
@@ -132,7 +137,12 @@ describe('NFTHolderCondition', () => {
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, BigNumber.from(10), owner.getId())
-            await nftUpgradeable.transferNft(did, holder.getId(), BigNumber.from(10), owner.getId())
+            await nftUpgradeable.transferNft(
+                did,
+                holder.getId(),
+                BigNumber.from(10),
+                owner.getId()
+            )
 
             await assert.isRejected(
                 nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),
@@ -173,7 +183,12 @@ describe('NFTHolderCondition', () => {
                 owner.getId()
             )
             await didRegistry.mint(did, BigNumber.from(10), owner.getId())
-            await nftUpgradeable.transferNft(did, holder.getId(), BigNumber.from(1), owner.getId())
+            await nftUpgradeable.transferNft(
+                did,
+                holder.getId(),
+                BigNumber.from(1),
+                owner.getId()
+            )
 
             await assert.isRejected(
                 nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),

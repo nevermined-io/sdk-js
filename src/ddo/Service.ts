@@ -165,9 +165,12 @@ export interface ValidationParams {
 
 export interface ServicePlugin {
     createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
+    // Process agreement for provider
     process(
         params: ValidationParams,
         from: Account,
         txparams: TxParameters
     ): Promise<void>
+    // Check if service can be granted without agreement
+    accept(params: ValidationParams): Promise<boolean>
 }

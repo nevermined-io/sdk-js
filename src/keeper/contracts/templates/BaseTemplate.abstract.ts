@@ -66,6 +66,10 @@ export abstract class BaseTemplate<Params>
         return {}
     }
 
+    public async accept(_params: ValidationParams): Promise<boolean> {
+        return false
+    }
+
     public async process(
         params: ValidationParams,
         from: Account,
