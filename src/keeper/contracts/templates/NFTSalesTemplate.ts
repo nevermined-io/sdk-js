@@ -44,10 +44,10 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
         return { consumerId, providerId, nftAmount }
     }
 
-    public paramsGen({
+    public async paramsGen({
         consumer_address,
         nft_amount
-    }: ValidationParams): NFTSalesTemplateParams {
+    }: ValidationParams): Promise<NFTSalesTemplateParams> {
         return this.params(consumer_address, nft_amount)
     }
 

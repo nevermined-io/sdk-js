@@ -17,7 +17,9 @@ export interface EscrowComputeExecutionParams {
 }
 
 export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeExecutionParams> {
-    public paramsGen(params: ValidationParams): EscrowComputeExecutionParams {
+    public async paramsGen(
+        params: ValidationParams
+    ): Promise<EscrowComputeExecutionParams> {
         return {
             consumerId: params.consumer_address
         }

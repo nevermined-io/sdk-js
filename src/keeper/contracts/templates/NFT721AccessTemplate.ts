@@ -13,7 +13,9 @@ export interface NFT721AccessTemplateParams {
 }
 
 export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParams> {
-    public paramsGen({ consumer_address }: ValidationParams): NFT721AccessTemplateParams {
+    public async paramsGen({
+        consumer_address
+    }: ValidationParams): Promise<NFT721AccessTemplateParams> {
         return this.params(consumer_address)
     }
     public static async getInstance(

@@ -19,7 +19,9 @@ export interface AccessTemplateParams {
 }
 
 export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
-    public paramsGen({ consumer_address }: ValidationParams): AccessTemplateParams {
+    public async paramsGen({
+        consumer_address
+    }: ValidationParams): Promise<AccessTemplateParams> {
         return {
             consumerId: consumer_address,
             serviceType: 'access',

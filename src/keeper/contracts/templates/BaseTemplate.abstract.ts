@@ -60,7 +60,7 @@ export abstract class BaseTemplate<Params>
      * Specialize params
      * @param params Generic parameters
      */
-    public abstract paramsGen(params: ValidationParams): Params
+    public abstract paramsGen(params: ValidationParams): Promise<Params>
 
     public async extraGen(_params: ValidationParams): Promise<any> {
         return {}
@@ -78,7 +78,7 @@ export abstract class BaseTemplate<Params>
         await this.validateAgreement(
             params.agreement_id,
             params.did,
-            this.paramsGen(params),
+            await this.paramsGen(params),
             from,
             await this.extraGen(params),
             txparams

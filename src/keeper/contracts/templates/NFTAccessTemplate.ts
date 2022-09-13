@@ -38,7 +38,9 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
     public params(holderAddress: string, amount?: BigNumber): NFTAccessTemplateParams {
         return { holderAddress, amount, grantee: holderAddress }
     }
-    public paramsGen({ consumer_address }: ValidationParams): NFTAccessTemplateParams {
+    public async paramsGen({
+        consumer_address
+    }: ValidationParams): Promise<NFTAccessTemplateParams> {
         return this.params(consumer_address)
     }
 

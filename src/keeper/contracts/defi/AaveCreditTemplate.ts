@@ -36,7 +36,7 @@ export interface AaveCreditTemplateParams {
 }
 
 export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
-    public paramsGen(_params: ValidationParams): AaveCreditTemplateParams {
+    public async paramsGen(_params: ValidationParams): Promise<AaveCreditTemplateParams> {
         throw new Error('Method not implemented.')
     }
     public name(): string {
