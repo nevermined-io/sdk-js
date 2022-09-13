@@ -27,13 +27,6 @@ describe('Artifacts', () => {
             networkId: [137],
             versions: ['v2.0.0'],
             tag: 'common'
-        },
-        {
-            nodeUri: 'https://alfajores-forno.celo-testnet.org',
-            networkName: ['celo-alfajores'],
-            networkId: [44787],
-            versions: ['v1.3.5'],
-            tag: 'common'
         }
     ]
 
