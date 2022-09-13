@@ -871,7 +871,7 @@ describe('NFT721Templates E2E', () => {
                 }
                 setNFTRewardsFromDDOByService(
                     ddo,
-                    'nft721-sales',
+                    'nft-sales',
                     assetRewards2,
                     collector1.getId()
                 )

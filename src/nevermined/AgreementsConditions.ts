@@ -364,7 +364,7 @@ export class AgreementsConditions extends Instantiable {
         params?: TxParameters
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
-        const accessService = ddo.findServiceByType('nft721-access')
+        const accessService = ddo.findServiceByType('nft-access')
 
         const holder = findServiceConditionByName(accessService, 'nftHolder')
 

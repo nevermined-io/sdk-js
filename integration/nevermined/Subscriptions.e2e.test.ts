@@ -134,7 +134,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 royaltyAttributes,
                 undefined,
                 undefined,
-                ['nft721-sales'],
+                ['nft-sales'],
                 nftTransfer,
                 subscriptionDuration
             )
@@ -170,7 +170,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 royaltyAttributes,
                 undefined,
                 undefined,
-                ['nft721-access'],
+                ['nft-access'],
                 nftTransfer,
                 subscriptionDuration
             )

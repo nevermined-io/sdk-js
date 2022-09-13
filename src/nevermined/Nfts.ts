@@ -126,7 +126,7 @@ export class Nfts extends Instantiable {
             royaltyAttributes,
             nftMetadata ? nftMetadata : '',
             txParams,
-            ['nft721-sales', 'nft721-access'],
+            ['nft-sales', 'nft-access'],
             nftTransfer,
             duration
         )
@@ -493,7 +493,7 @@ export class Nfts extends Instantiable {
     }
 
     public getNftContractAddress(ddo: DDO) {
-        const service = ddo.findServiceByType('nft721-access')
+        const service = ddo.findServiceByType('nft-access')
         if (!!service) {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
                 c => c.name === 'nftHolder'
@@ -512,8 +512,7 @@ export class Nfts extends Instantiable {
         destination?: string,
         index?: number
     ) {
-        const { serviceEndpoint } =
-            ddo.findServiceByType('nft-access') || ddo.findServiceByType('nft721-access')
+        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
         const { jwt } = this.nevermined.utils

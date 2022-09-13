@@ -17,18 +17,20 @@ export type ServiceType =
     | 'authorization'
     | 'metadata'
     | 'access'
-    | 'access-proof'
     | 'compute'
     | 'workflow'
     | 'nft-access'
     | 'nft-sales'
+    | 'aave-credit'
+/*
+    | 'access-proof'
     | 'nft721-access'
     | 'nft721-sales'
-    | 'aave-credit'
     | 'nft-access-proof'
     | 'nft-sales-proof'
     | 'nft721-access-proof'
     | 'nft721-sales-proof'
+*/
 
 export const serviceIndex = {
     authorization: 2,

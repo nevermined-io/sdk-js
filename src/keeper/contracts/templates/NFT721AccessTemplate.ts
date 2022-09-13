@@ -34,7 +34,7 @@ export class NFT721AccessTemplate extends BaseTemplate<NFT721AccessTemplateParam
     }
 
     public service(): ServiceType {
-        return 'nft721-access'
+        return 'nft-access'
     }
     public serviceEndpoint(): ServiceType {
         return 'nft-access'

@@ -139,7 +139,7 @@ export class Assets extends Instantiable {
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
         return new SubscribablePromise(async observer => {
-            try {
+            // try {
                 const { gatewayUri } = this.config
                 const { didRegistry } = this.nevermined.keeper
                 assetRewards = assetRewards ? assetRewards : new AssetRewards()
@@ -342,9 +342,10 @@ export class Assets extends Instantiable {
                 observer.next(CreateProgressStep.DidRegistered)
 
                 return storedDdo
+            /*
             } catch (error) {
                 throw new ApiError(error)
-            }
+            }*/
         })
     }
 
@@ -388,7 +389,7 @@ export class Assets extends Instantiable {
         royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
         txParams?: TxParameters,
-        serviceTypes: ServiceType[] = ['nft721-sales', 'nft721-access'],
+        serviceTypes: ServiceType[] = ['nft-sales', 'nft-access'],
         nftTransfer: boolean = true,
         duration: number = 0
     ): SubscribablePromise<CreateProgressStep, DDO> {
