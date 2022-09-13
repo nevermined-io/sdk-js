@@ -3,6 +3,7 @@ import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
 import {
     Condition,
     ConditionContext,
+    ConditionMethod,
     ConditionParameters,
     ProviderCondition
 } from '../Condition.abstract'
@@ -173,5 +174,9 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
             params,
             'fulfillForDelegate'
         )
+    }
+
+    public gatewayMethod(): ConditionMethod {
+        return 'fulfillForDelegate'
     }
 }
