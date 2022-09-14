@@ -8,8 +8,8 @@ const prefix = 'did:nv:'
 export default class DID {
     /**
      * Parses a DID from a string.
-     * @param  {string} didString DID in string.
-     * @return {DID}
+     * @param didString  - DID in string.
+     * @returns {@link DID}
      */
     public static parse(didString: string | DID): DID {
         if (didString instanceof DID) {
@@ -31,7 +31,7 @@ export default class DID {
 
     /**
      * Returns a new DID.
-     * @return {DID}
+     * @returns {@link DID}
      */
     public static generate(): DID {
         return new DID(generateId())
@@ -39,7 +39,6 @@ export default class DID {
 
     /**
      * ID.
-     * @type {string}
      */
     private id: string
 
@@ -49,7 +48,7 @@ export default class DID {
 
     /**
      * Returns the DID.
-     * @return {string}
+     * @returns A string with the prefixed id.
      */
     public getDid(): string {
         return `${prefix}${this.id}`
@@ -57,7 +56,7 @@ export default class DID {
 
     /**
      * Returns the ID.
-     * @return {string}
+     * @returns A string of the _id_ without the prefix.
      */
     public getId(): string {
         return this.id

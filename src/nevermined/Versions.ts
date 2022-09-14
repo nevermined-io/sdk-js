@@ -40,7 +40,7 @@ export interface PlatformVersions {
 export class Versions extends Instantiable {
     /**
      * Returns the instance of Versions.
-     * @return {Promise<Versions>}
+     * @returns {@link Versions}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Versions> {
         const instance = new Versions()

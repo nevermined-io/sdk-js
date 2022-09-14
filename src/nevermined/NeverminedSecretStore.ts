@@ -11,7 +11,8 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 export class NeverminedSecretStore extends Instantiable {
     /**
      * Returns the instance of SecretStore.
-     * @return {Promise<NeverminedSecretStore>}
+     *
+     * @returns {@link NeverminedSecretStore}
      */
     public static async getInstance(
         config: InstantiableConfig
@@ -24,11 +25,14 @@ export class NeverminedSecretStore extends Instantiable {
 
     /**
      * Encrypt the given text and store the encryption keys using the `did`.
+     *
+     * @remarks
      * The encrypted text can be decrypted using the same keys identified by the `did`.
-     * @param  {string}          did       Decentralized ID.
-     * @param  {string}          content   Content to be encrypted.
-     * @param  {string}          publisher Publisher account.
-     * @return {Promise<string>}           Encrypted text.
+     *
+     * @param did - Decentralized ID.
+     * @param document - Document to be encrypted.
+     * @param publisher - Publisher account.
+     * @returns Encrypted text.
      */
     public async encrypt(
         did: string,
@@ -52,11 +56,14 @@ export class NeverminedSecretStore extends Instantiable {
 
     /**
      * Decrypt an encrypted text using the stored encryption keys associated with the `did`.
+     *
+     * @remarks
      * Decryption requires that the account owner has access permissions for this `did`
-     * @param  {string}          did      Decentralized ID.
-     * @param  {string}          content  Content to be encrypted.
-     * @param  {string}          consumer cONSUMER account.
-     * @return {Promise<string>}          Encrypted text.
+     *
+     * @param did - Decentralized ID.
+     * @param content - Content to be encrypted.
+     * @param consumer - Consumer account.
+     * @returns Encrypted text.
      */
     public async decrypt(
         did: string,

@@ -21,9 +21,9 @@ export class NFTLockCondition extends Condition<NFTLockConditionContext> {
 
     /**
      * Generates the hash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs attached to lock.
-     * @param {String} rewardAddress the final address to receive the NFTs.
-     * @param {Number} amount The amount of locked tokens.
+     * @param did - The DID of the asset with NFTs attached to lock.
+     * @param rewardAddress - The final address to receive the NFTs.
+     * @param amount - The amount of locked tokens.
      * @returns Hash of all the values.
      */
     public params(did: string, rewardAddress: string, amount: number) {
@@ -36,11 +36,11 @@ export class NFTLockCondition extends Condition<NFTLockConditionContext> {
 
     /**
      * Fulfill requires valid NFT transfer in order to lock the amount of DID NFTs based on SEA.
-     * @param {String} agreementId SEA agreement identifier.
-     * @param {String} did Asset Decentralized identifier.
-     * @param {String} rewardAddress The contract addresss where the reward is locked.
-     * @param {Number} amount The amount of tokens to be transferred.
-     * @param {String} from
+     * @param agreementId - SEA agreement identifier.
+     * @param did - Asset Decentralized identifier.
+     * @param rewardAddress - The contract address where the reward is locked.
+     * @param amount - The amount of tokens to be transferred.
+     * @param from -
      * @returns Condition state.
      */
     public fulfill(

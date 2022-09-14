@@ -13,7 +13,7 @@ const localStorageKey = 'NeverminedTokens'
 export class Auth extends Instantiable {
     /**
      * Returns the instance of Auth.
-     * @return {Promise<Auth>}
+     * @returns {@link Auth}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Auth> {
         const instance = new Auth()
@@ -23,9 +23,9 @@ export class Auth extends Instantiable {
     }
 
     /**
-     * Returns a token for a account.
-     * @param  {Account} account Signer account.
-     * @return {Promise<string>} Token
+     * Returns a token for the account.
+     * @param account - Signer account.
+     * @returns A string with the token.
      */
     public async get(account: Account): Promise<string> {
         const time = Math.floor(Date.now() / 1000)
@@ -45,8 +45,8 @@ export class Auth extends Instantiable {
 
     /**
      * Returns the address of signed token.
-     * @param  {string}          token Token.
-     * @return {Promise<string>}       Signer address.
+     * @param token - Token.
+     * @returns Signer address.
      */
     public async check(token: string): Promise<string> {
         const expiration = this.getExpiration()
@@ -65,7 +65,7 @@ export class Auth extends Instantiable {
 
     /**
      * Generates and stores the token for a account.
-     * @param {Account} account Signer account.
+     * @param account - Signer account.
      */
     public async store(account: Account) {
         const token = await this.get(account)
@@ -74,7 +74,7 @@ export class Auth extends Instantiable {
 
     /**
      * Returns a stored token.
-     * @param {Account} account Signer account.
+     * @param account - Signer account.
      */
     public async restore(account: Account): Promise<string> {
         let token
@@ -95,8 +95,8 @@ export class Auth extends Instantiable {
 
     /**
      * Returns if the token is stored and is valid.
-     * @param  {Account}          account Signer account.
-     * @return {Promise<boolean>}         Is stored and valid.
+     * @param account - Signer account.
+     * @returns {@link true} if the token is stored and valid.
      */
     public async isStored(account: Account): Promise<boolean> {
         return !!(await this.restore(account))

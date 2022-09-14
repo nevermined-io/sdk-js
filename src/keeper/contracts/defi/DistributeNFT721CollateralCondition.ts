@@ -27,9 +27,9 @@ export class DistributeNFTCollateralCondition extends Condition<DistributeNFTCol
 
     /**
      * Generates the ash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} vaultAddress The address of the vault contract where the NFT is locked.
-     * @param {String} nftContractAddress The address of the NFT721 contract
+     * @param did - The DID of the asset with NFTs.
+     * @param vaultAddress - The address of the vault contract where the NFT is locked.
+     * @param nftContractAddress - The address of the NFT721 contract
      * @returns Hash of all the values
      */
     public params(did: string, vaultAddress: string, nftContractAddress: string) {
@@ -48,11 +48,11 @@ export class DistributeNFTCollateralCondition extends Condition<DistributeNFTCol
      * Fulfill the distribute NFT collateral condition.
      *  Only the borrower or the lender can call this method.
      *
-     * @param {String} agreementId The agreement identifier.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} vaultAddress The address of the vault contract where the NFT is locked.
-     * @param {String} nftContractAddress The address of the NFT721 contract
-     * @param {String} from
+     * @param agreementId - The agreement identifier.
+     * @param did - The DID of the asset with NFTs.
+     * @param vaultAddress - The address of the vault contract where the NFT is locked.
+     * @param nftContractAddress - The address of the NFT721 contract
+     * @param from -
      * @returns Condition state.
      */
     public fulfill(
