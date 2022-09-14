@@ -38,21 +38,21 @@ export class AaveCredit extends Instantiable {
      * this is facilitated via the credit vault contract and the agreement conditions.
      * All interactions with the Aave protocol have to go through the credit vault.
      *
-     * @param {String} did: id of DDO/asset that represent the `nftToken`. This is the NFT token id
-     * @param {String} nftTokenContract: nft (ERC721) contract address of token to use as collateral by the borrower
-     * @param {Number} nftAmount: the nubmer of nft tokens
-     * @param {String} collateralToken:  erc20 token address to use as loan-collateral by the
-     *                 lender to enable the borrower to take loan
-     * @param {Number} collateralAmount: amount of `collateralToken` to lock in the vault
-     * @param {String} delegatedToken: address of erc20 token to be borrowed under this agreement
-     * @param {Number} delegatedAmount: amount of `delegatedToken` that well be borrowed
-     * @param {Number} interestRateMode: the type of interest rate to use when borrowing from Aave
-     * @param {String} borrower: wallet address of borrower
-     * @param {String} lender: wallet address of lender
-     * @param {Account} from: account/wallet of borrower or lender creating this agreement
-     * @param {Number[]} timeLocks: (optional) list of time lock values for each agreement condition
-     * @param {Number[]} timeOuts: (optional) list of time out values for each agreement condition
-     * @param {TxParameters} txParams: (optional) extra transaction parameters can be included here
+     * @param did - id of DDO/asset that represent the `nftToken`. This is the NFT token id
+     * @param nftTokenContract - nft (ERC721) contract address of token to use as collateral by the borrower
+     * @param nftAmount - the number of nft tokens
+     * @param collateralToken - erc20 token address to use as loan-collateral by the
+     *        lender to enable the borrower to take loan
+     * @param collateralAmount -amount of `collateralToken` to lock in the vault
+     * @param delegatedToken - address of erc20 token to be borrowed under this agreement
+     * @param delegatedAmount - amount of `delegatedToken` that well be borrowed
+     * @param interestRateMode -the type of interest rate to use when borrowing from Aave
+     * @param borrower - wallet address of borrower
+     * @param lender -wallet address of lender
+     * @param from - account/wallet of borrower or lender creating this agreement
+     * @param timeLocks - list of time lock values for each agreement condition
+     * @param timeOuts - list of time out values for each agreement condition
+     * @param txParams - extra transaction parameters can be included here
      * @returns
      */
     public async create(
@@ -430,9 +430,9 @@ export class AaveCredit extends Instantiable {
 
     /**
      * Returned value is already converted from Wei
-     * @param agreementId
-     * @param from
-     * @param vaultAddress (optional)
+     * @param agreementId -
+     * @param from -
+     * @param vaultAddress -
      */
     public async getTotalActualDebt(
         agreementId: string,
@@ -454,9 +454,9 @@ export class AaveCredit extends Instantiable {
 
     /**
      * Returned value is already converted from Wei
-     * @param agreementId
-     * @param from
-     * @param vaultAddress (optional)
+     * @param agreementId -
+     * @param from -
+     * @param vaultAddress -
      */
     public async getActualCreditDebt(
         agreementId: string,
@@ -477,9 +477,9 @@ export class AaveCredit extends Instantiable {
 
     /**
      * Returned value is already converted from Wei
-     * @param agreementId
-     * @param from
-     * @param vaultAddress (optional)
+     * @param agreementId -
+     * @param from -
+     * @param vaultAddress -
      */
     public async getCreditAssetDebt(
         agreementId: string,
@@ -514,9 +514,9 @@ export class AaveCredit extends Instantiable {
 
     /**
      * Returned value is already converted from Wei
-     * @param agreementId
-     * @param from
-     * @param vaultAddress (optional)
+     * @param agreementId -
+     * @param from -
+     * @param vaultAddress -
      */
     public async getBorrowedAmount(
         agreementId: string,
@@ -535,9 +535,9 @@ export class AaveCredit extends Instantiable {
 
     /**
      * Returned value is already converted from Wei
-     * @param agreementId
-     * @param from
-     * @param vaultAddress (optional)
+     * @param agreementId -
+     * @param from -
+     * @param vaultAddress -
      */
     public async delegatedAmount(
         agreementId: string,

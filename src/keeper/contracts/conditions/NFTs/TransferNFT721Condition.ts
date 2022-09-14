@@ -26,12 +26,12 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
 
     /**
      * Generates the hash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} nftReceiver The address of the granted user or the DID provider.
-     * @param {String} nftHolder The address of the Holder of the NFT.
-     * @param {String} lockCondition Lock condition identifier.
-     * @param {String} nftTokenAddress The address of the NFT token to use.
-     * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
+     * @param did - The DID of the asset with NFTs.
+     * @param nftReceiver - The address of the granted user or the DID provider.
+     * @param nftHolder - The address of the Holder of the NFT.
+     * @param lockCondition - Lock condition identifier.
+     * @param nftTokenAddress - The address of the NFT token to use.
+     * @param willBeTransferred - Indicates if the asset will be transferred or minted
      * @returns Hash of all the values
      */
     public params(
@@ -107,15 +107,17 @@ export class TransferNFT721Condition extends Condition<TransferNFT721ConditionCo
 
     /**
      * Fulfill the transfer NFT condition.
-     *  Only DID owner or DID provider can call this method.
      *
-     * @param {String} agreementId The agreement identifier.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} nftReceiver The address of the account to receive the NFT.
-     * @param {String} lockPaymentCondition lock payment condition identifier.
-     * @param {String} nftTokenAddress address of the nft token to use.
-     * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
-     * @param {String} from
+     * @remarks
+     * Only DID owner or DID provider can call this method.
+     *
+     * @param agreementId - The agreement identifier.
+     * @param did - The DID of the asset with NFTs.
+     * @param nftReceiver - The address of the account to receive the NFT.
+     * @param lockPaymentCondition - lock payment condition identifier.
+     * @param nftTokenAddress - address of the nft token to use.
+     * @param willBeTransferred - Indicates if the asset will be transferred or minted
+     * @param from -
      * @returns Condition state.
      */
     public fulfill(

@@ -39,7 +39,7 @@ export abstract class Instantiable {
 
     /**
      * Returns true of contract exists else it throws.
-     * @return {Promise<boolean>} Contract exists.
+     * @returns {@link true} if the contract exists.
      */
     protected async checkExists(address: string): Promise<boolean> {
         const storage = await this.web3.getStorageAt(address, 0)

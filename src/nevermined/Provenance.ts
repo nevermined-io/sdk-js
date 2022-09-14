@@ -11,7 +11,7 @@ import { zeroX } from '../utils'
 export class Provenance extends Instantiable {
     /**
      * Returns the instance of Provenance.
-     * @return {Promise<Provenance>}
+     * @returns {@link Provenance}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Provenance> {
         const instance = new Provenance()
@@ -26,14 +26,14 @@ export class Provenance extends Instantiable {
 
     /**
      * Implements the W3C PROV Usage action
-     * @param  {string}           provenanceId  Provenance ID
-     * @param  {string}           did           Identifier of the entity created
-     * @param  {string}           agentId       Agent Identifier
-     * @param  {string}           activityId    Identifier of the activity creating the new entity
-     * @param  {string}           signature     Signature (optional) provided by the agent involved
-     * @param  {string}           attributes    Attributes associated with the action
-     * @param  {Account}          from          Sender account address.
-     * @return {Promise<boolean>}               Success
+     * @param provenanceId - Provenance ID
+     * @param did - Identifier of the entity created
+     * @param agentId - Agent Identifier
+     * @param activityId - Identifier of the activity creating the new entity
+     * @param signature - Signature (optional) provided by the agent involved
+     * @param attributes - Attributes associated with the action
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async used(
         provenanceId: string,
@@ -60,14 +60,14 @@ export class Provenance extends Instantiable {
 
     /**
      * Implements the W3C PROV Derivation action
-     * @param  {string}           provenanceId  Provenance ID
-     * @param  {string}           newEntityDid  Identifier of the new entity derived
-     * @param  {string}           usedEntityDid Identifier of the entity used to derive the new entity
-     * @param  {string}           agentId       Agent Identifier
-     * @param  {string}           activityId    Identifier of the activity creating the new entity
-     * @param  {string}           attributes    Attributes associated with the action
-     * @param  {Account}          from          Sender account address.
-     * @return {Promise<boolean>}               Success
+     * @param provenanceId - Provenance ID
+     * @param newEntityDid - Identifier of the new entity derived
+     * @param usedEntityDid - Identifier of the entity used to derive the new entity
+     * @param agentId - Agent Identifier
+     * @param activityId - Identifier of the activity creating the new entity
+     * @param attributes - Attributes associated with the action
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async wasDerivedFrom(
         provenanceId: string,
@@ -94,13 +94,13 @@ export class Provenance extends Instantiable {
 
     /**
      * Implements the W3C PROV Association action
-     * @param  {string}           provenanceId  Provenance ID
-     * @param  {string}           did           Identifier of the entity created
-     * @param  {string}           agentId       Agent Identifier
-     * @param  {string}           activityId    Identifier of the activity creating the new entity
-     * @param  {string}           attributes    Attributes associated with the action
-     * @param  {Account}          from          Sender account address.
-     * @return {Promise<boolean>}               Success
+     * @param provenanceId - Provenance ID
+     * @param did - Identifier of the entity created
+     * @param agentId - Agent Identifier
+     * @param activityId - Identifier of the activity creating the new entity
+     * @param attributes - Attributes associated with the action
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async wasAssociatedWith(
         provenanceId: string,
@@ -125,15 +125,15 @@ export class Provenance extends Instantiable {
 
     /**
      * Implements the W3C PROV Delegation action
-     * @param  {string}           provenanceId          Provenance ID
-     * @param  {string}           did                   Identifier of the entity created
-     * @param  {string}           delegateAgentId       Delegate Agent Identifier
-     * @param  {string}           responsibleAgentId    Responsible Agent Identifier
-     * @param  {string}           activityId            Identifier of the activity creating the new entity
-     * @param  {string}           signature             Signature provided by the delegated agent
-     * @param  {string}           attributes            Attributes associated with the action
-     * @param  {Account}          from                  Sender account address.
-     * @return {Promise<boolean>}                       Success
+     * @param provenanceId - Provenance ID
+     * @param did - Identifier of the entity created
+     * @param delegateAgentId - Delegate Agent Identifier
+     * @param responsibleAgentId - Responsible Agent Identifier
+     * @param activityId - Identifier of the activity creating the new entity
+     * @param signature - Signature provided by the delegated agent
+     * @param attributes - Attributes associated with the action
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async actedOnBehalf(
         provenanceId: string,
@@ -162,10 +162,10 @@ export class Provenance extends Instantiable {
 
     /**
      * Add new DID provenance delegate.
-     * @param  {string}           did                   Identifier of the entity created
-     * @param  {string}           delegate              Delegate Address
-     * @param  {Account}          from                  Sender account address.
-     * @return {Promise<boolean>}
+     * @param did - Identifier of the entity created
+     * @param delegated - Delegate Address
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async addDidProvenanceDelegate(
         did: string,
@@ -184,10 +184,10 @@ export class Provenance extends Instantiable {
 
     /**
      * Remove an existing DID delegate.
-     * @param  {string}           did                   Identifier of the entity created
-     * @param  {string}           delegate              Delegate Address
-     * @param  {Account}          from                  Sender account address.
-     * @return {Promise<boolean>}
+     * @param did - Identifier of the entity created
+     * @param delegated - Delegate Address
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async removeDidProvenanceDelegate(
         did: string,
@@ -206,8 +206,8 @@ export class Provenance extends Instantiable {
 
     /**
      * Check whether a given DID delegate exists
-     * @param did
-     * @param delegated
+     * @param did - Identifier of the entity created
+     * @param delegated - Delegate Address
      */
     public async isProvenanceDelegate(did: string, delegated: string) {
         return this.nevermined.keeper.didRegistry.isProvenanceDelegate(did, delegated)
@@ -215,7 +215,7 @@ export class Provenance extends Instantiable {
 
     /**
      * Retrieve the owner of the provenance record.
-     * @param  {string}           did                   Identifier of the entity created
+     * @param did - Identifier of the entity created
      */
     public async getProvenanceOwner(did: string) {
         return this.nevermined.keeper.didRegistry.getProvenanceOwner(did)
@@ -223,9 +223,8 @@ export class Provenance extends Instantiable {
 
     /**
      * Search for ProvenanceAttributeRegistered events related with a specific DID
-     * @param  {string}           provenanceId          Provenance ID
-     * @param  {string}           method                Method
-     * @return {Promise<ProvenanceAttributeRegisteredEvent>}
+     * @param did - identifier of the entity created
+     * @returns A list of provenance events.
      */
     public async getDIDProvenanceEvents(did: string) {
         return this.nevermined.keeper.didRegistry.getDIDProvenanceEvents(did)
@@ -233,9 +232,9 @@ export class Provenance extends Instantiable {
 
     /**
      * Search for ProvenanceAttributeRegistered events related with a specific DID
-     * @param  {string}           method                Method
-     * @param  {string}           provenanceId          Provenance ID
-     * @return {Promise<>}
+     * @param method - Method
+     * @param did - Identifier of the entity created
+     * @returns A list of provenance method events.
      */
     public async getProvenanceMethodEvents<T extends ProvenanceMethod>(
         method: T,

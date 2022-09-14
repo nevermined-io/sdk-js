@@ -18,7 +18,7 @@ export interface AgreementPrepareResult {
 export class Agreements extends Instantiable {
     /**
      * Returns the instance of Agreements.
-     * @return {Promise<Agreements>}
+     * @returns {@link Agreements}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Agreements> {
         const instance = new Agreements()
@@ -30,17 +30,19 @@ export class Agreements extends Instantiable {
 
     /**
      * Agreements Conditions submodule.
-     * @type {AgreementsConditions}
      */
     public conditions: AgreementsConditions
 
     /**
      * Creates a consumer signature for the specified asset service.
+     *
+     * @privateRemarks
      * TODO: Only works for access service?
-     * @param  {string} did Decentralized ID.
-     * @param  {ServiceType} serviceType Service.
-     * @param  {Account} consumer Consumer account.
-     * @return {Promise<AgreementPrepareResult>} Agreement ID and signaturee.
+     *
+     * @param did - Decentralized ID.
+     * @param serviceType - Service.
+     * @param  consumer - Consumer account.
+     * @returns The agreement ID and signature.
      */
     public async prepare(
         did: string,
@@ -73,14 +75,17 @@ export class Agreements extends Instantiable {
 
     /**
      * Create a service agreement on-chain. This should be called by the publisher of the asset.
+     *
+     * @remarks
      * Consumer signature will be verified on-chain, but it is recommended to verify the signature
      * in this method before submitting on-chain.
-     * @param  {string} did Decentralized ID.
-     * @param  {string} agreementId Service agreement ID.
-     * @param  {ServiceType} serviceType Service.
-     * @param  {Account} consumer Consumer account.
-     * @param  {Account} publisher Publisher account.
-     * @return {Promise<string>}
+     *
+     * @param did -  Decentralized ID.
+     * @param agreementId - Service agreement ID.
+     * @param serviceType - Service.
+     * @param consumer - Consumer account.
+     * @param publisher - Publisher account.
+     * @returns
      */
     public async create(
         did: string,
@@ -114,9 +119,9 @@ export class Agreements extends Instantiable {
 
     /**
      * Get the status of a service agreement.
-     * @param  {string} agreementId Service agreement ID.
-     * @param  {boolean} extended Returns a complete status with dependencies.
-     * @return {Promise<any>}
+     * @param agreementId - Service agreement ID.
+     * @param extended - Returns a complete status with dependencies.
+     * @returns
      */
     public async status(agreementId: string, extended: boolean = false) {
         const { templateId } =

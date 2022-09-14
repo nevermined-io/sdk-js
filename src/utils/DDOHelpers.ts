@@ -58,13 +58,15 @@ function fillParameterWithDDO(
 
 /**
  * Fill some static parameters that depends on the metadata.
- * @param  {ServiceAgreementTemplateCondition[]} conditions         Conditions to fill.
- * @param  {DDO}                                 ddo                DDO related to this conditions.
- * @param  {AssetRewards}                        assetRewards       Rewards distribution
- * @param  {number}                              nftAmount          Number of nfts to handle
- * @param  {string}                              erc20TokenContract Number of nfts to handle
- * @param  {string}                              nftTokenContract   Number of nfts to handle
- * @return {ServiceAgreementTemplateCondition[]}                    Filled conditions.
+ *
+ * @param conditions - Conditions to fill.
+ * @param ddo - DDO related to this conditions.
+ * @param assetRewards -Rewards distribution
+ * @param nftAmount - Number of nfts to handle
+ * @param erc20TokenContract - Number of nfts to handle
+ * @param nftTokenContract - Number of nfts to handle
+ *
+ * @returns Filled conditions.
  */
 export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],

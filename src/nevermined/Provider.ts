@@ -8,7 +8,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 export class Provider extends Instantiable {
     /**
      * Returns the instance of Provider.
-     * @return {Promise<Provider>}
+     * @returns {@link Provider}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Provider> {
         const instance = new Provider()
@@ -19,10 +19,11 @@ export class Provider extends Instantiable {
 
     /**
      * Add a new provider in the registry for a did.
-     * @param  {string}           did     Identifier of the entity created
-     * @param  {string}           address New provider address in the list of providers.
-     * @param  {Account}          from    Sender account address.
-     * @return {Promise<boolean>}         Success,
+     *
+     * @param did - Identifier of the entity created
+     * @param address - New provider address in the list of providers.
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async add(
         did: string,
@@ -41,10 +42,10 @@ export class Provider extends Instantiable {
 
     /**
      * Remove a provider in the registry for a did.
-     * @param  {string}           did     Identifier of the entity created
-     * @param  {string}           address New provider address in the list of providers.
-     * @param  {Account}          from    Sender account address.
-     * @return {Promise<boolean>}         Success,
+     * @param did - Identifier of the entity created
+     * @param address - New provider address in the list of providers.
+     * @param from - Sender account address.
+     * @returns {@link true} if the call succeeded.
      */
     public async remove(
         did: string,
@@ -63,7 +64,7 @@ export class Provider extends Instantiable {
 
     /**
      * List the provider addresses for a did.
-     * @param  {string}           did     Identifier of the entity created
+     * @param did - Identifier of the entity created
      */
     public async list(did: string) {
         return await this.nevermined.keeper.didRegistry.getProviders(did)
