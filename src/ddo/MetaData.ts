@@ -135,7 +135,7 @@ export interface File {
 
 /**
  * Main attributes of assets metadata.
- * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md
+ * @see https://github.com/nevermined-io/docs-legacy/blob/master/docs/architecture/specs/metadata/README.md
  */
 export interface MetaDataMain {
     /**
@@ -212,7 +212,7 @@ export interface MetaDataMain {
 
 /**
  * Curation attributes of Assets Metadata.
- * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md#curation-attributes
+ * @see https://github.com/nevermined-io/docs-legacy/blob/master/docs/architecture/specs/metadata/README.md#curation-attributes
  */
 export interface Curation {
     /**
@@ -246,7 +246,7 @@ export interface Curation {
 
 /**
  * Additional Information of Assets Metadata.
- * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md#additional-attributes
+ * @see https://github.com/nevermined-io/docs-legacy/blob/master/docs/architecture/specs/metadata/README.md#additional-attributes
  */
 export interface AdditionalInformation {
     /**
