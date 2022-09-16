@@ -58,7 +58,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     let agreementIdSeed: string
     let agreementAccessIdSeed: string
 
-    const networkFee = 2500
+    const networkFee = 250000
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery & network get a cut (25% each)
     const numberNFTs = 1
