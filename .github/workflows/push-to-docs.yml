@@ -25,7 +25,7 @@ jobs:
 
       # checkout nvm-docs and test the build with the new documentation
       - name: Checkout docs
-        uses: action/checkout@v3
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           repository: nevermined-io/docs
