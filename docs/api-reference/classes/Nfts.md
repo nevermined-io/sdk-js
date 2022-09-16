@@ -85,7 +85,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -103,7 +103,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -121,7 +121,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -139,7 +139,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -157,7 +157,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -175,7 +175,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -193,7 +193,7 @@ Instantiable.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -232,7 +232,7 @@ true if the access was successfull.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:599](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L599)
+[src/nevermined/Nfts.ts:599](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L599)
 
 ___
 
@@ -250,7 +250,7 @@ Instantiable.addresses
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -281,7 +281,7 @@ The ammount of NFTs owned by the account.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:626](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L626)
+[src/nevermined/Nfts.ts:626](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L626)
 
 ___
 
@@ -318,7 +318,7 @@ The ethers.ContractReceipt
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:237](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L237)
+[src/nevermined/Nfts.ts:237](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L237)
 
 ___
 
@@ -356,7 +356,7 @@ true if the buy was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:910](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L910)
+[src/nevermined/Nfts.ts:910](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L910)
 
 ___
 
@@ -376,7 +376,7 @@ Returns true of contract exists else it throws.
 
 `Promise`<`boolean`\>
 
-Contract exists.
+true if the contract exists.
 
 #### Inherited from
 
@@ -384,7 +384,7 @@ Instantiable.checkExists
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -423,7 +423,7 @@ The newly registered [DDO](DDO.md).
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:59](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L59)
+[src/nevermined/Nfts.ts:59](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L59)
 
 ___
 
@@ -462,7 +462,7 @@ The newly registered [DDO](DDO.md).
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:157](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L157)
+[src/nevermined/Nfts.ts:157](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L157)
 
 ___
 
@@ -501,7 +501,7 @@ The newly registered [DDO](DDO.md).
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:109](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L109)
+[src/nevermined/Nfts.ts:109](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L109)
 
 ___
 
@@ -531,7 +531,7 @@ The details of the NFT.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:674](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L674)
+[src/nevermined/Nfts.ts:674](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L674)
 
 ___
 
@@ -555,7 +555,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:733](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L733)
+[src/nevermined/Nfts.ts:733](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L733)
 
 ___
 
@@ -579,7 +579,7 @@ Instantiable.findSigner
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -609,7 +609,7 @@ The NFT contract address.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:720](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L720)
+[src/nevermined/Nfts.ts:720](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L720)
 
 ___
 
@@ -649,7 +649,7 @@ the agreementId of the secondary sale.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:835](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L835)
+[src/nevermined/Nfts.ts:835](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L835)
 
 ___
 
@@ -686,7 +686,7 @@ The ethers.ContractReceipt
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:205](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L205)
+[src/nevermined/Nfts.ts:205](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L205)
 
 ___
 
@@ -724,7 +724,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:272](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L272)
+[src/nevermined/Nfts.ts:272](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L272)
 
 ___
 
@@ -761,7 +761,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:321](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L321)
+[src/nevermined/Nfts.ts:321](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L321)
 
 ___
 
@@ -793,7 +793,7 @@ The address of the NFT owner.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:644](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L644)
+[src/nevermined/Nfts.ts:644](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L644)
 
 ___
 
@@ -835,7 +835,7 @@ true if the funds release was successfull.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:555](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L555)
+[src/nevermined/Nfts.ts:555](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L555)
 
 ___
 
@@ -878,7 +878,7 @@ true if the funds release was successfull.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:507](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L507)
+[src/nevermined/Nfts.ts:507](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L507)
 
 ___
 
@@ -916,7 +916,7 @@ true if the transaction was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:973](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L973)
+[src/nevermined/Nfts.ts:973](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L973)
 
 ___
 
@@ -952,7 +952,7 @@ The ethers.ContractReceipt
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:804](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L804)
+[src/nevermined/Nfts.ts:804](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L804)
 
 ___
 
@@ -976,7 +976,7 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -1020,7 +1020,7 @@ true if the transfer was successfull.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:375](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L375)
+[src/nevermined/Nfts.ts:375](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L375)
 
 ___
 
@@ -1063,7 +1063,7 @@ true if the transfer was successfull.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:462](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L462)
+[src/nevermined/Nfts.ts:462](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L462)
 
 ___
 
@@ -1106,7 +1106,7 @@ true if the transfer was successfull.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:424](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L424)
+[src/nevermined/Nfts.ts:424](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L424)
 
 ___
 
@@ -1131,7 +1131,7 @@ Instantiable.addressesStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -1157,7 +1157,7 @@ Instantiable.findSignerStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -1181,7 +1181,7 @@ Instantiable.getInstance
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:32](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/nevermined/Nfts.ts#L32)
+[src/nevermined/Nfts.ts:32](https://github.com/nevermined-io/sdk-js/blob/416920b/src/nevermined/Nfts.ts#L32)
 
 ___
 
@@ -1212,4 +1212,4 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/416920b/src/Instantiable.abstract.ts#L162)

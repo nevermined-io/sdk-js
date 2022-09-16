@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:13](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/keeper/contracts/conditions/Condition.abstract.ts#L13)
+[src/keeper/contracts/conditions/Condition.abstract.ts:13](https://github.com/nevermined-io/sdk-js/blob/416920b/src/keeper/contracts/conditions/Condition.abstract.ts#L13)
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:12](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/keeper/contracts/conditions/Condition.abstract.ts#L12)
+[src/keeper/contracts/conditions/Condition.abstract.ts:12](https://github.com/nevermined-io/sdk-js/blob/416920b/src/keeper/contracts/conditions/Condition.abstract.ts#L12)
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:11](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/keeper/contracts/conditions/Condition.abstract.ts#L11)
+[src/keeper/contracts/conditions/Condition.abstract.ts:11](https://github.com/nevermined-io/sdk-js/blob/416920b/src/keeper/contracts/conditions/Condition.abstract.ts#L11)
 
 ___
 
@@ -49,4 +49,4 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:10](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/keeper/contracts/conditions/Condition.abstract.ts#L10)
+[src/keeper/contracts/conditions/Condition.abstract.ts:10](https://github.com/nevermined-io/sdk-js/blob/416920b/src/keeper/contracts/conditions/Condition.abstract.ts#L10)
