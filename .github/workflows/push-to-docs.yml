@@ -31,7 +31,7 @@ jobs:
           repository: nevermined-io/docs
           path: docs
       - name: Copy the sdk docs
-        run: cp ./sdk/docs ./docs/docs/nevermined-sdk
+        run: cp -r ./sdk/docs ./docs/docs/nevermined-sdk
       - name: Test nvm-docs build
         working-directory: ./docs
         run: |
