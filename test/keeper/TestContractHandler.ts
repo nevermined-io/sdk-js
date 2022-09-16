@@ -106,7 +106,13 @@ export default abstract class TestContractHandler extends ContractHandler {
         const didRegistry = await TestContractHandler.deployContract(
             'DIDRegistry',
             deployerAddress,
-            [deployerAddress, erc1155.address, deployerAddress],
+            [
+                deployerAddress,
+                erc1155.address,
+                erc721.address,
+                nvmConfig.address,
+                deployerAddress
+            ],
             {
                 DIDRegistryLibrary: didRegistryLibrary.address
             }

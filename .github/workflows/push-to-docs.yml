@@ -3,21 +3,52 @@ name: Push documentation to docs repo
 on:
   workflow_dispatch:
   push:
-    tags:
-      - v*
+    branches: [ "master" ]
 
 jobs:
   push-to-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # checkout the sdk and build the docs
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - name: Install dependencies
+          path: sdk
+      - name: Install sdk dependencies
+        working-directory: ./sdk
         run: yarn
       - name: Generate docs
+        working-directory: ./sdk
         run: yarn docs
+
+      # checkout nvm-docs and test the build with the new documentation
+      - name: Checkout docs
+        uses: action/checkout@v3
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          repository: nevermined-io/docs
+          path: docs
+      - name: Copy the sdk docs
+        run: cp ./sdk/docs ./docs/docs/nevermined-sdk
+      - name: Test nvm-docs build
+        working-directory: ./docs
+        run: |
+          yarn
+          yarn build
+
+      # commit the new generated docs to the sdk repo
+      - name: Commit sdk docs
+        working-directory: ./sdk
+        run: |
+          git config --global user.email "devops@nevermined.io"
+          git config --global user.name "Nevermined BOT"
+          git add ./docs
+          git commit -m "Updating documentation"
+          git push
+
+      # push to docs repo
       - name: Install envsubst
         run: |
           sudo apt update
@@ -28,8 +59,8 @@ jobs:
       - name: Replace env vars in push-to-docs script
         env:
           BRANCH_TO_CLONE: main
-          REPO_TO_PUSH: nvm-docs
-          PATH_TO_COPY: docs/
+          REPO_TO_PUSH: docs
+          PATH_TO_COPY: ./sdk/docs/
           PATH_TO_PUSH: docs/nevermined-sdk
           REPOSITORY_NAME: ${{ github.repository }}
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
