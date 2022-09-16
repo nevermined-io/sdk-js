@@ -16,12 +16,14 @@
 - [authMessage](Config.md#authmessage)
 - [authTokenExpiration](Config.md#authtokenexpiration)
 - [faucetUri](Config.md#fauceturi)
+- [feeReceiver](Config.md#feereceiver)
 - [gasMultiplier](Config.md#gasmultiplier)
 - [gatewayAddress](Config.md#gatewayaddress)
 - [gatewayUri](Config.md#gatewayuri)
 - [graphHttpUri](Config.md#graphhttpuri)
 - [marketplaceAuthToken](Config.md#marketplaceauthtoken)
 - [marketplaceUri](Config.md#marketplaceuri)
+- [networkFee](Config.md#networkfee)
 - [newGateway](Config.md#newgateway)
 - [nodeUri](Config.md#nodeuri)
 - [secretStoreUri](Config.md#secretstoreuri)
@@ -43,7 +45,7 @@
 
 #### Defined in
 
-[src/models/Config.ts:75](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L75)
+[src/models/Config.ts:76](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L76)
 
 ___
 
@@ -53,7 +55,7 @@ ___
 
 #### Defined in
 
-[src/models/Config.ts:82](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L82)
+[src/models/Config.ts:83](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L83)
 
 ___
 
@@ -65,7 +67,7 @@ The folder where the nevermined contract artifacts are located.
 
 #### Defined in
 
-[src/models/Config.ts:80](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L80)
+[src/models/Config.ts:81](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L81)
 
 ___
 
@@ -77,7 +79,7 @@ Message shown when the user creates its own token.
 
 #### Defined in
 
-[src/models/Config.ts:55](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L55)
+[src/models/Config.ts:56](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L56)
 
 ___
 
@@ -89,7 +91,7 @@ Token expiration time in ms.
 
 #### Defined in
 
-[src/models/Config.ts:60](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L60)
+[src/models/Config.ts:61](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L61)
 
 ___
 
@@ -101,7 +103,19 @@ Faucet URL.
 
 #### Defined in
 
-[src/models/Config.ts:25](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L25)
+[src/models/Config.ts:26](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L26)
+
+___
+
+### feeReceiver
+
+• `Optional` **feeReceiver**: `string` = `ZeroAddress`
+
+The address receiving the fee if this is higher than 0
+
+#### Defined in
+
+[src/models/Config.ts:95](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L95)
 
 ___
 
@@ -114,7 +128,7 @@ Can be used to speed up the transactions.
 
 #### Defined in
 
-[src/models/Config.ts:68](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L68)
+[src/models/Config.ts:69](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L69)
 
 ___
 
@@ -126,7 +140,7 @@ Address of Gateway.
 
 #### Defined in
 
-[src/models/Config.ts:30](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L30)
+[src/models/Config.ts:31](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L31)
 
 ___
 
@@ -138,7 +152,7 @@ Gateway URL.
 
 #### Defined in
 
-[src/models/Config.ts:20](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L20)
+[src/models/Config.ts:21](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L21)
 
 ___
 
@@ -150,7 +164,7 @@ Enpoint for the graph-node http query
 
 #### Defined in
 
-[src/models/Config.ts:73](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L73)
+[src/models/Config.ts:74](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L74)
 
 ___
 
@@ -162,7 +176,7 @@ Marketplace auth token.
 
 #### Defined in
 
-[src/models/Config.ts:15](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L15)
+[src/models/Config.ts:16](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L16)
 
 ___
 
@@ -174,7 +188,19 @@ MarketPlace URL.
 
 #### Defined in
 
-[src/models/Config.ts:10](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L10)
+[src/models/Config.ts:11](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L11)
+
+___
+
+### networkFee
+
+• `Optional` **networkFee**: `number` = `0`
+
+The fee charged by Nevermined for using the Service Agreements
+
+#### Defined in
+
+[src/models/Config.ts:90](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L90)
 
 ___
 
@@ -184,7 +210,7 @@ ___
 
 #### Defined in
 
-[src/models/Config.ts:84](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L84)
+[src/models/Config.ts:85](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L85)
 
 ___
 
@@ -196,7 +222,7 @@ Ethereum node URL.
 
 #### Defined in
 
-[src/models/Config.ts:35](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L35)
+[src/models/Config.ts:36](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L36)
 
 ___
 
@@ -208,7 +234,7 @@ Secret Store URL.
 
 #### Defined in
 
-[src/models/Config.ts:45](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L45)
+[src/models/Config.ts:46](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L46)
 
 ___
 
@@ -218,7 +244,7 @@ ___
 
 #### Defined in
 
-[src/models/Config.ts:62](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L62)
+[src/models/Config.ts:63](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L63)
 
 ___
 
@@ -230,7 +256,7 @@ Log level.
 
 #### Defined in
 
-[src/models/Config.ts:50](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L50)
+[src/models/Config.ts:51](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L51)
 
 ___
 
@@ -242,4 +268,4 @@ Web3 Provider.
 
 #### Defined in
 
-[src/models/Config.ts:40](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/models/Config.ts#L40)
+[src/models/Config.ts:41](https://github.com/nevermined-io/sdk-js/blob/416920b/src/models/Config.ts#L41)

@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[src/bookmarks/Bookmarks.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/bookmarks/Bookmarks.interfaces.ts#L9)
+[src/bookmarks/Bookmarks.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/416920b/src/bookmarks/Bookmarks.interfaces.ts#L9)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 #### Defined in
 
-[src/bookmarks/Bookmarks.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/bookmarks/Bookmarks.interfaces.ts#L4)
+[src/bookmarks/Bookmarks.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/416920b/src/bookmarks/Bookmarks.interfaces.ts#L4)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[src/bookmarks/Bookmarks.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/bookmarks/Bookmarks.interfaces.ts#L2)
+[src/bookmarks/Bookmarks.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/416920b/src/bookmarks/Bookmarks.interfaces.ts#L2)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[src/bookmarks/Bookmarks.interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/bookmarks/Bookmarks.interfaces.ts#L8)
+[src/bookmarks/Bookmarks.interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/416920b/src/bookmarks/Bookmarks.interfaces.ts#L8)
 
 ___
 
@@ -78,4 +78,4 @@ ___
 
 #### Defined in
 
-[src/bookmarks/Bookmarks.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/04d2962/src/bookmarks/Bookmarks.interfaces.ts#L3)
+[src/bookmarks/Bookmarks.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/416920b/src/bookmarks/Bookmarks.interfaces.ts#L3)
