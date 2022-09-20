@@ -58,14 +58,14 @@ describe('NFTTemplates With Ether E2E', async () => {
     let agreementIdSeed: string
     let agreementAccessIdSeed: string
 
-    const networkFee = 250000
+    const networkFee = 200000
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = BigNumber.from(1)
     const amounts = [
-        BigNumber.parseEther('0.15'),
-        BigNumber.parseEther('0.05'),
-        BigNumber.parseEther('0.05')
+        BigNumber.parseEther('0.3'),
+        BigNumber.parseEther('0.1'),
+        BigNumber.parseEther('0.1')
     ]
 
     let receivers: string[]
