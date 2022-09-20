@@ -105,7 +105,6 @@ describe('Search Asset', () => {
         const { results: ddos } = await nevermined.assets.query({
             page: 1,
             offset: 1,
-            query: {},
             text: `Test2${testHash}`,
             sort: undefined
         })
