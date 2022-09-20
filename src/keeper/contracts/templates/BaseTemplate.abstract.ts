@@ -58,7 +58,7 @@ export abstract class BaseTemplate<Params>
 
     /**
      * Specialize params
-     * @param params Generic parameters
+     * @param params - Generic parameters
      */
     public abstract paramsGen(params: ValidationParams): Promise<Params>
 
@@ -109,7 +109,9 @@ export abstract class BaseTemplate<Params>
             )
         }
         for (const a of this.conditions()) {
-            const condInstance = agreementData.instances.find(c => c.condition === a.contractName) as ConditionInstance<any>
+            const condInstance = agreementData.instances.find(
+                c => c.condition === a.contractName
+            ) as ConditionInstance<any>
             await a.fulfillGateway(condInstance, extra, from, txparams)
             const lock_state =
                 await this.nevermined.keeper.conditionStoreManager.getCondition(

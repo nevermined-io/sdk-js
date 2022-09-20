@@ -62,7 +62,11 @@ describe('NFTTemplates With Ether E2E', async () => {
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
     const numberNFTs = BigNumber.from(1)
-    const amounts = [BigNumber.parseEther('0.15'), BigNumber.parseEther('0.05'), BigNumber.parseEther('0.05')]
+    const amounts = [
+        BigNumber.parseEther('0.15'),
+        BigNumber.parseEther('0.05'),
+        BigNumber.parseEther('0.05')
+    ]
 
     let receivers: string[]
     let assetRewards: AssetRewards
