@@ -83,7 +83,7 @@
       "warn"
     ],
     "prettier/prettier": "warn",
-    "tsdoc/syntax": "off"
+    "tsdoc/syntax": "error"
   },
   "overrides": [
     {

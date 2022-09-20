@@ -16,7 +16,7 @@ import BigNumber from '../utils/BigNumber'
 export class AgreementsConditions extends Instantiable {
     /**
      * Returns the instance of AgreementsConditions.
-     * @return {Promise<AgreementsConditions>}
+     * @returns {@link AgreementsConditions}
      */
     public static async getInstance(
         config: InstantiableConfig
@@ -29,13 +29,16 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Transfers tokens to the EscrowPaymentCondition contract as an escrow payment.
+     *
+     * @remarks
      * This is required before access can be given to the asset data.
-     * @param {string}      agreementId         Agreement ID.
-     * @param {string}      did                 The Asset ID.
-     * @param {BigNumber[]}    amounts             Asset amounts to distribute.
-     * @param {string[]}    receivers           Receivers of the rewards
-     * @param {string}      erc20TokenAddress   Account of sender.
-     * @param {Account}     from                Account of sender.
+     *
+     * @param agreementId - Agreement ID.
+     * @param did - The Asset ID.
+     * @param amounts - Asset amounts to distribute.
+     * @param receivers - Receivers of the rewards
+     * @param erc20TokenAddress - Account of sender.
+     * @param from - Account of sender.
      */
     public async lockPayment(
         agreementId: string,
@@ -99,10 +102,10 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Authorize the consumer defined in the agreement to access (consume) this asset.
-     * @param {string}  agreementId Agreement ID.
-     * @param {string}  did         Asset ID.
-     * @param {string}  grantee     Consumer address.
-     * @param {Account} from        Account of sender.
+     * @param agreementId - Agreement ID.
+     * @param did - Asset ID.
+     * @param grantee - Consumer address.
+     * @param from - Account of sender.
      */
     public async grantAccess(
         agreementId: string,
@@ -129,10 +132,10 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Authorize the consumer defined in the agreement to execute a remote service associated with this asset.
-     * @param {string}  agreementId Agreement ID.
-     * @param {string}  did         Asset ID.
-     * @param {string}  grantee     Consumer address.
-     * @param {Account} from        Account of sender.
+     * @param agreementId - Agreement ID.
+     * @param did - Asset ID.
+     * @param grantee - Consumer address.
+     * @param from - Account of sender.
      */
     public async grantServiceExecution(
         agreementId: string,
@@ -160,18 +163,19 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Transfer the escrow or locked tokens from the LockPaymentCondition contract to the publisher's account.
+     *
+     * @remarks
      * This should be allowed after access has been given to the consumer and the asset data is downloaded.
      *
      * If the AccessCondition already timed out, this function will do a refund by transferring
      * the token amount to the original consumer.
-     * @param {string}      agreementId         Agreement ID.
-     * @param {number[]}    amounts             Asset amounts to distribute.
-     * @param {string[]}    receivers           Receivers of the rewards
-     * @param {string}      did                 Asset ID.
-     * @param {string}      consumer            Consumer address.
-     * @param {string}      publisher           Publisher address.
-     * @param {string}      erc20TokenAddress   Publisher address.
-     * @param {Account}     from                Account of sender.
+     *
+     * @param agreementId - Agreement ID.
+     * @param amounts - Asset amounts to distribute.
+     * @param receivers - Receivers of the rewards
+     * @param did - Asset ID.
+     * @param erc20TokenAddress - Publisher address.
+     * @param from - Account of sender.
      */
     public async releaseReward(
         agreementId: string,
@@ -186,7 +190,7 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { escrowPaymentCondition } = this.nevermined.keeper.conditions
 
-            let token
+            let token: CustomToken
 
             if (!erc20TokenAddress) {
                 ;({ token } = this.nevermined.keeper)
@@ -226,14 +230,11 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Releases the payment in escrow to the provider(s) of the sale
-     *
-     * @param {String} agreementId The service agreement id for the nft sale.
-     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The amounts that should have been payed.
-     * @param {String[]} receivers The addresses that should receive the amounts.
-     * @param {Number} nftAmount Number of nfts bought.
-     * @param publisher
-     * @returns {Boolean} True if the funds were released successfully.
+     * @param agreementId - The service agreement id for the nft sale.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param nftAmount - Number of nfts bought.
+     * @param publisher - The publisher account.
+     * @returns {@link true} if the funds were released successfully.
      */
     public async releaseNftReward(
         agreementId: string,
@@ -272,13 +273,10 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Releases the payment in escrow to the provider(s) of the sale
-     *
-     * @param {String} agreementId The service agreement id for the nft sale.
-     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The amounts that should have been payed.
-     * @param {String[]} receivers The addresses that should receive the amounts.
-     * @param publisher
-     * @returns {Boolean} True if the funds were released successfully.
+     * @param agreementId - The service agreement id for the nft sale.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param publisher - The publisher account.
+     * @returns {@link true} if the funds were released successfully.
      */
     public async releaseNft721Reward(
         agreementId: string,
@@ -318,12 +316,12 @@ export class AgreementsConditions extends Instantiable {
      * Allows an nft holder to prove ownership of a certain number of nfts.
      * Used as an access condition to the underlying files.
      *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did The decentralized identifier of the asset containing the nfts.
-     * @param {String} holder The address of the holder (recipient of a previous nft transfer with `agreementId`).
-     * @param {String} nftAmount The amount of nfts that the `holder` needs to have to fulfill the access condition.
-     * @param from
-     * @returns {Boolean} True if the holder is able to fulfill the condition
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param did - The decentralized identifier of the asset containing the nfts.
+     * @param holder - The address of the holder (recipient of a previous nft transfer with `agreementId`).
+     * @param nftAmount - The amount of nfts that the `holder` needs to have to fulfill the access condition.
+     * @param from - Account.
+     * @returns {@link true} if the holder is able to fulfill the condition
      */
     public async holderNft(
         agreementId: string,
@@ -350,11 +348,11 @@ export class AgreementsConditions extends Instantiable {
      * Allows an nft holder to prove ownership of a certain number of nfts.
      * Used as an access condition to the underlying files.
      *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {String} holderAddress The address of the holder (recipient of a previous nft transfer with `agreementId`).
-     * @param from
-     * @returns {Boolean} True if the holder is able to fulfill the condition
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param holderAddress - The address of the holder (recipient of a previous nft transfer with `agreementId`).
+     * @param from - Account.
+     * @returns {@link true} if the holder is able to fulfill the condition
      */
     public async holderNft721(
         agreementId: string,
@@ -381,13 +379,13 @@ export class AgreementsConditions extends Instantiable {
     }
 
     /**
-     * Fulfills the access condition required to give access to the underliying files of an nft.
+     * Fulfills the access condition required to give access to the underlying files of an nft.
      *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did The decentralized identifier of the asset containing the nfts.
-     * @param {String} grantee The address of the user trying to get access to the files.
-     * @param from
-     * @returns True if the provider is able to fulfill the condition
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param did - The decentralized identifier of the asset containing the nfts.
+     * @param grantee - The address of the user trying to get access to the files.
+     * @param from - Account.
+     * @returns {@link true} if the provider is able to fulfill the condition
      */
     public async grantNftAccess(
         agreementId: string,
@@ -410,14 +408,11 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Transfers a certain amount of nfts after payment as been made.
-     *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
-     * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param {Number} nftAmount The amount of nfts to transfer.
-     * @param from
-     * @returns {Boolean} True if the transfer is successfull
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param nftAmount - The amount of nfts to transfer.
+     * @param from - Account.
+     * @returns {@link true} if the transfer is successful
      */
     public async transferNft(
         agreementId: string,
@@ -452,14 +447,11 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Transfers a certain amount of nfts after payment as been made.
-     *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
-     * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param {Number} nftAmount The amount of nfts to transfer.
-     * @param from
-     * @returns {Boolean} True if the transfer is successfull
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param nftAmount - The amount of nfts to transfer.
+     * @param from - Account.
+     * @returns {@link true} if the transfer is successful
      */
     public async transferNftForDelegate(
         agreementId: string,
@@ -509,13 +501,10 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Transfers a certain amount of nfts after payment as been made.
-     *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo the decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The expected that amounts that should have been payed.
-     * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param publisher
-     * @returns {Boolean} True if the transfer is successfull
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param publisher - Account.
+     * @returns {@link true} if the transfer is successful
      */
     public async transferNft721(
         agreementId: string,

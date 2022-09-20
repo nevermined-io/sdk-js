@@ -24,9 +24,9 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     /**
      * Generate the hash of condition inputs with the following parameters.
      *
-     * @param {String} did The Decentralized Identifier of the asset.
-     * @param {String} holderAddress The address of the NFT holder .
-     * @param {Number} amount The amouunt of NFTs that need to be hold by the holder
+     * @param did - The Decentralized Identifier of the asset.
+     * @param holderAddress - The address of the NFT holder .
+     * @param amount - The amount of NFTs that need to be hold by the holder
      * @returns hash of all the values
      */
     public params(did: string, holderAddress: string, amount?: BigNumber) {
@@ -52,11 +52,11 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     /**
      * Fulfill requires a validation that holder as enough NFTs for a specific DID.
      *
-     * @param {String} agreementId SEA agreement identifier.
-     * @param {String} did The Decentralized Identifier of the asset.
-     * @param {String} holderAddress The contract address where the reward is locked.
-     * @param {Number} amount The amount of NFT to be hold
-     * @param {String} from
+     * @param agreementId - SEA agreement identifier.
+     * @param did - The Decentralized Identifier of the asset.
+     * @param holderAddress - The contract address where the reward is locked.
+     * @param amount - The amount of NFT to be hold
+     * @param from -
      * @returns condition state
      */
     public fulfill(

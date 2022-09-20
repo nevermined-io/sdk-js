@@ -198,7 +198,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
     /**
      * Deploy a new credit vault that is required to facilitate an Aave credit agreement
      *
-     * @return {Promise<string>}                Agreement ID.
+     * @returns Agreement ID.
      */
     public async deployVault(
         lendingPool: string,

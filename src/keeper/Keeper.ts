@@ -1,5 +1,6 @@
 import { ContractBase } from './contracts/ContractBase'
 
+import NeverminedConfig from './contracts/governance/NeverminedConfig'
 import DIDRegistry from './contracts/DIDRegistry'
 import Dispenser from './contracts/Dispenser'
 import Token from './contracts/Token'
@@ -63,7 +64,7 @@ import { KeeperError } from '../errors'
 export class Keeper extends Instantiable {
     /**
      * Returns Keeper instance.
-     * @return {Promise<Keeper>}
+     * @returns {@link Keeper}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Keeper> {
         const keeper = new Keeper()
@@ -80,6 +81,7 @@ export class Keeper extends Instantiable {
                 token: undefined, // Optional
                 nftUpgradeable: undefined, // Optional
                 curveRoyalties: undefined, // Optional
+                nvmConfig: NeverminedConfig.getInstance(this.instanceConfig),
                 didRegistry: DIDRegistry.getInstance(this.instanceConfig),
                 // Managers
                 templateStoreManager: TemplateStoreManager.getInstance(
@@ -219,6 +221,7 @@ export class Keeper extends Instantiable {
         // Main contracts
         this.dispenser = this.instances.dispenser
         this.token = this.instances.token
+        this.nvmConfig = this.instances.nvmConfig
         this.didRegistry = this.instances.didRegistry
         this.nftUpgradeable = this.instances.nftUpgradeable
         // Managers
@@ -275,49 +278,46 @@ export class Keeper extends Instantiable {
 
     /**
      * Is connected to the correct network or not.
-     * @type {boolean}
      */
     public connected: boolean = false
 
     /**
      * Nevermined Token smart contract instance.
-     * @type {Token}
      */
     public token: Token
 
     /**
      * Market smart contract instance.
-     * @type {Dispenser}
      */
     public dispenser: Dispenser
 
     /**
+     * Nevermined Config smart contract instance.
+     */
+    public nvmConfig: NeverminedConfig
+
+    /**
      * DID registry smart contract instance.
-     * @type {DIDRegistry}
      */
     public didRegistry: DIDRegistry
 
     /**
      * NFT upgradeable smart contract instance.
-     * @type {NFTUpgradeable}
      */
     public nftUpgradeable: NFTUpgradeable
 
     /**
      * Template store manager smart contract instance.
-     * @type {TemplateStoreManager}
      */
     public templateStoreManager: TemplateStoreManager
 
     /**
      * Template store manager smart contract instance.
-     * @type {AgreementStoreManager}
      */
     public agreementStoreManager: AgreementStoreManager
 
     /**
      * Template store manager smart contract instance.
-     * @type {ConditionStoreManager}
      */
     public conditionStoreManager: ConditionStoreManager
 
@@ -382,7 +382,6 @@ export class Keeper extends Instantiable {
 
     /**
      * Network id loaded from web3
-     * @protected
      */
     protected network: {
         id?: number
@@ -395,8 +394,8 @@ export class Keeper extends Instantiable {
 
     /**
      * Returns a condition by address.
-     * @param  {string} address Address of deployed condition.
-     * @return {Condition} Condition instance.
+     * @param address - Address of deployed condition.
+     * @returns Condition instance.
      */
     public getConditionByAddress(address: string): ConditionSmall {
         return this.conditionsList.find(condition => condition.getAddress() === address)
@@ -404,8 +403,8 @@ export class Keeper extends Instantiable {
 
     /**
      * Returns a template by name.
-     * @param  {string} name Template name.
-     * @return {AgreementTemplate} Agreement template instance.
+     * @param name - Template name.
+     * @returns Agreement template instance.
      */
     public getTemplateByName(name: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
@@ -415,8 +414,8 @@ export class Keeper extends Instantiable {
 
     /**
      * Returns a Access template by name.
-     * @param  {string} name Template name.
-     * @return {GenericAccess} Agreement template instance.
+     * @param name - Template name.
+     * @returns Agreement template instance.
      */
     public getAccessTemplateByName(name: string): GenericAccess {
         return this.templateList.find(template => template.contractName === name)
@@ -424,8 +423,8 @@ export class Keeper extends Instantiable {
 
     /**
      * Returns a template by address.
-     * @param  {string} address Template address.
-     * @return {AgreementTemplate} Agreement template instance.
+     * @param address - Template address.
+     * @returns Agreement template instance.
      */
     public getTemplateByAddress(address: string): AgreementTemplate<any> {
         return Object.values(this.templates).find(
@@ -435,7 +434,7 @@ export class Keeper extends Instantiable {
 
     /**
      * Returns the network by name.
-     * @return {Promise<string>} Network name.
+     * @returns Network name.
      */
     public async getNetworkName(): Promise<string> {
         return KeeperUtils.getNetworkName(await this.getNetworkId())
@@ -443,7 +442,7 @@ export class Keeper extends Instantiable {
 
     /**
      * Returns the id of the network.
-     * @return {Promise<number>} Network ID.
+     * @returns Network ID.
      */
     public async getNetworkId(): Promise<number> {
         if (this.network.loading) {

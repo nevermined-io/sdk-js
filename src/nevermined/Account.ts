@@ -38,7 +38,7 @@ export default class Account extends Instantiable {
 
     /**
      * Set account password.
-     * @param {string} password Password for account.
+     * @param password - Password for account.
      */
     public setPassword(password: string): void {
         this.password = password
@@ -46,7 +46,7 @@ export default class Account extends Instantiable {
 
     /**
      * Returns account password.
-     * @return {string} Account password.
+     * @returns The account password.
      */
     public getPassword(): string {
         return this.password
@@ -54,7 +54,7 @@ export default class Account extends Instantiable {
 
     /**
      * Set account token.
-     * @param {string} token Token for account.
+     * @param token - Token for account.
      */
     public setToken(token: string): void {
         this.token = token
@@ -62,7 +62,7 @@ export default class Account extends Instantiable {
 
     /**
      * Returns account token.
-     * @return {Promise<string>} Account token.
+     * @returns Account token.
      */
     public async getToken(): Promise<string> {
         return this.token || this.nevermined.auth.restore(this)
@@ -70,7 +70,7 @@ export default class Account extends Instantiable {
 
     /**
      * Returns if account token is stored.
-     * @return {Promise<boolean>} Is stored.
+     * @returns {@link true} if the token is stored.
      */
     public isTokenStored(): Promise<boolean> {
         return this.nevermined.auth.isStored(this)
@@ -85,7 +85,7 @@ export default class Account extends Instantiable {
 
     /**
      * Balance of Nevermined Token.
-     * @return {Promise<number>}
+     * @returns
      */
     public async getNeverminedBalance(): Promise<BigNumber> {
         const { token } = this.nevermined.keeper
@@ -95,7 +95,7 @@ export default class Account extends Instantiable {
 
     /**
      * Balance of Ether.
-     * @return {Promise<number>}
+     * @returns
      */
     public async getEtherBalance(): Promise<BigNumber> {
         return this.web3.getBalance(this.id)
@@ -103,7 +103,7 @@ export default class Account extends Instantiable {
 
     /**
      * Balances of Ether and Nevermined Token.
-     * @return {Promise<Balance>}
+     * @returns
      */
     public async getBalance(): Promise<Balance> {
         return {
@@ -114,8 +114,8 @@ export default class Account extends Instantiable {
 
     /**
      * Request Nevermined Tokens.
-     * @param  {number} amount Tokens to be requested.
-     * @return {Promise<number>}
+     * @param amount - Tokens to be requested.
+     * @returns
      */
     public async requestTokens(
         amount: number | string | BigNumber,

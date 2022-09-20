@@ -47,7 +47,9 @@
 - [createAgreementAndPay](templates.AaveCreditTemplate.md#createagreementandpay)
 - [createAgreementFromDDO](templates.AaveCreditTemplate.md#createagreementfromddo)
 - [createAgreementWithPaymentFromDDO](templates.AaveCreditTemplate.md#createagreementwithpaymentfromddo)
+- [createService](templates.AaveCreditTemplate.md#createservice)
 - [deployVault](templates.AaveCreditTemplate.md#deployvault)
+- [description](templates.AaveCreditTemplate.md#description)
 - [findSigner](templates.AaveCreditTemplate.md#findsigner)
 - [getAddress](templates.AaveCreditTemplate.md#getaddress)
 - [getAgreementCreatedEvent](templates.AaveCreditTemplate.md#getagreementcreatedevent)
@@ -71,12 +73,14 @@
 - [instanceFromDDO](templates.AaveCreditTemplate.md#instancefromddo)
 - [lockConditionIndex](templates.AaveCreditTemplate.md#lockconditionindex)
 - [lockTokens](templates.AaveCreditTemplate.md#locktokens)
+- [name](templates.AaveCreditTemplate.md#name)
 - [params](templates.AaveCreditTemplate.md#params)
 - [paymentData](templates.AaveCreditTemplate.md#paymentdata)
 - [printAgreementStatus](templates.AaveCreditTemplate.md#printagreementstatus)
 - [send](templates.AaveCreditTemplate.md#send)
 - [sendFrom](templates.AaveCreditTemplate.md#sendfrom)
 - [service](templates.AaveCreditTemplate.md#service)
+- [serviceEndpoint](templates.AaveCreditTemplate.md#serviceendpoint)
 - [setInstanceConfig](templates.AaveCreditTemplate.md#setinstanceconfig)
 - [standardContext](templates.AaveCreditTemplate.md#standardcontext)
 - [addressesStatic](templates.AaveCreditTemplate.md#addressesstatic)
@@ -102,7 +106,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:75](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L75)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:75](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L75)
 
 ## Properties
 
@@ -112,7 +116,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:31](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L31)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:37](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L37)
 
 ___
 
@@ -126,7 +130,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L24)
+[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L24)
 
 ___
 
@@ -140,7 +144,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L23)
+[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L23)
 
 ___
 
@@ -154,7 +158,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L25)
+[src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L25)
 
 ___
 
@@ -168,7 +172,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L26)
+[src/keeper/contracts/ContractBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L26)
 
 ## Accessors
 
@@ -186,7 +190,7 @@ BaseTemplate.address
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L28)
+[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L28)
 
 ___
 
@@ -204,7 +208,7 @@ BaseTemplate.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -222,7 +226,7 @@ BaseTemplate.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -240,7 +244,7 @@ BaseTemplate.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -258,7 +262,7 @@ BaseTemplate.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -276,7 +280,7 @@ BaseTemplate.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -294,7 +298,7 @@ BaseTemplate.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -312,7 +316,7 @@ BaseTemplate.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -345,7 +349,7 @@ BaseTemplate.web3
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:81](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L81)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:87](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L87)
 
 ___
 
@@ -363,7 +367,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:131](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L131)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -388,7 +392,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:215](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L215)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:213](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L213)
 
 ___
 
@@ -420,7 +424,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L244)
+[src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L244)
 
 ___
 
@@ -440,7 +444,7 @@ Returns true of contract exists else it throws.
 
 `Promise`<`boolean`\>
 
-Contract exists.
+true if the contract exists.
 
 #### Inherited from
 
@@ -448,7 +452,7 @@ Contract exists.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -479,7 +483,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L99)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L99)
 
 ___
 
@@ -513,7 +517,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:134](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L134)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:140](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L140)
 
 ___
 
@@ -549,7 +553,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:124](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L124)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:124](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L124)
 
 ___
 
@@ -575,7 +579,7 @@ Create a new agreement using the data of a DDO.
 
 `Promise`<`string`\>
 
-Success.
+true if the call was successful.
 
 #### Inherited from
 
@@ -583,7 +587,7 @@ Success.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:229](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L229)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:225](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L225)
 
 ___
 
@@ -614,7 +618,32 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:259](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L259)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:255](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L255)
+
+___
+
+### createService
+
+▸ **createService**(`publisher`, `metadata`): `Promise`<`ServiceCommon`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `publisher` | [`Account`](Account.md) |
+| `metadata` | [`MetaData`](../interfaces/MetaData.md) |
+
+#### Returns
+
+`Promise`<`ServiceCommon`\>
+
+#### Inherited from
+
+[BaseTemplate](templates.BaseTemplate.md).[createService](templates.BaseTemplate.md#createservice)
+
+#### Defined in
+
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:17](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L17)
 
 ___
 
@@ -645,7 +674,25 @@ Agreement ID.
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:186](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L186)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:192](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L192)
+
+___
+
+### description
+
+▸ **description**(): `string`
+
+#### Returns
+
+`string`
+
+#### Overrides
+
+[BaseTemplate](templates.BaseTemplate.md).[description](templates.BaseTemplate.md#description)
+
+#### Defined in
+
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:34](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L34)
 
 ___
 
@@ -669,7 +716,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -687,7 +734,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L41)
+[src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L41)
 
 ___
 
@@ -715,7 +762,7 @@ Agreement created event.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:473](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L473)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:469](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L469)
 
 ___
 
@@ -739,7 +786,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:5](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L5)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:7](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L7)
 
 ___
 
@@ -759,7 +806,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:271](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L271)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:277](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L277)
 
 ___
 
@@ -782,7 +829,7 @@ Get agreement conditions IDs.
 
 `Promise`<`string`[]\>
 
-Condition IDs.
+The condition IDs.
 
 #### Inherited from
 
@@ -790,7 +837,7 @@ Condition IDs.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:185](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L185)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:183](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L183)
 
 ___
 
@@ -810,7 +857,7 @@ Returns the status of the conditions.
 
 `Promise`<``false`` \| [`AgreementConditionsStatus`](../interfaces/templates.AgreementConditionsStatus.md)\>
 
-Conditions status.
+The conditions status.
 
 #### Inherited from
 
@@ -818,7 +865,7 @@ Conditions status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:347](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L347)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:343](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L343)
 
 ___
 
@@ -839,7 +886,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:264](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L264)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:270](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L270)
 
 ___
 
@@ -863,7 +910,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:500](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L500)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:496](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L496)
 
 ___
 
@@ -877,7 +924,7 @@ Conditions address list.
 
 `Promise`<`string`[]\>
 
-Conditions address.
+A list of condition addresses.
 
 #### Inherited from
 
@@ -885,7 +932,7 @@ Conditions address.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L163)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L163)
 
 ___
 
@@ -899,7 +946,7 @@ List of condition contracts.
 
 `Promise`<[`ConditionSmall`](conditions.ConditionSmall.md)[]\>
 
-Conditions contracts.
+A list of condition contracts.
 
 #### Inherited from
 
@@ -907,7 +954,7 @@ Conditions contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L171)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L171)
 
 ___
 
@@ -925,7 +972,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L37)
+[src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L37)
 
 ___
 
@@ -949,7 +996,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L90)
+[src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L90)
 
 ___
 
@@ -973,7 +1020,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L50)
+[src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L50)
 
 ___
 
@@ -991,7 +1038,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:77](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L77)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:83](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L83)
 
 ___
 
@@ -1015,7 +1062,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:328](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L328)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:324](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L324)
 
 ___
 
@@ -1033,7 +1080,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:323](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L323)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:319](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L319)
 
 ___
 
@@ -1051,7 +1098,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:337](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L337)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:333](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L333)
 
 ___
 
@@ -1076,7 +1123,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L45)
+[src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L45)
 
 ___
 
@@ -1101,7 +1148,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L55)
+[src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L55)
 
 ___
 
@@ -1128,7 +1175,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:212](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L212)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:218](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L218)
 
 ___
 
@@ -1146,7 +1193,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L81)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L81)
 
 ___
 
@@ -1173,7 +1220,25 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:402](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L402)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:398](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L398)
+
+___
+
+### name
+
+▸ **name**(): `string`
+
+#### Returns
+
+`string`
+
+#### Overrides
+
+[BaseTemplate](templates.BaseTemplate.md).[name](templates.BaseTemplate.md#name)
+
+#### Defined in
+
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:31](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L31)
 
 ___
 
@@ -1204,7 +1269,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:50](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L50)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:56](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L56)
 
 ___
 
@@ -1228,7 +1293,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:85](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L85)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:85](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L85)
 
 ___
 
@@ -1254,7 +1319,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:443](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L443)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:439](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L439)
 
 ___
 
@@ -1281,7 +1346,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L117)
+[src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L117)
 
 ___
 
@@ -1308,7 +1373,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/ContractBase.ts#L97)
+[src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L97)
 
 ___
 
@@ -1326,7 +1391,25 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:46](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L46)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:52](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L52)
+
+___
+
+### serviceEndpoint
+
+▸ **serviceEndpoint**(): `ServiceType`
+
+#### Returns
+
+`ServiceType`
+
+#### Inherited from
+
+[BaseTemplate](templates.BaseTemplate.md).[serviceEndpoint](templates.BaseTemplate.md#serviceendpoint)
+
+#### Defined in
+
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:14](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L14)
 
 ___
 
@@ -1350,7 +1433,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:176](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L176)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -1375,7 +1458,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:209](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L209)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:207](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L207)
 
 ___
 
@@ -1400,7 +1483,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L144)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -1426,7 +1509,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:116](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L116)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -1450,7 +1533,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/defi/AaveCreditTemplate.ts:33](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/keeper/contracts/defi/AaveCreditTemplate.ts#L33)
+[src/keeper/contracts/defi/AaveCreditTemplate.ts:39](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/defi/AaveCreditTemplate.ts#L39)
 
 ___
 
@@ -1481,4 +1564,4 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:167](https://github.com/nevermined-io/sdk-js/blob/3d13d39/src/Instantiable.abstract.ts#L167)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L162)

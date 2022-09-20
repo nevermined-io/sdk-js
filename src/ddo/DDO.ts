@@ -16,8 +16,8 @@ import { MetaData } from './MetaData'
 export class DDO {
     /**
      * Serializes the DDO object.
-     * @param  {DDO} DDO to be serialized.
-     * @return {string} DDO serialized.
+     * @param ddo - The {@link DDO} to be serialized.
+     * @returns DDO serialized.
      */
     public static serialize(ddo: DDO): string {
         return JSON.stringify(ddo, null, 2)
@@ -25,8 +25,8 @@ export class DDO {
 
     /**
      * Deserializes the DDO object.
-     * @param  {DDO} DDO to be deserialized.
-     * @return {string} DDO deserialized.
+     * @param ddoString - The serialized {@link DDO} to be deserialized.
+     * @returns The deserialized {@link DDO}.
      */
     public static deserialize(ddoString: string): DDO {
         const ddo = JSON.parse(ddoString)
@@ -37,8 +37,7 @@ export class DDO {
     public '@context': string = 'https://w3id.org/did/v1'
 
     /**
-     * DID, descentralized ID.
-     * @type {string}
+     * DID, decentralizes ID.
      */
     public id: string = null
 
@@ -89,8 +88,8 @@ export class DDO {
 
     /**
      * Finds a service of a DDO by index.
-     * @param  {number} index index.
-     * @return {Service} Service.
+     * @param index - index.
+     * @returns Service.
      */
     public findServiceById<T extends ServiceType>(index: number): Service<T> {
         if (isNaN(index)) {
@@ -107,8 +106,8 @@ export class DDO {
 
     /**
      * Finds a service of a DDO by type.
-     * @param  {string} serviceType Service type.
-     * @return {Service} Service.
+     * @param serviceType - Service type.
+     * @returns Service.
      */
     public findServiceByType<T extends ServiceType>(serviceType: T): Service<T> {
         if (!serviceType) {
@@ -126,8 +125,8 @@ export class DDO {
 
     /**
      * Generates proof using personal sign.
-     * @param  {string}         publicKey Public key to be used on personal sign.
-     * @return {Promise<Proof>}           Proof object.
+     * @param publicKey - Public key to be used on personal sign.
+     * @returns Proof object.
      */
     public async generateProof(publicKey: string): Promise<Proof> {
         const checksum = {}
@@ -147,8 +146,8 @@ export class DDO {
 
     /**
      * Generates and adds a proof using personal sign on the DDO.
-     * @param  {string}         publicKey Public key to be used on personal sign.
-     * @return {Promise<Proof>}           Proof object.
+     * @param publicKey - Public key to be used on personal sign.
+     * @returns Proof object.
      */
     public async addProof(publicKey: string): Promise<void> {
         if (this.proof) {

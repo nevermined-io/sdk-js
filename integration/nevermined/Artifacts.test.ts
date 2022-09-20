@@ -8,31 +8,24 @@ describe('Artifacts', () => {
     const artifactsRepo = 'https://artifacts.nevermined.rocks/'
     const tests = [
         {
-            nodeUri: 'https://matic-mumbai.chainstacklabs.com',
-            networkName: ['mumbai'],
-            networkId: [80001],
-            versions: ['v1.3.8'],
-            tag: 'common'
+            nodeUri: 'https://goerli-rollup.arbitrum.io/rpc',
+            networkName: ['arbitrum-goerli'],
+            networkId: [421613],
+            versions: ['v2.1.0'],
+            tag: 'public'
         },
         {
             nodeUri: 'https://matic-mumbai.chainstacklabs.com',
             networkName: ['mumbai'],
             networkId: [80001],
-            versions: ['v2.0.0-rc3'],
-            tag: 'common'
+            versions: ['v2.1.0'],
+            tag: 'public'
         },
         {
             nodeUri: 'https://polygon-rpc.com',
             networkName: ['matic'],
             networkId: [137],
             versions: ['v2.0.0'],
-            tag: 'common'
-        },
-        {
-            nodeUri: 'https://alfajores-forno.celo-testnet.org',
-            networkName: ['celo-alfajores'],
-            networkId: [44787],
-            versions: ['v1.3.5'],
             tag: 'common'
         }
     ]

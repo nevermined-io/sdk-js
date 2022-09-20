@@ -14,7 +14,7 @@ interface ContractTest extends ethers.Contract {
 }
 
 export default abstract class TestContractHandler extends ContractHandler {
-    public static async prepareContracts() {
+    public static async prepareContracts(): Promise<string> {
         TestContractHandler.setConfig(config)
         const [deployerAddress] = await TestContractHandler.addressesStatic(
             TestContractHandler.config,
@@ -27,6 +27,7 @@ export default abstract class TestContractHandler extends ContractHandler {
 
         // deploy contracts
         await TestContractHandler.deployContracts(deployerAddress)
+        return deployerAddress
     }
 
     private static networkId: number
@@ -111,7 +112,13 @@ export default abstract class TestContractHandler extends ContractHandler {
         const didRegistry = await TestContractHandler.deployContract(
             'DIDRegistry',
             deployerAddress,
-            [deployerAddress, erc1155.address, deployerAddress, nvmConfig.address, royalties.address],
+            [
+                deployerAddress,
+                erc1155.address,
+                erc721.address,
+                nvmConfig.address,
+                royalties.address
+            ],
             {
                 DIDRegistryLibrary: didRegistryLibrary.address
             }

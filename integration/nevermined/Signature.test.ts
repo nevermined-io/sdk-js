@@ -4,7 +4,7 @@ import { Nevermined, Account, DDO } from '../../src'
 import { Service } from '../../src/ddo/Service'
 
 // WARN: not integration test. It has been done here because constant values
-// depends on the first account on spree (only accessible from integration test)
+// depends on the first account on localnet (only accessible from integration test)
 describe('Signature', () => {
     let nevermined: Nevermined
     let consumer: Account

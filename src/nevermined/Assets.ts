@@ -88,7 +88,7 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
 export class Assets extends Instantiable {
     /**
      * Returns the instance of Assets.
-     * @return {Promise<Assets>}
+     * @returns {@link Assets}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Assets> {
         const instance = new Assets()
@@ -117,8 +117,8 @@ export class Assets extends Instantiable {
 
     /**
      * Returns a DDO by DID.
-     * @param  {string} did Decentralized ID.
-     * @return {Promise<DDO>}
+     * @param did - Decentralized ID.
+     * @returns {@link DDO}
      */
     public async resolve(did: string): Promise<DDO> {
         const { serviceEndpoint } =
@@ -502,14 +502,12 @@ export class Assets extends Instantiable {
 
     /**
      * Creates a new DDO.
-     * @param {MetaData} metadata DDO metadata.
-     * @param {Account} publisher Publisher account.
-     * @param {AssetRewards} assetRewards Publisher account.
-     * @param {ServiceType[]} serviceTypes List of service types to associate with the asset.
-     * @param {Service[]} services List of provider addresses of this asset.
-     * @param {String} method Method used to encrypt the urls.
-     * @param {String[]} providers List of provider addresses of this asset.
-     * @return {Promise<DDO>}
+     * @param metadata - DDO metadata.
+     * @param publisher - Publisher account.
+     * @param assetRewards - Publisher account.
+     * @param serviceTypes - List of service types to associate with the asset.
+     * @param providers - List of provider addresses of this asset.
+     * @returns {@link DDO}
      */
     public create(
         metadata: MetaData,
@@ -639,10 +637,10 @@ export class Assets extends Instantiable {
     /**
      * Start the purchase/order of an asset's service. Starts by signing the service agreement
      * then sends the request to the publisher via the service endpoint (Gateway http service).
-     * @param  {string} did Decentralized ID.
-     * @param  {ServiceType} serviceType Service.
-     * @param  {Account} consumer Consumer account.
-     * @return {Promise<string>} Returns Agreement ID
+     * @param did - Decentralized ID.
+     * @param serviceType - Service.
+     * @param consumer - Consumer account.
+     * @returns The agreement ID.
      */
     public order(
         did: string,
@@ -681,10 +679,8 @@ export class Assets extends Instantiable {
     }
 
     /**
-     * @param  {string} did Decentralized ID.
-     * @param  {number} index Service index.
-     * @param  {Account} consumer Consumer account.
-     * @return {Promise<string>} Returns Agreement ID
+     * @param consumer - Consumer account.
+     * @returns The agreement ID.
      */
     public async execute(
         agreementId: string,
@@ -700,8 +696,8 @@ export class Assets extends Instantiable {
 
     /**
      * Returns the owner of a asset.
-     * @param  {string} did Decentralized ID.
-     * @return {Promise<string>} Returns Agreement ID
+     * @param did - Decentralized ID.
+     * @returns The agreement ID.
      */
     public async owner(did: string): Promise<string> {
         const ddo = await this.resolve(did)
@@ -723,8 +719,8 @@ export class Assets extends Instantiable {
 
     /**
      * Returns the assets of a owner.
-     * @param  {string} owner Owner address.
-     * @return {Promise<string[]>} List of DIDs.
+     * @param owner - Owner address.
+     * @returns List of DIDs.
      */
     public async ownerAssets(owner: string): Promise<string[]> {
         return this.nevermined.keeper.didRegistry.getAttributesByOwner(owner)
@@ -732,9 +728,9 @@ export class Assets extends Instantiable {
 
     /**
      * Transfer ownership of an asset.
-     * @param  {string} did Asset DID.
-     * @param  {string} newOwner Ethereum address of the new owner of the DID.
-     * @return {Promise<TransactionReceipt>} Returns ethers transaction receipt.
+     * @param did - Asset DID.
+     * @param newOwner - Ethereum address of the new owner of the DID.
+     * @returns Returns ethers transaction receipt.
      */
     public async transferOwnership(
         did: string,
@@ -752,8 +748,8 @@ export class Assets extends Instantiable {
 
     /**
      * Returns the assets of a consumer.
-     * @param  {string} consumer Consumer address.
-     * @return {Promise<string[]>} List of DIDs.
+     * @param consumer - Consumer address.
+     * @returns List of DIDs.
      */
     public async consumerAssets(consumer: string): Promise<string[]> {
         return (
@@ -765,8 +761,8 @@ export class Assets extends Instantiable {
 
     /**
      * Search over the assets using a query.
-     * @param  {SearchQuery} query Query to filter the assets.
-     * @return {Promise<DDO[]>}
+     * @param query - Query to filter the assets.
+     * @returns A list of {@link DDO}s matching the query
      */
     public async query(query: SearchQuery) {
         return this.nevermined.metadata.queryMetadata(query)
@@ -774,8 +770,8 @@ export class Assets extends Instantiable {
 
     /**
      * Search over the assets using a keyword.
-     * @param  {SearchQuery} text Text to filter the assets.
-     * @return {Promise<DDO[]>}
+     * @param text - Text to filter the assets.
+     * @returns A list of {@link DDO}s.
      */
     public async search(
         text: string,

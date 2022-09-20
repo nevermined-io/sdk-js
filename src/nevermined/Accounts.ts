@@ -9,7 +9,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 export class Accounts extends Instantiable {
     /**
      * Returns the instance of Accounts.
-     * @return {Promise<Accounts>}
+     * @returns {@link Accounts}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Accounts> {
         const instance = new Accounts()
@@ -20,7 +20,8 @@ export class Accounts extends Instantiable {
 
     /**
      * Returns the list of accounts.
-     * @return {Promise<Account[]>}
+     *
+     * @returns The list of accounts.
      */
     public async list(): Promise<Account[]> {
         return (await this.addresses()).map(
@@ -32,7 +33,7 @@ export class Accounts extends Instantiable {
      * Returns the list of accounts including the addresses not controlled by the node,
      * only can be used by providers like metamask, Status or Trustwallet but not by default
      * provider
-     * @return {Promise<Account[]>}
+     * @returns
      */
     public async requestList(): Promise<Account[]> {
         return this.list()
@@ -40,8 +41,8 @@ export class Accounts extends Instantiable {
 
     /**
      * Return account balance.
-     * @param  {Account}          account Account instance.
-     * @return {Promise<Balance>}         Ether and Nevermined Token balance.
+     * @param account - Account instance.
+     * @returns Ether and Nevermined Token balance.
      */
     public balance(account: Account): Promise<Balance> {
         return account.getBalance()
@@ -49,9 +50,9 @@ export class Accounts extends Instantiable {
 
     /**
      * Request tokens for an account.
-     * @param  {Account}          account Account instance.
-     * @param  {number}           amount  Token amount.
-     * @return {Promise<boolean>}         Success.
+     * @param account - Account instance.
+     * @param amount  - Token amount.
+     * @returns {@link true} if the call was successful. {@link false} otherwise.
      */
     public async requestTokens(
         account: Account,

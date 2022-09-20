@@ -82,12 +82,7 @@ describe('Nfts721 operations', async () => {
             )
 
             // artist fetches the payment
-            await nevermined.nfts.release721Rewards(
-                agreementId,
-                ddo.id,
-                collector,
-                artist
-            )
+            await nevermined.nfts.release721Rewards(agreementId, ddo.id, artist)
         })
     })
 
@@ -128,12 +123,7 @@ describe('Nfts721 operations', async () => {
             )
 
             // artist fetches the payment
-            await nevermined.nfts.release721Rewards(
-                agreementId,
-                ddo.id,
-                collector,
-                artist
-            )
+            await nevermined.nfts.release721Rewards(agreementId, ddo.id, artist)
         })
     })
 
@@ -174,12 +164,7 @@ describe('Nfts721 operations', async () => {
             )
 
             // artist fetches the payment
-            await nevermined.nfts.release721Rewards(
-                agreementId,
-                ddo.id,
-                collector,
-                artist
-            )
+            await nevermined.nfts.release721Rewards(agreementId, ddo.id, artist)
         })
     })
 })
