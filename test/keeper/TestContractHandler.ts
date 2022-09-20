@@ -83,6 +83,12 @@ export default abstract class TestContractHandler extends ContractHandler {
             [token.address, deployerAddress]
         )
 
+        const royalties = await TestContractHandler.deployContract(
+            'StandardRoyalties',
+            deployerAddress,
+            [deployerAddress] // TODO: should be registry
+        )
+
         // Add dispenser as Token minter
         if (!token.$initialized) {
             const signer = await TestContractHandler.findSignerStatic(
@@ -105,7 +111,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const didRegistry = await TestContractHandler.deployContract(
             'DIDRegistry',
             deployerAddress,
-            [deployerAddress, erc1155.address, deployerAddress],
+            [deployerAddress, erc1155.address, deployerAddress, nvmConfig.address, royalties.address],
             {
                 DIDRegistryLibrary: didRegistryLibrary.address
             }

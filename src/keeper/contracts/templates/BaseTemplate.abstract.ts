@@ -108,16 +108,16 @@ export abstract class BaseTemplate<Params>
                 `Agreement doesn't match ${agreement_id} should be ${agreementData.agreementId}`
             )
         }
-        for (const { idx, a } of this.conditions().map((a, idx) => ({ idx, a }))) {
-            const condInstance = agreementData.instances[idx] as ConditionInstance<any>
+        for (const a of this.conditions()) {
+            const condInstance = agreementData.instances.find(c => c.condition === a.contractName) as ConditionInstance<any>
             await a.fulfillGateway(condInstance, extra, from, txparams)
             const lock_state =
                 await this.nevermined.keeper.conditionStoreManager.getCondition(
-                    agreementData.instances[idx].id
+                    condInstance.id
                 )
             if (lock_state.state !== ConditionState.Fulfilled) {
                 throw new Error(
-                    `In agreement ${agreement_id}, condition ${agreementData.instances[idx].id} is not fulfilled`
+                    `In agreement ${agreement_id}, condition ${condInstance.id} is not fulfilled`
                 )
             }
         }

@@ -33,14 +33,11 @@ export interface ConditionInstanceSmall {
     seed: string
     id: string
     agreementId: string
+    condition: string // Condition contract name
 }
 
-export interface ConditionInstance<Extra> {
-    list: any[]
-    seed: string
-    id: string
+export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
     params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
-    agreementId: string
 }
 
 export const conditionStateNames = [
@@ -190,6 +187,7 @@ export abstract class Condition<
     ): Promise<ConditionInstance<Extra>> {
         const valueHash = await this.hashValuesPlain(...params.list)
         return {
+            condition: this.contractName,
             seed: valueHash,
             agreementId,
             id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
