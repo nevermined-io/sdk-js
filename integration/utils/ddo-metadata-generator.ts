@@ -17,12 +17,12 @@ const metadata: Partial<MetaData> = {
             {
                 index: 0,
                 contentType: 'application/json',
-                url: 'https://github.com/nevermined-io/docs/raw/master/docs/architecture/specs/metadata/examples/ddo-example.json'
+                url: 'https://github.com/nevermined-io/docs-legacy/raw/master/docs/architecture/specs/metadata/examples/ddo-example.json'
             },
             {
                 index: 1,
                 contentType: 'text/plain',
-                url: 'https://github.com/nevermined-io/docs/raw/main/README.md'
+                url: 'https://github.com/nevermined-io/docs-legacy/raw/main/README.md'
             }
         ]
     },
