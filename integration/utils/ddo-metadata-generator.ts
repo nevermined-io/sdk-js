@@ -22,7 +22,7 @@ const metadata: Partial<MetaData> = {
             {
                 index: 1,
                 contentType: 'text/plain',
-                url: 'https://github.com/nevermined-io/docs-legacy/raw/main/README.md'
+                url: 'https://github.com/nevermined-io/docs-legacy/raw/master/README.md'
             }
         ]
     },
