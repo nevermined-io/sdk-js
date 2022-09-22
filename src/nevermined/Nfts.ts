@@ -59,10 +59,10 @@ export class Nfts extends Instantiable {
     public create(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
+        cap: BigNumber,
         royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
@@ -109,10 +109,10 @@ export class Nfts extends Instantiable {
     public createWithRoyalties(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
+        cap: BigNumber,
         royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
@@ -178,7 +178,7 @@ export class Nfts extends Instantiable {
             royaltyAttributes,
             nftMetadata ? nftMetadata : '',
             txParams,
-            ['nft721-sales', 'nft721-access'],
+            ['nft-sales', 'nft-access'],
             nftTransfer,
             duration
         )
@@ -204,7 +204,7 @@ export class Nfts extends Instantiable {
      */
     public async mint(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         params?: TxParameters
     ) {
@@ -236,7 +236,7 @@ export class Nfts extends Instantiable {
      */
     public async burn(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         params?: TxParameters
     ) {
@@ -271,7 +271,7 @@ export class Nfts extends Instantiable {
      */
     public order(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
@@ -375,7 +375,7 @@ export class Nfts extends Instantiable {
     public async transfer(
         agreementId: string,
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
@@ -425,7 +425,7 @@ export class Nfts extends Instantiable {
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         nftType: NftTypes = 1155
     ): Promise<boolean> {
         return await this.nevermined.gateway.nftTransferForDelegate(
@@ -507,7 +507,7 @@ export class Nfts extends Instantiable {
     public async releaseRewards(
         agreementId: string,
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
@@ -718,7 +718,7 @@ export class Nfts extends Instantiable {
      * @returns The NFT contract address.
      */
     public getNftContractAddress(ddo: DDO) {
-        const service = ddo.findServiceByType('nft721-access')
+        const service = ddo.findServiceByType('nft-access')
         if (!!service) {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
                 c => c.name === 'nftHolder'
@@ -737,8 +737,7 @@ export class Nfts extends Instantiable {
         destination?: string,
         index?: number
     ) {
-        const { serviceEndpoint } =
-            ddo.findServiceByType('nft-access') || ddo.findServiceByType('nft721-access')
+        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
         const { jwt } = this.nevermined.utils
@@ -835,7 +834,7 @@ export class Nfts extends Instantiable {
     public async listOnSecondaryMarkets(
         ddo: DDO,
         assetRewards: AssetRewards,
-        nftAmount: number,
+        nftAmount: BigNumber,
         provider: string,
         token: Token,
         owner: string
@@ -909,7 +908,7 @@ export class Nfts extends Instantiable {
      */
     public async buySecondaryMarketNft(
         consumer: Account,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {

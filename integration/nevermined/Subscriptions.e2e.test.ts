@@ -5,7 +5,7 @@ import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
-import { getMetadata } from '../utils'
+import { getMetadata721 as getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import SubscriptionNFT from '../../src/artifacts/NFT721SubscriptionUpgradeable.json'
 import { ethers } from 'ethers'
@@ -51,7 +51,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     const royalties = 0
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
-    const nftAmount = 1
+    const nftAmount = BigNumber.from(1)
 
     let initialBalances: any
     let scale: BigNumber
@@ -134,7 +134,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 royaltyAttributes,
                 undefined,
                 undefined,
-                ['nft721-sales'],
+                ['nft-sales'],
                 nftTransfer,
                 subscriptionDuration
             )
@@ -170,7 +170,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 royaltyAttributes,
                 undefined,
                 undefined,
-                ['nft721-access'],
+                ['nft-access'],
                 nftTransfer,
                 subscriptionDuration
             )

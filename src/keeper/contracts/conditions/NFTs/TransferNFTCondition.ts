@@ -1,19 +1,26 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ConditionMethod,
+    ConditionParameters,
+    ProviderCondition
+} from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
 
 export interface TransferNFTConditionContext extends ConditionContext {
     providerId: string
     consumerId: string
-    nftAmount: number
+    nftAmount: BigNumber
 }
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class TransferNFTCondition extends Condition<TransferNFTConditionContext> {
+export class TransferNFTCondition extends ProviderCondition<TransferNFTConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferNFTCondition> {
@@ -36,7 +43,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         did: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockCondition: string,
         nftContractAddress?: string,
         willBeTransferred: boolean = true
@@ -118,7 +125,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         agreementId: string,
         did: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockPaymentCondition: string,
         from?: Account,
         txParams?: TxParameters
@@ -151,7 +158,7 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         did: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockPaymentCondition: string,
         transferAsset: boolean = true,
         from?: Account,
@@ -171,5 +178,9 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
             params,
             'fulfillForDelegate'
         )
+    }
+
+    public gatewayMethod(): ConditionMethod {
+        return 'fulfillForDelegate'
     }
 }

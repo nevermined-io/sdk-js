@@ -187,6 +187,9 @@ export interface MetaDataMain {
     algorithm?: Algorithm
 
     service?: Service
+
+    isDTP: boolean
+    nftType: 721 | 1155
 }
 
 /**

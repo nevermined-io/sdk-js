@@ -4,12 +4,24 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
+import {
+    EscrowPaymentCondition,
+    LockPaymentCondition,
+    TransferDIDOwnershipCondition
+} from '../conditions'
 
-export class DIDSalesTemplate extends BaseTemplate<Record<string, unknown>> {
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    public params(...args: any[]): Record<string, unknown> {
-        throw new Error('Method not implemented.')
+export interface DIDSalesTemplateParams {
+    receiverId: string
+    consumerId: string
+}
+
+export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams> {
+    public async paramsGen(params: ValidationParams): Promise<DIDSalesTemplateParams> {
+        return this.params(params.consumer_address)
+    }
+    public params(receiverId: string): DIDSalesTemplateParams {
+        return { receiverId, consumerId: receiverId }
     }
     public name(): string {
         return 'didSalesAgreement'
@@ -18,18 +30,72 @@ export class DIDSalesTemplate extends BaseTemplate<Record<string, unknown>> {
         return 'DID sales Agreement'
     }
 
-    public instanceFromDDO(
-        agreementId: string,
+    public conditions(): [
+        LockPaymentCondition,
+        TransferDIDOwnershipCondition,
+        EscrowPaymentCondition
+    ] {
+        const {
+            lockPaymentCondition,
+            transferDidOwnershipCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
+        return [
+            lockPaymentCondition,
+            transferDidOwnershipCondition,
+            escrowPaymentCondition
+        ]
+    }
+
+    public async instanceFromDDO(
+        agreementIdSeed: string,
         ddo: DDO,
         creator: string,
-        parameters: Record<string, unknown>
-    ): Promise<AgreementInstance<Record<string, unknown>>> {
-        throw new Error('Method not implemented.')
+        parameters: DIDSalesTemplateParams
+    ): Promise<AgreementInstance<DIDSalesTemplateParams>> {
+        const {
+            transferDidOwnershipCondition,
+            lockPaymentCondition,
+            escrowPaymentCondition
+        } = this.nevermined.keeper.conditions
+
+        const agreementId = await this.agreementId(agreementIdSeed, creator)
+        const ctx = {
+            ...this.standardContext(ddo, creator),
+            ...parameters
+        }
+
+        const lockPaymentConditionInstance = await lockPaymentCondition.instanceFromDDO(
+            agreementId,
+            ctx
+        )
+        const transferConditionInstance =
+            await transferDidOwnershipCondition.instanceFromDDO(
+                agreementId,
+                ctx,
+                lockPaymentConditionInstance
+            )
+        const escrowPaymentConditionInstance =
+            await escrowPaymentCondition.instanceFromDDO(
+                agreementId,
+                ctx,
+                transferConditionInstance,
+                lockPaymentConditionInstance
+            )
+
+        return {
+            instances: [
+                lockPaymentConditionInstance,
+                transferConditionInstance,
+                escrowPaymentConditionInstance
+            ],
+            list: parameters,
+            agreementId
+        }
     }
     public service(): ServiceType {
         throw new Error('Method not implemented.')
     }
-    /* eslint-enable @typescript-eslint/no-unused-vars */
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<DIDSalesTemplate> {

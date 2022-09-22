@@ -1,6 +1,6 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
-import { Condition, ConditionContext } from './Condition.abstract'
+import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 
@@ -11,7 +11,7 @@ export interface AccessConditionContext extends ConditionContext {
 /**
  * Condition allowing to transfer the ownership between the original owner and a receiver.
  */
-export class TransferDIDOwnershipCondition extends Condition<AccessConditionContext> {
+export class TransferDIDOwnershipCondition extends ProviderCondition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferDIDOwnershipCondition> {

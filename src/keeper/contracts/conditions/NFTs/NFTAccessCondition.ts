@@ -1,4 +1,4 @@
-import { Condition, ConditionContext } from '../Condition.abstract'
+import { Condition, ConditionContext, ProviderCondition } from '../Condition.abstract'
 import { zeroX, didZeroX } from '../../../../utils'
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import Account from '../../../../nevermined/Account'
@@ -8,7 +8,7 @@ export interface NFTAccessConditionContext extends ConditionContext {
     grantee: string
 }
 
-export class NFTAccessCondition extends Condition<NFTAccessConditionContext> {
+export class NFTAccessCondition extends ProviderCondition<NFTAccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTAccessCondition> {
@@ -35,6 +35,14 @@ export class NFTAccessCondition extends Condition<NFTAccessConditionContext> {
             [didZeroX(did), grantee].map(zeroX),
             from,
             params
+        )
+    }
+
+    public checkPermissions(grantee: string, did: string, from?: Account) {
+        return this.call<boolean>(
+            'checkPermissions',
+            [grantee, didZeroX(did)].map(zeroX),
+            from && from.getId()
         )
     }
 }

@@ -1,4 +1,4 @@
-import { Condition, ConditionContext } from './Condition.abstract'
+import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -8,7 +8,7 @@ export interface ComputeExecutionConditionContext extends ConditionContext {
     consumerId: string
 }
 
-export class ComputeExecutionCondition extends Condition<ComputeExecutionConditionContext> {
+export class ComputeExecutionCondition extends ProviderCondition<ComputeExecutionConditionContext> {
     public async paramsFromDDO({ ddo, consumerId }: ComputeExecutionConditionContext) {
         return this.params(ddo.shortId(), consumerId)
     }

@@ -23,7 +23,6 @@ describe('Assets', () => {
             const query: SearchQuery = {
                 offset: 100,
                 page: 1,
-                query: {},
                 text: 'Office',
                 sort: {
                     created: 'desc'

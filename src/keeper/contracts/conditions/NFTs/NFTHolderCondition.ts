@@ -1,18 +1,20 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
-import { Condition, ConditionContext } from '../Condition.abstract'
+import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
+import { ServiceCommon } from '../../../../ddo/Service'
 
 export interface NFTHolderConditionContext extends ConditionContext {
     holderAddress: string
-    amount: number
+    amount?: BigNumber
 }
 
 /**
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
  */
-export class NFTHolderCondition extends Condition<NFTHolderConditionContext> {
+export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTHolderCondition> {
@@ -27,16 +29,24 @@ export class NFTHolderCondition extends Condition<NFTHolderConditionContext> {
      * @param amount - The amount of NFTs that need to be hold by the holder
      * @returns hash of all the values
      */
-    public params(did: string, holderAddress: string, amount: number) {
-        return super.params(didZeroX(did), zeroX(holderAddress), String(amount))
+    public params(did: string, holderAddress: string, amount?: BigNumber) {
+        return super.params(didZeroX(did), zeroX(holderAddress), amount.toString())
+    }
+
+    public amountFromService(service: ServiceCommon): BigNumber {
+        const holder = findServiceConditionByName(service, 'nftHolder')
+        if (!holder) throw new Error('Holder condition not found!')
+        return BigNumber.from(holder.parameters.find(p => p.name === '_numberNfts').value)
     }
 
     public async paramsFromDDO({
         ddo,
+        service,
         holderAddress,
         amount
     }: NFTHolderConditionContext) {
-        return this.params(ddo.shortId(), holderAddress, amount)
+        const numberNfts = amount || this.amountFromService(service)
+        return this.params(ddo.shortId(), holderAddress, numberNfts)
     }
 
     /**
@@ -53,7 +63,7 @@ export class NFTHolderCondition extends Condition<NFTHolderConditionContext> {
         agreementId: string,
         did: string,
         holderAddress: string,
-        amount: number,
+        amount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {

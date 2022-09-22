@@ -4,7 +4,12 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
+import {
+    LockPaymentCondition,
+    EscrowPaymentCondition,
+    TransferNFT721Condition
+} from '../conditions'
 
 export interface NFT721SalesTemplateParams {
     consumerId: string
@@ -24,7 +29,7 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
     }
 
     public service(): ServiceType {
-        return 'nft721-sales'
+        return 'nft-sales'
     }
     public serviceEndpoint(): ServiceType {
         return 'nft-sales'
@@ -40,9 +45,24 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams>
     public params(consumerId: string, expiration: number = 0): NFT721SalesTemplateParams {
         return { consumerId, expiration }
     }
+    public async paramsGen({
+        consumer_address
+    }: ValidationParams): Promise<NFT721SalesTemplateParams> {
+        return this.params(consumer_address)
+    }
 
     public lockConditionIndex(): number {
         return 0
+    }
+
+    public conditions(): [
+        LockPaymentCondition,
+        TransferNFT721Condition,
+        EscrowPaymentCondition
+    ] {
+        const { lockPaymentCondition, transferNft721Condition, escrowPaymentCondition } =
+            this.nevermined.keeper.conditions
+        return [lockPaymentCondition, transferNft721Condition, escrowPaymentCondition]
     }
 
     public async instanceFromDDO(

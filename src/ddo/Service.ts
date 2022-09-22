@@ -1,6 +1,10 @@
 import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
 import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
+import { Account } from '../sdk'
+import { TxParameters } from '../keeper/contracts/ContractBase'
+import { Babysig } from '../models/KeyTransfer'
+import { BigNumber } from 'ethers'
 
 export type ConditionType =
     | 'lockPayment'
@@ -13,18 +17,20 @@ export type ServiceType =
     | 'authorization'
     | 'metadata'
     | 'access'
-    | 'access-proof'
     | 'compute'
     | 'workflow'
     | 'nft-access'
     | 'nft-sales'
+    | 'aave-credit'
+/*
+    | 'access-proof'
     | 'nft721-access'
     | 'nft721-sales'
-    | 'aave-credit'
     | 'nft-access-proof'
     | 'nft-sales-proof'
     | 'nft721-access-proof'
     | 'nft721-sales-proof'
+*/
 
 export const serviceIndex = {
     authorization: 2,
@@ -73,16 +79,22 @@ export interface ServiceAccess extends ServiceCommon {
             datePublished: string
             price: string
             timeout: number
+            _hash?: string
+            _providerPub?: { x: string; y: string }
         }
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
         }
     }
+    isDTP: boolean
 }
 
-export interface ServiceAccessProof extends ServiceCommon {
-    type: 'access-proof'
+export interface ServiceAccessNormal extends ServiceAccess {
+    isDTP: false
+}
+
+export interface ServiceAccessProof extends ServiceAccess {
     templateId?: string
     attributes: {
         main: {
@@ -92,13 +104,14 @@ export interface ServiceAccessProof extends ServiceCommon {
             price: string
             timeout: number
             _hash: string
-            _providerPub: [string, string]
+            _providerPub: { x: string; y: string }
         }
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
         }
     }
+    isDTP: true
 }
 
 export interface ServiceCompute extends ServiceCommon {
@@ -132,9 +145,7 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         : T extends 'metadata'
         ? ServiceMetadata
         : T extends 'access'
-        ? ServiceAccess
-        : T extends 'access-proof'
-        ? ServiceAccessProof
+        ? ServiceAccessNormal | ServiceAccessProof
         : T extends 'compute'
         ? ServiceCompute
         : T extends 'aave-credit'
@@ -142,3 +153,25 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         : T extends 'default'
         ? ServiceCommon
         : ServiceCommon
+
+export interface ValidationParams {
+    agreement_id: string
+    did: string
+    consumer_address?: string
+    buyer?: string
+    babysig?: Babysig
+    nft_amount?: BigNumber
+    nft_holder?: string
+}
+
+export interface ServicePlugin {
+    createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
+    // Process agreement for provider
+    process(
+        params: ValidationParams,
+        from: Account,
+        txparams?: TxParameters
+    ): Promise<void>
+    // Check if service can be granted without agreement
+    accept(params: ValidationParams): Promise<boolean>
+}

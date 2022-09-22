@@ -7,9 +7,17 @@ import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
 import { ContractReceipt } from 'ethers'
 import BigNumber from '../../../utils/BigNumber'
+import {
+    AaveBorrowCondition,
+    AaveCollateralDepositCondition,
+    AaveCollateralWithdrawCondition,
+    AaveRepayCondition,
+    DistributeNFTCollateralCondition,
+    NFT721LockCondition
+} from '../conditions'
 
 export interface AaveCreditTemplateParams {
     vaultAddress: string
@@ -28,6 +36,9 @@ export interface AaveCreditTemplateParams {
 }
 
 export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
+    public async paramsGen(_params: ValidationParams): Promise<AaveCreditTemplateParams> {
+        throw new Error('Method not implemented.')
+    }
     public name(): string {
         return 'aaveCreditAgreement'
     }
@@ -265,6 +276,32 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             list: parameters,
             agreementId
         }
+    }
+
+    public conditions(): [
+        NFT721LockCondition,
+        AaveCollateralDepositCondition,
+        AaveBorrowCondition,
+        AaveRepayCondition,
+        AaveCollateralWithdrawCondition,
+        DistributeNFTCollateralCondition
+    ] {
+        const {
+            nft721LockCondition,
+            aaveCollateralDepositCondition,
+            aaveBorrowCondition,
+            aaveRepayCondition,
+            aaveCollateralWithdrawCondition,
+            distributeNftCollateralCondition
+        } = this.nevermined.keeper.conditions
+        return [
+            nft721LockCondition,
+            aaveCollateralDepositCondition,
+            aaveBorrowCondition,
+            aaveRepayCondition,
+            aaveCollateralWithdrawCondition,
+            distributeNftCollateralCondition
+        ]
     }
 
     public async getAgreementVaultAddress(

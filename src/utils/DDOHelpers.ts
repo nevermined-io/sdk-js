@@ -14,7 +14,7 @@ function fillParameterWithDDO(
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
-    nftAmount: number = 1,
+    nftAmount: BigNumber = BigNumber.from(1),
     nftTransfer: boolean = false,
     duration: number = 0
 ): ServiceAgreementTemplateParameter {
@@ -75,7 +75,7 @@ export function fillConditionsWithDDO(
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
-    nftAmount?: number,
+    nftAmount?: BigNumber,
     nftTransfer: boolean = false,
     duration: number = 0
 ): ServiceAgreementTemplateCondition[] {
@@ -176,8 +176,9 @@ export function getNftHolderFromService(service: Service): string {
         .value as string
 }
 
-export function getNftAmountFromService(service: Service): number {
+export function getNftAmountFromService(service: Service): BigNumber {
     const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-    return nftTransferCondition.parameters.find(p => p.name === '_numberNfts')
-        .value as number
+    return BigNumber.from(
+        nftTransferCondition.parameters.find(p => p.name === '_numberNfts').value
+    )
 }

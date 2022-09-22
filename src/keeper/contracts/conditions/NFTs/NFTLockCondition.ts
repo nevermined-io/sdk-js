@@ -1,8 +1,9 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
-import { Condition, ConditionContext } from '../Condition.abstract'
+import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
 
 export interface NFTLockConditionContext extends ConditionContext {
     rewardAddress: string
@@ -12,7 +13,7 @@ export interface NFTLockConditionContext extends ConditionContext {
 /**
  * Implementation of the NFT Lock Condition
  */
-export class NFTLockCondition extends Condition<NFTLockConditionContext> {
+export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTLockCondition> {
@@ -47,7 +48,7 @@ export class NFTLockCondition extends Condition<NFTLockConditionContext> {
         agreementId: string,
         did: string,
         rewardAddress: string,
-        amount: number,
+        amount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {

@@ -44,7 +44,7 @@ describe('Nfts operations', () => {
             ddo = await nevermined.nfts.create(
                 metadata,
                 artist,
-                10,
+                BigNumber.from(10),
                 royaltyAttributes,
                 new AssetRewards()
             )
@@ -58,8 +58,12 @@ describe('Nfts operations', () => {
         })
 
         it('should transfer 2 nft tokens with default token', async () => {
-            const agreementId = await nevermined.nfts.order(ddo.id, 2, collector)
-            await nevermined.nfts.transfer(agreementId, ddo.id, 2, artist)
+            const agreementId = await nevermined.nfts.order(
+                ddo.id,
+                BigNumber.from(2),
+                collector
+            )
+            await nevermined.nfts.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
 
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
@@ -72,7 +76,7 @@ describe('Nfts operations', () => {
         })
 
         it('should burn nft tokens', async () => {
-            await nevermined.nfts.burn(ddo.id, 6, artist)
+            await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
                 BigNumber.from(2)
@@ -87,7 +91,7 @@ describe('Nfts operations', () => {
             ddo = await nevermined.nfts.create(
                 metadata,
                 artist,
-                10,
+                BigNumber.from(10),
                 royaltyAttributes,
                 new AssetRewards(),
                 undefined,
@@ -103,8 +107,12 @@ describe('Nfts operations', () => {
         })
 
         it('should transfer 2 nft tokens with custom token', async () => {
-            const agreementId = await nevermined.nfts.order(ddo.id, 2, collector)
-            await nevermined.nfts.transfer(agreementId, ddo.id, 2, artist)
+            const agreementId = await nevermined.nfts.order(
+                ddo.id,
+                BigNumber.from(2),
+                collector
+            )
+            await nevermined.nfts.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
 
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
@@ -117,7 +125,7 @@ describe('Nfts operations', () => {
         })
 
         it('should burn nft tokens', async () => {
-            await nevermined.nfts.burn(ddo.id, 6, artist)
+            await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
                 BigNumber.from(2)
@@ -132,7 +140,7 @@ describe('Nfts operations', () => {
             ddo = await nevermined.nfts.create(
                 metadata,
                 artist,
-                10,
+                BigNumber.from(10),
                 royaltyAttributes,
                 new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
                 undefined,
@@ -148,8 +156,12 @@ describe('Nfts operations', () => {
         })
 
         it('should transfer 2 nft tokens with ether', async () => {
-            const agreementId = await nevermined.nfts.order(ddo.id, 2, collector)
-            await nevermined.nfts.transfer(agreementId, ddo.id, 2, artist)
+            const agreementId = await nevermined.nfts.order(
+                ddo.id,
+                BigNumber.from(2),
+                collector
+            )
+            await nevermined.nfts.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
 
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
@@ -162,7 +174,7 @@ describe('Nfts operations', () => {
         })
 
         it('should burn nft tokens', async () => {
-            await nevermined.nfts.burn(ddo.id, 6, artist)
+            await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
 
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),

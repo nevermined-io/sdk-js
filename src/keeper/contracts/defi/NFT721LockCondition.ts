@@ -1,6 +1,10 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils/index'
-import { Condition, ConditionContext } from '../conditions/Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ProviderCondition
+} from '../conditions/Condition.abstract'
 import Account from '../../../nevermined/Account'
 
 export interface NFT721LockConditionContext extends ConditionContext {
@@ -12,7 +16,7 @@ export interface NFT721LockConditionContext extends ConditionContext {
 /**
  * Implementation of the NFT Lock Condition
  */
-export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
+export class NFT721LockCondition extends ProviderCondition<NFT721LockConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721LockCondition> {

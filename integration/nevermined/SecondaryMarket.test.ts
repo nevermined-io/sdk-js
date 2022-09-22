@@ -49,7 +49,7 @@ describe('Secondary Markets', () => {
     let ddo: DDO
 
     const royalties = 10 // 10% of royalties in the secondary market
-    const cappedAmount = 5
+    const cappedAmount = BigNumber.from(5)
     let royaltyAttributes: RoyaltyAttributes
     let agreementId: string
     let agreementId2: string
@@ -64,7 +64,7 @@ describe('Secondary Markets', () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
+    const numberNFTs = BigNumber.from(1)
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
@@ -72,7 +72,7 @@ describe('Secondary Markets', () => {
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
-    const numberNFTs2 = 1
+    const numberNFTs2 = BigNumber.from(1)
     let nftPrice2 = BigNumber.from(100)
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
@@ -299,11 +299,11 @@ describe('Secondary Markets', () => {
 
                 assert.equal(
                     Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
+                    Number(nftBalanceArtistBefore) - Number(numberNFTs)
                 )
                 assert.equal(
                     Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
+                    Number(nftBalanceCollectorBefore) + Number(numberNFTs)
                 )
             })
 
@@ -546,11 +546,11 @@ describe('Secondary Markets', () => {
 
                 assert.equal(
                     Number(nftBalanceCollector1After),
-                    Number(nftBalanceCollector1Before) - numberNFTs2
+                    Number(nftBalanceCollector1Before) - Number(numberNFTs2)
                 )
                 assert.equal(
                     Number(nftBalanceCollector2After),
-                    Number(nftBalanceCollector2Before) + numberNFTs
+                    Number(nftBalanceCollector2Before) + Number(numberNFTs2)
                 )
             })
 
@@ -693,7 +693,7 @@ describe('Secondary Markets', () => {
 
                 const result = await nevermined.nfts.buySecondaryMarketNft(
                     collector1,
-                    1,
+                    BigNumber.from(1),
                     agreementId3
                 )
 
@@ -723,11 +723,11 @@ describe('Secondary Markets', () => {
 
                 assert.equal(
                     Number(nftBalanceCollector1After),
-                    Number(nftBalanceCollector1Before) + numberNFTs2
+                    Number(nftBalanceCollector1Before) + Number(numberNFTs2)
                 )
                 assert.equal(
                     Number(nftBalanceCollector2After),
-                    Number(nftBalanceCollector2Before) - numberNFTs
+                    Number(nftBalanceCollector2Before) - Number(numberNFTs2)
                 )
 
                 const escrowPaymentConditionBalanceAfter = await token.balanceOf(

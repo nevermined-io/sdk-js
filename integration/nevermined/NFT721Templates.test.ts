@@ -20,7 +20,7 @@ import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Nft721 } from '../../src'
 import ERC721 from '../../src/artifacts/ERC721.json'
-import { getMetadata } from '../utils'
+import { getMetadata721 as getMetadata } from '../utils'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import BigNumber from '../../src/utils/BigNumber'
 import {
@@ -871,7 +871,7 @@ describe('NFT721Templates E2E', () => {
                 }
                 setNFTRewardsFromDDOByService(
                     ddo,
-                    'nft721-sales',
+                    'nft-sales',
                     assetRewards2,
                     collector1.getId()
                 )

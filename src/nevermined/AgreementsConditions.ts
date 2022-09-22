@@ -239,7 +239,7 @@ export class AgreementsConditions extends Instantiable {
     public async releaseNftReward(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         from?: Account,
         txParams?: TxParameters
@@ -327,7 +327,7 @@ export class AgreementsConditions extends Instantiable {
         agreementId: string,
         did: string,
         holder: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {
@@ -362,7 +362,7 @@ export class AgreementsConditions extends Instantiable {
         params?: TxParameters
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
-        const accessService = ddo.findServiceByType('nft721-access')
+        const accessService = ddo.findServiceByType('nft-access')
 
         const holder = findServiceConditionByName(accessService, 'nftHolder')
 
@@ -417,7 +417,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNft(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         txParams?: TxParameters
     ) {
@@ -456,7 +456,7 @@ export class AgreementsConditions extends Instantiable {
     public async transferNftForDelegate(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {

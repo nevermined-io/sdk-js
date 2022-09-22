@@ -5,6 +5,7 @@ import Account from '../../../nevermined/Account'
 import { DDO } from '../../..'
 import { Service } from '../../../ddo/Service'
 import AssetRewards from '../../../models/AssetRewards'
+import { ContractReceipt } from 'ethers'
 
 export enum ConditionState {
     Uninitialized = 0,
@@ -32,14 +33,11 @@ export interface ConditionInstanceSmall {
     seed: string
     id: string
     agreementId: string
+    condition: string // Condition contract name
 }
 
-export interface ConditionInstance<Extra> {
-    list: any[]
-    seed: string
-    id: string
-    params: (method: string, arg: Extra) => Promise<any[]> // for fullfill
-    agreementId: string
+export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
+    params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
 
 export const conditionStateNames = [
@@ -166,7 +164,7 @@ export abstract class Condition<
         additionalParams: Extra,
         from?: Account,
         params?: TxParameters,
-        method: string = 'fulfill'
+        method: ConditionMethod = 'fulfill'
     ) {
         return this.sendFrom(
             method,
@@ -176,12 +174,20 @@ export abstract class Condition<
         )
     }
 
+    public abstract fulfillGateway(
+        cond: ConditionInstance<Extra>,
+        additionalParams: Extra,
+        from?: Account,
+        params?: TxParameters
+    ): Promise<ContractReceipt | void>
+
     public async instance(
         agreementId: string,
         params: ConditionParameters<Extra>
     ): Promise<ConditionInstance<Extra>> {
         const valueHash = await this.hashValuesPlain(...params.list)
         return {
+            condition: this.contractName,
             seed: valueHash,
             agreementId,
             id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
@@ -189,4 +195,42 @@ export abstract class Condition<
             params: params.params
         }
     }
+}
+
+export abstract class ProviderCondition<
+    Ctx extends ConditionContext,
+    Extra = Record<string, unknown>
+> extends Condition<Ctx, Extra> {
+    public async fulfillGateway(
+        cond: ConditionInstance<Extra>,
+        additionalParams: Extra,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom(
+            this.gatewayMethod(),
+            [
+                zeroX(cond.agreementId),
+                ...(await cond.params(this.gatewayMethod(), additionalParams))
+            ],
+            from,
+            params
+        )
+    }
+
+    public gatewayMethod(): ConditionMethod {
+        return 'fulfill'
+    }
+}
+
+export abstract class ConsumerCondition<
+    Ctx extends ConditionContext,
+    Extra = Record<string, unknown>
+> extends Condition<Ctx, Extra> {
+    public async fulfillGateway(
+        _cond: ConditionInstance<Extra>,
+        _additionalParams: Extra,
+        _from?: Account,
+        _params?: TxParameters
+    ) {}
 }

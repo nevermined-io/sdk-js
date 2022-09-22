@@ -2,6 +2,7 @@ import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
+import BigNumber from '../../utils/BigNumber'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -146,7 +147,7 @@ export default class DIDRegistry extends ContractBase {
         value: string,
         activityId: string,
         nftMetadata: string = '',
-        cap: number,
+        cap: BigNumber,
         royalties: number,
         mint: boolean = false,
         ownerAddress: string,
@@ -584,12 +585,22 @@ export default class DIDRegistry extends ContractBase {
         return this.call('getProvenanceOwner', [didZeroX(did)])
     }
 
-    public async mint(did: string, amount: number, from: string, params?: TxParameters) {
-        return this.send('mint', from, [didZeroX(did), amount], params)
+    public async mint(
+        did: string,
+        amount: BigNumber,
+        from: string,
+        params?: TxParameters
+    ) {
+        return this.send('mint', from, [didZeroX(did), String(amount)], params)
     }
 
-    public async burn(did: string, amount: number, from: string, params?: TxParameters) {
-        return this.send('burn', from, [didZeroX(did), amount], params)
+    public async burn(
+        did: string,
+        amount: BigNumber,
+        from: string,
+        params?: TxParameters
+    ) {
+        return this.send('burn', from, [didZeroX(did), String(amount)], params)
     }
 
     public async addProvider(

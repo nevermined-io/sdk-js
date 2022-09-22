@@ -37,7 +37,7 @@ describe('TransferNFTCondition', () => {
 
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
-    const nftAmount = 2
+    const nftAmount = BigNumber.from(2)
     const amounts = [BigNumber.from(10)]
 
     before(async () => {
@@ -182,7 +182,7 @@ describe('TransferNFTCondition', () => {
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
             assert.equal(_receiver, nftReceiver.getId())
-            assert.equal(Number(_amount), nftAmount)
+            assert.equal(Number(_amount), Number(nftAmount))
         })
     })
 
@@ -271,7 +271,7 @@ describe('TransferNFTCondition', () => {
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
             assert.equal(_receiver, nftReceiver.getId())
-            assert.equal(Number(_amount), nftAmount)
+            assert.equal(Number(_amount), Number(nftAmount))
         })
     })
 

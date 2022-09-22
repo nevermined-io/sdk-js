@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
-import { getMetadata } from '../utils'
+import { getMetadata721 as getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
