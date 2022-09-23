@@ -169,7 +169,8 @@ export class DDO {
                 // Default values
                 curation: {
                     rating: 0,
-                    numVotes: 0
+                    numVotes: 0,
+                    isListed: true
                 },
                 // Overwrites defaults
                 ...metadata,
