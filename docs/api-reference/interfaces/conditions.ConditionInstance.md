@@ -10,11 +10,18 @@
 | :------ |
 | `Extra` |
 
+## Hierarchy
+
+- [`ConditionInstanceSmall`](conditions.ConditionInstanceSmall.md)
+
+  ↳ **`ConditionInstance`**
+
 ## Table of contents
 
 ### Properties
 
 - [agreementId](conditions.ConditionInstance.md#agreementid)
+- [condition](conditions.ConditionInstance.md#condition)
 - [id](conditions.ConditionInstance.md#id)
 - [list](conditions.ConditionInstance.md#list)
 - [params](conditions.ConditionInstance.md#params)
@@ -26,9 +33,27 @@
 
 • **agreementId**: `string`
 
+#### Inherited from
+
+[ConditionInstanceSmall](conditions.ConditionInstanceSmall.md).[agreementId](conditions.ConditionInstanceSmall.md#agreementid)
+
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:42](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L42)
+[src/keeper/contracts/conditions/Condition.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L35)
+
+___
+
+### condition
+
+• **condition**: `string`
+
+#### Inherited from
+
+[ConditionInstanceSmall](conditions.ConditionInstanceSmall.md).[condition](conditions.ConditionInstanceSmall.md#condition)
+
+#### Defined in
+
+[src/keeper/contracts/conditions/Condition.abstract.ts:36](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L36)
 
 ___
 
@@ -36,9 +61,13 @@ ___
 
 • **id**: `string`
 
+#### Inherited from
+
+[ConditionInstanceSmall](conditions.ConditionInstanceSmall.md).[id](conditions.ConditionInstanceSmall.md#id)
+
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:40](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L40)
+[src/keeper/contracts/conditions/Condition.abstract.ts:34](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L34)
 
 ___
 
@@ -46,15 +75,19 @@ ___
 
 • **list**: `any`[]
 
+#### Inherited from
+
+[ConditionInstanceSmall](conditions.ConditionInstanceSmall.md).[list](conditions.ConditionInstanceSmall.md#list)
+
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:38](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L38)
+[src/keeper/contracts/conditions/Condition.abstract.ts:32](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L32)
 
 ___
 
 ### params
 
-• **params**: (`method`: `string`, `arg`: `Extra`) => `Promise`<`any`[]\>
+• **params**: (`method`: [`ConditionMethod`](../modules/conditions.md#conditionmethod), `arg`: `Extra`) => `Promise`<`any`[]\>
 
 #### Type declaration
 
@@ -64,7 +97,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `method` | `string` |
+| `method` | [`ConditionMethod`](../modules/conditions.md#conditionmethod) |
 | `arg` | `Extra` |
 
 ##### Returns
@@ -73,7 +106,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:41](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L41)
+[src/keeper/contracts/conditions/Condition.abstract.ts:40](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L40)
 
 ___
 
@@ -81,6 +114,10 @@ ___
 
 • **seed**: `string`
 
+#### Inherited from
+
+[ConditionInstanceSmall](conditions.ConditionInstanceSmall.md).[seed](conditions.ConditionInstanceSmall.md#seed)
+
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:39](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L39)
+[src/keeper/contracts/conditions/Condition.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L33)

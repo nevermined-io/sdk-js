@@ -1,6 +1,8 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Condition
+[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / ConsumerCondition
 
-# Class: Condition<Ctx, Extra\>
+# Class: ConsumerCondition<Ctx, Extra\>
+
+[conditions](../modules/conditions.md).ConsumerCondition
 
 ## Type parameters
 
@@ -11,78 +13,82 @@
 
 ## Hierarchy
 
-- [`ConditionSmall`](conditions.ConditionSmall.md)
+- [`Condition`](Condition.md)<`Ctx`, `Extra`\>
 
-  ↳ **`Condition`**
+  ↳ **`ConsumerCondition`**
 
-  ↳↳ [`ProviderCondition`](conditions.ProviderCondition.md)
+  ↳↳ [`LockPaymentCondition`](conditions.LockPaymentCondition.md)
 
-  ↳↳ [`ConsumerCondition`](conditions.ConsumerCondition.md)
+  ↳↳ [`NFTHolderCondition`](conditions.NFTHolderCondition.md)
+
+  ↳↳ [`NFT721HolderCondition`](conditions.NFT721HolderCondition.md)
+
+  ↳↳ [`NFTLockCondition`](conditions.NFTLockCondition.md)
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](Condition.md#constructor)
+- [constructor](conditions.ConsumerCondition.md#constructor)
 
 ### Properties
 
-- [contract](Condition.md#contract)
-- [contractName](Condition.md#contractname)
-- [events](Condition.md#events)
-- [version](Condition.md#version)
+- [contract](conditions.ConsumerCondition.md#contract)
+- [contractName](conditions.ConsumerCondition.md#contractname)
+- [events](conditions.ConsumerCondition.md#events)
+- [version](conditions.ConsumerCondition.md#version)
 
 ### Accessors
 
-- [address](Condition.md#address)
-- [artifactsFolder](Condition.md#artifactsfolder)
-- [config](Condition.md#config)
-- [instanceConfig](Condition.md#instanceconfig)
-- [instantiableConfig](Condition.md#instantiableconfig)
-- [logger](Condition.md#logger)
-- [nevermined](Condition.md#nevermined)
-- [web3](Condition.md#web3)
+- [address](conditions.ConsumerCondition.md#address)
+- [artifactsFolder](conditions.ConsumerCondition.md#artifactsfolder)
+- [config](conditions.ConsumerCondition.md#config)
+- [instanceConfig](conditions.ConsumerCondition.md#instanceconfig)
+- [instantiableConfig](conditions.ConsumerCondition.md#instantiableconfig)
+- [logger](conditions.ConsumerCondition.md#logger)
+- [nevermined](conditions.ConsumerCondition.md#nevermined)
+- [web3](conditions.ConsumerCondition.md#web3)
 
 ### Methods
 
-- [abortByTimeOut](Condition.md#abortbytimeout)
-- [addresses](Condition.md#addresses)
-- [call](Condition.md#call)
-- [checkExists](Condition.md#checkexists)
-- [findSigner](Condition.md#findsigner)
-- [fulfill](Condition.md#fulfill)
-- [fulfillGateway](Condition.md#fulfillgateway)
-- [fulfillInstance](Condition.md#fulfillinstance)
-- [fulfillPlain](Condition.md#fulfillplain)
-- [generateId](Condition.md#generateid)
-- [generateIdHash](Condition.md#generateidhash)
-- [generateIdWithSeed](Condition.md#generateidwithseed)
-- [getAddress](Condition.md#getaddress)
-- [getConditionFulfilledEvent](Condition.md#getconditionfulfilledevent)
-- [getContract](Condition.md#getcontract)
-- [getFromAddress](Condition.md#getfromaddress)
-- [getInputsOfMethod](Condition.md#getinputsofmethod)
-- [getSignatureOfMethod](Condition.md#getsignatureofmethod)
-- [hashValues](Condition.md#hashvalues)
-- [hashValuesPlain](Condition.md#hashvaluesplain)
-- [init](Condition.md#init)
-- [instance](Condition.md#instance)
-- [instanceFromDDO](Condition.md#instancefromddo)
-- [params](Condition.md#params)
-- [paramsFromDDO](Condition.md#paramsfromddo)
-- [send](Condition.md#send)
-- [sendFrom](Condition.md#sendfrom)
-- [setInstanceConfig](Condition.md#setinstanceconfig)
-- [addressesStatic](Condition.md#addressesstatic)
-- [findSignerStatic](Condition.md#findsignerstatic)
-- [getInstance](Condition.md#getinstance)
-- [setInstanceConfig](Condition.md#setinstanceconfig-1)
+- [abortByTimeOut](conditions.ConsumerCondition.md#abortbytimeout)
+- [addresses](conditions.ConsumerCondition.md#addresses)
+- [call](conditions.ConsumerCondition.md#call)
+- [checkExists](conditions.ConsumerCondition.md#checkexists)
+- [findSigner](conditions.ConsumerCondition.md#findsigner)
+- [fulfill](conditions.ConsumerCondition.md#fulfill)
+- [fulfillGateway](conditions.ConsumerCondition.md#fulfillgateway)
+- [fulfillInstance](conditions.ConsumerCondition.md#fulfillinstance)
+- [fulfillPlain](conditions.ConsumerCondition.md#fulfillplain)
+- [generateId](conditions.ConsumerCondition.md#generateid)
+- [generateIdHash](conditions.ConsumerCondition.md#generateidhash)
+- [generateIdWithSeed](conditions.ConsumerCondition.md#generateidwithseed)
+- [getAddress](conditions.ConsumerCondition.md#getaddress)
+- [getConditionFulfilledEvent](conditions.ConsumerCondition.md#getconditionfulfilledevent)
+- [getContract](conditions.ConsumerCondition.md#getcontract)
+- [getFromAddress](conditions.ConsumerCondition.md#getfromaddress)
+- [getInputsOfMethod](conditions.ConsumerCondition.md#getinputsofmethod)
+- [getSignatureOfMethod](conditions.ConsumerCondition.md#getsignatureofmethod)
+- [hashValues](conditions.ConsumerCondition.md#hashvalues)
+- [hashValuesPlain](conditions.ConsumerCondition.md#hashvaluesplain)
+- [init](conditions.ConsumerCondition.md#init)
+- [instance](conditions.ConsumerCondition.md#instance)
+- [instanceFromDDO](conditions.ConsumerCondition.md#instancefromddo)
+- [params](conditions.ConsumerCondition.md#params)
+- [paramsFromDDO](conditions.ConsumerCondition.md#paramsfromddo)
+- [send](conditions.ConsumerCondition.md#send)
+- [sendFrom](conditions.ConsumerCondition.md#sendfrom)
+- [setInstanceConfig](conditions.ConsumerCondition.md#setinstanceconfig)
+- [addressesStatic](conditions.ConsumerCondition.md#addressesstatic)
+- [findSignerStatic](conditions.ConsumerCondition.md#findsignerstatic)
+- [getInstance](conditions.ConsumerCondition.md#getinstance)
+- [setInstanceConfig](conditions.ConsumerCondition.md#setinstanceconfig-1)
 
 ## Constructors
 
 ### constructor
 
-• **new Condition**<`Ctx`, `Extra`\>(`contractName`)
+• **new ConsumerCondition**<`Ctx`, `Extra`\>(`contractName`)
 
 #### Type parameters
 
@@ -99,7 +105,7 @@
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[constructor](conditions.ConditionSmall.md#constructor)
+[Condition](Condition.md).[constructor](Condition.md#constructor)
 
 #### Defined in
 
@@ -113,7 +119,7 @@
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[contract](conditions.ConditionSmall.md#contract)
+[Condition](Condition.md).[contract](Condition.md#contract)
 
 #### Defined in
 
@@ -127,7 +133,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[contractName](conditions.ConditionSmall.md#contractname)
+[Condition](Condition.md).[contractName](Condition.md#contractname)
 
 #### Defined in
 
@@ -141,7 +147,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[events](conditions.ConditionSmall.md#events)
+[Condition](Condition.md).[events](Condition.md#events)
 
 #### Defined in
 
@@ -155,7 +161,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[version](conditions.ConditionSmall.md#version)
+[Condition](Condition.md).[version](Condition.md#version)
 
 #### Defined in
 
@@ -173,7 +179,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.address
+Condition.address
 
 #### Defined in
 
@@ -191,7 +197,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.artifactsFolder
+Condition.artifactsFolder
 
 #### Defined in
 
@@ -209,7 +215,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.config
+Condition.config
 
 #### Defined in
 
@@ -227,7 +233,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.instanceConfig
+Condition.instanceConfig
 
 #### Defined in
 
@@ -245,7 +251,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.instantiableConfig
+Condition.instantiableConfig
 
 #### Defined in
 
@@ -263,7 +269,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.logger
+Condition.logger
 
 #### Defined in
 
@@ -281,7 +287,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.nevermined
+Condition.nevermined
 
 #### Defined in
 
@@ -299,7 +305,7 @@ ___
 
 #### Inherited from
 
-ConditionSmall.web3
+Condition.web3
 
 #### Defined in
 
@@ -325,7 +331,7 @@ ConditionSmall.web3
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[abortByTimeOut](conditions.ConditionSmall.md#abortbytimeout)
+[Condition](Condition.md).[abortByTimeOut](Condition.md#abortbytimeout)
 
 #### Defined in
 
@@ -343,7 +349,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[addresses](conditions.ConditionSmall.md#addresses)
+[Condition](Condition.md).[addresses](Condition.md#addresses)
 
 #### Defined in
 
@@ -375,7 +381,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[call](conditions.ConditionSmall.md#call)
+[Condition](Condition.md).[call](Condition.md#call)
 
 #### Defined in
 
@@ -403,7 +409,7 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[checkExists](conditions.ConditionSmall.md#checkexists)
+[Condition](Condition.md).[checkExists](Condition.md#checkexists)
 
 #### Defined in
 
@@ -427,7 +433,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[findSigner](conditions.ConditionSmall.md#findsigner)
+[Condition](Condition.md).[findSigner](Condition.md#findsigner)
 
 #### Defined in
 
@@ -452,7 +458,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[fulfill](conditions.ConditionSmall.md#fulfill)
+[Condition](Condition.md).[fulfill](Condition.md#fulfill)
 
 #### Defined in
 
@@ -462,24 +468,28 @@ ___
 
 ### fulfillGateway
 
-▸ `Abstract` **fulfillGateway**(`cond`, `additionalParams`, `from?`, `params?`): `Promise`<`void` \| `ContractReceipt`\>
+▸ **fulfillGateway**(`_cond`, `_additionalParams`, `_from?`, `_params?`): `Promise`<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `cond` | [`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\> |
-| `additionalParams` | `Extra` |
-| `from?` | [`Account`](Account.md) |
-| `params?` | `TxParameters` |
+| `_cond` | [`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\> |
+| `_additionalParams` | `Extra` |
+| `_from?` | [`Account`](Account.md) |
+| `_params?` | `TxParameters` |
 
 #### Returns
 
-`Promise`<`void` \| `ContractReceipt`\>
+`Promise`<`void`\>
+
+#### Overrides
+
+[Condition](Condition.md).[fulfillGateway](Condition.md#fulfillgateway)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:177](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L177)
+[src/keeper/contracts/conditions/Condition.abstract.ts:230](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L230)
 
 ___
 
@@ -500,6 +510,10 @@ ___
 #### Returns
 
 `Promise`<`ContractReceipt`\>
+
+#### Inherited from
+
+[Condition](Condition.md).[fulfillInstance](Condition.md#fulfillinstance)
 
 #### Defined in
 
@@ -527,7 +541,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[fulfillPlain](conditions.ConditionSmall.md#fulfillplain)
+[Condition](Condition.md).[fulfillPlain](Condition.md#fulfillplain)
 
 #### Defined in
 
@@ -552,7 +566,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[generateId](conditions.ConditionSmall.md#generateid)
+[Condition](Condition.md).[generateId](Condition.md#generateid)
 
 #### Defined in
 
@@ -577,7 +591,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[generateIdHash](conditions.ConditionSmall.md#generateidhash)
+[Condition](Condition.md).[generateIdHash](Condition.md#generateidhash)
 
 #### Defined in
 
@@ -602,7 +616,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[generateIdWithSeed](conditions.ConditionSmall.md#generateidwithseed)
+[Condition](Condition.md).[generateIdWithSeed](Condition.md#generateidwithseed)
 
 #### Defined in
 
@@ -620,7 +634,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getAddress](conditions.ConditionSmall.md#getaddress)
+[Condition](Condition.md).[getAddress](Condition.md#getaddress)
 
 #### Defined in
 
@@ -644,7 +658,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getConditionFulfilledEvent](conditions.ConditionSmall.md#getconditionfulfilledevent)
+[Condition](Condition.md).[getConditionFulfilledEvent](Condition.md#getconditionfulfilledevent)
 
 #### Defined in
 
@@ -662,7 +676,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getContract](conditions.ConditionSmall.md#getcontract)
+[Condition](Condition.md).[getContract](Condition.md#getcontract)
 
 #### Defined in
 
@@ -686,7 +700,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getFromAddress](conditions.ConditionSmall.md#getfromaddress)
+[Condition](Condition.md).[getFromAddress](Condition.md#getfromaddress)
 
 #### Defined in
 
@@ -710,7 +724,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getInputsOfMethod](conditions.ConditionSmall.md#getinputsofmethod)
+[Condition](Condition.md).[getInputsOfMethod](Condition.md#getinputsofmethod)
 
 #### Defined in
 
@@ -735,7 +749,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getSignatureOfMethod](conditions.ConditionSmall.md#getsignatureofmethod)
+[Condition](Condition.md).[getSignatureOfMethod](Condition.md#getsignatureofmethod)
 
 #### Defined in
 
@@ -757,9 +771,9 @@ ___
 
 `Promise`<`string`\>
 
-#### Overrides
+#### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[hashValues](conditions.ConditionSmall.md#hashvalues)
+[Condition](Condition.md).[hashValues](Condition.md#hashvalues)
 
 #### Defined in
 
@@ -780,6 +794,10 @@ ___
 #### Returns
 
 `Promise`<`string`\>
+
+#### Inherited from
+
+[Condition](Condition.md).[hashValuesPlain](Condition.md#hashvaluesplain)
 
 #### Defined in
 
@@ -804,7 +822,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[init](conditions.ConditionSmall.md#init)
+[Condition](Condition.md).[init](Condition.md#init)
 
 #### Defined in
 
@@ -826,6 +844,10 @@ ___
 #### Returns
 
 `Promise`<[`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\>\>
+
+#### Inherited from
+
+[Condition](Condition.md).[instance](Condition.md#instance)
 
 #### Defined in
 
@@ -849,6 +871,10 @@ ___
 
 `Promise`<[`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\>\>
 
+#### Inherited from
+
+[Condition](Condition.md).[instanceFromDDO](Condition.md#instancefromddo)
+
 #### Defined in
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L154)
@@ -868,6 +894,10 @@ ___
 #### Returns
 
 [`ConditionParameters`](../interfaces/conditions.ConditionParameters.md)<`Extra`\>
+
+#### Inherited from
+
+[Condition](Condition.md).[params](Condition.md#params)
 
 #### Defined in
 
@@ -889,6 +919,10 @@ ___
 #### Returns
 
 `Promise`<[`ConditionParameters`](../interfaces/conditions.ConditionParameters.md)<`Extra`\>\>
+
+#### Inherited from
+
+[Condition](Condition.md).[paramsFromDDO](Condition.md#paramsfromddo)
 
 #### Defined in
 
@@ -915,7 +949,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[send](conditions.ConditionSmall.md#send)
+[Condition](Condition.md).[send](Condition.md#send)
 
 #### Defined in
 
@@ -942,7 +976,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[sendFrom](conditions.ConditionSmall.md#sendfrom)
+[Condition](Condition.md).[sendFrom](Condition.md#sendfrom)
 
 #### Defined in
 
@@ -966,7 +1000,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[setInstanceConfig](conditions.ConditionSmall.md#setinstanceconfig)
+[Condition](Condition.md).[setInstanceConfig](Condition.md#setinstanceconfig)
 
 #### Defined in
 
@@ -991,7 +1025,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[addressesStatic](conditions.ConditionSmall.md#addressesstatic)
+[Condition](Condition.md).[addressesStatic](Condition.md#addressesstatic)
 
 #### Defined in
 
@@ -1017,7 +1051,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[findSignerStatic](conditions.ConditionSmall.md#findsignerstatic)
+[Condition](Condition.md).[findSignerStatic](Condition.md#findsignerstatic)
 
 #### Defined in
 
@@ -1049,9 +1083,9 @@ ___
 
 `Promise`<`any`\>
 
-#### Overrides
+#### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getInstance](conditions.ConditionSmall.md#getinstance)
+[Condition](Condition.md).[getInstance](Condition.md#getinstance)
 
 #### Defined in
 
@@ -1082,7 +1116,7 @@ ___
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[setInstanceConfig](conditions.ConditionSmall.md#setinstanceconfig-1)
+[Condition](Condition.md).[setInstanceConfig](Condition.md#setinstanceconfig-1)
 
 #### Defined in
 

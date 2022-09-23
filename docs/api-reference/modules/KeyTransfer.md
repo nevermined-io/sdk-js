@@ -8,3 +8,7 @@
 
 - [BabyjubPublicKey](../classes/KeyTransfer.BabyjubPublicKey.md)
 - [MimcCipher](../classes/KeyTransfer.MimcCipher.md)
+
+### Interfaces
+
+- [Babysig](../interfaces/KeyTransfer.Babysig.md)

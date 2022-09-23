@@ -18,6 +18,7 @@
 - [AccessCondition](../classes/conditions.AccessCondition.md)
 - [ComputeExecutionCondition](../classes/conditions.ComputeExecutionCondition.md)
 - [ConditionSmall](../classes/conditions.ConditionSmall.md)
+- [ConsumerCondition](../classes/conditions.ConsumerCondition.md)
 - [DistributeNFTCollateralCondition](../classes/conditions.DistributeNFTCollateralCondition.md)
 - [EscrowPaymentCondition](../classes/conditions.EscrowPaymentCondition.md)
 - [LockPaymentCondition](../classes/conditions.LockPaymentCondition.md)
@@ -26,6 +27,7 @@
 - [NFTAccessCondition](../classes/conditions.NFTAccessCondition.md)
 - [NFTHolderCondition](../classes/conditions.NFTHolderCondition.md)
 - [NFTLockCondition](../classes/conditions.NFTLockCondition.md)
+- [ProviderCondition](../classes/conditions.ProviderCondition.md)
 - [TransferDIDOwnershipCondition](../classes/conditions.TransferDIDOwnershipCondition.md)
 - [TransferNFT721Condition](../classes/conditions.TransferNFT721Condition.md)
 - [TransferNFTCondition](../classes/conditions.TransferNFTCondition.md)
@@ -65,7 +67,7 @@ Re-exports [ConditionState](../enums/ConditionState.md)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L16)
+[src/keeper/contracts/conditions/Condition.abstract.ts:17](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L17)
 
 ## Variables
 
@@ -75,4 +77,4 @@ Re-exports [ConditionState](../enums/ConditionState.md)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:45](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L45)
+[src/keeper/contracts/conditions/Condition.abstract.ts:43](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L43)

@@ -8,7 +8,7 @@ Condition allowing to transfer the ownership between the original owner and a re
 
 ## Hierarchy
 
-- [`Condition`](Condition.md)<`AccessConditionContext`\>
+- [`ProviderCondition`](conditions.ProviderCondition.md)<`AccessConditionContext`\>
 
   ↳ **`TransferDIDOwnershipCondition`**
 
@@ -44,8 +44,10 @@ Condition allowing to transfer the ownership between the original owner and a re
 - [checkExists](conditions.TransferDIDOwnershipCondition.md#checkexists)
 - [findSigner](conditions.TransferDIDOwnershipCondition.md#findsigner)
 - [fulfill](conditions.TransferDIDOwnershipCondition.md#fulfill)
+- [fulfillGateway](conditions.TransferDIDOwnershipCondition.md#fulfillgateway)
 - [fulfillInstance](conditions.TransferDIDOwnershipCondition.md#fulfillinstance)
 - [fulfillPlain](conditions.TransferDIDOwnershipCondition.md#fulfillplain)
+- [gatewayMethod](conditions.TransferDIDOwnershipCondition.md#gatewaymethod)
 - [generateId](conditions.TransferDIDOwnershipCondition.md#generateid)
 - [generateIdHash](conditions.TransferDIDOwnershipCondition.md#generateidhash)
 - [generateIdWithSeed](conditions.TransferDIDOwnershipCondition.md#generateidwithseed)
@@ -84,11 +86,11 @@ Condition allowing to transfer the ownership between the original owner and a re
 
 #### Inherited from
 
-[Condition](Condition.md).[constructor](Condition.md#constructor)
+[ProviderCondition](conditions.ProviderCondition.md).[constructor](conditions.ProviderCondition.md#constructor)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:32](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L32)
+[src/keeper/contracts/ContractBase.ts:32](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L32)
 
 ## Properties
 
@@ -98,11 +100,11 @@ Condition allowing to transfer the ownership between the original owner and a re
 
 #### Inherited from
 
-[Condition](Condition.md).[contract](Condition.md#contract)
+[ProviderCondition](conditions.ProviderCondition.md).[contract](conditions.ProviderCondition.md#contract)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L24)
+[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L24)
 
 ___
 
@@ -112,11 +114,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[contractName](Condition.md#contractname)
+[ProviderCondition](conditions.ProviderCondition.md).[contractName](conditions.ProviderCondition.md#contractname)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L23)
+[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L23)
 
 ___
 
@@ -126,11 +128,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[events](Condition.md#events)
+[ProviderCondition](conditions.ProviderCondition.md).[events](conditions.ProviderCondition.md#events)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L25)
+[src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L25)
 
 ___
 
@@ -140,11 +142,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[version](Condition.md#version)
+[ProviderCondition](conditions.ProviderCondition.md).[version](conditions.ProviderCondition.md#version)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L26)
+[src/keeper/contracts/ContractBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L26)
 
 ## Accessors
 
@@ -158,11 +160,11 @@ ___
 
 #### Inherited from
 
-Condition.address
+ProviderCondition.address
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L28)
+[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L28)
 
 ___
 
@@ -176,11 +178,11 @@ ___
 
 #### Inherited from
 
-Condition.artifactsFolder
+ProviderCondition.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -194,11 +196,11 @@ ___
 
 #### Inherited from
 
-Condition.config
+ProviderCondition.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -212,11 +214,11 @@ ___
 
 #### Inherited from
 
-Condition.instanceConfig
+ProviderCondition.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -230,11 +232,11 @@ ___
 
 #### Inherited from
 
-Condition.instantiableConfig
+ProviderCondition.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -248,11 +250,11 @@ ___
 
 #### Inherited from
 
-Condition.logger
+ProviderCondition.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -266,11 +268,11 @@ ___
 
 #### Inherited from
 
-Condition.nevermined
+ProviderCondition.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -284,11 +286,11 @@ ___
 
 #### Inherited from
 
-Condition.web3
+ProviderCondition.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -310,11 +312,11 @@ Condition.web3
 
 #### Inherited from
 
-[Condition](Condition.md).[abortByTimeOut](Condition.md#abortbytimeout)
+[ProviderCondition](conditions.ProviderCondition.md).[abortByTimeOut](conditions.ProviderCondition.md#abortbytimeout)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L99)
+[src/keeper/contracts/conditions/Condition.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L97)
 
 ___
 
@@ -328,11 +330,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[addresses](Condition.md#addresses)
+[ProviderCondition](conditions.ProviderCondition.md).[addresses](conditions.ProviderCondition.md#addresses)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -360,11 +362,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[call](Condition.md#call)
+[ProviderCondition](conditions.ProviderCondition.md).[call](conditions.ProviderCondition.md#call)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L244)
+[src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L244)
 
 ___
 
@@ -388,11 +390,11 @@ true if the contract exists.
 
 #### Inherited from
 
-[Condition](Condition.md).[checkExists](Condition.md#checkexists)
+[ProviderCondition](conditions.ProviderCondition.md).[checkExists](conditions.ProviderCondition.md#checkexists)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -412,11 +414,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[findSigner](Condition.md#findsigner)
+[ProviderCondition](conditions.ProviderCondition.md).[findSigner](conditions.ProviderCondition.md#findsigner)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -449,11 +451,38 @@ Condition state.
 
 #### Overrides
 
-[Condition](Condition.md).[fulfill](Condition.md#fulfill)
+[ProviderCondition](conditions.ProviderCondition.md).[fulfill](conditions.ProviderCondition.md#fulfill)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:52](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L52)
+[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:52](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L52)
+
+___
+
+### fulfillGateway
+
+▸ **fulfillGateway**(`cond`, `additionalParams`, `from?`, `params?`): `Promise`<`ContractReceipt`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `cond` | [`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Record`<`string`, `unknown`\>\> |
+| `additionalParams` | `Record`<`string`, `unknown`\> |
+| `from?` | [`Account`](Account.md) |
+| `params?` | `TxParameters` |
+
+#### Returns
+
+`Promise`<`ContractReceipt`\>
+
+#### Inherited from
+
+[ProviderCondition](conditions.ProviderCondition.md).[fulfillGateway](conditions.ProviderCondition.md#fulfillgateway)
+
+#### Defined in
+
+[src/keeper/contracts/conditions/Condition.abstract.ts:204](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L204)
 
 ___
 
@@ -469,7 +498,7 @@ ___
 | `additionalParams` | `Record`<`string`, `unknown`\> | `undefined` |
 | `from?` | [`Account`](Account.md) | `undefined` |
 | `params?` | `TxParameters` | `undefined` |
-| `method` | `string` | `'fulfill'` |
+| `method` | [`ConditionMethod`](../modules/conditions.md#conditionmethod) | `'fulfill'` |
 
 #### Returns
 
@@ -477,11 +506,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[fulfillInstance](Condition.md#fulfillinstance)
+[ProviderCondition](conditions.ProviderCondition.md).[fulfillInstance](conditions.ProviderCondition.md#fulfillinstance)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L164)
+[src/keeper/contracts/conditions/Condition.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L162)
 
 ___
 
@@ -505,11 +534,29 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[fulfillPlain](Condition.md#fulfillplain)
+[ProviderCondition](conditions.ProviderCondition.md).[fulfillPlain](conditions.ProviderCondition.md#fulfillplain)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:71](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L71)
+[src/keeper/contracts/conditions/Condition.abstract.ts:69](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L69)
+
+___
+
+### gatewayMethod
+
+▸ **gatewayMethod**(): [`ConditionMethod`](../modules/conditions.md#conditionmethod)
+
+#### Returns
+
+[`ConditionMethod`](../modules/conditions.md#conditionmethod)
+
+#### Inherited from
+
+[ProviderCondition](conditions.ProviderCondition.md).[gatewayMethod](conditions.ProviderCondition.md#gatewaymethod)
+
+#### Defined in
+
+[src/keeper/contracts/conditions/Condition.abstract.ts:221](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L221)
 
 ___
 
@@ -530,11 +577,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[generateId](Condition.md#generateid)
+[ProviderCondition](conditions.ProviderCondition.md).[generateId](conditions.ProviderCondition.md#generateid)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:85](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L85)
+[src/keeper/contracts/conditions/Condition.abstract.ts:83](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L83)
 
 ___
 
@@ -555,11 +602,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[generateIdHash](Condition.md#generateidhash)
+[ProviderCondition](conditions.ProviderCondition.md).[generateIdHash](conditions.ProviderCondition.md#generateidhash)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L81)
+[src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
 
 ___
 
@@ -580,11 +627,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[generateIdWithSeed](Condition.md#generateidwithseed)
+[ProviderCondition](conditions.ProviderCondition.md).[generateIdWithSeed](conditions.ProviderCondition.md#generateidwithseed)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L89)
+[src/keeper/contracts/conditions/Condition.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L87)
 
 ___
 
@@ -598,11 +645,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getAddress](Condition.md#getaddress)
+[ProviderCondition](conditions.ProviderCondition.md).[getAddress](conditions.ProviderCondition.md#getaddress)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L41)
+[src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L41)
 
 ___
 
@@ -622,11 +669,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getConditionFulfilledEvent](Condition.md#getconditionfulfilledevent)
+[ProviderCondition](conditions.ProviderCondition.md).[getConditionFulfilledEvent](conditions.ProviderCondition.md#getconditionfulfilledevent)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:103](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L103)
+[src/keeper/contracts/conditions/Condition.abstract.ts:101](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L101)
 
 ___
 
@@ -640,11 +687,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getContract](Condition.md#getcontract)
+[ProviderCondition](conditions.ProviderCondition.md).[getContract](conditions.ProviderCondition.md#getcontract)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L37)
+[src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L37)
 
 ___
 
@@ -664,11 +711,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getFromAddress](Condition.md#getfromaddress)
+[ProviderCondition](conditions.ProviderCondition.md).[getFromAddress](conditions.ProviderCondition.md#getfromaddress)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L90)
+[src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L90)
 
 ___
 
@@ -688,11 +735,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getInputsOfMethod](Condition.md#getinputsofmethod)
+[ProviderCondition](conditions.ProviderCondition.md).[getInputsOfMethod](conditions.ProviderCondition.md#getinputsofmethod)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L50)
+[src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L50)
 
 ___
 
@@ -713,11 +760,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getSignatureOfMethod](Condition.md#getsignatureofmethod)
+[ProviderCondition](conditions.ProviderCondition.md).[getSignatureOfMethod](conditions.ProviderCondition.md#getsignatureofmethod)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L45)
+[src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L45)
 
 ___
 
@@ -737,11 +784,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[hashValues](Condition.md#hashvalues)
+[ProviderCondition](conditions.ProviderCondition.md).[hashValues](conditions.ProviderCondition.md#hashvalues)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:143](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L143)
+[src/keeper/contracts/conditions/Condition.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L141)
 
 ___
 
@@ -761,11 +808,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[hashValuesPlain](Condition.md#hashvaluesplain)
+[ProviderCondition](conditions.ProviderCondition.md).[hashValuesPlain](conditions.ProviderCondition.md#hashvaluesplain)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:147](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L147)
+[src/keeper/contracts/conditions/Condition.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L145)
 
 ___
 
@@ -786,11 +833,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[init](Condition.md#init)
+[ProviderCondition](conditions.ProviderCondition.md).[init](conditions.ProviderCondition.md#init)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L55)
+[src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L55)
 
 ___
 
@@ -811,11 +858,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[instance](Condition.md#instance)
+[ProviderCondition](conditions.ProviderCondition.md).[instance](conditions.ProviderCondition.md#instance)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:179](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L179)
+[src/keeper/contracts/conditions/Condition.abstract.ts:184](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L184)
 
 ___
 
@@ -837,11 +884,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[instanceFromDDO](Condition.md#instancefromddo)
+[ProviderCondition](conditions.ProviderCondition.md).[instanceFromDDO](conditions.ProviderCondition.md#instancefromddo)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:156](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L156)
+[src/keeper/contracts/conditions/Condition.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L154)
 
 ___
 
@@ -866,11 +913,11 @@ Hash of all the values.
 
 #### Overrides
 
-[Condition](Condition.md).[params](Condition.md#params)
+[ProviderCondition](conditions.ProviderCondition.md).[params](conditions.ProviderCondition.md#params)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:31](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L31)
+[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:31](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L31)
 
 ___
 
@@ -890,11 +937,11 @@ ___
 
 #### Overrides
 
-[Condition](Condition.md).[paramsFromDDO](Condition.md#paramsfromddo)
+[ProviderCondition](conditions.ProviderCondition.md).[paramsFromDDO](conditions.ProviderCondition.md#paramsfromddo)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:35](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L35)
+[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:35](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L35)
 
 ___
 
@@ -917,11 +964,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[send](Condition.md#send)
+[ProviderCondition](conditions.ProviderCondition.md).[send](conditions.ProviderCondition.md#send)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L117)
+[src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L117)
 
 ___
 
@@ -944,11 +991,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[sendFrom](Condition.md#sendfrom)
+[ProviderCondition](conditions.ProviderCondition.md).[sendFrom](conditions.ProviderCondition.md#sendfrom)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L97)
+[src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L97)
 
 ___
 
@@ -968,11 +1015,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[setInstanceConfig](Condition.md#setinstanceconfig)
+[ProviderCondition](conditions.ProviderCondition.md).[setInstanceConfig](conditions.ProviderCondition.md#setinstanceconfig)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -993,11 +1040,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[addressesStatic](Condition.md#addressesstatic)
+[ProviderCondition](conditions.ProviderCondition.md).[addressesStatic](conditions.ProviderCondition.md#addressesstatic)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -1019,11 +1066,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[findSignerStatic](Condition.md#findsignerstatic)
+[ProviderCondition](conditions.ProviderCondition.md).[findSignerStatic](conditions.ProviderCondition.md#findsignerstatic)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -1043,11 +1090,11 @@ ___
 
 #### Overrides
 
-[Condition](Condition.md).[getInstance](Condition.md#getinstance)
+[ProviderCondition](conditions.ProviderCondition.md).[getInstance](conditions.ProviderCondition.md#getinstance)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:15](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L15)
+[src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts:15](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/TransferDIDOwnershipCondition.ts#L15)
 
 ___
 
@@ -1074,8 +1121,8 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[setInstanceConfig](Condition.md#setinstanceconfig-1)
+[ProviderCondition](conditions.ProviderCondition.md).[setInstanceConfig](conditions.ProviderCondition.md#setinstanceconfig-1)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L162)

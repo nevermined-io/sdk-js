@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/common/interfaces.ts:15](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/common/interfaces.ts#L15)
+[src/common/interfaces.ts:15](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/common/interfaces.ts#L15)
 
 ___
 
@@ -31,13 +31,13 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/common/interfaces.ts#L16)
+[src/common/interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/common/interfaces.ts#L16)
 
 ___
 
 ### query
 
-• **query**: `Object`
+• `Optional` **query**: `Object`
 
 #### Index signature
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/common/interfaces.ts#L17)
+[src/common/interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/common/interfaces.ts#L17)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/common/interfaces.ts#L19)
+[src/common/interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/common/interfaces.ts#L19)
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:18](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/common/interfaces.ts#L18)
+[src/common/interfaces.ts:18](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/common/interfaces.ts#L18)
 
 ___
 
@@ -79,4 +79,4 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/common/interfaces.ts#L14)
+[src/common/interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/common/interfaces.ts#L14)

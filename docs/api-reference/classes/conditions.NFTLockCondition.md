@@ -8,7 +8,7 @@ Implementation of the NFT Lock Condition
 
 ## Hierarchy
 
-- [`Condition`](Condition.md)<`NFTLockConditionContext`\>
+- [`ConsumerCondition`](conditions.ConsumerCondition.md)<`NFTLockConditionContext`\>
 
   ↳ **`NFTLockCondition`**
 
@@ -44,6 +44,7 @@ Implementation of the NFT Lock Condition
 - [checkExists](conditions.NFTLockCondition.md#checkexists)
 - [findSigner](conditions.NFTLockCondition.md#findsigner)
 - [fulfill](conditions.NFTLockCondition.md#fulfill)
+- [fulfillGateway](conditions.NFTLockCondition.md#fulfillgateway)
 - [fulfillInstance](conditions.NFTLockCondition.md#fulfillinstance)
 - [fulfillPlain](conditions.NFTLockCondition.md#fulfillplain)
 - [generateId](conditions.NFTLockCondition.md#generateid)
@@ -84,11 +85,11 @@ Implementation of the NFT Lock Condition
 
 #### Inherited from
 
-[Condition](Condition.md).[constructor](Condition.md#constructor)
+[ConsumerCondition](conditions.ConsumerCondition.md).[constructor](conditions.ConsumerCondition.md#constructor)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:32](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L32)
+[src/keeper/contracts/ContractBase.ts:32](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L32)
 
 ## Properties
 
@@ -98,11 +99,11 @@ Implementation of the NFT Lock Condition
 
 #### Inherited from
 
-[Condition](Condition.md).[contract](Condition.md#contract)
+[ConsumerCondition](conditions.ConsumerCondition.md).[contract](conditions.ConsumerCondition.md#contract)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L24)
+[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L24)
 
 ___
 
@@ -112,11 +113,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[contractName](Condition.md#contractname)
+[ConsumerCondition](conditions.ConsumerCondition.md).[contractName](conditions.ConsumerCondition.md#contractname)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L23)
+[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L23)
 
 ___
 
@@ -126,11 +127,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[events](Condition.md#events)
+[ConsumerCondition](conditions.ConsumerCondition.md).[events](conditions.ConsumerCondition.md#events)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L25)
+[src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L25)
 
 ___
 
@@ -140,11 +141,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[version](Condition.md#version)
+[ConsumerCondition](conditions.ConsumerCondition.md).[version](conditions.ConsumerCondition.md#version)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L26)
+[src/keeper/contracts/ContractBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L26)
 
 ## Accessors
 
@@ -158,11 +159,11 @@ ___
 
 #### Inherited from
 
-Condition.address
+ConsumerCondition.address
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L28)
+[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L28)
 
 ___
 
@@ -176,11 +177,11 @@ ___
 
 #### Inherited from
 
-Condition.artifactsFolder
+ConsumerCondition.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -194,11 +195,11 @@ ___
 
 #### Inherited from
 
-Condition.config
+ConsumerCondition.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -212,11 +213,11 @@ ___
 
 #### Inherited from
 
-Condition.instanceConfig
+ConsumerCondition.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -230,11 +231,11 @@ ___
 
 #### Inherited from
 
-Condition.instantiableConfig
+ConsumerCondition.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -248,11 +249,11 @@ ___
 
 #### Inherited from
 
-Condition.logger
+ConsumerCondition.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -266,11 +267,11 @@ ___
 
 #### Inherited from
 
-Condition.nevermined
+ConsumerCondition.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -284,11 +285,11 @@ ___
 
 #### Inherited from
 
-Condition.web3
+ConsumerCondition.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -310,11 +311,11 @@ Condition.web3
 
 #### Inherited from
 
-[Condition](Condition.md).[abortByTimeOut](Condition.md#abortbytimeout)
+[ConsumerCondition](conditions.ConsumerCondition.md).[abortByTimeOut](conditions.ConsumerCondition.md#abortbytimeout)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L99)
+[src/keeper/contracts/conditions/Condition.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L97)
 
 ___
 
@@ -328,11 +329,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[addresses](Condition.md#addresses)
+[ConsumerCondition](conditions.ConsumerCondition.md).[addresses](conditions.ConsumerCondition.md#addresses)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -360,11 +361,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[call](Condition.md#call)
+[ConsumerCondition](conditions.ConsumerCondition.md).[call](conditions.ConsumerCondition.md#call)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L244)
+[src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L244)
 
 ___
 
@@ -388,11 +389,11 @@ true if the contract exists.
 
 #### Inherited from
 
-[Condition](Condition.md).[checkExists](Condition.md#checkexists)
+[ConsumerCondition](conditions.ConsumerCondition.md).[checkExists](conditions.ConsumerCondition.md#checkexists)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -412,11 +413,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[findSigner](Condition.md#findsigner)
+[ConsumerCondition](conditions.ConsumerCondition.md).[findSigner](conditions.ConsumerCondition.md#findsigner)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -433,7 +434,7 @@ Fulfill requires valid NFT transfer in order to lock the amount of DID NFTs base
 | `agreementId` | `string` | SEA agreement identifier. |
 | `did` | `string` | Asset Decentralized identifier. |
 | `rewardAddress` | `string` | The contract address where the reward is locked. |
-| `amount` | `number` | The amount of tokens to be transferred. |
+| `amount` | `default` | The amount of tokens to be transferred. |
 | `from?` | [`Account`](Account.md) |  |
 | `params?` | `TxParameters` | - |
 
@@ -445,11 +446,38 @@ Condition state.
 
 #### Overrides
 
-[Condition](Condition.md).[fulfill](Condition.md#fulfill)
+[ConsumerCondition](conditions.ConsumerCondition.md).[fulfill](conditions.ConsumerCondition.md#fulfill)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:46](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L46)
+[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:47](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L47)
+
+___
+
+### fulfillGateway
+
+▸ **fulfillGateway**(`_cond`, `_additionalParams`, `_from?`, `_params?`): `Promise`<`void`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `_cond` | [`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Record`<`string`, `unknown`\>\> |
+| `_additionalParams` | `Record`<`string`, `unknown`\> |
+| `_from?` | [`Account`](Account.md) |
+| `_params?` | `TxParameters` |
+
+#### Returns
+
+`Promise`<`void`\>
+
+#### Inherited from
+
+[ConsumerCondition](conditions.ConsumerCondition.md).[fulfillGateway](conditions.ConsumerCondition.md#fulfillgateway)
+
+#### Defined in
+
+[src/keeper/contracts/conditions/Condition.abstract.ts:230](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L230)
 
 ___
 
@@ -465,7 +493,7 @@ ___
 | `additionalParams` | `Record`<`string`, `unknown`\> | `undefined` |
 | `from?` | [`Account`](Account.md) | `undefined` |
 | `params?` | `TxParameters` | `undefined` |
-| `method` | `string` | `'fulfill'` |
+| `method` | [`ConditionMethod`](../modules/conditions.md#conditionmethod) | `'fulfill'` |
 
 #### Returns
 
@@ -473,11 +501,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[fulfillInstance](Condition.md#fulfillinstance)
+[ConsumerCondition](conditions.ConsumerCondition.md).[fulfillInstance](conditions.ConsumerCondition.md#fulfillinstance)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L164)
+[src/keeper/contracts/conditions/Condition.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L162)
 
 ___
 
@@ -501,11 +529,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[fulfillPlain](Condition.md#fulfillplain)
+[ConsumerCondition](conditions.ConsumerCondition.md).[fulfillPlain](conditions.ConsumerCondition.md#fulfillplain)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:71](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L71)
+[src/keeper/contracts/conditions/Condition.abstract.ts:69](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L69)
 
 ___
 
@@ -526,11 +554,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[generateId](Condition.md#generateid)
+[ConsumerCondition](conditions.ConsumerCondition.md).[generateId](conditions.ConsumerCondition.md#generateid)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:85](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L85)
+[src/keeper/contracts/conditions/Condition.abstract.ts:83](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L83)
 
 ___
 
@@ -551,11 +579,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[generateIdHash](Condition.md#generateidhash)
+[ConsumerCondition](conditions.ConsumerCondition.md).[generateIdHash](conditions.ConsumerCondition.md#generateidhash)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L81)
+[src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
 
 ___
 
@@ -576,11 +604,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[generateIdWithSeed](Condition.md#generateidwithseed)
+[ConsumerCondition](conditions.ConsumerCondition.md).[generateIdWithSeed](conditions.ConsumerCondition.md#generateidwithseed)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L89)
+[src/keeper/contracts/conditions/Condition.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L87)
 
 ___
 
@@ -594,11 +622,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getAddress](Condition.md#getaddress)
+[ConsumerCondition](conditions.ConsumerCondition.md).[getAddress](conditions.ConsumerCondition.md#getaddress)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L41)
+[src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L41)
 
 ___
 
@@ -618,11 +646,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getConditionFulfilledEvent](Condition.md#getconditionfulfilledevent)
+[ConsumerCondition](conditions.ConsumerCondition.md).[getConditionFulfilledEvent](conditions.ConsumerCondition.md#getconditionfulfilledevent)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:103](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L103)
+[src/keeper/contracts/conditions/Condition.abstract.ts:101](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L101)
 
 ___
 
@@ -636,11 +664,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getContract](Condition.md#getcontract)
+[ConsumerCondition](conditions.ConsumerCondition.md).[getContract](conditions.ConsumerCondition.md#getcontract)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L37)
+[src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L37)
 
 ___
 
@@ -660,11 +688,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getFromAddress](Condition.md#getfromaddress)
+[ConsumerCondition](conditions.ConsumerCondition.md).[getFromAddress](conditions.ConsumerCondition.md#getfromaddress)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L90)
+[src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L90)
 
 ___
 
@@ -684,11 +712,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getInputsOfMethod](Condition.md#getinputsofmethod)
+[ConsumerCondition](conditions.ConsumerCondition.md).[getInputsOfMethod](conditions.ConsumerCondition.md#getinputsofmethod)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L50)
+[src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L50)
 
 ___
 
@@ -709,11 +737,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[getSignatureOfMethod](Condition.md#getsignatureofmethod)
+[ConsumerCondition](conditions.ConsumerCondition.md).[getSignatureOfMethod](conditions.ConsumerCondition.md#getsignatureofmethod)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L45)
+[src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L45)
 
 ___
 
@@ -733,11 +761,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[hashValues](Condition.md#hashvalues)
+[ConsumerCondition](conditions.ConsumerCondition.md).[hashValues](conditions.ConsumerCondition.md#hashvalues)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:143](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L143)
+[src/keeper/contracts/conditions/Condition.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L141)
 
 ___
 
@@ -757,11 +785,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[hashValuesPlain](Condition.md#hashvaluesplain)
+[ConsumerCondition](conditions.ConsumerCondition.md).[hashValuesPlain](conditions.ConsumerCondition.md#hashvaluesplain)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:147](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L147)
+[src/keeper/contracts/conditions/Condition.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L145)
 
 ___
 
@@ -782,11 +810,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[init](Condition.md#init)
+[ConsumerCondition](conditions.ConsumerCondition.md).[init](conditions.ConsumerCondition.md#init)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L55)
+[src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L55)
 
 ___
 
@@ -807,11 +835,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[instance](Condition.md#instance)
+[ConsumerCondition](conditions.ConsumerCondition.md).[instance](conditions.ConsumerCondition.md#instance)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:179](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L179)
+[src/keeper/contracts/conditions/Condition.abstract.ts:184](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L184)
 
 ___
 
@@ -833,11 +861,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[instanceFromDDO](Condition.md#instancefromddo)
+[ConsumerCondition](conditions.ConsumerCondition.md).[instanceFromDDO](conditions.ConsumerCondition.md#instancefromddo)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:156](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/Condition.abstract.ts#L156)
+[src/keeper/contracts/conditions/Condition.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L154)
 
 ___
 
@@ -863,11 +891,11 @@ Hash of all the values.
 
 #### Overrides
 
-[Condition](Condition.md).[params](Condition.md#params)
+[ConsumerCondition](conditions.ConsumerCondition.md).[params](conditions.ConsumerCondition.md#params)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:29](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L29)
+[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:30](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L30)
 
 ___
 
@@ -887,11 +915,11 @@ ___
 
 #### Overrides
 
-[Condition](Condition.md).[paramsFromDDO](Condition.md#paramsfromddo)
+[ConsumerCondition](conditions.ConsumerCondition.md).[paramsFromDDO](conditions.ConsumerCondition.md#paramsfromddo)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:33](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L33)
+[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:34](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L34)
 
 ___
 
@@ -914,11 +942,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[send](Condition.md#send)
+[ConsumerCondition](conditions.ConsumerCondition.md).[send](conditions.ConsumerCondition.md#send)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L117)
+[src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L117)
 
 ___
 
@@ -941,11 +969,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[sendFrom](Condition.md#sendfrom)
+[ConsumerCondition](conditions.ConsumerCondition.md).[sendFrom](conditions.ConsumerCondition.md#sendfrom)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/ContractBase.ts#L97)
+[src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/ContractBase.ts#L97)
 
 ___
 
@@ -965,11 +993,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[setInstanceConfig](Condition.md#setinstanceconfig)
+[ConsumerCondition](conditions.ConsumerCondition.md).[setInstanceConfig](conditions.ConsumerCondition.md#setinstanceconfig)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -990,11 +1018,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[addressesStatic](Condition.md#addressesstatic)
+[ConsumerCondition](conditions.ConsumerCondition.md).[addressesStatic](conditions.ConsumerCondition.md#addressesstatic)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -1016,11 +1044,11 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[findSignerStatic](Condition.md#findsignerstatic)
+[ConsumerCondition](conditions.ConsumerCondition.md).[findSignerStatic](conditions.ConsumerCondition.md#findsignerstatic)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -1040,11 +1068,11 @@ ___
 
 #### Overrides
 
-[Condition](Condition.md).[getInstance](Condition.md#getinstance)
+[ConsumerCondition](conditions.ConsumerCondition.md).[getInstance](conditions.ConsumerCondition.md#getinstance)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:16](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L16)
+[src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts:17](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/NFTs/NFTLockCondition.ts#L17)
 
 ___
 
@@ -1071,8 +1099,8 @@ ___
 
 #### Inherited from
 
-[Condition](Condition.md).[setInstanceConfig](Condition.md#setinstanceconfig-1)
+[ConsumerCondition](conditions.ConsumerCondition.md).[setInstanceConfig](conditions.ConsumerCondition.md#setinstanceconfig-1)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/2dcaeeb/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L162)
