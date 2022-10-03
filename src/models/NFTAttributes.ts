@@ -1,10 +1,18 @@
 import { RoyaltyAttributes } from '../nevermined/Assets'
 import BigNumber from '../utils/BigNumber'
 
-export type NFTType = 721 | 1155
+export type ERCType = 721 | 1155
+
+export type NeverminedNFTType =
+    | 'nft1155' // Standard 1155 implementation
+    | 'nft721' // Standard 721 implementation
+    | 'nft1155-credit' // 1155 implementation with a credit system that allow pay-as-you-go scenarios
+    | 'nft721-subscription' // 721 implementing subscriptions that can expire
 
 export class NFTAttributes {
-    ercType: NFTType
+    ercType: ERCType // The type of ERC used
+
+    nftType: NeverminedNFTType // The Nevermined implementetion of the NFT used
 
     nftContractAddress: string
 

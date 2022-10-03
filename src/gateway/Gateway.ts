@@ -6,9 +6,9 @@ import { ReadStream } from 'fs'
 import { GatewayError, HttpError } from '../errors'
 import { ServiceType } from '../ddo/Service'
 import BigNumber from '../utils/BigNumber'
+import { ERCType } from '../models/NFTAttributes'
 
 const apiPath = '/api/v1/gateway/services'
-export type NftTypes = 721 | 1155
 
 /**
  * Provides a interface with Gateway.
@@ -422,7 +422,7 @@ export class Gateway extends Instantiable {
         nftHolder: string,
         nftReceiver: string,
         nftAmount: BigNumber,
-        nftType: NftTypes = 1155
+        ercType: ERCType = 1155
     ): Promise<boolean> {
         try {
             const response = await this.nevermined.utils.fetch.post(
@@ -432,7 +432,7 @@ export class Gateway extends Instantiable {
                     nftHolder,
                     nftReceiver,
                     nftAmount: nftAmount.toString(),
-                    nftType
+                    nftType: ercType
                 })
             )
             if (!response.ok) {

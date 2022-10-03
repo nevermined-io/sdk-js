@@ -1,10 +1,11 @@
 import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
 import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
-import { Account } from '../sdk'
+import { Account, MetaDataMain } from '../sdk'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Babysig } from '../models/KeyTransfer'
 import { BigNumber } from 'ethers'
+import { ERCType, NeverminedNFTType } from '../models/NFTAttributes'
 
 export type ConditionType =
     | 'lockPayment'
@@ -132,7 +133,47 @@ export interface ServiceCompute extends ServiceCommon {
     }
 }
 
-export type ServiceNftSales = ServiceCommon
+export interface ServiceNFTAccess extends ServiceCommon {
+    type: 'nft-access'
+    templateId?: string
+    attributes: {
+        main: {
+            ercType: ERCType
+            nftType: NeverminedNFTType
+            creator: string
+            name: string
+            datePublished: string
+            price: string
+            timeout: number
+        }
+        serviceAgreementTemplate?: ServiceAgreementTemplate
+        additionalInformation: {
+            description: string
+        }
+    }
+}
+
+export interface ServiceNFTSales extends ServiceCommon {
+    type: 'nft-sales'
+    templateId?: string
+    attributes: {
+        main: {
+            ercType: ERCType
+            nftType: NeverminedNFTType
+            creator: string
+            name: string
+            datePublished: string
+            price: string
+            timeout: number
+        }
+        serviceAgreementTemplate?: ServiceAgreementTemplate
+        additionalInformation: {
+            description: string
+        }
+    }
+}
+
+// export type ServiceNftSales = ServiceCommon
 
 export interface ServiceSecondary extends Service {
     agreementId: string
@@ -148,6 +189,10 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         ? ServiceAccessNormal | ServiceAccessProof
         : T extends 'compute'
         ? ServiceCompute
+        : T extends 'nft-access'
+        ? ServiceNFTAccess
+        : T extends 'nft-sales'
+        ? ServiceNFTSales
         : T extends 'aave-credit'
         ? ServiceAaveCredit
         : T extends 'default'

@@ -37,6 +37,7 @@ export class EthSignJWT extends SignJWT {
 
         // TODO: remove once migration to new gateway is complete
         if (!isEtherSign && !config.newGateway) {
+            console.debug(`Using LEGACY Gateway`)
             input = input.slice(0, 64)
         }
 

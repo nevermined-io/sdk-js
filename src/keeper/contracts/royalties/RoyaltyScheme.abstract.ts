@@ -15,7 +15,7 @@ export abstract class RoyaltyScheme extends ContractBase {
             await scheme.init(config, optional)
             return scheme
         } catch (e) {
-            config.logger.warn(`Cannot load optional contract ${schemeName}`)
+            config.logger.debug(`Cannot load optional contract ${schemeName}`)
         }
     }
 

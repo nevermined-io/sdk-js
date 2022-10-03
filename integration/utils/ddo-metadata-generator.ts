@@ -6,7 +6,7 @@ const metadata: Partial<MetaData> = {
     main: {
         name: undefined,
         isDTP: false,
-        nftType: 1155,
+        ercType: 1155,
         type: 'dataset',
         dateCreated: '2012-10-10T17:00:00Z',
         datePublished: '2012-10-10T17:00:00Z',
