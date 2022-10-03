@@ -61,8 +61,6 @@ export class NFTAccessService extends AccessService implements ServicePlugin {
 
     // essential method is to select between two services
     public select(main: MetaDataMain): ServicePlugin {
-        // console.log(`Checking NFT types`)
-        // console.log(JSON.stringify(main))
         if (main.ercType == 1155) {
             return main.isDTP ? this.proof : this.normal
         } else {

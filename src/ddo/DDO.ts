@@ -2,7 +2,7 @@ import { Nevermined } from '../nevermined/Nevermined'
 import { Authentication } from './Authentication'
 import { Proof } from './Proof'
 import { PublicKey } from './PublicKey'
-import { Service, ServiceCommon, ServiceType } from './Service'
+import { Service, ServiceType } from './Service'
 import { didPrefixed, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
@@ -189,7 +189,6 @@ export class DDO {
             metadataService.attributes.main['ercType'] = nftAttributes.ercType
             metadataService.attributes.main['nftType'] = nftAttributes.nftType
         }
-        // console.log(JSON.stringify(metadataService))
         this.service.push(metadataService)
         return metadataService.attributes.main
     }

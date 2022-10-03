@@ -1,7 +1,7 @@
 import { MetaData } from './MetaData'
 import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
 import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
-import { Account, MetaDataMain } from '../sdk'
+import { Account } from '../sdk'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Babysig } from '../models/KeyTransfer'
 import { BigNumber } from 'ethers'
@@ -185,14 +185,14 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         ? ServiceAuthorization
         : T extends 'metadata'
         ? ServiceMetadata
-        : T extends 'access'
-        ? ServiceAccessNormal | ServiceAccessProof
-        : T extends 'compute'
-        ? ServiceCompute
         : T extends 'nft-access'
         ? ServiceNFTAccess
         : T extends 'nft-sales'
         ? ServiceNFTSales
+        : T extends 'access'
+        ? ServiceAccessNormal | ServiceAccessProof
+        : T extends 'compute'
+        ? ServiceCompute
         : T extends 'aave-credit'
         ? ServiceAaveCredit
         : T extends 'default'
