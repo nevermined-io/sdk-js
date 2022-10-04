@@ -34,15 +34,27 @@ jobs:
           repository: nevermined-io/gateway-ts
           path: gateway-ts
           token: ${{ secrets.API_TOKEN_GITHUB }}
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/sdk-dtp
+          path: sdk-dtp
+          token: ${{ secrets.API_TOKEN_GITHUB }}
 
       - name: Build SDK-JS package and gateway
         run: |
           yarn build
           yarn pack
+          cp *.tgz sdk-dtp
           cp *.tgz gateway-ts
-          cd gateway-ts
+          cd sdk-dtp
           export PKG=$(ls *.tgz)
+          yarn build
+          yarn pack
+
+          cd ../gateway-ts
+          export PKG2=$(ls *dtp*.tgz)
           sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./$PKG2\"," package.json
           yarn
           yarn run setup:dev
           yarn build
