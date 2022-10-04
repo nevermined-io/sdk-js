@@ -29,7 +29,7 @@ jobs:
         run: |
           yarn
       - name: Run linters
-        run: npm run lint
+        run: yarn lint
       - name: Run tools (network)
         run: |
           docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
@@ -55,7 +55,7 @@ jobs:
         run: ls -l artifacts
 
       - name: Run unit tests
-        run: export ETH_PORT=18545; npm run test:cover
+        run: export ETH_PORT=18545; yarn run test:cover
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
@@ -63,7 +63,7 @@ jobs:
           OLD_GATEWAY: false
         run: |
           export ${{ matrix.delay }}=true
-          npm run integration:cover
+          yarn run integration:cover
       - name: Upload logs
         uses: actions/upload-artifact@v2
         if: failure()

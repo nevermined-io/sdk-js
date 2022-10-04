@@ -28,7 +28,7 @@ jobs:
         run: |
           yarn
       - name: Run linters
-        run: npm run lint
+        run: yarn lint
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/gateway-ts
@@ -64,7 +64,6 @@ jobs:
       - name: Run tools (network)
         run: |
           docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          yarn ganache --port 18545 --chain.chainId ${{ matrix.chainId }} > ganache-cli.log &
           sudo chmod go+r /etc/hosts
           sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
           git clone https://github.com/nevermined-io/tools
@@ -93,7 +92,7 @@ jobs:
           OLD_GATEWAY: false
           NO_GRAPH: true
         run: |
-          npm run integration:cover
+          yarn run integration:cover
       - name: Upload logs
         uses: actions/upload-artifact@v2
         if: failure()
