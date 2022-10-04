@@ -37,11 +37,7 @@ describe('Marketplace api auth', () => {
             account2
         )
 
-        try {
-            await nevermined.marketplace.addNewAddress(clientAssertion)
-            assert.equal(Boolean(config.marketplaceAuthToken), true)
-        } catch (error) {
-            assert.fail('should not fail')
-        }
+        await nevermined.marketplace.addNewAddress(clientAssertion)
+        assert.equal(Boolean(config.marketplaceAuthToken), true)
     })
 })
