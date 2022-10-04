@@ -52,6 +52,7 @@ jobs:
           yarn
           yarn build
           yarn pack
+          cp *dtp*.tgz ../gateway-ts
 
           cd ../gateway-ts
           export PKG2=$(ls *dtp*.tgz)
