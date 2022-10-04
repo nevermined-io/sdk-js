@@ -42,9 +42,10 @@ jobs:
           cp *.tgz gateway-ts
           cd gateway-ts
           export PKG=$(ls *.tgz)
-          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$NAME\"," package.json
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
           yarn
           yarn run setup:dev
+          yarn build
 
       - name: Run tools (network)
         run: |
