@@ -194,7 +194,6 @@ export class DDO {
             }
         } as Service
         if (nftAttributes) {
-            console.log(`Changing ....`)
             metadataService.attributes.main['ercType'] = nftAttributes.ercType
             metadataService.attributes.main['nftType'] = nftAttributes.nftType
         }

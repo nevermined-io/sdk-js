@@ -100,7 +100,6 @@ describe('NFTs721 Api End-to-End', () => {
             await nftContract.mint(zeroX(ddo.shortId()), artist.getId())
 
             const owner = await nevermined.nfts.ownerOf(ddo.id, nftContract.address)
-            console.log(`DID Registered ${ddo.id}`)
             assert.equal(owner, artist.getId())
         })
     })

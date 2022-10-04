@@ -10,10 +10,10 @@ export type NeverminedNFTType =
     | 'nft721-subscription' // 721 implementing subscriptions that can expire
 
 export const ercOfNeverminedNFTType = {
-    'nft1155': 1155 as ERCType,
-    'nft721': 721 as ERCType,
+    nft1155: 1155 as ERCType,
+    nft721: 721 as ERCType,
     'nft1155-credit': 1155 as ERCType,
-    'nft721-subscription': 721 as ERCType,
+    'nft721-subscription': 721 as ERCType
 }
 
 export class NFTAttributes {
