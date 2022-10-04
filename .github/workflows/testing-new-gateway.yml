@@ -83,6 +83,7 @@ jobs:
       - name: Run gateway
         run: |
           cd gateway-ts
+          ./scripts/wait-nevermined.sh
           yarn start 2>&1 | tee gateway_log.txt &
 
       - name: Run integration tests
