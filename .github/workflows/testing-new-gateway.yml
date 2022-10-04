@@ -55,7 +55,7 @@ jobs:
 
           cd ../gateway-ts
           sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
-          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./dtp.tgz\"," package.json
+          sed -i "/sdk-dtp/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./dtp.tgz\"," package.json
           yarn
           yarn run setup:dev
           yarn build
