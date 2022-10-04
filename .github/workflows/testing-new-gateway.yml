@@ -49,6 +49,7 @@ jobs:
           cd sdk-dtp
           export PKG=$(ls *.tgz)
           sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
+          yarn
           yarn build
           yarn pack
 
