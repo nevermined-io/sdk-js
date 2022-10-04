@@ -8,6 +8,7 @@ import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
 import { MetaData } from './MetaData'
+import { NvmConfig } from './NvmConfig'
 
 /**
  * DID Descriptor Object.
@@ -43,7 +44,7 @@ export class DDO {
 
     public didSeed: string = null
 
-    public userId: string
+    public _nvm: NvmConfig
 
     public created: string
 
@@ -62,10 +63,18 @@ export class DDO {
         })
     }
 
-    public static getInstance(userId: string, publisherAddress: string): DDO {
+    public static getInstance(
+        userId: string,
+        publisherAddress: string,
+        appId?: string
+    ): DDO {
         return new DDO({
             id: '',
-            userId: userId,
+            _nvm: {
+                userId,
+                appId,
+                versions: []
+            },
             authentication: [
                 {
                     type: 'RsaSignatureAuthentication2018',
