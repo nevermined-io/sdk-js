@@ -29,6 +29,23 @@ jobs:
           yarn
       - name: Run linters
         run: npm run lint
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/gateway-ts
+          path: gateway-ts
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Build SDK-JS package and gateway
+        run: |
+          yarn build
+          yarn pack
+          cp *.tgz gateway-ts
+          cd gateway-ts
+          export PKG=$(ls *.tgz)
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$NAME\"," package.json
+          yarn
+          yarn run setup:dev
+
       - name: Run tools (network)
         run: |
           docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
@@ -48,25 +65,9 @@ jobs:
           cd ..
           ./scripts/wait-nevermined.sh
 
-      - uses: actions/checkout@v3
-        with:
-          repository: nevermined-io/gateway-ts
-          path: gateway-ts
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-
-      - name: Build SDK-JS package and gateway
-        run: |
-          yarn build
-          yarn pack
-          cp *.tgz gateway-ts
-          cd gateway-ts
-          export PKG=$(ls *.tgz)
-          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$NAME\"," package.json
-          yarn
-
       - name: Run gateway
         run: |
-          yarn run setup:dev
+          cd gateway-ts
           yarn start 2>&1 | tee gateway_log.txt &
 
       - name: Run integration tests
