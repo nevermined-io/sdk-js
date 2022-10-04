@@ -77,7 +77,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined/Account.ts:20](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L20)
+[src/nevermined/Account.ts:20](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L20)
 
 ## Properties
 
@@ -87,7 +87,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined/Account.ts:18](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L18)
+[src/nevermined/Account.ts:18](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L18)
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:16](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L16)
+[src/nevermined/Account.ts:16](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L16)
 
 ___
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:17](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L17)
+[src/nevermined/Account.ts:17](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L17)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:12](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L12)
+[src/nevermined/Account.ts:12](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L12)
 
 ___
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:14](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L14)
+[src/nevermined/Account.ts:14](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L14)
 
 ## Accessors
 
@@ -145,7 +145,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -163,7 +163,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -181,7 +181,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -199,7 +199,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -217,7 +217,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -235,7 +235,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -253,7 +253,7 @@ Instantiable.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -271,7 +271,7 @@ Instantiable.addresses
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -287,7 +287,7 @@ Authenticate the account.
 
 #### Defined in
 
-[src/nevermined/Account.ts:82](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L82)
+[src/nevermined/Account.ts:82](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L82)
 
 ___
 
@@ -315,7 +315,7 @@ Instantiable.checkExists
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -339,7 +339,7 @@ Instantiable.findSigner
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -355,7 +355,7 @@ Balances of Ether and Nevermined Token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:108](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L108)
+[src/nevermined/Account.ts:108](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L108)
 
 ___
 
@@ -371,7 +371,7 @@ Balance of Ether.
 
 #### Defined in
 
-[src/nevermined/Account.ts:100](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L100)
+[src/nevermined/Account.ts:100](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L100)
 
 ___
 
@@ -385,7 +385,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:27](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L27)
+[src/nevermined/Account.ts:27](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L27)
 
 ___
 
@@ -401,7 +401,7 @@ Balance of Nevermined Token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:90](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L90)
+[src/nevermined/Account.ts:90](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L90)
 
 ___
 
@@ -419,7 +419,7 @@ The account password.
 
 #### Defined in
 
-[src/nevermined/Account.ts:51](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L51)
+[src/nevermined/Account.ts:51](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L51)
 
 ___
 
@@ -433,7 +433,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:35](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L35)
+[src/nevermined/Account.ts:35](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L35)
 
 ___
 
@@ -451,7 +451,7 @@ Account token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:67](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L67)
+[src/nevermined/Account.ts:67](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L67)
 
 ___
 
@@ -469,7 +469,7 @@ true if the token is stored.
 
 #### Defined in
 
-[src/nevermined/Account.ts:75](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L75)
+[src/nevermined/Account.ts:75](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L75)
 
 ___
 
@@ -492,7 +492,7 @@ Request Nevermined Tokens.
 
 #### Defined in
 
-[src/nevermined/Account.ts:120](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L120)
+[src/nevermined/Account.ts:120](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L120)
 
 ___
 
@@ -512,7 +512,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:31](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L31)
+[src/nevermined/Account.ts:31](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L31)
 
 ___
 
@@ -536,7 +536,7 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -558,7 +558,7 @@ Set account password.
 
 #### Defined in
 
-[src/nevermined/Account.ts:43](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L43)
+[src/nevermined/Account.ts:43](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L43)
 
 ___
 
@@ -580,7 +580,7 @@ Set account token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:59](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/nevermined/Account.ts#L59)
+[src/nevermined/Account.ts:59](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Account.ts#L59)
 
 ___
 
@@ -605,7 +605,7 @@ Instantiable.addressesStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -631,7 +631,7 @@ Instantiable.findSignerStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -655,7 +655,7 @@ Instantiable.getInstance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L158)
 
 ___
 
@@ -686,4 +686,4 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L162)

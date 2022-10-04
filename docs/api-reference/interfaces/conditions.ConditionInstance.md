@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L35)
+[src/keeper/contracts/conditions/Condition.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/conditions/Condition.abstract.ts#L35)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:36](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L36)
+[src/keeper/contracts/conditions/Condition.abstract.ts:36](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/conditions/Condition.abstract.ts#L36)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:34](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L34)
+[src/keeper/contracts/conditions/Condition.abstract.ts:34](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/conditions/Condition.abstract.ts#L34)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:32](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L32)
+[src/keeper/contracts/conditions/Condition.abstract.ts:32](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/conditions/Condition.abstract.ts#L32)
 
 ___
 
@@ -106,7 +106,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:40](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L40)
+[src/keeper/contracts/conditions/Condition.abstract.ts:40](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/conditions/Condition.abstract.ts#L40)
 
 ___
 
@@ -120,4 +120,4 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/keeper/contracts/conditions/Condition.abstract.ts#L33)
+[src/keeper/contracts/conditions/Condition.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/conditions/Condition.abstract.ts#L33)

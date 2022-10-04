@@ -68,7 +68,7 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:35](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/NeverminedEvent.ts#L35)
+[src/events/NeverminedEvent.ts:35](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/NeverminedEvent.ts#L35)
 
 ## Properties
 
@@ -82,7 +82,7 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:30](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/NeverminedEvent.ts#L30)
+[src/events/NeverminedEvent.ts:30](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/NeverminedEvent.ts#L30)
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:29](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/NeverminedEvent.ts#L29)
+[src/events/NeverminedEvent.ts:29](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/NeverminedEvent.ts#L29)
 
 ## Accessors
 
@@ -114,7 +114,7 @@ NeverminedEvent.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -132,7 +132,7 @@ NeverminedEvent.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -150,7 +150,7 @@ NeverminedEvent.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -168,7 +168,7 @@ NeverminedEvent.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -186,7 +186,7 @@ NeverminedEvent.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -204,7 +204,7 @@ NeverminedEvent.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -222,7 +222,7 @@ NeverminedEvent.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -240,7 +240,7 @@ NeverminedEvent.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -268,7 +268,7 @@ true if the contract exists.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -288,7 +288,7 @@ ___
 
 #### Defined in
 
-[src/events/ContractEvent.ts:69](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/ContractEvent.ts#L69)
+[src/events/ContractEvent.ts:69](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/ContractEvent.ts#L69)
 
 ___
 
@@ -309,7 +309,7 @@ ___
 
 #### Defined in
 
-[src/events/ContractEvent.ts:73](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/ContractEvent.ts#L73)
+[src/events/ContractEvent.ts:73](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/ContractEvent.ts#L73)
 
 ___
 
@@ -333,7 +333,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -351,7 +351,7 @@ ___
 
 #### Defined in
 
-[src/events/ContractEvent.ts:65](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/ContractEvent.ts#L65)
+[src/events/ContractEvent.ts:65](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/ContractEvent.ts#L65)
 
 ___
 
@@ -375,7 +375,7 @@ ___
 
 #### Defined in
 
-[src/events/ContractEvent.ts:29](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/ContractEvent.ts#L29)
+[src/events/ContractEvent.ts:29](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/ContractEvent.ts#L29)
 
 ___
 
@@ -399,7 +399,7 @@ ___
 
 #### Defined in
 
-[src/events/ContractEvent.ts:47](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/ContractEvent.ts#L47)
+[src/events/ContractEvent.ts:47](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/ContractEvent.ts#L47)
 
 ___
 
@@ -424,7 +424,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:55](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/NeverminedEvent.ts#L55)
+[src/events/NeverminedEvent.ts:55](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/NeverminedEvent.ts#L55)
 
 ___
 
@@ -448,7 +448,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -473,7 +473,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:41](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/NeverminedEvent.ts#L41)
+[src/events/NeverminedEvent.ts:41](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/NeverminedEvent.ts#L41)
 
 ___
 
@@ -498,7 +498,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -524,7 +524,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -551,7 +551,7 @@ ___
 
 #### Defined in
 
-[src/events/ContractEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/events/ContractEvent.ts#L14)
+[src/events/ContractEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/ContractEvent.ts#L14)
 
 ___
 
@@ -582,4 +582,4 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/cd1bab2/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/Instantiable.abstract.ts#L162)
