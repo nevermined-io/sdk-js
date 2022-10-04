@@ -1,19 +1,33 @@
 import { RoyaltyAttributes } from '../nevermined/Assets'
 import BigNumber from '../utils/BigNumber'
 
-export type ERCType = 721 | 1155
+export enum ERCType {
+    nft721 = 721,
+    nft1155 = 1155
+}
 
-export type NeverminedNFTType =
-    | 'nft1155' // Standard 1155 implementation
-    | 'nft721' // Standard 721 implementation
-    | 'nft1155-credit' // 1155 implementation with a credit system that allow pay-as-you-go scenarios
-    | 'nft721-subscription' // 721 implementing subscriptions that can expire
+export enum NeverminedNFT721Type {
+    nft721 = 'nft721', // Standard 721 implementation
+    nft721Subscription = 'nft721-subscription' // 721 implementing subscriptions that can expire
+}
+
+export enum NeverminedNFT1155Type {
+    nft1155 = 'nft1155', // Standard 1155 implementation
+    nft1155Credit = 'nft1155-credit' // 1155 implementation with a credit system that allow pay-as-you-go scenarios
+}
+
+export type NeverminedNFTType = NeverminedNFT721Type | NeverminedNFT1155Type
 
 export const ercOfNeverminedNFTType = {
-    nft1155: 1155 as ERCType,
-    nft721: 721 as ERCType,
-    'nft1155-credit': 1155 as ERCType,
-    'nft721-subscription': 721 as ERCType
+    nft1155: ERCType.nft1155,
+    nft721: ERCType.nft721,
+    'nft1155-credit': ERCType.nft1155,
+    'nft721-subscription': ERCType.nft721
+}
+
+export const defaultNeverminedNFTType = {
+    721: NeverminedNFT721Type.nft721,
+    1155: NeverminedNFT1155Type.nft1155
 }
 
 export class NFTAttributes {

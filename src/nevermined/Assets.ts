@@ -15,12 +15,17 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
 import { ServiceAgreementTemplate } from '../ddo/ServiceAgreementTemplate'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-// import { ApiError, AssetError } from '../errors'
 import { AssetError } from '../errors'
 import { RoyaltyScheme } from '../keeper/contracts/royalties'
 import { Nevermined } from '../sdk'
 import { ContractReceipt } from 'ethers'
-import { NeverminedNFTType, NFTAttributes } from '../models/NFTAttributes'
+import {
+    ercOfNeverminedNFTType,
+    NeverminedNFT1155Type,
+    NeverminedNFT721Type,
+    NeverminedNFTType,
+    NFTAttributes
+} from '../models/NFTAttributes'
 import { EncryptionMethod } from '../metadata/Metadata'
 import { AccessService, NFTAccessService } from './AccessService'
 import BigNumber from '../utils/BigNumber'
@@ -140,7 +145,6 @@ export class Assets extends Instantiable {
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
         return new SubscribablePromise(async observer => {
-            // try {
             const { gatewayUri } = this.config
             const { didRegistry } = this.nevermined.keeper
             assetRewards = assetRewards ? assetRewards : new AssetRewards()
@@ -339,10 +343,6 @@ export class Assets extends Instantiable {
             observer.next(CreateProgressStep.DidRegistered)
 
             return storedDdo
-            /*
-            } catch (error) {
-                throw new ApiError(error)
-            }*/
         })
     }
 
@@ -389,7 +389,7 @@ export class Assets extends Instantiable {
         serviceTypes: ServiceType[] = ['nft-sales', 'nft-access'],
         nftTransfer: boolean = true,
         duration: number = 0,
-        nftType: NeverminedNFTType = 'nft721'
+        nftType: NeverminedNFT721Type = NeverminedNFT721Type.nft721
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: 721,
@@ -433,10 +433,10 @@ export class Assets extends Instantiable {
         nftMetadata?: string,
         txParams?: TxParameters,
         services: ServiceType[] = ['nft-access', 'nft-sales'],
-        nftType: NeverminedNFTType = 'nft1155'
+        nftType: NeverminedNFT1155Type = NeverminedNFT1155Type.nft1155
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
-            ercType: 1155,
+            ercType: ercOfNeverminedNFTType[nftType],
             nftType,
             nftContractAddress: nftContractAddress,
             cap: cap,
@@ -474,11 +474,11 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
-        nftType: NeverminedNFTType = 'nft1155',
+        nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
-            ercType: 1155,
+            ercType: ercOfNeverminedNFTType[nftType],
             nftType,
             nftContractAddress: this.nevermined.keeper.nftUpgradeable.address,
             cap,

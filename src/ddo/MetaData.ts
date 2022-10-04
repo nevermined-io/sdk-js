@@ -192,9 +192,9 @@ export interface MetaDataMain {
 
     isDTP: boolean
 
-    ercType?: ERCType | undefined
+    ercType?: ERCType
 
-    nftType?: NeverminedNFTType | undefined
+    nftType?: NeverminedNFTType
 }
 
 /**

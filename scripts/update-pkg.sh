@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Update packages for local testing. Assumes that sdk-dtp and gateway-ts are in the same parent directory as sdk-js
+
 export PKG=sdk-$1.tgz
 export PKG2=dtp-$1.tgz
 

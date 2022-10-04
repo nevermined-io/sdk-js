@@ -164,8 +164,6 @@ export interface ServiceNFTSales extends ServiceCommon {
     }
 }
 
-// export type ServiceNftSales = ServiceCommon
-
 export interface ServiceSecondary extends Service {
     agreementId: string
     did: string

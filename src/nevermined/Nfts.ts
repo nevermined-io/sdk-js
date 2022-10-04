@@ -23,7 +23,11 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { NFTError } from '../errors'
 import BigNumber from '../utils/BigNumber'
 import { ethers } from 'ethers'
-import { ERCType } from '../models/NFTAttributes'
+import {
+    ERCType,
+    NeverminedNFT1155Type,
+    NeverminedNFTType
+} from '../models/NFTAttributes'
 
 /**
  * Nevermined Nft module
@@ -116,7 +120,8 @@ export class Nfts extends Instantiable {
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
-        txParams?: TxParameters
+        txParams?: TxParameters,
+        nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNftWithRoyalties(
             metadata,
@@ -130,7 +135,7 @@ export class Nfts extends Instantiable {
             erc20TokenAddress,
             preMint,
             nftMetadata ? nftMetadata : '',
-            'nft1155',
+            nftType,
             txParams
         )
     }

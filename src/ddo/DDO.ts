@@ -172,7 +172,7 @@ export class DDO {
 
     public async addDefaultMetadataService(
         metadata: MetaData,
-        nftAttributes: NFTAttributes | undefined
+        nftAttributes?: NFTAttributes
     ): Promise<MetaDataMain> {
         const metadataService = {
             type: 'metadata',
