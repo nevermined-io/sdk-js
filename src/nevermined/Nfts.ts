@@ -134,7 +134,7 @@ export class Nfts extends Instantiable {
             royaltyAttributes,
             erc20TokenAddress,
             preMint,
-            nftMetadata ? nftMetadata : '',
+            nftMetadata || '',
             nftType,
             txParams
         )
