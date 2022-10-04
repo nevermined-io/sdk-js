@@ -393,7 +393,7 @@ export class Assets extends Instantiable {
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: 721,
-            nftType: nftType,
+            nftType,
             nftContractAddress: nftTokenAddress,
             cap: BigNumber.from(0),
             preMint: preMint,

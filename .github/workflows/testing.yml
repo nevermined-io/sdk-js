@@ -48,7 +48,7 @@ jobs:
           ./start_nevermined.sh --latest ${{ matrix.network }} --new-gateway 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
-          curl -X DELETE "localhost:9200/asset?pretty"
+          curl -X DELETE "localhost:9200/asset?pretty" || echo didnt work
           ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
 
       - name: Check artifacts
