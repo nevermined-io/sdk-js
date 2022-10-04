@@ -33,6 +33,7 @@ jobs:
         with:
           repository: nevermined-io/gateway-ts
           path: gateway-ts
+          ref: feat/more-tests
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
         with:
