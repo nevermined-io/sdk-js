@@ -23,15 +23,6 @@ export type ServiceType =
     | 'nft-access'
     | 'nft-sales'
     | 'aave-credit'
-/*
-    | 'access-proof'
-    | 'nft721-access'
-    | 'nft721-sales'
-    | 'nft-access-proof'
-    | 'nft-sales-proof'
-    | 'nft721-access-proof'
-    | 'nft721-sales-proof'
-*/
 
 export const serviceIndex = {
     authorization: 2,

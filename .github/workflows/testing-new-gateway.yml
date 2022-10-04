@@ -48,6 +48,7 @@ jobs:
           cp *.tgz gateway-ts
           cd sdk-dtp
           export PKG=$(ls *.tgz)
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
           yarn build
           yarn pack
 
