@@ -44,20 +44,18 @@ jobs:
         run: |
           yarn build
           yarn pack
-          cp *.tgz sdk-dtp
-          cp *.tgz gateway-ts
+          cp *.tgz sdk-dtp/sdk.tgz
+          cp *.tgz gateway-ts/sdk.tgz
           cd sdk-dtp
-          export PKG=$(ls *.tgz)
-          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
           yarn
           yarn build
           yarn pack
-          cp *dtp*.tgz ../gateway-ts
+          cp *dtp*.tgz ../gateway-ts/dtp.tgz
 
           cd ../gateway-ts
-          export PKG2=$(ls *dtp*.tgz)
-          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
-          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./$PKG2\"," package.json
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./dtp.tgz\"," package.json
           yarn
           yarn run setup:dev
           yarn build
