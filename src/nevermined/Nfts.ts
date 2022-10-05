@@ -164,7 +164,8 @@ export class Nfts extends Instantiable {
         nftMetadata?: string,
         txParams?: TxParameters,
         nftTransfer: boolean = true,
-        duration: number = 0
+        duration: number = 0,
+        appId?: string
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft721(
             metadata,
@@ -180,7 +181,8 @@ export class Nfts extends Instantiable {
             txParams,
             ['nft-sales', 'nft-access'],
             nftTransfer,
-            duration
+            duration,
+            appId
         )
     }
 

@@ -4,7 +4,6 @@ import { ServiceSecondary } from '../ddo/Service'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 import { ApiError, HttpError } from '../errors'
 import { SearchQuery } from '../common/interfaces'
-import { buildQuery } from '../common/helpers'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -13,7 +12,7 @@ export interface QueryResult {
     results: DDO[]
     page: number
     totalPages: number
-    totalResults: number
+    totalResults: { [jsonPath: string]: any }
 }
 
 export type EncryptionMethod = 'PSK-RSA' | 'PSK-ECDSA'
@@ -114,35 +113,6 @@ export class Metadata extends MarketplaceApi {
                     `queryServicesMetadata failed - ${response.statusText} ${response.url}`,
                     response.status
                 )
-            })
-            .catch(error => {
-                throw new ApiError(error)
-            })
-
-        return result
-    }
-
-    /**
-     * Search over the DDOs using a query.
-     * @param query - Query to filter the DDOs.
-     * @returns The {@link QueryResult}.
-     */
-    public async queryMetadataByText(query: SearchQuery): Promise<QueryResult> {
-        const fullUrl = buildQuery(`${this.url}${apiPath}/query`, query)
-        const result: QueryResult = await this.nevermined.utils.fetch
-            .get(fullUrl)
-            .then((response: any) => {
-                if (response.ok) {
-                    return response.json() as DDO[]
-                }
-
-                throw new HttpError(
-                    `queryMetadataByText failed - ${response.statusText} ${response.url}`,
-                    response.status
-                )
-            })
-            .then(results => {
-                return this.transformResult(results)
             })
             .catch(error => {
                 throw new ApiError(error)
