@@ -87,7 +87,7 @@ export class Metadata extends MarketplaceApi {
             })
             .then(results => {
                 return {
-                    results: (results.result || []).map(ddo => new DDO(ddo as DDO)),
+                    results: (results.results || []).map(ddo => new DDO(ddo as DDO)),
                     page: results.page,
                     totalPages: results.total_pages,
                     totalResults: results.total_results
