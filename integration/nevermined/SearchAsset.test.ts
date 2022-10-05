@@ -102,14 +102,9 @@ describe('Search Asset', () => {
     })
 
     it('should be able to do a query to get a list of DDOs', async () => {
-        const { results: ddos } = await nevermined.assets.query({
-            page: 1,
-            offset: 1,
-            text: `Test2${testHash}`,
-            sort: undefined
-        })
+        const { results: ddos } = await nevermined.assets.search(`Test2${testHash}`)
 
-        assert.equal(ddos.length, 1, 'Something was wrong searching the assets')
+        assert.equal(ddos.length, 2)
         ddos.map(ddo =>
             assert.instanceOf(ddo, DDO, 'The DDO is not an instance of a DDO')
         )

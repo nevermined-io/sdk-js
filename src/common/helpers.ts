@@ -8,7 +8,6 @@ export const buildQuery = (url: string, query: SearchQuery) => {
         return fullUrl
     }
 
-    fullUrl.searchParams.append('text', query.text)
     fullUrl.searchParams.append('sort', decodeURIComponent(JSON.stringify(query.sort)))
     fullUrl.searchParams.append('offset', query.offset.toString())
     fullUrl.searchParams.append('page', query.page.toString())

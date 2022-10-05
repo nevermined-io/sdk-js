@@ -11,7 +11,6 @@ export interface MarketplaceResults<Entity> {
 }
 
 export interface SearchQuery {
-    text?: string
     offset?: number
     page?: number
     query?: { [jsonPath: string]: any }
