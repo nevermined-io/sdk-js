@@ -78,7 +78,7 @@ export class Metadata extends MarketplaceApi {
             .post(`${this.url}${apiPath}/query`, JSON.stringify(query))
             .then((response: any) => {
                 if (response.ok) {
-                    return response.json() as DDO[]
+                    return response.json()
                 }
                 throw new HttpError(
                     `queryMetadata failed - ${response.statusText} ${response.url}`,
@@ -86,7 +86,12 @@ export class Metadata extends MarketplaceApi {
                 )
             })
             .then(results => {
-                return this.transformResult(results)
+                return {
+                    results: (results.result || []).map(ddo => new DDO(ddo as DDO)),
+                    page: results.page,
+                    totalPages: results.total_pages,
+                    totalResults: results.total_results
+                }
             })
             .catch(error => {
                 throw new ApiError(error)
@@ -331,22 +336,5 @@ export class Metadata extends MarketplaceApi {
 
     public getServiceEndpoint(did: DID) {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
-    }
-
-    /* eslint-disable @typescript-eslint/naming-convention */
-    private transformResult(
-        { results, page, total_pages: totalPages, total_results: totalResults }: any = {
-            result: [],
-            page: 0,
-            total_pages: 0,
-            total_results: 0
-        }
-    ): QueryResult {
-        return {
-            results: (results || []).map(ddo => new DDO(ddo as DDO)),
-            page,
-            totalPages,
-            totalResults
-        }
     }
 }

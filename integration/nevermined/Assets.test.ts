@@ -192,5 +192,76 @@ describe('Assets', () => {
 
             assert.equal(assets.totalResults.value, 2)
         })
+
+        it('should query using a complex query and no appId', async () => {
+            /**
+             * All documents:
+             * - name starts with 'App'
+             * - belongs to either appId1 OR appId2
+             * - name is not App1
+             *
+             * This will return the 2 DDOs named App2
+             */
+            const query: SearchQuery = {
+                query: {
+                    bool: {
+                        must: [
+                            {
+                                query_string: {
+                                    query: 'App*',
+                                    fields: ['service.attributes.main.name']
+                                }
+                            },
+                            {
+                                bool: {
+                                    should: [
+                                        { match: { '_nvm.appId': appId1 } },
+                                        { match: { '_nvm.appId': appId2 } }
+                                    ]
+                                }
+                            }
+                        ],
+                        must_not: [{ match: { 'service.attributes.main.name': 'App1' } }]
+                    }
+                }
+            }
+
+            const assets = await nevermined.assets.query(query)
+
+            assert.equal(assets.totalResults.value, 2)
+        })
+
+        it('should query using a complex query and appId', async () => {
+            // Same as previous test but using appId1
+            // should return no results although we try to match appId2
+            const query: SearchQuery = {
+                query: {
+                    bool: {
+                        must: [
+                            {
+                                query_string: {
+                                    query: 'App*',
+                                    fields: ['service.attributes.main.name']
+                                }
+                            },
+                            {
+                                bool: {
+                                    should: [
+                                        { match: { '_nvm.appId': appId1 } },
+                                        { match: { '_nvm.appId': appId2 } }
+                                    ]
+                                }
+                            }
+                        ],
+                        must_not: [{ match: { 'service.attributes.main.name': 'App1' } }]
+                    }
+                },
+                appId: appId1
+            }
+
+            const assets = await nevermined.assets.query(query)
+
+            assert.equal(assets.totalResults.value, 0)
+        })
     })
 })
