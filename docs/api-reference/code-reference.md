@@ -78,4 +78,4 @@
 
 #### Defined in
 
-[src/utils/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/utils/Logger.ts#L43)
+[src/utils/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/utils/Logger.ts#L43)

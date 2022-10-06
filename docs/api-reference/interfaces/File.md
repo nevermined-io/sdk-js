@@ -27,7 +27,7 @@ File checksum.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:98](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L98)
+[src/ddo/MetaData.ts:97](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L97)
 
 ___
 
@@ -39,7 +39,7 @@ Checksum hash algorithm.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:103](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L103)
+[src/ddo/MetaData.ts:102](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L102)
 
 ___
 
@@ -57,7 +57,7 @@ File compression (e.g. no, gzip, bzip2, etc).
 
 #### Defined in
 
-[src/ddo/MetaData.ts:125](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L125)
+[src/ddo/MetaData.ts:124](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L124)
 
 ___
 
@@ -69,7 +69,7 @@ File content length.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:108](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L108)
+[src/ddo/MetaData.ts:107](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L107)
 
 ___
 
@@ -87,7 +87,7 @@ File format, if applicable.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:93](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L93)
+[src/ddo/MetaData.ts:92](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L92)
 
 ___
 
@@ -105,7 +105,7 @@ File encoding.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:119](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L119)
+[src/ddo/MetaData.ts:118](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L118)
 
 ___
 
@@ -117,7 +117,7 @@ File index.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:87](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L87)
+[src/ddo/MetaData.ts:86](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L86)
 
 ___
 
@@ -129,7 +129,7 @@ File name.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:77](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L77)
+[src/ddo/MetaData.ts:76](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L76)
 
 ___
 
@@ -141,7 +141,7 @@ Resource ID (depending on the source).
 
 #### Defined in
 
-[src/ddo/MetaData.ts:113](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L113)
+[src/ddo/MetaData.ts:112](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L112)
 
 ___
 
@@ -153,4 +153,4 @@ File URL.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:82](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L82)
+[src/ddo/MetaData.ts:81](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/ddo/MetaData.ts#L81)

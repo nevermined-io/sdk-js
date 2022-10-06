@@ -35,7 +35,7 @@ Decentralized ID.
 
 #### Defined in
 
-[src/nevermined/DID.ts:45](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/DID.ts#L45)
+[src/nevermined/DID.ts:45](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/DID.ts#L45)
 
 ## Properties
 
@@ -47,7 +47,7 @@ ID.
 
 #### Defined in
 
-[src/nevermined/DID.ts:43](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/DID.ts#L43)
+[src/nevermined/DID.ts:43](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/DID.ts#L43)
 
 ## Methods
 
@@ -65,7 +65,7 @@ A string with the prefixed id.
 
 #### Defined in
 
-[src/nevermined/DID.ts:53](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/DID.ts#L53)
+[src/nevermined/DID.ts:53](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/DID.ts#L53)
 
 ___
 
@@ -83,7 +83,7 @@ A string of the _id_ without the prefix.
 
 #### Defined in
 
-[src/nevermined/DID.ts:61](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/DID.ts#L61)
+[src/nevermined/DID.ts:61](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/DID.ts#L61)
 
 ___
 
@@ -101,7 +101,7 @@ Returns a new DID.
 
 #### Defined in
 
-[src/nevermined/DID.ts:36](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/DID.ts#L36)
+[src/nevermined/DID.ts:36](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/DID.ts#L36)
 
 ___
 
@@ -125,4 +125,4 @@ Parses a DID from a string.
 
 #### Defined in
 
-[src/nevermined/DID.ts:14](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/DID.ts#L14)
+[src/nevermined/DID.ts:14](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/DID.ts#L14)
