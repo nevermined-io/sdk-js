@@ -2,7 +2,6 @@ import { Accounts } from './Accounts'
 import { Agreements } from './Agreements'
 import { Assets } from './Assets'
 import { Auth } from './Auth'
-import { NeverminedSecretStore } from './NeverminedSecretStore'
 import { Token } from './Token'
 import { Versions } from './Versions'
 import { Provenance } from './Provenance'
@@ -75,7 +74,6 @@ export class Nevermined extends Instantiable {
         instance.nfts = await Nfts.getInstance(instanceConfig)
         instance.files = await Files.getInstance(instanceConfig)
         instance.agreements = await Agreements.getInstance(instanceConfig)
-        instance.secretStore = await NeverminedSecretStore.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
         instance.aaveCredit = await AaveCredit.getInstance(instanceConfig)
 
@@ -181,11 +179,6 @@ export class Nevermined extends Instantiable {
      * Agreements submodule
      */
     public agreements: Agreements
-
-    /**
-     * SecretStore submodule
-     */
-    public secretStore: NeverminedSecretStore
 
     /**
      * Nevermined probiders submodule

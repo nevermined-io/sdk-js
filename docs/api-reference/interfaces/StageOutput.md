@@ -9,7 +9,6 @@
 - [accessProxyUrl](StageOutput.md#accessproxyurl)
 - [metadata](StageOutput.md#metadata)
 - [metadataUrl](StageOutput.md#metadataurl)
-- [secretStoreUrl](StageOutput.md#secretstoreurl)
 
 ## Properties
 
@@ -40,13 +39,3 @@ ___
 #### Defined in
 
 [src/ddo/MetaData.ts:21](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L21)
-
-___
-
-### secretStoreUrl
-
-• **secretStoreUrl**: `string`
-
-#### Defined in
-
-[src/ddo/MetaData.ts:22](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L22)

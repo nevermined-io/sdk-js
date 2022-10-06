@@ -19,7 +19,6 @@ export interface StageTransformation {
 
 export interface StageOutput {
     metadataUrl: string
-    secretStoreUrl: string
     accessProxyUrl: string
     metadata: MetaDataMain
 }

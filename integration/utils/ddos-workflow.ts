@@ -121,7 +121,6 @@ export const workflowMetadatas = {
                             output: {
                                 metadataUrl:
                                     'https://localhost:5000/api/v1/metadata/assets/ddo/',
-                                secretStoreUrl: 'http://localhost:12001',
                                 accessProxyUrl: 'https://localhost:8030/api/v1/gateway/',
                                 metadata: {} as any
                             }

@@ -17,7 +17,7 @@ import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
 
-describe('Register Escrow Access Secret Store Template', () => {
+describe('Register Escrow Access Template', () => {
     let nevermined: Nevermined
     let keeper: Keeper
 

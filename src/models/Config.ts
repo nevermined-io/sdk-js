@@ -41,11 +41,6 @@ export class Config {
     public web3Provider?: any
 
     /**
-     * Secret Store URL.
-     */
-    public secretStoreUri?: string
-
-    /**
      * Log level.
      */
     public verbose?: boolean | LogLevel

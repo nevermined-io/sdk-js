@@ -6,7 +6,7 @@
   "typings": "./dist/node/sdk.d.ts",
   "unpkg": "./dist/browser/sdk.cjs2.min.js",
   "scripts": {
-    "start": "npm link @nevermined-io/contracts @nevermined-io/secret-store-client && npm run build:watch",
+    "start": "npm link @nevermined-io/contracts && npm run build:watch",
     "build": "npm run clean && npm run build:tsc && npm run build:dist",
     "build:tsc": "tsc --sourceMap",
     "build:metadata": "./scripts/get-metadata.js > src/metadata.json",
@@ -52,8 +52,7 @@
     "url": "https://github.com/nevermined-io/sdk-js/issues"
   },
   "homepage": "https://github.com/nevermined-io/sdk-js#readme",
-  "dependencies": {
-    "@nevermined-io/secret-store-client": "^0.0.16",
+  "dependencies": {    
     "@nevermined-io/subgraphs": "0.4.1",
     "assert": "^2.0.0",
     "codegen-graph-ts": "npm:@nevermined-io/codegen-graph-ts@0.1.4",
