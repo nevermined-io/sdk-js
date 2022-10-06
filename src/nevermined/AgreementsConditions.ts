@@ -1,7 +1,7 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { DDO } from '../ddo/DDO'
-import { findServiceConditionByName, ZeroAddress } from '../utils'
+import { findConditionParameter, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { TxParameters } from '../keeper/contracts/ContractBase'
@@ -364,13 +364,11 @@ export class AgreementsConditions extends Instantiable {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
         const accessService = ddo.findServiceByType('nft-access')
 
-        const holder = findServiceConditionByName(accessService, 'nftHolder')
-
         const contractReceipt: ContractReceipt = await nft721HolderCondition.fulfill(
             agreementId,
             ddo.shortId(),
             holderAddress,
-            holder.parameters.find(p => p.name === '_contractAddress').value as string,
+            findConditionParameter(accessService, 'nftHolder', '_contractAddress'),
             from,
             params
         )

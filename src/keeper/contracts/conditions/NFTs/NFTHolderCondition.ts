@@ -1,5 +1,5 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { didZeroX, findConditionParameter, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
@@ -34,9 +34,7 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     }
 
     public amountFromService(service: ServiceCommon): BigNumber {
-        const holder = findServiceConditionByName(service, 'nftHolder')
-        if (!holder) throw new Error('Holder condition not found!')
-        return BigNumber.from(holder.parameters.find(p => p.name === '_numberNfts').value)
+        return BigNumber.from(findConditionParameter(service, 'nftHolder', '_numberNfts'))
     }
 
     public async paramsFromDDO({

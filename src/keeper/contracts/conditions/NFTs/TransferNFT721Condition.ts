@@ -1,5 +1,5 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { didZeroX, findConditionParameter, zeroX } from '../../../../utils'
 import {
     Condition,
     ConditionContext,
@@ -89,20 +89,18 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         { ddo, service, consumerId, expiration }: TransferNFT721ConditionContext,
         lockCondition
     ) {
-        const transfer = findServiceConditionByName(service, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
-
         const nft = await this.nevermined.contracts.loadNft721(
-            transfer.parameters.find(p => p.name === '_contractAddress').value as string
+            findConditionParameter(service, 'transferNFT', '_contractAddress') as string
         )
-        const nftHolder = transfer.parameters.find(p => p.name === '_nftHolder')
-            .value as string
 
-        const nftTransferString = transfer.parameters.find(p => p.name === '_nftTransfer')
-            .value as string
+        const nftTransferString = findConditionParameter(
+            service,
+            'transferNFT',
+            '_nftTransfer'
+        ) as string
         return this.params(
             ddo.shortId(),
-            nftHolder,
+            findConditionParameter(service, 'transferNFT', '_nftHolder') as string,
             consumerId,
             lockCondition.id,
             nft.address,

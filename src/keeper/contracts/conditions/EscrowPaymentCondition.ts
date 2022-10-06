@@ -4,7 +4,7 @@ import {
     ConditionInstanceSmall,
     ProviderCondition
 } from './Condition.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
+import { didZeroX, findConditionParameter, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
@@ -51,15 +51,13 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
         access: ConditionInstanceSmall,
         lock: ConditionInstanceSmall
     ) {
-        const escrow = findServiceConditionByName(service, 'escrowPayment')
-        if (!escrow) throw new Error('Escrow Condition not found!')
         return this.params(
             ddo.shortId(),
             rewards.getAmounts(),
             rewards.getReceivers(),
             consumerId,
             this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
-            escrow.parameters.find(p => p.name === '_tokenAddress').value as string,
+            findConditionParameter(service, 'escrowPayment', '_tokenAddress') as string,
             lock.id,
             access.id
         )

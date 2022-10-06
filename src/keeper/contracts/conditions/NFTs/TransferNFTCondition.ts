@@ -1,5 +1,5 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { didZeroX, findConditionParameter, zeroX } from '../../../../utils'
 import {
     Condition,
     ConditionContext,
@@ -91,11 +91,8 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         { ddo, service, providerId, consumerId, nftAmount }: TransferNFTConditionContext,
         lockCondition
     ) {
-        const transfer = findServiceConditionByName(service, 'transferNFT')
-        if (!transfer) throw new Error('TransferNFT condition not found!')
         const nftHolder =
-            providerId ||
-            (transfer.parameters.find(p => p.name === '_nftHolder').value as string)
+            providerId || findConditionParameter(service, 'transferNFT', '_nftHolder')
         return this.params(
             ddo.shortId(),
             nftHolder,

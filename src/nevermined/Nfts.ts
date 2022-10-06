@@ -4,7 +4,6 @@ import AssetRewards from '../models/AssetRewards'
 import { DDO, utils } from '../sdk'
 import {
     fillConditionsWithDDO,
-    findServiceConditionByName,
     generateId,
     getAssetRewardsFromService,
     getDIDFromService,
@@ -13,7 +12,8 @@ import {
     OrderProgressStep,
     noZeroX,
     SubscribablePromise,
-    zeroX
+    zeroX,
+    findConditionParameter
 } from '../utils'
 import { CreateProgressStep, RoyaltyAttributes, RoyaltyKind } from './Assets'
 import Account from './Account'
@@ -943,14 +943,12 @@ export class Nfts extends Instantiable {
 
         if (!agreementId) throw new Error('Creating buy agreement failed')
 
-        const payment = findServiceConditionByName(service, 'lockPayment')
-
         const receipt = await this.nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
             assetRewards.getAmounts(),
             assetRewards.getReceivers(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            findConditionParameter(service, 'lockPayment', '_tokenAddress'),
             consumer,
             params
         )

@@ -10,7 +10,7 @@ import { DDO } from '../../../ddo/DDO'
 import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import {
     didZeroX,
-    findServiceConditionByName,
+    findConditionParameter,
     getAssetRewardsFromService,
     OrderProgressStep,
     ZeroAddress,
@@ -84,13 +84,14 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     public paymentData(service: Service): PaymentData {
         const assetRewards = getAssetRewardsFromService(service)
-        const payment = findServiceConditionByName(service, 'lockPayment')
-        if (!payment) throw new Error('Payment Condition not found!')
         return {
             rewardAddress:
                 this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
-            tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
-                .value as string,
+            tokenAddress: findConditionParameter(
+                service,
+                'lockPayment',
+                '_tokenAddress'
+            ) as string,
             amounts: assetRewards.getAmounts(),
             receivers: assetRewards.getReceivers()
         }
@@ -274,12 +275,13 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
         const service = ddo.findServiceByType(this.service())
         const assetRewards = getAssetRewardsFromService(service)
-        const payment = findServiceConditionByName(service, 'lockPayment')
-        if (!payment) throw new Error('Payment Condition not found!')
         const rewardAddress =
             this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
-        const tokenAddress = payment.parameters.find(p => p.name === '_tokenAddress')
-            .value as string
+        const tokenAddress = findConditionParameter<string>(
+            service,
+            'lockPayment',
+            '_tokenAddress'
+        )
         const amounts = assetRewards.getAmounts()
         const receivers = assetRewards.getReceivers()
 
