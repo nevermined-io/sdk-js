@@ -197,8 +197,9 @@ export class Nfts extends Instantiable {
             ['nft-sales', 'nft-access'],
             nftTransfer,
             duration,
-            txParams,
-            appId
+            undefined,
+            appId,
+            txParams
         )
     }
 
