@@ -85,7 +85,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -103,7 +103,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -121,7 +121,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -139,7 +139,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -157,7 +157,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -175,7 +175,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -193,7 +193,7 @@ Instantiable.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -228,11 +228,11 @@ before providing the files.
 
 `Promise`<`boolean`\>
 
-true if the access was successfull.
+true if the access was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:605](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L605)
+[src/nevermined/Nfts.ts:618](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L618)
 
 ___
 
@@ -250,7 +250,7 @@ Instantiable.addresses
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -277,11 +277,11 @@ Get the NFT balance for a particular did
 
 `Promise`<`default`\>
 
-The ammount of NFTs owned by the account.
+The amount of NFTs owned by the account.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:632](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L632)
+[src/nevermined/Nfts.ts:645](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L645)
 
 ___
 
@@ -293,7 +293,7 @@ Burn NFTs associated with an asset.
 
 **`Remarks`**
 
-The publisher can only burn NFTs that it owns. NFTs that were already transfered cannot be burned by the publisher.
+The publisher can only burn NFTs that it owns. NFTs that were already transferred cannot be burned by the publisher.
 
 **`Example`**
 
@@ -318,7 +318,7 @@ The ethers.ContractReceipt
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:243](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L243)
+[src/nevermined/Nfts.ts:256](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L256)
 
 ___
 
@@ -356,7 +356,7 @@ true if the buy was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:915](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L915)
+[src/nevermined/Nfts.ts:929](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L929)
 
 ___
 
@@ -384,13 +384,13 @@ Instantiable.checkExists
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L44)
 
 ___
 
 ### create
 
-▸ **create**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **create**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new NFT Nevermined NFT.
 
@@ -413,6 +413,7 @@ Create a new NFT Nevermined NFT.
 | `erc20TokenAddress?` | `string` | The ERC-20 Token used to price the NFT. |
 | `preMint?` | `boolean` | Set to true to mint _nftAmount_ during creation. |
 | `nftMetadata?` | `string` | Url to the NFT metadata. |
+| `appId?` | `string` | The id of the application creating the NFT. |
 | `txParams?` | `TxParameters` | Optional transaction parameters |
 
 #### Returns
@@ -423,13 +424,13 @@ The newly registered [DDO](DDO.md).
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:63](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L63)
+[src/nevermined/Nfts.ts:64](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L64)
 
 ___
 
 ### create721
 
-▸ **create721**(`metadata`, `publisher`, `assetRewards`, `nftTokenAddress`, `erc20TokenAddress?`, `royaltyAttributes?`, `nftMetadata?`, `txParams?`, `nftTransfer?`, `duration?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **create721**(`metadata`, `publisher`, `assetRewards`, `nftTokenAddress`, `erc20TokenAddress?`, `royaltyAttributes?`, `nftMetadata?`, `nftTransfer?`, `duration?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new Nevermined NFT-721.
 
@@ -450,9 +451,10 @@ Create a new Nevermined NFT-721.
 | `erc20TokenAddress?` | `string` | `undefined` | The ERC-20 Token used to price the NFT. |
 | `royaltyAttributes?` | `RoyaltyAttributes` | `undefined` | The royalties associated with the NFT. |
 | `nftMetadata?` | `string` | `undefined` | Url to the NFT metadata. |
-| `txParams?` | `TxParameters` | `undefined` | Optional transaction parameters |
 | `nftTransfer` | `boolean` | `true` | TODO |
 | `duration` | `number` | `0` | TODO |
+| `appId?` | `string` | `undefined` | Id of the application creating this NFT. |
+| `txParams?` | `TxParameters` | `undefined` | Optional transaction parameters |
 
 #### Returns
 
@@ -462,13 +464,13 @@ The newly registered [DDO](DDO.md).
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:163](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L163)
+[src/nevermined/Nfts.ts:173](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L173)
 
 ___
 
 ### createWithRoyalties
 
-▸ **createWithRoyalties**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `txParams?`, `nftType?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **createWithRoyalties**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `nftType?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new Nevermined NFT with royalties.
 
@@ -491,8 +493,9 @@ Create a new Nevermined NFT with royalties.
 | `erc20TokenAddress?` | `string` | `undefined` | The ERC-20 Token used to price the NFT. |
 | `preMint?` | `boolean` | `undefined` | Set to true to mint _nftAmount_ during creation. |
 | `nftMetadata?` | `string` | `undefined` | Url to the NFT metadata. |
-| `txParams?` | `TxParameters` | `undefined` | Optional transaction parameters |
 | `nftType` | `NeverminedNFTType` | `NeverminedNFT1155Type.nft1155` | - |
+| `appId?` | `string` | `undefined` | The id of the application creating the NFT. |
+| `txParams?` | `TxParameters` | `undefined` | Optional transaction parameters |
 
 #### Returns
 
@@ -502,7 +505,7 @@ The newly registered [DDO](DDO.md).
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:113](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L113)
+[src/nevermined/Nfts.ts:119](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L119)
 
 ___
 
@@ -532,7 +535,7 @@ The details of the NFT.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:680](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L680)
+[src/nevermined/Nfts.ts:693](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L693)
 
 ___
 
@@ -556,7 +559,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:739](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L739)
+[src/nevermined/Nfts.ts:752](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L752)
 
 ___
 
@@ -580,7 +583,7 @@ Instantiable.findSigner
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -610,7 +613,7 @@ The NFT contract address.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:726](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L726)
+[src/nevermined/Nfts.ts:739](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L739)
 
 ___
 
@@ -636,7 +639,7 @@ Thrown if there is an error listing the NFT.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `ddo` | [`DDO`](DDO.md) | The DDO of the asset. |
-| `assetRewards` | `default` | The currect setup of asset rewards. |
+| `assetRewards` | `default` | The current setup of asset rewards. |
 | `nftAmount` | `default` | The number of NFTs put up for secondary sale. |
 | `provider` | `string` | The address that will be the provider of the secondary sale. |
 | `token` | `default` | - |
@@ -650,7 +653,7 @@ the agreementId of the secondary sale.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:840](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L840)
+[src/nevermined/Nfts.ts:854](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L854)
 
 ___
 
@@ -687,7 +690,7 @@ The ethers.ContractReceipt
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:211](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L211)
+[src/nevermined/Nfts.ts:224](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L224)
 
 ___
 
@@ -725,7 +728,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:278](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L278)
+[src/nevermined/Nfts.ts:291](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L291)
 
 ___
 
@@ -762,7 +765,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:327](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L327)
+[src/nevermined/Nfts.ts:340](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L340)
 
 ___
 
@@ -794,7 +797,7 @@ The address of the NFT owner.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:650](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L650)
+[src/nevermined/Nfts.ts:663](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L663)
 
 ___
 
@@ -806,7 +809,7 @@ Release the funds from escrow.
 
 **`Remarks`**
 
-A publisher is able to release the funds put on escrow by the consumer after transfering the NFTs.
+A publisher is able to release the funds put on escrow by the consumer after transferring the NFTs.
 
 **`Example`**
 
@@ -832,11 +835,11 @@ Thrown if there is an error releasing the rewards.
 
 `Promise`<`boolean`\>
 
-true if the funds release was successfull.
+true if the funds release was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:561](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L561)
+[src/nevermined/Nfts.ts:574](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L574)
 
 ___
 
@@ -848,7 +851,7 @@ Release the funds from escrow.
 
 **`Remarks`**
 
-A publisher is able to release the funds put on escrow by the consumer after transfering the NFTs.
+A publisher is able to release the funds put on escrow by the consumer after transferring the NFTs.
 
 **`Example`**
 
@@ -859,7 +862,7 @@ A publisher is able to release the funds put on escrow by the consumer after tra
 **`Throws`**
 
 NFTError
-Thrown if there is an error releasing the rewars
+Thrown if there is an error releasing the rewards
 
 #### Parameters
 
@@ -875,11 +878,11 @@ Thrown if there is an error releasing the rewars
 
 `Promise`<`boolean`\>
 
-true if the funds release was successfull.
+true if the funds release was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:513](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L513)
+[src/nevermined/Nfts.ts:526](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L526)
 
 ___
 
@@ -917,7 +920,7 @@ true if the transaction was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:978](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L978)
+[src/nevermined/Nfts.ts:992](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L992)
 
 ___
 
@@ -953,7 +956,7 @@ The ethers.ContractReceipt
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:809](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L809)
+[src/nevermined/Nfts.ts:823](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L823)
 
 ___
 
@@ -977,7 +980,7 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -1001,7 +1004,7 @@ execute the transfer in order to be able to release the rewards.
 **`Throws`**
 
 NFTError
-Thrown if there is an error transfering the NFT
+Thrown if there is an error transferring the NFT
 
 #### Parameters
 
@@ -1017,11 +1020,11 @@ Thrown if there is an error transfering the NFT
 
 `Promise`<`boolean`\>
 
-true if the transfer was successfull.
+true if the transfer was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:381](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L381)
+[src/nevermined/Nfts.ts:394](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L394)
 
 ___
 
@@ -1045,7 +1048,7 @@ execute the transfer in order to be able to release the rewards.
 **`Throws`**
 
 NFTError
-Thrown if there is an error transfering the NFT
+Thrown if there is an error transferring the NFT
 
 #### Parameters
 
@@ -1060,11 +1063,11 @@ Thrown if there is an error transfering the NFT
 
 `Promise`<`boolean`\>
 
-true if the transfer was successfull.
+true if the transfer was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:468](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L468)
+[src/nevermined/Nfts.ts:481](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L481)
 
 ___
 
@@ -1095,7 +1098,7 @@ as soon as the payment is made
 | :------ | :------ | :------ | :------ |
 | `agreementId` | `string` | `undefined` | The NFT sales agreement id. |
 | `nftHolder` | `string` | `undefined` | The address of the current owner of the NFT. |
-| `nftReceiver` | `string` | `undefined` | The address where the NFT should be transfered. |
+| `nftReceiver` | `string` | `undefined` | The address where the NFT should be transferred. |
 | `nftAmount` | `default` | `undefined` | The amount of NFTs to transfer. |
 | `ercType` | `ERCType` | `1155` | The Type of the NFT ERC (1155 or 721). |
 
@@ -1103,11 +1106,11 @@ as soon as the payment is made
 
 `Promise`<`boolean`\>
 
-true if the transfer was successfull.
+true if the transfer was successful.
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:430](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L430)
+[src/nevermined/Nfts.ts:443](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L443)
 
 ___
 
@@ -1132,7 +1135,7 @@ Instantiable.addressesStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -1158,7 +1161,7 @@ Instantiable.findSignerStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -1182,7 +1185,7 @@ Instantiable.getInstance
 
 #### Defined in
 
-[src/nevermined/Nfts.ts:36](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/nevermined/Nfts.ts#L36)
+[src/nevermined/Nfts.ts:36](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Nfts.ts#L36)
 
 ___
 
@@ -1213,4 +1216,4 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/Instantiable.abstract.ts#L162)

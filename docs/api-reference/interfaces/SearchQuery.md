@@ -6,14 +6,24 @@
 
 ### Properties
 
+- [appId](SearchQuery.md#appid)
 - [offset](SearchQuery.md#offset)
 - [page](SearchQuery.md#page)
 - [query](SearchQuery.md#query)
 - [show\_unlisted](SearchQuery.md#show_unlisted)
 - [sort](SearchQuery.md#sort)
-- [text](SearchQuery.md#text)
 
 ## Properties
+
+### appId
+
+• `Optional` **appId**: `string`
+
+#### Defined in
+
+[src/common/interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/common/interfaces.ts#L19)
+
+___
 
 ### offset
 
@@ -21,7 +31,7 @@
 
 #### Defined in
 
-[src/common/interfaces.ts:15](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/common/interfaces.ts#L15)
+[src/common/interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/common/interfaces.ts#L14)
 
 ___
 
@@ -31,7 +41,7 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/common/interfaces.ts#L16)
+[src/common/interfaces.ts:15](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/common/interfaces.ts#L15)
 
 ___
 
@@ -41,11 +51,11 @@ ___
 
 #### Index signature
 
-▪ [property: `string`]: `string` \| `number` \| `string`[] \| `number`[]
+▪ [jsonPath: `string`]: `any`
 
 #### Defined in
 
-[src/common/interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/common/interfaces.ts#L17)
+[src/common/interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/common/interfaces.ts#L16)
 
 ___
 
@@ -55,7 +65,7 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/common/interfaces.ts#L19)
+[src/common/interfaces.ts:18](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/common/interfaces.ts#L18)
 
 ___
 
@@ -69,14 +79,4 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:18](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/common/interfaces.ts#L18)
-
-___
-
-### text
-
-• `Optional` **text**: `string`
-
-#### Defined in
-
-[src/common/interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/6f83096/src/common/interfaces.ts#L14)
+[src/common/interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/common/interfaces.ts#L17)
