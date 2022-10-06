@@ -133,7 +133,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 [gatewayAddress],
                 royaltyAttributes,
                 undefined,
-                undefined,
                 ['nft-sales'],
                 nftTransfer,
                 subscriptionDuration
@@ -168,7 +167,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 preMint,
                 [gatewayAddress],
                 royaltyAttributes,
-                undefined,
                 undefined,
                 ['nft-access'],
                 nftTransfer,

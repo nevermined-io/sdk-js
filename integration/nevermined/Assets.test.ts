@@ -93,7 +93,6 @@ describe('Assets', () => {
                 undefined,
                 undefined,
                 undefined,
-                undefined,
                 appId1
             )
 
@@ -107,14 +106,12 @@ describe('Assets', () => {
                 undefined,
                 undefined,
                 undefined,
-                undefined,
                 appId2
             )
             await neverminedApp2.assets.create(
                 metadata22,
                 publisher,
                 assetRewards,
-                undefined,
                 undefined,
                 undefined,
                 undefined,

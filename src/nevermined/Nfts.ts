@@ -53,6 +53,7 @@ export class Nfts extends Instantiable {
      * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
      * @param preMint - Set to true to mint _nftAmount_ during creation.
      * @param nftMetadata - Url to the NFT metadata.
+     * @param appId - The id of the application creating the NFT.
      * @param txParams - Optional transaction parameters
      * @returns The newly registered {@link DDO}.
      */
@@ -66,6 +67,7 @@ export class Nfts extends Instantiable {
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft(
@@ -81,6 +83,8 @@ export class Nfts extends Instantiable {
             this.nevermined.keeper.nftUpgradeable.address,
             preMint,
             nftMetadata ? nftMetadata : '',
+            undefined,
+            appId,
             txParams
         )
     }
@@ -102,6 +106,7 @@ export class Nfts extends Instantiable {
      * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
      * @param preMint - Set to true to mint _nftAmount_ during creation.
      * @param nftMetadata - Url to the NFT metadata.
+     * @param appId - The id of the application creating the NFT.
      * @param txParams - Optional transaction parameters
      *
      * @returns The newly registered {@link DDO}.
@@ -116,6 +121,7 @@ export class Nfts extends Instantiable {
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNftWithRoyalties(
@@ -130,6 +136,7 @@ export class Nfts extends Instantiable {
             erc20TokenAddress,
             preMint,
             nftMetadata ? nftMetadata : '',
+            appId,
             txParams
         )
     }
@@ -149,9 +156,11 @@ export class Nfts extends Instantiable {
      * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
      * @param royaltyAttributes - The royalties associated with the NFT.
      * @param nftMetadata - Url to the NFT metadata.
-     * @param txParams - Optional transaction parameters
      * @param nftTransfer - TODO
      * @param duration - TODO
+     * @param appId - Id of the application creating this NFT.
+     * @param txParams - Optional transaction parameters
+     *
      * @returns The newly registered {@link DDO}.
      */
     public create721(
@@ -162,10 +171,10 @@ export class Nfts extends Instantiable {
         erc20TokenAddress?: string,
         royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
-        txParams?: TxParameters,
         nftTransfer: boolean = true,
         duration: number = 0,
-        appId?: string
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft721(
             metadata,
@@ -178,11 +187,11 @@ export class Nfts extends Instantiable {
             undefined,
             royaltyAttributes,
             nftMetadata ? nftMetadata : '',
-            txParams,
             ['nft-sales', 'nft-access'],
             nftTransfer,
             duration,
-            appId
+            appId,
+            txParams
         )
     }
 

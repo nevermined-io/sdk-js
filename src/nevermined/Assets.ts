@@ -136,8 +136,8 @@ export class Assets extends Instantiable {
         nftAttributes: NFTAttributes | undefined,
         erc20TokenAddress: string | undefined,
         providers: string[] = [this.config.gatewayAddress],
-        txParams?: TxParameters,
-        appId?: string
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
         return new SubscribablePromise(async observer => {
@@ -356,8 +356,8 @@ export class Assets extends Instantiable {
         encryptionMethod: EncryptionMethod,
         providers?: string[],
         nftMetadata?: string,
-        params?: TxParameters,
-        appId?: string
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.createNft(
             metadata,
@@ -372,9 +372,9 @@ export class Assets extends Instantiable {
             undefined,
             undefined,
             nftMetadata,
-            params,
             undefined,
-            appId
+            appId,
+            txParams
         )
     }
 
@@ -389,11 +389,11 @@ export class Assets extends Instantiable {
         providers?: string[],
         royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
-        txParams?: TxParameters,
         serviceTypes: ServiceType[] = ['nft-sales', 'nft-access'],
         nftTransfer: boolean = true,
         duration: number = 0,
-        appId?: string
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: 721,
@@ -417,8 +417,8 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
-            txParams,
-            appId
+            appId,
+            txParams
         )
     }
 
@@ -435,9 +435,9 @@ export class Assets extends Instantiable {
         nftContractAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
-        txParams?: TxParameters,
         services: ServiceType[] = ['nft-access', 'nft-sales'],
-        appId?: string
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: 1155,
@@ -461,8 +461,8 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
-            txParams,
-            appId
+            appId,
+            txParams
         )
     }
 
@@ -478,8 +478,8 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
-        txParams?: TxParameters,
-        appId?: string
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: 1155,
@@ -503,8 +503,8 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
-            txParams,
-            appId
+            appId,
+            txParams
         )
     }
 
@@ -512,11 +512,18 @@ export class Assets extends Instantiable {
 
     /**
      * Creates a new DDO.
+     *
      * @param metadata - DDO metadata.
      * @param publisher - Publisher account.
      * @param assetRewards - Publisher account.
      * @param serviceTypes - List of service types to associate with the asset.
+     * @param predefinedAssetServices -
+     * @param encryptionMethod -
      * @param providers - List of provider addresses of this asset.
+     * @param erc20TokenAddress - The ERC-20 Token used to price the asset.
+     * @param appId - The id of the application creating the NFT.
+     * @param txParams - Optional transaction parameters
+     *
      * @returns {@link DDO}
      */
     public create(
@@ -528,8 +535,8 @@ export class Assets extends Instantiable {
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
         providers?: string[],
         erc20TokenAddress?: string,
-        txParams?: TxParameters,
-        appId?: string
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerAsset(
             metadata,
@@ -541,8 +548,8 @@ export class Assets extends Instantiable {
             undefined,
             erc20TokenAddress || this.nevermined.token.getAddress(),
             providers,
-            txParams,
-            appId
+            appId,
+            txParams
         )
     }
 
@@ -552,6 +559,7 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
         _serviceTimeout: number = 86400,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return new SubscribablePromise(async () => {
@@ -564,6 +572,7 @@ export class Assets extends Instantiable {
                 encryptionMethod,
                 undefined,
                 undefined,
+                appId,
                 txParams
             )
         })
