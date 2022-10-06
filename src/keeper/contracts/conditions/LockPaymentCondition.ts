@@ -1,5 +1,5 @@
 import { Condition, ConditionContext, ConsumerCondition } from './Condition.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
+import { didZeroX, findConditionParameter, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
@@ -31,11 +31,10 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     }
 
     public async paramsFromDDO({ ddo, service, rewards }: ConditionContext) {
-        const payment = findServiceConditionByName(service, 'lockPayment')
         return this.params(
             ddo.shortId(),
             this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
+            findConditionParameter(service, 'lockPayment', '_tokenAddress') as string,
             rewards.getAmounts(),
             rewards.getReceivers()
         )

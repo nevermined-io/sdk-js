@@ -1,4 +1,10 @@
-import { AccessSelector, ServiceCommon, ServicePlugin, ServiceType, ValidationParams } from '../ddo/Service'
+import {
+    AccessSelector,
+    ServiceCommon,
+    ServicePlugin,
+    ServiceType,
+    ValidationParams
+} from '../ddo/Service'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Account, MetaData } from '../sdk'

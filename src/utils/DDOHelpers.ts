@@ -182,3 +182,21 @@ export function getNftAmountFromService(service: Service): BigNumber {
         nftTransferCondition.parameters.find(p => p.name === '_numberNfts').value
     )
 }
+
+export function findConditionParameter<T>(
+    service: Service,
+    condName: ConditionType,
+    paramName: string
+): T {
+    const cond = findServiceConditionByName(service, condName)
+    if (!cond) {
+        throw new Error(`Unknown condition ${condName} in ${service.type}`)
+    }
+    const param = cond.parameters.find(p => p.name === paramName)
+    if (!param) {
+        throw new Error(
+            `Missing parameter ${paramName} in condition ${condName} of ${service.type}`
+        )
+    }
+    return param as T
+}

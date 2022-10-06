@@ -204,7 +204,11 @@ export interface AccessSelector {
 }
 
 export interface ServicePlugin {
-    createService(publisher: Account, metadata: MetaData, access: AccessSelector): Promise<ServiceCommon>
+    createService(
+        publisher: Account,
+        metadata: MetaData,
+        access: AccessSelector
+    ): Promise<ServiceCommon>
     // Process agreement for provider
     process(
         params: ValidationParams,
