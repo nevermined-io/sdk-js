@@ -198,8 +198,13 @@ export interface ValidationParams {
     nft_holder?: string
 }
 
+export interface AccessSelector {
+    isDTP: boolean
+    ercType?: ERCType
+}
+
 export interface ServicePlugin {
-    createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
+    createService(publisher: Account, metadata: MetaData, access: AccessSelector): Promise<ServiceCommon>
     // Process agreement for provider
     process(
         params: ValidationParams,
@@ -208,4 +213,5 @@ export interface ServicePlugin {
     ): Promise<void>
     // Check if service can be granted without agreement
     accept(params: ValidationParams): Promise<boolean>
+    service(): ServiceType
 }

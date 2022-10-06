@@ -1,13 +1,7 @@
-import { ServiceCommon, ServicePlugin, ValidationParams } from '../ddo/Service'
+import { AccessSelector, ServiceCommon, ServicePlugin, ServiceType, ValidationParams } from '../ddo/Service'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { Account, MetaData, MetaDataMain } from '../sdk'
-
-export interface AccessProofTemplateParams {
-    type: 'access-proof'
-    consumer: Account
-    consumerId: string
-}
+import { Account, MetaData } from '../sdk'
 
 export class AccessService extends Instantiable implements ServicePlugin {
     normal: ServicePlugin
@@ -20,15 +14,16 @@ export class AccessService extends Instantiable implements ServicePlugin {
     }
 
     // essential method is to select between two services
-    public select(main: MetaDataMain): ServicePlugin {
-        return main.isDTP ? this.proof : this.normal
+    public select(selector: AccessSelector): ServicePlugin {
+        return selector.isDTP ? this.proof : this.normal
     }
 
     public async createService(
         publisher: Account,
-        metadata: MetaData
+        metadata: MetaData,
+        selector: AccessSelector
     ): Promise<ServiceCommon> {
-        return this.select(metadata.main).createService(publisher, metadata)
+        return this.select(selector).createService(publisher, metadata, selector)
     }
     public async process(
         params: ValidationParams,
@@ -36,13 +31,16 @@ export class AccessService extends Instantiable implements ServicePlugin {
         txparams?: TxParameters
     ): Promise<void> {
         const ddo = await this.nevermined.assets.resolve(params.did)
-        const metadata = ddo.findServiceByType('metadata').attributes.main
+        const metadata = ddo.findServiceByType(this.service()).attributes.main
         return this.select(metadata).process(params, from, txparams)
     }
     public async accept(params: ValidationParams): Promise<boolean> {
         const ddo = await this.nevermined.assets.resolve(params.did)
-        const metadata = ddo.findServiceByType('metadata').attributes.main
+        const metadata = ddo.findServiceByType(this.service()).attributes.main
         return this.select(metadata).accept(params)
+    }
+    public service(): ServiceType {
+        return this.normal.service()
     }
 }
 
@@ -60,11 +58,11 @@ export class NFTAccessService extends AccessService implements ServicePlugin {
     }
 
     // essential method is to select between two services
-    public select(main: MetaDataMain): ServicePlugin {
-        if (main.ercType == 1155) {
-            return main.isDTP ? this.proof : this.normal
+    public select(selector: AccessSelector): ServicePlugin {
+        if (selector.ercType == 1155) {
+            return selector.isDTP ? this.proof : this.normal
         } else {
-            return main.isDTP ? this.proof721 : this.normal721
+            return selector.isDTP ? this.proof721 : this.normal721
         }
     }
 }

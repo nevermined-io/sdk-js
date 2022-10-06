@@ -177,7 +177,7 @@ export class Assets extends Instantiable {
                 if (plugin) {
                     await ddo.addService(
                         this.nevermined,
-                        await plugin.createService(publisher, metadata)
+                        await plugin.createService(publisher, metadata, metadata.main)
                     )
                 }
             }
