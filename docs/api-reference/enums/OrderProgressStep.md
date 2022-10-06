@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:45](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Assets.ts#L45)
+[src/nevermined/Assets.ts:50](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/Assets.ts#L50)
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:44](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Assets.ts#L44)
+[src/nevermined/Assets.ts:49](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/Assets.ts#L49)
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:47](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Assets.ts#L47)
+[src/nevermined/Assets.ts:52](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/Assets.ts#L52)
 
 ___
 
@@ -49,4 +49,4 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:46](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/nevermined/Assets.ts#L46)
+[src/nevermined/Assets.ts:51](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/Assets.ts#L51)

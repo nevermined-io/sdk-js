@@ -3,7 +3,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../Account'
 import { SignatureUtils } from './SignatureUtils'
 import { ethers } from 'ethers'
-import { Config } from '../../sdk'
+import { Config, Logger } from '../../sdk'
 
 export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -37,6 +37,7 @@ export class EthSignJWT extends SignJWT {
 
         // TODO: remove once migration to new gateway is complete
         if (!isEtherSign && !config.newGateway) {
+            Logger.debug(`Using LEGACY Gateway`)
             input = input.slice(0, 64)
         }
 

@@ -26,4 +26,4 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:23](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/events/NeverminedEvent.ts#L23)
+[src/events/NeverminedEvent.ts:23](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/events/NeverminedEvent.ts#L23)

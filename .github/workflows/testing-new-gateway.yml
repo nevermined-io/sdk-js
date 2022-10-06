@@ -1,4 +1,4 @@
-name: Testing
+name: Testing w/ new gateway depending on SDK changes
 
 on:
   push:
@@ -18,7 +18,6 @@ jobs:
           - network: "--geth"
             network-name: geth-localnet
             chainId: 8998
-            delay: GRAPH_DELAY
 
     steps:
       - uses: actions/checkout@v2
@@ -30,10 +29,41 @@ jobs:
           yarn
       - name: Run linters
         run: yarn lint
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/gateway-ts
+          path: gateway-ts
+          ref: feat/more-tests
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/sdk-dtp
+          path: sdk-dtp
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Build SDK-JS package and gateway
+        run: |
+          yarn build
+          yarn pack
+          cp *.tgz sdk-dtp/sdk.tgz
+          cp *.tgz gateway-ts/sdk.tgz
+          cd sdk-dtp
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
+          yarn
+          yarn build
+          yarn pack
+          cp *dtp*.tgz ../gateway-ts/dtp.tgz
+
+          cd ../gateway-ts
+          sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
+          sed -i "/sdk-dtp/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./dtp.tgz\"," package.json
+          yarn
+          yarn run setup:dev
+          yarn build
+
       - name: Run tools (network)
         run: |
           docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          yarn ganache --port 18545 --chain.chainId ${{ matrix.chainId }} > ganache-cli.log &
           sudo chmod go+r /etc/hosts
           sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
           git clone https://github.com/nevermined-io/tools
@@ -45,23 +75,23 @@ jobs:
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
-          ./start_nevermined.sh --latest ${{ matrix.network }} --new-gateway 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh --latest ${{ matrix.network }} --no-graph --no-gateway 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
-          ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
 
-      - name: Check artifacts
-        run: ls -l artifacts
+      - name: Run gateway
+        run: |
+          cd gateway-ts
+          ./scripts/wait-nevermined.sh
+          yarn start 2>&1 | tee gateway_log.txt &
 
-      - name: Run unit tests
-        run: export ETH_PORT=18545; yarn run test:cover
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
           OLD_GATEWAY: false
+          NO_GRAPH: true
         run: |
-          export ${{ matrix.delay }}=true
           yarn run integration:cover
       - name: Upload logs
         uses: actions/upload-artifact@v2
@@ -69,3 +99,9 @@ jobs:
         with:
           name: nevermined-tools-output
           path: tools/nevermined_tools.txt
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: gateway-output
+          path: gateway-ts/gateway_log.txt

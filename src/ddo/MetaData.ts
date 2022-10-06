@@ -1,3 +1,5 @@
+import { ERCType, NeverminedNFTType } from '../models/NFTAttributes'
+
 export interface StageRequirements {
     container: {
         image: string
@@ -189,7 +191,10 @@ export interface MetaDataMain {
     service?: Service
 
     isDTP: boolean
-    nftType: 721 | 1155
+
+    ercType?: ERCType
+
+    nftType?: NeverminedNFTType
 }
 
 /**

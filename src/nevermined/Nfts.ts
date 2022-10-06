@@ -21,9 +21,13 @@ import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { NFTError } from '../errors'
-import { NftTypes } from '../gateway/Gateway'
 import BigNumber from '../utils/BigNumber'
 import { ethers } from 'ethers'
+import {
+    ERCType,
+    NeverminedNFT1155Type,
+    NeverminedNFTType
+} from '../models/NFTAttributes'
 
 /**
  * Nevermined Nft module
@@ -84,6 +88,7 @@ export class Nfts extends Instantiable {
             preMint,
             nftMetadata ? nftMetadata : '',
             undefined,
+            undefined,
             appId,
             txParams
         )
@@ -121,6 +126,7 @@ export class Nfts extends Instantiable {
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
+        nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
         appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -135,7 +141,8 @@ export class Nfts extends Instantiable {
             royaltyAttributes,
             erc20TokenAddress,
             preMint,
-            nftMetadata ? nftMetadata : '',
+            nftMetadata || '',
+            nftType,
             appId,
             txParams
         )
@@ -190,8 +197,8 @@ export class Nfts extends Instantiable {
             ['nft-sales', 'nft-access'],
             nftTransfer,
             duration,
-            appId,
-            txParams
+            txParams,
+            appId
         )
     }
 
@@ -428,7 +435,7 @@ export class Nfts extends Instantiable {
      * @param nftHolder - The address of the current owner of the NFT.
      * @param nftReceiver - The address where the NFT should be transfered.
      * @param nftAmount - The amount of NFTs to transfer.
-     * @param nftType  - The Type of the NFT (1155 or 721).
+     * @param ercType  - The Type of the NFT ERC (1155 or 721).
      *
      * @returns true if the transfer was successfull.
      */
@@ -437,14 +444,14 @@ export class Nfts extends Instantiable {
         nftHolder: string,
         nftReceiver: string,
         nftAmount: BigNumber,
-        nftType: NftTypes = 1155
+        ercType: ERCType = 1155
     ): Promise<boolean> {
         return await this.nevermined.gateway.nftTransferForDelegate(
             agreementId,
             nftHolder,
             nftReceiver,
             nftAmount,
-            nftType
+            ercType
         )
     }
 

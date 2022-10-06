@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:68](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/ddo/MetaData.ts#L68)
+[src/ddo/MetaData.ts:70](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L70)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:66](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/ddo/MetaData.ts#L66)
+[src/ddo/MetaData.ts:68](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L68)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:67](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/ddo/MetaData.ts#L67)
+[src/ddo/MetaData.ts:69](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/ddo/MetaData.ts#L69)

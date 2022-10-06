@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L57)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L57)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:58](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L58)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:58](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L58)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:55](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L55)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:55](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L55)
 
 ___
 
@@ -51,4 +51,4 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:56](https://github.com/nevermined-io/sdk-js/blob/b9e384c/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L56)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:56](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L56)
