@@ -82,7 +82,7 @@ export class Config {
 
     public accounts?: ethers.Signer[]
 
-    public newGateway?: boolean
+    public newGateway?: boolean = true
 
     /**
      * The fee charged by Nevermined for using the Service Agreements

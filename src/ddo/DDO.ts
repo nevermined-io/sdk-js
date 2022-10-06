@@ -7,7 +7,8 @@ import { didPrefixed, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
-import { MetaData } from './MetaData'
+import { MetaData, MetaDataMain } from './MetaData'
+import { NFTAttributes } from '../models/NFTAttributes'
 import { NvmConfig } from './NvmConfig'
 
 /**
@@ -169,8 +170,11 @@ export class DDO {
         this.service.push(service)
     }
 
-    public async addDefaultMetadataService(metadata: MetaData): Promise<void> {
-        this.service.push({
+    public async addDefaultMetadataService(
+        metadata: MetaData,
+        nftAttributes?: NFTAttributes
+    ): Promise<MetaDataMain> {
+        const metadataService = {
             type: 'metadata',
             index: 0,
             serviceEndpoint: '',
@@ -188,7 +192,13 @@ export class DDO {
                     ...metadata.main
                 } as any
             }
-        } as Service)
+        } as Service
+        if (nftAttributes) {
+            metadataService.attributes.main['ercType'] = nftAttributes.ercType
+            metadataService.attributes.main['nftType'] = nftAttributes.nftType
+        }
+        this.service.push(metadataService)
+        return metadataService.attributes.main
     }
 
     public async updateService(nevermined: Nevermined, service: any): Promise<void> {
