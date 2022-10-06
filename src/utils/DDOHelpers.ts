@@ -198,5 +198,5 @@ export function findConditionParameter<T>(
             `Missing parameter ${paramName} in condition ${condName} of ${service.type}`
         )
     }
-    return param as T
+    return param.value as T
 }
