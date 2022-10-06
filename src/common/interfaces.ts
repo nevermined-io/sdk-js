@@ -11,10 +11,10 @@ export interface MarketplaceResults<Entity> {
 }
 
 export interface SearchQuery {
-    text?: string
     offset?: number
     page?: number
-    query?: { [property: string]: string | number | string[] | number[] }
+    query?: { [jsonPath: string]: any }
     sort?: { [jsonPath: string]: string }
     show_unlisted?: boolean
+    appId?: string
 }

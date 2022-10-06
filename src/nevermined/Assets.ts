@@ -141,6 +141,7 @@ export class Assets extends Instantiable {
         nftAttributes: NFTAttributes | undefined,
         erc20TokenAddress: string | undefined,
         providers: string[] = [this.config.gatewayAddress],
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
@@ -150,7 +151,7 @@ export class Assets extends Instantiable {
             assetRewards = assetRewards ? assetRewards : new AssetRewards()
 
             // create ddo itself
-            const ddo = DDO.getInstance(metadata.userId, publisher.getId())
+            const ddo = DDO.getInstance(metadata.userId, publisher.getId(), appId)
 
             if (predefinedAssetServices.length > 0) {
                 ddo.service = [, ...predefinedAssetServices].reverse() as Service[]
@@ -339,7 +340,7 @@ export class Assets extends Instantiable {
                 serviceEndpoint = ddoStatus.external.url
             }
 
-            this.logger.log('Asset registred')
+            this.logger.log('Asset registered')
             observer.next(CreateProgressStep.DidRegistered)
 
             return storedDdo
@@ -355,7 +356,8 @@ export class Assets extends Instantiable {
         encryptionMethod: EncryptionMethod,
         providers?: string[],
         nftMetadata?: string,
-        params?: TxParameters
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.createNft(
             metadata,
@@ -370,7 +372,10 @@ export class Assets extends Instantiable {
             undefined,
             undefined,
             nftMetadata,
-            params
+            undefined,
+            undefined,
+            appId,
+            txParams
         )
     }
 
@@ -385,11 +390,12 @@ export class Assets extends Instantiable {
         providers?: string[],
         royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
-        txParams?: TxParameters,
         serviceTypes: ServiceType[] = ['nft-sales', 'nft-access'],
         nftTransfer: boolean = true,
         duration: number = 0,
-        nftType: NeverminedNFT721Type = NeverminedNFT721Type.nft721
+        nftType: NeverminedNFT721Type = NeverminedNFT721Type.nft721,
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: 721,
@@ -414,6 +420,7 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
+            appId,
             txParams
         )
     }
@@ -431,9 +438,10 @@ export class Assets extends Instantiable {
         nftContractAddress?: string,
         preMint: boolean = true,
         nftMetadata?: string,
-        txParams?: TxParameters,
         services: ServiceType[] = ['nft-access', 'nft-sales'],
-        nftType: NeverminedNFT1155Type = NeverminedNFT1155Type.nft1155
+        nftType: NeverminedNFT1155Type = NeverminedNFT1155Type.nft1155,
+        appId?: string,
+        txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
             ercType: ercOfNeverminedNFTType[nftType],
@@ -458,6 +466,7 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
+            appId,
             txParams
         )
     }
@@ -475,6 +484,7 @@ export class Assets extends Instantiable {
         preMint: boolean = true,
         nftMetadata?: string,
         nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
@@ -500,6 +510,7 @@ export class Assets extends Instantiable {
             nftAttributes,
             erc20TokenAddress,
             providers,
+            appId,
             txParams
         )
     }
@@ -508,11 +519,18 @@ export class Assets extends Instantiable {
 
     /**
      * Creates a new DDO.
+     *
      * @param metadata - DDO metadata.
      * @param publisher - Publisher account.
      * @param assetRewards - Publisher account.
      * @param serviceTypes - List of service types to associate with the asset.
+     * @param predefinedAssetServices -
+     * @param encryptionMethod -
      * @param providers - List of provider addresses of this asset.
+     * @param erc20TokenAddress - The ERC-20 Token used to price the asset.
+     * @param appId - The id of the application creating the NFT.
+     * @param txParams - Optional transaction parameters
+     *
      * @returns {@link DDO}
      */
     public create(
@@ -524,6 +542,7 @@ export class Assets extends Instantiable {
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
         providers?: string[],
         erc20TokenAddress?: string,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerAsset(
@@ -536,6 +555,7 @@ export class Assets extends Instantiable {
             undefined,
             erc20TokenAddress || this.nevermined.token.getAddress(),
             providers,
+            appId,
             txParams
         )
     }
@@ -546,6 +566,7 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
         _serviceTimeout: number = 86400,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return new SubscribablePromise(async () => {
@@ -558,6 +579,7 @@ export class Assets extends Instantiable {
                 encryptionMethod,
                 undefined,
                 undefined,
+                appId,
                 txParams
             )
         })
@@ -749,10 +771,29 @@ export class Assets extends Instantiable {
 
     /**
      * Search over the assets using a query.
+     *
+     * @remarks
+     * If the `appId` is set in the search query results will be filtered
+     * returning only DDOs for that appId
+     *
      * @param query - Query to filter the assets.
      * @returns A list of {@link DDO}s matching the query
      */
     public async query(query: SearchQuery) {
+        if (query.appId) {
+            query = {
+                query: {
+                    bool: {
+                        must: [query.query || { match_all: {} }],
+                        filter: [{ term: { '_nvm.appId': query.appId } }]
+                    }
+                },
+                offset: query.offset,
+                page: query.page,
+                sort: query.sort,
+                show_unlisted: query.show_unlisted
+            }
+        }
         return this.nevermined.metadata.queryMetadata(query)
     }
 
@@ -765,19 +806,21 @@ export class Assets extends Instantiable {
         text: string,
         offset: number = 100,
         page: number = 1,
-        sort: string = 'desc'
+        sort: string = 'desc',
+        appId?: string
     ) {
-        return this.nevermined.metadata.queryMetadataByText({
-            text,
-            page: page,
-            offset: offset,
+        const query: SearchQuery = {
             query: {
-                value: 1
+                query_string: { query: text }
             },
+            offset,
+            page,
             sort: {
                 created: sort
-            }
-        } as SearchQuery)
+            },
+            appId
+        }
+        return this.query(query)
     }
 
     public async retire(did: string) {
