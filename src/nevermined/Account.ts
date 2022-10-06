@@ -15,6 +15,7 @@ export default class Account extends Instantiable {
 
     public babyX?: string
     public babyY?: string
+    public babySecret?: string
 
     constructor(private id: string = '0x0', config?: InstantiableConfig) {
         super()
