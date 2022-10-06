@@ -239,7 +239,7 @@ export class Nfts extends Instantiable {
      * Burn NFTs associated with an asset.
      *
      * @remarks
-     * The publisher can only burn NFTs that it owns. NFTs that were already transfered cannot be burned by the publisher.
+     * The publisher can only burn NFTs that it owns. NFTs that were already transferred cannot be burned by the publisher.
      *
      * @example
      * ```ts
@@ -268,7 +268,7 @@ export class Nfts extends Instantiable {
     }
 
     // TODO: We need to improve this to allow for secondary market sales
-    //       Right now it fetchs the rewards from the DDO which don't change.
+    //       Right now it fetches the rewards from the DDO which don't change.
     /**
      * Buy NFTs.
      *
@@ -386,10 +386,10 @@ export class Nfts extends Instantiable {
      * @param publisher - The current owner of the NFTs.
      * @param txParams - Optional transaction parameters.
      *
-     * @returns true if the transfer was successfull.
+     * @returns true if the transfer was successful.
      *
      * @throws {@link NFTError}
-     * Thrown if there is an error transfering the NFT
+     * Thrown if there is an error transferring the NFT
      */
     public async transfer(
         agreementId: string,
@@ -434,11 +434,11 @@ export class Nfts extends Instantiable {
      *
      * @param agreementId - The NFT sales agreement id.
      * @param nftHolder - The address of the current owner of the NFT.
-     * @param nftReceiver - The address where the NFT should be transfered.
+     * @param nftReceiver - The address where the NFT should be transferred.
      * @param nftAmount - The amount of NFTs to transfer.
      * @param ercType  - The Type of the NFT ERC (1155 or 721).
      *
-     * @returns true if the transfer was successfull.
+     * @returns true if the transfer was successful.
      */
     public async transferForDelegate(
         agreementId: string,
@@ -473,10 +473,10 @@ export class Nfts extends Instantiable {
      * @param publisher - The current owner of the NFTs.
      * @param txParams - Optional transaction parameters.
      *
-     * @returns true if the transfer was successfull.
+     * @returns true if the transfer was successful.
      *
      * @throws {@link NFTError}
-     * Thrown if there is an error transfering the NFT
+     * Thrown if there is an error transferring the NFT
      */
     public async transfer721(
         agreementId: string,
@@ -505,7 +505,7 @@ export class Nfts extends Instantiable {
      * Release the funds from escrow.
      *
      * @remarks
-     * A publisher is able to release the funds put on escrow by the consumer after transfering the NFTs.
+     * A publisher is able to release the funds put on escrow by the consumer after transferring the NFTs.
      *
      * @example
      * ```ts
@@ -518,10 +518,10 @@ export class Nfts extends Instantiable {
      * @param publisher - The current owner of the NFTs.
      * @param txParams - Optional transaction parameters.
      *
-     * @returns true if the funds release was successfull.
+     * @returns true if the funds release was successful.
      *
      * @throws {@link NFTError}
-     * Thrown if there is an error releasing the rewars
+     * Thrown if there is an error releasing the rewards
      */
     public async releaseRewards(
         agreementId: string,
@@ -554,7 +554,7 @@ export class Nfts extends Instantiable {
      * Release the funds from escrow.
      *
      * @remarks
-     * A publisher is able to release the funds put on escrow by the consumer after transfering the NFTs.
+     * A publisher is able to release the funds put on escrow by the consumer after transferring the NFTs.
      *
      * @example
      * ```ts
@@ -566,7 +566,7 @@ export class Nfts extends Instantiable {
      * @param publisher - The current owner of the NFTs.
      * @param txParams - Optional transaction parameters.
      *
-     * @returns true if the funds release was successfull.
+     * @returns true if the funds release was successful.
      *
      * @throws {@link NFTError}
      * Thrown if there is an error releasing the rewards.
@@ -613,7 +613,7 @@ export class Nfts extends Instantiable {
      * @param destination - The download destination for the files.
      * @param index-  The index of the file. If unset will download all the files in the asset.
      *
-     * @returns true if the access was successfull.
+     * @returns true if the access was successful.
      */
     public async access(
         did: string,
@@ -640,7 +640,7 @@ export class Nfts extends Instantiable {
      * @param did - The Decentralized Identifier of the NFT asset.
      * @param account - The account to check the balance of.
      *
-     * @returns The ammount of NFTs owned by the account.
+     * @returns The amount of NFTs owned by the account.
      */
     public async balance(did: string, account: Account): Promise<BigNumber> {
         return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
@@ -783,12 +783,13 @@ export class Nfts extends Instantiable {
         if (index === undefined) {
             for (let i = 0; i < files.length; i++) {
                 const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
-                await this.nevermined.utils.fetch.downloadFile(
+                const result = await this.nevermined.utils.fetch.downloadFile(
                     url,
                     destination,
                     i,
                     headers
                 )
+                console.log('---------------', result)
             }
         } else {
             const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
@@ -840,7 +841,7 @@ export class Nfts extends Instantiable {
      * ```
      *
      * @param ddo - The DDO of the asset.
-     * @param assetRewards - The currect setup of asset rewards.
+     * @param assetRewards - The current setup of asset rewards.
      * @param nftAmount - The number of NFTs put up for secondary sale.
      * @param provider - The address that will be the provider of the secondary sale.
      * @param owner - The account of the current owner.
@@ -1013,7 +1014,7 @@ export class Nfts extends Instantiable {
             params
         )
 
-        if (!receipt) throw new NFTError('TranferNft Failed.')
+        if (!receipt) throw new NFTError('TransferNft Failed.')
 
         receipt = await this.nevermined.agreements.conditions.releaseNftReward(
             agreementId,

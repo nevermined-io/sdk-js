@@ -340,7 +340,7 @@ export class Assets extends Instantiable {
                 serviceEndpoint = ddoStatus.external.url
             }
 
-            this.logger.log('Asset registred')
+            this.logger.log('Asset registered')
             observer.next(CreateProgressStep.DidRegistered)
 
             return storedDdo
