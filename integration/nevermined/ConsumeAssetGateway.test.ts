@@ -99,13 +99,7 @@ describe('Consume Asset (Gateway)', () => {
 
     it('should be able to download the asset if you are the owner', async () => {
         const folder = '/tmp/nevermined/sdk-js'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            publisher,
-            folder,
-            -1,
-            false
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder, -1)
         assert.include(path, folder, 'The storage path is not correct.')
         const files = await new Promise<string[]>(resolve => {
             fs.readdir(path, (e, fileList) => {
@@ -127,8 +121,7 @@ describe('Consume Asset (Gateway)', () => {
             ddo.id,
             consumer,
             folder,
-            -1,
-            false
+            -1
         )
 
         assert.include(path, folder, 'The storage path is not correct.')

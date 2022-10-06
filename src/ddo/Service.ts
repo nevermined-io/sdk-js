@@ -53,7 +53,7 @@ export interface ServiceCommon {
 
 export interface ServiceAuthorization extends ServiceCommon {
     type: 'authorization'
-    service: 'SecretStore' | 'None' | 'RSAES-OAEP'
+    service: 'None' | 'RSAES-OAEP'
 }
 
 export interface ServiceMetadata extends ServiceCommon {

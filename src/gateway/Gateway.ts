@@ -64,10 +64,6 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/execute/`
     }
 
-    public getSecretStoreEncryptEndpoint() {
-        return `${this.url}${apiPath}/publish`
-    }
-
     public getEncryptEndpoint() {
         return `${this.url}${apiPath}/encrypt`
     }
@@ -194,36 +190,6 @@ export class Gateway extends Instantiable {
             })
         await Promise.all(filesPromises)
         return destination
-    }
-
-    public async secretStoreEncrypt(
-        did: string,
-        signature: string,
-        document: any,
-        publisher: string
-    ): Promise<string> {
-        const args = {
-            documentId: did,
-            signature,
-            document: JSON.stringify(document),
-            publisherAddress: publisher
-        }
-
-        try {
-            const response = await this.nevermined.utils.fetch.post(
-                this.getSecretStoreEncryptEndpoint(),
-                decodeURI(JSON.stringify(args))
-            )
-            if (!response.ok) {
-                throw new HttpError(
-                    `${response.statusText} ${response.url}`,
-                    response.status
-                )
-            }
-            return await response.text()
-        } catch (e) {
-            throw new GatewayError(e)
-        }
     }
 
     public async encrypt(did, document, method): Promise<any> {

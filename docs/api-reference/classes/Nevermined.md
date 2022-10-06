@@ -36,7 +36,6 @@ Main interface for Nevermined Protocol.
 - [profiles](Nevermined.md#profiles)
 - [provenance](Nevermined.md#provenance)
 - [provider](Nevermined.md#provider)
-- [secretStore](Nevermined.md#secretstore)
 - [token](Nevermined.md#token)
 - [utils](Nevermined.md#utils)
 - [versions](Nevermined.md#versions)
@@ -298,18 +297,6 @@ Nevermined probiders submodule
 #### Defined in
 
 [src/nevermined/Nevermined.ts:193](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/Nevermined.ts#L193)
-
-___
-
-### secretStore
-
-• **secretStore**: `NeverminedSecretStore`
-
-SecretStore submodule
-
-#### Defined in
-
-[src/nevermined/Nevermined.ts:188](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/nevermined/Nevermined.ts#L188)
 
 ___
 

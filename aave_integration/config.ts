@@ -10,7 +10,6 @@ export default {
     faucetUri: 'http://localhost:3001',
     nodeUri: `http://localhost:${process.env.ETH_PORT || 8545}`,
     graphHttpUri: undefined,
-    secretStoreUri: 'http://localhost:12001',
     gasMultiplier: 1.1,
     verbose: LogLevel.Error,
     aaveConfig: {

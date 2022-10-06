@@ -26,7 +26,6 @@
 - [networkFee](Config.md#networkfee)
 - [newGateway](Config.md#newgateway)
 - [nodeUri](Config.md#nodeuri)
-- [secretStoreUri](Config.md#secretstoreuri)
 - [threshold](Config.md#threshold)
 - [verbose](Config.md#verbose)
 - [web3Provider](Config.md#web3provider)
@@ -223,18 +222,6 @@ Ethereum node URL.
 #### Defined in
 
 [src/models/Config.ts:36](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/models/Config.ts#L36)
-
-___
-
-### secretStoreUri
-
-• `Optional` **secretStoreUri**: `string`
-
-Secret Store URL.
-
-#### Defined in
-
-[src/models/Config.ts:46](https://github.com/nevermined-io/sdk-js/blob/3db3d52/src/models/Config.ts#L46)
 
 ___
 

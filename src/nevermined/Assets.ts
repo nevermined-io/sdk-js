@@ -568,8 +568,7 @@ export class Assets extends Instantiable {
         did: string,
         consumerAccount: Account,
         resultPath: string,
-        fileIndex?: number,
-        useSecretStore?: boolean
+        fileIndex?: number
     ): Promise<string>
 
     // eslint-disable-next-line no-dupe-class-members
@@ -578,8 +577,7 @@ export class Assets extends Instantiable {
         did: string,
         consumerAccount: Account,
         resultPath?: undefined | null,
-        fileIndex?: number,
-        useSecretStore?: boolean
+        fileIndex?: number
     ): Promise<true>
 
     // eslint-disable-next-line no-dupe-class-members
@@ -588,8 +586,7 @@ export class Assets extends Instantiable {
         did: string,
         consumerAccount: Account,
         resultPath?: string,
-        fileIndex: number = -1,
-        useSecretStore?: boolean
+        fileIndex: number = -1
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -608,30 +605,15 @@ export class Assets extends Instantiable {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
-        if (!useSecretStore) {
-            await this.nevermined.gateway.consumeService(
-                did,
-                agreementId,
-                serviceEndpoint,
-                consumerAccount,
-                files,
-                resultPath,
-                fileIndex
-            )
-        } else {
-            const files = await this.nevermined.secretStore.decrypt(
-                did,
-                ddo.findServiceByType('metadata').attributes.encryptedFiles,
-                consumerAccount,
-                ddo.findServiceByType('authorization').serviceEndpoint
-            )
-            const downloads = files
-                .filter(({ index: i }) => fileIndex === -1 || fileIndex === i)
-                .map(({ url, index: i }) =>
-                    this.nevermined.utils.fetch.downloadFile(url, resultPath, i)
-                )
-            await Promise.all(downloads)
-        }
+        await this.nevermined.gateway.consumeService(
+            did,
+            agreementId,
+            serviceEndpoint,
+            consumerAccount,
+            files,
+            resultPath,
+            fileIndex
+        )
         this.logger.log('Files consumed')
 
         if (resultPath) {
@@ -806,8 +788,7 @@ export class Assets extends Instantiable {
         did: string,
         ownerAccount: Account,
         resultPath?: string,
-        fileIndex: number = -1,
-        useSecretStore?: boolean
+        fileIndex: number = -1
     ): Promise<string> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -827,28 +808,14 @@ export class Assets extends Instantiable {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
-        if (!useSecretStore) {
-            await this.nevermined.gateway.downloadService(
-                did,
-                ownerAccount,
-                files,
-                resultPath,
-                fileIndex
-            )
-        } else {
-            const files = await this.nevermined.secretStore.decrypt(
-                did,
-                ddo.findServiceByType('metadata').attributes.encryptedFiles,
-                ownerAccount,
-                ddo.findServiceByType('authorization').serviceEndpoint
-            )
-            const downloads = files
-                .filter(({ index: i }) => fileIndex === -1 || fileIndex === i)
-                .map(({ url, index: i }) =>
-                    this.nevermined.utils.fetch.downloadFile(url, resultPath, i)
-                )
-            await Promise.all(downloads)
-        }
+        await this.nevermined.gateway.downloadService(
+            did,
+            ownerAccount,
+            files,
+            resultPath,
+            fileIndex
+        )
+
         this.logger.log('Files consumed')
 
         if (resultPath) {
