@@ -104,7 +104,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
                     name: 'dataAssetComputeServiceAgreement',
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
-                    price: metadata.main.price,
+                    price: undefined,
                     timeout: 86400,
                     provider: await this.providerConfig()
                 },

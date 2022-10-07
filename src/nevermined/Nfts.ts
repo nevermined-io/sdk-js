@@ -783,13 +783,12 @@ export class Nfts extends Instantiable {
         if (index === undefined) {
             for (let i = 0; i < files.length; i++) {
                 const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
-                const result = await this.nevermined.utils.fetch.downloadFile(
+                await this.nevermined.utils.fetch.downloadFile(
                     url,
                     destination,
                     i,
                     headers
                 )
-                console.log('---------------', result)
             }
         } else {
             const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`

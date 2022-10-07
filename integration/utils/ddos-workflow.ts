@@ -10,7 +10,6 @@ export const workflowMetadatas = {
                 dateCreated: '2012-02-01T10:55:11Z',
                 author: 'Mario',
                 license: 'CC0: Public Domain',
-                price: '0',
                 files: [
                     {
                         index: 0,
@@ -33,7 +32,6 @@ export const workflowMetadatas = {
                 dateCreated: '2019-02-08T08:13:49Z',
                 license: 'CC-BY',
                 name: 'My workflow',
-                price: '1',
                 files: [
                     {
                         index: 0,
@@ -70,7 +68,6 @@ export const workflowMetadatas = {
                 dateCreated: '2012-02-01T10:55:11Z',
                 author: 'Mario',
                 license: 'CC0: Public Domain',
-                price: '0',
                 files: [
                     {
                         index: 0,
@@ -94,7 +91,6 @@ export const workflowMetadatas = {
                 datePublished: '2019-05-08T08:13:49Z',
                 license: 'CC-BY',
                 name: 'My workflow',
-                price: '1',
                 type: 'workflow',
                 workflow: {
                     stages: [

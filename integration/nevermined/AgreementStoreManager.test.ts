@@ -26,7 +26,7 @@ describe('Agreement Store Manager', () => {
         await nevermined.marketplace.login(clientAssertion)
 
         newMetadata = (token: string) => {
-            const metadata = getMetadata(0)
+            const metadata = getMetadata()
             const jwtPayload = decodeJwt(token)
             metadata.userId = jwtPayload.sub
             return metadata
@@ -43,7 +43,7 @@ describe('Agreement Store Manager', () => {
         const num = agreements.length
 
         await account2.requestTokens(
-            +getMetadata().main.price * 10 ** -(await nevermined.keeper.token.decimals())
+            +ddo.getPriceByService() * 10 ** -(await nevermined.keeper.token.decimals())
         )
         const agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 

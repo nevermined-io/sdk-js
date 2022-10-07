@@ -6,7 +6,7 @@ import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
 
-import { Nevermined, DDO, Account, ConditionState } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 import BigNumber from '../../src/utils/BigNumber'
@@ -17,7 +17,7 @@ describe('Consume Asset', () => {
     let publisher: Account
     let consumer: Account
 
-    let metadata = getMetadata()
+    let metadata: MetaData
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
@@ -39,10 +39,7 @@ describe('Consume Asset', () => {
 
         assetRewards = getAssetRewards(publisher.getId())
 
-        if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
-        }
-
+        metadata = getMetadata()
         metadata.userId = payload.sub
     })
 

@@ -171,12 +171,6 @@ export interface MetaDataMain {
     license: string
 
     /**
-     * Price of the asset.
-     * @example "1000000000000000000"
-     */
-    price: string
-
-    /**
      * Array of File objects including the encrypted file urls and some additional information.
      */
     files?: File[]

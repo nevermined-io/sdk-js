@@ -10,9 +10,8 @@ describe('Search Asset', () => {
     let publisher: Account
 
     const testHash = Math.random().toString(36).substr(2)
-    let price
     const metadataGenerator = (name: string, userId: string) => {
-        const metadata = generateMetadata(`${name}${testHash}`, price) as MetaData
+        const metadata = generateMetadata(`${name}${testHash}`) as MetaData
         metadata.userId = userId
         return metadata
     }
@@ -47,10 +46,6 @@ describe('Search Asset', () => {
         test1length = ddos.length
         test2length = (await nevermined.assets.search(`Test2${testHash}`)).results.length
         test3length = (await nevermined.assets.search(`Test3${testHash}`)).results.length
-
-        if (!nevermined.keeper.dispenser) {
-            price = 0
-        }
     })
 
     it('should register an asset', async () => {
