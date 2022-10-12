@@ -18,6 +18,7 @@ import {
     DistributeNFTCollateralCondition,
     NFT721LockCondition
 } from '../conditions'
+import { ServiceAaveCredit } from './Service'
 
 export interface AaveCreditTemplateParams {
     vaultAddress: string
@@ -35,7 +36,10 @@ export interface AaveCreditTemplateParams {
     nftAmount: number
 }
 
-export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
+export class AaveCreditTemplate extends BaseTemplate<
+    AaveCreditTemplateParams,
+    ServiceAaveCredit
+> {
     public async paramsGen(_params: ValidationParams): Promise<AaveCreditTemplateParams> {
         throw new Error('Method not implemented.')
     }

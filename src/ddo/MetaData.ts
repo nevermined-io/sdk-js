@@ -315,6 +315,16 @@ export interface AdditionalInformation {
         x: string
         y: string
     }
+
+    /**
+     * Price store in the highest denomination and stored as a
+     * number on elastic search
+     *
+     * @remarks
+     * We currently do this because elasticsearch does not support
+     * BigNumbers
+     */
+    priceHighestDenomination?: number
 }
 
 export interface MetaData {

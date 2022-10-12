@@ -37,7 +37,7 @@ function fillParameterWithDDO(
             case 'numberNfts':
                 return String(nftAmount)
             case 'tokenAddress':
-                return erc20TokenContract ? erc20TokenContract : ''
+                return erc20TokenContract
             case 'contract':
             case 'contractAddress':
                 return nftTokenContract ? nftTokenContract : ''

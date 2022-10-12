@@ -4,7 +4,7 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
-import { ServiceType, ValidationParams } from '../../../ddo/Service'
+import { ServiceNFTSales, ServiceType, ValidationParams } from '../../../ddo/Service'
 import {
     EscrowPaymentCondition,
     LockPaymentCondition,
@@ -18,7 +18,10 @@ export interface NFTSalesTemplateParams {
     nftAmount: BigNumber
 }
 
-export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams> {
+export class NFTSalesTemplate extends BaseTemplate<
+    NFTSalesTemplateParams,
+    ServiceNFTSales
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTSalesTemplate> {

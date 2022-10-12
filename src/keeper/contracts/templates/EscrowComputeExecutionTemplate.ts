@@ -4,8 +4,8 @@ import { DDO } from '../../../ddo/DDO'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
-import { ServiceCommon, ServiceType, ValidationParams } from '../../../ddo/Service'
-import { Account, MetaData } from '../../../sdk'
+import { ServiceCompute, ServiceType, ValidationParams } from '../../../ddo/Service'
+import { Account } from '../../../sdk'
 import {
     ComputeExecutionCondition,
     EscrowPaymentCondition,
@@ -16,7 +16,10 @@ export interface EscrowComputeExecutionParams {
     consumerId: string
 }
 
-export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeExecutionParams> {
+export class EscrowComputeExecutionTemplate extends BaseTemplate<
+    EscrowComputeExecutionParams,
+    ServiceCompute
+> {
     public async paramsGen(
         params: ValidationParams
     ): Promise<EscrowComputeExecutionParams> {
@@ -87,30 +90,6 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<EscrowComputeEx
                 ]
             }
         }
-    }
-
-    public async createService(
-        publisher: Account,
-        metadata: MetaData
-    ): Promise<ServiceCommon> {
-        const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
-        return {
-            type: 'compute',
-            index: 4,
-            serviceEndpoint: this.nevermined.gateway.getExecutionEndpoint(),
-            templateId: this.getAddress(),
-            attributes: {
-                main: {
-                    name: 'dataAssetComputeServiceAgreement',
-                    creator: publisher.getId(),
-                    datePublished: metadata.main.datePublished,
-                    price: undefined,
-                    timeout: 86400,
-                    provider: await this.providerConfig()
-                },
-                serviceAgreementTemplate
-            }
-        } as ServiceCommon
     }
 
     public async getServiceAgreementTemplate() {

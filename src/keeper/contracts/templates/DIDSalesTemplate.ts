@@ -16,7 +16,7 @@ export interface DIDSalesTemplateParams {
     consumerId: string
 }
 
-export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams> {
+export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams, any> {
     public async paramsGen(params: ValidationParams): Promise<DIDSalesTemplateParams> {
         return this.params(params.consumer_address)
     }

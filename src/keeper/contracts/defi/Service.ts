@@ -39,6 +39,7 @@ export interface ServiceAaveCredit extends ServiceCommon {
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
+            priceHighestDenomination: number
         }
     }
 }

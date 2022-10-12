@@ -192,7 +192,7 @@ export class DDO {
         this.proof = await this.generateProof(publicKey)
     }
 
-    public async addService(nevermined: Nevermined, service: any): Promise<void> {
+    public async addService(service: any): Promise<void> {
         this.service.push(service)
     }
 

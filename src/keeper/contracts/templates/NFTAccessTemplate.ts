@@ -4,7 +4,7 @@ import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
-import { ServiceType, ValidationParams } from '../../../ddo/Service'
+import { ServiceNFTAccess, ServiceType, ValidationParams } from '../../../ddo/Service'
 import { NFTAccessCondition, NFTHolderCondition } from '../conditions'
 import BigNumber from '../../../utils/BigNumber'
 
@@ -14,7 +14,10 @@ export interface NFTAccessTemplateParams {
     grantee: string
 }
 
-export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams> {
+export class NFTAccessTemplate extends BaseTemplate<
+    NFTAccessTemplateParams,
+    ServiceNFTAccess
+> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFTAccessTemplate> {

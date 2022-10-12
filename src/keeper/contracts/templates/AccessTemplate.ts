@@ -3,7 +3,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO } from '../../../ddo/DDO'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import { ServiceType, ValidationParams } from '../../../ddo/Service'
+import { ServiceAccess, ServiceType, ValidationParams } from '../../../ddo/Service'
 import { Account } from '../../../sdk'
 import {
     AccessCondition,
@@ -18,7 +18,7 @@ export interface AccessTemplateParams {
     serviceType: ServiceType
 }
 
-export class AccessTemplate extends BaseTemplate<AccessTemplateParams> {
+export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAccess> {
     public async paramsGen({
         consumer_address
     }: ValidationParams): Promise<AccessTemplateParams> {

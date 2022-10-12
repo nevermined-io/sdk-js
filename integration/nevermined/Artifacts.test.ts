@@ -52,10 +52,6 @@ describe('Artifacts', () => {
                 cwd: tempDir
             })
 
-            // console.log(`Sleeping`)
-            // await new Promise(r => setTimeout(r, 3000))
-            // console.log(`Awake`)
-
             const nvm = await Nevermined.getInstance({
                 nodeUri,
                 artifactsFolder: tempDir

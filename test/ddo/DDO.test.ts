@@ -68,7 +68,6 @@ describe('DDO', function () {
                         datePublished: '2012-10-10T17:00:000Z',
                         author: 'Met Office',
                         license: 'CC-BY',
-                        price: '10',
                         files: [
                             {
                                 index: 0,
