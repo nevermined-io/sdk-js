@@ -211,7 +211,7 @@ describe('DDO', function () {
             }
             assert.equal(
                 ddo.checksum(JSON.stringify(checksum)),
-                '0x7c55033a661cd6d08edeacfc6fe6644d2c96d07be43f6e6e38af56bd2a10d57f'
+                '0xe1f7247283907e297d0e5444081afd34af76c4f2b0d8fdf1a8dc5ed6030a6016'
             )
         })
     })
