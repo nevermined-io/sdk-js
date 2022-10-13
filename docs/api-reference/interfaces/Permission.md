@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/permissions/Permissions.interfaces.ts#L12)
+[src/permissions/Permissions.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/permissions/Permissions.interfaces.ts#L12)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/permissions/Permissions.interfaces.ts#L16)
+[src/permissions/Permissions.interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/permissions/Permissions.interfaces.ts#L16)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/permissions/Permissions.interfaces.ts#L17)
+[src/permissions/Permissions.interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/permissions/Permissions.interfaces.ts#L17)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/permissions/Permissions.interfaces.ts#L11)
+[src/permissions/Permissions.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/permissions/Permissions.interfaces.ts#L11)
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/permissions/Permissions.interfaces.ts#L10)
+[src/permissions/Permissions.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/permissions/Permissions.interfaces.ts#L10)
 
 ___
 
@@ -93,4 +93,4 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/permissions/Permissions.interfaces.ts#L9)
+[src/permissions/Permissions.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/permissions/Permissions.interfaces.ts#L9)
