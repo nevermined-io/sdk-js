@@ -1,5 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { zeroX } from '../../../utils'
+import { ZeroAddress, zeroX } from '../../../utils'
 import {
     Priced,
     Service,
@@ -36,8 +36,14 @@ export abstract class BaseTemplate<Params, S extends Service>
         assetRewards: AssetRewards,
         erc20TokenAddress: string
     ): Promise<Priced> {
-        const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
-        const decimals = await token.decimals()
+        let decimals: number
+
+        if (erc20TokenAddress === ZeroAddress) {
+            decimals = 18
+        } else {
+            const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
+            decimals = await token.decimals()
+        }
 
         const price = assetRewards.getTotalPrice().toString()
         const priceHighestDenomination = +BigNumber.formatUnits(
