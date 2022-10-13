@@ -817,7 +817,7 @@ export class Assets extends Instantiable {
     ) {
         const query: SearchQuery = {
             query: {
-                query_string: { query: text }
+                simple_query_string: { query: `${text}*` }
             },
             offset,
             page,
