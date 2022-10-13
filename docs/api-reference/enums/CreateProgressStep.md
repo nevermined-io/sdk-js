@@ -27,7 +27,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:37](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L37)
+[src/nevermined/Assets.ts:37](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L37)
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:44](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L44)
+[src/nevermined/Assets.ts:44](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L44)
 
 ___
 
@@ -47,7 +47,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:45](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L45)
+[src/nevermined/Assets.ts:45](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L45)
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:38](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L38)
+[src/nevermined/Assets.ts:38](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L38)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:39](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L39)
+[src/nevermined/Assets.ts:39](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L39)
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:35](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L35)
+[src/nevermined/Assets.ts:35](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L35)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:36](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L36)
+[src/nevermined/Assets.ts:36](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L36)
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:40](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L40)
+[src/nevermined/Assets.ts:40](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L40)
 
 ___
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:34](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L34)
+[src/nevermined/Assets.ts:34](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L34)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:42](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L42)
+[src/nevermined/Assets.ts:42](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L42)
 
 ___
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:41](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L41)
+[src/nevermined/Assets.ts:41](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L41)
 
 ___
 
@@ -137,4 +137,4 @@ ___
 
 #### Defined in
 
-[src/nevermined/Assets.ts:43](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/nevermined/Assets.ts#L43)
+[src/nevermined/Assets.ts:43](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/nevermined/Assets.ts#L43)
