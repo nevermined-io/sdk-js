@@ -279,7 +279,7 @@ export class Keeper extends Instantiable {
     /**
      * Is connected to the correct network or not.
      */
-    public connected: boolean = false
+    public connected = false
 
     /**
      * Nevermined Token smart contract instance.

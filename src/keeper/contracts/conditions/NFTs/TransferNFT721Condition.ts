@@ -46,8 +46,8 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         nftReceiver: string,
         lockCondition: string,
         nftTokenAddress: string,
-        willBeTransferred: boolean = true,
-        expiration: number = 0
+        willBeTransferred = true,
+        expiration = 0
     ): ConditionParameters<Record<string, unknown>> {
         return {
             list: [
@@ -132,7 +132,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         nftReceiver: string,
         lockPaymentCondition: string,
         nftTokenAddress: string,
-        willBeTransferred: boolean = true,
+        willBeTransferred = true,
         from?: Account,
         txParams?: TxParameters
     ) {

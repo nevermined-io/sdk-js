@@ -9,7 +9,7 @@ export class EventHandler {
 
     private interval = 200
 
-    private polling: boolean = false
+    private polling = false
 
     private lastTimeout: NodeJS.Timeout
 

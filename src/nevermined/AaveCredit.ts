@@ -167,7 +167,7 @@ export class AaveCredit extends Instantiable {
         delegatedAmount: number,
         interestRateMode: number,
         from: Account,
-        useWethGateway: boolean = false,
+        useWethGateway = false,
         did?: string,
         vaultAddress?: string
     ): Promise<boolean> {
@@ -180,7 +180,7 @@ export class AaveCredit extends Instantiable {
             )
         }
         if (!did) {
-            ;({ did } = agreementData)
+            ({ did } = agreementData)
         }
         const _collateralAmount = ethers.utils
             .parseEther(collateralAmount.toString())
@@ -247,7 +247,7 @@ export class AaveCredit extends Instantiable {
             )
         }
         if (!did) {
-            ;({ did } = agreementData)
+            ({ did } = agreementData)
         }
         const amount = BigNumber.parseEther(delegatedAmount.toString()).toString()
 

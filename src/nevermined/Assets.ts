@@ -154,7 +154,7 @@ export class Assets extends Instantiable {
             const ddo = DDO.getInstance(metadata.userId, publisher.getId(), appId)
 
             if (predefinedAssetServices.length > 0) {
-                ddo.service = [, ...predefinedAssetServices].reverse() as Service[]
+                ddo.service = [...predefinedAssetServices].reverse() as Service[]
             }
 
             let publicKey
@@ -386,13 +386,13 @@ export class Assets extends Instantiable {
         encryptionMethod: EncryptionMethod,
         nftTokenAddress: string,
         erc20TokenAddress?: string,
-        preMint: boolean = true,
+        preMint = true,
         providers?: string[],
         royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
         serviceTypes: ServiceType[] = ['nft-sales', 'nft-access'],
-        nftTransfer: boolean = true,
-        duration: number = 0,
+        nftTransfer = true,
+        duration = 0,
         nftType: NeverminedNFT721Type = NeverminedNFT721Type.nft721,
         appId?: string,
         txParams?: TxParameters
@@ -436,7 +436,7 @@ export class Assets extends Instantiable {
         royaltyAttributes?: RoyaltyAttributes,
         erc20TokenAddress?: string,
         nftContractAddress?: string,
-        preMint: boolean = true,
+        preMint = true,
         nftMetadata?: string,
         services: ServiceType[] = ['nft-access', 'nft-sales'],
         nftType: NeverminedNFT1155Type = NeverminedNFT1155Type.nft1155,
@@ -481,7 +481,7 @@ export class Assets extends Instantiable {
         nftAmount?: BigNumber,
         royaltyAttributes?: RoyaltyAttributes,
         erc20TokenAddress?: string,
-        preMint: boolean = true,
+        preMint = true,
         nftMetadata?: string,
         nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
         appId?: string,
@@ -565,7 +565,6 @@ export class Assets extends Instantiable {
         publisher: Account,
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
-        _serviceTimeout: number = 86400,
         appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -608,7 +607,7 @@ export class Assets extends Instantiable {
         did: string,
         consumerAccount: Account,
         resultPath?: string,
-        fileIndex: number = -1
+        fileIndex = -1
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -804,9 +803,9 @@ export class Assets extends Instantiable {
      */
     public async search(
         text: string,
-        offset: number = 100,
-        page: number = 1,
-        sort: string = 'desc',
+        offset = 100,
+        page = 1,
+        sort = 'desc',
         appId?: string
     ) {
         const query: SearchQuery = {
@@ -831,7 +830,7 @@ export class Assets extends Instantiable {
         did: string,
         ownerAccount: Account,
         resultPath?: string,
-        fileIndex: number = -1
+        fileIndex = -1
     ): Promise<string> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')

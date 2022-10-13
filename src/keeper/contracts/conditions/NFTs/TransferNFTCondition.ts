@@ -46,7 +46,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         nftAmount: BigNumber,
         lockCondition: string,
         nftContractAddress?: string,
-        willBeTransferred: boolean = true
+        willBeTransferred = true
     ): ConditionParameters<Record<string, unknown>> {
         return {
             list: [
@@ -160,7 +160,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         nftReceiver: string,
         nftAmount: BigNumber,
         lockPaymentCondition: string,
-        transferAsset: boolean = true,
+        transferAsset = true,
         from?: Account,
         params?: TxParameters
     ) {

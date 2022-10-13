@@ -67,7 +67,7 @@ export const generateMetadata = (
 export const getMetadata = (
     price?: number,
     nonce: string | number = Math.random(),
-    title: string = 'TestAsset'
+    title = 'TestAsset'
 ): MetaData => generateMetadata(title, price, nonce) as MetaData
 
 export const getAssetRewards = (receiver: string) =>
