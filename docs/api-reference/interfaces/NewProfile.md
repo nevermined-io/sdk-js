@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/profiles/Profiles.interfaces.ts#L14)
+[src/profiles/Profiles.interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/profiles/Profiles.interfaces.ts#L14)
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/profiles/Profiles.interfaces.ts#L10)
+[src/profiles/Profiles.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/profiles/Profiles.interfaces.ts#L10)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:13](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/profiles/Profiles.interfaces.ts#L13)
+[src/profiles/Profiles.interfaces.ts:13](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/profiles/Profiles.interfaces.ts#L13)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/profiles/Profiles.interfaces.ts#L8)
+[src/profiles/Profiles.interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/profiles/Profiles.interfaces.ts#L8)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/profiles/Profiles.interfaces.ts#L12)
+[src/profiles/Profiles.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/profiles/Profiles.interfaces.ts#L12)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/profiles/Profiles.interfaces.ts#L11)
+[src/profiles/Profiles.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/profiles/Profiles.interfaces.ts#L11)
 
 ___
 
@@ -88,4 +88,4 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/profiles/Profiles.interfaces.ts#L9)
+[src/profiles/Profiles.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/profiles/Profiles.interfaces.ts#L9)

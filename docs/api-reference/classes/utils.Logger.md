@@ -10,6 +10,10 @@
 
 - [constructor](utils.Logger.md#constructor)
 
+### Properties
+
+- [logLevel](utils.Logger.md#loglevel)
+
 ### Methods
 
 - [bypass](utils.Logger.md#bypass)
@@ -34,7 +38,17 @@
 
 #### Defined in
 
-[src/utils/Logger.ts:10](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L10)
+[src/utils/Logger.ts:10](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L10)
+
+## Properties
+
+### logLevel
+
+• `Private` **logLevel**: [`LogLevel`](../enums/utils.LogLevel.md) = `LogLevel.Warn`
+
+#### Defined in
+
+[src/utils/Logger.ts:10](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L10)
 
 ## Methods
 
@@ -54,7 +68,7 @@
 
 #### Defined in
 
-[src/utils/Logger.ts:16](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L16)
+[src/utils/Logger.ts:16](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L16)
 
 ___
 
@@ -74,7 +88,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:20](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L20)
+[src/utils/Logger.ts:20](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L20)
 
 ___
 
@@ -96,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:36](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L36)
+[src/utils/Logger.ts:36](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L36)
 
 ___
 
@@ -116,7 +130,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:32](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L32)
+[src/utils/Logger.ts:32](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L32)
 
 ___
 
@@ -136,7 +150,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:24](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L24)
+[src/utils/Logger.ts:24](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L24)
 
 ___
 
@@ -156,7 +170,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:12](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L12)
+[src/utils/Logger.ts:12](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L12)
 
 ___
 
@@ -176,4 +190,4 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:28](https://github.com/nevermined-io/sdk-js/blob/7d7cf7d/src/utils/Logger.ts#L28)
+[src/utils/Logger.ts:28](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/Logger.ts#L28)
