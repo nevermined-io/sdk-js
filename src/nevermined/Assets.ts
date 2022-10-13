@@ -849,9 +849,9 @@ export class Assets extends Instantiable {
         minPrice: number,
         maxPrice: number,
         serviceType?: ServiceType,
-        offset: number = 100,
-        page: number = 1,
-        sort: string = 'desc',
+        offset = 100,
+        page = 1,
+        sort = 'desc',
         appId?: string
     ): Promise<QueryResult> {
         const query: SearchQuery = {

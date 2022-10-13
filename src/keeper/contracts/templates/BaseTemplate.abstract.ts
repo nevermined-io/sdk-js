@@ -67,7 +67,7 @@ export abstract class BaseTemplate<Params, S extends Service>
         metadata: MetaData,
         assetRewards?: AssetRewards,
         erc20TokenAddress?: string,
-        priced: boolean = false
+        priced = false
     ): Promise<S> {
         const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
         let priceData: Priced
