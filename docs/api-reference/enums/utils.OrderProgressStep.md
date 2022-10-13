@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/utils/index.ts:20](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/index.ts#L20)
+[src/utils/index.ts:20](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/utils/index.ts#L20)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[src/utils/index.ts:18](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/index.ts#L18)
+[src/utils/index.ts:18](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/utils/index.ts#L18)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[src/utils/index.ts:17](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/index.ts#L17)
+[src/utils/index.ts:17](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/utils/index.ts#L17)
 
 ___
 
@@ -51,4 +51,4 @@ ___
 
 #### Defined in
 
-[src/utils/index.ts:19](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/utils/index.ts#L19)
+[src/utils/index.ts:19](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/utils/index.ts#L19)

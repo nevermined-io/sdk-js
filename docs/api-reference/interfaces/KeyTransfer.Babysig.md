@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:34](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/models/KeyTransfer.ts#L34)
+[src/models/KeyTransfer.ts:34](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/models/KeyTransfer.ts#L34)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:35](https://github.com/nevermined-io/sdk-js/blob/eda22b6/src/models/KeyTransfer.ts#L35)
+[src/models/KeyTransfer.ts:35](https://github.com/nevermined-io/sdk-js/blob/d43823e/src/models/KeyTransfer.ts#L35)
