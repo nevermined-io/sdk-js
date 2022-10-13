@@ -146,10 +146,10 @@ export default class DIDRegistry extends ContractBase {
         providers: string[],
         value: string,
         activityId: string,
-        nftMetadata: string = '',
+        nftMetadata = '',
         cap: BigNumber,
         royalties: number,
-        mint: boolean = false,
+        mint = false,
         ownerAddress: string,
         params?: TxParameters
     ) {
@@ -177,9 +177,9 @@ export default class DIDRegistry extends ContractBase {
         providers: string[],
         value: string,
         activityId: string,
-        nftMetadata: string = '',
+        nftMetadata = '',
         royalties: number,
-        mint: boolean = false,
+        mint = false,
         ownerAddress: string,
         params?: TxParameters
     ) {

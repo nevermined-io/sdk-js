@@ -70,7 +70,7 @@ describe('AaveCredit', () => {
     // daiProvider account holding Dai to allow borrower to pay back the loan
     const daiProvider = '0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167'
 
-    let agreementFee: number = 0
+    let agreementFee = 0
     const INTEREST_RATE_MODE = 1
     const nftAmount = 1
 
@@ -95,7 +95,7 @@ describe('AaveCredit', () => {
         // agreementId = '0xf2f7338941f5469cb8bbf8b2e600ecb8d53e6755ec5d45658cf1a764e0d40f0e'
         // did = 'did:nv:1af704df5b61eea09af8f327a0453480d5a218f4c4f8a7c6d4145c7b7b52d7b8'
         // const nftAddress: string = '0xb17527F1D07cD919a3290e8faC330319aB92abdC'
-        const nftAddress: string = ''
+        const nftAddress = ''
         // nft721Wrapper is instance of Nft721Contract -> ContractBase
         if (nftAddress.toString() !== '') {
             nft721Wrapper = (await nevermined.contracts.loadNft721(nftAddress)).contract
@@ -135,7 +135,7 @@ describe('AaveCredit', () => {
         if (!_owner) {
             await nft721Wrapper.mint(did, borrower.getId())
         }
-        assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 1)
+        assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 1 as unknown)
 
         const _config = {
             nevermined,
@@ -245,8 +245,8 @@ describe('AaveCredit', () => {
                     nftAmount,
                     borrower
                 )
-                assert.equal(await nft721Wrapper.balanceOf(vaultAddress), 1)
-                assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 0)
+                assert.equal(await nft721Wrapper.balanceOf(vaultAddress), 1 as unknown)
+                assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 0 as unknown)
                 assert.equal(await nft721Wrapper.ownerOf(did), vaultAddress)
                 const { state: stateNftLock } = await conditionStoreManager.getCondition(
                     conditionIds[0]
@@ -351,7 +351,7 @@ describe('AaveCredit', () => {
                 conditionIds[5]
             )
             assert.strictEqual(stateTransfer, ConditionState.Unfulfilled)
-            assert.equal(await nft721Wrapper.balanceOf(vaultAddress), 1)
+            assert.equal(await nft721Wrapper.balanceOf(vaultAddress), 1 as unknown)
         })
 
         it('Borrower/Delegatee repays the loan with DAI', async () => {
@@ -451,7 +451,7 @@ describe('AaveCredit', () => {
                 conditionIds[5]
             )
             assert.strictEqual(stateTransfer, ConditionState.Fulfilled)
-            assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 2)
+            assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 2 as unknown)
             assert.equal(await nft721Wrapper.ownerOf(did), borrower.getId())
         })
     })

@@ -18,7 +18,7 @@ export class EthSignJWT extends SignJWT {
         address: string,
         signatureUtils: SignatureUtils,
         web3: ethers.providers.JsonRpcProvider,
-        isEtherSign: boolean = false
+        isEtherSign = false
     ): Promise<string> {
         const encoder = new TextEncoder()
         const decoder = new TextDecoder()

@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, utils, Account, Keeper, DDO } from '../../src'
+import { Nevermined, utils, Account, Keeper, DDO, Logger } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
@@ -205,7 +205,9 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill LockPaymentCondition', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch {}
+            } catch(error) {
+                Logger.error(error);
+            }
 
             await keeper.token.approve(
                 lockPaymentCondition.getAddress(),
@@ -330,7 +332,9 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill the conditions from consumer side', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch {}
+            } catch(error) {
+                Logger.error(error);
+            }
 
             await nevermined.agreements.conditions.lockPayment(
                 agreementId,

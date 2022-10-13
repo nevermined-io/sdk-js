@@ -152,7 +152,7 @@ export class Gateway extends Instantiable {
         account: Account,
         files: MetaDataFile[],
         destination: string,
-        index: number = -1
+        index = -1
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string
@@ -263,7 +263,7 @@ export class Gateway extends Instantiable {
         account: Account,
         files: MetaDataFile[],
         destination: string,
-        index: number = -1
+        index = -1
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string

@@ -13,7 +13,7 @@ describe('Accounts', () => {
     let accounts: Accounts
 
     before(async () => {
-        ;({ accounts } = await Nevermined.getInstance(config))
+        ({ accounts } = await Nevermined.getInstance(config))
     })
 
     afterEach(() => {

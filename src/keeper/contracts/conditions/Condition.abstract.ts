@@ -53,7 +53,7 @@ export abstract class ConditionSmall extends ContractBase {
         config: InstantiableConfig,
         conditionName: string,
         conditionsClass: any,
-        optional: boolean = false
+        optional = false
     ): Promise<ConditionSmall & any> {
         const condition: ConditionSmall = new (conditionsClass as any)(conditionName)
         await condition.init(config, optional)
@@ -122,7 +122,7 @@ export abstract class Condition<
         config: InstantiableConfig,
         conditionName: string,
         conditionsClass: any,
-        optional: boolean = false
+        optional = false
     ): Promise<Condition<Ctx, Extra> & any> {
         const condition: Condition<Ctx, Extra> = new (conditionsClass as any)(
             conditionName
@@ -232,5 +232,7 @@ export abstract class ConsumerCondition<
         _additionalParams: Extra,
         _from?: Account,
         _params?: TxParameters
-    ) {}
+    ) {
+        return;
+    }
 }

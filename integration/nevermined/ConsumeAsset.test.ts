@@ -6,7 +6,7 @@ import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
 
-import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 import BigNumber from '../../src/utils/BigNumber'
@@ -61,7 +61,9 @@ describe('Consume Asset', () => {
 
         try {
             await consumer.requestTokens(claimedTokens)
-        } catch {}
+        } catch (error) {
+            Logger.error(error)
+        }
 
         const balanceAfter = (await consumer.getBalance()).nevermined
         assert.isTrue(balanceAfter.gt(initialBalance))
@@ -143,7 +145,9 @@ describe('Consume Asset', () => {
                 )
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
-        } catch {}
+        } catch (error) {
+            Logger.error(error)
+        }
     })
 
     it('should return true on access granted', async () => {

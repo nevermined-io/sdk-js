@@ -92,7 +92,7 @@ export class WebServiceConnector extends Instantiable {
         }
         let filename: string
         try {
-            ;[, filename] = response.headers
+            [, filename] = response.headers
                 .get('content-disposition')
                 .match(/attachment;filename=(.+)/)
         } catch {
@@ -147,7 +147,7 @@ export class WebServiceConnector extends Instantiable {
     public async fetchToken(
         url: string,
         grantToken: string,
-        numberTries: number = 1
+        numberTries = 1
     ): Promise<Response> {
         return await this.nevermined.utils.fetch.fetch(
             url,
@@ -167,7 +167,7 @@ export class WebServiceConnector extends Instantiable {
     private async fetch(
         url: string | URL,
         opts: RequestInit,
-        numberTries: number = 1
+        numberTries = 1
     ): Promise<Response> {
         let counterTries = 1
         let result: Response

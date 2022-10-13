@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 import { config } from '../config'
-import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
@@ -58,7 +58,9 @@ describe('Consume Asset (Documentation example)', () => {
 
         try {
             await consumer.requestTokens(claimedTokens)
-        } catch {}
+        } catch(error) {
+            Logger.error(error);
+        }
 
         const balanceAfter = (await consumer.getBalance()).nevermined
         assert.isTrue(balanceAfter.gt(initialBalance))
@@ -144,7 +146,9 @@ describe('Consume Asset (Documentation example)', () => {
                 )
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
-        } catch {}
+        } catch(error) {
+            Logger.error(error);
+        }
     })
 
     it('should get the agreement conditions status fulfilled', async () => {

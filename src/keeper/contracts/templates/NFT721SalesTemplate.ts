@@ -45,7 +45,7 @@ export class NFT721SalesTemplate extends BaseTemplate<
         return 'Sales Agreement with NFT-721 token'
     }
 
-    public params(consumerId: string, expiration: number = 0): NFT721SalesTemplateParams {
+    public params(consumerId: string, expiration = 0): NFT721SalesTemplateParams {
         return { consumerId, expiration }
     }
     public async paramsGen({

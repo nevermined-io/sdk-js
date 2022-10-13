@@ -36,7 +36,7 @@ export default class BigNumber extends ethers.BigNumber {
      * // { BigNumber: "121000000000" }
      * ```
      */
-    public static parseUnits(value: string, decimals: number = 18): BigNumber {
+    public static parseUnits(value: string, decimals = 18): BigNumber {
         return ethers.utils.parseUnits(value, decimals)
     }
 
@@ -72,7 +72,7 @@ export default class BigNumber extends ethers.BigNumber {
      * // '1.0'
      * ```
      */
-    public static formatUnits(value: BigNumber, decimals: number = 18): string {
+    public static formatUnits(value: BigNumber, decimals = 18): string {
         return ethers.utils.formatUnits(value, decimals)
     }
 }

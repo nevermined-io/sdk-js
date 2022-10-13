@@ -5,7 +5,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO, ConditionState, MetaData } from '../../src'
+import { Nevermined, Account, DDO, ConditionState, MetaData, Logger } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
@@ -46,7 +46,9 @@ describe('Consume Asset (Gateway)', () => {
     after(() => {
         try {
             localStorage.clear()
-        } catch {}
+        } catch (error) {
+            Logger.error(error)
+        }
     })
 
     it('should fetch the RSA publicKey from the gateway', async () => {
