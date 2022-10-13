@@ -35,7 +35,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
 
     // essential method is to select between two services
     public select(main: MetaDataMain): ServicePlugin<ServiceAccess> {
-        return main.isDTP ? this.proof : this.normal
+        return main.files.some(f => f.encryption === 'dtp') ? this.proof : this.normal
     }
 
     public async createService(
@@ -105,9 +105,11 @@ export class NFTAccessService
     // essential method is to select between two services
     public select(main: MetaDataMain): ServicePlugin<ServiceNFTAccess> {
         if (main.ercType == 1155) {
-            return main.isDTP ? this.proof : this.normal
+            return main.files.some(f => f.encryption === 'dtp') ? this.proof : this.normal
         } else {
-            return main.isDTP ? this.proof721 : this.normal721
+            return main.files.some(f => f.encryption === 'dtp')
+                ? this.proof721
+                : this.normal721
         }
     }
 
@@ -164,10 +166,13 @@ export class NFTSalesService
 
     // essential method is to select between two services
     public select(main: MetaDataMain): ServicePlugin<ServiceNFTSales> {
+        console.log(main)
         if (main.ercType == 1155) {
-            return main.isDTP ? this.proof : this.normal
+            return main.files.some(f => f.encryption === 'dtp') ? this.proof : this.normal
         } else {
-            return main.isDTP ? this.proof721 : this.normal721
+            return main.files.some(f => f.encryption === 'dtp')
+                ? this.proof721
+                : this.normal721
         }
     }
 

@@ -92,12 +92,9 @@ export interface ServiceAccess extends ServiceCommon, Priced {
             priceHighestDenomination: number
         }
     }
-    isDTP: boolean
 }
 
-export interface ServiceAccessNormal extends ServiceAccess {
-    isDTP: false
-}
+export type ServiceAccessNormal = ServiceAccess
 
 export interface ServiceAccessProof extends ServiceAccess {
     templateId?: string
@@ -117,7 +114,6 @@ export interface ServiceAccessProof extends ServiceAccess {
             priceHighestDenomination: number
         }
     }
-    isDTP: true
 }
 
 export interface ServiceCompute extends ServiceCommon, Priced {
@@ -156,7 +152,6 @@ export interface ServiceNFTAccess extends ServiceCommon {
             description: string
         }
     }
-    isDTP: boolean
 }
 
 export interface ServiceNFTSales extends ServiceCommon, Priced {

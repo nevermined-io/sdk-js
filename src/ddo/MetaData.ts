@@ -122,6 +122,14 @@ export interface File {
      * @example "zip"
      */
     compression?: string
+
+    /**
+     * Encryption mode used.
+     *
+     * @remarks
+     * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
+     */
+    encryption?: 'dtp'
 }
 
 /**
@@ -182,8 +190,6 @@ export interface MetaDataMain {
     algorithm?: Algorithm
 
     service?: Service
-
-    isDTP: boolean
 
     ercType?: ERCType
 
