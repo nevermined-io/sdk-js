@@ -201,9 +201,14 @@ describe('Assets', () => {
                     bool: {
                         must: [
                             {
-                                query_string: {
-                                    query: 'App*',
-                                    fields: ['service.attributes.main.name']
+                                nested: {
+                                    path: ['service'],
+                                    query: {
+                                        query_string: {
+                                            query: 'App*',
+                                            fields: ['service.attributes.main.name']
+                                        }
+                                    }
                                 }
                             },
                             {
@@ -215,7 +220,20 @@ describe('Assets', () => {
                                 }
                             }
                         ],
-                        must_not: [{ match: { 'service.attributes.main.name': 'App1' } }]
+                        must_not: [
+                            {
+                                nested: {
+                                    path: ['service'],
+                                    query: {
+                                        match: {
+                                            'service.attributes.main.name': {
+                                                query: 'App1'
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
                     }
                 }
             }
