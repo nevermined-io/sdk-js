@@ -136,7 +136,9 @@ export class Versions extends Instantiable {
                             return
                         }
                         if (address !== _) {
-                            this.logger.debug(`Addresses doesn't match for contract ${name}`)
+                            this.logger.debug(
+                                `Addresses doesn't match for contract ${name}`
+                            )
                             contractStatus = false
                         }
                     })
