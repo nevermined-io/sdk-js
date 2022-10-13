@@ -178,8 +178,8 @@ export class Nfts extends Instantiable {
         erc20TokenAddress?: string,
         royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
-        nftTransfer: boolean = true,
-        duration: number = 0,
+        nftTransfer = true,
+        duration = 0,
         appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -620,7 +620,7 @@ export class Nfts extends Instantiable {
         consumer: Account,
         destination?: string,
         index?: number,
-        agreementId: string = '0x'
+        agreementId = '0x'
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
@@ -738,7 +738,7 @@ export class Nfts extends Instantiable {
      */
     public getNftContractAddress(ddo: DDO) {
         const service = ddo.findServiceByType('nft-access')
-        if (!!service) {
+        if (service) {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
                 c => c.name === 'nftHolder'
             )

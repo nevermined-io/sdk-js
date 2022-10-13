@@ -5,7 +5,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, Logger } from '../../src'
 
 // Ensure that your network is fast enought and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {
@@ -63,7 +63,9 @@ describe.skip('Consume Asset (Large size)', () => {
             await consumer.requestTokens(
                 +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
             )
-        } catch {}
+        } catch(error) {
+            Logger.error(error);
+        }
 
         agreementId = await nevermined.assets.order(ddo.id, 'access', consumer)
 

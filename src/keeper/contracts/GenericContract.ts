@@ -21,7 +21,7 @@ export default class GenericContract extends ContractBase {
         this.fixedAddress = address
     }
 
-    protected async init(config: InstantiableConfig, optional: boolean = false) {
+    protected async init(config: InstantiableConfig, optional = false) {
         this.setInstanceConfig(config)
 
         const contractHandler = new ContractHandler(config)

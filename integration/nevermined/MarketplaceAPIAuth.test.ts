@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account } from '../../src'
+import { Nevermined, Account, Logger } from '../../src'
 
 describe('Marketplace api auth', () => {
     let nevermined: Nevermined
@@ -10,7 +10,10 @@ describe('Marketplace api auth', () => {
     before(async () => {
         try {
             localStorage.clear()
-        } catch {}
+        } catch(error) {
+            Logger.error(error);
+        }
+        
         config.marketplaceAuthToken = undefined
 
         nevermined = await Nevermined.getInstance(config)

@@ -39,15 +39,15 @@ export class NFTAttributes {
 
     cap: BigNumber = BigNumber.from(0) // max number of nfts that can be minted, 0 means uncapped
 
-    preMint: boolean = true // if the asset is pre-minted
+    preMint = true // if the asset is pre-minted
 
-    nftMetadataUrl: string = '' // URL to the metadata definition of the NFT contract
+    nftMetadataUrl = '' // URL to the metadata definition of the NFT contract
 
-    nftTransfer: boolean = true // The asset is transferred (true) or minted (false) with Nevermined contracts
+    nftTransfer = true // The asset is transferred (true) or minted (false) with Nevermined contracts
 
-    isSubscription: boolean = false
+    isSubscription = false
 
-    duration: number = 0 // If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
+    duration = 0 // If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
 
     amount: BigNumber = BigNumber.from(0) // Number of editions
 

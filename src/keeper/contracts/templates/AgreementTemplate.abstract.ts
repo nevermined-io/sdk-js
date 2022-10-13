@@ -63,7 +63,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         config: InstantiableConfig,
         templateContractName: string,
         templateClass: any,
-        optional: boolean = false
+        optional = false
     ): Promise<AgreementTemplate<Params> & any> {
         const agreementTemplate: AgreementTemplate<Params> = new (templateClass as any)(
             templateContractName
@@ -263,7 +263,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         observer?: (OrderProgressStep) => void
     ): Promise<string> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        observer = observer ? observer : _ => {}
+        observer = observer ? observer : _ => ({})
 
         const { instances, agreementId } = await this.instanceFromDDO(
             agreementIdSeed,
@@ -406,7 +406,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const { lockPaymentCondition } = this.nevermined.keeper.conditions
 
         if (!tokenAddress) {
-            ;({ token } = this.nevermined.keeper)
+            ({ token } = this.nevermined.keeper)
         } else if (tokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {

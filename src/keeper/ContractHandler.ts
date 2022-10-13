@@ -52,7 +52,7 @@ export default class ContractHandler extends Instantiable {
 
     public async get(
         what: string,
-        optional: boolean = false,
+        optional = false,
         artifactsFolder: string,
         address?: string
     ): Promise<ethers.Contract> {

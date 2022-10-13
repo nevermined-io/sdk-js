@@ -123,7 +123,7 @@ export class Agreements extends Instantiable {
      * @param extended - Returns a complete status with dependencies.
      * @returns
      */
-    public async status(agreementId: string, extended: boolean = false) {
+    public async status(agreementId: string, extended = false) {
         const { templateId } =
             await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const fullStatus = await this.nevermined.keeper

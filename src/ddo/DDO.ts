@@ -36,7 +36,7 @@ export class DDO {
         return new DDO(ddo)
     }
 
-    public '@context': string = 'https://w3id.org/did/v1'
+    public '@context' = 'https://w3id.org/did/v1'
 
     /**
      * DID, decentralizes ID.
