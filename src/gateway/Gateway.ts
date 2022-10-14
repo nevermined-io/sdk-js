@@ -76,6 +76,10 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/upload/filecoin`
     }
 
+    public getUploadS3Endpoint() {
+        return `${this.url}${apiPath}/upload/s3`
+    }
+
     public getNftEndpoint() {
         return `${this.url}${apiPath}/nft`
     }
@@ -433,6 +437,15 @@ export class Gateway extends Instantiable {
     public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
         const response = await this.nevermined.utils.fetch.uploadFile(
             this.getUploadFilecoinEndpoint(),
+            stream,
+            encrypt
+        )
+        return response.json()
+    }
+
+    public async uploadS3(stream: ReadStream, encrypt?: boolean): Promise<any> {
+        const response = await this.nevermined.utils.fetch.uploadFile(
+            this.getUploadS3Endpoint(),
             stream,
             encrypt
         )

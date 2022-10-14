@@ -17,4 +17,9 @@ export class Files extends Instantiable {
         const response = await this.nevermined.gateway.uploadFilecoin(stream, encrypt)
         return response
     }
+
+    public async uploadS3(stream: ReadStream, encrypt?: boolean): Promise<any> {
+        const response = await this.nevermined.gateway.uploadS3(stream, encrypt)
+        return response
+    }
 }
