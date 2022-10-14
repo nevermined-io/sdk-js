@@ -35,7 +35,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
 
     // essential method is to select between two services
     public select(main: MetaDataMain): ServicePlugin<ServiceAccess> {
-        return main.files.some(f => f.encryption === 'dtp') ? this.proof : this.normal
+        return this.isDTP(main) ? this.proof : this.normal
     }
 
     public async createService(
@@ -65,6 +65,10 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
         const ddo = await this.nevermined.assets.resolve(params.did)
         const metadata = ddo.findServiceByType('metadata').attributes.main
         return this.select(metadata).accept(params)
+    }
+
+    private isDTP(main: MetaDataMain): boolean {
+        return main.files && main.files.some(f => f.encryption === 'dtp')
     }
 }
 
@@ -105,11 +109,9 @@ export class NFTAccessService
     // essential method is to select between two services
     public select(main: MetaDataMain): ServicePlugin<ServiceNFTAccess> {
         if (main.ercType == 1155) {
-            return main.files.some(f => f.encryption === 'dtp') ? this.proof : this.normal
+            return this.isDTP(main) ? this.proof : this.normal
         } else {
-            return main.files.some(f => f.encryption === 'dtp')
-                ? this.proof721
-                : this.normal721
+            return this.isDTP(main) ? this.proof721 : this.normal721
         }
     }
 
@@ -126,6 +128,10 @@ export class NFTAccessService
         const ddo = await this.nevermined.assets.resolve(params.did)
         const metadata = ddo.findServiceByType('metadata').attributes.main
         return this.select(metadata).accept(params)
+    }
+
+    private isDTP(main: MetaDataMain): boolean {
+        return main.files && main.files.some(f => f.encryption === 'dtp')
     }
 }
 
@@ -168,11 +174,9 @@ export class NFTSalesService
     public select(main: MetaDataMain): ServicePlugin<ServiceNFTSales> {
         console.log(main)
         if (main.ercType == 1155) {
-            return main.files.some(f => f.encryption === 'dtp') ? this.proof : this.normal
+            return this.isDTP(main) ? this.proof : this.normal
         } else {
-            return main.files.some(f => f.encryption === 'dtp')
-                ? this.proof721
-                : this.normal721
+            return this.isDTP(main) ? this.proof721 : this.normal721
         }
     }
 
@@ -189,5 +193,9 @@ export class NFTSalesService
         const ddo = await this.nevermined.assets.resolve(params.did)
         const metadata = ddo.findServiceByType('metadata').attributes.main
         return this.select(metadata).accept(params)
+    }
+
+    private isDTP(main: MetaDataMain): boolean {
+        return main.files && main.files.some(f => f.encryption === 'dtp')
     }
 }
