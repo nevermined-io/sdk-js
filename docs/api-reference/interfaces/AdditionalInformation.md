@@ -19,6 +19,7 @@ https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metada
 - [inLanguage](AdditionalInformation.md#inlanguage)
 - [links](AdditionalInformation.md#links)
 - [poseidonHash](AdditionalInformation.md#poseidonhash)
+- [priceHighestDenomination](AdditionalInformation.md#pricehighestdenomination)
 - [providerKey](AdditionalInformation.md#providerkey)
 - [structuredMarkup](AdditionalInformation.md#structuredmarkup)
 - [tags](AdditionalInformation.md#tags)
@@ -41,7 +42,7 @@ Categories used to describe this content. Empty by default.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:285](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L285)
+[src/ddo/MetaData.ts:285](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L285)
 
 ___
 
@@ -59,7 +60,7 @@ The party holding the legal copyright. Empty by default.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:245](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L245)
+[src/ddo/MetaData.ts:245](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L245)
 
 ___
 
@@ -76,7 +77,7 @@ Can be used to store any non-default data, needs to be checked
 
 #### Defined in
 
-[src/ddo/MetaData.ts:314](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L314)
+[src/ddo/MetaData.ts:314](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L314)
 
 ___
 
@@ -95,7 +96,7 @@ explains what the data represents and what it can be used for.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:239](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L239)
+[src/ddo/MetaData.ts:239](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L239)
 
 ___
 
@@ -114,7 +115,7 @@ codes from the [IETF BCP 47 standard](https://tools.ietf.org/html/bcp47).
 
 #### Defined in
 
-[src/ddo/MetaData.ts:279](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L279)
+[src/ddo/MetaData.ts:279](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L279)
 
 ___
 
@@ -143,7 +144,7 @@ to be domain-specific.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:272](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L272)
+[src/ddo/MetaData.ts:272](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L272)
 
 ___
 
@@ -153,7 +154,25 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:318](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L318)
+[src/ddo/MetaData.ts:318](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L318)
+
+___
+
+### priceHighestDenomination
+
+• `Optional` **priceHighestDenomination**: `number`
+
+Price store in the highest denomination and stored as a
+number on elastic search
+
+**`Remarks`**
+
+We currently do this because elasticsearch does not support
+BigNumbers
+
+#### Defined in
+
+[src/ddo/MetaData.ts:333](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L333)
 
 ___
 
@@ -170,7 +189,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:320](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L320)
+[src/ddo/MetaData.ts:320](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L320)
 
 ___
 
@@ -183,7 +202,7 @@ describing the dataset.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:305](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L305)
+[src/ddo/MetaData.ts:305](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L305)
 
 ___
 
@@ -201,7 +220,7 @@ Keywords or tags used to describe this content. Empty by default.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:291](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L291)
+[src/ddo/MetaData.ts:291](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L291)
 
 ___
 
@@ -221,7 +240,7 @@ to get updated.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:299](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L299)
+[src/ddo/MetaData.ts:299](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L299)
 
 ___
 
@@ -240,4 +259,4 @@ of the metadata, not an external link.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:252](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L252)
+[src/ddo/MetaData.ts:252](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L252)

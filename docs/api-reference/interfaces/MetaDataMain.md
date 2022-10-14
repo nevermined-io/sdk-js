@@ -19,11 +19,9 @@ https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metada
 - [encryptedService](MetaDataMain.md#encryptedservice)
 - [ercType](MetaDataMain.md#erctype)
 - [files](MetaDataMain.md#files)
-- [isDTP](MetaDataMain.md#isdtp)
 - [license](MetaDataMain.md#license)
 - [name](MetaDataMain.md#name)
 - [nftType](MetaDataMain.md#nfttype)
-- [price](MetaDataMain.md#price)
 - [service](MetaDataMain.md#service)
 - [type](MetaDataMain.md#type)
 - [workflow](MetaDataMain.md#workflow)
@@ -36,7 +34,7 @@ https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metada
 
 #### Defined in
 
-[src/ddo/MetaData.ts:188](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L188)
+[src/ddo/MetaData.ts:190](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L190)
 
 ___
 
@@ -54,7 +52,7 @@ Name of the entity generating this data (e.g. Tfl, Disney Corp, etc.).
 
 #### Defined in
 
-[src/ddo/MetaData.ts:164](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L164)
+[src/ddo/MetaData.ts:172](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L172)
 
 ___
 
@@ -73,7 +71,7 @@ ISO 8601 format, Coordinated Universal Time.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:150](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L150)
+[src/ddo/MetaData.ts:158](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L158)
 
 ___
 
@@ -93,7 +91,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:158](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L158)
+[src/ddo/MetaData.ts:166](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L166)
 
 ___
 
@@ -103,7 +101,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:184](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L184)
+[src/ddo/MetaData.ts:186](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L186)
 
 ___
 
@@ -113,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:194](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L194)
+[src/ddo/MetaData.ts:194](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L194)
 
 ___
 
@@ -125,17 +123,7 @@ Array of File objects including the encrypted file urls and some additional info
 
 #### Defined in
 
-[src/ddo/MetaData.ts:182](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L182)
-
-___
-
-### isDTP
-
-• **isDTP**: `boolean`
-
-#### Defined in
-
-[src/ddo/MetaData.ts:192](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L192)
+[src/ddo/MetaData.ts:184](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L184)
 
 ___
 
@@ -154,7 +142,7 @@ If it's not specified, the following value will be added: "No License Specified"
 
 #### Defined in
 
-[src/ddo/MetaData.ts:171](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L171)
+[src/ddo/MetaData.ts:179](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L179)
 
 ___
 
@@ -172,7 +160,7 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/ddo/MetaData.ts:136](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L136)
+[src/ddo/MetaData.ts:144](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L144)
 
 ___
 
@@ -182,25 +170,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:196](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L196)
-
-___
-
-### price
-
-• **price**: `string`
-
-Price of the asset.
-
-**`Example`**
-
-```ts
-"1000000000000000000"
-```
-
-#### Defined in
-
-[src/ddo/MetaData.ts:177](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L177)
+[src/ddo/MetaData.ts:196](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L196)
 
 ___
 
@@ -210,7 +180,7 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:190](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L190)
+[src/ddo/MetaData.ts:192](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L192)
 
 ___
 
@@ -229,7 +199,7 @@ initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
 
 #### Defined in
 
-[src/ddo/MetaData.ts:143](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L143)
+[src/ddo/MetaData.ts:151](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L151)
 
 ___
 
@@ -239,4 +209,4 @@ ___
 
 #### Defined in
 
-[src/ddo/MetaData.ts:186](https://github.com/nevermined-io/sdk-js/blob/5df4615/src/ddo/MetaData.ts#L186)
+[src/ddo/MetaData.ts:188](https://github.com/nevermined-io/sdk-js/blob/661349d/src/ddo/MetaData.ts#L188)
