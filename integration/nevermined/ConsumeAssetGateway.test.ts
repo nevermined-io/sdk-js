@@ -5,7 +5,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO, ConditionState, Logger } from '../../src'
+import { Nevermined, Account, DDO, ConditionState, MetaData, Logger } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
@@ -20,7 +20,7 @@ describe('Consume Asset (Gateway)', () => {
     let ddo: DDO
     let agreementId: string
 
-    let metadata = getMetadata()
+    let metadata: MetaData
     let assetRewards: AssetRewards
 
     before(async () => {
@@ -38,10 +38,7 @@ describe('Consume Asset (Gateway)', () => {
 
         assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(0))
 
-        if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
-        }
-        metadata.main.price = assetRewards.getTotalPrice().toString()
+        metadata = getMetadata()
         metadata.main.name = `${metadata.main.name} - ${Math.random()}`
         metadata.userId = payload.sub
     })
@@ -49,8 +46,8 @@ describe('Consume Asset (Gateway)', () => {
     after(() => {
         try {
             localStorage.clear()
-        } catch(error) {
-            Logger.error(error);
+        } catch (error) {
+            Logger.error(error)
         }
     })
 

@@ -6,6 +6,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Babysig } from '../models/KeyTransfer'
 import { BigNumber } from 'ethers'
 import { ERCType, NeverminedNFTType } from '../models/NFTAttributes'
+import AssetRewards from '../models/AssetRewards'
 
 export type ConditionType =
     | 'lockPayment'
@@ -51,6 +52,17 @@ export interface ServiceCommon {
     }
 }
 
+export type Priced = {
+    attributes: {
+        main: {
+            price: string
+        }
+        additionalInformation: {
+            priceHighestDenomination: number
+        }
+    }
+}
+
 export interface ServiceAuthorization extends ServiceCommon {
     type: 'authorization'
     service: 'None' | 'RSAES-OAEP'
@@ -61,7 +73,7 @@ export interface ServiceMetadata extends ServiceCommon {
     attributes: MetaData
 }
 
-export interface ServiceAccess extends ServiceCommon {
+export interface ServiceAccess extends ServiceCommon, Priced {
     type: 'access'
     templateId?: string
     attributes: {
@@ -77,14 +89,12 @@ export interface ServiceAccess extends ServiceCommon {
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
+            priceHighestDenomination: number
         }
     }
-    isDTP: boolean
 }
 
-export interface ServiceAccessNormal extends ServiceAccess {
-    isDTP: false
-}
+export type ServiceAccessNormal = ServiceAccess
 
 export interface ServiceAccessProof extends ServiceAccess {
     templateId?: string
@@ -101,12 +111,12 @@ export interface ServiceAccessProof extends ServiceAccess {
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
+            priceHighestDenomination: number
         }
     }
-    isDTP: true
 }
 
-export interface ServiceCompute extends ServiceCommon {
+export interface ServiceCompute extends ServiceCommon, Priced {
     type: 'compute'
     templateId?: string
     attributes: {
@@ -120,6 +130,7 @@ export interface ServiceCompute extends ServiceCommon {
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
+            priceHighestDenomination: number
         }
     }
 }
@@ -134,7 +145,6 @@ export interface ServiceNFTAccess extends ServiceCommon {
             creator: string
             name: string
             datePublished: string
-            price: string
             timeout: number
         }
         serviceAgreementTemplate?: ServiceAgreementTemplate
@@ -144,7 +154,7 @@ export interface ServiceNFTAccess extends ServiceCommon {
     }
 }
 
-export interface ServiceNFTSales extends ServiceCommon {
+export interface ServiceNFTSales extends ServiceCommon, Priced {
     type: 'nft-sales'
     templateId?: string
     attributes: {
@@ -160,6 +170,7 @@ export interface ServiceNFTSales extends ServiceCommon {
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
             description: string
+            priceHighestDenomination: number
         }
     }
 }
@@ -198,8 +209,14 @@ export interface ValidationParams {
     nft_holder?: string
 }
 
-export interface ServicePlugin {
-    createService(publisher: Account, metadata: MetaData): Promise<ServiceCommon>
+export interface ServicePlugin<T extends Service> {
+    createService(
+        publisher: Account,
+        metadata: MetaData,
+        assetRewards?: AssetRewards,
+        erc20TokenAddress?: string,
+        priced?: boolean
+    ): Promise<T>
     // Process agreement for provider
     process(
         params: ValidationParams,

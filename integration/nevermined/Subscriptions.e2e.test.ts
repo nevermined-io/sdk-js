@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, Nevermined } from '../../src'
+import { Account, DDO, MetaData, Nevermined } from '../../src'
 import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -40,12 +40,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let assetRewards1: AssetRewards
     let royaltyAttributes: RoyaltyAttributes
 
-    const subscriptionMetadata = getMetadata(
-        subscriptionPrice.toNumber(),
-        Math.random(),
-        'Subscription NFT'
-    )
-    const assetMetadata = getMetadata(0)
+    let subscriptionMetadata: MetaData
+    let assetMetadata: MetaData
 
     const preMint = false
     const royalties = 0
@@ -72,6 +68,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
         await nevermined.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
+
+        assetMetadata = getMetadata()
+        subscriptionMetadata = getMetadata(undefined, 'Subscription NFT')
         assetMetadata.userId = payload.sub
         gatewayAddress = await nevermined.gateway.getProviderAddress()
 
@@ -110,7 +109,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     })
 
     describe('As an editor I want to register new content and provide a subscriptions to my content', () => {
-        it('I want to register a subscriptions NFT that gives acess to exclusive contents to the holders', async () => {
+        it('I want to register a subscriptions NFT that gives access to exclusive contents to the holders', async () => {
             // Deploy NFT
             TestContractHandler.setConfig(config)
             nft = await TestContractHandler.deployAbi(SubscriptionNFT, editor.getId(), [

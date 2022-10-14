@@ -5,15 +5,12 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, DDO, Account } from '../../src'
+import { Nevermined, DDO, Account, MetaData } from '../../src'
 
 describe('Publisher Download Asset', () => {
     let nevermined: Nevermined
-
     let publisher: Account
-
-    let metadata = getMetadata()
-
+    let metadata: MetaData
     let ddo: DDO
 
     before(async () => {
@@ -30,10 +27,7 @@ describe('Publisher Download Asset', () => {
 
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
-        }
-
+        metadata = getMetadata()
         metadata.userId = payload.sub
     })
 

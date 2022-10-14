@@ -26,9 +26,10 @@ import {
     NeverminedNFTType,
     NFTAttributes
 } from '../models/NFTAttributes'
-import { EncryptionMethod } from '../metadata/Metadata'
-import { AccessService, NFTAccessService } from './AccessService'
+import { EncryptionMethod, QueryResult } from '../metadata/Metadata'
+import { AccessService, NFTAccessService, NFTSalesService } from './AccessService'
 import BigNumber from '../utils/BigNumber'
+import { ServiceAaveCredit } from '../keeper/contracts/defi/Service'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -103,7 +104,7 @@ export class Assets extends Instantiable {
                 config.nevermined.keeper.templates.accessTemplate
             ),
             compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
-            'nft-sales': new NFTAccessService(
+            'nft-sales': new NFTSalesService(
                 config,
                 config.nevermined.keeper.templates.nftSalesTemplate,
                 config.nevermined.keeper.templates.nft721SalesTemplate
@@ -113,7 +114,8 @@ export class Assets extends Instantiable {
                 config.nevermined.keeper.templates.nftAccessTemplate,
                 config.nevermined.keeper.templates.nft721AccessTemplate
             ),
-            'aave-credit': config.nevermined.keeper.templates.aaveCreditTemplate
+            'aave-credit': config.nevermined.keeper.templates
+                .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>
         }
         instance.setInstanceConfig(config)
 
@@ -138,8 +140,8 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards | undefined,
         serviceTypes: ServiceType[],
         predefinedAssetServices: Service[] = [],
-        nftAttributes: NFTAttributes | undefined,
-        erc20TokenAddress: string | undefined,
+        nftAttributes?: NFTAttributes,
+        erc20TokenAddress?: string,
         providers: string[] = [this.config.gatewayAddress],
         appId?: string,
         txParams?: TxParameters
@@ -148,7 +150,8 @@ export class Assets extends Instantiable {
         return new SubscribablePromise(async observer => {
             const { gatewayUri } = this.config
             const { didRegistry } = this.nevermined.keeper
-            assetRewards = assetRewards ? assetRewards : new AssetRewards()
+            assetRewards = assetRewards || new AssetRewards()
+            erc20TokenAddress = erc20TokenAddress || this.nevermined.token.getAddress()
 
             // create ddo itself
             const ddo = DDO.getInstance(metadata.userId, publisher.getId(), appId)
@@ -166,7 +169,6 @@ export class Assets extends Instantiable {
 
             this.logger.debug('Adding Authorization Service')
             await ddo.addService(
-                this.nevermined,
                 this.createAuthorizationService(gatewayUri, publicKey, encryptionMethod)
             )
 
@@ -177,8 +179,12 @@ export class Assets extends Instantiable {
                 const plugin = this.servicePlugin[name]
                 if (plugin) {
                     await ddo.addService(
-                        this.nevermined,
-                        await plugin.createService(publisher, metadata)
+                        await plugin.createService(
+                            publisher,
+                            metadata,
+                            assetRewards,
+                            erc20TokenAddress
+                        )
                     )
                 }
             }
@@ -204,14 +210,14 @@ export class Assets extends Instantiable {
             for (const name of serviceTypes) {
                 const service = ddo.findServiceByType(name)
                 const { nftContractAddress, amount, nftTransfer, duration } =
-                    nftAttributes || new NFTAttributes()
+                    nftAttributes || {}
                 const sat: ServiceAgreementTemplate =
                     service.attributes.serviceAgreementTemplate
                 sat.conditions = fillConditionsWithDDO(
                     sat.conditions,
                     ddo,
                     assetRewards,
-                    erc20TokenAddress || this.nevermined.token.getAddress(),
+                    erc20TokenAddress,
                     nftContractAddress,
                     publisher.getId(),
                     amount,
@@ -515,7 +521,7 @@ export class Assets extends Instantiable {
         )
     }
 
-    public servicePlugin: { [key: string]: ServicePlugin }
+    public servicePlugin: { [key: string]: ServicePlugin<Service> }
 
     /**
      * Creates a new DDO.
@@ -553,7 +559,7 @@ export class Assets extends Instantiable {
             serviceTypes,
             predefinedAssetServices,
             undefined,
-            erc20TokenAddress || this.nevermined.token.getAddress(),
+            erc20TokenAddress,
             providers,
             appId,
             txParams
@@ -810,7 +816,65 @@ export class Assets extends Instantiable {
     ) {
         const query: SearchQuery = {
             query: {
-                query_string: { query: text }
+                simple_query_string: { query: `${text}*` }
+            },
+            offset,
+            page,
+            sort: {
+                created: sort
+            },
+            appId
+        }
+        return this.query(query)
+    }
+
+    /**
+     * Query for assets by price.
+     *
+     * @example
+     * ```ts
+     * const results = await nevermined.assets.searchByPrice(1, 20)
+     * ```
+     *
+     * @param minPrice - The minimum price to search for.
+     * @param maxPrice - The maximum price to search for.
+     * @param serviceType - The name of the service. Defaults to all services.
+     * @param offset -
+     * @param page -
+     * @param sort -
+     * @param appId -
+     * @returns
+     */
+    public async searchByPrice(
+        minPrice: number,
+        maxPrice: number,
+        serviceType?: ServiceType,
+        offset = 100,
+        page = 1,
+        sort = 'desc',
+        appId?: string
+    ): Promise<QueryResult> {
+        const query: SearchQuery = {
+            query: {
+                nested: {
+                    path: 'service',
+                    query: {
+                        bool: {
+                            must: [
+                                serviceType && { match: { 'service.type': serviceType } },
+                                {
+                                    range: {
+                                        'service.attributes.additionalInformation.priceHighestDenomination':
+                                            {
+                                                gte: minPrice,
+                                                lte: maxPrice
+                                            }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             },
             offset,
             page,

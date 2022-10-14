@@ -24,7 +24,7 @@ describe('Get DDO status', () => {
     })
 
     it('should get the internal status of an asset', async () => {
-        const metadata = getMetadata(0)
+        const metadata = getMetadata()
         metadata.userId = payload.sub
         const ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
 

@@ -6,7 +6,7 @@ import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
 
-import { Nevermined, DDO, Account, ConditionState, Logger } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 import BigNumber from '../../src/utils/BigNumber'
@@ -17,7 +17,7 @@ describe('Consume Asset', () => {
     let publisher: Account
     let consumer: Account
 
-    let metadata = getMetadata()
+    let metadata: MetaData
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
@@ -39,10 +39,7 @@ describe('Consume Asset', () => {
 
         assetRewards = getAssetRewards(publisher.getId())
 
-        if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
-        }
-
+        metadata = getMetadata()
         metadata.userId = payload.sub
     })
 
@@ -64,8 +61,8 @@ describe('Consume Asset', () => {
 
         try {
             await consumer.requestTokens(claimedTokens)
-        } catch(error) {
-            Logger.error(error);
+        } catch (error) {
+            Logger.error(error)
         }
 
         const balanceAfter = (await consumer.getBalance()).nevermined
@@ -148,8 +145,8 @@ describe('Consume Asset', () => {
                 )
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
-        } catch(error) {
-            Logger.error(error);
+        } catch (error) {
+            Logger.error(error)
         }
     })
 

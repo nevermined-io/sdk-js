@@ -25,7 +25,6 @@ import {
     ConditionSmall
 } from './contracts/conditions'
 import {
-    AgreementTemplate,
     AccessTemplate,
     EscrowComputeExecutionTemplate,
     DIDSalesTemplate,
@@ -406,7 +405,7 @@ export class Keeper extends Instantiable {
      * @param name - Template name.
      * @returns Agreement template instance.
      */
-    public getTemplateByName(name: string): AgreementTemplate<any> {
+    public getTemplateByName(name: string) {
         return Object.values(this.templates).find(
             template => template.contractName === name
         )
@@ -426,7 +425,7 @@ export class Keeper extends Instantiable {
      * @param address - Template address.
      * @returns Agreement template instance.
      */
-    public getTemplateByAddress(address: string): AgreementTemplate<any> {
+    public getTemplateByAddress(address: string) {
         return Object.values(this.templates).find(
             template => template.getAddress() === address
         )

@@ -5,13 +5,11 @@ import BigNumber from '../../src/utils/BigNumber'
 const metadata: Partial<MetaData> = {
     main: {
         name: undefined,
-        isDTP: false,
         type: 'dataset',
         dateCreated: '2012-10-10T17:00:00Z',
         datePublished: '2012-10-10T17:00:00Z',
         author: 'Met Office',
         license: 'CC-BY',
-        price: '21' + '0'.repeat(18),
         files: [
             {
                 index: 0,
@@ -49,14 +47,12 @@ const metadata: Partial<MetaData> = {
 
 export const generateMetadata = (
     name: string,
-    price?: number,
     nonce: string | number = Math.random()
 ): Partial<MetaData> => ({
     ...metadata,
     main: {
         ...metadata.main,
         name,
-        price: (price || 21) + '0'.repeat(18),
         ...({ nonce } as any)
     },
     additionalInformation: {
@@ -65,10 +61,9 @@ export const generateMetadata = (
 })
 
 export const getMetadata = (
-    price?: number,
     nonce: string | number = Math.random(),
     title = 'TestAsset'
-): MetaData => generateMetadata(title, price, nonce) as MetaData
+): MetaData => generateMetadata(title, nonce) as MetaData
 
 export const getAssetRewards = (receiver: string) =>
     new AssetRewards(receiver, BigNumber.from('21' + '0'.repeat(18)))

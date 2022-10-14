@@ -122,6 +122,14 @@ export interface File {
      * @example "zip"
      */
     compression?: string
+
+    /**
+     * Encryption mode used.
+     *
+     * @remarks
+     * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
+     */
+    encryption?: 'dtp'
 }
 
 /**
@@ -171,12 +179,6 @@ export interface MetaDataMain {
     license: string
 
     /**
-     * Price of the asset.
-     * @example "1000000000000000000"
-     */
-    price: string
-
-    /**
      * Array of File objects including the encrypted file urls and some additional information.
      */
     files?: File[]
@@ -188,8 +190,6 @@ export interface MetaDataMain {
     algorithm?: Algorithm
 
     service?: Service
-
-    isDTP: boolean
 
     ercType?: ERCType
 
@@ -321,6 +321,16 @@ export interface AdditionalInformation {
         x: string
         y: string
     }
+
+    /**
+     * Price store in the highest denomination and stored as a
+     * number on elastic search
+     *
+     * @remarks
+     * We currently do this because elasticsearch does not support
+     * BigNumbers
+     */
+    priceHighestDenomination?: number
 }
 
 export interface MetaData {

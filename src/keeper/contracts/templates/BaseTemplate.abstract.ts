@@ -1,7 +1,8 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { zeroX } from '../../../utils'
+import { ZeroAddress, zeroX } from '../../../utils'
 import {
-    ServiceCommon,
+    Priced,
+    Service,
     serviceIndex,
     ServicePlugin,
     ServiceType,
@@ -10,10 +11,12 @@ import {
 import { Account, Condition, MetaData } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
+import AssetRewards from '../../../models/AssetRewards'
+import BigNumber from '../../../utils/BigNumber'
 
-export abstract class BaseTemplate<Params>
+export abstract class BaseTemplate<Params, S extends Service>
     extends AgreementTemplate<Params>
-    implements ServicePlugin
+    implements ServicePlugin<S>
 {
     public async getAgreementData(
         agreementId: string
@@ -29,11 +32,50 @@ export abstract class BaseTemplate<Params>
         return this.service()
     }
 
+    private async getPriced(
+        assetRewards: AssetRewards,
+        erc20TokenAddress: string
+    ): Promise<Priced> {
+        let decimals: number
+
+        if (erc20TokenAddress === ZeroAddress) {
+            decimals = 18
+        } else {
+            const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
+            decimals = await token.decimals()
+        }
+
+        const price = assetRewards.getTotalPrice().toString()
+        const priceHighestDenomination = +BigNumber.formatUnits(
+            assetRewards.getTotalPrice(),
+            decimals
+        )
+        return {
+            attributes: {
+                main: {
+                    price
+                },
+                additionalInformation: {
+                    priceHighestDenomination
+                }
+            }
+        }
+    }
+
     public async createService(
         publisher: Account,
-        metadata: MetaData
-    ): Promise<ServiceCommon> {
+        metadata: MetaData,
+        assetRewards?: AssetRewards,
+        erc20TokenAddress?: string,
+        priced = false
+    ): Promise<S> {
         const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
+        let priceData: Priced
+
+        if (priced) {
+            priceData = await this.getPriced(assetRewards, erc20TokenAddress)
+        }
+
         return {
             type: this.service(),
             index: serviceIndex[this.service()],
@@ -46,14 +88,15 @@ export abstract class BaseTemplate<Params>
                     creator: publisher.getId(),
                     datePublished: metadata.main.datePublished,
                     name: this.name(),
-                    timeout: 0
+                    ...(priceData && priceData.attributes.main)
                 },
                 additionalInformation: {
-                    description: this.description()
+                    description: this.description(),
+                    ...(priceData && priceData.attributes.additionalInformation)
                 },
                 serviceAgreementTemplate
             }
-        } as ServiceCommon
+        } as S
     }
 
     /**

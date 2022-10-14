@@ -36,12 +36,8 @@ describe('Consume Asset (Documentation example)', () => {
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         metadata = await getDocsCommonMetadata()
-        metadata.main.price = '0'
         metadata.userId = payload.sub
-        assetRewards = new AssetRewards(
-            publisher.getId(),
-            BigNumber.from(metadata.main.price)
-        )
+        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from('0'))
     })
 
     it('should register an asset', async () => {
@@ -116,8 +112,8 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should lock the payment by the consumer', async () => {
-        const { price } = ddo.findServiceByType('metadata').attributes.main
-        const assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(price))
+        const price = ddo.getPriceByService()
+        const assetRewards = new AssetRewards(publisher.getId(), price)
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,

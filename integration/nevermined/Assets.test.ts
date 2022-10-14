@@ -3,14 +3,14 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
-import { Nevermined, Account } from '../../src'
+import { Nevermined, Account, MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 
 let nevermined: Nevermined
 let publisher: Account
-let metadata = getMetadata()
+let metadata: MetaData
 let assetRewards: AssetRewards
 let payload: JWTPayload
 
@@ -28,10 +28,7 @@ describe('Assets', () => {
         payload = decodeJwt(config.marketplaceAuthToken)
         assetRewards = getAssetRewards(publisher.getId())
 
-        if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
-        }
-
+        metadata = getMetadata()
         metadata.userId = payload.sub
         await nevermined.assets.create(metadata, publisher, assetRewards)
     })
@@ -73,11 +70,11 @@ describe('Assets', () => {
             const config1 = { ...config, appId: appId1 }
             const config2 = { ...config, appId: appId2 }
 
-            const metadata1 = getMetadata(0, undefined, 'App1')
+            const metadata1 = getMetadata(undefined, 'App1')
             metadata1.userId = payload.sub
-            const metadata2 = getMetadata(0, undefined, 'App2')
+            const metadata2 = getMetadata(undefined, 'App2')
             metadata2.userId = payload.sub
-            const metadata22 = getMetadata(0, undefined, 'App2')
+            const metadata22 = getMetadata(undefined, 'App2')
             metadata22.userId = payload.sub
 
             const neverminedApp1 = await Nevermined.getInstance(config1)
@@ -204,9 +201,14 @@ describe('Assets', () => {
                     bool: {
                         must: [
                             {
-                                query_string: {
-                                    query: 'App*',
-                                    fields: ['service.attributes.main.name']
+                                nested: {
+                                    path: ['service'],
+                                    query: {
+                                        query_string: {
+                                            query: 'App*',
+                                            fields: ['service.attributes.main.name']
+                                        }
+                                    }
                                 }
                             },
                             {
@@ -218,7 +220,20 @@ describe('Assets', () => {
                                 }
                             }
                         ],
-                        must_not: [{ match: { 'service.attributes.main.name': 'App1' } }]
+                        must_not: [
+                            {
+                                nested: {
+                                    path: ['service'],
+                                    query: {
+                                        match: {
+                                            'service.attributes.main.name': {
+                                                query: 'App1'
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
                     }
                 }
             }

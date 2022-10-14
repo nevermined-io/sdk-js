@@ -61,15 +61,6 @@ describe('Signature', () => {
                     attributes: {
                         serviceAgreementTemplate
                     }
-                } as Service,
-                {
-                    type: 'metadata',
-                    index: 1,
-                    attributes: {
-                        main: {
-                            price: 10
-                        }
-                    }
                 } as Service
             ]
         })

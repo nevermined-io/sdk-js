@@ -3,13 +3,15 @@ import { Authentication } from './Authentication'
 import { Proof } from './Proof'
 import { PublicKey } from './PublicKey'
 import { Service, ServiceType } from './Service'
-import { didPrefixed, zeroX } from '../utils'
+import { didPrefixed, getAssetRewardsFromService, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
 import { MetaData, MetaDataMain } from './MetaData'
 import { NFTAttributes } from '../models/NFTAttributes'
 import { NvmConfig } from './NvmConfig'
+import BigNumber from '../utils/BigNumber'
+import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
 
 /**
  * DID Descriptor Object.
@@ -117,14 +119,38 @@ export class DDO {
     /**
      * Finds a service of a DDO by type.
      * @param serviceType - Service type.
-     * @returns Service.
+     *
+     * @throws {@link DDOServiceNotFoundError} If the service is not in the DDO.
+     * @returns {@link Service}.
      */
     public findServiceByType<T extends ServiceType>(serviceType: T): Service<T> {
-        if (!serviceType) {
-            throw new Error('serviceType not set')
-        }
+        const service = this.service.find(s => s.type === serviceType)
 
-        return this.service.find(s => s.type === serviceType) as Service<T>
+        if (service) {
+            return service as Service<T>
+        }
+        throw new DDOServiceNotFoundError(serviceType, this.id)
+    }
+
+    /**
+     * Get the total price of a service.
+     * @example
+     * ```ts
+     * const price = ddo.getPriceByService('nft-access')
+     * ```
+     * @param serviceType - Service type
+     *
+     * @throws {@link DDOPriceNotFoundError}
+     * @returns {@link BigNumber}
+     */
+    public getPriceByService(serviceType: ServiceType = 'access'): BigNumber {
+        const service = this.findServiceByType(serviceType)
+        const assetRewards = getAssetRewardsFromService(service)
+
+        if (assetRewards) {
+            return assetRewards.getTotalPrice()
+        }
+        throw new DDOPriceNotFoundError(serviceType, this.id)
     }
 
     public checksum(seed: string): string {
@@ -166,7 +192,7 @@ export class DDO {
         this.proof = await this.generateProof(publicKey)
     }
 
-    public async addService(nevermined: Nevermined, service: any): Promise<void> {
+    public async addService(service: any): Promise<void> {
         this.service.push(service)
     }
 
