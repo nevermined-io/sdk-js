@@ -83,30 +83,6 @@ export interface ServiceAccess extends ServiceCommon, Priced {
             datePublished: string
             price: string
             timeout: number
-            _hash?: string
-            _providerPub?: { x: string; y: string }
-        }
-        serviceAgreementTemplate?: ServiceAgreementTemplate
-        additionalInformation: {
-            description: string
-            priceHighestDenomination: number
-        }
-    }
-}
-
-export type ServiceAccessNormal = ServiceAccess
-
-export interface ServiceAccessProof extends ServiceAccess {
-    templateId?: string
-    attributes: {
-        main: {
-            creator: string
-            name: string
-            datePublished: string
-            price: string
-            timeout: number
-            _hash: string
-            _providerPub: { x: string; y: string }
         }
         serviceAgreementTemplate?: ServiceAgreementTemplate
         additionalInformation: {
@@ -190,7 +166,7 @@ export type Service<T extends ServiceType | 'default' = 'default'> =
         : T extends 'nft-sales'
         ? ServiceNFTSales
         : T extends 'access'
-        ? ServiceAccessNormal | ServiceAccessProof
+        ? ServiceAccess
         : T extends 'compute'
         ? ServiceCompute
         : T extends 'aave-credit'

@@ -13,7 +13,7 @@ export class Config {
     /**
      * Marketplace auth token.
      */
-    public marketplaceAuthToken: string
+    public marketplaceAuthToken?: string
 
     /**
      * Gateway URL.
