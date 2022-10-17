@@ -70,7 +70,7 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:35](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/NeverminedEvent.ts#L35)
+[src/events/NeverminedEvent.ts:35](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/NeverminedEvent.ts#L35)
 
 ## Properties
 
@@ -84,7 +84,7 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:30](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/NeverminedEvent.ts#L30)
+[src/events/NeverminedEvent.ts:30](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/NeverminedEvent.ts#L30)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:29](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/NeverminedEvent.ts#L29)
+[src/events/NeverminedEvent.ts:29](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/NeverminedEvent.ts#L29)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L14)
+[src/events/SubgraphEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L14)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:16](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L16)
+[src/events/SubgraphEvent.ts:16](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L16)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:15](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L15)
+[src/events/SubgraphEvent.ts:15](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L15)
 
 ## Accessors
 
@@ -146,7 +146,7 @@ NeverminedEvent.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -164,7 +164,7 @@ NeverminedEvent.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -182,7 +182,7 @@ NeverminedEvent.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -200,7 +200,7 @@ NeverminedEvent.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -218,7 +218,7 @@ NeverminedEvent.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -236,7 +236,7 @@ NeverminedEvent.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -254,7 +254,7 @@ NeverminedEvent.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -272,7 +272,7 @@ NeverminedEvent.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -300,7 +300,7 @@ true if the contract exists.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -324,7 +324,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -342,7 +342,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:56](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L56)
+[src/events/SubgraphEvent.ts:56](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L56)
 
 ___
 
@@ -366,7 +366,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:31](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L31)
+[src/events/SubgraphEvent.ts:31](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L31)
 
 ___
 
@@ -390,7 +390,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:52](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L52)
+[src/events/SubgraphEvent.ts:52](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L52)
 
 ___
 
@@ -415,7 +415,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:55](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/NeverminedEvent.ts#L55)
+[src/events/NeverminedEvent.ts:55](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/NeverminedEvent.ts#L55)
 
 ___
 
@@ -439,7 +439,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -453,7 +453,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:63](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L63)
+[src/events/SubgraphEvent.ts:63](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L63)
 
 ___
 
@@ -478,7 +478,7 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:41](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/NeverminedEvent.ts#L41)
+[src/events/NeverminedEvent.ts:41](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/NeverminedEvent.ts#L41)
 
 ___
 
@@ -503,7 +503,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -529,7 +529,7 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -556,7 +556,7 @@ ___
 
 #### Defined in
 
-[src/events/SubgraphEvent.ts:17](https://github.com/nevermined-io/sdk-js/blob/661349d/src/events/SubgraphEvent.ts#L17)
+[src/events/SubgraphEvent.ts:17](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/SubgraphEvent.ts#L17)
 
 ___
 
@@ -587,4 +587,4 @@ ___
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/661349d/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/Instantiable.abstract.ts#L162)
