@@ -104,16 +104,8 @@ export class Assets extends Instantiable {
                 config.nevermined.keeper.templates.accessTemplate
             ),
             compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
-            'nft-sales': new NFTSalesService(
-                config,
-                config.nevermined.keeper.templates.nftSalesTemplate,
-                config.nevermined.keeper.templates.nft721SalesTemplate
-            ),
-            'nft-access': new NFTAccessService(
-                config,
-                config.nevermined.keeper.templates.nftAccessTemplate,
-                config.nevermined.keeper.templates.nft721AccessTemplate
-            ),
+            'nft-sales': new NFTSalesService(config),
+            'nft-access': new NFTAccessService(config),
             'aave-credit': config.nevermined.keeper.templates
                 .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>
         }
