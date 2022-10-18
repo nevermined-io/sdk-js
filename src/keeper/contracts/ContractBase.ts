@@ -26,6 +26,31 @@ export interface TxParameters {
     progress?: (data: any) => void
 }
 
+export interface JsonRpcPayload {
+    jsonrpc: string;
+    method: string;
+    params: any[];
+    id?: string | number;
+}
+
+export interface JsonRpcResponse {
+    jsonrpc: string;
+    id: number;
+    result?: any;
+    error?: string;
+}
+
+class Web3ProviderWrapper {
+    provider: ethers.providers.JsonRpcProvider
+    constructor(provider: ethers.providers.JsonRpcProvider) {
+        this.provider = provider
+    }
+    send(payload: JsonRpcPayload, callback: (error: Error | null, result?: JsonRpcResponse) => void): void {
+        const id = typeof payload.id === 'string' ? parseInt(payload.id) : payload.id
+        this.provider.send(payload.method, payload.params).then(result => callback(null, {jsonrpc: payload.jsonrpc, id, result}))
+    }
+}
+
 export abstract class ContractBase extends Instantiable {
     public contractName: string
     public contract: ethers.Contract = null
@@ -183,14 +208,13 @@ export abstract class ContractBase extends Instantiable {
         args: any[],
         params: TxParameters = {}
     ): Promise<ContractReceipt> {
-
         if (params.meta) {
             const { paymasterAddress, wallet } = params.meta
             const config = await {
                 paymasterAddress: paymasterAddress,
                 auditorsCount: 0
             }
-            const gsnProvider = RelayProvider.newProvider({ provider: this.web3 as any, config })
+            const gsnProvider = RelayProvider.newProvider({ provider: new Web3ProviderWrapper(this.web3), config })
             await gsnProvider.init()
             gsnProvider.addAccount(wallet.privateKey)
             const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
