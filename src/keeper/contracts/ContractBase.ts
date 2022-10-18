@@ -1,3 +1,5 @@
+import { RelayProvider } from '@opengsn/provider'
+import { TransactionResponse } from '@ethersproject/abstract-provider'
 import ContractHandler from '../ContractHandler'
 
 import Account from '../../nevermined/Account'
@@ -5,8 +7,12 @@ import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import { ContractReceipt, ethers } from 'ethers'
-import { TransactionResponse } from '@ethersproject/abstract-provider'
 import BigNumber from '../../utils/BigNumber'
+
+export interface MetaTxParameters {
+    paymasterAddress: string
+    wallet: ethers.Wallet
+}
 
 export interface TxParameters {
     value?: string
@@ -15,6 +21,7 @@ export interface TxParameters {
     gasPrice?: string
     maxPriorityFeePerGas?: string
     maxFeePerGas?: string
+    meta?: MetaTxParameters
     nonce?: number
     progress?: (data: any) => void
 }
@@ -114,12 +121,83 @@ export abstract class ContractBase extends Instantiable {
         return receipt
     }
 
+    public async internalSend(name: string, from: string, args: any[], params: TxParameters, txparams: any, contract: ethers.Contract) {
+        const methodSignature = this.getSignatureOfMethod(name, args)
+        const {
+            gasLimit,
+            value,
+        } = txparams
+        // make the call
+        if (params.progress) {
+            params.progress({
+                stage: 'sending',
+                args: this.searchMethodInputs(name, args),
+                method: name,
+                from,
+                value,
+                contractName: this.contractName,
+                contractAddress: this.address,
+                gasLimit
+            })
+        }
+
+        const transactionResponse: TransactionResponse = await contract[
+            methodSignature
+        ](...args, txparams)
+        if (params.progress) {
+            params.progress({
+                stage: 'sent',
+                args: this.searchMethodInputs(name, args),
+                transactionResponse,
+                method: name,
+                from,
+                value,
+                contractName: this.contractName,
+                contractAddress: this.address,
+                gasLimit
+            })
+        }
+
+        const ContractReceipt: ContractReceipt = await transactionResponse.wait()
+        if (params.progress) {
+            params.progress({
+                stage: 'receipt',
+                args: this.searchMethodInputs(name, args),
+                ContractReceipt,
+                method: name,
+                from,
+                value,
+                contractName: this.contractName,
+                contractAddress: this.address,
+                gasLimit
+            })
+        }
+
+        return ContractReceipt
+
+    }
+
     public async send(
         name: string,
         from: string,
         args: any[],
         params: TxParameters = {}
     ): Promise<ContractReceipt> {
+
+        if (params.meta) {
+            const { paymasterAddress, wallet } = params.meta
+            const config = await {
+                paymasterAddress: paymasterAddress,
+                auditorsCount: 0
+            }
+            const gsnProvider = RelayProvider.newProvider({ provider: this.web3 as any, config })
+            await gsnProvider.init()
+            gsnProvider.addAccount(wallet.privateKey)
+            const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
+            const contract = this.contract.connect(etherProvider.getSigner(wallet.address))
+            return await this.internalSend(name, from, args, params, params, contract)
+        }
+
         const methodSignature = this.getSignatureOfMethod(name, args)
 
         // get signer
@@ -174,53 +252,7 @@ export abstract class ContractBase extends Instantiable {
                 nonce,
                 ...feeData
             }
-            // make the call
-            if (params.progress) {
-                params.progress({
-                    stage: 'sending',
-                    args: this.searchMethodInputs(name, args),
-                    method: name,
-                    from,
-                    value,
-                    contractName: this.contractName,
-                    contractAddress: this.address,
-                    gasLimit
-                })
-            }
-
-            const transactionResponse: TransactionResponse = await contract[
-                methodSignature
-            ](...args, txparams)
-            if (params.progress) {
-                params.progress({
-                    stage: 'sent',
-                    args: this.searchMethodInputs(name, args),
-                    transactionResponse,
-                    method: name,
-                    from,
-                    value,
-                    contractName: this.contractName,
-                    contractAddress: this.address,
-                    gasLimit
-                })
-            }
-
-            const ContractReceipt: ContractReceipt = await transactionResponse.wait()
-            if (params.progress) {
-                params.progress({
-                    stage: 'receipt',
-                    args: this.searchMethodInputs(name, args),
-                    ContractReceipt,
-                    method: name,
-                    from,
-                    value,
-                    contractName: this.contractName,
-                    contractAddress: this.address,
-                    gasLimit
-                })
-            }
-
-            return ContractReceipt
+            return await this.internalSend(name, from, args, params, txparams, contract)
         } catch (err) {
             const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
                 return {
