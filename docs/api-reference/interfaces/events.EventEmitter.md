@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:18](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/NeverminedEvent.ts#L18)
+[src/events/NeverminedEvent.ts:18](https://github.com/nevermined-io/sdk-js/blob/a201882/src/events/NeverminedEvent.ts#L18)
 
 ___
 
@@ -58,4 +58,4 @@ ___
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:19](https://github.com/nevermined-io/sdk-js/blob/438ec1b/src/events/NeverminedEvent.ts#L19)
+[src/events/NeverminedEvent.ts:19](https://github.com/nevermined-io/sdk-js/blob/a201882/src/events/NeverminedEvent.ts#L19)
