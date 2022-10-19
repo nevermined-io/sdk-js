@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/a201882/src/profiles/Profiles.interfaces.ts#L4)
+[src/profiles/Profiles.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/097b71b/src/profiles/Profiles.interfaces.ts#L4)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/a201882/src/profiles/Profiles.interfaces.ts#L2)
+[src/profiles/Profiles.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/097b71b/src/profiles/Profiles.interfaces.ts#L2)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/a201882/src/profiles/Profiles.interfaces.ts#L3)
+[src/profiles/Profiles.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/097b71b/src/profiles/Profiles.interfaces.ts#L3)
