@@ -45,7 +45,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/ClientError.ts:2](https://github.com/nevermined-io/sdk-js/blob/097b71b/src/errors/ClientError.ts#L2)
+[src/errors/ClientError.ts:2](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/errors/ClientError.ts#L2)
 
 ## Properties
 
