@@ -60,7 +60,7 @@ describe('Asset Owners', () => {
 
         const isProvider = await nevermined.keeper.didRegistry.isDIDProvider(
             ddo.id,
-            config.gatewayAddress
+            config.neverminedNodeAddress
         )
 
         assert.isTrue(isProvider)

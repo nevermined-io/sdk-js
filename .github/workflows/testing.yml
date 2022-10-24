@@ -36,7 +36,9 @@ jobs:
           yarn ganache --port 18545 --chain.chainId ${{ matrix.chainId }} > ganache-cli.log &
           sudo chmod go+r /etc/hosts
           sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-          git clone https://github.com/nevermined-io/tools
+          
+          # TODO: Use `master` when the renaming is done
+          git clone https://github.com/nevermined-io/tools -b feauture/node_name
           cd tools
 
           export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
@@ -45,7 +47,7 @@ jobs:
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
-          ./start_nevermined.sh --latest ${{ matrix.network }} --new-gateway 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh --latest ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
           ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}

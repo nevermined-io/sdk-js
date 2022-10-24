@@ -88,7 +88,8 @@ export class NFTAccessTemplate extends BaseTemplate<
         return nftAccessTemplateServiceAgreementTemplate
     }
 
-    public async accept(params: ValidationParams): Promise<boolean> {
+    public async accept(params: ValidationParams): Promise<boolean> {        
+        
         if (
             await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
                 params.consumer_address,
@@ -98,7 +99,7 @@ export class NFTAccessTemplate extends BaseTemplate<
             return true
         }
         const ddo = await this.nevermined.assets.resolve(params.did)
-        const service = ddo.findServiceByType(this.service())
+        const service = ddo.findServiceByType(this.service())        
         const limit =
             this.nevermined.keeper.conditions.nftHolderCondition.amountFromService(
                 service

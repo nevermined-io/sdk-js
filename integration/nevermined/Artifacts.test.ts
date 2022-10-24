@@ -53,7 +53,7 @@ describe('Artifacts', () => {
             })
 
             const nvm = await Nevermined.getInstance({
-                nodeUri,
+                web3ProviderUri: nodeUri,
                 artifactsFolder: tempDir
             } as Config)
 

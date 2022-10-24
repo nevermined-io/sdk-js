@@ -47,7 +47,7 @@ import { Nevermined, Logger } from '@nevermined-io/nevermined-sdk-js'
 const { Nevermined, Logger } = require('@nevermined-io/nevermined-sdk-js')
 ```
 
-You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Metadata API](https://github.com/nevermined-io/metadata), [Gateway](https://github.com/nevermined-io/gateway) instances, e.g.:
+You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Metadata API](https://github.com/nevermined-io/metadata), [Nevermined Node](https://github.com/nevermined-io/node) instances, e.g.:
 
 ```js
 const nevermined: Nevermined = await Nevermined.getInstance({
@@ -55,12 +55,12 @@ const nevermined: Nevermined = await Nevermined.getInstance({
     nodeUri: 'http://localhost:8545',
     // the uri of metadata
     metadataUri: 'http://localhost:5000',
-    // the uri of gateway
-    gatewayUri: 'http://localhost:8030',
+    // the uri of nevermined node
+    neverminedNodeUri: 'http://localhost:8030',
     // the uri of faucet
     faucetUri: 'http://localhost:3001',
-    // address that gateway uses
-    gatewayAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
+    // address that node uses
+    neverminedNodeAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
 })
 ```
 

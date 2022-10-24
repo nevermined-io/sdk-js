@@ -7,11 +7,11 @@ const nograph = process.env['NO_GRAPH'] === 'true'
 const infuraToken = process.env['INFURA_TOKEN']
 
 const configBase: Config = {
-    nodeUri: 'http://localhost:8545',
+    web3ProviderUri: 'http://localhost:8545',
     marketplaceUri: 'http://172.17.0.1:3100',
     faucetUri: 'http://localhost:3001',
-    gatewayUri: 'http://localhost:8030',
-    gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+    neverminedNodeUri: 'http://localhost:8030',
+    neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
     artifactsFolder: './artifacts',
     graphHttpUri: nograph
@@ -24,11 +24,11 @@ const configBase: Config = {
 
 if (process.env.NETWORK_NAME === 'testing') {
     Object.assign(configBase, {
-        nodeUri: 'http://localhost:8545',
+        web3ProviderUri: 'http://localhost:8545',
         marketplaceUri: 'http://nevermined-metadata:3100',
         faucetUri: 'http://localhost:3001',
-        gatewayUri: 'http://localhost:8030',
-        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
+        neverminedNodeUri: 'http://localhost:8030',
+        neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
     } as Config)
 }
 
@@ -36,9 +36,9 @@ if (process.env.NETWORK_NAME === 'goerli') {
     Object.assign(configBase, {
         marketplaceUri: 'https://metadata.goerli.nevermined.rocks',
         faucetUri: 'https://faucet.goerli.nevermined.rocks',
-        gatewayUri: 'https://gateway.goerli.nevermined.rocks',
-        nodeUri: `https://goerli.infura.io/v3/${infuraToken}`,
-        gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
+        neverminedNodeUri: 'https://node.goerli.nevermined.rocks',
+        web3ProviderUri: `https://goerli.infura.io/v3/${infuraToken}`,
+        neverminedNodeAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
     } as Config)
 }
 
@@ -46,9 +46,9 @@ if (process.env.NETWORK_NAME === 'mumbai') {
     Object.assign(configBase, {
         marketplaceUri: 'https://marketplace-api.mumbai.public.nevermined.rocks',
         faucetUri: 'https://faucet.mumbai.public.nevermined.rocks',
-        gatewayUri: 'https://gateway.mumbai.public.nevermined.rocks',
-        nodeUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
-        gatewayAddress: '0xB82dc620BB4dE6712376055a5cfc0DF11112D442',
+        neverminedNodeUri: 'https://node.mumbai.public.nevermined.rocks',
+        web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
+        neverminedNodeAddress: '0xB82dc620BB4dE6712376055a5cfc0DF11112D442',
         graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
     } as Config)
 }

@@ -3,20 +3,20 @@ import Account from '../nevermined/Account'
 import { noZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ReadStream } from 'fs'
-import { GatewayError, HttpError } from '../errors'
+import { NeverminedNodeError, HttpError } from '../errors'
 import { ServiceType } from '../ddo/Service'
 import BigNumber from '../utils/BigNumber'
 import { ERCType } from '../models/NFTAttributes'
 
-const apiPath = '/api/v1/gateway/services'
+const apiPath = '/api/v1/node/services'
 
 /**
- * Provides a interface with Gateway.
- * Gateway is the technical component executed by the Publishers allowing to them to provide extended data services.
+ * Provides a interface with Nevermined Node.
+ * The Nevermined Node is the technical component executed by the Publishers allowing to them to provide extended data services.
  */
-export class Gateway extends Instantiable {
+export class NeverminedNode extends Instantiable {
     private get url() {
-        return this.config.gatewayUri
+        return this.config.neverminedNodeUri
     }
 
     constructor(config: InstantiableConfig) {
@@ -92,27 +92,27 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/nft-transfer`
     }
 
-    public async getGatewayInfo() {
+    public async getNeverminedNodeInfo() {
         return this.nevermined.utils.fetch.get(`${this.url}`).then(res => res.json())
     }
 
     public async getProviderAddress() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['provider-address']
     }
 
     public async getRsaPublicKey() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['rsa-public-key']
     }
 
     public async getEcdsaPublicKey() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['ecdsa-public-key']
     }
 
     public async getBabyjubPublicKey() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['babyjub-public-key']
     }
 
@@ -141,7 +141,7 @@ export class Gateway extends Instantiable {
                 decodeURI(JSON.stringify(args))
             )
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -185,7 +185,7 @@ export class Gateway extends Instantiable {
                         headers
                     )
                 } catch (e) {
-                    throw new GatewayError(`Error consuming assets - ${e}`)
+                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
                 }
             })
         await Promise.all(filesPromises)
@@ -211,7 +211,7 @@ export class Gateway extends Instantiable {
             }
             return await response.text()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -254,7 +254,7 @@ export class Gateway extends Instantiable {
             }
             return await response.json()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -292,7 +292,7 @@ export class Gateway extends Instantiable {
                         headers
                     )
                 } catch (e) {
-                    throw new GatewayError(`Error consuming assets - ${e}`)
+                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
                 }
             })
         await Promise.all(filesPromises)
@@ -337,7 +337,7 @@ export class Gateway extends Instantiable {
             }
             return await response.text()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -379,7 +379,7 @@ export class Gateway extends Instantiable {
             }
             return await response.text()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -409,7 +409,7 @@ export class Gateway extends Instantiable {
             }
             return true
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 

@@ -48,7 +48,7 @@ jobs:
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
-          ./start_nevermined.sh --latest ${{ matrix.network }} --new-gateway 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh --latest ${{ matrix.network }} --new-node 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
           ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
@@ -124,7 +124,7 @@ jobs:
           export KEEPER_NETWORK_NAME="geth-localnet"
           export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
           export KEEPER_VERSION=v2.0.5
-          export GATEWAY_VERSION=latest
+          export NODE_VERSION=latest
           export MARKETPLACE_API_VERSION=latest
           export GANACHE_COMMAND_OPTIONS="-d -p 18545 -m 'taxi music thumb unique chat sand crew more leg another off lamp' -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
           ./start_nevermined.sh --marketplace-api --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &

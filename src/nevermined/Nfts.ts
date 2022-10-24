@@ -417,12 +417,12 @@ export class Nfts extends Instantiable {
     }
 
     /**
-     * Asks the gateway to transfer the NFT on behalf of the publisher.
+     * Asks the Node to transfer the NFT on behalf of the publisher.
      *
      * @remarks
      * This is useful when the consumer does not want to wait for the publisher
      * to transfer the NFT once the payment is made. Assuming the publisher delegated
-     * transfer permissions to the gateway.
+     * transfer permissions to the Node.
      *
      * One example would be a marketplace where the user wants to get access to the NFT
      * as soon as the payment is made
@@ -447,7 +447,7 @@ export class Nfts extends Instantiable {
         nftAmount: BigNumber,
         ercType: ERCType = 1155
     ): Promise<boolean> {
-        return await this.nevermined.gateway.nftTransferForDelegate(
+        return await this.nevermined.node.nftTransferForDelegate(
             agreementId,
             nftHolder,
             nftReceiver,
@@ -600,7 +600,7 @@ export class Nfts extends Instantiable {
      * Access the files associated with an NFT.
      *
      * @remarks
-     * This function will call the gateway that will check if all the access conditions where fulfilled
+     * This function will call the Node that will check if all the access conditions where fulfilled
      * before providing the files.
      *
      * @example
@@ -770,7 +770,7 @@ export class Nfts extends Instantiable {
                 ddo.id,
                 consumer
             )
-            accessToken = await this.nevermined.gateway.fetchToken(grantToken)
+            accessToken = await this.nevermined.node.fetchToken(grantToken)
             jwt.tokenCache.set(cacheKey, accessToken)
         } else {
             accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
@@ -879,7 +879,7 @@ export class Nfts extends Instantiable {
             agreementId: agreementIdSeed,
             type: 'nft-sales',
             index: 6,
-            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
+            serviceEndpoint: this.nevermined.node.getNftEndpoint(),
             templateId: nftSalesTemplate.getAddress(),
             did: ddo.id,
             attributes: {

@@ -26,7 +26,7 @@ export interface PlatformKeeperTech extends PlatformTech {
 export interface PlatformVersions {
     sdk: PlatformKeeperTech
     metadata: PlatformTech
-    gateway: PlatformKeeperTech
+    node: PlatformKeeperTech
     status: {
         ok: boolean
         contracts: boolean
@@ -71,7 +71,7 @@ export class Versions extends Instantiable {
                 )
         }
 
-        // Gateway
+        // Node
         try {
             const {
                 contracts,
@@ -80,8 +80,8 @@ export class Versions extends Instantiable {
                 network,
                 software: name,
                 version
-            } = await this.nevermined.gateway.getVersionInfo()
-            versions.gateway = {
+            } = await this.nevermined.node.getVersionInfo()
+            versions.node = {
                 name,
                 status: PlatformTechStatus.Working,
                 version,
@@ -91,8 +91,8 @@ export class Versions extends Instantiable {
                 providerAddress
             }
         } catch {
-            versions.gateway = {
-                name: 'Gateway',
+            versions.node = {
+                name: 'Node',
                 status: PlatformTechStatus.Stopped
             }
         }
