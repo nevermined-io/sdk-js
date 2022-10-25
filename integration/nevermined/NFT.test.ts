@@ -12,6 +12,8 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/Assets'
+import { ethers } from 'ethers'
+import { MetaTxParameters } from '../../src/keeper/contracts/ContractBase'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined
@@ -51,6 +53,10 @@ describe('Nfts operations', () => {
         })
 
         it('should mint 10 nft tokens', async () => {
+            console.log(
+                await nevermined.nfts.balance(ddo.id, artist),
+                BigNumber.from(10)
+            )
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
                 BigNumber.from(10)
@@ -63,6 +69,10 @@ describe('Nfts operations', () => {
                 BigNumber.from(2),
                 collector
             )
+
+
+            const wallet = new ethers.Wallet(Buffer.from('1'.repeat(64), 'hex'))
+
             await nevermined.nfts.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
 
             assert.deepEqual(
@@ -73,13 +83,26 @@ describe('Nfts operations', () => {
                 await nevermined.nfts.balance(ddo.id, collector),
                 BigNumber.from(2)
             )
-        })
 
-        it('should burn nft tokens', async () => {
-            await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
+            await nevermined.keeper.nftUpgradeable.transferNft(ddo.id, await wallet.getAddress(), BigNumber.from(2), artist.getId())
+            assert.deepEqual(
+                BigNumber.from(await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id)),
+                BigNumber.from(2)
+            )
+
+            const meta: MetaTxParameters = {
+                wallet,
+                paymasterAddress: '0x2309d3D648b60CbC54408dEAF9758EAe5e000D98'
+            }
+            await nevermined.keeper.didRegistry.burn(ddo.id, BigNumber.from(2), await wallet.getAddress(), {meta})
+            // await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist, {meta})
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
-                BigNumber.from(2)
+                BigNumber.from(6)
+            )
+            assert.deepEqual(
+                BigNumber.from(await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id)),
+                BigNumber.from(0)
             )
         })
     })

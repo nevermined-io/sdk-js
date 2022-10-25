@@ -212,8 +212,10 @@ export abstract class ContractBase extends Instantiable {
             const { paymasterAddress, wallet } = params.meta
             const config = await {
                 paymasterAddress: paymasterAddress,
-                auditorsCount: 0
+                auditorsCount: 0,
+                preferredRelays: ['http://localhost:2345'],
             }
+            params.meta = undefined
             const gsnProvider = RelayProvider.newProvider({ provider: new Web3ProviderWrapper(this.web3), config })
             await gsnProvider.init()
             gsnProvider.addAccount(wallet.privateKey)

@@ -643,7 +643,7 @@ export class Nfts extends Instantiable {
      * @returns The amount of NFTs owned by the account.
      */
     public async balance(did: string, account: Account): Promise<BigNumber> {
-        return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
+        return BigNumber.from(await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did))
     }
 
     /**
