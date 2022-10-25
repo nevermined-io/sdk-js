@@ -39,6 +39,14 @@ export default class NeverminedConfig extends ContractBase {
         return this.sendFrom('setGovernor', [address], from, params)
     }
 
+    public async setTrustedForwarder(address: string, from?: Account, params?: TxParameters) {
+        return this.sendFrom('setTrustedForwarder', [address], from, params)
+    }
+
+    public async getTrustedForwarder(): Promise<string> {
+        return this.call('getTrustedForwarder', [])
+    }
+
     public async setNetworkFees(
         networkFee: number,
         feeReceiver: string,
