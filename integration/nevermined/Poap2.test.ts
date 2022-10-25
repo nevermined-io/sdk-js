@@ -4,7 +4,6 @@ import { config } from '../config'
 import POAPUpgradeable from '../../test/testdata/POAPUpgradeable.json'
 import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
-import { generateId } from '../../src/utils'
 import { getMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
@@ -18,9 +17,6 @@ describe('POAPs with Assets', () => {
     let gatewayAddress: string
     let poapDDO: DDO
     let agreementId: string
-
-    const url = 'http://nevermined.io'
-    const eventId = `0x${generateId()}`
     let metadata: MetaData
 
     before(async () => {
@@ -115,37 +111,4 @@ describe('POAPs with Assets', () => {
         )
         assert.isTrue(result)
     })
-
-    // it('minter should be able to mint a poap for user1', async () => {
-    //     const tx = await poapContract['mint(address,string,uint256)'](
-    //         user1.getId(),
-    //         url,
-    //         eventId,
-    //         {
-    //             from: minter.getId()
-    //         }
-    //     )
-
-    //     const response = await tx.wait()
-    //     assert.equal(response.status, 1)
-    // })
-
-    // it('minter should be able to mint a poap for user2 with same eventId', async () => {
-    //     const tx = await poapContract['mint(address,string,uint256)'](
-    //         user2.getId(),
-    //         url,
-    //         eventId,
-    //         {
-    //             from: minter.getId()
-    //         }
-    //     )
-
-    //     const response = await tx.wait()
-    //     assert.equal(response.status, 1)
-    // })
-
-    // it('user2 should have a balance of 1 poap', async () => {
-    //     const balance = await poapContract.balanceOf(user2.getId())
-    //     assert.equal(balance.toNumber(), 1)
-    // })
 })
