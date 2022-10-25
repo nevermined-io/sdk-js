@@ -103,7 +103,7 @@ export class NFTUpgradeable extends ContractBase {
      * @returns
      */
     public async balance(address: string, did: string): Promise<BigNumber> {
-        return this.call('balanceOf', [zeroX(address), didZeroX(did)])
+        return BigNumber.from(await this.call('balanceOf', [zeroX(address), didZeroX(did)]))
     }
 
     public async transferNft(
