@@ -52,7 +52,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:15](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L15)
+[src/utils/SubscribablePromise.ts:15](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L15)
 
 ## Properties
 
@@ -62,7 +62,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:4](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L4)
+[src/utils/SubscribablePromise.ts:4](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L4)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:6](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L6)
+[src/utils/SubscribablePromise.ts:6](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L6)
 
 ## Methods
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:33](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L33)
+[src/utils/SubscribablePromise.ts:33](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L33)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:37](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L37)
+[src/utils/SubscribablePromise.ts:37](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L37)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:41](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L41)
+[src/utils/SubscribablePromise.ts:41](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L41)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:24](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L24)
+[src/utils/SubscribablePromise.ts:24](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L24)
 
 ___
 
@@ -176,7 +176,7 @@ ___
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:20](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L20)
+[src/utils/SubscribablePromise.ts:20](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L20)
 
 ___
 
@@ -197,4 +197,4 @@ ___
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:29](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/utils/SubscribablePromise.ts#L29)
+[src/utils/SubscribablePromise.ts:29](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/SubscribablePromise.ts#L29)
