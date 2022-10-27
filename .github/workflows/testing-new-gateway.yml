@@ -74,7 +74,7 @@ jobs:
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
-          ./start_nevermined.sh --latest ${{ matrix.network }} --no-graph --no-gateway 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh --latest ${{ matrix.network }} --no-graph --no-gateway --opengsn 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
 
