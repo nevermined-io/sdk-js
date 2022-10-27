@@ -4,7 +4,6 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
-import { Token } from '../../src/nevermined/Token'
 import BigNumber from '../../src/utils/BigNumber'
 import {
     getRoyaltyAttributes,
@@ -22,14 +21,12 @@ describe('MetaTx test with nfts', () => {
     let collector: Account
     let ddo: DDO
 
-    let token: Token
     let payload: JWTPayload
     let royaltyAttributes: RoyaltyAttributes
     const paymasterAddress = JSON.parse(fs.readFileSync('artifacts/opengsn.json').toString()).paymasterAddress
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;({ token } = nevermined)
 
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
