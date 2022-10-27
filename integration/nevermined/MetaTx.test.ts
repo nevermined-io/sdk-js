@@ -10,7 +10,7 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/Assets'
-import { ethers } from 'ethers'
+import { ethers, Wallet } from 'ethers'
 import { MetaTxParameters } from '../../src/keeper/contracts/ContractBase'
 import fs from 'fs'
 
@@ -78,7 +78,7 @@ describe('MetaTx test with nfts', () => {
         })
 
         it('metatransactions should work', async () => {
-            const wallet = new ethers.Wallet(Buffer.from('1'.repeat(64), 'hex'))
+            const wallet = Wallet.createRandom()
 
             await nevermined.keeper.nftUpgradeable.transferNft(ddo.id, await wallet.getAddress(), BigNumber.from(2), artist.getId())
             assert.deepEqual(
@@ -91,7 +91,6 @@ describe('MetaTx test with nfts', () => {
                 paymasterAddress
             }
             await nevermined.keeper.didRegistry.burn(ddo.id, BigNumber.from(2), await wallet.getAddress(), {meta})
-            // await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist, {meta})
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
                 BigNumber.from(6)

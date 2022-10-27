@@ -26,6 +26,7 @@ export interface TxParameters {
     progress?: (data: any) => void
 }
 
+// Wrapper for implementing web3 provider. Needed for OpenGSN
 export interface JsonRpcPayload {
     jsonrpc: string;
     method: string;
