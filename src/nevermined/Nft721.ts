@@ -2,6 +2,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
 import Nft721Contract from '../keeper/contracts/Nft721'
 import { TxParameters } from '../keeper/contracts/ContractBase'
+import BigNumber from '../utils/BigNumber'
 
 export class Nft721 extends Instantiable {
     contract: Nft721Contract
@@ -59,7 +60,7 @@ export class Nft721 extends Instantiable {
     }
 
     public async balanceOf(owner: Account) {
-        return await this.contract.balanceOf(owner.getId())
+        return BigNumber.from(await this.contract.balanceOf(owner.getId()))
     }
 
     public async ownerOf(did: string): Promise<string> {
