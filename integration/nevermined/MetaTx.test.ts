@@ -10,7 +10,7 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/Assets'
-import { ethers, Wallet } from 'ethers'
+import { Wallet } from 'ethers'
 import { MetaTxParameters } from '../../src/keeper/contracts/ContractBase'
 import fs from 'fs'
 
