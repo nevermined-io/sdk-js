@@ -75,6 +75,12 @@ describe('Nfts operations', () => {
             )
         })
 
+        it('should the operation be approved', async () => {
+            await nevermined.nfts.setApprovalForAll(config.gatewayAddress, true, artist)
+            const isApproved = await nevermined.nfts.isApprovedForAll(artist.getId(), config.gatewayAddress)
+            assert.equal(isApproved, true)
+        })
+
         it('should burn nft tokens', async () => {
             await nevermined.nfts.burn(ddo.id, BigNumber.from(6), artist)
             assert.deepEqual(
