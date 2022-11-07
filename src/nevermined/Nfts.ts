@@ -824,6 +824,12 @@ export class Nfts extends Instantiable {
         approved: boolean,
         from: Account
     ) {
+        const isApproved = await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(from.getId(), operatorAddress);
+
+        if(isApproved) {
+            return
+        }
+
         return this.nevermined.keeper.nftUpgradeable.setApprovalForAll(
             operatorAddress,
             approved,
@@ -1026,15 +1032,5 @@ export class Nfts extends Instantiable {
 
         if (!receipt) throw new NFTError('ReleaseNftReward Failed.')
         return receipt
-    }
-
-    /**
-     * Check is operation is approved already
-     * @param accountAddress address which approved to do the operation
-     * @param operatorAddress address which was approved to do the operation 
-     * @returns return true if operation is approved
-     */
-    public async isApprovedForAll(accountAddress: string, operatorAddress: string) {
-        return await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(accountAddress, operatorAddress)
     }
 }
