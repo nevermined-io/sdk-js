@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[src/utils/Logger.ts:3](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/Logger.ts#L3)
+[src/utils/Logger.ts:3](https://github.com/nevermined-io/sdk-js/blob/cc34aea/src/utils/Logger.ts#L3)
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:5](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/Logger.ts#L5)
+[src/utils/Logger.ts:5](https://github.com/nevermined-io/sdk-js/blob/cc34aea/src/utils/Logger.ts#L5)
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:2](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/Logger.ts#L2)
+[src/utils/Logger.ts:2](https://github.com/nevermined-io/sdk-js/blob/cc34aea/src/utils/Logger.ts#L2)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:6](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/Logger.ts#L6)
+[src/utils/Logger.ts:6](https://github.com/nevermined-io/sdk-js/blob/cc34aea/src/utils/Logger.ts#L6)
 
 ___
 
@@ -62,4 +62,4 @@ ___
 
 #### Defined in
 
-[src/utils/Logger.ts:4](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/utils/Logger.ts#L4)
+[src/utils/Logger.ts:4](https://github.com/nevermined-io/sdk-js/blob/cc34aea/src/utils/Logger.ts#L4)
