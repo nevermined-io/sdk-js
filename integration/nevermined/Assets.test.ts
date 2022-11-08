@@ -42,7 +42,7 @@ describe('Assets', () => {
                 sort: {
                     created: 'desc'
                 }
-            } as SearchQuery
+            }
 
             const assets = await nevermined.assets.query(query)
 
@@ -129,7 +129,7 @@ describe('Assets', () => {
                     created: 'desc'
                 },
                 appId: appId1
-            } as SearchQuery
+            }
 
             const assets = await nevermined.assets.query(queryApp)
 
@@ -144,7 +144,7 @@ describe('Assets', () => {
                     created: 'desc'
                 },
                 appId: appId2
-            } as SearchQuery
+            }
 
             const assets = await nevermined.assets.query(queryApp)
 
