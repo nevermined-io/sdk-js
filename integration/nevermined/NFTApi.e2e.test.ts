@@ -221,28 +221,27 @@ describe('NFTs Api End-to-End', () => {
         })
     })
 
-    describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
-        it('The collector access the files', async () => {
-            const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
-            assert.isTrue(result)
-        })
-    })
-
     describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
         it('The artist gives the Gateway permissions to transfer his nfts', async () => {
-            let result = await nevermined.nfts.setApprovalForAll(
-                transferNftCondition.address,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+            const message = 'shold throw this error message'
 
-            result = await nevermined.nfts.setApprovalForAll(
-                config.gatewayAddress,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+            try {
+                await nevermined.nfts.setApprovalForAll(
+                    transferNftCondition.address,
+                    true,
+                    artist
+                )
+    
+                await nevermined.nfts.setApprovalForAll(
+                    config.gatewayAddress,
+                    true,
+                    artist
+                )
+
+                assert.fail(message)
+            } catch (error) {
+                assert.equal(error.message, message)
+            }
         })
         it('The artist creates and mints the nfts', async () => {
             const newMetadata = getMetadata()
@@ -293,21 +292,34 @@ describe('NFTs Api End-to-End', () => {
         })
     })
 
+    describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
+        it('The collector access the files', async () => {
+            const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
+            assert.isTrue(result)
+        })
+    })
+
     describe('As a collector I should not be able to buy a sold out nft', () => {
         it('The artist gives the Gateway permissions to transfer his nfts', async () => {
-            let result = await nevermined.nfts.setApprovalForAll(
-                transferNftCondition.address,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+            const message = 'shold throw this error message'
 
-            result = await nevermined.nfts.setApprovalForAll(
-                config.gatewayAddress,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+            try {
+                await nevermined.nfts.setApprovalForAll(
+                    transferNftCondition.address,
+                    true,
+                    artist
+                )
+    
+                await nevermined.nfts.setApprovalForAll(
+                    config.gatewayAddress,
+                    true,
+                    artist
+                )
+
+                assert.fail(message)
+            } catch (error) {
+                assert.equal(error.message, message)
+            }
         })
         it('The artist creates and mints one nft', async () => {
             const newMetadata = getMetadata()

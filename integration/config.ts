@@ -13,7 +13,7 @@ const configBase: Config = {
     gatewayUri: 'http://localhost:8030',
     gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
-    artifactsFolder: './artifacts',
+    artifactsFolder: '/home/spielrs/.nevermined/nevermined-contracts/artifacts',
     graphHttpUri: nograph
         ? undefined
         : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
