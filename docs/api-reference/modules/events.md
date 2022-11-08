@@ -30,4 +30,4 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:26](https://github.com/nevermined-io/sdk-js/blob/cc34aea/src/events/NeverminedEvent.ts#L26)
+[src/events/NeverminedEvent.ts:26](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/events/NeverminedEvent.ts#L26)
