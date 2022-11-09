@@ -93,6 +93,7 @@ export const workflowMetadatas = {
                 name: 'My workflow',
                 type: 'workflow',
                 workflow: {
+                    coordinationType: 'argo',
                     stages: [
                         {
                             index: 0,

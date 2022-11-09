@@ -33,6 +33,7 @@ export interface Stage {
 }
 
 export interface Workflow {
+    coordinationType: 'argo' | 'fl-coordinator' | 'bacalhau'
     stages: Stage[]
 }
 
