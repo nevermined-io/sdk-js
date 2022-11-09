@@ -301,19 +301,25 @@ describe('NFTs Api End-to-End', () => {
 
     describe('As a collector I should not be able to buy a sold out nft', () => {
         it('The artist gives the Node permissions to transfer his nfts', async () => {
-            const approvalCondition = await nevermined.nfts.setApprovalForAll(
-                transferNftCondition.address,
-                true,
-                artist
-            )
-            assert.isDefined(approvalCondition)
+            const message = 'shold throw this error message'
 
-            const approvalNode = await nevermined.nfts.setApprovalForAll(
-                config.neverminedNodeAddress,
-                true,
-                artist
-            )
-            assert.isDefined(approvalNode)
+            try {
+                await nevermined.nfts.setApprovalForAll(
+                    transferNftCondition.address,
+                    true,
+                    artist
+                )
+    
+                await nevermined.nfts.setApprovalForAll(
+                    config.neverminedNodeAddress,
+                    true,
+                    artist
+                )
+
+                assert.fail(message)
+            } catch (error) {
+                assert.equal(error.message, message)
+            }
 
         })
         it('The artist creates and mints one nft', async () => {
