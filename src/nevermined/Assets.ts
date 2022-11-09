@@ -886,13 +886,14 @@ export class Assets extends Instantiable {
         did: string,
         ownerAccount: Account,
         resultPath?: string,
-        fileIndex = -1
+        fileIndex = -1,
+        serviceType: ServiceType = 'access'
     ): Promise<string> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
 
-        const { serviceEndpoint, index } = ddo.findServiceByType('access')
+        const { serviceEndpoint, index } = ddo.findServiceByType(serviceType)
 
         if (!serviceEndpoint) {
             throw new AssetError(
