@@ -73,7 +73,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:213](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L213)
+[src/nevermined/Nevermined.ts:213](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L213)
 
 ## Properties
 
@@ -85,7 +85,7 @@ AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:196](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L196)
+[src/nevermined/Nevermined.ts:196](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L196)
 
 ___
 
@@ -97,7 +97,7 @@ Accounts submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:156](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L156)
+[src/nevermined/Nevermined.ts:156](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L156)
 
 ___
 
@@ -109,7 +109,7 @@ Agreements submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:181](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L181)
+[src/nevermined/Nevermined.ts:181](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L181)
 
 ___
 
@@ -121,7 +121,7 @@ Assets submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:166](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L166)
+[src/nevermined/Nevermined.ts:166](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L166)
 
 ___
 
@@ -133,7 +133,7 @@ Auth submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:161](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L161)
+[src/nevermined/Nevermined.ts:161](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L161)
 
 ___
 
@@ -145,7 +145,7 @@ Bookmarks instance
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:141](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L141)
+[src/nevermined/Nevermined.ts:141](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L141)
 
 ___
 
@@ -164,7 +164,7 @@ Nevermind very own contract reflector.
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:97](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L97)
+[src/nevermined/Nevermined.ts:97](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L97)
 
 ___
 
@@ -176,7 +176,7 @@ Metadata instance.
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:151](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L151)
+[src/nevermined/Nevermined.ts:151](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L151)
 
 ___
 
@@ -188,7 +188,7 @@ Files submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:176](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L176)
+[src/nevermined/Nevermined.ts:176](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L176)
 
 ___
 
@@ -200,7 +200,7 @@ Gateway instance.
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:121](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L121)
+[src/nevermined/Nevermined.ts:121](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L121)
 
 ___
 
@@ -212,7 +212,7 @@ Keeper instance.
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:92](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L92)
+[src/nevermined/Nevermined.ts:92](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L92)
 
 ___
 
@@ -224,7 +224,7 @@ Marketplace instance.
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:131](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L131)
+[src/nevermined/Nevermined.ts:131](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L131)
 
 ___
 
@@ -236,7 +236,7 @@ Metadata instance.
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:126](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L126)
+[src/nevermined/Nevermined.ts:126](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L126)
 
 ___
 
@@ -248,7 +248,7 @@ Nfts submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:171](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L171)
+[src/nevermined/Nevermined.ts:171](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L171)
 
 ___
 
@@ -260,7 +260,7 @@ Permissions instance
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:146](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L146)
+[src/nevermined/Nevermined.ts:146](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L146)
 
 ___
 
@@ -272,7 +272,7 @@ Profiles instance
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:136](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L136)
+[src/nevermined/Nevermined.ts:136](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L136)
 
 ___
 
@@ -284,7 +284,7 @@ Provenance submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:206](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L206)
+[src/nevermined/Nevermined.ts:206](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L206)
 
 ___
 
@@ -296,7 +296,7 @@ Nevermined probiders submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:186](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L186)
+[src/nevermined/Nevermined.ts:186](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L186)
 
 ___
 
@@ -308,7 +308,7 @@ Nevermined tokens submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:191](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L191)
+[src/nevermined/Nevermined.ts:191](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L191)
 
 ___
 
@@ -320,7 +320,7 @@ Utils submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:211](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L211)
+[src/nevermined/Nevermined.ts:211](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L211)
 
 ___
 
@@ -332,7 +332,7 @@ Versions submodule
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:201](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L201)
+[src/nevermined/Nevermined.ts:201](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L201)
 
 ## Accessors
 
@@ -350,7 +350,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L96)
 
 ___
 
@@ -368,7 +368,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L80)
 
 ___
 
@@ -386,7 +386,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L100)
 
 ___
 
@@ -404,7 +404,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L73)
 
 ___
 
@@ -422,7 +422,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L87)
 
 ___
 
@@ -440,7 +440,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L33)
 
 ___
 
@@ -458,7 +458,7 @@ Instantiable.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L63)
 
 ## Methods
 
@@ -476,7 +476,7 @@ Instantiable.addresses
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L129)
 
 ___
 
@@ -504,7 +504,7 @@ Instantiable.checkExists
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L44)
+[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L44)
 
 ___
 
@@ -528,7 +528,7 @@ Instantiable.findSigner
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L105)
 
 ___
 
@@ -552,7 +552,7 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L171)
 
 ___
 
@@ -577,7 +577,7 @@ Instantiable.addressesStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L142)
 
 ___
 
@@ -603,7 +603,7 @@ Instantiable.findSignerStatic
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L115)
 
 ___
 
@@ -640,7 +640,7 @@ Instantiable.getInstance
 
 #### Defined in
 
-[src/nevermined/Nevermined.ts:51](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/nevermined/Nevermined.ts#L51)
+[src/nevermined/Nevermined.ts:51](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/nevermined/Nevermined.ts#L51)
 
 ___
 
@@ -671,4 +671,4 @@ Instantiable.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/Instantiable.abstract.ts#L162)

@@ -824,6 +824,12 @@ export class Nfts extends Instantiable {
         approved: boolean,
         from: Account
     ) {
+        const isApproved = await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(from.getId(), operatorAddress);
+
+        if(isApproved) {
+            return
+        }
+
         return this.nevermined.keeper.nftUpgradeable.setApprovalForAll(
             operatorAddress,
             approved,

@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:5](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/permissions/Permissions.interfaces.ts#L5)
+[src/permissions/Permissions.interfaces.ts:5](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/permissions/Permissions.interfaces.ts#L5)
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/permissions/Permissions.interfaces.ts#L4)
+[src/permissions/Permissions.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/permissions/Permissions.interfaces.ts#L4)
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/permissions/Permissions.interfaces.ts#L2)
+[src/permissions/Permissions.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/permissions/Permissions.interfaces.ts#L2)
 
 ___
 
@@ -49,4 +49,4 @@ ___
 
 #### Defined in
 
-[src/permissions/Permissions.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/permissions/Permissions.interfaces.ts#L3)
+[src/permissions/Permissions.interfaces.ts:3](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/permissions/Permissions.interfaces.ts#L3)

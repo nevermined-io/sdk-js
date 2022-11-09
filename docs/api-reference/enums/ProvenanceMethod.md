@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:20](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L20)
+[src/keeper/contracts/DIDRegistry.ts:20](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L20)
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:9](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L9)
+[src/keeper/contracts/DIDRegistry.ts:9](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L9)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:17](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L17)
+[src/keeper/contracts/DIDRegistry.ts:17](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L17)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:8](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L8)
+[src/keeper/contracts/DIDRegistry.ts:8](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L8)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:11](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L11)
+[src/keeper/contracts/DIDRegistry.ts:11](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L11)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:19](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L19)
+[src/keeper/contracts/DIDRegistry.ts:19](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L19)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:18](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L18)
+[src/keeper/contracts/DIDRegistry.ts:18](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L18)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:16](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L16)
+[src/keeper/contracts/DIDRegistry.ts:16](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L16)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:14](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L14)
+[src/keeper/contracts/DIDRegistry.ts:14](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L14)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:10](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L10)
+[src/keeper/contracts/DIDRegistry.ts:10](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L10)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:12](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L12)
+[src/keeper/contracts/DIDRegistry.ts:12](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L12)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:15](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L15)
+[src/keeper/contracts/DIDRegistry.ts:15](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L15)
 
 ___
 
@@ -148,4 +148,4 @@ ___
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:13](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/keeper/contracts/DIDRegistry.ts#L13)
+[src/keeper/contracts/DIDRegistry.ts:13](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/keeper/contracts/DIDRegistry.ts#L13)

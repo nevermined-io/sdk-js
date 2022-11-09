@@ -12,6 +12,7 @@
 - [query](SearchQuery.md#query)
 - [show\_unlisted](SearchQuery.md#show_unlisted)
 - [sort](SearchQuery.md#sort)
+- [text](SearchQuery.md#text)
 
 ## Properties
 
@@ -21,7 +22,7 @@
 
 #### Defined in
 
-[src/common/interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/common/interfaces.ts#L19)
+[src/common/interfaces.ts:20](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/common/interfaces.ts#L20)
 
 ___
 
@@ -31,7 +32,7 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/common/interfaces.ts#L14)
+[src/common/interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/common/interfaces.ts#L14)
 
 ___
 
@@ -41,21 +42,17 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:15](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/common/interfaces.ts#L15)
+[src/common/interfaces.ts:15](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/common/interfaces.ts#L15)
 
 ___
 
 ### query
 
-• `Optional` **query**: `Object`
-
-#### Index signature
-
-▪ [jsonPath: `string`]: `any`
+• `Optional` **query**: `unknown`
 
 #### Defined in
 
-[src/common/interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/common/interfaces.ts#L16)
+[src/common/interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/common/interfaces.ts#L17)
 
 ___
 
@@ -65,18 +62,24 @@ ___
 
 #### Defined in
 
-[src/common/interfaces.ts:18](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/common/interfaces.ts#L18)
+[src/common/interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/common/interfaces.ts#L19)
 
 ___
 
 ### sort
 
-• `Optional` **sort**: `Object`
-
-#### Index signature
-
-▪ [jsonPath: `string`]: `string`
+• `Optional` **sort**: `unknown`
 
 #### Defined in
 
-[src/common/interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/be45ac6/src/common/interfaces.ts#L17)
+[src/common/interfaces.ts:18](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/common/interfaces.ts#L18)
+
+___
+
+### text
+
+• `Optional` **text**: `string`
+
+#### Defined in
+
+[src/common/interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/common/interfaces.ts#L16)
