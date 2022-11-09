@@ -295,29 +295,20 @@ describe('NFTs Api End-to-End', () => {
 
     describe('As a collector I should not be able to buy a sold out nft', () => {
         it('The artist gives the Node permissions to transfer his nfts', async () => {
-            let result = await nevermined.nfts.setApprovalForAll(
+            const approvalCondition = await nevermined.nfts.setApprovalForAll(
                 transferNftCondition.address,
                 true,
                 artist
             )
-            assert.isDefined(result)
+            assert.isDefined(approvalCondition)
 
+            const approvalNode = await nevermined.nfts.setApprovalForAll(
+                config.neverminedNodeAddress,
+                true,
+                artist
+            )
+            assert.isDefined(approvalNode)
 
-            assert.isDefined(result)
-            try {
-                await nevermined.nfts.setApprovalForAll(
-                    transferNftCondition.address,
-                    true,
-                    artist
-                )
-    
-                result = await nevermined.nfts.setApprovalForAll(
-                    config.neverminedNodeAddress,
-                    true,
-                    artist
-                )
-            } catch (_error) {                
-            }
         })
         it('The artist creates and mints one nft', async () => {
             const newMetadata = getMetadata()
