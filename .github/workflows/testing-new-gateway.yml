@@ -74,8 +74,11 @@ jobs:
 
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
-
-          ./start_nevermined.sh --latest ${{ matrix.network }} --no-graph --no-node 2>&1 | tee nevermined_tools.txt &
+          
+          # TODO: Use the default Node when merged into master
+          export KEEPER_VERSION=latest
+          export NODE_VERSION=testing
+          ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
 
