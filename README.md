@@ -52,7 +52,7 @@ You can then connect to the [Smart Contracts](https://github.com/nevermined-io/c
 ```js
 const nevermined: Nevermined = await Nevermined.getInstance({
     // the node of the blockchain to connect to, could also be infura
-    nodeUri: 'http://localhost:8545',
+    web3ProviderUri: 'http://localhost:8545',
     // the uri of metadata
     metadataUri: 'http://localhost:5000',
     // the uri of nevermined node

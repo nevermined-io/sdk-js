@@ -8,21 +8,21 @@ describe('Artifacts', () => {
     const artifactsRepo = 'https://artifacts.nevermined.rocks/'
     const tests = [
         {
-            nodeUri: 'https://goerli-rollup.arbitrum.io/rpc',
+            web3ProviderUri: 'https://goerli-rollup.arbitrum.io/rpc',
             networkName: ['arbitrum-goerli'],
             networkId: [421613],
             versions: ['v2.1.0'],
             tag: 'public'
         },
         {
-            nodeUri: 'https://matic-mumbai.chainstacklabs.com',
+            web3ProviderUri: 'https://matic-mumbai.chainstacklabs.com',
             networkName: ['mumbai'],
             networkId: [80001],
             versions: ['v2.1.0'],
             tag: 'public'
         },
         {
-            nodeUri: 'https://polygon-rpc.com',
+            web3ProviderUri: 'https://polygon-rpc.com',
             networkName: ['matic'],
             networkId: [137],
             versions: ['v2.0.0'],
@@ -37,7 +37,7 @@ describe('Artifacts', () => {
     }
 
     for (const test of tests) {
-        const { nodeUri, networkId, networkName, versions, tag } = test
+        const { web3ProviderUri, networkId, networkName, versions, tag } = test
 
         it(`Should get the correct artifacts for ${networkName}-${versions} with tag ${tag}`, async () => {
             const tempDir = mkdtempSync('/tmp/artifacts_')
@@ -53,7 +53,7 @@ describe('Artifacts', () => {
             })
 
             const nvm = await Nevermined.getInstance({
-                web3ProviderUri: nodeUri,
+                web3ProviderUri: web3ProviderUri,
                 artifactsFolder: tempDir
             } as Config)
 

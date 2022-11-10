@@ -25,7 +25,7 @@
 - [marketplaceUri](Config.md#marketplaceuri)
 - [networkFee](Config.md#networkfee)
 - [newGateway](Config.md#newgateway)
-- [nodeUri](Config.md#nodeuri)
+- [web3ProviderUri](Config.md#web3ProviderUri)
 - [threshold](Config.md#threshold)
 - [verbose](Config.md#verbose)
 - [web3Provider](Config.md#web3provider)
@@ -213,9 +213,9 @@ ___
 
 ___
 
-### nodeUri
+### web3ProviderUri
 
-• `Optional` **nodeUri**: `string`
+• `Optional` **web3ProviderUri**: `string`
 
 Ethereum node URL.
 
