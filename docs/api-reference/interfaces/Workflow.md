@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:36](https://github.com/nevermined-io/sdk-js/blob/3b3ce30/src/ddo/MetaData.ts#L36)
+[src/ddo/MetaData.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L36)
