@@ -21,7 +21,7 @@ describe('POAPs with Assets', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        gatewayAddress = await nevermined.gateway.getProviderAddress()
+        gatewayAddress = await nevermined.node.getProviderAddress()
         ;[editor, user] = await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)

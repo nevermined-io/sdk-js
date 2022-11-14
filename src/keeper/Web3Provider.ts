@@ -14,6 +14,6 @@ export default class Web3Provider {
             return new ethers.providers.Web3Provider(config.web3Provider)
         }
 
-        return new ethers.providers.JsonRpcProvider(config.nodeUri)
+        return new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
     }
 }

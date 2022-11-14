@@ -16,7 +16,7 @@ export default class BigNumber extends ethers.BigNumber {
      * // { BigNumber: "-500000000000000000" }
      * ```
      */
-    public static parseEther(value: string): BigNumber {
+    public static parseEther(value: string): BigNumber {        
         return ethers.utils.parseEther(value)
     }
 

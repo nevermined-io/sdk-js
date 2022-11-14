@@ -14,7 +14,7 @@ export class Files extends Instantiable {
     }
 
     public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
-        const response = await this.nevermined.gateway.uploadFilecoin(stream, encrypt)
+        const response = await this.nevermined.node.uploadFilecoin(stream, encrypt)
         return response
     }
 }

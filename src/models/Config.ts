@@ -16,9 +16,9 @@ export class Config {
     public marketplaceAuthToken?: string
 
     /**
-     * Gateway URL.
+     * Node URL.
      */
-    public gatewayUri: string
+    public neverminedNodeUri: string
 
     /**
      * Faucet URL.
@@ -26,14 +26,14 @@ export class Config {
     public faucetUri?: string
 
     /**
-     * Address of Gateway.
+     * Address of the Node.
      */
-    public gatewayAddress?: string
+    public neverminedNodeAddress?: string
 
     /**
-     * Ethereum node URL.
+     * Ethereum Web3 Provider URL (Infura, Alchemy, etc)
      */
-    public nodeUri?: string
+    public web3ProviderUri?: string
 
     /**
      * Web3 Provider.

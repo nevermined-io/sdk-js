@@ -11,7 +11,7 @@ import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 
-describe('Consume Asset (Gateway)', () => {
+describe('Consume Asset (Nevermined Node)', () => {
     let nevermined: Nevermined
 
     let publisher: Account
@@ -51,8 +51,8 @@ describe('Consume Asset (Gateway)', () => {
         }
     })
 
-    it('should fetch the RSA publicKey from the gateway', async () => {
-        const rsaPublicKey = await nevermined.gateway.getRsaPublicKey()
+    it('should fetch the RSA publicKey from the Nevermined Node', async () => {
+        const rsaPublicKey = await nevermined.node.getRsaPublicKey()
         assert.isDefined(rsaPublicKey)
     })
 
@@ -71,7 +71,7 @@ describe('Consume Asset (Gateway)', () => {
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 11])
 
         const assetProviders = await nevermined.provider.list(ddo.id)
-        assert.deepEqual(assetProviders, [ethers.utils.getAddress(config.gatewayAddress)])
+        assert.deepEqual(assetProviders, [ethers.utils.getAddress(config.neverminedNodeAddress)])
     })
 
     it('should order the asset', async () => {

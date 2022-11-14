@@ -108,9 +108,9 @@ describe('NFTs Api End-to-End', () => {
             assert.deepEqual(balance, BigNumber.from(5))
         })
 
-        it('Should set the gateway as a provider by default', async () => {
+        it('Should set the Node as a provider by default', async () => {
             const providers = await nevermined.provider.list(ddo.id)
-            assert.deepEqual(providers, [ethers.utils.getAddress(config.gatewayAddress)])
+            assert.deepEqual(providers, [ethers.utils.getAddress(config.neverminedNodeAddress)])
         })
     })
 
@@ -222,7 +222,7 @@ describe('NFTs Api End-to-End', () => {
     })
 
     describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
-        it('The artist gives the Gateway permissions to transfer his nfts', async () => {
+        it('The artist gives the Node permissions to transfer his nfts', async () => {
             const message = 'shold throw this error message'
 
             try {
@@ -233,7 +233,7 @@ describe('NFTs Api End-to-End', () => {
                 )
     
                 await nevermined.nfts.setApprovalForAll(
-                    config.gatewayAddress,
+                    config.neverminedNodeAddress,
                     true,
                     artist
                 )
@@ -271,7 +271,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(agreementId)
         })
 
-        it('Ask the Gateway to transfer the nft and release the rewards', async () => {
+        it('Ask the Node to transfer the nft and release the rewards', async () => {
             const result = await nevermined.nfts.transferForDelegate(
                 agreementId,
                 artist.getId(),
@@ -281,7 +281,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isTrue(result)
         })
 
-        it('The gateway should fulfill the NFTHolder and NFTAccess conditions', async () => {
+        it('The Node should fulfill the NFTHolder and NFTAccess conditions', async () => {
             const result = await nevermined.nfts.access(
                 ddo.id,
                 collector1,
@@ -300,7 +300,7 @@ describe('NFTs Api End-to-End', () => {
     })
 
     describe('As a collector I should not be able to buy a sold out nft', () => {
-        it('The artist gives the Gateway permissions to transfer his nfts', async () => {
+        it('The artist gives the Node permissions to transfer his nfts', async () => {
             const message = 'shold throw this error message'
 
             try {
@@ -311,7 +311,7 @@ describe('NFTs Api End-to-End', () => {
                 )
     
                 await nevermined.nfts.setApprovalForAll(
-                    config.gatewayAddress,
+                    config.neverminedNodeAddress,
                     true,
                     artist
                 )
@@ -320,6 +320,7 @@ describe('NFTs Api End-to-End', () => {
             } catch (error) {
                 assert.equal(error.message, message)
             }
+
         })
         it('The artist creates and mints one nft', async () => {
             const newMetadata = getMetadata()
@@ -349,7 +350,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(agreementId)
         })
 
-        it('Ask the Gateway to transfer the nft and release the rewards', async () => {
+        it('Ask the Node to transfer the nft and release the rewards', async () => {
             const result = await nevermined.nfts.transferForDelegate(
                 agreementId,
                 artist.getId(),
@@ -359,7 +360,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isTrue(result)
         })
 
-        it('The gateway should fulfill the NFTHolder and NFTAccess conditions', async () => {
+        it('The Node should fulfill the NFTHolder and NFTAccess conditions', async () => {
             const result = await nevermined.nfts.access(
                 ddo.id,
                 collector1,
@@ -381,7 +382,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(agreementId2)
         })
 
-        it('The gateway should not be able to transfer the nft', async () => {
+        it('The Node should not be able to transfer the nft', async () => {
             await assert.isRejected(
                 nevermined.nfts.transferForDelegate(
                     agreementId2,

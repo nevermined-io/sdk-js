@@ -1,4 +1,4 @@
-name: Testing w/ new gateway depending on SDK changes
+name: Testing w/ Nevermined Node depending on SDK changes
 
 on:
   push:
@@ -20,8 +20,8 @@ jobs:
             chainId: 8998
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
@@ -31,8 +31,8 @@ jobs:
         run: yarn lint
       - uses: actions/checkout@v3
         with:
-          repository: nevermined-io/gateway-ts
-          path: gateway-ts
+          repository: nevermined-io/node
+          path: node
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
         with:
@@ -40,20 +40,20 @@ jobs:
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
 
-      - name: Build SDK-JS package and gateway
+      - name: Build SDK-JS package and node
         run: |
           yarn build
           yarn pack
           cp *.tgz sdk-dtp/sdk.tgz
-          cp *.tgz gateway-ts/sdk.tgz
+          cp *.tgz node/sdk.tgz
           cd sdk-dtp
           sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
           yarn
           yarn build
           yarn pack
-          cp *dtp*.tgz ../gateway-ts/dtp.tgz
+          cp *dtp*.tgz ../node/dtp.tgz
 
-          cd ../gateway-ts
+          cd ../node
           sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
           sed -i "/sdk-dtp/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./dtp.tgz\"," package.json
           yarn
@@ -73,16 +73,19 @@ jobs:
 
           # Disabling the compute api for now
           # Check https://github.com/nevermined-io/sdk-js/issues/33
-
-          ./start_nevermined.sh --latest ${{ matrix.network }} --no-graph --no-gateway 2>&1 | tee nevermined_tools.txt &
+          
+          # TODO: Use the default Node when merged into master
+          export KEEPER_VERSION=latest
+          export NODE_VERSION=testing
+          ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
 
-      - name: Run gateway
+      - name: Run node
         run: |
-          cd gateway-ts
+          cd node
           ./scripts/wait-nevermined.sh
-          yarn start 2>&1 | tee gateway_log.txt &
+          yarn start 2>&1 | tee node_log.txt &
 
       - name: Run integration tests
         env:
@@ -102,5 +105,5 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: gateway-output
-          path: gateway-ts/gateway_log.txt
+          name: node-output
+          path: node/node_log.txt

@@ -151,7 +151,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         )
     }
 
-    public gatewayMethod(): ConditionMethod {
+    public nodeMethod(): ConditionMethod {
         return 'fulfillForDelegate'
     }
 }
