@@ -76,7 +76,7 @@ jobs:
           
           # TODO: Use the default Node when merged into master
           export KEEPER_VERSION=latest
-          export NODE_VERSION=testing
+          export NODE_VERSION=latest
           ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
