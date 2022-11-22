@@ -64,6 +64,7 @@ describe('Filecoin Integration', () => {
         assert.isDefined(ddo)
     })
 
+
     it('should download an asset with a cid://', async () => {
         const folder = '/tmp/output'
         const path = await nevermined.assets.download(ddo.id, publisher, folder, 0)
@@ -71,5 +72,11 @@ describe('Filecoin Integration', () => {
         assert.include(path, folder)
         const data = fs.readFileSync(`${path}bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq`)
         assert.equal(data.toString(), 'Hello, Nevermined!')
+    })
+
+    it('should get a file asset object with a cid://', async () => {
+        const result = await nevermined.assets.accessAssetFiles(ddo.id, publisher, 0)
+
+        console.log(result)
     })
 })

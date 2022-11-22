@@ -188,9 +188,15 @@ describe('NFTs721 Api End-to-End', () => {
     })
 
     describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
-        it('The collector access the files', async () => {
+        it('The collector access the files to download', async () => {
             const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
+        })
+
+        it('The collector access the files object', async () => {
+            const result = await nevermined.nfts.accessNFTFiles(ddo.id, collector1)
+
+            assert.equal(result[0].filename, 'ddo-example.json')
         })
     })
 })

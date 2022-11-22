@@ -84,7 +84,7 @@ export class WebServiceConnector extends Instantiable {
         url: string,
         destination?: string,
         index?: number,
-        headers?: any
+        headers?: any,
     ): Promise<string> {
         const response = await this.get(url, headers)
         if (!response.ok) {
@@ -121,6 +121,37 @@ export class WebServiceConnector extends Instantiable {
         const d = path.join(destination, filename)
         this.logger.log(`Downloaded: ${d}`)
         return d
+    }
+
+    public async getFile(
+        url: string,
+        index?: number,
+        headers?: any,
+    ): Promise<{
+        file: Response;
+        filename: string;
+    }> {
+        const response = await this.get(url, headers)
+        if (!response.ok) {
+            throw new Error('Response error.')
+        }
+        let filename: string
+        try {
+            [, filename] = response.headers
+                .get('content-disposition')
+                .match(/attachment;filename=(.+)/)
+        } catch {
+            try {
+                filename = url.split('/').pop()
+            } catch {
+                filename = `file${index}`
+            }
+        }
+
+        return {
+            file: response,
+            filename,
+        }
     }
 
     public async downloadUrl(url: string, headers?: any): Promise<string> {

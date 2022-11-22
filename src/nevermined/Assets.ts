@@ -922,6 +922,33 @@ export class Assets extends Instantiable {
         return 'success'
     }
 
+    public async accessAssetFiles(
+        did: string,
+        ownerAccount: Account,
+        fileIndex = -1
+    ) {
+        const ddo = await this.resolve(did)
+        const { attributes } = ddo.findServiceByType('metadata')
+        const { files } = attributes.main
+
+        const { serviceEndpoint  } = ddo.findServiceByType('access')
+
+        if (!serviceEndpoint) {
+            throw new AssetError(
+                'Consume asset failed, service definition is missing the `serviceEndpoint`.'
+            )
+        }
+
+        this.logger.log('Consuming files')
+
+        return this.nevermined.node.getAssetFiles(
+            did,
+            ownerAccount,
+            files,
+            fileIndex
+        )
+    }
+
     public async delegatePermissions(
         did: string,
         address: string,

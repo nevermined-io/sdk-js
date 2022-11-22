@@ -620,13 +620,26 @@ export class Nfts extends Instantiable {
         consumer: Account,
         destination?: string,
         index?: number,
-        agreementId = '0x'
+        agreementId = '0x',
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
         // Download the files
         this.logger.log('Downloading the files')
         return await this.downloadFiles(agreementId, ddo, consumer, destination, index)
+    }
+
+    public async accessNFTFiles(
+        did: string,
+        consumer: Account,
+        index?: number,
+        agreementId = '0x',
+    ) {
+        this.logger.log('Getting the DTP files')
+
+        const ddo = await this.nevermined.assets.resolve(did)
+        return this.getNFTFiles(agreementId, ddo, consumer, index)
+
     }
 
     /**
@@ -754,12 +767,12 @@ export class Nfts extends Instantiable {
         ddo: DDO,
         consumer: Account,
         destination?: string,
-        index?: number
+        index?: number,
     ) {
         const { serviceEndpoint } = ddo.findServiceByType('nft-access')
         const { attributes } = ddo.findServiceByType('metadata')
-        const { files } = attributes.main
         const { jwt } = this.nevermined.utils
+        const { files } = attributes.main
 
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(agreementId, consumer.getId(), ddo.id)
@@ -783,11 +796,12 @@ export class Nfts extends Instantiable {
         if (index === undefined) {
             for (let i = 0; i < files.length; i++) {
                 const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
+
                 await this.nevermined.utils.fetch.downloadFile(
                     url,
                     destination,
                     i,
-                    headers
+                    headers,
                 )
             }
         } else {
@@ -796,11 +810,59 @@ export class Nfts extends Instantiable {
                 url,
                 destination,
                 index,
-                headers
+                headers,
             )
         }
 
         return true
+    }
+
+    private async getNFTFiles(
+        agreementId: string,
+        ddo: DDO,
+        consumer: Account,
+        index?: number,
+    ) {
+        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
+        const { attributes } = ddo.findServiceByType('metadata')
+        const { jwt } = this.nevermined.utils
+        const { files } = attributes.main
+
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(agreementId, consumer.getId(), ddo.id)
+
+        if (!jwt.tokenCache.has(cacheKey)) {
+            const grantToken = await jwt.generateNftAccessGrantToken(
+                agreementId,
+                ddo.id,
+                consumer
+            )
+            accessToken = await this.nevermined.node.fetchToken(grantToken)
+            jwt.tokenCache.set(cacheKey, accessToken)
+        } else {
+            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        }
+
+        const headers = {
+            Authorization: 'Bearer ' + accessToken
+        }
+
+        if (!index) {
+            return Promise.all(files.map((_f, i) => {
+                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
+
+                return this.nevermined.utils.fetch.getFile(url, i, headers)
+            }))
+        }
+        
+        const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
+
+        return this.nevermined.utils.fetch.getFile(
+            url,
+            index,
+            headers,
+        )
+        
     }
 
     /**
