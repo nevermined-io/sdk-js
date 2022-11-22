@@ -57,11 +57,11 @@ export class Gateway extends Instantiable {
     }
 
     public getExecuteEndpoint(serviceAgreementId: string) {
-        return `${this.url}${apiPath}/execute/${serviceAgreementId}`
+        return `${this.url}${apiPath}/compute/execute/${serviceAgreementId}`
     }
 
     public getExecutionEndpoint() {
-        return `${this.url}${apiPath}/execute/`
+        return `${this.url}${apiPath}/compute/execute/`
     }
 
     public getEncryptEndpoint() {
