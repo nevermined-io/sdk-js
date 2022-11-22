@@ -77,6 +77,6 @@ describe('Filecoin Integration', () => {
     it('should get a file asset object with a cid://', async () => {
         const result = await nevermined.assets.accessAssetFiles(ddo.id, publisher, 0)
 
-        console.log(result)
+        assert.equal(result[0].filename, 'bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
     })
 })

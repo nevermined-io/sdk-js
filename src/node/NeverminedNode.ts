@@ -265,7 +265,7 @@ export class NeverminedNode extends Instantiable {
         destination: string,
         index = -1
     ): Promise<string> {
-        const headers = this.generateDownloadHeaders(account, did)
+        const headers = await this.generateDownloadHeaders(account, did)
 
         const filesPromises = files
             .filter((_, i) => +index === -1 || i === index)
@@ -292,7 +292,7 @@ export class NeverminedNode extends Instantiable {
         files: MetaDataFile[],
         index = -1
     ) {
-        const headers = this.generateDownloadHeaders(account, did)
+        const headers = await this.generateDownloadHeaders(account, did)
 
         return Promise.all(files
             .filter((_, i) => +index === -1 || i === index)
