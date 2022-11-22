@@ -882,6 +882,16 @@ export class Assets extends Instantiable {
         return this.nevermined.metadata.delete(did)
     }
 
+    /**
+     * Download the asset
+     * 
+     * @param did - The Decentralized Identifier of the asset.
+     * @param ownerAccount - The receiver account owner
+     * @param resultPath - Path to be the files downloader
+     * @param fileIndex - the index of the file
+     * 
+     * @return status or path destination if resultPath is provided
+     */
     public async download(
         did: string,
         ownerAccount: Account,
@@ -922,6 +932,16 @@ export class Assets extends Instantiable {
         return 'success'
     }
 
+    /**
+     * Get the asset files object
+     * 
+     * @param did - The Decentralized Identifier of the asset.
+     * @param ownerAccount - The receiver account owner
+     * @param resultPath - Path to be the files downloader
+     * @param fileIndex - the index of the file
+     * 
+     * @return files objects
+     */
     public async accessAssetFiles(
         did: string,
         ownerAccount: Account,

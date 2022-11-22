@@ -612,6 +612,7 @@ export class Nfts extends Instantiable {
      * @param consumer - The NFT holder account.
      * @param destination - The download destination for the files.
      * @param index-  The index of the file. If unset will download all the files in the asset.
+     * @param agreementId - The NFT sales agreement id.
      *
      * @returns true if the access was successful.
      */
@@ -629,6 +630,25 @@ export class Nfts extends Instantiable {
         return await this.downloadFiles(agreementId, ddo, consumer, destination, index)
     }
 
+    /**
+     * Access the files associated with an NFT without download it.
+     *
+     * @remarks
+     * This function will call the Node that will check if all the access conditions where fulfilled
+     * before return the files object.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param consumer - The NFT holder account.
+     * @param index - The index of the file. If unset will download all the files in the asset.
+     * @param agreementId - The NFT sales agreement id.
+     *
+     * @returns the object file.
+     */
     public async accessNFTFiles(
         did: string,
         consumer: Account,
