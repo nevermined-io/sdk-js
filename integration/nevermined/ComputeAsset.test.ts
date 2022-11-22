@@ -71,7 +71,6 @@ describe('Compute Asset', () => {
     it.skip('should execute the compute service', async () => {
         workflowId = await nevermined.assets.execute(
             agreementId,
-            computeDdo.id,
             workflowDdo.id,
             consumer
         )

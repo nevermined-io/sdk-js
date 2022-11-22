@@ -691,13 +691,12 @@ export class Assets extends Instantiable {
      */
     public async execute(
         agreementId: string,
-        computeDid: string,
         workflowDid: string,
         consumer: Account
     ): Promise<string> {
         const { gateway } = this.nevermined
 
-        return (await gateway.execute(agreementId, computeDid, workflowDid, consumer))
+        return (await gateway.execute(agreementId, workflowDid, consumer))
             .workflowId
     }
 

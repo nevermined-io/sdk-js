@@ -217,7 +217,6 @@ export class Gateway extends Instantiable {
 
     public async execute(
         agreementId: string,
-        computeDid: string,
         workflowDid: string,
         account: Account
     ): Promise<any> {
