@@ -215,48 +215,6 @@ export class Gateway extends Instantiable {
         }
     }
 
-    public async execute(
-        agreementId: string,
-        workflowDid: string,
-        account: Account
-    ): Promise<any> {
-        const { jwt } = this.nevermined.utils
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, workflowDid)
-
-        try {
-            if (!jwt.tokenCache.has(cacheKey)) {
-                const grantToken = await jwt.generateExecuteGrantToken(
-                    account,
-                    agreementId,
-                    workflowDid
-                )
-                accessToken = await this.fetchToken(grantToken)
-                jwt.tokenCache.set(cacheKey, accessToken)
-            } else {
-                accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-            }
-            const headers = {
-                Authorization: 'Bearer ' + accessToken
-            }
-
-            const response = await this.nevermined.utils.fetch.post(
-                this.getExecuteEndpoint(noZeroX(agreementId)),
-                undefined,
-                headers
-            )
-            if (!response.ok) {
-                throw new HttpError(
-                    `${response.statusText} ${response.url}`,
-                    response.status
-                )
-            }
-            return await response.json()
-        } catch (e) {
-            throw new GatewayError(e)
-        }
-    }
-
     public async downloadService(
         did: string,
         account: Account,
@@ -296,6 +254,53 @@ export class Gateway extends Instantiable {
             })
         await Promise.all(filesPromises)
         return destination
+    }
+
+    public async execute(
+        agreementId: string,
+        workflowDid: string,
+        account: Account
+    ): Promise<any> {
+        const { jwt } = this.nevermined.utils
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, workflowDid)
+
+        try {
+            if (!jwt.tokenCache.has(cacheKey)) {
+                const grantToken = await jwt.generateExecuteGrantToken(
+                    account,
+                    agreementId,
+                    workflowDid
+                )
+                accessToken = await this.fetchToken(grantToken)
+                jwt.tokenCache.set(cacheKey, accessToken)
+            } else {
+                accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+            }
+            const headers = {
+                Authorization: 'Bearer ' + accessToken
+            }
+
+            const payload = {
+                workflowDid: workflowDid,
+                consumer: account.getId()
+            }
+
+            const response = await this.nevermined.utils.fetch.post(
+                this.getExecuteEndpoint(noZeroX(agreementId)),
+                JSON.stringify(payload),
+                headers
+            )
+            if (!response.ok) {
+                throw new HttpError(
+                    `${response.statusText} ${response.url}`,
+                    response.status
+                )
+            }
+            return await response.json()
+        } catch (e) {
+            throw new GatewayError(e)
+        }
     }
 
     public async computeLogs(
