@@ -263,11 +263,13 @@ export class NeverminedNode extends Instantiable {
         account: Account,
         files: MetaDataFile[],
         destination: string,
-        index = -1
-    ): Promise<string> {
+        index = -1,
+        isToDownload,
+    ) {
         const headers = await this.generateDownloadHeaders(account, did)
 
-        const filesPromises = files
+        if(isToDownload) {
+            const filesPromises = files
             .filter((_, i) => +index === -1 || i === index)
             .map(async ({ index: i }) => {
                 const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
@@ -282,17 +284,16 @@ export class NeverminedNode extends Instantiable {
                     throw new NeverminedNodeError(`Error consuming assets - ${e}`)
                 }
             })
-        await Promise.all(filesPromises)
-        return destination
-    }
 
-    public async getAssetFiles(
-        did: string,
-        account: Account,
-        files: MetaDataFile[],
-        index = -1
-    ) {
-        const headers = await this.generateDownloadHeaders(account, did)
+            await Promise.all(filesPromises)
+            
+            this.logger.log('Files consumed')
+
+            if (destination) {
+                return destination
+            }
+            return 'success'
+        }
 
         return Promise.all(files
             .filter((_, i) => +index === -1 || i === index)
@@ -451,7 +452,7 @@ export class NeverminedNode extends Instantiable {
         return response.json()
     }
 
-    public async generateDownloadHeaders(account: Account, id: string) {
+    private async generateDownloadHeaders(account: Account, id: string) {
         const { jwt } = this.nevermined.utils
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(account.getId(), id)

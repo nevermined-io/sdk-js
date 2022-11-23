@@ -613,6 +613,7 @@ export class Nfts extends Instantiable {
      * @param destination - The download destination for the files.
      * @param index-  The index of the file. If unset will download all the files in the asset.
      * @param agreementId - The NFT sales agreement id.
+     * @param isToDownload - If the NFT is for downloading
      *
      * @returns true if the access was successful.
      */
@@ -622,44 +623,13 @@ export class Nfts extends Instantiable {
         destination?: string,
         index?: number,
         agreementId = '0x',
+        isToDownload = true,
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
         // Download the files
         this.logger.log('Downloading the files')
-        return await this.downloadFiles(agreementId, ddo, consumer, destination, index)
-    }
-
-    /**
-     * Access the files associated with an NFT without download it.
-     *
-     * @remarks
-     * This function will call the Node that will check if all the access conditions where fulfilled
-     * before return the files object.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param did - The Decentralized Identifier of the NFT asset.
-     * @param consumer - The NFT holder account.
-     * @param index - The index of the file. If unset will download all the files in the asset.
-     * @param agreementId - The NFT sales agreement id.
-     *
-     * @returns the object file.
-     */
-    public async accessNFTFiles(
-        did: string,
-        consumer: Account,
-        index?: number,
-        agreementId = '0x',
-    ) {
-        this.logger.log('Getting the DTP files')
-
-        const ddo = await this.nevermined.assets.resolve(did)
-        return this.getNFTFiles(agreementId, ddo, consumer, index)
-
+        return await this.downloadFiles(agreementId, ddo, consumer, destination, index, isToDownload)
     }
 
     /**
@@ -788,6 +758,7 @@ export class Nfts extends Instantiable {
         consumer: Account,
         destination?: string,
         index?: number,
+        isToDownload?: boolean,
     ) {
         const { serviceEndpoint } = ddo.findServiceByType('nft-access')
         const { attributes } = ddo.findServiceByType('metadata')
@@ -813,58 +784,29 @@ export class Nfts extends Instantiable {
             Authorization: 'Bearer ' + accessToken
         }
 
-        if (index === undefined) {
-            for (let i = 0; i < files.length; i++) {
-                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
-
+        if(isToDownload) {
+            if (!index) {
+                for (let i = 0; i < files.length; i++) {
+                    const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
+    
+                    await this.nevermined.utils.fetch.downloadFile(
+                        url,
+                        destination,
+                        i,
+                        headers,
+                    )
+                }
+            } else {
+                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
                 await this.nevermined.utils.fetch.downloadFile(
                     url,
                     destination,
-                    i,
+                    index,
                     headers,
                 )
             }
-        } else {
-            const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
-            await this.nevermined.utils.fetch.downloadFile(
-                url,
-                destination,
-                index,
-                headers,
-            )
-        }
-
-        return true
-    }
-
-    private async getNFTFiles(
-        agreementId: string,
-        ddo: DDO,
-        consumer: Account,
-        index?: number,
-    ) {
-        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
-        const { attributes } = ddo.findServiceByType('metadata')
-        const { jwt } = this.nevermined.utils
-        const { files } = attributes.main
-
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(agreementId, consumer.getId(), ddo.id)
-
-        if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateNftAccessGrantToken(
-                agreementId,
-                ddo.id,
-                consumer
-            )
-            accessToken = await this.nevermined.node.fetchToken(grantToken)
-            jwt.tokenCache.set(cacheKey, accessToken)
-        } else {
-            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-        }
-
-        const headers = {
-            Authorization: 'Bearer ' + accessToken
+    
+            return true
         }
 
         if (!index) {
@@ -882,7 +824,6 @@ export class Nfts extends Instantiable {
             index,
             headers,
         )
-        
     }
 
     /**

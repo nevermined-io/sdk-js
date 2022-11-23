@@ -194,7 +194,14 @@ describe('NFTs721 Api End-to-End', () => {
         })
 
         it('The collector access the files object', async () => {
-            const result = await nevermined.nfts.accessNFTFiles(ddo.id, collector1)
+            const result = await nevermined.nfts.access(
+                ddo.id,
+                collector1,
+                undefined,
+                undefined,
+                undefined,
+                false
+            )
 
             assert.equal(result[0].filename, 'ddo-example.json')
         })

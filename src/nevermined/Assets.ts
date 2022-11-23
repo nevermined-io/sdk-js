@@ -896,8 +896,9 @@ export class Assets extends Instantiable {
         did: string,
         ownerAccount: Account,
         resultPath?: string,
-        fileIndex = -1
-    ): Promise<string> {
+        fileIndex = -1,
+        isToDownload = true
+    ) {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
@@ -916,56 +917,13 @@ export class Assets extends Instantiable {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
-        await this.nevermined.node.downloadService(
+        return this.nevermined.node.downloadService(
             did,
             ownerAccount,
             files,
             resultPath,
-            fileIndex
-        )
-
-        this.logger.log('Files consumed')
-
-        if (resultPath) {
-            return resultPath
-        }
-        return 'success'
-    }
-
-    /**
-     * Get the asset files object
-     * 
-     * @param did - The Decentralized Identifier of the asset.
-     * @param ownerAccount - The receiver account owner
-     * @param resultPath - Path to be the files downloader
-     * @param fileIndex - the index of the file
-     * 
-     * @return files objects
-     */
-    public async accessAssetFiles(
-        did: string,
-        ownerAccount: Account,
-        fileIndex = -1
-    ) {
-        const ddo = await this.resolve(did)
-        const { attributes } = ddo.findServiceByType('metadata')
-        const { files } = attributes.main
-
-        const { serviceEndpoint  } = ddo.findServiceByType('access')
-
-        if (!serviceEndpoint) {
-            throw new AssetError(
-                'Consume asset failed, service definition is missing the `serviceEndpoint`.'
-            )
-        }
-
-        this.logger.log('Consuming files')
-
-        return this.nevermined.node.getAssetFiles(
-            did,
-            ownerAccount,
-            files,
-            fileIndex
+            fileIndex,
+            isToDownload,
         )
     }
 

@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, Account, DDO, MetaData } from '../../src'
+import { Nevermined, Account, DDO, MetaData, FileObject } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 
@@ -75,7 +75,7 @@ describe('Filecoin Integration', () => {
     })
 
     it('should get a file asset object with a cid://', async () => {
-        const result = await nevermined.assets.accessAssetFiles(ddo.id, publisher, 0)
+        const result = await nevermined.assets.download(ddo.id, publisher, undefined, 0, false) as FileObject[]
 
         assert.equal(result[0].filename, 'bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
     })

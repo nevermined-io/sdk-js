@@ -36,6 +36,7 @@ export {
     NewPermission,
     PermissionType
 } from './permissions/Permissions.interfaces'
+export { FileObject } from './nevermined/utils/WebServiceConnector'
 
 import * as events from './events'
 import * as KeyTransfer from './models/KeyTransfer'
