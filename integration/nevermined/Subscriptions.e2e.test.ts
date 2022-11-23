@@ -54,7 +54,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     let nft: ethers.Contract
     let subscriptionNFT: SubscriptionNft721
-    let gatewayAddress
+    let neverminedNodeAddress
 
     let payload: JWTPayload
 
@@ -72,7 +72,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         assetMetadata = getMetadata()
         subscriptionMetadata = getMetadata(undefined, 'Subscription NFT')
         assetMetadata.userId = payload.sub
-        gatewayAddress = await nevermined.gateway.getProviderAddress()
+        neverminedNodeAddress = await nevermined.node.getProviderAddress()
 
         // conditions
         ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
@@ -129,7 +129,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 nft.address,
                 token.address,
                 preMint,
-                [gatewayAddress],
+                [neverminedNodeAddress],
                 royaltyAttributes,
                 undefined,
                 ['nft-sales'],
@@ -145,12 +145,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 editor.getId()
             )
 
-            // INFO: We allow the gateway to fulfill the transfer condition in behalf of the user
+            // INFO: We allow the Node to fulfill the transfer condition in behalf of the user
             // Typically this only needs to happen once per NFT contract
-            await subscriptionNFT.setApprovalForAll(gatewayAddress, true, editor.getId())
+            await subscriptionNFT.setApprovalForAll(neverminedNodeAddress, true, editor.getId())
             const isApproved = await subscriptionNFT.isApprovedForAll(
                 editor.getId(),
-                gatewayAddress
+                neverminedNodeAddress
             )
             assert.isTrue(isApproved)
         })
@@ -164,7 +164,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 nft.address,
                 token.address,
                 preMint,
-                [gatewayAddress],
+                [neverminedNodeAddress],
                 royaltyAttributes,
                 undefined,
                 ['nft-access'],
@@ -201,7 +201,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         })
 
         it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
-            // Let's use the gateway to mint the subscription and release the payments
+            // Let's use the Node to mint the subscription and release the payments
 
             const receipt = await nevermined.nfts.transferForDelegate(
                 agreementId,

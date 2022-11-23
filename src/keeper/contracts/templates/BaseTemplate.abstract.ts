@@ -79,7 +79,7 @@ export abstract class BaseTemplate<Params, S extends Service>
         return {
             type: this.service(),
             index: serviceIndex[this.service()],
-            serviceEndpoint: this.nevermined.gateway.getServiceEndpoint(
+            serviceEndpoint: this.nevermined.node.getServiceEndpoint(
                 this.serviceEndpoint()
             ),
             templateId: this.getAddress(),
@@ -155,7 +155,7 @@ export abstract class BaseTemplate<Params, S extends Service>
             const condInstance = agreementData.instances.find(
                 c => c.condition === a.contractName
             ) as ConditionInstance<any>
-            await a.fulfillGateway(condInstance, extra, from, txparams)
+            await a.fulfillWithNode(condInstance, extra, from, txparams)
             const lock_state =
                 await this.nevermined.keeper.conditionStoreManager.getCondition(
                     condInstance.id

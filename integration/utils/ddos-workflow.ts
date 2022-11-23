@@ -118,7 +118,7 @@ export const workflowMetadatas = {
                             output: {
                                 metadataUrl:
                                     'https://localhost:5000/api/v1/metadata/assets/ddo/',
-                                accessProxyUrl: 'https://localhost:8030/api/v1/gateway/',
+                                accessProxyUrl: 'https://localhost:8030/api/v1/node/',
                                 metadata: {} as any
                             }
                         }

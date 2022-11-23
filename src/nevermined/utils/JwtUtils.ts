@@ -71,7 +71,7 @@ export class EthSignJWT extends SignJWT {
 
 export class JwtUtils extends Instantiable {
     GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer'
-    BASE_AUD = '/api/v1/gateway/services'
+    BASE_AUD = '/api/v1/node/services'
 
     tokenCache: Map<string, string>
 

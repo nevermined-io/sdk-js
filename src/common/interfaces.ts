@@ -13,8 +13,9 @@ export interface MarketplaceResults<Entity> {
 export interface SearchQuery {
     offset?: number
     page?: number
-    query?: { [jsonPath: string]: any }
-    sort?: { [jsonPath: string]: string }
+    text?: string
+    query?: unknown
+    sort?: unknown
     show_unlisted?: boolean
     appId?: string
 }

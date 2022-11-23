@@ -44,4 +44,4 @@ Re-exports [AgreementTemplate](../classes/AgreementTemplate.md)
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:38](https://github.com/nevermined-io/sdk-js/blob/79daab7/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L38)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:38](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L38)

@@ -1,5 +1,5 @@
 export { ClientError } from './ClientError'
-export { GatewayError } from './GatewayError'
+export { NeverminedNodeError } from './NeverminedNodeError'
 export { GraphError } from './GraphError'
 export { HttpError } from './HttpError'
 export { KeeperError } from './KeeperError'
