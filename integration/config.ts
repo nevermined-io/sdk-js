@@ -1,7 +1,7 @@
 import { Config } from '../src'
 import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 
-LoggerInstance.setLevel(LogLevel.Error)
+LoggerInstance.setLevel(LogLevel.Error);
 
 const nograph = process.env['NO_GRAPH'] === 'true'
 const infuraToken = process.env['INFURA_TOKEN']
@@ -13,7 +13,7 @@ const configBase: Config = {
     neverminedNodeUri: 'http://localhost:8030',
     neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
-    artifactsFolder: './artifacts',
+    artifactsFolder: '/home/spielrs/.nevermined/nevermined-contracts/artifacts/',
     graphHttpUri: nograph
         ? undefined
         : 'http://localhost:9000/subgraphs/name/nevermined-io/development',

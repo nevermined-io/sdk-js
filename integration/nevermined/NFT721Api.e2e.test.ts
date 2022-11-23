@@ -12,6 +12,7 @@ import { zeroX } from '../../src/utils'
 import { ethers } from 'ethers'
 import Nft721 from '../../src/keeper/contracts/Nft721'
 import BigNumber from '../../src/utils/BigNumber'
+import '../globals'
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -203,7 +204,7 @@ describe('NFTs721 Api End-to-End', () => {
                 false
             )
 
-            assert.equal(result[0].filename, 'ddo-example.json')
+            assert.equal(result[0].name, 'ddo-example.json')
         })
     })
 })

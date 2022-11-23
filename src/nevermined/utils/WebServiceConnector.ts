@@ -14,11 +14,6 @@ if (typeof window !== 'undefined') {
     fetch = require('node-fetch')
 }
 
-export interface FileObject {
-    file: Blob,
-    filename: string
-}
-
 /**
  * Provides a common interface to web services.
  */
@@ -132,7 +127,7 @@ export class WebServiceConnector extends Instantiable {
         url: string,
         index?: number,
         headers?: any,
-    ): Promise<FileObject> {
+    ): Promise<File> {
         const response = await this.get(url, headers)
         if (!response.ok) {
             throw new Error('Response error.')
@@ -150,11 +145,10 @@ export class WebServiceConnector extends Instantiable {
             }
         }
 
-        const file = await response.blob() as Blob
-        return {
-            file,
-            filename,
-        }
+        const blob = await response.blob() as Blob
+
+        const file = new File([blob], filename)
+        return file
     }
 
     public async downloadUrl(url: string, headers?: any): Promise<string> {

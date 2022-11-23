@@ -1,9 +1,10 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, Account, DDO, MetaData, FileObject } from '../../src'
+import { Nevermined, Account, DDO, MetaData } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
+import '../globals'
 
 describe('Filecoin Integration', () => {
     let nevermined: Nevermined
@@ -64,7 +65,6 @@ describe('Filecoin Integration', () => {
         assert.isDefined(ddo)
     })
 
-
     it('should download an asset with a cid://', async () => {
         const folder = '/tmp/output'
         const path = await nevermined.assets.download(ddo.id, publisher, folder, 0)
@@ -75,8 +75,14 @@ describe('Filecoin Integration', () => {
     })
 
     it('should get a file asset object with a cid://', async () => {
-        const result = await nevermined.assets.download(ddo.id, publisher, undefined, 0, false) as FileObject[]
+        const result = (await nevermined.assets.download(
+            ddo.id,
+            publisher,
+            undefined,
+            0,
+            false
+        )) as File[]
 
-        assert.equal(result[0].filename, 'bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
+        assert.equal(result[0].name, 'bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
     })
 })
