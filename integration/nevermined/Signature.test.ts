@@ -4,7 +4,7 @@ import { Nevermined, Account, DDO } from '../../src'
 import { Service } from '../../src/ddo/Service'
 
 // WARN: not integration test. It has been done here because constant values
-// depends on the first account on spree (only accessible from integration test)
+// depends on the first account on localnet (only accessible from integration test)
 describe('Signature', () => {
     let nevermined: Nevermined
     let consumer: Account
@@ -46,7 +46,8 @@ describe('Signature', () => {
         const templateId = `0x${'f'.repeat(40)}`
         const agreementId = `0x${'e'.repeat(64)}`
 
-        const serviceAgreementTemplate = await templates.accessTemplate.getServiceAgreementTemplate()
+        const serviceAgreementTemplate =
+            await templates.accessTemplate.getServiceAgreementTemplate()
 
         const ddo = new DDO({
             id: did,
@@ -59,15 +60,6 @@ describe('Signature', () => {
                     templateId,
                     attributes: {
                         serviceAgreementTemplate
-                    }
-                } as Service,
-                {
-                    type: 'metadata',
-                    index: 1,
-                    attributes: {
-                        main: {
-                            price: 10
-                        }
                     }
                 } as Service
             ]

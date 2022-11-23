@@ -5,6 +5,7 @@ import Account from '../../../nevermined/Account'
 import { DDO } from '../../..'
 import { Service } from '../../../ddo/Service'
 import AssetRewards from '../../../models/AssetRewards'
+import { ContractReceipt } from 'ethers'
 
 export enum ConditionState {
     Uninitialized = 0,
@@ -12,6 +13,8 @@ export enum ConditionState {
     Fulfilled = 2,
     Aborted = 3
 }
+
+export type ConditionMethod = 'fulfill' | 'fulfillForDelegate'
 
 export interface ConditionContext {
     ddo: DDO
@@ -22,7 +25,7 @@ export interface ConditionContext {
 
 export interface ConditionParameters<Extra> {
     list: any[]
-    params: (arg: Extra) => Promise<any[]> // for fullfill
+    params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
 
 export interface ConditionInstanceSmall {
@@ -30,14 +33,11 @@ export interface ConditionInstanceSmall {
     seed: string
     id: string
     agreementId: string
+    condition: string // Condition contract name
 }
 
-export interface ConditionInstance<Extra> {
-    list: any[]
-    seed: string
-    id: string
-    params: (arg: Extra) => Promise<any[]> // for fullfill
-    agreementId: string
+export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
+    params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
 
 export const conditionStateNames = [
@@ -48,11 +48,12 @@ export const conditionStateNames = [
 ]
 
 export abstract class ConditionSmall extends ContractBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public static async getInstance<Ctx extends ConditionContext, Extra>(
         config: InstantiableConfig,
         conditionName: string,
         conditionsClass: any,
-        optional: boolean = false
+        optional = false
     ): Promise<ConditionSmall & any> {
         const condition: ConditionSmall = new (conditionsClass as any)(conditionName)
         await condition.init(config, optional)
@@ -60,7 +61,6 @@ export abstract class ConditionSmall extends ContractBase {
     }
 
     public hashValues(...args: any[]): Promise<string> {
-        // console.log('hashing', args)
         return this.call('hashValues', args)
     }
 
@@ -71,7 +71,7 @@ export abstract class ConditionSmall extends ContractBase {
         args: any[],
         from?: Account,
         params?: TxParameters,
-        method: string = 'fulfill'
+        method: ConditionMethod = 'fulfill'
     ) {
         return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
     }
@@ -122,7 +122,7 @@ export abstract class Condition<
         config: InstantiableConfig,
         conditionName: string,
         conditionsClass: any,
-        optional: boolean = false
+        optional = false
     ): Promise<Condition<Ctx, Extra> & any> {
         const condition: Condition<Ctx, Extra> = new (conditionsClass as any)(
             conditionName
@@ -163,15 +163,23 @@ export abstract class Condition<
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
-        params?: TxParameters
+        params?: TxParameters,
+        method: ConditionMethod = 'fulfill'
     ) {
         return this.sendFrom(
-            'fulfill',
-            [zeroX(cond.agreementId), ...(await cond.params(additionalParams))],
+            method,
+            [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],
             from,
             params
         )
     }
+
+    public abstract fulfillWithNode(
+        cond: ConditionInstance<Extra>,
+        additionalParams: Extra,
+        from?: Account,
+        params?: TxParameters
+    ): Promise<ContractReceipt | void>
 
     public async instance(
         agreementId: string,
@@ -179,11 +187,52 @@ export abstract class Condition<
     ): Promise<ConditionInstance<Extra>> {
         const valueHash = await this.hashValuesPlain(...params.list)
         return {
+            condition: this.contractName,
             seed: valueHash,
             agreementId,
             id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
             list: params.list,
             params: params.params
         }
+    }
+}
+
+export abstract class ProviderCondition<
+    Ctx extends ConditionContext,
+    Extra = Record<string, unknown>
+> extends Condition<Ctx, Extra> {
+    public async fulfillWithNode(
+        cond: ConditionInstance<Extra>,
+        additionalParams: Extra,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this.sendFrom(
+            this.nodeMethod(),
+            [
+                zeroX(cond.agreementId),
+                ...(await cond.params(this.nodeMethod(), additionalParams))
+            ],
+            from,
+            params
+        )
+    }
+
+    public nodeMethod(): ConditionMethod {
+        return 'fulfill'
+    }
+}
+
+export abstract class ConsumerCondition<
+    Ctx extends ConditionContext,
+    Extra = Record<string, unknown>
+> extends Condition<Ctx, Extra> {
+    public async fulfillWithNode(
+        _cond: ConditionInstance<Extra>,
+        _additionalParams: Extra,
+        _from?: Account,
+        _params?: TxParameters
+    ) {
+        return;
     }
 }

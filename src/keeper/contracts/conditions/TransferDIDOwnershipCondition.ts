@@ -1,6 +1,6 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
-import { Condition, ConditionContext } from './Condition.abstract'
+import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 
@@ -11,7 +11,7 @@ export interface AccessConditionContext extends ConditionContext {
 /**
  * Condition allowing to transfer the ownership between the original owner and a receiver.
  */
-export class TransferDIDOwnershipCondition extends Condition<AccessConditionContext> {
+export class TransferDIDOwnershipCondition extends ProviderCondition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferDIDOwnershipCondition> {
@@ -24,8 +24,8 @@ export class TransferDIDOwnershipCondition extends Condition<AccessConditionCont
 
     /**
      * Generates the hash of the condition inputs.
-     * @param did The Decentralized Identifier of the asset.
-     * @param receiver Address of the granted user or the DID provider.
+     * @param did - The Decentralized Identifier of the asset.
+     * @param receiver - Address of the granted user or the DID provider.
      * @returns Hash of all the values.
      */
     public params(did: string, receiver: string) {
@@ -38,13 +38,15 @@ export class TransferDIDOwnershipCondition extends Condition<AccessConditionCont
 
     /**
      * Fulfill the transfer DID ownership condition.
-     *  Only DID owner or DID provider can call this method.
-     *  Fulfill method transfer full ownership permissions to the receiver address.
      *
-     * @param agreementId Agreement identifier.
-     * @param did The Decentralized Identifier of the asset.
-     * @param receiver The address of the granted user.
-     * @param from
+     * @remarks
+     * Only DID owner or DID provider can call this method.
+     * Fulfill method transfer full ownership permissions to the receiver address.
+     *
+     * @param agreementId - Agreement identifier.
+     * @param did - The Decentralized Identifier of the asset.
+     * @param receiver - The address of the granted user.
+     * @param from -
      * @returns Condition state.
      */
     public fulfill(

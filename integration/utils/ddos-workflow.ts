@@ -10,7 +10,6 @@ export const workflowMetadatas = {
                 dateCreated: '2012-02-01T10:55:11Z',
                 author: 'Mario',
                 license: 'CC0: Public Domain',
-                price: '0',
                 files: [
                     {
                         index: 0,
@@ -18,8 +17,7 @@ export const workflowMetadatas = {
                         checksum: `0000000000000000000000000000000`,
                         checksumType: 'MD5',
                         contentLength: '12057507',
-                        url:
-                            'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
+                        url: 'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
                     }
                 ],
                 type: 'dataset'
@@ -34,7 +32,6 @@ export const workflowMetadatas = {
                 dateCreated: '2019-02-08T08:13:49Z',
                 license: 'CC-BY',
                 name: 'My workflow',
-                price: '1',
                 files: [
                     {
                         index: 0,
@@ -42,8 +39,7 @@ export const workflowMetadatas = {
                         checksum: `0000000000000000000000000000000`,
                         checksumType: 'MD5',
                         contentLength: '12057507',
-                        url:
-                            'https://raw.githubusercontent.com/nevermined-io/docs/515d4f5da771dae0a4827ba757ce9b018e66276f/resources/word_count.py'
+                        url: 'https://raw.githubusercontent.com/nevermined-io/docs-legacy/515d4f5da771dae0a4827ba757ce9b018e66276f/resources/word_count.py'
                     }
                 ],
                 type: 'algorithm',
@@ -72,7 +68,6 @@ export const workflowMetadatas = {
                 dateCreated: '2012-02-01T10:55:11Z',
                 author: 'Mario',
                 license: 'CC0: Public Domain',
-                price: '0',
                 files: [
                     {
                         index: 0,
@@ -80,8 +75,7 @@ export const workflowMetadatas = {
                         checksum: `0000000000000000000000000000000`,
                         checksumType: 'MD5',
                         contentLength: '12057507',
-                        url:
-                            'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
+                        url: 'https://raw.githubusercontent.com/nevermined-io/tools/master/README.md'
                     }
                 ],
                 type: 'compute'
@@ -97,7 +91,6 @@ export const workflowMetadatas = {
                 datePublished: '2019-05-08T08:13:49Z',
                 license: 'CC-BY',
                 name: 'My workflow',
-                price: '1',
                 type: 'workflow',
                 workflow: {
                     stages: [
@@ -124,8 +117,7 @@ export const workflowMetadatas = {
                             output: {
                                 metadataUrl:
                                     'https://localhost:5000/api/v1/metadata/assets/ddo/',
-                                secretStoreUrl: 'http://localhost:12001',
-                                accessProxyUrl: 'https://localhost:8030/api/v1/gateway/',
+                                accessProxyUrl: 'https://localhost:8030/api/v1/node/',
                                 metadata: {} as any
                             }
                         }

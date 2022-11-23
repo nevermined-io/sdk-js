@@ -21,9 +21,9 @@ import AssetRewards from '../../../models/AssetRewards'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import { Service, ServiceType } from '../../../ddo/Service'
-import BigNumber from 'bignumber.js'
 import Token from '../Token'
 import CustomToken from '../CustomToken'
+import BigNumber from '../../../utils/BigNumber'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -63,7 +63,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         config: InstantiableConfig,
         templateContractName: string,
         templateClass: any,
-        optional: boolean = false
+        optional = false
     ): Promise<AgreementTemplate<Params> & any> {
         const agreementTemplate: AgreementTemplate<Params> = new (templateClass as any)(
             templateContractName
@@ -87,7 +87,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
         return {
-            rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+            rewardAddress:
+                this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
             tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
                 .value as string,
             amounts: assetRewards.getAmounts(),
@@ -147,7 +148,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 condIdx,
                 rewardAddress,
                 tokenAddress,
-                amounts.map(a => a.toFixed()),
+                amounts.map(a => a.toString()),
                 receivers
             ],
             from,
@@ -157,7 +158,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     /**
      * Conditions address list.
-     * @return {Promise<string[]>} Conditions address.
+     * @returns A list of condition addresses.
      */
     public getConditionTypes(): Promise<string[]> {
         return this.call('getConditionTypes', [])
@@ -165,7 +166,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     /**
      * List of condition contracts.
-     * @return {Promise<Condition[]>} Conditions contracts.
+     * @returns A list of condition contracts.
      */
     public async getConditions(): Promise<ConditionSmall[]> {
         return (await this.getConditionTypes()).map(address =>
@@ -175,11 +176,9 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     /**
      * Get agreement conditions IDs.
-     * @param  {string}            agreementId Agreement ID.
-     * @param  {DDO}               ddo         DDO.
-     * @param  {AssetRewards}      assetRewards Asset Rewards distribution
-     * @param  parameters
-     * @return {Promise<string[]>}             Condition IDs.
+     * @param agreementId - Agreement ID.
+     * @param ddo - DDO.
+     * @returns The condition IDs.
      */
     public async getAgreementIdsFromDDO(
         agreementId: string,
@@ -196,7 +195,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         return instances.map(a => a.id)
     }
 
-    public abstract instanceFromDDO(
+    public abstract instanceFromDDO?(
         agreementIdSeed: string,
         ddo: DDO,
         creator: string,
@@ -219,11 +218,9 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     }
     /**
      * Create a new agreement using the data of a DDO.
-     * @param  {string}            agreementId Agreement ID.
-     * @param  {DDO}               ddo         DDO.
-     * @param  {AssetRewards}      assetRewards Asset Rewards distribution
-     * @param  parameters
-     * @return {Promise<boolean>}              Success.
+     * @param ddo - DDO.
+     * @param parameters -
+     * @returns {@link true} if the call was successful.
      */
     public async createAgreementFromDDO(
         agreementIdSeed: string,
@@ -245,8 +242,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             agreementIdSeed,
             ddo.shortId(),
             instances.map(a => a.seed),
-            instances.map(_ => 0),
-            timeOuts ? timeOuts : instances.map(_ => 0),
+            new Array(instances.length).fill(0),
+            timeOuts ? timeOuts : new Array(instances.length).fill(0),
             [consumer.getId()],
             from,
             params
@@ -265,7 +262,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         txParams?: TxParameters,
         observer?: (OrderProgressStep) => void
     ): Promise<string> {
-        observer = observer ? observer : _ => {}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        observer = observer ? observer : _ => ({})
 
         const { instances, agreementId } = await this.instanceFromDDO(
             agreementIdSeed,
@@ -278,7 +276,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const assetRewards = getAssetRewardsFromService(service)
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
-        const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
+        const rewardAddress =
+            this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
         const tokenAddress = payment.parameters.find(p => p.name === '_tokenAddress')
             .value as string
         const amounts = assetRewards.getAmounts()
@@ -291,7 +290,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const totalAmount = AssetRewards.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-                ? totalAmount.toFixed()
+                ? totalAmount.toString()
                 : undefined
 
         observer(OrderProgressStep.CreatingAgreement)
@@ -299,8 +298,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             agreementIdSeed,
             ddo.shortId(),
             instances.map(a => a.seed),
-            instances.map(_ => 0),
-            timeOuts ? timeOuts : instances.map(_ => 0),
+            new Array(instances.length).fill(0),
+            timeOuts ? timeOuts : new Array(instances.length).fill(0),
             consumer.getId(),
             this.lockConditionIndex(),
             rewardAddress,
@@ -338,8 +337,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     /**
      * Returns the status of the conditions.
-     * @param  {string}  agreementId Agreement ID.
-     * @return {Promise}             Conditions status.
+     * @param agreementId - Agreement ID.
+     * @returns The conditions status.
      */
     public async getAgreementStatus(
         agreementId: string
@@ -355,7 +354,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             return false
         }
 
-        const conditionIdByConddition = (await this.getConditions()).reduce(
+        const conditionIdByCondition = (await this.getConditions()).reduce(
             (acc, { contractName }, i) => ({
                 ...acc,
                 [contractName]: conditionIds[i]
@@ -363,7 +362,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             {}
         )
 
-        const statesPromises = Object.keys(dependencies).map(async (ref, i) => {
+        const statesPromises = Object.keys(dependencies).map(async ref => {
             const { contractName } = await this.getServiceAgreementTemplateConditionByRef(
                 ref
             )
@@ -372,7 +371,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 contractName,
                 state: (
                     await conditionStore.getCondition(
-                        conditionIdByConddition[contractName]
+                        conditionIdByCondition[contractName]
                     )
                 ).state
             }
@@ -407,7 +406,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const { lockPaymentCondition } = this.nevermined.keeper.conditions
 
         if (!tokenAddress) {
-            ;({ token } = this.nevermined.keeper)
+            ({ token } = this.nevermined.keeper)
         } else if (tokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {
@@ -435,7 +434,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     /**
      * Prints the agreement status.
-     * @param {string} agreementId Agreement ID.
+     * @param agreementId - Agreement ID.
      */
     public async printAgreementStatus(agreementId: string) {
         const status = await this.getAgreementStatus(agreementId)
@@ -464,8 +463,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     /**
      * Generates and returns the agreement creation event.
-     * @param  {string} agreementId Agreement ID.
-     * @return {Event}              Agreement created event.
+     * @param agreementId - Agreement ID.
+     * @returns Agreement created event.
      */
     public async getAgreementCreatedEvent(agreementId: string) {
         const res = await this.events.once(events => events, {
@@ -487,7 +486,9 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 _conditionIds: true,
                 _conditionIdSeeds: true,
                 _timeLocks: true,
-                _timeOuts: true
+                _timeOuts: true,
+                _idSeed: true,
+                _creator: true
             }
         })
         return res
@@ -509,6 +510,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             }
         })
 
-        return res.map(event => event.returnValues?._agreementId || event._agreementId)
+        return res.map(event => event.args?._agreementId || event._agreementId)
     }
 }

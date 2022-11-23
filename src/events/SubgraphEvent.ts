@@ -29,6 +29,9 @@ export class SubgraphEvent extends NeverminedEvent {
     }
 
     public async getEventData(options: EventOptions): EventResult {
+        if (process.env.GRAPH_DELAY) {
+            await new Promise(resolve => setTimeout(resolve, 3000))
+        }
         if (!this.subgraph) {
             throw new GraphError(
                 `Subgraph client for ${this.contract.contractName} is not implemented!`
@@ -58,8 +61,8 @@ export class SubgraphEvent extends NeverminedEvent {
     }
 
     private async subgraphUrl(): Promise<string> {
-        const version = this.contract.version.replace(/\./g, '')
+        const [majorVersion] = this.contract.version.split('.')
         const contractName = this.contract.contractName.toLowerCase()
-        return `${this.graphHttpUri}${this.networkName}${version}${contractName}`
+        return `${this.graphHttpUri}${this.networkName}${majorVersion}${contractName}`
     }
 }

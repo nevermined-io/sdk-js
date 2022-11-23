@@ -2,11 +2,12 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 import { config } from '../config'
-import { Nevermined, DDO, Account, ConditionState, MetaData } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
-import BigNumber from 'bignumber.js'
+import { repeat, sleep } from '../utils/utils'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -35,12 +36,8 @@ describe('Consume Asset (Documentation example)', () => {
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         metadata = await getDocsCommonMetadata()
-        metadata.main.price = '0'
         metadata.userId = payload.sub
-        assetRewards = new AssetRewards(
-            publisher.getId(),
-            new BigNumber(metadata.main.price)
-        )
+        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from('0'))
     })
 
     it('should register an asset', async () => {
@@ -57,14 +54,16 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens = new BigNumber(1)
+        const claimedTokens = BigNumber.from(1)
 
         try {
             await consumer.requestTokens(claimedTokens)
-        } catch {}
+        } catch(error) {
+            Logger.error(error);
+        }
 
         const balanceAfter = (await consumer.getBalance()).nevermined
-        assert.isTrue(balanceAfter.isGreaterThan(initialBalance))
+        assert.isTrue(balanceAfter.gt(initialBalance))
     })
 
     it('should sign the service agreement', async () => {
@@ -102,8 +101,8 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should get the agreement conditions status not fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 500))
-        const status = await nevermined.agreements.status(agreementId)
+        await sleep(3000)
+        const status = await repeat(3, nevermined.agreements.status(agreementId))
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
@@ -113,8 +112,8 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should lock the payment by the consumer', async () => {
-        const { price } = ddo.findServiceByType('metadata').attributes.main
-        const assetRewards = new AssetRewards(publisher.getId(), new BigNumber(price))
+        const price = ddo.getPriceByService()
+        const assetRewards = new AssetRewards(publisher.getId(), price)
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,
@@ -128,7 +127,7 @@ describe('Consume Asset (Documentation example)', () => {
         assert.isTrue(paid, 'The asset has not been paid correctly')
     })
 
-    // The test will fail because Gateway grants the access faster
+    // The test will fail because Nevermined Node grants the access faster
     it('should grant the access by the publisher', async () => {
         try {
             const granted = await nevermined.agreements.conditions.grantAccess(
@@ -140,18 +139,21 @@ describe('Consume Asset (Documentation example)', () => {
 
             assert.isTrue(granted, 'The asset has not been granted correctly')
 
-            const accessGranted = await nevermined.keeper.conditions.accessCondition.checkPermissions(
-                consumer.getId(),
-                ddo.id
-            )
+            const accessGranted =
+                await nevermined.keeper.conditions.accessCondition.checkPermissions(
+                    consumer.getId(),
+                    ddo.id
+                )
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
-        } catch {}
+        } catch(error) {
+            Logger.error(error);
+        }
     })
 
     it('should get the agreement conditions status fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 500))
+        await sleep(500)
         const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {

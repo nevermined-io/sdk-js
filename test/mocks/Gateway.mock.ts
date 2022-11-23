@@ -1,12 +1,12 @@
-import { Gateway } from '../../src/gateway/Gateway'
+import { NeverminedNode } from '../../src/node/NeverminedNode'
 
-export default class GatewayMock extends Gateway {
+export default class NodeMock extends NeverminedNode {
     public async initializeServiceAgreement(
-        did: string,
-        serviceAgreementId: string,
-        index: number,
-        signature: string,
-        consumerPublicKey: string
+        _did: string,
+        _serviceAgreementId: string,
+        _index: number,
+        _signature: string,
+        _consumerPublicKey: string
     ): Promise<any> {
         return true
     }

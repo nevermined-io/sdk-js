@@ -1,7 +1,11 @@
+import {Logger} from '../../src';
+
 export const transformMetadata = (metadata: any): any => {
     try {
         metadata.main.nonce = Math.random()
-    } catch {}
+    } catch (error) {
+        Logger.error(error);
+    }
     return metadata
 }
 
@@ -11,7 +15,8 @@ export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
     for (let i = 0; i < n; i++) {
         try {
             return await p
-        } catch (err) {
+        } catch (error) {
+            Logger.error(error);
         }
         await sleep(500)
     }

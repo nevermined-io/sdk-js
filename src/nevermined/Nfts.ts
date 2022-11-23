@@ -6,7 +6,6 @@ import {
     fillConditionsWithDDO,
     findServiceConditionByName,
     generateId,
-    getAssetRewardsFromDDOByService,
     getAssetRewardsFromService,
     getDIDFromService,
     getNftAmountFromService,
@@ -16,13 +15,23 @@ import {
     SubscribablePromise,
     zeroX
 } from '../utils'
-import { CreateProgressStep, RoyaltyKind } from './Assets'
+import { CreateProgressStep, RoyaltyAttributes, RoyaltyKind } from './Assets'
 import Account from './Account'
 import Token from '../keeper/contracts/Token'
 import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { NFTError, HttpError } from '../errors'
+import { NFTError } from '../errors'
+import BigNumber from '../utils/BigNumber'
+import { ethers } from 'ethers'
+import {
+    ERCType,
+    NeverminedNFT1155Type,
+    NeverminedNFTType
+} from '../models/NFTAttributes'
 
+/**
+ * Nevermined Nft module
+ */
 export class Nfts extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
         const instance = new Nfts()
@@ -32,56 +41,93 @@ export class Nfts extends Instantiable {
     }
 
     /**
-     * Create a new NFT Nevermined Asset.
+     * Create a new NFT Nevermined NFT.
      *
-     * @param {MetaData}        metadata The metadata associated with the NFT.
-     * @param {number}          cap The max number of nfts.
-     * @param {Account}         publisher The account of the creator od the NFT.
-     * @param {number}          nftAmount The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
-     * @param {number}          royalties The percentage that the `publisher` should get on secondary market sales. A number between 0 and 100.
-     * @param {AssetRewards}    assetRewards The sales reward distribution.
-     * @param {string}          erc20TokenAddress The sales reward distribution.
-     * @returns {DDO} The newly registered DDO.
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param metadata - The metadata associated with the NFT.
+     * @param publisher -The account of the creator od the NFT.
+     * @param cap - The max number of nfts.
+     * @param royaltyAttributes - The royalties associated with the NFT.
+     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
+     * @param assetRewards - The sales reward distribution.
+     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
+     * @param preMint - Set to true to mint _nftAmount_ during creation.
+     * @param nftMetadata - Url to the NFT metadata.
+     * @param appId - The id of the application creating the NFT.
+     * @param txParams - Optional transaction parameters
+     * @returns The newly registered {@link DDO}.
      */
     public create(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
-        royalties: number,
+        cap: BigNumber,
+        royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft(
             metadata,
             publisher,
             assetRewards,
-            undefined,
+            'PSK-RSA',
             cap,
             undefined,
             nftAmount,
-            royalties,
+            royaltyAttributes,
             erc20TokenAddress,
+            this.nevermined.keeper.nftUpgradeable.address,
             preMint,
             nftMetadata ? nftMetadata : '',
+            undefined,
+            undefined,
+            appId,
             txParams
         )
     }
 
+    /**
+     * Create a new Nevermined NFT with royalties.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param metadata - The metadata associated with the NFT.
+     * @param publisher -The account of the creator od the NFT.
+     * @param cap - The max number of nfts.
+     * @param royaltyAttributes - The royalties associated with the NFT.
+     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
+     * @param assetRewards - The sales reward distribution.
+     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
+     * @param preMint - Set to true to mint _nftAmount_ during creation.
+     * @param nftMetadata - Url to the NFT metadata.
+     * @param appId - The id of the application creating the NFT.
+     * @param txParams - Optional transaction parameters
+     *
+     * @returns The newly registered {@link DDO}.
+     */
     public createWithRoyalties(
         metadata: MetaData,
         publisher: Account,
-        cap: number,
-        royaltyKind: RoyaltyKind,
-        royalties: number,
+        cap: BigNumber,
+        royaltyAttributes: RoyaltyAttributes,
         assetRewards: AssetRewards,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         erc20TokenAddress?: string,
         preMint?: boolean,
         nftMetadata?: string,
+        nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNftWithRoyalties(
@@ -92,23 +138,49 @@ export class Nfts extends Instantiable {
             cap,
             undefined,
             nftAmount,
-            royaltyKind,
-            royalties,
+            royaltyAttributes,
             erc20TokenAddress,
             preMint,
-            nftMetadata ? nftMetadata : '',
+            nftMetadata || '',
+            nftType,
+            appId,
             txParams
         )
     }
 
+    /**
+     * Create a new Nevermined NFT-721.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param metadata - The metadata associated with the NFT.
+     * @param publisher -The account of the creator od the NFT.
+     * @param assetRewards - The sales reward distribution.
+     * @param nftTokenAddress - The address of the ERC-721 contract
+     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
+     * @param royaltyAttributes - The royalties associated with the NFT.
+     * @param nftMetadata - Url to the NFT metadata.
+     * @param nftTransfer - TODO
+     * @param duration - TODO
+     * @param appId - Id of the application creating this NFT.
+     * @param txParams - Optional transaction parameters
+     *
+     * @returns The newly registered {@link DDO}.
+     */
     public create721(
         metadata: MetaData,
         publisher: Account,
         assetRewards: AssetRewards,
         nftTokenAddress: string,
-        erc20tokenAddress?: string,
-        royalties?: number,
+        erc20TokenAddress?: string,
+        royaltyAttributes?: RoyaltyAttributes,
         nftMetadata?: string,
+        nftTransfer = true,
+        duration = 0,
+        appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft721(
@@ -117,11 +189,16 @@ export class Nfts extends Instantiable {
             assetRewards,
             undefined,
             nftTokenAddress,
-            erc20tokenAddress,
+            erc20TokenAddress,
             true,
             undefined,
-            royalties,
+            royaltyAttributes,
             nftMetadata ? nftMetadata : '',
+            ['nft-sales', 'nft-access'],
+            nftTransfer,
+            duration,
+            undefined,
+            appId,
             txParams
         )
     }
@@ -129,16 +206,24 @@ export class Nfts extends Instantiable {
     /**
      * Mint NFTs associated with an asset.
      *
+     * @remarks
      * This function can be called multiple times as long as the minting does not exceed the maximum cap set during creation.
      *
-     * @param {String} did The Decentralized Identifier of the NFT asset.
-     * @param {Number} nftAmount The amount of NFTs to mint.
-     * @param {Account} publisher The account of the publisher of the NFT.
-     * @returns
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param nftAmount - The amount of NFTs to mint.
+     * @param publisher - The account of the publisher of the NFT.
+     * @param params - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
      */
     public async mint(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         params?: TxParameters
     ) {
@@ -153,16 +238,24 @@ export class Nfts extends Instantiable {
     /**
      * Burn NFTs associated with an asset.
      *
-     * The publisher can only burn NFTs that it owns. NFTs that were already transfered cannot be burned by the publisher.
+     * @remarks
+     * The publisher can only burn NFTs that it owns. NFTs that were already transferred cannot be burned by the publisher.
      *
-     * @param {String} did The Decentralized Identifier of the NFT asset.
-     * @param {Number} nftAmount The amount of NFTs to burn.
-     * @param {Account} publisher The account of the publisher of the NFT.
-     * @returns
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param nftAmount - The amount of NFTs to burn.
+     * @param publisher - The account of the publisher of the NFT.
+     * @param params - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
      */
     public async burn(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         params?: TxParameters
     ) {
@@ -175,21 +268,29 @@ export class Nfts extends Instantiable {
     }
 
     // TODO: We need to improve this to allow for secondary market sales
-    //       Right now it fetchs the rewards from the DDO which don't change.
+    //       Right now it fetches the rewards from the DDO which don't change.
     /**
      * Buy NFTs.
      *
+     * @remarks
      * This will lock the funds of the consumer in escrow pending the transfer of the NFTs
-     * from the publisher/provider.
+     * from the publisher.
      *
-     * @param {String} did The Decentralized Identifier of the NFT asset.
-     * @param {Number} nftAmount The amount of NFTs to buy.
-     * @param {Account} consumer The account of the NFT buyer.
-     * @returns {string} The NFT sales agreement id.
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param nftAmount - The amount of NFTs to buy.
+     * @param consumer - The account of the NFT buyer.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The agreement ID.
      */
     public order(
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
@@ -218,6 +319,24 @@ export class Nfts extends Instantiable {
         })
     }
 
+    /**
+     * Buy NFT-721.
+     *
+     * @remarks
+     * This will lock the funds of the consumer in escrow pending the transfer of the NFTs
+     * from the publisher.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param consumer - The account of the NFT buyer.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The agreement ID.
+     */
     public order721(
         did: string,
         consumer: Account,
@@ -230,16 +349,17 @@ export class Nfts extends Instantiable {
             const ddo = await this.nevermined.assets.resolve(did)
 
             this.logger.log('Creating nft721-sales agreement')
-            const agreementId = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
-                agreementIdSeed,
-                ddo,
-                nft721SalesTemplate.params(consumer.getId()),
-                consumer,
-                consumer,
-                undefined,
-                txParams,
-                a => observer.next(a)
-            )
+            const agreementId =
+                await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
+                    agreementIdSeed,
+                    ddo,
+                    nft721SalesTemplate.params(consumer.getId()),
+                    consumer,
+                    consumer,
+                    undefined,
+                    txParams,
+                    a => observer.next(a)
+                )
             if (!agreementId) {
                 throw new NFTError('Error creating nft721-sales agreement')
             }
@@ -251,26 +371,35 @@ export class Nfts extends Instantiable {
     /**
      * Transfer NFTs to the consumer.
      *
+     * @remarks
      * A publisher/provider will check if the consumer put the funds in escrow and
      * execute the transfer in order to be able to release the rewards.
      *
-     * @param {String} agreementId The NFT sales agreement id.
-     * @param {String} did The Decentralized identifier of the NFT asset.
-     * @param {Number} nftAmount The number of NFTs to transfer.
-     * @param {Account} publisher The current owner of the NFTs.
-     * @returns {Boolean} True if the transfer was successfull.
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param did - The Decentralized identifier of the NFT asset.
+     * @param nftAmount - The number of NFTs to transfer.
+     * @param publisher - The current owner of the NFTs.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns true if the transfer was successful.
+     *
+     * @throws {@link NFTError}
+     * Thrown if there is an error transferring the NFT
      */
     public async transfer(
         agreementId: string,
         did: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
-
         const ddo = await this.nevermined.assets.resolve(did)
-        const salesService = ddo.findServiceByType('nft-sales')
 
         const result = await agreements.conditions.transferNft(
             agreementId,
@@ -287,35 +416,82 @@ export class Nfts extends Instantiable {
         return true
     }
 
+    /**
+     * Asks the Node to transfer the NFT on behalf of the publisher.
+     *
+     * @remarks
+     * This is useful when the consumer does not want to wait for the publisher
+     * to transfer the NFT once the payment is made. Assuming the publisher delegated
+     * transfer permissions to the Node.
+     *
+     * One example would be a marketplace where the user wants to get access to the NFT
+     * as soon as the payment is made
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param nftHolder - The address of the current owner of the NFT.
+     * @param nftReceiver - The address where the NFT should be transferred.
+     * @param nftAmount - The amount of NFTs to transfer.
+     * @param ercType  - The Type of the NFT ERC (1155 or 721).
+     *
+     * @returns true if the transfer was successful.
+     */
     public async transferForDelegate(
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number
+        nftAmount: BigNumber,
+        ercType: ERCType = 1155
     ): Promise<boolean> {
-        return await this.nevermined.gateway.nftTransferForDelegate(
+        return await this.nevermined.node.nftTransferForDelegate(
             agreementId,
             nftHolder,
             nftReceiver,
-            nftAmount
+            nftAmount,
+            ercType
         )
     }
 
+    /**
+     * Transfer NFT-721 to the consumer.
+     *
+     * @remarks
+     * A publisher/provider will check if the consumer put the funds in escrow and
+     * execute the transfer in order to be able to release the rewards.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param did - The Decentralized identifier of the NFT asset.
+     * @param publisher - The current owner of the NFTs.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns true if the transfer was successful.
+     *
+     * @throws {@link NFTError}
+     * Thrown if there is an error transferring the NFT
+     */
     public async transfer721(
         agreementId: string,
         did: string,
-        from: Account,
+        publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
         const { agreements } = this.nevermined
 
         const ddo = await this.nevermined.assets.resolve(did)
-        const assetRewards = getAssetRewardsFromDDOByService(ddo, 'nft721-sales')
 
         const result = await agreements.conditions.transferNft721(
             agreementId,
             ddo,
-            from,
+            publisher,
             txParams
         )
         if (!result) {
@@ -328,20 +504,29 @@ export class Nfts extends Instantiable {
     /**
      * Release the funds from escrow.
      *
-     * A publisher is able to release the funds put on escrow by the consumer after transfering the NFTs.
+     * @remarks
+     * A publisher is able to release the funds put on escrow by the consumer after transferring the NFTs.
      *
-     * @param {String} agreementId
-     * @param {String} did
-     * @param {Number} nftAmount
-     * @param {Account} consumer
-     * @param {Account} publisher
-     * @returns {Boolean} True if the funds release was successfull.
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param did - The Decentralized identifier of the NFT asset.
+     * @param nftAmount - The amount of NFTs to transfer.
+     * @param publisher - The current owner of the NFTs.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns true if the funds release was successful.
+     *
+     * @throws {@link NFTError}
+     * Thrown if there is an error releasing the rewards
      */
     public async releaseRewards(
         agreementId: string,
         did: string,
-        nftAmount: number,
-        consumer: Account,
+        nftAmount: BigNumber,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
@@ -365,10 +550,30 @@ export class Nfts extends Instantiable {
         return true
     }
 
+    /**
+     * Release the funds from escrow.
+     *
+     * @remarks
+     * A publisher is able to release the funds put on escrow by the consumer after transferring the NFTs.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param did - The Decentralized identifier of the NFT asset.
+     * @param publisher - The current owner of the NFTs.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns true if the funds release was successful.
+     *
+     * @throws {@link NFTError}
+     * Thrown if there is an error releasing the rewards.
+     */
     public async release721Rewards(
         agreementId: string,
         did: string,
-        consumer: Account,
         publisher: Account,
         txParams?: TxParameters
     ): Promise<boolean> {
@@ -394,21 +599,28 @@ export class Nfts extends Instantiable {
     /**
      * Access the files associated with an NFT.
      *
-     * This function will call the gateway that will check if all the access conditions where fulfilled
+     * @remarks
+     * This function will call the Node that will check if all the access conditions where fulfilled
      * before providing the files.
      *
-     * @param {String} did The Decentralized Identifier of the NFT asset.
-     * @param {Account} consumer The NFT holder account.
-     * @param {String} destination The download destination for the files.
-     * @param {Number} index The index of the file. If unset will download all the files in the asset.
-     * @returns
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param consumer - The NFT holder account.
+     * @param destination - The download destination for the files.
+     * @param index-  The index of the file. If unset will download all the files in the asset.
+     *
+     * @returns true if the access was successful.
      */
     public async access(
         did: string,
         consumer: Account,
         destination?: string,
         index?: number,
-        agreementId: string = '0x'
+        agreementId = '0x'
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
@@ -420,29 +632,68 @@ export class Nfts extends Instantiable {
     /**
      * Get the NFT balance for a particular did
      *
-     * @param {String} did The Decentralized Identifier of the NFT asset.
-     * @param {Account} account The account to check the balance of.
-     * @returns {Number} The ammount of NFTs owned by the account.
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param account - The account to check the balance of.
+     *
+     * @returns The amount of NFTs owned by the account.
      */
-    public async balance(did: string, account: Account) {
+    public async balance(did: string, account: Account): Promise<BigNumber> {
         return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
     }
 
-    public async ownerOf(did: string, nftTokenAddress: string) {
-        return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(did)
+    /**
+     * Get the owner of the NFT
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized identifier of the NFT asset.
+     * @param nftTokenAddress - The address of the ERC-721 contract.
+     * @param agreementId - The NFT sales agreement id.
+     *
+     * @returns The address of the NFT owner.
+     */
+    public async ownerOf(did: string, nftTokenAddress: string, agreementId?: string) {
+        if (!agreementId) {
+            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
+                did
+            )
+        } else {
+            const tokenId = ethers.utils.keccak256(
+                ethers.utils.defaultAbiCoder.encode(
+                    ['bytes32', 'bytes32'],
+                    [zeroX(did), zeroX(agreementId)]
+                )
+            )
+            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
+                tokenId
+            )
+        }
     }
 
     /**
      * Get the details of an NFT
      *
-     * @param {String} did The Decentralized Identifier of the NFT asset.
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     *
      * @returns The details of the NFT.
      */
     public async details(did: string) {
         const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
-        const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(
-            did
-        )
+        const royaltySchemeAddress =
+            await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
         let royalties = Number(details[8])
         let royaltyScheme = RoyaltyKind.Legacy
         if (
@@ -473,9 +724,21 @@ export class Nfts extends Instantiable {
         }
     }
 
+    /**
+     * Get the NFT contract address associated with a Nevermined asset.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param ddo - The DDO of the asset.
+     *
+     * @returns The NFT contract address.
+     */
     public getNftContractAddress(ddo: DDO) {
-        const service = ddo.findServiceByType('nft721-access')
-        if (!!service) {
+        const service = ddo.findServiceByType('nft-access')
+        if (service) {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
                 c => c.name === 'nftHolder'
             )
@@ -493,8 +756,7 @@ export class Nfts extends Instantiable {
         destination?: string,
         index?: number
     ) {
-        const { serviceEndpoint } =
-            ddo.findServiceByType('nft-access') || ddo.findServiceByType('nft721-access')
+        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
         const { jwt } = this.nevermined.utils
@@ -508,7 +770,7 @@ export class Nfts extends Instantiable {
                 ddo.id,
                 consumer
             )
-            accessToken = await this.nevermined.gateway.fetchToken(grantToken)
+            accessToken = await this.nevermined.node.fetchToken(grantToken)
             jwt.tokenCache.set(cacheKey, accessToken)
         } else {
             accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
@@ -541,11 +803,33 @@ export class Nfts extends Instantiable {
         return true
     }
 
+    /**
+     * Enable or disable NFT transfer rights for an operator.
+     *
+     * @see {@link transferForDelegate}
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param operatorAddress - The address that of the operator we want to give transfer rights to.
+     * @param approved - Give or remove transfer rights from the operator.
+     * @param from - The account that wants to give transfer rights to the operator.
+     *
+     * @returns The {@link ethers.ContractReceipt}
+     */
     public async setApprovalForAll(
         operatorAddress: string,
         approved: boolean,
         from: Account
     ) {
+        const isApproved = await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(from.getId(), operatorAddress);
+
+        if(isApproved) {
+            return
+        }
+
         return this.nevermined.keeper.nftUpgradeable.setApprovalForAll(
             operatorAddress,
             approved,
@@ -554,26 +838,38 @@ export class Nfts extends Instantiable {
     }
 
     /**
+     * After purchase re-list an NFT to enable secondary market sales.
      *
-     * @param ddo {DDO} the Decentraized ID of the NFT
-     * @param assetRewards {AssetRewards} the currect setup of asset rewards
-     * @param nftAmount {Number} the number of NFTs put up for secondary sale
-     * @param provider {Account} the account that will be the provider of the secondary sale
-     * @param owner {Account} the account of the current owner
-     * @returns {Promise<string>} the agreementId if the secondary sale config was successful
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param ddo - The DDO of the asset.
+     * @param assetRewards - The current setup of asset rewards.
+     * @param nftAmount - The number of NFTs put up for secondary sale.
+     * @param provider - The address that will be the provider of the secondary sale.
+     * @param owner - The account of the current owner.
+     *
+     * @returns  the agreementId of the secondary sale.
+     *
+     * @throws {@link NFTError}
+     * Thrown if there is an error listing the NFT.
      */
     public async listOnSecondaryMarkets(
         ddo: DDO,
         assetRewards: AssetRewards,
-        nftAmount: number,
+        nftAmount: BigNumber,
         provider: string,
         token: Token,
         owner: string
     ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const agreementIdSeed = zeroX(utils.generateId())
-        const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
-        const nftSalesTemplateConditions = await nftSalesTemplate.getServiceAgreementTemplateConditions()
+        const nftSalesServiceAgreementTemplate =
+            await nftSalesTemplate.getServiceAgreementTemplate()
+        const nftSalesTemplateConditions =
+            await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
         nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
             nftSalesTemplateConditions,
@@ -589,7 +885,7 @@ export class Nfts extends Instantiable {
             agreementId: agreementIdSeed,
             type: 'nft-sales',
             index: 6,
-            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
+            serviceEndpoint: this.nevermined.node.getNftEndpoint(),
             templateId: nftSalesTemplate.getAddress(),
             did: ddo.id,
             attributes: {
@@ -619,15 +915,25 @@ export class Nfts extends Instantiable {
     }
 
     /**
-     * Buys a number of listed goods on secondary markets.
-     * @param consumer The account of the buyer/consumer.
-     * @param nftAmount The number of assets to buy. 1 by default.
-     * @param agreementId The agreementId of the initial sales agreement created off-chain.
-     * @returns {Promise<Boolean>} true if the buy was successful.
+     * Buys a number of listed NFTs on secondary markets.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param consumer - The account of the buyer/consumer.
+     * @param nftAmount - The number of assets to buy. 1 by default.
+     * @param agreementId - The agreementId of the initial sales agreement created off-chain.
+     *
+     * @returns true if the buy was successful.
+     *
+     * @throws {@link NFTError}
+     * Thrown if there is an error buying the NFT.
      */
     public async buySecondaryMarketNft(
         consumer: Account,
-        nftAmount: number = 1,
+        nftAmount: BigNumber = BigNumber.from(1),
         agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
@@ -668,15 +974,25 @@ export class Nfts extends Instantiable {
             params
         )
 
-        if (!receipt) throw new Error('LockPayment Failed.')
+        if (!receipt) throw new NFTError('LockPayment Failed.')
         return receipt
     }
 
     /**
      * Used to release the secondary market NFT & the locked rewards.
-     * @param owner The owner account.
-     * @param agreementId the Id of the underlying service agreement.
-     * @returns {Promise<Boolean>} true if the transaction was successful.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param owner - The owner account.
+     * @param agreementId - the Id of the underlying service agreement.
+     *
+     * @returns  true if the transaction was successful.
+     *
+     * @throws {@link NFTError}
+     * Thrown if there is an error releasing the rewards.
      */
     public async releaseSecondaryMarketRewards(
         owner: Account,
@@ -689,10 +1005,11 @@ export class Nfts extends Instantiable {
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
         ddo.updateService(this.nevermined, service)
-        const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
-            agreementIdSeed,
-            consumer.getId()
-        )
+        const agreementId =
+            await this.nevermined.keeper.agreementStoreManager.agreementId(
+                agreementIdSeed,
+                consumer.getId()
+            )
 
         let receipt = await this.nevermined.agreements.conditions.transferNft(
             agreementId,
@@ -702,7 +1019,7 @@ export class Nfts extends Instantiable {
             params
         )
 
-        if (!receipt) throw new Error('TranferNft Failed.')
+        if (!receipt) throw new NFTError('TransferNft Failed.')
 
         receipt = await this.nevermined.agreements.conditions.releaseNftReward(
             agreementId,
@@ -713,7 +1030,7 @@ export class Nfts extends Instantiable {
             params
         )
 
-        if (!receipt) throw new Error('ReleaseNftReward Failed.')
+        if (!receipt) throw new NFTError('ReleaseNftReward Failed.')
         return receipt
     }
 }

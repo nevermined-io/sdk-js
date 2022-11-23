@@ -4,6 +4,7 @@ import { ServiceAccess, ServiceType } from '../../ddo/Service'
 import Account from '../Account'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { ethers } from 'ethers'
 
 export class ServiceAgreement extends Instantiable {
     constructor(config: InstantiableConfig) {
@@ -59,11 +60,11 @@ export class ServiceAgreement extends Instantiable {
             timeoutValues
         )
 
-        const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
-            serviceAgreementHash,
-            consumer.getId(),
-            consumer.getPassword()
-        )
+        const serviceAgreementHashSignature =
+            await this.nevermined.utils.signature.signText(
+                ethers.utils.arrayify(serviceAgreementHash),
+                consumer.getId()
+            )
 
         return serviceAgreementHashSignature
     }
@@ -82,17 +83,20 @@ export class ServiceAgreement extends Instantiable {
             { type: 'uint256[]', value: timeouts },
             { type: 'bytes32', value: zeroX(serviceAgreementId) }
         ]
-
-        return this.web3.utils.soliditySha3(...args)
+        return ethers.utils.solidityKeccak256(
+            args.map((arg: { type: string }) => arg.type),
+            args.map((arg: { value: any }) => arg.value)
+        )
     }
 
     private getTimeValuesFromService(
         service: ServiceAccess,
         type: 'timeout' | 'timelock'
     ): number[] {
-        const timeoutValues: number[] = service.attributes.serviceAgreementTemplate.conditions.map(
-            (condition: ServiceAgreementTemplateCondition) => condition[type]
-        )
+        const timeoutValues: number[] =
+            service.attributes.serviceAgreementTemplate.conditions.map(
+                (condition: ServiceAgreementTemplateCondition) => condition[type]
+            )
 
         return timeoutValues
     }

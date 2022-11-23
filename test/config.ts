@@ -5,12 +5,12 @@ LoggerInstance.setLevel(LogLevel.Error)
 
 export default {
     marketplaceUri: 'http://localhost:3100',
-    gatewayUri: 'http://localhost:8030',
-    gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+    neverminedNodeUri: 'http://localhost:8030',
+    neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     faucetUri: 'http://localhost:3001',
-    nodeUri: `http://localhost:${process.env.ETH_PORT || 8545}`,
-    secretStoreUri: 'http://localhost:12001',
+    web3ProviderUri: `http://localhost:${process.env.ETH_PORT || 8545}`,
     verbose: LogLevel.Error,
+    artifactsFolder: './artifacts',
     aaveConfig: {
         lendingPoolAddress: '0xE0fBa4Fc209b4948668006B2bE61711b7f465bAe', // Kovan
         dataProviderAddress: '0x744C1aaA95232EeF8A9994C4E0b3a89659D9AB79', // Kovan

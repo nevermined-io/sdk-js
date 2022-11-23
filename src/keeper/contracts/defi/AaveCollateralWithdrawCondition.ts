@@ -1,4 +1,8 @@
-import { Condition, ConditionContext } from '../conditions/Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ProviderCondition
+} from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -9,9 +13,7 @@ export interface AaveCollateralWithdrawConditionContext extends ConditionContext
     collateralAsset: string
 }
 
-export class AaveCollateralWithdrawCondition extends Condition<
-    AaveCollateralWithdrawConditionContext
-> {
+export class AaveCollateralWithdrawCondition extends ProviderCondition<AaveCollateralWithdrawConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveCollateralWithdrawCondition> {

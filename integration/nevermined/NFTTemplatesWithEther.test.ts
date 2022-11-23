@@ -16,9 +16,13 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
-import web3Utils from 'web3-utils'
 import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../src/utils/BigNumber'
+import {
+    getRoyaltyAttributes,
+    RoyaltyAttributes,
+    RoyaltyKind
+} from '../../src/nevermined/Assets'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -26,6 +30,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     let collector2: Account
     let gallery: Account
     let sender: Account
+    let governor: Account
 
     let nevermined: Nevermined
     let conditionStoreManager: ConditionStoreManager
@@ -46,36 +51,48 @@ describe('NFTTemplates With Ether E2E', async () => {
     let ddo: DDO
 
     const royalties = 10 // 10% of royalties in the secondary market
-    const cappedAmount = 5
+    const cappedAmount = BigNumber.from(5)
 
     let agreementId: string
     let agreementAccessId: string
     let agreementIdSeed: string
     let agreementAccessIdSeed: string
 
+    const networkFee = 200000
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
-    let nftPrice = 0.2
-    let amounts = [new BigNumber(0.15), new BigNumber(0.05)]
+    const numberNFTs = BigNumber.from(1)
+    const amounts = [
+        BigNumber.parseEther('0.3'),
+        BigNumber.parseEther('0.1'),
+        BigNumber.parseEther('0.1')
+    ]
 
     let receivers: string[]
     let assetRewards: AssetRewards
+    let royaltyAttributes: RoyaltyAttributes
 
     let initialBalances: any
-    let networkName: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[
-            sender,
-            artist,
-            collector1,
-            collector2,
-            gallery
-        ] = await nevermined.accounts.list()
+        ;[sender, artist, collector1, collector2, gallery, , , , , governor] =
+            await nevermined.accounts.list()
 
-        receivers = [artist.getId(), gallery.getId()]
+        console.debug(`ACCOUNT GOVERNOR = ${governor.getId()}`)
+
+        await nevermined.keeper.nvmConfig.setNetworkFees(
+            networkFee,
+            governor.getId(),
+            governor
+        )
+        const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+        console.debug(`FEE RECEIVER = ${feeReceiver}`)
+
+        const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
+        console.debug(`NETWORK FEE = ${fee}`)
+
+        receivers = [artist.getId(), gallery.getId(), governor.getId()]
 
         // components
         ;({ conditionStoreManager, nftUpgradeable } = nevermined.keeper)
@@ -92,19 +109,24 @@ describe('NFTTemplates With Ether E2E', async () => {
         // templates
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
-        // eth
-        nftPrice = Number(web3Utils.toWei(String(nftPrice), 'ether'))
-        amounts = amounts.map(v => new BigNumber(web3Utils.toWei(String(v), 'ether')))
-
         // ether
         assetRewards = new AssetRewards(
             new Map([
                 [receivers[0], amounts[0]],
-                [receivers[1], amounts[1]]
+                [receivers[1], amounts[1]],
+                [receivers[2], amounts[2]]
             ])
         )
+    })
 
-        networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    after(async () => {
+        await nevermined.keeper.nvmConfig.setNetworkFees(0, ZeroAddress, governor)
+        console.debug(` --- Resetting Network Fees after the test`)
+        const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+        console.debug(`FEE RECEIVER = ${feeReceiver}`)
+
+        const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
+        console.debug(`NETWORK FEE = ${fee}`)
     })
 
     describe('Full flow', async () => {
@@ -115,10 +137,9 @@ describe('NFTTemplates With Ether E2E', async () => {
                 collector1: await collector1.getEtherBalance(),
                 collector2: await collector2.getEtherBalance(),
                 gallery: await gallery.getEtherBalance(),
-                escrowPaymentCondition: Number(
-                    await Web3Provider.getWeb3(config).eth.getBalance(
-                        escrowPaymentCondition.getAddress()
-                    )
+                governor: await governor.getEtherBalance(),
+                escrowPaymentCondition: await Web3Provider.getWeb3(config).getBalance(
+                    escrowPaymentCondition.getAddress()
                 )
             }
 
@@ -143,7 +164,11 @@ describe('NFTTemplates With Ether E2E', async () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-
+            royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.assets.createNft(
                 metadata,
                 artist,
@@ -152,7 +177,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 cappedAmount,
                 undefined,
                 numberNFTs,
-                royalties,
+                royaltyAttributes,
                 ZeroAddress
             )
         })
@@ -169,7 +194,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                     artist.getId(),
                     ddo.shortId()
                 )
-                assert.equal(balance, 5)
+                assert.deepEqual(balance, BigNumber.from(5))
             })
         })
 
@@ -225,8 +250,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     sender
                 )
 
-                assert.isTrue(result.status)
-                assert.nestedProperty(result, 'events.AgreementCreated')
+                assert.equal(result.status, 1)
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdLockPayment[1]))
@@ -298,20 +323,15 @@ describe('NFTTemplates With Ether E2E', async () => {
 
                 assert.equal(
                     Number(nftBalanceArtistAfter),
-                    Number(nftBalanceArtistBefore) - numberNFTs
+                    Number(nftBalanceArtistBefore) - Number(numberNFTs)
                 )
                 assert.equal(
                     Number(nftBalanceCollectorAfter),
-                    Number(nftBalanceCollectorBefore) + numberNFTs
+                    Number(nftBalanceCollectorBefore) + Number(numberNFTs)
                 )
             })
 
-            it('the artist asks and receives the payment', async function() {
-                // See https://github.com/nevermined-io/sdk-js/issues/137
-                if (networkName === 'polygon-localnet') {
-                    this.skip()
-                }
-
+            it('the artist asks and receives the payment', async function () {
                 await escrowPaymentCondition.fulfill(
                     agreementId,
                     ddo.shortId(),
@@ -330,28 +350,33 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const escrowPaymentConditionBalance = Number(
-                    await Web3Provider.getWeb3(config).eth.getBalance(
-                        escrowPaymentCondition.getAddress()
-                    )
-                )
+                const escrowPaymentConditionBalance = await Web3Provider.getWeb3(
+                    config
+                ).getBalance(escrowPaymentCondition.getAddress())
+
                 const receiver0Balance = await new Account(receivers[0]).getEtherBalance()
                 const receiver1Balance = await new Account(receivers[1]).getEtherBalance()
+                const receiver2Balance = await new Account(receivers[2]).getEtherBalance()
 
-                assert.closeTo(
-                    receiver0Balance.toNumber(),
-                    new BigNumber(initialBalances.artist).plus(amounts[0]).toNumber(),
-                    10 ** 16
+                // for this assert we use a delta to account for the transaction fees
+                // of all the transactions from the artist
+                const delta = BigNumber.from(10).pow(16)
+                assert.isTrue(
+                    receiver0Balance.gte(
+                        initialBalances.artist.add(amounts[0]).sub(delta)
+                    )
                 )
-                assert.closeTo(
-                    receiver1Balance.toNumber(),
-                    new BigNumber(initialBalances.gallery).plus(amounts[1]).toNumber(),
-                    10 ** 16
+
+                assert.isTrue(
+                    receiver1Balance.eq(initialBalances.gallery.add(amounts[1]))
                 )
-                assert.equal(
-                    escrowPaymentConditionBalance -
-                        initialBalances.escrowPaymentCondition,
-                    0
+                assert.isTrue(
+                    receiver2Balance.eq(initialBalances.governor.add(amounts[2]))
+                )
+                assert.isTrue(
+                    escrowPaymentConditionBalance
+                        .sub(initialBalances.escrowPaymentCondition)
+                        .isZero()
                 )
             })
         })
@@ -380,8 +405,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     [0, 0],
                     [collector1.getId()]
                 )
-                assert.isTrue(result.status)
-                assert.nestedProperty(result, 'events.AgreementCreated')
+                assert.equal(result.status, 1)
+                assert.isTrue(result.events.some(e => e.event === 'AgreementCreated'))
 
                 assert.equal(
                     (await conditionStoreManager.getCondition(conditionIdNFTAccess[1]))
@@ -395,12 +420,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async function() {
-                // See https://github.com/nevermined-io/sdk-js/issues/137
-                if (networkName === 'polygon-localnet') {
-                    this.skip()
-                }
-
+            it('The collector demonstrates it onws the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -418,12 +438,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
             })
 
-            it(' The artist gives access to the collector to the content', async function() {
-                // See https://github.com/nevermined-io/sdk-js/issues/137
-                if (networkName === 'polygon-localnet') {
-                    this.skip()
-                }
-
+            it(' The artist gives access to the collector to the content', async function () {
                 await nftAccessCondition.fulfill(
                     agreementAccessId,
                     ddo.shortId(),

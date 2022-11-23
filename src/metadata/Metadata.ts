@@ -4,7 +4,6 @@ import { ServiceSecondary } from '../ddo/Service'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 import { ApiError, HttpError } from '../errors'
 import { SearchQuery } from '../common/interfaces'
-import { buildQuery } from '../common/helpers'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -13,8 +12,10 @@ export interface QueryResult {
     results: DDO[]
     page: number
     totalPages: number
-    totalResults: number
+    totalResults: { [jsonPath: string]: any }
 }
+
+export type EncryptionMethod = 'PSK-RSA' | 'PSK-ECDSA'
 
 export interface DDOStatus {
     internal: {
@@ -69,15 +70,15 @@ export class Metadata extends MarketplaceApi {
 
     /**
      * Search over the DDOs using a query.
-     * @param  {SearchQuery} query Query to filter the DDOs.
-     * @return {Promise<QueryResult>}
+     * @param query - Query to filter the DDOs.
+     * @returns A list of {@link QueryResult}s.
      */
     public async queryMetadata(query: SearchQuery): Promise<QueryResult> {
         const result: QueryResult = await this.nevermined.utils.fetch
             .post(`${this.url}${apiPath}/query`, JSON.stringify(query))
             .then((response: any) => {
                 if (response.ok) {
-                    return response.json() as DDO[]
+                    return response.json()
                 }
                 throw new HttpError(
                     `queryMetadata failed - ${response.statusText} ${response.url}`,
@@ -85,7 +86,12 @@ export class Metadata extends MarketplaceApi {
                 )
             })
             .then(results => {
-                return this.transformResult(results)
+                return {
+                    results: (results.results || []).map(ddo => new DDO(ddo as DDO)),
+                    page: results.page,
+                    totalPages: results.total_pages,
+                    totalResults: results.total_results
+                }
             })
             .catch(error => {
                 throw new ApiError(error)
@@ -96,8 +102,8 @@ export class Metadata extends MarketplaceApi {
 
     /**
      * Search over the Services using a query.
-     * @param  {SearchQuery} query Query to filter the Services.
-     * @return {Promise<QueryResult>}
+     * @param  query - Query to filter the Services.
+     * @returns A list of {@link ServiceSecondary}.
      */
     public async queryServiceMetadata(query: {
         [property: string]: string | number | string[] | number[] | object
@@ -121,38 +127,9 @@ export class Metadata extends MarketplaceApi {
     }
 
     /**
-     * Search over the DDOs using a query.
-     * @param  {SearchQuery} query Query to filter the DDOs.
-     * @return {Promise<QueryResult>}
-     */
-    public async queryMetadataByText(query: SearchQuery): Promise<QueryResult> {
-        const fullUrl = buildQuery(`${this.url}${apiPath}/query`, query)
-        const result: QueryResult = await this.nevermined.utils.fetch
-            .get(fullUrl)
-            .then((response: any) => {
-                if (response.ok) {
-                    return response.json() as DDO[]
-                }
-
-                throw new HttpError(
-                    `queryMetadataByText failed - ${response.statusText} ${response.url}`,
-                    response.status
-                )
-            })
-            .then(results => {
-                return this.transformResult(results)
-            })
-            .catch(error => {
-                throw new ApiError(error)
-            })
-
-        return result
-    }
-
-    /**
      * Update a DDO in Metadata.
-     * @param  {DDO} ddo DDO to be stored.
-     * @return {Promise<DDO>} Final DDO.
+     * @param  ddo - DDO to be stored.
+     * @returns Final DDO.
      */
     public async updateDDO(did: DID | string, ddo: DDO): Promise<DDO> {
         did = did && DID.parse(did)
@@ -181,8 +158,8 @@ export class Metadata extends MarketplaceApi {
 
     /**
      * Stores a DDO in Metadata.
-     * @param  {DDO} ddo DDO to be stored.
-     * @return {Promise<DDO>} Final DDO.
+     * @param ddo - DDO to be stored.
+     * @returns Final DDO.
      */
     public async storeDDO(ddo: DDO): Promise<DDO> {
         const fullUrl = `${this.url}${apiPath}`
@@ -212,8 +189,8 @@ export class Metadata extends MarketplaceApi {
 
     /**
      * Retrieves a DDO by DID.
-     * @param  {DID | string} did DID of the asset.
-     * @return {Promise<DDO>} DDO of the asset.
+     * @param did - DID of the asset.
+     * @returns DDO of the asset.
      */
     public async retrieveDDO(
         did: DID | string,
@@ -257,8 +234,8 @@ export class Metadata extends MarketplaceApi {
 
     /**
      * Retrieves a DDO by DID.
-     * @param  {DID | string} did DID of the asset.
-     * @return {Promise<DDO>} DDO of the asset.
+     * @param did - DID of the asset.
+     * @returns DDO of the asset.
      */
     public async status(
         did: DID | string,
@@ -291,8 +268,8 @@ export class Metadata extends MarketplaceApi {
 
     /**
      * Retrieves a service by its agreementId.
-     * @param  {string} agreementId agreementId of the service.
-     * @return {Promise<ServiceSecondary>} Service object.
+     * @param agreementId - agreementId of the service.
+     * @returns Service object.
      */
     public async retrieveService(
         agreementId: string,
@@ -324,8 +301,8 @@ export class Metadata extends MarketplaceApi {
 
     /**
      *
-     * @param {agreementId<string>} agreementId of the service.
-     * @param {agreement<ServiceSecondary>} stores the Service object with its agreementId as
+     * @param agreementId - The agreement ID of the service.
+     * @param agreement - Stores the Service object with its agreementId
      * @returns the newly stored service object
      */
     public async storeService(
@@ -359,22 +336,5 @@ export class Metadata extends MarketplaceApi {
 
     public getServiceEndpoint(did: DID) {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
-    }
-
-    /* eslint-disable @typescript-eslint/naming-convention */
-    private transformResult(
-        { results, page, total_pages: totalPages, total_results: totalResults }: any = {
-            result: [],
-            page: 0,
-            total_pages: 0,
-            total_results: 0
-        }
-    ): QueryResult {
-        return {
-            results: (results || []).map(ddo => new DDO(ddo as DDO)),
-            page,
-            totalPages,
-            totalResults
-        }
     }
 }

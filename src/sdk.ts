@@ -9,6 +9,7 @@ import * as templates from './keeper/contracts/templates'
 import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
 import { Nft721 } from './nevermined/Nft721'
+import { Nfts } from './nevermined/Nfts'
 import { Accounts } from './nevermined/Accounts'
 import { SearchQuery } from './common/interfaces'
 
@@ -37,17 +38,20 @@ export {
 } from './permissions/Permissions.interfaces'
 
 import * as events from './events'
+import * as KeyTransfer from './models/KeyTransfer'
 import * as subgraphs from './subgraphs'
 
 export {
     Nevermined,
     Account,
     Accounts,
+    Nfts,
     Nft721,
     Config,
     DID,
     Logger,
     Keeper,
+    KeyTransfer,
     conditions,
     templates,
     SearchQuery,

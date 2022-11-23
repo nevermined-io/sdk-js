@@ -1,7 +1,8 @@
-import { TransactionReceipt } from 'web3-core'
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import { ContractReceipt, ethers } from 'ethers'
+import BigNumber from '../../utils/BigNumber'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -73,24 +74,23 @@ export interface ActedOnBehalfEvent extends ProvenanceBaseEvent {
     delegateAgentId: string
     responsibleAgentId: string
 }
-export type ProvenanceEvent<
-    T extends ProvenanceMethod | any = any
-> = T extends ProvenanceMethod.WAS_GENERATED_BY
-    ? WasGeneratedByEvent
-    : T extends ProvenanceMethod.USED
-    ? UsedEvent
-    : T extends ProvenanceMethod.WAS_DERIVED_FROM
-    ? WasDerivedFromEvent
-    : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
-    ? WasAssociatedWithEvent
-    : T extends ProvenanceMethod.ACTED_ON_BEHALF
-    ? ActedOnBehalfEvent
-    :
-          | WasGeneratedByEvent
-          | UsedEvent
-          | WasDerivedFromEvent
-          | WasAssociatedWithEvent
-          | ActedOnBehalfEvent
+export type ProvenanceEvent<T extends ProvenanceMethod | any = any> =
+    T extends ProvenanceMethod.WAS_GENERATED_BY
+        ? WasGeneratedByEvent
+        : T extends ProvenanceMethod.USED
+        ? UsedEvent
+        : T extends ProvenanceMethod.WAS_DERIVED_FROM
+        ? WasDerivedFromEvent
+        : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
+        ? WasAssociatedWithEvent
+        : T extends ProvenanceMethod.ACTED_ON_BEHALF
+        ? ActedOnBehalfEvent
+        :
+              | WasGeneratedByEvent
+              | UsedEvent
+              | WasDerivedFromEvent
+              | WasAssociatedWithEvent
+              | ActedOnBehalfEvent
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -146,10 +146,10 @@ export default class DIDRegistry extends ContractBase {
         providers: string[],
         value: string,
         activityId: string,
-        nftMetadata: string = '',
-        cap: number,
+        nftMetadata = '',
+        cap: BigNumber,
         royalties: number,
-        mint: boolean = false,
+        mint = false,
         ownerAddress: string,
         params?: TxParameters
     ) {
@@ -164,7 +164,7 @@ export default class DIDRegistry extends ContractBase {
                 String(cap),
                 String(royalties),
                 mint,
-                zeroX(activityId),
+                ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 nftMetadata
             ],
             params
@@ -177,9 +177,9 @@ export default class DIDRegistry extends ContractBase {
         providers: string[],
         value: string,
         activityId: string,
-        nftMetadata: string = '',
+        nftMetadata = '',
         royalties: number,
-        mint: boolean = false,
+        mint = false,
         ownerAddress: string,
         params?: TxParameters
     ) {
@@ -193,7 +193,7 @@ export default class DIDRegistry extends ContractBase {
                 value,
                 String(royalties),
                 mint,
-                zeroX(activityId),
+                ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 nftMetadata
             ],
             params
@@ -262,8 +262,8 @@ export default class DIDRegistry extends ContractBase {
             })
         )
             .map(event => {
-                if (event.returnValues) {
-                    return event.returnValues._did
+                if (event.args) {
+                    return event.args._did
                 } else {
                     return event._did
                 }
@@ -337,7 +337,7 @@ export default class DIDRegistry extends ContractBase {
         newOwnerAddress: string,
         ownerAddress: string,
         params?: TxParameters
-    ): Promise<TransactionReceipt> {
+    ): Promise<ContractReceipt> {
         return this.send(
             'transferDIDOwnership',
             ownerAddress,
@@ -368,12 +368,10 @@ export default class DIDRegistry extends ContractBase {
             })
         )
             .map(event => {
-                if (event.returnValues === undefined)
+                if (event.args === undefined)
                     return eventToObject(event) as ProvenanceAttributeRegisteredEvent
                 else
-                    return eventToObject(
-                        event.returnValues
-                    ) as ProvenanceAttributeRegisteredEvent
+                    return eventToObject(event.args) as ProvenanceAttributeRegisteredEvent
             })
             .map(event => ({ ...event, method: +event.method }))
             .sort(
@@ -587,12 +585,22 @@ export default class DIDRegistry extends ContractBase {
         return this.call('getProvenanceOwner', [didZeroX(did)])
     }
 
-    public async mint(did: string, amount: number, from: string, params?: TxParameters) {
-        return this.send('mint', from, [didZeroX(did), amount], params)
+    public async mint(
+        did: string,
+        amount: BigNumber,
+        from: string,
+        params?: TxParameters
+    ) {
+        return this.send('mint', from, [didZeroX(did), String(amount)], params)
     }
 
-    public async burn(did: string, amount: number, from: string, params?: TxParameters) {
-        return this.send('burn', from, [didZeroX(did), amount], params)
+    public async burn(
+        did: string,
+        amount: BigNumber,
+        from: string,
+        params?: TxParameters
+    ) {
+        return this.send('burn', from, [didZeroX(did), String(amount)], params)
     }
 
     public async addProvider(

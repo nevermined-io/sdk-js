@@ -5,9 +5,9 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, MetaData, Logger } from '../../src'
 
-// Ensure that your network is fast enought and you have some free ram before run it.
+// Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {
     let nevermined: Nevermined
 
@@ -17,8 +17,8 @@ describe.skip('Consume Asset (Large size)', () => {
     let ddo: DDO
     let agreementId: string
 
-    let baseMetadata = getMetadata()
-    let metadata = getMetadata()
+    let baseMetadata: MetaData
+    let metadata: MetaData
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -33,9 +33,7 @@ describe.skip('Consume Asset (Large size)', () => {
         await nevermined.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        if (!nevermined.keeper.dispenser) {
-            baseMetadata = getMetadata(0)
-        }
+        baseMetadata = getMetadata()
         metadata = {
             ...baseMetadata,
             userId: payload.sub,
@@ -61,9 +59,12 @@ describe.skip('Consume Asset (Large size)', () => {
     it('should order the asset', async () => {
         try {
             await consumer.requestTokens(
-                +metadata.main.price * 10 ** -(await nevermined.keeper.token.decimals())
+                +ddo.getPriceByService() *
+                    10 ** -(await nevermined.keeper.token.decimals())
             )
-        } catch {}
+        } catch (error) {
+            Logger.error(error)
+        }
 
         agreementId = await nevermined.assets.order(ddo.id, 'access', consumer)
 

@@ -4,13 +4,11 @@ import { DDO } from '../ddo/DDO'
 import { findServiceConditionByName, ZeroAddress } from '../utils'
 import Token from '../keeper/contracts/Token'
 import CustomToken from '../keeper/contracts/CustomToken'
-import { BabyjubPublicKey, MimcCipher } from '../models/KeyTransfer'
-import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { EventOptions } from '../events/NeverminedEvent'
 import AssetRewards from '../models/AssetRewards'
-import BigNumber from 'bignumber.js'
 import { KeeperError } from '../errors/KeeperError'
+import { ContractReceipt } from 'ethers'
+import BigNumber from '../utils/BigNumber'
 
 /**
  * Agreements Conditions submodule of Nevermined.
@@ -18,7 +16,7 @@ import { KeeperError } from '../errors/KeeperError'
 export class AgreementsConditions extends Instantiable {
     /**
      * Returns the instance of AgreementsConditions.
-     * @return {Promise<AgreementsConditions>}
+     * @returns {@link AgreementsConditions}
      */
     public static async getInstance(
         config: InstantiableConfig
@@ -31,13 +29,16 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Transfers tokens to the EscrowPaymentCondition contract as an escrow payment.
+     *
+     * @remarks
      * This is required before access can be given to the asset data.
-     * @param {string}      agreementId         Agreement ID.
-     * @param {string}      did                 The Asset ID.
-     * @param {BigNumber[]}    amounts             Asset amounts to distribute.
-     * @param {string[]}    receivers           Receivers of the rewards
-     * @param {string}      erc20TokenAddress   Account of sender.
-     * @param {Account}     from                Account of sender.
+     *
+     * @param agreementId - Agreement ID.
+     * @param did - The Asset ID.
+     * @param amounts - Asset amounts to distribute.
+     * @param receivers - Receivers of the rewards
+     * @param erc20TokenAddress - Account of sender.
+     * @param from - Account of sender.
      */
     public async lockPayment(
         agreementId: string,
@@ -47,11 +48,9 @@ export class AgreementsConditions extends Instantiable {
         erc20TokenAddress?: string,
         from?: Account,
         txParams?: TxParameters
-    ) {
-        const {
-            lockPaymentCondition,
-            escrowPaymentCondition
-        } = this.nevermined.keeper.conditions
+    ): Promise<boolean> {
+        const { lockPaymentCondition, escrowPaymentCondition } =
+            this.nevermined.keeper.conditions
 
         let token: Token
 
@@ -81,7 +80,7 @@ export class AgreementsConditions extends Instantiable {
             )
         }
 
-        const receipt = await lockPaymentCondition.fulfill(
+        const contractReceipt: ContractReceipt = await lockPaymentCondition.fulfill(
             agreementId,
             did,
             escrowPaymentCondition.getAddress(),
@@ -93,20 +92,20 @@ export class AgreementsConditions extends Instantiable {
                 ...txParams,
                 value:
                     erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
-                        ? totalAmount.toFixed()
+                        ? totalAmount.toString()
                         : undefined
             }
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
      * Authorize the consumer defined in the agreement to access (consume) this asset.
-     * @param {string}  agreementId Agreement ID.
-     * @param {string}  did         Asset ID.
-     * @param {string}  grantee     Consumer address.
-     * @param {Account} from        Account of sender.
+     * @param agreementId - Agreement ID.
+     * @param did - Asset ID.
+     * @param grantee - Consumer address.
+     * @param from - Account of sender.
      */
     public async grantAccess(
         agreementId: string,
@@ -118,114 +117,25 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { accessCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await accessCondition.fulfill(
+            const contractReceipt: ContractReceipt = await accessCondition.fulfill(
                 agreementId,
                 did,
                 grantee,
                 from,
                 params
             )
-            return !!receipt.events.Fulfilled
+            return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
         }
-    }
-
-    /**
-     * Transfer the key to the buyer.
-     * @param {string}  agreementId Agreement ID.
-     * @param {Buffer}  data        key plain text.
-     * @param {string}  providerK   Provider secret key.
-     * @param {BabyjubPublicKey}  buyerPub Buyer public key.
-     * @param {BabyjubPublicKey}  providerPub Provider public key.
-     * @param {Account} from        Account of sender.
-     */
-    public async transferKey(
-        agreementId: string,
-        data: Buffer,
-        providerK: string,
-        buyerPub: BabyjubPublicKey,
-        providerPub: BabyjubPublicKey,
-        from?: Account,
-        params?: TxParameters
-    ) {
-        try {
-            const { accessProofCondition } = this.nevermined.keeper.conditions
-
-            const keyTransfer = await makeKeyTransfer()
-            const cipher = await keyTransfer.encryptKey(
-                data,
-                await keyTransfer.ecdh(providerK, buyerPub)
-            )
-            const proof = await keyTransfer.prove(buyerPub, providerPub, providerK, data)
-            const hash = await keyTransfer.hashKey(data)
-            const receipt = await accessProofCondition.fulfill(
-                agreementId,
-                hash,
-                buyerPub,
-                providerPub,
-                cipher,
-                proof,
-                from,
-                params
-            )
-            return !!receipt.events.Fulfilled
-        } catch (e) {
-            throw new KeeperError(e)
-        }
-    }
-
-    /**
-     * Read the transferred key from chain.
-     * @param {string}  agreementId Agreement ID.
-     * @param {string}  buyerK   Buyer secret key.
-     * @param {BabyjubPublicKey}  providerPub Provider public key.
-     * @param {Account} from        Account of sender.
-     */
-    public async readKey(
-        agreementId: string,
-        buyerK: string,
-        providerPub: BabyjubPublicKey
-    ) {
-        const { accessProofCondition } = this.nevermined.keeper.conditions
-        const evOptions: EventOptions = {
-            eventName: 'Fulfilled',
-            methodName: 'getFulfilleds',
-            filterJsonRpc: { _agreementId: agreementId },
-            filterSubgraph: { where: { _agreementId: agreementId } },
-            result: {
-                _agreementId: true,
-                _origHash: true,
-                _buyer: true,
-                _provider: true,
-                _cipher: true,
-                _proof: true,
-                _conditionId: true
-            }
-        }
-        const ev = await accessProofCondition.events.once(events => events, evOptions)
-
-        if (!ev.length) {
-            throw new KeeperError('No events are returned')
-        }
-
-        const [cipherL, cipherR] = ev[0].returnValues
-            ? ev[0].returnValues._cipher
-            : ev[0]._cipher
-
-        const keyTransfer = await makeKeyTransfer()
-        return keyTransfer.decryptKey(
-            new MimcCipher(cipherL, cipherR),
-            await keyTransfer.ecdh(buyerK, providerPub)
-        )
     }
 
     /**
      * Authorize the consumer defined in the agreement to execute a remote service associated with this asset.
-     * @param {string}  agreementId Agreement ID.
-     * @param {string}  did         Asset ID.
-     * @param {string}  grantee     Consumer address.
-     * @param {Account} from        Account of sender.
+     * @param agreementId - Agreement ID.
+     * @param did - Asset ID.
+     * @param grantee - Consumer address.
+     * @param from - Account of sender.
      */
     public async grantServiceExecution(
         agreementId: string,
@@ -237,14 +147,15 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { computeExecutionCondition } = this.nevermined.keeper.conditions
 
-            const receipt = await computeExecutionCondition.fulfill(
-                agreementId,
-                did,
-                grantee,
-                from,
-                params
-            )
-            return !!receipt.events.Fulfilled
+            const contractReceipt: ContractReceipt =
+                await computeExecutionCondition.fulfill(
+                    agreementId,
+                    did,
+                    grantee,
+                    from,
+                    params
+                )
+            return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
         }
@@ -252,18 +163,19 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Transfer the escrow or locked tokens from the LockPaymentCondition contract to the publisher's account.
+     *
+     * @remarks
      * This should be allowed after access has been given to the consumer and the asset data is downloaded.
      *
      * If the AccessCondition already timed out, this function will do a refund by transferring
      * the token amount to the original consumer.
-     * @param {string}      agreementId         Agreement ID.
-     * @param {number[]}    amounts             Asset amounts to distribute.
-     * @param {string[]}    receivers           Receivers of the rewards
-     * @param {string}      did                 Asset ID.
-     * @param {string}      consumer            Consumer address.
-     * @param {string}      publisher           Publisher address.
-     * @param {string}      erc20TokenAddress   Publisher address.
-     * @param {Account}     from                Account of sender.
+     *
+     * @param agreementId - Agreement ID.
+     * @param amounts - Asset amounts to distribute.
+     * @param receivers - Receivers of the rewards
+     * @param did - Asset ID.
+     * @param erc20TokenAddress - Publisher address.
+     * @param from - Account of sender.
      */
     public async releaseReward(
         agreementId: string,
@@ -278,7 +190,7 @@ export class AgreementsConditions extends Instantiable {
         try {
             const { escrowPaymentCondition } = this.nevermined.keeper.conditions
 
-            let token
+            let token: CustomToken
 
             if (!erc20TokenAddress) {
                 ;({ token } = this.nevermined.keeper)
@@ -292,11 +204,12 @@ export class AgreementsConditions extends Instantiable {
                 )
             }
 
-            const storedAgreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(
-                agreementId
-            )
+            const storedAgreement =
+                await this.nevermined.keeper.agreementStoreManager.getAgreement(
+                    agreementId
+                )
             storedAgreement.conditionIds
-            const receipt = await escrowPaymentCondition.fulfill(
+            const contractReceipt: ContractReceipt = await escrowPaymentCondition.fulfill(
                 agreementId,
                 did,
                 amounts,
@@ -309,7 +222,7 @@ export class AgreementsConditions extends Instantiable {
                 from,
                 params
             )
-            return !!receipt.events.Fulfilled
+            return this.isFulfilled(contractReceipt)
         } catch (e) {
             throw new KeeperError(e)
         }
@@ -317,29 +230,24 @@ export class AgreementsConditions extends Instantiable {
 
     /**
      * Releases the payment in escrow to the provider(s) of the sale
-     *
-     * @param {String} agreementId The service agreement id for the nft sale.
-     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The amounts that should have been payed.
-     * @param {String[]} receivers The addresses that should receive the amounts.
-     * @param {Number} nftAmount Number of nfts bought.
-     * @param publisher
-     * @returns {Boolean} True if the funds were released successfully.
+     * @param agreementId - The service agreement id for the nft sale.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param nftAmount - Number of nfts bought.
+     * @param publisher - The publisher account.
+     * @returns {@link true} if the funds were released successfully.
      */
     public async releaseNftReward(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         publisher: Account,
         from?: Account,
         txParams?: TxParameters
     ) {
         const template = this.nevermined.keeper.templates.nftSalesTemplate
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const {
-            agreementIdSeed,
-            creator
-        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { agreementIdSeed, creator } =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -348,29 +256,27 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-        const receipt = await escrowPaymentCondition.fulfillInstance(
-            instance.instances[2] as any,
-            {},
-            from || publisher,
-            txParams
-        )
+        const contractReceipt: ContractReceipt =
+            await escrowPaymentCondition.fulfillInstance(
+                instance.instances[2] as any,
+                {},
+                from || publisher,
+                txParams
+            )
 
-        if (!receipt.events.Fulfilled) {
-            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+        if (!this.isFulfilled(contractReceipt)) {
+            this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
         }
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
      * Releases the payment in escrow to the provider(s) of the sale
-     *
-     * @param {String} agreementId The service agreement id for the nft sale.
-     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The amounts that should have been payed.
-     * @param {String[]} receivers The addresses that should receive the amounts.
-     * @param publisher
-     * @returns {Boolean} True if the funds were released successfully.
+     * @param agreementId - The service agreement id for the nft sale.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param publisher - The publisher account.
+     * @returns {@link true} if the funds were released successfully.
      */
     public async releaseNft721Reward(
         agreementId: string,
@@ -381,10 +287,8 @@ export class AgreementsConditions extends Instantiable {
     ) {
         const template = this.nevermined.keeper.templates.nft721SalesTemplate
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const {
-            agreementIdSeed,
-            creator
-        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { agreementIdSeed, creator } =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -393,42 +297,43 @@ export class AgreementsConditions extends Instantiable {
         )
 
         const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-        const receipt = await escrowPaymentCondition.fulfillInstance(
-            instance.instances[2] as any,
-            {},
-            from || publisher,
-            txParams
-        )
+        const contractReceipt: ContractReceipt =
+            await escrowPaymentCondition.fulfillInstance(
+                instance.instances[2] as any,
+                {},
+                from || publisher,
+                txParams
+            )
 
-        if (!receipt.events.Fulfilled) {
-            this.logger.error('Failed to fulfill escrowPaymentCondition', receipt)
+        if (!this.isFulfilled(contractReceipt)) {
+            this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
         }
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
      * Allows an nft holder to prove ownership of a certain number of nfts.
      * Used as an access condition to the underlying files.
      *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did The decentralized identifier of the asset containing the nfts.
-     * @param {String} holder The address of the holder (recipient of a previous nft transfer with `agreementId`).
-     * @param {String} nftAmount The amount of nfts that the `holder` needs to have to fulfill the access condition.
-     * @param from
-     * @returns {Boolean} True if the holder is able to fulfill the condition
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param did - The decentralized identifier of the asset containing the nfts.
+     * @param holder - The address of the holder (recipient of a previous nft transfer with `agreementId`).
+     * @param nftAmount - The amount of nfts that the `holder` needs to have to fulfill the access condition.
+     * @param from - Account.
+     * @returns {@link true} if the holder is able to fulfill the condition
      */
     public async holderNft(
         agreementId: string,
         did: string,
         holder: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {
         const { nftHolderCondition } = this.nevermined.keeper.conditions
 
-        const receipt = await nftHolderCondition.fulfill(
+        const contractReceipt: ContractReceipt = await nftHolderCondition.fulfill(
             agreementId,
             did,
             holder,
@@ -436,18 +341,18 @@ export class AgreementsConditions extends Instantiable {
             from,
             params
         )
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
      * Allows an nft holder to prove ownership of a certain number of nfts.
      * Used as an access condition to the underlying files.
      *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo The decentralized identifier of the asset containing the nfts.
-     * @param {String} holderAddress The address of the holder (recipient of a previous nft transfer with `agreementId`).
-     * @param from
-     * @returns {Boolean} True if the holder is able to fulfill the condition
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param holderAddress - The address of the holder (recipient of a previous nft transfer with `agreementId`).
+     * @param from - Account.
+     * @returns {@link true} if the holder is able to fulfill the condition
      */
     public async holderNft721(
         agreementId: string,
@@ -457,11 +362,11 @@ export class AgreementsConditions extends Instantiable {
         params?: TxParameters
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
-        const accessService = ddo.findServiceByType('nft721-access')
+        const accessService = ddo.findServiceByType('nft-access')
 
         const holder = findServiceConditionByName(accessService, 'nftHolder')
 
-        const receipt = await nft721HolderCondition.fulfill(
+        const contractReceipt: ContractReceipt = await nft721HolderCondition.fulfill(
             agreementId,
             ddo.shortId(),
             holderAddress,
@@ -470,17 +375,17 @@ export class AgreementsConditions extends Instantiable {
             params
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
-     * Fulfills the access condition required to give access to the underliying files of an nft.
+     * Fulfills the access condition required to give access to the underlying files of an nft.
      *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {String} did The decentralized identifier of the asset containing the nfts.
-     * @param {String} grantee The address of the user trying to get access to the files.
-     * @param from
-     * @returns True if the provider is able to fulfill the condition
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param did - The decentralized identifier of the asset containing the nfts.
+     * @param grantee - The address of the user trying to get access to the files.
+     * @param from - Account.
+     * @returns {@link true} if the provider is able to fulfill the condition
      */
     public async grantNftAccess(
         agreementId: string,
@@ -491,31 +396,28 @@ export class AgreementsConditions extends Instantiable {
     ) {
         const { nftAccessCondition } = this.nevermined.keeper.conditions
 
-        const receipt = await nftAccessCondition.fulfill(
+        const contractReceipt: ContractReceipt = await nftAccessCondition.fulfill(
             agreementId,
             did,
             grantee,
             from,
             params
         )
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
      * Transfers a certain amount of nfts after payment as been made.
-     *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
-     * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param {Number} nftAmount The amount of nfts to transfer.
-     * @param from
-     * @returns {Boolean} True if the transfer is successfull
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param nftAmount - The amount of nfts to transfer.
+     * @param from - Account.
+     * @returns {@link true} if the transfer is successful
      */
     public async transferNft(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         txParams?: TxParameters
     ) {
@@ -523,10 +425,8 @@ export class AgreementsConditions extends Instantiable {
         const template = this.nevermined.keeper.templates.nftSalesTemplate
 
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const {
-            agreementIdSeed,
-            creator
-        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { agreementIdSeed, creator } =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -534,31 +434,29 @@ export class AgreementsConditions extends Instantiable {
             template.params(accessConsumer, nftAmount)
         )
 
-        const receipt = await transferNftCondition.fulfillInstance(
-            instance.instances[1] as any,
-            {},
-            from,
-            txParams
-        )
+        const contractReceipt: ContractReceipt =
+            await transferNftCondition.fulfillInstance(
+                instance.instances[1] as any,
+                {},
+                from,
+                txParams
+            )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
      * Transfers a certain amount of nfts after payment as been made.
-     *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo he decentralized identifier of the asset containing the nfts.
-     * @param {BigNumber[]} amounts The expected that amounts that should have been payed.
-     * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param {Number} nftAmount The amount of nfts to transfer.
-     * @param from
-     * @returns {Boolean} True if the transfer is successfull
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param nftAmount - The amount of nfts to transfer.
+     * @param from - Account.
+     * @returns {@link true} if the transfer is successful
      */
     public async transferNftForDelegate(
         agreementId: string,
         ddo: DDO,
-        nftAmount: number,
+        nftAmount: BigNumber,
         from?: Account,
         params?: TxParameters
     ) {
@@ -566,10 +464,8 @@ export class AgreementsConditions extends Instantiable {
         const template = this.nevermined.keeper.templates.nftSalesTemplate
 
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const {
-            agreementIdSeed,
-            creator
-        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { agreementIdSeed, creator } =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -585,7 +481,7 @@ export class AgreementsConditions extends Instantiable {
             ,
             transferAsset
         ] = instance.instances[1].list
-        const receipt = await transferNftCondition.fulfillPlain(
+        const contractReceipt: ContractReceipt = await transferNftCondition.fulfillPlain(
             agreementId,
             [
                 did,
@@ -600,18 +496,15 @@ export class AgreementsConditions extends Instantiable {
             'fulfillForDelegate'
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
     }
 
     /**
      * Transfers a certain amount of nfts after payment as been made.
-     *
-     * @param {String} agreementId The service agreement id of the nft transfer.
-     * @param {DDO} ddo the decentralized identifier of the asset containing the nfts.
-     * @param {Number[]} amounts The expected that amounts that should have been payed.
-     * @param {String[]} receivers The addresses of the expected receivers of the payment.
-     * @param publisher
-     * @returns {Boolean} True if the transfer is successfull
+     * @param agreementId - The service agreement id of the nft transfer.
+     * @param ddo - The decentralized identifier of the asset containing the nfts.
+     * @param publisher - Account.
+     * @returns {@link true} if the transfer is successful
      */
     public async transferNft721(
         agreementId: string,
@@ -623,10 +516,8 @@ export class AgreementsConditions extends Instantiable {
         const template = this.nevermined.keeper.templates.nft721SalesTemplate
 
         const { accessConsumer } = await template.getAgreementData(agreementId)
-        const {
-            agreementIdSeed,
-            creator
-        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+        const { agreementIdSeed, creator } =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const instance = await template.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -645,12 +536,13 @@ export class AgreementsConditions extends Instantiable {
             txParams
         )
 
-        const receipt = await transferNft721Condition.fulfillInstance(
-            instance.instances[1] as any,
-            {},
-            publisher,
-            txParams
-        )
+        const contractReceipt: ContractReceipt =
+            await transferNft721Condition.fulfillInstance(
+                instance.instances[1] as any,
+                {},
+                publisher,
+                txParams
+            )
 
         await nft.setApprovalForAll(
             transferNft721Condition.address,
@@ -659,6 +551,10 @@ export class AgreementsConditions extends Instantiable {
             txParams
         )
 
-        return !!receipt.events.Fulfilled
+        return this.isFulfilled(contractReceipt)
+    }
+
+    private isFulfilled(contractReceipt: ContractReceipt): boolean {
+        return contractReceipt.events.some(e => e.event === 'Fulfilled')
     }
 }

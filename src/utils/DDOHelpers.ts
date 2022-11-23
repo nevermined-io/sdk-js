@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { DDO } from '../ddo/DDO'
 import { ConditionType, Service, ServiceType } from '../ddo/Service'
 import {
@@ -6,6 +5,7 @@ import {
     ServiceAgreementTemplateParameter
 } from '../ddo/ServiceAgreementTemplate'
 import AssetRewards from '../models/AssetRewards'
+import BigNumber from './BigNumber'
 
 function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,
@@ -14,12 +14,14 @@ function fillParameterWithDDO(
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
-    nftAmount: number = 1
+    nftAmount: BigNumber = BigNumber.from(1),
+    nftTransfer = false,
+    duration = 0
 ): ServiceAgreementTemplateParameter {
     const getValue = name => {
         switch (name) {
             case 'amounts':
-                return Array.from(assetRewards.getAmounts(), v => v.toFixed())
+                return Array.from(assetRewards.getAmounts(), v => v.toString())
             case 'receivers':
                 return assetRewards.getReceivers()
             case 'amount':
@@ -35,12 +37,16 @@ function fillParameterWithDDO(
             case 'numberNfts':
                 return String(nftAmount)
             case 'tokenAddress':
-                return erc20TokenContract ? erc20TokenContract : ''
+                return erc20TokenContract
             case 'contract':
             case 'contractAddress':
                 return nftTokenContract ? nftTokenContract : ''
             case 'nftHolder':
                 return nftHolder ? nftHolder : ''
+            case 'nftTransfer':
+                return String(nftTransfer)
+            case 'duration':
+                return String(duration)
         }
 
         return ''
@@ -52,13 +58,15 @@ function fillParameterWithDDO(
 
 /**
  * Fill some static parameters that depends on the metadata.
- * @param  {ServiceAgreementTemplateCondition[]} conditions         Conditions to fill.
- * @param  {DDO}                                 ddo                DDO related to this conditions.
- * @param  {AssetRewards}                        assetRewards       Rewards distribution
- * @param  {number}                              nftAmount          Number of nfts to handle
- * @param  {string}                              erc20TokenContract Number of nfts to handle
- * @param  {string}                              nftTokenContract   Number of nfts to handle
- * @return {ServiceAgreementTemplateCondition[]}                    Filled conditions.
+ *
+ * @param conditions - Conditions to fill.
+ * @param ddo - DDO related to this conditions.
+ * @param assetRewards -Rewards distribution
+ * @param nftAmount - Number of nfts to handle
+ * @param erc20TokenContract - Number of nfts to handle
+ * @param nftTokenContract - Number of nfts to handle
+ *
+ * @returns Filled conditions.
  */
 export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],
@@ -67,7 +75,9 @@ export function fillConditionsWithDDO(
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
-    nftAmount?: number
+    nftAmount?: BigNumber,
+    nftTransfer = false,
+    duration = 0
 ): ServiceAgreementTemplateCondition[] {
     return conditions.map(condition => ({
         ...condition,
@@ -79,7 +89,9 @@ export function fillConditionsWithDDO(
                 erc20TokenContract,
                 nftTokenContract,
                 nftHolder,
-                nftAmount
+                nftAmount,
+                nftTransfer,
+                duration
             )
         }))
     }))
@@ -129,7 +141,7 @@ export function setAssetRewardsFromDDOByService(
     }
     const amounts = escrowPaymentCondition.parameters.find(p => p.name === '_amounts')
     const receivers = escrowPaymentCondition.parameters.find(p => p.name === '_receivers')
-    amounts.value = Array.from(rewards.getAmounts(), v => v.toFixed())
+    amounts.value = Array.from(rewards.getAmounts(), v => v.toString())
     receivers.value = rewards.getReceivers()
 }
 
@@ -147,7 +159,7 @@ export function getAssetRewardsFromService(service: Service): AssetRewards {
     const rewardsMap = new Map<string, BigNumber>()
 
     for (let i = 0; i < amounts.length; i++)
-        rewardsMap.set(receivers[i], new BigNumber(amounts[i]))
+        rewardsMap.set(receivers[i], BigNumber.from(amounts[i]))
 
     return new AssetRewards(rewardsMap)
 }
@@ -164,8 +176,9 @@ export function getNftHolderFromService(service: Service): string {
         .value as string
 }
 
-export function getNftAmountFromService(service: Service): number {
+export function getNftAmountFromService(service: Service): BigNumber {
     const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-    return nftTransferCondition.parameters.find(p => p.name === '_numberNfts')
-        .value as number
+    return BigNumber.from(
+        nftTransferCondition.parameters.find(p => p.name === '_numberNfts').value
+    )
 }

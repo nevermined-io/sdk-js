@@ -1,6 +1,10 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils/index'
-import { Condition, ConditionContext } from '../conditions/Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ProviderCondition
+} from '../conditions/Condition.abstract'
 import Account from '../../../nevermined/Account'
 
 export interface NFT721LockConditionContext extends ConditionContext {
@@ -12,7 +16,7 @@ export interface NFT721LockConditionContext extends ConditionContext {
 /**
  * Implementation of the NFT Lock Condition
  */
-export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
+export class NFT721LockCondition extends ProviderCondition<NFT721LockConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<NFT721LockCondition> {
@@ -26,10 +30,10 @@ export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
 
     /**
      * Generates the hash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs attached to lock.
-     * @param {String} lockAddress the address to lock the NFT to (vault address)
-     * @param {Number} amount The amount of locked tokens.
-     * @param {String} nftContractAddress The NFT721 contract address
+     * @param did - The DID of the asset with NFTs attached to lock.
+     * @param lockAddress - the address to lock the NFT to (vault address)
+     * @param amount - The amount of locked tokens.
+     * @param nftContractAddress - The NFT721 contract address
      * @returns Hash of all the values.
      */
     public params(
@@ -57,12 +61,12 @@ export class NFT721LockCondition extends Condition<NFT721LockConditionContext> {
 
     /**
      * Fulfill requires valid NFT transfer in order to lock the amount of DID NFTs based on SEA.
-     * @param {String} agreementId SEA agreement identifier.
-     * @param {String} did Asset Decentralized identifier.
-     * @param {String} lockAddress The contract addresss where the NFT is locked.
-     * @param {Number} amount The amount of tokens to be locked.
-     * @param {String} nftContractAddress The NFT721 contract address
-     * @param {String} from
+     * @param agreementId - SEA agreement identifier.
+     * @param did - Asset Decentralized identifier.
+     * @param lockAddress - The contract address where the NFT is locked.
+     * @param amount - The amount of tokens to be locked.
+     * @param nftContractAddress - The NFT721 contract address
+     * @param from -
      * @returns Condition state.
      */
     public fulfill(

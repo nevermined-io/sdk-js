@@ -22,7 +22,7 @@ describe('Providers operations', () => {
 
         await nevermined.marketplace.login(clientAssertion)
 
-        const metadata = getMetadata(0)
+        const metadata = getMetadata()
         const payload = decodeJwt(config.marketplaceAuthToken)
         metadata.userId = payload.sub
 

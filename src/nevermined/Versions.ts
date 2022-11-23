@@ -20,12 +20,13 @@ export interface PlatformKeeperTech extends PlatformTech {
     network?: string
     keeperVersion?: string
     contracts?: { [contractName: string]: string }
+    providerAddress?: string
 }
 
 export interface PlatformVersions {
     sdk: PlatformKeeperTech
     metadata: PlatformTech
-    gateway: PlatformKeeperTech
+    node: PlatformKeeperTech
     status: {
         ok: boolean
         contracts: boolean
@@ -39,7 +40,7 @@ export interface PlatformVersions {
 export class Versions extends Instantiable {
     /**
      * Returns the instance of Versions.
-     * @return {Promise<Versions>}
+     * @returns {@link Versions}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Versions> {
         const instance = new Versions()
@@ -70,7 +71,7 @@ export class Versions extends Instantiable {
                 )
         }
 
-        // Gateway
+        // Node
         try {
             const {
                 contracts,
@@ -79,28 +80,27 @@ export class Versions extends Instantiable {
                 network,
                 software: name,
                 version
-            } = await this.nevermined.gateway.getVersionInfo()
-            versions.gateway = {
+            } = await this.nevermined.node.getVersionInfo()
+            versions.node = {
                 name,
                 status: PlatformTechStatus.Working,
                 version,
                 contracts,
-                network,
-                keeperVersion: keeperVersion.replace(/^v/, '')
+                network: network.toLowerCase(),
+                keeperVersion: keeperVersion.replace(/^v/, ''),
+                providerAddress
             }
         } catch {
-            versions.gateway = {
-                name: 'Gateway',
+            versions.node = {
+                name: 'Node',
                 status: PlatformTechStatus.Stopped
             }
         }
 
         // Metadata
         try {
-            const {
-                software: name,
-                version
-            } = await this.nevermined.metadata.getVersionInfo()
+            const { software: name, version } =
+                await this.nevermined.metadata.getVersionInfo()
             versions.metadata = {
                 name,
                 status: PlatformTechStatus.Working,
@@ -136,7 +136,9 @@ export class Versions extends Instantiable {
                             return
                         }
                         if (address !== _) {
-                            this.logger.warn(`Error on contract ${name}`)
+                            this.logger.debug(
+                                `Addresses doesn't match for contract ${name}`
+                            )
                             contractStatus = false
                         }
                     })

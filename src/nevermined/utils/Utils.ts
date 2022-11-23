@@ -11,7 +11,8 @@ import { WebServiceConnector } from './WebServiceConnector'
 export class Utils extends Instantiable {
     /**
      * Returns the instance of Utils.
-     * @return {Promise<Utils>}
+     *
+     * @returns {@link Utils}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Utils> {
         const instance = new Utils()
@@ -27,25 +28,21 @@ export class Utils extends Instantiable {
 
     /**
      * Agreement utils.
-     * @type {ServiceAgreement}
      */
     public agreements: ServiceAgreement
 
     /**
      * Signature utils.
-     * @type {SignatureUtils}
      */
     public signature: SignatureUtils
 
     /**
      * Fetch utils.
-     * @type {WebServiceConnector}
      */
     public fetch: WebServiceConnector
 
     /**
      * Jwt utils.
-     * @type {JwtUtils}
      */
     public jwt: JwtUtils
 }

@@ -5,7 +5,7 @@ import DID from '../../src/nevermined/DID'
 const ddoStore: Map<string, any> = new Map<string, any>()
 
 export default class MetadataMock extends Metadata {
-    public async getAccessUrl(accessToken: any, payload: any): Promise<string> {
+    public async getAccessUrl(_accessToken: any, _payload: any): Promise<string> {
         return 'http://test/test'
     }
 

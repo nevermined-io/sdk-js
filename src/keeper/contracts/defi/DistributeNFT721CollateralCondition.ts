@@ -1,6 +1,10 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils/index'
-import { Condition, ConditionContext } from '../conditions/Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ProviderCondition
+} from '../conditions/Condition.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 
@@ -13,9 +17,7 @@ export interface DistributeNFTCollateralConditionContext extends ConditionContex
  * Condition allowing to transfer an NFT either to the original owner or a lender
  * depending on the loan status.
  */
-export class DistributeNFTCollateralCondition extends Condition<
-    DistributeNFTCollateralConditionContext
-> {
+export class DistributeNFTCollateralCondition extends ProviderCondition<DistributeNFTCollateralConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<DistributeNFTCollateralCondition> {
@@ -29,9 +31,9 @@ export class DistributeNFTCollateralCondition extends Condition<
 
     /**
      * Generates the ash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} vaultAddress The address of the vault contract where the NFT is locked.
-     * @param {String} nftContractAddress The address of the NFT721 contract
+     * @param did - The DID of the asset with NFTs.
+     * @param vaultAddress - The address of the vault contract where the NFT is locked.
+     * @param nftContractAddress - The address of the NFT721 contract
      * @returns Hash of all the values
      */
     public params(did: string, vaultAddress: string, nftContractAddress: string) {
@@ -50,11 +52,11 @@ export class DistributeNFTCollateralCondition extends Condition<
      * Fulfill the distribute NFT collateral condition.
      *  Only the borrower or the lender can call this method.
      *
-     * @param {String} agreementId The agreement identifier.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} vaultAddress The address of the vault contract where the NFT is locked.
-     * @param {String} nftContractAddress The address of the NFT721 contract
-     * @param {String} from
+     * @param agreementId - The agreement identifier.
+     * @param did - The DID of the asset with NFTs.
+     * @param vaultAddress - The address of the vault contract where the NFT is locked.
+     * @param nftContractAddress - The address of the NFT721 contract
+     * @param from -
      * @returns Condition state.
      */
     public fulfill(

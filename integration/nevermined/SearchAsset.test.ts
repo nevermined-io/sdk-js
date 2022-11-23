@@ -1,120 +1,152 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { generateMetadata } from '../utils'
-import { Nevermined, Account, DDO, MetaData } from '../../src'
+import { getMetadata } from '../utils'
+import { Nevermined, Account, DDO } from '../../src'
+import { sleep } from '../utils/utils'
+import { generateId } from '../../src/utils'
 
 describe('Search Asset', () => {
     let nevermined: Nevermined
-
-    let publisher: Account
-
-    const testHash = Math.random()
-        .toString(36)
-        .substr(2)
-    let price
-    const metadataGenerator = (name: string, userId: string) => {
-        const metadata = generateMetadata(`${name}${testHash}`, price) as MetaData
-        metadata.userId = userId
-        return metadata
-    }
-
-    let test1length
-    let test2length
-    let test3length
+    let account: Account
+    let appId: string
     let userId: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-
-        // Accounts
-        ;[publisher] = await nevermined.accounts.list()
+        ;[account] = await nevermined.accounts.list()
+        appId = generateId()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
-            publisher
+            account
         )
-
         await nevermined.marketplace.login(clientAssertion)
-
         const payload = decodeJwt(config.marketplaceAuthToken)
-
         userId = payload.sub
     })
 
-    it('should be able to search the assets', async () => {
-        const { results: ddos } = await nevermined.assets.search(`Test1${testHash}`)
+    it('should register the assets', async () => {
+        let metadata = getMetadata(undefined, 'Test1')
+        metadata.userId = userId
+        await nevermined.assets.create(
+            metadata,
+            account,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            appId
+        )
 
-        assert.isArray(ddos, 'A search should return an array')
+        metadata = getMetadata(undefined, 'Test2')
+        metadata.userId = userId
+        await nevermined.assets.create(
+            metadata,
+            account,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            appId
+        )
 
-        test1length = ddos.length
-        test2length = (await nevermined.assets.search(`Test2${testHash}`)).results.length
-        test3length = (await nevermined.assets.search(`Test3${testHash}`)).results.length
+        metadata = getMetadata(undefined, 'Test2')
+        metadata.userId = userId
+        await nevermined.assets.create(
+            metadata,
+            account,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            appId
+        )
 
-        if (!nevermined.keeper.dispenser) {
-            price = 0
-        }
+        metadata = getMetadata(undefined, 'Test3')
+        metadata.userId = userId
+        await nevermined.assets.create(
+            metadata,
+            account,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            appId
+        )
+
+        // wait for elasticsearch
+        await sleep(2000)
     })
 
-    it('should register an asset', async () => {
-        assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test1', userId), publisher),
-            DDO
+    it('should search by text', async () => {
+        let result = await nevermined.assets.search(
+            'Test',
+            undefined,
+            undefined,
+            undefined,
+            appId
         )
-        assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test2', userId), publisher),
-            DDO
-        )
-        assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test2', userId), publisher),
-            DDO
-        )
-        assert.instanceOf(
-            await nevermined.assets.create(metadataGenerator('Test3', userId), publisher),
-            DDO
-        )
-        await new Promise(r => setTimeout(r, 1000))
-    })
+        assert.equal(result.totalResults.value, 4)
 
-    it('should search by text and see the increment of DDOs', async () => {
-        const result1 = await nevermined.assets.search(`Test2${testHash}`)
-        assert.equal(
-            result1.results.length - test2length,
-            2,
-            'Something was wrong searching the assets'
+        result = await nevermined.assets.search(
+            'Test1',
+            undefined,
+            undefined,
+            undefined,
+            appId
         )
-        assert.equal(
-            (await nevermined.assets.search(`Test3${testHash}`)).results.length -
-                test3length,
-            1,
-            'Something was wrong searching the assets'
+        assert.equal(result.totalResults.value, 1)
+
+        result = await nevermined.assets.search(
+            'Test2',
+            undefined,
+            undefined,
+            undefined,
+            appId
         )
+        assert.equal(result.totalResults.value, 2)
+
+        result = await nevermined.assets.search(
+            'Test3',
+            undefined,
+            undefined,
+            undefined,
+            appId
+        )
+        assert.equal(result.totalResults.value, 1)
     })
 
     it('should return a list of DDOs', async () => {
-        const { results: ddos } = await nevermined.assets.search(`Test1${testHash}`)
+        const { results: ddos } = await nevermined.assets.search(
+            'Test1',
+            undefined,
+            undefined,
+            undefined,
+            appId
+        )
 
-        assert.equal(
-            ddos.length - test1length,
-            1,
-            'Something was wrong searching the assets'
-        )
-        ddos.map(ddo =>
-            assert.instanceOf(ddo, DDO, 'The DDO is not an instance of a DDO')
-        )
+        assert.equal(ddos.length, 1)
+        ddos.map(ddo => assert.instanceOf(ddo, DDO))
     })
 
     it('should be able to do a query to get a list of DDOs', async () => {
-        const { results: ddos } = await nevermined.assets.query({
-            page: 1,
-            offset: 1,
-            query: {},
-            text: `Test2${testHash}`,
-            sort: undefined
-        })
-
-        assert.equal(ddos.length, 1, 'Something was wrong searching the assets')
-        ddos.map(ddo =>
-            assert.instanceOf(ddo, DDO, 'The DDO is not an instance of a DDO')
+        const { results: ddos } = await nevermined.assets.search(
+            'Test2',
+            undefined,
+            undefined,
+            undefined,
+            appId
         )
+
+        assert.equal(ddos.length, 2)
+        ddos.map(ddo => assert.instanceOf(ddo, DDO))
     })
 })

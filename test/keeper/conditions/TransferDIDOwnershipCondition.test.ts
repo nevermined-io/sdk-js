@@ -1,5 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import { ContractReceipt, Event } from 'ethers'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { TransferDIDOwnershipCondition } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
@@ -154,22 +155,19 @@ describe('TransferDIDOwnershipCondition', () => {
             const storedDIDRegister: any = await didRegistry.getDIDRegister(did)
             assert.equal(storedDIDRegister.owner, owner.getId())
 
-            const result = await transferDidOwnershipCondition.fulfill(
-                agreementId,
-                did,
-                receiver.getId(),
-                owner
-            )
+            const contractReceipt: ContractReceipt =
+                await transferDidOwnershipCondition.fulfill(
+                    agreementId,
+                    did,
+                    receiver.getId(),
+                    owner
+                )
 
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
 
-            const {
-                _agreementId,
-                _conditionId,
-                _did,
-                _receiver
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _conditionId, _did, _receiver } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_conditionId, conditionId)

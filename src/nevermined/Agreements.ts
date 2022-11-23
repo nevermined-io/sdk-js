@@ -1,11 +1,8 @@
 import { generateId } from '../utils/GeneratorHelpers'
 import Account from './Account'
 import DID from './DID'
-import { zeroX, getAssetRewardsFromDDOByService } from '../utils'
+import { zeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { AgreementConditionsStatus } from '../keeper/contracts/templates/AgreementTemplate.abstract'
-import { ConditionState } from '../keeper/contracts/conditions/Condition.abstract'
-
 import { AgreementsConditions } from './AgreementsConditions'
 import { ServiceType } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
@@ -21,7 +18,7 @@ export interface AgreementPrepareResult {
 export class Agreements extends Instantiable {
     /**
      * Returns the instance of Agreements.
-     * @return {Promise<Agreements>}
+     * @returns {@link Agreements}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Agreements> {
         const instance = new Agreements()
@@ -33,17 +30,19 @@ export class Agreements extends Instantiable {
 
     /**
      * Agreements Conditions submodule.
-     * @type {AgreementsConditions}
      */
     public conditions: AgreementsConditions
 
     /**
      * Creates a consumer signature for the specified asset service.
+     *
+     * @privateRemarks
      * TODO: Only works for access service?
-     * @param  {string} did Decentralized ID.
-     * @param  {ServiceType} serviceType Service.
-     * @param  {Account} consumer Consumer account.
-     * @return {Promise<AgreementPrepareResult>} Agreement ID and signaturee.
+     *
+     * @param did - Decentralized ID.
+     * @param serviceType - Service.
+     * @param  consumer - Consumer account.
+     * @returns The agreement ID and signature.
      */
     public async prepare(
         did: string,
@@ -55,12 +54,13 @@ export class Agreements extends Instantiable {
         const agreementIdSeed: string = zeroX(generateId())
 
         const { accessTemplate } = this.nevermined.keeper.templates
-        const agreementConditionsIds = await this.nevermined.keeper.templates.accessTemplate.getAgreementIdsFromDDO(
-            agreementIdSeed,
-            ddo,
-            consumer.getId(),
-            accessTemplate.params(consumer)
-        )
+        const agreementConditionsIds =
+            await this.nevermined.keeper.templates.accessTemplate.getAgreementIdsFromDDO(
+                agreementIdSeed,
+                ddo,
+                consumer.getId(),
+                accessTemplate.params(consumer)
+            )
 
         const signature = await this.nevermined.utils.agreements.signServiceAgreement(
             ddo,
@@ -75,14 +75,17 @@ export class Agreements extends Instantiable {
 
     /**
      * Create a service agreement on-chain. This should be called by the publisher of the asset.
+     *
+     * @remarks
      * Consumer signature will be verified on-chain, but it is recommended to verify the signature
      * in this method before submitting on-chain.
-     * @param  {string} did Decentralized ID.
-     * @param  {string} agreementId Service agreement ID.
-     * @param  {ServiceType} serviceType Service.
-     * @param  {Account} consumer Consumer account.
-     * @param  {Account} publisher Publisher account.
-     * @return {Promise<string>}
+     *
+     * @param did -  Decentralized ID.
+     * @param agreementId - Service agreement ID.
+     * @param serviceType - Service.
+     * @param consumer - Consumer account.
+     * @param publisher - Publisher account.
+     * @returns
      */
     public async create(
         did: string,
@@ -95,8 +98,9 @@ export class Agreements extends Instantiable {
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
-        const templateName = ddo.findServiceByType(serviceType).attributes
-            .serviceAgreementTemplate.contractName
+        const templateName =
+            ddo.findServiceByType(serviceType).attributes.serviceAgreementTemplate
+                .contractName
 
         const agreementId = await this.nevermined.keeper
             .getTemplateByName(templateName)
@@ -115,24 +119,13 @@ export class Agreements extends Instantiable {
 
     /**
      * Get the status of a service agreement.
-     * @param  {string} agreementId Service agreement ID.
-     * @param  {boolean} extended Returns a complete status with dependencies.
-     * @return {Promise<any>}
+     * @param agreementId - Service agreement ID.
+     * @param extended - Returns a complete status with dependencies.
+     * @returns
      */
-    public async status(
-        agreementId: string,
-        extended?: false
-    ): Promise<{ [condition: string]: ConditionState }>
-
-    public async status(
-        agreementId: string,
-        extended: true
-    ): Promise<AgreementConditionsStatus>
-
-    public async status(agreementId: string, extended: boolean = false) {
-        const {
-            templateId
-        } = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+    public async status(agreementId: string, extended = false) {
+        const { templateId } =
+            await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
         const fullStatus = await this.nevermined.keeper
             .getTemplateByAddress(templateId)
             .getAgreementStatus(agreementId)
@@ -164,11 +157,10 @@ export class Agreements extends Instantiable {
         consumer: string,
         account: Account
     ): Promise<boolean> {
-        const {
-            accessConsumer
-        } = await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
-            agreementId
-        )
+        const { accessConsumer } =
+            await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
+                agreementId
+            )
         if (!consumer.includes(accessConsumer)) {
             this.logger.log(`This address [${consumer}] has not access granted`)
             return false

@@ -8,9 +8,10 @@ import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import ERC721 from '../../../src/artifacts/ERC721.json'
-import { Contract } from 'web3-eth-contract'
 import { Nft721 } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { Contract, ContractReceipt, Event } from 'ethers'
+import BigNumber from '../../../src/utils/BigNumber'
 
 chai.use(chaiAsPromised)
 
@@ -37,9 +38,7 @@ describe('NFT721LockCondition', () => {
         ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
         ;[owner, lockAddress] = await nevermined.accounts.list()
         _nftContract = await TestContractHandler.deployArtifact(ERC721)
-        nft721Wrapper = await nevermined.contracts.loadNft721(
-            _nftContract.options.address
-        )
+        nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
         nftContractAddress = nft721Wrapper.address
     })
 
@@ -88,7 +87,7 @@ describe('NFT721LockCondition', () => {
                 nft721LockCondition.address,
                 owner
             )
-            const result = await nft721LockCondition.fulfill(
+            const contractReceipt: ContractReceipt = await nft721LockCondition.fulfill(
                 agreementId,
                 did,
                 lockAddress.getId(),
@@ -99,8 +98,9 @@ describe('NFT721LockCondition', () => {
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
             const nftBalance = await nft721Wrapper.balanceOf(lockAddress)
-            assert.equal(nftBalance, 1)
+            assert.deepEqual(nftBalance, BigNumber.from(1))
 
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
             const {
                 _agreementId,
                 _did,
@@ -108,7 +108,7 @@ describe('NFT721LockCondition', () => {
                 _conditionId,
                 _amount,
                 _nftContractAddress
-            } = result.events.Fulfilled.returnValues
+            } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
@@ -127,7 +127,6 @@ describe('NFT721LockCondition', () => {
                 1,
                 nftContractAddress
             )
-            // await nft721LockCondition.generateId(agreementId, hashValues)
             await assert.isRejected(
                 nft721LockCondition.fulfill(
                     agreementId,
@@ -136,39 +135,9 @@ describe('NFT721LockCondition', () => {
                     1,
                     nftContractAddress
                 ),
-                /Invalid UpdateRole/
+                /Condition doesnt exist/
             )
         })
-
-        // it('out of balance should fail to fulfill', async () => {
-        //     nft721Wrapper.contract.send('transferFrom', owner.getId(), [owner.getId(), lockAddress.getId(), didZeroX(did)])
-        //     const hashValues = await nft721LockCondition.hashValues(
-        //         did,
-        //         lockAddress.getId(),
-        //         1,
-        //         nftContractAddress
-        //     )
-        //     const conditionId = await nft721LockCondition.generateId(
-        //         agreementId,
-        //         hashValues
-        //     )
-        //     await conditionStoreManager.createCondition(
-        //         conditionId,
-        //         nft721LockCondition.address,
-        //         owner
-        //     )
-        //
-        //     await assert.isRejected(
-        //         nft721LockCondition.fulfill(
-        //             agreementId,
-        //             did,
-        //             lockAddress.getId(),
-        //             1,
-        //             nftContractAddress
-        //         ),
-        //         /Sender does not have enough balance or is not the NFT owner./
-        //     )
-        // })
 
         it('correct transfer should fail to fulfill if conditions already fulfilled', async () => {
             const hashValues = await nft721LockCondition.hashValues(

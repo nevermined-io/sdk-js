@@ -8,14 +8,14 @@ export abstract class RoyaltyScheme extends ContractBase {
         config: InstantiableConfig,
         schemeName: string,
         schemeClass: any,
-        optional: boolean = true
+        optional = true
     ): Promise<RoyaltyScheme & any> {
         try {
             const scheme: RoyaltyScheme = new (schemeClass as any)(schemeName)
             await scheme.init(config, optional)
             return scheme
         } catch (e) {
-            config.logger.warn(`Cannot load optional contract ${schemeName}`)
+            config.logger.debug(`Cannot load optional contract ${schemeName}`)
         }
     }
 

@@ -1,10 +1,9 @@
-import BigNumber from 'bignumber.js'
 import Balance from '../models/Balance'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { makeKeyTransfer } from '../utils/KeyTransfer'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
+import BigNumber from '../utils/BigNumber'
 
 /**
  * Account information.
@@ -37,14 +36,9 @@ export default class Account extends Instantiable {
         return this.babyX.substr(2) + this.babyY.substr(2)
     }
 
-    public async signBabyjub(num: bigint) {
-        const keytransfer = await makeKeyTransfer()
-        return keytransfer.signBabyjub(this.babySecret, num)
-    }
-
     /**
      * Set account password.
-     * @param {string} password Password for account.
+     * @param password - Password for account.
      */
     public setPassword(password: string): void {
         this.password = password
@@ -52,7 +46,7 @@ export default class Account extends Instantiable {
 
     /**
      * Returns account password.
-     * @return {string} Account password.
+     * @returns The account password.
      */
     public getPassword(): string {
         return this.password
@@ -60,7 +54,7 @@ export default class Account extends Instantiable {
 
     /**
      * Set account token.
-     * @param {string} token Token for account.
+     * @param token - Token for account.
      */
     public setToken(token: string): void {
         this.token = token
@@ -68,7 +62,7 @@ export default class Account extends Instantiable {
 
     /**
      * Returns account token.
-     * @return {Promise<string>} Account token.
+     * @returns Account token.
      */
     public async getToken(): Promise<string> {
         return this.token || this.nevermined.auth.restore(this)
@@ -76,7 +70,7 @@ export default class Account extends Instantiable {
 
     /**
      * Returns if account token is stored.
-     * @return {Promise<boolean>} Is stored.
+     * @returns {@link true} if the token is stored.
      */
     public isTokenStored(): Promise<boolean> {
         return this.nevermined.auth.isStored(this)
@@ -91,31 +85,25 @@ export default class Account extends Instantiable {
 
     /**
      * Balance of Nevermined Token.
-     * @return {Promise<number>}
+     * @returns
      */
     public async getNeverminedBalance(): Promise<BigNumber> {
         const { token } = this.nevermined.keeper
-        if (!token) return new BigNumber(0)
-        return (await token.balanceOf(this.id))
-            .div(10)
-            .multipliedBy(await token.decimals())
+        if (!token) return BigNumber.from(0)
+        return (await token.balanceOf(this.id)).div(10).mul(await token.decimals())
     }
 
     /**
      * Balance of Ether.
-     * @return {Promise<number>}
+     * @returns
      */
     public async getEtherBalance(): Promise<BigNumber> {
-        return this.web3.eth.getBalance(this.id, 'latest').then(
-            (balance: string): BigNumber => {
-                return new BigNumber(balance)
-            }
-        )
+        return this.web3.getBalance(this.id)
     }
 
     /**
      * Balances of Ether and Nevermined Token.
-     * @return {Promise<Balance>}
+     * @returns
      */
     public async getBalance(): Promise<Balance> {
         return {
@@ -126,8 +114,8 @@ export default class Account extends Instantiable {
 
     /**
      * Request Nevermined Tokens.
-     * @param  {number} amount Tokens to be requested.
-     * @return {Promise<number>}
+     * @param amount - Tokens to be requested.
+     * @returns
      */
     public async requestTokens(
         amount: number | string | BigNumber,
@@ -139,7 +127,7 @@ export default class Account extends Instantiable {
         try {
             await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, params)
         } catch (e) {
-            throw new KeeperError('Error requesting tokens')
+            throw new KeeperError(`Error requesting tokens: ${e}`)
         }
         return amount.toString()
     }

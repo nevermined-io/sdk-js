@@ -1,8 +1,8 @@
-import BigNumber from 'bignumber.js'
 import { assert } from 'chai'
 import { EscrowPaymentCondition } from '../../../src/keeper/contracts/conditions'
 import Token from '../../../src/keeper/contracts/Token'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
+import BigNumber from '../../../src/utils/BigNumber'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -12,7 +12,7 @@ let token: Token
 describe('EscrowPaymentCondition', () => {
     const agreementId = `0x${'a'.repeat(64)}`
     const did = `0x${'a'.repeat(64)}`
-    const amounts = [new BigNumber(15), new BigNumber(3)]
+    const amounts = [BigNumber.from(15), BigNumber.from(3)]
     const publisher = `0x${'a'.repeat(40)}`
     const consumer = `0x${'b'.repeat(40)}`
     const provider = `0x${'b'.repeat(40)}`

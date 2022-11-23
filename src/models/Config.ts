@@ -1,3 +1,5 @@
+import { ethers } from 'ethers'
+import { ZeroAddress } from '../utils'
 import { LogLevel } from '../utils/Logger'
 import { AaveConfig } from './AaveConfig'
 export { LogLevel } from '../utils/Logger'
@@ -5,72 +7,60 @@ export { LogLevel } from '../utils/Logger'
 export class Config {
     /**
      * MarketPlace URL.
-     * @type {string}
      */
     public marketplaceUri: string
 
     /**
      * Marketplace auth token.
-     * @type {string}
      */
-    public marketplaceAuthToken: string
+    public marketplaceAuthToken?: string
 
     /**
-     * Gateway URL.
-     * @type {string}
+     * Node URL.
      */
-    public gatewayUri: string
+    public neverminedNodeUri: string
 
     /**
      * Faucet URL.
-     * @type {string}
      */
-    public faucetUri: string
+    public faucetUri?: string
 
     /**
-     * Address of Gateway.
-     * @type {string}
+     * Address of the Node.
      */
-    public gatewayAddress?: string
+    public neverminedNodeAddress?: string
 
     /**
-     * Ethereum node URL.
-     * @type {string}
+     * Ethereum Web3 Provider URL (Infura, Alchemy, etc)
      */
-    public nodeUri?: string
+    public web3ProviderUri?: string
 
     /**
      * Web3 Provider.
-     * @type {any}
      */
     public web3Provider?: any
 
     /**
-     * Secret Store URL.
-     * @type {string}
-     */
-    public secretStoreUri?: string
-
-    /**
      * Log level.
-     * @type {boolean | LogLevel}
      */
     public verbose?: boolean | LogLevel
 
     /**
      * Message shown when the user creates its own token.
-     * @type {string}
      */
     public authMessage?: string
 
     /**
      * Token expiration time in ms.
-     * @type {number}
      */
     public authTokenExpiration?: number
 
     public threshold?: number
 
+    /**
+     * Gas multiplier for the fees.
+     * Can be used to speed up the transactions.
+     */
     public gasMultiplier?: number
 
     /**
@@ -80,7 +70,24 @@ export class Config {
 
     public aaveConfig?: AaveConfig
 
+    /**
+     * The folder where the nevermined contract artifacts are located.
+     */
     public artifactsFolder?: string
+
+    public accounts?: ethers.Signer[]
+
+    public newGateway?: boolean = true
+
+    /**
+     * The fee charged by Nevermined for using the Service Agreements
+     */
+    public networkFee?: number = 0
+
+    /**
+     * The address receiving the fee if this is higher than 0
+     */
+    public feeReceiver?: string = ZeroAddress
 }
 
 export default Config

@@ -22,8 +22,8 @@ export class Nft721 extends Instantiable {
      *
      * This function can be called multiple times as long as the minting does not exceed the maximum cap set during creation.
      *
-     * @param {String} did The Decentralized Identifier of the NFT asset.
-     * @param {Account} publisher The account of the publisher of the NFT.
+     * @param did - The Decentralized Identifier of the NFT asset.
+     * @param publisher - The account of the publisher of the NFT.
      * @returns
      */
     public async mint(did: string, publisher: Account, txParams?: TxParameters) {
@@ -52,6 +52,10 @@ export class Nft721 extends Instantiable {
             publisher.getId(),
             txParams
         )
+    }
+
+    public async isApprovedForAll(accountAddress: string, operatorAddress: string) {
+        return await this.contract.isApprovedForAll(accountAddress, operatorAddress)
     }
 
     public async balanceOf(owner: Account) {

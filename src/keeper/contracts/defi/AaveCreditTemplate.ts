@@ -3,14 +3,22 @@ import { BaseTemplate } from '../templates'
 import { DDO } from '../../..'
 import { didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { TransactionReceipt } from 'web3-core'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { AaveConfig } from '../../../models/AaveConfig'
-import web3Utils from 'web3-utils'
-import BigNumber from 'bignumber.js'
-import { ServiceType } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo/Service'
+import { ContractReceipt } from 'ethers'
+import BigNumber from '../../../utils/BigNumber'
+import {
+    AaveBorrowCondition,
+    AaveCollateralDepositCondition,
+    AaveCollateralWithdrawCondition,
+    AaveRepayCondition,
+    DistributeNFTCollateralCondition,
+    NFT721LockCondition
+} from '../conditions'
+import { ServiceAaveCredit } from './Service'
 
 export interface AaveCreditTemplateParams {
     vaultAddress: string
@@ -28,7 +36,19 @@ export interface AaveCreditTemplateParams {
     nftAmount: number
 }
 
-export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
+export class AaveCreditTemplate extends BaseTemplate<
+    AaveCreditTemplateParams,
+    ServiceAaveCredit
+> {
+    public async paramsGen(_params: ValidationParams): Promise<AaveCreditTemplateParams> {
+        throw new Error('Method not implemented.')
+    }
+    public name(): string {
+        return 'aaveCreditAgreement'
+    }
+    public description(): string {
+        return 'Aave credit agreement'
+    }
     aaveConfig: AaveConfig
 
     public static async getInstance(
@@ -94,13 +114,11 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<[TransactionReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
-        const _collateralAmount = new BigNumber(
-            web3Utils.toWei(collateralAmount.toString(), 'ether')
-        )
-        const _delegatedAmount = new BigNumber(
-            web3Utils.toWei(delegatedAmount.toString(), 'ether')
-        )
+    ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
+        const _collateralAmount = BigNumber.parseEther(collateralAmount.toString())
+
+        const _delegatedAmount = BigNumber.parseEther(delegatedAmount.toString())
+
         const data = await this.instanceFromDDO(
             agreementIdSeed,
             ddo,
@@ -110,9 +128,9 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
                 nftTokenContract,
                 nftAmount,
                 collateralToken,
-                _collateralAmount.toString(10),
+                _collateralAmount.toString(),
                 delegatedToken,
-                _delegatedAmount.toString(10),
+                _delegatedAmount.toString(),
                 interestRateMode
             )
         )
@@ -131,10 +149,6 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             txParams
         )
 
-        console.log(`createVaultAgreement:
-            status=${txAgreement.status}, txHash=${txAgreement.transactionHash},
-
-            collateralAmount=${_collateralAmount}, delegatedAmount=${_delegatedAmount}`)
         return [txAgreement, data]
     }
 
@@ -154,9 +168,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         timeOuts: number[],
         txParams?: TxParameters,
         from?: Account
-    ): Promise<
-        [TransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]
-    > {
+    ): Promise<[ContractReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
         const vaultAddress = await this.deployVault(
             this.aaveConfig.lendingPoolAddress,
             this.aaveConfig.dataProviderAddress,
@@ -167,10 +179,6 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             lender,
             from.getId()
         )
-
-        console.log(`Deployed credit vault:
-            vaultAddress=${vaultAddress}, lendingPool=${this.aaveConfig.lendingPoolAddress}.
-            weth=${this.aaveConfig.wethAddress}. agreementFee=${this.aaveConfig.agreementFee}`)
 
         const [txAgreement, data] = await this._createAgreement(
             agreementIdSeed,
@@ -194,7 +202,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
     /**
      * Deploy a new credit vault that is required to facilitate an Aave credit agreement
      *
-     * @return {Promise<string>}                Agreement ID.
+     * @returns Agreement ID.
      */
     public async deployVault(
         lendingPool: string,
@@ -206,9 +214,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
         lender: string,
         from: string
     ): Promise<string> {
-        // console.log(`deployVault: ${lendingPool}, ${dataProvider}, ${weth}, ${agreementFee}, ${treasuryAddress}, ${borrower}, ${lender}, ${from}, `)
-        // console.log(`\n\npastEvents=${JSON.stringify(await this.getEventData('VaultCreated', {}))}`)
-        const tx = await this.send('deployVault', from, [
+        const contractReceipt: ContractReceipt = await this.send('deployVault', from, [
             lendingPool,
             dataProvider,
             weth,
@@ -217,8 +223,10 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             borrower,
             lender
         ])
-        // console.log(`events: ${tx}, ${JSON.stringify(tx.events)}, ${tx.events.VaultCreated}`)
-        const { _vaultAddress } = tx.events.VaultCreated.returnValues
+        const vaultCreatedEvent = contractReceipt.events.find(
+            e => e.event === 'VaultCreated'
+        )
+        const { _vaultAddress } = vaultCreatedEvent.args
         return _vaultAddress
     }
 
@@ -247,10 +255,8 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             agreementId,
             ctx
         )
-        const depositCollateralInstance = await aaveCollateralDepositCondition.instanceFromDDO(
-            agreementId,
-            ctx
-        )
+        const depositCollateralInstance =
+            await aaveCollateralDepositCondition.instanceFromDDO(agreementId, ctx)
         const borrowInstance = await aaveBorrowCondition.instanceFromDDO(agreementId, ctx)
         const repayInstance = await aaveRepayCondition.instanceFromDDO(agreementId, ctx)
         const withdrawInstance = await aaveCollateralWithdrawCondition.instanceFromDDO(
@@ -274,6 +280,32 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams> {
             list: parameters,
             agreementId
         }
+    }
+
+    public conditions(): [
+        NFT721LockCondition,
+        AaveCollateralDepositCondition,
+        AaveBorrowCondition,
+        AaveRepayCondition,
+        AaveCollateralWithdrawCondition,
+        DistributeNFTCollateralCondition
+    ] {
+        const {
+            nft721LockCondition,
+            aaveCollateralDepositCondition,
+            aaveBorrowCondition,
+            aaveRepayCondition,
+            aaveCollateralWithdrawCondition,
+            distributeNftCollateralCondition
+        } = this.nevermined.keeper.conditions
+        return [
+            nft721LockCondition,
+            aaveCollateralDepositCondition,
+            aaveBorrowCondition,
+            aaveRepayCondition,
+            aaveCollateralWithdrawCondition,
+            distributeNftCollateralCondition
+        ]
     }
 
     public async getAgreementVaultAddress(

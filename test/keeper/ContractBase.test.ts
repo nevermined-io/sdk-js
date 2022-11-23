@@ -57,7 +57,6 @@ describe('ContractWrapperBase', () => {
             const sig = wrappedContract.getSignatureOfMethod('name')
             assert(sig)
             assert(typeof sig === 'string')
-            assert(sig.startsWith('0x'))
         })
     })
 

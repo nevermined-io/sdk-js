@@ -1,4 +1,8 @@
-import { Condition, ConditionContext } from '../conditions/Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ProviderCondition
+} from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -11,7 +15,7 @@ export interface AaveRepayConditionContext extends ConditionContext {
     interestRateMode: number
 }
 
-export class AaveRepayCondition extends Condition<AaveRepayConditionContext> {
+export class AaveRepayCondition extends ProviderCondition<AaveRepayConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveRepayCondition> {

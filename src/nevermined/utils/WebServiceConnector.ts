@@ -92,9 +92,9 @@ export class WebServiceConnector extends Instantiable {
         }
         let filename: string
         try {
-            filename = response.headers
+            [, filename] = response.headers
                 .get('content-disposition')
-                .match(/attachment;filename=(.+)/)[1]
+                .match(/attachment;filename=(.+)/)
         } catch {
             try {
                 filename = url.split('/').pop()
@@ -147,7 +147,7 @@ export class WebServiceConnector extends Instantiable {
     public async fetchToken(
         url: string,
         grantToken: string,
-        numberTries: number = 1
+        numberTries = 1
     ): Promise<Response> {
         return await this.nevermined.utils.fetch.fetch(
             url,
@@ -167,7 +167,7 @@ export class WebServiceConnector extends Instantiable {
     private async fetch(
         url: string | URL,
         opts: RequestInit,
-        numberTries: number = 1
+        numberTries = 1
     ): Promise<Response> {
         let counterTries = 1
         let result: Response
@@ -184,13 +184,6 @@ export class WebServiceConnector extends Instantiable {
             `Request ${opts.method} ${url} fail - ${await result.clone().text()}`,
             result.status
         )
-        // this.logger.error(`Error requesting [${opts.method}] ${url}`)
-        // this.logger.error(`Response message: \n${await result.clone().text()}`)
-        // throw result
-
-        // if (!result.ok) {
-        // }
-        // return result
     }
 
     private _sleep(ms: number) {

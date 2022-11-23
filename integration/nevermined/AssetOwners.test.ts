@@ -35,7 +35,7 @@ describe('Asset Owners', () => {
         await nevermined2.marketplace.login(clientAssertion2)
 
         newMetadata = (token: string) => {
-            const metadata = getMetadata(0)
+            const metadata = getMetadata()
             const jwtPayload = decodeJwt(token)
             metadata.userId = jwtPayload.sub
             return metadata
@@ -60,7 +60,7 @@ describe('Asset Owners', () => {
 
         const isProvider = await nevermined.keeper.didRegistry.isDIDProvider(
             ddo.id,
-            config.gatewayAddress
+            config.neverminedNodeAddress
         )
 
         assert.isTrue(isProvider)

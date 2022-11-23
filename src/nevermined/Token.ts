@@ -1,7 +1,7 @@
 import Account from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../utils/BigNumber'
 
 /**
  * Tokens submodule of Nevermined.
@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js'
 export class Token extends Instantiable {
     /**
      * Returns the instance of Token.
-     * @return {Promise<Token>}
+     * @returns {@link Token}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
         const instance = new Token()
@@ -45,10 +45,10 @@ export class Token extends Instantiable {
 
     /**
      * Transfer a number of tokens to the mentioned account.
-     * @param  {string}           to     Address that receives the tokens.
-     * @param  {BigNumber}           amount Tokens to transfer.
-     * @param  {Account}          from   Sender account address.
-     * @return {Promise<boolean>}        Success,
+     * @param to - Address that receives the tokens.
+     * @param amount - Tokens to transfer.
+     * @param from - Sender account address.
+     * @returns True if the transfer succeeded.
      */
     public async transfer(
         to: string,
@@ -62,9 +62,9 @@ export class Token extends Instantiable {
 
     /**
      * Request tokens for an account.
-     * @param  {Account}          account Account instance.
-     * @param  {number}           amount  Token amount.
-     * @return {Promise<boolean>}         Success.
+     * @param account - Account instance.
+     * @param amount - Token amount.
+     * @returns {@link true} if the call succeeded, {@link false} otherwise
      */
     public async request(
         account: Account,

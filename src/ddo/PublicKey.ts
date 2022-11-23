@@ -4,14 +4,12 @@
 export interface PublicKey {
     /**
      * ID of the key.
-     * @type {string}
      * @example "did:nv:123456789abcdefghi#keys-1"
      */
     id: string
 
     /**
      * Type of key.
-     * @type {string}
      */
     type:
         | 'Ed25519VerificationKey2018'
@@ -21,7 +19,6 @@ export interface PublicKey {
 
     /**
      * Key owner.
-     * @type {string}
      * @example "did:nv:123456789abcdefghi"
      */
     owner: string

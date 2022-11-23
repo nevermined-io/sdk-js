@@ -1,8 +1,7 @@
 import {
     Condition,
     ConditionContext,
-    ConditionInstanceSmall,
-    ConditionParameters
+    ProviderCondition
 } from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils/index'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
@@ -16,7 +15,7 @@ export interface AaveBorrowConditionContext extends ConditionContext {
     interestRateMode: number
 }
 
-export class AaveBorrowCondition extends Condition<AaveBorrowConditionContext> {
+export class AaveBorrowCondition extends ProviderCondition<AaveBorrowConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AaveBorrowCondition> {

@@ -1,8 +1,7 @@
-import BigNumber from 'bignumber.js'
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
-import web3Utils from 'web3-utils'
+import BigNumber from '../../utils/BigNumber'
 
 export default class Token extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
@@ -19,7 +18,7 @@ export default class Token extends ContractBase {
         from?: Account,
         params?: TxParameters
     ) {
-        return this.sendFrom('approve', [to, price.toFixed()], from, params)
+        return this.sendFrom('approve', [to, price.toString()], from, params)
     }
 
     public async decimals(): Promise<number> {
@@ -27,7 +26,9 @@ export default class Token extends ContractBase {
     }
 
     public async balanceOfConverted(address: string): Promise<BigNumber> {
-        return new BigNumber(web3Utils.fromWei(await this.call('balanceOf', [address])))
+        return BigNumber.from(
+            BigNumber.formatEther(await this.call('balanceOf', [address]))
+        )
     }
 
     public async strBalanceOf(address: string): Promise<string> {
@@ -35,9 +36,7 @@ export default class Token extends ContractBase {
     }
 
     public async balanceOf(address: string): Promise<BigNumber> {
-        return this.call('balanceOf', [address]).then(
-            (balance: string) => new BigNumber(balance)
-        )
+        return this.call('balanceOf', [address])
     }
 
     public async symbol(): Promise<string> {
@@ -58,6 +57,6 @@ export default class Token extends ContractBase {
         from: string,
         params?: TxParameters
     ) {
-        return this.send('transfer', from, [to, amount.toFixed()], params)
+        return this.send('transfer', from, [to, amount.toString()], params)
     }
 }

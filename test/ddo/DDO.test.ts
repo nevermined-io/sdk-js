@@ -11,7 +11,7 @@ import * as jsonDDO from '../testdata/ddo.json'
 
 use(spies)
 
-describe('DDO', function() {
+describe('DDO', function () {
     const testDDO: DDO = new DDO({
         id: `did:nv:${'a'.repeat(64)}`,
         publicKey: [
@@ -68,7 +68,6 @@ describe('DDO', function() {
                         datePublished: '2012-10-10T17:00:000Z',
                         author: 'Met Office',
                         license: 'CC-BY',
-                        price: '10',
                         files: [
                             {
                                 index: 0,
@@ -134,11 +133,9 @@ describe('DDO', function() {
         ]
     })
 
-    let nevermined: Nevermined
-
     beforeEach(async () => {
         await TestContractHandler.prepareContracts()
-        nevermined = await Nevermined.getInstance(config)
+        await Nevermined.getInstance(config)
     })
 
     afterEach(() => {
@@ -214,7 +211,7 @@ describe('DDO', function() {
             }
             assert.equal(
                 ddo.checksum(JSON.stringify(checksum)),
-                '0x7c55033a661cd6d08edeacfc6fe6644d2c96d07be43f6e6e38af56bd2a10d57f'
+                '0xe1f7247283907e297d0e5444081afd34af76c4f2b0d8fdf1a8dc5ed6030a6016'
             )
         })
     })
@@ -230,7 +227,7 @@ describe('DDO', function() {
                     JSON.stringify(ddo.findServiceByType(svc.type).attributes.main)
                 )
             }
-            const proof = await ddo.generateProof(nevermined, publicKey)
+            const proof = await ddo.generateProof(publicKey)
             assert.include(proof as any, {
                 creator: publicKey,
                 type: 'DDOIntegritySignature',
@@ -251,7 +248,7 @@ describe('DDO', function() {
             } as any
             const ddo = new DDO(testDDO)
             const generateProofSpy = spy.on(ddo, 'generateProof', () => fakeProof)
-            await ddo.addProof(nevermined, publicKey)
+            await ddo.addProof(publicKey)
 
             assert.equal(ddo.proof, fakeProof)
             expect(generateProofSpy).to.have.been.called.with(publicKey)

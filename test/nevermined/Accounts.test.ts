@@ -5,7 +5,7 @@ import config from '../config'
 import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import { Accounts } from '../../src/nevermined/Accounts'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../src/utils/BigNumber'
 
 use(spies)
 
@@ -13,7 +13,7 @@ describe('Accounts', () => {
     let accounts: Accounts
 
     before(async () => {
-        accounts = (await Nevermined.getInstance(config)).accounts
+        ({ accounts } = await Nevermined.getInstance(config))
     })
 
     afterEach(() => {
@@ -32,14 +32,14 @@ describe('Accounts', () => {
         it('should return the balance of an account', async () => {
             const [account] = await accounts.list()
             spy.on(account, 'getBalance', () => ({
-                eth: new BigNumber(1),
-                nevermined: new BigNumber(5)
+                eth: BigNumber.from(1),
+                nevermined: BigNumber.from(5)
             }))
             const balance = await accounts.balance(account)
 
             assert.deepEqual(balance, {
-                eth: new BigNumber(1),
-                nevermined: new BigNumber(5)
+                eth: BigNumber.from(1),
+                nevermined: BigNumber.from(5)
             })
         })
     })

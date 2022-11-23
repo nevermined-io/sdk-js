@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+import BigNumber from '../utils/BigNumber'
 
 export default class Balance {
     public eth: BigNumber

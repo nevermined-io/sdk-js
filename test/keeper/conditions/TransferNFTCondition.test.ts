@@ -1,6 +1,6 @@
-import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import { ContractReceipt, Event } from 'ethers'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import {
     EscrowPaymentCondition,
@@ -11,6 +11,7 @@ import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import Token from '../../../src/keeper/contracts/Token'
 import { didZeroX, ZeroAddress, zeroX } from '../../../src/utils'
+import BigNumber from '../../../src/utils/BigNumber'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -36,17 +37,14 @@ describe('TransferNFTCondition', () => {
 
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
-    const nftAmount = 2
-    const amounts = [new BigNumber(10)]
+    const nftAmount = BigNumber.from(2)
+    const amounts = [BigNumber.from(10)]
 
     before(async () => {
         await TestContractHandler.prepareContracts()
         nevermined = await Nevermined.getInstance(config)
-        ;({
-            transferNftCondition,
-            lockPaymentCondition,
-            escrowPaymentCondition
-        } = nevermined.keeper.conditions)
+        ;({ transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
+            nevermined.keeper.conditions)
         ;({ conditionStoreManager, didRegistry, token } = nevermined.keeper)
         ;[owner, nftReceiver, other] = await nevermined.accounts.list()
         receivers = [nftReceiver.getId()]
@@ -132,7 +130,7 @@ describe('TransferNFTCondition', () => {
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
-                new BigNumber(10),
+                BigNumber.from(10),
                 nftReceiver
             )
 
@@ -167,7 +165,7 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            const result = await transferNftCondition.fulfill(
+            const contractReceipt: ContractReceipt = await transferNftCondition.fulfill(
                 agreementId,
                 did,
                 nftReceiver.getId(),
@@ -177,19 +175,14 @@ describe('TransferNFTCondition', () => {
             ;({ state } = await conditionStoreManager.getCondition(conditionId))
             assert.equal(state, ConditionState.Fulfilled)
 
-            const {
-                _agreementId,
-                _did,
-                _receiver,
-                _conditionId,
-                _amount
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
             assert.equal(_receiver, nftReceiver.getId())
-            assert.equal(Number(_amount), nftAmount)
+            assert.equal(Number(_amount), Number(nftAmount))
         })
     })
 
@@ -236,7 +229,7 @@ describe('TransferNFTCondition', () => {
                 amounts,
                 receivers,
                 nftReceiver,
-                { value: amounts[0].toFixed() }
+                { value: amounts[0].toString() }
             )
 
             let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
@@ -261,7 +254,7 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            const result = await transferNftCondition.fulfill(
+            const contractReceipt: ContractReceipt = await transferNftCondition.fulfill(
                 agreementId,
                 did,
                 nftReceiver.getId(),
@@ -271,19 +264,14 @@ describe('TransferNFTCondition', () => {
             ;({ state } = await conditionStoreManager.getCondition(conditionId))
             assert.equal(state, ConditionState.Fulfilled)
 
-            const {
-                _agreementId,
-                _did,
-                _receiver,
-                _conditionId,
-                _amount
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
             assert.equal(_receiver, nftReceiver.getId())
-            assert.equal(Number(_amount), nftAmount)
+            assert.equal(Number(_amount), Number(nftAmount))
         })
     })
 
@@ -325,7 +313,7 @@ describe('TransferNFTCondition', () => {
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
                 lockPaymentCondition.getAddress(),
-                new BigNumber(10),
+                BigNumber.from(10),
                 nftReceiver
             )
 

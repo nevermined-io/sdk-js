@@ -12,6 +12,7 @@ import {
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
+import { ContractReceipt, Event } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -116,7 +117,7 @@ describe('NFTAccessCondition', () => {
                 templateId
             )
 
-            const result = await nftAccessCondition.fulfill(
+            const contractReceipt: ContractReceipt = await nftAccessCondition.fulfill(
                 agreementId,
                 did,
                 grantee.getId()
@@ -125,12 +126,8 @@ describe('NFTAccessCondition', () => {
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
 
-            const {
-                _agreementId,
-                _documentId,
-                _grantee,
-                _conditionId
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _documentId, _grantee, _conditionId } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_documentId, didZeroX(did))
@@ -145,10 +142,7 @@ describe('NFTAccessCondition', () => {
             const did = await didRegistry.hashDID(didSeed, owner.getId())
 
             const hashValues = await nftAccessCondition.hashValues(did, grantee.getId())
-            const conditionId = await nftAccessCondition.generateId(
-                agreementId,
-                hashValues
-            )
+            await nftAccessCondition.generateId(agreementId, hashValues)
 
             await agreementStoreManager.createAgreement(
                 agreementId,
@@ -171,10 +165,7 @@ describe('NFTAccessCondition', () => {
             const did = await didRegistry.hashDID(didSeed, owner.getId())
 
             const hashValues = await nftAccessCondition.hashValues(did, grantee.getId())
-            const conditionId = await nftAccessCondition.generateId(
-                agreementId,
-                hashValues
-            )
+            await nftAccessCondition.generateId(agreementId, hashValues)
 
             await agreementStoreManager.createAgreement(
                 agreementId,

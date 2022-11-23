@@ -1,11 +1,13 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
+import { ContractReceipt, Event } from 'ethers'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { NFTLockCondition } from '../../../src/keeper/contracts/conditions'
 import { NFTUpgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
+import BigNumber from '../../../src/utils/BigNumber'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -25,7 +27,7 @@ describe('NFTLockCondition', () => {
     let didSeed: string
     const activityId = utils.generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
-    const amount = 10
+    const amount = BigNumber.from(10)
 
     before(async () => {
         await TestContractHandler.prepareContracts()
@@ -105,7 +107,7 @@ describe('NFTLockCondition', () => {
                 owner
             )
 
-            const result = await nftLockCondition.fulfill(
+            const contractReceipt: ContractReceipt = await nftLockCondition.fulfill(
                 agreementId,
                 did,
                 rewardAddress.getId(),
@@ -114,21 +116,16 @@ describe('NFTLockCondition', () => {
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
             const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
-            assert.equal(nftBalance, amount)
+            assert.deepEqual(BigNumber.from(nftBalance), BigNumber.from(amount))
 
-            const {
-                _agreementId,
-                _did,
-                _lockAddress,
-                _conditionId,
-                _amount
-            } = result.events.Fulfilled.returnValues
+            const event: Event = contractReceipt.events.find(e => e.event === 'Fulfilled')
+            const { _agreementId, _did, _lockAddress, _conditionId, _amount } = event.args
 
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
             assert.equal(_conditionId, conditionId)
             assert.equal(_lockAddress, rewardAddress.getId())
-            assert.equal(Number(_amount), amount)
+            assert.equal(Number(_amount), Number(amount))
         })
     })
 
@@ -157,7 +154,7 @@ describe('NFTLockCondition', () => {
 
             await assert.isRejected(
                 nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount),
-                /Invalid UpdateRole/
+                /Condition doesnt exist/
             )
         })
 
@@ -201,7 +198,7 @@ describe('NFTLockCondition', () => {
                     agreementId,
                     did,
                     rewardAddress.getId(),
-                    amount + 1
+                    amount.add(1)
                 ),
                 /insufficient balance/
             )

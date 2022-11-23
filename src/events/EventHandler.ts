@@ -9,13 +9,11 @@ export class EventHandler {
 
     private interval = 200
 
-    private polling: boolean = false
+    private polling = false
 
     private lastTimeout: NodeJS.Timeout
 
     private getBlockNumber: () => Promise<number>
-
-    constructor() {}
 
     public subscribe(
         callback: (blockNumber: number) => void,

@@ -10,8 +10,8 @@ export default class WebServiceConnectorMock extends WebServiceConnector {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    private async fetch(url, opts): Promise<any> {
-        return new Promise((resolve, reject) => {
+    private async fetch(_url, _opts): Promise<any> {
+        return new Promise((resolve, _reject) => {
             resolve({
                 ok: true,
                 json: () => {

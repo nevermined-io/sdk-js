@@ -1,13 +1,13 @@
-import Web3 from 'web3'
 import Config from './models/Config'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import Web3Provider from './keeper/Web3Provider'
 import { Nevermined } from './nevermined/Nevermined'
+import { ethers } from 'ethers'
 
 export interface InstantiableConfig {
     nevermined: Nevermined
     config?: Config
-    web3?: Web3
+    web3?: ethers.providers.JsonRpcProvider
     logger?: Logger
     artifactsFolder?: string
 }
@@ -39,10 +39,10 @@ export abstract class Instantiable {
 
     /**
      * Returns true of contract exists else it throws.
-     * @return {Promise<boolean>} Contract exists.
+     * @returns {@link true} if the contract exists.
      */
     protected async checkExists(address: string): Promise<boolean> {
-        const storage = await this.web3.eth.getStorageAt(address, 0)
+        const storage = await this.web3.getStorageAt(address, 0)
         // check if storage is 0x0 at position 0, this is the case most of the cases
         if (
             storage ===
@@ -50,7 +50,7 @@ export abstract class Instantiable {
         ) {
             // if the storage is empty, check if there is no code for this contract,
             // if so we can be sure it does not exist
-            const code = await this.web3.eth.getCode(address)
+            const code = await this.web3.getCode(address)
             if (code === '0x0') {
                 // no contract in the blockchain dude
                 throw new Error(`No contract deployed at address ${address}, sorry.`)
@@ -62,8 +62,9 @@ export abstract class Instantiable {
 
     protected get web3() {
         if (!this._instantiableConfig?.web3) {
-            this.logger.error('Web3 instance is not defined.')
-            this.logger.error('Using default instance.')
+            this.logger.warn(
+                'ethers.Provider instance is not defined. Using default instance.'
+            )
             return Web3Provider.getWeb3()
         }
         return this._instantiableConfig.web3
@@ -101,10 +102,60 @@ export abstract class Instantiable {
         return { nevermined, web3, config, logger, artifactsFolder }
     }
 
-    public static getInstance(...args: any[]): any
-    // public static async getInstance(...args: any[]): Promise<any>
+    public async findSigner(from: string): Promise<ethers.Signer> {
+        for (const acc of this.config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(this.web3)
+            }
+        }
+        return this.web3.getSigner(from)
+    }
 
-    public static async getInstance(config: InstantiableConfig): Promise<any> {
+    public static async findSignerStatic(
+        config: Config,
+        web3: ethers.providers.JsonRpcProvider,
+        from: string
+    ): Promise<ethers.Signer> {
+        for (const acc of config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(web3)
+            }
+        }
+        return web3.getSigner(from)
+    }
+
+    public async addresses(): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await this.web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (this.config.accounts || []).map(a => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
+    public static async addressesStatic(
+        config: Config,
+        web3: ethers.providers.JsonRpcProvider
+    ): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (config.accounts || []).map(a => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
+    public static getInstance(..._args: any): any {
         LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
     }
 

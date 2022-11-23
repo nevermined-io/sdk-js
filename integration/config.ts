@@ -1,85 +1,60 @@
 import { Config } from '../src'
-import HDWalletProvider from '@truffle/hdwallet-provider'
-import { LoggerInstance, LogLevel } from '../src/utils'
+import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
 const nograph = process.env['NO_GRAPH'] === 'true'
+const infuraToken = process.env['INFURA_TOKEN']
 
 const configBase: Config = {
-    nodeUri: 'http://localhost:8545',
-    marketplaceUri: 'http://nevermined-metadata:3100',
+    web3ProviderUri: 'http://localhost:8545',
+    marketplaceUri: 'http://172.17.0.1:3100',
     faucetUri: 'http://localhost:3001',
-    gatewayUri: 'http://localhost:8030',
-    secretStoreUri: 'http://localhost:12001',
-    gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
+    neverminedNodeUri: 'http://localhost:8030',
+    neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
+    artifactsFolder: './artifacts',
     graphHttpUri: nograph
         ? undefined
         : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
     gasMultiplier: 1.1,
+    newGateway: !(process.env.OLD_GATEWAY === 'true') || true,
     verbose: LogLevel.Error
-}
-
-if (process.env.NETWORK_NAME === 'production') {
-    Object.assign(configBase, {
-        nodeUri: 'http://localhost:8545',
-        marketplaceUri: 'http://nevermined-metadata:3100',
-        faucetUri: 'http://localhost:3001',
-        gatewayUri: 'http://localhost:8030',
-        secretStoreUri: 'http://localhost:12001',
-        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    } as Config)
-}
-
-if (process.env.NETWORK_NAME === 'integration') {
-    Object.assign(configBase, {
-        nodeUri: 'http://localhost:8545',
-        marketplaceUri: 'http://nevermined-metadata:3100',
-        faucetUri: 'http://localhost:3001',
-        gatewayUri: 'http://localhost:8030',
-        secretStoreUri: 'http://localhost:12001',
-        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    } as Config)
 }
 
 if (process.env.NETWORK_NAME === 'testing') {
     Object.assign(configBase, {
-        nodeUri: 'http://localhost:8545',
+        web3ProviderUri: 'http://localhost:8545',
         marketplaceUri: 'http://nevermined-metadata:3100',
         faucetUri: 'http://localhost:3001',
-        gatewayUri: 'http://localhost:8030',
-        secretStoreUri: 'http://localhost:12001',
-        gatewayAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
+        neverminedNodeUri: 'http://localhost:8030',
+        neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
     } as Config)
 }
 
-if (process.env.NETWORK_NAME === 'rinkeby') {
+if (process.env.NETWORK_NAME === 'goerli') {
     Object.assign(configBase, {
-        marketplaceUri: 'https://metadata.rinkeby.nevermined.rocks',
-        faucetUri: 'https://faucet.rinkeby.nevermined.rocks',
-        gatewayUri: 'https://gateway.rinkeby.nevermined.rocks',
-        nodeUri: `https://rinkeby.infura.io/v3/52b6d403f7de4757ab9ed23c3778a35b`,
-        gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
+        marketplaceUri: 'https://metadata.goerli.nevermined.rocks',
+        faucetUri: 'https://faucet.goerli.nevermined.rocks',
+        neverminedNodeUri: 'https://node.goerli.nevermined.rocks',
+        web3ProviderUri: `https://goerli.infura.io/v3/${infuraToken}`,
+        neverminedNodeAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
     } as Config)
 }
 
 if (process.env.NETWORK_NAME === 'mumbai') {
     Object.assign(configBase, {
-        marketplaceUri: 'https://metadata.mumbai.nevermined.rocks',
-        faucetUri: 'https://faucet.mumbai.nevermined.rocks',
-        gatewayUri: 'https://gateway.mumbai.nevermined.rocks',
-        nodeUri: `https://rpc-mumbai.maticvigil.com/v1/e145ac0424e2a2b3c340685c80a08e77099ce020`,
-        gatewayAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
+        marketplaceUri: 'https://marketplace-api.mumbai.public.nevermined.rocks',
+        faucetUri: 'https://faucet.mumbai.public.nevermined.rocks',
+        neverminedNodeUri: 'https://node.mumbai.public.nevermined.rocks',
+        web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
+        neverminedNodeAddress: '0xB82dc620BB4dE6712376055a5cfc0DF11112D442',
+        graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
     } as Config)
 }
 
 if (process.env.SEED_WORDS) {
-    const seedphrase = process.env.SEED_WORDS
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    configBase.web3Provider = new HDWalletProvider(seedphrase, configBase.nodeUri, 0, 10)
+    configBase.accounts = makeAccounts(process.env.SEED_WORDS)
 }
 
 export const config: Config & { forceVerbose: Config } = configBase as any

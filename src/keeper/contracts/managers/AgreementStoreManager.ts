@@ -31,6 +31,10 @@ export class AgreementStoreManager extends ContractBase {
         this.templates = temp
     }
 
+    public addTemplate(name: string, obj: any) {
+        this.templates[name] = obj
+    }
+
     public getOwner(): Promise<string> {
         return this.call('owner', [])
     }
@@ -42,15 +46,9 @@ export class AgreementStoreManager extends ContractBase {
         const events = await this.templates[templateId].getAgreementCreatedEvent(
             agreementId
         )
-        const values = events.map(e => e.returnValues || e)
-        const {
-            _did,
-            _didOwner,
-            _conditionIds,
-            _conditionIdSeeds,
-            _idSeed,
-            _creator
-        } = values[0]
+        const values = events.map(e => e.args || e)
+        const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] =
+            values
         return {
             did: _did,
             agreementId,

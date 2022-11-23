@@ -1,4 +1,4 @@
-import { Condition, ConditionContext } from './Condition.abstract'
+import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
@@ -9,7 +9,7 @@ export interface AccessConditionContext extends ConditionContext {
     creator: string
 }
 
-export class AccessCondition extends Condition<AccessConditionContext> {
+export class AccessCondition extends ProviderCondition<AccessConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<AccessCondition> {
@@ -62,9 +62,12 @@ export class AccessCondition extends Condition<AccessConditionContext> {
                 _conditionId: true
             }
         }
-        return (await this.events.getPastEvents(evOptions)).map(({ returnValues }) => ({
-            did: didPrefixed(returnValues._documentId),
-            agreementId: zeroX(returnValues._agreementId)
+        const events = await this.events.getPastEvents(evOptions)
+        const values = events.map(e => e.args || e)
+
+        return values.map(v => ({
+            did: didPrefixed(v._documentId),
+            agreementId: zeroX(v._agreementId)
         }))
     }
 }

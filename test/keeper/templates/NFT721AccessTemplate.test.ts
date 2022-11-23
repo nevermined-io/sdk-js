@@ -11,6 +11,7 @@ import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { NFT721AccessTemplate } from '../../../src/keeper/contracts/templates/NFT721AccessTemplate'
+import { ContractReceipt, Event } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -121,19 +122,25 @@ describe('NFT721AccessTemplate', () => {
             )
             const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-            const agreement = await nft721AccessTemplate.createAgreement(
-                agreementIdSeed,
-                didZeroX(did),
-                conditionIdSeeds,
-                timeLocks,
-                timeOuts,
-                [receiver.getId()],
-                sender
+            const contractReceipt: ContractReceipt =
+                await nft721AccessTemplate.createAgreement(
+                    agreementIdSeed,
+                    didZeroX(did),
+                    conditionIdSeeds,
+                    timeLocks,
+                    timeOuts,
+                    [receiver.getId()],
+                    sender
+                )
+            assert.equal(contractReceipt.status, 1)
+            assert.isTrue(
+                contractReceipt.events.some(e => e.event === 'AgreementCreated')
             )
-            assert.isTrue(agreement.status)
-            assert.nestedProperty(agreement, 'events.AgreementCreated')
 
-            const { _agreementId, _did } = agreement.events.AgreementCreated.returnValues
+            const event: Event = contractReceipt.events.find(
+                e => e.event === 'AgreementCreated'
+            )
+            const { _agreementId, _did } = event.args
             assert.equal(_agreementId, zeroX(agreementId))
             assert.equal(_did, didZeroX(did))
 

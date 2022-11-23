@@ -4,12 +4,12 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
-import { repeat } from '../utils/utils'
+import { repeat, sleep } from '../utils/utils'
 
-import { Nevermined, DDO, Account, ConditionState } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../src/utils/BigNumber'
 
 describe('Consume Asset', () => {
     let nevermined: Nevermined
@@ -17,7 +17,7 @@ describe('Consume Asset', () => {
     let publisher: Account
     let consumer: Account
 
-    let metadata = getMetadata()
+    let metadata: MetaData
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
@@ -39,10 +39,7 @@ describe('Consume Asset', () => {
 
         assetRewards = getAssetRewards(publisher.getId())
 
-        if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
-        }
-
+        metadata = getMetadata()
         metadata.userId = payload.sub
     })
 
@@ -60,14 +57,16 @@ describe('Consume Asset', () => {
 
     it('should be able to request tokens for consumer', async () => {
         const initialBalance = (await consumer.getBalance()).nevermined
-        const claimedTokens = new BigNumber(100)
+        const claimedTokens = BigNumber.from(100)
 
         try {
             await consumer.requestTokens(claimedTokens)
-        } catch {}
+        } catch (error) {
+            Logger.error(error)
+        }
 
         const balanceAfter = (await consumer.getBalance()).nevermined
-        assert.isTrue(balanceAfter.isGreaterThan(initialBalance))
+        assert.isTrue(balanceAfter.gt(initialBalance))
     })
 
     it('should sign the service agreement', async () => {
@@ -105,9 +104,8 @@ describe('Consume Asset', () => {
 
     it('should get the agreement conditions status not fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await sleep(3000)
         const status = await repeat(3, nevermined.agreements.status(agreementId))
-        // const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {
             lockPayment: ConditionState.Unfulfilled,
@@ -128,7 +126,7 @@ describe('Consume Asset', () => {
         assert.isTrue(paid, 'The asset has not been paid correctly')
     })
 
-    // The test will fail because Gateway grants the access faster
+    // The test will fail because Nevermined Node grants the access faster
     it('should grant the access by the publisher', async () => {
         try {
             const granted = await nevermined.agreements.conditions.grantAccess(
@@ -140,13 +138,16 @@ describe('Consume Asset', () => {
 
             assert.isTrue(granted, 'The asset has not been granted correctly')
 
-            const accessGranted = await nevermined.keeper.conditions.accessCondition.checkPermissions(
-                consumer.getId(),
-                ddo.id
-            )
+            const accessGranted =
+                await nevermined.keeper.conditions.accessCondition.checkPermissions(
+                    consumer.getId(),
+                    ddo.id
+                )
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
-        } catch {}
+        } catch (error) {
+            Logger.error(error)
+        }
     })
 
     it('should return true on access granted', async () => {
@@ -162,7 +163,7 @@ describe('Consume Asset', () => {
 
     it('should get the agreement conditions status fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 500))
+        await sleep(2000)
         const status = await nevermined.agreements.status(agreementId)
 
         assert.deepEqual(status, {

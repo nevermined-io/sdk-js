@@ -2,7 +2,6 @@ import { Accounts } from './Accounts'
 import { Agreements } from './Agreements'
 import { Assets } from './Assets'
 import { Auth } from './Auth'
-import { NeverminedSecretStore } from './NeverminedSecretStore'
 import { Token } from './Token'
 import { Versions } from './Versions'
 import { Provenance } from './Provenance'
@@ -12,7 +11,7 @@ import { Metadata } from '../metadata/Metadata'
 import { Profiles } from '../profiles/Profiles'
 import { Bookmarks } from '../bookmarks/Bookmarks'
 import { Permissions } from '../permissions/Permissions'
-import { Gateway } from '../gateway/Gateway'
+import { NeverminedNode } from '../node/NeverminedNode'
 
 import Keeper from '../keeper/Keeper'
 
@@ -29,6 +28,7 @@ import { Nfts } from './Nfts'
 import { Nft721 } from './Nft721'
 import { AaveCredit } from './AaveCredit'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
+import CustomToken from '../keeper/contracts/CustomToken'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -36,8 +36,17 @@ import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 export class Nevermined extends Instantiable {
     /**
      * Returns the instance of Nevermined.
-     * @param  {Config} config Nevermined instance configuration.
-     * @return {Promise<Nevermined>}
+     *
+     * @example
+     * ```ts
+     * import { Nevermined, Config } from '@nevermined-io/nevermied-sdk-js'
+     *
+     * const config: Config = {...}
+     * const nevermined = await Nevermined.getInstance(config)
+     * ```
+     *
+     * @param config - Nevermined instance configuration.
+     * @returns A {@link Nevermined} instance
      */
     public static async getInstance(config: Config): Promise<Nevermined> {
         const instance = new Nevermined()
@@ -51,7 +60,7 @@ export class Nevermined extends Instantiable {
         instance.keeper = await Keeper.getInstance(instanceConfig)
         await instance.keeper.init()
 
-        instance.gateway = new Gateway(instanceConfig)
+        instance.node = new NeverminedNode(instanceConfig)
         instance.marketplace = new MarketplaceApi(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)
         instance.profiles = new Profiles(instanceConfig)
@@ -65,7 +74,6 @@ export class Nevermined extends Instantiable {
         instance.nfts = await Nfts.getInstance(instanceConfig)
         instance.files = await Files.getInstance(instanceConfig)
         instance.agreements = await Agreements.getInstance(instanceConfig)
-        instance.secretStore = await NeverminedSecretStore.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
         instance.aaveCredit = await AaveCredit.getInstance(instanceConfig)
 
@@ -80,113 +88,105 @@ export class Nevermined extends Instantiable {
 
     /**
      * Keeper instance.
-     * @type {Keeper}
      */
     public keeper: Keeper
 
     /**
      * Nevermind very own contract reflector.
-     * @type {Keeper}
      */
     public contracts = {
+        /**
+         * Load a custom ERC-721 nft.
+         *
+         * @param address - The address of the ERC-721 contracts to load
+         * @returns An instance of {@link Nft721}
+         */
         loadNft721: async (address: string): Promise<Nft721> => {
             return await Nft721.getInstance(this.instanceConfig, address)
+        },
+        /**
+         * Load a custom ERC-20 nft.
+         *
+         * @param address - The address of the ERC-20 contracts to load
+         * @returns An instance of the {@link CustomToken}
+         */
+        loadErc20: async (address: string): Promise<CustomToken> => {
+            return await CustomToken.getInstanceByAddress(this.instanceConfig, address)
         }
     }
 
     /**
-     * Gateway instance.
-     * @type {Gateway}
+     * Nevermined Node instance.
      */
-    public gateway: Gateway
+    public node: NeverminedNode
 
     /**
      * Metadata instance.
-     * @type {Metadata}
      */
     public metadata: Metadata
 
     /**
      * Marketplace instance.
-     * @type {MarketplaceApi}
      */
     public marketplace: MarketplaceApi
 
     /**
      * Profiles instance
-     * @type {Profiles}
      */
     public profiles: Profiles
 
     /**
      * Bookmarks instance
-     * @type {Bookmarks}
      */
     public bookmarks: Bookmarks
 
     /**
      * Permissions instance
-     * @type {Permissions}
      */
     public permissions: Permissions
 
     /**
      * Metadata instance.
-     * @type {Metadata}
      */
     public faucet: Faucet
 
     /**
      * Accounts submodule
-     * @type {Accounts}
      */
     public accounts: Accounts
 
     /**
      * Auth submodule
-     * @type {Auth}
      */
     public auth: Auth
 
     /**
      * Assets submodule
-     * @type {Assets}
      */
     public assets: Assets
 
     /**
      * Nfts submodule
-     * @type {Nfts}
      */
     public nfts: Nfts
 
     /**
      * Files submodule
-     * @type {Files}
      */
     public files: Files
 
     /**
      * Agreements submodule
-     * @type {Agreements}
      */
     public agreements: Agreements
 
     /**
-     * SecretStore submodule
-     * @type {NeverminedSecretStore}
-     */
-    public secretStore: NeverminedSecretStore
-
-    /**
      * Nevermined probiders submodule
-     * @type {Provider}
      */
     public provider: Provider
 
     /**
      * Nevermined tokens submodule
-     * @type {Token}
      */
     public token: Token
 
@@ -197,19 +197,16 @@ export class Nevermined extends Instantiable {
 
     /**
      * Versions submodule
-     * @type {Versions}
      */
     public versions: Versions
 
     /**
      * Provenance submodule
-     * @type {Provenance}
      */
     public provenance: Provenance
 
     /**
      * Utils submodule
-     * @type {Utils}
      */
     public utils: Utils
 

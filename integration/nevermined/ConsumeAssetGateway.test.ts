@@ -5,13 +5,13 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO, ConditionState } from '../../src'
+import { Nevermined, Account, DDO, ConditionState, MetaData, Logger } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
-import Web3 from 'web3'
-import BigNumber from 'bignumber.js'
-import { repeat } from '../utils/utils'
+import { repeat, sleep } from '../utils/utils'
+import { ethers } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
-describe('Consume Asset (Gateway)', () => {
+describe('Consume Asset (Nevermined Node)', () => {
     let nevermined: Nevermined
 
     let publisher: Account
@@ -20,7 +20,7 @@ describe('Consume Asset (Gateway)', () => {
     let ddo: DDO
     let agreementId: string
 
-    let metadata = getMetadata()
+    let metadata: MetaData
     let assetRewards: AssetRewards
 
     before(async () => {
@@ -36,12 +36,9 @@ describe('Consume Asset (Gateway)', () => {
         await nevermined.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetRewards = new AssetRewards(publisher.getId(), new BigNumber(0))
+        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(0))
 
-        if (!nevermined.keeper.dispenser) {
-            metadata = getMetadata(0)
-        }
-        metadata.main.price = assetRewards.getTotalPrice().toString()
+        metadata = getMetadata()
         metadata.main.name = `${metadata.main.name} - ${Math.random()}`
         metadata.userId = payload.sub
     })
@@ -49,11 +46,13 @@ describe('Consume Asset (Gateway)', () => {
     after(() => {
         try {
             localStorage.clear()
-        } catch {}
+        } catch (error) {
+            Logger.error(error)
+        }
     })
 
-    it('should fetch the RSA publicKey from the gateway', async () => {
-        const rsaPublicKey = await nevermined.gateway.getRsaPublicKey()
+    it('should fetch the RSA publicKey from the Nevermined Node', async () => {
+        const rsaPublicKey = await nevermined.node.getRsaPublicKey()
         assert.isDefined(rsaPublicKey)
     })
 
@@ -69,12 +68,10 @@ describe('Consume Asset (Gateway)', () => {
             .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
-        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 7, 8, 11])
+        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 11])
 
         const assetProviders = await nevermined.provider.list(ddo.id)
-        assert.deepEqual(assetProviders, [
-            Web3.utils.toChecksumAddress(config.gatewayAddress)
-        ])
+        assert.deepEqual(assetProviders, [ethers.utils.getAddress(config.neverminedNodeAddress)])
     })
 
     it('should order the asset', async () => {
@@ -89,7 +86,7 @@ describe('Consume Asset (Gateway)', () => {
 
     it('should get the lockPayment condition fulfilled', async () => {
         // todo change this, a test should never dependent on the previous test because the order might change during runtime
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await sleep(3000)
         const status = await repeat(3, nevermined.agreements.status(agreementId))
 
         assert.deepEqual(status, {
@@ -101,13 +98,7 @@ describe('Consume Asset (Gateway)', () => {
 
     it('should be able to download the asset if you are the owner', async () => {
         const folder = '/tmp/nevermined/sdk-js'
-        const path = await nevermined.assets.download(
-            ddo.id,
-            publisher,
-            folder,
-            -1,
-            false
-        )
+        const path = await nevermined.assets.download(ddo.id, publisher, folder, -1)
         assert.include(path, folder, 'The storage path is not correct.')
         const files = await new Promise<string[]>(resolve => {
             fs.readdir(path, (e, fileList) => {
@@ -129,8 +120,7 @@ describe('Consume Asset (Gateway)', () => {
             ddo.id,
             consumer,
             folder,
-            -1,
-            false
+            -1
         )
 
         assert.include(path, folder, 'The storage path is not correct.')

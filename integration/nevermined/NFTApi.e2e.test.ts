@@ -1,8 +1,6 @@
-import BigNumber from 'bignumber.js'
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import Web3 from 'web3'
 import { Account, DDO, Nevermined } from '../../src'
 import {
     EscrowPaymentCondition,
@@ -12,7 +10,9 @@ import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { RoyaltyKind } from '../../src/nevermined/Assets'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import { ethers } from 'ethers'
+import BigNumber from '../../src/utils/BigNumber'
 
 chai.use(chaiAsPromised)
 
@@ -31,15 +31,15 @@ describe('NFTs Api End-to-End', () => {
     const metadata = getMetadata()
     const royalties1 = 100000 // 10% of royalties in the secondary market
     const royalties = 10 // 10% of royalties in the secondary market
-    const cappedAmount = 5
+    const cappedAmount = BigNumber.from(5)
     let agreementId: string
     let agreementId2: string
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = 1
-    let nftPrice = new BigNumber(100)
-    let amounts = [new BigNumber(75), new BigNumber(25)]
+    const numberNFTs = BigNumber.from(1)
+    let nftPrice = BigNumber.from(100)
+    let amounts = [BigNumber.from(75), BigNumber.from(25)]
     let receivers: string[]
     let assetRewards1: AssetRewards
 
@@ -64,10 +64,10 @@ describe('NFTs Api End-to-End', () => {
         // components
         ;({ token } = nevermined.keeper)
 
-        scale = new BigNumber(10).exponentiatedBy(await token.decimals())
+        scale = BigNumber.from(10).pow(await token.decimals())
 
-        nftPrice = nftPrice.multipliedBy(scale)
-        amounts = amounts.map(v => v.multipliedBy(scale))
+        nftPrice = nftPrice.mul(scale)
+        amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
         assetRewards1 = new AssetRewards(
             new Map([
@@ -90,25 +90,27 @@ describe('NFTs Api End-to-End', () => {
 
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
+            const royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties1
+            )
             ddo = await nevermined.nfts.createWithRoyalties(
                 metadata,
                 artist,
                 cappedAmount,
-                RoyaltyKind.Standard,
-                royalties1,
+                royaltyAttributes,
                 assetRewards1
             )
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 5)
+            assert.deepEqual(balance, BigNumber.from(5))
         })
 
-        it('Should set the gateway as a provider by default', async () => {
+        it('Should set the Node as a provider by default', async () => {
             const providers = await nevermined.provider.list(ddo.id)
-            assert.deepEqual(providers, [
-                Web3.utils.toChecksumAddress(config.gatewayAddress)
-            ])
+            assert.deepEqual(providers, [ethers.utils.getAddress(config.neverminedNodeAddress)])
         })
     })
 
@@ -125,7 +127,7 @@ describe('NFTs Api End-to-End', () => {
         it('I am ordering the NFT', async () => {
             const collector1BalanceBefore = await token.balanceOf(collector1.getId())
 
-            assert.isTrue(collector1BalanceBefore.isGreaterThanOrEqualTo(nftPrice))
+            assert.isTrue(collector1BalanceBefore.gte(nftPrice))
             const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
@@ -138,12 +140,12 @@ describe('NFTs Api End-to-End', () => {
             )
 
             assert.isTrue(
-                collector1BalanceBefore.minus(nftPrice).isEqualTo(collector1BalanceAfter)
+                collector1BalanceBefore.sub(nftPrice).eq(collector1BalanceAfter)
             )
             assert.isTrue(
                 escrowPaymentConditionBalanceBefore
-                    .plus(nftPrice)
-                    .isEqualTo(escrowPaymentConditionBalanceAfter)
+                    .add(nftPrice)
+                    .eq(escrowPaymentConditionBalanceAfter)
             )
         })
 
@@ -169,11 +171,11 @@ describe('NFTs Api End-to-End', () => {
             )
             assert.equal(
                 Number(nftBalanceArtistAfter),
-                Number(nftBalanceArtistBefore) - numberNFTs
+                Number(nftBalanceArtistBefore) - Number(numberNFTs)
             )
             assert.equal(
                 Number(nftBalanceCollectorAfter),
-                Number(nftBalanceCollectorBefore) + numberNFTs
+                Number(nftBalanceCollectorBefore) + Number(numberNFTs)
             )
         })
 
@@ -185,7 +187,6 @@ describe('NFTs Api End-to-End', () => {
                 agreementId,
                 ddo.id,
                 numberNFTs,
-                collector1,
                 artist
             )
             assert.isTrue(receipt)
@@ -202,63 +203,65 @@ describe('NFTs Api End-to-End', () => {
             const collectorBalance = await token.balanceOf(collector1.getId())
 
             assert.isTrue(
-                receiver0Balance.isEqualTo(
-                    initialBalances.artist.plus(assetRewards1.getAmounts()[0])
+                receiver0Balance.eq(
+                    initialBalances.artist.add(assetRewards1.getAmounts()[0])
                 )
             )
             assert.isTrue(
-                receiver1Balance.isEqualTo(
-                    initialBalances.gallery.plus(assetRewards1.getAmounts()[1])
+                receiver1Balance.eq(
+                    initialBalances.gallery.add(assetRewards1.getAmounts()[1])
                 )
             )
-            assert.isTrue(
-                initialBalances.collector1.minus(nftPrice).isEqualTo(collectorBalance)
-            )
+            assert.isTrue(initialBalances.collector1.sub(nftPrice).eq(collectorBalance))
             assert.isTrue(
                 escrowPaymentConditionBefore
-                    .minus(nftPrice)
-                    .isEqualTo(escrowPaymentConditionBalanceAfter)
+                    .sub(nftPrice)
+                    .eq(escrowPaymentConditionBalanceAfter)
             )
-        })
-    })
-
-    describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
-        it('The collector access the files', async () => {
-            const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
-            assert.isTrue(result)
         })
     })
 
     describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
-        it('The artist gives the Gateway permissions to transfer his nfts', async () => {
-            let result = await nevermined.nfts.setApprovalForAll(
-                transferNftCondition.address,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+        it('The artist gives the Node permissions to transfer his nfts', async () => {
+            const message = 'shold throw this error message'
 
-            result = await nevermined.nfts.setApprovalForAll(
-                config.gatewayAddress,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+            try {
+                await nevermined.nfts.setApprovalForAll(
+                    transferNftCondition.address,
+                    true,
+                    artist
+                )
+    
+                await nevermined.nfts.setApprovalForAll(
+                    config.neverminedNodeAddress,
+                    true,
+                    artist
+                )
+
+                assert.fail(message)
+            } catch (error) {
+                assert.equal(error.message, message)
+            }
         })
         it('The artist creates and mints the nfts', async () => {
             const newMetadata = getMetadata()
             newMetadata.userId = payload.sub
+            const royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.nfts.create(
                 newMetadata,
                 artist,
                 cappedAmount,
-                royalties,
+                royaltyAttributes,
                 assetRewards1
             )
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 5)
+            assert.deepEqual(balance, BigNumber.from(5))
         })
 
         it('The collector orders the nft', async () => {
@@ -268,7 +271,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(agreementId)
         })
 
-        it('Ask the Gateway to transfer the nft and release the rewards', async () => {
+        it('Ask the Node to transfer the nft and release the rewards', async () => {
             const result = await nevermined.nfts.transferForDelegate(
                 agreementId,
                 artist.getId(),
@@ -278,7 +281,7 @@ describe('NFTs Api End-to-End', () => {
             assert.isTrue(result)
         })
 
-        it('The gateway should fulfill the NFTHolder and NFTAccess conditions', async () => {
+        it('The Node should fulfill the NFTHolder and NFTAccess conditions', async () => {
             const result = await nevermined.nfts.access(
                 ddo.id,
                 collector1,
@@ -289,36 +292,55 @@ describe('NFTs Api End-to-End', () => {
         })
     })
 
-    describe('As a collector I should not be able to buy a sold out nft', () => {
-        it('The artist gives the Gateway permissions to transfer his nfts', async () => {
-            let result = await nevermined.nfts.setApprovalForAll(
-                transferNftCondition.address,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+    describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
+        it('The collector access the files', async () => {
+            const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
+            assert.isTrue(result)
+        })
+    })
 
-            result = await nevermined.nfts.setApprovalForAll(
-                config.gatewayAddress,
-                true,
-                artist
-            )
-            assert.isDefined(result)
+    describe('As a collector I should not be able to buy a sold out nft', () => {
+        it('The artist gives the Node permissions to transfer his nfts', async () => {
+            const message = 'shold throw this error message'
+
+            try {
+                await nevermined.nfts.setApprovalForAll(
+                    transferNftCondition.address,
+                    true,
+                    artist
+                )
+    
+                await nevermined.nfts.setApprovalForAll(
+                    config.neverminedNodeAddress,
+                    true,
+                    artist
+                )
+
+                assert.fail(message)
+            } catch (error) {
+                assert.equal(error.message, message)
+            }
+
         })
         it('The artist creates and mints one nft', async () => {
             const newMetadata = getMetadata()
             newMetadata.userId = payload.sub
+            const royaltyAttributes = getRoyaltyAttributes(
+                nevermined,
+                RoyaltyKind.Standard,
+                royalties
+            )
             ddo = await nevermined.nfts.create(
                 newMetadata,
                 artist,
-                1,
-                royalties,
+                BigNumber.from(1),
+                royaltyAttributes,
                 assetRewards1
             )
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 1)
+            assert.deepEqual(balance, BigNumber.from(1))
         })
 
         it('Collector1 orders the nft', async () => {
@@ -328,17 +350,17 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(agreementId)
         })
 
-        it('Ask the Gateway to transfer the nft and release the rewards', async () => {
+        it('Ask the Node to transfer the nft and release the rewards', async () => {
             const result = await nevermined.nfts.transferForDelegate(
                 agreementId,
                 artist.getId(),
                 collector1.getId(),
-                1
+                BigNumber.from(1)
             )
             assert.isTrue(result)
         })
 
-        it('The gateway should fulfill the NFTHolder and NFTAccess conditions', async () => {
+        it('The Node should fulfill the NFTHolder and NFTAccess conditions', async () => {
             const result = await nevermined.nfts.access(
                 ddo.id,
                 collector1,
@@ -350,7 +372,7 @@ describe('NFTs Api End-to-End', () => {
 
         it('The artist nft balance should be zero', async () => {
             const balance = await nevermined.nfts.balance(ddo.id, artist)
-            assert.equal(balance, 0)
+            assert.deepEqual(balance, BigNumber.from(0))
         })
 
         it('Collector 2 setups a service agreement to buy the nft', async () => {
@@ -360,13 +382,13 @@ describe('NFTs Api End-to-End', () => {
             assert.isDefined(agreementId2)
         })
 
-        it('The gateway should not be able to transfer the nft', async () => {
+        it('The Node should not be able to transfer the nft', async () => {
             await assert.isRejected(
                 nevermined.nfts.transferForDelegate(
                     agreementId2,
                     artist.getId(),
                     collector2.getId(),
-                    1
+                    BigNumber.from(1)
                 )
             )
         })

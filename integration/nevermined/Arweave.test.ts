@@ -22,11 +22,7 @@ describe.skip('Get DDO status', () => {
     })
 
     it('should get the external status of an asset', async () => {
-        ddo = await nevermined.assets.create(
-            getMetadata(0) as any,
-            publisher,
-            assetRewards
-        )
+        ddo = await nevermined.assets.create(getMetadata(), publisher, assetRewards)
 
         ddoStatus = await nevermined.metadata.status(ddo.id)
         assert.isDefined(ddoStatus)

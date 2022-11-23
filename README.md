@@ -11,21 +11,21 @@
 
 ## Table of Contents
 
-* [Javascript/Typescript API for Nevermined Data platform](#javascripttypescript-api-for-nevermined-data-platform)
-  * [Table of Contents](#table-of-contents)
-  * [Get started](#get-started)
-    * [Examples](#examples)
-  * [Documentation](#documentation)
-    * [Migration Guide](#migration-guide)
-  * [Development](#development)
-  * [Testing](#testing)
-    * [Unit Tests](#unit-tests)
-    * [Integration Tests](#integration-tests)
-  * [Code Style](#code-style)
-  * [Production build](#production-build)
-  * [Releases](#releases)
-  * [Attribution](#attribution)
-  * [License](#license)
+- [Javascript/Typescript API for Nevermined Data platform](#javascripttypescript-api-for-nevermined-data-platform)
+  - [Table of Contents](#table-of-contents)
+  - [Get started](#get-started)
+    - [Examples](#examples)
+  - [Documentation](#documentation)
+    - [Migration Guide](#migration-guide)
+  - [Development](#development)
+  - [Testing](#testing)
+    - [Unit Tests](#unit-tests)
+    - [Integration Tests](#integration-tests)
+  - [Code Style](#code-style)
+  - [Production build](#production-build)
+  - [Releases](#releases)
+  - [Attribution](#attribution)
+  - [License](#license)
 
 ---
 
@@ -47,22 +47,20 @@ import { Nevermined, Logger } from '@nevermined-io/nevermined-sdk-js'
 const { Nevermined, Logger } = require('@nevermined-io/nevermined-sdk-js')
 ```
 
-You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Metadata API](https://github.com/nevermined-io/metadata), [Gateway](https://github.com/nevermined-io/gateway) instances, e.g.:
+You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Metadata API](https://github.com/nevermined-io/metadata), [Nevermined Node](https://github.com/nevermined-io/node) instances, e.g.:
 
 ```js
 const nevermined: Nevermined = await Nevermined.getInstance({
     // the node of the blockchain to connect to, could also be infura
-    nodeUri: 'http://localhost:8545',
+    web3ProviderUri: 'http://localhost:8545',
     // the uri of metadata
     metadataUri: 'http://localhost:5000',
-    // the uri of gateway
-    gatewayUri: 'http://localhost:8030',
+    // the uri of nevermined node
+    neverminedNodeUri: 'http://localhost:8030',
     // the uri of faucet
     faucetUri: 'http://localhost:3001',
-    // address that gateway uses
-    gatewayAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
-    // the uri of the secret store that holds the keys
-    secretStoreUri: 'http://localhost:12001'
+    // address that node uses
+    neverminedNodeAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
 })
 ```
 
@@ -70,7 +68,7 @@ const nevermined: Nevermined = await Nevermined.getInstance({
 
 You can see how `nevermined-sdk-js` is used on:
 
-* [Integration test](/src/integration/nevermined/)
+- [Integration test](/src/integration/nevermined/)
 
 ## Documentation
 
@@ -85,7 +83,7 @@ npm run doc
 
 Instructions on how to migrate between breaking versions:
 
-* [Migration Guide](MIGRATION.md)
+- [Migration Guide](MIGRATION.md)
 
 ## Development
 
@@ -144,7 +142,7 @@ In another terminal window, run this script and export the seed phrase:
 # copies the contract artifacts once the local Nevermined network is up and running
 ./scripts/wait-nevermined.sh
 
-# export Spree accounts seed phrase
+# export local accounts seed phrase
 export SEED_WORDS="taxi music thumb unique chat sand crew more leg another off lamp"
 ```
 
@@ -184,18 +182,18 @@ npm run build
 
 From a clean `master` branch you can run any release task doing the following:
 
-* bumps the project version in `package.json`, `package-lock.json`
-* auto-generates and updates the CHANGELOG.md file from commit messages
-* creates a Git tag
-* commits and pushes everything
-* creates a GitHub release with commit messages as description
-* Git tag push will trigger Travis to do a npm release
+- bumps the project version in `package.json`, `package-lock.json`
+- auto-generates and updates the CHANGELOG.md file from commit messages
+- creates a Git tag
+- commits and pushes everything
+- creates a GitHub release with commit messages as description
+- Git tag push will trigger Travis to do a npm release
 
 You can execute the script using arguments to bump the version accordingly:
 
-* To bump a patch version: `npm run release`
-* To bump a minor version: `npm run release minor`
-* To bump a major version: `npm run release major`
+- To bump a patch version: `npm run release`
+- To bump a minor version: `npm run release minor`
+- To bump a major version: `npm run release major`
 
 For the GitHub releases steps a GitHub personal access token, exported as `GITHUB_TOKEN` is required. [Setup](https://github.com/release-it/release-it#github-releases)
 

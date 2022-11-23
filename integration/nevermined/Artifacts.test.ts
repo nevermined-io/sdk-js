@@ -8,31 +8,24 @@ describe('Artifacts', () => {
     const artifactsRepo = 'https://artifacts.nevermined.rocks/'
     const tests = [
         {
-            nodeUri: 'https://matic-mumbai.chainstacklabs.com',
-            networkName: ['mumbai'],
-            networkId: [80001],
-            versions: ['v1.3.8'],
-            tag: 'common'
+            web3ProviderUri: 'https://goerli-rollup.arbitrum.io/rpc',
+            networkName: ['arbitrum-goerli'],
+            networkId: [421613],
+            versions: ['v2.1.0'],
+            tag: 'public'
         },
         {
-            nodeUri: 'https://matic-mumbai.chainstacklabs.com',
+            web3ProviderUri: 'https://matic-mumbai.chainstacklabs.com',
             networkName: ['mumbai'],
             networkId: [80001],
-            versions: ['v2.0.0-rc3'],
-            tag: 'common'
+            versions: ['v2.1.0'],
+            tag: 'public'
         },
         {
-            nodeUri: 'https://polygon-rpc.com',
+            web3ProviderUri: 'https://polygon-rpc.com',
             networkName: ['matic'],
             networkId: [137],
             versions: ['v2.0.0'],
-            tag: 'common'
-        },
-        {
-            nodeUri: 'https://alfajores-forno.celo-testnet.org',
-            networkName: ['celo-alfajores'],
-            networkId: [44787],
-            versions: ['v1.3.5'],
             tag: 'common'
         }
     ]
@@ -44,7 +37,7 @@ describe('Artifacts', () => {
     }
 
     for (const test of tests) {
-        const { nodeUri, networkId, networkName, versions, tag } = test
+        const { web3ProviderUri, networkId, networkName, versions, tag } = test
 
         it(`Should get the correct artifacts for ${networkName}-${versions} with tag ${tag}`, async () => {
             const tempDir = mkdtempSync('/tmp/artifacts_')
@@ -59,12 +52,8 @@ describe('Artifacts', () => {
                 cwd: tempDir
             })
 
-            // console.log(`Sleeping`)
-            // await new Promise(r => setTimeout(r, 3000))
-            // console.log(`Awake`)
-
             const nvm = await Nevermined.getInstance({
-                nodeUri,
+                web3ProviderUri: web3ProviderUri,
                 artifactsFolder: tempDir
             } as Config)
 

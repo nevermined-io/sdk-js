@@ -14,5 +14,6 @@ export interface GenericAccess {
         observer?: (OrderProgressStep) => void
     ): Promise<string>
 
-    params(consumer: any): any
+    params(consumer: any, ...args): any
+    contractName: string
 }

@@ -1,21 +1,20 @@
 import {
     Condition,
     ConditionContext,
-    ConditionInstance,
     ConditionInstanceSmall,
-    ConditionParameters
+    ProviderCondition
 } from './Condition.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
 import { TxParameters } from '../ContractBase'
-import BigNumber from 'bignumber.js'
+import BigNumber from '../../../utils/BigNumber'
 
 export interface EscrowPaymentConditionContext extends ConditionContext {
     consumerId: string
 }
 
-export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionContext> {
+export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<EscrowPaymentCondition> {
@@ -36,7 +35,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
         lockCondition: string,
         releaseCondition: string
     ) {
-        const amountsString = amounts.map(v => v.toFixed())
+        const amountsString = amounts.map(v => v.toString())
         return super.params(
             didZeroX(did),
             amountsString,
@@ -79,7 +78,7 @@ export class EscrowPaymentCondition extends Condition<EscrowPaymentConditionCont
         from?: Account,
         txParams?: TxParameters
     ) {
-        const amountsString = amounts.map(v => v.toFixed())
+        const amountsString = amounts.map(v => v.toString())
         return super.fulfillPlain(
             agreementId,
             [

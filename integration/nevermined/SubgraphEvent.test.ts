@@ -1,14 +1,18 @@
 import { Account, Nevermined } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
-import Web3 from 'web3'
+import { sleep } from '../utils/utils'
+import { ethers } from 'ethers'
 
 describe('SubgraphEvent', () => {
     let account: Account
     let nevermined: Nevermined
     let executeTransaction: () => Promise<any>
 
-    before(async () => {
+    before(async function () {
+        if (process.env.NO_GRAPH === 'true') {
+            this.skip()
+        }
         config.graphHttpUri =
             config.graphHttpUri ||
             'http://localhost:9000/subgraphs/name/nevermined-io/development'
@@ -35,8 +39,8 @@ describe('SubgraphEvent', () => {
             }
         })
         assert.strictEqual(
-            Web3.utils.toChecksumAddress(response.pop().to),
-            Web3.utils.toChecksumAddress(account.getId())
+            ethers.utils.getAddress(response.pop().to),
+            ethers.utils.getAddress(account.getId())
         )
     })
 
@@ -68,12 +72,12 @@ describe('SubgraphEvent', () => {
             )
         })
 
-        await Promise.all([executeTransaction(), executeTransaction()])
+        await Promise.all([executeTransaction()])
 
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await sleep(2000)
         validResolve = true
 
-        await Promise.all([executeTransaction(), executeTransaction()])
+        await Promise.all([executeTransaction()])
 
         await waitUntilEvent
 
@@ -90,6 +94,7 @@ describe('SubgraphEvent', () => {
                     if (canBeRejected) {
                         reject(new Error(''))
                     }
+                    canBeRejected = true
                     setTimeout(resolve, 600)
                 },
                 {
@@ -108,13 +113,10 @@ describe('SubgraphEvent', () => {
         })
 
         await executeTransaction()
-
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        canBeRejected = true
-
+        await sleep(2000)
         await executeTransaction()
-
         await waitUntilEvent
+        await sleep(2000)
     })
 
     it('should get the event like a promise', async () => {
@@ -133,7 +135,7 @@ describe('SubgraphEvent', () => {
             }
         })
 
-        await new Promise(resolve => setTimeout(resolve, 400))
+        await sleep(400)
 
         await executeTransaction()
 

@@ -4,14 +4,12 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, ProvenanceMethod, utils } from '../../src'
 import { sleep } from '../utils/utils'
+import { ethers } from 'ethers'
 
 describe('Provenance', () => {
     let nevermined: Nevermined
-
     let publisher: Account
     let intermediary: Account
-
-    let newMetadata = () => getMetadata()
     let ddo: DDO
 
     const activitiesIds = {
@@ -30,15 +28,11 @@ describe('Provenance', () => {
         )
 
         await nevermined.marketplace.login(clientAssertion)
-
-        if (!nevermined.keeper.dispenser) {
-            newMetadata = () => getMetadata(0)
-        }
     })
 
     it('should be able to get the provenance data from a new asset', async () => {
         const payload = decodeJwt(config.marketplaceAuthToken)
-        const metadata = newMetadata()
+        const metadata = getMetadata()
         metadata.userId = payload.sub
 
         ddo = await nevermined.assets.create(metadata, publisher)
@@ -75,7 +69,7 @@ describe('Provenance', () => {
             intermediary.getId(),
             publisher.getId(),
             activitiesIds.intermediary,
-            '0x0',
+            ethers.utils.hexZeroPad('0x0', 32),
             'FirstIntermediaryStuff',
             publisher
         )
@@ -114,7 +108,7 @@ describe('Provenance', () => {
             ddo.shortId(),
             intermediary.getId(),
             activitiesIds.intermediary,
-            '0x0',
+            ethers.utils.hexZeroPad('0x0', 32),
             'FirstIntermediaryStuff',
             intermediary
         )

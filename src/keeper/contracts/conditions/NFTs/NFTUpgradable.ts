@@ -3,6 +3,7 @@ import { didZeroX, zeroX } from '../../../../utils'
 import { Condition } from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import ContractBase, { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
@@ -15,8 +16,8 @@ export class NFTUpgradeable extends ContractBase {
     /**
      * Checks if the operator is approved for an account address
      *
-     * @param {String} accountAddress Account address
-     * @param {String} operatorAddress Operator address
+     * @param accountAddress - Account address
+     * @param operatorAddress - Operator address
      * @returns Boolean
      */
     public isApprovedForAll(accountAddress: string, operatorAddress: string) {
@@ -29,9 +30,9 @@ export class NFTUpgradeable extends ContractBase {
     /**
      * Configure proxy approval for a specific operator address
      *
-     * @param {String} operatorAddress Operator address
-     * @param {Boolean} approved Is approved
-     * @param {Account} from Sender account
+     * @param operatorAddress - Operator address
+     * @param approved - Is approved
+     * @param from - Sender account
      * @returns Boolean
      */
     public setProxyApproval(
@@ -51,10 +52,10 @@ export class NFTUpgradeable extends ContractBase {
     /**
      * Configure proxy approval for a specific account and operator address
      *
-     * @param {String} accountAddress Account address
-     * @param {String} operatorAddress Operator address
-     * @param {String} approved Is approved
-     * @param {Account} from Sender account
+     * @param accountAddress - Account address
+     * @param operatorAddress - Operator address
+     * @param approved - Is approved
+     * @param from - Sender account
      * @returns Boolean
      */
     public proxySetApprovalForAll(
@@ -75,9 +76,9 @@ export class NFTUpgradeable extends ContractBase {
     /**
      * Configure approval for a specific operator address
      *
-     * @param {String} operatorAddress Operator address
-     * @param {String} approved Is approved
-     * @param {Account} from Sender account
+     * @param operatorAddress - Operator address
+     * @param approved - Is approved
+     * @param from - Sender account
      * @returns Boolean
      */
     public setApprovalForAll(
@@ -97,18 +98,18 @@ export class NFTUpgradeable extends ContractBase {
     /**
      * Get an address balance for a specific NFT with id `did`
      *
-     * @param address Account address to check the balance
-     * @param did The NFT id
-     * @returns {Number}
+     * @param address - Account address to check the balance
+     * @param did - The NFT id
+     * @returns
      */
-    public async balance(address: string, did: string): Promise<number> {
+    public async balance(address: string, did: string): Promise<BigNumber> {
         return this.call('balanceOf', [zeroX(address), didZeroX(did)])
     }
 
     public async transferNft(
         did: string,
         to: string,
-        amount: number,
+        amount: BigNumber,
         from: string,
         params?: TxParameters
     ) {

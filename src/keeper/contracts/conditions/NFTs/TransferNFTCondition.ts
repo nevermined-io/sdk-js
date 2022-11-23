@@ -1,19 +1,26 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
-import { Condition, ConditionContext, ConditionParameters } from '../Condition.abstract'
+import {
+    Condition,
+    ConditionContext,
+    ConditionMethod,
+    ConditionParameters,
+    ProviderCondition
+} from '../Condition.abstract'
 import Account from '../../../../nevermined/Account'
 import { TxParameters } from '../../ContractBase'
+import BigNumber from '../../../../utils/BigNumber'
 
 export interface TransferNFTConditionContext extends ConditionContext {
     providerId: string
     consumerId: string
-    nftAmount: number
+    nftAmount: BigNumber
 }
 
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class TransferNFTCondition extends Condition<TransferNFTConditionContext> {
+export class TransferNFTCondition extends ProviderCondition<TransferNFTConditionContext> {
     public static async getInstance(
         config: InstantiableConfig
     ): Promise<TransferNFTCondition> {
@@ -22,13 +29,13 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
 
     /**
      * Generates the hash of condition inputs.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} nftHolder The address of the holder of the NFT.
-     * @param {String} nftReceiver The address of the granted user or the DID provider.
-     * @param {Number} nftAmount Amount of NFTs to transfer.
-     * @param {String} lockCondition Lock condition identifier.
-     * @param {String} nftContractAddress The address of the NFT token to use.
-     * @param {String} willBeTransferred Indicates if the asset will be transferred or minted
+     * @param did - The DID of the asset with NFTs.
+     * @param nftHolder - The address of the holder of the NFT.
+     * @param nftReceiver - The address of the granted user or the DID provider.
+     * @param nftAmount - Amount of NFTs to transfer.
+     * @param lockCondition - Lock condition identifier.
+     * @param nftContractAddress - The address of the NFT token to use.
+     * @param willBeTransferred - Indicates if the asset will be transferred or minted
      * @returns Hash of all the values
      */
 
@@ -36,10 +43,10 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         did: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockCondition: string,
         nftContractAddress?: string,
-        willBeTransferred: boolean = true
+        willBeTransferred = true
     ): ConditionParameters<Record<string, unknown>> {
         return {
             list: [
@@ -53,16 +60,30 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
                 ),
                 willBeTransferred
             ],
-            params: async () => [
-                didZeroX(did),
-                zeroX(nftReceiver),
-                String(nftAmount),
-                lockCondition,
-                zeroX(
-                    nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
-                ),
-                willBeTransferred
-            ]
+            params: async method => {
+                if (method === 'fulfillForDelegate') {
+                    return [
+                        didZeroX(did),
+                        zeroX(nftHolder),
+                        zeroX(nftReceiver),
+                        String(nftAmount),
+                        lockCondition,
+                        willBeTransferred
+                    ]
+                } else if (method === 'fulfill') {
+                    return [
+                        didZeroX(did),
+                        zeroX(nftReceiver),
+                        String(nftAmount),
+                        lockCondition,
+                        zeroX(
+                            nftContractAddress ||
+                                this.nevermined.keeper.nftUpgradeable.address
+                        ),
+                        willBeTransferred
+                    ]
+                }
+            }
         }
     }
 
@@ -88,21 +109,23 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
 
     /**
      * Fulfill the transfer NFT condition.
-     *  Only DID owner or DID provider can call this method.
      *
-     * @param {String} agreementId The agreement identifier.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} nftReceiver The address of the account to receive the NFT.
-     * @param {Number[]} nftAmount amount of NFTs to transfer.
-     * @param {String} lockPaymentCondition lock payment condition identifier.
-     * @param {String} from
+     * @remarks
+     * Only DID owner or DID provider can call this method.
+     *
+     * @param agreementId - The agreement identifier.
+     * @param did - The DID of the asset with NFTs.
+     * @param nftReceiver - The address of the account to receive the NFT.
+     * @param nftAmount - amount of NFTs to transfer.
+     * @param lockPaymentCondition - lock payment condition identifier.
+     * @param from -
      * @returns Condition state.
      */
     public fulfill(
         agreementId: string,
         did: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockPaymentCondition: string,
         from?: Account,
         txParams?: TxParameters
@@ -117,15 +140,17 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
 
     /**
      * Fulfill the transfer NFT condition.
-     *  Only DID owner or DID provider can call this method.
      *
-     * @param {String} agreementId The agreement identifier.
-     * @param {String} did The DID of the asset with NFTs.
-     * @param {String} nftHolder The address of the account currently holding the NFT.
-     * @param {String} nftReceiver The address of the account to receive the NFT.
-     * @param {Number[]} nftAmount amount of NFTs to transfer.
-     * @param {String} lockPaymentCondition lock payment condition identifier.
-     * @param {String} from
+     * @remarks
+     * Only DID owner or DID provider can call this method.
+     *
+     * @param agreementId - The agreement identifier.
+     * @param did - The DID of the asset with NFTs.
+     * @param nftHolder - The address of the account currently holding the NFT.
+     * @param nftReceiver - The address of the account to receive the NFT.
+     * @param nftAmount - The amount of NFTs to transfer.
+     * @param lockPaymentCondition - The lock payment condition identifier.
+     * @param from -
      * @returns Condition state.
      */
     public fulfillForDelegate(
@@ -133,9 +158,9 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
         did: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: number,
+        nftAmount: BigNumber,
         lockPaymentCondition: string,
-        transferAsset: boolean = true,
+        transferAsset = true,
         from?: Account,
         params?: TxParameters
     ) {
@@ -153,5 +178,9 @@ export class TransferNFTCondition extends Condition<TransferNFTConditionContext>
             params,
             'fulfillForDelegate'
         )
+    }
+
+    public nodeMethod(): ConditionMethod {
+        return 'fulfillForDelegate'
     }
 }

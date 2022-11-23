@@ -1,7 +1,6 @@
-import BigNumber from 'bignumber.js'
 import { MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
-import { makeKeyTransfer } from '../../src/utils/KeyTransfer'
+import BigNumber from '../../src/utils/BigNumber'
 
 const metadata: Partial<MetaData> = {
     main: {
@@ -11,18 +10,16 @@ const metadata: Partial<MetaData> = {
         datePublished: '2012-10-10T17:00:00Z',
         author: 'Met Office',
         license: 'CC-BY',
-        price: '21' + '0'.repeat(18),
         files: [
             {
                 index: 0,
                 contentType: 'application/json',
-                url:
-                    'https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/examples/ddo-example.json'
+                url: 'https://github.com/nevermined-io/docs-legacy/raw/master/docs/architecture/specs/metadata/examples/ddo-example.json'
             },
             {
                 index: 1,
                 contentType: 'text/plain',
-                url: 'https://github.com/nevermined-io/docs/blob/master/README.md'
+                url: 'https://github.com/nevermined-io/docs-legacy/raw/master/README.md'
             }
         ]
     },
@@ -48,52 +45,14 @@ const metadata: Partial<MetaData> = {
     }
 }
 
-export async function getMetadataForDTP(
-    name: string,
-    passwd: string,
-    providerKey: any
-): Promise<MetaData> {
-    const keytransfer = await makeKeyTransfer()
-    return {
-        main: {
-            name,
-            type: 'dataset',
-            dateCreated: '2012-10-10T17:00:00Z',
-            datePublished: '2012-10-10T17:00:00Z',
-            author: 'Met Office',
-            license: 'CC-BY',
-            price: '21' + '0'.repeat(18),
-            files: [
-                {
-                    index: 1,
-                    contentType: 'text/plain',
-                    url: passwd
-                }
-            ]
-        },
-        additionalInformation: {
-            description: 'Weather information of UK including temperature and humidity',
-            copyrightHolder: 'Met Office',
-            workExample: '423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68',
-            inLanguage: 'en',
-            categories: ['Economy', 'Data Science'],
-            poseidonHash: await keytransfer.hashKey(Buffer.from(passwd, 'hex')),
-            providerKey,
-            tags: ['weather', 'uk', '2011', 'temperature', 'humidity']
-        }
-    }
-}
-
 export const generateMetadata = (
     name: string,
-    price?: number,
     nonce: string | number = Math.random()
 ): Partial<MetaData> => ({
     ...metadata,
     main: {
         ...metadata.main,
-        name: name,
-        price: (price || 21) + '0'.repeat(18),
+        name,
         ...({ nonce } as any)
     },
     additionalInformation: {
@@ -102,9 +61,9 @@ export const generateMetadata = (
 })
 
 export const getMetadata = (
-    price?: number,
-    nonce: string | number = Math.random()
-): MetaData => generateMetadata('TestAsset', price, nonce) as MetaData
+    nonce: string | number = Math.random(),
+    title = 'TestAsset'
+): MetaData => generateMetadata(title, nonce) as MetaData
 
 export const getAssetRewards = (receiver: string) =>
-    new AssetRewards(receiver, new BigNumber(Number(21 + '0'.repeat(18))))
+    new AssetRewards(receiver, BigNumber.from('21' + '0'.repeat(18)))

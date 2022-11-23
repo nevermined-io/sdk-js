@@ -1,3 +1,5 @@
+import { KeeperError } from '../errors'
+
 export async function getNetworkName(networkId: number): Promise<string> {
     switch (networkId) {
         case 1:
@@ -8,6 +10,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
             return 'Ropsten'
         case 4:
             return 'Rinkeby'
+        case 5:
+            return 'Goerli'
         case 77:
             return 'POA_Sokol'
         case 99:
@@ -20,16 +24,14 @@ export async function getNetworkName(networkId: number): Promise<string> {
             return 'matic'
         case 1337:
             return 'geth-localnet'
-        case 2199:
-            return 'Duero'
+        case 31337:
+            return 'geth-localnet'
         case 8996:
-            return 'Spree'
+            return 'spree'
         case 8997:
             return 'polygon-localnet'
-        case 8995:
-            return 'Nile'
-        case 0xcea11:
-            return 'Pacific'
+        case 8998:
+            return 'geth-localnet'
         case 42220:
             return 'celo'
         case 44787:
@@ -38,6 +40,10 @@ export async function getNetworkName(networkId: number): Promise<string> {
             return 'celo-baklava'
         case 80001:
             return 'mumbai'
+        case 42161:
+            return 'arbitrum-one'
+        case 421613:
+            return 'arbitrum-goerli'
         case 1313161554:
             return 'aurora'
         case 1313161555:
@@ -45,6 +51,6 @@ export async function getNetworkName(networkId: number): Promise<string> {
         case 1313161556:
             return 'aurora-betanet'
         default:
-            return 'Development'
+            throw new KeeperError(`Network with id ${networkId} not supported.`)
     }
 }
