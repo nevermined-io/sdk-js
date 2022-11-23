@@ -27,7 +27,7 @@ export interface Stage {
     index: number
     stageType?: string
     requirements: StageRequirements
-    input: StageInput
+    input: StageInput[]
     transformation: StageTransformation
     output: StageOutput
 }
