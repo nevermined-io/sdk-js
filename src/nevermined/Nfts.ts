@@ -615,7 +615,7 @@ export class Nfts extends Instantiable {
      * @param agreementId - The NFT sales agreement id.
      * @param isToDownload - If the NFT is for downloading
      *
-     * @returns true if the access was successful.
+     * @returns true if the access was successful or file if isToDownload is false.
      */
     public async access(
         did: string,

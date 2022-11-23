@@ -889,8 +889,9 @@ export class Assets extends Instantiable {
      * @param ownerAccount - The receiver account owner
      * @param resultPath - Path to be the files downloader
      * @param fileIndex - the index of the file
+     * @param isToDownload - If the NFT is for downloading
      * 
-     * @return status or path destination if resultPath is provided
+     * @return status, path destination if resultPath is provided or file object if isToDownload is false
      */
     public async download(
         did: string,
