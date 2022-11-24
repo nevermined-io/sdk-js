@@ -48,6 +48,7 @@ jobs:
           # Check https://github.com/nevermined-io/sdk-js/issues/33
 
           export KEEPER_VERSION=develop
+          export SUBGRAPH_VERSION=develop
           ./start_nevermined.sh ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
