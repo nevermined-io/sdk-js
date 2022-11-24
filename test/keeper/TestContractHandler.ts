@@ -67,7 +67,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
 
         const erc1155 = await TestContractHandler.deployContract(
-            'NFTUpgradeable',
+            'NFT1155Upgradeable',
             deployerAddress,
             ['']
         )
@@ -192,11 +192,16 @@ export default abstract class TestContractHandler extends ContractHandler {
             [deployerAddress, conditionStoreManager.address]
         )
 
-        await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
+        const nftLockCondition = await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
             deployerAddress,
             conditionStoreManager.address,
             erc1155.address
         ])
+        transactionResponse = await erc1155.setProxyApproval(nftLockCondition.address, true)
+        contractReceipt = await transactionResponse.wait()
+        if (contractReceipt.status !== 1) {
+            throw new Error('Error calling "setProxyApproval" on "erc1155"')
+        } 
 
         const nftAcessCondition = await TestContractHandler.deployContract(
             'NFTAccessCondition',
@@ -230,7 +235,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         transactionResponse = await erc1155.setProxyApproval(
             transferNftCondition.address,
             true
-        )
+        )       
         contractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
             throw new Error('Error calling "addMinter" on "erc721"')

@@ -31,25 +31,41 @@ export const defaultNeverminedNFTType = {
 }
 
 export class NFTAttributes {
+
     ercType: ERCType // The type of ERC used
 
     nftType: NeverminedNFTType // The Nevermined implementetion of the NFT used
 
     nftContractAddress: string
 
-    cap: BigNumber = BigNumber.from(0) // max number of nfts that can be minted, 0 means uncapped
+    cap?: BigNumber // max number of nfts that can be minted, 0 means uncapped
 
-    preMint = true // if the asset is pre-minted
+    preMint?: boolean // if the asset is pre-minted
 
-    nftMetadataUrl = '' // URL to the metadata definition of the NFT contract
+    nftMetadataUrl?: string // URL to the metadata definition of the NFT contract
 
-    nftTransfer = true // The asset is transferred (true) or minted (false) with Nevermined contracts
+    nftTransfer?: boolean // The asset is transferred (true) or minted (false) with Nevermined contracts
 
-    isSubscription = false
+    isSubscription?: boolean
 
-    duration = 0 // If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
+    duration?: number // If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
 
-    amount: BigNumber = BigNumber.from(0) // Number of editions
+    amount?: BigNumber // Number of editions
 
-    royaltyAttributes: RoyaltyAttributes | undefined
+    royaltyAttributes?: RoyaltyAttributes | undefined
+
+    static defaultValues = {
+        cap: BigNumber.from(0), // Cap equals to 0 means the NFT is uncapped
+        preMint: true, // It means the NFT will mint all the editions defined in the `amount` attributed during the registration
+        nftMetadataUrl: '', // Url to the metadata describing the NFT OpenSea style
+        nftTransfer: true, // The NFT will use transfers
+        isSubscription: false, // By default the asset doesn't represent a subscription
+        duration: 0, // Because it's not a subscription it doesn't have a duration 
+        amount: BigNumber.from(1), // By default just one edition
+        royaltyAttributes: undefined // No royalty attributes by default what means no royalties
+    }
+
+    static getInstance(nftAttributes: NFTAttributes): Required<NFTAttributes> {
+        return { ...NFTAttributes.defaultValues, ...nftAttributes }
+    }
 }

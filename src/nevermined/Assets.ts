@@ -270,17 +270,18 @@ export class Assets extends Instantiable {
             // On-chain asset registration
             if (nftAttributes) {
                 this.logger.log('Registering Mintable Asset', ddo.id)
+                const nftAttributesWithoutRoyalties = nftAttributes
+                nftAttributesWithoutRoyalties.royaltyAttributes = undefined
                 if (nftAttributes.ercType === 721) {
                     await didRegistry.registerMintableDID721(
                         didSeed,
                         ddo.checksum(ddo.shortId()),
                         providers || [this.config.neverminedNodeAddress],
-                        serviceEndpoint,
-                        '0x1',
-                        nftAttributes.nftMetadataUrl,
-                        0,
-                        nftAttributes.preMint,
                         publisher.getId(),
+                        nftAttributesWithoutRoyalties,
+                        serviceEndpoint,
+                        metadata.main.immutableUrl,
+                        '0x1',
                         txParams
                     )
                 } else {
@@ -288,17 +289,15 @@ export class Assets extends Instantiable {
                         didSeed,
                         ddo.checksum(ddo.shortId()),
                         providers || [this.config.neverminedNodeAddress],
-                        serviceEndpoint,
-                        '0x1',
-                        nftAttributes.nftMetadataUrl,
-                        nftAttributes.cap,
-                        0,
-                        nftAttributes.preMint,
                         publisher.getId(),
+                        nftAttributesWithoutRoyalties,
+                        serviceEndpoint,
+                        metadata.main.immutableUrl,
+                        '0x1',                     
                         txParams
                     )
                 }
-
+                
                 if (nftAttributes.royaltyAttributes) {
                     observer.next(CreateProgressStep.SettingRoyaltyScheme)
                     await didRegistry.setDIDRoyalties(
@@ -395,7 +394,7 @@ export class Assets extends Instantiable {
         appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        const nftAttributes: NFTAttributes = {
+        const nftAttributes = NFTAttributes.getInstance({
             ercType: 721,
             nftType,
             nftContractAddress: nftTokenAddress,
@@ -407,7 +406,7 @@ export class Assets extends Instantiable {
             isSubscription: duration > 0 ? true : false,
             duration: duration,
             royaltyAttributes
-        }
+        })
         return this.registerAsset(
             metadata,
             publisher,

@@ -7,9 +7,11 @@ import {
     LockPaymentCondition,
     TransferNFTCondition
 } from '../../../src/keeper/contracts/conditions'
+import { NFT1155Upgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import Token from '../../../src/keeper/contracts/Token'
+import { NeverminedNFT1155Type, NFTAttributes } from '../../../src/models/NFTAttributes'
 import { didZeroX, ZeroAddress, zeroX } from '../../../src/utils'
 import BigNumber from '../../../src/utils/BigNumber'
 import config from '../../config'
@@ -24,6 +26,7 @@ describe('TransferNFTCondition', () => {
     let escrowPaymentCondition: EscrowPaymentCondition
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
+    let nftUpgradeable: NFT1155Upgradeable
     let token: Token
 
     let nftReceiver: Account
@@ -45,7 +48,7 @@ describe('TransferNFTCondition', () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
             nevermined.keeper.conditions)
-        ;({ conditionStoreManager, didRegistry, token } = nevermined.keeper)
+        ;({ conditionStoreManager, didRegistry, token, nftUpgradeable } = nevermined.keeper)
         ;[owner, nftReceiver, other] = await nevermined.accounts.list()
         receivers = [nftReceiver.getId()]
 
@@ -113,18 +116,25 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
+            const nftAttributes= NFTAttributes.getInstance({
+                ercType: 1155,
+                nftType: NeverminedNFT1155Type.nft1155,
+                nftContractAddress: nftUpgradeable.address,
+                cap: BigNumber.from(100),
+                amount: nftAmount,
+                preMint: true,
+            })
+
             await didRegistry.registerMintableDID(
                 didSeed,
                 checksum,
                 [],
+                owner.getId(),
+                nftAttributes,
                 value,
-                activityId,
                 '',
-                nftAmount,
-                0,
-                true, // Minting during registration
-                owner.getId()
-            )
+                activityId
+            )              
             // await didRegistry.mint(did, nftAmount, owner.getId())
 
             await nftReceiver.requestTokens(10)
@@ -207,18 +217,37 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
+            // await didRegistry.registerMintableDID(
+            //     didSeed,
+            //     checksum,
+            //     [],
+            //     value,
+            //     activityId,
+            //     '',
+            //     nftAmount,
+            //     0,
+            //     false,
+            //     owner.getId()
+            // )
+            const nftAttributes= NFTAttributes.getInstance({
+                ercType: 1155,
+                nftType: NeverminedNFT1155Type.nft1155,
+                nftContractAddress: nftUpgradeable.address,
+                cap: BigNumber.from(0),
+                amount: nftAmount,
+                preMint: false,
+            })
+
             await didRegistry.registerMintableDID(
                 didSeed,
                 checksum,
                 [],
+                owner.getId(),
+                nftAttributes,
                 value,
-                activityId,
                 '',
-                nftAmount,
-                0,
-                false,
-                owner.getId()
-            )
+                activityId
+            )              
             await didRegistry.mint(did, nftAmount, owner.getId())
 
             await lockPaymentCondition.fulfill(
@@ -296,18 +325,37 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
+            // await didRegistry.registerMintableDID(
+            //     didSeed,
+            //     checksum,
+            //     [],
+            //     value,
+            //     activityId,
+            //     '',
+            //     nftAmount,
+            //     0,
+            //     false,
+            //     owner.getId()
+            // )
+            const nftAttributes= NFTAttributes.getInstance({
+                ercType: 1155,
+                nftType: NeverminedNFT1155Type.nft1155,
+                nftContractAddress: nftUpgradeable.address,
+                cap: BigNumber.from(0),
+                amount: nftAmount,
+                preMint: false,
+            })
+
             await didRegistry.registerMintableDID(
                 didSeed,
                 checksum,
                 [],
+                owner.getId(),
+                nftAttributes,
                 value,
-                activityId,
                 '',
-                nftAmount,
-                0,
-                false,
-                owner.getId()
-            )
+                activityId
+            )              
             await didRegistry.mint(did, nftAmount, owner.getId())
 
             await nftReceiver.requestTokens(10)

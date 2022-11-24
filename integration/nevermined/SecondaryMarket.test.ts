@@ -9,7 +9,7 @@ import {
     LockPaymentCondition,
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
-import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import { NFT1155Upgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
@@ -39,7 +39,7 @@ describe('Secondary Markets', () => {
 
     let nevermined: Nevermined
     let token: Token
-    let nftUpgradeable: NFTUpgradeable
+    let nftUpgradeable: NFT1155Upgradeable
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition

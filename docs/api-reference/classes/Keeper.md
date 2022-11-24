@@ -222,7 +222,7 @@ ___
 
 ### nftUpgradeable
 
-• **nftUpgradeable**: `NFTUpgradeable`
+• **nftUpgradeable**: `NFT1155Upgradeable`
 
 NFT upgradeable smart contract instance.
 

@@ -49,7 +49,7 @@ import { objectPromiseAll } from '../utils'
 import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { NFTUpgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
+import { NFT1155Upgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
 import { GenericAccess } from './contracts/templates/GenericAccess'
 import { KeeperError } from '../errors'
 
@@ -194,11 +194,11 @@ export class Keeper extends Instantiable {
         }
 
         try {
-            this.instances.nftUpgradeable = await NFTUpgradeable.getInstance(
+            this.instances.nftUpgradeable = await NFT1155Upgradeable.getInstance(
                 this.instanceConfig
             )
         } catch {
-            this.logger.debug('NFTUpgradeable not available on this network.')
+            this.logger.debug('NFT1155Upgradeable not available on this network.')
         }
 
         try {
@@ -303,7 +303,7 @@ export class Keeper extends Instantiable {
     /**
      * NFT upgradeable smart contract instance.
      */
-    public nftUpgradeable: NFTUpgradeable
+    public nftUpgradeable: NFT1155Upgradeable
 
     /**
      * Template store manager smart contract instance.

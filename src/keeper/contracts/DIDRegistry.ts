@@ -3,6 +3,7 @@ import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
+import { NFTAttributes } from '../../models/NFTAttributes'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -119,7 +120,7 @@ export default class DIDRegistry extends ContractBase {
         did: string,
         checksum: string,
         providers: string[],
-        value: string,
+        url: string,
         activityId: string,
         attributes: string,
         ownerAddress: string,
@@ -132,7 +133,7 @@ export default class DIDRegistry extends ContractBase {
                 didZeroX(did),
                 zeroX(checksum),
                 providers.map(zeroX),
-                value,
+                url,
                 zeroX(activityId),
                 attributes
             ],
@@ -144,15 +145,14 @@ export default class DIDRegistry extends ContractBase {
         did: string,
         checksum: string,
         providers: string[],
-        value: string,
-        activityId: string,
-        nftMetadata = '',
-        cap: BigNumber,
-        royalties: number,
-        mint = false,
         ownerAddress: string,
+        nftAttributes: NFTAttributes,
+        url: string,
+        immutableUrl = '',    
+        activityId = '0x1',
         params?: TxParameters
     ) {
+
         return this.send(
             'registerMintableDID',
             ownerAddress,
@@ -160,12 +160,13 @@ export default class DIDRegistry extends ContractBase {
                 didZeroX(did),
                 zeroX(checksum),
                 providers.map(zeroX),
-                value,
-                String(cap),
-                String(royalties),
-                mint,
+                url,
+                String(nftAttributes.cap),
+                (nftAttributes.royaltyAttributes?.amount) > 0 ? String(nftAttributes.royaltyAttributes?.amount) : '0',
+                nftAttributes.preMint,
                 ethers.utils.hexZeroPad(zeroX(activityId), 32),
-                nftMetadata
+                nftAttributes.nftMetadataUrl || '',
+                immutableUrl
             ],
             params
         )
@@ -175,12 +176,11 @@ export default class DIDRegistry extends ContractBase {
         did: string,
         checksum: string,
         providers: string[],
-        value: string,
-        activityId: string,
-        nftMetadata = '',
-        royalties: number,
-        mint = false,
         ownerAddress: string,
+        nftAttributes: NFTAttributes,
+        url: string,
+        immutableUrl = '',    
+        activityId = '0x1',
         params?: TxParameters
     ) {
         return this.send(
@@ -190,11 +190,11 @@ export default class DIDRegistry extends ContractBase {
                 didZeroX(did),
                 zeroX(checksum),
                 providers.map(zeroX),
-                value,
-                String(royalties),
-                mint,
+                url,
+                (nftAttributes.royaltyAttributes?.amount) > 0 ? String(nftAttributes.royaltyAttributes?.amount) : '0',
+                nftAttributes.preMint,
                 ethers.utils.hexZeroPad(zeroX(activityId), 32),
-                nftMetadata
+                immutableUrl
             ],
             params
         )

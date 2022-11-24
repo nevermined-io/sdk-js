@@ -16,7 +16,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
-import { NFTUpgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import { NFT1155Upgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
 import BigNumber from '../../src/utils/BigNumber'
 import {
     getRoyaltyAttributes,
@@ -34,7 +34,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     let nevermined: Nevermined
     let conditionStoreManager: ConditionStoreManager
-    let nftUpgradeable: NFTUpgradeable
+    let nftUpgradeable: NFT1155Upgradeable
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition

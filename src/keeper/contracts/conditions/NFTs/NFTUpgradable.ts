@@ -8,9 +8,9 @@ import BigNumber from '../../../../utils/BigNumber'
 /**
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
-export class NFTUpgradeable extends ContractBase {
-    public static async getInstance(config: InstantiableConfig): Promise<NFTUpgradeable> {
-        return Condition.getInstance(config, 'NFTUpgradeable', NFTUpgradeable)
+export class NFT1155Upgradeable extends ContractBase {
+    public static async getInstance(config: InstantiableConfig): Promise<NFT1155Upgradeable> {
+        return Condition.getInstance(config, 'NFT1155Upgradeable', NFT1155Upgradeable)
     }
 
     /**
@@ -117,6 +117,22 @@ export class NFTUpgradeable extends ContractBase {
             'safeTransferFrom',
             from,
             [from, to, didZeroX(did), amount, []],
+            params
+        )
+    }
+
+    public async mint(
+        to: string,
+        did: string,        
+        amount: BigNumber,
+        from: string,
+        data?: string,
+        params?: TxParameters
+    ) {
+        return this.send(
+            'mint',
+            from,
+            [to, didZeroX(did), amount, data || '0x'],
             params
         )
     }

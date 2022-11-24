@@ -337,4 +337,5 @@ export class Metadata extends MarketplaceApi {
     public getServiceEndpoint(did: DID) {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
     }
+
 }

@@ -75,7 +75,7 @@ jobs:
           # Check https://github.com/nevermined-io/sdk-js/issues/33
           
           # TODO: Use the default Node when merged into master
-          export KEEPER_VERSION=latest
+          export KEEPER_VERSION=develop
           export NODE_VERSION=latest
           ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node 2>&1 | tee nevermined_tools.txt &
           cd ..

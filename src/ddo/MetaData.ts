@@ -148,7 +148,7 @@ export interface MetaDataMain {
      * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
      * @example "dataset"
      */
-    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute'
+    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'other'
 
     /**
      * The date on which the asset was created by the originator in
@@ -182,6 +182,11 @@ export interface MetaDataMain {
      * Array of File objects including the encrypted file urls and some additional information.
      */
     files?: File[]
+
+    /**
+     * ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arweave, ..)
+     */
+    immutableUrl?: string
 
     encryptedService?: any
 
