@@ -690,13 +690,12 @@ export class Assets extends Instantiable {
      */
     public async execute(
         agreementId: string,
-        computeDid: string,
         workflowDid: string,
         consumer: Account
     ): Promise<string> {
         const { node } = this.nevermined
 
-        return (await node.execute(agreementId, computeDid, workflowDid, consumer))
+        return (await node.execute(agreementId, workflowDid, consumer))
             .workflowId
     }
 
@@ -881,17 +880,32 @@ export class Assets extends Instantiable {
         return this.nevermined.metadata.delete(did)
     }
 
-    public async download(
+    
+    /**
+     * Download the asset
+     * 
+     * @param did - The Decentralized Identifier of the asset.
+     * @param ownerAccount - The receiver account owner
+     * @param resultPath - Path to be the files downloader
+     * @param fileIndex - the index of the file
+     * @param isToDownload - If the NFT is for downloading
+     * @param serviceType - service type. 'access' by default
+     * 
+     * @return status, path destination if resultPath is provided or file object if isToDownload is false
+     */
+      public async download(
         did: string,
         ownerAccount: Account,
         resultPath?: string,
-        fileIndex = -1
-    ): Promise<string> {
+        fileIndex = -1,
+        isToDownload = true,
+        serviceType: ServiceType = 'access'
+    ) {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
 
-        const { serviceEndpoint, index } = ddo.findServiceByType('access')
+        const { serviceEndpoint, index } = ddo.findServiceByType(serviceType)
 
         if (!serviceEndpoint) {
             throw new AssetError(
@@ -905,20 +919,14 @@ export class Assets extends Instantiable {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
-        await this.nevermined.node.downloadService(
+        return this.nevermined.node.downloadService(
             did,
             ownerAccount,
             files,
             resultPath,
-            fileIndex
+            fileIndex,
+            isToDownload,
         )
-
-        this.logger.log('Files consumed')
-
-        if (resultPath) {
-            return resultPath
-        }
-        return 'success'
     }
 
     public async delegatePermissions(

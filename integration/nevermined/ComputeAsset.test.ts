@@ -44,16 +44,21 @@ describe('Compute Asset', () => {
             workflowMetadatas.algorithm(userId),
             publisher
         )
+        console.debug(`Algorightm DID: ${algorithmDdo.id}`)
+
         computeDdo = await nevermined.assets.create(
             workflowMetadatas.compute(userId),
             publisher,
             assetRewards,
             ['compute']
         )
+        console.debug(`Compute DID: ${computeDdo.id}`)        
+
         workflowDdo = await nevermined.assets.create(
             workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id, userId),
             publisher
         )
+        console.debug(`Workflow DID: ${workflowDdo.id}`)
     })
 
     it('should order the compute service', async () => {
@@ -66,7 +71,6 @@ describe('Compute Asset', () => {
     it.skip('should execute the compute service', async () => {
         workflowId = await nevermined.assets.execute(
             agreementId,
-            computeDdo.id,
             workflowDdo.id,
             consumer
         )

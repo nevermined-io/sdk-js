@@ -13,6 +13,7 @@ import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
+import '../globals'
 
 chai.use(chaiAsPromised)
 
@@ -296,6 +297,12 @@ describe('NFTs Api End-to-End', () => {
         it('The collector access the files', async () => {
             const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
+        })
+
+        it('The collector access the files object', async () => {
+            const result = await nevermined.nfts.access(ddo.id, collector1, undefined, undefined, undefined, false)
+
+            assert.equal(result[0].name, 'ddo-example.json')
         })
     })
 
