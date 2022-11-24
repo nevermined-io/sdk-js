@@ -270,7 +270,8 @@ export class Assets extends Instantiable {
             // On-chain asset registration
             if (nftAttributes) {
                 this.logger.log('Registering Mintable Asset', ddo.id)
-                const nftAttributesWithoutRoyalties = nftAttributes
+                
+                const nftAttributesWithoutRoyalties = { ...nftAttributes}
                 nftAttributesWithoutRoyalties.royaltyAttributes = undefined
                 if (nftAttributes.ercType === 721) {
                     await didRegistry.registerMintableDID721(
@@ -298,7 +299,7 @@ export class Assets extends Instantiable {
                     )
                 }
                 
-                if (nftAttributes.royaltyAttributes) {
+                if (nftAttributes.royaltyAttributes != undefined) {
                     observer.next(CreateProgressStep.SettingRoyaltyScheme)
                     await didRegistry.setDIDRoyalties(
                         ddo.shortId(),
