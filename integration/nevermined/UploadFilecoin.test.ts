@@ -4,6 +4,7 @@ import { config } from '../config'
 import { Nevermined, Account, DDO, MetaData } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
+import '../globals'
 
 describe('Filecoin Integration', () => {
     let nevermined: Nevermined
@@ -71,5 +72,17 @@ describe('Filecoin Integration', () => {
         assert.include(path, folder)
         const data = fs.readFileSync(`${path}bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq`)
         assert.equal(data.toString(), 'Hello, Nevermined!')
+    })
+
+    it('should get a file asset object with a cid://', async () => {
+        const result = (await nevermined.assets.download(
+            ddo.id,
+            publisher,
+            undefined,
+            0,
+            false
+        )) as File[]
+
+        assert.equal(result[0].name, 'bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
     })
 })

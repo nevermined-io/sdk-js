@@ -612,21 +612,24 @@ export class Nfts extends Instantiable {
      * @param consumer - The NFT holder account.
      * @param destination - The download destination for the files.
      * @param index-  The index of the file. If unset will download all the files in the asset.
+     * @param agreementId - The NFT sales agreement id.
+     * @param isToDownload - If the NFT is for downloading
      *
-     * @returns true if the access was successful.
+     * @returns true if the access was successful or file if isToDownload is false.
      */
     public async access(
         did: string,
         consumer: Account,
         destination?: string,
         index?: number,
-        agreementId = '0x'
+        agreementId = '0x',
+        isToDownload = true,
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
 
         // Download the files
         this.logger.log('Downloading the files')
-        return await this.downloadFiles(agreementId, ddo, consumer, destination, index)
+        return await this.downloadFiles(agreementId, ddo, consumer, destination, index, isToDownload)
     }
 
     /**
@@ -754,12 +757,13 @@ export class Nfts extends Instantiable {
         ddo: DDO,
         consumer: Account,
         destination?: string,
-        index?: number
+        index?: number,
+        isToDownload?: boolean,
     ) {
         const { serviceEndpoint } = ddo.findServiceByType('nft-access')
         const { attributes } = ddo.findServiceByType('metadata')
-        const { files } = attributes.main
         const { jwt } = this.nevermined.utils
+        const { files } = attributes.main
 
         let accessToken: string
         const cacheKey = jwt.generateCacheKey(agreementId, consumer.getId(), ddo.id)
@@ -780,27 +784,46 @@ export class Nfts extends Instantiable {
             Authorization: 'Bearer ' + accessToken
         }
 
-        if (index === undefined) {
-            for (let i = 0; i < files.length; i++) {
-                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
+        if(isToDownload) {
+            if (!index) {
+                for (let i = 0; i < files.length; i++) {
+                    const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
+    
+                    await this.nevermined.utils.fetch.downloadFile(
+                        url,
+                        destination,
+                        i,
+                        headers,
+                    )
+                }
+            } else {
+                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
                 await this.nevermined.utils.fetch.downloadFile(
                     url,
                     destination,
-                    i,
-                    headers
+                    index,
+                    headers,
                 )
             }
-        } else {
-            const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
-            await this.nevermined.utils.fetch.downloadFile(
-                url,
-                destination,
-                index,
-                headers
-            )
+    
+            return true
         }
 
-        return true
+        if (!index) {
+            return Promise.all(files.map((_f, i) => {
+                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
+
+                return this.nevermined.utils.fetch.getFile(url, i, headers)
+            }))
+        }
+        
+        const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
+
+        return this.nevermined.utils.fetch.getFile(
+            url,
+            index,
+            headers,
+        )
     }
 
     /**
