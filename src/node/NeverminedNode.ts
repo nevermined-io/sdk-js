@@ -57,11 +57,11 @@ export class NeverminedNode extends Instantiable {
     }
 
     public getExecuteEndpoint(serviceAgreementId: string) {
-        return `${this.url}${apiPath}/execute/${serviceAgreementId}`
+        return `${this.url}${apiPath}/compute/execute/${serviceAgreementId}`
     }
 
     public getExecutionEndpoint() {
-        return `${this.url}${apiPath}/execute/`
+        return `${this.url}${apiPath}/compute/execute/`
     }
 
     public getEncryptEndpoint() {
@@ -215,9 +215,62 @@ export class NeverminedNode extends Instantiable {
         }
     }
 
+    public async downloadService(
+        did: string,
+        account: Account,
+        files: MetaDataFile[],
+        destination: string,
+        index = -1,
+        isToDownload,
+    ) {
+        const headers = await this.generateDownloadHeaders(account, did)
+
+        if(isToDownload) {
+            const filesPromises = files
+            .filter((_, i) => +index === -1 || i === index)
+            .map(async ({ index: i }) => {
+                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                try {
+                    await this.nevermined.utils.fetch.downloadFile(
+                        consumeUrl,
+                        destination,
+                        i,
+                        headers
+                    )
+                } catch (e) {
+                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
+                }
+            })
+
+            await Promise.all(filesPromises)
+            
+            this.logger.log('Files consumed')
+
+            if (destination) {
+                return destination
+            }
+            return 'success'
+        }
+
+        return Promise.all(files
+            .filter((_, i) => +index === -1 || i === index)
+            .map(async ({ index: i }) => {
+                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                try {
+                    return this.nevermined.utils.fetch.getFile(
+                        consumeUrl,
+                        i,
+                        headers
+                    )
+                } catch (e) {
+                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
+                }
+            })
+        )
+    }
+
     public async execute(
         agreementId: string,
-        computeDid: string,
         workflowDid: string,
         account: Account
     ): Promise<any> {
@@ -241,9 +294,14 @@ export class NeverminedNode extends Instantiable {
                 Authorization: 'Bearer ' + accessToken
             }
 
+            const payload = {
+                workflowDid: workflowDid,
+                consumer: account.getId()
+            }
+
             const response = await this.nevermined.utils.fetch.post(
                 this.getExecuteEndpoint(noZeroX(agreementId)),
-                undefined,
+                JSON.stringify(payload),
                 headers
             )
             if (!response.ok) {
@@ -256,47 +314,6 @@ export class NeverminedNode extends Instantiable {
         } catch (e) {
             throw new NeverminedNodeError(e)
         }
-    }
-
-    public async downloadService(
-        did: string,
-        account: Account,
-        files: MetaDataFile[],
-        destination: string,
-        index = -1
-    ): Promise<string> {
-        const { jwt } = this.nevermined.utils
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(account.getId(), did)
-
-        if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateDownloadGrantToken(account, did)
-            accessToken = await this.fetchToken(grantToken)
-            jwt.tokenCache.set(cacheKey, accessToken)
-        } else {
-            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-        }
-        const headers = {
-            Authorization: 'Bearer ' + accessToken
-        }
-
-        const filesPromises = files
-            .filter((_, i) => +index === -1 || i === index)
-            .map(async ({ index: i }) => {
-                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
-                try {
-                    await this.nevermined.utils.fetch.downloadFile(
-                        consumeUrl,
-                        destination,
-                        i,
-                        headers
-                    )
-                } catch (e) {
-                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
-                }
-            })
-        await Promise.all(filesPromises)
-        return destination
     }
 
     public async computeLogs(
@@ -437,5 +454,23 @@ export class NeverminedNode extends Instantiable {
             encrypt
         )
         return response.json()
+    }
+
+    private async generateDownloadHeaders(account: Account, id: string) {
+        const { jwt } = this.nevermined.utils
+        let accessToken: string
+        const cacheKey = jwt.generateCacheKey(account.getId(), id)
+
+        if (!jwt.tokenCache.has(cacheKey)) {
+            const grantToken = await jwt.generateDownloadGrantToken(account, id)
+            accessToken = await this.fetchToken(grantToken)
+            jwt.tokenCache.set(cacheKey, accessToken)
+        } else {
+            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        }
+        
+        return {
+            Authorization: 'Bearer ' + accessToken
+        }
     }
 }
