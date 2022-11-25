@@ -92,7 +92,7 @@ export class WebServiceConnector extends Instantiable {
         const { response, name } = await this.getFileResponse(url, index, headers)
 
         if (destination) {
-            await new Promise(async (resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 fs.mkdirSync(destination, { recursive: true })
                 const fileStream = fs.createWriteStream(`${destination}${name}`)
                 response.body.pipe(fileStream)
@@ -132,7 +132,7 @@ export class WebServiceConnector extends Instantiable {
 
         let name: string
         try {
-            ;[, name] = response.headers
+            [, name] = response.headers
                 .get('content-disposition')
                 .match(/attachment;filename=(.+)/)
         } catch {

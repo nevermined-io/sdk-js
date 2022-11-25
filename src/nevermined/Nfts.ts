@@ -11,7 +11,6 @@ import {
     getNftAmountFromService,
     getNftHolderFromService,
     OrderProgressStep,
-    noZeroX,
     SubscribablePromise,
     zeroX
 } from '../utils'
