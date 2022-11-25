@@ -623,13 +623,35 @@ export class Nfts extends Instantiable {
         destination?: string,
         index?: number,
         agreementId = '0x',
-        isToDownload = true,
+        isToDownload = true
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
+        const { attributes } = ddo.findServiceByType('metadata')
+        const { files } = attributes.main
+
+        const accessToken = await this.nevermined.utils.jwt.getNftAccessGrantToken(
+            agreementId,
+            ddo.id,
+            consumer
+        )
+        const headers = {
+            Authorization: 'Bearer ' + accessToken
+        }
 
         // Download the files
         this.logger.log('Downloading the files')
-        return await this.downloadFiles(agreementId, ddo, consumer, destination, index, isToDownload)
+        const result = await this.nevermined.node.downloadService(
+            files,
+            destination,
+            index,
+            isToDownload,
+            headers
+        )
+
+        if (typeof result === 'string') {
+            return true
+        }
+        return result
     }
 
     /**
@@ -752,80 +774,6 @@ export class Nfts extends Instantiable {
         return null
     }
 
-    private async downloadFiles(
-        agreementId: string,
-        ddo: DDO,
-        consumer: Account,
-        destination?: string,
-        index?: number,
-        isToDownload?: boolean,
-    ) {
-        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
-        const { attributes } = ddo.findServiceByType('metadata')
-        const { jwt } = this.nevermined.utils
-        const { files } = attributes.main
-
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(agreementId, consumer.getId(), ddo.id)
-
-        if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateNftAccessGrantToken(
-                agreementId,
-                ddo.id,
-                consumer
-            )
-            accessToken = await this.nevermined.node.fetchToken(grantToken)
-            jwt.tokenCache.set(cacheKey, accessToken)
-        } else {
-            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-        }
-
-        const headers = {
-            Authorization: 'Bearer ' + accessToken
-        }
-
-        if(isToDownload) {
-            if (!index) {
-                for (let i = 0; i < files.length; i++) {
-                    const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
-    
-                    await this.nevermined.utils.fetch.downloadFile(
-                        url,
-                        destination,
-                        i,
-                        headers,
-                    )
-                }
-            } else {
-                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
-                await this.nevermined.utils.fetch.downloadFile(
-                    url,
-                    destination,
-                    index,
-                    headers,
-                )
-            }
-    
-            return true
-        }
-
-        if (!index) {
-            return Promise.all(files.map((_f, i) => {
-                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
-
-                return this.nevermined.utils.fetch.getFile(url, i, headers)
-            }))
-        }
-        
-        const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
-
-        return this.nevermined.utils.fetch.getFile(
-            url,
-            index,
-            headers,
-        )
-    }
-
     /**
      * Enable or disable NFT transfer rights for an operator.
      *
@@ -847,9 +795,12 @@ export class Nfts extends Instantiable {
         approved: boolean,
         from: Account
     ) {
-        const isApproved = await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(from.getId(), operatorAddress);
+        const isApproved = await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(
+            from.getId(),
+            operatorAddress
+        )
 
-        if(isApproved) {
+        if (isApproved) {
             return
         }
 

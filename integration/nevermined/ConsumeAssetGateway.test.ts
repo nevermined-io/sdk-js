@@ -71,7 +71,9 @@ describe('Consume Asset (Nevermined Node)', () => {
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 11])
 
         const assetProviders = await nevermined.provider.list(ddo.id)
-        assert.deepEqual(assetProviders, [ethers.utils.getAddress(config.neverminedNodeAddress)])
+        assert.deepEqual(assetProviders, [
+            ethers.utils.getAddress(config.neverminedNodeAddress)
+        ])
     })
 
     it('should order the asset', async () => {

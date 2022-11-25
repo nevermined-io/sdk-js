@@ -181,6 +181,20 @@ export class JwtUtils extends Instantiable {
             .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
     }
 
+    public async getDownloadGrantToken(did: string, account: Account): Promise<string> {
+        const cacheKey = this.generateCacheKey(account.getId(), did)
+
+        if (!this.tokenCache.has(cacheKey)) {
+            const grantToken = await this.generateDownloadGrantToken(account, did)
+            const accessToken = await this.nevermined.node.fetchToken(grantToken)
+            this.tokenCache.set(cacheKey, accessToken)
+
+            return accessToken
+        } else {
+            return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        }
+    }
+
     public async generateExecuteGrantToken(
         account: Account,
         serviceAgreementId: string,
@@ -238,5 +252,27 @@ export class JwtUtils extends Instantiable {
             .setIssuedAt()
             .setExpirationTime('1h')
             .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
+    }
+
+    public async getNftAccessGrantToken(
+        agreementId: string,
+        did: string,
+        account: Account
+    ): Promise<string> {
+        const cacheKey = this.generateCacheKey(agreementId, account.getId(), did)
+
+        if (!this.tokenCache.has(cacheKey)) {
+            const grantToken = await this.generateNftAccessGrantToken(
+                agreementId,
+                did,
+                account
+            )
+            const accessToken = await this.nevermined.node.fetchToken(grantToken)
+            this.tokenCache.set(cacheKey, accessToken)
+
+            return accessToken
+        } else {
+            return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        }
     }
 }
