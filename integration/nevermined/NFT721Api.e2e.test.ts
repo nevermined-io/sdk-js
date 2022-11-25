@@ -13,6 +13,7 @@ import { ethers } from 'ethers'
 import Nft721 from '../../src/keeper/contracts/Nft721'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
+import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -195,14 +196,14 @@ describe('NFTs721 Api End-to-End', () => {
         })
 
         it('The collector access the files object', async () => {
-            const result = await nevermined.nfts.access(
+            const result = (await nevermined.nfts.access(
                 ddo.id,
                 collector1,
                 undefined,
                 undefined,
                 undefined,
                 false
-            )
+            )) as WebApiFile[]
 
             assert.equal(result[0].name, 'ddo-example.json')
         })
