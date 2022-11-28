@@ -223,27 +223,6 @@ describe('NFTs Api End-to-End', () => {
     })
 
     describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
-        it('The artist gives the Node permissions to transfer his nfts', async () => {
-            const message = 'shold throw this error message'
-
-            try {
-                await nevermined.nfts.setApprovalForAll(
-                    transferNftCondition.address,
-                    true,
-                    artist
-                )
-    
-                await nevermined.nfts.setApprovalForAll(
-                    config.neverminedNodeAddress,
-                    true,
-                    artist
-                )
-
-                assert.fail(message)
-            } catch (error) {
-                assert.equal(error.message, message)
-            }
-        })
         it('The artist creates and mints the nfts', async () => {
             const newMetadata = getMetadata()
             newMetadata.userId = payload.sub
