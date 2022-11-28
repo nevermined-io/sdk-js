@@ -2,10 +2,7 @@ import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, DDO, Nevermined } from '../../src'
-import {
-    EscrowPaymentCondition,
-    TransferNFTCondition
-} from '../../src/keeper/contracts/conditions'
+import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
@@ -26,7 +23,6 @@ describe('NFTs Api End-to-End', () => {
     let nevermined: Nevermined
     let token: Token
     let escrowPaymentCondition: EscrowPaymentCondition
-    let transferNftCondition: TransferNFTCondition
     let ddo: DDO
 
     const metadata = getMetadata()
@@ -290,12 +286,6 @@ describe('NFTs Api End-to-End', () => {
             const message = 'shold throw this error message'
 
             try {
-                await nevermined.nfts.setApprovalForAll(
-                    transferNftCondition.address,
-                    true,
-                    artist
-                )
-    
                 await nevermined.nfts.setApprovalForAll(
                     config.neverminedNodeAddress,
                     true,

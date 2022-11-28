@@ -8,7 +8,7 @@ import Keeper from './keeper/Keeper'
 import * as templates from './keeper/contracts/templates'
 import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
-import { Nft721 } from './nevermined/Nft721'
+import { Nft721Api } from './nevermined/Nft721Api'
 import { Nfts } from './nevermined/Nfts'
 import { Accounts } from './nevermined/Accounts'
 import { SearchQuery } from './common/interfaces'
@@ -46,7 +46,7 @@ export {
     Account,
     Accounts,
     Nfts,
-    Nft721,
+    Nft721Api as Nft721,
     Config,
     DID,
     Logger,

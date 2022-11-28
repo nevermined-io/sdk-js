@@ -49,7 +49,7 @@ import { objectPromiseAll } from '../utils'
 import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { NFT1155Upgradeable } from './contracts/conditions/NFTs/NFTUpgradable'
+import { Nft1155Contract } from './contracts/Nft1155Contract'
 import { GenericAccess } from './contracts/templates/GenericAccess'
 import { KeeperError } from '../errors'
 
@@ -194,7 +194,7 @@ export class Keeper extends Instantiable {
         }
 
         try {
-            this.instances.nftUpgradeable = await NFT1155Upgradeable.getInstance(
+            this.instances.nftUpgradeable = await Nft1155Contract.getInstance(
                 this.instanceConfig
             )
         } catch {
@@ -303,7 +303,7 @@ export class Keeper extends Instantiable {
     /**
      * NFT upgradeable smart contract instance.
      */
-    public nftUpgradeable: NFT1155Upgradeable
+    public nftUpgradeable: Nft1155Contract
 
     /**
      * Template store manager smart contract instance.

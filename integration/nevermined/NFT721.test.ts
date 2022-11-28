@@ -9,14 +9,14 @@ import ERC721 from '../../src/artifacts/ERC721.json'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import { ethers } from 'ethers'
-import Nft721 from '../../src/keeper/contracts/Nft721'
+import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
 
     let nft: ethers.Contract
-    let nftContract: Nft721
+    let nftContract: Nft721Contract
 
     let artist: Account
     let collector: Account
@@ -31,7 +31,7 @@ describe('Nfts721 operations', async () => {
         // deploy a nft contract we can use
         nft = await TestContractHandler.deployArtifact(ERC721)
         nevermined = await Nevermined.getInstance(config)
-        nftContract = await Nft721.getInstance(
+        nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
             nft.address
         )
@@ -57,6 +57,12 @@ describe('Nfts721 operations', async () => {
                 new AssetRewards(),
                 nft.address
             )
+        })
+
+        it('should clone an existing erc-721 nft contract', async () => {
+            const cloneAddress = await nftContract.createClone(nftContract.address, 'My New NFT', 'xyz', '', BigNumber.from(10), artist)
+            assert.isDefined(cloneAddress)
+            console.log(`NFT (ERC-1155) clonned into address ${cloneAddress}`)
         })
 
         it('should mint an nft token', async () => {

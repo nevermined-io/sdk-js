@@ -1,16 +1,16 @@
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import Account from './Account'
-import Nft721Contract from '../keeper/contracts/Nft721'
+import Nft721Contract from '../keeper/contracts/Nft721Contract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
-export class Nft721 extends Instantiable {
+export class Nft721Api extends Instantiable {
     contract: Nft721Contract
 
     public static async getInstance(
         config: InstantiableConfig,
         address: string
-    ): Promise<Nft721> {
-        const nft721 = new Nft721()
+    ): Promise<Nft721Api> {
+        const nft721 = new Nft721Api()
         nft721.setInstanceConfig(config)
 
         nft721.contract = await Nft721Contract.getInstance(config, address)

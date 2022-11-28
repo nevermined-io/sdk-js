@@ -10,7 +10,7 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import ERC721 from '../../src/artifacts/ERC721.json'
 import { zeroX } from '../../src/utils'
 import { ethers } from 'ethers'
-import Nft721 from '../../src/keeper/contracts/Nft721'
+import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 
@@ -38,7 +38,7 @@ describe('NFTs721 Api End-to-End', () => {
     let scale: BigNumber
 
     let nft: ethers.Contract
-    let nftContract: Nft721
+    let nftContract: Nft721Contract
 
     let payload: JWTPayload
 
@@ -48,7 +48,7 @@ describe('NFTs721 Api End-to-End', () => {
         nft = await TestContractHandler.deployArtifact(ERC721)
 
         nevermined = await Nevermined.getInstance(config)
-        nftContract = await Nft721.getInstance(
+        nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
             nft.address
         )

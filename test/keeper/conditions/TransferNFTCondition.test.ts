@@ -7,7 +7,7 @@ import {
     LockPaymentCondition,
     TransferNFTCondition
 } from '../../../src/keeper/contracts/conditions'
-import { NFT1155Upgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import Token from '../../../src/keeper/contracts/Token'
@@ -26,7 +26,7 @@ describe('TransferNFTCondition', () => {
     let escrowPaymentCondition: EscrowPaymentCondition
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
-    let nftUpgradeable: NFT1155Upgradeable
+    let nftUpgradeable: Nft1155Contract
     let token: Token
 
     let nftReceiver: Account

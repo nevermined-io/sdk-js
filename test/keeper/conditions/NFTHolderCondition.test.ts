@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
 import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import { NFTHolderCondition } from '../../../src/keeper/contracts/conditions'
-import { NFT1155Upgradeable } from '../../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { NeverminedNFT1155Type, NFTAttributes } from '../../../src/models/NFTAttributes'
@@ -18,7 +18,7 @@ describe('NFTHolderCondition', () => {
     let nftHolderCondition: NFTHolderCondition
     let conditionStoreManager: ConditionStoreManager
     let didRegistry: DIDRegistry
-    let nftUpgradeable: NFT1155Upgradeable
+    let nftUpgradeable: Nft1155Contract
     let holder: Account
     let owner: Account
 

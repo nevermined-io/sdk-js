@@ -1,18 +1,19 @@
-import ContractBase, { TxParameters } from './ContractBase'
+import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
-import { abi } from './../../artifacts/ERC721.json'
+import { abi } from '../../artifacts/ERC721.json'
 import { Account } from '../..'
 import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { ContractEvent, EventHandler } from '../../events'
+import { NFTsBase } from './NFTsBase'
 
-export default class Nft721 extends ContractBase {
+export default class Nft721Contract extends NFTsBase {
     public static async getInstance(
         config: InstantiableConfig,
         address: string
-    ): Promise<Nft721> {
-        const nft: Nft721 = new Nft721('NFT721')
+    ): Promise<Nft721Contract> {
+        const nft: Nft721Contract = new Nft721Contract('NFT721')
         nft.setInstanceConfig(config)
 
         // We don't have a subgraph for NFT721 so we can only use ContractEvent
@@ -28,6 +29,29 @@ export default class Nft721 extends ContractBase {
         nft.contract = new ethers.Contract(address, abi, nft.web3)
 
         return nft
+    }
+
+    /**
+     * Creates a contract clone of an existing contract instance
+     *
+     * @param implementationAddress - Smart Contract implementation address
+     * @param name - NFT Contract name
+     * @param symbol - NFT Contract symbol
+     * @param uri - NFT Contract metadata uri
+     * @param cap - NFT cap
+     * @param from - Sender account
+     * @returns Contract Receipt
+     */
+     public createClone(
+        implementationAddress: string,
+        name: string,
+        symbol: string,
+        uri: string,
+        cap: BigNumber,
+        from?: Account,
+        params?: TxParameters
+    ) {
+        return this._createClone(implementationAddress, name, symbol, uri, cap, from, params)
     }
 
     public async mint(did: string, from: string, params?: TxParameters) {

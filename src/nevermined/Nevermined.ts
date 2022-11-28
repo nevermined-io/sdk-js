@@ -25,10 +25,11 @@ import { Faucet } from '../faucet/Faucet'
 import { Provider } from './Provider'
 import { Files } from './Files'
 import { Nfts } from './Nfts'
-import { Nft721 } from './Nft721'
+import { Nft721Api } from './Nft721Api'
 import { AaveCredit } from './AaveCredit'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 import CustomToken from '../keeper/contracts/CustomToken'
+import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -99,11 +100,20 @@ export class Nevermined extends Instantiable {
          * Load a custom ERC-721 nft.
          *
          * @param address - The address of the ERC-721 contracts to load
-         * @returns An instance of {@link Nft721}
+         * @returns An instance of {@link Nft721Api}
          */
-        loadNft721: async (address: string): Promise<Nft721> => {
-            return await Nft721.getInstance(this.instanceConfig, address)
+        loadNft721: async (address: string): Promise<Nft721Api> => {
+            return await Nft721Api.getInstance(this.instanceConfig, address)
         },
+       /**
+         * Load a custom ERC-1155 nft.
+         *
+         * @param address - The address of the ERC-721 contracts to load
+         * @returns An instance of {@link Nft721Api}
+         */
+        loadNft1155: async (address: string): Promise<Nft1155Contract> => {
+            return await Nft1155Contract.getInstance(this.instanceConfig, address)
+        },        
         /**
          * Load a custom ERC-20 nft.
          *
