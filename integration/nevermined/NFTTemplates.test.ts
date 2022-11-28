@@ -9,7 +9,7 @@ import {
     NFTHolderCondition,
     TransferNFTCondition
 } from '../../src/keeper/contracts/conditions'
-import { NFT1155Upgradeable } from '../../src/keeper/contracts/conditions/NFTs/NFTUpgradable'
+import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
@@ -33,7 +33,7 @@ describe('NFTTemplates E2E', () => {
 
     let nevermined: Nevermined
     let token: Token
-    let nftUpgradeable: NFT1155Upgradeable
+    let nftUpgradeable: Nft1155Contract
     let conditionStoreManager: ConditionStoreManager
     let transferNftCondition: TransferNFTCondition
     let lockPaymentCondition: LockPaymentCondition
@@ -1118,12 +1118,6 @@ describe('NFTTemplates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and give a Marketplace permissions to transfer it', async () => {
-                await nftUpgradeable.setApprovalForAll(
-                    transferNftCondition.getAddress(),
-                    true,
-                    artist
-                )
-
                 const balance = await nftUpgradeable.balance(artist.getId(), ddo.id)
                 assert.deepEqual(balance, BigNumber.from(5))
 
