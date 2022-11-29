@@ -48,20 +48,16 @@ export class NeverminedNode extends Instantiable {
         return `${this.url}${apiPath}/${service}`
     }
 
-    public getComputeLogsEndpoint(serviceAgreementId: string, executionId: string) {
-        return `${this.url}${apiPath}/compute/logs/${serviceAgreementId}/${executionId}`
+    public getComputeLogsEndpoint(executionId: string) {
+        return `${this.url}${apiPath}/compute/logs/${executionId}`
     }
 
-    public getComputeStatusEndpoint(serviceAgreementId: string, executionId: string) {
-        return `${this.url}${apiPath}/compute/status/${serviceAgreementId}/${executionId}`
+    public getComputeStatusEndpoint(executionId: string) {
+        return `${this.url}${apiPath}/compute/status/${executionId}`
     }
 
     public getExecuteEndpoint(serviceAgreementId: string) {
         return `${this.url}${apiPath}/compute/execute/${serviceAgreementId}`
-    }
-
-    public getExecutionEndpoint() {
-        return `${this.url}${apiPath}/compute/execute/`
     }
 
     public getEncryptEndpoint() {
@@ -336,7 +332,7 @@ export class NeverminedNode extends Instantiable {
             }
 
             const response = await this.nevermined.utils.fetch.get(
-                this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                this.getComputeLogsEndpoint(noZeroX(executionId)),
                 headers
             )
 
@@ -378,7 +374,7 @@ export class NeverminedNode extends Instantiable {
             }
 
             const response = await this.nevermined.utils.fetch.get(
-                this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                this.getComputeStatusEndpoint(noZeroX(executionId)),
                 headers
             )
 
