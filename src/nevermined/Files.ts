@@ -13,8 +13,8 @@ export class Files extends Instantiable {
         return instance
     }
 
-    public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
-        const response = await this.nevermined.node.uploadFilecoin(stream, encrypt)
+    public async uploadFilecoin(data: ReadStream | string, encrypt?: boolean): Promise<any> {        
+        const response = await this.nevermined.node.uploadFilecoin(data, encrypt)
         return response
     }
 }

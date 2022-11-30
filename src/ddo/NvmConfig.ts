@@ -60,4 +60,14 @@ export interface NvmConfigVersions {
      * The checksum of the document
      */
     checksum: string
+
+    /**
+     * ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arweave, ..)
+     */
+     immutableUrl?: string
+
+    /**
+     * The immutable solution to record the DDO
+     */
+     immutableBackend?: 'filecoin' | 'ifps' | 'arweave' | 'other'
 }

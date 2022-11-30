@@ -2,11 +2,12 @@ import { SearchQuery } from '../../src/common/interfaces'
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
-import { getAssetRewards, getMetadata } from '../utils'
+import { generateMetadata, getAssetRewards, getMetadata } from '../utils'
 import { Nevermined, Account, MetaData } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
+import { PublishMetadata } from '../../src/nevermined/Assets'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -31,6 +32,42 @@ describe('Assets', () => {
         metadata = getMetadata()
         metadata.userId = payload.sub
         await nevermined.assets.create(metadata, publisher, assetRewards)
+    })
+
+    describe('#register()', () => {
+        it('create with immutable data', async () => {
+            const ddo = await nevermined.assets.create(
+                metadata, 
+                publisher, 
+                assetRewards,
+                ['access'],
+                [],
+                'PSK-RSA',
+                [],
+                nevermined.keeper.token.address,
+                '',
+                PublishMetadata.Filecoin
+            )
+
+            assert.isDefined(ddo)
+            assert.equal(ddo._nvm.versions.length, 1)
+            assert.isTrue(ddo._nvm.versions[0].immutableUrl.length > 10)
+            assert.equal(ddo._nvm.versions[0].immutableBackend, PublishMetadata.Filecoin.toString())
+        })
+
+        it.skip('update on-chain metadata reference', async () => {
+            console.log()
+        })
+    })
+
+    describe('#resolve()', () => {        
+        it.skip('resolve with immutable metadata', async () => {
+            console.log()
+        })
+
+        it.skip('resolve without immutable metadata', async () => {
+            console.log()
+        })
     })
 
     describe('#query()', () => {

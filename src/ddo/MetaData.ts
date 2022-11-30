@@ -184,11 +184,6 @@ export interface MetaDataMain {
      */
     files?: File[]
 
-    /**
-     * ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arweave, ..)
-     */
-    immutableUrl?: string
-
     encryptedService?: any
 
     workflow?: Workflow

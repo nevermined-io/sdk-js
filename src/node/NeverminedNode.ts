@@ -447,10 +447,10 @@ export class NeverminedNode extends Instantiable {
         return jsonPayload.access_token
     }
 
-    public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
+    public async uploadFilecoin(data: ReadStream | string, encrypt?: boolean): Promise<any> {
         const response = await this.nevermined.utils.fetch.uploadFile(
             this.getUploadFilecoinEndpoint(),
-            stream,
+            data,
             encrypt
         )
         return response.json()

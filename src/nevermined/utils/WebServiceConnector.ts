@@ -6,6 +6,8 @@ import * as path from 'path'
 import fileDownload from 'js-file-download'
 import { HttpError } from '../../errors'
 import { URL } from 'whatwg-url'
+// import { ReadableStreamBuffer } from 'stream-buffers'
+import { Readable } from 'stream'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -161,14 +163,39 @@ export class WebServiceConnector extends Instantiable {
 
     public async uploadFile(
         url: string,
-        stream: ReadStream,
+        data: ReadStream | string,
         encrypt?: boolean
     ): Promise<any> {
         const form = new FormData()
-        form.append('file', stream)
+        //form.append('file', data)
+        if (typeof data === 'string')   {
+            // const stream = createReadStream(data).pipe(process.stdout)
+            // form.append('file', stream)
+
+            // const stream = new ReadableStreamBuffer({
+            //     frequency: 10,      // in milliseconds.
+            //     chunkSize: 2048     // in bytes.
+            //   })
+            // stream.put(data, "utf8")
+
+            const stream = new Readable()
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            stream._read = () => {} // _read is required but you can noop it
+            stream.push(data)
+            stream.push(null)
+            form.append('file', stream)
+        } else {
+            form.append('file', data)
+        }
+
+        // typeof data === 'string' ? form.append('file', new Blob([JSON.stringify(data, null, 2)], {
+        //     type: "application/json",
+        //   })) : form.append('file', data)
+
         if (encrypt) {
             form.append('encrypt', 'true')
         }
+        //console.log(JSON.stringify(form))
         return this.fetch(url, { method: 'POST', body: form })
     }
 
@@ -200,6 +227,7 @@ export class WebServiceConnector extends Instantiable {
         let counterTries = 1
         let result: Response
         while (counterTries <= numberTries) {
+            console.log(JSON.stringify(opts))
             result = await fetch(url, opts)
             if (result.ok) return result
 

@@ -30,6 +30,8 @@ import { EncryptionMethod, QueryResult } from '../metadata/Metadata'
 import { AccessService, NFTAccessService, NFTSalesService } from './AccessService'
 import BigNumber from '../utils/BigNumber'
 import { ServiceAaveCredit } from '../keeper/contracts/defi/Service'
+import { NvmConfigVersions } from '../ddo/NvmConfig'
+import { SignatureUtils } from './utils/SignatureUtils'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -43,6 +45,7 @@ export enum CreateProgressStep {
     SettingRoyalties,
     StoringDdo,
     DdoStored,
+    DdoStoredImmutable,
     DidRegistered
 }
 
@@ -64,6 +67,13 @@ export enum RoyaltyKind {
     Standard,
     Curve,
     Legacy
+}
+
+export enum PublishMetadata {
+    JustMarketplaceAPI,
+    IPFS,
+    Filecoin,
+    Arweave
 }
 
 export interface RoyaltyAttributes {
@@ -92,6 +102,8 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
  * Assets submodule of Nevermined.
  */
 export class Assets extends Instantiable {
+
+    static DEFAULT_REGISTRATION_ACTIVITY_ID = SignatureUtils.hash('0x1')
     /**
      * Returns the instance of Assets.
      * @returns {@link Assets}
@@ -136,6 +148,7 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string,
         providers: string[] = [this.config.neverminedNodeAddress],
         appId?: string,
+        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
@@ -266,7 +279,30 @@ export class Assets extends Instantiable {
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
+            const ddoVersion: NvmConfigVersions = {
+                id: 0,
+                updated: ddo.created,
+                checksum: ddo.checksum(ddo.shortId()),
+                immutableUrl: ''
+            }
+
+            if (publishMetadata != PublishMetadata.JustMarketplaceAPI) {
+                observer.next(CreateProgressStep.DdoStoredImmutable)
+                if (publishMetadata === PublishMetadata.Filecoin) {
+                    this.logger.log('Publishing metadata to Filecoin')                    
+                    ;({ url: ddoVersion.immutableUrl } = await this.nevermined.node.uploadFilecoin(DDO.serialize(ddo), false))
+                    ddoVersion.immutableBackend = 'filecoin'
+                } else if (publishMetadata === PublishMetadata.IPFS) {
+                    this.logger.error('Publishing metadata to IPFS not supported')
+                } else {
+                    this.logger.error('Metadata publishing method not supported: ', publishMetadata)
+                }                
+            }
+
+            ddo._nvm.versions.push(ddoVersion)
+
             observer.next(CreateProgressStep.RegisteringDid)
+
             // On-chain asset registration
             if (nftAttributes) {
                 this.logger.log('Registering Mintable Asset', ddo.id)
@@ -281,8 +317,8 @@ export class Assets extends Instantiable {
                         publisher.getId(),
                         nftAttributesWithoutRoyalties,
                         serviceEndpoint,
-                        metadata.main.immutableUrl,
-                        '0x1',
+                        ddoVersion.immutableUrl,
+                        Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,
                         txParams
                     )
                 } else {
@@ -293,8 +329,8 @@ export class Assets extends Instantiable {
                         publisher.getId(),
                         nftAttributesWithoutRoyalties,
                         serviceEndpoint,
-                        metadata.main.immutableUrl,
-                        '0x1',                     
+                        ddoVersion.immutableUrl,
+                        Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,                     
                         txParams
                     )
                 }
@@ -317,12 +353,14 @@ export class Assets extends Instantiable {
                 }
             } else {
                 this.logger.log('Registering Asset', ddo.id)
-                await didRegistry.registerAttribute(
+                await didRegistry.registerDID(
                     didSeed,
                     ddo.checksum(ddo.shortId()),
                     providers || [this.config.neverminedNodeAddress],
-                    serviceEndpoint,
                     publisher.getId(),
+                    serviceEndpoint,
+                    ddoVersion.immutableUrl,
+                    Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,                     
                     txParams
                 )
             }
@@ -355,6 +393,7 @@ export class Assets extends Instantiable {
         providers?: string[],
         nftMetadata?: string,
         appId?: string,
+        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.createNft(
@@ -373,6 +412,7 @@ export class Assets extends Instantiable {
             undefined,
             undefined,
             appId,
+            publishMetadata,
             txParams
         )
     }
@@ -393,6 +433,7 @@ export class Assets extends Instantiable {
         duration = 0,
         nftType: NeverminedNFT721Type = NeverminedNFT721Type.nft721,
         appId?: string,
+        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes = NFTAttributes.getInstance({
@@ -419,6 +460,7 @@ export class Assets extends Instantiable {
             erc20TokenAddress,
             providers,
             appId,
+            publishMetadata,
             txParams
         )
     }
@@ -439,6 +481,7 @@ export class Assets extends Instantiable {
         services: ServiceType[] = ['nft-access', 'nft-sales'],
         nftType: NeverminedNFT1155Type = NeverminedNFT1155Type.nft1155,
         appId?: string,
+        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
@@ -465,6 +508,7 @@ export class Assets extends Instantiable {
             erc20TokenAddress,
             providers,
             appId,
+            publishMetadata,
             txParams
         )
     }
@@ -483,6 +527,7 @@ export class Assets extends Instantiable {
         nftMetadata?: string,
         nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
         appId?: string,
+        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
@@ -509,6 +554,7 @@ export class Assets extends Instantiable {
             erc20TokenAddress,
             providers,
             appId,
+            publishMetadata,
             txParams
         )
     }
@@ -541,6 +587,7 @@ export class Assets extends Instantiable {
         providers?: string[],
         erc20TokenAddress?: string,
         appId?: string,
+        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerAsset(
@@ -554,6 +601,7 @@ export class Assets extends Instantiable {
             erc20TokenAddress,
             providers,
             appId,
+            publishMetadata,
             txParams
         )
     }
@@ -564,6 +612,7 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
         appId?: string,
+        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return new SubscribablePromise(async () => {
@@ -577,6 +626,7 @@ export class Assets extends Instantiable {
                 undefined,
                 undefined,
                 appId,
+                publishMetadata,
                 txParams
             )
         })
