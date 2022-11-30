@@ -6,8 +6,8 @@ import * as path from 'path'
 import fileDownload from 'js-file-download'
 import { HttpError } from '../../errors'
 import { URL } from 'whatwg-url'
-// import { ReadableStreamBuffer } from 'stream-buffers'
-import { Readable } from 'stream'
+import { ReadableStreamBuffer } from 'stream-buffers'
+// import { Readable } from 'stream'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -172,17 +172,17 @@ export class WebServiceConnector extends Instantiable {
             // const stream = createReadStream(data).pipe(process.stdout)
             // form.append('file', stream)
 
-            // const stream = new ReadableStreamBuffer({
-            //     frequency: 10,      // in milliseconds.
-            //     chunkSize: 2048     // in bytes.
-            //   })
-            // stream.put(data, "utf8")
+            const stream = new ReadableStreamBuffer({
+                frequency: 10,      // in milliseconds.
+                chunkSize: 2048     // in bytes.
+              })
+            stream.put(data, "utf8")
 
-            const stream = new Readable()
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            stream._read = () => {} // _read is required but you can noop it
-            stream.push(data)
-            stream.push(null)
+            // const stream = new Readable()
+            // // eslint-disable-next-line @typescript-eslint/no-empty-function
+            // stream._read = () => {} // _read is required but you can noop it
+            // stream.push('hi there')
+            // stream.push(null)
             form.append('file', stream)
         } else {
             form.append('file', data)
