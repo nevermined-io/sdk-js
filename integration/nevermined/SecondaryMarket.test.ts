@@ -426,7 +426,7 @@ describe('Secondary Markets', () => {
                 nftSalesServiceAgreement = {
                     type: 'nft-sales',
                     index: 6,
-                    serviceEndpoint: nevermined.gateway.getNftEndpoint(),
+                    serviceEndpoint: nevermined.node.getNftEndpoint(),
                     templateId: nftSalesTemplate.getAddress(),
                     attributes: {
                         main: {

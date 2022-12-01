@@ -11,7 +11,6 @@ import {
     getNftAmountFromService,
     getNftHolderFromService,
     OrderProgressStep,
-    noZeroX,
     SubscribablePromise,
     zeroX
 } from '../utils'
@@ -417,12 +416,12 @@ export class Nfts extends Instantiable {
     }
 
     /**
-     * Asks the gateway to transfer the NFT on behalf of the publisher.
+     * Asks the Node to transfer the NFT on behalf of the publisher.
      *
      * @remarks
      * This is useful when the consumer does not want to wait for the publisher
      * to transfer the NFT once the payment is made. Assuming the publisher delegated
-     * transfer permissions to the gateway.
+     * transfer permissions to the Node.
      *
      * One example would be a marketplace where the user wants to get access to the NFT
      * as soon as the payment is made
@@ -447,7 +446,7 @@ export class Nfts extends Instantiable {
         nftAmount: BigNumber,
         ercType: ERCType = 1155
     ): Promise<boolean> {
-        return await this.nevermined.gateway.nftTransferForDelegate(
+        return await this.nevermined.node.nftTransferForDelegate(
             agreementId,
             nftHolder,
             nftReceiver,
@@ -600,7 +599,7 @@ export class Nfts extends Instantiable {
      * Access the files associated with an NFT.
      *
      * @remarks
-     * This function will call the gateway that will check if all the access conditions where fulfilled
+     * This function will call the Node that will check if all the access conditions where fulfilled
      * before providing the files.
      *
      * @example
@@ -612,21 +611,46 @@ export class Nfts extends Instantiable {
      * @param consumer - The NFT holder account.
      * @param destination - The download destination for the files.
      * @param index-  The index of the file. If unset will download all the files in the asset.
+     * @param agreementId - The NFT sales agreement id.
+     * @param isToDownload - If the NFT is for downloading
      *
-     * @returns true if the access was successful.
+     * @returns true if the access was successful or file if isToDownload is false.
      */
     public async access(
         did: string,
         consumer: Account,
         destination?: string,
         index?: number,
-        agreementId = '0x'
+        agreementId = '0x',
+        isToDownload = true
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
+        const { attributes } = ddo.findServiceByType('metadata')
+        const { files } = attributes.main
+
+        const accessToken = await this.nevermined.utils.jwt.getNftAccessGrantToken(
+            agreementId,
+            ddo.id,
+            consumer
+        )
+        const headers = {
+            Authorization: 'Bearer ' + accessToken
+        }
 
         // Download the files
         this.logger.log('Downloading the files')
-        return await this.downloadFiles(agreementId, ddo, consumer, destination, index)
+        const result = await this.nevermined.node.downloadService(
+            files,
+            destination,
+            index,
+            isToDownload,
+            headers
+        )
+
+        if (typeof result === 'string') {
+            return true
+        }
+        return result
     }
 
     /**
@@ -749,60 +773,6 @@ export class Nfts extends Instantiable {
         return null
     }
 
-    private async downloadFiles(
-        agreementId: string,
-        ddo: DDO,
-        consumer: Account,
-        destination?: string,
-        index?: number
-    ) {
-        const { serviceEndpoint } = ddo.findServiceByType('nft-access')
-        const { attributes } = ddo.findServiceByType('metadata')
-        const { files } = attributes.main
-        const { jwt } = this.nevermined.utils
-
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(agreementId, consumer.getId(), ddo.id)
-
-        if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateNftAccessGrantToken(
-                agreementId,
-                ddo.id,
-                consumer
-            )
-            accessToken = await this.nevermined.gateway.fetchToken(grantToken)
-            jwt.tokenCache.set(cacheKey, accessToken)
-        } else {
-            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-        }
-
-        const headers = {
-            Authorization: 'Bearer ' + accessToken
-        }
-
-        if (index === undefined) {
-            for (let i = 0; i < files.length; i++) {
-                const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
-                await this.nevermined.utils.fetch.downloadFile(
-                    url,
-                    destination,
-                    i,
-                    headers
-                )
-            }
-        } else {
-            const url = `${serviceEndpoint}/${noZeroX(agreementId)}/${index}`
-            await this.nevermined.utils.fetch.downloadFile(
-                url,
-                destination,
-                index,
-                headers
-            )
-        }
-
-        return true
-    }
-
     /**
      * Enable or disable NFT transfer rights for an operator.
      *
@@ -824,6 +794,15 @@ export class Nfts extends Instantiable {
         approved: boolean,
         from: Account
     ) {
+        const isApproved = await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(
+            from.getId(),
+            operatorAddress
+        )
+
+        if (isApproved) {
+            return
+        }
+
         return this.nevermined.keeper.nftUpgradeable.setApprovalForAll(
             operatorAddress,
             approved,
@@ -879,7 +858,7 @@ export class Nfts extends Instantiable {
             agreementId: agreementIdSeed,
             type: 'nft-sales',
             index: 6,
-            serviceEndpoint: this.nevermined.gateway.getNftEndpoint(),
+            serviceEndpoint: this.nevermined.node.getNftEndpoint(),
             templateId: nftSalesTemplate.getAddress(),
             did: ddo.id,
             attributes: {

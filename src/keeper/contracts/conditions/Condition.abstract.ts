@@ -174,7 +174,7 @@ export abstract class Condition<
         )
     }
 
-    public abstract fulfillGateway(
+    public abstract fulfillWithNode(
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
@@ -201,24 +201,24 @@ export abstract class ProviderCondition<
     Ctx extends ConditionContext,
     Extra = Record<string, unknown>
 > extends Condition<Ctx, Extra> {
-    public async fulfillGateway(
+    public async fulfillWithNode(
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
         params?: TxParameters
     ) {
         return this.sendFrom(
-            this.gatewayMethod(),
+            this.nodeMethod(),
             [
                 zeroX(cond.agreementId),
-                ...(await cond.params(this.gatewayMethod(), additionalParams))
+                ...(await cond.params(this.nodeMethod(), additionalParams))
             ],
             from,
             params
         )
     }
 
-    public gatewayMethod(): ConditionMethod {
+    public nodeMethod(): ConditionMethod {
         return 'fulfill'
     }
 }
@@ -227,7 +227,7 @@ export abstract class ConsumerCondition<
     Ctx extends ConditionContext,
     Extra = Record<string, unknown>
 > extends Condition<Ctx, Extra> {
-    public async fulfillGateway(
+    public async fulfillWithNode(
         _cond: ConditionInstance<Extra>,
         _additionalParams: Extra,
         _from?: Account,

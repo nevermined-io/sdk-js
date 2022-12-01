@@ -27,12 +27,13 @@ export interface Stage {
     index: number
     stageType?: string
     requirements: StageRequirements
-    input: StageInput
+    input: StageInput[]
     transformation: StageTransformation
     output: StageOutput
 }
 
 export interface Workflow {
+    coordinationType: 'argo' | 'fl-coordinator' | 'bacalhau'
     stages: Stage[]
 }
 
@@ -194,6 +195,8 @@ export interface MetaDataMain {
     ercType?: ERCType
 
     nftType?: NeverminedNFTType
+
+    isDTP?: boolean
 }
 
 /**

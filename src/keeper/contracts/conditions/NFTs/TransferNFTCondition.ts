@@ -180,7 +180,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         )
     }
 
-    public gatewayMethod(): ConditionMethod {
+    public nodeMethod(): ConditionMethod {
         return 'fulfillForDelegate'
     }
 }

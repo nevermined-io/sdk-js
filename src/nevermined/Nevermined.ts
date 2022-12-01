@@ -11,7 +11,7 @@ import { Metadata } from '../metadata/Metadata'
 import { Profiles } from '../profiles/Profiles'
 import { Bookmarks } from '../bookmarks/Bookmarks'
 import { Permissions } from '../permissions/Permissions'
-import { Gateway } from '../gateway/Gateway'
+import { NeverminedNode } from '../node/NeverminedNode'
 
 import Keeper from '../keeper/Keeper'
 
@@ -60,7 +60,7 @@ export class Nevermined extends Instantiable {
         instance.keeper = await Keeper.getInstance(instanceConfig)
         await instance.keeper.init()
 
-        instance.gateway = new Gateway(instanceConfig)
+        instance.node = new NeverminedNode(instanceConfig)
         instance.marketplace = new MarketplaceApi(instanceConfig)
         instance.metadata = new Metadata(instanceConfig)
         instance.profiles = new Profiles(instanceConfig)
@@ -116,9 +116,9 @@ export class Nevermined extends Instantiable {
     }
 
     /**
-     * Gateway instance.
+     * Nevermined Node instance.
      */
-    public gateway: Gateway
+    public node: NeverminedNode
 
     /**
      * Metadata instance.

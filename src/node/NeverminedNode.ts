@@ -3,20 +3,20 @@ import Account from '../nevermined/Account'
 import { noZeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { ReadStream } from 'fs'
-import { GatewayError, HttpError } from '../errors'
+import { NeverminedNodeError, HttpError } from '../errors'
 import { ServiceType } from '../ddo/Service'
 import BigNumber from '../utils/BigNumber'
 import { ERCType } from '../models/NFTAttributes'
 
-const apiPath = '/api/v1/gateway/services'
+const apiPath = '/api/v1/node/services'
 
 /**
- * Provides a interface with Gateway.
- * Gateway is the technical component executed by the Publishers allowing to them to provide extended data services.
+ * Provides a interface with Nevermined Node.
+ * The Nevermined Node is the technical component executed by the Publishers allowing to them to provide extended data services.
  */
-export class Gateway extends Instantiable {
+export class NeverminedNode extends Instantiable {
     private get url() {
-        return this.config.gatewayUri
+        return this.config.neverminedNodeUri
     }
 
     constructor(config: InstantiableConfig) {
@@ -48,20 +48,16 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/${service}`
     }
 
-    public getComputeLogsEndpoint(serviceAgreementId: string, executionId: string) {
-        return `${this.url}${apiPath}/compute/logs/${serviceAgreementId}/${executionId}`
+    public getComputeLogsEndpoint(executionId: string) {
+        return `${this.url}${apiPath}/compute/logs/${executionId}`
     }
 
-    public getComputeStatusEndpoint(serviceAgreementId: string, executionId: string) {
-        return `${this.url}${apiPath}/compute/status/${serviceAgreementId}/${executionId}`
+    public getComputeStatusEndpoint(executionId: string) {
+        return `${this.url}${apiPath}/compute/status/${executionId}`
     }
 
     public getExecuteEndpoint(serviceAgreementId: string) {
-        return `${this.url}${apiPath}/execute/${serviceAgreementId}`
-    }
-
-    public getExecutionEndpoint() {
-        return `${this.url}${apiPath}/execute/`
+        return `${this.url}${apiPath}/compute/execute/${serviceAgreementId}`
     }
 
     public getEncryptEndpoint() {
@@ -92,27 +88,27 @@ export class Gateway extends Instantiable {
         return `${this.url}${apiPath}/nft-transfer`
     }
 
-    public async getGatewayInfo() {
+    public async getNeverminedNodeInfo() {
         return this.nevermined.utils.fetch.get(`${this.url}`).then(res => res.json())
     }
 
     public async getProviderAddress() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['provider-address']
     }
 
     public async getRsaPublicKey() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['rsa-public-key']
     }
 
     public async getEcdsaPublicKey() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['ecdsa-public-key']
     }
 
     public async getBabyjubPublicKey() {
-        const json = await this.getGatewayInfo()
+        const json = await this.getNeverminedNodeInfo()
         return json['babyjub-public-key']
     }
 
@@ -141,7 +137,7 @@ export class Gateway extends Instantiable {
                 decodeURI(JSON.stringify(args))
             )
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -185,7 +181,7 @@ export class Gateway extends Instantiable {
                         headers
                     )
                 } catch (e) {
-                    throw new GatewayError(`Error consuming assets - ${e}`)
+                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
                 }
             })
         await Promise.all(filesPromises)
@@ -211,13 +207,60 @@ export class Gateway extends Instantiable {
             }
             return await response.text()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
+    }
+
+    public async downloadService(
+        files: MetaDataFile[],
+        destination: string,
+        index = -1,
+        isToDownload = true,
+        headers?: { [key: string]: string }
+    ) {
+        if (isToDownload) {
+            const filesPromises = files
+                .filter((_, i) => +index === -1 || i === index)
+                .map(async ({ index: i }) => {
+                    const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                    try {
+                        await this.nevermined.utils.fetch.downloadFile(
+                            consumeUrl,
+                            destination,
+                            i,
+                            headers
+                        )
+                    } catch (e) {
+                        throw new NeverminedNodeError(`Error consuming assets - ${e}`)
+                    }
+                })
+
+            await Promise.all(filesPromises)
+
+            this.logger.log('Files consumed')
+
+            if (destination) {
+                return destination
+            }
+            return 'success'
+        }
+
+        return Promise.all(
+            files
+                .filter((_, i) => +index === -1 || i === index)
+                .map(async ({ index: i }) => {
+                    const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                    try {
+                        return this.nevermined.utils.fetch.getFile(consumeUrl, i, headers)
+                    } catch (e) {
+                        throw new NeverminedNodeError(`Error consuming assets - ${e}`)
+                    }
+                })
+        )
     }
 
     public async execute(
         agreementId: string,
-        computeDid: string,
         workflowDid: string,
         account: Account
     ): Promise<any> {
@@ -241,9 +284,14 @@ export class Gateway extends Instantiable {
                 Authorization: 'Bearer ' + accessToken
             }
 
+            const payload = {
+                workflowDid: workflowDid,
+                consumer: account.getId()
+            }
+
             const response = await this.nevermined.utils.fetch.post(
                 this.getExecuteEndpoint(noZeroX(agreementId)),
-                undefined,
+                JSON.stringify(payload),
                 headers
             )
             if (!response.ok) {
@@ -254,49 +302,8 @@ export class Gateway extends Instantiable {
             }
             return await response.json()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
-    }
-
-    public async downloadService(
-        did: string,
-        account: Account,
-        files: MetaDataFile[],
-        destination: string,
-        index = -1
-    ): Promise<string> {
-        const { jwt } = this.nevermined.utils
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(account.getId(), did)
-
-        if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateDownloadGrantToken(account, did)
-            accessToken = await this.fetchToken(grantToken)
-            jwt.tokenCache.set(cacheKey, accessToken)
-        } else {
-            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-        }
-        const headers = {
-            Authorization: 'Bearer ' + accessToken
-        }
-
-        const filesPromises = files
-            .filter((_, i) => +index === -1 || i === index)
-            .map(async ({ index: i }) => {
-                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
-                try {
-                    await this.nevermined.utils.fetch.downloadFile(
-                        consumeUrl,
-                        destination,
-                        i,
-                        headers
-                    )
-                } catch (e) {
-                    throw new GatewayError(`Error consuming assets - ${e}`)
-                }
-            })
-        await Promise.all(filesPromises)
-        return destination
     }
 
     public async computeLogs(
@@ -325,7 +332,7 @@ export class Gateway extends Instantiable {
             }
 
             const response = await this.nevermined.utils.fetch.get(
-                this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                this.getComputeLogsEndpoint(noZeroX(executionId)),
                 headers
             )
 
@@ -337,7 +344,7 @@ export class Gateway extends Instantiable {
             }
             return await response.text()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -367,7 +374,7 @@ export class Gateway extends Instantiable {
             }
 
             const response = await this.nevermined.utils.fetch.get(
-                this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                this.getComputeStatusEndpoint(noZeroX(executionId)),
                 headers
             )
 
@@ -379,7 +386,7 @@ export class Gateway extends Instantiable {
             }
             return await response.text()
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 
@@ -409,7 +416,7 @@ export class Gateway extends Instantiable {
             }
             return true
         } catch (e) {
-            throw new GatewayError(e)
+            throw new NeverminedNodeError(e)
         }
     }
 

@@ -12,6 +12,8 @@ import { zeroX } from '../../src/utils'
 import { ethers } from 'ethers'
 import Nft721 from '../../src/keeper/contracts/Nft721'
 import BigNumber from '../../src/utils/BigNumber'
+import '../globals'
+import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
 
 describe('NFTs721 Api End-to-End', () => {
     let artist: Account
@@ -188,9 +190,22 @@ describe('NFTs721 Api End-to-End', () => {
     })
 
     describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
-        it('The collector access the files', async () => {
+        it('The collector access the files to download', async () => {
             const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
+        })
+
+        it('The collector access the files object', async () => {
+            const result = (await nevermined.nfts.access(
+                ddo.id,
+                collector1,
+                undefined,
+                undefined,
+                undefined,
+                false
+            )) as WebApiFile[]
+
+            assert.equal(result[0].name, 'ddo-example.json')
         })
     })
 })

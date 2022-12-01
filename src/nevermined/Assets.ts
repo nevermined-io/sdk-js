@@ -134,13 +134,13 @@ export class Assets extends Instantiable {
         predefinedAssetServices: Service[] = [],
         nftAttributes?: NFTAttributes,
         erc20TokenAddress?: string,
-        providers: string[] = [this.config.gatewayAddress],
+        providers: string[] = [this.config.neverminedNodeAddress],
         appId?: string,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
         return new SubscribablePromise(async observer => {
-            const { gatewayUri } = this.config
+            const { neverminedNodeUri: neverminedNodeUri } = this.config
             const { didRegistry } = this.nevermined.keeper
             assetRewards = assetRewards || new AssetRewards()
             erc20TokenAddress = erc20TokenAddress || this.nevermined.token.getAddress()
@@ -154,14 +154,18 @@ export class Assets extends Instantiable {
 
             let publicKey
             if (encryptionMethod === 'PSK-ECDSA') {
-                publicKey = this.nevermined.gateway.getEcdsaPublicKey()
+                publicKey = this.nevermined.node.getEcdsaPublicKey()
             } else {
-                publicKey = await this.nevermined.gateway.getRsaPublicKey()
+                publicKey = await this.nevermined.node.getRsaPublicKey()
             }
 
             this.logger.debug('Adding Authorization Service')
             await ddo.addService(
-                this.createAuthorizationService(gatewayUri, publicKey, encryptionMethod)
+                this.createAuthorizationService(
+                    neverminedNodeUri,
+                    publicKey,
+                    encryptionMethod
+                )
             )
 
             this.logger.debug('Adding Metadata Service')
@@ -226,7 +230,7 @@ export class Assets extends Instantiable {
 
             let encryptedFiles
             if (!['workflow'].includes(metadata.main.type)) {
-                const encryptedFilesResponse = await this.nevermined.gateway.encrypt(
+                const encryptedFilesResponse = await this.nevermined.node.encrypt(
                     ddo.id,
                     JSON.stringify(metadata.main.files),
                     new String(encryptionMethod)
@@ -274,7 +278,7 @@ export class Assets extends Instantiable {
                     await didRegistry.registerMintableDID721(
                         didSeed,
                         ddo.checksum(ddo.shortId()),
-                        providers || [this.config.gatewayAddress],
+                        providers || [this.config.neverminedNodeAddress],
                         serviceEndpoint,
                         '0x1',
                         nftAttributes.nftMetadataUrl,
@@ -287,7 +291,7 @@ export class Assets extends Instantiable {
                     await didRegistry.registerMintableDID(
                         didSeed,
                         ddo.checksum(ddo.shortId()),
-                        providers || [this.config.gatewayAddress],
+                        providers || [this.config.neverminedNodeAddress],
                         serviceEndpoint,
                         '0x1',
                         nftAttributes.nftMetadataUrl,
@@ -320,7 +324,7 @@ export class Assets extends Instantiable {
                 await didRegistry.registerAttribute(
                     didSeed,
                     ddo.checksum(ddo.shortId()),
-                    providers || [this.config.gatewayAddress],
+                    providers || [this.config.neverminedNodeAddress],
                     serviceEndpoint,
                     publisher.getId(),
                     txParams
@@ -624,7 +628,7 @@ export class Assets extends Instantiable {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
-        await this.nevermined.gateway.consumeService(
+        await this.nevermined.node.consumeService(
             did,
             agreementId,
             serviceEndpoint,
@@ -643,7 +647,7 @@ export class Assets extends Instantiable {
 
     /**
      * Start the purchase/order of an asset's service. Starts by signing the service agreement
-     * then sends the request to the publisher via the service endpoint (Gateway http service).
+     * then sends the request to the publisher via the service endpoint (Node http service).
      * @param did - Decentralized ID.
      * @param serviceType - Service.
      * @param consumer - Consumer account.
@@ -691,14 +695,12 @@ export class Assets extends Instantiable {
      */
     public async execute(
         agreementId: string,
-        computeDid: string,
         workflowDid: string,
         consumer: Account
     ): Promise<string> {
-        const { gateway } = this.nevermined
+        const { node } = this.nevermined
 
-        return (await gateway.execute(agreementId, computeDid, workflowDid, consumer))
-            .workflowId
+        return (await node.execute(agreementId, workflowDid, consumer)).workflowId
     }
 
     /**
@@ -882,17 +884,31 @@ export class Assets extends Instantiable {
         return this.nevermined.metadata.delete(did)
     }
 
+    /**
+     * Download the asset
+     *
+     * @param did - The Decentralized Identifier of the asset.
+     * @param ownerAccount - The receiver account owner
+     * @param resultPath - Path to be the files downloader
+     * @param fileIndex - the index of the file
+     * @param isToDownload - If the NFT is for downloading
+     * @param serviceType - service type. 'access' by default
+     *
+     * @return status, path destination if resultPath is provided or file object if isToDownload is false
+     */
     public async download(
         did: string,
         ownerAccount: Account,
         resultPath?: string,
-        fileIndex = -1
-    ): Promise<string> {
+        fileIndex = -1,
+        isToDownload = true,
+        serviceType: ServiceType = 'access'
+    ) {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
         const { files } = attributes.main
 
-        const { serviceEndpoint, index } = ddo.findServiceByType('access')
+        const { serviceEndpoint, index } = ddo.findServiceByType(serviceType)
 
         if (!serviceEndpoint) {
             throw new AssetError(
@@ -906,20 +922,20 @@ export class Assets extends Instantiable {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
-        await this.nevermined.gateway.downloadService(
-            did,
-            ownerAccount,
+        const accessToken = await this.nevermined.utils.jwt.getDownloadGrantToken(
+            ddo.id,
+            ownerAccount
+        )
+        const headers = {
+            Authorization: 'Bearer ' + accessToken
+        }
+        return this.nevermined.node.downloadService(
             files,
             resultPath,
-            fileIndex
+            fileIndex,
+            isToDownload,
+            headers
         )
-
-        this.logger.log('Files consumed')
-
-        if (resultPath) {
-            return resultPath
-        }
-        return 'success'
     }
 
     public async delegatePermissions(
@@ -955,11 +971,7 @@ export class Assets extends Instantiable {
     }
 
     public async computeLogs(agreementId: string, executionId: string, account: Account) {
-        return await this.nevermined.gateway.computeLogs(
-            agreementId,
-            executionId,
-            account
-        )
+        return await this.nevermined.node.computeLogs(agreementId, executionId, account)
     }
 
     public async computeStatus(
@@ -967,22 +979,18 @@ export class Assets extends Instantiable {
         executionId: string,
         account: Account
     ) {
-        return await this.nevermined.gateway.computeStatus(
-            agreementId,
-            executionId,
-            account
-        )
+        return await this.nevermined.node.computeStatus(agreementId, executionId, account)
     }
 
     private createAuthorizationService(
-        gatewayUri: string,
+        neverminedNodeUri: string,
         publicKey: string,
         method: string
     ) {
         return {
             type: 'authorization',
             index: 2,
-            serviceEndpoint: gatewayUri,
+            serviceEndpoint: neverminedNodeUri,
             attributes: {
                 main: {
                     publicKey: publicKey,
