@@ -10,9 +10,11 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/Assets'
-import { Wallet } from 'ethers'
+import { ethers, Wallet } from 'ethers'
 import { MetaTxParameters } from '../../src/keeper/contracts/ContractBase'
 import fs from 'fs'
+import { RelayProvider } from '@opengsn/provider'
+import { Web3ProviderWrapper } from '../../src/keeper/utils'
 
 describe('MetaTx test with nfts', () => {
     let nevermined: Nevermined
@@ -86,9 +88,19 @@ describe('MetaTx test with nfts', () => {
                 BigNumber.from(2)
             )
 
+            const config = await {
+                paymasterAddress: paymasterAddress,
+                auditorsCount: 0,
+                preferredRelays: ['http://localhost:2345'],
+            }
+            const gsnProvider = RelayProvider.newProvider({ provider: new Web3ProviderWrapper(nevermined.web3), config })
+            await gsnProvider.init()
+            gsnProvider.addAccount(wallet.privateKey)
+            const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
+            const signer = etherProvider.getSigner(wallet.address)
+
             const meta: MetaTxParameters = {
-                wallet,
-                paymasterAddress
+                signer,
             }
             await nevermined.keeper.didRegistry.burn(ddo.id, BigNumber.from(2), await wallet.getAddress(), {meta})
             assert.deepEqual(

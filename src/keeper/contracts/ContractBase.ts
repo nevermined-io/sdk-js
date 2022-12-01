@@ -1,4 +1,4 @@
-import { RelayProvider } from '@opengsn/provider'
+// import { RelayProvider } from '@opengsn/provider'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import ContractHandler from '../ContractHandler'
 
@@ -10,8 +10,11 @@ import { ContractReceipt, ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 
 export interface MetaTxParameters {
+    /*
     paymasterAddress: string
     wallet: ethers.Wallet
+    */
+    signer: ethers.Signer
 }
 
 export interface TxParameters {
@@ -24,32 +27,6 @@ export interface TxParameters {
     meta?: MetaTxParameters
     nonce?: number
     progress?: (data: any) => void
-}
-
-// Wrapper for implementing web3 provider. Needed for OpenGSN
-export interface JsonRpcPayload {
-    jsonrpc: string;
-    method: string;
-    params: any[];
-    id?: string | number;
-}
-
-export interface JsonRpcResponse {
-    jsonrpc: string;
-    id: number;
-    result?: any;
-    error?: string;
-}
-
-class Web3ProviderWrapper {
-    provider: ethers.providers.JsonRpcProvider
-    constructor(provider: ethers.providers.JsonRpcProvider) {
-        this.provider = provider
-    }
-    send(payload: JsonRpcPayload, callback: (error: Error | null, result?: JsonRpcResponse) => void): void {
-        const id = typeof payload.id === 'string' ? parseInt(payload.id) : payload.id
-        this.provider.send(payload.method, payload.params).then(result => callback(null, {jsonrpc: payload.jsonrpc, id, result}))
-    }
 }
 
 export abstract class ContractBase extends Instantiable {
@@ -210,19 +187,9 @@ export abstract class ContractBase extends Instantiable {
         params: TxParameters = {}
     ): Promise<ContractReceipt> {
         if (params.meta) {
-            const { paymasterAddress, wallet } = params.meta
-            const config = await {
-                paymasterAddress: paymasterAddress,
-                auditorsCount: 0,
-                preferredRelays: ['http://localhost:2345'],
-            }
-            params.meta = undefined
-            const gsnProvider = RelayProvider.newProvider({ provider: new Web3ProviderWrapper(this.web3), config })
-            await gsnProvider.init()
-            gsnProvider.addAccount(wallet.privateKey)
-            const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
-            const contract = this.contract.connect(etherProvider.getSigner(wallet.address))
-            return await this.internalSend(name, from, args, params, params, contract)
+            const paramsFixed = {...params, meta: undefined}
+            const contract = this.contract.connect(params.meta.signer)
+            return await this.internalSend(name, from, args, paramsFixed, paramsFixed, contract)
         }
 
         const methodSignature = this.getSignatureOfMethod(name, args)
