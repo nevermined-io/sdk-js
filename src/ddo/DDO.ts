@@ -196,6 +196,10 @@ export class DDO {
         this.service.push(service)
     }
 
+    public async replaceService(index: number, service: any): Promise<void> {
+        this.service[index] = service
+    }
+
     public async addDefaultMetadataService(
         metadata: MetaData,
         nftAttributes?: NFTAttributes

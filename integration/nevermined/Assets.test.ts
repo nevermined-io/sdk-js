@@ -3,7 +3,7 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
-import { Nevermined, Account, MetaData } from '../../src'
+import { Nevermined, Account, MetaData, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
@@ -14,7 +14,7 @@ let publisher: Account
 let metadata: MetaData
 let assetRewards: AssetRewards
 let payload: JWTPayload
-let ddo
+let ddo: DDO
 
 describe('Assets', () => {
     before(async () => {
@@ -52,7 +52,7 @@ describe('Assets', () => {
                 '',
                 PublishMetadata.IPFS
             )
-
+            
             assert.isDefined(ddo)
             assert.equal(ddo._nvm.versions.length, 1)
             assert.isTrue(ddo._nvm.versions[0].immutableUrl.startsWith('cid://'))
@@ -60,9 +60,6 @@ describe('Assets', () => {
             assert.equal(ddo._nvm.versions[0].immutableBackend, 'ipfs')
         })
 
-        it.skip('update on-chain metadata reference', async () => {
-            console.log()
-        })
     })
 
     describe('#resolve()', () => {        
@@ -83,6 +80,30 @@ describe('Assets', () => {
             assert.isDefined(resolvedDDO)
             assert.equal(resolvedDDO._nvm.versions.length, 1)
         })        
+    })
+
+
+    describe('#update()', () => {        
+        it('update an existing asset', async () => {
+            const nonce = Math.random()
+            const name = `Updated Metadata Test ${nonce}`
+            const updatedMetadata = getMetadata(nonce, name)
+
+            console.log(`Updating DID: ${ddo.shortId()}`)
+            await nevermined.assets.update(ddo.shortId(), updatedMetadata, publisher, PublishMetadata.IPFS)
+
+            console.log(`Waiting to metadata to be updated and propagated`)
+            await sleep(3000)
+
+            const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
+            assert.isDefined(resolvedDDO)
+            assert.equal(updatedMetadata.main.name, resolvedDDO.findServiceByType('metadata').attributes.main.name)
+
+            const metaApiDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.OnlyMetadataAPI)
+            assert.isDefined(metaApiDDO)
+            assert.equal(updatedMetadata.main.name, metaApiDDO.findServiceByType('metadata').attributes.main.name)
+
+        })     
     })
 
     describe('#query()', () => {

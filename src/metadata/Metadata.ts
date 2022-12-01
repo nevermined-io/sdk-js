@@ -135,7 +135,11 @@ export class Metadata extends MarketplaceApi {
         did = did && DID.parse(did)
         const fullUrl = `${this.url}${apiPath}/${did.getDid()}`
         const result: DDO = await this.nevermined.utils.fetch
-            .put(fullUrl, DDO.serialize(ddo))
+            .put(fullUrl, DDO.serialize(ddo),
+            {
+                Authorization: `Bearer ${this.config.marketplaceAuthToken}`
+            }
+            )
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()

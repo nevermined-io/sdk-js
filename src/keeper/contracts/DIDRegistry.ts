@@ -393,7 +393,7 @@ export default class DIDRegistry extends ContractBase {
         immutableUrl: string
      }> {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
-        if (registeredValues[0] === '')
+        if (registeredValues[4] < 1) // If not valid `blockNumberUpdated` is because the asset doesn't exist on-chain
             throw new AssetError(`Asset with DID ${did} not found on-chain`)
         return {
             did,

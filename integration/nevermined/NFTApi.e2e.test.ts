@@ -128,9 +128,6 @@ describe('NFTs Api End-to-End', () => {
             const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-            console.log(`Order DID ${ddo.id}`)
-            const ddoResolved = await nevermined.assets.resolve(ddo.id)
-            console.log(`Asset resolved ${JSON.stringify(ddoResolved)}`)
 
             agreementId = await nevermined.nfts.order(ddo.id, numberNFTs, collector1)
             assert.isDefined(agreementId)
