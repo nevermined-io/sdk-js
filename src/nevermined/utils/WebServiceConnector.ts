@@ -177,6 +177,7 @@ export class WebServiceConnector extends Instantiable {
         data: ReadStream,
         encrypt?: boolean
     ): Promise<any> {
+        console.log(`Trying to upload file`)
         const form = new FormData()
         form.append('file', data)
         if (encrypt) {

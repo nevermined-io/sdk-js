@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined } from '../../src'
-import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
+import { EscrowPaymentCondition, TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
@@ -27,6 +27,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let nevermined: Nevermined
     let token: Token
     let escrowPaymentCondition: EscrowPaymentCondition
+    let transferNft721Condition: TransferNFT721Condition
     let subscriptionDDO: DDO
     let assetDDO: DDO
 
@@ -75,7 +76,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         neverminedNodeAddress = await nevermined.node.getProviderAddress()
 
         // conditions
-        ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
+        ;({ escrowPaymentCondition, transferNft721Condition } = nevermined.keeper.conditions)
 
         // components
         ;({ token } = nevermined.keeper)
@@ -121,6 +122,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 (nevermined.keeper as any).instanceConfig,
                 nft.address
             )
+            subscriptionNFT.addMinter(transferNft721Condition.address, editor)
+
             subscriptionDDO = await nevermined.assets.createNft721(
                 subscriptionMetadata,
                 editor,

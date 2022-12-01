@@ -11,9 +11,11 @@ import { Token } from '../../src/nevermined/Token'
 import { ethers } from 'ethers'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
+import { TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
+    let transferNft721Condition: TransferNFT721Condition
 
     let nft: ethers.Contract
     let nftContract: Nft721Contract
@@ -29,7 +31,7 @@ describe('Nfts721 operations', async () => {
         TestContractHandler.setConfig(config)
 
         // deploy a nft contract we can use
-        nft = await TestContractHandler.deployArtifact(ERC721)
+        nft = await TestContractHandler.deployArtifact(ERC721)        
         nevermined = await Nevermined.getInstance(config)
         nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
@@ -39,6 +41,11 @@ describe('Nfts721 operations', async () => {
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
+
+        ;({ transferNft721Condition } = nevermined.keeper.conditions)
+
+        const nftOwner = new Account(await nftContract.owner() as string)
+        nftContract.setProxyApproval(transferNft721Condition.address, true, nftOwner)
 
         await nevermined.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)

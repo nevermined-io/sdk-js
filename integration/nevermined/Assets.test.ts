@@ -89,10 +89,9 @@ describe('Assets', () => {
             const name = `Updated Metadata Test ${nonce}`
             const updatedMetadata = getMetadata(nonce, name)
 
-            console.log(`Updating DID: ${ddo.shortId()}`)
             await nevermined.assets.update(ddo.shortId(), updatedMetadata, publisher, PublishMetadata.IPFS)
 
-            console.log(`Waiting to metadata to be updated and propagated`)
+            // Waiting to metadata to be updated and propagated
             await sleep(3000)
 
             const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)

@@ -462,6 +462,7 @@ export class NeverminedNode extends Instantiable {
     public async uploadContent(data: ReadStream | string, encrypt?: boolean, backend: NodeUploadBackends = NodeUploadBackends.Filecoin): Promise<any> {
         let response        
         const uploadEndpoint = backend === NodeUploadBackends.Filecoin ? this.getUploadFilecoinEndpoint() : this.getUploadIPFSEndpoint()
+        console.log(`Type of: ${typeof data}`)
         if (typeof data === 'string')
             response = await this.nevermined.utils.fetch.uploadMessage(
                 uploadEndpoint,
