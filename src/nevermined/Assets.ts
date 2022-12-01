@@ -32,6 +32,7 @@ import BigNumber from '../utils/BigNumber'
 import { ServiceAaveCredit } from '../keeper/contracts/defi/Service'
 import { NvmConfigVersions } from '../ddo/NvmConfig'
 import { SignatureUtils } from './utils/SignatureUtils'
+import { NodeUploadBackends } from '../node/NeverminedNode'
 
 export enum CreateProgressStep {
     ServicesAdded,
@@ -74,6 +75,13 @@ export enum PublishMetadata {
     IPFS,
     Filecoin,
     Arweave
+}
+
+export enum DIDResolvePolicy {
+    ImmutableFirst,
+    MetadataAPIFirst,
+    OnlyImmutable,
+    OnlyMetadataAPI
 }
 
 export interface RoyaltyAttributes {
@@ -127,15 +135,61 @@ export class Assets extends Instantiable {
     }
 
     /**
-     * Returns a DDO by DID.
+     * Returns a DDO by DID. Depending of the resolution policy it prioritize the Metadata API or Immutable urls.
      * @param did - Decentralized ID.
+     * @param policy - It specifies the resolve policy to apply. It allows to select that priorities during the asset resolution via Metadata API or Immutable URLs (IPFS, Filecoin, etc)
      * @returns {@link DDO}
      */
-    public async resolve(did: string): Promise<DDO> {
-        const { serviceEndpoint } =
+    public async resolve(did: string, policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst): Promise<DDO> {
+        const { serviceEndpoint, immutableUrl } =
             await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
-        return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+
+        const immutableUrlValid = immutableUrl && immutableUrl.length > 10
+
+        if (policy === DIDResolvePolicy.ImmutableFirst && !immutableUrlValid)
+            policy = DIDResolvePolicy.OnlyMetadataAPI
+
+        if (policy === DIDResolvePolicy.OnlyMetadataAPI) {
+            return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+
+        } else if (policy === DIDResolvePolicy.OnlyImmutable && immutableUrlValid) {
+            return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+
+        } else if (policy === DIDResolvePolicy.MetadataAPIFirst)    {
+            try {
+                return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+            } catch (error) {
+                if (immutableUrlValid)
+                    return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+                throw new AssetError(`Metadata of asset with did ${did} not found`)
+            }
+
+        } else if (policy === DIDResolvePolicy.ImmutableFirst)    {
+            try {
+                return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+            } catch (error) {
+                return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+            }
+        }
+            
+        throw new AssetError(`Metadata of asset with did ${did} not found`)        
+        
+        // if (policy === DIDResolvePolicy.OnlyImmutable)   {
+        //     console.log(`Fetch asset from IPFS/Filecoin`)
+        //     return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+
+        // }   else { // ImmutableFirst or MetadataAPIFirst but not in Metadata API
+        //     try {
+        //         return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+        //     } catch (error) {                
+        //         this.logger.debug(`DID not found on immutable data store, will try in the Metadata API`)
+        //         if (policy === DIDResolvePolicy.MetadataAPIFirst)
+        //             throw new AssetError(`Metadata of asset with did ${did} not found`)
+        //     }
+        //     return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)           
+        // }        
     }
+
 
     public registerAsset(
         metadata: MetaData,
@@ -285,21 +339,36 @@ export class Assets extends Instantiable {
                 checksum: ddo.checksum(ddo.shortId()),
                 immutableUrl: ''
             }
+            ddo._nvm.versions.push(ddoVersion)
 
             if (publishMetadata != PublishMetadata.JustMarketplaceAPI) {
                 observer.next(CreateProgressStep.DdoStoredImmutable)
                 if (publishMetadata === PublishMetadata.Filecoin) {
                     this.logger.log('Publishing metadata to Filecoin')                    
-                    ;({ url: ddoVersion.immutableUrl } = await this.nevermined.node.uploadFilecoin(DDO.serialize(ddo), false))
+                    ;({ url: ddoVersion.immutableUrl } = await this.nevermined.node.uploadContent(
+                        JSON.stringify(ddo), 
+                        false, 
+                        NodeUploadBackends.Filecoin
+                        ))
                     ddoVersion.immutableBackend = 'filecoin'
+                    
                 } else if (publishMetadata === PublishMetadata.IPFS) {
-                    this.logger.error('Publishing metadata to IPFS not supported')
+                    this.logger.log('Publishing metadata to IPFS')                    
+                    ;({ url: ddoVersion.immutableUrl } = await this.nevermined.node.uploadContent(
+                        JSON.stringify(ddo), 
+                        false, 
+                        NodeUploadBackends.IPFS
+                        ))
+                    ddoVersion.immutableBackend = 'ipfs'
+
                 } else {
                     this.logger.error('Metadata publishing method not supported: ', publishMetadata)
-                }                
+                }   
+                this.logger.log(`File uploaded to (${ddoVersion.immutableBackend}): ${ddoVersion.immutableUrl}`)             
             }
 
-            ddo._nvm.versions.push(ddoVersion)
+            if (ddoVersion.immutableBackend)
+                ddo._nvm.versions[0] = ddoVersion
 
             observer.next(CreateProgressStep.RegisteringDid)
 
@@ -382,6 +451,15 @@ export class Assets extends Instantiable {
             return storedDdo
         })
     }
+
+    // public update(
+    //     did: DID,
+    //     metadata: MetaData,
+    //     url: string,
+    //     immutableUrl: string,
+    //     txParams?: TxParameters
+    // ): SubscribablePromise<CreateProgressStep, DDO> {
+    // }
 
     public createMintable(
         metadata: MetaData,

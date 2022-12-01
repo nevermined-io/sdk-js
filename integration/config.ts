@@ -6,6 +6,10 @@ LoggerInstance.setLevel(LogLevel.Error)
 const nograph = process.env['NO_GRAPH'] === 'true'
 const infuraToken = process.env['INFURA_TOKEN']
 
+const ipfsGateway = process.env['IPFS_GATEWAY'] || 'https://ipfs.io'
+const ipfsProjectId = process.env['IPFS_PROJECT_ID']
+const ipfsProjectSecret = process.env['IPFS_PROJECT_SECRET']
+
 const configBase: Config = {
     web3ProviderUri: 'http://localhost:8545',
     marketplaceUri: 'http://172.17.0.1:3100',
@@ -19,6 +23,9 @@ const configBase: Config = {
         : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
     gasMultiplier: 1.1,
     newGateway: !(process.env.OLD_GATEWAY === 'true') || true,
+    ipfsGateway,
+    ipfsProjectId,
+    ipfsProjectSecret,
     verbose: LogLevel.Error
 }
 

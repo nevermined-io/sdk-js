@@ -69,5 +69,5 @@ export interface NvmConfigVersions {
     /**
      * The immutable solution to record the DDO
      */
-     immutableBackend?: 'filecoin' | 'ifps' | 'arweave' | 'other'
+     immutableBackend?: 'filecoin' | 'ipfs' | 'arweave' | 'other'
 }

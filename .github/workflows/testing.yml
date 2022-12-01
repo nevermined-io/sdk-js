@@ -63,6 +63,9 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+          IPFS_GATEWAY: https://ipfs.infura.io:5001
+          IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
+          IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           OLD_GATEWAY: false
         run: |
           export ${{ matrix.delay }}=true

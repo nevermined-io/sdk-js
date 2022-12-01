@@ -138,13 +138,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             )
             assert.isDefined(subscriptionDDO)
 
-            // INFO: We allow transferNFT condition to mint NFTs
-            // Typically this only needs to happen once per NFT contract
-            await subscriptionNFT.addMinter(
-                nevermined.keeper.conditions.transferNft721Condition.address,
-                editor.getId()
-            )
-
             // INFO: We allow the Node to fulfill the transfer condition in behalf of the user
             // Typically this only needs to happen once per NFT contract
             await subscriptionNFT.setApprovalForAll(neverminedNodeAddress, true, editor.getId())

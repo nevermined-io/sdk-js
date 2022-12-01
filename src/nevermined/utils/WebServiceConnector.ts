@@ -6,8 +6,6 @@ import * as path from 'path'
 import fileDownload from 'js-file-download'
 import { HttpError } from '../../errors'
 import { URL } from 'whatwg-url'
-import { ReadableStreamBuffer } from 'stream-buffers'
-// import { Readable } from 'stream'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -161,41 +159,29 @@ export class WebServiceConnector extends Instantiable {
         return await response.text()
     }
 
-    public async uploadFile(
+    public async uploadMessage(
         url: string,
-        data: ReadStream | string,
+        data: string,
         encrypt?: boolean
     ): Promise<any> {
         const form = new FormData()
-        //form.append('file', data)
-        if (typeof data === 'string')   {
-            // const stream = createReadStream(data).pipe(process.stdout)
-            // form.append('file', stream)
-
-            const stream = new ReadableStreamBuffer({
-                frequency: 10,      // in milliseconds.
-                chunkSize: 2048     // in bytes.
-              })
-            stream.put(data, "utf8")
-
-            // const stream = new Readable()
-            // // eslint-disable-next-line @typescript-eslint/no-empty-function
-            // stream._read = () => {} // _read is required but you can noop it
-            // stream.push('hi there')
-            // stream.push(null)
-            form.append('file', stream)
-        } else {
-            form.append('file', data)
-        }
-
-        // typeof data === 'string' ? form.append('file', new Blob([JSON.stringify(data, null, 2)], {
-        //     type: "application/json",
-        //   })) : form.append('file', data)
-
+        form.append('message', data)
         if (encrypt) {
             form.append('encrypt', 'true')
         }
-        //console.log(JSON.stringify(form))
+        return this.fetch(url, { method: 'POST', body: form })        
+    }
+
+    public async uploadFile(
+        url: string,
+        data: ReadStream,
+        encrypt?: boolean
+    ): Promise<any> {
+        const form = new FormData()
+        form.append('file', data)
+        if (encrypt) {
+            form.append('encrypt', 'true')
+        }
         return this.fetch(url, { method: 'POST', body: form })
     }
 
@@ -219,6 +205,40 @@ export class WebServiceConnector extends Instantiable {
         )
     }
 
+    public async fetchCID(cid: string): Promise<string> {
+        
+        const url = this.config.ipfsGateway + '/api/v0/cat?arg=' + cid.replace('cid://', '')
+        const authToken = WebServiceConnector.getIPFSAuthToken()
+        const options = {
+            method: 'POST',
+            ...(authToken && {
+            headers: { Authorization: `Basic ${authToken}` }
+            })
+        }
+
+        return fetch(url, options)
+            .then(async (res) => {
+                if (!res.ok) {
+                    throw new Error(
+                    `${res.status}: ${res.statusText} - ${await res.text()}`
+                    )
+                }
+                return res.text()
+            }).catch((err) => {
+                throw err
+            })
+    }
+
+    private static getIPFSAuthToken(): string | undefined {
+        if (!process.env.IPFS_PROJECT_ID || !process.env.IPFS_PROJECT_SECRET) {          
+            return undefined
+        } else {
+            return Buffer.from(
+                `${process.env.IPFS_PROJECT_ID}:${process.env.IPFS_PROJECT_SECRET}`
+            ).toString('base64')
+        }
+    }
+
     private async fetch(
         url: string | URL,
         opts: RequestInit,
@@ -226,8 +246,7 @@ export class WebServiceConnector extends Instantiable {
     ): Promise<Response> {
         let counterTries = 1
         let result: Response
-        while (counterTries <= numberTries) {
-            console.log(JSON.stringify(opts))
+        while (counterTries <= numberTries) {            
             result = await fetch(url, opts)
             if (result.ok) return result
 

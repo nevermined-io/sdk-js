@@ -1,4 +1,3 @@
-import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { abi } from './../../artifacts/NFT721SubscriptionUpgradeable.json'
 import { ethers } from 'ethers'

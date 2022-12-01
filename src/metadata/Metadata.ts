@@ -193,11 +193,17 @@ export class Metadata extends MarketplaceApi {
      * @returns DDO of the asset.
      */
     public async retrieveDDO(
-        did: DID | string,
+        did: DID | string | undefined,
         metadataServiceEndpoint?: string
     ): Promise<DDO> {
-        did = did && DID.parse(did)
-        const fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
+        let fullUrl:string
+        if (did)    {
+            did = did && DID.parse(did)
+            fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
+        }   else {
+            fullUrl = metadataServiceEndpoint
+        }
+            
         const result = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
@@ -218,6 +224,18 @@ export class Metadata extends MarketplaceApi {
             })
 
         return result
+    }
+
+    public async retrieveDDOFromExternalBackend(immutableUrl: string): Promise<DDO> {
+        if (immutableUrl.startsWith('cid://'))  {
+            return await this.nevermined.utils.fetch
+                .fetchCID(immutableUrl)
+                .then((response: string) => {
+                    return DDO.deserialize(response)
+                })
+        } else if (immutableUrl.startsWith('http')) {
+            return this.retrieveDDO(undefined, immutableUrl)
+        }  
     }
 
     public async delete(did: DID | string) {
