@@ -40,6 +40,7 @@ jobs:
           # TODO: Use `master` when the renaming is done
           git clone https://github.com/nevermined-io/tools
           cd tools
+          git checkout feat/opengsn-relay
 
           export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
           rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
