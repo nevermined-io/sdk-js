@@ -96,9 +96,11 @@ describe('NFTs Api End-to-End', () => {
                 metadata,
                 artist,
                 cappedAmount,
+                [config.neverminedNodeAddress],
                 royaltyAttributes,
                 assetRewards1
             )
+
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
@@ -249,6 +251,7 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('Ask the Node to transfer the nft and release the rewards', async () => {
+
             const result = await nevermined.nfts.transferForDelegate(
                 agreementId,
                 artist.getId(),
