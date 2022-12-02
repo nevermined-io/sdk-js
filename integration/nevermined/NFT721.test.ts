@@ -69,7 +69,7 @@ describe('Nfts721 operations', async () => {
         it('should clone an existing erc-721 nft contract', async () => {
             const cloneAddress = await nftContract.createClone('My New NFT', 'xyz', '', BigNumber.from(10), artist)
             assert.isDefined(cloneAddress)
-            console.log(`NFT (ERC-1155) clonned into address ${cloneAddress}`)
+            console.log(`NFT (ERC-721) clonned into address ${cloneAddress}`)
         })
 
         it('should mint an nft token', async () => {
