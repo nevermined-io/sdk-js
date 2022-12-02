@@ -170,7 +170,7 @@ export class Assets extends Instantiable {
             try {
                 return await this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
             } catch (error) {
-                this.logger.debug(`Unable to fetch DDO from immutable data store`)
+                this.logger.debug(`Unable to fetch DDO metadata api`)
             }
             return await this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
         }         
