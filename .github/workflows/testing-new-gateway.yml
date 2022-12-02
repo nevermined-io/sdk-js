@@ -95,7 +95,6 @@ jobs:
           IPFS_GATEWAY: https://ipfs.infura.io:5001
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
-          OLD_GATEWAY: false
           NO_GRAPH: true
         run: |
           yarn run integration:cover

@@ -62,7 +62,6 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-          OLD_GATEWAY: false
         run: |
           export ${{ matrix.delay }}=true
           npm run integration:cover

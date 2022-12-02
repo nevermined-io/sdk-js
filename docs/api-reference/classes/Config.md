@@ -24,7 +24,6 @@
 - [marketplaceAuthToken](Config.md#marketplaceauthtoken)
 - [marketplaceUri](Config.md#marketplaceuri)
 - [networkFee](Config.md#networkfee)
-- [newGateway](Config.md#newgateway)
 - [web3ProviderUri](Config.md#web3ProviderUri)
 - [threshold](Config.md#threshold)
 - [verbose](Config.md#verbose)
@@ -200,16 +199,6 @@ The fee charged by Nevermined for using the Service Agreements
 #### Defined in
 
 [src/models/Config.ts:85](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L85)
-
-___
-
-### newGateway
-
-• `Optional` **newGateway**: `boolean` = `true`
-
-#### Defined in
-
-[src/models/Config.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L80)
 
 ___
 

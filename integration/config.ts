@@ -22,7 +22,6 @@ const configBase: Config = {
         ? undefined
         : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
     gasMultiplier: 1.1,
-    newGateway: !(process.env.OLD_GATEWAY === 'true') || true,
     ipfsGateway,
     ipfsProjectId,
     ipfsProjectSecret,
