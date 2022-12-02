@@ -197,15 +197,17 @@ export class Metadata extends MarketplaceApi {
      * @returns DDO of the asset.
      */
     public async retrieveDDO(
-        did: DID | string | undefined,
+        did?: DID | string,
         metadataServiceEndpoint?: string
     ): Promise<DDO> {
         let fullUrl:string
         if (did)    {
             did = did && DID.parse(did)
             fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
-        }   else {
+        } else if (metadataServiceEndpoint) {
             fullUrl = metadataServiceEndpoint
+        }   else {
+            throw new ApiError(`A DID or metadataServiceEndpoint needs to be specified`)
         }
             
         const result = await this.nevermined.utils.fetch
@@ -230,7 +232,9 @@ export class Metadata extends MarketplaceApi {
         return result
     }
 
-    public async retrieveDDOFromExternalBackend(immutableUrl: string): Promise<DDO> {
+    public async retrieveDDOFromImmutableBackend(immutableUrl: string): Promise<DDO> {
+        if (!(immutableUrl && immutableUrl.length > 10))
+            throw new ApiError(`Invalid immutable url`)
         if (immutableUrl.startsWith('cid://'))  {
             return await this.nevermined.utils.fetch
                 .fetchCID(immutableUrl)

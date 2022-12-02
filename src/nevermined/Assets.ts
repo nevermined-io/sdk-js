@@ -30,7 +30,7 @@ import { EncryptionMethod, QueryResult } from '../metadata/Metadata'
 import { AccessService, NFTAccessService, NFTSalesService } from './AccessService'
 import BigNumber from '../utils/BigNumber'
 import { ServiceAaveCredit } from '../keeper/contracts/defi/Service'
-import { ImmutableBackendsSupported, NvmConfigVersions } from '../ddo/NvmConfig'
+import { ImmutableBackends, NvmConfigVersions } from '../ddo/NvmConfig'
 import { SignatureUtils } from './utils/SignatureUtils'
 import { NodeUploadBackends } from '../node/NeverminedNode'
 
@@ -82,7 +82,7 @@ export enum RoyaltyKind {
 }
 
 export enum PublishMetadata {
-    JustMarketplaceAPI,
+    OnlyMetadataAPI,
     IPFS,
     Filecoin,
     Arweave
@@ -155,35 +155,55 @@ export class Assets extends Instantiable {
         const { serviceEndpoint, immutableUrl } =
             await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
 
-        const immutableUrlValid = immutableUrl && immutableUrl.length > 10
-
-        if (policy === DIDResolvePolicy.ImmutableFirst && !immutableUrlValid)
-            policy = DIDResolvePolicy.OnlyMetadataAPI
-
-        if (policy === DIDResolvePolicy.OnlyMetadataAPI) {
+        if (policy === DIDResolvePolicy.OnlyImmutable)
+            return this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+        else if (policy === DIDResolvePolicy.OnlyMetadataAPI)
             return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
-
-        } else if (policy === DIDResolvePolicy.OnlyImmutable && immutableUrlValid) {
-            return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
-
-        } else if (policy === DIDResolvePolicy.MetadataAPIFirst)    {
+        else if (policy === DIDResolvePolicy.ImmutableFirst) {
+            try {
+                return this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+            } catch (error) {
+                this.logger.debug(`Unable to fetch DDO from immutable data store`)
+            }
+            return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+        } else { // DIDResolvePolicy.MetadataAPIFirst
             try {
                 return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
             } catch (error) {
-                if (immutableUrlValid)
-                    return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
-                throw new AssetError(`Metadata of asset with did ${did} not found`)
+                this.logger.debug(`Unable to fetch DDO from immutable data store`)
             }
-
-        } else if (policy === DIDResolvePolicy.ImmutableFirst)    {
-            try {
-                return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
-            } catch (error) {
-                return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
-            }
+            return this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
         }
+
+        
+
+        // if (policy === DIDResolvePolicy.ImmutableFirst && !immutableUrlValid)
+        //     policy = DIDResolvePolicy.OnlyMetadataAPI
+
+        // if (policy === DIDResolvePolicy.OnlyMetadataAPI) {
+        //     return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+
+        // } else if (policy === DIDResolvePolicy.OnlyImmutable && immutableUrlValid) {
+        //     return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+
+        // } else if (policy === DIDResolvePolicy.MetadataAPIFirst)    {
+        //     try {
+        //         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+        //     } catch (error) {
+        //         if (immutableUrlValid)
+        //             return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+        //         throw new AssetError(`Metadata of asset with did ${did} not found`)
+        //     }
+
+        // } else if (policy === DIDResolvePolicy.ImmutableFirst)    {
+        //     try {
+        //         return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
+        //     } catch (error) {
+        //         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+        //     }
+        // }
             
-        throw new AssetError(`Metadata of asset with did ${did} not found`)              
+        // throw new AssetError(`Metadata of asset with did ${did} not found`)              
     }
 
 
@@ -198,7 +218,7 @@ export class Assets extends Instantiable {
         erc20TokenAddress?: string,
         providers: string[] = [this.config.neverminedNodeAddress],
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
@@ -337,10 +357,15 @@ export class Assets extends Instantiable {
             }
             ddo._nvm.versions.push(ddoVersion)
 
-            if (publishMetadata != PublishMetadata.JustMarketplaceAPI) {
+            if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {
                 observer.next(CreateProgressStep.DdoStoredImmutable)
-                ;({url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } = 
-                    await this.publishImmutableContent(ddo, publishMetadata))
+                try {
+                    ({url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } = 
+                        await this.publishImmutableContent(ddo, publishMetadata))
+                } catch (error) {
+                    this.logger.log(`Unable to publish immutable content`)
+                }
+                
             }
 
             if (ddoVersion.immutableBackend)
@@ -432,7 +457,7 @@ export class Assets extends Instantiable {
         did: string,
         metadata: MetaData,
         publisher: Account,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<UpdateProgressStep, DDO> {
 
@@ -469,13 +494,16 @@ export class Assets extends Instantiable {
             }
             ddo._nvm.versions.push(ddoVersion)
 
-            if (publishMetadata != PublishMetadata.JustMarketplaceAPI) {
+            if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {
                 observer.next(UpdateProgressStep.StoringImmutableDDO)
-                ;({url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } = 
-                    await this.publishImmutableContent(ddo, publishMetadata))
-
-                if (ddoVersion.immutableBackend)
-                    ddo._nvm.versions[lastIndex+1] = ddoVersion                    
+                try {
+                    ({url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } = 
+                        await this.publishImmutableContent(ddo, publishMetadata))
+                    if (ddoVersion.immutableBackend)
+                        ddo._nvm.versions[lastIndex+1] = ddoVersion                    
+                } catch (error) {
+                    this.logger.log(`Unable to publish immutable content`)
+                }                            
             }
 
             observer.next(UpdateProgressStep.UpdatingAssetOnChain)            
@@ -502,7 +530,7 @@ export class Assets extends Instantiable {
     private async publishImmutableContent(
         ddo: DDO,
         publishMetadata: PublishMetadata = PublishMetadata.IPFS
-    ): Promise<{url: string, backend: ImmutableBackendsSupported}> {
+    ): Promise<{url: string, backend: ImmutableBackends}> {
         let url, backend = undefined
 
         if (publishMetadata === PublishMetadata.Filecoin) {
@@ -537,7 +565,7 @@ export class Assets extends Instantiable {
         providers?: string[],
         nftMetadata?: string,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.createNft(
@@ -577,7 +605,7 @@ export class Assets extends Instantiable {
         duration = 0,
         nftType: NeverminedNFT721Type = NeverminedNFT721Type.nft721,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes = NFTAttributes.getInstance({
@@ -625,7 +653,7 @@ export class Assets extends Instantiable {
         services: ServiceType[] = ['nft-access', 'nft-sales'],
         nftType: NeverminedNFT1155Type = NeverminedNFT1155Type.nft1155,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
@@ -671,7 +699,7 @@ export class Assets extends Instantiable {
         nftMetadata?: string,
         nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         const nftAttributes: NFTAttributes = {
@@ -731,7 +759,7 @@ export class Assets extends Instantiable {
         providers?: string[],
         erc20TokenAddress?: string,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerAsset(
@@ -756,7 +784,7 @@ export class Assets extends Instantiable {
         assetRewards: AssetRewards = new AssetRewards(),
         encryptionMethod: EncryptionMethod = 'PSK-RSA',
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return new SubscribablePromise(async () => {

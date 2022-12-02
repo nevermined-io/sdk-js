@@ -169,7 +169,7 @@ export class WebServiceConnector extends Instantiable {
         if (encrypt) {
             form.append('encrypt', 'true')
         }
-        return this.fetch(url, { method: 'POST', body: form })        
+        return this.fetch(url, { method: 'POST', body: form })    
     }
 
     public async uploadFile(
@@ -208,7 +208,7 @@ export class WebServiceConnector extends Instantiable {
 
     public async fetchCID(cid: string): Promise<string> {
         
-        const url = this.config.ipfsGateway + '/api/v0/cat?arg=' + cid.replace('cid://', '')
+        const url = `${this.config.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
         const authToken = WebServiceConnector.getIPFSAuthToken()
         const options = {
             method: 'POST',
@@ -217,17 +217,16 @@ export class WebServiceConnector extends Instantiable {
             })
         }
 
+
         return fetch(url, options)
-            .then(async (res) => {
-                if (!res.ok) {
-                    throw new Error(
-                    `${res.status}: ${res.statusText} - ${await res.text()}`
-                    )
-                }
-                return res.text()
-            }).catch((err) => {
-                throw err
-            })
+        .then(async (res) => {
+            if (!res.ok) {
+                throw new Error(
+                `${res.status}: ${res.statusText} - ${await res.text()}`
+                )
+            }
+            return res.text()
+        })
     }
 
     private static getIPFSAuthToken(): string | undefined {

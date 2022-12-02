@@ -72,7 +72,7 @@ export class Nfts extends Instantiable {
         preMint?: boolean,
         nftMetadata?: string,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft(
@@ -130,7 +130,7 @@ export class Nfts extends Instantiable {
         nftMetadata?: string,
         nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNftWithRoyalties(
@@ -185,7 +185,7 @@ export class Nfts extends Instantiable {
         nftTransfer = true,
         duration = 0,
         appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.JustMarketplaceAPI,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.nevermined.assets.createNft721(

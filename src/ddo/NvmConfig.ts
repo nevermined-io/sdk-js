@@ -44,11 +44,9 @@ export interface NvmConfig {
     versions: NvmConfigVersions[]
 }
 
-export enum ImmutableBackendsSupported {
+export enum ImmutableBackends {
   Filecoin = 'filecoin',
-  IPFS = 'ipfs',
-  Arweave = 'arweave',
-  Other = 'other'
+  IPFS = 'ipfs'
 }
 
 export interface NvmConfigVersions {
@@ -76,5 +74,5 @@ export interface NvmConfigVersions {
     /**
      * The immutable solution to record the DDO
      */
-     immutableBackend?: ImmutableBackendsSupported
+     immutableBackend?: ImmutableBackends
 }
