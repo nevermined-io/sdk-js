@@ -461,10 +461,10 @@ export class Assets extends Instantiable {
             const ddoVersion: NvmConfigVersions = {
                 id: lastIndex + 1,
                 updated: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
-                checksum: checksum,
-                immutableUrl: ''
+                checksum: checksum
             }
-            ddo._nvm.versions.push(ddoVersion)            
+            ddo._nvm.versions.push(ddoVersion)
+            ddo.updated = ddoVersion.updated           
 
             if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {
                 observer.next(UpdateProgressStep.StoringImmutableDDO)

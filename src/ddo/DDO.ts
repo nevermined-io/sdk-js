@@ -51,6 +51,8 @@ export class DDO {
 
     public created: string
 
+    public updated?: string
+
     public publicKey: PublicKey[] = []
 
     public authentication: Authentication[] = []

@@ -241,6 +241,12 @@ describe('NFTs Api End-to-End', () => {
 
             const balance = await nevermined.nfts.balance(ddo.id, artist)
             assert.deepEqual(balance, BigNumber.from(5))
+
+            await nevermined.nfts.setApprovalForAll(
+                config.neverminedNodeAddress,
+                true,
+                artist
+            )
         })
 
         it('The collector orders the nft', async () => {
