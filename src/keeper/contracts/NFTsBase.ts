@@ -19,7 +19,6 @@ export class NFTsBase extends ContractBase {
     /**
      * Creates a contract clone of an existing contract instance
      *
-     * @param implementationAddress - Smart Contract implementation address
      * @param name - NFT Contract name
      * @param symbol - NFT Contract symbol
      * @param uri - NFT Contract metadata uri
@@ -28,7 +27,6 @@ export class NFTsBase extends ContractBase {
      * @returns Contract Receipt
      */
      protected async _createClone(
-        implementationAddress: string,
         name: string,
         symbol: string,
         uri: string,
@@ -40,7 +38,7 @@ export class NFTsBase extends ContractBase {
             const contractReceipt: ContractReceipt = 
             await this.sendFrom(
                 'createClone',
-                cap ? [zeroX(implementationAddress), name, symbol, uri, String(cap)] : [zeroX(implementationAddress), name, symbol, uri],
+                cap ? [name, symbol, uri, String(cap)] : [name, symbol, uri],
                 from,
                 params
             )

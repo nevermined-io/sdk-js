@@ -866,6 +866,13 @@ export class Nfts extends Instantiable {
         )
     }
 
+    public async isApprovedForAll(
+        operatorAddress: string,
+        from: string
+    ) {
+        return this.nevermined.keeper.nftUpgradeable.isApprovedForAll(from, operatorAddress)
+    }
+
     /**
      * After purchase re-list an NFT to enable secondary market sales.
      *

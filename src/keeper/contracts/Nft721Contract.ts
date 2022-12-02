@@ -34,7 +34,6 @@ export default class Nft721Contract extends NFTsBase {
     /**
      * Creates a contract clone of an existing contract instance
      *
-     * @param implementationAddress - Smart Contract implementation address
      * @param name - NFT Contract name
      * @param symbol - NFT Contract symbol
      * @param uri - NFT Contract metadata uri
@@ -43,7 +42,6 @@ export default class Nft721Contract extends NFTsBase {
      * @returns Contract Receipt
      */
      public createClone(
-        implementationAddress: string,
         name: string,
         symbol: string,
         uri: string,
@@ -51,7 +49,7 @@ export default class Nft721Contract extends NFTsBase {
         from?: Account,
         params?: TxParameters
     ) {
-        return this._createClone(implementationAddress, name, symbol, uri, cap, from, params)
+        return this._createClone(name, symbol, uri, cap, from, params)
     }
 
     public async mint(did: string, from: string, params?: TxParameters) {

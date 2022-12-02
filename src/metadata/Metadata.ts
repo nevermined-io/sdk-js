@@ -196,7 +196,7 @@ export class Metadata extends MarketplaceApi {
      * @param did - DID of the asset.
      * @returns DDO of the asset.
      */
-    public async retrieveDDO(
+    private async retrieveDDO(
         did?: DID | string,
         metadataServiceEndpoint?: string
     ): Promise<DDO> {
@@ -234,7 +234,7 @@ export class Metadata extends MarketplaceApi {
 
     public async retrieveDDOFromImmutableBackend(immutableUrl: string): Promise<DDO> {
         if (!(immutableUrl && immutableUrl.length > 10))
-            throw new ApiError(`Invalid immutable url`)
+            throw new Error(`Invalid immutable url`)
         if (immutableUrl.startsWith('cid://'))  {
             return await this.nevermined.utils.fetch
                 .fetchCID(immutableUrl)
@@ -243,7 +243,9 @@ export class Metadata extends MarketplaceApi {
                 })
         } else if (immutableUrl.startsWith('http')) {
             return this.retrieveDDO(undefined, immutableUrl)
-        }  
+        } else {
+            throw new Error(`Invalid url`)
+        }
     }
 
     public async delete(did: DID | string) {

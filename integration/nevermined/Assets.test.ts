@@ -15,6 +15,7 @@ let metadata: MetaData
 let assetRewards: AssetRewards
 let payload: JWTPayload
 let ddo: DDO
+let ddoBefore: DDO
 
 describe('Assets', () => {
     before(async () => {
@@ -32,7 +33,7 @@ describe('Assets', () => {
 
         metadata = getMetadata()
         metadata.userId = payload.sub
-        await nevermined.assets.create(metadata, publisher, assetRewards)
+        ddoBefore = await nevermined.assets.create(metadata, publisher, assetRewards)
     })
 
     describe('#register()', () => {
@@ -62,7 +63,13 @@ describe('Assets', () => {
 
     })
 
-    describe('#resolve()', () => {        
+    describe('#resolve()', () => {      
+        it('resolve with immutable metadata first for a ddo without immutable url', async () => {
+            const resolvedDDO = await nevermined.assets.resolve(ddoBefore.id, DIDResolvePolicy.ImmutableFirst)
+            assert.isDefined(resolvedDDO)
+            assert.equal(resolvedDDO._nvm.versions.length, 1)
+        })
+
         it('resolve with immutable metadata', async () => {
             const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.OnlyImmutable)
             assert.isDefined(resolvedDDO)

@@ -156,54 +156,24 @@ export class Assets extends Instantiable {
             await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
 
         if (policy === DIDResolvePolicy.OnlyImmutable)
-            return this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+            return await this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
         else if (policy === DIDResolvePolicy.OnlyMetadataAPI)
-            return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+            return await this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
         else if (policy === DIDResolvePolicy.ImmutableFirst) {
-            try {
-                return this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+            try {             
+                return await this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)                
             } catch (error) {
                 this.logger.debug(`Unable to fetch DDO from immutable data store`)
             }
-            return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+            return await this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
         } else { // DIDResolvePolicy.MetadataAPIFirst
             try {
-                return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+                return await this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
             } catch (error) {
                 this.logger.debug(`Unable to fetch DDO from immutable data store`)
             }
-            return this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
-        }
-
-        
-
-        // if (policy === DIDResolvePolicy.ImmutableFirst && !immutableUrlValid)
-        //     policy = DIDResolvePolicy.OnlyMetadataAPI
-
-        // if (policy === DIDResolvePolicy.OnlyMetadataAPI) {
-        //     return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
-
-        // } else if (policy === DIDResolvePolicy.OnlyImmutable && immutableUrlValid) {
-        //     return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
-
-        // } else if (policy === DIDResolvePolicy.MetadataAPIFirst)    {
-        //     try {
-        //         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
-        //     } catch (error) {
-        //         if (immutableUrlValid)
-        //             return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
-        //         throw new AssetError(`Metadata of asset with did ${did} not found`)
-        //     }
-
-        // } else if (policy === DIDResolvePolicy.ImmutableFirst)    {
-        //     try {
-        //         return this.nevermined.metadata.retrieveDDOFromExternalBackend(immutableUrl)
-        //     } catch (error) {
-        //         return this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
-        //     }
-        // }
-            
-        // throw new AssetError(`Metadata of asset with did ${did} not found`)              
+            return await this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+        }         
     }
 
 
