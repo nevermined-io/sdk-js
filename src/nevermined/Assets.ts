@@ -122,7 +122,7 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
  */
 export class Assets extends Instantiable {
 
-    static DEFAULT_REGISTRATION_ACTIVITY_ID = SignatureUtils.hash('0x1')
+    static DEFAULT_REGISTRATION_ACTIVITY_ID = SignatureUtils.hash('AssetRegistration')
     /**
      * Returns the instance of Assets.
      * @returns {@link Assets}
@@ -450,7 +450,7 @@ export class Assets extends Instantiable {
 
             observer.next(UpdateProgressStep.CalculateChecksum)
             ddo.proof = await ddo.generateProof(publisher.getId())
-            const checksum = ddo.checksum(ddo.shortId())
+            const checksum = ddo.proof.checksum
 
             observer.next(UpdateProgressStep.AddVersionInDDO)
             
@@ -462,7 +462,7 @@ export class Assets extends Instantiable {
                 checksum: checksum,
                 immutableUrl: ''
             }
-            ddo._nvm.versions.push(ddoVersion)
+            ddo._nvm.versions.push(ddoVersion)            
 
             if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {
                 observer.next(UpdateProgressStep.StoringImmutableDDO)

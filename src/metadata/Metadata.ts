@@ -241,8 +241,6 @@ export class Metadata extends MarketplaceApi {
                 .then((response: string) => {
                     return DDO.deserialize(response)
                 })
-        } else if (immutableUrl.startsWith('http')) {
-            return this.retrieveDDO(undefined, immutableUrl)
         } else {
             throw new Error(`Invalid url`)
         }
