@@ -180,6 +180,10 @@ export class DDO {
         }
     }
 
+    public getProofChecksum(): string {
+        return this.checksum(JSON.stringify(this.proof.checksum))
+    }
+
     /**
      * Generates and adds a proof using personal sign on the DDO.
      * @param publicKey - Public key to be used on personal sign.

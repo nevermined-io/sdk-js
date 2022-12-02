@@ -319,10 +319,12 @@ export class Assets extends Instantiable {
             this.logger.log('Files encrypted')
             observer.next(CreateProgressStep.FilesEncrypted)
 
+            const checksum = ddo.getProofChecksum()
+
             const ddoVersion: NvmConfigVersions = {
                 id: 0,
                 updated: ddo.created,
-                checksum: ddo.checksum(ddo.shortId()),
+                checksum,
                 immutableUrl: ''
             }
             ddo._nvm.versions.push(ddoVersion)
@@ -352,7 +354,7 @@ export class Assets extends Instantiable {
                 if (nftAttributes.ercType === 721) {
                     await didRegistry.registerMintableDID721(
                         didSeed,
-                        ddo.checksum(ddo.shortId()),
+                        checksum,
                         providers || [this.config.neverminedNodeAddress],
                         publisher.getId(),
                         nftAttributesWithoutRoyalties,
@@ -364,7 +366,7 @@ export class Assets extends Instantiable {
                 } else {
                     await didRegistry.registerMintableDID(
                         didSeed,
-                        ddo.checksum(ddo.shortId()),
+                        checksum,
                         providers || [this.config.neverminedNodeAddress],
                         publisher.getId(),
                         nftAttributesWithoutRoyalties,
@@ -395,7 +397,7 @@ export class Assets extends Instantiable {
                 this.logger.log('Registering Asset', ddo.id)
                 await didRegistry.registerDID(
                     didSeed,
-                    ddo.checksum(ddo.shortId()),
+                    checksum,
                     providers || [this.config.neverminedNodeAddress],
                     publisher.getId(),
                     serviceEndpoint,
@@ -450,7 +452,7 @@ export class Assets extends Instantiable {
 
             observer.next(UpdateProgressStep.CalculateChecksum)
             ddo.proof = await ddo.generateProof(publisher.getId())
-            const checksum = ddo.proof.checksum
+            const checksum = ddo.getProofChecksum()
 
             observer.next(UpdateProgressStep.AddVersionInDDO)
             
