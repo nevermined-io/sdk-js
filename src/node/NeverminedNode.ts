@@ -56,20 +56,16 @@ export class NeverminedNode extends Instantiable {
         return `${this.url}${apiPath}/${service}`
     }
 
-    public getComputeLogsEndpoint(serviceAgreementId: string, executionId: string) {
-        return `${this.url}${apiPath}/compute/logs/${serviceAgreementId}/${executionId}`
+    public getComputeLogsEndpoint(executionId: string) {
+        return `${this.url}${apiPath}/compute/logs/${executionId}`
     }
 
-    public getComputeStatusEndpoint(serviceAgreementId: string, executionId: string) {
-        return `${this.url}${apiPath}/compute/status/${serviceAgreementId}/${executionId}`
+    public getComputeStatusEndpoint(executionId: string) {
+        return `${this.url}${apiPath}/compute/status/${executionId}`
     }
 
     public getExecuteEndpoint(serviceAgreementId: string) {
         return `${this.url}${apiPath}/compute/execute/${serviceAgreementId}`
-    }
-
-    public getExecutionEndpoint() {
-        return `${this.url}${apiPath}/compute/execute/`
     }
 
     public getEncryptEndpoint() {
@@ -228,34 +224,31 @@ export class NeverminedNode extends Instantiable {
     }
 
     public async downloadService(
-        did: string,
-        account: Account,
         files: MetaDataFile[],
         destination: string,
         index = -1,
-        isToDownload,
+        isToDownload = true,
+        headers?: { [key: string]: string }
     ) {
-        const headers = await this.generateDownloadHeaders(account, did)
-
-        if(isToDownload) {
+        if (isToDownload) {
             const filesPromises = files
-            .filter((_, i) => +index === -1 || i === index)
-            .map(async ({ index: i }) => {
-                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
-                try {
-                    await this.nevermined.utils.fetch.downloadFile(
-                        consumeUrl,
-                        destination,
-                        i,
-                        headers
-                    )
-                } catch (e) {
-                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
-                }
-            })
+                .filter((_, i) => +index === -1 || i === index)
+                .map(async ({ index: i }) => {
+                    const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                    try {
+                        await this.nevermined.utils.fetch.downloadFile(
+                            consumeUrl,
+                            destination,
+                            i,
+                            headers
+                        )
+                    } catch (e) {
+                        throw new NeverminedNodeError(`Error consuming assets - ${e}`)
+                    }
+                })
 
             await Promise.all(filesPromises)
-            
+
             this.logger.log('Files consumed')
 
             if (destination) {
@@ -264,20 +257,17 @@ export class NeverminedNode extends Instantiable {
             return 'success'
         }
 
-        return Promise.all(files
-            .filter((_, i) => +index === -1 || i === index)
-            .map(async ({ index: i }) => {
-                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
-                try {
-                    return this.nevermined.utils.fetch.getFile(
-                        consumeUrl,
-                        i,
-                        headers
-                    )
-                } catch (e) {
-                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
-                }
-            })
+        return Promise.all(
+            files
+                .filter((_, i) => +index === -1 || i === index)
+                .map(async ({ index: i }) => {
+                    const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                    try {
+                        return this.nevermined.utils.fetch.getFile(consumeUrl, i, headers)
+                    } catch (e) {
+                        throw new NeverminedNodeError(`Error consuming assets - ${e}`)
+                    }
+                })
         )
     }
 
@@ -354,7 +344,7 @@ export class NeverminedNode extends Instantiable {
             }
 
             const response = await this.nevermined.utils.fetch.get(
-                this.getComputeLogsEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                this.getComputeLogsEndpoint(noZeroX(executionId)),
                 headers
             )
 
@@ -396,7 +386,7 @@ export class NeverminedNode extends Instantiable {
             }
 
             const response = await this.nevermined.utils.fetch.get(
-                this.getComputeStatusEndpoint(noZeroX(agreementId), noZeroX(executionId)),
+                this.getComputeStatusEndpoint(noZeroX(executionId)),
                 headers
             )
 
@@ -475,23 +465,5 @@ export class NeverminedNode extends Instantiable {
                 encrypt
             )
         return response.json()
-    }
-
-    private async generateDownloadHeaders(account: Account, id: string) {
-        const { jwt } = this.nevermined.utils
-        let accessToken: string
-        const cacheKey = jwt.generateCacheKey(account.getId(), id)
-
-        if (!jwt.tokenCache.has(cacheKey)) {
-            const grantToken = await jwt.generateDownloadGrantToken(account, id)
-            accessToken = await this.fetchToken(grantToken)
-            jwt.tokenCache.set(cacheKey, accessToken)
-        } else {
-            accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
-        }
-        
-        return {
-            Authorization: 'Bearer ' + accessToken
-        }
     }
 }

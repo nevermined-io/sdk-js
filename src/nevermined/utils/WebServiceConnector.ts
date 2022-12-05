@@ -14,6 +14,9 @@ if (typeof window !== 'undefined') {
     fetch = require('node-fetch')
 }
 
+// Nevermined already has a File type
+export type WebApiFile = File
+
 /**
  * Provides a common interface to web services.
  */
@@ -84,30 +87,14 @@ export class WebServiceConnector extends Instantiable {
         url: string,
         destination?: string,
         index?: number,
-        headers?: any,
+        headers?: { [key: string]: string }
     ): Promise<string> {
-        const response = await this.get(url, headers)
-        if (!response.ok) {
-            throw new Error('Response error.')
-        }
-        let filename: string
-        try {
-            [, filename] = response.headers
-                .get('content-disposition')
-                .match(/attachment;filename=(.+)/)
-        } catch {
-            try {
-                filename = url.split('/').pop()
-            } catch {
-                filename = `file${index}`
-            }
-        }
+        const { response, name } = await this.getFileResponse(url, index, headers)
 
         if (destination) {
-            // eslint-disable-next-line no-async-promise-executor
-            await new Promise(async (resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 fs.mkdirSync(destination, { recursive: true })
-                const fileStream = fs.createWriteStream(`${destination}${filename}`)
+                const fileStream = fs.createWriteStream(`${destination}${name}`)
                 response.body.pipe(fileStream)
                 response.body.on('error', reject)
                 fileStream.on('finish', resolve)
@@ -115,10 +102,10 @@ export class WebServiceConnector extends Instantiable {
             })
         } else {
             const buff = await response.arrayBuffer()
-            fileDownload(buff, filename)
+            fileDownload(buff, name)
             destination = process.cwd()
         }
-        const d = path.join(destination, filename)
+        const d = path.join(destination, name)
         this.logger.log(`Downloaded: ${d}`)
         return d
     }
@@ -126,29 +113,37 @@ export class WebServiceConnector extends Instantiable {
     public async getFile(
         url: string,
         index?: number,
-        headers?: any,
-    ): Promise<File> {
+        headers?: { [key: string]: string }
+    ): Promise<WebApiFile> {
+        const { response, name } = await this.getFileResponse(url, index, headers)
+        const blob = (await response.blob()) as Blob
+        return new File([blob], name) as WebApiFile
+    }
+
+    private async getFileResponse(
+        url: string,
+        index?: number,
+        headers?: { [key: string]: string }
+    ): Promise<{ response: Response; name: string }> {
         const response = await this.get(url, headers)
         if (!response.ok) {
             throw new Error('Response error.')
         }
-        let filename: string
+
+        let name: string
         try {
-            [, filename] = response.headers
+            [, name] = response.headers
                 .get('content-disposition')
                 .match(/attachment;filename=(.+)/)
         } catch {
             try {
-                filename = url.split('/').pop()
+                name = url.split('/').pop()
             } catch {
-                filename = `file${index}`
+                name = `file${index}`
             }
         }
 
-        const blob = await response.blob() as Blob
-
-        const file = new File([blob], filename)
-        return file
+        return { response, name }
     }
 
     public async downloadUrl(url: string, headers?: any): Promise<string> {

@@ -11,6 +11,7 @@ import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
+import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
 
 chai.use(chaiAsPromised)
 
@@ -116,7 +117,9 @@ describe('NFTs Api End-to-End', () => {
 
         it('Should set the Node as a provider by default', async () => {
             const providers = await nevermined.provider.list(ddo.id)
-            assert.deepEqual(providers, [ethers.utils.getAddress(config.neverminedNodeAddress)])
+            assert.deepEqual(providers, [
+                ethers.utils.getAddress(config.neverminedNodeAddress)
+            ])
         })
     })
 
@@ -229,6 +232,28 @@ describe('NFTs Api End-to-End', () => {
     })
 
     describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
+        it('The artist gives the Node permissions to transfer his nfts', async () => {
+            const message = 'shold throw this error message'
+
+            try {
+                await nevermined.nfts.setApprovalForAll(
+                    transferNftCondition.address,
+                    true,
+                    artist
+                )
+
+                await nevermined.nfts.setApprovalForAll(
+                    config.neverminedNodeAddress,
+                    true,
+                    artist
+                )
+
+                assert.fail(message)
+            } catch (error) {
+                assert.equal(error.message, message)
+            }
+        })
+        
         it('The artist creates and mints the nfts', async () => {
             const newMetadata = getMetadata()
             newMetadata.userId = payload.sub
@@ -292,7 +317,14 @@ describe('NFTs Api End-to-End', () => {
         })
 
         it('The collector access the files object', async () => {
-            const result = await nevermined.nfts.access(ddo.id, collector1, undefined, undefined, undefined, false)
+            const result = (await nevermined.nfts.access(
+                ddo.id,
+                collector1,
+                undefined,
+                undefined,
+                undefined,
+                false
+            )) as WebApiFile[]
 
             assert.equal(result[0].name, 'ddo-example.json')
         })
@@ -313,7 +345,6 @@ describe('NFTs Api End-to-End', () => {
             } catch (error) {
                 assert.equal(error.message, message)
             }
-
         })
         it('The artist creates and mints one nft', async () => {
             const newMetadata = getMetadata()

@@ -214,7 +214,11 @@ export class Assets extends Instantiable {
 
             this.logger.debug('Adding Authorization Service')
             await ddo.addService(
-                this.createAuthorizationService(neverminedNodeUri, publicKey, encryptionMethod)
+                this.createAuthorizationService(
+                    neverminedNodeUri,
+                    publicKey,
+                    encryptionMethod
+                )
             )
 
             this.logger.debug('Adding Metadata Service')
@@ -890,8 +894,7 @@ export class Assets extends Instantiable {
     ): Promise<string> {
         const { node } = this.nevermined
 
-        return (await node.execute(agreementId, workflowDid, consumer))
-            .workflowId
+        return (await node.execute(agreementId, workflowDid, consumer)).workflowId
     }
 
     /**
@@ -1075,20 +1078,19 @@ export class Assets extends Instantiable {
         return this.nevermined.metadata.delete(did)
     }
 
-    
     /**
      * Download the asset
-     * 
+     *
      * @param did - The Decentralized Identifier of the asset.
      * @param ownerAccount - The receiver account owner
      * @param resultPath - Path to be the files downloader
      * @param fileIndex - the index of the file
      * @param isToDownload - If the NFT is for downloading
      * @param serviceType - service type. 'access' by default
-     * 
+     *
      * @return status, path destination if resultPath is provided or file object if isToDownload is false
      */
-      public async download(
+    public async download(
         did: string,
         ownerAccount: Account,
         resultPath?: string,
@@ -1114,13 +1116,19 @@ export class Assets extends Instantiable {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
+        const accessToken = await this.nevermined.utils.jwt.getDownloadGrantToken(
+            ddo.id,
+            ownerAccount
+        )
+        const headers = {
+            Authorization: 'Bearer ' + accessToken
+        }
         return this.nevermined.node.downloadService(
-            did,
-            ownerAccount,
             files,
             resultPath,
             fileIndex,
             isToDownload,
+            headers
         )
     }
 
@@ -1157,11 +1165,7 @@ export class Assets extends Instantiable {
     }
 
     public async computeLogs(agreementId: string, executionId: string, account: Account) {
-        return await this.nevermined.node.computeLogs(
-            agreementId,
-            executionId,
-            account
-        )
+        return await this.nevermined.node.computeLogs(agreementId, executionId, account)
     }
 
     public async computeStatus(
@@ -1169,11 +1173,7 @@ export class Assets extends Instantiable {
         executionId: string,
         account: Account
     ) {
-        return await this.nevermined.node.computeStatus(
-            agreementId,
-            executionId,
-            account
-        )
+        return await this.nevermined.node.computeStatus(agreementId, executionId, account)
     }
 
     private createAuthorizationService(
