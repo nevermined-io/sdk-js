@@ -138,7 +138,7 @@ export class Nfts extends Instantiable {
             metadata,
             publisher,
             assetRewards,
-            undefined,
+            'PSK-RSA',
             cap,
             providers,
             nftAmount,

@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, DDO, Nevermined } from '../../src'
-import { EscrowPaymentCondition } from '../../src/keeper/contracts/conditions'
+import { EscrowPaymentCondition, TransferNFTCondition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
@@ -23,6 +23,7 @@ describe('NFTs Api End-to-End', () => {
     let nevermined: Nevermined
     let token: Token
     let escrowPaymentCondition: EscrowPaymentCondition
+    let transferNftCondition: TransferNFTCondition
     let ddo: DDO
 
     const metadata = getMetadata()
@@ -56,7 +57,7 @@ describe('NFTs Api End-to-End', () => {
         metadata.userId = payload.sub
 
         // conditions
-        ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
+        ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
 
         // components
         ;({ token } = nevermined.keeper)
@@ -73,6 +74,9 @@ describe('NFTs Api End-to-End', () => {
             ])
         )
         await collector1.requestTokens(nftPrice.div(scale))
+
+        const nftContractOwner = new Account(await nevermined.keeper.nftUpgradeable.owner() as string)
+        await nevermined.keeper.nftUpgradeable.setProxyApproval(transferNftCondition.address, true, nftContractOwner)
 
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
