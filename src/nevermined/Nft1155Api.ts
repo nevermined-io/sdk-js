@@ -28,16 +28,24 @@ import {
     NeverminedNFT1155Type,
     NeverminedNFTType
 } from '../models/NFTAttributes'
+import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
 
 /**
  * Nevermined Nft module
  */
-export class Nfts extends Instantiable {
-    public static async getInstance(config: InstantiableConfig): Promise<Nfts> {
-        const instance = new Nfts()
-        instance.setInstanceConfig(config)
+export class Nft1155Api extends Instantiable {
+    nftContract: Nft1155Contract
 
-        return instance
+    public static async getInstance(
+        config: InstantiableConfig,
+        nftContractAddress?: string
+        ): Promise<Nft1155Api> {
+        const nft1155 = new Nft1155Api()
+        nft1155.setInstanceConfig(config)
+
+        if (nftContractAddress)
+            nft1155.nftContract = await Nft1155Contract.getInstance(config, nftContractAddress)
+        return nft1155
     }
 
     /**
@@ -653,7 +661,7 @@ export class Nfts extends Instantiable {
      * @returns The amount of NFTs owned by the account.
      */
     public async balance(did: string, account: Account): Promise<BigNumber> {
-        return await this.nevermined.keeper.nftUpgradeable.balance(account.getId(), did)
+        return await this.nftContract.balance(account.getId(), did)
     }
 
     /**
@@ -854,13 +862,13 @@ export class Nfts extends Instantiable {
         approved: boolean,
         from: Account
     ) {
-        const isApproved = await this.nevermined.keeper.nftUpgradeable.isApprovedForAll(from.getId(), operatorAddress);
+        const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress);
 
         if(isApproved) {
             return
         }
 
-        return this.nevermined.keeper.nftUpgradeable.setApprovalForAll(
+        return this.nftContract.setApprovalForAll(
             operatorAddress,
             approved,
             from
@@ -871,7 +879,7 @@ export class Nfts extends Instantiable {
         operatorAddress: string,
         from: string
     ) {
-        return this.nevermined.keeper.nftUpgradeable.isApprovedForAll(from, operatorAddress)
+        return this.nftContract.isApprovedForAll(from, operatorAddress)
     }
 
     /**

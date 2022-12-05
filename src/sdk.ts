@@ -9,7 +9,7 @@ import * as templates from './keeper/contracts/templates'
 import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
 import { Nft721Api } from './nevermined/Nft721Api'
-import { Nfts } from './nevermined/Nfts'
+import { Nft1155Api } from './nevermined/Nft1155Api'
 import { Accounts } from './nevermined/Accounts'
 import { SearchQuery } from './common/interfaces'
 
@@ -45,7 +45,7 @@ export {
     Nevermined,
     Account,
     Accounts,
-    Nfts,
+    Nft1155Api as Nfts,
     Nft721Api as Nft721,
     Config,
     DID,

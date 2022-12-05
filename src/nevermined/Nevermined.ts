@@ -24,7 +24,7 @@ import {
 import { Faucet } from '../faucet/Faucet'
 import { Provider } from './Provider'
 import { Files } from './Files'
-import { Nfts } from './Nfts'
+import { Nft1155Api } from './Nft1155Api'
 import { Nft721Api } from './Nft721Api'
 import { AaveCredit } from './AaveCredit'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
@@ -72,7 +72,7 @@ export class Nevermined extends Instantiable {
         instance.accounts = await Accounts.getInstance(instanceConfig)
         instance.auth = await Auth.getInstance(instanceConfig)
         instance.assets = await Assets.getInstance(instanceConfig)
-        instance.nfts = await Nfts.getInstance(instanceConfig)
+        instance.nfts = await Nft1155Api.getInstance(instanceConfig)
         instance.files = await Files.getInstance(instanceConfig)
         instance.agreements = await Agreements.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
@@ -178,7 +178,7 @@ export class Nevermined extends Instantiable {
     /**
      * Nfts submodule
      */
-    public nfts: Nfts
+    public nfts: Nft1155Api
 
     /**
      * Files submodule

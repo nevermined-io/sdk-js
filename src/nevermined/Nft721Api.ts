@@ -4,7 +4,7 @@ import Nft721Contract from '../keeper/contracts/Nft721Contract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
 export class Nft721Api extends Instantiable {
-    contract: Nft721Contract
+    nftContract: Nft721Contract
 
     public static async getInstance(
         config: InstantiableConfig,
@@ -13,7 +13,7 @@ export class Nft721Api extends Instantiable {
         const nft721 = new Nft721Api()
         nft721.setInstanceConfig(config)
 
-        nft721.contract = await Nft721Contract.getInstance(config, address)
+        nft721.nftContract = await Nft721Contract.getInstance(config, address)
         return nft721
     }
 
@@ -27,7 +27,7 @@ export class Nft721Api extends Instantiable {
      * @returns
      */
     public async mint(did: string, publisher: Account, txParams?: TxParameters) {
-        return await this.contract.mint(did, publisher.getId(), txParams)
+        return await this.nftContract.mint(did, publisher.getId(), txParams)
     }
 
     public async mintWithURL(
@@ -37,7 +37,7 @@ export class Nft721Api extends Instantiable {
         from?: Account,
         txParams?: TxParameters
     ) {
-        return await this.contract.mintWithURL(to, did, url, from, txParams)
+        return await this.nftContract.mintWithURL(to, did, url, from, txParams)
     }
 
     public async setApprovalForAll(
@@ -46,7 +46,7 @@ export class Nft721Api extends Instantiable {
         publisher: Account,
         txParams?: TxParameters
     ) {
-        return await this.contract.setApprovalForAll(
+        return await this.nftContract.setApprovalForAll(
             target,
             state,
             publisher.getId(),
@@ -55,18 +55,18 @@ export class Nft721Api extends Instantiable {
     }
 
     public async isApprovedForAll(accountAddress: string, operatorAddress: string) {
-        return await this.contract.isApprovedForAll(accountAddress, operatorAddress)
+        return await this.nftContract.isApprovedForAll(accountAddress, operatorAddress)
     }
 
     public async balanceOf(owner: Account) {
-        return await this.contract.balanceOf(owner.getId())
+        return await this.nftContract.balanceOf(owner.getId())
     }
 
     public async ownerOf(did: string): Promise<string> {
-        return await this.contract.ownerOf(did)
+        return await this.nftContract.ownerOf(did)
     }
 
     public get address() {
-        return this.contract.address
+        return this.nftContract.address
     }
 }
