@@ -3,7 +3,6 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../Account'
 import { SignatureUtils } from './SignatureUtils'
 import { ethers } from 'ethers'
-import { Config, Logger } from '../../sdk'
 
 export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -14,11 +13,8 @@ export class EthSignJWT extends SignJWT {
     }
 
     async ethSign(
-        config: Config,
         address: string,
-        signatureUtils: SignatureUtils,
-        web3: ethers.providers.JsonRpcProvider,
-        isEtherSign = false
+        signatureUtils: SignatureUtils
     ): Promise<string> {
         const encoder = new TextEncoder()
         const decoder = new TextDecoder()
@@ -33,13 +29,7 @@ export class EthSignJWT extends SignJWT {
 
         const sign = await signatureUtils.signText(decoder.decode(data), address)
 
-        let input = ethers.utils.arrayify(sign)
-
-        // TODO: remove once migration to new gateway is complete
-        if (!isEtherSign && !config.newGateway) {
-            Logger.debug(`Using LEGACY Gateway`)
-            input = input.slice(0, 64)
-        }
+        const input = ethers.utils.arrayify(sign)
 
         const signed = this.base64url(input)
         const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
@@ -115,11 +105,8 @@ export class JwtUtils extends Instantiable {
             .setIssuedAt()
             .setExpirationTime('1h')
             .ethSign(
-                this.config,
                 address,
-                this.nevermined.utils.signature,
-                this.web3,
-                true
+                this.nevermined.utils.signature
             )
     }
 
@@ -139,7 +126,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature)
     }
 
     public async generateToken(
@@ -161,7 +148,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature)
     }
 
     public async generateDownloadGrantToken(
@@ -178,7 +165,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature)
     }
 
     public async generateExecuteGrantToken(
@@ -197,7 +184,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature)
     }
 
     public async generateComputeGrantToken(
@@ -216,7 +203,7 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature)
     }
 
     public async generateNftAccessGrantToken(
@@ -237,6 +224,6 @@ export class JwtUtils extends Instantiable {
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
             .setExpirationTime('1h')
-            .ethSign(this.config, address, this.nevermined.utils.signature, this.web3)
+            .ethSign(address, this.nevermined.utils.signature)
     }
 }

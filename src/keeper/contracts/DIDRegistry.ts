@@ -4,6 +4,8 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { NFTAttributes } from '../../models/NFTAttributes'
+import { Assets } from '../../nevermined/Assets'
+import { AssetError } from '../../errors/AssetError'
 
 export enum ProvenanceMethod {
     ENTITY = 0,
@@ -147,7 +149,7 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         url: string,
         immutableUrl = '',
-        activityId = '0x1',
+        activityId = Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
         return this.send(
@@ -187,7 +189,7 @@ export default class DIDRegistry extends ContractBase {
         nftAttributes: NFTAttributes,
         url: string,
         immutableUrl = '',    
-        activityId = '0x1',
+        activityId = Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
 
@@ -232,7 +234,7 @@ export default class DIDRegistry extends ContractBase {
         nftAttributes: NFTAttributes,
         url: string,
         immutableUrl = '',    
-        activityId = '0x1',
+        activityId = Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
         return this.send(
@@ -379,12 +381,30 @@ export default class DIDRegistry extends ContractBase {
 
     public async getAttributesByDid(
         did: string
-    ): Promise<{ did: string; serviceEndpoint: string; checksum: string }> {
+    ): Promise<{ 
+        did: string; 
+        serviceEndpoint: string; 
+        checksum: string, 
+        owner: string, 
+        providers: string[],
+        nftSupply: BigNumber, 
+        mintCap: BigNumber, 
+        royalties: BigNumber,
+        immutableUrl: string
+     }> {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
+        if (registeredValues[4] < 1) // If not valid `blockNumberUpdated` is because the asset doesn't exist on-chain
+            throw new AssetError(`Asset with DID ${did} not found on-chain`)
         return {
             did,
             serviceEndpoint: registeredValues[2],
-            checksum: registeredValues[1]
+            checksum: registeredValues[1],
+            owner: registeredValues[0],
+            providers: registeredValues[5],
+            nftSupply: BigNumber.from(registeredValues[6]),
+            mintCap: BigNumber.from(registeredValues[7]),
+            royalties: BigNumber.from(registeredValues[8]),
+            immutableUrl: registeredValues[9]
         }
     }
 

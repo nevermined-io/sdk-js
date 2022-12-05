@@ -1,6 +1,5 @@
 import { generateId } from '../utils/GeneratorHelpers'
 import Account from './Account'
-import DID from './DID'
 import { zeroX } from '../utils'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { AgreementsConditions } from './AgreementsConditions'
@@ -49,8 +48,7 @@ export class Agreements extends Instantiable {
         serviceType: ServiceType,
         consumer: Account
     ): Promise<AgreementPrepareResult> {
-        const d: DID = DID.parse(did as string)
-        const ddo = await this.nevermined.metadata.retrieveDDO(d)
+        const ddo = await this.nevermined.assets.resolve(did)
         const agreementIdSeed: string = zeroX(generateId())
 
         const { accessTemplate } = this.nevermined.keeper.templates

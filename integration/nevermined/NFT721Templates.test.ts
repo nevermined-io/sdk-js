@@ -30,6 +30,7 @@ import {
 } from '../../src/nevermined/Assets'
 
 describe('NFT721Templates E2E', () => {
+    let nftContractOwner: Account
     let owner: Account
     let artist: Account
     let collector1: Account
@@ -104,6 +105,7 @@ describe('NFT721Templates E2E', () => {
 
         // load the nft contract at given address
         nft = await nevermined.contracts.loadNft721(nftContract.address)
+        nftContractOwner = new Account(await nft.contract.owner() as string)
 
         // components
         ;({ conditionStoreManager, token } = nevermined.keeper)
@@ -116,6 +118,8 @@ describe('NFT721Templates E2E', () => {
             nft721HolderCondition,
             nftAccessCondition
         } = nevermined.keeper.conditions)
+
+        await nft.contract.setProxyApproval(transferNft721Condition.address, true, nftContractOwner)
 
         // templates
         ;({ nft721SalesTemplate, nft721AccessTemplate } = nevermined.keeper.templates)
@@ -196,6 +200,8 @@ describe('NFT721Templates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
+                await nft.contract.addMinter(artist.getId(), nftContractOwner)
+
                 await nft.mint(ddo.shortId(), artist)
 
                 const balance = await nft.balanceOf(artist)
@@ -692,6 +698,9 @@ describe('NFT721Templates E2E', () => {
             const nftContract = await TestContractHandler.deployArtifact(ERC721)
             nft = await nevermined.contracts.loadNft721(nftContract.address)
 
+            nftContractOwner = new Account(await nft.contract.owner() as string)
+            await nft.contract.setProxyApproval(transferNft721Condition.address, true, nftContractOwner)
+
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
@@ -712,6 +721,7 @@ describe('NFT721Templates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
+                await nft.contract.addMinter(artist.getId(), nftContractOwner)
                 await nft.mint(ddo.shortId(), artist)
 
                 const balance = await nft.balanceOf(artist)

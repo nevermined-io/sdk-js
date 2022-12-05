@@ -75,7 +75,7 @@ describe('NFT1155 End-to-End', () => {
         })
 
         it('Clonning an instance', async () => {
-            const cloneAddress = await nftUpgradeable.createClone(nftUpgradeable.address, 'My New NFT', 'xyz', '', deployer)
+            const cloneAddress = await nftUpgradeable.createClone('My New NFT', 'xyz', '', deployer)
             assert.isDefined(cloneAddress)
             console.log(`NFT (ERC-1155) clonned into address ${cloneAddress}`)
         })     

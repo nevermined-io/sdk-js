@@ -51,6 +51,8 @@ export class DDO {
 
     public created: string
 
+    public updated?: string
+
     public publicKey: PublicKey[] = []
 
     public authentication: Authentication[] = []
@@ -180,6 +182,10 @@ export class DDO {
         }
     }
 
+    public getProofChecksum(): string {
+        return this.checksum(JSON.stringify(this.proof.checksum))
+    }
+
     /**
      * Generates and adds a proof using personal sign on the DDO.
      * @param publicKey - Public key to be used on personal sign.
@@ -194,6 +200,10 @@ export class DDO {
 
     public async addService(service: any): Promise<void> {
         this.service.push(service)
+    }
+
+    public async replaceService(index: number, service: any): Promise<void> {
+        this.service[index] = service
     }
 
     public async addDefaultMetadataService(

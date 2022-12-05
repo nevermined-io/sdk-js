@@ -22,4 +22,10 @@ export class SignatureUtils extends Instantiable {
     public async verifyText(text: string, signature: string): Promise<string> {
         return ethers.utils.verifyMessage(text, signature)
     }
+
+    static hash(seed: string): string {
+        return ethers.utils
+            .keccak256(ethers.utils.toUtf8Bytes(seed))
+            .replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
+    }
 }

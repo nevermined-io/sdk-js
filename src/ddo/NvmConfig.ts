@@ -44,6 +44,11 @@ export interface NvmConfig {
     versions: NvmConfigVersions[]
 }
 
+export enum ImmutableBackends {
+  Filecoin = 'filecoin',
+  IPFS = 'ipfs'
+}
+
 export interface NvmConfigVersions {
     /**
      * The id of the DDO revision.
@@ -60,4 +65,14 @@ export interface NvmConfigVersions {
      * The checksum of the document
      */
     checksum: string
+
+    /**
+     * ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arweave, ..)
+     */
+     immutableUrl?: string
+
+    /**
+     * The immutable solution to record the DDO
+     */
+     immutableBackend?: ImmutableBackends
 }

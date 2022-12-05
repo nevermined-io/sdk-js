@@ -1,4 +1,3 @@
-import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { abi } from './../../artifacts/NFT721SubscriptionUpgradeable.json'
 import { ethers } from 'ethers'
@@ -18,7 +17,4 @@ export default class SubscriptionNft721 extends Nft721Contract {
         return nft
     }
 
-    public async addMinter(newMinter: string, from: string, params?: TxParameters) {
-        return this.send('addMinter', from, [newMinter], params)
-    }
 }

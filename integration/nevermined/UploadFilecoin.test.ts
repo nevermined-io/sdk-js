@@ -12,6 +12,7 @@ describe('Filecoin Integration', () => {
     const metadata = getMetadata()
     let ddo: DDO
 
+    const TEST_CID_HASH = 'bafkreigxr4y6aqzsgmpicz47pl4pn2j3okpd672yvbrq7xo5hxt7fnmxuq'
     const testPath = '/tmp/test.txt'
     let url: string
 
@@ -26,7 +27,7 @@ describe('Filecoin Integration', () => {
         const stream = fs.createReadStream(testPath)
         ;({ url } = await nevermined.files.uploadFilecoin(stream))
 
-        assert.equal(url, 'cid://bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
+        assert.equal(url, `cid://${TEST_CID_HASH}`)
 
         // cleanup file
         fs.unlinkSync(testPath)
@@ -70,7 +71,7 @@ describe('Filecoin Integration', () => {
         const path = await nevermined.assets.download(ddo.id, publisher, folder, 0)
 
         assert.include(path, folder)
-        const data = fs.readFileSync(`${path}bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq`)
+        const data = fs.readFileSync(`${path}${TEST_CID_HASH}`)
         assert.equal(data.toString(), 'Hello, Nevermined!')
     })
 
@@ -83,6 +84,6 @@ describe('Filecoin Integration', () => {
             false
         )) as File[]
 
-        assert.equal(result[0].name, 'bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
+        assert.equal(result[0].name, TEST_CID_HASH)
     })
 })

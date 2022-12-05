@@ -135,7 +135,11 @@ export class Metadata extends MarketplaceApi {
         did = did && DID.parse(did)
         const fullUrl = `${this.url}${apiPath}/${did.getDid()}`
         const result: DDO = await this.nevermined.utils.fetch
-            .put(fullUrl, DDO.serialize(ddo))
+            .put(fullUrl, DDO.serialize(ddo),
+            {
+                Authorization: `Bearer ${this.config.marketplaceAuthToken}`
+            }
+            )
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()
@@ -192,12 +196,20 @@ export class Metadata extends MarketplaceApi {
      * @param did - DID of the asset.
      * @returns DDO of the asset.
      */
-    public async retrieveDDO(
-        did: DID | string,
+    private async retrieveDDO(
+        did?: DID | string,
         metadataServiceEndpoint?: string
     ): Promise<DDO> {
-        did = did && DID.parse(did)
-        const fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
+        let fullUrl:string
+        if (did)    {
+            did = did && DID.parse(did)
+            fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
+        } else if (metadataServiceEndpoint) {
+            fullUrl = metadataServiceEndpoint
+        }   else {
+            throw new ApiError(`A DID or metadataServiceEndpoint needs to be specified`)
+        }
+            
         const result = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
@@ -218,6 +230,20 @@ export class Metadata extends MarketplaceApi {
             })
 
         return result
+    }
+
+    public async retrieveDDOFromImmutableBackend(immutableUrl: string): Promise<DDO> {
+        if (!(immutableUrl && immutableUrl.length > 10))
+            throw new Error(`Invalid immutable url`)
+        if (immutableUrl.startsWith('cid://'))  {
+            return await this.nevermined.utils.fetch
+                .fetchCID(immutableUrl)
+                .then((response: string) => {
+                    return DDO.deserialize(response)
+                })
+        } else {
+            throw new Error(`Invalid url`)
+        }
     }
 
     public async delete(did: DID | string) {

@@ -76,8 +76,9 @@ describe('Nfts operations', () => {
         })
 
         it('should the operation be approved', async () => {
-            const contractReceipt = await nevermined.nfts.setApprovalForAll(config.neverminedNodeAddress, true, artist)
-            assert.equal(Boolean(contractReceipt), true)
+            await nevermined.nfts.setApprovalForAll(config.neverminedNodeAddress, true, artist)
+            const isApproved = await nevermined.nfts.isApprovedForAll(config.neverminedNodeAddress, artist.getId())
+            assert.equal(Boolean(isApproved), true)
         })
 
         it('should burn nft tokens', async () => {

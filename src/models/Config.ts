@@ -77,7 +77,16 @@ export class Config {
 
     public accounts?: ethers.Signer[]
 
-    public newGateway?: boolean = true
+    /**
+     * IPFS variables enable the resolution of DDOs (via `assets.resolve`) from CID urls
+     * INFO: For performance purposes, it is recommended to setup a IPFS Infura endpoint to accelerate
+     * the asset resolution requests.
+     */
+    public ipfsGateway?: string = 'https://ipfs.io'
+
+    public ipfsProjectId?: string
+
+    public ipfsProjectSecret?: string
 
     /**
      * The fee charged by Nevermined for using the Service Agreements

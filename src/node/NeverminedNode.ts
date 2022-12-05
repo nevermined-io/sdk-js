@@ -10,11 +10,19 @@ import { ERCType } from '../models/NFTAttributes'
 
 const apiPath = '/api/v1/node/services'
 
+export enum NodeUploadBackends { 
+    Filecoin = 'filecoin',
+    IPFS = 'ipfs',
+    AmazonS3 = 's3'
+}
+
+
 /**
  * Provides a interface with Nevermined Node.
  * The Nevermined Node is the technical component executed by the Publishers allowing to them to provide extended data services.
  */
 export class NeverminedNode extends Instantiable {
+
     private get url() {
         return this.config.neverminedNodeUri
     }
@@ -74,6 +82,10 @@ export class NeverminedNode extends Instantiable {
 
     public getUploadFilecoinEndpoint() {
         return `${this.url}${apiPath}/upload/filecoin`
+    }
+
+    public getUploadIPFSEndpoint() {
+        return `${this.url}${apiPath}/upload/ipfs`
     }
 
     public getNftEndpoint() {
@@ -447,12 +459,21 @@ export class NeverminedNode extends Instantiable {
         return jsonPayload.access_token
     }
 
-    public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
-        const response = await this.nevermined.utils.fetch.uploadFile(
-            this.getUploadFilecoinEndpoint(),
-            stream,
-            encrypt
-        )
+    public async uploadContent(data: ReadStream | string, encrypt?: boolean, backend: NodeUploadBackends = NodeUploadBackends.Filecoin): Promise<any> {
+        let response        
+        const uploadEndpoint = backend === NodeUploadBackends.Filecoin ? this.getUploadFilecoinEndpoint() : this.getUploadIPFSEndpoint()
+        if (typeof data === 'string')
+            response = await this.nevermined.utils.fetch.uploadMessage(
+                uploadEndpoint,
+                data,
+                encrypt
+            )
+        else
+            response = await this.nevermined.utils.fetch.uploadFile(
+                uploadEndpoint,
+                data,
+                encrypt
+            )
         return response.json()
     }
 

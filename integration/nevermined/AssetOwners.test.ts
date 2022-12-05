@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, Config } from '../../src'
+import { Nevermined, Account, Config, utils } from '../../src'
 import { decodeJwt } from 'jose'
 import { MetaData } from '../../src'
 
@@ -35,9 +35,10 @@ describe('Asset Owners', () => {
         await nevermined2.marketplace.login(clientAssertion2)
 
         newMetadata = (token: string) => {
-            const metadata = getMetadata()
+            const metadata = getMetadata()            
             const jwtPayload = decodeJwt(token)
             metadata.userId = jwtPayload.sub
+            metadata.main.name = `Test Metadata ${utils.generateId()}`
             return metadata
         }
     })

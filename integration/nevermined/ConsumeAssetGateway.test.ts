@@ -68,7 +68,7 @@ describe('Consume Asset (Nevermined Node)', () => {
             .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
-        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 11])
+        assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])
 
         const assetProviders = await nevermined.provider.list(ddo.id)
         assert.deepEqual(assetProviders, [ethers.utils.getAddress(config.neverminedNodeAddress)])
