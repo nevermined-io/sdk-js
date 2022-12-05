@@ -132,7 +132,7 @@ export class AaveCredit extends Instantiable {
         did = did || agreementData.did
         const lockCond = this.nevermined.keeper.conditions.nft721LockCondition
         const nft721 = (await Nft721.getInstance(this.instanceConfig, nftContractAddress))
-            .contract
+            .nftContract
         const approved = await nft721.call('getApproved', [didZeroX(did)])
         if (!approved || approved !== lockCond.address) {
             const approvalTxReceipt = await nft721.send('approve', from.getId(), [
