@@ -102,7 +102,10 @@ describe('NFTs Api End-to-End', () => {
                 cappedAmount,
                 [config.neverminedNodeAddress],
                 royaltyAttributes,
-                assetRewards1
+                assetRewards1,
+                numberNFTs,
+                undefined,
+                true
             )
 
             assert.isDefined(ddo)
