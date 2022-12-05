@@ -4,7 +4,7 @@ import Account from '../../nevermined/Account'
 import { BigNumber, ContractReceipt } from 'ethers'
 import { KeeperError } from '../../errors'
 
-export class NFTsBase extends ContractBase {
+export class NFTContractsBase extends ContractBase {
 
 
     /**

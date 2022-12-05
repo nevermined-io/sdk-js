@@ -72,7 +72,7 @@ export class Nevermined extends Instantiable {
         instance.accounts = await Accounts.getInstance(instanceConfig)
         instance.auth = await Auth.getInstance(instanceConfig)
         instance.assets = await Assets.getInstance(instanceConfig)
-        instance.nfts = await Nft1155Api.getInstance(instanceConfig)
+        instance.nfts = await Nft1155Api.getInstance(instanceConfig)        
         instance.files = await Files.getInstance(instanceConfig)
         instance.agreements = await Agreements.getInstance(instanceConfig)
         instance.token = await Token.getInstance(instanceConfig)
@@ -103,7 +103,8 @@ export class Nevermined extends Instantiable {
          * @returns An instance of {@link Nft721Api}
          */
         loadNft721: async (address: string): Promise<Nft721Api> => {
-            return await Nft721Api.getInstance(this.instanceConfig, address)
+            this.nfts721 = await Nft721Api.getInstance(this.instanceConfig, address)
+            return this.nfts721
         },
        /**
          * Load a custom ERC-1155 nft.
@@ -179,6 +180,11 @@ export class Nevermined extends Instantiable {
      * Nfts submodule
      */
     public nfts: Nft1155Api
+
+    /**
+     * Nfts submodule
+     */
+     public nfts721: Nft721Api
 
     /**
      * Files submodule

@@ -10,7 +10,6 @@ import {
     ConditionStoreManager
 } from '../../src/keeper/contracts/managers/index'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import Nft721Contract from '../../src/keeper/contracts/Nft721'
 import CustomToken from '../../src/keeper/contracts/CustomToken'
 import { AaveCreditTemplate } from '../../src/keeper/contracts/templates/index'
 import { NFT721LockCondition } from '../../src/keeper/contracts/defi/NFT721LockCondition'
@@ -21,6 +20,7 @@ import chaiAsPromised from 'chai-as-promised'
 import { decodeJwt } from 'jose'
 import { Contract } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
+import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 
 chai.use(chaiAsPromised)
 
@@ -98,14 +98,14 @@ describe('AaveCredit', () => {
         const nftAddress = ''
         // nft721Wrapper is instance of Nft721Contract -> ContractBase
         if (nftAddress.toString() !== '') {
-            nft721Wrapper = (await nevermined.contracts.loadNft721(nftAddress)).contract
+            nft721Wrapper = (await nevermined.contracts.loadNft721(nftAddress)).getContract
         } else {
             nftContract = await TestContractHandler.deployArtifact(
                 ERC721,
                 deployer.getId()
             )
             nft721Wrapper = (await nevermined.contracts.loadNft721(nftContract.address))
-                .contract
+                .getContract
         }
         nftContractAddress = nft721Wrapper.address
 
@@ -121,7 +121,7 @@ describe('AaveCredit', () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const marketplace = getMetadata()
             marketplace.userId = payload.sub
-            ddo = await nevermined.nfts.create721(
+            ddo = await nevermined.nfts721.create(
                 marketplace,
                 borrower,
                 new AssetRewards(),

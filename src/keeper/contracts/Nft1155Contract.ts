@@ -5,12 +5,12 @@ import { TxParameters } from './ContractBase'
 import BigNumber from '../../utils/BigNumber'
 import { ethers } from 'ethers'
 import { abi } from '../../artifacts/ERC1155.json'
-import { NFTsBase } from './NFTsBase'
+import { NFTContractsBase } from './NFTContractsBase'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs
  */
-export class Nft1155Contract extends NFTsBase {
+export class Nft1155Contract extends NFTContractsBase {
     public static async getInstance(
         config: InstantiableConfig,
         address?: string

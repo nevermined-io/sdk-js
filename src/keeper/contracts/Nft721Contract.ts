@@ -6,9 +6,11 @@ import { Account } from '../..'
 import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { ContractEvent, EventHandler } from '../../events'
-import { NFTsBase } from './NFTsBase'
+import { NFTContractsBase } from './NFTContractsBase'
 
-export default class Nft721Contract extends NFTsBase {
+export default class Nft721Contract extends NFTContractsBase {
+    nftContract: Nft721Contract
+
     public static async getInstance(
         config: InstantiableConfig,
         address: string
