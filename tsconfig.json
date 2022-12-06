@@ -3,6 +3,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "lib": [
       "es2019",

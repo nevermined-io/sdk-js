@@ -15,6 +15,7 @@ describe('Filecoin Integration', () => {
     let userId: string
 
     const testPath = '/tmp/test.txt'
+    const name = 'bafkreigxr4y6aqzsgmpicz47pl4pn2j3okpd672yvbrq7xo5hxt7fnmxuq'
     let url: string
 
     before(async () => {
@@ -37,7 +38,7 @@ describe('Filecoin Integration', () => {
         const stream = fs.createReadStream(testPath)
         ;({ url } = await nevermined.files.uploadFilecoin(stream))
 
-        assert.equal(url, 'cid://bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
+        assert.equal(url, `cid://${name}`)
 
         // cleanup file
         fs.unlinkSync(testPath)
@@ -74,7 +75,7 @@ describe('Filecoin Integration', () => {
         const path = await nevermined.assets.download(ddo.id, publisher, folder, 0)
 
         assert.include(path, folder)
-        const data = fs.readFileSync(`${path}bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq`)
+        const data = fs.readFileSync(`${path}${name}`)
         assert.equal(data.toString(), 'Hello, Nevermined!')
     })
 
@@ -87,7 +88,7 @@ describe('Filecoin Integration', () => {
             false
         )) as WebApiFile[]
 
-        assert.equal(result[0].name, 'bafkqaesimvwgy3zmebhgk5tfojwws3tfmqqq')
+        assert.equal(result[0].name, name)
     })
 
     it('should register an asset with a cid:// and filename', async () => {
