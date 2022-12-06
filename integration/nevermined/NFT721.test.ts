@@ -91,7 +91,7 @@ describe('Nfts721 operations', async () => {
             const agreementId = await nevermined.nfts721.order(ddo.id, collector)
 
             // artists sends the nft
-            await nevermined.nfts721.transfer721(agreementId, ddo.id, artist)
+            await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
                 await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
@@ -99,7 +99,7 @@ describe('Nfts721 operations', async () => {
             )
 
             // artist fetches the payment
-            await nevermined.nfts721.release721Rewards(agreementId, ddo.id, artist)
+            await nevermined.nfts721.releaseRewards(agreementId, ddo.id, artist)
         })
     })
 
@@ -132,7 +132,7 @@ describe('Nfts721 operations', async () => {
             const agreementId = await nevermined.nfts721.order(ddo.id, collector)
 
             // artists sends the nft
-            await nevermined.nfts721.transfer721(agreementId, ddo.id, artist)
+            await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
                 await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
@@ -140,7 +140,7 @@ describe('Nfts721 operations', async () => {
             )
 
             // artist fetches the payment
-            await nevermined.nfts721.release721Rewards(agreementId, ddo.id, artist)
+            await nevermined.nfts721.releaseRewards(agreementId, ddo.id, artist)
         })
     })
 
@@ -173,7 +173,7 @@ describe('Nfts721 operations', async () => {
             const agreementId = await nevermined.nfts721.order(ddo.id, collector)
 
             // artists sends the nft
-            await nevermined.nfts721.transfer721(agreementId, ddo.id, artist)
+            await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
                 await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
@@ -181,7 +181,7 @@ describe('Nfts721 operations', async () => {
             )
 
             // artist fetches the payment
-            await nevermined.nfts721.release721Rewards(agreementId, ddo.id, artist)
+            await nevermined.nfts721.releaseRewards(agreementId, ddo.id, artist)
         })
     })
 })

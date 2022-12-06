@@ -117,7 +117,7 @@ describe('NFTs721 Api End-to-End', () => {
 
     describe('As a collector I want to buy some art', () => {
         it('I check the details of the NFT', async () => {
-            const details = await nevermined.nfts.details(ddo.id)
+            const details = await nevermined.nfts1155.details(ddo.id)
             assert.equal(details.owner, artist.getId())
         })
 
@@ -144,7 +144,7 @@ describe('NFTs721 Api End-to-End', () => {
                 artist.getId()
             )
 
-            const receipt = await nevermined.nfts721.transfer721(agreementId, ddo.id, artist)
+            const receipt = await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
             assert.isTrue(receipt)
 
             assert.equal(
@@ -158,7 +158,7 @@ describe('NFTs721 Api End-to-End', () => {
                 escrowPaymentCondition.getAddress()
             )
 
-            const receipt = await nevermined.nfts721.release721Rewards(
+            const receipt = await nevermined.nfts721.releaseRewards(
                 agreementId,
                 ddo.id,
                 artist
@@ -200,12 +200,12 @@ describe('NFTs721 Api End-to-End', () => {
 
     describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
         it('The collector access the files to download', async () => {
-            const result = await nevermined.nfts.access(ddo.id, collector1, '/tmp/')
+            const result = await nevermined.nfts1155.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
         })
 
         it('The collector access the files object', async () => {
-            const result = (await nevermined.nfts.access(
+            const result = (await nevermined.nfts1155.access(
                 ddo.id,
                 collector1,
                 undefined,

@@ -665,7 +665,7 @@ describe('Secondary Markets', () => {
             })
 
             it('As collector2 I setup an agreement for selling my NFT', async () => {
-                agreementId3 = await nevermined.nfts.listOnSecondaryMarkets(
+                agreementId3 = await nevermined.nfts1155.listOnSecondaryMarkets(
                     ddo,
                     assetRewards3,
                     numberNFTs2,
@@ -691,7 +691,7 @@ describe('Secondary Markets', () => {
                     ddo.id
                 )
 
-                const result = await nevermined.nfts.buySecondaryMarketNft(
+                const result = await nevermined.nfts1155.buySecondaryMarketNft(
                     collector1,
                     BigNumber.from(1),
                     agreementId3
@@ -705,7 +705,7 @@ describe('Secondary Markets', () => {
                     escrowPaymentCondition.getAddress()
                 )
 
-                const result = await nevermined.nfts.releaseSecondaryMarketRewards(
+                const result = await nevermined.nfts1155.releaseSecondaryMarketRewards(
                     collector2,
                     collector1,
                     agreementId3

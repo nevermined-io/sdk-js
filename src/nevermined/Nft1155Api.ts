@@ -17,14 +17,33 @@ import { NFTError } from '../errors'
 import BigNumber from '../utils/BigNumber'
 import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
 import { NFTsBaseApi } from './NFTsBaseApi'
+import { ContractReceipt } from 'ethers'
+
 
 /**
- * Nevermined Nft module
+ * Allows the interaction with external ERC-1155 NFT contracts built on top of the Nevermined NFT extra features.
  */
 export class Nft1155Api extends NFTsBaseApi {
 
+    // Instance of the ERC-1155 NFT Contract where the API is connected
     nftContract: Nft1155Contract
 
+    /**
+     * Create a new Nevermined NFTs (ERC-1155) instance allowing to interact with that kind of NFTs.
+     *
+     * @example
+     * ```ts
+     * nfts1155 = await Nft1155Api.getInstance(
+     *      instanceConfig, 
+     *      nft1155Contract
+     * )
+     * ```
+     *
+     * @param cpnfig - The Nevermined config
+     * @param nftContractInstance - If there is already deployed an instance of `Nft1155Contract`
+     * @param nftContractAddress - If the `Nft1155Contract` is deployed in an address it will connect to that contract
+     * @returns The NFTs 1155 API instance {@link Nft1155Api}.
+     */
     public static async getInstance(
         config: InstantiableConfig,
         nftContractInstance?: Nft1155Contract,
@@ -41,24 +60,51 @@ export class Nft1155Api extends NFTsBaseApi {
         return nft1155
     }
 
+
+    /**
+     * Gets the ERC-721 NFT Contract address
+     * @returns The NFT contract address
+     */     
+      public get address(): string {
+        return this.nftContract.address
+    }
+
+    /**
+     * Gets the instance of the ERC-1155 NFT Contract where the API is connected
+     * @returns The `Nft1155Contract` instance
+     */
+    public get getContract(): Nft1155Contract {
+        return this.nftContract
+    }
+
+
     /**
      * Create a new NFT Nevermined NFT.
      *
      * @example
      * ```ts
-     * // TODO
+     * ddo = await nevermined.nfts1155.create(
+     *           metadata,
+     *           artist,
+     *           BigNumber.from(10),
+     *           royaltyAttributes,
+     *           new AssetRewards(),
+     *           BigNumber.from(1),
+     *           token.getAddress()
+     *       )
      * ```
      *
      * @param metadata - The metadata associated with the NFT.
      * @param publisher -The account of the creator od the NFT.
      * @param cap - The max number of nfts.
      * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
      * @param assetRewards - The sales reward distribution.
+     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
      * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
      * @param preMint - Set to true to mint _nftAmount_ during creation.
      * @param nftMetadata - Url to the NFT metadata.
      * @param appId - The id of the application creating the NFT.
+     * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
      * @param txParams - Optional transaction parameters
      * @returns The newly registered {@link DDO}.
      */
@@ -106,7 +152,11 @@ export class Nft1155Api extends NFTsBaseApi {
      *
      * @example
      * ```ts
-     * // TODO
+     * await nevermined.nfts1155.mint(
+     *           did,
+     *           BigNumber.from(10),
+     *           artist
+     * )
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -138,7 +188,11 @@ export class Nft1155Api extends NFTsBaseApi {
      *
      * @example
      * ```ts
-     * // TODO
+     * await nevermined.nfts1155.burn(
+     *           did,
+     *           BigNumber.from(2),
+     *           artist
+     * )
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -173,7 +227,7 @@ export class Nft1155Api extends NFTsBaseApi {
      *
      * @example
      * ```ts
-     * // TODO
+     * agreementId = await nevermined.nfts1155.order(ddo.id, numberNFTs, collector)
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -224,7 +278,12 @@ export class Nft1155Api extends NFTsBaseApi {
      *
      * @example
      * ```ts
-     * // TODO
+     * const receipt = await nevermined.nfts1155.transfer(
+     *           agreementId,
+     *           ddo.id,
+     *           numberNFTs,
+     *           artist
+     *       )
      * ```
      *
      * @param agreementId - The NFT sales agreement id.
@@ -272,7 +331,12 @@ export class Nft1155Api extends NFTsBaseApi {
      *
      * @example
      * ```ts
-     * // TODO
+     * const receipt = await nevermined.nfts1155.releaseRewards(
+     *           agreementId,
+     *           ddo.id,
+     *           numberNFTs,
+     *           artist
+     *       )
      * ```
      *
      * @param agreementId - The NFT sales agreement id.
@@ -319,7 +383,7 @@ export class Nft1155Api extends NFTsBaseApi {
      *
      * @example
      * ```ts
-     * // TODO
+     * const balance = await nevermined.nfts1155.balance(ddo.id, artist)
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -333,21 +397,32 @@ export class Nft1155Api extends NFTsBaseApi {
 
     /**
      * Gets the contract owner
+     * 
+     * @example
+     * ```ts
+     * const nftContractOwner = new Account(
+     *      await nevermined.nfts1155.owner()
+     * )
+     * ```
      *
      * @returns Address of the contract owner
      */
-        public async owner(): Promise<string> {
+    public async owner(): Promise<string> {
         return this.nftContract.owner()
     }
 
     /**
-     * Enable or disable NFT transfer rights for an operator.
+     * Enable or disable NFT permissions for an operator.
      *
      * @see {@link transferForDelegate}
      *
      * @example
      * ```ts
-     * // TODO
+     * await nevermined.nfts1155.setApprovalForAll(
+     *               someoneElse,
+     *               true,
+     *               artist
+     * )
      * ```
      *
      * @param operatorAddress - The address that of the operator we want to give transfer rights to.
@@ -360,7 +435,7 @@ export class Nft1155Api extends NFTsBaseApi {
         operatorAddress: string,
         approved: boolean,
         from: Account
-    ) {
+    ): Promise<ContractReceipt> {
         const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress);
 
         if (isApproved) {
@@ -374,6 +449,21 @@ export class Nft1155Api extends NFTsBaseApi {
         )
     }
 
+     /**
+     * Returns if the `operatorAddress` is approved 
+     *
+     * @see {@link transferForDelegate}
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts1155.isApprovedForAll(someoneElse, artist.getId())
+     * ```
+     *
+     * @param operatorAddress -  The address to check the permissions
+     * @param from - The address of the account granting or revoking the permissions via `setApprovalForAll`.
+     *
+     * @returns Boolean saying if the `operatorAddress` is approved
+     */   
     public async isApprovedForAll(
         operatorAddress: string,
         from: string
@@ -438,16 +528,57 @@ export class Nft1155Api extends NFTsBaseApi {
         return receipt
     }
 
-    public addMinter(
+    /**
+     * Adds a minter (`minterAddress`) to the NFT Contract. 
+     * Granting and revoking minting permissions only can be done by the NFT Contract owner
+     *
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts1155.addMinter(
+     *               someoneElse,
+     *               artist
+     * )
+     * ```
+     *
+     * @param minterAddress - The address of the account to be added as minter in the NFT Contract
+     * @param from - The account giving minting permissions
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
+     */
+    public async addMinter(
         minterAddress: string,
         from?: Account,
         params?: TxParameters
-    ) {
+    ): Promise<ContractReceipt> {
         return this.nftContract.addMinter(minterAddress, from, params)
     }
 
-    public get getContract() {
-        return this.nftContract
+    /**
+     * Revokes a minter (`minterAddress`) of the NFT Contract. 
+     * Granting and revoking minting permissions only can be done by the NFT Contract owner
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts1155.revokeMinter(
+     *               someoneElse,
+     *               artist
+     * )
+     * ```
+     *
+     * @param minterAddress - The address of the account to be revoked as minter in the NFT Contract
+     * @param from - The account revoking minting permissions
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
+     */
+     public async revokeMinter(
+        minterAddress: string,
+        from?: Account,
+        params?: TxParameters
+    ): Promise<ContractReceipt> {
+        return this.nftContract.revokeMinter(minterAddress, from, params)
     }
 
 }

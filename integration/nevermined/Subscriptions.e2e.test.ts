@@ -146,8 +146,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             // Typically this only needs to happen once per NFT contract
             await subscriptionNFT.setApprovalForAll(neverminedNodeAddress, true, editor)
             const isApproved = await subscriptionNFT.isApprovedForAll(
-                editor.getId(),
-                neverminedNodeAddress
+                neverminedNodeAddress,
+                editor.getId()
             )
             assert.isTrue(isApproved)
         })
@@ -174,7 +174,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     describe('As a subscriber I want to get access to some contents', () => {
         it('I check the details of the subscription NFT', async () => {
-            const details = await nevermined.nfts.details(subscriptionDDO.id)
+            const details = await nevermined.nfts1155.details(subscriptionDDO.id)
             assert.equal(details.owner, editor.getId())
         })
 
@@ -210,10 +210,10 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             assert.isTrue(receipt)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(
+                await nevermined.nfts721.ownerOfAssetByAgreement(
                     subscriptionDDO.shortId(),
-                    nft.address,
-                    agreementId
+                    agreementId,
+                    nft.address
                 ),
                 subscriber.getId()
             )
@@ -286,7 +286,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     describe('As subscriber I want to get access to assets include as part of my subscription', () => {
         it('The collector access the files', async () => {
-            const result = await nevermined.nfts.access(
+            const result = await nevermined.nfts1155.access(
                 assetDDO.id,
                 subscriber,
                 '/tmp/',
