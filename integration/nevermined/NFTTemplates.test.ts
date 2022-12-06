@@ -1121,7 +1121,7 @@ describe('NFTTemplates E2E', () => {
                 const balance = await nftUpgradeable.balance(artist.getId(), ddo.id)
                 assert.deepEqual(balance, BigNumber.from(5))
 
-                await nevermined.nfts.setApprovalForAll(gallery.getId(), true, artist)
+                await nevermined.nfts1155.setApprovalForAll(gallery.getId(), true, artist)
             })
         })
 

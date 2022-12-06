@@ -70,7 +70,7 @@ describe('Assets Query by Price', () => {
             RoyaltyKind.Standard,
             0
         )
-        ddoNftSales = await nevermined.nfts.create(
+        ddoNftSales = await nevermined.nfts1155.create(
             metadata,
             account,
             BigNumber.from(1),

@@ -59,7 +59,7 @@ export default class ContractHandler extends Instantiable {
         const networkId = await this.nevermined.keeper.getNetworkId()
         const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         try {
-            this.logger.debug(`ContractHandler :: GET :: ${artifactsFolder}`)
+            this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
             return (
                 ContractHandler.getContract(what, networkId, address) ||
                 (await this.load(what, where, networkId, artifactsFolder, address))
@@ -78,7 +78,7 @@ export default class ContractHandler extends Instantiable {
         const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         let artifact
         this.logger.debug(
-            `Trying to fetch ${artifactsFolder}/${contractName}.${where}.json`
+            `ContractHandler :: getVersion :: Trying to read ${artifactsFolder}/${contractName}.${where}.json`
         )
         if (artifactsFolder.startsWith('http'))
             artifact = await this.fetchJson(
@@ -91,7 +91,7 @@ export default class ContractHandler extends Instantiable {
                     'utf8'
                 )
             )
-
+        this.logger.debug(`Loaded artifact ${contractName} with version ${artifact.version}`)
         return artifact.version
     }
 
@@ -102,9 +102,8 @@ export default class ContractHandler extends Instantiable {
         artifactsFolder: string,
         address?: string
     ): Promise<ethers.Contract> {
-        this.logger.debug('Loading', what, 'from', where, 'and folder', artifactsFolder)
+        this.logger.debug(`Loading ${what} from ${where} and folder ${artifactsFolder}`)
         let artifact
-        this.logger.debug(`Artifacts folder: ${artifactsFolder}`)
         if (artifactsFolder.startsWith('http'))
             artifact = await this.fetchJson(`${artifactsFolder}/${what}.${where}.json`)
         else
@@ -120,18 +119,14 @@ export default class ContractHandler extends Instantiable {
 
         const contract = new ethers.Contract(_address, artifact.abi, this.web3)
 
-        this.logger.debug(
-            'Getting instance of',
-            what,
-            'from',
-            where,
-            'at address',
-            _address
-        )
+        this.logger.debug(`Instance of ${what} from ${where} fetched at address ${_address}`)
+
         if (!address) {
+            this.logger.debug(`No address given as param for ${what}. Loading instance`)
             ContractHandler.setContract(what, networkId, contract)
             return ContractHandler.getContract(what, networkId)
         }
+        
         return contract
     }
 

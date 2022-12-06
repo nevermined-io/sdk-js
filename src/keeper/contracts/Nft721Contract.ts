@@ -6,14 +6,15 @@ import { Account } from '../..'
 import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { ContractEvent, EventHandler } from '../../events'
-import { NFTsBase } from './NFTsBase'
+import { NFTContractsBase } from './NFTContractsBase'
 
-export default class Nft721Contract extends NFTsBase {
+export default class Nft721Contract extends NFTContractsBase {
+
     public static async getInstance(
         config: InstantiableConfig,
         address: string
     ): Promise<Nft721Contract> {
-        const nft: Nft721Contract = new Nft721Contract('NFT721')
+        const nft: Nft721Contract = new Nft721Contract('NFT721Upgradeable')
         nft.setInstanceConfig(config)
 
         // We don't have a subgraph for NFT721 so we can only use ContractEvent
@@ -25,6 +26,7 @@ export default class Nft721Contract extends NFTsBase {
             config.web3
         )
 
+        
         await nft.checkExists(address)
         nft.contract = new ethers.Contract(address, abi, nft.web3)
 

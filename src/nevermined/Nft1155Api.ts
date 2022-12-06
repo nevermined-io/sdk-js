@@ -1,70 +1,110 @@
 import { MetaData } from '../ddo/MetaData'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { InstantiableConfig } from '../Instantiable.abstract'
 import AssetRewards from '../models/AssetRewards'
-import { DDO, utils } from '../sdk'
+import { DDO } from '../sdk'
 import {
-    fillConditionsWithDDO,
-    findServiceConditionByName,
     generateId,
-    getAssetRewardsFromService,
     getDIDFromService,
     getNftAmountFromService,
-    getNftHolderFromService,
     OrderProgressStep,
     SubscribablePromise,
     zeroX
 } from '../utils'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes, RoyaltyKind } from './Assets'
+import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from './Assets'
 import Account from './Account'
-import Token from '../keeper/contracts/Token'
-import { ServiceSecondary } from '../ddo/Service'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import { NFTError } from '../errors'
 import BigNumber from '../utils/BigNumber'
-import { ethers } from 'ethers'
-import {
-    ERCType,
-    NeverminedNFT1155Type,
-    NeverminedNFTType
-} from '../models/NFTAttributes'
 import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
+import { NFTsBaseApi } from './NFTsBaseApi'
+import { ContractReceipt } from 'ethers'
+
 
 /**
- * Nevermined Nft module
+ * Allows the interaction with external ERC-1155 NFT contracts built on top of the Nevermined NFT extra features.
  */
-export class Nft1155Api extends Instantiable {
+export class Nft1155Api extends NFTsBaseApi {
+
+    // Instance of the ERC-1155 NFT Contract where the API is connected
     nftContract: Nft1155Contract
 
+    /**
+     * Create a new Nevermined NFTs (ERC-1155) instance allowing to interact with that kind of NFTs.
+     *
+     * @example
+     * ```ts
+     * nfts1155 = await Nft1155Api.getInstance(
+     *      instanceConfig, 
+     *      nft1155Contract
+     * )
+     * ```
+     *
+     * @param cpnfig - The Nevermined config
+     * @param nftContractInstance - If there is already deployed an instance of `Nft1155Contract`
+     * @param nftContractAddress - If the `Nft1155Contract` is deployed in an address it will connect to that contract
+     * @returns The NFTs 1155 API instance {@link Nft1155Api}.
+     */
     public static async getInstance(
         config: InstantiableConfig,
+        nftContractInstance?: Nft1155Contract,
         nftContractAddress?: string
         ): Promise<Nft1155Api> {
         const nft1155 = new Nft1155Api()
         nft1155.setInstanceConfig(config)
-
-        if (nftContractAddress)
+        
+        if (nftContractInstance)
+            nft1155.nftContract = nftContractInstance
+        else if (nftContractAddress)
             nft1155.nftContract = await Nft1155Contract.getInstance(config, nftContractAddress)
+
         return nft1155
     }
+
+
+    /**
+     * Gets the ERC-721 NFT Contract address
+     * @returns The NFT contract address
+     */     
+      public get address(): string {
+        return this.nftContract.address
+    }
+
+    /**
+     * Gets the instance of the ERC-1155 NFT Contract where the API is connected
+     * @returns The `Nft1155Contract` instance
+     */
+    public get getContract(): Nft1155Contract {
+        return this.nftContract
+    }
+
 
     /**
      * Create a new NFT Nevermined NFT.
      *
      * @example
      * ```ts
-     * // TODO
+     * ddo = await nevermined.nfts1155.create(
+     *           metadata,
+     *           artist,
+     *           BigNumber.from(10),
+     *           royaltyAttributes,
+     *           new AssetRewards(),
+     *           BigNumber.from(1),
+     *           token.getAddress()
+     *       )
      * ```
      *
      * @param metadata - The metadata associated with the NFT.
      * @param publisher -The account of the creator od the NFT.
      * @param cap - The max number of nfts.
      * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
      * @param assetRewards - The sales reward distribution.
+     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
      * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
      * @param preMint - Set to true to mint _nftAmount_ during creation.
      * @param nftMetadata - Url to the NFT metadata.
      * @param appId - The id of the application creating the NFT.
+     * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
      * @param txParams - Optional transaction parameters
      * @returns The newly registered {@link DDO}.
      */
@@ -92,7 +132,7 @@ export class Nft1155Api extends Instantiable {
             nftAmount,
             royaltyAttributes,
             erc20TokenAddress,
-            this.nevermined.keeper.nftUpgradeable.address,
+            this.nftContract.address,
             preMint,
             nftMetadata ? nftMetadata : '',
             undefined,
@@ -103,119 +143,6 @@ export class Nft1155Api extends Instantiable {
         )
     }
 
-    /**
-     * Create a new Nevermined NFT with royalties.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param metadata - The metadata associated with the NFT.
-     * @param publisher -The account of the creator od the NFT.
-     * @param cap - The max number of nfts.
-     * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
-     * @param assetRewards - The sales reward distribution.
-     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
-     * @param preMint - Set to true to mint _nftAmount_ during creation.
-     * @param nftMetadata - Url to the NFT metadata.
-     * @param appId - The id of the application creating the NFT.
-     * @param txParams - Optional transaction parameters
-     *
-     * @returns The newly registered {@link DDO}.
-     */
-    public createWithRoyalties(
-        metadata: MetaData,
-        publisher: Account,
-        cap: BigNumber,
-        providers: string[] = [],
-        royaltyAttributes: RoyaltyAttributes,
-        assetRewards: AssetRewards,
-        nftAmount: BigNumber = BigNumber.from(1),
-        erc20TokenAddress?: string,
-        preMint?: boolean,
-        nftMetadata?: string,
-        nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
-        appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
-        txParams?: TxParameters
-    ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.createNftWithRoyalties(
-            metadata,
-            publisher,
-            assetRewards,
-            'PSK-RSA',
-            cap,
-            providers,
-            nftAmount,
-            royaltyAttributes,
-            erc20TokenAddress,
-            preMint,
-            nftMetadata || '',
-            nftType,
-            appId,
-            publishMetadata,
-            txParams
-        )
-    }
-
-    /**
-     * Create a new Nevermined NFT-721.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param metadata - The metadata associated with the NFT.
-     * @param publisher -The account of the creator od the NFT.
-     * @param assetRewards - The sales reward distribution.
-     * @param nftTokenAddress - The address of the ERC-721 contract
-     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
-     * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param nftMetadata - Url to the NFT metadata.
-     * @param nftTransfer - TODO
-     * @param duration - TODO
-     * @param appId - Id of the application creating this NFT.
-     * @param txParams - Optional transaction parameters
-     *
-     * @returns The newly registered {@link DDO}.
-     */
-    public create721(
-        metadata: MetaData,
-        publisher: Account,
-        assetRewards: AssetRewards,
-        nftTokenAddress: string,
-        erc20TokenAddress?: string,
-        royaltyAttributes?: RoyaltyAttributes,
-        nftMetadata?: string,
-        nftTransfer = true,
-        duration = 0,
-        appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
-        txParams?: TxParameters
-    ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.createNft721(
-            metadata,
-            publisher,
-            assetRewards,
-            undefined,
-            nftTokenAddress,
-            erc20TokenAddress,
-            true,
-            undefined,
-            royaltyAttributes,
-            nftMetadata ? nftMetadata : '',
-            ['nft-sales', 'nft-access'],
-            nftTransfer,
-            duration,
-            undefined,
-            appId,
-            publishMetadata,
-            txParams
-        )
-    }
 
     /**
      * Mint NFTs associated with an asset.
@@ -225,7 +152,11 @@ export class Nft1155Api extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * await nevermined.nfts1155.mint(
+     *           did,
+     *           BigNumber.from(10),
+     *           artist
+     * )
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -257,7 +188,11 @@ export class Nft1155Api extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * await nevermined.nfts1155.burn(
+     *           did,
+     *           BigNumber.from(2),
+     *           artist
+     * )
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -292,7 +227,7 @@ export class Nft1155Api extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * agreementId = await nevermined.nfts1155.order(ddo.id, numberNFTs, collector)
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -333,54 +268,6 @@ export class Nft1155Api extends Instantiable {
         })
     }
 
-    /**
-     * Buy NFT-721.
-     *
-     * @remarks
-     * This will lock the funds of the consumer in escrow pending the transfer of the NFTs
-     * from the publisher.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param did - The Decentralized Identifier of the NFT asset.
-     * @param consumer - The account of the NFT buyer.
-     * @param txParams - Optional transaction parameters.
-     *
-     * @returns The agreement ID.
-     */
-    public order721(
-        did: string,
-        consumer: Account,
-        txParams?: TxParameters
-    ): SubscribablePromise<OrderProgressStep, string> {
-        return new SubscribablePromise<OrderProgressStep, string>(async observer => {
-            const { nft721SalesTemplate } = this.nevermined.keeper.templates
-
-            const agreementIdSeed = zeroX(generateId())
-            const ddo = await this.nevermined.assets.resolve(did)
-
-            this.logger.log('Creating nft721-sales agreement')
-            const agreementId =
-                await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
-                    agreementIdSeed,
-                    ddo,
-                    nft721SalesTemplate.params(consumer.getId()),
-                    consumer,
-                    consumer,
-                    undefined,
-                    txParams,
-                    a => observer.next(a)
-                )
-            if (!agreementId) {
-                throw new NFTError('Error creating nft721-sales agreement')
-            }
-
-            return agreementId
-        })
-    }
 
     /**
      * Transfer NFTs to the consumer.
@@ -391,7 +278,12 @@ export class Nft1155Api extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * const receipt = await nevermined.nfts1155.transfer(
+     *           agreementId,
+     *           ddo.id,
+     *           numberNFTs,
+     *           artist
+     *       )
      * ```
      *
      * @param agreementId - The NFT sales agreement id.
@@ -430,90 +322,6 @@ export class Nft1155Api extends Instantiable {
         return true
     }
 
-    /**
-     * Asks the Node to transfer the NFT on behalf of the publisher.
-     *
-     * @remarks
-     * This is useful when the consumer does not want to wait for the publisher
-     * to transfer the NFT once the payment is made. Assuming the publisher delegated
-     * transfer permissions to the Node.
-     *
-     * One example would be a marketplace where the user wants to get access to the NFT
-     * as soon as the payment is made
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param agreementId - The NFT sales agreement id.
-     * @param nftHolder - The address of the current owner of the NFT.
-     * @param nftReceiver - The address where the NFT should be transferred.
-     * @param nftAmount - The amount of NFTs to transfer.
-     * @param ercType  - The Type of the NFT ERC (1155 or 721).
-     *
-     * @returns true if the transfer was successful.
-     */
-    public async transferForDelegate(
-        agreementId: string,
-        nftHolder: string,
-        nftReceiver: string,
-        nftAmount: BigNumber,
-        ercType: ERCType = 1155
-    ): Promise<boolean> {
-        return await this.nevermined.node.nftTransferForDelegate(
-            agreementId,
-            nftHolder,
-            nftReceiver,
-            nftAmount,
-            ercType
-        )
-    }
-
-    /**
-     * Transfer NFT-721 to the consumer.
-     *
-     * @remarks
-     * A publisher/provider will check if the consumer put the funds in escrow and
-     * execute the transfer in order to be able to release the rewards.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param agreementId - The NFT sales agreement id.
-     * @param did - The Decentralized identifier of the NFT asset.
-     * @param publisher - The current owner of the NFTs.
-     * @param txParams - Optional transaction parameters.
-     *
-     * @returns true if the transfer was successful.
-     *
-     * @throws {@link NFTError}
-     * Thrown if there is an error transferring the NFT
-     */
-    public async transfer721(
-        agreementId: string,
-        did: string,
-        publisher: Account,
-        txParams?: TxParameters
-    ): Promise<boolean> {
-        const { agreements } = this.nevermined
-
-        const ddo = await this.nevermined.assets.resolve(did)
-
-        const result = await agreements.conditions.transferNft721(
-            agreementId,
-            ddo,
-            publisher,
-            txParams
-        )
-        if (!result) {
-            throw new NFTError('Error transferring nft721.')
-        }
-
-        return true
-    }
 
     /**
      * Release the funds from escrow.
@@ -523,7 +331,12 @@ export class Nft1155Api extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * const receipt = await nevermined.nfts1155.releaseRewards(
+     *           agreementId,
+     *           ddo.id,
+     *           numberNFTs,
+     *           artist
+     *       )
      * ```
      *
      * @param agreementId - The NFT sales agreement id.
@@ -564,116 +377,13 @@ export class Nft1155Api extends Instantiable {
         return true
     }
 
-    /**
-     * Release the funds from escrow.
-     *
-     * @remarks
-     * A publisher is able to release the funds put on escrow by the consumer after transferring the NFTs.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param agreementId - The NFT sales agreement id.
-     * @param did - The Decentralized identifier of the NFT asset.
-     * @param publisher - The current owner of the NFTs.
-     * @param txParams - Optional transaction parameters.
-     *
-     * @returns true if the funds release was successful.
-     *
-     * @throws {@link NFTError}
-     * Thrown if there is an error releasing the rewards.
-     */
-    public async release721Rewards(
-        agreementId: string,
-        did: string,
-        publisher: Account,
-        txParams?: TxParameters
-    ): Promise<boolean> {
-        const { agreements } = this.nevermined
-
-        const ddo = await this.nevermined.assets.resolve(did)
-
-        const result = await agreements.conditions.releaseNft721Reward(
-            agreementId,
-            ddo,
-            publisher,
-            undefined,
-            txParams
-        )
-
-        if (!result) {
-            throw new NFTError('Error releasing the 721 rewards.')
-        }
-
-        return true
-    }
-
-    /**
-     * Access the files associated with an NFT.
-     *
-     * @remarks
-     * This function will call the Node that will check if all the access conditions where fulfilled
-     * before providing the files.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param did - The Decentralized Identifier of the NFT asset.
-     * @param consumer - The NFT holder account.
-     * @param destination - The download destination for the files.
-     * @param index-  The index of the file. If unset will download all the files in the asset.
-     * @param agreementId - The NFT sales agreement id.
-     * @param isToDownload - If the NFT is for downloading
-     *
-     * @returns true if the access was successful or file if isToDownload is false.
-     */
-    public async access(
-        did: string,
-        consumer: Account,
-        destination?: string,
-        index?: number,
-        agreementId = '0x',
-        isToDownload = true
-    ) {
-        const ddo = await this.nevermined.assets.resolve(did)
-        const { attributes } = ddo.findServiceByType('metadata')
-        const { files } = attributes.main
-
-        const accessToken = await this.nevermined.utils.jwt.getNftAccessGrantToken(
-            agreementId,
-            ddo.id,
-            consumer
-        )
-        const headers = {
-            Authorization: 'Bearer ' + accessToken
-        }
-
-        // Download the files
-        this.logger.log('Downloading the files')
-        const result = await this.nevermined.node.downloadService(
-            files,
-            destination,
-            index,
-            isToDownload,
-            headers
-        )
-
-        if (typeof result === 'string') {
-            return true
-        }
-        return result
-    }
 
     /**
      * Get the NFT balance for a particular did
      *
      * @example
      * ```ts
-     * // TODO
+     * const balance = await nevermined.nfts1155.balance(ddo.id, artist)
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -686,116 +396,33 @@ export class Nft1155Api extends Instantiable {
     }
 
     /**
-     * Get the owner of the NFT
-     *
+     * Gets the contract owner
+     * 
      * @example
      * ```ts
-     * // TODO
+     * const nftContractOwner = new Account(
+     *      await nevermined.nfts1155.owner()
+     * )
      * ```
      *
-     * @param did - The Decentralized identifier of the NFT asset.
-     * @param nftTokenAddress - The address of the ERC-721 contract.
-     * @param agreementId - The NFT sales agreement id.
-     *
-     * @returns The address of the NFT owner.
+     * @returns Address of the contract owner
      */
-    public async ownerOf(did: string, nftTokenAddress: string, agreementId?: string) {
-        if (!agreementId) {
-            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
-                did
-            )
-        } else {
-            const tokenId = ethers.utils.keccak256(
-                ethers.utils.defaultAbiCoder.encode(
-                    ['bytes32', 'bytes32'],
-                    [zeroX(did), zeroX(agreementId)]
-                )
-            )
-            return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
-                tokenId
-            )
-        }
+    public async owner(): Promise<string> {
+        return this.nftContract.owner()
     }
 
     /**
-     * Get the details of an NFT
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param did - The Decentralized Identifier of the NFT asset.
-     *
-     * @returns The details of the NFT.
-     */
-    public async details(did: string) {
-        const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
-        const royaltySchemeAddress =
-            await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
-        let royalties = Number(details[8])
-        let royaltyScheme = RoyaltyKind.Legacy
-        if (
-            this.nevermined.keeper.royalties.curve &&
-            royaltySchemeAddress === this.nevermined.keeper.royalties.curve.address
-        ) {
-            royaltyScheme = RoyaltyKind.Curve
-            royalties = await this.nevermined.keeper.royalties.curve.getRoyalty(did)
-        } else if (
-            this.nevermined.keeper.royalties.standard &&
-            royaltySchemeAddress === this.nevermined.keeper.royalties.standard.address
-        ) {
-            royaltyScheme = RoyaltyKind.Standard
-            royalties = await this.nevermined.keeper.royalties.standard.getRoyalty(did)
-        }
-
-        return {
-            owner: details[0],
-            lastChecksum: details[1],
-            url: details[2],
-            lastUpdatedBy: details[3],
-            blockNumberUpdated: Number(details[4]),
-            providers: details[5],
-            nftSupply: Number(details[6]),
-            mintCap: Number(details[7]),
-            royalties,
-            royaltyScheme
-        }
-    }
-
-    /**
-     * Get the NFT contract address associated with a Nevermined asset.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param ddo - The DDO of the asset.
-     *
-     * @returns The NFT contract address.
-     */
-    public getNftContractAddress(ddo: DDO) {
-        const service = ddo.findServiceByType('nft-access')
-        if (service) {
-            const cond = service.attributes.serviceAgreementTemplate.conditions.find(
-                c => c.name === 'nftHolder'
-            )
-            return !cond
-                ? null
-                : cond.parameters.find(p => p.name === '_contractAddress').value
-        }
-        return null
-    }
-
-    /**
-     * Enable or disable NFT transfer rights for an operator.
+     * Enable or disable NFT permissions for an operator.
      *
      * @see {@link transferForDelegate}
      *
      * @example
      * ```ts
-     * // TODO
+     * await nevermined.nfts1155.setApprovalForAll(
+     *               someoneElse,
+     *               true,
+     *               artist
+     * )
      * ```
      *
      * @param operatorAddress - The address that of the operator we want to give transfer rights to.
@@ -808,7 +435,7 @@ export class Nft1155Api extends Instantiable {
         operatorAddress: string,
         approved: boolean,
         from: Account
-    ) {
+    ): Promise<ContractReceipt> {
         const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress);
 
         if (isApproved) {
@@ -822,6 +449,21 @@ export class Nft1155Api extends Instantiable {
         )
     }
 
+     /**
+     * Returns if the `operatorAddress` is approved 
+     *
+     * @see {@link transferForDelegate}
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts1155.isApprovedForAll(someoneElse, artist.getId())
+     * ```
+     *
+     * @param operatorAddress -  The address to check the permissions
+     * @param from - The address of the account granting or revoking the permissions via `setApprovalForAll`.
+     *
+     * @returns Boolean saying if the `operatorAddress` is approved
+     */   
     public async isApprovedForAll(
         operatorAddress: string,
         from: string
@@ -829,146 +471,6 @@ export class Nft1155Api extends Instantiable {
         return this.nftContract.isApprovedForAll(from, operatorAddress)
     }
 
-    /**
-     * After purchase re-list an NFT to enable secondary market sales.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param ddo - The DDO of the asset.
-     * @param assetRewards - The current setup of asset rewards.
-     * @param nftAmount - The number of NFTs put up for secondary sale.
-     * @param provider - The address that will be the provider of the secondary sale.
-     * @param owner - The account of the current owner.
-     *
-     * @returns  the agreementId of the secondary sale.
-     *
-     * @throws {@link NFTError}
-     * Thrown if there is an error listing the NFT.
-     */
-    public async listOnSecondaryMarkets(
-        ddo: DDO,
-        assetRewards: AssetRewards,
-        nftAmount: BigNumber,
-        provider: string,
-        token: Token,
-        owner: string
-    ): Promise<string> {
-        const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const agreementIdSeed = zeroX(utils.generateId())
-        const nftSalesServiceAgreementTemplate =
-            await nftSalesTemplate.getServiceAgreementTemplate()
-        const nftSalesTemplateConditions =
-            await nftSalesTemplate.getServiceAgreementTemplateConditions()
-
-        nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
-            nftSalesTemplateConditions,
-            ddo,
-            assetRewards,
-            token.getAddress(),
-            undefined,
-            provider || owner,
-            nftAmount
-        )
-
-        const nftSalesServiceAgreement: ServiceSecondary = {
-            agreementId: agreementIdSeed,
-            type: 'nft-sales',
-            index: 6,
-            serviceEndpoint: this.nevermined.node.getNftEndpoint(),
-            templateId: nftSalesTemplate.getAddress(),
-            did: ddo.id,
-            attributes: {
-                main: {
-                    name: 'nftSalesAgreement',
-                    creator: owner,
-                    datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
-                    timeout: 86400
-                },
-                additionalInformation: {
-                    description: ''
-                },
-                serviceAgreementTemplate: nftSalesServiceAgreementTemplate
-            }
-        }
-
-        const saveResult = await this.nevermined.metadata.storeService(
-            agreementIdSeed,
-            nftSalesServiceAgreement
-        )
-
-        if (saveResult) {
-            return agreementIdSeed
-        } else {
-            throw new NFTError(`Error saving ${agreementIdSeed} to MetadataDB`)
-        }
-    }
-
-    /**
-     * Buys a number of listed NFTs on secondary markets.
-     *
-     * @example
-     * ```ts
-     * // TODO
-     * ```
-     *
-     * @param consumer - The account of the buyer/consumer.
-     * @param nftAmount - The number of assets to buy. 1 by default.
-     * @param agreementId - The agreementId of the initial sales agreement created off-chain.
-     *
-     * @returns true if the buy was successful.
-     *
-     * @throws {@link NFTError}
-     * Thrown if there is an error buying the NFT.
-     */
-    public async buySecondaryMarketNft(
-        consumer: Account,
-        nftAmount: BigNumber = BigNumber.from(1),
-        agreementIdSeed: string,
-        params?: TxParameters
-    ): Promise<boolean> {
-        const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
-        const assetRewards = getAssetRewardsFromService(service)
-        // has no privkeys, so we can't sign
-        const currentNftHolder = new Account(getNftHolderFromService(service))
-        const did = getDIDFromService(service)
-        const ddo = await this.nevermined.assets.resolve(did)
-        ddo.updateService(this.nevermined, service)
-
-        const agreementId = await nftSalesTemplate.createAgreementFromDDO(
-            agreementIdSeed,
-            ddo,
-            nftSalesTemplate.params(
-                consumer.getId(),
-                nftAmount,
-                currentNftHolder.getId()
-            ),
-            consumer,
-            consumer,
-            [86400, 86400, 86400],
-            params
-        )
-
-        if (!agreementId) throw new Error('Creating buy agreement failed')
-
-        const payment = findServiceConditionByName(service, 'lockPayment')
-
-        const receipt = await this.nevermined.agreements.conditions.lockPayment(
-            agreementId,
-            ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
-            payment.parameters.find(p => p.name === '_tokenAddress').value as string,
-            consumer,
-            params
-        )
-
-        if (!receipt) throw new NFTError('LockPayment Failed.')
-        return receipt
-    }
 
     /**
      * Used to release the secondary market NFT & the locked rewards.
@@ -986,7 +488,7 @@ export class Nft1155Api extends Instantiable {
      * @throws {@link NFTError}
      * Thrown if there is an error releasing the rewards.
      */
-    public async releaseSecondaryMarketRewards(
+     public async releaseSecondaryMarketRewards(
         owner: Account,
         consumer: Account,
         agreementIdSeed: string,
@@ -1025,4 +527,58 @@ export class Nft1155Api extends Instantiable {
         if (!receipt) throw new NFTError('ReleaseNftReward Failed.')
         return receipt
     }
+
+    /**
+     * Adds a minter (`minterAddress`) to the NFT Contract. 
+     * Granting and revoking minting permissions only can be done by the NFT Contract owner
+     *
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts1155.addMinter(
+     *               someoneElse,
+     *               artist
+     * )
+     * ```
+     *
+     * @param minterAddress - The address of the account to be added as minter in the NFT Contract
+     * @param from - The account giving minting permissions
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
+     */
+    public async addMinter(
+        minterAddress: string,
+        from?: Account,
+        params?: TxParameters
+    ): Promise<ContractReceipt> {
+        return this.nftContract.addMinter(minterAddress, from, params)
+    }
+
+    /**
+     * Revokes a minter (`minterAddress`) of the NFT Contract. 
+     * Granting and revoking minting permissions only can be done by the NFT Contract owner
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts1155.revokeMinter(
+     *               someoneElse,
+     *               artist
+     * )
+     * ```
+     *
+     * @param minterAddress - The address of the account to be revoked as minter in the NFT Contract
+     * @param from - The account revoking minting permissions
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
+     */
+     public async revokeMinter(
+        minterAddress: string,
+        from?: Account,
+        params?: TxParameters
+    ): Promise<ContractReceipt> {
+        return this.nftContract.revokeMinter(minterAddress, from, params)
+    }
+
 }

@@ -41,6 +41,8 @@ describe('POAPs with Assets', () => {
         )
         assert.isDefined(poapContract)
 
+        await nevermined.contracts.loadNft721(poapContract.address)
+
         // INFO: We allow transferNFT condition to mint NFTs
         // Typically this only needs to happen once per NFT contract
         const tx = await poapContract.addMinter(
@@ -81,12 +83,12 @@ describe('POAPs with Assets', () => {
     })
 
     it('user should be able to redeem a poap', async () => {
-        agreementId = await nevermined.nfts.order721(poapDDO.id, user)
+        agreementId = await nevermined.nfts721.order(poapDDO.id, user)
         assert.isDefined(agreementId)
     })
 
     it('we should be able to ask the gateway to transfer the poap', async () => {
-        const receipt = await nevermined.nfts.transferForDelegate(
+        const receipt = await nevermined.nfts721.transferForDelegate(
             agreementId,
             editor.getId(),
             user.getId(),
@@ -102,7 +104,7 @@ describe('POAPs with Assets', () => {
     })
 
     it('user should have access', async () => {
-        const result = await nevermined.nfts.access(
+        const result = await nevermined.nfts721.access(
             poapDDO.id,
             user,
             '/tmp/',
