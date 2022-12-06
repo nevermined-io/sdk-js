@@ -11,7 +11,6 @@ import {
     RoyaltyKind
 } from '../../src/nevermined/Assets'
 import { ethers, Wallet } from 'ethers'
-import { MetaTxParameters } from '../../src/keeper/contracts/ContractBase'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper/utils'
@@ -99,10 +98,7 @@ describe('MetaTx test with nfts', () => {
             const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
             const signer = etherProvider.getSigner(wallet.address)
 
-            const meta: MetaTxParameters = {
-                signer,
-            }
-            await nevermined.keeper.didRegistry.burn(ddo.id, BigNumber.from(2), await wallet.getAddress(), {meta})
+            await nevermined.keeper.didRegistry.burn(ddo.id, BigNumber.from(2), await wallet.getAddress(), {signer})
             assert.deepEqual(
                 await nevermined.nfts.balance(ddo.id, artist),
                 BigNumber.from(6)
