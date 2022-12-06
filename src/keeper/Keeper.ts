@@ -78,7 +78,6 @@ export class Keeper extends Instantiable {
                 // Main contracts
                 dispenser: undefined, // Optional
                 token: undefined, // Optional
-                // nftUpgradeable: undefined, // Optional
                 curveRoyalties: undefined, // Optional
                 nvmConfig: NeverminedConfig.getInstance(this.instanceConfig),
                 didRegistry: DIDRegistry.getInstance(this.instanceConfig),
@@ -194,14 +193,6 @@ export class Keeper extends Instantiable {
             this.logger.debug('Token not available on this network.')
         }
 
-        // try {
-        //     this.instances.aaveCreditTemplate = await AaveCreditTemplate.getInstance(
-        //         this.instantiableConfig
-        //     )
-        // } catch {
-        //     this.logger.debug('AaveCreditTemplate not available on this network.')
-        // }
-
         try {
             this.instances.curveRoyalties = await CurveRoyalties.getInstance(
                 this.instanceConfig
@@ -209,16 +200,6 @@ export class Keeper extends Instantiable {
         } catch {
             this.logger.debug('CurveRoyalties not available on this network.')
         }
-
-        // try {
-        //     console.log('\n')
-        //     this.instances.nftUpgradeable = await Nft1155Contract.getInstance(
-        //         this.instanceConfig
-        //     )
-        // } catch (error) {
-        //     this.logger.debug('NFT1155Upgradeable not available on this network.')
-        //     this.logger.debug((error as Error).message)
-        // }
 
         // Main contracts
         this.dispenser = this.instances.dispenser
