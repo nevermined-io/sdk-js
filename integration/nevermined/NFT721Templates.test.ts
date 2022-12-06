@@ -86,6 +86,8 @@ describe('NFT721Templates E2E', () => {
     let scale: BigNumber
 
     before(async () => {
+        nevermined = await Nevermined.getInstance(config)
+
         TestContractHandler.setConfig(config)
 
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
@@ -94,7 +96,6 @@ describe('NFT721Templates E2E', () => {
         // deploy a nft contract we can use
         const nftContract = await TestContractHandler.deployArtifact(erc721ABI)
 
-        nevermined = await Nevermined.getInstance(config)
         ;[owner, artist, collector1, collector2, gallery] =
             await nevermined.accounts.list()
 

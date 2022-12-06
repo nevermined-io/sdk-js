@@ -45,6 +45,8 @@ describe('NFTs721 Api End-to-End', () => {
     let payload: JWTPayload
 
     before(async () => {
+        nevermined = await Nevermined.getInstance(config)
+
         TestContractHandler.setConfig(config)
 
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
@@ -52,7 +54,6 @@ describe('NFTs721 Api End-to-End', () => {
 
         nft = await TestContractHandler.deployArtifact(erc721ABI)
 
-        nevermined = await Nevermined.getInstance(config)
         nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
             nft.address
