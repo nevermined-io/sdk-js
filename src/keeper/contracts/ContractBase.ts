@@ -1,4 +1,3 @@
-// import { RelayProvider } from '@opengsn/provider'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import ContractHandler from '../ContractHandler'
 
@@ -9,14 +8,6 @@ import { KeeperError } from '../../errors'
 import { ContractReceipt, ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 
-export interface MetaTxParameters {
-    /*
-    paymasterAddress: string
-    wallet: ethers.Wallet
-    */
-    signer: ethers.Signer
-}
-
 export interface TxParameters {
     value?: string
     gasLimit?: BigNumber
@@ -24,7 +15,7 @@ export interface TxParameters {
     gasPrice?: string
     maxPriorityFeePerGas?: string
     maxFeePerGas?: string
-    meta?: MetaTxParameters
+    signer?: ethers.Signer
     nonce?: number
     progress?: (data: any) => void
 }
@@ -124,15 +115,15 @@ export abstract class ContractBase extends Instantiable {
         return receipt
     }
 
-    public async internalSend(name: string, from: string, args: any[], params: TxParameters, txparams: any, contract: ethers.Contract) {
+    private async internalSend(name: string, from: string, args: any[], txparams: any, contract: ethers.Contract, progress: (data: any) => void) {
         const methodSignature = this.getSignatureOfMethod(name, args)
         const {
             gasLimit,
             value,
         } = txparams
         // make the call
-        if (params.progress) {
-            params.progress({
+        if (progress) {
+            progress({
                 stage: 'sending',
                 args: this.searchMethodInputs(name, args),
                 method: name,
@@ -147,8 +138,8 @@ export abstract class ContractBase extends Instantiable {
         const transactionResponse: TransactionResponse = await contract[
             methodSignature
         ](...args, txparams)
-        if (params.progress) {
-            params.progress({
+        if (progress) {
+            progress({
                 stage: 'sent',
                 args: this.searchMethodInputs(name, args),
                 transactionResponse,
@@ -162,8 +153,8 @@ export abstract class ContractBase extends Instantiable {
         }
 
         const ContractReceipt: ContractReceipt = await transactionResponse.wait()
-        if (params.progress) {
-            params.progress({
+        if (progress) {
+            progress({
                 stage: 'receipt',
                 args: this.searchMethodInputs(name, args),
                 ContractReceipt,
@@ -186,10 +177,10 @@ export abstract class ContractBase extends Instantiable {
         args: any[],
         params: TxParameters = {}
     ): Promise<ContractReceipt> {
-        if (params.meta) {
-            const paramsFixed = {...params, meta: undefined}
-            const contract = this.contract.connect(params.meta.signer)
-            return await this.internalSend(name, from, args, paramsFixed, paramsFixed, contract)
+        if (params.signer) {
+            const paramsFixed = {...params, signer: undefined}
+            const contract = this.contract.connect(params.signer)
+            return await this.internalSend(name, from, args, paramsFixed, contract, params.progress)
         }
 
         const methodSignature = this.getSignatureOfMethod(name, args)
@@ -246,7 +237,7 @@ export abstract class ContractBase extends Instantiable {
                 nonce,
                 ...feeData
             }
-            return await this.internalSend(name, from, args, params, txparams, contract)
+            return await this.internalSend(name, from, args, txparams, contract, params.progress)
         } catch (err) {
             const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
                 return {
