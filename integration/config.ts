@@ -3,6 +3,7 @@ import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
+const logLevel = Number(process.env['LOG_LEVEL'])
 const nograph = process.env['NO_GRAPH'] === 'true'
 const infuraToken = process.env['INFURA_TOKEN']
 
@@ -25,7 +26,7 @@ const configBase: Config = {
     ipfsGateway,
     ipfsProjectId,
     ipfsProjectSecret,
-    verbose: LogLevel.Error
+    verbose: logLevel
 }
 
 if (process.env.NETWORK_NAME === 'testing') {

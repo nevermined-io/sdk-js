@@ -48,6 +48,7 @@ describe('NFTs Api End-to-End', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
+        
         ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
@@ -75,8 +76,8 @@ describe('NFTs Api End-to-End', () => {
             ])
         )
         await collector1.requestTokens(nftPrice.div(scale))
-
-        const nftContractOwner = new Account(await nevermined.keeper.nftUpgradeable.owner() as string)
+        
+        const nftContractOwner = new Account(await nevermined.nfts.owner())
         await nevermined.keeper.nftUpgradeable.setProxyApproval(transferNftCondition.address, true, nftContractOwner)
 
         initialBalances = {

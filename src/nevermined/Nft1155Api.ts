@@ -27,13 +27,17 @@ export class Nft1155Api extends NFTsBaseApi {
 
     public static async getInstance(
         config: InstantiableConfig,
+        nftContractInstance?: Nft1155Contract,
         nftContractAddress?: string
         ): Promise<Nft1155Api> {
         const nft1155 = new Nft1155Api()
         nft1155.setInstanceConfig(config)
         
-        if (nftContractAddress)
+        if (nftContractInstance)
+            nft1155.nftContract = nftContractInstance
+        else if (nftContractAddress)
             nft1155.nftContract = await Nft1155Contract.getInstance(config, nftContractAddress)
+
         return nft1155
     }
 
@@ -327,6 +331,14 @@ export class Nft1155Api extends NFTsBaseApi {
         return await this.nftContract.balance(account.getId(), did)
     }
 
+    /**
+     * Gets the contract owner
+     *
+     * @returns Address of the contract owner
+     */
+        public async owner(): Promise<string> {
+        return this.nftContract.owner()
+    }
 
     /**
      * Enable or disable NFT transfer rights for an operator.

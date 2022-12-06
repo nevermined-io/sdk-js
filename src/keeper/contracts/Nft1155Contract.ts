@@ -11,17 +11,19 @@ import { NFTContractsBase } from './NFTContractsBase'
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs
  */
 export class Nft1155Contract extends NFTContractsBase {
+    
     public static async getInstance(
         config: InstantiableConfig,
         address?: string
     ): Promise<Nft1155Contract> {
-        const nft: Nft1155Contract = new Nft1155Contract('NFT1155Upgradeable')        
-        nft.init(config)
 
-        if (address && await nft.checkExists(address))    {
+        const nft: Nft1155Contract = new Nft1155Contract('NFT1155Upgradeable')
+        await nft.init(config)
+        
+        if (address) {            
             nft.contract = new ethers.Contract(address, abi, nft.web3)    
         }
-
+                
         return nft
     }
 
@@ -176,4 +178,5 @@ export class Nft1155Contract extends NFTContractsBase {
     public async uri(did: string): Promise<string> {
         return this.call('uri', [didZeroX(did)])
     }
+
 }
