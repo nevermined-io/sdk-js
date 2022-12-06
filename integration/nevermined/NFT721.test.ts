@@ -5,7 +5,6 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import ERC721 from '../../src/artifacts/ERC721.json'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import { ethers } from 'ethers'
@@ -30,8 +29,11 @@ describe('Nfts721 operations', async () => {
     before(async () => {
         TestContractHandler.setConfig(config)
 
+        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+
         // deploy a nft contract we can use
-        nft = await TestContractHandler.deployArtifact(ERC721)        
+        nft = await TestContractHandler.deployArtifact(erc721ABI)        
         nevermined = await Nevermined.getInstance(config)
         nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,

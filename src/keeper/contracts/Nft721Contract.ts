@@ -1,12 +1,12 @@
 import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
-import { abi } from '../../artifacts/ERC721.json'
 import { Account } from '../..'
 import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { ContractEvent, EventHandler } from '../../events'
 import { NFTContractsBase } from './NFTContractsBase'
+import ContractHandler from '../ContractHandler'
 
 export default class Nft721Contract extends NFTContractsBase {
 
@@ -25,7 +25,8 @@ export default class Nft721Contract extends NFTContractsBase {
             config.nevermined,
             config.web3
         )
-
+        const contractHandler = new ContractHandler(config)
+        const abi = await contractHandler.getABI('NFT721Upgradeable', config.artifactsFolder)
         
         await nft.checkExists(address)
         nft.contract = new ethers.Contract(address, abi, nft.web3)

@@ -19,7 +19,6 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Nft721 } from '../../src'
-import ERC721 from '../../src/artifacts/ERC721.json'
 import { getMetadata } from '../utils'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import BigNumber from '../../src/utils/BigNumber'
@@ -89,8 +88,11 @@ describe('NFT721Templates E2E', () => {
     before(async () => {
         TestContractHandler.setConfig(config)
 
+        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+
         // deploy a nft contract we can use
-        const nftContract = await TestContractHandler.deployArtifact(ERC721)
+        const nftContract = await TestContractHandler.deployArtifact(erc721ABI)
 
         nevermined = await Nevermined.getInstance(config)
         ;[owner, artist, collector1, collector2, gallery] =
@@ -695,7 +697,10 @@ describe('NFT721Templates E2E', () => {
                 collector2.getId()
             )
 
-            const nftContract = await TestContractHandler.deployArtifact(ERC721)
+            const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+            const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+    
+            const nftContract = await TestContractHandler.deployArtifact(erc721ABI)
             nft = await nevermined.contracts.loadNft721(nftContract.address)
 
             nftContractOwner = new Account(await nft.nftContract.owner() as string)

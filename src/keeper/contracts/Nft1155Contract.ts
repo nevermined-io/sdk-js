@@ -4,8 +4,8 @@ import Account from '../../nevermined/Account'
 import { TxParameters } from './ContractBase'
 import BigNumber from '../../utils/BigNumber'
 import { ethers } from 'ethers'
-import { abi } from '../../artifacts/ERC1155.json'
 import { NFTContractsBase } from './NFTContractsBase'
+import ContractHandler from '../ContractHandler'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs
@@ -20,7 +20,10 @@ export class Nft1155Contract extends NFTContractsBase {
         const nft: Nft1155Contract = new Nft1155Contract('NFT1155Upgradeable')
         await nft.init(config)
         
-        if (address) {            
+        if (address) {       
+            const contractHandler = new ContractHandler(config)
+            const abi = await contractHandler.getABI('NFT1155Upgradeable', config.artifactsFolder)
+             
             nft.contract = new ethers.Contract(address, abi, nft.web3)    
         }
                 

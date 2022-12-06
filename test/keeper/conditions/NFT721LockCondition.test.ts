@@ -7,7 +7,6 @@ import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import ERC721 from '../../../src/artifacts/ERC721.json'
 import { Nft721 } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { Contract, ContractReceipt, Event } from 'ethers'
@@ -37,7 +36,12 @@ describe('NFT721LockCondition', () => {
         ;({ nft721LockCondition } = nevermined.keeper.conditions)
         ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
         ;[owner, lockAddress] = await nevermined.accounts.list()
-        _nftContract = await TestContractHandler.deployArtifact(ERC721)
+        
+        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+
+        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+
+        _nftContract = await TestContractHandler.deployArtifact(erc721ABI)
         nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
         nftContractAddress = nft721Wrapper.address
         await nft721Wrapper.nftContract.setProxyApproval(nft721LockCondition.address, true)

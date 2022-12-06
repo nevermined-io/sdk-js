@@ -15,7 +15,7 @@ import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
 
 chai.use(chaiAsPromised)
 
-describe('NFTs Api End-to-End', () => {
+describe('NFTs 1155 Api End-to-End', () => {
     let artist: Account
     let collector1: Account
     let collector2: Account

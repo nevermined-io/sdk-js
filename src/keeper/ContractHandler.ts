@@ -71,6 +71,33 @@ export default class ContractHandler extends Instantiable {
         }
     }
 
+    public async getABI(
+        contractName: string,
+        artifactsFolder = './artifacts'
+    ): Promise<string> {
+        const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
+        let artifact
+
+        try {
+            this.logger.debug(`ContractHandler :: getABI :: ${artifactsFolder} :: ${contractName} - ${where}`)
+            if (artifactsFolder && artifactsFolder.startsWith('http'))
+                artifact = await this.fetchJson(
+                    `${artifactsFolder}/${contractName}.${where}.json`
+                )
+            else
+                artifact = JSON.parse(
+                    fs.readFileSync(
+                        `${artifactsFolder}/${contractName}.${where}.json`,
+                        'utf8'
+                    )
+                )
+            this.logger.debug(`Loaded artifact ${contractName} with version ${artifact.version}`)
+        } catch (err) {
+            throw new KeeperError(`Unable to load ABI ${contractName} from ${where} - ${(err as Error).message}`)
+        }
+        return artifact.abi
+    }
+
     public async getVersion(
         contractName: string,
         artifactsFolder: string

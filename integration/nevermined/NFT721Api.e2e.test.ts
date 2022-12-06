@@ -7,7 +7,6 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import ERC721 from '../../src/artifacts/ERC721.json'
 import { zeroX } from '../../src/utils'
 import { ethers } from 'ethers'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
@@ -48,7 +47,10 @@ describe('NFTs721 Api End-to-End', () => {
     before(async () => {
         TestContractHandler.setConfig(config)
 
-        nft = await TestContractHandler.deployArtifact(ERC721)
+        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+
+        nft = await TestContractHandler.deployArtifact(erc721ABI)
 
         nevermined = await Nevermined.getInstance(config)
         nftContract = await Nft721Contract.getInstance(

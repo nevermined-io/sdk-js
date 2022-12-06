@@ -7,11 +7,13 @@ import { ZeroAddress } from '../../src/utils'
 import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import fs from 'fs'
+import fetch from 'node-fetch'
 
 interface ContractTest extends ethers.Contract {
     testContract?: boolean
     $initialized?: boolean
 }
+
 
 export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts(): Promise<string> {
@@ -361,6 +363,36 @@ export default abstract class TestContractHandler extends ContractHandler {
             distributeNFTCollateralCondition.address,
             vaultLibrary.address
         ])
+    }
+
+    public static async getABI(
+        contractName: string,
+        artifactsFolder: string,
+        where: string
+    ): Promise<any> {
+
+        try {
+            console.debug(`TestContractHandler :: getABI :: ${artifactsFolder} :: ${contractName} - ${where}`)
+            if (artifactsFolder.startsWith('http')) {
+                const path = `${artifactsFolder}/${contractName}.${where}.json`
+                const jsonFile = await fetch(path, {
+                    method: 'GET',
+                    headers: { 'Content-type': 'application/json' }
+                })
+                return jsonFile.json()
+            } else {
+                const artifact = JSON.parse(
+                    fs.readFileSync(
+                        `${artifactsFolder}/${contractName}.${where}.json`,
+                        'utf8'
+                    )
+                )
+                return artifact
+            }
+            
+        } catch (err) {
+            throw new Error(`Unable to load ABI ${contractName} from ${where} - ${err}`)
+        }
     }
 
     public static async deployAbi(
