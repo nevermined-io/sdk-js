@@ -47,11 +47,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
-          $GITHUB_WORKSPACE/nvm-tools start
+          ./nvm-tools/nvm-tools start
 
       - name: Copy artifacts
         run: |
-          $GITHUB_WORKSPACE/nvm-tools copy-artifacts ./artifacts
+          ./nvm-tools/nvm-tools copy-artifacts ./artifacts
           ls -l ./artifacts
 
       # - name: Run unit tests
