@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX } from '../../utils'
 import Account from '../../nevermined/Account'
-import { BigNumber, ContractReceipt } from 'ethers'
+import { BigNumber, ContractReceipt, ethers } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export class NFTContractsBase extends ContractBase {
@@ -49,8 +49,7 @@ export class NFTContractsBase extends ContractBase {
         } catch (error)    {
             throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)
         }
-    }
-
+    } 
 
     /**
      * Configure proxy approval for a specific operator address

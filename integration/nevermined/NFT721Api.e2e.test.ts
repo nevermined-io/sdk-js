@@ -113,7 +113,7 @@ describe('NFTs721 Api End-to-End', () => {
 
             await nftContract.mint(zeroX(ddo.shortId()), artist.getId())
 
-            const owner = await nevermined.nfts721.ownerOfAsset(ddo.id, nftContract.address)
+            const owner = await nevermined.nfts721.ownerOfAsset(ddo.id)
             assert.equal(owner, artist.getId())
         })
     })
@@ -143,7 +143,7 @@ describe('NFTs721 Api End-to-End', () => {
 
         it('The artist can check the payment and transfer the NFT to the collector', async () => {
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(ddo.id, nftContract.address),
+                await nevermined.nfts721.ownerOfAsset(ddo.id),
                 artist.getId()
             )
 
@@ -151,7 +151,7 @@ describe('NFTs721 Api End-to-End', () => {
             assert.isTrue(receipt)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(ddo.id, nftContract.address),
+                await nevermined.nfts721.ownerOfAsset(ddo.id),
                 collector1.getId()
             )
         })

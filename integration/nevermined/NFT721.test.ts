@@ -86,7 +86,7 @@ describe('Nfts721 operations', async () => {
             console.log(`Checking owner of DID ${ddo.id}`)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 artist.getId()
             )
 
@@ -97,7 +97,7 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 collector.getId()
             )
 
@@ -127,7 +127,7 @@ describe('Nfts721 operations', async () => {
 
         it('should transfer an nft token with custom token', async () => {
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 artist.getId()
             )
 
@@ -138,7 +138,7 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 collector.getId()
             )
 
@@ -168,7 +168,7 @@ describe('Nfts721 operations', async () => {
 
         it('should transfer an nft token with ether', async () => {
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 artist.getId()
             )
 
@@ -179,7 +179,7 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 collector.getId()
             )
 

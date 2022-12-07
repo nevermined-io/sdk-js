@@ -1,14 +1,37 @@
 import { assert } from 'chai'
+import { FormatTypes, Interface } from 'ethers/lib/utils'
 import ContractHandler from '../../src/keeper/ContractHandler'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../config'
 
 describe('ContractHandler', () => {
     let contractHandler: ContractHandler
+    let nevermined: Nevermined
+    let networkName: string
 
     before(async () => {
-        const { instanceConfig } = (await Nevermined.getInstance(config)) as any
+        nevermined = await Nevermined.getInstance(config)
+        const { instanceConfig } = (nevermined) as any
         contractHandler = new ContractHandler(instanceConfig)
+        networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    })
+
+
+    describe('ABIs parsing', () => {
+        it('should parse a Subscription NFT contract', async () => {
+            const solidityABI = await ContractHandler.getABI('NFT721SubscriptionUpgradeable', './test/resources/artifacts/')
+            const iface = new Interface(solidityABI.abi);
+            const output = iface.format(FormatTypes.full)
+            assert(output)            
+        })
+
+        it('should parse the NeverminedToken contract', async () => {
+            const solidityABI = await ContractHandler.getABI('NeverminedToken', './artifacts/', networkName)
+            const iface = new Interface(solidityABI.abi);
+            const output = iface.format(FormatTypes.full)
+            console.log(output)
+            assert(output)            
+        })        
     })
 
     describe('#get()', () => {

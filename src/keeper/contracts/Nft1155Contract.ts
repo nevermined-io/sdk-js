@@ -20,11 +20,9 @@ export class Nft1155Contract extends NFTContractsBase {
         const nft: Nft1155Contract = new Nft1155Contract('NFT1155Upgradeable')
         await nft.init(config)
         
-        if (address) {       
-            const contractHandler = new ContractHandler(config)
-            const abi = await contractHandler.getABI('NFT1155Upgradeable', config.artifactsFolder)
-             
-            nft.contract = new ethers.Contract(address, abi, nft.web3)    
+        if (address) {                   
+            const solidityABI = await ContractHandler.getABI('NFT1155Upgradeable', config.artifactsFolder)             
+            nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)    
         }
                 
         return nft

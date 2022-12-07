@@ -58,10 +58,6 @@ jobs:
       - name: Check artifacts
         run: |
           ls -l artifacts
-          # TODO: Remove this copy when the Node is totally adapted contracts v3.x
-          cp artifacts/NFT1155Upgradeable.${{ matrix.network-name }}.json artifacts/NFTUpgradeable.${{ matrix.network-name }}.json
-          sed -i 's/NFT1155Upgradeable/NFTUpgradeable/g' artifacts/NFTUpgradeable.${{ matrix.network-name }}.json
-          docker cp artifacts/NFTUpgradeable.${{ matrix.network-name }}.json nevermined-node:/artifacts/
       - name: Run unit tests
         run: export ETH_PORT=18545; yarn run test:cover
       - name: Run integration tests

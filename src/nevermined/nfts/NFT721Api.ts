@@ -1,26 +1,26 @@
-import { InstantiableConfig } from '../Instantiable.abstract'
-import { MetaData } from '../ddo/MetaData'
-import { DDO, OrderProgressStep } from '../sdk'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { MetaData } from '../../ddo/MetaData'
+import { DDO, OrderProgressStep } from '../../sdk'
 import {
     generateId,
     getDIDFromService,
     SubscribablePromise,
     zeroX
-} from '../utils'
-import Account from './Account'
-import Nft721Contract from '../keeper/contracts/Nft721Contract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
-import AssetRewards from '../models/AssetRewards'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from './Assets'
-import { NFTError } from '../errors/NFTError'
+} from '../../utils'
+import Account from '../Account'
+import Nft721Contract from '../../keeper/contracts/Nft721Contract'
+import { TxParameters } from '../../keeper/contracts/ContractBase'
+import AssetRewards from '../../models/AssetRewards'
+import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from '../Assets'
+import { NFTError } from '../../errors/NFTError'
 import { ContractReceipt, ethers } from 'ethers'
-import { NFTsBaseApi } from './NFTsBaseApi'
-import BigNumber from '../utils/BigNumber'
+import { NFTsBaseApi } from '../NFTsBaseApi'
+import BigNumber from '../../utils/BigNumber'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.
  */
-export class Nft721Api extends NFTsBaseApi {
+export class NFT721Api extends NFTsBaseApi {
 
     // Instance of the ERC-721 NFT Contract where the API is connected
     nftContract: Nft721Contract
@@ -38,13 +38,13 @@ export class Nft721Api extends NFTsBaseApi {
      *
      * @param cpnfig - The Nevermined config
      * @param nftContractAddress - If the Nft721 Contract is deployed in an address it will connect to that contract
-     * @returns The NFTs 721 API instance {@link Nft721Api}.
+     * @returns The NFTs 721 API instance {@link NFT721Api}.
      */
     public static async getInstance(
         config: InstantiableConfig,
         nftContractAddress: string
-    ): Promise<Nft721Api> {
-        const nft721 = new Nft721Api()
+    ): Promise<NFT721Api> {
+        const nft721 = new NFT721Api()
         nft721.setInstanceConfig(config)
 
         nft721.nftContract = await Nft721Contract.getInstance(config, nftContractAddress)
@@ -387,10 +387,11 @@ export class Nft721Api extends NFTsBaseApi {
      *
      * @returns The address of the NFT owner.
      */
-     public async ownerOfTokenId(tokenId: string, nftTokenAddress: string = this.nftContract.address) {
-        return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
-            tokenId
-        )
+     public async ownerOfTokenId(tokenId: string) {
+        return this.nftContract.ownerOf(tokenId)
+        // return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
+        //     tokenId
+        // )
     }   
 
     /**
@@ -406,8 +407,8 @@ export class Nft721Api extends NFTsBaseApi {
      *
      * @returns The address of the NFT owner.
      */
-     public async ownerOfAsset(did: string, nftTokenAddress: string = this.nftContract.address) {
-        return this.ownerOfTokenId(did, nftTokenAddress)
+     public async ownerOfAsset(did: string) {
+        return this.ownerOfTokenId(did)
     }
 
     /**
@@ -424,14 +425,14 @@ export class Nft721Api extends NFTsBaseApi {
      *
      * @returns The address of the NFT owner.
      */
-     public async ownerOfAssetByAgreement(did: string, agreementId: string, nftTokenAddress: string = this.nftContract.address) {
+     public async ownerOfAssetByAgreement(did: string, agreementId: string) {
         const tokenId = ethers.utils.keccak256(
             ethers.utils.defaultAbiCoder.encode(
                 ['bytes32', 'bytes32'],
                 [zeroX(did), zeroX(agreementId)]
             )
         )
-        return this.ownerOfTokenId(tokenId, nftTokenAddress)
+        return this.ownerOfTokenId(tokenId)
     
     }
 

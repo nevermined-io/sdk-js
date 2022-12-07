@@ -12,6 +12,7 @@ import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
+import { NFT1155Api } from '../../src/nevermined/nfts/NFT1155Api'
 
 chai.use(chaiAsPromised)
 
@@ -109,7 +110,7 @@ describe('NFTs 1155 Api End-to-End', () => {
                 undefined,
                 true
             )
-
+            
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts1155.balance(ddo.id, artist)

@@ -12,9 +12,38 @@ export default class Nft721Contract extends NFTContractsBase {
 
     public static async getInstance(
         config: InstantiableConfig,
-        address: string
+        address: string,
+        contractName = 'NFT721Upgradeable',
+        artifactsFolder = config.artifactsFolder
     ): Promise<Nft721Contract> {
-        const nft: Nft721Contract = new Nft721Contract('NFT721Upgradeable')
+        const nft: Nft721Contract = new Nft721Contract(contractName)
+        nft.setInstanceConfig(config)
+        const networkName = (await nft.nevermined.keeper.getNetworkName()).toLowerCase()
+        
+        // We don't have a subgraph for NFT721 so we can only use ContractEvent
+        const eventEmitter = new EventHandler()
+        nft.events = ContractEvent.getInstance(
+            nft,
+            eventEmitter,
+            config.nevermined,
+            config.web3
+        )
+        
+        const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
+        
+        await nft.checkExists(address)
+        nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+
+        return nft
+    }
+
+    public static async getInstanceUsingABI(
+        config: InstantiableConfig,
+        address: string,
+        solidityABI: any,
+        contractName = 'NFT721Upgradeable',
+    ): Promise<Nft721Contract> {
+        const nft: Nft721Contract = new Nft721Contract(contractName)
         nft.setInstanceConfig(config)
 
         // We don't have a subgraph for NFT721 so we can only use ContractEvent
@@ -25,11 +54,9 @@ export default class Nft721Contract extends NFTContractsBase {
             config.nevermined,
             config.web3
         )
-        const contractHandler = new ContractHandler(config)
-        const abi = await contractHandler.getABI('NFT721Upgradeable', config.artifactsFolder)
         
         await nft.checkExists(address)
-        nft.contract = new ethers.Contract(address, abi, nft.web3)
+        nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
 
         return nft
     }

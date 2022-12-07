@@ -2,7 +2,9 @@ import fs from 'fs'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
-import { ethers } from 'ethers'
+import Account from '../nevermined/Account'
+import { ContractReceipt, ethers } from 'ethers'
+import { TransactionResponse } from '@ethersproject/abstract-provider'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -71,31 +73,37 @@ export default class ContractHandler extends Instantiable {
         }
     }
 
-    public async getABI(
+    public static async getABI(
         contractName: string,
-        artifactsFolder = './artifacts'
-    ): Promise<string> {
-        const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
-        let artifact
-
+        artifactsFolder = './artifacts',
+        networkName?: string
+    ): Promise<any> {
         try {
-            this.logger.debug(`ContractHandler :: getABI :: ${artifactsFolder} :: ${contractName} - ${where}`)
-            if (artifactsFolder && artifactsFolder.startsWith('http'))
-                artifact = await this.fetchJson(
-                    `${artifactsFolder}/${contractName}.${where}.json`
-                )
-            else
-                artifact = JSON.parse(
+            let where = ''
+            if (networkName && networkName.length > 0)
+                where = `.${networkName}`
+
+            console.debug(`ContractHandler :: getABI :: ${artifactsFolder} :: ${contractName} - ${networkName}`)
+            if (artifactsFolder.startsWith('http')) {
+                const path = `${artifactsFolder}/${contractName}${where}.json`
+                const jsonFile = await fetch(path, {
+                    method: 'GET',
+                    headers: { 'Content-type': 'application/json' }
+                })
+                return jsonFile.json()
+            } else {
+                const artifact = JSON.parse(
                     fs.readFileSync(
-                        `${artifactsFolder}/${contractName}.${where}.json`,
+                        `${artifactsFolder}/${contractName}${where}.json`,
                         'utf8'
                     )
                 )
-            this.logger.debug(`Loaded artifact ${contractName} with version ${artifact.version}`)
+                return artifact
+            }
+            
         } catch (err) {
-            throw new KeeperError(`Unable to load ABI ${contractName} from ${where} - ${(err as Error).message}`)
+            throw new Error(`Unable to load ABI ${contractName} from ${networkName} - ${err}`)
         }
-        return artifact.abi
     }
 
     public async getVersion(
@@ -108,7 +116,7 @@ export default class ContractHandler extends Instantiable {
             `ContractHandler :: getVersion :: Trying to read ${artifactsFolder}/${contractName}.${where}.json`
         )
         if (artifactsFolder.startsWith('http'))
-            artifact = await this.fetchJson(
+            artifact = await ContractHandler.fetchJson(
                 `${artifactsFolder}/${contractName}.${where}.json`
             )
         else
@@ -122,6 +130,65 @@ export default class ContractHandler extends Instantiable {
         return artifact.version
     }
 
+    public async deployAbi(
+        artifact: any,
+        from: Account,
+        args: string[] = []
+    ): Promise<ethers.Contract> {
+        console.log(`Using Account: ${from.getId()}`)
+        
+        const signer = await this.findSigner(from.getId())
+        const contract = new ethers.ContractFactory(
+            artifact.abi,
+            artifact.bytecode,
+            signer
+        )
+        const isZos = contract.interface.fragments.some(f => f.name === 'initialize')
+
+        const argument = isZos ? [] : args
+        let contractInstance: ethers.Contract
+        try {
+            contractInstance = await contract.deploy(...argument)
+            await contractInstance.deployTransaction.wait()
+        } catch (error) {
+            console.error(JSON.stringify(error))
+            throw new Error(error.message)
+        }
+
+        if (isZos) {
+            const methodSignature = ContractHandler.getSignatureOfMethod(
+                contractInstance,
+                'initialize',
+                args
+            )
+            const contract = contractInstance.connect(signer)
+            const transactionResponse: TransactionResponse = await contract[
+                methodSignature
+            ](...args)
+            const contractReceipt: ContractReceipt = await transactionResponse.wait()
+            if (contractReceipt.status !== 1) {
+                throw new Error(`Error deploying contract ${artifact.name}`)
+            }
+        }
+        return contractInstance
+    }
+
+    public static getSignatureOfMethod(
+        contractInstace: ethers.Contract,
+        methodName: string,
+        args: any[]
+    ): string {
+        const methods = contractInstace.interface.fragments.filter(
+            f => f.name === methodName
+        )
+        const foundMethod =
+            methods.find(f => f.inputs.length === args.length) || methods[0]
+        if (!foundMethod) {
+            throw new Error(`Method "${methodName}" not found in contract`)
+        }
+        return foundMethod.format()
+    }
+
     private async load(
         what: string,
         where: string,
@@ -132,7 +199,7 @@ export default class ContractHandler extends Instantiable {
         this.logger.debug(`Loading ${what} from ${where} and folder ${artifactsFolder}`)
         let artifact
         if (artifactsFolder.startsWith('http'))
-            artifact = await this.fetchJson(`${artifactsFolder}/${what}.${where}.json`)
+            artifact = await ContractHandler.fetchJson(`${artifactsFolder}/${what}.${where}.json`)
         else
             artifact = JSON.parse(
                 fs.readFileSync(`${artifactsFolder}/${what}.${where}.json`, 'utf8')
@@ -157,7 +224,7 @@ export default class ContractHandler extends Instantiable {
         return contract
     }
 
-    private async fetchJson(path) {
+    static async fetchJson(path) {
         try {
             const jsonFile = await fetch(path, {
                 method: 'GET',

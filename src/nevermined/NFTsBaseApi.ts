@@ -25,26 +25,42 @@ import {
 } from '../models/NFTAttributes'
 
 
+/**
+ * Abstract class providing common NFT methods for different ERC implementations.
+ */
 export abstract class NFTsBaseApi extends Instantiable {
 
     /**
-     * Create a new Nevermined NFT with royalties.
+     * Create a new Nevermined NFTs (ERC-1155 or ERC-721) instance setting up the royalties to be applied in Secondary Market sales
      *
      * @example
      * ```ts
-     * // TODO
+     * ddo = await nevermined.nfts1155.createWithRoyalties(
+     *           metadata,
+     *           artist,
+     *           new BigNumber.from(1),
+     *           [neverminedNodeAddress],
+     *           royaltyAttributes,
+     *           assetRewards,
+     *           numberNFTs,
+     *           USDCContractAddress,
+     *           true
+     *       )
      * ```
      *
      * @param metadata - The metadata associated with the NFT.
      * @param publisher -The account of the creator od the NFT.
      * @param cap - The max number of nfts.
+     * @param providers - The list of addresses acting as providers for this asset. Typically the public address of one or more Nevermined Nodes
      * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
      * @param assetRewards - The sales reward distribution.
+     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
      * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
      * @param preMint - Set to true to mint _nftAmount_ during creation.
      * @param nftMetadata - Url to the NFT metadata.
      * @param appId - The id of the application creating the NFT.
+     * @param nftType - The type of NFT associated to the asset to publish
+     * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
      * @param txParams - Optional transaction parameters
      *
      * @returns The newly registered {@link DDO}.
@@ -98,7 +114,13 @@ export abstract class NFTsBaseApi extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * const receipt = await nevermined.nfts721.transferForDelegate(
+     *           agreementId,
+     *           editor.getId(),
+     *           subscriber.getId(),
+     *           nftAmount,
+     *           721
+     *       )
      * ```
      *
      * @param agreementId - The NFT sales agreement id.
@@ -131,7 +153,15 @@ export abstract class NFTsBaseApi extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * const details = await nevermined.nfts1155.details(ddo.id)
+     * 
+     * // The `details` object includes the NFT information
+     * 
+     * assert.equal(details.mintCap, 5)
+     * assert.equal(details.nftSupply, 5)
+     * assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
+     * assert.equal(details.royalties, 100000)
+     * assert.equal(details.owner, artist.getId())
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
@@ -174,18 +204,18 @@ export abstract class NFTsBaseApi extends Instantiable {
 
 
     /**
-     * Get the NFT contract address associated with a Nevermined asset.
+     * Gets the NFT contract address associated with a Nevermined asset from the DDO.
      *
      * @example
      * ```ts
-     * // TODO
+     * const nftContractAddress = NFT1155Api.getNFTContractAddress(ddo)
      * ```
      *
      * @param ddo - The DDO of the asset.
      *
      * @returns The NFT contract address.
      */
-     public getNftContractAddress(ddo: DDO) {
+     public static getNFTContractAddress(ddo: DDO) {
         const service = ddo.findServiceByType('nft-access')
         if (service) {
             const cond = service.attributes.serviceAgreementTemplate.conditions.find(
@@ -204,7 +234,14 @@ export abstract class NFTsBaseApi extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * const agreementId = await nevermined.nfts1155.listOnSecondaryMarkets(
+     *               ddo,
+     *               assetRewards,
+     *               numberNFTs,
+     *               collector.getId(),
+     *               token,
+     *               collector.getId()
+     *           )
      * ```
      *
      * @param ddo - The DDO of the asset.
@@ -281,7 +318,11 @@ export abstract class NFTsBaseApi extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * const result = await nevermined.nfts1155.buySecondaryMarketNft(
+     *               collector,
+     *               BigNumber.from(1),
+     *               agreementId
+     *           )
      * ```
      *
      * @param consumer - The account of the buyer/consumer.
@@ -297,6 +338,7 @@ export abstract class NFTsBaseApi extends Instantiable {
         consumer: Account,
         nftAmount: BigNumber = BigNumber.from(1),
         agreementIdSeed: string,
+        conditionsTimeout: number[] = [86400, 86400, 86400],
         params?: TxParameters
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
@@ -318,7 +360,7 @@ export abstract class NFTsBaseApi extends Instantiable {
             ),
             consumer,
             consumer,
-            [86400, 86400, 86400],
+            conditionsTimeout,
             params
         )
 
@@ -350,7 +392,7 @@ export abstract class NFTsBaseApi extends Instantiable {
      *
      * @example
      * ```ts
-     * // TODO
+     * const result = await nevermined.nfts1155.access(ddo.id, collector, '/tmp/')
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.

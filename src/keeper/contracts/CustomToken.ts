@@ -1,9 +1,9 @@
 import Token from './Token'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ethers } from 'ethers'
-import ContractHandler from '../ContractHandler'
 
 export default class CustomToken extends Token {
+
     public static async getInstanceByAddress(
         config: InstantiableConfig,
         address: string
@@ -12,11 +12,8 @@ export default class CustomToken extends Token {
         token.setInstanceConfig(config)
 
         await token.checkExists(address)
-
-        const contractHandler = new ContractHandler(config)
-        const abi = await contractHandler.getABI('NeverminedToken', config.artifactsFolder)
         
-        token.contract = new ethers.Contract(address, abi, token.web3)
+        token.contract = new ethers.Contract(address, Token.ERC20_ABI, token.web3)
 
         return token
     }
