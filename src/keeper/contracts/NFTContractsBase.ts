@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX } from '../../utils'
 import Account from '../../nevermined/Account'
-import { BigNumber, ContractReceipt, ethers } from 'ethers'
+import { BigNumber, ContractReceipt } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export class NFTContractsBase extends ContractBase {

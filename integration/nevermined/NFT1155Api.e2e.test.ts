@@ -12,7 +12,6 @@ import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
-import { NFT1155Api } from '../../src/nevermined/nfts/NFT1155Api'
 
 chai.use(chaiAsPromised)
 
