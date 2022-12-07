@@ -30,44 +30,44 @@ jobs:
           yarn
       - name: Run linters
         run: yarn lint
-      - name: Run tools (network)
+
+      # New nvm-tools
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/nvm-tools
+          path: nvm-tools
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Install minikube
         run: |
-          docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          yarn ganache --port 18545 --chain.chainId ${{ matrix.chainId }} > ganache-cli.log &
-          sudo chmod go+r /etc/hosts
-          sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-          
-          # TODO: Use `master` when the renaming is done
-          git clone https://github.com/nevermined-io/tools
-          cd tools
+          curl -LO https://storage.googleapis.com/minikube/releases/v1.28.0/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-          export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
+      - name: Run nvm-tools
+        env:
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
+        run: |
+          $GITHUB_WORKSPACE/nvm-tools start
 
-          # Disabling the compute api for now
-          # Check https://github.com/nevermined-io/sdk-js/issues/33
+      - name: Copy artifacts
+        run: |
+          $GITHUB_WORKSPACE/nvm-tools copy-artifacts ./artifacts
+          ls -l ./artifacts
 
-          ./start_nevermined.sh ${{ matrix.network }} --opengsn 2>&1 | tee nevermined_tools.txt &
-          cd ..
-          ./scripts/wait-nevermined.sh
-          ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
-
-      - name: Check artifacts
-        run: ls -l artifacts
-
-      - name: Run unit tests
-        run: export ETH_PORT=18545; yarn run test:cover
+      # - name: Run unit tests
+      #   run: export ETH_PORT=18545; yarn run test:cover
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
           OLD_GATEWAY: false
+          NO_GRAPH: true
         run: |
           export ${{ matrix.delay }}=true
           yarn run integration:cover
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt
+      # - name: Upload logs
+      #   uses: actions/upload-artifact@v2
+      #   if: failure()
+      #   with:
+      #     name: nevermined-tools-output
+      #     path: tools/nevermined_tools.txt

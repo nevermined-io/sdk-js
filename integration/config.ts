@@ -7,10 +7,10 @@ const nograph = process.env['NO_GRAPH'] === 'true'
 const infuraToken = process.env['INFURA_TOKEN']
 
 const configBase: Config = {
-    web3ProviderUri: 'http://localhost:8545',
-    marketplaceUri: 'http://172.17.0.1:3100',
+    web3ProviderUri: 'http://keeper.nevermined.localnet',
+    marketplaceUri: 'http://marketplace.nevermined.localnet',
     faucetUri: 'http://localhost:3001',
-    neverminedNodeUri: 'http://localhost:8030',
+    neverminedNodeUri: 'http://node.nevermined.localnet',
     neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
     artifactsFolder: './artifacts',
