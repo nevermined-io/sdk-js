@@ -83,7 +83,6 @@ export default class ContractHandler extends Instantiable {
             if (networkName && networkName.length > 0)
                 where = `.${networkName}`
 
-            console.debug(`ContractHandler :: getABI :: ${artifactsFolder} :: ${contractName} - ${networkName}`)
             if (artifactsFolder.startsWith('http')) {
                 const path = `${artifactsFolder}/${contractName}${where}.json`
                 const jsonFile = await fetch(path, {

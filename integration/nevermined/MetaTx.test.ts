@@ -35,6 +35,10 @@ describe('MetaTx test with nfts', () => {
 
         await nevermined.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
+
+        const nftContractOwner = new Account(await nevermined.nfts1155.owner())
+        await nevermined.keeper.nftUpgradeable.setProxyApproval(artist.getId(), true, nftContractOwner)
+
     })
 
     describe('with default token', async () => {
@@ -65,7 +69,6 @@ describe('MetaTx test with nfts', () => {
                 collector
             )
 
-
             await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
 
             assert.deepEqual(
@@ -80,7 +83,7 @@ describe('MetaTx test with nfts', () => {
 
         it('metatransactions should work', async () => {
             const wallet = Wallet.createRandom()
-
+            
             await nevermined.keeper.nftUpgradeable.transferNft(ddo.id, await wallet.getAddress(), BigNumber.from(2), artist.getId())
             assert.deepEqual(
                 BigNumber.from(await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id)),

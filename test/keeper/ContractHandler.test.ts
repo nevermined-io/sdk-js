@@ -29,7 +29,6 @@ describe('ContractHandler', () => {
             const solidityABI = await ContractHandler.getABI('NeverminedToken', './artifacts/', networkName)
             const iface = new Interface(solidityABI.abi);
             const output = iface.format(FormatTypes.full)
-            console.log(output)
             assert(output)            
         })        
     })
