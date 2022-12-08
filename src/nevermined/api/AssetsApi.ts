@@ -1,4 +1,3 @@
-import { SearchQuery } from '../../common/interfaces'
 import { DDO } from '../../ddo/DDO'
 import { MetaData } from '../../ddo/MetaData'
 import { Service, ServiceType } from '../../ddo/Service'
@@ -21,7 +20,7 @@ import {
     NeverminedNFTType,
     NFTAttributes
 } from '../../models/NFTAttributes'
-import { EncryptionMethod, QueryResult } from '../../metadata/Metadata'
+import { EncryptionMethod } from '../../metadata/Metadata'
 import BigNumber from '../../utils/BigNumber'
 import { SignatureUtils } from '../utils/SignatureUtils'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
@@ -100,41 +99,6 @@ export class AssetsApi extends RegistryBaseApi {
     ): SubscribablePromise<UpdateProgressStep, DDO> {
         return this.updateAsset(did, metadata, publisher, publishMetadata, txParams)
     }
-
-
-    // public createMintable(
-    //     metadata: MetaData,
-    //     publisher: Account,
-    //     cap: BigNumber = BigNumber.from(0),
-    //     royaltyAttributes: RoyaltyAttributes | undefined,
-    //     assetRewards: AssetRewards = new AssetRewards(),
-    //     encryptionMethod: EncryptionMethod,
-    //     providers?: string[],
-    //     nftMetadata?: string,
-    //     appId?: string,
-    //     publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
-    //     txParams?: TxParameters
-    // ): SubscribablePromise<CreateProgressStep, DDO> {
-    //     return this.createNft(
-    //         metadata,
-    //         publisher,
-    //         assetRewards,
-    //         encryptionMethod,
-    //         cap,
-    //         providers,
-    //         BigNumber.from(1),
-    //         royaltyAttributes,
-    //         undefined,
-    //         undefined,
-    //         undefined,
-    //         nftMetadata,
-    //         undefined,
-    //         undefined,
-    //         appId,
-    //         publishMetadata,
-    //         txParams
-    //     )
-    // }
 
     public createNft721(
         metadata: MetaData,
