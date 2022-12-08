@@ -13,6 +13,7 @@ interface ContractTest extends ethers.Contract {
     $initialized?: boolean
 }
 
+
 export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts(): Promise<string> {
         TestContractHandler.setConfig(config)
@@ -99,7 +100,7 @@ export default abstract class TestContractHandler extends ContractHandler {
             )
             const contract = token.connect(signer)
             const args = [TestContractHandler.minter, dispenser.address]
-            const methodSignature = this.getSignatureOfMethod(contract, 'grantRole', args)
+            const methodSignature = ContractHandler.getSignatureOfMethod(contract, 'grantRole', args)
             const transactionResponse: TransactionResponse = await contract[
                 methodSignature
             ](...args)
@@ -363,51 +364,6 @@ export default abstract class TestContractHandler extends ContractHandler {
         ])
     }
 
-    public static async deployAbi(
-        artifact: any,
-        from: string,
-        args: string[] = []
-    ): Promise<ethers.Contract> {
-        const signer = await TestContractHandler.findSignerStatic(
-            TestContractHandler.config,
-            TestContractHandler.web3,
-            from
-        )
-        const contract = new ethers.ContractFactory(
-            artifact.abi,
-            artifact.bytecode,
-            signer
-        )
-        const isZos = contract.interface.fragments.some(f => f.name === 'initialize')
-
-        const argument = isZos ? [] : args
-        let contractInstance: ethers.Contract
-        try {
-            contractInstance = await contract.deploy(...argument)
-            await contractInstance.deployTransaction.wait()
-        } catch (error) {
-            console.error(JSON.stringify(error))
-            throw new Error(error.message)
-        }
-
-        if (isZos) {
-            const methodSignature = TestContractHandler.getSignatureOfMethod(
-                contractInstance,
-                'initialize',
-                args
-            )
-            const contract = contractInstance.connect(signer)
-            const transactionResponse: TransactionResponse = await contract[
-                methodSignature
-            ](...args)
-            const contractReceipt: ContractReceipt = await transactionResponse.wait()
-            if (contractReceipt.status !== 1) {
-                throw new Error(`Error deploying contract ${artifact.name}`)
-            }
-        }
-        return contractInstance
-    }
-
     private static async deployContract(
         name: string,
         from: string,
@@ -544,21 +500,5 @@ export default abstract class TestContractHandler extends ContractHandler {
                 ),
             bytecode
         )
-    }
-
-    private static getSignatureOfMethod(
-        contractInstace: ethers.Contract,
-        methodName: string,
-        args: any[]
-    ): string {
-        const methods = contractInstace.interface.fragments.filter(
-            f => f.name === methodName
-        )
-        const foundMethod =
-            methods.find(f => f.inputs.length === args.length) || methods[0]
-        if (!foundMethod) {
-            throw new Error(`Method "${methodName}" not found in contract`)
-        }
-        return foundMethod.format()
     }
 }

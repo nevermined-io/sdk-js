@@ -78,7 +78,7 @@ jobs:
           export KEEPER_VERSION=develop
           export SUBGRAPH_VERSION=develop
           export NODE_VERSION=latest
-          ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node --opengsn 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
 
@@ -90,7 +90,7 @@ jobs:
 
       - name: Run integration tests
         env:
-          SEED_WORDS: ${{ secrets.seedWords }}
+          SEED_WORDS: ${{ secrets.TEST_MNEMONIC }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
           IPFS_GATEWAY: https://ipfs.infura.io:5001
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}

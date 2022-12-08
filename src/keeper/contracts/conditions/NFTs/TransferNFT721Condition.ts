@@ -92,9 +92,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         const transfer = findServiceConditionByName(service, 'transferNFT')
         if (!transfer) throw new Error('TransferNFT condition not found!')
 
-        const nft = await this.nevermined.contracts.loadNft721(
-            transfer.parameters.find(p => p.name === '_contractAddress').value as string
-        )
+        const nftAddress = transfer.parameters.find(p => p.name === '_contractAddress').value as string
         const nftHolder = transfer.parameters.find(p => p.name === '_nftHolder')
             .value as string
 
@@ -105,7 +103,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
             nftHolder,
             consumerId,
             lockCondition.id,
-            nft.address,
+            nftAddress,
             nftTransferString.toLowerCase() === 'true',
             expiration
         )

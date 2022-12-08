@@ -1,7 +1,7 @@
-import { MetaData } from '../ddo/MetaData'
-import { InstantiableConfig } from '../Instantiable.abstract'
-import AssetRewards from '../models/AssetRewards'
-import { DDO } from '../sdk'
+import { MetaData } from '../../ddo/MetaData'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import AssetRewards from '../../models/AssetRewards'
+import { DDO } from '../../sdk'
 import {
     generateId,
     getDIDFromService,
@@ -9,21 +9,21 @@ import {
     OrderProgressStep,
     SubscribablePromise,
     zeroX
-} from '../utils'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from './Assets'
-import Account from './Account'
-import { TxParameters } from '../keeper/contracts/ContractBase'
-import { NFTError } from '../errors'
-import BigNumber from '../utils/BigNumber'
-import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
-import { NFTsBaseApi } from './NFTsBaseApi'
+} from '../../utils'
+import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from '../Assets'
+import Account from '../Account'
+import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { NFTError } from '../../errors'
+import BigNumber from '../../utils/BigNumber'
+import { Nft1155Contract } from '../../keeper/contracts/Nft1155Contract'
+import { NFTsBaseApi } from '../NFTsBaseApi'
 import { ContractReceipt } from 'ethers'
 
 
 /**
  * Allows the interaction with external ERC-1155 NFT contracts built on top of the Nevermined NFT extra features.
  */
-export class Nft1155Api extends NFTsBaseApi {
+export class NFT1155Api extends NFTsBaseApi {
 
     // Instance of the ERC-1155 NFT Contract where the API is connected
     nftContract: Nft1155Contract
@@ -42,14 +42,14 @@ export class Nft1155Api extends NFTsBaseApi {
      * @param cpnfig - The Nevermined config
      * @param nftContractInstance - If there is already deployed an instance of `Nft1155Contract`
      * @param nftContractAddress - If the `Nft1155Contract` is deployed in an address it will connect to that contract
-     * @returns The NFTs 1155 API instance {@link Nft1155Api}.
+     * @returns The NFTs 1155 API instance {@link NFT1155Api}.
      */
     public static async getInstance(
         config: InstantiableConfig,
         nftContractInstance?: Nft1155Contract,
         nftContractAddress?: string
-        ): Promise<Nft1155Api> {
-        const nft1155 = new Nft1155Api()
+        ): Promise<NFT1155Api> {
+        const nft1155 = new NFT1155Api()
         nft1155.setInstanceConfig(config)
         
         if (nftContractInstance)

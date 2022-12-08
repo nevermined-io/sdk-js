@@ -7,7 +7,6 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import SubscriptionNFT from '../../src/artifacts/NFT721SubscriptionUpgradeable.json'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import { didZeroX } from '../../src/utils'
@@ -17,7 +16,8 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/Assets'
-import { Nft721Api } from '../../src/nevermined/Nft721Api'
+import { NFT721Api } from '../../src/nevermined/nfts/NFT721Api'
+import SubscriptionNFTApi from '../../src/nevermined/nfts/SubscriptionNFTApi'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -53,8 +53,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let initialBalances: any
     let scale: BigNumber
 
-    let nft: ethers.Contract
-    let subscriptionNFT: Nft721Api
+    // let nft: ethers.Contract
+    let subscriptionNFT: NFT721Api
     let neverminedNodeAddress
 
     let payload: JWTPayload
@@ -62,6 +62,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     before(async () => {
         TestContractHandler.setConfig(config)
 
+        
         nevermined = await Nevermined.getInstance(config)
         ;[, editor, subscriber, , reseller] = await nevermined.accounts.list()
 
@@ -113,16 +114,15 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         it('I want to register a subscriptions NFT that gives access to exclusive contents to the holders', async () => {
             // Deploy NFT
             TestContractHandler.setConfig(config)
-            nft = await TestContractHandler.deployAbi(SubscriptionNFT, editor.getId(), [
+            
+            const contractABI = await TestContractHandler.getABI('NFT721SubscriptionUpgradeable', './test/resources/artifacts/')
+            subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
                 'Subscription',
                 'NVM'
             ])
 
-            subscriptionNFT = await nevermined.contracts.loadNft721(nft.address)
-            // subscriptionNFT = await SubscriptionNft721.getInstance(
-            //     (nevermined.keeper as any).instanceConfig,
-            //     nft.address
-            // )
+            await nevermined.contracts.loadNft721Api(subscriptionNFT)
+
             subscriptionNFT.addMinter(transferNft721Condition.address, editor)
 
             subscriptionDDO = await nevermined.assets.createNft721(
@@ -130,7 +130,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 editor,
                 assetRewards1,
                 'PSK-RSA',
-                nft.address,
+                subscriptionNFT.address,
                 token.address,
                 preMint,
                 [neverminedNodeAddress],
@@ -158,7 +158,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 editor,
                 new AssetRewards(),
                 'PSK-RSA',
-                nft.address,
+                subscriptionNFT.address,
                 token.address,
                 preMint,
                 [neverminedNodeAddress],
@@ -174,7 +174,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     describe('As a subscriber I want to get access to some contents', () => {
         it('I check the details of the subscription NFT', async () => {
-            const details = await nevermined.nfts1155.details(subscriptionDDO.id)
+            const details = await nevermined.nfts721.details(subscriptionDDO.id)
             assert.equal(details.owner, editor.getId())
         })
 
@@ -212,9 +212,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             assert.equal(
                 await nevermined.nfts721.ownerOfAssetByAgreement(
                     subscriptionDDO.shortId(),
-                    agreementId,
-                    nft.address
-                ),
+                    agreementId
+                    ),
                 subscriber.getId()
             )
         })

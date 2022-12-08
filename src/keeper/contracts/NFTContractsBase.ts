@@ -49,8 +49,7 @@ export class NFTContractsBase extends ContractBase {
         } catch (error)    {
             throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)
         }
-    }
-
+    } 
 
     /**
      * Configure proxy approval for a specific operator address

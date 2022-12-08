@@ -5,7 +5,6 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import ERC721 from '../../src/artifacts/ERC721.json'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
 import { ethers } from 'ethers'
@@ -28,11 +27,15 @@ describe('Nfts721 operations', async () => {
     let payload: JWTPayload
 
     before(async () => {
+        nevermined = await Nevermined.getInstance(config)
+
         TestContractHandler.setConfig(config)
 
+        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+
         // deploy a nft contract we can use
-        nft = await TestContractHandler.deployArtifact(ERC721)        
-        nevermined = await Nevermined.getInstance(config)
+        nft = await TestContractHandler.deployArtifact(erc721ABI)        
         nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
             nft.address
@@ -83,7 +86,7 @@ describe('Nfts721 operations', async () => {
             console.log(`Checking owner of DID ${ddo.id}`)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 artist.getId()
             )
 
@@ -94,7 +97,7 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 collector.getId()
             )
 
@@ -124,7 +127,7 @@ describe('Nfts721 operations', async () => {
 
         it('should transfer an nft token with custom token', async () => {
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 artist.getId()
             )
 
@@ -135,7 +138,7 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 collector.getId()
             )
 
@@ -165,7 +168,7 @@ describe('Nfts721 operations', async () => {
 
         it('should transfer an nft token with ether', async () => {
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 artist.getId()
             )
 
@@ -176,7 +179,7 @@ describe('Nfts721 operations', async () => {
             await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
             assert.equal(
-                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId()), nft.address),
+                await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())),
                 collector.getId()
             )
 

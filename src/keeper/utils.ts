@@ -1,3 +1,4 @@
+import { ethers } from 'ethers'
 import { KeeperError } from '../errors'
 
 export async function getNetworkName(networkId: number): Promise<string> {
@@ -52,5 +53,31 @@ export async function getNetworkName(networkId: number): Promise<string> {
             return 'aurora-betanet'
         default:
             throw new KeeperError(`Network with id ${networkId} not supported.`)
+    }
+}
+
+// Wrapper for implementing web3 provider. Needed for OpenGSN
+export interface JsonRpcPayload {
+    jsonrpc: string;
+    method: string;
+    params: any[];
+    id?: string | number;
+}
+
+export interface JsonRpcResponse {
+    jsonrpc: string;
+    id: number;
+    result?: any;
+    error?: string;
+}
+
+export class Web3ProviderWrapper {
+    provider: ethers.providers.JsonRpcProvider
+    constructor(provider: ethers.providers.JsonRpcProvider) {
+        this.provider = provider
+    }
+    send(payload: JsonRpcPayload, callback: (error: Error | null, result?: JsonRpcResponse) => void): void {
+        const id = typeof payload.id === 'string' ? parseInt(payload.id) : payload.id
+        this.provider.send(payload.method, payload.params).then(result => callback(null, {jsonrpc: payload.jsonrpc, id, result}))
     }
 }

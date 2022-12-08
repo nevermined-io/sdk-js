@@ -1,20 +1,49 @@
 import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
-import { abi } from '../../artifacts/ERC721.json'
 import { Account } from '../..'
 import { ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { ContractEvent, EventHandler } from '../../events'
 import { NFTContractsBase } from './NFTContractsBase'
+import ContractHandler from '../ContractHandler'
 
 export default class Nft721Contract extends NFTContractsBase {
 
     public static async getInstance(
         config: InstantiableConfig,
-        address: string
+        address: string,
+        contractName = 'NFT721Upgradeable',
+        artifactsFolder = config.artifactsFolder
     ): Promise<Nft721Contract> {
-        const nft: Nft721Contract = new Nft721Contract('NFT721Upgradeable')
+        const nft: Nft721Contract = new Nft721Contract(contractName)
+        nft.setInstanceConfig(config)
+        const networkName = (await nft.nevermined.keeper.getNetworkName()).toLowerCase()
+        
+        // We don't have a subgraph for NFT721 so we can only use ContractEvent
+        const eventEmitter = new EventHandler()
+        nft.events = ContractEvent.getInstance(
+            nft,
+            eventEmitter,
+            config.nevermined,
+            config.web3
+        )
+        
+        const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
+        
+        await nft.checkExists(address)
+        nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+
+        return nft
+    }
+
+    public static async getInstanceUsingABI(
+        config: InstantiableConfig,
+        address: string,
+        solidityABI: any
+    ): Promise<Nft721Contract> {
+        const contractName = solidityABI.contractName
+        const nft: Nft721Contract = new Nft721Contract(contractName)
         nft.setInstanceConfig(config)
 
         // We don't have a subgraph for NFT721 so we can only use ContractEvent
@@ -25,10 +54,9 @@ export default class Nft721Contract extends NFTContractsBase {
             config.nevermined,
             config.web3
         )
-
         
         await nft.checkExists(address)
-        nft.contract = new ethers.Contract(address, abi, nft.web3)
+        nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
 
         return nft
     }

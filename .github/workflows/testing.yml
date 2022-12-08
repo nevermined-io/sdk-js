@@ -50,14 +50,14 @@ jobs:
           export KEEPER_VERSION=develop
           export SUBGRAPH_VERSION=develop
           export NODE_VERSION=latest
-          ./start_nevermined.sh ${{ matrix.network }} 2>&1 | tee nevermined_tools.txt &
+          ./start_nevermined.sh ${{ matrix.network }} --opengsn 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
           ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
 
       - name: Check artifacts
-        run: ls -l artifacts
-
+        run: |
+          ls -l artifacts
       - name: Run unit tests
         run: export ETH_PORT=18545; yarn run test:cover
       - name: Run integration tests
