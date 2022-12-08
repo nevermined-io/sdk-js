@@ -1,7 +1,7 @@
-import { MetaData } from '../../ddo/MetaData'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import AssetRewards from '../../models/AssetRewards'
-import { DDO } from '../../sdk'
+import { MetaData } from '../../../ddo/MetaData'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import AssetRewards from '../../../models/AssetRewards'
+import { DDO } from '../../../sdk'
 import {
     generateId,
     getDIDFromService,
@@ -9,15 +9,16 @@ import {
     OrderProgressStep,
     SubscribablePromise,
     zeroX
-} from '../../utils'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from '../Assets'
-import Account from '../Account'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
-import { NFTError } from '../../errors'
-import BigNumber from '../../utils/BigNumber'
-import { Nft1155Contract } from '../../keeper/contracts/Nft1155Contract'
-import { NFTsBaseApi } from '../NFTsBaseApi'
+} from '../../../utils'
+import { PublishMetadata, RoyaltyAttributes } from '../AssetsApi'
+import Account from '../../Account'
+import { TxParameters } from '../../../keeper/contracts/ContractBase'
+import { NFTError } from '../../../errors'
+import BigNumber from '../../../utils/BigNumber'
+import { Nft1155Contract } from '../../../keeper/contracts/Nft1155Contract'
+import { NFTsBaseApi } from './NFTsBaseApi'
 import { ContractReceipt } from 'ethers'
+import { CreateProgressStep } from '../../ProgessSteps'
 
 
 /**

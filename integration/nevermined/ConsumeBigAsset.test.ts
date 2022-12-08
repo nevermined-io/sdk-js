@@ -66,7 +66,7 @@ describe.skip('Consume Asset (Large size)', () => {
             Logger.error(error)
         }
 
-        agreementId = await nevermined.assets.order(ddo.id, 'access', consumer)
+        agreementId = await nevermined.assets.order(ddo.id, consumer)
 
         assert.isDefined(agreementId)
     })

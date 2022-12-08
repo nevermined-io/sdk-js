@@ -79,7 +79,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     it('should order the asset', async () => {
         const steps = []
         agreementId = await nevermined.assets
-            .order(ddo.id, 'access', consumer)
+            .order(ddo.id, consumer)
             .next(step => steps.push(step))
 
         assert.isDefined(agreementId)

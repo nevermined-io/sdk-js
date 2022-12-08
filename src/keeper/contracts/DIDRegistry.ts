@@ -4,7 +4,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { NFTAttributes } from '../../models/NFTAttributes'
-import { Assets } from '../../nevermined/Assets'
+import { AssetsApi } from '../../nevermined/api/AssetsApi'
 import { AssetError } from '../../errors/AssetError'
 
 export enum ProvenanceMethod {
@@ -149,7 +149,7 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         url: string,
         immutableUrl = '',
-        activityId = Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,
+        activityId = AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
         return this.send(
@@ -189,7 +189,7 @@ export default class DIDRegistry extends ContractBase {
         nftAttributes: NFTAttributes,
         url: string,
         immutableUrl = '',    
-        activityId = Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,
+        activityId = AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
 
@@ -234,7 +234,7 @@ export default class DIDRegistry extends ContractBase {
         nftAttributes: NFTAttributes,
         url: string,
         immutableUrl = '',    
-        activityId = Assets.DEFAULT_REGISTRATION_ACTIVITY_ID,
+        activityId = AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
         return this.send(

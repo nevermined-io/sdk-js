@@ -22,7 +22,7 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account

@@ -1,21 +1,22 @@
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { MetaData } from '../../ddo/MetaData'
-import { DDO, OrderProgressStep } from '../../sdk'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { MetaData } from '../../../ddo/MetaData'
+import { DDO, OrderProgressStep } from '../../../sdk'
 import {
     generateId,
     getDIDFromService,
     SubscribablePromise,
     zeroX
-} from '../../utils'
-import Account from '../Account'
-import Nft721Contract from '../../keeper/contracts/Nft721Contract'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
-import AssetRewards from '../../models/AssetRewards'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from '../Assets'
-import { NFTError } from '../../errors/NFTError'
+} from '../../../utils'
+import Account from '../../Account'
+import Nft721Contract from '../../../keeper/contracts/Nft721Contract'
+import { TxParameters } from '../../../keeper/contracts/ContractBase'
+import AssetRewards from '../../../models/AssetRewards'
+import { PublishMetadata, RoyaltyAttributes } from '../AssetsApi'
+import { NFTError } from '../../../errors/NFTError'
 import { ContractReceipt, ethers } from 'ethers'
-import { NFTsBaseApi } from '../NFTsBaseApi'
-import BigNumber from '../../utils/BigNumber'
+import { NFTsBaseApi } from './NFTsBaseApi'
+import BigNumber from '../../../utils/BigNumber'
+import { CreateProgressStep } from '../../ProgessSteps'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.

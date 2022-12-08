@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { decodeJwt } from 'jose'
 
 describe('POAPs with Assets', () => {

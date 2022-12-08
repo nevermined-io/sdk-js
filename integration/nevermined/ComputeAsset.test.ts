@@ -46,11 +46,10 @@ describe('Compute Asset', () => {
         )
         console.debug(`Algorightm DID: ${algorithmDdo.id}`)
 
-        computeDdo = await nevermined.assets.create(
+        computeDdo = await nevermined.compute.create(
             workflowMetadatas.compute(userId),
             publisher,
-            assetRewards,
-            ['compute']
+            assetRewards
         )
         console.debug(`Compute DID: ${computeDdo.id}`)        
 
@@ -62,14 +61,14 @@ describe('Compute Asset', () => {
     })
 
     it('should order the compute service', async () => {
-        agreementId = await nevermined.assets.order(computeDdo.id, 'compute', consumer)
+        agreementId = await nevermined.compute.order(computeDdo.id, consumer)
 
         assert.isDefined(agreementId)
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
     it.skip('should execute the compute service', async () => {
-        workflowId = await nevermined.assets.execute(
+        workflowId = await nevermined.compute.execute(
             agreementId,
             workflowDdo.id,
             consumer
@@ -80,7 +79,7 @@ describe('Compute Asset', () => {
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
     it.skip('should return the logs of the current execution', async () => {
-        const logs = await nevermined.assets.computeLogs(
+        const logs = await nevermined.compute.logs(
             agreementId,
             workflowId,
             consumer
@@ -90,7 +89,7 @@ describe('Compute Asset', () => {
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
     it.skip('should return the status of the current execution', async () => {
-        const status = await nevermined.assets.computeStatus(
+        const status = await nevermined.compute.status(
             agreementId,
             workflowId,
             consumer

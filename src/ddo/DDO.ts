@@ -38,6 +38,26 @@ export class DDO {
         return new DDO(ddo)
     }
 
+
+    public static createAuthorizationService(
+        neverminedNodeUri: string,
+        publicKey: string,
+        method: string
+    ) {
+        return {
+            type: 'authorization',
+            index: 2,
+            serviceEndpoint: neverminedNodeUri,
+            attributes: {
+                main: {
+                    publicKey: publicKey,
+                    service: method,
+                    threshold: 0
+                }
+            }
+        } as Service
+    }
+
     public '@context' = 'https://w3id.org/did/v1'
 
     /**

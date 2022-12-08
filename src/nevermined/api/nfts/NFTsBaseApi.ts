@@ -1,7 +1,6 @@
-import { MetaData } from '../ddo/MetaData'
-import { Instantiable } from '../Instantiable.abstract'
-import AssetRewards from '../models/AssetRewards'
-import { DDO, utils } from '../sdk'
+import { MetaData } from '../../../ddo/MetaData'
+import AssetRewards from '../../../models/AssetRewards'
+import { DDO, utils } from '../../../sdk'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
@@ -10,25 +9,27 @@ import {
     getNftHolderFromService,
     SubscribablePromise,
     zeroX
-} from '../utils'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes, RoyaltyKind } from './Assets'
-import Account from './Account'
-import Token from '../keeper/contracts/Token'
-import { ServiceSecondary } from '../ddo/Service'
-import { TxParameters } from '../keeper/contracts/ContractBase'
-import { NFTError } from '../errors'
-import BigNumber from '../utils/BigNumber'
+} from '../../../utils'
+import { PublishMetadata, RoyaltyAttributes, RoyaltyKind } from '../AssetsApi'
+import Account from '../../Account'
+import Token from '../../../keeper/contracts/Token'
+import { ServiceSecondary } from '../../../ddo/Service'
+import { TxParameters } from '../../../keeper/contracts/ContractBase'
+import { NFTError } from '../../../errors'
+import BigNumber from '../../../utils/BigNumber'
 import {
     ERCType,
     NeverminedNFT1155Type,
     NeverminedNFTType
-} from '../models/NFTAttributes'
+} from '../../../models/NFTAttributes'
+import { NVMBaseApi } from '../NVMBaseApi'
+import { CreateProgressStep } from '../../ProgessSteps'
 
 
 /**
  * Abstract class providing common NFT methods for different ERC implementations.
  */
-export abstract class NFTsBaseApi extends Instantiable {
+export abstract class NFTsBaseApi extends NVMBaseApi {
 
     /**
      * Create a new Nevermined NFTs (ERC-1155 or ERC-721) instance setting up the royalties to be applied in Secondary Market sales

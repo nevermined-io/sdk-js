@@ -26,7 +26,7 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
 
 chai.use(chaiAsPromised)
 

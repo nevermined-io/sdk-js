@@ -26,7 +26,7 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
 
 describe('NFT721Templates E2E', () => {
     let nftContractOwner: Account

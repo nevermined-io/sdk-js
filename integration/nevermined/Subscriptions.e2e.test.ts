@@ -15,9 +15,9 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
-import { NFT721Api } from '../../src/nevermined/nfts/NFT721Api'
-import SubscriptionNFTApi from '../../src/nevermined/nfts/SubscriptionNFTApi'
+} from '../../src/nevermined/api/AssetsApi'
+import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
+import SubscriptionNFTApi from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account

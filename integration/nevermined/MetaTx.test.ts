@@ -9,7 +9,7 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
 import { ethers, Wallet } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'

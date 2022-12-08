@@ -1,6 +1,6 @@
 import { Accounts } from './Accounts'
 import { Agreements } from './Agreements'
-import { Assets } from './Assets'
+import { AssetsApi } from './api/AssetsApi'
 import { Auth } from './Auth'
 import { Token } from './Token'
 import { Versions } from './Versions'
@@ -24,12 +24,14 @@ import {
 import { Faucet } from '../faucet/Faucet'
 import { Provider } from './Provider'
 import { Files } from './Files'
-import { NFT1155Api } from './nfts/NFT1155Api'
-import { NFT721Api } from './nfts/NFT721Api'
+import { NFT1155Api } from './api/nfts/NFT1155Api'
+import { NFT721Api } from './api/nfts/NFT721Api'
 import { AaveCredit } from './AaveCredit'
 import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
+import { ComputeApi } from './api/ComputeApi'
+import { SearchApi } from './api/SearchApi'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -71,8 +73,10 @@ export class Nevermined extends Instantiable {
 
         instance.accounts = await Accounts.getInstance(instanceConfig)
         instance.auth = await Auth.getInstance(instanceConfig)
-        instance.assets = await Assets.getInstance(instanceConfig)
-        
+        instance.assets = await AssetsApi.getInstance(instanceConfig)
+        instance.compute = await ComputeApi.getInstance(instanceConfig)
+        instance.search = await SearchApi.getInstance(instanceConfig)
+
         instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
         instance.files = await Files.getInstance(instanceConfig)
         instance.agreements = await Agreements.getInstance(instanceConfig)
@@ -177,17 +181,27 @@ export class Nevermined extends Instantiable {
     public auth: Auth
 
     /**
-     * Assets submodule
+     * Assets API
      */
-    public assets: Assets
+    public assets: AssetsApi
 
     /**
-     * Nfts submodule
+     * SearchApi API
+     */
+    public search: SearchApi
+
+    /**
+     * Compute API
+     */
+     public compute: ComputeApi
+
+    /**
+     * ERC-1155 Nfts API
      */
     public nfts1155: NFT1155Api
 
     /**
-     * Nfts submodule
+     * ERC-721 Nfts API
      */
      public nfts721: NFT721Api
 

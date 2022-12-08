@@ -87,7 +87,7 @@ describe('Search Asset', () => {
     })
 
     it('should search by text', async () => {
-        let result = await nevermined.assets.search(
+        let result = await nevermined.search.byText(
             'Test',
             undefined,
             undefined,
@@ -96,7 +96,7 @@ describe('Search Asset', () => {
         )
         assert.equal(result.totalResults.value, 4)
 
-        result = await nevermined.assets.search(
+        result = await nevermined.search.byText(
             'Test1',
             undefined,
             undefined,
@@ -105,7 +105,7 @@ describe('Search Asset', () => {
         )
         assert.equal(result.totalResults.value, 1)
 
-        result = await nevermined.assets.search(
+        result = await nevermined.search.byText(
             'Test2',
             undefined,
             undefined,
@@ -114,7 +114,7 @@ describe('Search Asset', () => {
         )
         assert.equal(result.totalResults.value, 2)
 
-        result = await nevermined.assets.search(
+        result = await nevermined.search.byText(
             'Test3',
             undefined,
             undefined,
@@ -125,7 +125,7 @@ describe('Search Asset', () => {
     })
 
     it('should return a list of DDOs', async () => {
-        const { results: ddos } = await nevermined.assets.search(
+        const { results: ddos } = await nevermined.search.byText(
             'Test1',
             undefined,
             undefined,
@@ -138,7 +138,7 @@ describe('Search Asset', () => {
     })
 
     it('should be able to do a query to get a list of DDOs', async () => {
-        const { results: ddos } = await nevermined.assets.search(
+        const { results: ddos } = await nevermined.search.byText(
             'Test2',
             undefined,
             undefined,

@@ -8,8 +8,8 @@ import Keeper from './keeper/Keeper'
 import * as templates from './keeper/contracts/templates'
 import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
-import { NFT721Api } from './nevermined/nfts/NFT721Api'
-import { NFT1155Api } from './nevermined/nfts/NFT1155Api'
+import { NFT721Api } from './nevermined/api/nfts/NFT721Api'
+import { NFT1155Api } from './nevermined/api/nfts/NFT1155Api'
 import { Accounts } from './nevermined/Accounts'
 import { SearchQuery } from './common/interfaces'
 
@@ -18,7 +18,7 @@ export * from './ddo/DDO'
 export * from './ddo/MetaData'
 
 export { ProvenanceRegistry, ProvenanceMethod } from './keeper/contracts/DIDRegistry'
-export { OrderProgressStep, CreateProgressStep } from './nevermined/Assets'
+export { OrderProgressStep, CreateProgressStep } from './nevermined/ProgessSteps'
 export {
     PlatformTechStatus,
     PlatformTech,

@@ -3,7 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined } from '../../src'
 import CustomToken from '../../src/keeper/contracts/CustomToken'
 import AssetRewards from '../../src/models/AssetRewards'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { generateId } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
 import { config } from '../config'
@@ -87,7 +87,7 @@ describe('Assets Query by Price', () => {
     })
 
     it('Should query all services by default', async () => {
-        const results = await nevermined.assets.searchByPrice(
+        const results = await nevermined.search.byPrice(
             1,
             20,
             undefined,
@@ -100,7 +100,7 @@ describe('Assets Query by Price', () => {
     })
 
     it('Should query by service', async () => {
-        let results = await nevermined.assets.searchByPrice(
+        let results = await nevermined.search.byPrice(
             1,
             20,
             'access',
@@ -112,7 +112,7 @@ describe('Assets Query by Price', () => {
         assert.equal(results.totalResults.value, 1)
         assert.equal(results.results.pop().id, ddoAccess.id)
 
-        results = await nevermined.assets.searchByPrice(
+        results = await nevermined.search.byPrice(
             1,
             20,
             'nft-sales',
@@ -126,7 +126,7 @@ describe('Assets Query by Price', () => {
     })
 
     it('Should query with decimal values', async () => {
-        let results = await nevermined.assets.searchByPrice(
+        let results = await nevermined.search.byPrice(
             2,
             17.86,
             undefined,
@@ -137,7 +137,7 @@ describe('Assets Query by Price', () => {
         )
         assert.equal(results.totalResults.value, 2)
 
-        results = await nevermined.assets.searchByPrice(
+        results = await nevermined.search.byPrice(
             2.001,
             17.86,
             undefined,
@@ -149,7 +149,7 @@ describe('Assets Query by Price', () => {
         assert.equal(results.totalResults.value, 1)
         assert.equal(results.results.pop().id, ddoNftSales.id)
 
-        results = await nevermined.assets.searchByPrice(
+        results = await nevermined.search.byPrice(
             2.0,
             17.859999,
             undefined,

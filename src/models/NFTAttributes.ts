@@ -1,4 +1,4 @@
-import { RoyaltyAttributes } from '../nevermined/Assets'
+import { RoyaltyAttributes } from '../nevermined/api/AssetsApi'
 import BigNumber from '../utils/BigNumber'
 
 export enum ERCType {

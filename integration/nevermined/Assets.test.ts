@@ -7,7 +7,8 @@ import { Nevermined, Account, MetaData, DDO } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import { DIDResolvePolicy, PublishMetadata } from '../../src/nevermined/Assets'
+import { PublishMetadata } from '../../src/nevermined/api/AssetsApi'
+import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -123,7 +124,7 @@ describe('Assets', () => {
                 }
             }
 
-            const assets = await nevermined.assets.query(query)
+            const assets = await nevermined.search.query(query)
 
             assert.isDefined(assets)
         })
@@ -132,7 +133,7 @@ describe('Assets', () => {
     describe('#search()', () => {
         it('should search for assets', async () => {
             const text = 'office'
-            const assets = await nevermined.assets.search(text)
+            const assets = await nevermined.search.byText(text)
 
             assert.isDefined(assets)
         })
@@ -210,7 +211,7 @@ describe('Assets', () => {
                 appId: appId1
             }
 
-            const assets = await nevermined.assets.query(queryApp)
+            const assets = await nevermined.search.query(queryApp)
 
             assert.equal(assets.totalResults.value, 1)
         })
@@ -225,13 +226,13 @@ describe('Assets', () => {
                 appId: appId2
             }
 
-            const assets = await nevermined.assets.query(queryApp)
+            const assets = await nevermined.search.query(queryApp)
 
             assert.equal(assets.totalResults.value, 2)
         })
 
         it('appId1 should text search by appId1', async () => {
-            const assets = await nevermined.assets.search(
+            const assets = await nevermined.search.byText(
                 'App1',
                 undefined,
                 undefined,
@@ -243,7 +244,7 @@ describe('Assets', () => {
         })
 
         it('appId1 should not text search appId2 ddos', async () => {
-            const assets = await nevermined.assets.search(
+            const assets = await nevermined.search.byText(
                 'App2',
                 undefined,
                 undefined,
@@ -255,7 +256,7 @@ describe('Assets', () => {
         })
 
         it('appId2 should text search by appId2', async () => {
-            const assets = await nevermined.assets.search(
+            const assets = await nevermined.search.byText(
                 'App2',
                 undefined,
                 undefined,
@@ -317,7 +318,7 @@ describe('Assets', () => {
                 }
             }
 
-            const assets = await nevermined.assets.query(query)
+            const assets = await nevermined.search.query(query)
 
             assert.equal(assets.totalResults.value, 2)
         })
@@ -350,7 +351,7 @@ describe('Assets', () => {
                 appId: appId1
             }
 
-            const assets = await nevermined.assets.query(query)
+            const assets = await nevermined.search.query(query)
 
             assert.equal(assets.totalResults.value, 0)
         })
