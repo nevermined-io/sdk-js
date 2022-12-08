@@ -40,9 +40,9 @@ export default class Nft721Contract extends NFTContractsBase {
     public static async getInstanceUsingABI(
         config: InstantiableConfig,
         address: string,
-        solidityABI: any,
-        contractName = 'NFT721Upgradeable',
+        solidityABI: any
     ): Promise<Nft721Contract> {
+        const contractName = solidityABI.contractName
         const nft: Nft721Contract = new Nft721Contract(contractName)
         nft.setInstanceConfig(config)
 
