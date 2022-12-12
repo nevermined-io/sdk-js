@@ -4,13 +4,13 @@ import spies from 'chai-spies'
 import config from '../config'
 import Account from '../../src/nevermined/Account'
 import { Nevermined } from '../../src/nevermined/Nevermined'
-import { Accounts } from '../../src/nevermined/Accounts'
 import BigNumber from '../../src/utils/BigNumber'
+import { AccountsApi } from '../../src/nevermined/api/AccountsApi'
 
 use(spies)
 
 describe('Accounts', () => {
-    let accounts: Accounts
+    let accounts: AccountsApi
 
     before(async () => {
         ({ accounts } = await Nevermined.getInstance(config))

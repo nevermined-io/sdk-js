@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Account from '../../src/nevermined/Account'
+import { Account } from '../../src'
 import { Nevermined } from '../../src/nevermined/Nevermined'
 import BigNumber from '../../src/utils/BigNumber'
 import config from '../config'

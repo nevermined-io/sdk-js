@@ -1,4 +1,4 @@
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { InstantiableConfig } from '../../Instantiable.abstract'
 import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
 import { MetadataService } from '../../services/metadata/MetadataService'
 import { NeverminedNode } from '../../services/node/NeverminedNode'
@@ -7,11 +7,12 @@ import { Permissions } from '../../services/metadata/Permissions'
 import { AaveCredit } from '../../services/aave/AaveCredit'
 import { Bookmarks } from '../../services/metadata/Bookmarks'
 import { Faucet } from '../../services/faucet/Faucet'
+import { NVMBaseApi } from './NVMBaseApi'
 
 /**
  * Utils internal submodule of Nevermined.
  */
-export class ServicesApi extends Instantiable {
+export class ServicesApi extends NVMBaseApi {
 
     /**
      * Nevermined Node Service

@@ -104,7 +104,7 @@ export class Nevermined extends Instantiable {
     /**
      * Keeper instance.
      */
-     public keeper: Keeper
+    public keeper: Keeper
 
     /**
      * Accounts submodule
@@ -112,24 +112,19 @@ export class Nevermined extends Instantiable {
     public accounts: AccountsApi
 
     /**
+     * Agreements submodule
+     */
+    public agreements: AgreementsApi
+
+    /**
      * Assets API
      */
     public assets: AssetsApi
 
     /**
-     * SearchApi API
-     */
-    public search: SearchApi
-
-    /**
-     * SearchApi API
-     */
-     public services: ServicesApi
-
-    /**
      * Compute API
      */
-     public compute: ComputeApi
+    public compute: ComputeApi
 
     /**
      * ERC-1155 Nfts API
@@ -139,17 +134,22 @@ export class Nevermined extends Instantiable {
     /**
      * ERC-721 Nfts API
      */
-     public nfts721: NFT721Api
-
-    /**
-     * Agreements submodule
-     */
-    public agreements: AgreementsApi
+    public nfts721: NFT721Api
 
     /**
      * Provenance submodule
      */
-     public provenance: ProvenanceApi
+    public provenance: ProvenanceApi
+
+    /**
+     * SearchApi API
+     */
+    public search: SearchApi
+
+    /**
+     * SearchApi API
+     */
+    public services: ServicesApi
 
     /**
      * Utils submodule

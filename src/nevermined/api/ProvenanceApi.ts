@@ -1,16 +1,17 @@
 import Account from '../Account'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ProvenanceMethod } from '../../keeper/contracts/DIDRegistry'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { ethers } from 'ethers'
 import { zeroX } from '../../utils'
+import { NVMBaseApi } from './NVMBaseApi'
 
 /**
  * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry 
  * You can find more information about Nevermined Provenance here:
  * {@link https://docs.nevermined.io/docs/architecture/specs/Spec-PROVENANCE}
  */
-export class ProvenanceApi extends Instantiable {
+export class ProvenanceApi extends NVMBaseApi {
 
     /**
      * Returns the instance of the ProvenanceApi.

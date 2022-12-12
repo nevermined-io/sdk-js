@@ -1,5 +1,5 @@
 import Account from '../Account'
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { DDO } from '../../ddo/DDO'
 import { findServiceConditionByName, ZeroAddress } from '../../utils'
 import Token from '../../keeper/contracts/Token'
@@ -9,13 +9,13 @@ import AssetRewards from '../../models/AssetRewards'
 import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
-import { NVMBaseApi } from './NVMBaseApi'
+// import { NVMBaseApi } from './NVMBaseApi'
 
 /**
  * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached 
  * to the Nevermined Service Execution Agreements.
  */
-export class ConditionsApi extends NVMBaseApi {
+export class ConditionsApi extends Instantiable {
 
     /**
      * Returns the instance of the ConditionsApi.

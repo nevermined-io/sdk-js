@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { ZeroAddress } from '../utils'
+import { ZeroAddress } from '../utils/ConversionTypeHelpers'
 import { LogLevel } from '../utils/Logger'
 import { AaveConfig } from './AaveConfig'
 export { LogLevel } from '../utils/Logger'

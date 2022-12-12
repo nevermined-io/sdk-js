@@ -10,7 +10,7 @@ import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
 import { NFT721Api } from './nevermined/api/nfts/NFT721Api'
 import { NFT1155Api } from './nevermined/api/nfts/NFT1155Api'
-import { AccountsApi } from './nevermined/api/AccountsApi'
+// import { AccountsApi } from './nevermined/api/AccountsApi'
 import { SearchQuery } from './common/interfaces'
 
 // Exports
@@ -29,6 +29,7 @@ export {
 export { AgreementTemplate } from './keeper/contracts/templates'
 export { Condition, ConditionState } from './keeper/contracts/conditions'
 export { ClientError } from './errors'
+export { Bookmark, NewBookmark } from './services/metadata/Bookmarks.interfaces'
 export { Profile, NewProfile, State } from './services/metadata/Profiles.interfaces'
 export {
     Permission,
@@ -43,7 +44,7 @@ import * as subgraphs from './subgraphs'
 export {
     Nevermined,
     Account,
-    AccountsApi as Accounts,
+    // AccountsApi as Accounts,
     NFT1155Api as Nfts,
     NFT721Api as Nft721,
     NeverminedOptions as Config,

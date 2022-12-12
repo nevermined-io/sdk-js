@@ -1,13 +1,13 @@
 import Balance from '../../models/Balance'
 import Account from '../Account'
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
-import { NVMBaseApi } from './NVMBaseApi'
+// import { NVMBaseApi } from './NVMBaseApi'
 
 /**
  * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
  */
-export class AccountsApi extends NVMBaseApi {
+export class AccountsApi extends Instantiable {
 
     /**
      * Returns the instance of the AccountsApi.

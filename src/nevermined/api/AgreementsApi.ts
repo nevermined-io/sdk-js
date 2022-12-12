@@ -1,11 +1,11 @@
 import { generateId } from '../../utils/GeneratorHelpers'
 import Account from '../Account'
 import { zeroX } from '../../utils'
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ConditionsApi } from './ConditionsApi'
 import { ServiceType } from '../../ddo/Service'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
-import { NVMBaseApi } from './NVMBaseApi'
+// import { NVMBaseApi } from './NVMBaseApi'
 
 export interface AgreementPrepareResult {
     agreementIdSeed: string
@@ -15,7 +15,7 @@ export interface AgreementPrepareResult {
 /**
  * Nevermined Agreements API. It allows the integration with Nevermined Service Execution Agreements
  */
-export class AgreementsApi extends NVMBaseApi {
+export class AgreementsApi extends Instantiable {
 
     /**
      * Returns the instance of the AccountsApi.

@@ -1,8 +1,7 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import { Accounts } from '../../src/nevermined/Accounts'
-import { Nevermined } from '../../src'
+import { Accounts, Nevermined } from '../../src'
 import { config } from '../config'
 
 use(spies)
