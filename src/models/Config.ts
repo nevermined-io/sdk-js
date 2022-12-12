@@ -21,11 +21,6 @@ export class Config {
     public neverminedNodeUri: string
 
     /**
-     * Faucet URL.
-     */
-    public faucetUri?: string
-
-    /**
      * Address of the Node.
      */
     public neverminedNodeAddress?: string
