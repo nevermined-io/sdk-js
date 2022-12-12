@@ -1,4 +1,3 @@
-import { MetaData } from '../../../ddo/MetaData'
 import AssetRewards from '../../../models/AssetRewards'
 import { DDO, utils } from '../../../sdk'
 import {
@@ -7,23 +6,17 @@ import {
     getAssetRewardsFromService,
     getDIDFromService,
     getNftHolderFromService,
-    SubscribablePromise,
     zeroX
 } from '../../../utils'
-import { PublishMetadata, RoyaltyAttributes, RoyaltyKind } from '../AssetsApi'
+import { RoyaltyKind } from '../AssetsApi'
 import Account from '../../Account'
 import Token from '../../../keeper/contracts/Token'
 import { ServiceSecondary } from '../../../ddo/Service'
 import { TxParameters } from '../../../keeper/contracts/ContractBase'
 import { NFTError } from '../../../errors'
 import BigNumber from '../../../utils/BigNumber'
-import {
-    ERCType,
-    NeverminedNFT1155Type,
-    NeverminedNFTType
-} from '../../../models/NFTAttributes'
+import { ERCType } from '../../../models/NFTAttributes'
 import { NVMBaseApi } from '../NVMBaseApi'
-import { CreateProgressStep } from '../../ProgessSteps'
 
 
 /**
@@ -31,78 +24,7 @@ import { CreateProgressStep } from '../../ProgessSteps'
  */
 export abstract class NFTsBaseApi extends NVMBaseApi {
 
-    /**
-     * Create a new Nevermined NFTs (ERC-1155 or ERC-721) instance setting up the royalties to be applied in Secondary Market sales
-     *
-     * @example
-     * ```ts
-     * ddo = await nevermined.nfts1155.createWithRoyalties(
-     *           metadata,
-     *           artist,
-     *           new BigNumber.from(1),
-     *           [neverminedNodeAddress],
-     *           royaltyAttributes,
-     *           assetRewards,
-     *           numberNFTs,
-     *           USDCContractAddress,
-     *           true
-     *       )
-     * ```
-     *
-     * @param metadata - The metadata associated with the NFT.
-     * @param publisher -The account of the creator od the NFT.
-     * @param cap - The max number of nfts.
-     * @param providers - The list of addresses acting as providers for this asset. Typically the public address of one or more Nevermined Nodes
-     * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param assetRewards - The sales reward distribution.
-     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
-     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
-     * @param preMint - Set to true to mint _nftAmount_ during creation.
-     * @param nftMetadata - Url to the NFT metadata.
-     * @param appId - The id of the application creating the NFT.
-     * @param nftType - The type of NFT associated to the asset to publish
-     * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
-     * @param txParams - Optional transaction parameters
-     *
-     * @returns The newly registered {@link DDO}.
-     */
-     public createWithRoyalties(
-        metadata: MetaData,
-        publisher: Account,
-        cap: BigNumber,
-        providers: string[] = [],
-        royaltyAttributes: RoyaltyAttributes,
-        assetRewards: AssetRewards,
-        nftAmount: BigNumber = BigNumber.from(1),
-        erc20TokenAddress?: string,
-        preMint?: boolean,
-        nftMetadata?: string,
-        nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
-        appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
-        txParams?: TxParameters
-    ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.createNftWithRoyalties(
-            metadata,
-            publisher,
-            assetRewards,
-            'PSK-RSA',
-            cap,
-            providers,
-            nftAmount,
-            royaltyAttributes,
-            erc20TokenAddress,
-            preMint,
-            nftMetadata || '',
-            nftType,
-            appId,
-            publishMetadata,
-            txParams
-        )
-    }
-
-
-    /**
+        /**
      * Asks the Node to transfer the NFT on behalf of the publisher.
      *
      * @remarks

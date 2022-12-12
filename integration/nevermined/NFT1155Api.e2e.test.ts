@@ -100,16 +100,24 @@ describe('NFTs 1155 Api End-to-End', () => {
                 RoyaltyKind.Standard,
                 royalties1
             )
-            ddo = await nevermined.nfts1155.createWithRoyalties(
+
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                cappedAmount,
-                [config.neverminedNodeAddress],
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access'],
+                providers: [config.neverminedNodeAddress]
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
                 royaltyAttributes,
-                assetRewards1,
-                numberNFTs,
-                undefined,
-                true
+                preMint: true
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
             
             assert.isDefined(ddo)

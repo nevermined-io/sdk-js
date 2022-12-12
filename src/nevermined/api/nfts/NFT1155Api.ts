@@ -98,7 +98,7 @@ export class NFT1155Api extends NFTsBaseApi {
      *           royaltyAttributes,
      *           preMint
      *       })            
-     * const ddo = await nevermined.nfts1155.createRefactored(
+     * const ddo = await nevermined.nfts1155.create(
      *           assetAttributes,
      *           nftAttributes,
      *           publisher
@@ -128,7 +128,6 @@ export class NFT1155Api extends NFTsBaseApi {
             txParams
         )
     }
-
 
     /**
      * Mint NFTs associated with an asset.
