@@ -7,7 +7,7 @@ const nograph = process.env['NO_GRAPH'] === 'true'
 const infuraToken = process.env['INFURA_TOKEN']
 
 const configBase: Config = {
-    web3ProviderUri: 'http://keeper.nevermined.localnet',
+    web3ProviderUri: 'http://contracts.nevermined.localnet',
     marketplaceUri: 'http://marketplace.nevermined.localnet',
     faucetUri: 'http://localhost:3001',
     neverminedNodeUri: 'http://node.nevermined.localnet',
