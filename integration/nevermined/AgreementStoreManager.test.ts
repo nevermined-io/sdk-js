@@ -4,6 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
 import { sleep } from '../utils/utils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Agreement Store Manager', () => {
     let nevermined: Nevermined
@@ -34,8 +35,11 @@ describe('Agreement Store Manager', () => {
     })
 
     it('should get agreements for did', async () => {
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: newMetadata(config.marketplaceAuthToken)
+        })
         const ddo = await nevermined.assets.create(
-            newMetadata(config.marketplaceAuthToken),
+            assetAttributes,
             account1
         )
 

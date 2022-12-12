@@ -9,6 +9,7 @@ import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import { PublishMetadata } from '../../src/nevermined/api/AssetsApi'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -34,7 +35,14 @@ describe('Assets', () => {
 
         metadata = getMetadata()
         metadata.userId = payload.sub
-        ddoBefore = await nevermined.assets.create(metadata, publisher, assetRewards)
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata,
+            price: assetRewards
+        })
+        ddoBefore = await nevermined.assets.create(
+            assetAttributes,
+            publisher
+        )        
     })
 
     describe('#register()', () => {
@@ -42,18 +50,16 @@ describe('Assets', () => {
         it('create with immutable data', async () => {
             const nonce = Math.random()
             const immutableMetadata = getMetadata(nonce, `Immutable Test ${nonce}`)
+
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: immutableMetadata,
+                price: assetRewards
+            })
             ddo = await nevermined.assets.create(
-                immutableMetadata, 
-                publisher, 
-                assetRewards,
-                ['access'],
-                [],
-                'PSK-RSA',
-                [],
-                nevermined.keeper.token.address,
-                '',
+                assetAttributes,
+                publisher,
                 PublishMetadata.IPFS
-            )
+            ) 
             
             assert.isDefined(ddo)
             assert.equal(ddo._nvm.versions.length, 1)
@@ -161,41 +167,36 @@ describe('Assets', () => {
             const neverminedApp2 = await Nevermined.getInstance(config2)
 
             // Create 1 asset with appId-test1
-            await neverminedApp1.assets.create(
-                metadata1,
-                publisher,
-                assetRewards,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                appId1
-            )
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: metadata1,
+                price: assetRewards,
+                appId: appId1
+            })
+            ddoBefore = await neverminedApp1.assets.create(
+                assetAttributes,
+                publisher
+            )             
 
             // Create 2 assets with appId-test2
-            await neverminedApp2.assets.create(
-                metadata2,
-                publisher,
-                assetRewards,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                appId2
-            )
-            await neverminedApp2.assets.create(
-                metadata22,
-                publisher,
-                assetRewards,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                appId2
-            )
+            const assetAttributes2 = AssetAttributes.getInstance({
+                metadata: metadata2,
+                price: assetRewards,
+                appId: appId2
+            })
+            ddoBefore = await neverminedApp2.assets.create(
+                assetAttributes2,
+                publisher
+            )              
+
+            const assetAttributes22 = AssetAttributes.getInstance({
+                metadata: metadata22,
+                price: assetRewards,
+                appId: appId2
+            })
+            ddoBefore = await neverminedApp2.assets.create(
+                assetAttributes22,
+                publisher
+            )             
 
             // wait for elasticsearch
             await sleep(2000)

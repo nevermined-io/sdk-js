@@ -16,6 +16,7 @@ import { AccessTemplate } from '../../src/keeper/contracts/templates'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Register Escrow Access Template', () => {
     let nevermined: Nevermined
@@ -293,7 +294,10 @@ describe('Register Escrow Access Template', () => {
                 ])
             )
 
-            ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
+            ddo = await nevermined.assets.create(
+                AssetAttributes.getInstance({ metadata, price: assetRewards }),
+                publisher
+            )
         })
 
         it('should create a new agreement (short way)', async () => {

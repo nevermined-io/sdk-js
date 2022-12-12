@@ -2,6 +2,7 @@ import chai, { assert, expect } from 'chai'
 import { Account, DDO, Nevermined } from '../../src'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
 import { DDOStatus } from '../../src/metadata/MetadataService'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
@@ -22,7 +23,14 @@ describe.skip('Get DDO status', () => {
     })
 
     it('should get the external status of an asset', async () => {
-        ddo = await nevermined.assets.create(getMetadata(), publisher, assetRewards)
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: getMetadata(),
+            price: assetRewards
+        })
+        const ddo = await nevermined.assets.create(
+            assetAttributes,
+            publisher
+        )
 
         ddoStatus = await nevermined.metadata.status(ddo.id)
         assert.isDefined(ddoStatus)

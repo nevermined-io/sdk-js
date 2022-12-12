@@ -1,22 +1,21 @@
 import { DDO } from '../../ddo/DDO'
 import { MetaData } from '../../ddo/MetaData'
-import { Service, ServiceType } from '../../ddo/Service'
+import { ServiceType } from '../../ddo/Service'
 import Account from '../Account'
 import {
     SubscribablePromise,
     didZeroX
 } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import AssetRewards from '../../models/AssetRewards'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { AssetError } from '../../errors'
 import { RoyaltyScheme } from '../../keeper/contracts/royalties'
 import { Nevermined } from '../../sdk'
 import { ContractReceipt } from 'ethers'
-import { EncryptionMethod } from '../../metadata/MetadataService'
 import { SignatureUtils } from '../utils/SignatureUtils'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgessSteps'
+import { AssetAttributes } from '../../models/AssetAttributes'
 
 export enum RoyaltyKind {
     Standard,
@@ -54,7 +53,10 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
 }
 
 /**
- * Assets submodule of Nevermined.
+ * Nevermined Assets API. It allows the registration and management of digital assets in a 
+ * Nevermined digital ecosystem. 
+ * You can find more information about you can do in a Nevermined information here:
+ * {@link https://docs.nevermined.io/docs/architecture/what-can-i-do}
  */
 export class AssetsApi extends RegistryBaseApi {
 
@@ -90,6 +92,17 @@ export class AssetsApi extends RegistryBaseApi {
 
     /**
      * Given a DID, updates the metadata associated to the asset. It also can upload this metadata to a remote decentralized stored depending on the `publishMetadata` parameter.
+     * 
+     * @example
+     * ```ts
+     * const ddoUpdated = await nevermined.assets.update(
+     *      ddo.shortId(), 
+     *      updatedMetadata, 
+     *      publisher, 
+     *      PublishMetadata.IPFS
+     * )
+     * ```
+     * 
      * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
      * @param metadata - Metadata describing the asset
      * @param publisher - Account of the user updating the metadata
@@ -110,50 +123,61 @@ export class AssetsApi extends RegistryBaseApi {
 
 
     /**
-     * Creates a new DDO.
+     * Registers a new asset in Nevermined. 
+     * You can find more information about how different data is stored in Nevermined here:
+     * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
      *
-     * @param metadata - DDO metadata.
-     * @param publisher - Publisher account.
-     * @param assetRewards - Publisher account.
-     * @param serviceTypes - List of service types to associate with the asset.
-     * @param predefinedAssetServices -
-     * @param encryptionMethod -
-     * @param providers - List of provider addresses of this asset.
-     * @param erc20TokenAddress - The ERC-20 Token used to price the asset.
-     * @param appId - The id of the application creating the NFT.
+     * @param assetAttributes - Attributes describing the asset
+     * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+     * @param publisher - The account publishing the asset
      * @param txParams - Optional transaction parameters
+     * @returns The metadata of the asset created (DDO)
      *
      * @returns {@link DDO}
      */
     public create(
-        metadata: MetaData,
+        assetAttributes: AssetAttributes,
         publisher: Account,
-        assetRewards: AssetRewards = new AssetRewards(),
-        serviceTypes: ServiceType[] = ['access'],
-        predefinedAssetServices: Service[] = [],
-        encryptionMethod: EncryptionMethod = 'PSK-RSA',
-        providers?: string[],
-        erc20TokenAddress?: string,
-        appId?: string,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.registerAsset(
-            metadata,
+        return this.registerNeverminedAsset(
+            assetAttributes,
             publisher,
-            encryptionMethod,
-            assetRewards,
-            serviceTypes,
-            predefinedAssetServices,
-            undefined,
-            erc20TokenAddress,
-            providers,
-            appId,
             publishMetadata,
+            undefined,
             txParams
         )
     }
 
+    /**
+     * Start the purchase/order of an access service. Starts by signing the service agreement
+     * then sends the request to the publisher via the service endpoint (Node http service).
+     * If the access service to purchase is having associated some price, it will make the payment
+     * for that service.
+     * @param did - Unique identifier of the asset to order
+     * @param consumerAccount - The account of the user ordering the asset
+     * @returns The agreement ID identifying the order
+     */
+     public order(
+        did: string,
+        consumerAccount: Account,
+        params?: TxParameters
+    ): SubscribablePromise<OrderProgressStep, string> {
+        return this.orderAsset(did, 'access', consumerAccount, params)
+    }
+
+
+    /**
+     * Having previously ordered an "access" service (referenced via an "agreementId"). 
+     * This method allows to download the assets associated to that service.
+     * @param agreementId  - The unique identifier of the order placed for a service
+     * @param did - Unique identifier of the asset ordered
+     * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
+     * @param resultPath - Where the files will be downloaded
+     * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
+     * @returns The result path or true if everything went okay
+     */
     public async consume(
         agreementId: string,
         did: string,
@@ -171,6 +195,16 @@ export class AssetsApi extends RegistryBaseApi {
         fileIndex?: number
     ): Promise<true>
 
+    /**
+     * Having previously ordered an "access" service (referenced via an "agreementId"). 
+     * This method allows to download the assets associated to that service.
+     * @param agreementId  - The unique identifier of the order placed for a service
+     * @param did - Unique identifier of the asset ordered
+     * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
+     * @param resultPath - Where the files will be downloaded
+     * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
+     * @returns The result path or true if everything went okay
+     */
     // eslint-disable-next-line no-dupe-class-members
     public async consume(
         agreementId: string,
@@ -213,26 +247,11 @@ export class AssetsApi extends RegistryBaseApi {
         return true
     }
 
-    /**
-     * Start the purchase/order of an access service. Starts by signing the service agreement
-     * then sends the request to the publisher via the service endpoint (Node http service).
-     * @param did - Decentralized ID.
-     * @param consumer - Consumer account.
-     * @returns The agreement ID.
-     */
-    public order(
-        did: string,
-        consumer: Account,
-        params?: TxParameters
-    ): SubscribablePromise<OrderProgressStep, string> {
-        return this.orderAsset(did, 'access', consumer, params)
-    }
-
 
     /**
-     * Returns the owner of a asset.
+     * Returns the owner of an asset.
      * @param did - Decentralized ID.
-     * @returns The agreement ID.
+     * @returns The address of the owner of the asset
      */
     public async owner(did: string): Promise<string> {
         const ddo = await this.resolve(did)
@@ -253,9 +272,9 @@ export class AssetsApi extends RegistryBaseApi {
     }
 
     /**
-     * Returns the assets of a owner.
-     * @param owner - Owner address.
-     * @returns List of DIDs.
+     * Returns the assets owned by an address
+     * @param owner - The address to check 
+     * @returns List of DIDs owned by the address
      */
     public async ownerAssets(owner: string): Promise<string[]> {
         return this.nevermined.keeper.didRegistry.getAttributesByOwner(owner)
@@ -353,7 +372,16 @@ export class AssetsApi extends RegistryBaseApi {
         )
     }
 
-    public async delegatePermissions(
+
+    /**
+     * It grants permissions to an account for a specific asset represented by a DID.
+     * Only can be called by the asset owner.
+     * @param did - The unique identifier of the assert
+     * @param address - The account to grant the permissions
+     * @param account - Account sending the request. It must be the owner of the asset
+     * @param params  - Transaction parameters
+     */    
+    public async grantPermissions(
         did: string,
         address: string,
         account: Account,
@@ -367,6 +395,14 @@ export class AssetsApi extends RegistryBaseApi {
         )
     }
 
+    /**
+     * It revokes permissions to an account for a specific asset represented by a DID.
+     * Only can be called by the asset owner.
+     * @param did - The unique identifier of the assert
+     * @param address - The account to revoke the permissions
+     * @param account - Account sending the request. It must be the owner of the asset
+     * @param params  - Transaction parameters
+     */
     public async revokePermissions(
         did: string,
         address: string,
@@ -381,6 +417,12 @@ export class AssetsApi extends RegistryBaseApi {
         )
     }
 
+    /**
+     * Checks if an account with a specific address has permissions to a specific asset represented by a DID
+     * @param did - The unique identifier of the asset to check the permissions
+     * @param address - The address of the account to check the permissions
+     * @returns True if the address has permissions on the asset
+     */
     public async getPermissions(did: string, address: string) {
         return await this.nevermined.keeper.didRegistry.getPermission(did, address)
     }

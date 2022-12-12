@@ -4,6 +4,7 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, Config, utils } from '../../src'
 import { decodeJwt } from 'jose'
 import { MetaData } from '../../src'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Asset Owners', () => {
     let nevermined: Nevermined
@@ -44,18 +45,25 @@ describe('Asset Owners', () => {
     })
 
     it('should set the owner of an asset', async () => {
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: newMetadata(config.marketplaceAuthToken)
+        })
         const ddo = await nevermined.assets.create(
-            newMetadata(config.marketplaceAuthToken),
+            assetAttributes,
             account1
         )
+
         const owner = await nevermined.assets.owner(ddo.id)
 
         assert.equal(owner, account1.getId())
     })
 
     it('should set the provider of an asset', async () => {
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: newMetadata(config.marketplaceAuthToken)
+        })
         const ddo = await nevermined.assets.create(
-            newMetadata(config.marketplaceAuthToken),
+            assetAttributes,
             account1
         )
 
@@ -68,8 +76,11 @@ describe('Asset Owners', () => {
     })
 
     it('should be added correctly a permission on an asset', async () => {
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: newMetadata(config.marketplaceAuthToken)
+        })
         const ddo = await nevermined.assets.create(
-            newMetadata(config.marketplaceAuthToken),
+            assetAttributes,
             account1
         )
 
@@ -93,12 +104,19 @@ describe('Asset Owners', () => {
             account2.getId()
         )
 
-        await nevermined.assets.create(newMetadata(config.marketplaceAuthToken), account1)
-        await nevermined.assets.create(newMetadata(config.marketplaceAuthToken), account1)
-        await nevermined2.assets.create(
-            newMetadata(config2.marketplaceAuthToken),
-            account2
+        
+        await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata: newMetadata(config.marketplaceAuthToken)}),
+            account1
         )
+        await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata: newMetadata(config.marketplaceAuthToken)}),
+            account1
+        )
+        await nevermined2.assets.create(
+            AssetAttributes.getInstance({ metadata: newMetadata(config2.marketplaceAuthToken)}),
+            account2
+        )        
 
         // wait a bit for the subgraph to index the events
         await new Promise(r => setTimeout(r, 5000))
@@ -112,7 +130,7 @@ describe('Asset Owners', () => {
 
     it('should be able to transfer ownership', async () => {
         const { id } = await nevermined.assets.create(
-            newMetadata(config.marketplaceAuthToken),
+            AssetAttributes.getInstance({ metadata: newMetadata(config.marketplaceAuthToken)}),
             account1
         )
 

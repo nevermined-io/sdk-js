@@ -50,17 +50,15 @@ describe('Assets Query by Price', () => {
             price1
             ).setTokenAddress(token.getAddress())
 
-        ddoAccess = await nevermined.assets.create(
+        const _attributes = AssetAttributes.getInstance({
             metadata,
-            account,
-            assetRewards,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            token.getAddress(),
+            price: assetRewards,
             appId
-        )
+        })
+        ddoAccess = await nevermined.assets.create(
+            _attributes,
+            account
+        )            
 
         // publish asset with priced service `nft-sales`
         metadata = getMetadata()

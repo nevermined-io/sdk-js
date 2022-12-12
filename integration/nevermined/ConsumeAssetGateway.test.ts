@@ -10,6 +10,7 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Consume Asset (Nevermined Node)', () => {
     let nevermined: Nevermined
@@ -63,9 +64,16 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     it('should register an asset', async () => {
         const steps = []
+
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata, price: assetRewards
+        })
         ddo = await nevermined.assets
-            .create(metadata, publisher, assetRewards)
-            .next(step => steps.push(step))
+            .create(assetAttributes, publisher)
+            .next(step => steps.push(step))        
+        // ddo = await nevermined.assets
+        //     .createRefactored(metadata, publisher, assetRewards)
+        //     .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])

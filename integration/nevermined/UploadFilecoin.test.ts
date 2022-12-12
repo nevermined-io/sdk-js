@@ -1,11 +1,12 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, Account, DDO, MetaData } from '../../src'
+import { Nevermined, Account, DDO } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Filecoin Integration', () => {
     let nevermined: Nevermined
@@ -66,7 +67,10 @@ describe('Filecoin Integration', () => {
             }
         ]
 
-        ddo = await nevermined.assets.create(metadata as MetaData, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            publisher
+        )
         assert.isDefined(ddo)
     })
 
@@ -102,7 +106,10 @@ describe('Filecoin Integration', () => {
             }
         ]
 
-        ddo = await nevermined.assets.create(metadata as MetaData, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            publisher
+        )
         assert.isDefined(ddo)
     })
 

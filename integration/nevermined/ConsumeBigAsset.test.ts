@@ -6,6 +6,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 
 import { Nevermined, Account, DDO, MetaData, Logger } from '../../src'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 // Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {
@@ -51,7 +52,10 @@ describe.skip('Consume Asset (Large size)', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata}),
+            publisher
+        )
 
         assert.instanceOf(ddo, DDO)
     })

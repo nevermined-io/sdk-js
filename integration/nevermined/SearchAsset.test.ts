@@ -5,6 +5,7 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
 import { sleep } from '../utils/utils'
 import { generateId } from '../../src/utils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Search Asset', () => {
     let nevermined: Nevermined
@@ -29,57 +30,30 @@ describe('Search Asset', () => {
         let metadata = getMetadata(undefined, 'Test1')
         metadata.userId = userId
         await nevermined.assets.create(
-            metadata,
-            account,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            appId
+            AssetAttributes.getInstance({ metadata, appId }),
+            account
+        )
+
+        metadata = getMetadata(undefined, 'Test2')
+        metadata.userId = userId
+
+        await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata, appId }),
+            account
         )
 
         metadata = getMetadata(undefined, 'Test2')
         metadata.userId = userId
         await nevermined.assets.create(
-            metadata,
-            account,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            appId
-        )
-
-        metadata = getMetadata(undefined, 'Test2')
-        metadata.userId = userId
-        await nevermined.assets.create(
-            metadata,
-            account,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            appId
+            AssetAttributes.getInstance({ metadata, appId }),
+            account
         )
 
         metadata = getMetadata(undefined, 'Test3')
         metadata.userId = userId
         await nevermined.assets.create(
-            metadata,
-            account,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            appId
+            AssetAttributes.getInstance({ metadata, appId }),
+            account
         )
 
         // wait for elasticsearch

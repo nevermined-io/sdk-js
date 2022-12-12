@@ -7,6 +7,7 @@ import { workflowMetadatas } from '../utils'
 import { Nevermined, DDO, Account } from '../../src'
 import AssetRewards from '../../src/models/AssetRewards'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Compute Asset', () => {
     let nevermined: Nevermined
@@ -40,10 +41,14 @@ describe('Compute Asset', () => {
     })
 
     it('should register the assets', async () => {
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: workflowMetadatas.algorithm(userId)
+        })
         algorithmDdo = await nevermined.assets.create(
-            workflowMetadatas.algorithm(userId),
+            assetAttributes,
             publisher
-        )
+        )    
+
         console.debug(`Algorightm DID: ${algorithmDdo.id}`)
 
         computeDdo = await nevermined.compute.create(
@@ -53,10 +58,14 @@ describe('Compute Asset', () => {
         )
         console.debug(`Compute DID: ${computeDdo.id}`)        
 
+        const workflowAttributes = AssetAttributes.getInstance({
+            metadata: workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id, userId)
+        })
         workflowDdo = await nevermined.assets.create(
-            workflowMetadatas.workflow(computeDdo.id, algorithmDdo.id, userId),
+            workflowAttributes,
             publisher
-        )
+        )         
+
         console.debug(`Workflow DID: ${workflowDdo.id}`)
     })
 

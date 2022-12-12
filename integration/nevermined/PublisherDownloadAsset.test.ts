@@ -6,6 +6,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 
 import { Nevermined, DDO, Account, MetaData } from '../../src'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Publisher Download Asset', () => {
     let nevermined: Nevermined
@@ -32,7 +33,10 @@ describe('Publisher Download Asset', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            publisher
+        )
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')

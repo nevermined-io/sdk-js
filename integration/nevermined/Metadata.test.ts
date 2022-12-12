@@ -1,6 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DID, Nevermined } from '../../src'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 import AssetRewards from '../../src/models/AssetRewards'
 import { config } from '../config'
 import { getAssetRewards, getMetadata } from '../utils'
@@ -26,7 +27,13 @@ describe('Get DDO status', () => {
     it('should get the internal status of an asset', async () => {
         const metadata = getMetadata()
         metadata.userId = payload.sub
-        const ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
+        const ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ 
+                metadata,
+                price: assetRewards
+            }),
+            publisher
+        )
 
         const ddoStatus = await nevermined.metadata.status(ddo.id)
         assert.isDefined(ddoStatus)

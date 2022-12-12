@@ -9,6 +9,12 @@ import { PublishMetadata } from "./AssetsApi"
 import { RegistryBaseApi } from "./RegistryBaseApi"
 
 
+/**
+ * Nevermined Compute API. It allows the registration execution of compute jobs on top
+ * of data registered in a Nevermined digital ecosystem.
+ * You can find more information about the Nevermined compute solution here:
+ * {@link https://docs.nevermined.io/docs/getting-started/remote-computation}
+ */
 export class ComputeApi extends RegistryBaseApi {
 
     public static async getInstance(config: InstantiableConfig): Promise<ComputeApi> {

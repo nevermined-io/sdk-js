@@ -18,6 +18,17 @@ export abstract class NVMBaseApi extends Instantiable {
 
     public servicePlugin: { [key: string]: ServicePlugin<Service> }
 
+    /**
+     * It registers a new asset in a Nevermined network. This method is protected and not exposed
+     * via the Nevermined APIs directly. It must accessed via the `assets`, `compute`, and `nfts` APIs.
+     * 
+     * @param assetAttributes - Attributes describing the asset
+     * @param publisher - The account publishing the asset
+     * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+     * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
+     * @param txParams - Optional transaction parameters
+     * @returns The metadata of the asset created (DDO)
+     */
     protected registerNeverminedAsset(
         assetAttributes: AssetAttributes,
         publisher: Account,

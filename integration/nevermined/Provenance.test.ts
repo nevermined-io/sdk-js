@@ -5,6 +5,7 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, ProvenanceMethod, utils } from '../../src'
 import { sleep } from '../utils/utils'
 import { ethers } from 'ethers'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Provenance', () => {
     let nevermined: Nevermined
@@ -35,7 +36,10 @@ describe('Provenance', () => {
         const metadata = getMetadata()
         metadata.userId = payload.sub
 
-        ddo = await nevermined.assets.create(metadata, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            publisher
+        )
         await sleep(2000)
         const provenance = await nevermined.provenance.getProvenanceEntry(ddo.shortId())
 

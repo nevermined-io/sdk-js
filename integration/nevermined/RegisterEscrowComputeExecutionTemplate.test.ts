@@ -14,6 +14,7 @@ import {
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -296,15 +297,14 @@ describe('Register Escrow Compute Execution Template', () => {
                 ])
             )
 
-            ddo = await nevermined.assets.create(
+            const assetAttributes = AssetAttributes.getInstance({ 
                 metadata,
-                publisher,
-                assetRewards,
-                ['access', 'compute'],
-                undefined,
-                undefined,
-                undefined,
-                token.getAddress()
+                price: assetRewards,
+                serviceTypes: ['access', 'compute']
+            })
+            ddo = await nevermined.assets.create(
+                assetAttributes,
+                publisher
             )
         })
 

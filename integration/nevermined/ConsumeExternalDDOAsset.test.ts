@@ -8,6 +8,7 @@ import AssetRewards from '../../src/models/AssetRewards'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 import { repeat, sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -41,7 +42,13 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ 
+                metadata,
+                price: assetRewards
+            }),
+            publisher
+        )
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
