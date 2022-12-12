@@ -13,14 +13,7 @@ import { AssetError } from '../../errors'
 import { RoyaltyScheme } from '../../keeper/contracts/royalties'
 import { Nevermined } from '../../sdk'
 import { ContractReceipt } from 'ethers'
-import {
-    ercOfNeverminedNFTType,
-    NeverminedNFT1155Type,
-    NeverminedNFTType,
-    NFTAttributes
-} from '../../models/NFTAttributes'
 import { EncryptionMethod } from '../../metadata/MetadataService'
-import BigNumber from '../../utils/BigNumber'
 import { SignatureUtils } from '../utils/SignatureUtils'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgessSteps'
