@@ -31,7 +31,8 @@ export default class Nft721Contract extends NFTContractsBase {
         
         const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
         
-        await nft.checkExists(address)
+        await new ContractHandler(config).checkExists(address)
+        // await nft.checkExists(address)
         nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
 
         return nft
@@ -55,7 +56,7 @@ export default class Nft721Contract extends NFTContractsBase {
             config.web3
         )
         
-        await nft.checkExists(address)
+        await new ContractHandler(config).checkExists(address)
         nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
 
         return nft

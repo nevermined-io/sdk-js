@@ -39,7 +39,7 @@ export abstract class ContractBase extends Instantiable {
         return this.contract
     }
 
-    public getAddress(): string {
+    public getAddress(): string {        
         return this.contract.address
     }
 
@@ -88,9 +88,11 @@ export abstract class ContractBase extends Instantiable {
         }
     }
 
+
+
     protected async getFromAddress(from?: string): Promise<string> {
-        if (!from) {
-            [from] = await this.addresses()
+        if (!from) {            
+            [from] = await this.nevermined.accounts.getWeb3ProviderAddresses()
         }
         return from
     }
@@ -186,7 +188,7 @@ export abstract class ContractBase extends Instantiable {
         const methodSignature = this.getSignatureOfMethod(name, args)
 
         // get signer
-        const signer = await this.findSigner(from)
+        const signer = await this.nevermined.accounts.findSigner(from)
         const contract = this.contract.connect(signer)
 
         // calculate gas cost

@@ -50,7 +50,6 @@ export class UtilsApi extends NVMBaseApi {
       */
       public token: Token
 
-
      /**
       * Token utils.
       */

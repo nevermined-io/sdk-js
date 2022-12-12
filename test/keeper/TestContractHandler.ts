@@ -7,6 +7,7 @@ import { ZeroAddress } from '../../src/utils'
 import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import fs from 'fs'
+import NeverminedOptions from '../../src/models/NeverminedOptions'
 
 interface ContractTest extends ethers.Contract {
     testContract?: boolean
@@ -14,10 +15,12 @@ interface ContractTest extends ethers.Contract {
 }
 
 
-export default abstract class TestContractHandler extends ContractHandler {
+export default abstract class TestContractHandler extends ContractHandler {    
+
     public static async prepareContracts(): Promise<string> {
         TestContractHandler.setConfig(config)
-        const [deployerAddress] = await TestContractHandler.addressesStatic(
+        
+        const [deployerAddress] = await TestContractHandler.addresses(
             TestContractHandler.config,
             TestContractHandler.web3
         )
@@ -92,7 +95,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
 
         // Add dispenser as Token minter
-        if (!token.$initialized) {
+        if (!token.$initialized) {            
             const signer = await TestContractHandler.findSignerStatic(
                 TestContractHandler.config,
                 TestContractHandler.web3,
@@ -364,6 +367,36 @@ export default abstract class TestContractHandler extends ContractHandler {
         ])
     }
 
+    public static async findSignerStatic(
+        config: NeverminedOptions,
+        web3: ethers.providers.JsonRpcProvider,
+        from: string
+    ): Promise<ethers.Signer> {
+        for (const acc of config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(web3)
+            }
+        }
+        return web3.getSigner(from)
+    }
+    
+    public static async addresses(
+        config: NeverminedOptions,
+        web3: ethers.providers.JsonRpcProvider        
+    ): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (config.accounts || []).map(a => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
     private static async deployContract(
         name: string,
         from: string,
@@ -424,7 +457,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         init = true
     ): Promise<ethers.Contract> {
         if (!from) {
-            [from] = await TestContractHandler.addressesStatic(
+            [from] = await TestContractHandler.addresses(
                 TestContractHandler.config,
                 TestContractHandler.web3
             )

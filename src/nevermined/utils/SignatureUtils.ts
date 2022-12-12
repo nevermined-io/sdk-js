@@ -8,7 +8,7 @@ export class SignatureUtils extends Instantiable {
     }
 
     public async signText(text: string | Bytes, address: string): Promise<string> {
-        const signer = await this.findSigner(address)
+        const signer = await this.nevermined.accounts.findSigner(address)
         try {
             return await signer.signMessage(text)
         } catch (e) {

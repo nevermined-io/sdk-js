@@ -2,6 +2,7 @@ import Balance from '../../models/Balance'
 import Account from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { ethers } from 'ethers'
 // import { NVMBaseApi } from './NVMBaseApi'
 
 /**
@@ -78,4 +79,54 @@ export class AccountsApi extends Instantiable {
             return false
         }
     }
+
+
+    public async findSigner(from: string): Promise<ethers.Signer> {
+        for (const acc of this.config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(this.web3)
+            }
+        }
+        return this.web3.getSigner(from)
+    }
+
+    public async findSignerStatic(
+        from: string
+    ): Promise<ethers.Signer> {
+        for (const acc of this.config.accounts || []) {
+            const addr = await acc.getAddress()
+            if (addr.toLowerCase() === from.toLowerCase()) {
+                return acc.connect(this.web3)
+            }
+        }
+        return this.web3.getSigner(from)
+    }
+
+    public async getWeb3ProviderAddresses(): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await this.web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (this.config.accounts || []).map(a => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
+    public async addresses(): Promise<string[]> {
+        let ethAccounts: string[] = []
+        try {
+            ethAccounts = await this.web3.listAccounts()
+        } catch (e) {
+            // ignore
+        }
+        const addresses = await Promise.all(
+            (this.config.accounts || []).map(a => a.getAddress())
+        )
+        return addresses.concat(ethAccounts)
+    }
+
 }
