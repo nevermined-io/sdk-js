@@ -60,7 +60,8 @@ describe('Asset Owners', () => {
 
     it('should set the provider of an asset', async () => {
         const assetAttributes = AssetAttributes.getInstance({
-            metadata: newMetadata(config.marketplaceAuthToken)
+            metadata: newMetadata(config.marketplaceAuthToken),
+            providers: [config.neverminedNodeAddress]
         })
         const ddo = await nevermined.assets.create(
             assetAttributes,

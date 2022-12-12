@@ -66,7 +66,7 @@ describe('Consume Asset (Nevermined Node)', () => {
         const steps = []
 
         const assetAttributes = AssetAttributes.getInstance({
-            metadata, price: assetRewards
+            metadata, price: assetRewards, providers: [config.neverminedNodeAddress]
         })
         ddo = await nevermined.assets
             .create(assetAttributes, publisher)
