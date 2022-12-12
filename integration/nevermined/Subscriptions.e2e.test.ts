@@ -70,13 +70,13 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
 
         assetMetadata = getMetadata()
         subscriptionMetadata = getMetadata(undefined, 'Subscription NFT')
         assetMetadata.userId = payload.sub
-        neverminedNodeAddress = await nevermined.node.getProviderAddress()
+        neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
         // conditions
         ;({ escrowPaymentCondition, transferNft721Condition } = nevermined.keeper.conditions)

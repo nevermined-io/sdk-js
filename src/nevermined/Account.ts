@@ -65,7 +65,7 @@ export default class Account extends Instantiable {
      * @returns Account token.
      */
     public async getToken(): Promise<string> {
-        return this.token || this.nevermined.auth.restore(this)
+        return this.token || this.nevermined.utils.auth.restore(this)
     }
 
     /**
@@ -73,14 +73,14 @@ export default class Account extends Instantiable {
      * @returns {@link true} if the token is stored.
      */
     public isTokenStored(): Promise<boolean> {
-        return this.nevermined.auth.isStored(this)
+        return this.nevermined.utils.auth.isStored(this)
     }
 
     /**
      * Authenticate the account.
      */
     public authenticate() {
-        return this.nevermined.auth.store(this)
+        return this.nevermined.utils.auth.store(this)
     }
 
     /**

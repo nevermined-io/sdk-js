@@ -1,5 +1,5 @@
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { HttpError, FaucetError } from '../errors'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { HttpError, FaucetError } from '../../errors'
 
 /**
  * Provides a interface with Faucet.

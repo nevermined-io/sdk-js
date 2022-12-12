@@ -1,5 +1,5 @@
 import { Service, ServiceType } from '../ddo/Service'
-import { EncryptionMethod } from '../metadata/MetadataService'
+import { EncryptionMethod } from '../services/metadata/MetadataService'
 import { MetaData } from "../ddo/MetaData"
 import AssetRewards from './AssetRewards'
 

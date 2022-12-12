@@ -68,7 +68,7 @@ describe('NFTs721 Api End-to-End', () => {
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
         metadata.userId = payload.sub
 

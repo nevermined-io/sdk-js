@@ -21,7 +21,7 @@ describe('Providers operations', () => {
             account1
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         const metadata = getMetadata()
         const payload = decodeJwt(config.marketplaceAuthToken)
@@ -34,10 +34,10 @@ describe('Providers operations', () => {
     })
 
     it('should add and remove providers addresses', async () => {
-        console.log(await nevermined.provider.list(ddo.id))
-        await nevermined.provider.add(ddo.id, account2.getId(), account1)
-        console.log(await nevermined.provider.list(ddo.id))
-        await nevermined.provider.remove(ddo.id, account2.getId(), account1)
-        console.log(await nevermined.provider.list(ddo.id))
+        console.log(await nevermined.assets.providers.list(ddo.id))
+        await nevermined.assets.providers.add(ddo.id, account2.getId(), account1)
+        console.log(await nevermined.assets.providers.list(ddo.id))
+        await nevermined.assets.providers.remove(ddo.id, account2.getId(), account1)
+        console.log(await nevermined.assets.providers.list(ddo.id))
     })
 })

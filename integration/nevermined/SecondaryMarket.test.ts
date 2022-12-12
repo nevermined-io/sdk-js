@@ -175,7 +175,7 @@ describe('Secondary Markets', () => {
                 artist
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
@@ -433,7 +433,7 @@ describe('Secondary Markets', () => {
                 nftSalesServiceAgreement = {
                     type: 'nft-sales',
                     index: 6,
-                    serviceEndpoint: nevermined.node.getNftEndpoint(),
+                    serviceEndpoint: nevermined.services.node.getNftEndpoint(),
                     templateId: nftSalesTemplate.getAddress(),
                     attributes: {
                         main: {
@@ -615,7 +615,7 @@ describe('Secondary Markets', () => {
                     collector2.getId()
                 )
 
-                await nevermined.marketplace.login(clientAssertion)
+                await nevermined.services.marketplace.login(clientAssertion)
             })
 
             it('The collector2 sets up the NFT access agreement', async () => {
@@ -682,7 +682,7 @@ describe('Secondary Markets', () => {
                 )
                 assert.isNotNull(agreementId3)
 
-                const service = await nevermined.metadata.retrieveService(agreementId3)
+                const service = await nevermined.services.metadata.retrieveService(agreementId3)
                 assert.isDefined(service)
             })
 

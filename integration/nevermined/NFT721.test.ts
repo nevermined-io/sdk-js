@@ -54,7 +54,7 @@ describe('Nfts721 operations', async () => {
         const nftOwner = new Account(await nftContract.owner() as string)
         nftContract.setProxyApproval(transferNft721Condition.address, true, nftOwner)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
         ;({ token } = nevermined)
     })

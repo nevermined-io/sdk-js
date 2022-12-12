@@ -1,18 +1,21 @@
-import Balance from '../models/Balance'
-import Account from './Account'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
+import Balance from '../../models/Balance'
+import Account from '../Account'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { NVMBaseApi } from './NVMBaseApi'
 
 /**
- * Account submodule of Nevermined.
+ * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
  */
-export class Accounts extends Instantiable {
+export class AccountsApi extends NVMBaseApi {
+
     /**
-     * Returns the instance of Accounts.
-     * @returns {@link Accounts}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<Accounts> {
-        const instance = new Accounts()
+     * Returns the instance of the AccountsApi.
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link AccountsApi}
+     */  
+    public static async getInstance(config: InstantiableConfig): Promise<AccountsApi> {
+        const instance = new AccountsApi()
         instance.setInstanceConfig(config)
 
         return instance
@@ -33,7 +36,7 @@ export class Accounts extends Instantiable {
      * Returns the list of accounts including the addresses not controlled by the node,
      * only can be used by providers like metamask, Status or Trustwallet but not by default
      * provider
-     * @returns
+     * @returns The list of accounts.
      */
     public async requestList(): Promise<Account[]> {
         return this.list()
@@ -69,7 +72,7 @@ export class Accounts extends Instantiable {
 
     public async requestEthFromFaucet(address: string): Promise<boolean> {
         try {
-            await this.nevermined.faucet.requestEth(address)
+            await this.nevermined.services.faucet.requestEth(address)
             return true
         } catch (e) {
             return false

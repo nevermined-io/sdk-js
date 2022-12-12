@@ -34,7 +34,7 @@ describe('MetaTx test with nfts', () => {
         ;[artist, collector] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
 
         const nftContractOwner = new Account(await nevermined.nfts1155.owner())

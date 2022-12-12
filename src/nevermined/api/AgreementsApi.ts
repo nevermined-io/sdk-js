@@ -1,10 +1,11 @@
-import { generateId } from '../utils/GeneratorHelpers'
-import Account from './Account'
-import { zeroX } from '../utils'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { AgreementsConditions } from './AgreementsConditions'
-import { ServiceType } from '../ddo/Service'
-import { TxParameters } from '../keeper/contracts/ContractBase'
+import { generateId } from '../../utils/GeneratorHelpers'
+import Account from '../Account'
+import { zeroX } from '../../utils'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { ConditionsApi } from './ConditionsApi'
+import { ServiceType } from '../../ddo/Service'
+import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { NVMBaseApi } from './NVMBaseApi'
 
 export interface AgreementPrepareResult {
     agreementIdSeed: string
@@ -12,17 +13,19 @@ export interface AgreementPrepareResult {
 }
 
 /**
- * Agreements submodule of Nevermined.
+ * Nevermined Agreements API. It allows the integration with Nevermined Service Execution Agreements
  */
-export class Agreements extends Instantiable {
+export class AgreementsApi extends NVMBaseApi {
+
     /**
-     * Returns the instance of Agreements.
-     * @returns {@link Agreements}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<Agreements> {
-        const instance = new Agreements()
+     * Returns the instance of the AccountsApi.
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link AgreementsApi}
+     */  
+    public static async getInstance(config: InstantiableConfig): Promise<AgreementsApi> {
+        const instance = new AgreementsApi()
         instance.setInstanceConfig(config)
-        instance.conditions = await AgreementsConditions.getInstance(config)
+        instance.conditions = await ConditionsApi.getInstance(config)
 
         return instance
     }
@@ -30,7 +33,7 @@ export class Agreements extends Instantiable {
     /**
      * Agreements Conditions submodule.
      */
-    public conditions: AgreementsConditions
+    public conditions: ConditionsApi
 
     /**
      * Creates a consumer signature for the specified asset service.
@@ -43,7 +46,7 @@ export class Agreements extends Instantiable {
      * @param  consumer - Consumer account.
      * @returns The agreement ID and signature.
      */
-    public async prepare(
+    public async prepareSignature(
         did: string,
         serviceType: ServiceType,
         consumer: Account
@@ -83,7 +86,7 @@ export class Agreements extends Instantiable {
      * @param serviceType - Service.
      * @param consumer - Consumer account.
      * @param publisher - Publisher account.
-     * @returns
+     * @returns The service agreement id
      */
     public async create(
         did: string,
@@ -119,7 +122,7 @@ export class Agreements extends Instantiable {
      * Get the status of a service agreement.
      * @param agreementId - Service agreement ID.
      * @param extended - Returns a complete status with dependencies.
-     * @returns
+     * @returns status of the agreement
      */
     public async status(agreementId: string, extended = false) {
         const { templateId } =
@@ -141,26 +144,44 @@ export class Agreements extends Instantiable {
         return simpleStatus as any
     }
 
+    /**
+     * It returns the details of one agreement 
+     * @param agreementId The unique agreement id
+     * @returns the details of the agreement
+     */
     public async getAgreement(agreementId: string) {
         return this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
     }
 
+    /**
+     * Gets the list of agreements created about an asset
+     * @param did the unique identifier of the asset
+     * @returns the list of agreements
+     */
     public async getAgreements(did: string) {
         return this.nevermined.keeper.agreementStoreManager.getAgreements(did)
     }
 
+    /**
+     * Checks if a consumer has permissions for a certain DID and Agreement Id
+     * @param agreementId the agreement id
+     * @param did the unique identifier of the asset
+     * @param consumerAddress the address of the consumer
+     * @param account the user account
+     * @returns true if the user has permissions
+     */
     public async isAccessGranted(
         agreementId: string,
         did: string,
-        consumer: string,
+        consumerAddress: string,
         account: Account
     ): Promise<boolean> {
         const { accessConsumer } =
             await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
                 agreementId
             )
-        if (!consumer.includes(accessConsumer)) {
-            this.logger.log(`This address [${consumer}] has not access granted`)
+        if (!consumerAddress.includes(accessConsumer)) {
+            this.logger.log(`This address [${consumerAddress}] has not access granted`)
             return false
         }
         return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(

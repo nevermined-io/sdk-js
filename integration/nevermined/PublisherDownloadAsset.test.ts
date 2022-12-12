@@ -24,7 +24,7 @@ describe('Publisher Download Asset', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         const payload = decodeJwt(config.marketplaceAuthToken)
 

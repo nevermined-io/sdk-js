@@ -37,7 +37,7 @@ describe('User Profiles', () => {
     })
 
     it('should create a userProfile', async () => {
-        const response = await nevermined.profiles.create(newProfile)
+        const response = await nevermined.services.profiles.create(newProfile)
 
         userId = response.userId // eslint-disable-line prefer-destructuring
 
@@ -50,7 +50,7 @@ describe('User Profiles', () => {
     })
 
     it('should get a profile by userId', async () => {
-        const response = await nevermined.profiles.findOneByUserId(userId)
+        const response = await nevermined.services.profiles.findOneByUserId(userId)
 
         assert.deepEqual(response, {
             ...newProfile,
@@ -62,7 +62,7 @@ describe('User Profiles', () => {
 
     it('should get a profile by address', async () => {
         await sleep(2000)
-        const response = await nevermined.profiles.findOneByAddress(account3.getId())
+        const response = await nevermined.services.profiles.findOneByAddress(account3.getId())
 
         assert.deepEqual(response, {
             ...newProfile,
@@ -73,7 +73,7 @@ describe('User Profiles', () => {
     })
 
     it('should update a profile by userid', async () => {
-        const response = await nevermined.profiles.update(userId, {
+        const response = await nevermined.services.profiles.update(userId, {
             isListed: false
         })
 
@@ -87,7 +87,7 @@ describe('User Profiles', () => {
     })
 
     it('should disable a profile by userId', async () => {
-        const response = await nevermined.profiles.disableOneByUserId(userId)
+        const response = await nevermined.services.profiles.disableOneByUserId(userId)
 
         assert.deepEqual(response, {
             ...newProfile,

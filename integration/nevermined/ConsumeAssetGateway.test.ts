@@ -34,7 +34,7 @@ describe('Consume Asset (Nevermined Node)', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(0))
@@ -53,7 +53,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     })
 
     it('should fetch the RSA publicKey from the Nevermined Node', async () => {
-        const rsaPublicKey = await nevermined.node.getRsaPublicKey()
+        const rsaPublicKey = await nevermined.services.node.getRsaPublicKey()
         assert.isDefined(rsaPublicKey)
     })
 
@@ -78,7 +78,7 @@ describe('Consume Asset (Nevermined Node)', () => {
         assert.instanceOf(ddo, DDO)
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])
 
-        const assetProviders = await nevermined.provider.list(ddo.id)
+        const assetProviders = await nevermined.assets.providers.list(ddo.id)
         assert.deepEqual(assetProviders, [
             ethers.utils.getAddress(config.neverminedNodeAddress)
         ])

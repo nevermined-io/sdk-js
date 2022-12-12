@@ -3,18 +3,13 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
 /**
- * Pro submodule of Nevermined.
+ * Providers API that allows the basic management of the provider accounts associated to an asset.
  */
-export class Provider extends Instantiable {
-    /**
-     * Returns the instance of Provider.
-     * @returns {@link Provider}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<Provider> {
-        const instance = new Provider()
-        instance.setInstanceConfig(config)
+export class Providers extends Instantiable {
 
-        return instance
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     /**

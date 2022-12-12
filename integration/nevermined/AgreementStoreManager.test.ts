@@ -24,7 +24,7 @@ describe('Agreement Store Manager', () => {
             account1
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         newMetadata = (token: string) => {
             const metadata = getMetadata()

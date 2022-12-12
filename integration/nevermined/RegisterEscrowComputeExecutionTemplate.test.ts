@@ -285,7 +285,7 @@ describe('Register Escrow Compute Execution Template', () => {
                 publisher
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()

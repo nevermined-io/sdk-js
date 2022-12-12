@@ -1,25 +1,34 @@
-import Account from './Account'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { ProvenanceMethod } from '../keeper/contracts/DIDRegistry'
-import { TxParameters } from '../keeper/contracts/ContractBase'
+import Account from '../Account'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { ProvenanceMethod } from '../../keeper/contracts/DIDRegistry'
+import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { ethers } from 'ethers'
-import { zeroX } from '../utils'
+import { zeroX } from '../../utils'
 
 /**
- * Provenance submodule of Nevermined.
+ * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry 
+ * You can find more information about Nevermined Provenance here:
+ * {@link https://docs.nevermined.io/docs/architecture/specs/Spec-PROVENANCE}
  */
-export class Provenance extends Instantiable {
+export class ProvenanceApi extends Instantiable {
+
     /**
-     * Returns the instance of Provenance.
-     * @returns {@link Provenance}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<Provenance> {
-        const instance = new Provenance()
+     * Returns the instance of the ProvenanceApi.
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link ProvenanceApi}
+     */ 
+    public static async getInstance(config: InstantiableConfig): Promise<ProvenanceApi> {
+        const instance = new ProvenanceApi()
         instance.setInstanceConfig(config)
 
         return instance
     }
 
+    /**
+     * Given a provenance id it returns the provenance details
+     * @param provenanceId Unique identifier of a provenance entry
+     * @returns 
+     */
     public async getProvenanceEntry(provenanceId: string) {
         return this.nevermined.keeper.didRegistry.getProvenanceEntry(provenanceId)
     }

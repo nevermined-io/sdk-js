@@ -80,7 +80,7 @@ export class Versions extends Instantiable {
                 network,
                 software: name,
                 version
-            } = await this.nevermined.node.getVersionInfo()
+            } = await this.nevermined.services.node.getVersionInfo()
             versions.node = {
                 name,
                 status: PlatformTechStatus.Working,
@@ -100,7 +100,7 @@ export class Versions extends Instantiable {
         // Metadata
         try {
             const { software: name, version } =
-                await this.nevermined.metadata.getVersionInfo()
+                await this.nevermined.services.metadata.getVersionInfo()
             versions.metadata = {
                 name,
                 status: PlatformTechStatus.Working,

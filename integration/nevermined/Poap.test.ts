@@ -23,12 +23,12 @@ describe('POAPs with Assets', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        gatewayAddress = await nevermined.node.getProviderAddress()
+        gatewayAddress = await nevermined.services.node.getProviderAddress()
         ;[editor, user] = await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         metadata = getMetadata()
@@ -69,7 +69,7 @@ describe('POAPs with Assets', () => {
     it('editor should be able to register poap', async () => {
         const assetAttributes = AssetAttributes.getInstance({
             metadata,
-            price: new AssetRewards(editor.getId(), BigNumber.from(0), nevermined.token.getAddress()),
+            price: new AssetRewards(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
             serviceTypes: ['nft-sales', 'nft-access'],
             providers: [gatewayAddress]
         })

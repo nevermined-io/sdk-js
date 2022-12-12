@@ -28,7 +28,7 @@ describe('Provenance', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
     })
 
     it('should be able to get the provenance data from a new asset', async () => {

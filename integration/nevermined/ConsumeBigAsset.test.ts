@@ -31,7 +31,7 @@ describe.skip('Consume Asset (Large size)', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         baseMetadata = getMetadata()

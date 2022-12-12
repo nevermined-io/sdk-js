@@ -161,7 +161,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 artist
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()

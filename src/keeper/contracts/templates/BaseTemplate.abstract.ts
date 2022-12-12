@@ -79,7 +79,7 @@ export abstract class BaseTemplate<Params, S extends Service>
         return {
             type: this.service(),
             index: serviceIndex[this.service()],
-            serviceEndpoint: this.nevermined.node.getServiceEndpoint(
+            serviceEndpoint: this.nevermined.services.node.getServiceEndpoint(
                 this.serviceEndpoint()
             ),
             templateId: this.getAddress(),

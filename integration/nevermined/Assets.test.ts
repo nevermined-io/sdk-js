@@ -29,7 +29,7 @@ describe('Assets', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
         assetRewards = getAssetRewards(publisher.getId())
 

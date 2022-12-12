@@ -27,7 +27,7 @@ describe('Assets Query by Price', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        token = await nevermined.contracts.loadErc20(nevermined.token.getAddress())
+        token = await nevermined.contracts.loadErc20(nevermined.utils.token.getAddress())
 
         price1 = BigNumber.parseUnits('2', await token.decimals())
         price2 = BigNumber.parseUnits('17.86', await token.decimals())
@@ -37,7 +37,7 @@ describe('Assets Query by Price', () => {
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
             account
         )
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
     })
 

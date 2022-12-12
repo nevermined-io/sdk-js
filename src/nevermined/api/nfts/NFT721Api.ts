@@ -481,7 +481,7 @@ export class NFT721Api extends NFTsBaseApi {
         agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
-        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
+        const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
         const did = getDIDFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
         ddo.updateService(this.nevermined, service)

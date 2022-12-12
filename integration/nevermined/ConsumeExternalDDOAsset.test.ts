@@ -33,7 +33,7 @@ describe('Consume Asset (Documentation example)', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         metadata = await getDocsCommonMetadata()
@@ -74,7 +74,7 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should sign the service agreement', async () => {
-        serviceAgreementSignatureResult = await nevermined.agreements.prepare(
+        serviceAgreementSignatureResult = await nevermined.agreements.prepareSignature(
             ddo.id,
             'access',
             consumer

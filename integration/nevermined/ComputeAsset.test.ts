@@ -33,7 +33,7 @@ describe('Compute Asset', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
         userId = payload.sub
 
@@ -51,11 +51,15 @@ describe('Compute Asset', () => {
 
         console.debug(`Algorightm DID: ${algorithmDdo.id}`)
 
-        computeDdo = await nevermined.compute.create(
-            workflowMetadatas.compute(userId),
-            publisher,
-            assetRewards
-        )
+        const computeAttributes = AssetAttributes.getInstance({
+            metadata: workflowMetadatas.compute(userId),
+            price: assetRewards
+        })
+        computeDdo = await nevermined.assets.create(
+            computeAttributes,
+            publisher
+        ) 
+
         console.debug(`Compute DID: ${computeDdo.id}`)        
 
         const workflowAttributes = AssetAttributes.getInstance({

@@ -29,7 +29,7 @@ describe('Accounts', () => {
             // Can only request once every 24h
             if (!success) {
                 try {
-                    await nevermined.faucet.requestEth(account.getId())
+                    await nevermined.services.faucet.requestEth(account.getId())
                 } catch (e) {
                     assert.include(await e.message, 'Already requested')
                 }

@@ -32,7 +32,7 @@ describe.skip('Get DDO status', () => {
             publisher
         )
 
-        ddoStatus = await nevermined.metadata.status(ddo.id)
+        ddoStatus = await nevermined.services.metadata.status(ddo.id)
         assert.isDefined(ddoStatus)
         assert.isDefined(ddoStatus.external)
         assert.isDefined(ddoStatus.external.id)
@@ -54,7 +54,7 @@ describe.skip('Get DDO status', () => {
 
         const retrievedDdo = await nevermined.assets.resolve(ddo.id)
         assert.deepEqual(ddo, retrievedDdo)
-        expect(nevermined.metadata.retrieveDDOByUrl).to.have.been.called.with(
+        expect(nevermined.services.metadata.retrieveDDOByUrl).to.have.been.called.with(
             ddoStatus.external.url
         )
     })

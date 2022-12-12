@@ -24,7 +24,7 @@ import { NVMBaseApi } from '../NVMBaseApi'
  */
 export abstract class NFTsBaseApi extends NVMBaseApi {
 
-        /**
+    /**
      * Asks the Node to transfer the NFT on behalf of the publisher.
      *
      * @remarks
@@ -61,7 +61,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
         nftAmount: BigNumber,
         ercType: ERCType = 1155
     ): Promise<boolean> {
-        return await this.nevermined.node.nftTransferForDelegate(
+        return await this.nevermined.services.node.nftTransferForDelegate(
             agreementId,
             nftHolder,
             nftReceiver,
@@ -207,7 +207,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
             agreementId: agreementIdSeed,
             type: 'nft-sales',
             index: 6,
-            serviceEndpoint: this.nevermined.node.getNftEndpoint(),
+            serviceEndpoint: this.nevermined.services.node.getNftEndpoint(),
             templateId: nftSalesTemplate.getAddress(),
             did: ddo.id,
             attributes: {
@@ -224,7 +224,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
             }
         }
 
-        const saveResult = await this.nevermined.metadata.storeService(
+        const saveResult = await this.nevermined.services.metadata.storeService(
             agreementIdSeed,
             nftSalesServiceAgreement
         )
@@ -265,7 +265,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
         params?: TxParameters
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
+        const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
         const assetRewards = getAssetRewardsFromService(service)
         // has no privkeys, so we can't sign
         const currentNftHolder = new Account(getNftHolderFromService(service))
@@ -350,7 +350,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
 
         // Download the files
         this.logger.log('Downloading the files')
-        const result = await this.nevermined.node.downloadService(
+        const result = await this.nevermined.services.node.downloadService(
             files,
             destination,
             index,

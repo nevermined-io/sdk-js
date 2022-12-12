@@ -1,15 +1,15 @@
-import { File as MetaDataFile } from '../ddo/MetaData'
-import Account from '../nevermined/Account'
-import { noZeroX } from '../utils'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { File as MetaDataFile } from '../../ddo/MetaData'
+import Account from '../../nevermined/Account'
+import { noZeroX } from '../../utils'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
-import { NeverminedNodeError, HttpError } from '../errors'
-import { ServiceType } from '../ddo/Service'
-import BigNumber from '../utils/BigNumber'
-import { ERCType } from '../models/NFTAttributes'
-import { DDO } from '../ddo/DDO'
-import { PublishMetadata } from '../nevermined/api/AssetsApi'
-import { ImmutableBackends } from '../ddo/NvmConfig'
+import { NeverminedNodeError, HttpError } from '../../errors'
+import { ServiceType } from '../../ddo/Service'
+import BigNumber from '../../utils/BigNumber'
+import { ERCType } from '../../models/NFTAttributes'
+import { DDO } from '../../ddo/DDO'
+import { PublishMetadata } from '../../nevermined/api/AssetsApi'
+import { ImmutableBackends } from '../../ddo/NvmConfig'
 
 const apiPath = '/api/v1/node/services'
 
@@ -460,7 +460,7 @@ export class NeverminedNode extends Instantiable {
 
         if (publishMetadata === PublishMetadata.Filecoin) {
             this.logger.log('Publishing metadata to Filecoin')                    
-            ;({ url } = await this.nevermined.node.uploadContent(
+            ;({ url } = await this.nevermined.services.node.uploadContent(
                 JSON.stringify(ddo), 
                 false, 
                 NodeUploadBackends.Filecoin
@@ -469,7 +469,7 @@ export class NeverminedNode extends Instantiable {
             
         } else if (publishMetadata === PublishMetadata.IPFS) {
             this.logger.log('Publishing metadata to IPFS')                    
-            ;({ url: url } = await this.nevermined.node.uploadContent(
+            ;({ url: url } = await this.nevermined.services.node.uploadContent(
                 JSON.stringify(ddo), 
                 false, 
                 NodeUploadBackends.IPFS

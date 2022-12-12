@@ -54,7 +54,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         payload = decodeJwt(config.marketplaceAuthToken)
 
@@ -127,7 +127,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         })
 
         it('Should set the Node as a provider by default', async () => {
-            const providers = await nevermined.provider.list(ddo.id)
+            const providers = await nevermined.assets.providers.list(ddo.id)
             assert.deepEqual(providers, [
                 ethers.utils.getAddress(config.neverminedNodeAddress)
             ])

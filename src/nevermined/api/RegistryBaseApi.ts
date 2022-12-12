@@ -8,6 +8,13 @@ import { PublishMetadata } from "./AssetsApi"
 import { OrderProgressStep, UpdateProgressStep } from "../ProgessSteps"
 import { AssetError } from "../../errors/AssetError"
 
+/**
+ * It described the policy to be used when resolving an asset. It has the following options:
+ * * ImmutableFirst - It checks if there is a reference to an immutable data-store (IPFS, Filecoin, etc) on-chain. If that's the case uses the URL to resolve the Metadata. If not try to resolve the metadata using the URL of the Metadata/Marketplace API
+ * * MetadataAPIFirst - Try to resolve the metadata from the Marketplace/Metadata API, if it can't tries to resolve using the immutable url
+ * * OnlyImmutable - Try to resolve the metadata only from the immutable data store URL
+ * * OnlyMetadataAPI - Try to resolve the metadata only from the Marketplace/Metadata API
+ */
 export enum DIDResolvePolicy {
     ImmutableFirst,
     MetadataAPIFirst,
@@ -15,6 +22,9 @@ export enum DIDResolvePolicy {
     OnlyMetadataAPI
 }
 
+/**
+ * Abstract class proving common functionality related with Assets registration.
+ */
 export abstract class RegistryBaseApi extends NVMBaseApi {
 
     /**
@@ -71,7 +81,7 @@ export abstract class RegistryBaseApi extends NVMBaseApi {
                 observer.next(UpdateProgressStep.StoringImmutableDDO)
                 try {
                     ({url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } = 
-                        await this.nevermined.node.publishImmutableContent(ddo, publishMetadata))
+                        await this.nevermined.services.node.publishImmutableContent(ddo, publishMetadata))
                     if (ddoVersion.immutableBackend)
                         ddo._nvm.versions[lastIndex+1] = ddoVersion                    
                 } catch (error) {
@@ -90,7 +100,7 @@ export abstract class RegistryBaseApi extends NVMBaseApi {
             )
 
             observer.next(UpdateProgressStep.StoringDDOMarketplaceAPI)
-            const storedDdo = await this.nevermined.metadata.updateDDO(ddo.id, ddo)
+            const storedDdo = await this.nevermined.services.metadata.updateDDO(ddo.id, ddo)
             
             observer.next(UpdateProgressStep.AssetUpdated)
 
@@ -110,23 +120,23 @@ export abstract class RegistryBaseApi extends NVMBaseApi {
             await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
 
         if (policy === DIDResolvePolicy.OnlyImmutable)
-            return await this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+            return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
         else if (policy === DIDResolvePolicy.OnlyMetadataAPI)
-            return await this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+            return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
         else if (policy === DIDResolvePolicy.ImmutableFirst) {
             try {             
-                return await this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)                
+                return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)                
             } catch (error) {
                 this.logger.debug(`Unable to fetch DDO from immutable data store`)
             }
-            return await this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+            return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
         } else { // DIDResolvePolicy.MetadataAPIFirst
             try {
-                return await this.nevermined.metadata.retrieveDDOByUrl(serviceEndpoint)
+                return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
             } catch (error) {
                 this.logger.debug(`Unable to fetch DDO metadata api`)
             }
-            return await this.nevermined.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+            return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
         }         
     }
 

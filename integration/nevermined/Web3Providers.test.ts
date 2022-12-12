@@ -32,7 +32,7 @@ describe('Web3Providers', () => {
             account
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         const payload = decodeJwt(config.marketplaceAuthToken)
         const metadata = getMetadata()
@@ -63,7 +63,7 @@ describe('Web3Providers', () => {
             account
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         const payload = decodeJwt(config.marketplaceAuthToken)
         const metadata = getMetadata()

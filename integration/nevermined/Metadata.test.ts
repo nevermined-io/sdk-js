@@ -20,7 +20,7 @@ describe('Get DDO status', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
     })
 
@@ -35,7 +35,7 @@ describe('Get DDO status', () => {
             publisher
         )
 
-        const ddoStatus = await nevermined.metadata.status(ddo.id)
+        const ddoStatus = await nevermined.services.metadata.status(ddo.id)
         assert.isDefined(ddoStatus)
         assert.isDefined(ddoStatus.internal)
         assert.equal(ddoStatus.internal.id, ddo.id)
@@ -43,7 +43,7 @@ describe('Get DDO status', () => {
         assert.equal(ddoStatus.internal.status, 'ACCEPTED')
         assert.equal(
             ddoStatus.internal.url,
-            nevermined.metadata.getServiceEndpoint(DID.parse(ddo.id))
+            nevermined.services.metadata.getServiceEndpoint(DID.parse(ddo.id))
         )
     })
 })

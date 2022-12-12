@@ -16,13 +16,15 @@ import { SignatureUtils } from '../utils/SignatureUtils'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgessSteps'
 import { AssetAttributes } from '../../models/AssetAttributes'
+import { Providers } from '../Provider'
 
-export enum RoyaltyKind {
-    Standard,
-    Curve,
-    Legacy
-}
-
+/**
+ * Where the metadata will be published. Options:
+ * - OnlyMetadataAPI, The metadata will be stored only in the Metadata/Marketplace API
+ * - IPFS, The metadata will be stored in the Metadata/Marketplace API and IPFS
+ * - Filecoin, The metadata will be stored in the Metadata/Marketplace API and Filecoin
+ * - Arweave, The metadata will be stored in the Metadata/Marketplace API and Arweave
+ */
 export enum PublishMetadata {
     OnlyMetadataAPI,
     IPFS,
@@ -30,12 +32,30 @@ export enum PublishMetadata {
     Arweave
 }
 
+/**
+ * Attributes defining the royalties model attached to the asset
+ */
 export interface RoyaltyAttributes {
     royaltyKind: RoyaltyKind
     scheme: RoyaltyScheme
     amount: number
 }
 
+/**
+ * The type of royalty
+ */
+ export enum RoyaltyKind {
+    Standard,
+    Curve,
+    Legacy
+}
+
+/**
+ * It gets the on-chain royalties scheme
+ * @param nvm Nevermined instance
+ * @param kind The type of royalty
+ * @returns The royalty scheme
+ */
 export function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme {
     if (kind == RoyaltyKind.Standard) {
         return nvm.keeper.royalties.standard
@@ -44,6 +64,13 @@ export function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltySch
     }
 }
 
+/**
+ * It gets a `RoyaltyAttributes` instance
+ * @param nvm Nevermined instance
+ * @param kind The type of royalty
+ * @param amount The amount of royalties to get in the secondary market
+ * @returns The RoyaltyAttributes instance
+ */
 export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount: number) {
     return {
         scheme: getRoyaltyScheme(nvm, kind),
@@ -67,6 +94,12 @@ export class AssetsApi extends RegistryBaseApi {
      * 
      */
     static DEFAULT_REGISTRATION_ACTIVITY_ID = SignatureUtils.hash('AssetRegistration')
+
+    /**
+     * Utilities about the providers associated to an asset
+     */
+    public providers: Providers
+
     /**
      * Returns the instance of the AssetsApi.
      * @param config - Configuration of the Nevermined instance
@@ -77,6 +110,7 @@ export class AssetsApi extends RegistryBaseApi {
         instance.servicePlugin = AssetsApi.getServicePlugin(config)
         instance.setInstanceConfig(config)
 
+        instance.providers = new Providers(config)
         return instance
     }
 
@@ -89,38 +123,6 @@ export class AssetsApi extends RegistryBaseApi {
     public async resolve(did: string, policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst): Promise<DDO> {
         return this.resolveAsset(did, policy)
     }
-
-    /**
-     * Given a DID, updates the metadata associated to the asset. It also can upload this metadata to a remote decentralized stored depending on the `publishMetadata` parameter.
-     * 
-     * @example
-     * ```ts
-     * const ddoUpdated = await nevermined.assets.update(
-     *      ddo.shortId(), 
-     *      updatedMetadata, 
-     *      publisher, 
-     *      PublishMetadata.IPFS
-     * )
-     * ```
-     * 
-     * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
-     * @param metadata - Metadata describing the asset
-     * @param publisher - Account of the user updating the metadata
-     * @param publishMetadata - It allows to specify where to store the metadata  
-     * @param txParams - Optional transaction parameters
-     * @returns {@link DDO} The DDO updated
-     */
-    public update(
-        did: string,
-        metadata: MetaData,
-        publisher: Account,
-        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
-        txParams?: TxParameters
-    ): SubscribablePromise<UpdateProgressStep, DDO> {
-        return this.updateAsset(did, metadata, publisher, publishMetadata, txParams)
-    }
-
-
 
     /**
      * Registers a new asset in Nevermined. 
@@ -150,6 +152,38 @@ export class AssetsApi extends RegistryBaseApi {
         )
     }
 
+
+    /**
+     * Given a DID, updates the metadata associated to the asset. It also can upload this metadata to a remote decentralized stored depending on the `publishMetadata` parameter.
+     * 
+     * @example
+     * ```ts
+     * const ddoUpdated = await nevermined.assets.update(
+     *      ddo.shortId(), 
+     *      updatedMetadata, 
+     *      publisher, 
+     *      PublishMetadata.IPFS
+     * )
+     * ```
+     * 
+     * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
+     * @param metadata - Metadata describing the asset
+     * @param publisher - Account of the user updating the metadata
+     * @param publishMetadata - It allows to specify where to store the metadata  
+     * @param txParams - Optional transaction parameters
+     * @returns {@link DDO} The DDO updated
+     */
+     public update(
+        did: string,
+        metadata: MetaData,
+        publisher: Account,
+        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+        txParams?: TxParameters
+    ): SubscribablePromise<UpdateProgressStep, DDO> {
+        return this.updateAsset(did, metadata, publisher, publishMetadata, txParams)
+    }
+
+
     /**
      * Start the purchase/order of an access service. Starts by signing the service agreement
      * then sends the request to the publisher via the service endpoint (Node http service).
@@ -157,14 +191,15 @@ export class AssetsApi extends RegistryBaseApi {
      * for that service.
      * @param did - Unique identifier of the asset to order
      * @param consumerAccount - The account of the user ordering the asset
+     * @param txParams - Optional transaction parameters
      * @returns The agreement ID identifying the order
      */
      public order(
         did: string,
         consumerAccount: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
-        return this.orderAsset(did, 'access', consumerAccount, params)
+        return this.orderAsset(did, 'access', consumerAccount, txParams)
     }
 
 
@@ -230,7 +265,7 @@ export class AssetsApi extends RegistryBaseApi {
             ? `${resultPath}/datafile.${ddo.shortId()}.${index}/`
             : undefined
 
-        await this.nevermined.node.consumeService(
+        await this.nevermined.services.node.consumeService(
             did,
             agreementId,
             serviceEndpoint,
@@ -315,7 +350,7 @@ export class AssetsApi extends RegistryBaseApi {
 
 
     public async retire(did: string) {
-        return this.nevermined.metadata.delete(did)
+        return this.nevermined.services.metadata.delete(did)
     }
 
     /**
@@ -363,7 +398,7 @@ export class AssetsApi extends RegistryBaseApi {
         const headers = {
             Authorization: 'Bearer ' + accessToken
         }
-        return this.nevermined.node.downloadService(
+        return this.nevermined.services.node.downloadService(
             files,
             resultPath,
             fileIndex,

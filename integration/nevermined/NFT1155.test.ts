@@ -49,7 +49,7 @@ describe('NFT1155 End-to-End', () => {
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         payload = decodeJwt(config.marketplaceAuthToken)
 
