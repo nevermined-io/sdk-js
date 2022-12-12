@@ -2,7 +2,9 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined } from '../../src'
 import CustomToken from '../../src/keeper/contracts/CustomToken'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 import AssetRewards from '../../src/models/AssetRewards'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { generateId } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
@@ -43,7 +45,11 @@ describe('Assets Query by Price', () => {
         // publish asset with priced service `access`
         let metadata = getMetadata()
         metadata.userId = payload.sub
-        let assetRewards = new AssetRewards(account.getId(), price1)
+        let assetRewards = new AssetRewards(
+            account.getId(), 
+            price1
+            ).setTokenAddress(token.getAddress())
+
         ddoAccess = await nevermined.assets.create(
             metadata,
             account,
@@ -70,18 +76,24 @@ describe('Assets Query by Price', () => {
             RoyaltyKind.Standard,
             0
         )
-        ddoNftSales = await nevermined.nfts1155.create(
+
+        const assetAttributes = AssetAttributes.getInstance({
             metadata,
-            account,
-            BigNumber.from(1),
-            royaltyAttributes,
-            assetRewards,
-            undefined,
-            token.getAddress(),
-            undefined,
-            undefined,
+            price: assetRewards,
+            serviceTypes: ['nft-sales', 'nft-access'],
             appId
+        })
+        const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            nftContractAddress: nevermined.nfts1155.nftContract.address,
+            cap: BigNumber.from(1),
+            royaltyAttributes
+        })            
+        ddoNftSales = await nevermined.nfts1155.create(
+            assetAttributes,
+            nftAttributes,
+            account
         )
+
         // wait for elasticsearch
         await sleep(2000)
     })

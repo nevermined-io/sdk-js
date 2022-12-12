@@ -11,15 +11,16 @@ export default class SubscriptionNFTApi extends NFT721Api {
         nftContractAddress: string,
         solidityABI: any
     ): Promise<SubscriptionNFTApi> {
-        const nft = new SubscriptionNFTApi()
-        nft.setInstanceConfig(config)
+        const instance = new SubscriptionNFTApi()
+        instance.servicePlugin = SubscriptionNFTApi.getServicePlugin(config)
+        instance.setInstanceConfig(config)
 
-        nft.nftContract = await Nft721Contract.getInstanceUsingABI(
+        instance.nftContract = await Nft721Contract.getInstanceUsingABI(
             config, 
             nftContractAddress, 
             solidityABI
         )
-        return nft
+        return instance
     }
 
     public static async deployInstance(

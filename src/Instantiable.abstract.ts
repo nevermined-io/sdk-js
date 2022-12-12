@@ -1,4 +1,4 @@
-import Config from './models/Config'
+import NeverminedOptions from './models/NeverminedOptions'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import Web3Provider from './keeper/Web3Provider'
 import { Nevermined } from './nevermined/Nevermined'
@@ -6,14 +6,14 @@ import { ethers } from 'ethers'
 
 export interface InstantiableConfig {
     nevermined: Nevermined
-    config?: Config
+    config?: NeverminedOptions
     web3?: ethers.providers.JsonRpcProvider
     logger?: Logger
     artifactsFolder?: string
 }
 
 export function generateIntantiableConfigFromConfig(
-    config: Config
+    config: NeverminedOptions
 ): Partial<InstantiableConfig> {
     const logLevel =
         typeof config.verbose !== 'number'
@@ -113,7 +113,7 @@ export abstract class Instantiable {
     }
 
     public static async findSignerStatic(
-        config: Config,
+        config: NeverminedOptions,
         web3: ethers.providers.JsonRpcProvider,
         from: string
     ): Promise<ethers.Signer> {
@@ -140,7 +140,7 @@ export abstract class Instantiable {
     }
 
     public static async addressesStatic(
-        config: Config,
+        config: NeverminedOptions,
         web3: ethers.providers.JsonRpcProvider
     ): Promise<string[]> {
         let ethAccounts: string[] = []

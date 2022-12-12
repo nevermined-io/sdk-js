@@ -23,6 +23,8 @@ import BigNumber from '../../src/utils/BigNumber'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
 import { getMetadata } from '../utils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTTemplates E2E', () => {
     let owner: Account
@@ -117,14 +119,14 @@ describe('NFTTemplates E2E', () => {
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
 
         assetRewards2 = new AssetRewards(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
     })
 
     describe('Full flow', () => {
@@ -172,17 +174,24 @@ describe('NFTTemplates E2E', () => {
                 RoyaltyKind.Standard,
                 royalties
             )
-            ddo = await nevermined.assets.createNft(
+
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
+
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -731,17 +740,23 @@ describe('NFTTemplates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
+
             await collector1.requestTokens(nftPrice.div(scale))
         })
 
@@ -1103,16 +1118,21 @@ describe('NFTTemplates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
         })
 

@@ -11,15 +11,16 @@ export default class PoapNFTApi extends NFT721Api {
         nftContractAddress: string,
         solidityABI: any
     ): Promise<PoapNFTApi> {
-        const nft = new PoapNFTApi()
-        nft.setInstanceConfig(config)
+        const instance = new PoapNFTApi()
+        instance.servicePlugin = PoapNFTApi.getServicePlugin(config)
+        instance.setInstanceConfig(config)
 
-        nft.nftContract = await Nft721Contract.getInstanceUsingABI(
+        instance.nftContract = await Nft721Contract.getInstanceUsingABI(
             config, 
             nftContractAddress, 
             solidityABI
         )
-        return nft
+        return instance
     }
 
     public static async deployInstance(

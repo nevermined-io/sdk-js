@@ -18,6 +18,8 @@ import {
 } from '../../src/nevermined/api/AssetsApi'
 import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
 import SubscriptionNFTApi from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -92,7 +94,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.address)
 
         royaltyAttributes = getRoyaltyAttributes(
             nevermined,
@@ -125,21 +127,25 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
             subscriptionNFT.addMinter(transferNft721Condition.address, editor)
 
-            subscriptionDDO = await nevermined.assets.createNft721(
-                subscriptionMetadata,
-                editor,
-                assetRewards1,
-                'PSK-RSA',
-                subscriptionNFT.address,
-                token.address,
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: subscriptionMetadata,
+                price: assetRewards1,
+                serviceTypes: ['nft-sales'],
+                providers: [neverminedNodeAddress]
+            })
+            const nftAttributes = NFTAttributes.getSubscriptionInstance({
+                duration: subscriptionDuration,                
+                nftContractAddress: subscriptionNFT.address,
                 preMint,
-                [neverminedNodeAddress],
-                royaltyAttributes,
-                undefined,
-                ['nft-sales'],
                 nftTransfer,
-                subscriptionDuration
+                royaltyAttributes: royaltyAttributes
+            })
+            subscriptionDDO = await nevermined.nfts721.create(
+                assetAttributes,
+                nftAttributes,
+                editor
             )
+
             assert.isDefined(subscriptionDDO)
 
             // INFO: We allow the Node to fulfill the transfer condition in behalf of the user
@@ -153,20 +159,23 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         })
 
         it('I want to register a new asset and tokenize (via NFT)', async () => {
-            assetDDO = await nevermined.assets.createNft721(
-                assetMetadata,
-                editor,
-                new AssetRewards(),
-                'PSK-RSA',
-                subscriptionNFT.address,
-                token.address,
+
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: assetMetadata,
+                serviceTypes: ['nft-access'],
+                providers: [neverminedNodeAddress]
+            })
+            const nftAttributes = NFTAttributes.getSubscriptionInstance({
+                duration: subscriptionDuration,                
+                nftContractAddress: subscriptionNFT.address,
                 preMint,
-                [neverminedNodeAddress],
-                royaltyAttributes,
-                undefined,
-                ['nft-access'],
                 nftTransfer,
-                subscriptionDuration
+                royaltyAttributes: royaltyAttributes
+            })
+            assetDDO = await nevermined.nfts721.create(
+                assetAttributes,
+                nftAttributes,
+                editor
             )
             assert.isDefined(assetDDO)
         })

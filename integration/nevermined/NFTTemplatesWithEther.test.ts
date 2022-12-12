@@ -23,6 +23,8 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -116,7 +118,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 [receivers[1], amounts[1]],
                 [receivers[2], amounts[2]]
             ])
-        )
+        ).setTokenAddress(ZeroAddress)
     })
 
     after(async () => {
@@ -169,17 +171,24 @@ describe('NFTTemplates With Ether E2E', async () => {
                 RoyaltyKind.Standard,
                 royalties
             )
-            ddo = await nevermined.assets.createNft(
+
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                ZeroAddress
+                price: assetRewards,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
+
         })
 
         describe('As an artist I want to register a new artwork', async () => {

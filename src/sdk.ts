@@ -1,4 +1,4 @@
-import Config from './models/Config'
+import NeverminedOptions from './models/NeverminedOptions'
 import Account from './nevermined/Account'
 import DID from './nevermined/DID'
 import { Nevermined } from './nevermined/Nevermined'
@@ -47,7 +47,7 @@ export {
     Accounts,
     NFT1155Api as Nfts,
     NFT721Api as Nft721,
-    Config,
+    NeverminedOptions as Config,
     DID,
     Logger,
     Keeper,

@@ -7,7 +7,7 @@ import { Versions } from './Versions'
 import { Provenance } from './Provenance'
 import { Utils } from './utils/Utils'
 
-import { Metadata } from '../metadata/Metadata'
+import { MetadataService } from '../metadata/MetadataService'
 import { Profiles } from '../profiles/Profiles'
 import { Bookmarks } from '../bookmarks/Bookmarks'
 import { Permissions } from '../permissions/Permissions'
@@ -15,7 +15,7 @@ import { NeverminedNode } from '../node/NeverminedNode'
 
 import Keeper from '../keeper/Keeper'
 
-import { Config } from '../models/Config'
+import { NeverminedOptions } from '../models/NeverminedOptions'
 
 import {
     Instantiable,
@@ -51,7 +51,7 @@ export class Nevermined extends Instantiable {
      * @param config - Nevermined instance configuration.
      * @returns A {@link Nevermined} instance
      */
-    public static async getInstance(config: Config): Promise<Nevermined> {
+    public static async getInstance(config: NeverminedOptions): Promise<Nevermined> {
         const instance = new Nevermined()
 
         const instanceConfig = {
@@ -65,7 +65,7 @@ export class Nevermined extends Instantiable {
 
         instance.node = new NeverminedNode(instanceConfig)
         instance.marketplace = new MarketplaceApi(instanceConfig)
-        instance.metadata = new Metadata(instanceConfig)
+        instance.metadata = new MetadataService(instanceConfig)
         instance.profiles = new Profiles(instanceConfig)
         instance.bookmarks = new Bookmarks(instanceConfig)
         instance.permissions = new Permissions(instanceConfig)
@@ -143,7 +143,7 @@ export class Nevermined extends Instantiable {
     /**
      * Metadata instance.
      */
-    public metadata: Metadata
+    public metadata: MetadataService
 
     /**
      * Marketplace instance.

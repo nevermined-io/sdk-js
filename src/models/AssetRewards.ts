@@ -7,12 +7,16 @@ export default class AssetRewards {
 
     private rewards: Map<string, BigNumber>
 
+    private tokenAddress?: string
+
     public constructor()
 
     public constructor(_rewards: Map<string, BigNumber>)
 
     // eslint-disable-next-line no-dupe-class-members
     public constructor(address: string, amount: BigNumber)
+
+    public constructor(address: string, amount: BigNumber, tokenAddress: string)
 
     // eslint-disable-next-line no-dupe-class-members
     public constructor(..._params: any[]) {
@@ -27,6 +31,11 @@ export default class AssetRewards {
             const [address, amount] = _params
             this.rewards.set(address, amount)
             this.totalPrice = amount
+        } else if (_params.length === 3) {
+            const [address, amount, tokenAddress] = _params
+            this.rewards.set(address, amount)
+            this.totalPrice = amount
+            this.tokenAddress = tokenAddress
         }
     }
 
@@ -54,6 +63,15 @@ export default class AssetRewards {
         this.rewards.set(receiver, amount)
         this.totalPrice = AssetRewards.sumAmounts(this.getAmounts())
         return this
+    }
+
+    public setTokenAddress(address: string): AssetRewards {
+        this.tokenAddress = address
+        return this
+    }
+
+    public getTokenAddress(): string {
+        return this.tokenAddress
     }
 
     public getAmountsString(): string {

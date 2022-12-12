@@ -40,7 +40,7 @@ export interface AuthToken {
  * Provides a interface with Metadata.
  * Metadata provides an off-chain database store for metadata about data assets.
  */
-export class Metadata extends MarketplaceApi {
+export class MetadataService extends MarketplaceApi {
     public async getVersionInfo() {
         return (await this.nevermined.utils.fetch.get(this.url)).json()
     }

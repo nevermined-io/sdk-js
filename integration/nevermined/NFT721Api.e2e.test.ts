@@ -13,6 +13,8 @@ import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTs721 Api End-to-End', () => {
     let nftContractOwner: Account
@@ -102,12 +104,21 @@ describe('NFTs721 Api End-to-End', () => {
 
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-            ddo = await nevermined.nfts721.create(
+            
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                nftContract.address
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT721Instance({
+                nftContractAddress: nftContract.address
+            })            
+            ddo = await nevermined.nfts721.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
+
             assert.isDefined(ddo)
             await nftContract.addMinter(artist.getId(), nftContractOwner)
 

@@ -27,6 +27,8 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -117,21 +119,21 @@ describe('Secondary Markets', () => {
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
 
         assetRewards2 = new AssetRewards(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
 
         assetRewards3 = new AssetRewards(
             new Map([
                 [receivers3[0], amounts2[0]],
                 [receivers3[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
     })
 
     describe('Collector1 initiates the sales agreement', () => {
@@ -185,16 +187,21 @@ describe('Secondary Markets', () => {
                 royalties
             )
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
         })
 

@@ -10,6 +10,8 @@ import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -59,7 +61,7 @@ describe('NFT1155 End-to-End', () => {
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
         
     })
 
@@ -90,19 +92,24 @@ describe('NFT1155 End-to-End', () => {
                 royalties
             )
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                publisher,
-                assetRewards,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
+                price: assetRewards,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
                 royaltyAttributes,
-                token.getAddress(),
-                nftUpgradeable.address,
                 preMint
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                publisher
             )
+
             assert.isDefined(ddo.shortId())
         })
 

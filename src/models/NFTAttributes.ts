@@ -8,7 +8,9 @@ export enum ERCType {
 
 export enum NeverminedNFT721Type {
     nft721 = 'nft721', // Standard 721 implementation
-    nft721Subscription = 'nft721-subscription' // 721 implementing subscriptions that can expire
+    nft721Subscription = 'nft721-subscription', // 721 implementing subscriptions that can expire
+    nft721POAP = 'nft721-poap', // 721 implementing a Proof of Attendance NFT
+    nft721SoulBound = 'nft721-soulbound' // 721 implementing a Proof of Attendance NFT
 }
 
 export enum NeverminedNFT1155Type {
@@ -32,26 +34,63 @@ export const defaultNeverminedNFTType = {
 
 export class NFTAttributes {
 
-    ercType: ERCType // The type of ERC used
+    /**
+     * The type of ERC used (721 or 1155)
+     * @see {@link https://ethereum.org/en/developers/docs/standards/tokens/erc-721/}
+     * @see {@link https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/}
+     */
+    ercType: ERCType
 
-    nftType: NeverminedNFTType // The Nevermined implementetion of the NFT used
+    /**
+     * The Nevermined implementetion of the NFT used.
+     * A part of what type of ERC is based, Nevermined provides different NFT implementations to fit in different scenarios.
+     * This attribute allow to specify between the different Nevermined NFT types
+     */
+    nftType: NeverminedNFTType
 
+    /**
+     * The address of the deployed NFT Contract
+     */
     nftContractAddress: string
 
-    cap?: BigNumber // max number of nfts that can be minted, 0 means uncapped
+    /**
+     * Max number of nfts that can be minted, 0 means uncapped
+     */
+    cap?: BigNumber
 
-    preMint?: boolean // if the asset is pre-minted
+    /**
+     * If the asset is pre-minted
+     */
+    preMint?: boolean 
 
-    nftMetadataUrl?: string // URL to the metadata definition of the NFT contract
+    /**
+     * URL to the metadata definition of the NFT contract
+     */
+    nftMetadataUrl?: string
 
-    nftTransfer?: boolean // The asset is transferred (true) or minted (false) with Nevermined contracts
+    /**
+     * The asset is transferred (true) or minted (false) with Nevermined contracts
+     */
+    nftTransfer?: boolean
 
+    /**
+     * If true means the NFT works as a subscription
+     */
     isSubscription?: boolean
 
-    duration?: number // If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
+    /**
+     * If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
+     */
+    duration?: number
 
-    amount?: BigNumber // Number of editions
+    /**
+     * Number of editions
+     */
+    amount?: BigNumber 
 
+    /**
+     * Attributes describing the royalties attached to the NFT in the secondary market
+     */
     royaltyAttributes?: RoyaltyAttributes | undefined
 
     static defaultValues = {
@@ -68,4 +107,47 @@ export class NFTAttributes {
     static getInstance(nftAttributes: NFTAttributes): Required<NFTAttributes> {
         return { ...NFTAttributes.defaultValues, ...nftAttributes }
     }
+
+    static getNFT1155Instance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
+        return { 
+            ercType: 1155,
+            nftType: NeverminedNFT1155Type.nft1155,
+            nftContractAddress: nftAttributes.nftContractAddress,
+            ...NFTAttributes.defaultValues, ...nftAttributes }        
+    }
+
+    static getNFT721Instance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
+        return { 
+            ercType: 721,
+            nftType: NeverminedNFT721Type.nft721Subscription,
+            nftContractAddress: nftAttributes.nftContractAddress,
+            ...NFTAttributes.defaultValues, ...nftAttributes }        
+    }
+
+    static getSubscriptionInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
+        return { 
+            ercType: 721,
+            nftType: NeverminedNFT721Type.nft721Subscription,
+            isSubscription: true,
+            nftContractAddress: nftAttributes.nftContractAddress,
+            ...NFTAttributes.defaultValues, ...nftAttributes }        
+    }
+
+    static getPOAPInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
+        return { 
+            ercType: 721,
+            nftType: NeverminedNFT721Type.nft721POAP,
+            isSubscription: false,
+            nftContractAddress: nftAttributes.nftContractAddress,
+            ...NFTAttributes.defaultValues, ...nftAttributes }        
+    }
+
+    static getSoulBoundInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
+        return { 
+            ercType: 721,
+            nftType: NeverminedNFT721Type.nft721SoulBound,
+            isSubscription: false,
+            nftContractAddress: nftAttributes.nftContractAddress,
+            ...NFTAttributes.defaultValues, ...nftAttributes }        
+    }    
 }

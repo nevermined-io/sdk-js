@@ -12,6 +12,8 @@ import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -263,13 +265,23 @@ describe('NFTs 1155 Api End-to-End', () => {
                 RoyaltyKind.Standard,
                 royalties
             )
+
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: newMetadata,
+                serviceTypes: ['nft-sales', 'nft-access'],
+                price: assetRewards1
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: cappedAmount,
+                royaltyAttributes
+            })            
             ddo = await nevermined.nfts1155.create(
-                newMetadata,
-                artist,
-                cappedAmount,
-                royaltyAttributes,
-                assetRewards1
+                assetAttributes,
+                nftAttributes,
+                artist
             )
+
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts1155.balance(ddo.id, artist)
@@ -355,13 +367,24 @@ describe('NFTs 1155 Api End-to-End', () => {
                 RoyaltyKind.Standard,
                 royalties
             )
+
+
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: newMetadata,
+                serviceTypes: ['nft-sales', 'nft-access'],
+                price: assetRewards1
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: BigNumber.from(1),
+                royaltyAttributes
+            })            
             ddo = await nevermined.nfts1155.create(
-                newMetadata,
-                artist,
-                BigNumber.from(1),
-                royaltyAttributes,
-                assetRewards1
+                assetAttributes,
+                nftAttributes,
+                artist
             )
+
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts1155.balance(ddo.id, artist)

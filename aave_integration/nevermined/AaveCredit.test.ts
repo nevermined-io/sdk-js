@@ -1,9 +1,8 @@
 import { getMetadata } from '../../integration/utils/index'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Account, ConditionState, DDO, utils } from '../../src/index'
-import ERC721 from '../../src/artifacts/ERC721.json'
+import ERC721 from '../../test/resources/artifacts/ERC721.json'
 import { Nevermined } from '../../src/nevermined/Nevermined'
-import AssetRewards from '../../src/models/AssetRewards'
 import { didZeroX, zeroX } from '../../src/utils/index'
 import {
     AgreementStoreManager,
@@ -21,6 +20,8 @@ import { decodeJwt } from 'jose'
 import { Contract } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -119,13 +120,20 @@ describe('AaveCredit', () => {
             )
             await nevermined.marketplace.login(clientAssertion)
             const payload = decodeJwt(config.marketplaceAuthToken)
-            const marketplace = getMetadata()
-            marketplace.userId = payload.sub
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT721Instance({
+                nftContractAddress: nft721Wrapper.address
+            })            
             ddo = await nevermined.nfts721.create(
-                marketplace,
-                borrower,
-                new AssetRewards(),
-                nft721Wrapper.address
+                assetAttributes,
+                nftAttributes,
+                borrower
             )
         }
         assert.isDefined(ddo)

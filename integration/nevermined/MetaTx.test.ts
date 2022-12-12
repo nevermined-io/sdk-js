@@ -3,7 +3,6 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
 import BigNumber from '../../src/utils/BigNumber'
 import {
     getRoyaltyAttributes,
@@ -14,6 +13,8 @@ import { ethers, Wallet } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper/utils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('MetaTx test with nfts', () => {
     let nevermined: Nevermined
@@ -46,12 +47,20 @@ describe('MetaTx test with nfts', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
-            ddo = await nevermined.nfts1155.create(
+
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                BigNumber.from(10),
-                royaltyAttributes,
-                new AssetRewards()
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: BigNumber.from(10),
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
         })
 

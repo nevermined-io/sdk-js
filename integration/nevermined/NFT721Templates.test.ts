@@ -27,6 +27,8 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NeverminedNFT721Type, NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFT721Templates E2E', () => {
     let nftContractOwner: Account
@@ -139,14 +141,14 @@ describe('NFT721Templates E2E', () => {
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.address)
 
         assetRewards2 = new AssetRewards(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.address)
     })
 
     describe('Full flow', () => {
@@ -188,16 +190,23 @@ describe('NFT721Templates E2E', () => {
                 royalties
             )
 
-            ddo = await nevermined.assets.createNft721(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                'PSK-RSA',
-                nft.address,
-                token.getAddress(),
-                true,
-                [],
-                royaltyAttributes
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getInstance({
+                ercType: 721,
+                nftType: NeverminedNFT721Type.nft721,
+                nftContractAddress: nft.address,
+                preMint: false,
+                nftTransfer: false,
+                royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
+            })            
+            ddo = await nevermined.nfts721.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
         })
 
@@ -711,17 +720,24 @@ describe('NFT721Templates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            ddo = await nevermined.assets.createNft721(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                'PSK-RSA',
-                nft.address,
-                token.getAddress(),
-                true,
-                [],
+                price: assetRewards1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getInstance({
+                ercType: 721,
+                nftType: NeverminedNFT721Type.nft721,
+                nftContractAddress: nft.address,
+                preMint: true,
                 royaltyAttributes
+            })            
+            ddo = await nevermined.nfts721.create(
+                assetAttributes,
+                nftAttributes,
+                artist
             )
+
             await collector1.requestTokens(nftPrice.div(scale))
         })
 

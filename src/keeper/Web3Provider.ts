@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import Config from '../models/Config'
+import NeverminedOptions from '../models/NeverminedOptions'
 
 export default class Web3Provider {
     /**
@@ -8,7 +8,7 @@ export default class Web3Provider {
      * @returns web3 instance
      */
     public static getWeb3(
-        config: Partial<Config> = {}
+        config: Partial<NeverminedOptions> = {}
     ): ethers.providers.JsonRpcProvider {
         if (config.web3Provider) {
             return new ethers.providers.Web3Provider(config.web3Provider)

@@ -8,6 +8,8 @@ import { getMetadata } from '../utils'
 import AssetRewards from '../../src/models/AssetRewards'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { decodeJwt } from 'jose'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('POAPs with Assets', () => {
     let nevermined: Nevermined
@@ -65,20 +67,24 @@ describe('POAPs with Assets', () => {
     })
 
     it('editor should be able to register poap', async () => {
-        poapDDO = await nevermined.assets.createNft721(
+        const assetAttributes = AssetAttributes.getInstance({
             metadata,
-            editor,
-            new AssetRewards(editor.getId(), BigNumber.from(0)),
-            'PSK-RSA',
-            poapContract.address,
-            nevermined.token.getAddress(),
-            false,
-            [gatewayAddress],
-            getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0),
-            undefined,
-            ['nft-sales', 'nft-access'],
-            false
+            price: new AssetRewards(editor.getId(), BigNumber.from(0), nevermined.token.getAddress()),
+            serviceTypes: ['nft-sales', 'nft-access'],
+            providers: [gatewayAddress]
+        })
+        const nftAttributes = NFTAttributes.getPOAPInstance({
+            nftContractAddress: poapContract.address,
+            preMint: false,
+            nftTransfer: false,
+            royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
+        })
+        poapDDO = await nevermined.nfts721.create(
+            assetAttributes,
+            nftAttributes,
+            editor
         )
+
         assert.isDefined(poapDDO)
     })
 

@@ -1,7 +1,7 @@
 import { MetaData, Account, DDO } from "../.."
 import { InstantiableConfig } from "../../Instantiable.abstract"
 import { TxParameters } from "../../keeper/contracts/ContractBase"
-import { EncryptionMethod } from "../../metadata/Metadata"
+import { EncryptionMethod } from "../../metadata/MetadataService"
 import AssetRewards from "../../models/AssetRewards"
 import { SubscribablePromise } from "../../utils"
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from "../ProgessSteps"

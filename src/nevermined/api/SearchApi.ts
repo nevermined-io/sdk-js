@@ -1,6 +1,6 @@
 import { ServiceType } from "../../ddo/Service"
 import { InstantiableConfig } from "../../Instantiable.abstract"
-import { QueryResult } from "../../metadata/Metadata"
+import { QueryResult } from "../../metadata/MetadataService"
 import { SearchQuery } from "../../sdk"
 import { RegistryBaseApi } from "./RegistryBaseApi"
 

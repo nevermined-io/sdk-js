@@ -16,11 +16,10 @@ import { ContractReceipt } from 'ethers'
 import {
     ercOfNeverminedNFTType,
     NeverminedNFT1155Type,
-    NeverminedNFT721Type,
     NeverminedNFTType,
     NFTAttributes
 } from '../../models/NFTAttributes'
-import { EncryptionMethod } from '../../metadata/Metadata'
+import { EncryptionMethod } from '../../metadata/MetadataService'
 import BigNumber from '../../utils/BigNumber'
 import { SignatureUtils } from '../utils/SignatureUtils'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
@@ -66,10 +65,17 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
  */
 export class AssetsApi extends RegistryBaseApi {
 
+    /**
+     * Stores the default Provenance Activity Id to be recorded on-chain in the DIDRegistry Smart Contract when 
+     * an asset is registered. It associates to the new DID created the 'Asset Registration' activity.
+     * (@see https://docs.nevermined.io/docs/architecture/specs/Spec-PROVENANCE#provenance-relations)
+     * 
+     */
     static DEFAULT_REGISTRATION_ACTIVITY_ID = SignatureUtils.hash('AssetRegistration')
     /**
-     * Returns the instance of Assets.
-     * @returns {@link Assets}
+     * Returns the instance of the AssetsApi.
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link AssetsApi}
      */
     public static async getInstance(config: InstantiableConfig): Promise<AssetsApi> {
         const instance = new AssetsApi()
@@ -89,7 +95,15 @@ export class AssetsApi extends RegistryBaseApi {
         return this.resolveAsset(did, policy)
     }
 
-
+    /**
+     * Given a DID, updates the metadata associated to the asset. It also can upload this metadata to a remote decentralized stored depending on the `publishMetadata` parameter.
+     * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
+     * @param metadata - Metadata describing the asset
+     * @param publisher - Account of the user updating the metadata
+     * @param publishMetadata - It allows to specify where to store the metadata  
+     * @param txParams - Optional transaction parameters
+     * @returns {@link DDO} The DDO updated
+     */
     public update(
         did: string,
         metadata: MetaData,
@@ -100,53 +114,6 @@ export class AssetsApi extends RegistryBaseApi {
         return this.updateAsset(did, metadata, publisher, publishMetadata, txParams)
     }
 
-    public createNft721(
-        metadata: MetaData,
-        publisher: Account,
-        assetRewards: AssetRewards = new AssetRewards(),
-        encryptionMethod: EncryptionMethod,
-        nftTokenAddress: string,
-        erc20TokenAddress?: string,
-        preMint = true,
-        providers?: string[],
-        royaltyAttributes?: RoyaltyAttributes,
-        nftMetadata?: string,
-        serviceTypes: ServiceType[] = ['nft-sales', 'nft-access'],
-        nftTransfer = true,
-        duration = 0,
-        nftType: NeverminedNFT721Type = NeverminedNFT721Type.nft721,
-        appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
-        txParams?: TxParameters
-    ): SubscribablePromise<CreateProgressStep, DDO> {
-        const nftAttributes = NFTAttributes.getInstance({
-            ercType: 721,
-            nftType,
-            nftContractAddress: nftTokenAddress,
-            cap: BigNumber.from(0),
-            preMint: preMint,
-            nftMetadataUrl: nftMetadata,
-            amount: BigNumber.from(1),
-            nftTransfer: nftTransfer,
-            isSubscription: duration > 0 ? true : false,
-            duration: duration,
-            royaltyAttributes
-        })
-        return this.registerAsset(
-            metadata,
-            publisher,
-            encryptionMethod,
-            assetRewards,
-            serviceTypes,
-            [],
-            nftAttributes,
-            erc20TokenAddress,
-            providers,
-            appId,
-            publishMetadata,
-            txParams
-        )
-    }
 
     public createNft(
         metadata: MetaData,
