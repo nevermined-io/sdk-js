@@ -25,34 +25,15 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
+      - uses: nevermined-io/nvm-tools-actions@v0.1.0
+        with:
+          token: ${{ secrete.API_TOKEN_GITHUB }}
+
       - name: Install dependencies
         run: |
           yarn
       - name: Run linters
         run: yarn lint
-
-      # New nvm-tools
-      - uses: actions/checkout@v3
-        with:
-          repository: nevermined-io/nvm-tools
-          path: nvm-tools
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-
-      - name: Install minikube
-        run: |
-          curl -LO https://storage.googleapis.com/minikube/releases/v1.28.0/minikube-linux-amd64
-          sudo install minikube-linux-amd64 /usr/local/bin/minikube
-
-      - name: Run nvm-tools
-        env:
-          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
-        run: |
-          ./nvm-tools/nvm-tools start
-
-      - name: Copy artifacts
-        run: |
-          ./nvm-tools/nvm-tools copy-artifacts ./artifacts
-          ls -l ./artifacts
 
       # - name: Run unit tests
       #   run: export ETH_PORT=18545; yarn run test:cover
@@ -64,10 +45,5 @@ jobs:
           NO_GRAPH: true
         run: |
           export ${{ matrix.delay }}=true
+          nvm-tools copy-artifacts ./artifacts
           yarn run integration:cover
-      # - name: Upload logs
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: nevermined-tools-output
-      #     path: tools/nevermined_tools.txt
