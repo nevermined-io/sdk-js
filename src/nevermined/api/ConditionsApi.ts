@@ -9,7 +9,6 @@ import AssetPrice from '../../models/AssetPrice'
 import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
-// import { NVMBaseApi } from './NVMBaseApi'
 
 /**
  * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached 
@@ -18,15 +17,13 @@ import BigNumber from '../../utils/BigNumber'
 export class ConditionsApi extends Instantiable {
 
     /**
-     * Returns the instance of the ConditionsApi.
+     * Creates a new ConditionsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link ConditionsApi}
      */ 
-    public static async getInstance(config: InstantiableConfig): Promise<ConditionsApi> {
-        const instance = new ConditionsApi()
-        instance.setInstanceConfig(config)
-
-        return instance
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     /**

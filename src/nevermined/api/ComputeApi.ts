@@ -38,7 +38,7 @@ export class ComputeApi extends RegistryBaseApi {
      *
      * @param assetAttributes - Attributes describing the asset
      * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
-     * @param publisher - The account publishing the asset
+     * @param publisherAccount - The account publishing the asset
      * @param txParams - Optional transaction parameters
      * @returns The metadata of the asset created (DDO)
      *
@@ -46,13 +46,13 @@ export class ComputeApi extends RegistryBaseApi {
      */
      public create(
         assetAttributes: AssetAttributes,
-        publisher: Account,
+        publisherAccount: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerNeverminedAsset(
             assetAttributes,
-            publisher,
+            publisherAccount,
             publishMetadata,
             undefined,
             txParams
@@ -75,7 +75,7 @@ export class ComputeApi extends RegistryBaseApi {
      * 
      * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
      * @param metadata - Metadata describing the asset
-     * @param publisher - Account of the user updating the metadata
+     * @param publisherAccount - Account of the user updating the metadata
      * @param publishMetadata - It allows to specify where to store the metadata  
      * @param txParams - Optional transaction parameters
      * @returns {@link DDO} The DDO updated
@@ -83,11 +83,11 @@ export class ComputeApi extends RegistryBaseApi {
     public update(
         did: string,
         metadata: MetaData,
-        publisher: Account,
+        publisherAccount: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<UpdateProgressStep, DDO> {
-        return this.updateAsset(did, metadata, publisher, publishMetadata, txParams)
+        return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)
     }
 
     /**

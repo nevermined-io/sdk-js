@@ -25,7 +25,7 @@ export class AgreementsApi extends Instantiable {
     public static async getInstance(config: InstantiableConfig): Promise<AgreementsApi> {
         const instance = new AgreementsApi()
         instance.setInstanceConfig(config)
-        instance.conditions = await ConditionsApi.getInstance(config)
+        instance.conditions = new ConditionsApi(config)
 
         return instance
     }
