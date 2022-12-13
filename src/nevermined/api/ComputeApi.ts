@@ -107,10 +107,10 @@ export class ComputeApi extends RegistryBaseApi {
     }
 
     /**
-     * It trigers the execution of a compute job
+     * It triggers the execution of a compute job
      * @param agreementId - The unique identifier of the order placed for a service
      * @param workflowDid - The unique identifier of the Asset representing the workflow
-     * @param consumerAccount - The account of the user trigerring the computation
+     * @param consumerAccount - The account of the user triggering the computation
      * @returns If the execution is correct it returns the response given by the Nevermined Node 
     */
     public async execute(
@@ -127,7 +127,7 @@ export class ComputeApi extends RegistryBaseApi {
      * It returns the logs resulted by the execution of a Job
      * @param agreementId - The unique identifier of the order placed for a service
      * @param executionId - The unique identifier of the job executed
-     * @param consumerAccount - The account of the user trigerring the computation
+     * @param consumerAccount - The account of the user triggering the computation
      * @returns The logs resulted of the execution of the job
      */
     public async logs(agreementId: string, executionId: string, consumerAccount: Account) {
@@ -138,7 +138,7 @@ export class ComputeApi extends RegistryBaseApi {
      * It returns the status of a compute job
      * @param agreementId - The unique identifier of the order placed for a service
      * @param executionId - The unique identifier of the job executed
-     * @param consumerAccount - The account of the user trigerring the computation
+     * @param consumerAccount - The account of the user triggering the computation
      * @returns The status of the job
      */
     public async status(
