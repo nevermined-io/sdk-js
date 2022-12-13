@@ -138,7 +138,7 @@ export class ComputeApi extends RegistryBaseApi {
      * It returns the status of a compute job
      * @param agreementId - The unique identifier of the order placed for a service
      * @param executionId - The unique identifier of the job executed
-     * @param consumerAccount - The account of the user trigerring the computation
+     * @param consumerAccount - The account of the user triggering the computation
      * @returns The status of the job
      */
     public async status(
