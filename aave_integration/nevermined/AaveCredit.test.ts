@@ -20,7 +20,6 @@ import { decodeJwt } from 'jose'
 import { Contract } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
@@ -123,15 +122,12 @@ describe('AaveCredit', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            const assetAttributes = AssetAttributes.getInstance({
-                metadata,
-                serviceTypes: ['nft-sales', 'nft-access']
-            })
             const nftAttributes = NFTAttributes.getNFT721Instance({
+                metadata,
+                serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nft721Wrapper.address
             })            
             ddo = await nevermined.nfts721.create(
-                assetAttributes,
                 nftAttributes,
                 borrower
             )

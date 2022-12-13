@@ -90,7 +90,8 @@ export class NFT1155Api extends NFTsBaseApi {
      *           price: assetPrice,
      *           serviceTypes: ['nft-sales', 'nft-access']
      *       })
-     * const nftAttributes = NFTAttributes.getNFT1155Instance({                
+     * const nftAttributes = NFTAttributes.getNFT1155Instance({
+     *           ...assetAttributes,                                
      *           nftContractAddress: nftUpgradeable.address,
      *           cap: cappedAmount,
      *           amount: numberNFTs,
@@ -98,13 +99,11 @@ export class NFT1155Api extends NFTsBaseApi {
      *           preMint
      *       })            
      * const ddo = await nevermined.nfts1155.create(
-     *           assetAttributes,
      *           nftAttributes,
      *           publisher
      *       )
      * ```
      *
-     * @param assetAttributes - Attributes describing the asset
      * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
      * @param publisher - The account publishing the asset
      * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
@@ -113,14 +112,13 @@ export class NFT1155Api extends NFTsBaseApi {
      * @returns The newly registered {@link DDO}.
      */    
      public create(
-        assetAttributes: AssetAttributes,
         nftAttributes: NFTAttributes,        
         publisher: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerNeverminedAsset(
-            assetAttributes,
+            nftAttributes as AssetAttributes,
             publisher,
             publishMetadata,
             nftAttributes,

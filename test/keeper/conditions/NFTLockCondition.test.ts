@@ -75,6 +75,7 @@ describe('NFTLockCondition', () => {
         it('should fulfill if conditions exist for account address', async () => {
             // register DID
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
@@ -134,6 +135,7 @@ describe('NFTLockCondition', () => {
         it('should not fulfill if conditions do not exist', async () => {
             // register DID
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
@@ -164,6 +166,7 @@ describe('NFTLockCondition', () => {
         it('out of balance should fail to fulfill', async () => {
             // register DID
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
@@ -212,6 +215,7 @@ describe('NFTLockCondition', () => {
         it('right transfer should fail to fulfill if conditions already fulfilled', async () => {
             // register DID
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,

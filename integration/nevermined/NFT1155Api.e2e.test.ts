@@ -107,7 +107,8 @@ describe('NFTs 1155 Api End-to-End', () => {
                 serviceTypes: ['nft-sales', 'nft-access'],
                 providers: [config.neverminedNodeAddress]
             })
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
@@ -115,7 +116,6 @@ describe('NFTs 1155 Api End-to-End', () => {
                 preMint: true
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )
@@ -279,13 +279,13 @@ describe('NFTs 1155 Api End-to-End', () => {
                 serviceTypes: ['nft-sales', 'nft-access'],
                 price: assetPrice1
             })
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            const nftAttributes = NFTAttributes.getNFT1155Instance({ 
+                ...assetAttributes,                               
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: cappedAmount,
                 royaltyAttributes
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )
@@ -376,19 +376,18 @@ describe('NFTs 1155 Api End-to-End', () => {
                 royalties
             )
 
-
             const assetAttributes = AssetAttributes.getInstance({
                 metadata: newMetadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 price: assetPrice1
             })
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                                
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(1),
                 royaltyAttributes
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )

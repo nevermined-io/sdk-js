@@ -40,7 +40,7 @@ export class AssetAttributes {
     predefinedAssetServices?: Service[]
 
     /**
-     * A provider of an asset identify the public address of an account with some privilegues over that asset.
+     * A provider of an asset identify the public address of an account with some privileges over that asset.
      * Typically these permissions are granted to Nevermined Nodes to allow them to give access to some services without
      * the direct interaction of the final user.
      * Here a user publishing an asset can define a list of all the addresses with these permissions.

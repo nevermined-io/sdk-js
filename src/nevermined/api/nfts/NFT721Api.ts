@@ -76,28 +76,23 @@ export class NFT721Api extends NFTsBaseApi {
      * @example
      * ```ts
      * 
-     * // We define how the Asset is
-     * const assetAttributes = AssetAttributes.getInstance({
+     * // We define how the Asset is and the properties 
+     * // of the NFT attached to it
+     * const nftAttributes = NFTAttributes.getNFT721Instance({
      *      metadata,
      *      price: assetPrice1,
      *      serviceTypes: ['nft-sales', 'nft-access']
-     *      })
-     * 
-     * // And where is the NFT attached
-     * const nftAttributes = NFTAttributes.getNFT721Instance({
      *      nftContractAddress: nftContract.address
      * })            
      * 
      * // And register the asset
      * ddo = await nevermined.nfts721.create(
-     *           assetAttributes,
      *           nftAttributes,
      *           artist,
      *           PublishMetadata.IPFS
      * )
      * ```
      *
-     * @param assetAttributes - Attributes describing the asset
      * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
      * @param publisher - The account publishing the asset
      * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
@@ -106,14 +101,13 @@ export class NFT721Api extends NFTsBaseApi {
      * @returns The newly registered {@link DDO}.
      */    
     public create(
-        assetAttributes: AssetAttributes,
         nftAttributes: NFTAttributes,        
         publisher: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerNeverminedAsset(
-            assetAttributes,
+            nftAttributes as AssetAttributes,
             publisher,
             publishMetadata,
             nftAttributes,

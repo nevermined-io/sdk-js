@@ -8,7 +8,6 @@ import { getMetadata } from '../utils'
 import AssetPrice from '../../src/models/AssetPrice'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { decodeJwt } from 'jose'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('POAPs with Assets', () => {
@@ -67,23 +66,40 @@ describe('POAPs with Assets', () => {
     })
 
     it('editor should be able to register poap', async () => {
-        const assetAttributes = AssetAttributes.getInstance({
+
+        const nftAttributes = NFTAttributes.getPOAPInstance({
             metadata,
             price: new AssetPrice(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
             serviceTypes: ['nft-sales', 'nft-access'],
-            providers: [gatewayAddress]
-        })
-        const nftAttributes = NFTAttributes.getPOAPInstance({
+            providers: [gatewayAddress],
             nftContractAddress: poapContract.address,
             preMint: false,
             nftTransfer: false,
             royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
         })
         poapDDO = await nevermined.nfts721.create(
-            assetAttributes,
             nftAttributes,
             editor
         )
+
+
+        // const assetAttributes = AssetAttributes.getInstance({
+        //     metadata,
+        //     price: new AssetPrice(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
+        //     serviceTypes: ['nft-sales', 'nft-access'],
+        //     providers: [gatewayAddress]
+        // })
+        // const nftAttributes = NFTAttributes.getPOAPInstance({
+        //     nftContractAddress: poapContract.address,
+        //     preMint: false,
+        //     nftTransfer: false,
+        //     royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
+        // })
+        // poapDDO = await nevermined.nfts721.create(
+        //     assetAttributes,
+        //     nftAttributes,
+        //     editor
+        // )
 
         assert.isDefined(poapDDO)
     })

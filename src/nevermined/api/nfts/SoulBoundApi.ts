@@ -1,4 +1,4 @@
-import { Account, Config, Nevermined } from '../../..';
+import { Account, NeverminedOptions, Nevermined } from '../../..';
 import { InstantiableConfig } from '../../../Instantiable.abstract';
 import ContractHandler from '../../../keeper/ContractHandler';
 import Nft721Contract from '../../../keeper/contracts/Nft721Contract';
@@ -24,7 +24,7 @@ export default class SoulBoundNFTApi extends NFT721Api {
     }
 
     public static async deployInstance(
-        config: Config,
+        config: NeverminedOptions,
         contractABI: any,
         from: Account,
         args: string[] = []

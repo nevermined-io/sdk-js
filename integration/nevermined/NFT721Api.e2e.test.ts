@@ -13,7 +13,6 @@ import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTs721 Api End-to-End', () => {
@@ -105,16 +104,13 @@ describe('NFTs721 Api End-to-End', () => {
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
             
-            const assetAttributes = AssetAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getNFT721Instance({
                 metadata,
                 price: assetPrice1,
-                serviceTypes: ['nft-sales', 'nft-access']
-            })
-            const nftAttributes = NFTAttributes.getNFT721Instance({
+                serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nftContract.address
             })            
             ddo = await nevermined.nfts721.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )

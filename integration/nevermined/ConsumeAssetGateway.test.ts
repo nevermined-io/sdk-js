@@ -122,7 +122,7 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js'
-        const path = await nevermined.assets.consume(
+        const path = await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,

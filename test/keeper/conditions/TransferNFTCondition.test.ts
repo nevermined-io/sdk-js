@@ -117,6 +117,7 @@ describe('TransferNFTCondition', () => {
             )
 
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
@@ -217,19 +218,8 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            // await didRegistry.registerMintableDID(
-            //     didSeed,
-            //     checksum,
-            //     [],
-            //     value,
-            //     activityId,
-            //     '',
-            //     nftAmount,
-            //     0,
-            //     false,
-            //     owner.getId()
-            // )
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
@@ -325,19 +315,8 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            // await didRegistry.registerMintableDID(
-            //     didSeed,
-            //     checksum,
-            //     [],
-            //     value,
-            //     activityId,
-            //     '',
-            //     nftAmount,
-            //     0,
-            //     false,
-            //     owner.getId()
-            // )
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,

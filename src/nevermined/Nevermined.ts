@@ -63,7 +63,7 @@ export class Nevermined extends Instantiable {
 
 
     /**
-     * Nevermind very own contract reflector.
+     * Nevermined very own contract reflector.
      */
     public contracts = {
         /**

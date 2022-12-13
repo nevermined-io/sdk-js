@@ -202,7 +202,7 @@ export class AssetsApi extends RegistryBaseApi {
      * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
      * @returns The result path or true if everything went okay
      */
-    public async consume(
+    public async access(
         agreementId: string,
         did: string,
         consumerAccount: Account,
@@ -211,7 +211,7 @@ export class AssetsApi extends RegistryBaseApi {
     ): Promise<string>
 
     // eslint-disable-next-line no-dupe-class-members
-    public async consume(
+    public async access(
         agreementId: string,
         did: string,
         consumerAccount: Account,
@@ -230,7 +230,7 @@ export class AssetsApi extends RegistryBaseApi {
      * @returns The result path or true if everything went okay
      */
     // eslint-disable-next-line no-dupe-class-members
-    public async consume(
+    public async access(
         agreementId: string,
         did: string,
         consumerAccount: Account,
@@ -343,7 +343,8 @@ export class AssetsApi extends RegistryBaseApi {
     }
 
     /**
-     * Download the asset
+     * It allows to download of the files attached to the asset by their owner or provider.
+     * This method only can be called successfully by the owner of the asset or a provider.
      *
      * @param did - The Decentralized Identifier of the asset.
      * @param ownerAccount - The receiver account owner

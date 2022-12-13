@@ -79,7 +79,7 @@ export default class AssetPrice {
     /**
      * It adds network fees on top of the already configured asset rewards
      * @param feeReceiver - the address receiving the fees
-     * @param networkFeePercent - the percent of fees to receive, it uses the contract denomitor @see AssetPrice.NETWORK_FEE_DENOMINATOR
+     * @param networkFeePercent - the percent of fees to receive, it uses the contract denominator @see AssetPrice.NETWORK_FEE_DENOMINATOR
      * @returns the asset rewards object
      */
     public addNetworkFees(
@@ -96,9 +96,9 @@ export default class AssetPrice {
     }
 
     /**
-     * It includes network fees on the existing asset rewards substracting the proportion taking into account the receivers percent
+     * It includes network fees on the existing asset rewards subtracting the proportion taking into account the receivers percent
      * @param feeReceiver - the address receiving the fees
-     * @param networkFeePercent - the percent of fees to receive, it uses the contract denomitor @see AssetPrice.NETWORK_FEE_DENOMINATOR
+     * @param networkFeePercent - the percent of fees to receive, it uses the contract denominator @see AssetPrice.NETWORK_FEE_DENOMINATOR
      * @returns the asset rewards object
      */
     public adjustToIncludeNetworkFees(

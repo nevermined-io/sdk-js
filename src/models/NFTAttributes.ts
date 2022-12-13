@@ -1,5 +1,6 @@
 import { RoyaltyAttributes } from "../nevermined/api/RoyaltyKind"
 import BigNumber from '../utils/BigNumber'
+import { AssetAttributes } from "./AssetAttributes"
 
 export enum ERCType {
     nft721 = 721,
@@ -33,7 +34,7 @@ export const defaultNeverminedNFTType = {
 }
 
 
-export class NFTAttributes {
+export class NFTAttributes extends AssetAttributes {
 
     /**
      * The type of ERC used (721 or 1155)
@@ -80,7 +81,7 @@ export class NFTAttributes {
     isSubscription?: boolean
 
     /**
-     * If is a subscription this means the number of blocks the subscription last. If 0 means unlimitted
+     * If is a subscription this means the number of blocks the subscription last. If 0 means unlimited
      */
     duration?: number
 
@@ -95,6 +96,7 @@ export class NFTAttributes {
     royaltyAttributes?: RoyaltyAttributes
 
     static defaultValues = {
+        ...AssetAttributes.defaultValues,
         cap: BigNumber.from(0), // Cap equals to 0 means the NFT is uncapped
         preMint: true, // It means the NFT will mint all the editions defined in the `amount` attributed during the registration
         nftMetadataUrl: '', // Url to the metadata describing the NFT OpenSea style
@@ -106,15 +108,21 @@ export class NFTAttributes {
     }
 
     static getInstance(nftAttributes: NFTAttributes): Required<NFTAttributes> {
-        return { ...NFTAttributes.defaultValues, ...nftAttributes }
+        return {             
+            ...NFTAttributes.defaultValues, 
+            ...nftAttributes 
+        }
     }
 
     static getNFT1155Instance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
-        return { 
+        return {
             ercType: 1155,
             nftType: NeverminedNFT1155Type.nft1155,
             nftContractAddress: nftAttributes.nftContractAddress,
-            ...NFTAttributes.defaultValues, ...nftAttributes }        
+            metadata: nftAttributes.metadata,
+            ...NFTAttributes.defaultValues, 
+            ...nftAttributes 
+        }        
     }
 
     static getNFT721Instance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
@@ -122,7 +130,10 @@ export class NFTAttributes {
             ercType: 721,
             nftType: NeverminedNFT721Type.nft721Subscription,
             nftContractAddress: nftAttributes.nftContractAddress,
-            ...NFTAttributes.defaultValues, ...nftAttributes }        
+            metadata: nftAttributes.metadata,
+            ...NFTAttributes.defaultValues, 
+            ...nftAttributes 
+        }
     }
 
     static getSubscriptionInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
@@ -131,7 +142,10 @@ export class NFTAttributes {
             nftType: NeverminedNFT721Type.nft721Subscription,
             isSubscription: true,
             nftContractAddress: nftAttributes.nftContractAddress,
-            ...NFTAttributes.defaultValues, ...nftAttributes }        
+            metadata: nftAttributes.metadata,
+            ...NFTAttributes.defaultValues, 
+            ...nftAttributes 
+        }
     }
 
     static getPOAPInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
@@ -140,7 +154,10 @@ export class NFTAttributes {
             nftType: NeverminedNFT721Type.nft721POAP,
             isSubscription: false,
             nftContractAddress: nftAttributes.nftContractAddress,
-            ...NFTAttributes.defaultValues, ...nftAttributes }        
+            metadata: nftAttributes.metadata,
+            ...NFTAttributes.defaultValues, 
+            ...nftAttributes 
+        }
     }
 
     static getSoulBoundInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
@@ -149,6 +166,9 @@ export class NFTAttributes {
             nftType: NeverminedNFT721Type.nft721SoulBound,
             isSubscription: false,
             nftContractAddress: nftAttributes.nftContractAddress,
-            ...NFTAttributes.defaultValues, ...nftAttributes }        
-    }    
+            metadata: nftAttributes.metadata,
+            ...NFTAttributes.defaultValues, 
+            ...nftAttributes 
+        }
+    }        
 }

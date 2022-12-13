@@ -13,7 +13,6 @@ import { ethers, Wallet } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper/utils'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('MetaTx test with nfts', () => {
@@ -48,17 +47,14 @@ describe('MetaTx test with nfts', () => {
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
 
-            const assetAttributes = AssetAttributes.getInstance({
-                metadata,
-                serviceTypes: ['nft-sales', 'nft-access']
-            })
             const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                metadata,
+                serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )

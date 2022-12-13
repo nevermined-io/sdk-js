@@ -47,6 +47,8 @@ export class ComputeApi extends RegistryBaseApi {
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
+        if (!assetAttributes.serviceTypes.includes('compute'))
+            assetAttributes.serviceTypes.push('compute')
         return this.registerNeverminedAsset(
             assetAttributes,
             publisherAccount,
@@ -141,9 +143,9 @@ export class ComputeApi extends RegistryBaseApi {
     public async status(
         agreementId: string,
         executionId: string,
-        account: Account
+        consumerAccount: Account
     ) {
-        return await this.nevermined.services.node.computeStatus(agreementId, executionId, account)
+        return await this.nevermined.services.node.computeStatus(agreementId, executionId, consumerAccount)
     }
 
 }

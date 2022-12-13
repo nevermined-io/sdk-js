@@ -18,7 +18,7 @@ import Token from '../../src/keeper/contracts/Token'
 import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Nft721 } from '../../src'
+import { NFT721Api } from '../../src'
 import { getMetadata } from '../utils'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import BigNumber from '../../src/utils/BigNumber'
@@ -27,7 +27,6 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NeverminedNFT721Type, NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFT721Templates E2E', () => {
@@ -40,7 +39,7 @@ describe('NFT721Templates E2E', () => {
 
     let nevermined: Nevermined
     let token: Token
-    let nft: Nft721
+    let nft: NFT721Api
     let conditionStoreManager: ConditionStoreManager
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition
@@ -190,12 +189,10 @@ describe('NFT721Templates E2E', () => {
                 royalties
             )
 
-            const assetAttributes = AssetAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata,
                 price: assetPrice1,
-                serviceTypes: ['nft-sales', 'nft-access']
-            })
-            const nftAttributes = NFTAttributes.getInstance({
+                serviceTypes: ['nft-sales', 'nft-access'],
                 ercType: 721,
                 nftType: NeverminedNFT721Type.nft721,
                 nftContractAddress: nft.address,
@@ -204,7 +201,6 @@ describe('NFT721Templates E2E', () => {
                 royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
             })            
             ddo = await nevermined.nfts721.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )
@@ -720,12 +716,10 @@ describe('NFT721Templates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            const assetAttributes = AssetAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata,
                 price: assetPrice1,
-                serviceTypes: ['nft-sales', 'nft-access']
-            })
-            const nftAttributes = NFTAttributes.getInstance({
+                serviceTypes: ['nft-sales', 'nft-access'],
                 ercType: 721,
                 nftType: NeverminedNFT721Type.nft721,
                 nftContractAddress: nft.address,
@@ -733,7 +727,6 @@ describe('NFT721Templates E2E', () => {
                 royaltyAttributes
             })            
             ddo = await nevermined.nfts721.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )

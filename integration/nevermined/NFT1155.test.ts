@@ -97,7 +97,8 @@ describe('NFT1155 End-to-End', () => {
                 price: assetPrice,
                 serviceTypes: ['nft-sales', 'nft-access']
             })
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
@@ -105,7 +106,6 @@ describe('NFT1155 End-to-End', () => {
                 preMint
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 publisher
             )

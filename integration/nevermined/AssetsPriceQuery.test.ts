@@ -81,13 +81,13 @@ describe('Assets Query by Price', () => {
             serviceTypes: ['nft-sales', 'nft-access'],
             appId
         })
-        const nftAttributes = NFTAttributes.getNFT1155Instance({                
+        const nftAttributes = NFTAttributes.getNFT1155Instance({
+            ...assetAttributes,
             nftContractAddress: nevermined.nfts1155.nftContract.address,
             cap: BigNumber.from(1),
             royaltyAttributes
         })            
         ddoNftSales = await nevermined.nfts1155.create(
-            assetAttributes,
             nftAttributes,
             account
         )

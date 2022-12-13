@@ -55,7 +55,7 @@ describe('Compute Asset', () => {
             metadata: workflowMetadatas.compute(userId),
             price: assetPrice
         })
-        computeDdo = await nevermined.assets.create(
+        computeDdo = await nevermined.compute.create(
             computeAttributes,
             publisher
         ) 

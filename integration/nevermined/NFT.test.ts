@@ -11,7 +11,6 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('Nfts operations', () => {
@@ -41,17 +40,14 @@ describe('Nfts operations', () => {
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
 
-            const assetAttributes = AssetAttributes.getInstance({
-                metadata,
-                serviceTypes: ['nft-sales', 'nft-access']
-            })
             const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                metadata,
+                serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )
@@ -103,17 +99,14 @@ describe('Nfts operations', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            const assetAttributes = AssetAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getNFT1155Instance({   
                 metadata,
-                serviceTypes: ['nft-sales', 'nft-access']
-            })
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                serviceTypes: ['nft-sales', 'nft-access'],             
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )
@@ -158,18 +151,15 @@ describe('Nfts operations', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            const assetAttributes = AssetAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
                 metadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
-                price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(ZeroAddress)
-            })
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+                price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(ZeroAddress),
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
             })            
             ddo = await nevermined.nfts1155.create(
-                assetAttributes,
                 nftAttributes,
                 artist
             )

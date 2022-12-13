@@ -1,4 +1,4 @@
-import { Config } from '../src'
+import { NeverminedOptions } from '../src'
 import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
@@ -11,7 +11,7 @@ const ipfsGateway = process.env['IPFS_GATEWAY'] || 'https://ipfs.io'
 const ipfsProjectId = process.env['IPFS_PROJECT_ID']
 const ipfsProjectSecret = process.env['IPFS_PROJECT_SECRET']
 
-const configBase: Config = {
+const configBase: NeverminedOptions = {
     web3ProviderUri: 'http://localhost:8545',
     marketplaceUri: 'http://172.17.0.1:3100',
     faucetUri: 'http://localhost:3001',
@@ -36,7 +36,7 @@ if (process.env.NETWORK_NAME === 'testing') {
         faucetUri: 'http://localhost:3001',
         neverminedNodeUri: 'http://localhost:8030',
         neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
-    } as Config)
+    } as NeverminedOptions)
 }
 
 if (process.env.NETWORK_NAME === 'goerli') {
@@ -46,7 +46,7 @@ if (process.env.NETWORK_NAME === 'goerli') {
         neverminedNodeUri: 'https://node.goerli.nevermined.rocks',
         web3ProviderUri: `https://goerli.infura.io/v3/${infuraToken}`,
         neverminedNodeAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
-    } as Config)
+    } as NeverminedOptions)
 }
 
 if (process.env.NETWORK_NAME === 'mumbai') {
@@ -57,12 +57,12 @@ if (process.env.NETWORK_NAME === 'mumbai') {
         web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
         neverminedNodeAddress: '0xB82dc620BB4dE6712376055a5cfc0DF11112D442',
         graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
-    } as Config)
+    } as NeverminedOptions)
 }
 
 if (process.env.SEED_WORDS) {
     configBase.accounts = makeAccounts(process.env.SEED_WORDS)
 }
 
-export const config: Config & { forceVerbose: Config } = configBase as any
+export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } = configBase as any
 ;(config as any).forceVerbose = { ...configBase, verbose: true }

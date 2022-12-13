@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, Config, utils } from '../../src'
+import { Nevermined, Account, NeverminedOptions, utils } from '../../src'
 import { decodeJwt } from 'jose'
 import { MetaData } from '../../src'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
@@ -9,7 +9,7 @@ import { AssetAttributes } from '../../src/models/AssetAttributes'
 describe('Asset Owners', () => {
     let nevermined: Nevermined
     let nevermined2: Nevermined
-    let config2: Config
+    let config2: NeverminedOptions
 
     let account1: Account
     let account2: Account
