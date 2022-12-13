@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 import { repeat, sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
@@ -20,7 +20,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
-    let assetRewards: AssetRewards
+    let assetRewards: AssetPrice
     let agreementId: string
 
     before(async () => {
@@ -38,7 +38,7 @@ describe('Consume Asset (Documentation example)', () => {
 
         metadata = await getDocsCommonMetadata()
         metadata.userId = payload.sub
-        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from('0'))
+        assetRewards = new AssetPrice(publisher.getId(), BigNumber.from('0'))
     })
 
     it('should register an asset', async () => {
@@ -120,7 +120,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should lock the payment by the consumer', async () => {
         const price = ddo.getPriceByService()
-        const assetRewards = new AssetRewards(publisher.getId(), price)
+        const assetRewards = new AssetPrice(publisher.getId(), price)
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,

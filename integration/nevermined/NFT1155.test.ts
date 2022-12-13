@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, DDO, Nevermined } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
@@ -38,7 +38,7 @@ describe('NFT1155 End-to-End', () => {
 
     let royaltyAttributes
     let receivers: string[]
-    let assetRewards: AssetRewards
+    let assetRewards: AssetPrice
 
     let payload: JWTPayload
 
@@ -56,7 +56,7 @@ describe('NFT1155 End-to-End', () => {
         metadata.userId = payload.sub
 
         receivers = [publisher.getId(), deployer.getId()]
-        assetRewards = new AssetRewards(
+        assetRewards = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]

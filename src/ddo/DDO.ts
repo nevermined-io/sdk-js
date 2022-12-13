@@ -3,7 +3,7 @@ import { Authentication } from './Authentication'
 import { Proof } from './Proof'
 import { PublicKey } from './PublicKey'
 import { Service, ServiceType } from './Service'
-import { didPrefixed, getAssetRewardsFromService, zeroX } from '../utils'
+import { didPrefixed, getAssetPriceFromService, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
@@ -167,7 +167,7 @@ export class DDO {
      */
     public getPriceByService(serviceType: ServiceType = 'access'): BigNumber {
         const service = this.findServiceByType(serviceType)
-        const assetRewards = getAssetRewardsFromService(service)
+        const assetRewards = getAssetPriceFromService(service)
 
         if (assetRewards) {
             return assetRewards.getTotalPrice()

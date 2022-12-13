@@ -12,11 +12,11 @@ import {
 import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
-    getAssetRewardsFromService,
+    getAssetPriceFromService,
     setNFTRewardsFromDDOByService
 } from '../../src/utils'
 import { config } from '../config'
@@ -70,7 +70,7 @@ describe('Secondary Markets', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetRewards1: AssetPrice
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
@@ -79,8 +79,8 @@ describe('Secondary Markets', () => {
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
     let receivers3: string[]
-    let assetRewards2: AssetRewards
-    let assetRewards3: AssetRewards
+    let assetRewards2: AssetPrice
+    let assetRewards3: AssetPrice
 
     let initialBalances: any
     let decimals: number
@@ -114,21 +114,21 @@ describe('Secondary Markets', () => {
         nftPrice2 = BigNumber.parseUnits(nftPrice2.toString(), decimals)
         amounts2 = amounts2.map(v => BigNumber.parseUnits(v.toString(), decimals))
 
-        assetRewards1 = new AssetRewards(
+        assetRewards1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
         ).setTokenAddress(token.getAddress())
 
-        assetRewards2 = new AssetRewards(
+        assetRewards2 = new AssetPrice(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
             ])
         ).setTokenAddress(token.getAddress())
 
-        assetRewards3 = new AssetRewards(
+        assetRewards3 = new AssetPrice(
             new Map([
                 [receivers3[0], amounts2[0]],
                 [receivers3[1], amounts2[1]]
@@ -490,7 +490,7 @@ describe('Secondary Markets', () => {
                 )
 
                 // After fetching the previously created sales agreement
-                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                const assetRewardsFromServiceAgreement = getAssetPriceFromService(
                     nftSalesServiceAgreement
                 )
                 const payment = findServiceConditionByName(
@@ -563,7 +563,7 @@ describe('Secondary Markets', () => {
 
             it('Collector1 and Artist get the payment', async () => {
                 // After fetching the previously created sales agreement
-                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                const assetRewardsFromServiceAgreement = getAssetPriceFromService(
                     nftSalesServiceAgreement
                 )
 
@@ -752,7 +752,7 @@ describe('Secondary Markets', () => {
                 assert.isTrue(collector1Balance.gte(BigNumber.from(nftPrice2)))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(AssetRewards.sumAmounts(amounts2))
+                        .sub(AssetPrice.sumAmounts(amounts2))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })

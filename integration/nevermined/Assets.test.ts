@@ -2,9 +2,9 @@ import { SearchQuery } from '../../src/common/interfaces'
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
-import { getAssetRewards, getMetadata } from '../utils'
+import { getAssetPrice, getMetadata } from '../utils'
 import { Nevermined, Account, MetaData, DDO } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import { PublishMetadata } from '../../src/nevermined/api/AssetsApi'
@@ -14,7 +14,7 @@ import { AssetAttributes } from '../../src/models/AssetAttributes'
 let nevermined: Nevermined
 let publisher: Account
 let metadata: MetaData
-let assetRewards: AssetRewards
+let assetRewards: AssetPrice
 let payload: JWTPayload
 let ddo: DDO
 let ddoBefore: DDO
@@ -31,7 +31,7 @@ describe('Assets', () => {
 
         await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
-        assetRewards = getAssetRewards(publisher.getId())
+        assetRewards = getAssetPrice(publisher.getId())
 
         metadata = getMetadata()
         metadata.userId = payload.sub

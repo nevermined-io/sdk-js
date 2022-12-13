@@ -2,20 +2,20 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DID, Nevermined } from '../../src'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
-import { getAssetRewards, getMetadata } from '../utils'
+import { getAssetPrice, getMetadata } from '../utils'
 
 describe('Get DDO status', () => {
     let nevermined: Nevermined
     let publisher: Account
-    let assetRewards: AssetRewards
+    let assetRewards: AssetPrice
     let payload: JWTPayload
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[publisher] = await nevermined.accounts.list()
-        assetRewards = getAssetRewards(publisher.getId())
+        assetRewards = getAssetPrice(publisher.getId())
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
             publisher
         )

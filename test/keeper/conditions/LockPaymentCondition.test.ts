@@ -4,7 +4,7 @@ import {
     LockPaymentCondition
 } from '../../../src/keeper/contracts/conditions'
 import Token from '../../../src/keeper/contracts/Token'
-import AssetRewards from '../../../src/models/AssetRewards'
+import AssetPrice from '../../../src/models/AssetPrice'
 import { Nevermined } from '../../../src/nevermined/Nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
@@ -16,7 +16,7 @@ import BigNumber from '../../../src/utils/BigNumber'
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition
 let escrowPaymentCondition: EscrowPaymentCondition
-let assetRewards: AssetRewards
+let assetRewards: AssetPrice
 let token: Token
 
 let owner: Account
@@ -42,7 +42,7 @@ describe('LockPaymentCondition', () => {
         ;({ lockPaymentCondition, escrowPaymentCondition } = nevermined.keeper.conditions)
         ;({ token } = nevermined.keeper)
         ;[owner, seller, buyer] = await nevermined.accounts.list()
-        assetRewards = new AssetRewards(seller.getId(), amount)
+        assetRewards = new AssetPrice(seller.getId(), amount)
     })
 
     describe('#hashValues()', () => {

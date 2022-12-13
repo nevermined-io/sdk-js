@@ -4,7 +4,7 @@ import chaiAsPromised from 'chai-as-promised'
 import { Account, DDO, Nevermined } from '../../src'
 import { EscrowPaymentCondition, TransferNFTCondition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
@@ -42,7 +42,7 @@ describe('NFTs 1155 Api End-to-End', () => {
     let nftPrice = BigNumber.from(100)
     let amounts = [BigNumber.from(75), BigNumber.from(25)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetRewards1: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -71,7 +71,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         nftPrice = nftPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
-        assetRewards1 = new AssetRewards(
+        assetRewards1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]

@@ -6,7 +6,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 
 import { Nevermined, Account, DDO, ConditionState, MetaData, Logger } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
@@ -22,7 +22,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     let agreementId: string
 
     let metadata: MetaData
-    let assetRewards: AssetRewards
+    let assetRewards: AssetPrice
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -37,7 +37,7 @@ describe('Consume Asset (Nevermined Node)', () => {
         await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(0))
+        assetRewards = new AssetPrice(publisher.getId(), BigNumber.from(0))
 
         metadata = getMetadata()
         metadata.main.name = `${metadata.main.name} - ${Math.random()}`

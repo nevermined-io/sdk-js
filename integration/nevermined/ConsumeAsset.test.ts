@@ -3,12 +3,12 @@ import * as fs from 'fs'
 import { decodeJwt } from 'jose'
 
 import { config } from '../config'
-import { getAssetRewards, getMetadata } from '../utils'
+import { getAssetPrice, getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
 
 import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
-import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
+import AssetPrice from '../../src/models/AssetPrice'
+import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 import BigNumber from '../../src/utils/BigNumber'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 
@@ -22,7 +22,7 @@ describe('Consume Asset', () => {
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
-    let assetRewards: AssetRewards
+    let assetRewards: AssetPrice
     let agreementId: string
 
     before(async () => {
@@ -38,7 +38,7 @@ describe('Consume Asset', () => {
         await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetRewards = getAssetRewards(publisher.getId())
+        assetRewards = getAssetPrice(publisher.getId())
 
         metadata = getMetadata()
         metadata.userId = payload.sub

@@ -11,7 +11,7 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
@@ -71,7 +71,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     ]
 
     let receivers: string[]
-    let assetRewards: AssetRewards
+    let assetRewards: AssetPrice
     let royaltyAttributes: RoyaltyAttributes
 
     let initialBalances: any
@@ -112,7 +112,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
         // ether
-        assetRewards = new AssetRewards(
+        assetRewards = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]],

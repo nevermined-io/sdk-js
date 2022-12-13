@@ -3,7 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined } from '../../src'
 import CustomToken from '../../src/keeper/contracts/CustomToken'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { generateId } from '../../src/utils'
@@ -45,7 +45,7 @@ describe('Assets Query by Price', () => {
         // publish asset with priced service `access`
         let metadata = getMetadata()
         metadata.userId = payload.sub
-        let assetRewards = new AssetRewards(
+        let assetRewards = new AssetPrice(
             account.getId(), 
             price1
             ).setTokenAddress(token.getAddress())
@@ -63,7 +63,7 @@ describe('Assets Query by Price', () => {
         // publish asset with priced service `nft-sales`
         metadata = getMetadata()
         metadata.userId = payload.sub
-        assetRewards = new AssetRewards(
+        assetRewards = new AssetPrice(
             new Map([
                 [account.getId(), price2.sub(royalties)],
                 [account2.getId(), royalties]

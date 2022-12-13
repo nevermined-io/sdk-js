@@ -5,7 +5,7 @@ import POAPUpgradeable from '../../test/testdata/POAPUpgradeable.json'
 import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { decodeJwt } from 'jose'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
@@ -69,7 +69,7 @@ describe('POAPs with Assets', () => {
     it('editor should be able to register poap', async () => {
         const assetAttributes = AssetAttributes.getInstance({
             metadata,
-            price: new AssetRewards(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
+            price: new AssetPrice(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
             serviceTypes: ['nft-sales', 'nft-access'],
             providers: [gatewayAddress]
         })

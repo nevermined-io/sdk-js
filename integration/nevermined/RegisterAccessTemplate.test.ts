@@ -4,7 +4,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 
 import { Nevermined, utils, Account, Keeper, DDO, Logger } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
 import {
@@ -287,7 +287,7 @@ describe('Register Escrow Access Template', () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-            const assetRewards = new AssetRewards(
+            const assetRewards = new AssetPrice(
                 new Map([
                     [receivers[0], amounts[0]],
                     [receivers[1], amounts[1]]

@@ -1,9 +1,9 @@
-import AssetRewards from '../../../models/AssetRewards'
+import AssetPrice from '../../../models/AssetPrice'
 import { DDO, utils } from '../../../sdk'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
-    getAssetRewardsFromService,
+    getAssetPriceFromService,
     getDIDFromService,
     getNftHolderFromService,
     zeroX
@@ -180,7 +180,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
      */
      public async listOnSecondaryMarkets(
         ddo: DDO,
-        assetRewards: AssetRewards,
+        assetRewards: AssetPrice,
         nftAmount: BigNumber,
         provider: string,
         token: Token,
@@ -266,7 +266,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-        const assetRewards = getAssetRewardsFromService(service)
+        const assetRewards = getAssetPriceFromService(service)
         // has no privkeys, so we can't sign
         const currentNftHolder = new Account(getNftHolderFromService(service))
         const did = getDIDFromService(service)

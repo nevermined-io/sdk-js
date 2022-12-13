@@ -15,7 +15,7 @@ import {
     NFT721SalesTemplate
 } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Nft721 } from '../../src'
@@ -75,14 +75,14 @@ describe('NFT721Templates E2E', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetRewards1: AssetPrice
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
     let nftPrice2 = BigNumber.from(100)
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
-    let assetRewards2: AssetRewards
+    let assetRewards2: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -136,14 +136,14 @@ describe('NFT721Templates E2E', () => {
         nftPrice2 = nftPrice2.mul(scale)
         amounts2 = amounts2.map(v => v.mul(scale))
 
-        assetRewards1 = new AssetRewards(
+        assetRewards1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
         ).setTokenAddress(token.address)
 
-        assetRewards2 = new AssetRewards(
+        assetRewards2 = new AssetPrice(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
@@ -322,7 +322,7 @@ describe('NFT721Templates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(AssetRewards.sumAmounts(amounts))
+                        .add(AssetPrice.sumAmounts(amounts))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -393,7 +393,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).eq(0))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(AssetRewards.sumAmounts(amounts))
+                        .sub(AssetPrice.sumAmounts(amounts))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })

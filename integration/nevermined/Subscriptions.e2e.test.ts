@@ -3,7 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
@@ -40,7 +40,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let subscriptionPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetRewards1: AssetPrice
     let royaltyAttributes: RoyaltyAttributes
 
     let subscriptionMetadata: MetaData
@@ -89,7 +89,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         subscriptionPrice = subscriptionPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
         receivers = [editor.getId(), reseller.getId()]
-        assetRewards1 = new AssetRewards(
+        assetRewards1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]

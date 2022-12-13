@@ -1,11 +1,11 @@
 import { assert } from 'chai'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import BigNumber from '../../src/utils/BigNumber'
 
-describe('AssetRewards', () => {
+describe('AssetPrice', () => {
     describe('Initialize asset rewards', () => {
         it('it initialize with an empty constructor', async () => {
-            const assetRewards = new AssetRewards()
+            const assetRewards = new AssetPrice()
 
             assert.equal(
                 0,
@@ -22,7 +22,7 @@ describe('AssetRewards', () => {
         })
 
         it('it initialize with an address and amount', async () => {
-            const assetRewards = new AssetRewards('0x123', BigNumber.from(7))
+            const assetRewards = new AssetPrice('0x123', BigNumber.from(7))
 
             assert.equal(
                 7,
@@ -49,7 +49,7 @@ describe('AssetRewards', () => {
                 ['0x456', BigNumber.from(2)]
             ])
 
-            const assetRewards = new AssetRewards(rewardsMap)
+            const assetRewards = new AssetPrice(rewardsMap)
 
             assert.equal(
                 12,
@@ -79,7 +79,7 @@ describe('AssetRewards', () => {
     it('it uses a big number', async () => {
         const rewardsMap = new Map([['0x123', BigNumber.from(1000000000000000)]])
 
-        const assetRewards = new AssetRewards(rewardsMap)
+        const assetRewards = new AssetPrice(rewardsMap)
 
         assert.equal(
             1000000000000000,
@@ -103,7 +103,7 @@ describe('AssetRewards', () => {
     it('it can add a receiver', async () => {
         const rewardsMap = new Map([['0x123', BigNumber.from(500)]])
 
-        const assetRewards = new AssetRewards(rewardsMap)
+        const assetRewards = new AssetPrice(rewardsMap)
         assetRewards.setReceiver('0x456', BigNumber.from(100))
 
         assert.equal(
@@ -136,7 +136,7 @@ describe('AssetRewards', () => {
             ['0x789', BigNumber.from(500)]
         ])
 
-        const firstRewards = new AssetRewards(rewardsMap)
+        const firstRewards = new AssetPrice(rewardsMap)
         const assetRewards = firstRewards.setReceiver('0x123', BigNumber.from(100))
 
         assert.equal(
@@ -164,7 +164,7 @@ describe('AssetRewards', () => {
             ['0x789', BigNumber.from(50)]
         ])
 
-        const assetRewards = new AssetRewards(rewardsMap).addNetworkFees(
+        const assetRewards = new AssetPrice(rewardsMap).addNetworkFees(
             '0xfff',
             BigNumber.from(20000)
         )
@@ -194,7 +194,7 @@ describe('AssetRewards', () => {
             ['0x789', BigNumber.from(30)]
         ])
 
-        const assetRewards = new AssetRewards(rewardsMap).adjustToIncludeNetworkFees(
+        const assetRewards = new AssetPrice(rewardsMap).adjustToIncludeNetworkFees(
             '0xfff',
             BigNumber.from(100000)
         )

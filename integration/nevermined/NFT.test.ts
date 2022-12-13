@@ -3,7 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { ZeroAddress } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
 import {
@@ -161,7 +161,7 @@ describe('Nfts operations', () => {
             const assetAttributes = AssetAttributes.getInstance({
                 metadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
-                price: new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(ZeroAddress)
+                price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(ZeroAddress)
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({                
                 nftContractAddress: nevermined.nfts1155.nftContract.address,

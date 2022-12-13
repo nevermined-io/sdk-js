@@ -1,16 +1,16 @@
 import chai, { assert, expect } from 'chai'
 import { Account, DDO, Nevermined } from '../../src'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import { DDOStatus } from '../../src/metadata/MetadataService'
+import { DDOStatus } from '../../src/services/metadata/MetadataService'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
-import { getAssetRewards, getMetadata } from '../utils'
+import { getAssetPrice, getMetadata } from '../utils'
 
 describe.skip('Get DDO status', () => {
     let nevermined: Nevermined
     let publisher: Account
-    let assetRewards: AssetRewards
+    let assetRewards: AssetPrice
     let ddo: DDO
     let ddoStatus: DDOStatus
     let didRegistry: DIDRegistry
@@ -19,7 +19,7 @@ describe.skip('Get DDO status', () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ didRegistry } = nevermined.keeper)
         ;[publisher] = await nevermined.accounts.list()
-        assetRewards = getAssetRewards(publisher.getId())
+        assetRewards = getAssetPrice(publisher.getId())
     })
 
     it('should get the external status of an asset', async () => {

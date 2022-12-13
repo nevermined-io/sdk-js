@@ -13,7 +13,7 @@ import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
@@ -70,7 +70,7 @@ describe('NFTTemplates E2E', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetRewards1: AssetPrice
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
@@ -78,7 +78,7 @@ describe('NFTTemplates E2E', () => {
     let nftPrice2 = BigNumber.from(100)
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
-    let assetRewards2: AssetRewards
+    let assetRewards2: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -114,14 +114,14 @@ describe('NFTTemplates E2E', () => {
         nftPrice2 = nftPrice2.mul(scale)
         amounts2 = amounts2.map(v => v.mul(scale))
 
-        assetRewards1 = new AssetRewards(
+        assetRewards1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
         ).setTokenAddress(token.getAddress())
 
-        assetRewards2 = new AssetRewards(
+        assetRewards2 = new AssetPrice(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
@@ -407,7 +407,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(AssetRewards.sumAmounts(amounts))
+                        .sub(AssetPrice.sumAmounts(amounts))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -700,7 +700,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector2).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBefore
-                        .sub(AssetRewards.sumAmounts(amounts2))
+                        .sub(AssetPrice.sumAmounts(amounts2))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })

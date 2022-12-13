@@ -5,7 +5,7 @@ import { findServiceConditionByName, ZeroAddress } from '../../utils'
 import Token from '../../keeper/contracts/Token'
 import CustomToken from '../../keeper/contracts/CustomToken'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
-import AssetRewards from '../../models/AssetRewards'
+import AssetPrice from '../../models/AssetPrice'
 import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
@@ -70,7 +70,7 @@ export class ConditionsApi extends Instantiable {
             )
         }
 
-        const totalAmount = AssetRewards.sumAmounts(amounts)
+        const totalAmount = AssetPrice.sumAmounts(amounts)
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)

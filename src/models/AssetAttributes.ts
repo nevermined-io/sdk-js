@@ -1,7 +1,7 @@
 import { Service, ServiceType } from '../ddo/Service'
 import { EncryptionMethod } from '../services/metadata/MetadataService'
 import { MetaData } from "../ddo/MetaData"
-import AssetRewards from './AssetRewards'
+import AssetPrice from './AssetPrice'
 
 
 export class AssetAttributes {    
@@ -16,9 +16,9 @@ export class AssetAttributes {
 
     /**
      * It allows to specify the price of an asset
-     * @see {@link AssetRewards}
+     * @see {@link AssetPrice}
      */
-    price?: AssetRewards
+    price?: AssetPrice
 
     /**
      * When an asset is published in a Nevermined network, some internal Metadata attributes are encrypted so they can't be accessed.
@@ -55,7 +55,7 @@ export class AssetAttributes {
     appId?: string
 
     static defaultValues = {
-        price: new AssetRewards(), // It means there is no payment required
+        price: new AssetPrice(), // It means there is no payment required
         encryptionMethod: AssetAttributes.DEFAULT_ENCRYPTION_METHOD, // The default encryption method for the internal metadata attributes is PSK-RSA
         serviceTypes: ['access'] as ServiceType[], // By default it will be added an access service
         predefinedAssetServices: [] as Service[], // By default there in additional services to add to the asset

@@ -11,13 +11,13 @@ import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
 import {
     didZeroX,
     findServiceConditionByName,
-    getAssetRewardsFromService,
+    getAssetPriceFromService,
     OrderProgressStep,
     ZeroAddress,
     zeroX
 } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import AssetRewards from '../../../models/AssetRewards'
+import AssetPrice from '../../../models/AssetPrice'
 import Account from '../../../nevermined/Account'
 import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import { Service, ServiceType } from '../../../ddo/Service'
@@ -83,7 +83,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     }
 
     public paymentData(service: Service): PaymentData {
-        const assetRewards = getAssetRewardsFromService(service)
+        const assetRewards = getAssetPriceFromService(service)
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
         return {
@@ -206,7 +206,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     public standardContext(ddo: DDO, creator: string): ConditionContext {
         const service = ddo.findServiceByType(this.service())
-        const rewards = getAssetRewardsFromService(service)
+        const rewards = getAssetPriceFromService(service)
         return { ddo, service, rewards, creator }
     }
 
@@ -273,7 +273,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         )
 
         const service = ddo.findServiceByType(this.service())
-        const assetRewards = getAssetRewardsFromService(service)
+        const assetRewards = getAssetPriceFromService(service)
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
         const rewardAddress =
@@ -287,7 +287,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         await this.lockTokens(tokenAddress, amounts, from, txParams)
         observer(OrderProgressStep.ApprovedPayment)
 
-        const totalAmount = AssetRewards.sumAmounts(amounts)
+        const totalAmount = AssetPrice.sumAmounts(amounts)
         const value =
             tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
                 ? totalAmount.toString()
@@ -419,7 +419,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             )
         }
 
-        const totalAmount = AssetRewards.sumAmounts(amounts)
+        const totalAmount = AssetPrice.sumAmounts(amounts)
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)

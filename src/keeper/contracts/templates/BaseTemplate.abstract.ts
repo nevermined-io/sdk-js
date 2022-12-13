@@ -11,7 +11,7 @@ import {
 import { Account, Condition, MetaData } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
-import AssetRewards from '../../../models/AssetRewards'
+import AssetPrice from '../../../models/AssetPrice'
 import BigNumber from '../../../utils/BigNumber'
 
 export abstract class BaseTemplate<Params, S extends Service>
@@ -33,7 +33,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     }
 
     private async getPriced(
-        assetRewards: AssetRewards,
+        assetRewards: AssetPrice,
         erc20TokenAddress: string
     ): Promise<Priced> {
         let decimals: number
@@ -65,7 +65,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     public async createService(
         publisher: Account,
         metadata: MetaData,
-        assetRewards?: AssetRewards,
+        assetRewards?: AssetPrice,
         erc20TokenAddress?: string,
         priced = false
     ): Promise<S> {
