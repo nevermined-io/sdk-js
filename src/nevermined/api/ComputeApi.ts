@@ -110,7 +110,7 @@ export class ComputeApi extends RegistryBaseApi {
      * It trigers the execution of a compute job
      * @param agreementId - The unique identifier of the order placed for a service
      * @param workflowDid - The unique identifier of the Asset representing the workflow
-     * @param consumerAccount - The account of the user trigerring the computation
+     * @param consumerAccount - The account of the user triggering the computation
      * @returns If the execution is correct it returns the response given by the Nevermined Node 
     */
     public async execute(
