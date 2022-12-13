@@ -5,7 +5,6 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ConditionsApi } from './ConditionsApi'
 import { ServiceType } from '../../ddo/Service'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
-// import { NVMBaseApi } from './NVMBaseApi'
 
 export interface AgreementPrepareResult {
     agreementIdSeed: string

@@ -1,9 +1,8 @@
 import Account from '../Account'
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { ethers } from 'ethers'
 import { zeroX } from '../../utils'
-import { NVMBaseApi } from './NVMBaseApi'
 import { ProvenanceMethod } from '../../keeper/contracts/Provenance'
 
 /**
@@ -11,7 +10,7 @@ import { ProvenanceMethod } from '../../keeper/contracts/Provenance'
  * You can find more information about Nevermined Provenance here:
  * {@link https://docs.nevermined.io/docs/architecture/specs/Spec-PROVENANCE}
  */
-export class ProvenanceApi extends NVMBaseApi {
+export class ProvenanceApi extends Instantiable {
 
     /**
      * Returns the instance of the ProvenanceApi.

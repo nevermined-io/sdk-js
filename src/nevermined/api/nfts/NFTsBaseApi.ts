@@ -16,13 +16,13 @@ import { TxParameters } from '../../../keeper/contracts/ContractBase'
 import { NFTError } from '../../../errors'
 import BigNumber from '../../../utils/BigNumber'
 import { ERCType } from '../../../models/NFTAttributes'
-import { NVMBaseApi } from '../NVMBaseApi'
+import { RegistryBaseApi } from '../RegistryBaseApi'
 
 
 /**
  * Abstract class providing common NFT methods for different ERC implementations.
  */
-export abstract class NFTsBaseApi extends NVMBaseApi {
+export abstract class NFTsBaseApi extends RegistryBaseApi {
 
     /**
      * Asks the Node to transfer the NFT on behalf of the publisher.

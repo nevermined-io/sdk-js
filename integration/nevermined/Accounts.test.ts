@@ -1,14 +1,15 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import { Accounts, Nevermined } from '../../src'
+import { Nevermined } from '../../src'
+import { AccountsApi } from '../../src/nevermined/api/AccountsApi'
 import { config } from '../config'
 
 use(spies)
 
 describe('Accounts', () => {
     let nevermined: Nevermined
-    let accounts: Accounts
+    let accounts: AccountsApi
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
