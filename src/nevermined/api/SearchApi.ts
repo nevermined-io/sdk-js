@@ -1,15 +1,14 @@
 import { ServiceType } from "../../ddo/Service"
-import { InstantiableConfig } from "../../Instantiable.abstract"
+import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract"
 import { QueryResult } from "../../services/metadata/MetadataService"
 import { SearchQuery } from "../../sdk"
-import { RegistryBaseApi } from "./RegistryBaseApi"
 
 /**
  * Nevermined Search API. It allows the search of assets registered in Nevermined ecosystems. 
  * You can find more information about Nevermined Metadata here:
  * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
  */
-export class SearchApi extends RegistryBaseApi {
+export class SearchApi extends Instantiable {
 
     /**
      * Returns the instance of the SearchApi.

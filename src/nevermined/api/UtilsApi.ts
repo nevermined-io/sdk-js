@@ -1,4 +1,4 @@
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Auth } from '../Auth'
 import { Files } from '../Files'
 import { Token } from '../Token'
@@ -8,12 +8,11 @@ import { JwtUtils } from '../utils/JwtUtils'
 import { ServiceAgreement } from '../utils/ServiceAgreement'
 import { SignatureUtils } from '../utils/SignatureUtils'
 import { WebServiceConnector } from '../utils/WebServiceConnector'
-import { NVMBaseApi } from './NVMBaseApi'
 
 /**
  * Nevermined Utils API
  */
-export class UtilsApi extends NVMBaseApi {
+export class UtilsApi extends Instantiable {
 
     /**
      * Agreement utils.

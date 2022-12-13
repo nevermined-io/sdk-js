@@ -16,7 +16,7 @@ import BigNumber from '../../../utils/BigNumber'
 import { Nft1155Contract } from '../../../keeper/contracts/Nft1155Contract'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { ContractReceipt } from 'ethers'
-import { CreateProgressStep } from '../../ProgessSteps'
+import { CreateProgressStep } from '../../ProgressSteps'
 import { AssetAttributes } from '../../../models/AssetAttributes'
 import { NFTAttributes } from '../../../models/NFTAttributes'
 

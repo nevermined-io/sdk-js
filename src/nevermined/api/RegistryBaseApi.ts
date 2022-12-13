@@ -5,7 +5,7 @@ import { NvmConfigVersions } from "../../ddo/NvmConfig"
 import { TxParameters } from "../../keeper/contracts/ContractBase"
 import { SubscribablePromise, zeroX, generateId } from "../../utils"
 import { PublishMetadata } from "./AssetsApi"
-import { OrderProgressStep, UpdateProgressStep } from "../ProgessSteps"
+import { OrderProgressStep, UpdateProgressStep } from "../ProgressSteps"
 import { AssetError } from "../../errors/AssetError"
 
 /**

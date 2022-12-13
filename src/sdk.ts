@@ -10,15 +10,13 @@ import * as conditions from './keeper/contracts/conditions'
 import * as utils from './utils'
 import { NFT721Api } from './nevermined/api/nfts/NFT721Api'
 import { NFT1155Api } from './nevermined/api/nfts/NFT1155Api'
-// import { AccountsApi } from './nevermined/api/AccountsApi'
 import { SearchQuery } from './common/interfaces'
 
 // Exports
 export * from './ddo/DDO'
 export * from './ddo/MetaData'
 
-// export { ProvenanceRegistry, ProvenanceMethod } from './keeper/contracts/DIDRegistry'
-export { OrderProgressStep, CreateProgressStep } from './nevermined/ProgessSteps'
+export { OrderProgressStep, CreateProgressStep } from './nevermined/ProgressSteps'
 export {
     PlatformTechStatus,
     PlatformTech,

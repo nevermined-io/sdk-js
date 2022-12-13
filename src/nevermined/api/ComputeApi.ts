@@ -3,7 +3,7 @@ import { InstantiableConfig } from "../../Instantiable.abstract"
 import { TxParameters } from "../../keeper/contracts/ContractBase"
 import { AssetAttributes } from "../../models/AssetAttributes"
 import { SubscribablePromise } from "../../utils"
-import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from "../ProgessSteps"
+import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from "../ProgressSteps"
 import { PublishMetadata } from "./AssetsApi"
 import { RegistryBaseApi } from "./RegistryBaseApi"
 

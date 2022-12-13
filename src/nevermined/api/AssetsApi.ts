@@ -13,7 +13,7 @@ import { RoyaltyScheme } from '../../keeper/contracts/royalties'
 import { Nevermined } from '../../sdk'
 import { ContractReceipt } from 'ethers'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
-import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgessSteps'
+import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetAttributes } from '../../models/AssetAttributes'
 import { Providers } from '../Provider'
 

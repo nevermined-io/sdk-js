@@ -14,7 +14,7 @@ import { NFTError } from '../../../errors/NFTError'
 import { ContractReceipt, ethers } from 'ethers'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import BigNumber from '../../../utils/BigNumber'
-import { CreateProgressStep } from '../../ProgessSteps'
+import { CreateProgressStep } from '../../ProgressSteps'
 import { AssetAttributes } from '../../../models/AssetAttributes'
 import { NFTAttributes } from '../../../models/NFTAttributes'
 

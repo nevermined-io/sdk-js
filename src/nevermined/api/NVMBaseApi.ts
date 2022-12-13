@@ -11,7 +11,7 @@ import { NFTAttributes } from "../../models/NFTAttributes"
 import { SubscribablePromise, fillConditionsWithDDO } from "../../utils"
 import { AccessService, NFTAccessService, NFTSalesService } from "../AccessService"
 import DID from "../DID"
-import { PublishMetadata, AssetsApi } from "./AssetsApi"
+import { PublishMetadata } from "./AssetsApi"
 
 /**
  * Abstract class providing common functionality to all the Nevermined public APIs
@@ -40,7 +40,7 @@ export abstract class NVMBaseApi extends Instantiable {
     ): SubscribablePromise<CreateProgressStep, DDO> {
         this.logger.log('Registering Asset')
         return new SubscribablePromise(async observer => {
-            const { neverminedNodeUri: neverminedNodeUri } = this.config
+            const { neverminedNodeUri } = this.config
             const { didRegistry } = this.nevermined.keeper
             const tokenAddress = assetAttributes.price.getTokenAddress() || this.nevermined.utils.token.getAddress()
 
