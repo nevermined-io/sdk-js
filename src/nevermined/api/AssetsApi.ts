@@ -86,7 +86,6 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
  */
 export class AssetsApi extends RegistryBaseApi {
 
-
     /**
      * Utilities about the providers associated to an asset
      */
@@ -123,7 +122,7 @@ export class AssetsApi extends RegistryBaseApi {
      *
      * @param assetAttributes - Attributes describing the asset
      * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
-     * @param publisher - The account publishing the asset
+     * @param publisherAccount - The account publishing the asset
      * @param txParams - Optional transaction parameters
      * @returns The metadata of the asset created (DDO)
      *
@@ -131,13 +130,13 @@ export class AssetsApi extends RegistryBaseApi {
      */
     public create(
         assetAttributes: AssetAttributes,
-        publisher: Account,
+        publisherAccount: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         return this.registerNeverminedAsset(
             assetAttributes,
-            publisher,
+            publisherAccount,
             publishMetadata,
             undefined,
             txParams
@@ -160,7 +159,7 @@ export class AssetsApi extends RegistryBaseApi {
      * 
      * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
      * @param metadata - Metadata describing the asset
-     * @param publisher - Account of the user updating the metadata
+     * @param publisherAccount - Account of the user updating the metadata
      * @param publishMetadata - It allows to specify where to store the metadata  
      * @param txParams - Optional transaction parameters
      * @returns {@link DDO} The DDO updated
@@ -168,11 +167,11 @@ export class AssetsApi extends RegistryBaseApi {
      public update(
         did: string,
         metadata: MetaData,
-        publisher: Account,
+        publisherAccount: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<UpdateProgressStep, DDO> {
-        return this.updateAsset(did, metadata, publisher, publishMetadata, txParams)
+        return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)
     }
 
 
@@ -329,13 +328,13 @@ export class AssetsApi extends RegistryBaseApi {
 
     /**
      * Returns the assets of a consumer.
-     * @param consumer - Consumer address.
+     * @param consumerAccount - Consumer address.
      * @returns List of DIDs.
      */
-    public async consumerAssets(consumer: string): Promise<string[]> {
+    public async consumerAssets(consumerAccount: string): Promise<string[]> {
         return (
             await this.nevermined.keeper.conditions.accessCondition.getGrantedDidByConsumer(
-                consumer
+                consumerAccount
             )
         ).map(({ did }) => did)
     }
@@ -405,19 +404,19 @@ export class AssetsApi extends RegistryBaseApi {
      * Only can be called by the asset owner.
      * @param did - The unique identifier of the assert
      * @param address - The account to grant the permissions
-     * @param account - Account sending the request. It must be the owner of the asset
+     * @param ownerAccount - Account sending the request. It must be the owner of the asset
      * @param params  - Transaction parameters
      */    
     public async grantPermissions(
         did: string,
         address: string,
-        account: Account,
+        ownerAccount: Account,
         params?: TxParameters
     ) {
         return await this.nevermined.keeper.didRegistry.grantPermission(
             did,
             address,
-            account.getId(),
+            ownerAccount.getId(),
             params
         )
     }
@@ -427,19 +426,19 @@ export class AssetsApi extends RegistryBaseApi {
      * Only can be called by the asset owner.
      * @param did - The unique identifier of the assert
      * @param address - The account to revoke the permissions
-     * @param account - Account sending the request. It must be the owner of the asset
+     * @param ownerAccount - Account sending the request. It must be the owner of the asset
      * @param params  - Transaction parameters
      */
     public async revokePermissions(
         did: string,
         address: string,
-        account: Account,
+        ownerAccount: Account,
         params?: TxParameters
     ) {
         return await this.nevermined.keeper.didRegistry.revokePermission(
             did,
             address,
-            account.getId(),
+            ownerAccount.getId(),
             params
         )
     }

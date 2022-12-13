@@ -92,7 +92,7 @@ export abstract class ContractBase extends Instantiable {
 
     protected async getFromAddress(from?: string): Promise<string> {
         if (!from) {            
-            [from] = await this.nevermined.accounts.getWeb3ProviderAddresses()
+            [from] = await this.nevermined.accounts.addresses()
         }
         return from
     }

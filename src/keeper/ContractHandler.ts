@@ -232,11 +232,11 @@ export default class ContractHandler extends Instantiable {
     }
 
     public static getSignatureOfMethod(
-        contractInstace: ethers.Contract,
+        contractInstance: ethers.Contract,
         methodName: string,
         args: any[]
     ): string {
-        const methods = contractInstace.interface.fragments.filter(
+        const methods = contractInstance.interface.fragments.filter(
             f => f.name === methodName
         )
         const foundMethod =
