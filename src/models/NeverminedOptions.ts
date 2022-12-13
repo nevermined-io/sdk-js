@@ -21,7 +21,7 @@ export class NeverminedOptions {
 
     /**
      * URL to an existing Nevermined Node. A Nevermined network can have multiple running Nodes.
-     * Each of them facilitate the access control and the data and inftrastructure interaction with web2 elements.
+     * Each of them facilitate the access control and the data and infrastructure interaction with web2 elements.
      * @see https://docs.nevermined.io/docs/architecture/node/
      */
     public neverminedNodeUri: string
