@@ -88,7 +88,7 @@ export class NFT1155Api extends NFTsBaseApi {
      * ```ts
      * const assetAttributes = AssetAttributes.getInstance({
      *           metadata,
-     *           price: assetRewards,
+     *           price: assetPrice,
      *           serviceTypes: ['nft-sales', 'nft-access']
      *       })
      * const nftAttributes = NFTAttributes.getNFT1155Instance({                

@@ -14,7 +14,7 @@ import { AssetAttributes } from '../../src/models/AssetAttributes'
 let nevermined: Nevermined
 let publisher: Account
 let metadata: MetaData
-let assetRewards: AssetPrice
+let assetPrice: AssetPrice
 let payload: JWTPayload
 let ddo: DDO
 let ddoBefore: DDO
@@ -31,13 +31,13 @@ describe('Assets', () => {
 
         await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
-        assetRewards = getAssetPrice(publisher.getId())
+        assetPrice = getAssetPrice(publisher.getId())
 
         metadata = getMetadata()
         metadata.userId = payload.sub
         const assetAttributes = AssetAttributes.getInstance({
             metadata,
-            price: assetRewards
+            price: assetPrice
         })
         ddoBefore = await nevermined.assets.create(
             assetAttributes,
@@ -53,7 +53,7 @@ describe('Assets', () => {
 
             const assetAttributes = AssetAttributes.getInstance({
                 metadata: immutableMetadata,
-                price: assetRewards
+                price: assetPrice
             })
             ddo = await nevermined.assets.create(
                 assetAttributes,
@@ -169,7 +169,7 @@ describe('Assets', () => {
             // Create 1 asset with appId-test1
             const assetAttributes = AssetAttributes.getInstance({
                 metadata: metadata1,
-                price: assetRewards,
+                price: assetPrice,
                 appId: appId1
             })
             ddoBefore = await neverminedApp1.assets.create(
@@ -180,7 +180,7 @@ describe('Assets', () => {
             // Create 2 assets with appId-test2
             const assetAttributes2 = AssetAttributes.getInstance({
                 metadata: metadata2,
-                price: assetRewards,
+                price: assetPrice,
                 appId: appId2
             })
             ddoBefore = await neverminedApp2.assets.create(
@@ -190,7 +190,7 @@ describe('Assets', () => {
 
             const assetAttributes22 = AssetAttributes.getInstance({
                 metadata: metadata22,
-                price: assetRewards,
+                price: assetPrice,
                 appId: appId2
             })
             ddoBefore = await neverminedApp2.assets.create(

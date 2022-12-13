@@ -189,7 +189,7 @@ export interface ServicePlugin<T extends Service> {
     createService(
         publisher: Account,
         metadata: MetaData,
-        assetRewards?: AssetPrice,
+        assetPrice?: AssetPrice,
         erc20TokenAddress?: string,
         priced?: boolean
     ): Promise<T>

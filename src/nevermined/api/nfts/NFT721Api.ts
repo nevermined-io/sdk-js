@@ -79,7 +79,7 @@ export class NFT721Api extends NFTsBaseApi {
      * // We define how the Asset is
      * const assetAttributes = AssetAttributes.getInstance({
      *      metadata,
-     *      price: assetRewards1,
+     *      price: assetPrice1,
      *      serviceTypes: ['nft-sales', 'nft-access']
      *      })
      * 

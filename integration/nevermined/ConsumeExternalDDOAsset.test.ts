@@ -20,7 +20,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
-    let assetRewards: AssetPrice
+    let assetPrice: AssetPrice
     let agreementId: string
 
     before(async () => {
@@ -38,14 +38,14 @@ describe('Consume Asset (Documentation example)', () => {
 
         metadata = await getDocsCommonMetadata()
         metadata.userId = payload.sub
-        assetRewards = new AssetPrice(publisher.getId(), BigNumber.from('0'))
+        assetPrice = new AssetPrice(publisher.getId(), BigNumber.from('0'))
     })
 
     it('should register an asset', async () => {
         ddo = await nevermined.assets.create(
             AssetAttributes.getInstance({ 
                 metadata,
-                price: assetRewards
+                price: assetPrice
             }),
             publisher
         )
@@ -120,13 +120,13 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should lock the payment by the consumer', async () => {
         const price = ddo.getPriceByService()
-        const assetRewards = new AssetPrice(publisher.getId(), price)
+        const assetPrice = new AssetPrice(publisher.getId(), price)
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
+            assetPrice.getAmounts(),
+            assetPrice.getReceivers(),
             undefined,
             consumer
         )

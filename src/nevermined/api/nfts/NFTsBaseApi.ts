@@ -159,7 +159,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
      * ```ts
      * const agreementId = await nevermined.nfts1155.listOnSecondaryMarkets(
      *               ddo,
-     *               assetRewards,
+     *               assetPrice,
      *               numberNFTs,
      *               collector.getId(),
      *               token,
@@ -168,7 +168,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
      * ```
      *
      * @param ddo - The DDO of the asset.
-     * @param assetRewards - The current setup of asset rewards.
+     * @param assetPrice - The current setup of asset rewards.
      * @param nftAmount - The number of NFTs put up for secondary sale.
      * @param provider - The address that will be the provider of the secondary sale.
      * @param owner - The account of the current owner.
@@ -180,7 +180,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
      */
      public async listOnSecondaryMarkets(
         ddo: DDO,
-        assetRewards: AssetPrice,
+        assetPrice: AssetPrice,
         nftAmount: BigNumber,
         provider: string,
         token: Token,
@@ -196,7 +196,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
         nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
             nftSalesTemplateConditions,
             ddo,
-            assetRewards,
+            assetPrice,
             token.getAddress(),
             undefined,
             provider || owner,
@@ -266,7 +266,7 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-        const assetRewards = getAssetPriceFromService(service)
+        const assetPrice = getAssetPriceFromService(service)
         // has no privkeys, so we can't sign
         const currentNftHolder = new Account(getNftHolderFromService(service))
         const did = getDIDFromService(service)
@@ -294,8 +294,8 @@ export abstract class NFTsBaseApi extends NVMBaseApi {
         const receipt = await this.nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
+            assetPrice.getAmounts(),
+            assetPrice.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             consumer,
             params

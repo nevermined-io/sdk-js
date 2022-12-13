@@ -10,7 +10,7 @@ import { getAssetPrice, getMetadata } from '../utils'
 describe.skip('Get DDO status', () => {
     let nevermined: Nevermined
     let publisher: Account
-    let assetRewards: AssetPrice
+    let assetPrice: AssetPrice
     let ddo: DDO
     let ddoStatus: DDOStatus
     let didRegistry: DIDRegistry
@@ -19,13 +19,13 @@ describe.skip('Get DDO status', () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ didRegistry } = nevermined.keeper)
         ;[publisher] = await nevermined.accounts.list()
-        assetRewards = getAssetPrice(publisher.getId())
+        assetPrice = getAssetPrice(publisher.getId())
     })
 
     it('should get the external status of an asset', async () => {
         const assetAttributes = AssetAttributes.getInstance({
             metadata: getMetadata(),
-            price: assetRewards
+            price: assetPrice
         })
         const ddo = await nevermined.assets.create(
             assetAttributes,

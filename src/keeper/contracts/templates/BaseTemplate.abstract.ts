@@ -33,7 +33,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     }
 
     private async getPriced(
-        assetRewards: AssetPrice,
+        assetPrice: AssetPrice,
         erc20TokenAddress: string
     ): Promise<Priced> {
         let decimals: number
@@ -45,9 +45,9 @@ export abstract class BaseTemplate<Params, S extends Service>
             decimals = await token.decimals()
         }
 
-        const price = assetRewards.getTotalPrice().toString()
+        const price = assetPrice.getTotalPrice().toString()
         const priceHighestDenomination = +BigNumber.formatUnits(
-            assetRewards.getTotalPrice(),
+            assetPrice.getTotalPrice(),
             decimals
         )
         return {
@@ -65,7 +65,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     public async createService(
         publisher: Account,
         metadata: MetaData,
-        assetRewards?: AssetPrice,
+        assetPrice?: AssetPrice,
         erc20TokenAddress?: string,
         priced = false
     ): Promise<S> {
@@ -73,7 +73,7 @@ export abstract class BaseTemplate<Params, S extends Service>
         let priceData: Priced
 
         if (priced) {
-            priceData = await this.getPriced(assetRewards, erc20TokenAddress)
+            priceData = await this.getPriced(assetPrice, erc20TokenAddress)
         }
 
         return {

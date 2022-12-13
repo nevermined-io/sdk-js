@@ -290,7 +290,7 @@ describe('Register Escrow Compute Execution Template', () => {
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-            const assetRewards = new AssetPrice(
+            const assetPrice = new AssetPrice(
                 new Map([
                     [receivers[0], amounts[0]],
                     [receivers[1], amounts[1]]
@@ -299,7 +299,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
             const assetAttributes = AssetAttributes.getInstance({ 
                 metadata,
-                price: assetRewards,
+                price: assetPrice,
                 serviceTypes: ['access', 'compute']
             })
             ddo = await nevermined.assets.create(

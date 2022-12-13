@@ -42,7 +42,7 @@ describe('NFTs 1155 Api End-to-End', () => {
     let nftPrice = BigNumber.from(100)
     let amounts = [BigNumber.from(75), BigNumber.from(25)]
     let receivers: string[]
-    let assetRewards1: AssetPrice
+    let assetPrice1: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -71,7 +71,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         nftPrice = nftPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
-        assetRewards1 = new AssetPrice(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
@@ -103,7 +103,7 @@ describe('NFTs 1155 Api End-to-End', () => {
 
             const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                price: assetRewards1,
+                price: assetPrice1,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 providers: [config.neverminedNodeAddress]
             })
@@ -216,21 +216,21 @@ describe('NFTs 1155 Api End-to-End', () => {
                 escrowPaymentCondition.getAddress()
             )
             const receiver0Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[0]
+                assetPrice1.getReceivers()[0]
             )
             const receiver1Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[1]
+                assetPrice1.getReceivers()[1]
             )
             const collectorBalance = await token.balanceOf(collector1.getId())
 
             assert.isTrue(
                 receiver0Balance.eq(
-                    initialBalances.artist.add(assetRewards1.getAmounts()[0])
+                    initialBalances.artist.add(assetPrice1.getAmounts()[0])
                 )
             )
             assert.isTrue(
                 receiver1Balance.eq(
-                    initialBalances.gallery.add(assetRewards1.getAmounts()[1])
+                    initialBalances.gallery.add(assetPrice1.getAmounts()[1])
                 )
             )
             assert.isTrue(initialBalances.collector1.sub(nftPrice).eq(collectorBalance))
@@ -277,7 +277,7 @@ describe('NFTs 1155 Api End-to-End', () => {
             const assetAttributes = AssetAttributes.getInstance({
                 metadata: newMetadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
-                price: assetRewards1
+                price: assetPrice1
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({                
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
@@ -380,7 +380,7 @@ describe('NFTs 1155 Api End-to-End', () => {
             const assetAttributes = AssetAttributes.getInstance({
                 metadata: newMetadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
-                price: assetRewards1
+                price: assetPrice1
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({                
                 nftContractAddress: nevermined.nfts1155.nftContract.address,

@@ -167,13 +167,13 @@ describe('Nfts721 operations', async () => {
             metadata.userId = payload.sub
             // artist creates the nft
 
-            const assetRewards = new AssetPrice(
+            const assetPrice = new AssetPrice(
                 artist.getId(), BigNumber.parseEther('0.1')
                 ).setTokenAddress(ZeroAddress) // With ETH
 
             const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                price: assetRewards,
+                price: assetPrice,
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT721Instance({

@@ -16,7 +16,7 @@ import BigNumber from '../../../src/utils/BigNumber'
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition
 let escrowPaymentCondition: EscrowPaymentCondition
-let assetRewards: AssetPrice
+let assetPrice: AssetPrice
 let token: Token
 
 let owner: Account
@@ -42,7 +42,7 @@ describe('LockPaymentCondition', () => {
         ;({ lockPaymentCondition, escrowPaymentCondition } = nevermined.keeper.conditions)
         ;({ token } = nevermined.keeper)
         ;[owner, seller, buyer] = await nevermined.accounts.list()
-        assetRewards = new AssetPrice(seller.getId(), amount)
+        assetPrice = new AssetPrice(seller.getId(), amount)
     })
 
     describe('#hashValues()', () => {
@@ -51,8 +51,8 @@ describe('LockPaymentCondition', () => {
                 did,
                 seller.getId(),
                 token.getAddress(),
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers()
             )
 
             assert.match(hash, /^0x[a-f0-9]{64}$/i)
@@ -65,8 +65,8 @@ describe('LockPaymentCondition', () => {
                 did,
                 seller.getId(),
                 token.getAddress(),
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers()
             )
             const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
@@ -80,8 +80,8 @@ describe('LockPaymentCondition', () => {
                 did,
                 escrowPaymentCondition.getAddress(),
                 token.getAddress(),
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers()
             )
             const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
@@ -91,11 +91,11 @@ describe('LockPaymentCondition', () => {
                 owner
             )
 
-            await buyer.requestTokens(assetRewards.getTotalPrice())
+            await buyer.requestTokens(assetPrice.getTotalPrice())
 
             await token.approve(
                 lockPaymentCondition.getAddress(),
-                assetRewards.getTotalPrice(),
+                assetPrice.getTotalPrice(),
                 buyer
             )
 
@@ -104,8 +104,8 @@ describe('LockPaymentCondition', () => {
                 did,
                 escrowPaymentCondition.getAddress(),
                 token.getAddress(),
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers(),
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers(),
                 buyer
             )
 
@@ -117,8 +117,8 @@ describe('LockPaymentCondition', () => {
                 did,
                 escrowPaymentCondition.getAddress(),
                 ZeroAddress,
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers()
             )
             const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
@@ -133,10 +133,10 @@ describe('LockPaymentCondition', () => {
                 did,
                 escrowPaymentCondition.getAddress(),
                 ZeroAddress,
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers(),
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers(),
                 buyer,
-                { value: String(assetRewards.getTotalPrice()) }
+                { value: String(assetPrice.getTotalPrice()) }
             )
 
             assert.match(conditionId, /^0x[a-f0-9]{64}$/i)
@@ -147,8 +147,8 @@ describe('LockPaymentCondition', () => {
                 did,
                 escrowPaymentCondition.getAddress(),
                 ZeroAddress,
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers()
             )
             const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
@@ -164,8 +164,8 @@ describe('LockPaymentCondition', () => {
                     did,
                     escrowPaymentCondition.getAddress(),
                     ZeroAddress,
-                    assetRewards.getAmounts(),
-                    assetRewards.getReceivers(),
+                    assetPrice.getAmounts(),
+                    assetPrice.getReceivers(),
                     buyer
                 ),
                 /Transaction value does not match amount/
@@ -177,8 +177,8 @@ describe('LockPaymentCondition', () => {
                 did,
                 escrowPaymentCondition.getAddress(),
                 ZeroAddress,
-                assetRewards.getAmounts(),
-                assetRewards.getReceivers()
+                assetPrice.getAmounts(),
+                assetPrice.getReceivers()
             )
             const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
@@ -194,10 +194,10 @@ describe('LockPaymentCondition', () => {
                     did,
                     escrowPaymentCondition.getAddress(),
                     ZeroAddress,
-                    assetRewards.getAmounts(),
-                    assetRewards.getReceivers(),
+                    assetPrice.getAmounts(),
+                    assetPrice.getReceivers(),
                     buyer,
-                    { value: String(assetRewards.getTotalPrice().sub(1)) }
+                    { value: String(assetPrice.getTotalPrice().sub(1)) }
                 ),
                 /Transaction value does not match amount/
             )

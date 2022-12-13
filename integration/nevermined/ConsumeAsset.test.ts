@@ -22,12 +22,12 @@ describe('Consume Asset', () => {
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
-    let assetRewards: AssetPrice
+    let assetPrice: AssetPrice
     let agreementId: string
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-
+        
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
@@ -38,7 +38,7 @@ describe('Consume Asset', () => {
         await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetRewards = getAssetPrice(publisher.getId())
+        assetPrice = getAssetPrice(publisher.getId())
 
         metadata = getMetadata()
         metadata.userId = payload.sub
@@ -46,7 +46,7 @@ describe('Consume Asset', () => {
 
     it('should register an asset', async () => {
         ddo = await nevermined.assets.create(
-            AssetAttributes.getInstance({ metadata, price: assetRewards }),
+            AssetAttributes.getInstance({ metadata, price: assetPrice }),
             publisher
         )
 
@@ -122,8 +122,8 @@ describe('Consume Asset', () => {
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
+            assetPrice.getAmounts(),
+            assetPrice.getReceivers(),
             undefined,
             consumer
         )

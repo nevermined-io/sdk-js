@@ -38,7 +38,7 @@ describe('NFT1155 End-to-End', () => {
 
     let royaltyAttributes
     let receivers: string[]
-    let assetRewards: AssetPrice
+    let assetPrice: AssetPrice
 
     let payload: JWTPayload
 
@@ -56,7 +56,7 @@ describe('NFT1155 End-to-End', () => {
         metadata.userId = payload.sub
 
         receivers = [publisher.getId(), deployer.getId()]
-        assetRewards = new AssetPrice(
+        assetPrice = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
@@ -94,7 +94,7 @@ describe('NFT1155 End-to-End', () => {
 
             const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                price: assetRewards,
+                price: assetPrice,
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({                

@@ -167,10 +167,10 @@ export class DDO {
      */
     public getPriceByService(serviceType: ServiceType = 'access'): BigNumber {
         const service = this.findServiceByType(serviceType)
-        const assetRewards = getAssetPriceFromService(service)
+        const assetPrice = getAssetPriceFromService(service)
 
-        if (assetRewards) {
-            return assetRewards.getTotalPrice()
+        if (assetPrice) {
+            return assetPrice.getTotalPrice()
         }
         throw new DDOPriceNotFoundError(serviceType, this.id)
     }

@@ -75,14 +75,14 @@ describe('NFT721Templates E2E', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetPrice
+    let assetPrice1: AssetPrice
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
     let nftPrice2 = BigNumber.from(100)
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
-    let assetRewards2: AssetPrice
+    let assetPrice2: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -136,14 +136,14 @@ describe('NFT721Templates E2E', () => {
         nftPrice2 = nftPrice2.mul(scale)
         amounts2 = amounts2.map(v => v.mul(scale))
 
-        assetRewards1 = new AssetPrice(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
         ).setTokenAddress(token.address)
 
-        assetRewards2 = new AssetPrice(
+        assetPrice2 = new AssetPrice(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
@@ -192,7 +192,7 @@ describe('NFT721Templates E2E', () => {
 
             const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                price: assetRewards1,
+                price: assetPrice1,
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getInstance({
@@ -722,7 +722,7 @@ describe('NFT721Templates E2E', () => {
 
             const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                price: assetRewards1,
+                price: assetPrice1,
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getInstance({
@@ -790,7 +790,7 @@ describe('NFT721Templates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(assetRewards1.getTotalPrice())
+                        .add(assetPrice1.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -836,7 +836,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).eq(0))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewards1.getTotalPrice())
+                        .sub(assetPrice1.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -904,7 +904,7 @@ describe('NFT721Templates E2E', () => {
                 setNFTRewardsFromDDOByService(
                     ddo,
                     'nft-sales',
-                    assetRewards2,
+                    assetPrice2,
                     collector1.getId()
                 )
             })
@@ -947,8 +947,8 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId2,
                     ddo.shortId(),
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
+                    assetPrice2.getAmounts(),
+                    assetPrice2.getReceivers(),
                     token.getAddress(),
                     collector2
                 )
@@ -963,7 +963,7 @@ describe('NFT721Templates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(assetRewards2.getTotalPrice())
+                        .add(assetPrice2.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -1011,7 +1011,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector2).eq(0))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewards2.getTotalPrice())
+                        .sub(assetPrice2.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })

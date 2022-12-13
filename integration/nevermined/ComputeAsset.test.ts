@@ -21,7 +21,7 @@ describe('Compute Asset', () => {
 
     let agreementId: string
     let workflowId: string
-    let assetRewards: AssetPrice
+    let assetPrice: AssetPrice
     let userId: string
 
     before(async () => {
@@ -37,7 +37,7 @@ describe('Compute Asset', () => {
         const payload = decodeJwt(config.marketplaceAuthToken)
         userId = payload.sub
 
-        assetRewards = new AssetPrice(publisher.getId(), BigNumber.from(0))
+        assetPrice = new AssetPrice(publisher.getId(), BigNumber.from(0))
     })
 
     it('should register the assets', async () => {
@@ -53,7 +53,7 @@ describe('Compute Asset', () => {
 
         const computeAttributes = AssetAttributes.getInstance({
             metadata: workflowMetadatas.compute(userId),
-            price: assetRewards
+            price: assetPrice
         })
         computeDdo = await nevermined.assets.create(
             computeAttributes,

@@ -148,7 +148,7 @@ ___
 
 ### fillConditionsWithDDO
 
-▸ **fillConditionsWithDDO**(`conditions`, `ddo`, `assetRewards?`, `erc20TokenContract?`, `nftTokenContract?`, `nftHolder?`, `nftAmount?`, `nftTransfer?`, `duration?`): `ServiceAgreementTemplateCondition`[]
+▸ **fillConditionsWithDDO**(`conditions`, `ddo`, `assetPrice?`, `erc20TokenContract?`, `nftTokenContract?`, `nftHolder?`, `nftAmount?`, `nftTransfer?`, `duration?`): `ServiceAgreementTemplateCondition`[]
 
 Fill some static parameters that depends on the metadata.
 
@@ -158,7 +158,7 @@ Fill some static parameters that depends on the metadata.
 | :------ | :------ | :------ | :------ |
 | `conditions` | `ServiceAgreementTemplateCondition`[] | `undefined` | Conditions to fill. |
 | `ddo` | [`DDO`](../classes/DDO.md) | `undefined` | DDO related to this conditions. |
-| `assetRewards` | `default` | `undefined` | Rewards distribution |
+| `assetPrice` | `default` | `undefined` | Rewards distribution |
 | `erc20TokenContract?` | `string` | `undefined` | Number of nfts to handle |
 | `nftTokenContract?` | `string` | `undefined` | Number of nfts to handle |
 | `nftHolder?` | `string` | `undefined` | - |

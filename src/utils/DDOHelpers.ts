@@ -10,7 +10,7 @@ import BigNumber from './BigNumber'
 function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,
     ddo: DDO,
-    assetRewards: AssetPrice = new AssetPrice(),
+    assetPrice: AssetPrice = new AssetPrice(),
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
@@ -21,12 +21,12 @@ function fillParameterWithDDO(
     const getValue = name => {
         switch (name) {
             case 'amounts':
-                return Array.from(assetRewards.getAmounts(), v => v.toString())
+                return Array.from(assetPrice.getAmounts(), v => v.toString())
             case 'receivers':
-                return assetRewards.getReceivers()
+                return assetPrice.getReceivers()
             case 'amount':
             case 'price':
-                return String(assetRewards.getTotalPrice())
+                return String(assetPrice.getTotalPrice())
             case 'assetId':
             case 'documentId':
             case 'documentKeyId':
@@ -61,7 +61,7 @@ function fillParameterWithDDO(
  *
  * @param conditions - Conditions to fill.
  * @param ddo - DDO related to this conditions.
- * @param assetRewards -Rewards distribution
+ * @param assetPrice -Rewards distribution
  * @param nftAmount - Number of nfts to handle
  * @param erc20TokenContract - Number of nfts to handle
  * @param nftTokenContract - Number of nfts to handle
@@ -71,7 +71,7 @@ function fillParameterWithDDO(
 export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],
     ddo: DDO,
-    assetRewards: AssetPrice = new AssetPrice(),
+    assetPrice: AssetPrice = new AssetPrice(),
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
@@ -85,7 +85,7 @@ export function fillConditionsWithDDO(
             ...fillParameterWithDDO(
                 parameter,
                 ddo,
-                assetRewards,
+                assetPrice,
                 erc20TokenContract,
                 nftTokenContract,
                 nftHolder,

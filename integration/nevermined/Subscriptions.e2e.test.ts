@@ -40,7 +40,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let subscriptionPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetPrice
+    let assetPrice1: AssetPrice
     let royaltyAttributes: RoyaltyAttributes
 
     let subscriptionMetadata: MetaData
@@ -89,7 +89,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         subscriptionPrice = subscriptionPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
         receivers = [editor.getId(), reseller.getId()]
-        assetRewards1 = new AssetPrice(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
@@ -129,7 +129,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
             const assetAttributes = AssetAttributes.getInstance({
                 metadata: subscriptionMetadata,
-                price: assetRewards1,
+                price: assetPrice1,
                 serviceTypes: ['nft-sales'],
                 providers: [neverminedNodeAddress]
             })
@@ -229,21 +229,21 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
         it('the editor and reseller can receive their payment', async () => {
             const receiver0Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[0]
+                assetPrice1.getReceivers()[0]
             )
             const receiver1Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[1]
+                assetPrice1.getReceivers()[1]
             )
 
             assert.isTrue(
                 receiver0Balance.eq(
-                    initialBalances.editor.add(assetRewards1.getAmounts()[0])
+                    initialBalances.editor.add(assetPrice1.getAmounts()[0])
                 )
             )
 
             assert.isTrue(
                 receiver1Balance.eq(
-                    initialBalances.reseller.add(assetRewards1.getAmounts()[1])
+                    initialBalances.reseller.add(assetPrice1.getAmounts()[1])
                 )
             )
         })

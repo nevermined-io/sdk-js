@@ -22,7 +22,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     let agreementId: string
 
     let metadata: MetaData
-    let assetRewards: AssetPrice
+    let assetPrice: AssetPrice
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -37,7 +37,7 @@ describe('Consume Asset (Nevermined Node)', () => {
         await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetRewards = new AssetPrice(publisher.getId(), BigNumber.from(0))
+        assetPrice = new AssetPrice(publisher.getId(), BigNumber.from(0))
 
         metadata = getMetadata()
         metadata.main.name = `${metadata.main.name} - ${Math.random()}`
@@ -66,13 +66,13 @@ describe('Consume Asset (Nevermined Node)', () => {
         const steps = []
 
         const assetAttributes = AssetAttributes.getInstance({
-            metadata, price: assetRewards, providers: [config.neverminedNodeAddress]
+            metadata, price: assetPrice, providers: [config.neverminedNodeAddress]
         })
         ddo = await nevermined.assets
             .create(assetAttributes, publisher)
             .next(step => steps.push(step))        
         // ddo = await nevermined.assets
-        //     .createRefactored(metadata, publisher, assetRewards)
+        //     .createRefactored(metadata, publisher, assetPrice)
         //     .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)

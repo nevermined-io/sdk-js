@@ -83,7 +83,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     }
 
     public paymentData(service: Service): PaymentData {
-        const assetRewards = getAssetPriceFromService(service)
+        const assetPrice = getAssetPriceFromService(service)
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
         return {
@@ -91,8 +91,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
             tokenAddress: payment.parameters.find(p => p.name === '_tokenAddress')
                 .value as string,
-            amounts: assetRewards.getAmounts(),
-            receivers: assetRewards.getReceivers()
+            amounts: assetPrice.getAmounts(),
+            receivers: assetPrice.getReceivers()
         }
     }
 
@@ -273,15 +273,15 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         )
 
         const service = ddo.findServiceByType(this.service())
-        const assetRewards = getAssetPriceFromService(service)
+        const assetPrice = getAssetPriceFromService(service)
         const payment = findServiceConditionByName(service, 'lockPayment')
         if (!payment) throw new Error('Payment Condition not found!')
         const rewardAddress =
             this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
         const tokenAddress = payment.parameters.find(p => p.name === '_tokenAddress')
             .value as string
-        const amounts = assetRewards.getAmounts()
-        const receivers = assetRewards.getReceivers()
+        const amounts = assetPrice.getAmounts()
+        const receivers = assetPrice.getReceivers()
 
         observer(OrderProgressStep.ApprovingPayment)
         await this.lockTokens(tokenAddress, amounts, from, txParams)

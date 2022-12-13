@@ -9,13 +9,13 @@ import { getAssetPrice, getMetadata } from '../utils'
 describe('Get DDO status', () => {
     let nevermined: Nevermined
     let publisher: Account
-    let assetRewards: AssetPrice
+    let assetPrice: AssetPrice
     let payload: JWTPayload
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[publisher] = await nevermined.accounts.list()
-        assetRewards = getAssetPrice(publisher.getId())
+        assetPrice = getAssetPrice(publisher.getId())
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
             publisher
         )
@@ -30,7 +30,7 @@ describe('Get DDO status', () => {
         const ddo = await nevermined.assets.create(
             AssetAttributes.getInstance({ 
                 metadata,
-                price: assetRewards
+                price: assetPrice
             }),
             publisher
         )

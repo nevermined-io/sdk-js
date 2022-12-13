@@ -45,14 +45,14 @@ describe('Assets Query by Price', () => {
         // publish asset with priced service `access`
         let metadata = getMetadata()
         metadata.userId = payload.sub
-        let assetRewards = new AssetPrice(
+        let assetPrice = new AssetPrice(
             account.getId(), 
             price1
             ).setTokenAddress(token.getAddress())
 
         const _attributes = AssetAttributes.getInstance({
             metadata,
-            price: assetRewards,
+            price: assetPrice,
             appId
         })
         ddoAccess = await nevermined.assets.create(
@@ -63,7 +63,7 @@ describe('Assets Query by Price', () => {
         // publish asset with priced service `nft-sales`
         metadata = getMetadata()
         metadata.userId = payload.sub
-        assetRewards = new AssetPrice(
+        assetPrice = new AssetPrice(
             new Map([
                 [account.getId(), price2.sub(royalties)],
                 [account2.getId(), royalties]
@@ -77,7 +77,7 @@ describe('Assets Query by Price', () => {
 
         const assetAttributes = AssetAttributes.getInstance({
             metadata,
-            price: assetRewards,
+            price: assetPrice,
             serviceTypes: ['nft-sales', 'nft-access'],
             appId
         })
