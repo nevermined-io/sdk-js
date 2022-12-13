@@ -4,96 +4,9 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
 import { NFTAttributes } from '../../models/NFTAttributes'
-import { AssetsApi } from '../../nevermined/api/AssetsApi'
 import { AssetError } from '../../errors/AssetError'
+import { DEFAULT_REGISTRATION_ACTIVITY_ID, ProvenanceAttributeRegisteredEvent, ProvenanceEvent, ProvenanceMethod, ProvenanceRegistry } from './Provenance'
 
-export enum ProvenanceMethod {
-    ENTITY = 0,
-    ACTIVITY = 1,
-    WAS_GENERATED_BY = 2,
-    USED = 3,
-    WAS_INFORMED_BY = 4,
-    WAS_STARTED_BY = 5,
-    WAS_ENDED_BY = 6,
-    WAS_INVALIDATED_BY = 7,
-    WAS_DERIVED_FROM = 8,
-    AGENT = 9,
-    WAS_ATTRIBUTED_TO = 10,
-    WAS_ASSOCIATED_WITH = 11,
-    ACTED_ON_BEHALF = 12
-}
-
-export interface ProvenanceRegistry {
-    did: string
-    relatedDid: string
-    agentId: string
-    activityId: string
-    agentInvolvedId: string
-    method: ProvenanceMethod
-    createdBy: string
-    blockNumberUpdated: number
-    signatureDelegate: string
-}
-
-export interface ProvenanceAttributeRegisteredEvent {
-    provId: string
-    did: string
-    agentId: string
-    activityId: string
-    relatedDid: string
-    agentInvolvedId: string
-    method: ProvenanceMethod
-    attributes?: string
-    blockNumberUpdated: number
-}
-
-interface ProvenanceBaseEvent {
-    event: string
-    method: ProvenanceMethod
-    activityId: string
-    provId: string
-    attributes?: string
-    blockNumberUpdated: number
-}
-export interface WasGeneratedByEvent extends ProvenanceBaseEvent {
-    did: string
-    agentId: string
-}
-export interface UsedEvent extends ProvenanceBaseEvent {
-    did: string
-    agentId: string
-}
-export interface WasDerivedFromEvent extends ProvenanceBaseEvent {
-    newEntityDid: string
-    usedEntityDid: string
-    agentId: string
-}
-export interface WasAssociatedWithEvent extends ProvenanceBaseEvent {
-    entityDid: string
-    agentId: string
-}
-export interface ActedOnBehalfEvent extends ProvenanceBaseEvent {
-    entityDid: string
-    delegateAgentId: string
-    responsibleAgentId: string
-}
-export type ProvenanceEvent<T extends ProvenanceMethod | any = any> =
-    T extends ProvenanceMethod.WAS_GENERATED_BY
-        ? WasGeneratedByEvent
-        : T extends ProvenanceMethod.USED
-        ? UsedEvent
-        : T extends ProvenanceMethod.WAS_DERIVED_FROM
-        ? WasDerivedFromEvent
-        : T extends ProvenanceMethod.WAS_ASSOCIATED_WITH
-        ? WasAssociatedWithEvent
-        : T extends ProvenanceMethod.ACTED_ON_BEHALF
-        ? ActedOnBehalfEvent
-        :
-              | WasGeneratedByEvent
-              | UsedEvent
-              | WasDerivedFromEvent
-              | WasAssociatedWithEvent
-              | ActedOnBehalfEvent
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -149,7 +62,7 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         url: string,
         immutableUrl = '',
-        activityId = AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,
+        activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
         return this.send(
@@ -189,7 +102,7 @@ export default class DIDRegistry extends ContractBase {
         nftAttributes: NFTAttributes,
         url: string,
         immutableUrl = '',    
-        activityId = AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,
+        activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
 
@@ -234,7 +147,7 @@ export default class DIDRegistry extends ContractBase {
         nftAttributes: NFTAttributes,
         url: string,
         immutableUrl = '',    
-        activityId = AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,
+        activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
         return this.send(

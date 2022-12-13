@@ -207,7 +207,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     public standardContext(ddo: DDO, creator: string): ConditionContext {
         const service = ddo.findServiceByType(this.service())
         const rewards = getAssetPriceFromService(service)
-        return { ddo, service, rewards, creator }
+        return { ddo, service, price: rewards, creator }
     }
 
     public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {

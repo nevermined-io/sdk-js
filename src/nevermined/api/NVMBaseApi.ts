@@ -5,6 +5,7 @@ import { ServiceAgreementTemplate } from "../../ddo/ServiceAgreementTemplate"
 import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract"
 import { TxParameters } from "../../keeper/contracts/ContractBase"
 import { ServiceAaveCredit } from "../../keeper/contracts/defi/Service"
+import { DEFAULT_REGISTRATION_ACTIVITY_ID } from "../../keeper/contracts/Provenance"
 import { AssetAttributes } from "../../models/AssetAttributes"
 import { NFTAttributes } from "../../models/NFTAttributes"
 import { SubscribablePromise, fillConditionsWithDDO } from "../../utils"
@@ -209,7 +210,7 @@ export abstract class NVMBaseApi extends Instantiable {
                         nftAttributesWithoutRoyalties,
                         serviceEndpoint,
                         ddoVersion.immutableUrl,
-                        AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,
+                        DEFAULT_REGISTRATION_ACTIVITY_ID,
                         txParams
                     )
                 } else {
@@ -221,7 +222,7 @@ export abstract class NVMBaseApi extends Instantiable {
                         nftAttributesWithoutRoyalties,
                         serviceEndpoint,
                         ddoVersion.immutableUrl,
-                        AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,                     
+                        DEFAULT_REGISTRATION_ACTIVITY_ID,                     
                         txParams
                     )
                 }
@@ -251,7 +252,7 @@ export abstract class NVMBaseApi extends Instantiable {
                     publisher.getId(),
                     serviceEndpoint,
                     ddoVersion.immutableUrl,
-                    AssetsApi.DEFAULT_REGISTRATION_ACTIVITY_ID,                     
+                    DEFAULT_REGISTRATION_ACTIVITY_ID,                     
                     txParams
                 )
             }

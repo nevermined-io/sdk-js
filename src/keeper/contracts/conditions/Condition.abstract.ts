@@ -19,7 +19,7 @@ export type ConditionMethod = 'fulfill' | 'fulfillForDelegate'
 export interface ConditionContext {
     ddo: DDO
     service: Service
-    rewards: AssetPrice
+    price: AssetPrice
     creator: string
 }
 

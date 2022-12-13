@@ -47,7 +47,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
     }
 
     public async paramsFromDDO(
-        { ddo, service, rewards, consumerId }: EscrowPaymentConditionContext,
+        { ddo, service, price: rewards, consumerId }: EscrowPaymentConditionContext,
         access: ConditionInstanceSmall,
         lock: ConditionInstanceSmall
     ) {

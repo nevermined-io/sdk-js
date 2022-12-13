@@ -17,7 +17,7 @@ import { SearchQuery } from './common/interfaces'
 export * from './ddo/DDO'
 export * from './ddo/MetaData'
 
-export { ProvenanceRegistry, ProvenanceMethod } from './keeper/contracts/DIDRegistry'
+// export { ProvenanceRegistry, ProvenanceMethod } from './keeper/contracts/DIDRegistry'
 export { OrderProgressStep, CreateProgressStep } from './nevermined/ProgessSteps'
 export {
     PlatformTechStatus,
