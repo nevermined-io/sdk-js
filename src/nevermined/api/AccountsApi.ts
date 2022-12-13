@@ -3,7 +3,6 @@ import Account from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { ethers } from 'ethers'
-// import { NVMBaseApi } from './NVMBaseApi'
 
 /**
  * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
@@ -23,24 +22,15 @@ export class AccountsApi extends Instantiable {
     }
 
     /**
-     * Returns the list of accounts.
-     *
+     * Returns the list of accounts including the addresses not controlled by the node,
+     * only can be used by providers like metamask, Status or Trustwallet but not by default
+     * provider
      * @returns The list of accounts.
      */
     public async list(): Promise<Account[]> {
         return (await this.addresses()).map(
             address => new Account(address, this.instanceConfig)
         )
-    }
-
-    /**
-     * Returns the list of accounts including the addresses not controlled by the node,
-     * only can be used by providers like metamask, Status or Trustwallet but not by default
-     * provider
-     * @returns The list of accounts.
-     */
-    public async requestList(): Promise<Account[]> {
-        return this.list()
     }
 
     /**
