@@ -92,17 +92,15 @@ export class AssetsApi extends RegistryBaseApi {
     public providers: Providers
 
     /**
-     * Returns the instance of the AssetsApi.
+     * Creates a new AssetsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link AssetsApi}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<AssetsApi> {
-        const instance = new AssetsApi()
-        instance.servicePlugin = AssetsApi.getServicePlugin(config)
-        instance.setInstanceConfig(config)
-
-        instance.providers = new Providers(config)
-        return instance
+     */ 
+     constructor(config: InstantiableConfig) {
+        super()
+        this.servicePlugin = AssetsApi.getServicePlugin(config)
+        this.setInstanceConfig(config)
+        this.providers = new Providers(config)
     }
 
     /**

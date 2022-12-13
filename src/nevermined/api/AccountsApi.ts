@@ -10,17 +10,15 @@ import { ethers } from 'ethers'
 export class AccountsApi extends Instantiable {
 
     /**
-     * Returns the instance of the AccountsApi.
+     * Creates a new AccountsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link AccountsApi}
-     */  
-    public static async getInstance(config: InstantiableConfig): Promise<AccountsApi> {
-        const instance = new AccountsApi()
-        instance.setInstanceConfig(config)
-
-        return instance
+     */ 
+     constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
-
+    
     /**
      * Returns the list of accounts including the addresses not controlled by the node,
      * only can be used by providers like metamask, Status or Trustwallet but not by default

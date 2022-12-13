@@ -56,7 +56,7 @@ describe('Nfts721 operations', async () => {
 
         await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
-        ;({ token } = nevermined)
+        ;({ token } = nevermined.utils)
     })
 
     describe('with default token', async () => {

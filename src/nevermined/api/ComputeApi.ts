@@ -18,18 +18,15 @@ import { RegistryBaseApi } from "./RegistryBaseApi"
 export class ComputeApi extends RegistryBaseApi {
 
     /**
-     * Returns the instance of the ComputeApi.
+     * Creates a new ComputeApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link ComputeApi}
-     */    
-    public static async getInstance(config: InstantiableConfig): Promise<ComputeApi> {
-        const instance = new ComputeApi()
-        instance.servicePlugin = ComputeApi.getServicePlugin(config)
-        instance.setInstanceConfig(config)
-
-        return instance
+     */ 
+     constructor(config: InstantiableConfig) {
+        super()
+        this.servicePlugin = ComputeApi.getServicePlugin(config)
+        this.setInstanceConfig(config)
     }
-
 
     /**
      * Registers a new asset in Nevermined. 

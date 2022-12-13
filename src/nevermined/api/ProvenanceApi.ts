@@ -13,15 +13,13 @@ import { ProvenanceMethod } from '../../keeper/contracts/Provenance'
 export class ProvenanceApi extends Instantiable {
 
     /**
-     * Returns the instance of the ProvenanceApi.
+     * Creates a new ProvenanceApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link ProvenanceApi}
      */ 
-    public static async getInstance(config: InstantiableConfig): Promise<ProvenanceApi> {
-        const instance = new ProvenanceApi()
-        instance.setInstanceConfig(config)
-
-        return instance
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     /**

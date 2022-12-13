@@ -11,15 +11,13 @@ import { SearchQuery } from "../../sdk"
 export class SearchApi extends Instantiable {
 
     /**
-     * Returns the instance of the SearchApi.
+     * Creates a new SearchApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link SearchApi}
-     */    
-    public static async getInstance(config: InstantiableConfig): Promise<SearchApi> {
-        const instance = new SearchApi()
-        instance.setInstanceConfig(config)
-
-        return instance
+     */ 
+     constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     /**

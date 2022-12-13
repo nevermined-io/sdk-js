@@ -62,7 +62,6 @@ export class NFT1155Api extends NFTsBaseApi {
         return instance
     }
 
-
     /**
      * Gets the ERC-721 NFT Contract address
      * @returns The NFT contract address

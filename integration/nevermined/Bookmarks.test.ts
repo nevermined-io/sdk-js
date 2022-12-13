@@ -1,7 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account } from '../../src'
-import { NewBookmark } from '../../src/bookmarks/Bookmarks.interfaces'
+import { Nevermined, Account, NewBookmark } from '../../src'
 import { faker } from '@faker-js/faker'
 import { sleep } from '../utils/utils'
 

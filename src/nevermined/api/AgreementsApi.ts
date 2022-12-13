@@ -17,22 +17,20 @@ export interface AgreementPrepareResult {
 export class AgreementsApi extends Instantiable {
 
     /**
-     * Returns the instance of the AccountsApi.
-     * @param config - Configuration of the Nevermined instance
-     * @returns {@link AgreementsApi}
-     */  
-    public static async getInstance(config: InstantiableConfig): Promise<AgreementsApi> {
-        const instance = new AgreementsApi()
-        instance.setInstanceConfig(config)
-        instance.conditions = new ConditionsApi(config)
-
-        return instance
-    }
-
-    /**
      * Agreements Conditions submodule.
      */
-    public conditions: ConditionsApi
+     public conditions: ConditionsApi
+
+    /**
+     * Creates a new AgreementsApi
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link AgreementsApi}
+     */ 
+     constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
+        this.conditions = new ConditionsApi(config)
+    }
 
     /**
      * Creates a consumer signature for the specified asset service.

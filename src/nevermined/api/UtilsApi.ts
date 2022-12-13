@@ -55,24 +55,22 @@ export class UtilsApi extends Instantiable {
       public versions: Versions
 
     /**
-     * Returns the instance of the UtilsApi.
+     * Creates a new AssetsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link UtilsApi}
      */ 
-    public static async getInstance(config: InstantiableConfig): Promise<UtilsApi> {
-        const instance = new UtilsApi()
-        instance.setInstanceConfig(config)
+     constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
 
-        instance.agreements = new ServiceAgreement(config)
-        instance.auth = new Auth(config)        
-        instance.fetch = new WebServiceConnector(config)
-        instance.files = new Files(config)
-        instance.jwt = new JwtUtils(config)
-        instance.signature = new SignatureUtils(config)
-        instance.token = new Token(config)
-        instance.versions = await Versions.getInstance(config)
-
-        return instance
+        this.agreements = new ServiceAgreement(config)
+        this.auth = new Auth(config)        
+        this.fetch = new WebServiceConnector(config)
+        this.files = new Files(config)
+        this.jwt = new JwtUtils(config)
+        this.signature = new SignatureUtils(config)
+        this.token = new Token(config)
+        this.versions = new Versions(config)
     }
 
 }

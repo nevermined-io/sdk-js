@@ -5,10 +5,10 @@ import { config } from '../config'
 import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
 import AssetPrice from '../../src/models/AssetPrice'
-import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
 import { repeat, sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined

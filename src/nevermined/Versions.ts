@@ -38,15 +38,15 @@ export interface PlatformVersions {
  * Versions submodule .
  */
 export class Versions extends Instantiable {
-    /**
-     * Returns the instance of Versions.
-     * @returns {@link Versions}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<Versions> {
-        const instance = new Versions()
-        instance.setInstanceConfig(config)
 
-        return instance
+    /**
+     * Creates a new Versions
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link Versions}
+     */ 
+     constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     public async get(): Promise<PlatformVersions> {

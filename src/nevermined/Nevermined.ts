@@ -48,15 +48,15 @@ export class Nevermined extends Instantiable {
         await instance.keeper.init()
 
         // Nevermined main API
-        instance.accounts = await AccountsApi.getInstance(instanceConfig)
-        instance.agreements = await AgreementsApi.getInstance(instanceConfig)
-        instance.assets = await AssetsApi.getInstance(instanceConfig)
-        instance.compute = await ComputeApi.getInstance(instanceConfig)
+        instance.accounts = new AccountsApi(instanceConfig)
+        instance.agreements = new AgreementsApi(instanceConfig)
+        instance.assets = new AssetsApi(instanceConfig)
+        instance.compute = new ComputeApi(instanceConfig)
         instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
-        instance.provenance = await ProvenanceApi.getInstance(instanceConfig)
-        instance.search = await SearchApi.getInstance(instanceConfig)
-        instance.services = await ServicesApi.getInstance(instanceConfig)
-        instance.utils = await UtilsApi.getInstance(instanceConfig)
+        instance.provenance = new ProvenanceApi(instanceConfig)
+        instance.search = new SearchApi(instanceConfig)
+        instance.services = new ServicesApi(instanceConfig)
+        instance.utils = new UtilsApi(instanceConfig)
 
         return instance
     }

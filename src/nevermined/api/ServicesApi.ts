@@ -54,23 +54,24 @@ export class ServicesApi extends Instantiable {
       public aave: AaveCredit
 
     /**
-     * Returns the instance of Services.
-     *
-     * @returns {@link Services}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<ServicesApi> {
-        const instance = new ServicesApi()
-        instance.setInstanceConfig(config)
+     * Creates a new ServicesApi
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link ServicesApi}
+     */ 
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
 
-        instance.node = new NeverminedNode(config)
-        instance.marketplace = new MarketplaceApi(config)
-        instance.metadata = new MetadataService(config)
-        instance.profiles = new Profiles(config)
-        instance.bookmarks = new Bookmarks(config)
-        instance.permissions = new Permissions(config)
-        instance.faucet = new Faucet(config)
-        instance.aave = await AaveCredit.getInstance(config)
+        this.node = new NeverminedNode(config)
+        this.marketplace = new MarketplaceApi(config)
+        this.metadata = new MetadataService(config)
+        this.profiles = new Profiles(config)
+        this.bookmarks = new Bookmarks(config)
+        this.permissions = new Permissions(config)
+        this.faucet = new Faucet(config)
+    }
 
-        return instance
+    public async initializeAave() {
+        this.aave = await AaveCredit.getInstance(this.instantiableConfig)
     }
 }

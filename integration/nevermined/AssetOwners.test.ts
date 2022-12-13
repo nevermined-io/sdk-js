@@ -33,7 +33,7 @@ describe('Asset Owners', () => {
         )
 
         await nevermined.services.marketplace.login(clientAssertion)
-        await nevermined2.marketplace.login(clientAssertion2)
+        await nevermined2.services.marketplace.login(clientAssertion2)
 
         newMetadata = (token: string) => {
             const metadata = getMetadata()            
