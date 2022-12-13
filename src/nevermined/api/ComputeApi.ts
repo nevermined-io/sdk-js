@@ -44,7 +44,7 @@ export class ComputeApi extends RegistryBaseApi {
      *
      * @returns {@link DDO}
      */
-     public createRefactored(
+     public create(
         assetAttributes: AssetAttributes,
         publisher: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,

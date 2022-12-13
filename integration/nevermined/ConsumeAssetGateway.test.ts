@@ -71,9 +71,6 @@ describe('Consume Asset (Nevermined Node)', () => {
         ddo = await nevermined.assets
             .create(assetAttributes, publisher)
             .next(step => steps.push(step))        
-        // ddo = await nevermined.assets
-        //     .createRefactored(metadata, publisher, assetPrice)
-        //     .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])

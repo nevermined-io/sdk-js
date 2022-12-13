@@ -8,7 +8,7 @@ import {
     getNftHolderFromService,
     zeroX
 } from '../../../utils'
-import { RoyaltyKind } from '../AssetsApi'
+import { RoyaltyKind } from "../RoyaltyKind"
 import Account from '../../Account'
 import Token from '../../../keeper/contracts/Token'
 import { ServiceSecondary } from '../../../ddo/Service'

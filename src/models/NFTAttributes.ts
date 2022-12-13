@@ -1,4 +1,4 @@
-import { RoyaltyAttributes } from '../nevermined/api/AssetsApi'
+import { RoyaltyAttributes } from "../nevermined/api/RoyaltyKind"
 import BigNumber from '../utils/BigNumber'
 
 export enum ERCType {
@@ -32,6 +32,7 @@ export const defaultNeverminedNFTType = {
     1155: NeverminedNFT1155Type.nft1155
 }
 
+
 export class NFTAttributes {
 
     /**
@@ -42,7 +43,7 @@ export class NFTAttributes {
     ercType: ERCType
 
     /**
-     * The Nevermined implementetion of the NFT used.
+     * The Nevermined implementation of the NFT used.
      * A part of what type of ERC is based, Nevermined provides different NFT implementations to fit in different scenarios.
      * This attribute allow to specify between the different Nevermined NFT types
      */
@@ -91,7 +92,7 @@ export class NFTAttributes {
     /**
      * Attributes describing the royalties attached to the NFT in the secondary market
      */
-    royaltyAttributes?: RoyaltyAttributes | undefined
+    royaltyAttributes?: RoyaltyAttributes
 
     static defaultValues = {
         cap: BigNumber.from(0), // Cap equals to 0 means the NFT is uncapped

@@ -89,7 +89,7 @@ export class NFT721Api extends NFTsBaseApi {
      * })            
      * 
      * // And register the asset
-     * ddo = await nevermined.nfts721.createRefactored(
+     * ddo = await nevermined.nfts721.create(
      *           assetAttributes,
      *           nftAttributes,
      *           artist,
