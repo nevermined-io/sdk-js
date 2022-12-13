@@ -107,7 +107,7 @@ export class ComputeApi extends RegistryBaseApi {
     }
 
     /**
-     * It trigers the execution of a compute job
+     * It triggers the execution of a compute job
      * @param agreementId - The unique identifier of the order placed for a service
      * @param workflowDid - The unique identifier of the Asset representing the workflow
      * @param consumerAccount - The account of the user triggering the computation
