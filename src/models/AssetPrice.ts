@@ -10,15 +10,9 @@ export default class AssetPrice {
     private tokenAddress?: string
 
     public constructor()
-
     public constructor(_rewards: Map<string, BigNumber>)
-
-    // eslint-disable-next-line no-dupe-class-members
     public constructor(address: string, amount: BigNumber)
-
     public constructor(address: string, amount: BigNumber, tokenAddress: string)
-
-    // eslint-disable-next-line no-dupe-class-members
     public constructor(..._params: any[]) {
         this.totalPrice = BigNumber.from(0)
         this.rewards = new Map()
