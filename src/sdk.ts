@@ -14,19 +14,6 @@ import { SearchQuery } from './common/interfaces'
 
 // Exports
 export { DDO } from './ddo/DDO'
-export { 
-    StageRequirements,
-    StageInput,
-    Stage,
-    Workflow,
-    Algorithm,
-    ServiceDefinition,
-    Service,
-    File,
-    MetaDataMain,
-    Curation,
-    MetaData
-} from './ddo/MetaData'
 
 export { OrderProgressStep, CreateProgressStep } from './nevermined/ProgressSteps'
 export {
@@ -69,3 +56,5 @@ export {
     events,
     subgraphs
 }
+
+export * from './ddo/MetaData'
