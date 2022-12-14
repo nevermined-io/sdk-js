@@ -1,10 +1,10 @@
-import { Metadata } from '../../src/metadata/Metadata'
+import { MetadataService } from '../../src/metadata/MetadataService'
 import { DDO } from '../../src/ddo/DDO'
 import DID from '../../src/nevermined/DID'
 
 const ddoStore: Map<string, any> = new Map<string, any>()
 
-export default class MetadataMock extends Metadata {
+export default class MetadataMock extends MetadataService {
     public async getAccessUrl(_accessToken: any, _payload: any): Promise<string> {
         return 'http://test/test'
     }

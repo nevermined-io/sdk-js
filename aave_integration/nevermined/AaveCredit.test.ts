@@ -1,9 +1,8 @@
 import { getMetadata } from '../../integration/utils/index'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Account, ConditionState, DDO, utils } from '../../src/index'
-import ERC721 from '../../src/artifacts/ERC721.json'
+import ERC721 from '../../test/resources/artifacts/ERC721.json'
 import { Nevermined } from '../../src/nevermined/Nevermined'
-import AssetRewards from '../../src/models/AssetRewards'
 import { didZeroX, zeroX } from '../../src/utils/index'
 import {
     AgreementStoreManager,
@@ -21,6 +20,7 @@ import { decodeJwt } from 'jose'
 import { Contract } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -117,15 +117,19 @@ describe('AaveCredit', () => {
             const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
                 account1
             )
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
             const payload = decodeJwt(config.marketplaceAuthToken)
-            const marketplace = getMetadata()
-            marketplace.userId = payload.sub
+            const metadata = getMetadata()
+            metadata.userId = payload.sub
+
+            const nftAttributes = NFTAttributes.getNFT721Instance({
+                metadata,
+                serviceTypes: ['nft-sales', 'nft-access'],
+                nftContractAddress: nft721Wrapper.address
+            })            
             ddo = await nevermined.nfts721.create(
-                marketplace,
-                borrower,
-                new AssetRewards(),
-                nft721Wrapper.address
+                nftAttributes,
+                borrower
             )
         }
         assert.isDefined(ddo)
@@ -189,7 +193,7 @@ describe('AaveCredit', () => {
             }
             // Create agreement
             if (!agreementId) {
-                const res = await nevermined.aaveCredit.create(
+                const res = await nevermined.services.aave.create(
                     did,
                     nftContractAddress,
                     nftAmount,
@@ -239,7 +243,7 @@ describe('AaveCredit', () => {
                 //     agreementId, did, vaultAddress, nftAmount, nftContractAddress, borrower
                 // )
                 // console.log(`lockNft: status=${txReceipt.status}, ${agreementId}, ${vaultAddress}, ${did}, ${nftContractAddress}`)
-                await nevermined.aaveCredit.lockNft(
+                await nevermined.services.aave.lockNft(
                     agreementId,
                     nftContractAddress,
                     nftAmount,
@@ -285,7 +289,7 @@ describe('AaveCredit', () => {
                 // if (wethBalance < collateralAmount) {
                 //      console.warn(`lender weth balance ${wethBalance} is less than the required deposit ${collateralAmount}.`)
                 // }
-                const success = await nevermined.aaveCredit.depositCollateral(
+                const success = await nevermined.services.aave.depositCollateral(
                     agreementId,
                     collateralAsset,
                     collateralAmount,
@@ -302,7 +306,7 @@ describe('AaveCredit', () => {
                 assert.strictEqual(stateDeposit, ConditionState.Fulfilled)
             }
             // Get the actual delegated amount for the delgatee in this specific asset
-            const actualAmount = await nevermined.aaveCredit.delegatedAmount(
+            const actualAmount = await nevermined.services.aave.delegatedAmount(
                 agreementId,
                 borrower.getId(),
                 delegatedAsset,
@@ -324,7 +328,7 @@ describe('AaveCredit', () => {
                 // console.log(`dai balance = ${before.toString()}`)
                 // Fullfill the aaveBorrowCredit condition
                 // Delegatee borrows DAI from Aave on behalf of Delegator
-                const success = await nevermined.aaveCredit.borrow(
+                const success = await nevermined.services.aave.borrow(
                     agreementId,
                     delegatedAsset,
                     delegatedAmount,
@@ -345,7 +349,7 @@ describe('AaveCredit', () => {
 
         it('Borrower/Delegatee can not get back the NFT without repaying the loan', async () => {
             await assert.isRejected(
-                nevermined.aaveCredit.unlockNft(agreementId, nftContractAddress, borrower)
+                nevermined.services.aave.unlockNft(agreementId, nftContractAddress, borrower)
             )
             const { state: stateTransfer } = await conditionStoreManager.getCondition(
                 conditionIds[5]
@@ -359,7 +363,7 @@ describe('AaveCredit', () => {
                 conditionIds[3]
             )
             if (_stateRepay !== ConditionState.Fulfilled) {
-                const totalDebt = await nevermined.aaveCredit.getTotalActualDebt(
+                const totalDebt = await nevermined.services.aave.getTotalActualDebt(
                     agreementId,
                     borrower
                 )
@@ -381,7 +385,7 @@ describe('AaveCredit', () => {
                 ])
 
                 // repayDebt, fullfills the aaveRepayCredit condition
-                await nevermined.aaveCredit.repayDebt(
+                await nevermined.services.aave.repayDebt(
                     agreementId,
                     delegatedAsset,
                     delegatedAmount,
@@ -394,7 +398,7 @@ describe('AaveCredit', () => {
                 assert.strictEqual(stateRepay, ConditionState.Fulfilled)
 
                 const vaultBalancesAfter =
-                    await nevermined.aaveCredit.getActualCreditDebt(agreementId, borrower)
+                    await nevermined.services.aave.getActualCreditDebt(agreementId, borrower)
                 // Compare the vault debt after repayment
                 assert.strictEqual(vaultBalancesAfter, 0)
             }
@@ -409,7 +413,7 @@ describe('AaveCredit', () => {
                 const ethBalanceBefore = await weth.balanceOfConverted(lender.getId())
 
                 // Fullfill the AaveCollateralWithdraw condition
-                const success = await nevermined.aaveCredit.withdrawCollateral(
+                const success = await nevermined.services.aave.withdrawCollateral(
                     agreementId,
                     collateralAsset,
                     collateralAmount,
@@ -440,7 +444,7 @@ describe('AaveCredit', () => {
 
         it('Borrower/Delegatee paid the credit so will get back the NFT', async () => {
             assert.isTrue(
-                await nevermined.aaveCredit.unlockNft(
+                await nevermined.services.aave.unlockNft(
                     agreementId,
                     nftContractAddress,
                     borrower

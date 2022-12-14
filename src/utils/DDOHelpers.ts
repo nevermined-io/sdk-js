@@ -4,13 +4,13 @@ import {
     ServiceAgreementTemplateCondition,
     ServiceAgreementTemplateParameter
 } from '../ddo/ServiceAgreementTemplate'
-import AssetRewards from '../models/AssetRewards'
+import AssetPrice from '../models/AssetPrice'
 import BigNumber from './BigNumber'
 
 function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,
     ddo: DDO,
-    assetRewards: AssetRewards = new AssetRewards(),
+    assetPrice: AssetPrice = new AssetPrice(),
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
@@ -21,12 +21,12 @@ function fillParameterWithDDO(
     const getValue = name => {
         switch (name) {
             case 'amounts':
-                return Array.from(assetRewards.getAmounts(), v => v.toString())
+                return Array.from(assetPrice.getAmounts(), v => v.toString())
             case 'receivers':
-                return assetRewards.getReceivers()
+                return assetPrice.getReceivers()
             case 'amount':
             case 'price':
-                return String(assetRewards.getTotalPrice())
+                return String(assetPrice.getTotalPrice())
             case 'assetId':
             case 'documentId':
             case 'documentKeyId':
@@ -61,7 +61,7 @@ function fillParameterWithDDO(
  *
  * @param conditions - Conditions to fill.
  * @param ddo - DDO related to this conditions.
- * @param assetRewards -Rewards distribution
+ * @param assetPrice -Rewards distribution
  * @param nftAmount - Number of nfts to handle
  * @param erc20TokenContract - Number of nfts to handle
  * @param nftTokenContract - Number of nfts to handle
@@ -71,7 +71,7 @@ function fillParameterWithDDO(
 export function fillConditionsWithDDO(
     conditions: ServiceAgreementTemplateCondition[],
     ddo: DDO,
-    assetRewards: AssetRewards = new AssetRewards(),
+    assetPrice: AssetPrice = new AssetPrice(),
     erc20TokenContract?: string,
     nftTokenContract?: string,
     nftHolder?: string,
@@ -85,7 +85,7 @@ export function fillConditionsWithDDO(
             ...fillParameterWithDDO(
                 parameter,
                 ddo,
-                assetRewards,
+                assetPrice,
                 erc20TokenContract,
                 nftTokenContract,
                 nftHolder,
@@ -106,20 +106,20 @@ export function findServiceConditionByName(
     )
 }
 
-export function getAssetRewardsFromDDOByService(
+export function getAssetPriceFromDDOByService(
     ddo: DDO,
     service: ServiceType
-): AssetRewards {
-    return getAssetRewardsFromService(ddo.findServiceByType(service))
+): AssetPrice {
+    return getAssetPriceFromService(ddo.findServiceByType(service))
 }
 
 export function setNFTRewardsFromDDOByService(
     ddo: DDO,
     serviceType: ServiceType,
-    rewards: AssetRewards,
+    rewards: AssetPrice,
     holderAddress: string
 ) {
-    setAssetRewardsFromDDOByService(ddo, serviceType, rewards)
+    setAssetPriceFromDDOByService(ddo, serviceType, rewards)
     const service = ddo.findServiceByType(serviceType)
     const transferCondition = findServiceConditionByName(service, 'transferNFT')
     if (!transferCondition) {
@@ -129,10 +129,10 @@ export function setNFTRewardsFromDDOByService(
     holder.value = holderAddress
 }
 
-export function setAssetRewardsFromDDOByService(
+export function setAssetPriceFromDDOByService(
     ddo: DDO,
     serviceType: ServiceType,
-    rewards: AssetRewards
+    rewards: AssetPrice
 ) {
     const service = ddo.findServiceByType(serviceType)
     const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
@@ -145,7 +145,7 @@ export function setAssetRewardsFromDDOByService(
     receivers.value = rewards.getReceivers()
 }
 
-export function getAssetRewardsFromService(service: Service): AssetRewards {
+export function getAssetPriceFromService(service: Service): AssetPrice {
     const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
     if (!escrowPaymentCondition) {
         return
@@ -161,7 +161,7 @@ export function getAssetRewardsFromService(service: Service): AssetRewards {
     for (let i = 0; i < amounts.length; i++)
         rewardsMap.set(receivers[i], BigNumber.from(amounts[i]))
 
-    return new AssetRewards(rewardsMap)
+    return new AssetPrice(rewardsMap)
 }
 
 export function getDIDFromService(service: Service): string {

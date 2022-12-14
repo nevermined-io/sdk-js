@@ -1,7 +1,7 @@
-import { Account, Config, Nevermined } from '../..';
-import { InstantiableConfig } from '../../Instantiable.abstract';
-import ContractHandler from '../../keeper/ContractHandler';
-import Nft721Contract from '../../keeper/contracts/Nft721Contract';
+import { Account, NeverminedOptions, Nevermined } from '../../..';
+import { InstantiableConfig } from '../../../Instantiable.abstract';
+import ContractHandler from '../../../keeper/ContractHandler';
+import Nft721Contract from '../../../keeper/contracts/Nft721Contract';
 import { NFT721Api } from './NFT721Api'
 
 export default class SoulBoundNFTApi extends NFT721Api {  
@@ -11,19 +11,20 @@ export default class SoulBoundNFTApi extends NFT721Api {
         nftContractAddress: string,
         solidityABI: any
     ): Promise<SoulBoundNFTApi> {
-        const nft = new SoulBoundNFTApi()
-        nft.setInstanceConfig(config)
+        const instance = new SoulBoundNFTApi()
+        instance.servicePlugin = SoulBoundNFTApi.getServicePlugin(config)
+        instance.setInstanceConfig(config)
 
-        nft.nftContract = await Nft721Contract.getInstanceUsingABI(
+        instance.nftContract = await Nft721Contract.getInstanceUsingABI(
             config, 
             nftContractAddress, 
             solidityABI
         )
-        return nft
+        return instance
     }
 
     public static async deployInstance(
-        config: Config,
+        config: NeverminedOptions,
         contractABI: any,
         from: Account,
         args: string[] = []

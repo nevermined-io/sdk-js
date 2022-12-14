@@ -1,9 +1,9 @@
-import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
+import { MarketplaceApi } from './MarketplaceAPI'
 import { NewPermission, Permission, PermissionType } from './Permissions.interfaces'
-import { HttpError, ApiError } from '../errors'
-import { MarketplaceResults } from '../common/interfaces'
-import { SearchQuery } from '../common/interfaces'
-import { buildQuery } from '../common/helpers'
+import { HttpError, ApiError } from '../../errors'
+import { MarketplaceResults } from '../../common/interfaces'
+import { SearchQuery } from '../../common/interfaces'
+import { buildQuery } from '../../common/helpers'
 
 const permissionPath = '/api/v1/permissions'
 

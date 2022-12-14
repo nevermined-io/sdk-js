@@ -4,7 +4,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 
 import { Nevermined, utils, Account, Keeper, DDO, Logger } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
 import {
@@ -16,6 +16,7 @@ import { AccessTemplate } from '../../src/keeper/contracts/templates'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Register Escrow Access Template', () => {
     let nevermined: Nevermined
@@ -281,19 +282,22 @@ describe('Register Escrow Access Template', () => {
                 publisher
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-            const assetRewards = new AssetRewards(
+            const assetPrice = new AssetPrice(
                 new Map([
                     [receivers[0], amounts[0]],
                     [receivers[1], amounts[1]]
                 ])
             )
 
-            ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
+            ddo = await nevermined.assets.create(
+                AssetAttributes.getInstance({ metadata, price: assetPrice }),
+                publisher
+            )
         })
 
         it('should create a new agreement (short way)', async () => {

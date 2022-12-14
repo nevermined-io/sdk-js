@@ -3,7 +3,7 @@ import { Authentication } from './Authentication'
 import { Proof } from './Proof'
 import { PublicKey } from './PublicKey'
 import { Service, ServiceType } from './Service'
-import { didPrefixed, getAssetRewardsFromService, zeroX } from '../utils'
+import { didPrefixed, getAssetPriceFromService, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
@@ -36,6 +36,26 @@ export class DDO {
         const ddo = JSON.parse(ddoString)
 
         return new DDO(ddo)
+    }
+
+
+    public static createAuthorizationService(
+        neverminedNodeUri: string,
+        publicKey: string,
+        method: string
+    ) {
+        return {
+            type: 'authorization',
+            index: 2,
+            serviceEndpoint: neverminedNodeUri,
+            attributes: {
+                main: {
+                    publicKey: publicKey,
+                    service: method,
+                    threshold: 0
+                }
+            }
+        } as Service
     }
 
     public '@context' = 'https://w3id.org/did/v1'
@@ -147,10 +167,10 @@ export class DDO {
      */
     public getPriceByService(serviceType: ServiceType = 'access'): BigNumber {
         const service = this.findServiceByType(serviceType)
-        const assetRewards = getAssetRewardsFromService(service)
+        const assetPrice = getAssetPriceFromService(service)
 
-        if (assetRewards) {
-            return assetRewards.getTotalPrice()
+        if (assetPrice) {
+            return assetPrice.getTotalPrice()
         }
         throw new DDOPriceNotFoundError(serviceType, this.id)
     }

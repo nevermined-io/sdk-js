@@ -30,15 +30,15 @@ describe('Authentication Token', () => {
     })
 
     it('should generate a token', async () => {
-        const token = await nevermined.auth.get(account1)
+        const token = await nevermined.utils.auth.get(account1)
 
         assert.match(token, /^0x[a-f0-9]{130}-[0-9]{0,14}/i)
     })
 
     it('should return the account that signed the token', async () => {
-        const token = await nevermined.auth.get(account1)
+        const token = await nevermined.utils.auth.get(account1)
 
-        const address = await nevermined.auth.check(token)
+        const address = await nevermined.utils.auth.check(token)
 
         assert.equal(address, account1.getId())
     })
@@ -46,19 +46,19 @@ describe('Authentication Token', () => {
     it('should store the token for a user', async () => {
         assert.isUndefined(await account1.getToken())
 
-        await nevermined.auth.store(account1)
+        await nevermined.utils.auth.store(account1)
 
         assert.match(await account1.getToken(), /^0x[a-f0-9]{130}-[0-9]{0,14}/i)
     })
 
     it('should restore the token for a user', async () => {
-        const token = await nevermined.auth.restore(account1)
+        const token = await nevermined.utils.auth.restore(account1)
 
         assert.match(token, /^0x[a-f0-9]{130}-[0-9]{0,14}/i)
     })
 
     it('should return undefined when is not stored', async () => {
-        const token = await nevermined.auth.restore(account2)
+        const token = await nevermined.utils.auth.restore(account2)
 
         assert.isUndefined(token)
     })
@@ -68,8 +68,8 @@ describe('Authentication Token', () => {
         let acc2Stored: boolean
 
         // eslint-disable-next-line
-        acc1Stored = await nevermined.auth.isStored(account1)
-        acc2Stored = await nevermined.auth.isStored(account2)
+        acc1Stored = await nevermined.utils.auth.isStored(account1)
+        acc2Stored = await nevermined.utils.auth.isStored(account2)
 
         assert.isTrue(acc1Stored)
         assert.isTrue(await account1.isTokenStored())
@@ -78,7 +78,7 @@ describe('Authentication Token', () => {
 
         await account2.authenticate()
 
-        acc2Stored = await nevermined.auth.isStored(account2)
+        acc2Stored = await nevermined.utils.auth.isStored(account2)
         assert.isTrue(acc2Stored)
         assert.isTrue(await account2.isTokenStored())
     })

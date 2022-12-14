@@ -3,7 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
@@ -15,9 +15,10 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
-import { NFT721Api } from '../../src/nevermined/nfts/NFT721Api'
-import SubscriptionNFTApi from '../../src/nevermined/nfts/SubscriptionNFTApi'
+} from '../../src/nevermined/api/AssetsApi'
+import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
+import SubscriptionNFTApi from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account
@@ -38,7 +39,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let subscriptionPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetPrice1: AssetPrice
     let royaltyAttributes: RoyaltyAttributes
 
     let subscriptionMetadata: MetaData
@@ -68,13 +69,13 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
 
         assetMetadata = getMetadata()
         subscriptionMetadata = getMetadata(undefined, 'Subscription NFT')
         assetMetadata.userId = payload.sub
-        neverminedNodeAddress = await nevermined.node.getProviderAddress()
+        neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
         // conditions
         ;({ escrowPaymentCondition, transferNft721Condition } = nevermined.keeper.conditions)
@@ -87,12 +88,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         subscriptionPrice = subscriptionPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
         receivers = [editor.getId(), reseller.getId()]
-        assetRewards1 = new AssetRewards(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.address)
 
         royaltyAttributes = getRoyaltyAttributes(
             nevermined,
@@ -125,21 +126,22 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
             subscriptionNFT.addMinter(transferNft721Condition.address, editor)
 
-            subscriptionDDO = await nevermined.assets.createNft721(
-                subscriptionMetadata,
-                editor,
-                assetRewards1,
-                'PSK-RSA',
-                subscriptionNFT.address,
-                token.address,
+            const nftAttributes = NFTAttributes.getSubscriptionInstance({
+                metadata: subscriptionMetadata,
+                price: assetPrice1,
+                serviceTypes: ['nft-sales'],
+                providers: [neverminedNodeAddress],                
+                duration: subscriptionDuration,                
+                nftContractAddress: subscriptionNFT.address,
                 preMint,
-                [neverminedNodeAddress],
-                royaltyAttributes,
-                undefined,
-                ['nft-sales'],
                 nftTransfer,
-                subscriptionDuration
+                royaltyAttributes: royaltyAttributes
+            })
+            subscriptionDDO = await nevermined.nfts721.create(
+                nftAttributes,
+                editor
             )
+
             assert.isDefined(subscriptionDDO)
 
             // INFO: We allow the Node to fulfill the transfer condition in behalf of the user
@@ -153,20 +155,20 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         })
 
         it('I want to register a new asset and tokenize (via NFT)', async () => {
-            assetDDO = await nevermined.assets.createNft721(
-                assetMetadata,
-                editor,
-                new AssetRewards(),
-                'PSK-RSA',
-                subscriptionNFT.address,
-                token.address,
+
+            const nftAttributes = NFTAttributes.getSubscriptionInstance({
+                metadata: assetMetadata,
+                serviceTypes: ['nft-access'],
+                providers: [neverminedNodeAddress],
+                duration: subscriptionDuration,                
+                nftContractAddress: subscriptionNFT.address,
                 preMint,
-                [neverminedNodeAddress],
-                royaltyAttributes,
-                undefined,
-                ['nft-access'],
                 nftTransfer,
-                subscriptionDuration
+                royaltyAttributes: royaltyAttributes
+            })
+            assetDDO = await nevermined.nfts721.create(
+                nftAttributes,
+                editor
             )
             assert.isDefined(assetDDO)
         })
@@ -220,21 +222,21 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
         it('the editor and reseller can receive their payment', async () => {
             const receiver0Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[0]
+                assetPrice1.getReceivers()[0]
             )
             const receiver1Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[1]
+                assetPrice1.getReceivers()[1]
             )
 
             assert.isTrue(
                 receiver0Balance.eq(
-                    initialBalances.editor.add(assetRewards1.getAmounts()[0])
+                    initialBalances.editor.add(assetPrice1.getAmounts()[0])
                 )
             )
 
             assert.isTrue(
                 receiver1Balance.eq(
-                    initialBalances.reseller.add(assetRewards1.getAmounts()[1])
+                    initialBalances.reseller.add(assetPrice1.getAmounts()[1])
                 )
             )
         })

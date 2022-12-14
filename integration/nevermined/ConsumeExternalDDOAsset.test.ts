@@ -4,10 +4,11 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
-import AssetRewards from '../../src/models/AssetRewards'
-import { AgreementPrepareResult } from '../../src/nevermined/Agreements'
+import AssetPrice from '../../src/models/AssetPrice'
 import { repeat, sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 
 describe('Consume Asset (Documentation example)', () => {
     let nevermined: Nevermined
@@ -19,7 +20,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     let ddo: DDO
     let serviceAgreementSignatureResult: AgreementPrepareResult
-    let assetRewards: AssetRewards
+    let assetPrice: AssetPrice
     let agreementId: string
 
     before(async () => {
@@ -32,16 +33,22 @@ describe('Consume Asset (Documentation example)', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         metadata = await getDocsCommonMetadata()
         metadata.userId = payload.sub
-        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from('0'))
+        assetPrice = new AssetPrice(publisher.getId(), BigNumber.from('0'))
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata, publisher, assetRewards)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ 
+                metadata,
+                price: assetPrice
+            }),
+            publisher
+        )
 
         assert.isDefined(ddo, 'Register has not returned a DDO')
         assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
@@ -67,7 +74,7 @@ describe('Consume Asset (Documentation example)', () => {
     })
 
     it('should sign the service agreement', async () => {
-        serviceAgreementSignatureResult = await nevermined.agreements.prepare(
+        serviceAgreementSignatureResult = await nevermined.agreements.prepareSignature(
             ddo.id,
             'access',
             consumer
@@ -113,13 +120,13 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should lock the payment by the consumer', async () => {
         const price = ddo.getPriceByService()
-        const assetRewards = new AssetRewards(publisher.getId(), price)
+        const assetPrice = new AssetPrice(publisher.getId(), price)
 
         const paid = await nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
+            assetPrice.getAmounts(),
+            assetPrice.getReceivers(),
             undefined,
             consumer
         )
@@ -165,7 +172,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js-1'
-        const path = await nevermined.assets.consume(
+        const path = await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,
@@ -189,7 +196,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should consume and store one asset', async () => {
         const folder = '/tmp/nevermined/sdk-js-2'
-        const path = await nevermined.assets.consume(
+        const path = await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,

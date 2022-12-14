@@ -83,7 +83,8 @@ describe('NFTHolderCondition', () => {
                 owner
             )
 
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
@@ -127,6 +128,7 @@ describe('NFTHolderCondition', () => {
         it('should not fulfill if conditions do not exist', async () => {
 
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
@@ -173,6 +175,7 @@ describe('NFTHolderCondition', () => {
             )
 
             const nftAttributes= NFTAttributes.getInstance({
+                metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,

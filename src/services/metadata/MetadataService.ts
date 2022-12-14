@@ -1,9 +1,9 @@
-import { DDO } from '../ddo/DDO'
-import DID from '../nevermined/DID'
-import { ServiceSecondary } from '../ddo/Service'
-import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
-import { ApiError, HttpError } from '../errors'
-import { SearchQuery } from '../common/interfaces'
+import { DDO } from '../../ddo/DDO'
+import DID from '../../nevermined/DID'
+import { ServiceSecondary } from '../../ddo/Service'
+import { MarketplaceApi } from './MarketplaceAPI'
+import { ApiError, HttpError } from '../../errors'
+import { SearchQuery } from '../../common/interfaces'
 
 const apiPath = '/api/v1/metadata/assets/ddo'
 const servicePath = '/api/v1/metadata/assets/service'
@@ -40,7 +40,7 @@ export interface AuthToken {
  * Provides a interface with Metadata.
  * Metadata provides an off-chain database store for metadata about data assets.
  */
-export class Metadata extends MarketplaceApi {
+export class MetadataService extends MarketplaceApi {
     public async getVersionInfo() {
         return (await this.nevermined.utils.fetch.get(this.url)).json()
     }

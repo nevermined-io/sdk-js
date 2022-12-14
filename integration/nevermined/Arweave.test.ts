@@ -1,15 +1,16 @@
 import chai, { assert, expect } from 'chai'
 import { Account, DDO, Nevermined } from '../../src'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import { DDOStatus } from '../../src/metadata/Metadata'
-import AssetRewards from '../../src/models/AssetRewards'
+import { DDOStatus } from '../../src/services/metadata/MetadataService'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
-import { getAssetRewards, getMetadata } from '../utils'
+import { getAssetPrice, getMetadata } from '../utils'
 
 describe.skip('Get DDO status', () => {
     let nevermined: Nevermined
     let publisher: Account
-    let assetRewards: AssetRewards
+    let assetPrice: AssetPrice
     let ddo: DDO
     let ddoStatus: DDOStatus
     let didRegistry: DIDRegistry
@@ -18,13 +19,20 @@ describe.skip('Get DDO status', () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ didRegistry } = nevermined.keeper)
         ;[publisher] = await nevermined.accounts.list()
-        assetRewards = getAssetRewards(publisher.getId())
+        assetPrice = getAssetPrice(publisher.getId())
     })
 
     it('should get the external status of an asset', async () => {
-        ddo = await nevermined.assets.create(getMetadata(), publisher, assetRewards)
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: getMetadata(),
+            price: assetPrice
+        })
+        const ddo = await nevermined.assets.create(
+            assetAttributes,
+            publisher
+        )
 
-        ddoStatus = await nevermined.metadata.status(ddo.id)
+        ddoStatus = await nevermined.services.metadata.status(ddo.id)
         assert.isDefined(ddoStatus)
         assert.isDefined(ddoStatus.external)
         assert.isDefined(ddoStatus.external.id)
@@ -46,7 +54,7 @@ describe.skip('Get DDO status', () => {
 
         const retrievedDdo = await nevermined.assets.resolve(ddo.id)
         assert.deepEqual(ddo, retrievedDdo)
-        expect(nevermined.metadata.retrieveDDOByUrl).to.have.been.called.with(
+        expect(nevermined.services.metadata.retrieveDDOByUrl).to.have.been.called.with(
             ddoStatus.external.url
         )
     })

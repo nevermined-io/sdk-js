@@ -1,105 +1,28 @@
-import { MetaData } from '../ddo/MetaData'
-import { Instantiable } from '../Instantiable.abstract'
-import AssetRewards from '../models/AssetRewards'
-import { DDO, utils } from '../sdk'
+import AssetPrice from '../../../models/AssetPrice'
+import { DDO, utils } from '../../../sdk'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
-    getAssetRewardsFromService,
+    getAssetPriceFromService,
     getDIDFromService,
     getNftHolderFromService,
-    SubscribablePromise,
     zeroX
-} from '../utils'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes, RoyaltyKind } from './Assets'
-import Account from './Account'
-import Token from '../keeper/contracts/Token'
-import { ServiceSecondary } from '../ddo/Service'
-import { TxParameters } from '../keeper/contracts/ContractBase'
-import { NFTError } from '../errors'
-import BigNumber from '../utils/BigNumber'
-import {
-    ERCType,
-    NeverminedNFT1155Type,
-    NeverminedNFTType
-} from '../models/NFTAttributes'
+} from '../../../utils'
+import { RoyaltyKind } from "../RoyaltyKind"
+import Account from '../../Account'
+import Token from '../../../keeper/contracts/Token'
+import { ServiceSecondary } from '../../../ddo/Service'
+import { TxParameters } from '../../../keeper/contracts/ContractBase'
+import { NFTError } from '../../../errors'
+import BigNumber from '../../../utils/BigNumber'
+import { ERCType } from '../../../models/NFTAttributes'
+import { RegistryBaseApi } from '../RegistryBaseApi'
 
 
 /**
  * Abstract class providing common NFT methods for different ERC implementations.
  */
-export abstract class NFTsBaseApi extends Instantiable {
-
-    /**
-     * Create a new Nevermined NFTs (ERC-1155 or ERC-721) instance setting up the royalties to be applied in Secondary Market sales
-     *
-     * @example
-     * ```ts
-     * ddo = await nevermined.nfts1155.createWithRoyalties(
-     *           metadata,
-     *           artist,
-     *           new BigNumber.from(1),
-     *           [neverminedNodeAddress],
-     *           royaltyAttributes,
-     *           assetRewards,
-     *           numberNFTs,
-     *           USDCContractAddress,
-     *           true
-     *       )
-     * ```
-     *
-     * @param metadata - The metadata associated with the NFT.
-     * @param publisher -The account of the creator od the NFT.
-     * @param cap - The max number of nfts.
-     * @param providers - The list of addresses acting as providers for this asset. Typically the public address of one or more Nevermined Nodes
-     * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param assetRewards - The sales reward distribution.
-     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
-     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
-     * @param preMint - Set to true to mint _nftAmount_ during creation.
-     * @param nftMetadata - Url to the NFT metadata.
-     * @param appId - The id of the application creating the NFT.
-     * @param nftType - The type of NFT associated to the asset to publish
-     * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
-     * @param txParams - Optional transaction parameters
-     *
-     * @returns The newly registered {@link DDO}.
-     */
-     public createWithRoyalties(
-        metadata: MetaData,
-        publisher: Account,
-        cap: BigNumber,
-        providers: string[] = [],
-        royaltyAttributes: RoyaltyAttributes,
-        assetRewards: AssetRewards,
-        nftAmount: BigNumber = BigNumber.from(1),
-        erc20TokenAddress?: string,
-        preMint?: boolean,
-        nftMetadata?: string,
-        nftType: NeverminedNFTType = NeverminedNFT1155Type.nft1155,
-        appId?: string,
-        publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
-        txParams?: TxParameters
-    ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.createNftWithRoyalties(
-            metadata,
-            publisher,
-            assetRewards,
-            'PSK-RSA',
-            cap,
-            providers,
-            nftAmount,
-            royaltyAttributes,
-            erc20TokenAddress,
-            preMint,
-            nftMetadata || '',
-            nftType,
-            appId,
-            publishMetadata,
-            txParams
-        )
-    }
-
+export abstract class NFTsBaseApi extends RegistryBaseApi {
 
     /**
      * Asks the Node to transfer the NFT on behalf of the publisher.
@@ -138,7 +61,7 @@ export abstract class NFTsBaseApi extends Instantiable {
         nftAmount: BigNumber,
         ercType: ERCType = 1155
     ): Promise<boolean> {
-        return await this.nevermined.node.nftTransferForDelegate(
+        return await this.nevermined.services.node.nftTransferForDelegate(
             agreementId,
             nftHolder,
             nftReceiver,
@@ -236,7 +159,7 @@ export abstract class NFTsBaseApi extends Instantiable {
      * ```ts
      * const agreementId = await nevermined.nfts1155.listOnSecondaryMarkets(
      *               ddo,
-     *               assetRewards,
+     *               assetPrice,
      *               numberNFTs,
      *               collector.getId(),
      *               token,
@@ -245,7 +168,7 @@ export abstract class NFTsBaseApi extends Instantiable {
      * ```
      *
      * @param ddo - The DDO of the asset.
-     * @param assetRewards - The current setup of asset rewards.
+     * @param assetPrice - The current setup of asset rewards.
      * @param nftAmount - The number of NFTs put up for secondary sale.
      * @param provider - The address that will be the provider of the secondary sale.
      * @param owner - The account of the current owner.
@@ -257,7 +180,7 @@ export abstract class NFTsBaseApi extends Instantiable {
      */
      public async listOnSecondaryMarkets(
         ddo: DDO,
-        assetRewards: AssetRewards,
+        assetPrice: AssetPrice,
         nftAmount: BigNumber,
         provider: string,
         token: Token,
@@ -273,7 +196,7 @@ export abstract class NFTsBaseApi extends Instantiable {
         nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
             nftSalesTemplateConditions,
             ddo,
-            assetRewards,
+            assetPrice,
             token.getAddress(),
             undefined,
             provider || owner,
@@ -284,7 +207,7 @@ export abstract class NFTsBaseApi extends Instantiable {
             agreementId: agreementIdSeed,
             type: 'nft-sales',
             index: 6,
-            serviceEndpoint: this.nevermined.node.getNftEndpoint(),
+            serviceEndpoint: this.nevermined.services.node.getNftEndpoint(),
             templateId: nftSalesTemplate.getAddress(),
             did: ddo.id,
             attributes: {
@@ -301,7 +224,7 @@ export abstract class NFTsBaseApi extends Instantiable {
             }
         }
 
-        const saveResult = await this.nevermined.metadata.storeService(
+        const saveResult = await this.nevermined.services.metadata.storeService(
             agreementIdSeed,
             nftSalesServiceAgreement
         )
@@ -342,8 +265,8 @@ export abstract class NFTsBaseApi extends Instantiable {
         params?: TxParameters
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
-        const assetRewards = getAssetRewardsFromService(service)
+        const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
+        const assetPrice = getAssetPriceFromService(service)
         // has no privkeys, so we can't sign
         const currentNftHolder = new Account(getNftHolderFromService(service))
         const did = getDIDFromService(service)
@@ -371,8 +294,8 @@ export abstract class NFTsBaseApi extends Instantiable {
         const receipt = await this.nevermined.agreements.conditions.lockPayment(
             agreementId,
             ddo.id,
-            assetRewards.getAmounts(),
-            assetRewards.getReceivers(),
+            assetPrice.getAmounts(),
+            assetPrice.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             consumer,
             params
@@ -427,7 +350,7 @@ export abstract class NFTsBaseApi extends Instantiable {
 
         // Download the files
         this.logger.log('Downloading the files')
-        const result = await this.nevermined.node.downloadService(
+        const result = await this.nevermined.services.node.downloadService(
             files,
             destination,
             index,

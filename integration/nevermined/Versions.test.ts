@@ -12,7 +12,7 @@ describe('Versions', () => {
     })
 
     it('should return the versions', async () => {
-        const versions = await nevermined.versions.get()
+        const versions = await nevermined.utils.versions.get()
 
         assert.equal(versions.node.status, PlatformTechStatus.Working)
         assert.equal(versions.sdk.status, PlatformTechStatus.Working)

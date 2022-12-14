@@ -2,9 +2,11 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, ProvenanceMethod, utils } from '../../src'
+import { Nevermined, Account, DDO, utils } from '../../src'
 import { sleep } from '../utils/utils'
 import { ethers } from 'ethers'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { ProvenanceMethod } from '../../src/keeper/contracts/Provenance'
 
 describe('Provenance', () => {
     let nevermined: Nevermined
@@ -27,7 +29,7 @@ describe('Provenance', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
     })
 
     it('should be able to get the provenance data from a new asset', async () => {
@@ -35,7 +37,10 @@ describe('Provenance', () => {
         const metadata = getMetadata()
         metadata.userId = payload.sub
 
-        ddo = await nevermined.assets.create(metadata, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            publisher
+        )
         await sleep(2000)
         const provenance = await nevermined.provenance.getProvenanceEntry(ddo.shortId())
 

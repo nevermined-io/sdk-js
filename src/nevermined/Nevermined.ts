@@ -1,34 +1,21 @@
-import { Accounts } from './Accounts'
-import { Agreements } from './Agreements'
-import { Assets } from './Assets'
-import { Auth } from './Auth'
-import { Token } from './Token'
-import { Versions } from './Versions'
-import { Provenance } from './Provenance'
-import { Utils } from './utils/Utils'
-
-import { Metadata } from '../metadata/Metadata'
-import { Profiles } from '../profiles/Profiles'
-import { Bookmarks } from '../bookmarks/Bookmarks'
-import { Permissions } from '../permissions/Permissions'
-import { NeverminedNode } from '../node/NeverminedNode'
-
+import { AccountsApi } from './api/AccountsApi'
+import { AgreementsApi } from './api/AgreementsApi'
+import { AssetsApi } from './api/AssetsApi'
+import { ProvenanceApi } from './api/ProvenanceApi'
+import { UtilsApi } from './api/UtilsApi'
 import Keeper from '../keeper/Keeper'
-
-import { Config } from '../models/Config'
-
+import { NeverminedOptions } from '../models/NeverminedOptions'
 import {
     Instantiable,
     generateIntantiableConfigFromConfig
 } from '../Instantiable.abstract'
-import { Provider } from './Provider'
-import { Files } from './Files'
-import { NFT1155Api } from './nfts/NFT1155Api'
-import { NFT721Api } from './nfts/NFT721Api'
-import { AaveCredit } from './AaveCredit'
-import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
+import { NFT1155Api } from './api/nfts/NFT1155Api'
+import { NFT721Api } from './api/nfts/NFT721Api'
 import CustomToken from '../keeper/contracts/CustomToken'
 import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
+import { ComputeApi } from './api/ComputeApi'
+import { SearchApi } from './api/SearchApi'
+import { ServicesApi } from './api/ServicesApi'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -48,7 +35,7 @@ export class Nevermined extends Instantiable {
      * @param config - Nevermined instance configuration.
      * @returns A {@link Nevermined} instance
      */
-    public static async getInstance(config: Config): Promise<Nevermined> {
+    public static async getInstance(config: NeverminedOptions): Promise<Nevermined> {
         const instance = new Nevermined()
 
         const instanceConfig = {
@@ -60,42 +47,23 @@ export class Nevermined extends Instantiable {
         instance.keeper = await Keeper.getInstance(instanceConfig)
         await instance.keeper.init()
 
-        instance.node = new NeverminedNode(instanceConfig)
-        instance.marketplace = new MarketplaceApi(instanceConfig)
-        instance.metadata = new Metadata(instanceConfig)
-        instance.profiles = new Profiles(instanceConfig)
-        instance.bookmarks = new Bookmarks(instanceConfig)
-        instance.permissions = new Permissions(instanceConfig)
-
-        instance.accounts = await Accounts.getInstance(instanceConfig)
-        instance.auth = await Auth.getInstance(instanceConfig)
-        instance.assets = await Assets.getInstance(instanceConfig)
-
-        instance.nfts1155 = await NFT1155Api.getInstance(
-            instanceConfig,
-            instance.keeper.nftUpgradeable
-        )
-        instance.files = await Files.getInstance(instanceConfig)
-        instance.agreements = await Agreements.getInstance(instanceConfig)
-        instance.token = await Token.getInstance(instanceConfig)
-        instance.aaveCredit = await AaveCredit.getInstance(instanceConfig)
-
-        instance.versions = await Versions.getInstance(instanceConfig)
-        instance.provenance = await Provenance.getInstance(instanceConfig)
-        instance.provider = await Provider.getInstance(instanceConfig)
-
-        instance.utils = await Utils.getInstance(instanceConfig)
+        // Nevermined main API
+        instance.accounts = new AccountsApi(instanceConfig)
+        instance.agreements = new AgreementsApi(instanceConfig)
+        instance.assets = new AssetsApi(instanceConfig)
+        instance.compute = new ComputeApi(instanceConfig)
+        instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
+        instance.provenance = new ProvenanceApi(instanceConfig)
+        instance.search = new SearchApi(instanceConfig)
+        instance.services = new ServicesApi(instanceConfig)
+        instance.utils = new UtilsApi(instanceConfig)
 
         return instance
     }
 
-    /**
-     * Keeper instance.
-     */
-    public keeper: Keeper
 
     /**
-     * Nevermind very own contract reflector.
+     * Nevermined very own contract reflector.
      */
     public contracts = {
         /**
@@ -132,100 +100,61 @@ export class Nevermined extends Instantiable {
         }
     }
 
-    /**
-     * Nevermined Node instance.
-     */
-    public node: NeverminedNode
 
     /**
-     * Metadata instance.
+     * Keeper instance.
      */
-    public metadata: Metadata
-
-    /**
-     * Marketplace instance.
-     */
-    public marketplace: MarketplaceApi
-
-    /**
-     * Profiles instance
-     */
-    public profiles: Profiles
-
-    /**
-     * Bookmarks instance
-     */
-    public bookmarks: Bookmarks
-
-    /**
-     * Permissions instance
-     */
-    public permissions: Permissions
+    public keeper: Keeper
 
     /**
      * Accounts submodule
      */
-    public accounts: Accounts
-
-    /**
-     * Auth submodule
-     */
-    public auth: Auth
-
-    /**
-     * Assets submodule
-     */
-    public assets: Assets
-
-    /**
-     * Nfts submodule
-     */
-    public nfts1155: NFT1155Api
-
-    /**
-     * Nfts submodule
-     */
-    public nfts721: NFT721Api
-
-    /**
-     * Files submodule
-     */
-    public files: Files
+    public accounts: AccountsApi
 
     /**
      * Agreements submodule
      */
-    public agreements: Agreements
+    public agreements: AgreementsApi
 
     /**
-     * Nevermined probiders submodule
+     * Assets API
      */
-    public provider: Provider
+    public assets: AssetsApi
 
     /**
-     * Nevermined tokens submodule
+     * Compute API
      */
-    public token: Token
+    public compute: ComputeApi
 
     /**
-     * AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral.
+     * ERC-1155 Nfts API
      */
-    public aaveCredit: AaveCredit
+    public nfts1155: NFT1155Api
 
     /**
-     * Versions submodule
+     * ERC-721 Nfts API
      */
-    public versions: Versions
+    public nfts721: NFT721Api
 
     /**
      * Provenance submodule
      */
-    public provenance: Provenance
+    public provenance: ProvenanceApi
+
+    /**
+     * SearchApi API
+     */
+    public search: SearchApi
+
+    /**
+     * SearchApi API
+     */
+    public services: ServicesApi
 
     /**
      * Utils submodule
      */
-    public utils: Utils
+    public utils: UtilsApi
 
     private constructor() {
         super()

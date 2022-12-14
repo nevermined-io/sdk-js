@@ -1,5 +1,5 @@
 import { MetaData } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import BigNumber from '../../src/utils/BigNumber'
 
 const metadata: Partial<MetaData> = {
@@ -65,5 +65,5 @@ export const getMetadata = (
     name = 'TestAsset'
 ): MetaData => generateMetadata(name, nonce) as MetaData
 
-export const getAssetRewards = (receiver: string) =>
-    new AssetRewards(receiver, BigNumber.from('21' + '0'.repeat(18)))
+export const getAssetPrice = (receiver: string) =>
+    new AssetPrice(receiver, BigNumber.from('21' + '0'.repeat(18)))

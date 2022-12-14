@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { mkdtempSync, writeFileSync } from 'fs'
-import { Config, Nevermined } from '../../src'
+import { NeverminedOptions, Nevermined } from '../../src'
 import fetch from 'node-fetch'
 import { x } from 'tar'
 
@@ -57,7 +57,7 @@ describe('Artifacts', () => {
             const nvm = await Nevermined.getInstance({
                 web3ProviderUri: web3ProviderUri,
                 artifactsFolder: tempDir
-            } as Config)
+            } as NeverminedOptions)
 
             assert.equal(networkId[0], await nvm.keeper.getNetworkId())
             assert.isDefined(nvm)

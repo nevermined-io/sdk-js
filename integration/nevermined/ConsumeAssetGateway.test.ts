@@ -6,10 +6,11 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 
 import { Nevermined, Account, DDO, ConditionState, MetaData, Logger } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Consume Asset (Nevermined Node)', () => {
     let nevermined: Nevermined
@@ -21,7 +22,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     let agreementId: string
 
     let metadata: MetaData
-    let assetRewards: AssetRewards
+    let assetPrice: AssetPrice
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -33,10 +34,10 @@ describe('Consume Asset (Nevermined Node)', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetRewards = new AssetRewards(publisher.getId(), BigNumber.from(0))
+        assetPrice = new AssetPrice(publisher.getId(), BigNumber.from(0))
 
         metadata = getMetadata()
         metadata.main.name = `${metadata.main.name} - ${Math.random()}`
@@ -52,7 +53,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     })
 
     it('should fetch the RSA publicKey from the Nevermined Node', async () => {
-        const rsaPublicKey = await nevermined.node.getRsaPublicKey()
+        const rsaPublicKey = await nevermined.services.node.getRsaPublicKey()
         assert.isDefined(rsaPublicKey)
     })
 
@@ -63,14 +64,18 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     it('should register an asset', async () => {
         const steps = []
+
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata, price: assetPrice, providers: [config.neverminedNodeAddress]
+        })
         ddo = await nevermined.assets
-            .create(metadata, publisher, assetRewards)
-            .next(step => steps.push(step))
+            .create(assetAttributes, publisher)
+            .next(step => steps.push(step))        
 
         assert.instanceOf(ddo, DDO)
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])
 
-        const assetProviders = await nevermined.provider.list(ddo.id)
+        const assetProviders = await nevermined.assets.providers.list(ddo.id)
         assert.deepEqual(assetProviders, [
             ethers.utils.getAddress(config.neverminedNodeAddress)
         ])
@@ -79,7 +84,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     it('should order the asset', async () => {
         const steps = []
         agreementId = await nevermined.assets
-            .order(ddo.id, 'access', consumer)
+            .order(ddo.id, consumer)
             .next(step => steps.push(step))
 
         assert.isDefined(agreementId)
@@ -117,7 +122,7 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js'
-        const path = await nevermined.assets.consume(
+        const path = await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,

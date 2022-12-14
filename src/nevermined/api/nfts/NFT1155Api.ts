@@ -1,7 +1,5 @@
-import { MetaData } from '../../ddo/MetaData'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import AssetRewards from '../../models/AssetRewards'
-import { DDO } from '../../sdk'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO } from '../../../sdk'
 import {
     generateId,
     getDIDFromService,
@@ -9,15 +7,18 @@ import {
     OrderProgressStep,
     SubscribablePromise,
     zeroX
-} from '../../utils'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from '../Assets'
-import Account from '../Account'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
-import { NFTError } from '../../errors'
-import BigNumber from '../../utils/BigNumber'
-import { Nft1155Contract } from '../../keeper/contracts/Nft1155Contract'
-import { NFTsBaseApi } from '../NFTsBaseApi'
+} from '../../../utils'
+import { PublishMetadata } from '../AssetsApi'
+import Account from '../../Account'
+import { TxParameters } from '../../../keeper/contracts/ContractBase'
+import { NFTError } from '../../../errors'
+import BigNumber from '../../../utils/BigNumber'
+import { Nft1155Contract } from '../../../keeper/contracts/Nft1155Contract'
+import { NFTsBaseApi } from './NFTsBaseApi'
 import { ContractReceipt } from 'ethers'
+import { CreateProgressStep } from '../../ProgressSteps'
+import { AssetAttributes } from '../../../models/AssetAttributes'
+import { NFTAttributes } from '../../../models/NFTAttributes'
 
 
 /**
@@ -49,17 +50,17 @@ export class NFT1155Api extends NFTsBaseApi {
         nftContractInstance?: Nft1155Contract,
         nftContractAddress?: string
         ): Promise<NFT1155Api> {
-        const nft1155 = new NFT1155Api()
-        nft1155.setInstanceConfig(config)
+        const instance = new NFT1155Api()
+        instance.servicePlugin = NFT1155Api.getServicePlugin(config)
+        instance.setInstanceConfig(config)
         
         if (nftContractInstance)
-            nft1155.nftContract = nftContractInstance
+            instance.nftContract = nftContractInstance
         else if (nftContractAddress)
-            nft1155.nftContract = await Nft1155Contract.getInstance(config, nftContractAddress)
+            instance.nftContract = await Nft1155Contract.getInstance(config, nftContractAddress)
 
-        return nft1155
+        return instance
     }
-
 
     /**
      * Gets the ERC-721 NFT Contract address
@@ -78,71 +79,52 @@ export class NFT1155Api extends NFTsBaseApi {
     }
 
 
+
     /**
-     * Create a new NFT Nevermined NFT.
+     * Creates a new Nevermined asset associted to a NFT (ERC-1155).
      *
      * @example
      * ```ts
-     * ddo = await nevermined.nfts1155.create(
+     * const assetAttributes = AssetAttributes.getInstance({
      *           metadata,
-     *           artist,
-     *           BigNumber.from(10),
+     *           price: assetPrice,
+     *           serviceTypes: ['nft-sales', 'nft-access']
+     *       })
+     * const nftAttributes = NFTAttributes.getNFT1155Instance({
+     *           ...assetAttributes,                                
+     *           nftContractAddress: nftUpgradeable.address,
+     *           cap: cappedAmount,
+     *           amount: numberNFTs,
      *           royaltyAttributes,
-     *           new AssetRewards(),
-     *           BigNumber.from(1),
-     *           token.getAddress()
+     *           preMint
+     *       })            
+     * const ddo = await nevermined.nfts1155.create(
+     *           nftAttributes,
+     *           publisher
      *       )
      * ```
      *
-     * @param metadata - The metadata associated with the NFT.
-     * @param publisher -The account of the creator od the NFT.
-     * @param cap - The max number of nfts.
-     * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param assetRewards - The sales reward distribution.
-     * @param nftAmount - The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1.
-     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
-     * @param preMint - Set to true to mint _nftAmount_ during creation.
-     * @param nftMetadata - Url to the NFT metadata.
-     * @param appId - The id of the application creating the NFT.
+     * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
+     * @param publisher - The account publishing the asset
      * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
      * @param txParams - Optional transaction parameters
+     *
      * @returns The newly registered {@link DDO}.
-     */
-    public create(
-        metadata: MetaData,
+     */    
+     public create(
+        nftAttributes: NFTAttributes,        
         publisher: Account,
-        cap: BigNumber,
-        royaltyAttributes: RoyaltyAttributes,
-        assetRewards: AssetRewards,
-        nftAmount: BigNumber = BigNumber.from(1),
-        erc20TokenAddress?: string,
-        preMint?: boolean,
-        nftMetadata?: string,
-        appId?: string,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.createNft(
-            metadata,
+        return this.registerNeverminedAsset(
+            nftAttributes as AssetAttributes,
             publisher,
-            assetRewards,
-            'PSK-RSA',
-            cap,
-            undefined,
-            nftAmount,
-            royaltyAttributes,
-            erc20TokenAddress,
-            this.nftContract.address,
-            preMint,
-            nftMetadata ? nftMetadata : '',
-            undefined,
-            undefined,
-            appId,
             publishMetadata,
+            nftAttributes,
             txParams
         )
     }
-
 
     /**
      * Mint NFTs associated with an asset.
@@ -494,7 +476,7 @@ export class NFT1155Api extends NFTsBaseApi {
         agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
-        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
+        const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
         const did = getDIDFromService(service)
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)

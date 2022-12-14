@@ -7,14 +7,18 @@ import BigNumber from '../utils/BigNumber'
  * Tokens submodule of Nevermined.
  */
 export class Token extends Instantiable {
+
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
+    }
+
     /**
      * Returns the instance of Token.
      * @returns {@link Token}
      */
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
-        const instance = new Token()
-        instance.setInstanceConfig(config)
-
+        const instance = new Token(config)       
         return instance
     }
 

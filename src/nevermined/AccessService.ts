@@ -14,7 +14,7 @@ import {
     NFTAccessTemplate,
     NFTSalesTemplate
 } from '../keeper/contracts/templates'
-import AssetRewards from '../models/AssetRewards'
+import AssetPrice from '../models/AssetPrice'
 import { Account, MetaData, MetaDataMain } from '../sdk'
 
 export interface AccessProofTemplateParams {
@@ -35,13 +35,13 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
     public async createService(
         publisher: Account,
         metadata: MetaData,
-        assetRewards: AssetRewards,
+        assetPrice: AssetPrice,
         erc20TokenAddress: string
     ): Promise<ServiceAccess> {
         return this.normal.createService(
             publisher,
             metadata,
-            assetRewards,
+            assetPrice,
             erc20TokenAddress,
             true
         )
@@ -75,13 +75,13 @@ export class NFTAccessService
     public async createService(
         publisher: Account,
         metadata: MetaData,
-        assetRewards: AssetRewards,
+        assetPrice: AssetPrice,
         erc20TokenAddress: string
     ): Promise<ServiceNFTAccess> {
         return this.select(metadata.main).createService(
             publisher,
             metadata,
-            assetRewards,
+            assetPrice,
             erc20TokenAddress
         )
     }
@@ -124,13 +124,13 @@ export class NFTSalesService
     public async createService(
         publisher: Account,
         metadata: MetaData,
-        assetRewards: AssetRewards,
+        assetPrice: AssetPrice,
         erc20TokenAddress: string
     ): Promise<ServiceNFTSales> {
         return this.select(metadata.main).createService(
             publisher,
             metadata,
-            assetRewards,
+            assetPrice,
             erc20TokenAddress,
             true
         )

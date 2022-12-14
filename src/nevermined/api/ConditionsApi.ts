@@ -1,30 +1,29 @@
-import Account from './Account'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { DDO } from '../ddo/DDO'
-import { findServiceConditionByName, ZeroAddress } from '../utils'
-import Token from '../keeper/contracts/Token'
-import CustomToken from '../keeper/contracts/CustomToken'
-import { TxParameters } from '../keeper/contracts/ContractBase'
-import AssetRewards from '../models/AssetRewards'
-import { KeeperError } from '../errors/KeeperError'
+import Account from '../Account'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { DDO } from '../../ddo/DDO'
+import { findServiceConditionByName, ZeroAddress } from '../../utils'
+import Token from '../../keeper/contracts/Token'
+import CustomToken from '../../keeper/contracts/CustomToken'
+import { TxParameters } from '../../keeper/contracts/ContractBase'
+import AssetPrice from '../../models/AssetPrice'
+import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
-import BigNumber from '../utils/BigNumber'
+import BigNumber from '../../utils/BigNumber'
 
 /**
- * Agreements Conditions submodule of Nevermined.
+ * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached 
+ * to the Nevermined Service Execution Agreements.
  */
-export class AgreementsConditions extends Instantiable {
-    /**
-     * Returns the instance of AgreementsConditions.
-     * @returns {@link AgreementsConditions}
-     */
-    public static async getInstance(
-        config: InstantiableConfig
-    ): Promise<AgreementsConditions> {
-        const instance = new AgreementsConditions()
-        instance.setInstanceConfig(config)
+export class ConditionsApi extends Instantiable {
 
-        return instance
+    /**
+     * Creates a new ConditionsApi
+     * @param config - Configuration of the Nevermined instance
+     * @returns {@link ConditionsApi}
+     */ 
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     /**
@@ -68,7 +67,7 @@ export class AgreementsConditions extends Instantiable {
             )
         }
 
-        const totalAmount = AssetRewards.sumAmounts(amounts)
+        const totalAmount = AssetPrice.sumAmounts(amounts)
 
         if (token) {
             this.logger.debug('Approving tokens', totalAmount)

@@ -390,7 +390,7 @@ ___
 
 ### create
 
-▸ **create**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **create**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetPrice`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new NFT Nevermined NFT.
 
@@ -408,7 +408,7 @@ Create a new NFT Nevermined NFT.
 | `publisher` | [`Account`](Account.md) | The account of the creator od the NFT. |
 | `cap` | `default` | The max number of nfts. |
 | `royaltyAttributes` | `RoyaltyAttributes` | The royalties associated with the NFT. |
-| `assetRewards` | `default` | The sales reward distribution. |
+| `assetPrice` | `default` | The sales reward distribution. |
 | `nftAmount` | `default` | The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1. |
 | `erc20TokenAddress?` | `string` | The ERC-20 Token used to price the NFT. |
 | `preMint?` | `boolean` | Set to true to mint _nftAmount_ during creation. |
@@ -430,7 +430,7 @@ ___
 
 ### create721
 
-▸ **create721**(`metadata`, `publisher`, `assetRewards`, `nftTokenAddress`, `erc20TokenAddress?`, `royaltyAttributes?`, `nftMetadata?`, `nftTransfer?`, `duration?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **create721**(`metadata`, `publisher`, `assetPrice`, `nftTokenAddress`, `erc20TokenAddress?`, `royaltyAttributes?`, `nftMetadata?`, `nftTransfer?`, `duration?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new Nevermined NFT-721.
 
@@ -446,7 +446,7 @@ Create a new Nevermined NFT-721.
 | :------ | :------ | :------ | :------ |
 | `metadata` | [`MetaData`](../interfaces/MetaData.md) | `undefined` | The metadata associated with the NFT. |
 | `publisher` | [`Account`](Account.md) | `undefined` | The account of the creator od the NFT. |
-| `assetRewards` | `default` | `undefined` | The sales reward distribution. |
+| `assetPrice` | `default` | `undefined` | The sales reward distribution. |
 | `nftTokenAddress` | `string` | `undefined` | The address of the ERC-721 contract |
 | `erc20TokenAddress?` | `string` | `undefined` | The ERC-20 Token used to price the NFT. |
 | `royaltyAttributes?` | `RoyaltyAttributes` | `undefined` | The royalties associated with the NFT. |
@@ -470,7 +470,7 @@ ___
 
 ### createWithRoyalties
 
-▸ **createWithRoyalties**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `nftType?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **createWithRoyalties**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetPrice`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `nftType?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new Nevermined NFT with royalties.
 
@@ -488,7 +488,7 @@ Create a new Nevermined NFT with royalties.
 | `publisher` | [`Account`](Account.md) | `undefined` | The account of the creator od the NFT. |
 | `cap` | `default` | `undefined` | The max number of nfts. |
 | `royaltyAttributes` | `RoyaltyAttributes` | `undefined` | The royalties associated with the NFT. |
-| `assetRewards` | `default` | `undefined` | The sales reward distribution. |
+| `assetPrice` | `default` | `undefined` | The sales reward distribution. |
 | `nftAmount` | `default` | `undefined` | The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1. |
 | `erc20TokenAddress?` | `string` | `undefined` | The ERC-20 Token used to price the NFT. |
 | `preMint?` | `boolean` | `undefined` | Set to true to mint _nftAmount_ during creation. |
@@ -619,7 +619,7 @@ ___
 
 ### listOnSecondaryMarkets
 
-▸ **listOnSecondaryMarkets**(`ddo`, `assetRewards`, `nftAmount`, `provider`, `token`, `owner`): `Promise`<`string`\>
+▸ **listOnSecondaryMarkets**(`ddo`, `assetPrice`, `nftAmount`, `provider`, `token`, `owner`): `Promise`<`string`\>
 
 After purchase re-list an NFT to enable secondary market sales.
 
@@ -639,7 +639,7 @@ Thrown if there is an error listing the NFT.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `ddo` | [`DDO`](DDO.md) | The DDO of the asset. |
-| `assetRewards` | `default` | The current setup of asset rewards. |
+| `assetPrice` | `default` | The current setup of asset rewards. |
 | `nftAmount` | `default` | The number of NFTs put up for secondary sale. |
 | `provider` | `string` | The address that will be the provider of the secondary sale. |
 | `token` | `default` | - |

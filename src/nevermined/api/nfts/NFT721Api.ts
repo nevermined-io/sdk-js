@@ -1,21 +1,22 @@
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { MetaData } from '../../ddo/MetaData'
-import { DDO, OrderProgressStep } from '../../sdk'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO, OrderProgressStep } from '../../../sdk'
 import {
     generateId,
     getDIDFromService,
     SubscribablePromise,
     zeroX
-} from '../../utils'
-import Account from '../Account'
-import Nft721Contract from '../../keeper/contracts/Nft721Contract'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
-import AssetRewards from '../../models/AssetRewards'
-import { CreateProgressStep, PublishMetadata, RoyaltyAttributes } from '../Assets'
-import { NFTError } from '../../errors/NFTError'
+} from '../../../utils'
+import Account from '../../Account'
+import Nft721Contract from '../../../keeper/contracts/Nft721Contract'
+import { TxParameters } from '../../../keeper/contracts/ContractBase'
+import { PublishMetadata } from '../AssetsApi'
+import { NFTError } from '../../../errors/NFTError'
 import { ContractReceipt, ethers } from 'ethers'
-import { NFTsBaseApi } from '../NFTsBaseApi'
-import BigNumber from '../../utils/BigNumber'
+import { NFTsBaseApi } from './NFTsBaseApi'
+import BigNumber from '../../../utils/BigNumber'
+import { CreateProgressStep } from '../../ProgressSteps'
+import { AssetAttributes } from '../../../models/AssetAttributes'
+import { NFTAttributes } from '../../../models/NFTAttributes'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.
@@ -44,11 +45,12 @@ export class NFT721Api extends NFTsBaseApi {
         config: InstantiableConfig,
         nftContractAddress: string
     ): Promise<NFT721Api> {
-        const nft721 = new NFT721Api()
-        nft721.setInstanceConfig(config)
+        const instance = new NFT721Api()
+        instance.servicePlugin = NFT721Api.getServicePlugin(config)
+        instance.setInstanceConfig(config)
 
-        nft721.nftContract = await Nft721Contract.getInstance(config, nftContractAddress)
-        return nft721
+        instance.nftContract = await Nft721Contract.getInstance(config, nftContractAddress)
+        return instance
     }
 
     /**
@@ -67,73 +69,54 @@ export class NFT721Api extends NFTsBaseApi {
         return this.nftContract
     }
 
+
     /**
-     * Create a new Nevermined NFT-721.
+     * Creates a new Nevermined asset associted to a NFT (ERC-721).
      *
      * @example
      * ```ts
+     * 
+     * // We define how the Asset is and the properties 
+     * // of the NFT attached to it
+     * const nftAttributes = NFTAttributes.getNFT721Instance({
+     *      metadata,
+     *      price: assetPrice1,
+     *      serviceTypes: ['nft-sales', 'nft-access']
+     *      nftContractAddress: nftContract.address
+     * })            
+     * 
+     * // And register the asset
      * ddo = await nevermined.nfts721.create(
-     *           metadata,
+     *           nftAttributes,
      *           artist,
-     *           new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
-     *           nft.address,
-     *           USDCTokenAddress
-     *       )
+     *           PublishMetadata.IPFS
+     * )
      * ```
      *
-     * @param metadata - The metadata associated with the NFT.
-     * @param publisher -The account of the creator od the NFT.
-     * @param assetRewards - The sales reward distribution.
-     * @param nftTokenAddress - The address of the ERC-721 contract
-     * @param erc20TokenAddress - The ERC-20 Token used to price the NFT.
-     * @param royaltyAttributes - The royalties associated with the NFT.
-     * @param nftMetadata - Url to the NFT metadata.
-     * @param nftTransfer - If `true`, the NFTs managed by the Service Agreements will be transfered, if `false` they will be minted
-     * @param duration - If given and is higher than 0 it means the NFT works as a subscription. The duration allows to specify the number of blocks the subscription is valid
-     * @param appId - Id of the application creating this NFT.
+     * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
+     * @param publisher - The account publishing the asset
      * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
      * @param txParams - Optional transaction parameters
      *
      * @returns The newly registered {@link DDO}.
-     */
-     public create(
-        metadata: MetaData,
+     */    
+    public create(
+        nftAttributes: NFTAttributes,        
         publisher: Account,
-        assetRewards: AssetRewards,
-        nftTokenAddress: string,
-        erc20TokenAddress?: string,
-        royaltyAttributes?: RoyaltyAttributes,
-        nftMetadata?: string,
-        nftTransfer = true,
-        duration = 0,
-        appId?: string,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
-        return this.nevermined.assets.createNft721(
-            metadata,
+        return this.registerNeverminedAsset(
+            nftAttributes as AssetAttributes,
             publisher,
-            assetRewards,
-            undefined,
-            nftTokenAddress,
-            erc20TokenAddress,
-            true,
-            undefined,
-            royaltyAttributes,
-            nftMetadata ? nftMetadata : '',
-            ['nft-sales', 'nft-access'],
-            nftTransfer,
-            duration,
-            undefined,
-            appId,
             publishMetadata,
+            nftAttributes,
             txParams
         )
     }
 
-
     /**
-     * Buy NFT-721.
+     * Order a NFT-721.
      *
      * @remarks
      * This will lock the funds of the consumer in escrow pending the transfer of the NFTs
@@ -492,7 +475,7 @@ export class NFT721Api extends NFTsBaseApi {
         agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
-        const service = await this.nevermined.metadata.retrieveService(agreementIdSeed)
+        const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
         const did = getDIDFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
         ddo.updateService(this.nevermined, service)

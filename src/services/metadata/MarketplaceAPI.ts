@@ -1,18 +1,19 @@
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { ApiError, HttpError } from '../errors'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { ApiError, HttpError } from '../../errors'
 
 const authPath = '/api/v1/auth'
 
 export class MarketplaceApi extends Instantiable {
-    protected get url() {
-        return this.config.marketplaceUri
-    }
 
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
     }
 
+    protected get url() {
+        return this.config.marketplaceUri
+    }
+    
     // prettier-ignore
     public async login(clientAssertion: string): Promise<string> {
 

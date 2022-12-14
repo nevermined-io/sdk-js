@@ -1,7 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account } from '../../src'
-import { NewBookmark } from '../../src/bookmarks/Bookmarks.interfaces'
+import { Nevermined, Account, NewBookmark } from '../../src'
 import { faker } from '@faker-js/faker'
 import { sleep } from '../utils/utils'
 
@@ -21,11 +20,11 @@ describe('Bookmarks', () => {
             account1
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         await sleep(2000)
 
-        const userProfile = await nevermined.profiles.findOneByAddress(account1.getId())
+        const userProfile = await nevermined.services.profiles.findOneByAddress(account1.getId())
 
         newBookmark = {
             did: `did:${faker.datatype.uuid()}`,
@@ -35,7 +34,7 @@ describe('Bookmarks', () => {
     })
 
     it('should create a bookmark', async () => {
-        const response = await nevermined.bookmarks.create(newBookmark)
+        const response = await nevermined.services.bookmarks.create(newBookmark)
 
         id = response.id // eslint-disable-line prefer-destructuring
 
@@ -47,7 +46,7 @@ describe('Bookmarks', () => {
     })
 
     it('should get a bookmark by id', async () => {
-        const response = await nevermined.bookmarks.findOneById(id)
+        const response = await nevermined.services.bookmarks.findOneById(id)
 
         assert.deepEqual(response, {
             ...newBookmark,
@@ -58,7 +57,7 @@ describe('Bookmarks', () => {
 
     it('should get bookmarks by userId', async () => {
         await sleep(1000)
-        const response = await nevermined.bookmarks.findManyByUserId(newBookmark.userId)
+        const response = await nevermined.services.bookmarks.findManyByUserId(newBookmark.userId)
 
         /* eslint-disable @typescript-eslint/naming-convention */
         assert.deepEqual(response, {
@@ -71,7 +70,7 @@ describe('Bookmarks', () => {
 
     it('should update a bookmark by id', async () => {
         const description = faker.lorem.sentence()
-        const response = await nevermined.bookmarks.updateOneById(id, {
+        const response = await nevermined.services.bookmarks.updateOneById(id, {
             description,
             userId: newBookmark.userId
         })
@@ -85,11 +84,11 @@ describe('Bookmarks', () => {
     })
 
     it('should delete a bookmark by id', async () => {
-        await nevermined.bookmarks.deleteOneById(id)
+        await nevermined.services.bookmarks.deleteOneById(id)
 
         await sleep(2000)
 
-        const response = await nevermined.bookmarks.findManyByUserId(newBookmark.userId)
+        const response = await nevermined.services.bookmarks.findManyByUserId(newBookmark.userId)
 
         /* eslint-disable @typescript-eslint/naming-convention */
         assert.deepEqual(response, {

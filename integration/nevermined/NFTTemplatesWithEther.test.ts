@@ -11,7 +11,7 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import Web3Provider from '../../src/keeper/Web3Provider'
@@ -22,7 +22,9 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -69,7 +71,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     ]
 
     let receivers: string[]
-    let assetRewards: AssetRewards
+    let assetPrice: AssetPrice
     let royaltyAttributes: RoyaltyAttributes
 
     let initialBalances: any
@@ -110,13 +112,13 @@ describe('NFTTemplates With Ether E2E', async () => {
         ;({ nftSalesTemplate, nftAccessTemplate } = nevermined.keeper.templates)
 
         // ether
-        assetRewards = new AssetRewards(
+        assetPrice = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]],
                 [receivers[2], amounts[2]]
             ])
-        )
+        ).setTokenAddress(ZeroAddress)
     })
 
     after(async () => {
@@ -159,7 +161,7 @@ describe('NFTTemplates With Ether E2E', async () => {
                 artist
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
@@ -169,17 +171,24 @@ describe('NFTTemplates With Ether E2E', async () => {
                 RoyaltyKind.Standard,
                 royalties
             )
-            ddo = await nevermined.assets.createNft(
+
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                ZeroAddress
+                price: assetPrice,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
+
         })
 
         describe('As an artist I want to register a new artwork', async () => {
@@ -206,8 +215,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                         ddo.shortId(),
                         escrowPaymentCondition.address,
                         ZeroAddress,
-                        assetRewards.getAmounts(),
-                        assetRewards.getReceivers()
+                        assetPrice.getAmounts(),
+                        assetPrice.getReceivers()
                     )
                 )
 
@@ -226,8 +235,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     agreementId,
                     await escrowPaymentCondition.hashValues(
                         ddo.shortId(),
-                        assetRewards.getAmounts(),
-                        assetRewards.getReceivers(),
+                        assetPrice.getAmounts(),
+                        assetPrice.getReceivers(),
                         collector1.getId(),
                         escrowPaymentCondition.getAddress(),
                         ZeroAddress,
@@ -276,10 +285,10 @@ describe('NFTTemplates With Ether E2E', async () => {
                     ddo.shortId(),
                     escrowPaymentCondition.getAddress(),
                     ZeroAddress,
-                    assetRewards.getAmounts(),
-                    assetRewards.getReceivers(),
+                    assetPrice.getAmounts(),
+                    assetPrice.getReceivers(),
                     collector1,
-                    { value: assetRewards.getTotalPrice().toString() }
+                    { value: assetPrice.getTotalPrice().toString() }
                 )
 
                 const { state } = await conditionStoreManager.getCondition(
@@ -335,8 +344,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                 await escrowPaymentCondition.fulfill(
                     agreementId,
                     ddo.shortId(),
-                    assetRewards.getAmounts(),
-                    assetRewards.getReceivers(),
+                    assetPrice.getAmounts(),
+                    assetPrice.getReceivers(),
                     collector1.getId(),
                     escrowPaymentCondition.getAddress(),
                     ZeroAddress,

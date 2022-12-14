@@ -4,6 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
 import { sleep } from '../utils/utils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Agreement Store Manager', () => {
     let nevermined: Nevermined
@@ -23,7 +24,7 @@ describe('Agreement Store Manager', () => {
             account1
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         newMetadata = (token: string) => {
             const metadata = getMetadata()
@@ -34,8 +35,11 @@ describe('Agreement Store Manager', () => {
     })
 
     it('should get agreements for did', async () => {
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata: newMetadata(config.marketplaceAuthToken)
+        })
         const ddo = await nevermined.assets.create(
-            newMetadata(config.marketplaceAuthToken),
+            assetAttributes,
             account1
         )
 
@@ -45,7 +49,7 @@ describe('Agreement Store Manager', () => {
         await account2.requestTokens(
             +ddo.getPriceByService() * 10 ** -(await nevermined.keeper.token.decimals())
         )
-        const agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
+        const agreementId = await nevermined.assets.order(ddo.id, account2)
 
         // wait for the graph to pickup the event
         await sleep(3000)

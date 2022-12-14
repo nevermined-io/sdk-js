@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { Nevermined, utils, Account, Keeper, DDO, Logger } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
 import { EscrowComputeExecutionTemplate } from '../../src/keeper/contracts/templates'
@@ -14,6 +14,7 @@ import {
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -284,27 +285,26 @@ describe('Register Escrow Compute Execution Template', () => {
                 publisher
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
             metadata.userId = payload.sub
-            const assetRewards = new AssetRewards(
+            const assetPrice = new AssetPrice(
                 new Map([
                     [receivers[0], amounts[0]],
                     [receivers[1], amounts[1]]
                 ])
             )
 
-            ddo = await nevermined.assets.create(
+            const assetAttributes = AssetAttributes.getInstance({ 
                 metadata,
-                publisher,
-                assetRewards,
-                ['access', 'compute'],
-                undefined,
-                undefined,
-                undefined,
-                token.getAddress()
+                price: assetPrice,
+                serviceTypes: ['access', 'compute']
+            })
+            ddo = await nevermined.assets.create(
+                assetAttributes,
+                publisher
             )
         })
 

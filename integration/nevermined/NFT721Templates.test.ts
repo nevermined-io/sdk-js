@@ -15,10 +15,10 @@ import {
     NFT721SalesTemplate
 } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Nft721 } from '../../src'
+import { NFT721Api } from '../../src'
 import { getMetadata } from '../utils'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import BigNumber from '../../src/utils/BigNumber'
@@ -26,7 +26,8 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
+import { NeverminedNFT721Type, NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFT721Templates E2E', () => {
     let nftContractOwner: Account
@@ -38,7 +39,7 @@ describe('NFT721Templates E2E', () => {
 
     let nevermined: Nevermined
     let token: Token
-    let nft: Nft721
+    let nft: NFT721Api
     let conditionStoreManager: ConditionStoreManager
     let lockPaymentCondition: LockPaymentCondition
     let escrowPaymentCondition: EscrowPaymentCondition
@@ -73,14 +74,14 @@ describe('NFT721Templates E2E', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetPrice1: AssetPrice
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
     let nftPrice2 = BigNumber.from(100)
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
-    let assetRewards2: AssetRewards
+    let assetPrice2: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -101,7 +102,7 @@ describe('NFT721Templates E2E', () => {
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         receivers = [artist.getId(), gallery.getId()]
         receivers2 = [collector1.getId(), artist.getId()]
@@ -134,19 +135,19 @@ describe('NFT721Templates E2E', () => {
         nftPrice2 = nftPrice2.mul(scale)
         amounts2 = amounts2.map(v => v.mul(scale))
 
-        assetRewards1 = new AssetRewards(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.address)
 
-        assetRewards2 = new AssetRewards(
+        assetPrice2 = new AssetPrice(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.address)
     })
 
     describe('Full flow', () => {
@@ -188,16 +189,20 @@ describe('NFT721Templates E2E', () => {
                 royalties
             )
 
-            ddo = await nevermined.assets.createNft721(
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                'PSK-RSA',
-                nft.address,
-                token.getAddress(),
-                true,
-                [],
-                royaltyAttributes
+                price: assetPrice1,
+                serviceTypes: ['nft-sales', 'nft-access'],
+                ercType: 721,
+                nftType: NeverminedNFT721Type.nft721,
+                nftContractAddress: nft.address,
+                preMint: false,
+                nftTransfer: false,
+                royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
+            })            
+            ddo = await nevermined.nfts721.create(
+                nftAttributes,
+                artist
             )
         })
 
@@ -313,7 +318,7 @@ describe('NFT721Templates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(AssetRewards.sumAmounts(amounts))
+                        .add(AssetPrice.sumAmounts(amounts))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -384,7 +389,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).eq(0))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(AssetRewards.sumAmounts(amounts))
+                        .sub(AssetPrice.sumAmounts(amounts))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -711,17 +716,21 @@ describe('NFT721Templates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            ddo = await nevermined.assets.createNft721(
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                'PSK-RSA',
-                nft.address,
-                token.getAddress(),
-                true,
-                [],
+                price: assetPrice1,
+                serviceTypes: ['nft-sales', 'nft-access'],
+                ercType: 721,
+                nftType: NeverminedNFT721Type.nft721,
+                nftContractAddress: nft.address,
+                preMint: true,
                 royaltyAttributes
+            })            
+            ddo = await nevermined.nfts721.create(
+                nftAttributes,
+                artist
             )
+
             await collector1.requestTokens(nftPrice.div(scale))
         })
 
@@ -774,7 +783,7 @@ describe('NFT721Templates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(assetRewards1.getTotalPrice())
+                        .add(assetPrice1.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -820,7 +829,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).eq(0))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewards1.getTotalPrice())
+                        .sub(assetPrice1.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -888,7 +897,7 @@ describe('NFT721Templates E2E', () => {
                 setNFTRewardsFromDDOByService(
                     ddo,
                     'nft-sales',
-                    assetRewards2,
+                    assetPrice2,
                     collector1.getId()
                 )
             })
@@ -931,8 +940,8 @@ describe('NFT721Templates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId2,
                     ddo.shortId(),
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
+                    assetPrice2.getAmounts(),
+                    assetPrice2.getReceivers(),
                     token.getAddress(),
                     collector2
                 )
@@ -947,7 +956,7 @@ describe('NFT721Templates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(assetRewards2.getTotalPrice())
+                        .add(assetPrice2.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -995,7 +1004,7 @@ describe('NFT721Templates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector2).eq(0))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewards2.getTotalPrice())
+                        .sub(assetPrice2.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })

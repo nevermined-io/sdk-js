@@ -1,10 +1,9 @@
 import { assert, spy, use } from 'chai'
 import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
-import { Nevermined, Account } from '../../src'
-import { Profiles } from '../../src/profiles/Profiles'
-import { NewProfile, Profile, State } from '../../src/profiles/Profiles.interfaces'
+import { Nevermined, Account, NewProfile, Profile, State } from '../../src'
 import config from '../config'
+import { Profiles } from '../../src/services/metadata/Profiles'
 
 use(spies)
 
@@ -25,7 +24,7 @@ describe('Profiles', () => {
     beforeEach(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[account] = await nevermined.accounts.list()
-        profiles = nevermined.profiles // eslint-disable-line prefer-destructuring
+        profiles = nevermined.services.profiles // eslint-disable-line prefer-destructuring
 
         newProfile = {
             nickname: faker.internet.userName(),

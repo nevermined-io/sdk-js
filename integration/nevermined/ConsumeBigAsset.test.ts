@@ -6,6 +6,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 
 import { Nevermined, Account, DDO, MetaData, Logger } from '../../src'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 // Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {
@@ -30,7 +31,7 @@ describe.skip('Consume Asset (Large size)', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
         baseMetadata = getMetadata()
@@ -51,7 +52,10 @@ describe.skip('Consume Asset (Large size)', () => {
     })
 
     it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata}),
+            publisher
+        )
 
         assert.instanceOf(ddo, DDO)
     })
@@ -66,14 +70,14 @@ describe.skip('Consume Asset (Large size)', () => {
             Logger.error(error)
         }
 
-        agreementId = await nevermined.assets.order(ddo.id, 'access', consumer)
+        agreementId = await nevermined.assets.order(ddo.id, consumer)
 
         assert.isDefined(agreementId)
     })
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js'
-        const path = await nevermined.assets.consume(
+        const path = await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,

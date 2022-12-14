@@ -2,17 +2,19 @@ import { SearchQuery } from '../../src/common/interfaces'
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
-import { getAssetRewards, getMetadata } from '../utils'
+import { getAssetPrice, getMetadata } from '../utils'
 import { Nevermined, Account, MetaData, DDO } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import { DIDResolvePolicy, PublishMetadata } from '../../src/nevermined/Assets'
+import { PublishMetadata } from '../../src/nevermined/api/AssetsApi'
+import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 let nevermined: Nevermined
 let publisher: Account
 let metadata: MetaData
-let assetRewards: AssetRewards
+let assetPrice: AssetPrice
 let payload: JWTPayload
 let ddo: DDO
 let ddoBefore: DDO
@@ -27,13 +29,20 @@ describe('Assets', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
-        assetRewards = getAssetRewards(publisher.getId())
+        assetPrice = getAssetPrice(publisher.getId())
 
         metadata = getMetadata()
         metadata.userId = payload.sub
-        ddoBefore = await nevermined.assets.create(metadata, publisher, assetRewards)
+        const assetAttributes = AssetAttributes.getInstance({
+            metadata,
+            price: assetPrice
+        })
+        ddoBefore = await nevermined.assets.create(
+            assetAttributes,
+            publisher
+        )        
     })
 
     describe('#register()', () => {
@@ -41,18 +50,16 @@ describe('Assets', () => {
         it('create with immutable data', async () => {
             const nonce = Math.random()
             const immutableMetadata = getMetadata(nonce, `Immutable Test ${nonce}`)
+
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: immutableMetadata,
+                price: assetPrice
+            })
             ddo = await nevermined.assets.create(
-                immutableMetadata, 
-                publisher, 
-                assetRewards,
-                ['access'],
-                [],
-                'PSK-RSA',
-                [],
-                nevermined.keeper.token.address,
-                '',
+                assetAttributes,
+                publisher,
                 PublishMetadata.IPFS
-            )
+            ) 
             
             assert.isDefined(ddo)
             assert.equal(ddo._nvm.versions.length, 1)
@@ -123,7 +130,7 @@ describe('Assets', () => {
                 }
             }
 
-            const assets = await nevermined.assets.query(query)
+            const assets = await nevermined.search.query(query)
 
             assert.isDefined(assets)
         })
@@ -132,7 +139,7 @@ describe('Assets', () => {
     describe('#search()', () => {
         it('should search for assets', async () => {
             const text = 'office'
-            const assets = await nevermined.assets.search(text)
+            const assets = await nevermined.search.byText(text)
 
             assert.isDefined(assets)
         })
@@ -160,41 +167,36 @@ describe('Assets', () => {
             const neverminedApp2 = await Nevermined.getInstance(config2)
 
             // Create 1 asset with appId-test1
-            await neverminedApp1.assets.create(
-                metadata1,
-                publisher,
-                assetRewards,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                appId1
-            )
+            const assetAttributes = AssetAttributes.getInstance({
+                metadata: metadata1,
+                price: assetPrice,
+                appId: appId1
+            })
+            ddoBefore = await neverminedApp1.assets.create(
+                assetAttributes,
+                publisher
+            )             
 
             // Create 2 assets with appId-test2
-            await neverminedApp2.assets.create(
-                metadata2,
-                publisher,
-                assetRewards,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                appId2
-            )
-            await neverminedApp2.assets.create(
-                metadata22,
-                publisher,
-                assetRewards,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                appId2
-            )
+            const assetAttributes2 = AssetAttributes.getInstance({
+                metadata: metadata2,
+                price: assetPrice,
+                appId: appId2
+            })
+            ddoBefore = await neverminedApp2.assets.create(
+                assetAttributes2,
+                publisher
+            )              
+
+            const assetAttributes22 = AssetAttributes.getInstance({
+                metadata: metadata22,
+                price: assetPrice,
+                appId: appId2
+            })
+            ddoBefore = await neverminedApp2.assets.create(
+                assetAttributes22,
+                publisher
+            )             
 
             // wait for elasticsearch
             await sleep(2000)
@@ -210,7 +212,7 @@ describe('Assets', () => {
                 appId: appId1
             }
 
-            const assets = await nevermined.assets.query(queryApp)
+            const assets = await nevermined.search.query(queryApp)
 
             assert.equal(assets.totalResults.value, 1)
         })
@@ -225,13 +227,13 @@ describe('Assets', () => {
                 appId: appId2
             }
 
-            const assets = await nevermined.assets.query(queryApp)
+            const assets = await nevermined.search.query(queryApp)
 
             assert.equal(assets.totalResults.value, 2)
         })
 
         it('appId1 should text search by appId1', async () => {
-            const assets = await nevermined.assets.search(
+            const assets = await nevermined.search.byText(
                 'App1',
                 undefined,
                 undefined,
@@ -243,7 +245,7 @@ describe('Assets', () => {
         })
 
         it('appId1 should not text search appId2 ddos', async () => {
-            const assets = await nevermined.assets.search(
+            const assets = await nevermined.search.byText(
                 'App2',
                 undefined,
                 undefined,
@@ -255,7 +257,7 @@ describe('Assets', () => {
         })
 
         it('appId2 should text search by appId2', async () => {
-            const assets = await nevermined.assets.search(
+            const assets = await nevermined.search.byText(
                 'App2',
                 undefined,
                 undefined,
@@ -317,7 +319,7 @@ describe('Assets', () => {
                 }
             }
 
-            const assets = await nevermined.assets.query(query)
+            const assets = await nevermined.search.query(query)
 
             assert.equal(assets.totalResults.value, 2)
         })
@@ -350,7 +352,7 @@ describe('Assets', () => {
                 appId: appId1
             }
 
-            const assets = await nevermined.assets.query(query)
+            const assets = await nevermined.search.query(query)
 
             assert.equal(assets.totalResults.value, 0)
         })

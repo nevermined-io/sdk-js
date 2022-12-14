@@ -3,17 +3,17 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
 import BigNumber from '../../src/utils/BigNumber'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
 import { ethers, Wallet } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper/utils'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('MetaTx test with nfts', () => {
     let nevermined: Nevermined
@@ -33,7 +33,7 @@ describe('MetaTx test with nfts', () => {
         ;[artist, collector] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
 
         const nftContractOwner = new Account(await nevermined.nfts1155.owner())
@@ -46,12 +46,17 @@ describe('MetaTx test with nfts', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
-            ddo = await nevermined.nfts1155.create(
+
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
                 metadata,
-                artist,
-                BigNumber.from(10),
-                royaltyAttributes,
-                new AssetRewards()
+                serviceTypes: ['nft-sales', 'nft-access'],
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: BigNumber.from(10),
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
         })
 

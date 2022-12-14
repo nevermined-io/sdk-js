@@ -1,20 +1,18 @@
 import BigNumber from '../utils/BigNumber'
 
-export default class AssetRewards {
+export default class AssetPrice {
     public static readonly NETWORK_FEE_DENOMINATOR = BigNumber.from(10000)
 
     private totalPrice: BigNumber
 
     private rewards: Map<string, BigNumber>
 
+    private tokenAddress?: string
+
     public constructor()
-
     public constructor(_rewards: Map<string, BigNumber>)
-
-    // eslint-disable-next-line no-dupe-class-members
     public constructor(address: string, amount: BigNumber)
-
-    // eslint-disable-next-line no-dupe-class-members
+    public constructor(address: string, amount: BigNumber, tokenAddress: string)
     public constructor(..._params: any[]) {
         this.totalPrice = BigNumber.from(0)
         this.rewards = new Map()
@@ -27,6 +25,11 @@ export default class AssetRewards {
             const [address, amount] = _params
             this.rewards.set(address, amount)
             this.totalPrice = amount
+        } else if (_params.length === 3) {
+            const [address, amount, tokenAddress] = _params
+            this.rewards.set(address, amount)
+            this.totalPrice = amount
+            this.tokenAddress = tokenAddress
         }
     }
 
@@ -50,10 +53,19 @@ export default class AssetRewards {
         return [...Array.from(this.rewards.keys())]
     }
 
-    public setReceiver(receiver: string, amount: BigNumber): AssetRewards {
+    public setReceiver(receiver: string, amount: BigNumber): AssetPrice {
         this.rewards.set(receiver, amount)
-        this.totalPrice = AssetRewards.sumAmounts(this.getAmounts())
+        this.totalPrice = AssetPrice.sumAmounts(this.getAmounts())
         return this
+    }
+
+    public setTokenAddress(address: string): AssetPrice {
+        this.tokenAddress = address
+        return this
+    }
+
+    public getTokenAddress(): string {
+        return this.tokenAddress
     }
 
     public getAmountsString(): string {
@@ -67,35 +79,35 @@ export default class AssetRewards {
     /**
      * It adds network fees on top of the already configured asset rewards
      * @param feeReceiver - the address receiving the fees
-     * @param networkFeePercent - the percent of fees to receive, it uses the contract denomitor @see AssetRewards.NETWORK_FEE_DENOMINATOR
+     * @param networkFeePercent - the percent of fees to receive, it uses the contract denominator @see AssetPrice.NETWORK_FEE_DENOMINATOR
      * @returns the asset rewards object
      */
     public addNetworkFees(
         feeReceiver: string,
         networkFeePercent: BigNumber
-    ): AssetRewards {
+    ): AssetPrice {
         return this.setReceiver(
             feeReceiver,
             this.totalPrice
                 .mul(networkFeePercent)
-                .div(AssetRewards.NETWORK_FEE_DENOMINATOR)
+                .div(AssetPrice.NETWORK_FEE_DENOMINATOR)
                 .div(100)
         )
     }
 
     /**
-     * It includes network fees on the existing asset rewards substracting the proportion taking into account the receivers percent
+     * It includes network fees on the existing asset rewards subtracting the proportion taking into account the receivers percent
      * @param feeReceiver - the address receiving the fees
-     * @param networkFeePercent - the percent of fees to receive, it uses the contract denomitor @see AssetRewards.NETWORK_FEE_DENOMINATOR
+     * @param networkFeePercent - the percent of fees to receive, it uses the contract denominator @see AssetPrice.NETWORK_FEE_DENOMINATOR
      * @returns the asset rewards object
      */
     public adjustToIncludeNetworkFees(
         feeReceiver: string,
         networkFeePercent: BigNumber
-    ): AssetRewards {
+    ): AssetPrice {
         const feesToInclude = this.totalPrice
             .mul(networkFeePercent)
-            .div(AssetRewards.NETWORK_FEE_DENOMINATOR)
+            .div(AssetPrice.NETWORK_FEE_DENOMINATOR)
             .div(100)
 
         const newRewards: Map<string, BigNumber> = new Map()
@@ -105,14 +117,14 @@ export default class AssetRewards {
                 k.sub(
                     k
                         .mul(networkFeePercent)
-                        .div(AssetRewards.NETWORK_FEE_DENOMINATOR)
+                        .div(AssetPrice.NETWORK_FEE_DENOMINATOR)
                         .div(100)
                 )
             )
         })
         newRewards.set(feeReceiver, feesToInclude)
         this.rewards = newRewards
-        this.totalPrice = AssetRewards.sumAmounts(this.getAmounts())
+        this.totalPrice = AssetPrice.sumAmounts(this.getAmounts())
 
         return this
     }

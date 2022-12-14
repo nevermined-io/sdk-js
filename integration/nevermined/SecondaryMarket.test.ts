@@ -12,11 +12,11 @@ import {
 import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
-    getAssetRewardsFromService,
+    getAssetPriceFromService,
     setNFTRewardsFromDDOByService
 } from '../../src/utils'
 import { config } from '../config'
@@ -26,7 +26,9 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -68,7 +70,7 @@ describe('Secondary Markets', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetPrice1: AssetPrice
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
@@ -77,8 +79,8 @@ describe('Secondary Markets', () => {
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
     let receivers3: string[]
-    let assetRewards2: AssetRewards
-    let assetRewards3: AssetRewards
+    let assetPrice2: AssetPrice
+    let assetPrice3: AssetPrice
 
     let initialBalances: any
     let decimals: number
@@ -112,26 +114,26 @@ describe('Secondary Markets', () => {
         nftPrice2 = BigNumber.parseUnits(nftPrice2.toString(), decimals)
         amounts2 = amounts2.map(v => BigNumber.parseUnits(v.toString(), decimals))
 
-        assetRewards1 = new AssetRewards(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
 
-        assetRewards2 = new AssetRewards(
+        assetPrice2 = new AssetPrice(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
 
-        assetRewards3 = new AssetRewards(
+        assetPrice3 = new AssetPrice(
             new Map([
                 [receivers3[0], amounts2[0]],
                 [receivers3[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
     })
 
     describe('Collector1 initiates the sales agreement', () => {
@@ -173,7 +175,7 @@ describe('Secondary Markets', () => {
                 artist
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
@@ -185,16 +187,21 @@ describe('Secondary Markets', () => {
                 royalties
             )
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetPrice1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
         })
 
@@ -248,8 +255,8 @@ describe('Secondary Markets', () => {
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId,
                     ddo.id,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
+                    assetPrice1.getAmounts(),
+                    assetPrice1.getReceivers(),
                     token.getAddress(),
                     collector1
                 )
@@ -402,7 +409,7 @@ describe('Secondary Markets', () => {
                 setNFTRewardsFromDDOByService(
                     ddo,
                     'nft-sales',
-                    assetRewards2,
+                    assetPrice2,
                     collector1.getId()
                 )
             })
@@ -416,7 +423,7 @@ describe('Secondary Markets', () => {
                 nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
                     nftSalesTemplateConditions,
                     ddo,
-                    assetRewards2,
+                    assetPrice2,
                     token.getAddress(),
                     undefined,
                     collector1.getId(),
@@ -426,7 +433,7 @@ describe('Secondary Markets', () => {
                 nftSalesServiceAgreement = {
                     type: 'nft-sales',
                     index: 6,
-                    serviceEndpoint: nevermined.node.getNftEndpoint(),
+                    serviceEndpoint: nevermined.services.node.getNftEndpoint(),
                     templateId: nftSalesTemplate.getAddress(),
                     attributes: {
                         main: {
@@ -483,7 +490,7 @@ describe('Secondary Markets', () => {
                 )
 
                 // After fetching the previously created sales agreement
-                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                const assetPriceFromServiceAgreement = getAssetPriceFromService(
                     nftSalesServiceAgreement
                 )
                 const payment = findServiceConditionByName(
@@ -494,8 +501,8 @@ describe('Secondary Markets', () => {
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId2,
                     ddo.id,
-                    assetRewardsFromServiceAgreement.getAmounts(),
-                    assetRewardsFromServiceAgreement.getReceivers(),
+                    assetPriceFromServiceAgreement.getAmounts(),
+                    assetPriceFromServiceAgreement.getReceivers(),
                     payment.parameters.find(p => p.name === '_tokenAddress')
                         .value as string,
                     collector2
@@ -556,7 +563,7 @@ describe('Secondary Markets', () => {
 
             it('Collector1 and Artist get the payment', async () => {
                 // After fetching the previously created sales agreement
-                const assetRewardsFromServiceAgreement = getAssetRewardsFromService(
+                const assetPriceFromServiceAgreement = getAssetPriceFromService(
                     nftSalesServiceAgreement
                 )
 
@@ -591,7 +598,7 @@ describe('Secondary Markets', () => {
 
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewardsFromServiceAgreement.getTotalPrice())
+                        .sub(assetPriceFromServiceAgreement.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -604,11 +611,11 @@ describe('Secondary Markets', () => {
                 setNFTRewardsFromDDOByService(
                     ddo,
                     'nft-sales',
-                    assetRewards3,
+                    assetPrice3,
                     collector2.getId()
                 )
 
-                await nevermined.marketplace.login(clientAssertion)
+                await nevermined.services.marketplace.login(clientAssertion)
             })
 
             it('The collector2 sets up the NFT access agreement', async () => {
@@ -667,7 +674,7 @@ describe('Secondary Markets', () => {
             it('As collector2 I setup an agreement for selling my NFT', async () => {
                 agreementId3 = await nevermined.nfts1155.listOnSecondaryMarkets(
                     ddo,
-                    assetRewards3,
+                    assetPrice3,
                     numberNFTs2,
                     collector2.getId(),
                     token,
@@ -675,7 +682,7 @@ describe('Secondary Markets', () => {
                 )
                 assert.isNotNull(agreementId3)
 
-                const service = await nevermined.metadata.retrieveService(agreementId3)
+                const service = await nevermined.services.metadata.retrieveService(agreementId3)
                 assert.isDefined(service)
             })
 
@@ -745,7 +752,7 @@ describe('Secondary Markets', () => {
                 assert.isTrue(collector1Balance.gte(BigNumber.from(nftPrice2)))
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(AssetRewards.sumAmounts(amounts2))
+                        .sub(AssetPrice.sumAmounts(amounts2))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })

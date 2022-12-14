@@ -1,6 +1,6 @@
-import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
-import { NewProfile, Profile } from '../profiles/Profiles.interfaces'
-import { HttpError, ApiError } from '../errors'
+import { MarketplaceApi } from './MarketplaceAPI'
+import { NewProfile, Profile } from './Profiles.interfaces'
+import { HttpError, ApiError } from '../../errors'
 
 const profilePath = '/api/v1/metadata/profiles'
 

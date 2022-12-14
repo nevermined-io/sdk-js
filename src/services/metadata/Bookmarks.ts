@@ -1,9 +1,9 @@
-import { MarketplaceApi } from '../marketplace/MarketplaceAPI'
+import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
 import { NewBookmark, Bookmark } from './Bookmarks.interfaces'
-import { HttpError, ApiError } from '../errors'
-import { MarketplaceResults } from '../common/interfaces'
-import { SearchQuery } from '../common/interfaces'
-import { buildQuery } from '../common/helpers'
+import { HttpError, ApiError } from '../../errors'
+import { MarketplaceResults } from '../../common/interfaces'
+import { SearchQuery } from '../../common/interfaces'
+import { buildQuery } from '../../common/helpers'
 
 const bookmarkPath = '/api/v1/ugc/bookmarks'
 
