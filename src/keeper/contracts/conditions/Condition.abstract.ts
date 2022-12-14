@@ -233,6 +233,6 @@ export abstract class ConsumerCondition<
         _from?: Account,
         _params?: TxParameters
     ) {
-        return;
+        return
     }
 }

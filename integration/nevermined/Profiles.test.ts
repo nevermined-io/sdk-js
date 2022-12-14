@@ -14,7 +14,7 @@ describe('User Profiles', () => {
         try {
             localStorage.clear()
         } catch(error) {
-            Logger.error(error);
+            Logger.error(error)
         }
         config.marketplaceAuthToken = undefined
 

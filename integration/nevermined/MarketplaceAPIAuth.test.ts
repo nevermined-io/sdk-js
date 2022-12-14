@@ -11,7 +11,7 @@ describe('Marketplace api auth', () => {
         try {
             localStorage.clear()
         } catch(error) {
-            Logger.error(error);
+            Logger.error(error)
         }
         
         config.marketplaceAuthToken = undefined

@@ -1,4 +1,4 @@
-import { RoyaltyScheme } from '../../keeper/contracts/royalties';
+import { RoyaltyScheme } from '../../keeper/contracts/royalties'
 
 /**
  * Attributes defining the royalties model attached to the asset

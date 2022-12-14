@@ -66,7 +66,7 @@ describe('Consume Asset (Documentation example)', () => {
         try {
             await consumer.requestTokens(claimedTokens)
         } catch(error) {
-            Logger.error(error);
+            Logger.error(error)
         }
 
         const balanceAfter = (await consumer.getBalance()).nevermined
@@ -154,7 +154,7 @@ describe('Consume Asset (Documentation example)', () => {
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
         } catch(error) {
-            Logger.error(error);
+            Logger.error(error)
         }
     })
 

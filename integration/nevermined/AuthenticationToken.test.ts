@@ -12,7 +12,7 @@ describe('Authentication Token', () => {
         try {
             localStorage.clear()
         } catch(error) {
-            Logger.error(error);
+            Logger.error(error)
         }
 
         nevermined = await Nevermined.getInstance(config)
@@ -25,7 +25,7 @@ describe('Authentication Token', () => {
         try {
             localStorage.clear()
         } catch(error) {
-            Logger.error(error);
+            Logger.error(error)
         }
     })
 

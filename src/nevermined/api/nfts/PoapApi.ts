@@ -1,7 +1,7 @@
-import { Account, Nevermined, NeverminedOptions } from '../../..';
-import { InstantiableConfig } from '../../../Instantiable.abstract';
-import ContractHandler from '../../../keeper/ContractHandler';
-import Nft721Contract from '../../../keeper/contracts/Nft721Contract';
+import { Account, Nevermined, NeverminedOptions } from '../../..'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import ContractHandler from '../../../keeper/ContractHandler'
+import Nft721Contract from '../../../keeper/contracts/Nft721Contract'
 import { NFT721Api } from './NFT721Api'
 
 export default class PoapNFTApi extends NFT721Api {  

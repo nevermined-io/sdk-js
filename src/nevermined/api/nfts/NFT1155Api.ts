@@ -418,7 +418,7 @@ export class NFT1155Api extends NFTsBaseApi {
         approved: boolean,
         from: Account
     ): Promise<ContractReceipt> {
-        const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress);
+        const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress)
 
         if (isApproved) {
             return

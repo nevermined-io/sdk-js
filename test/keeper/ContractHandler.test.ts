@@ -20,14 +20,14 @@ describe('ContractHandler', () => {
     describe('ABIs parsing', () => {
         it('should parse a Subscription NFT contract', async () => {
             const solidityABI = await ContractHandler.getABI('NFT721SubscriptionUpgradeable', './test/resources/artifacts/')
-            const iface = new Interface(solidityABI.abi);
+            const iface = new Interface(solidityABI.abi)
             const output = iface.format(FormatTypes.full)
             assert(output)            
         })
 
         it('should parse the NeverminedToken contract', async () => {
             const solidityABI = await ContractHandler.getABI('NeverminedToken', './artifacts/', networkName)
-            const iface = new Interface(solidityABI.abi);
+            const iface = new Interface(solidityABI.abi)
             const output = iface.format(FormatTypes.full)
             assert(output)            
         })        
