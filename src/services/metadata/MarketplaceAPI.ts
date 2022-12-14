@@ -21,10 +21,10 @@ export class MarketplaceApi extends Instantiable {
           'client_assertion_type':
               'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
           'client_assertion': clientAssertion
-      };
+      }
 
       try {
-          const response = await this.nevermined.utils.fetch.post(`${this.url}${authPath}/login`, JSON.stringify(payload));
+          const response = await this.nevermined.utils.fetch.post(`${this.url}${authPath}/login`, JSON.stringify(payload))
 
           if (!response.ok) {
               throw new HttpError(`Error Login - ${response.statusText} ${response.url}`, response.status)

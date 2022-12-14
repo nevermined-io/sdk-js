@@ -1,10 +1,10 @@
-import {Logger} from '../../src';
+import {Logger} from '../../src'
 
 export const transformMetadata = (metadata: any): any => {
     try {
         metadata.main.nonce = Math.random()
     } catch (error) {
-        Logger.error(error);
+        Logger.error(error)
     }
     return metadata
 }
@@ -16,7 +16,7 @@ export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
         try {
             return await p
         } catch (error) {
-            Logger.error(error);
+            Logger.error(error)
         }
         await sleep(500)
     }

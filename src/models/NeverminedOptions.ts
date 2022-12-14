@@ -38,11 +38,6 @@ export class NeverminedOptions {
     public marketplaceAuthToken?: string
 
     /**
-     * The URL to a Faucet in a test network.
-     */
-    public faucetUri?: string
-
-    /**
      * Web3 Provider.
      */
     public web3Provider?: any

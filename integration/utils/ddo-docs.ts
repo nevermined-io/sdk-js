@@ -2,7 +2,7 @@ import { transformMetadata } from './utils'
 import { MetaData } from '../../src'
 import * as NodeFetch from 'node-fetch'
 
-const fetch = NodeFetch.default;
+const fetch = NodeFetch.default
 
 const getMetadataFromUrl = (url: string) => async (): Promise<MetaData> =>
     transformMetadata(

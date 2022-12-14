@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/nevermined-sdk-js",
-  "version": "1.0.0-rc0",
+  "version": "1.0.0-rc1",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -91,7 +91,7 @@
     "chai-spies": "^1.0.0",
     "cross-env": "^6.0.3",
     "eslint": "^8.19.0",
-    "eslint-config-nevermined": "^0.1.0",
+    "eslint-config-nevermined": "^0.2.0",
     "eslint-config-next": "^12.3.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",

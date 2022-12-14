@@ -6,7 +6,6 @@ import { Profiles } from '../../services/metadata/Profiles'
 import { Permissions } from '../../services/metadata/Permissions'
 import { AaveCredit } from '../../services/aave/AaveCredit'
 import { Bookmarks } from '../../services/metadata/Bookmarks'
-import { Faucet } from '../../services/faucet/Faucet'
 
 /**
  * Utils internal submodule of Nevermined.
@@ -42,11 +41,6 @@ export class ServicesApi extends Instantiable {
       * Bookmarks instance
       */
      public bookmarks: Bookmarks
- 
-     /**
-      * Metadata instance.
-      */
-     public faucet: Faucet
 
      /**
       * Aave instance.
@@ -68,7 +62,6 @@ export class ServicesApi extends Instantiable {
         this.profiles = new Profiles(config)
         this.bookmarks = new Bookmarks(config)
         this.permissions = new Permissions(config)
-        this.faucet = new Faucet(config)
     }
 
     public async initializeAave() {

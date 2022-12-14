@@ -120,7 +120,7 @@ describe('NFT1155 End-to-End', () => {
                 deployer
             )
 
-            const isApproved = await nftUpgradeable.isApprovedForAll(deployer.getId(), someone.getId());
+            const isApproved = await nftUpgradeable.isApprovedForAll(deployer.getId(), someone.getId())
             assert.isTrue(isApproved)
         })
 
@@ -131,7 +131,7 @@ describe('NFT1155 End-to-End', () => {
                 deployer
             )
 
-            const isApproved = await nftUpgradeable.isApprovedForAll(deployer.getId(), someone.getId());
+            const isApproved = await nftUpgradeable.isApprovedForAll(deployer.getId(), someone.getId())
             assert.isFalse(isApproved)
         })
 

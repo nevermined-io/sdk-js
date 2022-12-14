@@ -59,16 +59,6 @@ export class AccountsApi extends Instantiable {
         }
     }
 
-    public async requestEthFromFaucet(address: string): Promise<boolean> {
-        try {
-            await this.nevermined.services.faucet.requestEth(address)
-            return true
-        } catch (e) {
-            return false
-        }
-    }
-
-
     public async findSigner(from: string): Promise<ethers.Signer> {
         for (const acc of this.config.accounts || []) {
             const addr = await acc.getAddress()

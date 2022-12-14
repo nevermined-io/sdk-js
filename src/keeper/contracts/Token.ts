@@ -16,7 +16,7 @@ export default class Token extends ContractBase {
         "function approve(address spender, uint256 amount) returns (bool)",
         // Events
         "event Transfer(address indexed from, address indexed to, uint amount)"
-    ];
+    ]
 
     public static async getInstance(config: InstantiableConfig): Promise<Token> {
         const token: Token = new Token(
