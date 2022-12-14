@@ -13,8 +13,20 @@ import { NFT1155Api } from './nevermined/api/nfts/NFT1155Api'
 import { SearchQuery } from './common/interfaces'
 
 // Exports
-export * from './ddo/DDO'
-export * from './ddo/MetaData'
+export { DDO } from './ddo/DDO'
+export { 
+    StageRequirements,
+    StageInput,
+    Stage,
+    Workflow,
+    Algorithm,
+    ServiceDefinition,
+    Service,
+    File,
+    MetaDataMain,
+    Curation,
+    MetaData
+} from './ddo/MetaData'
 
 export { OrderProgressStep, CreateProgressStep } from './nevermined/ProgressSteps'
 export {
