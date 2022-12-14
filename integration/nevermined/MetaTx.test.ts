@@ -24,7 +24,9 @@ describe('MetaTx test with nfts', () => {
 
     let payload: JWTPayload
     let royaltyAttributes: RoyaltyAttributes
-    const paymasterAddress = JSON.parse(fs.readFileSync('artifacts/opengsn.json').toString()).paymasterAddress
+    const paymasterAddress = JSON.parse(
+        fs.readFileSync('artifacts/opengsn.json').toString()
+    ).paymasterAddress
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
@@ -37,8 +39,11 @@ describe('MetaTx test with nfts', () => {
         payload = decodeJwt(config.marketplaceAuthToken)
 
         const nftContractOwner = new Account(await nevermined.nfts1155.owner())
-        await nevermined.keeper.nftUpgradeable.setProxyApproval(artist.getId(), true, nftContractOwner)
-
+        await nevermined.keeper.nftUpgradeable.setProxyApproval(
+            artist.getId(),
+            true,
+            nftContractOwner
+        )
     })
 
     describe('with default token', async () => {
@@ -74,7 +79,12 @@ describe('MetaTx test with nfts', () => {
                 collector
             )
 
-            await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+            await nevermined.nfts1155.transfer(
+                agreementId,
+                ddo.id,
+                BigNumber.from(2),
+                artist
+            )
 
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),
@@ -88,34 +98,56 @@ describe('MetaTx test with nfts', () => {
 
         it('metatransactions should work', async () => {
             const wallet = Wallet.createRandom()
-            
-            await nevermined.keeper.nftUpgradeable.transferNft(ddo.id, await wallet.getAddress(), BigNumber.from(2), artist.getId())
+
+            await nevermined.keeper.nftUpgradeable.transferNft(
+                ddo.id,
+                await wallet.getAddress(),
+                BigNumber.from(2),
+                artist.getId()
+            )
             assert.deepEqual(
-                BigNumber.from(await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id)),
+                BigNumber.from(
+                    await nevermined.keeper.nftUpgradeable.balance(
+                        await wallet.getAddress(),
+                        ddo.id
+                    )
+                ),
                 BigNumber.from(2)
             )
 
             const config = await {
                 paymasterAddress: paymasterAddress,
                 auditorsCount: 0,
-                preferredRelays: ['http://localhost:2345'],
+                preferredRelays: ['http://opengsn.nevermined.localnet']
             }
-            const gsnProvider = RelayProvider.newProvider({ provider: new Web3ProviderWrapper(nevermined.web3), config })
+            const gsnProvider = RelayProvider.newProvider({
+                provider: new Web3ProviderWrapper(nevermined.web3),
+                config
+            })
             await gsnProvider.init()
             gsnProvider.addAccount(wallet.privateKey)
             const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
             const signer = etherProvider.getSigner(wallet.address)
 
-            await nevermined.keeper.didRegistry.burn(ddo.id, BigNumber.from(2), await wallet.getAddress(), {signer})
+            await nevermined.keeper.didRegistry.burn(
+                ddo.id,
+                BigNumber.from(2),
+                await wallet.getAddress(),
+                { signer }
+            )
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),
                 BigNumber.from(6)
             )
             assert.deepEqual(
-                BigNumber.from(await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id)),
+                BigNumber.from(
+                    await nevermined.keeper.nftUpgradeable.balance(
+                        await wallet.getAddress(),
+                        ddo.id
+                    )
+                ),
                 BigNumber.from(0)
             )
         })
     })
-
 })

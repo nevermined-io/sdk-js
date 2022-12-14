@@ -12,9 +12,9 @@ const ipfsProjectId = process.env['IPFS_PROJECT_ID']
 const ipfsProjectSecret = process.env['IPFS_PROJECT_SECRET']
 
 const configBase: NeverminedOptions = {
-    web3ProviderUri: 'http://localhost:8545',
-    marketplaceUri: 'http://172.17.0.1:3100',
-    neverminedNodeUri: 'http://localhost:8030',
+    web3ProviderUri: 'http://contracts.nevermined.localnet',
+    marketplaceUri: 'http://marketplace.nevermined.localnet',
+    neverminedNodeUri: 'http://node.nevermined.localnet',
     neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
     artifactsFolder: './artifacts',
@@ -60,5 +60,6 @@ if (process.env.SEED_WORDS) {
     configBase.accounts = makeAccounts(process.env.SEED_WORDS)
 }
 
-export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } = configBase as any
+export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } =
+    configBase as any
 ;(config as any).forceVerbose = { ...configBase, verbose: true }
