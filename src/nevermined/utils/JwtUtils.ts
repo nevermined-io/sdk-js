@@ -173,7 +173,7 @@ export class JwtUtils extends Instantiable {
 
         if (!this.tokenCache.has(cacheKey)) {
             const grantToken = await this.generateDownloadGrantToken(account, did)
-            const accessToken = await this.nevermined.node.fetchToken(grantToken)
+            const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
             this.tokenCache.set(cacheKey, accessToken)
 
             return accessToken
@@ -254,7 +254,7 @@ export class JwtUtils extends Instantiable {
                 did,
                 account
             )
-            const accessToken = await this.nevermined.node.fetchToken(grantToken)
+            const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
             this.tokenCache.set(cacheKey, accessToken)
 
             return accessToken

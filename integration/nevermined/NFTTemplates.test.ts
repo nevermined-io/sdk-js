@@ -13,16 +13,18 @@ import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
 import BigNumber from '../../src/utils/BigNumber'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
 import { getMetadata } from '../utils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTTemplates E2E', () => {
     let owner: Account
@@ -68,7 +70,7 @@ describe('NFTTemplates E2E', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetPrice1: AssetPrice
 
     // Configuration of Sale in secondary market:
     // Collector1 -> Collector2, the artist get 10% royalties
@@ -76,7 +78,7 @@ describe('NFTTemplates E2E', () => {
     let nftPrice2 = BigNumber.from(100)
     let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
     let receivers2: string[]
-    let assetRewards2: AssetRewards
+    let assetPrice2: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -112,19 +114,19 @@ describe('NFTTemplates E2E', () => {
         nftPrice2 = nftPrice2.mul(scale)
         amounts2 = amounts2.map(v => v.mul(scale))
 
-        assetRewards1 = new AssetRewards(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
 
-        assetRewards2 = new AssetRewards(
+        assetPrice2 = new AssetPrice(
             new Map([
                 [receivers2[0], amounts2[0]],
                 [receivers2[1], amounts2[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
     })
 
     describe('Full flow', () => {
@@ -161,7 +163,7 @@ describe('NFTTemplates E2E', () => {
                 artist
             )
 
-            await nevermined.marketplace.login(clientAssertion)
+            await nevermined.services.marketplace.login(clientAssertion)
 
             const payload = decodeJwt(config.marketplaceAuthToken)
             const metadata = getMetadata()
@@ -172,17 +174,24 @@ describe('NFTTemplates E2E', () => {
                 RoyaltyKind.Standard,
                 royalties
             )
-            ddo = await nevermined.assets.createNft(
+
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetPrice1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
+
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -398,7 +407,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(AssetRewards.sumAmounts(amounts))
+                        .sub(AssetPrice.sumAmounts(amounts))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -691,7 +700,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector2).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBefore
-                        .sub(AssetRewards.sumAmounts(amounts2))
+                        .sub(AssetPrice.sumAmounts(amounts2))
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -731,17 +740,23 @@ describe('NFTTemplates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetPrice1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
+
             await collector1.requestTokens(nftPrice.div(scale))
         })
 
@@ -865,7 +880,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewards1.getTotalPrice())
+                        .sub(assetPrice1.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -933,7 +948,7 @@ describe('NFTTemplates E2E', () => {
                 setNFTRewardsFromDDOByService(
                     ddo,
                     'nft-sales',
-                    assetRewards2,
+                    assetPrice2,
                     collector1.getId()
                 )
             })
@@ -977,8 +992,8 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId2,
                     ddo.id,
-                    assetRewards2.getAmounts(),
-                    assetRewards2.getReceivers(),
+                    assetPrice2.getAmounts(),
+                    assetPrice2.getReceivers(),
                     token.getAddress(),
                     collector2
                 )
@@ -993,7 +1008,7 @@ describe('NFTTemplates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(assetRewards2.getTotalPrice())
+                        .add(assetPrice2.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -1064,7 +1079,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector2).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewards2.getTotalPrice())
+                        .sub(assetPrice2.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -1103,16 +1118,21 @@ describe('NFTTemplates E2E', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                artist,
-                assetRewards1,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
-                royaltyAttributes,
-                token.getAddress()
+                price: assetPrice1,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
         })
 
@@ -1165,8 +1185,8 @@ describe('NFTTemplates E2E', () => {
                 const receipt = await nevermined.agreements.conditions.lockPayment(
                     agreementId,
                     ddo.id,
-                    assetRewards1.getAmounts(),
-                    assetRewards1.getReceivers(),
+                    assetPrice1.getAmounts(),
+                    assetPrice1.getReceivers(),
                     token.getAddress(),
                     collector1
                 )
@@ -1182,7 +1202,7 @@ describe('NFTTemplates E2E', () => {
                 )
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .add(assetRewards1.getTotalPrice())
+                        .add(assetPrice1.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })
@@ -1252,7 +1272,7 @@ describe('NFTTemplates E2E', () => {
                 assert.isTrue(collectorBalance.sub(initialBalances.collector1).isZero())
                 assert.isTrue(
                     escrowPaymentConditionBalanceBefore
-                        .sub(assetRewards1.getTotalPrice())
+                        .sub(assetPrice1.getTotalPrice())
                         .eq(escrowPaymentConditionBalanceAfter)
                 )
             })

@@ -2,14 +2,16 @@ import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import { Account, DDO, Nevermined } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -36,7 +38,7 @@ describe('NFT1155 End-to-End', () => {
 
     let royaltyAttributes
     let receivers: string[]
-    let assetRewards: AssetRewards
+    let assetPrice: AssetPrice
 
     let payload: JWTPayload
 
@@ -47,19 +49,19 @@ describe('NFT1155 End-to-End', () => {
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         payload = decodeJwt(config.marketplaceAuthToken)
 
         metadata.userId = payload.sub
 
         receivers = [publisher.getId(), deployer.getId()]
-        assetRewards = new AssetRewards(
+        assetPrice = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
             ])
-        )
+        ).setTokenAddress(token.getAddress())
         
     })
 
@@ -90,19 +92,24 @@ describe('NFT1155 End-to-End', () => {
                 royalties
             )
 
-            ddo = await nevermined.assets.createNft(
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
-                publisher,
-                assetRewards,
-                undefined,
-                cappedAmount,
-                undefined,
-                numberNFTs,
+                price: assetPrice,
+                serviceTypes: ['nft-sales', 'nft-access']
+            })
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
+                ...assetAttributes,                
+                nftContractAddress: nftUpgradeable.address,
+                cap: cappedAmount,
+                amount: numberNFTs,
                 royaltyAttributes,
-                token.getAddress(),
-                nftUpgradeable.address,
                 preMint
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                publisher
             )
+
             assert.isDefined(ddo.shortId())
         })
 

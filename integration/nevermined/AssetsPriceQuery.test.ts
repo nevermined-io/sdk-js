@@ -2,8 +2,10 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined } from '../../src'
 import CustomToken from '../../src/keeper/contracts/CustomToken'
-import AssetRewards from '../../src/models/AssetRewards'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/Assets'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import AssetPrice from '../../src/models/AssetPrice'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { generateId } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
 import { config } from '../config'
@@ -25,7 +27,7 @@ describe('Assets Query by Price', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        token = await nevermined.contracts.loadErc20(nevermined.token.getAddress())
+        token = await nevermined.contracts.loadErc20(nevermined.utils.token.getAddress())
 
         price1 = BigNumber.parseUnits('2', await token.decimals())
         price2 = BigNumber.parseUnits('17.86', await token.decimals())
@@ -35,7 +37,7 @@ describe('Assets Query by Price', () => {
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
             account
         )
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
     })
 
@@ -43,23 +45,25 @@ describe('Assets Query by Price', () => {
         // publish asset with priced service `access`
         let metadata = getMetadata()
         metadata.userId = payload.sub
-        let assetRewards = new AssetRewards(account.getId(), price1)
-        ddoAccess = await nevermined.assets.create(
+        let assetPrice = new AssetPrice(
+            account.getId(), 
+            price1
+            ).setTokenAddress(token.getAddress())
+
+        const _attributes = AssetAttributes.getInstance({
             metadata,
-            account,
-            assetRewards,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            token.getAddress(),
+            price: assetPrice,
             appId
-        )
+        })
+        ddoAccess = await nevermined.assets.create(
+            _attributes,
+            account
+        )            
 
         // publish asset with priced service `nft-sales`
         metadata = getMetadata()
         metadata.userId = payload.sub
-        assetRewards = new AssetRewards(
+        assetPrice = new AssetPrice(
             new Map([
                 [account.getId(), price2.sub(royalties)],
                 [account2.getId(), royalties]
@@ -70,24 +74,30 @@ describe('Assets Query by Price', () => {
             RoyaltyKind.Standard,
             0
         )
-        ddoNftSales = await nevermined.nfts1155.create(
+
+        const assetAttributes = AssetAttributes.getInstance({
             metadata,
-            account,
-            BigNumber.from(1),
-            royaltyAttributes,
-            assetRewards,
-            undefined,
-            token.getAddress(),
-            undefined,
-            undefined,
+            price: assetPrice,
+            serviceTypes: ['nft-sales', 'nft-access'],
             appId
+        })
+        const nftAttributes = NFTAttributes.getNFT1155Instance({
+            ...assetAttributes,
+            nftContractAddress: nevermined.nfts1155.nftContract.address,
+            cap: BigNumber.from(1),
+            royaltyAttributes
+        })            
+        ddoNftSales = await nevermined.nfts1155.create(
+            nftAttributes,
+            account
         )
+
         // wait for elasticsearch
         await sleep(2000)
     })
 
     it('Should query all services by default', async () => {
-        const results = await nevermined.assets.searchByPrice(
+        const results = await nevermined.search.byPrice(
             1,
             20,
             undefined,
@@ -100,7 +110,7 @@ describe('Assets Query by Price', () => {
     })
 
     it('Should query by service', async () => {
-        let results = await nevermined.assets.searchByPrice(
+        let results = await nevermined.search.byPrice(
             1,
             20,
             'access',
@@ -112,7 +122,7 @@ describe('Assets Query by Price', () => {
         assert.equal(results.totalResults.value, 1)
         assert.equal(results.results.pop().id, ddoAccess.id)
 
-        results = await nevermined.assets.searchByPrice(
+        results = await nevermined.search.byPrice(
             1,
             20,
             'nft-sales',
@@ -126,7 +136,7 @@ describe('Assets Query by Price', () => {
     })
 
     it('Should query with decimal values', async () => {
-        let results = await nevermined.assets.searchByPrice(
+        let results = await nevermined.search.byPrice(
             2,
             17.86,
             undefined,
@@ -137,7 +147,7 @@ describe('Assets Query by Price', () => {
         )
         assert.equal(results.totalResults.value, 2)
 
-        results = await nevermined.assets.searchByPrice(
+        results = await nevermined.search.byPrice(
             2.001,
             17.86,
             undefined,
@@ -149,7 +159,7 @@ describe('Assets Query by Price', () => {
         assert.equal(results.totalResults.value, 1)
         assert.equal(results.results.pop().id, ddoNftSales.id)
 
-        results = await nevermined.assets.searchByPrice(
+        results = await nevermined.search.byPrice(
             2.0,
             17.859999,
             undefined,

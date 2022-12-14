@@ -3,15 +3,15 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO } from '../../src'
-import AssetRewards from '../../src/models/AssetRewards'
-import { Token } from '../../src/nevermined/Token'
+import AssetPrice from '../../src/models/AssetPrice'
 import { ZeroAddress } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/Assets'
+} from '../../src/nevermined/api/AssetsApi'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined
@@ -20,19 +20,17 @@ describe('Nfts operations', () => {
     let collector: Account
     let ddo: DDO
 
-    let token: Token
     let payload: JWTPayload
     let royaltyAttributes: RoyaltyAttributes
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;({ token } = nevermined)
 
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
     })
 
@@ -41,13 +39,19 @@ describe('Nfts operations', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
-            ddo = await nevermined.nfts1155.create(
+
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
                 metadata,
-                artist,
-                BigNumber.from(10),
-                royaltyAttributes,
-                new AssetRewards()
+                serviceTypes: ['nft-sales', 'nft-access'],
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: BigNumber.from(10),
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
+
         })
 
         it('should mint 10 nft tokens', async () => {
@@ -94,14 +98,17 @@ describe('Nfts operations', () => {
         before(async () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
-            ddo = await nevermined.nfts1155.create(
+
+            const nftAttributes = NFTAttributes.getNFT1155Instance({   
                 metadata,
-                artist,
-                BigNumber.from(10),
-                royaltyAttributes,
-                new AssetRewards(),
-                undefined,
-                token.getAddress()
+                serviceTypes: ['nft-sales', 'nft-access'],             
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: BigNumber.from(10),
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
         })
 
@@ -143,14 +150,18 @@ describe('Nfts operations', () => {
         before(async () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
-            ddo = await nevermined.nfts1155.create(
+
+            const nftAttributes = NFTAttributes.getNFT1155Instance({                
                 metadata,
-                artist,
-                BigNumber.from(10),
-                royaltyAttributes,
-                new AssetRewards(artist.getId(), BigNumber.parseEther('0.1')),
-                undefined,
-                ZeroAddress
+                serviceTypes: ['nft-sales', 'nft-access'],
+                price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(ZeroAddress),
+                nftContractAddress: nevermined.nfts1155.nftContract.address,
+                cap: BigNumber.from(10),
+                royaltyAttributes
+            })            
+            ddo = await nevermined.nfts1155.create(
+                nftAttributes,
+                artist
             )
         })
 

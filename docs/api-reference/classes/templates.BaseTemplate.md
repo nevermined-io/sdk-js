@@ -620,7 +620,7 @@ ___
 
 ### createService
 
-▸ **createService**(`publisher`, `metadata`, `assetRewards?`, `erc20TokenAddress?`, `priced?`): `Promise`<`S`\>
+▸ **createService**(`publisher`, `metadata`, `assetPrice?`, `erc20TokenAddress?`, `priced?`): `Promise`<`S`\>
 
 #### Parameters
 
@@ -628,7 +628,7 @@ ___
 | :------ | :------ | :------ |
 | `publisher` | [`Account`](Account.md) | `undefined` |
 | `metadata` | [`MetaData`](../interfaces/MetaData.md) | `undefined` |
-| `assetRewards?` | `default` | `undefined` |
+| `assetPrice?` | `default` | `undefined` |
 | `erc20TokenAddress?` | `string` | `undefined` |
 | `priced` | `boolean` | `false` |
 
@@ -965,13 +965,13 @@ ___
 
 ### getPriced
 
-▸ `Private` **getPriced**(`assetRewards`, `erc20TokenAddress`): `Promise`<`Priced`\>
+▸ `Private` **getPriced**(`assetPrice`, `erc20TokenAddress`): `Promise`<`Priced`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `assetRewards` | `default` |
+| `assetPrice` | `default` |
 | `erc20TokenAddress` | `string` |
 
 #### Returns

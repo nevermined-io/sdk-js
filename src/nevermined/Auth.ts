@@ -11,15 +11,10 @@ const localStorageKey = 'NeverminedTokens'
  * Auth submodule of Nevermined.
  */
 export class Auth extends Instantiable {
-    /**
-     * Returns the instance of Auth.
-     * @returns {@link Auth}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<Auth> {
-        const instance = new Auth()
-        instance.setInstanceConfig(config)
 
-        return instance
+    constructor(config: InstantiableConfig) {
+        super()
+        this.setInstanceConfig(config)
     }
 
     /**

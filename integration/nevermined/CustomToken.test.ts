@@ -12,7 +12,7 @@ describe('CustomToken', () => {
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
         ;[account] = await nevermined.accounts.list()
-        erc20TokenAddress = nevermined.token.getAddress()
+        erc20TokenAddress = nevermined.utils.token.getAddress()
     })
 
     it('should get a custom token instance', async () => {

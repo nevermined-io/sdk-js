@@ -6,7 +6,7 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
 import { Babysig } from '../models/KeyTransfer'
 import { BigNumber } from 'ethers'
 import { ERCType, NeverminedNFTType } from '../models/NFTAttributes'
-import AssetRewards from '../models/AssetRewards'
+import AssetPrice from '../models/AssetPrice'
 
 export type ConditionType =
     | 'lockPayment'
@@ -189,7 +189,7 @@ export interface ServicePlugin<T extends Service> {
     createService(
         publisher: Account,
         metadata: MetaData,
-        assetRewards?: AssetRewards,
+        assetPrice?: AssetPrice,
         erc20TokenAddress?: string,
         priced?: boolean
     ): Promise<T>

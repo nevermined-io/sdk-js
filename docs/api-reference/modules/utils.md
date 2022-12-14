@@ -32,8 +32,8 @@
 - [fillConditionsWithDDO](utils.md#fillconditionswithddo)
 - [findServiceConditionByName](utils.md#findserviceconditionbyname)
 - [generateId](utils.md#generateid)
-- [getAssetRewardsFromDDOByService](utils.md#getassetrewardsfromddobyservice)
-- [getAssetRewardsFromService](utils.md#getassetrewardsfromservice)
+- [getAssetPriceFromDDOByService](utils.md#getassetrewardsfromddobyservice)
+- [getAssetPriceFromService](utils.md#getassetrewardsfromservice)
 - [getDIDFromService](utils.md#getdidfromservice)
 - [getNftAmountFromService](utils.md#getnftamountfromservice)
 - [getNftHolderFromService](utils.md#getnftholderfromservice)
@@ -42,7 +42,7 @@
 - [noDidPrefixed](utils.md#nodidprefixed)
 - [noZeroX](utils.md#nozerox)
 - [objectPromiseAll](utils.md#objectpromiseall)
-- [setAssetRewardsFromDDOByService](utils.md#setassetrewardsfromddobyservice)
+- [setAssetPriceFromDDOByService](utils.md#setassetrewardsfromddobyservice)
 - [setNFTRewardsFromDDOByService](utils.md#setnftrewardsfromddobyservice)
 - [zeroX](utils.md#zerox)
 - [zeroXTransformer](utils.md#zeroxtransformer)
@@ -148,7 +148,7 @@ ___
 
 ### fillConditionsWithDDO
 
-▸ **fillConditionsWithDDO**(`conditions`, `ddo`, `assetRewards?`, `erc20TokenContract?`, `nftTokenContract?`, `nftHolder?`, `nftAmount?`, `nftTransfer?`, `duration?`): `ServiceAgreementTemplateCondition`[]
+▸ **fillConditionsWithDDO**(`conditions`, `ddo`, `assetPrice?`, `erc20TokenContract?`, `nftTokenContract?`, `nftHolder?`, `nftAmount?`, `nftTransfer?`, `duration?`): `ServiceAgreementTemplateCondition`[]
 
 Fill some static parameters that depends on the metadata.
 
@@ -158,7 +158,7 @@ Fill some static parameters that depends on the metadata.
 | :------ | :------ | :------ | :------ |
 | `conditions` | `ServiceAgreementTemplateCondition`[] | `undefined` | Conditions to fill. |
 | `ddo` | [`DDO`](../classes/DDO.md) | `undefined` | DDO related to this conditions. |
-| `assetRewards` | `default` | `undefined` | Rewards distribution |
+| `assetPrice` | `default` | `undefined` | Rewards distribution |
 | `erc20TokenContract?` | `string` | `undefined` | Number of nfts to handle |
 | `nftTokenContract?` | `string` | `undefined` | Number of nfts to handle |
 | `nftHolder?` | `string` | `undefined` | - |
@@ -219,9 +219,9 @@ ___
 
 ___
 
-### getAssetRewardsFromDDOByService
+### getAssetPriceFromDDOByService
 
-▸ **getAssetRewardsFromDDOByService**(`ddo`, `service`): `AssetRewards`
+▸ **getAssetPriceFromDDOByService**(`ddo`, `service`): `AssetPrice`
 
 #### Parameters
 
@@ -232,7 +232,7 @@ ___
 
 #### Returns
 
-`AssetRewards`
+`AssetPrice`
 
 #### Defined in
 
@@ -240,9 +240,9 @@ ___
 
 ___
 
-### getAssetRewardsFromService
+### getAssetPriceFromService
 
-▸ **getAssetRewardsFromService**(`service`): `AssetRewards`
+▸ **getAssetPriceFromService**(`service`): `AssetPrice`
 
 #### Parameters
 
@@ -252,7 +252,7 @@ ___
 
 #### Returns
 
-`AssetRewards`
+`AssetPrice`
 
 #### Defined in
 
@@ -421,9 +421,9 @@ ___
 
 ___
 
-### setAssetRewardsFromDDOByService
+### setAssetPriceFromDDOByService
 
-▸ **setAssetRewardsFromDDOByService**(`ddo`, `serviceType`, `rewards`): `void`
+▸ **setAssetPriceFromDDOByService**(`ddo`, `serviceType`, `rewards`): `void`
 
 #### Parameters
 

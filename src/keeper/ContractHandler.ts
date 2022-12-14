@@ -135,8 +135,8 @@ export default class ContractHandler extends Instantiable {
         args: string[] = []
     ): Promise<ethers.Contract> {
         console.log(`Using Account: ${from.getId()}`)
-        
-        const signer = await this.findSigner(from.getId())
+                
+        const signer = await this.nevermined.accounts.findSigner(from.getId())
         const contract = new ethers.ContractFactory(
             artifact.abi,
             artifact.bytecode,
@@ -172,22 +172,6 @@ export default class ContractHandler extends Instantiable {
         return contractInstance
     }
 
-    public static getSignatureOfMethod(
-        contractInstace: ethers.Contract,
-        methodName: string,
-        args: any[]
-    ): string {
-        const methods = contractInstace.interface.fragments.filter(
-            f => f.name === methodName
-        )
-        const foundMethod =
-            methods.find(f => f.inputs.length === args.length) || methods[0]
-        if (!foundMethod) {
-            throw new Error(`Method "${methodName}" not found in contract`)
-        }
-        return foundMethod.format()
-    }
-
     private async load(
         what: string,
         where: string,
@@ -207,7 +191,7 @@ export default class ContractHandler extends Instantiable {
         const _address = address ? address : artifact.address
         this.logger.debug(`Loading from address ${_address}`)
 
-        // check if address is really a contract
+        // check if address is really a contract            
         await this.checkExists(_address)
 
         const contract = new ethers.Contract(_address, artifact.abi, this.web3)
@@ -221,6 +205,46 @@ export default class ContractHandler extends Instantiable {
         }
         
         return contract
+    }
+
+
+    /**
+     * Returns true of contract exists else it throws.
+     * @returns {@link true} if the contract exists.
+     */
+     public async checkExists(address: string): Promise<boolean> {
+        const storage = await this.web3.getStorageAt(address, 0)
+        // check if storage is 0x0 at position 0, this is the case most of the cases
+        if (
+            storage ===
+            '0x0000000000000000000000000000000000000000000000000000000000000000'
+        ) {
+            // if the storage is empty, check if there is no code for this contract,
+            // if so we can be sure it does not exist
+            const code = await this.web3.getCode(address)
+            if (code === '0x0') {
+                // no contract in the blockchain dude
+                throw new Error(`No contract deployed at address ${address}, sorry.`)
+            }
+        }
+
+        return true
+    }
+
+    public static getSignatureOfMethod(
+        contractInstance: ethers.Contract,
+        methodName: string,
+        args: any[]
+    ): string {
+        const methods = contractInstance.interface.fragments.filter(
+            f => f.name === methodName
+        )
+        const foundMethod =
+            methods.find(f => f.inputs.length === args.length) || methods[0]
+        if (!foundMethod) {
+            throw new Error(`Method "${methodName}" not found in contract`)
+        }
+        return foundMethod.format()
     }
 
     static async fetchJson(path) {

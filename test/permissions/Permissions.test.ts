@@ -3,8 +3,8 @@ import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
 import { Nevermined, Permission, PermissionType, NewPermission } from '../../src'
 import { MarketplaceResults } from '../../src/common/interfaces'
-import { Permissions } from '../../src/permissions/Permissions'
 import config from '../config'
+import { Permissions } from '../../src/services/metadata/Permissions'
 
 use(spies)
 
@@ -22,7 +22,7 @@ describe('Permissions', () => {
 
     beforeEach(async () => {
         nevermined = await Nevermined.getInstance(config)
-        permissions = nevermined.permissions // eslint-disable-line prefer-destructuring
+        permissions = nevermined.services.permissions // eslint-disable-line prefer-destructuring
 
         newPermission = {
             userId: faker.datatype.uuid(),

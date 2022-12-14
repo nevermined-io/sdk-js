@@ -3,9 +3,9 @@ import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
 import { Nevermined } from '../../src'
 import { MarketplaceResults } from '../../src/common/interfaces'
-import { Bookmarks } from '../../src/bookmarks/Bookmarks'
-import { NewBookmark, Bookmark } from '../../src/bookmarks/Bookmarks.interfaces'
 import config from '../config'
+import { Bookmark, NewBookmark } from '../../src/services/metadata/Bookmarks.interfaces'
+import { Bookmarks } from '../../src/services/metadata/Bookmarks'
 
 use(spies)
 
@@ -23,7 +23,7 @@ describe('Bookmarks', () => {
 
     beforeEach(async () => {
         nevermined = await Nevermined.getInstance(config)
-        bookmarks = nevermined.bookmarks // eslint-disable-line prefer-destructuring
+        bookmarks = nevermined.services.bookmarks // eslint-disable-line prefer-destructuring
 
         newBookmark = {
             did: `did:${faker.datatype.uuid()}`,

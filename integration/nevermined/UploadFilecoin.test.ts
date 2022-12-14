@@ -1,11 +1,12 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, Account, DDO, MetaData } from '../../src'
+import { Nevermined, Account, DDO } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Filecoin Integration', () => {
     let nevermined: Nevermined
@@ -26,7 +27,7 @@ describe('Filecoin Integration', () => {
             publisher
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         const payload = decodeJwt(config.marketplaceAuthToken)
         userId = payload.sub
@@ -36,7 +37,7 @@ describe('Filecoin Integration', () => {
         const file = fs.openSync(testPath, 'w')
         fs.writeSync(file, 'Hello, Nevermined!')
         const stream = fs.createReadStream(testPath)
-        ;({ url } = await nevermined.files.uploadFilecoin(stream))
+        ;({ url } = await nevermined.utils.files.uploadFilecoin(stream))
 
         assert.equal(url, `cid://${TEST_CID_HASH}`)
 
@@ -48,7 +49,7 @@ describe('Filecoin Integration', () => {
         const file = fs.openSync(testPath, 'w')
         fs.writeSync(file, 'Hello, Nevermined!')
         const stream = fs.createReadStream(testPath)
-        const response = await nevermined.files.uploadFilecoin(stream, true)
+        const response = await nevermined.utils.files.uploadFilecoin(stream, true)
 
         assert.isDefined(response.password)
 
@@ -66,7 +67,10 @@ describe('Filecoin Integration', () => {
             }
         ]
 
-        ddo = await nevermined.assets.create(metadata as MetaData, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            publisher
+        )
         assert.isDefined(ddo)
     })
 
@@ -102,7 +106,10 @@ describe('Filecoin Integration', () => {
             }
         ]
 
-        ddo = await nevermined.assets.create(metadata as MetaData, publisher)
+        ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            publisher
+        )
         assert.isDefined(ddo)
     })
 

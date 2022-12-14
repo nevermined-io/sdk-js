@@ -15,7 +15,7 @@ describe('Auth', () => {
 
     before(async () => {
         const nevermined = await Nevermined.getInstance(config)
-        ;({ auth } = nevermined)
+        ;({ auth } = nevermined.utils)
         ;[account] = await nevermined.accounts.list()
     })
 

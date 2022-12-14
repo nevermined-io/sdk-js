@@ -3,7 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
-import AssetRewards from '../../src/models/AssetRewards'
+import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
@@ -13,6 +13,7 @@ import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTs721 Api End-to-End', () => {
     let nftContractOwner: Account
@@ -34,7 +35,7 @@ describe('NFTs721 Api End-to-End', () => {
     let nftPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetRewards1: AssetRewards
+    let assetPrice1: AssetPrice
 
     let initialBalances: any
     let scale: BigNumber
@@ -66,7 +67,7 @@ describe('NFTs721 Api End-to-End', () => {
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
         metadata.userId = payload.sub
 
@@ -81,7 +82,7 @@ describe('NFTs721 Api End-to-End', () => {
         nftPrice = nftPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
-        assetRewards1 = new AssetRewards(
+        assetPrice1 = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
@@ -102,12 +103,18 @@ describe('NFTs721 Api End-to-End', () => {
 
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-            ddo = await nevermined.nfts721.create(
+            
+            const nftAttributes = NFTAttributes.getNFT721Instance({
                 metadata,
-                artist,
-                assetRewards1,
-                nftContract.address
+                price: assetPrice1,
+                serviceTypes: ['nft-sales', 'nft-access'],
+                nftContractAddress: nftContract.address
+            })            
+            ddo = await nevermined.nfts721.create(
+                nftAttributes,
+                artist
             )
+
             assert.isDefined(ddo)
             await nftContract.addMinter(artist.getId(), nftContractOwner)
 
@@ -173,29 +180,29 @@ describe('NFTs721 Api End-to-End', () => {
                 escrowPaymentCondition.getAddress()
             )
             const receiver0Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[0]
+                assetPrice1.getReceivers()[0]
             )
             const receiver1Balance = await token.balanceOf(
-                assetRewards1.getReceivers()[1]
+                assetPrice1.getReceivers()[1]
             )
             const collectorBalance = await token.balanceOf(collector1.getId())
 
             assert.isTrue(
                 receiver0Balance.eq(
-                    initialBalances.artist.add(assetRewards1.getAmounts()[0])
+                    initialBalances.artist.add(assetPrice1.getAmounts()[0])
                 )
             )
 
             assert.isTrue(
                 receiver1Balance.eq(
-                    initialBalances.gallery.add(assetRewards1.getAmounts()[1])
+                    initialBalances.gallery.add(assetPrice1.getAmounts()[1])
                 )
             )
 
             assert.isTrue(collectorBalance.sub(initialBalances.collector1).eq(0))
             assert.isTrue(
                 escrowPaymentConditionBalanceBefore
-                    .sub(assetRewards1.getTotalPrice())
+                    .sub(assetPrice1.getTotalPrice())
                     .eq(escrowPaymentConditionBalanceAfter)
             )
         })

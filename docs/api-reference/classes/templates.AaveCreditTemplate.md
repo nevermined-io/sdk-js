@@ -672,7 +672,7 @@ ___
 
 ### createService
 
-▸ **createService**(`publisher`, `metadata`, `assetRewards?`, `erc20TokenAddress?`, `priced?`): `Promise`<`ServiceAaveCredit`\>
+▸ **createService**(`publisher`, `metadata`, `assetPrice?`, `erc20TokenAddress?`, `priced?`): `Promise`<`ServiceAaveCredit`\>
 
 #### Parameters
 
@@ -680,7 +680,7 @@ ___
 | :------ | :------ | :------ |
 | `publisher` | [`Account`](Account.md) | `undefined` |
 | `metadata` | [`MetaData`](../interfaces/MetaData.md) | `undefined` |
-| `assetRewards?` | `default` | `undefined` |
+| `assetPrice?` | `default` | `undefined` |
 | `erc20TokenAddress?` | `string` | `undefined` |
 | `priced` | `boolean` | `false` |
 

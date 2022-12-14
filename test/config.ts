@@ -1,4 +1,4 @@
-import { Config, LogLevel } from '../src/models/Config'
+import { NeverminedOptions, LogLevel } from '../src/models/NeverminedOptions'
 import { LoggerInstance } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
@@ -18,4 +18,4 @@ export default {
         treasuryAddress: '0xd0A1E359811322d97991E03f863a0C30C2cF029C',
         agreementFee: 15
     }
-} as Config
+} as NeverminedOptions

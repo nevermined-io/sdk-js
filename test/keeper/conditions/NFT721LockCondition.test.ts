@@ -7,7 +7,7 @@ import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Nft721 } from '../../../src'
+import { NFT721Api } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { Contract, ContractReceipt, Event } from 'ethers'
 import BigNumber from '../../../src/utils/BigNumber'
@@ -21,7 +21,7 @@ describe('NFT721LockCondition', () => {
     let didRegistry: DIDRegistry
     let nftContractAddress: string
     let _nftContract: Contract
-    let nft721Wrapper: Nft721
+    let nft721Wrapper: NFT721Api
     let lockAddress: Account
     let owner: Account
     let did: string

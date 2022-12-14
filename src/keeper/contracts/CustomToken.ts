@@ -1,6 +1,7 @@
 import Token from './Token'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ethers } from 'ethers'
+import ContractHandler from '../ContractHandler'
 
 export default class CustomToken extends Token {
 
@@ -11,7 +12,7 @@ export default class CustomToken extends Token {
         const token: CustomToken = new Token('Custom-Token')
         token.setInstanceConfig(config)
 
-        await token.checkExists(address)
+        await new ContractHandler(config).checkExists(address)
         
         token.contract = new ethers.Contract(address, Token.ERC20_ABI, token.web3)
 

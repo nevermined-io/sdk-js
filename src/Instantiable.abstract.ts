@@ -1,4 +1,4 @@
-import Config from './models/Config'
+import NeverminedOptions from './models/NeverminedOptions'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import Web3Provider from './keeper/Web3Provider'
 import { Nevermined } from './nevermined/Nevermined'
@@ -6,14 +6,14 @@ import { ethers } from 'ethers'
 
 export interface InstantiableConfig {
     nevermined: Nevermined
-    config?: Config
+    config?: NeverminedOptions
     web3?: ethers.providers.JsonRpcProvider
     logger?: Logger
     artifactsFolder?: string
 }
 
 export function generateIntantiableConfigFromConfig(
-    config: Config
+    config: NeverminedOptions
 ): Partial<InstantiableConfig> {
     const logLevel =
         typeof config.verbose !== 'number'
@@ -35,29 +35,6 @@ export abstract class Instantiable {
             this.logger.error('Nevermined instance is not defined.')
         }
         return this._instantiableConfig.nevermined
-    }
-
-    /**
-     * Returns true of contract exists else it throws.
-     * @returns {@link true} if the contract exists.
-     */
-    protected async checkExists(address: string): Promise<boolean> {
-        const storage = await this.web3.getStorageAt(address, 0)
-        // check if storage is 0x0 at position 0, this is the case most of the cases
-        if (
-            storage ===
-            '0x0000000000000000000000000000000000000000000000000000000000000000'
-        ) {
-            // if the storage is empty, check if there is no code for this contract,
-            // if so we can be sure it does not exist
-            const code = await this.web3.getCode(address)
-            if (code === '0x0') {
-                // no contract in the blockchain dude
-                throw new Error(`No contract deployed at address ${address}, sorry.`)
-            }
-        }
-
-        return true
     }
 
     public get web3() {
@@ -102,58 +79,6 @@ export abstract class Instantiable {
         return { nevermined, web3, config, logger, artifactsFolder }
     }
 
-    public async findSigner(from: string): Promise<ethers.Signer> {
-        for (const acc of this.config.accounts || []) {
-            const addr = await acc.getAddress()
-            if (addr.toLowerCase() === from.toLowerCase()) {
-                return acc.connect(this.web3)
-            }
-        }
-        return this.web3.getSigner(from)
-    }
-
-    public static async findSignerStatic(
-        config: Config,
-        web3: ethers.providers.JsonRpcProvider,
-        from: string
-    ): Promise<ethers.Signer> {
-        for (const acc of config.accounts || []) {
-            const addr = await acc.getAddress()
-            if (addr.toLowerCase() === from.toLowerCase()) {
-                return acc.connect(web3)
-            }
-        }
-        return web3.getSigner(from)
-    }
-
-    public async addresses(): Promise<string[]> {
-        let ethAccounts: string[] = []
-        try {
-            ethAccounts = await this.web3.listAccounts()
-        } catch (e) {
-            // ignore
-        }
-        const addresses = await Promise.all(
-            (this.config.accounts || []).map(a => a.getAddress())
-        )
-        return addresses.concat(ethAccounts)
-    }
-
-    public static async addressesStatic(
-        config: Config,
-        web3: ethers.providers.JsonRpcProvider
-    ): Promise<string[]> {
-        let ethAccounts: string[] = []
-        try {
-            ethAccounts = await web3.listAccounts()
-        } catch (e) {
-            // ignore
-        }
-        const addresses = await Promise.all(
-            (config.accounts || []).map(a => a.getAddress())
-        )
-        return addresses.concat(ethAccounts)
-    }
 
     public static getInstance(..._args: any): any {
         LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
@@ -171,4 +96,5 @@ export abstract class Instantiable {
     protected setInstanceConfig(config: InstantiableConfig) {
         Instantiable.setInstanceConfig(this, config)
     }
+
 }

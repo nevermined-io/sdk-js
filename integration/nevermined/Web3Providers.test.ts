@@ -8,6 +8,7 @@ import { Nevermined, Account } from '../../src'
 import * as keyFile from '../KeyFile.json'
 import { ethers } from 'ethers'
 import { HDNode } from 'ethers/lib/utils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Web3Providers', () => {
     let nevermined: Nevermined
@@ -31,13 +32,16 @@ describe('Web3Providers', () => {
             account
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         const payload = decodeJwt(config.marketplaceAuthToken)
         const metadata = getMetadata()
         metadata.userId = payload.sub
 
-        const ddo = await nevermined.assets.create(metadata, account)
+        const ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            account
+        )
         assert.isDefined(ddo)
     })
 
@@ -59,13 +63,16 @@ describe('Web3Providers', () => {
             account
         )
 
-        await nevermined.marketplace.login(clientAssertion)
+        await nevermined.services.marketplace.login(clientAssertion)
 
         const payload = decodeJwt(config.marketplaceAuthToken)
         const metadata = getMetadata()
         metadata.userId = payload.sub
 
-        const ddo = await nevermined.assets.create(metadata, account)
+        const ddo = await nevermined.assets.create(
+            AssetAttributes.getInstance({ metadata }),
+            account
+        )
         assert.isDefined(ddo)
     })
 })
