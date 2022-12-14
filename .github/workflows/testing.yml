@@ -34,11 +34,13 @@ jobs:
           nvm-tools copy-artifacts ./artifacts
           ls -l artifacts
 
+      - name: Start ganache
+        run: yarn ganache --port 18545 --chain.chainId 8998 &
+
       - name: Run unit tests
         env:
           ETH_PORT: 18545
         run: |
-          yarn ganache --port 18545 --chain.chainId 8998 &
           yarn run test:cover
       
       - name: Run integration tests
