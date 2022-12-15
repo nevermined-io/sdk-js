@@ -8,17 +8,16 @@ import { ethers } from 'ethers'
  * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
  */
 export class AccountsApi extends Instantiable {
-
     /**
      * Creates a new AccountsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link AccountsApi}
-     */ 
-     constructor(config: InstantiableConfig) {
+     */
+    constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
     }
-    
+
     /**
      * Returns the list of accounts including the addresses not controlled by the node,
      * only can be used by providers like metamask, Status or Trustwallet but not by default
@@ -29,6 +28,16 @@ export class AccountsApi extends Instantiable {
         return (await this.addresses()).map(
             address => new Account(address, this.instanceConfig)
         )
+    }
+
+    /**
+     * Returns an account initialized with existing web3 provider
+     * @param address - The account address
+     *
+     * @returns The account
+     */
+    public getAccount(address: string): Account {
+        return new Account(address, this.instanceConfig)
     }
 
     /**
@@ -69,9 +78,7 @@ export class AccountsApi extends Instantiable {
         return this.web3.getSigner(from)
     }
 
-    public async findSignerStatic(
-        from: string
-    ): Promise<ethers.Signer> {
+    public async findSignerStatic(from: string): Promise<ethers.Signer> {
         for (const acc of this.config.accounts || []) {
             const addr = await acc.getAddress()
             if (addr.toLowerCase() === from.toLowerCase()) {
@@ -93,5 +100,4 @@ export class AccountsApi extends Instantiable {
         )
         return addresses.concat(ethAccounts)
     }
-
 }
