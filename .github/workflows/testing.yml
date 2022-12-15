@@ -49,7 +49,7 @@ jobs:
 
           export KEEPER_VERSION=develop
           export SUBGRAPH_VERSION=develop
-          export NODE_VERSION=latest
+          export NODE_VERSION=develop
           ./start_nevermined.sh ${{ matrix.network }} --opengsn 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
