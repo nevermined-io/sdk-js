@@ -9,24 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        network: ["--geth"]
-        node: ["16"]
-        include:
-          - network: "--geth"
-            network-name: geth-localnet
-            chainId: 8998
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
-      - name: Install dependencies
-        run: yarn
-
+          node-version: 16
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/node
@@ -39,6 +27,16 @@ jobs:
           ref: feature/sdk_v100rc0
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
+      - uses: nevermined-io/nvm-tools-actions@v0.2.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: "true"
+          estuary: "true"
+          node: "false"
+          contracts-version: "develop"
+
+      - name: Install dependencies
+        run: yarn
 
       - name: Build SDK-JS package and node
         run: |
@@ -60,32 +58,14 @@ jobs:
           yarn run setup:dev
           yarn build
 
-      - name: Run tools (network)
-        run: |
-          docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          sudo chmod go+r /etc/hosts
-          sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-          git clone https://github.com/nevermined-io/tools
-          cd tools
-
-          export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
-
-          # Disabling the compute api for now
-          # Check https://github.com/nevermined-io/sdk-js/issues/33
-          
-          # TODO: Use the default Node when merged into master
-          export KEEPER_VERSION=develop
-          export SUBGRAPH_VERSION=develop
-          export NODE_VERSION=latest
-          ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node --opengsn 2>&1 | tee nevermined_tools.txt &
-          cd ..
-          ./scripts/wait-nevermined.sh
-
       - name: Run node
+        env:
+          WEB3_PROVIDER_URL: http://contracts.nevermined.localnet
+          ESTUARY_TOKEN: ESTaa43688b-4ccf-4dad-8a16-410e488706ffARY
+          ESTUARY_ENDPOINT: http://estuary.nevermined.localnet
         run: |
           cd node
-          ./scripts/wait-nevermined.sh
+          nvm-tools copy-artifacts ./artifacts
           yarn start 2>&1 | tee node_log.txt &
 
       - name: Run integration tests
@@ -98,14 +78,10 @@ jobs:
           NEVERMINED_NODE_URI: http://localhost:8030
           NO_GRAPH: true
         run: |
+          nvm-tools copy-artifacts ./artifacts
           yarn run integration:cover
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt
-      - name: Upload logs
+      
+      - name: Upload node logs
         uses: actions/upload-artifact@v2
         if: failure()
         with:
