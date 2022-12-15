@@ -32,13 +32,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/node
-          ref: develop
+          ref: feature/sdk_v100rc0
           path: node
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/sdk-dtp
-          ref: develop
+          ref: feature/sdk_v100rc0
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
 
