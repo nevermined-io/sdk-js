@@ -32,11 +32,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/node
+          ref: 'develop' # TODO: Remove this when ready to use main branch
           path: node
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/sdk-dtp
+          ref: 'develop' # TODO: Remove this when ready to use main branch
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
 
@@ -77,7 +79,7 @@ jobs:
           # TODO: Use the default Node when merged into master
           export KEEPER_VERSION=develop
           export SUBGRAPH_VERSION=develop
-          export NODE_VERSION=latest
+          export NODE_VERSION=develop
           ./start_nevermined.sh ${{ matrix.network }} --no-graph --no-node --opengsn 2>&1 | tee nevermined_tools.txt &
           cd ..
           ./scripts/wait-nevermined.sh
