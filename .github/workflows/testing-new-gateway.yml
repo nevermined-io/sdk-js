@@ -25,10 +25,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        run: |
-          yarn
-      - name: Run linters
-        run: yarn lint
+        run: yarn
+
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/node
@@ -97,6 +95,7 @@ jobs:
           IPFS_GATEWAY: https://ipfs.infura.io:5001
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
+          NEVERMINED_NODE_URI: http://localhost:8030
           NO_GRAPH: true
         run: |
           yarn run integration:cover
