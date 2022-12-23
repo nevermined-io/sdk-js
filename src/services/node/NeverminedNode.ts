@@ -230,48 +230,33 @@ export class NeverminedNode extends Instantiable {
         files: MetaDataFile[],
         destination: string,
         index = -1,
-        isToDownload = true,
         headers?: { [key: string]: string }
     ) {
-        if (isToDownload) {
-            const filesPromises = files
-                .filter((_, i) => +index === -1 || i === index)
-                .map(async ({ index: i }) => {
-                    const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
-                    try {
-                        await this.nevermined.utils.fetch.downloadFile(
-                            consumeUrl,
-                            destination,
-                            i,
-                            headers
-                        )
-                    } catch (e) {
-                        throw new NeverminedNodeError(`Error consuming assets - ${e}`)
-                    }
-                })
+        const filesPromises = files
+            .filter((_, i) => +index === -1 || i === index)
+            .map(async ({ index: i }) => {
+                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                try {
+                    await this.nevermined.utils.fetch.downloadFile(
+                        consumeUrl,
+                        destination,
+                        i,
+                        headers
+                    )
+                } catch (e) {
+                    throw new NeverminedNodeError(`Error consuming assets - ${e}`)
+                }
+            })
 
-            await Promise.all(filesPromises)
+        await Promise.all(filesPromises)
 
-            this.logger.log('Files consumed')
+        this.logger.log('Files consumed')
 
-            if (destination) {
-                return destination
-            }
-            return 'success'
+        if (destination) {
+            return destination
         }
-
-        return Promise.all(
-            files
-                .filter((_, i) => +index === -1 || i === index)
-                .map(async ({ index: i }) => {
-                    const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
-                    try {
-                        return this.nevermined.utils.fetch.getFile(consumeUrl, i, headers)
-                    } catch (e) {
-                        throw new NeverminedNodeError(`Error consuming assets - ${e}`)
-                    }
-                })
-        )
+        
+        return 'success'   
     }
 
     public async execute(

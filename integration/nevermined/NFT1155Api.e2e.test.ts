@@ -11,7 +11,6 @@ import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/Asse
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
-import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
@@ -335,19 +334,6 @@ describe('NFTs 1155 Api End-to-End', () => {
         it('The collector access the files', async () => {
             const result = await nevermined.nfts1155.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
-        })
-
-        it('The collector access the files object', async () => {
-            const result = (await nevermined.nfts1155.access(
-                ddo.id,
-                collector1,
-                undefined,
-                undefined,
-                undefined,
-                false
-            )) as WebApiFile[]
-
-            assert.equal(result[0].name, 'ddo-example.json')
         })
     })
 

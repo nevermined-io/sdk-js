@@ -14,9 +14,6 @@ if (typeof window !== 'undefined') {
     fetch = require('node-fetch')
 }
 
-// Nevermined already has a File type
-export type WebApiFile = File
-
 /**
  * Provides a common interface to web services.
  */
@@ -108,16 +105,6 @@ export class WebServiceConnector extends Instantiable {
         const d = path.join(destination, name)
         this.logger.log(`Downloaded: ${d}`)
         return d
-    }
-
-    public async getFile(
-        url: string,
-        index?: number,
-        headers?: { [key: string]: string }
-    ): Promise<WebApiFile> {
-        const { response, name } = await this.getFileResponse(url, index, headers)
-        const blob = (await response.blob()) as Blob
-        return new File([blob], name) as WebApiFile
     }
 
     private async getFileResponse(
