@@ -6,7 +6,6 @@ import {
     SubscribablePromise,
     didZeroX
 } from '../../utils'
-import { Babysig } from '../utils/JwtUtils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { AssetError } from '../../errors'
@@ -17,6 +16,7 @@ import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetAttributes } from '../../models/AssetAttributes'
 import { Providers } from '../Provider'
+import { Babysig } from '../../models/KeyTransfer'
 
 /**
  * Where the metadata will be published. Options:
@@ -201,6 +201,8 @@ export class AssetsApi extends RegistryBaseApi {
      * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
      * @param resultPath - Where the files will be downloaded
      * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
+     * @param buyer - Key which represent the buyer
+     * @param babySig - An elliptic curve signature
      * @returns The result path or true if everything went okay
      */
     public async access(
@@ -209,6 +211,7 @@ export class AssetsApi extends RegistryBaseApi {
         consumerAccount: Account,
         resultPath: string,
         fileIndex?: number
+
     ): Promise<string>
 
     // eslint-disable-next-line no-dupe-class-members
@@ -236,7 +239,9 @@ export class AssetsApi extends RegistryBaseApi {
         did: string,
         consumerAccount: Account,
         resultPath?: string,
-        fileIndex = -1
+        fileIndex = -1,
+        buyer?: string,
+        babySig?: Babysig,
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -262,7 +267,9 @@ export class AssetsApi extends RegistryBaseApi {
             consumerAccount,
             files,
             resultPath,
-            fileIndex
+            fileIndex,
+            buyer,
+            babySig
         )
         this.logger.log('Files consumed')
 

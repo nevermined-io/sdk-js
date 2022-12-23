@@ -15,7 +15,7 @@ import { ServiceSecondary } from '../../../ddo/Service'
 import { TxParameters } from '../../../keeper/contracts/ContractBase'
 import { NFTError } from '../../../errors'
 import BigNumber from '../../../utils/BigNumber'
-import { Babysig } from '../../utils/JwtUtils'
+import { Babysig } from '../../../models/KeyTransfer'
 import { ERCType } from '../../../models/NFTAttributes'
 import { RegistryBaseApi } from '../RegistryBaseApi'
 

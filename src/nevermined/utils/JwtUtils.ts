@@ -3,11 +3,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../Account'
 import { SignatureUtils } from './SignatureUtils'
 import { ethers } from 'ethers'
-
-export interface Babysig {
-    R8: [string, string]
-    S: string
-}
+import { Babysig } from '../../models/KeyTransfer'
 
 export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -118,7 +114,9 @@ export class JwtUtils extends Instantiable {
     public async generateAccessGrantToken(
         account: Account,
         serviceAgreementId: string,
-        did: string
+        did: string,
+        buyer?: string,
+        babySig?: Babysig,
     ): Promise<string> {
         const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
@@ -126,7 +124,9 @@ export class JwtUtils extends Instantiable {
             aud: this.BASE_AUD + '/access',
             sub: serviceAgreementId,
             did: did,
-            eths: 'personal'
+            eths: 'personal',
+            buyer,
+            babySig,
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
