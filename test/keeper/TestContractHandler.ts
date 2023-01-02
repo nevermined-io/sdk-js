@@ -446,7 +446,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         init = true
     ): Promise<ethers.Contract> {
         if (!from) {
-            ;[from] = await TestContractHandler.addresses(
+            [from] = await TestContractHandler.addresses(
                 TestContractHandler.config,
                 TestContractHandler.web3
             )
