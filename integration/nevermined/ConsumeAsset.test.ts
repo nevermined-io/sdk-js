@@ -184,12 +184,12 @@ describe('Consume Asset', () => {
             ddo.id,
             consumer,
             folder
-        )
+        ) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 
         const files = await new Promise<string[]>(resolve => {
-            fs.readdir(path, (e, fileList) => {
+            fs.readdir(path as string, (e, fileList) => {
                 resolve(fileList)
             })
         })
@@ -209,7 +209,7 @@ describe('Consume Asset', () => {
             consumer,
             folder,
             1
-        )
+        ) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 

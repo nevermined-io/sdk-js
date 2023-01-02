@@ -82,7 +82,7 @@ describe.skip('Consume Asset (Large size)', () => {
             ddo.id,
             consumer,
             folder
-        )
+        ) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 
