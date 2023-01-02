@@ -5,7 +5,6 @@ import { Nevermined, Account, DDO } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 import '../globals'
-import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Filecoin Integration', () => {
@@ -83,18 +82,6 @@ describe('Filecoin Integration', () => {
         assert.equal(data.toString(), 'Hello, Nevermined!')
     })
 
-    it('should get a file asset object with a cid://', async () => {
-        const result = (await nevermined.assets.download(
-            ddo.id,
-            publisher,
-            undefined,
-            0,
-            false
-        )) as WebApiFile[]
-
-        assert.equal(result[0].name, TEST_CID_HASH)
-    })
-
     it('should register an asset with a cid:// and filename', async () => {
         metadata.userId = userId
         metadata.main.files = [
@@ -120,17 +107,5 @@ describe('Filecoin Integration', () => {
         assert.include(path, folder)
         const data = fs.readFileSync(`${path}test.txt`)
         assert.equal(data.toString(), 'Hello, Nevermined!')
-    })
-
-    it('should get a file asset object with a cid:// and filename', async () => {
-        const result = (await nevermined.assets.download(
-            ddo.id,
-            publisher,
-            undefined,
-            0,
-            false
-        )) as WebApiFile[]
-
-        assert.equal(result[0].name, 'test.txt')
     })
 })

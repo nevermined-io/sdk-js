@@ -15,6 +15,7 @@ import { ServiceSecondary } from '../../../ddo/Service'
 import { TxParameters } from '../../../keeper/contracts/ContractBase'
 import { NFTError } from '../../../errors'
 import BigNumber from '../../../utils/BigNumber'
+import { Babysig } from '../../../models/KeyTransfer'
 import { ERCType } from '../../../models/NFTAttributes'
 import { RegistryBaseApi } from '../RegistryBaseApi'
 
@@ -321,10 +322,10 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
      * @param did - The Decentralized Identifier of the NFT asset.
      * @param consumer - The NFT holder account.
      * @param destination - The download destination for the files.
-     * @param index-  The index of the file. If unset will download all the files in the asset.
+     * @param index - The index of the file. If unset will download all the files in the asset.
      * @param agreementId - The NFT sales agreement id.
-     * @param isToDownload - If the NFT is for downloading
-     *
+     * @param buyer - Key which represent the buyer
+     * @param babySig - An elliptic curve signature
      * @returns true if the access was successful or file if isToDownload is false.
      */
      public async access(
@@ -333,7 +334,8 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         destination?: string,
         index?: number,
         agreementId = '0x',
-        isToDownload = true
+        buyer?: string,
+        babySig?: Babysig,
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -342,7 +344,9 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         const accessToken = await this.nevermined.utils.jwt.getNftAccessGrantToken(
             agreementId,
             ddo.id,
-            consumer
+            consumer,
+            buyer,
+            babySig
         )
         const headers = {
             Authorization: 'Bearer ' + accessToken
@@ -354,7 +358,6 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             files,
             destination,
             index,
-            isToDownload,
             headers
         )
 

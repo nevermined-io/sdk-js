@@ -12,7 +12,6 @@ import { ethers } from 'ethers'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
-import { WebApiFile } from '../../src/nevermined/utils/WebServiceConnector'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTs721 Api End-to-End', () => {
@@ -212,19 +211,6 @@ describe('NFTs721 Api End-to-End', () => {
         it('The collector access the files to download', async () => {
             const result = await nevermined.nfts1155.access(ddo.id, collector1, '/tmp/')
             assert.isTrue(result)
-        })
-
-        it('The collector access the files object', async () => {
-            const result = (await nevermined.nfts1155.access(
-                ddo.id,
-                collector1,
-                undefined,
-                undefined,
-                undefined,
-                false
-            )) as WebApiFile[]
-
-            assert.equal(result[0].name, 'ddo-example.json')
         })
     })
 })

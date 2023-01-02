@@ -3,6 +3,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../Account'
 import { SignatureUtils } from './SignatureUtils'
 import { ethers } from 'ethers'
+import { Babysig } from '../../models/KeyTransfer'
 
 export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters
@@ -113,7 +114,9 @@ export class JwtUtils extends Instantiable {
     public async generateAccessGrantToken(
         account: Account,
         serviceAgreementId: string,
-        did: string
+        did: string,
+        buyer?: string,
+        babySig?: Babysig,
     ): Promise<string> {
         const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
@@ -121,7 +124,9 @@ export class JwtUtils extends Instantiable {
             aud: this.BASE_AUD + '/access',
             sub: serviceAgreementId,
             did: did,
-            eths: 'personal'
+            eths: 'personal',
+            buyer,
+            babySig,
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
@@ -153,14 +158,18 @@ export class JwtUtils extends Instantiable {
 
     public async generateDownloadGrantToken(
         account: Account,
-        did: string
+        did: string,
+        buyer?: string,
+        babySig?: Babysig,
     ): Promise<string> {
         const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
             iss: address,
             aud: this.BASE_AUD + '/download',
             did: did,
-            eths: 'personal'
+            eths: 'personal',
+            buyer,
+            babySig,
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
@@ -168,11 +177,15 @@ export class JwtUtils extends Instantiable {
             .ethSign(address, this.nevermined.utils.signature)
     }
 
-    public async getDownloadGrantToken(did: string, account: Account): Promise<string> {
+    public async getDownloadGrantToken(
+        did: string,
+        account: Account,
+        buyer?: string,
+        babySig?: Babysig,): Promise<string> {
         const cacheKey = this.generateCacheKey(account.getId(), did)
 
         if (!this.tokenCache.has(cacheKey)) {
-            const grantToken = await this.generateDownloadGrantToken(account, did)
+            const grantToken = await this.generateDownloadGrantToken(account, did, buyer, babySig)
             const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
             this.tokenCache.set(cacheKey, accessToken)
 
@@ -223,7 +236,9 @@ export class JwtUtils extends Instantiable {
     public async generateNftAccessGrantToken(
         agreementId: string,
         did: string,
-        account: Account
+        account: Account,
+        buyer?: string,
+        babySig?: Babysig,
     ): Promise<string> {
         const address = ethers.utils.getAddress(account.getId())
         const params = {
@@ -231,7 +246,9 @@ export class JwtUtils extends Instantiable {
             aud: this.BASE_AUD + '/nft-access',
             sub: agreementId,
             did,
-            eths: 'personal'
+            eths: 'personal',
+            buyer,
+            babySig
         }
 
         return new EthSignJWT(params)
@@ -244,7 +261,9 @@ export class JwtUtils extends Instantiable {
     public async getNftAccessGrantToken(
         agreementId: string,
         did: string,
-        account: Account
+        account: Account,
+        buyer?: string,
+        babySig?: Babysig,
     ): Promise<string> {
         const cacheKey = this.generateCacheKey(agreementId, account.getId(), did)
 
@@ -252,7 +271,9 @@ export class JwtUtils extends Instantiable {
             const grantToken = await this.generateNftAccessGrantToken(
                 agreementId,
                 did,
-                account
+                account,
+                buyer,
+                babySig
             )
             const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
             this.tokenCache.set(cacheKey, accessToken)

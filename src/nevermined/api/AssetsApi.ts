@@ -16,6 +16,7 @@ import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetAttributes } from '../../models/AssetAttributes'
 import { Providers } from '../Provider'
+import { Babysig } from '../../models/KeyTransfer'
 
 /**
  * Where the metadata will be published. Options:
@@ -200,6 +201,8 @@ export class AssetsApi extends RegistryBaseApi {
      * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
      * @param resultPath - Where the files will be downloaded
      * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
+     * @param buyer - Key which represent the buyer
+     * @param babySig - An elliptic curve signature
      * @returns The result path or true if everything went okay
      */
     public async access(
@@ -208,6 +211,7 @@ export class AssetsApi extends RegistryBaseApi {
         consumerAccount: Account,
         resultPath: string,
         fileIndex?: number
+
     ): Promise<string>
 
     // eslint-disable-next-line no-dupe-class-members
@@ -235,7 +239,9 @@ export class AssetsApi extends RegistryBaseApi {
         did: string,
         consumerAccount: Account,
         resultPath?: string,
-        fileIndex = -1
+        fileIndex = -1,
+        buyer?: string,
+        babySig?: Babysig,
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -261,7 +267,9 @@ export class AssetsApi extends RegistryBaseApi {
             consumerAccount,
             files,
             resultPath,
-            fileIndex
+            fileIndex,
+            buyer,
+            babySig
         )
         this.logger.log('Files consumed')
 
@@ -349,19 +357,20 @@ export class AssetsApi extends RegistryBaseApi {
      * @param did - The Decentralized Identifier of the asset.
      * @param ownerAccount - The receiver account owner
      * @param resultPath - Path to be the files downloader
-     * @param fileIndex - the index of the file
-     * @param isToDownload - If the NFT is for downloading
-     * @param serviceType - service type. 'access' by default
-     *
-     * @return status, path destination if resultPath is provided or file object if isToDownload is false
+     * @param fileIndex - The index of the file
+     * @param serviceType - Service type. 'access' by default
+     * @param buyer - Key which represent the buyer
+     * @param babySig - An elliptic curve signature
+     * @return Status, path destination if resultPath is provided
      */
     public async download(
         did: string,
         ownerAccount: Account,
         resultPath?: string,
         fileIndex = -1,
-        isToDownload = true,
-        serviceType: ServiceType = 'access'
+        serviceType: ServiceType = 'access',
+        buyer?: string,
+        babySig?: Babysig,
     ) {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -383,7 +392,9 @@ export class AssetsApi extends RegistryBaseApi {
 
         const accessToken = await this.nevermined.utils.jwt.getDownloadGrantToken(
             ddo.id,
-            ownerAccount
+            ownerAccount,
+            buyer,
+            babySig
         )
         const headers = {
             Authorization: 'Bearer ' + accessToken
@@ -392,7 +403,6 @@ export class AssetsApi extends RegistryBaseApi {
             files,
             resultPath,
             fileIndex,
-            isToDownload,
             headers
         )
     }
