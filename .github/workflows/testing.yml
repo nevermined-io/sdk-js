@@ -9,57 +9,40 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        network: ["--geth"]
-        node: ["16"]
-        include:
-          - network: "--geth"
-            network-name: geth-localnet
-            chainId: 8998
-            delay: GRAPH_DELAY
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 16
+      - uses: nevermined-io/nvm-tools-actions@v0.2.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: "true"
+          estuary: "true"
+          contracts-version: "develop"
+          node-version: "develop"
+
       - name: Install dependencies
         run: |
           yarn
       - name: Run linters
         run: yarn lint
-      - name: Run tools (network)
-        run: |
-          docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          yarn ganache --port 18545 --chain.chainId ${{ matrix.chainId }} > ganache-cli.log &
-          sudo chmod go+r /etc/hosts
-          sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-          
-          # TODO: Use `master` when the renaming is done
-          git clone https://github.com/nevermined-io/tools
-          cd tools
-
-          export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
-
-          # Disabling the compute api for now
-          # Check https://github.com/nevermined-io/sdk-js/issues/33
-
-          export KEEPER_VERSION=develop
-          export SUBGRAPH_VERSION=develop
-          export NODE_VERSION=develop
-          ./start_nevermined.sh ${{ matrix.network }} --opengsn 2>&1 | tee nevermined_tools.txt &
-          cd ..
-          ./scripts/wait-nevermined.sh
-          ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
 
       - name: Check artifacts
         run: |
+          nvm-tools copy-artifacts ./artifacts
           ls -l artifacts
+
+      - name: Start ganache
+        run: yarn ganache --port 18545 --chain.chainId 8998 &
+
       - name: Run unit tests
-        run: export ETH_PORT=18545; yarn run test:cover
+        env:
+          ETH_PORT: 18545
+        run: |
+          yarn run test:cover
+      
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
@@ -68,12 +51,5 @@ jobs:
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
-        run: |
-          export ${{ matrix.delay }}=true
-          yarn run integration:cover
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt
+          NO_GRAPH: true
+        run: yarn run integration:cover

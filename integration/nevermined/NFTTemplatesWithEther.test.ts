@@ -14,7 +14,6 @@ import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/
 import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import Web3Provider from '../../src/keeper/Web3Provider'
 import { ZeroAddress } from '../../src/utils'
 import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import BigNumber from '../../src/utils/BigNumber'
@@ -140,9 +139,9 @@ describe('NFTTemplates With Ether E2E', async () => {
                 collector2: await collector2.getEtherBalance(),
                 gallery: await gallery.getEtherBalance(),
                 governor: await governor.getEtherBalance(),
-                escrowPaymentCondition: await Web3Provider.getWeb3(config).getBalance(
-                    escrowPaymentCondition.getAddress()
-                )
+                escrowPaymentCondition: await nevermined.accounts
+                    .getAccount(escrowPaymentCondition.getAddress())
+                    .getEtherBalance()
             }
 
             agreementIdSeed = utils.generateId()
@@ -178,17 +177,13 @@ describe('NFTTemplates With Ether E2E', async () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
-
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         describe('As an artist I want to register a new artwork', async () => {
@@ -359,13 +354,18 @@ describe('NFTTemplates With Ether E2E', async () => {
                 )
                 assert.equal(state, ConditionState.Fulfilled)
 
-                const escrowPaymentConditionBalance = await Web3Provider.getWeb3(
-                    config
-                ).getBalance(escrowPaymentCondition.getAddress())
-
-                const receiver0Balance = await new Account(receivers[0]).getEtherBalance()
-                const receiver1Balance = await new Account(receivers[1]).getEtherBalance()
-                const receiver2Balance = await new Account(receivers[2]).getEtherBalance()
+                const escrowPaymentConditionBalance = await nevermined.accounts
+                    .getAccount(escrowPaymentCondition.getAddress())
+                    .getEtherBalance()
+                const receiver0Balance = await nevermined.accounts
+                    .getAccount(receivers[0])
+                    .getEtherBalance()
+                const receiver1Balance = await nevermined.accounts
+                    .getAccount(receivers[1])
+                    .getEtherBalance()
+                const receiver2Balance = await nevermined.accounts
+                    .getAccount(receivers[2])
+                    .getEtherBalance()
 
                 // for this assert we use a delta to account for the transaction fees
                 // of all the transactions from the artist
