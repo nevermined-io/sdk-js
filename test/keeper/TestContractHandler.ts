@@ -14,12 +14,10 @@ interface ContractTest extends ethers.Contract {
     $initialized?: boolean
 }
 
-
-export default abstract class TestContractHandler extends ContractHandler {    
-
+export default abstract class TestContractHandler extends ContractHandler {
     public static async prepareContracts(): Promise<string> {
         TestContractHandler.setConfig(config)
-        
+
         const [deployerAddress] = await TestContractHandler.addresses(
             TestContractHandler.config,
             TestContractHandler.web3
@@ -46,16 +44,6 @@ export default abstract class TestContractHandler extends ContractHandler {
 
     private static async deployContracts(deployerAddress: string) {
         Logger.log('Trying to deploy contracts')
-
-        // Libraries
-        const epochLibrary = await TestContractHandler.deployContract(
-            'EpochLibrary',
-            deployerAddress
-        )
-        const didRegistryLibrary = await TestContractHandler.deployContract(
-            'DIDRegistryLibrary',
-            deployerAddress
-        )
 
         // Contracts
         const nvmConfig = await TestContractHandler.deployContract(
@@ -95,7 +83,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         )
 
         // Add dispenser as Token minter
-        if (!token.$initialized) {            
+        if (!token.$initialized) {
             const signer = await TestContractHandler.findSignerStatic(
                 TestContractHandler.config,
                 TestContractHandler.web3,
@@ -103,7 +91,11 @@ export default abstract class TestContractHandler extends ContractHandler {
             )
             const contract = token.connect(signer)
             const args = [TestContractHandler.minter, dispenser.address]
-            const methodSignature = ContractHandler.getSignatureOfMethod(contract, 'grantRole', args)
+            const methodSignature = ContractHandler.getSignatureOfMethod(
+                contract,
+                'grantRole',
+                args
+            )
             const transactionResponse: TransactionResponse = await contract[
                 methodSignature
             ](...args)
@@ -122,10 +114,7 @@ export default abstract class TestContractHandler extends ContractHandler {
                 erc721.address,
                 nvmConfig.address,
                 royalties.address
-            ],
-            {
-                DIDRegistryLibrary: didRegistryLibrary.address
-            }
+            ]
         )
 
         let transactionResponse: TransactionResponse = await erc1155.addMinter(
@@ -151,10 +140,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         const conditionStoreManager = await TestContractHandler.deployContract(
             'ConditionStoreManager',
             deployerAddress,
-            [deployerAddress, deployerAddress, nvmConfig.address],
-            {
-                EpochLibrary: epochLibrary.address
-            }
+            [deployerAddress, deployerAddress, nvmConfig.address]
         )
         const agreementStoreManager = await TestContractHandler.deployContract(
             'AgreementStoreManager',
@@ -196,16 +182,19 @@ export default abstract class TestContractHandler extends ContractHandler {
             [deployerAddress, conditionStoreManager.address]
         )
 
-        const nftLockCondition = await TestContractHandler.deployContract('NFTLockCondition', deployerAddress, [
+        const nftLockCondition = await TestContractHandler.deployContract(
+            'NFTLockCondition',
             deployerAddress,
-            conditionStoreManager.address,
-            erc1155.address
-        ])
-        transactionResponse = await erc1155.setProxyApproval(nftLockCondition.address, true)
+            [deployerAddress, conditionStoreManager.address, erc1155.address]
+        )
+        transactionResponse = await erc1155.setProxyApproval(
+            nftLockCondition.address,
+            true
+        )
         contractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
             throw new Error('Error calling "setProxyApproval" on "erc1155"')
-        } 
+        }
 
         const nftAcessCondition = await TestContractHandler.deployContract(
             'NFTAccessCondition',
@@ -239,7 +228,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         transactionResponse = await erc1155.setProxyApproval(
             transferNftCondition.address,
             true
-        )       
+        )
         contractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
             throw new Error('Error calling "addMinter" on "erc721"')
@@ -380,10 +369,10 @@ export default abstract class TestContractHandler extends ContractHandler {
         }
         return web3.getSigner(from)
     }
-    
+
     public static async addresses(
         config: NeverminedOptions,
-        web3: ethers.providers.JsonRpcProvider        
+        web3: ethers.providers.JsonRpcProvider
     ): Promise<string[]> {
         let ethAccounts: string[] = []
         try {
@@ -457,7 +446,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         init = true
     ): Promise<ethers.Contract> {
         if (!from) {
-            [from] = await TestContractHandler.addresses(
+            ;[from] = await TestContractHandler.addresses(
                 TestContractHandler.config,
                 TestContractHandler.web3
             )
