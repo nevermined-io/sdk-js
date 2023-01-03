@@ -116,7 +116,7 @@ export class JwtUtils extends Instantiable {
         serviceAgreementId: string,
         did: string,
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ): Promise<string> {
         const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
@@ -126,7 +126,7 @@ export class JwtUtils extends Instantiable {
             did: did,
             eths: 'personal',
             buyer,
-            babySig,
+            babysig,
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
@@ -160,7 +160,7 @@ export class JwtUtils extends Instantiable {
         account: Account,
         did: string,
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ): Promise<string> {
         const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
@@ -169,7 +169,7 @@ export class JwtUtils extends Instantiable {
             did: did,
             eths: 'personal',
             buyer,
-            babySig,
+            babysig,
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
@@ -181,11 +181,11 @@ export class JwtUtils extends Instantiable {
         did: string,
         account: Account,
         buyer?: string,
-        babySig?: Babysig,): Promise<string> {
+        babysig?: Babysig,): Promise<string> {
         const cacheKey = this.generateCacheKey(account.getId(), did)
 
         if (!this.tokenCache.has(cacheKey)) {
-            const grantToken = await this.generateDownloadGrantToken(account, did, buyer, babySig)
+            const grantToken = await this.generateDownloadGrantToken(account, did, buyer, babysig)
             const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
             this.tokenCache.set(cacheKey, accessToken)
 
@@ -238,7 +238,7 @@ export class JwtUtils extends Instantiable {
         did: string,
         account: Account,
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ): Promise<string> {
         const address = ethers.utils.getAddress(account.getId())
         const params = {
@@ -248,7 +248,7 @@ export class JwtUtils extends Instantiable {
             did,
             eths: 'personal',
             buyer,
-            babySig
+            babysig
         }
 
         return new EthSignJWT(params)
@@ -263,7 +263,7 @@ export class JwtUtils extends Instantiable {
         did: string,
         account: Account,
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ): Promise<string> {
         const cacheKey = this.generateCacheKey(agreementId, account.getId(), did)
 
@@ -273,7 +273,7 @@ export class JwtUtils extends Instantiable {
                 did,
                 account,
                 buyer,
-                babySig
+                babysig
             )
             const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
             this.tokenCache.set(cacheKey, accessToken)
