@@ -200,7 +200,7 @@ export class AssetsApi extends RegistryBaseApi {
      * @param resultPath - Where the files will be downloaded
      * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
      * @param buyer - Key which represent the buyer
-     * @param babySig - An elliptic curve signature
+     * @param babysig - An elliptic curve signature
      * @returns The result path or true if everything went okay
      */
     public async access(
@@ -210,7 +210,7 @@ export class AssetsApi extends RegistryBaseApi {
         resultPath?: string,
         fileIndex = -1,
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -238,7 +238,7 @@ export class AssetsApi extends RegistryBaseApi {
             resultPath,
             fileIndex,
             buyer,
-            babySig
+            babysig
         )
         this.logger.log('Files consumed')
 
@@ -329,7 +329,7 @@ export class AssetsApi extends RegistryBaseApi {
      * @param fileIndex - The index of the file
      * @param serviceType - Service type. 'access' by default
      * @param buyer - Key which represent the buyer
-     * @param babySig - An elliptic curve signature
+     * @param babysig - An elliptic curve signature
      * @return Status, path destination if resultPath is provided
      */
     public async download(
@@ -339,7 +339,7 @@ export class AssetsApi extends RegistryBaseApi {
         fileIndex = -1,
         serviceType: ServiceType = 'access',
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ) {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -363,7 +363,7 @@ export class AssetsApi extends RegistryBaseApi {
             ddo.id,
             ownerAccount,
             buyer,
-            babySig
+            babysig
         )
         const headers = {
             Authorization: 'Bearer ' + accessToken

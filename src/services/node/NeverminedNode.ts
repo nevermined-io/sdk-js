@@ -166,7 +166,7 @@ export class NeverminedNode extends Instantiable {
         destination: string,
         index = -1,
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string
@@ -178,7 +178,7 @@ export class NeverminedNode extends Instantiable {
                 agreementId,
                 did,
                 buyer,
-                babySig
+                babysig
             )
             accessToken = await this.fetchToken(grantToken)
             jwt.tokenCache.set(cacheKey, accessToken)

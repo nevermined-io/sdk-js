@@ -335,7 +335,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         index?: number,
         agreementId = '0x',
         buyer?: string,
-        babySig?: Babysig,
+        babysig?: Babysig,
     ) {
         const ddo = await this.nevermined.assets.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -346,7 +346,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             ddo.id,
             consumer,
             buyer,
-            babySig
+            babysig
         )
         const headers = {
             Authorization: 'Bearer ' + accessToken
