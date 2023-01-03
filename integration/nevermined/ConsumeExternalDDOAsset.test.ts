@@ -177,7 +177,7 @@ describe('Consume Asset (Documentation example)', () => {
             ddo.id,
             consumer,
             folder
-        )
+        )  as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 
@@ -202,7 +202,7 @@ describe('Consume Asset (Documentation example)', () => {
             consumer,
             folder,
             0
-        )
+        ) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 

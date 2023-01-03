@@ -128,7 +128,7 @@ describe('Consume Asset (Nevermined Node)', () => {
             consumer,
             folder,
             -1
-        )
+        ) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 

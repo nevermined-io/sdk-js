@@ -173,7 +173,6 @@ export class AssetsApi extends RegistryBaseApi {
         return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)
     }
 
-
     /**
      * Start the purchase/order of an access service. Starts by signing the service agreement
      * then sends the request to the publisher via the service endpoint (Node http service).
@@ -192,7 +191,6 @@ export class AssetsApi extends RegistryBaseApi {
         return this.orderAsset(did, 'access', consumerAccount, txParams)
     }
 
-
     /**
      * Having previously ordered an "access" service (referenced via an "agreementId"). 
      * This method allows to download the assets associated to that service.
@@ -205,35 +203,6 @@ export class AssetsApi extends RegistryBaseApi {
      * @param babySig - An elliptic curve signature
      * @returns The result path or true if everything went okay
      */
-    public async access(
-        agreementId: string,
-        did: string,
-        consumerAccount: Account,
-        resultPath: string,
-        fileIndex?: number
-
-    ): Promise<string>
-
-    // eslint-disable-next-line no-dupe-class-members
-    public async access(
-        agreementId: string,
-        did: string,
-        consumerAccount: Account,
-        resultPath?: undefined | null,
-        fileIndex?: number
-    ): Promise<true>
-
-    /**
-     * Having previously ordered an "access" service (referenced via an "agreementId"). 
-     * This method allows to download the assets associated to that service.
-     * @param agreementId  - The unique identifier of the order placed for a service
-     * @param did - Unique identifier of the asset ordered
-     * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
-     * @param resultPath - Where the files will be downloaded
-     * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
-     * @returns The result path or true if everything went okay
-     */
-    // eslint-disable-next-line no-dupe-class-members
     public async access(
         agreementId: string,
         did: string,
