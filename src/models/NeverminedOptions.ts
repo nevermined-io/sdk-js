@@ -1,5 +1,4 @@
 import { ethers } from 'ethers'
-import { ZeroAddress } from '../utils/ConversionTypeHelpers'
 import { LogLevel } from '../utils/Logger'
 import { AaveConfig } from './AaveConfig'
 export { LogLevel } from '../utils/Logger'
@@ -48,18 +47,6 @@ export class NeverminedOptions {
     public verbose?: boolean | LogLevel
 
     /**
-     * Message shown when the user creates its own token.
-     */
-    public authMessage?: string
-
-    /**
-     * Token expiration time in ms.
-     */
-    public authTokenExpiration?: number
-
-    public threshold?: number
-
-    /**
      * Gas multiplier for the fees.
      * Can be used to speed up the transactions.
      */
@@ -89,16 +76,6 @@ export class NeverminedOptions {
     public ipfsProjectId?: string
 
     public ipfsProjectSecret?: string
-
-    /**
-     * The fee charged by Nevermined for using the Service Agreements
-     */
-    public networkFee?: number = 0
-
-    /**
-     * The address receiving the fee if this is higher than 0
-     */
-    public feeReceiver?: string = ZeroAddress
 }
 
 export default NeverminedOptions

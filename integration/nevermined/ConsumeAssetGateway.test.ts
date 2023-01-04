@@ -57,11 +57,6 @@ describe('Consume Asset (Nevermined Node)', () => {
         assert.isDefined(rsaPublicKey)
     })
 
-    it('should authenticate the accounts', async () => {
-        await publisher.authenticate()
-        await consumer.authenticate()
-    })
-
     it('should register an asset', async () => {
         const steps = []
 

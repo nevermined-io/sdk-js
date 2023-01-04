@@ -53,37 +53,6 @@ export default class Account extends Instantiable {
     }
 
     /**
-     * Set account token.
-     * @param token - Token for account.
-     */
-    public setToken(token: string): void {
-        this.token = token
-    }
-
-    /**
-     * Returns account token.
-     * @returns Account token.
-     */
-    public async getToken(): Promise<string> {
-        return this.token || this.nevermined.utils.auth.restore(this)
-    }
-
-    /**
-     * Returns if account token is stored.
-     * @returns {@link true} if the token is stored.
-     */
-    public isTokenStored(): Promise<boolean> {
-        return this.nevermined.utils.auth.isStored(this)
-    }
-
-    /**
-     * Authenticate the account.
-     */
-    public authenticate() {
-        return this.nevermined.utils.auth.store(this)
-    }
-
-    /**
      * Balance of Nevermined Token.
      * @returns
      */

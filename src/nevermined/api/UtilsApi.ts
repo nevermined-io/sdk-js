@@ -1,5 +1,4 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { Auth } from '../Auth'
 import { Files } from '../Files'
 import { Token } from '../Token'
 import { Versions } from '../Versions'
@@ -18,11 +17,6 @@ export class UtilsApi extends Instantiable {
      * Agreement utils.
      */
     public agreements: ServiceAgreement
-
-    /**
-     * Auth utils.
-     */
-     public auth: Auth
 
     /**
      * Fetch utils.
@@ -63,8 +57,7 @@ export class UtilsApi extends Instantiable {
         super()
         this.setInstanceConfig(config)
 
-        this.agreements = new ServiceAgreement(config)
-        this.auth = new Auth(config)        
+        this.agreements = new ServiceAgreement(config)      
         this.fetch = new WebServiceConnector(config)
         this.files = new Files(config)
         this.jwt = new JwtUtils(config)
