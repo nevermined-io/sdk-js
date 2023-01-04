@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import AssetPrice from '../../src/models/AssetPrice'
+import { AssetPrice } from '../../src'
 import BigNumber from '../../src/utils/BigNumber'
 
 describe('AssetPrice', () => {

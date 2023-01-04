@@ -3,13 +3,11 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
-import { Nevermined, Account, MetaData, DDO } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from '../../src'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import { PublishMetadata } from '../../src/nevermined/api/AssetsApi'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 let nevermined: Nevermined
 let publisher: Account

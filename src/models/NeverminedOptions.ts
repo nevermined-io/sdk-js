@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { LogLevel } from '../utils/Logger'
-import { AaveConfig } from './AaveConfig'
+import { AaveConfig } from './'
 export { LogLevel } from '../utils/Logger'
 
 export class NeverminedOptions {
@@ -77,5 +77,3 @@ export class NeverminedOptions {
 
     public ipfsProjectSecret?: string
 }
-
-export default NeverminedOptions

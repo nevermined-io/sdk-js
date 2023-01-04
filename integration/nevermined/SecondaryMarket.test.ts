@@ -1,7 +1,15 @@
 import chai, { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined, utils } from '../../src'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    utils,
+    AssetPrice,
+    AssetAttributes,
+    NFTAttributes
+} from '../../src'
 import { Service } from '../../src/ddo/Service'
 import {
     ConditionState,
@@ -12,7 +20,6 @@ import {
 import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetPrice from '../../src/models/AssetPrice'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
@@ -27,8 +34,6 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
@@ -193,16 +198,13 @@ describe('Secondary Markets', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -682,7 +684,9 @@ describe('Secondary Markets', () => {
                 )
                 assert.isNotNull(agreementId3)
 
-                const service = await nevermined.services.metadata.retrieveService(agreementId3)
+                const service = await nevermined.services.metadata.retrieveService(
+                    agreementId3
+                )
                 assert.isDefined(service)
             })
 

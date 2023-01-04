@@ -1,4 +1,4 @@
-import { ERCType, NeverminedNFTType } from '../models/NFTAttributes'
+import { ERCType, NeverminedNFTType } from '..'
 
 export interface StageRequirements {
     container: {

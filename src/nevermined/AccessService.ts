@@ -14,8 +14,7 @@ import {
     NFTAccessTemplate,
     NFTSalesTemplate
 } from '../keeper/contracts/templates'
-import AssetPrice from '../models/AssetPrice'
-import { Account, MetaData, MetaDataMain } from '../sdk'
+import { Account, MetaData, MetaDataMain, AssetPrice } from '..'
 
 export interface AccessProofTemplateParams {
     type: 'access-proof'

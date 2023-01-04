@@ -2,10 +2,7 @@ import { DDO } from '../../ddo/DDO'
 import { MetaData } from '../../ddo/MetaData'
 import { ServiceType } from '../../ddo/Service'
 import Account from '../Account'
-import {
-    SubscribablePromise,
-    didZeroX
-} from '../../utils'
+import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { AssetError } from '../../errors'
@@ -13,10 +10,13 @@ import { RoyaltyScheme } from '../../keeper/contracts/royalties'
 import { Nevermined } from '../../sdk'
 import { ContractReceipt } from 'ethers'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
-import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
-import { AssetAttributes } from '../../models/AssetAttributes'
+import {
+    CreateProgressStep,
+    OrderProgressStep,
+    UpdateProgressStep
+} from '../ProgressSteps'
 import { Providers } from '../Provider'
-import { Babysig } from '../../models/KeyTransfer'
+import { Babysig, AssetAttributes } from '../..'
 
 /**
  * Where the metadata will be published. Options:
@@ -44,7 +44,7 @@ export interface RoyaltyAttributes {
 /**
  * The type of royalty
  */
- export enum RoyaltyKind {
+export enum RoyaltyKind {
     Standard,
     Curve,
     Legacy
@@ -80,13 +80,12 @@ export function getRoyaltyAttributes(nvm: Nevermined, kind: RoyaltyKind, amount:
 }
 
 /**
- * Nevermined Assets API. It allows the registration and management of digital assets in a 
- * Nevermined digital ecosystem. 
+ * Nevermined Assets API. It allows the registration and management of digital assets in a
+ * Nevermined digital ecosystem.
  * You can find more information about you can do in a Nevermined information here:
  * {@link https://docs.nevermined.io/docs/architecture/what-can-i-do}
  */
 export class AssetsApi extends RegistryBaseApi {
-
     /**
      * Utilities about the providers associated to an asset
      */
@@ -96,8 +95,8 @@ export class AssetsApi extends RegistryBaseApi {
      * Creates a new AssetsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link AssetsApi}
-     */ 
-     constructor(config: InstantiableConfig) {
+     */
+    constructor(config: InstantiableConfig) {
         super()
         this.servicePlugin = AssetsApi.getServicePlugin(config)
         this.setInstanceConfig(config)
@@ -110,12 +109,15 @@ export class AssetsApi extends RegistryBaseApi {
      * @param policy - It specifies the resolve policy to apply. It allows to select that priorities during the asset resolution via Metadata API or Immutable URLs (IPFS, Filecoin, etc)
      * @returns {@link DDO}
      */
-    public async resolve(did: string, policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst): Promise<DDO> {
+    public async resolve(
+        did: string,
+        policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst
+    ): Promise<DDO> {
         return this.resolveAsset(did, policy)
     }
 
     /**
-     * Registers a new asset in Nevermined. 
+     * Registers a new asset in Nevermined.
      * You can find more information about how different data is stored in Nevermined here:
      * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
      *
@@ -142,35 +144,40 @@ export class AssetsApi extends RegistryBaseApi {
         )
     }
 
-
     /**
      * Given a DID, updates the metadata associated to the asset. It also can upload this metadata to a remote decentralized stored depending on the `publishMetadata` parameter.
-     * 
+     *
      * @example
      * ```ts
      * const ddoUpdated = await nevermined.assets.update(
-     *      ddo.shortId(), 
-     *      updatedMetadata, 
-     *      publisher, 
+     *      ddo.shortId(),
+     *      updatedMetadata,
+     *      publisher,
      *      PublishMetadata.IPFS
      * )
      * ```
-     * 
+     *
      * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
      * @param metadata - Metadata describing the asset
      * @param publisherAccount - Account of the user updating the metadata
-     * @param publishMetadata - It allows to specify where to store the metadata  
+     * @param publishMetadata - It allows to specify where to store the metadata
      * @param txParams - Optional transaction parameters
      * @returns {@link DDO} The DDO updated
      */
-     public update(
+    public update(
         did: string,
         metadata: MetaData,
         publisherAccount: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
     ): SubscribablePromise<UpdateProgressStep, DDO> {
-        return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)
+        return this.updateAsset(
+            did,
+            metadata,
+            publisherAccount,
+            publishMetadata,
+            txParams
+        )
     }
 
     /**
@@ -183,7 +190,7 @@ export class AssetsApi extends RegistryBaseApi {
      * @param txParams - Optional transaction parameters
      * @returns The agreement ID identifying the order
      */
-     public order(
+    public order(
         did: string,
         consumerAccount: Account,
         txParams?: TxParameters
@@ -192,7 +199,7 @@ export class AssetsApi extends RegistryBaseApi {
     }
 
     /**
-     * Having previously ordered an "access" service (referenced via an "agreementId"). 
+     * Having previously ordered an "access" service (referenced via an "agreementId").
      * This method allows to download the assets associated to that service.
      * @param agreementId  - The unique identifier of the order placed for a service
      * @param did - Unique identifier of the asset ordered
@@ -210,7 +217,7 @@ export class AssetsApi extends RegistryBaseApi {
         resultPath?: string,
         fileIndex = -1,
         buyer?: string,
-        babysig?: Babysig,
+        babysig?: Babysig
     ): Promise<string | true> {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -248,7 +255,6 @@ export class AssetsApi extends RegistryBaseApi {
         return true
     }
 
-
     /**
      * Returns the owner of an asset.
      * @param did - Decentralized ID.
@@ -274,7 +280,7 @@ export class AssetsApi extends RegistryBaseApi {
 
     /**
      * Returns the assets owned by an address
-     * @param owner - The address to check 
+     * @param owner - The address to check
      * @returns List of DIDs owned by the address
      */
     public async ownerAssets(owner: string): Promise<string[]> {
@@ -314,7 +320,6 @@ export class AssetsApi extends RegistryBaseApi {
         ).map(({ did }) => did)
     }
 
-
     public async retire(did: string) {
         return this.nevermined.services.metadata.delete(did)
     }
@@ -339,7 +344,7 @@ export class AssetsApi extends RegistryBaseApi {
         fileIndex = -1,
         serviceType: ServiceType = 'access',
         buyer?: string,
-        babysig?: Babysig,
+        babysig?: Babysig
     ) {
         const ddo = await this.resolve(did)
         const { attributes } = ddo.findServiceByType('metadata')
@@ -376,7 +381,6 @@ export class AssetsApi extends RegistryBaseApi {
         )
     }
 
-
     /**
      * It grants permissions to an account for a specific asset represented by a DID.
      * Only can be called by the asset owner.
@@ -384,7 +388,7 @@ export class AssetsApi extends RegistryBaseApi {
      * @param address - The account to grant the permissions
      * @param ownerAccount - Account sending the request. It must be the owner of the asset
      * @param params  - Transaction parameters
-     */    
+     */
     public async grantPermissions(
         did: string,
         address: string,

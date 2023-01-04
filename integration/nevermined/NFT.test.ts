@@ -2,8 +2,7 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import { Nevermined, Account, DDO, AssetPrice, NFTAttributes } from '../../src'
 import { ZeroAddress } from '../../src/utils'
 import BigNumber from '../../src/utils/BigNumber'
 import {
@@ -11,7 +10,6 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined

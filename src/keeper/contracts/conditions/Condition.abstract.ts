@@ -2,9 +2,8 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import Account from '../../../nevermined/Account'
-import { DDO } from '../../..'
+import { DDO, AssetPrice } from '../../..'
 import { Service } from '../../../ddo/Service'
-import AssetPrice from '../../../models/AssetPrice'
 import { ContractReceipt } from 'ethers'
 
 export enum ConditionState {

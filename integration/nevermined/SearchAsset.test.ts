@@ -2,10 +2,9 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
 import { sleep } from '../utils/utils'
 import { generateId } from '../../src/utils'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Search Asset', () => {
     let nevermined: Nevermined

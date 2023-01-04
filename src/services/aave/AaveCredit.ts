@@ -2,9 +2,8 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import Account from '../../nevermined/Account'
 import GenericContract from '../../keeper/contracts/GenericContract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
-import { AaveConfig } from '../../models/AaveConfig'
 import { ConditionState } from '../../keeper/contracts/conditions/Condition.abstract'
-import { NFT721Api } from '../..'
+import { NFT721Api, AaveConfig } from '../..'
 import {
     AaveCreditTemplate,
     AaveCreditTemplateParams
@@ -134,8 +133,9 @@ export class AaveCredit extends Instantiable {
         }
         did = did || agreementData.did
         const lockCond = this.nevermined.keeper.conditions.nft721LockCondition
-        const nft721 = (await NFT721Api.getInstance(this.instanceConfig, nftContractAddress))
-            .nftContract
+        const nft721 = (
+            await NFT721Api.getInstance(this.instanceConfig, nftContractAddress)
+        ).nftContract
         const approved = await nft721.call('getApproved', [didZeroX(did)])
         if (!approved || approved !== lockCond.address) {
             const approvalTxReceipt = await nft721.send('approve', from.getId(), [
@@ -183,7 +183,7 @@ export class AaveCredit extends Instantiable {
             )
         }
         if (!did) {
-            ({ did } = agreementData)
+            did = agreementData.did
         }
         const _collateralAmount = ethers.utils
             .parseEther(collateralAmount.toString())
@@ -250,7 +250,7 @@ export class AaveCredit extends Instantiable {
             )
         }
         if (!did) {
-            ({ did } = agreementData)
+            did = agreementData.did
         }
         const amount = BigNumber.parseEther(delegatedAmount.toString()).toString()
 

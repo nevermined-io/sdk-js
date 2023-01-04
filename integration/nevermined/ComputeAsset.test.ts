@@ -4,10 +4,8 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
-import { Nevermined, DDO, Account } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import { Nevermined, DDO, Account, AssetPrice, AssetAttributes } from '../../src'
 import BigNumber from '../../src/utils/BigNumber'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Compute Asset', () => {
     let nevermined: Nevermined

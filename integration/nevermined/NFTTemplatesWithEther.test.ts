@@ -1,5 +1,13 @@
 import { assert } from 'chai'
-import { Account, DDO, Nevermined, utils } from '../../src'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    utils,
+    AssetPrice,
+    AssetAttributes,
+    NFTAttributes
+} from '../../src'
 import { decodeJwt } from 'jose'
 import {
     ConditionState,
@@ -11,7 +19,6 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
-import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { ZeroAddress } from '../../src/utils'
@@ -22,8 +29,6 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account

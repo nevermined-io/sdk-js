@@ -1,11 +1,10 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 import '../globals'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Filecoin Integration', () => {
     let nevermined: Nevermined

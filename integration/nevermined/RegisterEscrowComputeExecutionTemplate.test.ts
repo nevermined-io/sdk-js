@@ -1,8 +1,16 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, utils, Account, Keeper, DDO, Logger } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import {
+    Nevermined,
+    utils,
+    Account,
+    Keeper,
+    DDO,
+    Logger,
+    AssetPrice,
+    AssetAttributes
+} from '../../src'
 import Token from '../../src/keeper/contracts/Token'
 import { getMetadata } from '../utils'
 import { EscrowComputeExecutionTemplate } from '../../src/keeper/contracts/templates'
@@ -14,7 +22,6 @@ import {
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -206,7 +213,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill LockPaymentCondition', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch(error) {
+            } catch (error) {
                 Logger.error(error)
             }
 
@@ -297,15 +304,12 @@ describe('Register Escrow Compute Execution Template', () => {
                 ])
             )
 
-            const assetAttributes = AssetAttributes.getInstance({ 
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
                 price: assetPrice,
                 serviceTypes: ['access', 'compute']
             })
-            ddo = await nevermined.assets.create(
-                assetAttributes,
-                publisher
-            )
+            ddo = await nevermined.assets.create(assetAttributes, publisher)
         })
 
         it('should create a new agreement (short way)', async () => {
@@ -332,7 +336,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill the conditions from consumer side', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch(error) {
+            } catch (error) {
                 Logger.error(error)
             }
 

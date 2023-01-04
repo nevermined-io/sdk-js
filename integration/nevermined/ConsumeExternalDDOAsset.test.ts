@@ -2,12 +2,10 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 import { config } from '../config'
-import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
+import { Nevermined, DDO, Account, ConditionState, MetaData, Logger, AssetPrice, AssetAttributes } from '../../src'
 import { getDocsCommonMetadata } from '../utils'
-import AssetPrice from '../../src/models/AssetPrice'
 import { repeat, sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 
 describe('Consume Asset (Documentation example)', () => {

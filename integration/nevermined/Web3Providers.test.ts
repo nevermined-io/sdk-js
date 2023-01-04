@@ -3,12 +3,11 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account } from '../../src'
+import { Nevermined, Account, AssetAttributes } from '../../src'
 
 import * as keyFile from '../KeyFile.json'
 import { ethers } from 'ethers'
 import { HDNode } from 'ethers/lib/utils'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Web3Providers', () => {
     let nevermined: Nevermined

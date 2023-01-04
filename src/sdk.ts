@@ -1,4 +1,3 @@
-import NeverminedOptions from './models/NeverminedOptions'
 import Account from './nevermined/Account'
 import DID from './nevermined/DID'
 import { Nevermined } from './nevermined/Nevermined'
@@ -34,8 +33,9 @@ export {
     PermissionType
 } from './services/metadata/Permissions.interfaces'
 
+export * from './models'
+
 import * as events from './events'
-import * as KeyTransfer from './models/KeyTransfer'
 import * as subgraphs from './subgraphs'
 
 export {
@@ -44,11 +44,9 @@ export {
     // AccountsApi as Accounts,
     NFT1155Api,
     NFT721Api,
-    NeverminedOptions,
     DID,
     Logger,
     Keeper,
-    KeyTransfer,
     conditions,
     templates,
     SearchQuery,

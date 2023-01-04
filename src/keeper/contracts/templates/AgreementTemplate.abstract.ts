@@ -17,9 +17,8 @@ import {
     zeroX
 } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import AssetPrice from '../../../models/AssetPrice'
+import { AssetPrice, BabyjubPublicKey } from '../../..'
 import Account from '../../../nevermined/Account'
-import { BabyjubPublicKey } from '../../../models/KeyTransfer'
 import { Service, ServiceType } from '../../../ddo/Service'
 import Token from '../Token'
 import CustomToken from '../CustomToken'
@@ -406,7 +405,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const { lockPaymentCondition } = this.nevermined.keeper.conditions
 
         if (!tokenAddress) {
-            ({ token } = this.nevermined.keeper)
+            token = this.nevermined.keeper.token
         } else if (tokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {

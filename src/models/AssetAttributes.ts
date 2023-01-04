@@ -1,7 +1,7 @@
 import { Service, ServiceType } from '../ddo/Service'
 import { EncryptionMethod } from '../services/metadata/MetadataService'
 import { MetaData } from "../ddo/MetaData"
-import AssetPrice from './AssetPrice'
+import { AssetPrice } from './'
 
 
 export class AssetAttributes {    

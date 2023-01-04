@@ -2,10 +2,9 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, utils } from '../../src'
+import { Nevermined, Account, DDO, utils, AssetAttributes } from '../../src'
 import { sleep } from '../utils/utils'
 import { ethers } from 'ethers'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { ProvenanceMethod } from '../../src/keeper/contracts/Provenance'
 
 describe('Provenance', () => {

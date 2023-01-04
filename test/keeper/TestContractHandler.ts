@@ -7,7 +7,7 @@ import { ZeroAddress } from '../../src/utils'
 import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import fs from 'fs'
-import NeverminedOptions from '../../src/models/NeverminedOptions'
+import { NeverminedOptions } from '../..'
 
 interface ContractTest extends ethers.Contract {
     testContract?: boolean
@@ -446,7 +446,8 @@ export default abstract class TestContractHandler extends ContractHandler {
         init = true
     ): Promise<ethers.Contract> {
         if (!from) {
-            [from] = await TestContractHandler.addresses(
+            // eslint-disable-next-line @typescript-eslint/no-extra-semi
+            ;[from] = await TestContractHandler.addresses(
                 TestContractHandler.config,
                 TestContractHandler.web3
             )

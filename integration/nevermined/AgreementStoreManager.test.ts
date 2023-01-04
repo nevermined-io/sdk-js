@@ -1,10 +1,9 @@
 import { assert } from 'chai'
-import { Account, Nevermined, MetaData } from '../../src'
+import { Account, Nevermined, MetaData, AssetAttributes } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
 import { sleep } from '../utils/utils'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Agreement Store Manager', () => {
     let nevermined: Nevermined

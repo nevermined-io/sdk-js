@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, Account, DDO, NFTAttributes } from '../../src'
 import BigNumber from '../../src/utils/BigNumber'
 import {
     getRoyaltyAttributes,
@@ -13,7 +13,6 @@ import { ethers, Wallet } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper/utils'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('MetaTx test with nfts', () => {
     let nevermined: Nevermined

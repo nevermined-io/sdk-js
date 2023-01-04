@@ -1,12 +1,18 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
-import { Account, ConditionState, Nevermined, utils } from '../../../src'
+import {
+    Account,
+    ConditionState,
+    Nevermined,
+    utils,
+    NeverminedNFT1155Type,
+    NFTAttributes
+} from '../../../src'
 import { NFTHolderCondition } from '../../../src/keeper/contracts/conditions'
 import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import { NeverminedNFT1155Type, NFTAttributes } from '../../../src/models/NFTAttributes'
 import { didZeroX, zeroX } from '../../../src/utils'
 import BigNumber from '../../../src/utils/BigNumber'
 import config from '../../config'
@@ -89,7 +95,7 @@ describe('NFTHolderCondition', () => {
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
-                preMint: false,
+                preMint: false
             })
 
             await didRegistry.registerMintableDID(
@@ -103,7 +109,12 @@ describe('NFTHolderCondition', () => {
                 activityId
             )
 
-            await nftUpgradeable.mint(holder.getId(), did, BigNumber.from(10), owner.getId())
+            await nftUpgradeable.mint(
+                holder.getId(),
+                did,
+                BigNumber.from(10),
+                owner.getId()
+            )
 
             const contractReceipt: ContractReceipt = await nftHolderCondition.fulfill(
                 agreementId,
@@ -126,8 +137,7 @@ describe('NFTHolderCondition', () => {
 
     describe('fulfill non existing condition', () => {
         it('should not fulfill if conditions do not exist', async () => {
-
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
@@ -146,7 +156,12 @@ describe('NFTHolderCondition', () => {
                 activityId
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
-            await nftUpgradeable.mint(holder.getId(), did, BigNumber.from(10), owner.getId())
+            await nftUpgradeable.mint(
+                holder.getId(),
+                did,
+                BigNumber.from(10),
+                owner.getId()
+            )
 
             await assert.isRejected(
                 nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),
@@ -174,7 +189,7 @@ describe('NFTHolderCondition', () => {
                 owner
             )
 
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
@@ -194,7 +209,12 @@ describe('NFTHolderCondition', () => {
                 activityId
             )
 
-            await nftUpgradeable.mint(holder.getId(), did, BigNumber.from(1), owner.getId())
+            await nftUpgradeable.mint(
+                holder.getId(),
+                did,
+                BigNumber.from(1),
+                owner.getId()
+            )
 
             await assert.isRejected(
                 nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),

@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { Account, DDO, Nevermined, utils } from '../../src'
+import { Account, DDO, Nevermined, utils, NeverminedNFT721Type, NFTAttributes, AssetPrice } from '../../src'
 import {
     ConditionState,
     EscrowPaymentCondition,
@@ -15,7 +15,6 @@ import {
     NFT721SalesTemplate
 } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NFT721Api } from '../../src'
@@ -27,7 +26,6 @@ import {
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined/api/AssetsApi'
-import { NeverminedNFT721Type, NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFT721Templates E2E', () => {
     let nftContractOwner: Account

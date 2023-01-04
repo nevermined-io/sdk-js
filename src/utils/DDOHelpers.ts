@@ -4,7 +4,7 @@ import {
     ServiceAgreementTemplateCondition,
     ServiceAgreementTemplateParameter
 } from '../ddo/ServiceAgreementTemplate'
-import AssetPrice from '../models/AssetPrice'
+import { AssetPrice } from '..'
 import BigNumber from './BigNumber'
 
 function fillParameterWithDDO(

@@ -6,27 +6,24 @@ import { ReadStream } from 'fs'
 import { NeverminedNodeError, HttpError } from '../../errors'
 import { ServiceType } from '../../ddo/Service'
 import BigNumber from '../../utils/BigNumber'
-import { ERCType } from '../../models/NFTAttributes'
-import { Babysig } from '../../models/KeyTransfer'
+import { ERCType, Babysig } from '../..'
 import { DDO } from '../../ddo/DDO'
 import { PublishMetadata } from '../../nevermined/api/AssetsApi'
 import { ImmutableBackends } from '../../ddo/NvmConfig'
 
 const apiPath = '/api/v1/node/services'
 
-export enum NodeUploadBackends { 
+export enum NodeUploadBackends {
     Filecoin = 'filecoin',
     IPFS = 'ipfs',
     AmazonS3 = 's3'
 }
-
 
 /**
  * Provides a interface with Nevermined Node.
  * The Nevermined Node is the technical component executed by the Publishers allowing to them to provide extended data services.
  */
 export class NeverminedNode extends Instantiable {
-
     private get url() {
         return this.config.neverminedNodeUri
     }
@@ -166,7 +163,7 @@ export class NeverminedNode extends Instantiable {
         destination: string,
         index = -1,
         buyer?: string,
-        babysig?: Babysig,
+        babysig?: Babysig
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string
@@ -260,8 +257,8 @@ export class NeverminedNode extends Instantiable {
         if (destination) {
             return destination
         }
-        
-        return 'success'   
+
+        return 'success'
     }
 
     public async execute(
@@ -445,34 +442,40 @@ export class NeverminedNode extends Instantiable {
     public async publishImmutableContent(
         ddo: DDO,
         publishMetadata: PublishMetadata = PublishMetadata.IPFS
-    ): Promise<{url: string, backend: ImmutableBackends}> {
-        let url, backend = undefined
+    ): Promise<{ url: string; backend: ImmutableBackends }> {
+        let url,
+            backend = undefined
 
         if (publishMetadata === PublishMetadata.Filecoin) {
-            this.logger.log('Publishing metadata to Filecoin')                    
+            this.logger.log('Publishing metadata to Filecoin')
             ;({ url } = await this.nevermined.services.node.uploadContent(
-                JSON.stringify(ddo), 
-                false, 
+                JSON.stringify(ddo),
+                false,
                 NodeUploadBackends.Filecoin
-                ))
+            ))
             backend = 'filecoin'
-            
         } else if (publishMetadata === PublishMetadata.IPFS) {
-            this.logger.log('Publishing metadata to IPFS')                    
+            this.logger.log('Publishing metadata to IPFS')
             ;({ url: url } = await this.nevermined.services.node.uploadContent(
-                JSON.stringify(ddo), 
-                false, 
+                JSON.stringify(ddo),
+                false,
                 NodeUploadBackends.IPFS
-                ))
+            ))
             backend = 'ipfs'
-
         }
         return { url, backend }
     }
 
-    public async uploadContent(data: ReadStream | string, encrypt?: boolean, backend: NodeUploadBackends = NodeUploadBackends.Filecoin): Promise<any> {
-        let response        
-        const uploadEndpoint = backend === NodeUploadBackends.Filecoin ? this.getUploadFilecoinEndpoint() : this.getUploadIPFSEndpoint()
+    public async uploadContent(
+        data: ReadStream | string,
+        encrypt?: boolean,
+        backend: NodeUploadBackends = NodeUploadBackends.Filecoin
+    ): Promise<any> {
+        let response
+        const uploadEndpoint =
+            backend === NodeUploadBackends.Filecoin
+                ? this.getUploadFilecoinEndpoint()
+                : this.getUploadIPFSEndpoint()
         if (typeof data === 'string')
             response = await this.nevermined.utils.fetch.uploadMessage(
                 uploadEndpoint,

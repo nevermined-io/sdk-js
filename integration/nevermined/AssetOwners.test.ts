@@ -1,10 +1,8 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, NeverminedOptions, utils } from '../../src'
+import { Nevermined, Account, NeverminedOptions, utils, AssetAttributes, MetaData } from '../../src'
 import { decodeJwt } from 'jose'
-import { MetaData } from '../../src'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Asset Owners', () => {
     let nevermined: Nevermined

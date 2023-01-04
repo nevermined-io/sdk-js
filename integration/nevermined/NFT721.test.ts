@@ -2,8 +2,7 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import { Nevermined, Account, DDO, NFTAttributes, AssetPrice } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ZeroAddress, zeroX } from '../../src/utils'
 import { Token } from '../../src/nevermined/Token'
@@ -11,7 +10,6 @@ import { ethers } from 'ethers'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import BigNumber from '../../src/utils/BigNumber'
 import { TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined

@@ -8,7 +8,7 @@ import DIDRegistry from '../keeper/contracts/DIDRegistry'
 import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
 import { MetaData, MetaDataMain } from './MetaData'
-import { NFTAttributes } from '../models/NFTAttributes'
+import { NFTAttributes } from '..'
 import { NvmConfig } from './NvmConfig'
 import BigNumber from '../utils/BigNumber'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
@@ -37,7 +37,6 @@ export class DDO {
 
         return new DDO(ddo)
     }
-
 
     public static createAuthorizationService(
         neverminedNodeUri: string,

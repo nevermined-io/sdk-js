@@ -3,10 +3,15 @@ import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
 import BigNumber from '../../utils/BigNumber'
-import { NFTAttributes } from '../../models/NFTAttributes'
+import { NFTAttributes } from '../..'
 import { AssetError } from '../../errors/AssetError'
-import { DEFAULT_REGISTRATION_ACTIVITY_ID, ProvenanceAttributeRegisteredEvent, ProvenanceEvent, ProvenanceMethod, ProvenanceRegistry } from './Provenance'
-
+import {
+    DEFAULT_REGISTRATION_ACTIVITY_ID,
+    ProvenanceAttributeRegisteredEvent,
+    ProvenanceEvent,
+    ProvenanceMethod,
+    ProvenanceRegistry
+} from './Provenance'
 
 export default class DIDRegistry extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -23,9 +28,9 @@ export default class DIDRegistry extends ContractBase {
      * @param providers - List of addresses in charge of interact with the asset
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param ownerAddress - Address of the user registering the DID
-     * @param params - Transaction additional parameters     
+     * @param params - Transaction additional parameters
      * @returns Contract Receipt
-     */     
+     */
     public async registerAttribute(
         did: string,
         checksum: string,
@@ -49,12 +54,12 @@ export default class DIDRegistry extends ContractBase {
      * @param checksum - Checksum resulted of hash the asset metadata
      * @param providers - List of addresses in charge of interact with the asset
      * @param ownerAddress - Address of the user registering the DID
-     * @param url - URL to the metadata in the Metadata/Marketplace API     
+     * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
      * @param activityId - Provenance identifier about the asset registration action
-     * @param params - Transaction additional parameters     
+     * @param params - Transaction additional parameters
      * @returns Contract Receipt
-     */ 
+     */
     public async registerDID(
         did: string,
         checksum: string,
@@ -91,9 +96,9 @@ export default class DIDRegistry extends ContractBase {
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
      * @param activityId - Provenance identifier about the asset registration action
-     * @param params - Transaction additional parameters     
+     * @param params - Transaction additional parameters
      * @returns Contract Receipt
-     */     
+     */
     public async registerMintableDID(
         did: string,
         checksum: string,
@@ -101,11 +106,10 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         nftAttributes: NFTAttributes,
         url: string,
-        immutableUrl = '',    
+        immutableUrl = '',
         activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
-
         return this.send(
             'registerMintableDID',
             ownerAddress,
@@ -115,7 +119,9 @@ export default class DIDRegistry extends ContractBase {
                 providers.map(zeroX),
                 url,
                 String(nftAttributes.cap),
-                (nftAttributes.royaltyAttributes?.amount) > 0 ? String(nftAttributes.royaltyAttributes?.amount) : '0',
+                nftAttributes.royaltyAttributes?.amount > 0
+                    ? String(nftAttributes.royaltyAttributes?.amount)
+                    : '0',
                 nftAttributes.preMint,
                 ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 nftAttributes.nftMetadataUrl || '',
@@ -136,9 +142,9 @@ export default class DIDRegistry extends ContractBase {
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
      * @param activityId - Provenance identifier about the asset registration action
-     * @param params - Transaction additional parameters     
+     * @param params - Transaction additional parameters
      * @returns Contract Receipt
-     */      
+     */
     public async registerMintableDID721(
         did: string,
         checksum: string,
@@ -146,7 +152,7 @@ export default class DIDRegistry extends ContractBase {
         ownerAddress: string,
         nftAttributes: NFTAttributes,
         url: string,
-        immutableUrl = '',    
+        immutableUrl = '',
         activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
         params?: TxParameters
     ) {
@@ -158,7 +164,9 @@ export default class DIDRegistry extends ContractBase {
                 zeroX(checksum),
                 providers.map(zeroX),
                 url,
-                (nftAttributes.royaltyAttributes?.amount) > 0 ? String(nftAttributes.royaltyAttributes?.amount) : '0',
+                nftAttributes.royaltyAttributes?.amount > 0
+                    ? String(nftAttributes.royaltyAttributes?.amount)
+                    : '0',
                 nftAttributes.preMint,
                 ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 immutableUrl
@@ -175,10 +183,10 @@ export default class DIDRegistry extends ContractBase {
      * @param ownerAddress - Address of the user registering the DID
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
-     * @param params - Transaction additional parameters     
+     * @param params - Transaction additional parameters
      * @returns Contract Receipt
-     */           
-     public async updateMetadataUrl(
+     */
+    public async updateMetadataUrl(
         did: string,
         checksum: string,
         ownerAddress: string,
@@ -196,7 +204,7 @@ export default class DIDRegistry extends ContractBase {
 
     /**
      * It activates a NFT associated to a NFT (ERC-1155) and allows to pre-mint. This method only can be called once per DID, so if this was called
-     * or executed before internally the method will fail. 
+     * or executed before internally the method will fail.
      * Only use if the intention is to register a mintable asset and it was registered via `registerDID` or `registerAttribute`
      *
      * @param did - The unique identifier of the asset
@@ -205,9 +213,9 @@ export default class DIDRegistry extends ContractBase {
      * @param preMint - If true pre-mints the editions of NFT
      * @param ownerAddress - Address of the user registering the DID
      * @param nftMetadata - URL to the metadata describing the NFT
-     * @param params - Transaction additional parameters     
+     * @param params - Transaction additional parameters
      * @returns Contract Receipt
-     */     
+     */
     public async enableAndMintDidNft(
         did: string,
         cap: number,
@@ -227,7 +235,7 @@ export default class DIDRegistry extends ContractBase {
 
     /**
      * It activates a NFT associated to a NFT (ERC-721) and allows to pre-mint. This method only can be called once per DID, so if this was called
-     * or executed before internally the method will fail. 
+     * or executed before internally the method will fail.
      * Only use if the intention is to register a mintable asset and it was registered via `registerDID` or `registerAttribute`
      *
      * @param did - The unique identifier of the asset
@@ -235,9 +243,9 @@ export default class DIDRegistry extends ContractBase {
      * @param preMint - If true pre-mints the editions of NFT
      * @param ownerAddress - Address of the user registering the DID
      * @param nftMetadata - URL to the metadata describing the NFT
-     * @param params - Transaction additional parameters     
+     * @param params - Transaction additional parameters
      * @returns Contract Receipt
-     */     
+     */
     public async enableAndMintDidNft721(
         did: string,
         royalties: number,
@@ -292,21 +300,20 @@ export default class DIDRegistry extends ContractBase {
             .map(didPrefixed)
     }
 
-    public async getAttributesByDid(
+    public async getAttributesByDid(did: string): Promise<{
         did: string
-    ): Promise<{ 
-        did: string; 
-        serviceEndpoint: string; 
-        checksum: string, 
-        owner: string, 
-        providers: string[],
-        nftSupply: BigNumber, 
-        mintCap: BigNumber, 
-        royalties: BigNumber,
+        serviceEndpoint: string
+        checksum: string
+        owner: string
+        providers: string[]
+        nftSupply: BigNumber
+        mintCap: BigNumber
+        royalties: BigNumber
         immutableUrl: string
-     }> {
+    }> {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
-        if (registeredValues[4] < 1) // If not valid `blockNumberUpdated` is because the asset doesn't exist on-chain
+        if (registeredValues[4] < 1)
+            // If not valid `blockNumberUpdated` is because the asset doesn't exist on-chain
             throw new AssetError(`Asset with DID ${did} not found on-chain`)
         return {
             did,

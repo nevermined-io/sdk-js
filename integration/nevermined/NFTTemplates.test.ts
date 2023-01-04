@@ -1,6 +1,14 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { Account, DDO, Nevermined, utils } from '../../src'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    utils,
+    AssetPrice,
+    NFTAttributes,
+    AssetAttributes
+} from '../../src'
 import {
     ConditionState,
     EscrowPaymentCondition,
@@ -13,7 +21,6 @@ import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
 import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
 import Token from '../../src/keeper/contracts/Token'
-import AssetPrice from '../../src/models/AssetPrice'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
@@ -23,8 +30,6 @@ import BigNumber from '../../src/utils/BigNumber'
 import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTTemplates E2E', () => {
     let owner: Account
@@ -181,17 +186,13 @@ describe('NFTTemplates E2E', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
-
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -746,16 +747,13 @@ describe('NFTTemplates E2E', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
 
             await collector1.requestTokens(nftPrice.div(scale))
         })
@@ -1124,16 +1122,13 @@ describe('NFTTemplates E2E', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         describe('As an artist I want to register a new artwork', () => {

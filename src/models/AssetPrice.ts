@@ -1,6 +1,6 @@
 import BigNumber from '../utils/BigNumber'
 
-export default class AssetPrice {
+export class AssetPrice {
     public static readonly NETWORK_FEE_DENOMINATOR = BigNumber.from(10000)
 
     private totalPrice: BigNumber

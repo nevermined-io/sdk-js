@@ -1,8 +1,6 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DID, Nevermined } from '../../src'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import AssetPrice from '../../src/models/AssetPrice'
+import { Account, DID, Nevermined, AssetPrice, AssetAttributes } from '../../src'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 

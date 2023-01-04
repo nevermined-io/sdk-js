@@ -6,11 +6,9 @@ import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
 
-import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import { Nevermined, DDO, Account, ConditionState, MetaData, Logger, AssetPrice, AssetAttributes } from '../../src'
 import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 import BigNumber from '../../src/utils/BigNumber'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Consume Asset', () => {
     let nevermined: Nevermined

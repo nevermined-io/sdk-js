@@ -3,10 +3,8 @@ import { ServiceAgreementTemplate } from './ServiceAgreementTemplate'
 import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
 import { Account } from '../sdk'
 import { TxParameters } from '../keeper/contracts/ContractBase'
-import { Babysig } from '../models/KeyTransfer'
 import { BigNumber } from 'ethers'
-import { ERCType, NeverminedNFTType } from '../models/NFTAttributes'
-import AssetPrice from '../models/AssetPrice'
+import { ERCType, NeverminedNFTType, AssetPrice, Babysig } from '..'
 
 export type ConditionType =
     | 'lockPayment'

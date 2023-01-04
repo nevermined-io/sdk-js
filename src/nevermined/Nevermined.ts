@@ -4,7 +4,7 @@ import { AssetsApi } from './api/AssetsApi'
 import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
 import Keeper from '../keeper/Keeper'
-import { NeverminedOptions } from '../models/NeverminedOptions'
+import { NeverminedOptions } from '..'
 import {
     Instantiable,
     generateIntantiableConfigFromConfig
@@ -52,7 +52,10 @@ export class Nevermined extends Instantiable {
         instance.agreements = new AgreementsApi(instanceConfig)
         instance.assets = new AssetsApi(instanceConfig)
         instance.compute = new ComputeApi(instanceConfig)
-        instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
+        instance.nfts1155 = await NFT1155Api.getInstance(
+            instanceConfig,
+            instance.keeper.nftUpgradeable
+        )
         instance.provenance = new ProvenanceApi(instanceConfig)
         instance.search = new SearchApi(instanceConfig)
         instance.services = new ServicesApi(instanceConfig)
@@ -60,7 +63,6 @@ export class Nevermined extends Instantiable {
 
         return instance
     }
-
 
     /**
      * Nevermined very own contract reflector.
@@ -99,7 +101,6 @@ export class Nevermined extends Instantiable {
             return await CustomToken.getInstanceByAddress(this.instanceConfig, address)
         }
     }
-
 
     /**
      * Keeper instance.
