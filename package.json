@@ -39,7 +39,8 @@
     "prepublishOnly": "npm run build",
     "prebuild": "npm run build:metadata",
     "prepare": "npm run build:metadata",
-    "artifacts:download": "./scripts/download-artifacts.sh"
+    "artifacts:download": "./scripts/download-artifacts.sh",
+    "utils:generate-ddos": "ts-node ./scripts/generate-ddos.ts"
   },
   "repository": {
     "type": "git",
@@ -88,6 +89,7 @@
     "auto-changelog": "^1.16.4",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "chai-exclude": "^2.1.0",
     "chai-spies": "^1.0.0",
     "cross-env": "^6.0.3",
     "eslint": "^8.19.0",

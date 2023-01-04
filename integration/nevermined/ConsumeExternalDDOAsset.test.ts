@@ -3,7 +3,7 @@ import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 import { config } from '../config'
 import { Nevermined, DDO, Account, ConditionState, MetaData, Logger } from '../../src'
-import { getDocsCommonMetadata } from '../utils'
+import { getMetadata } from '../utils'
 import AssetPrice from '../../src/models/AssetPrice'
 import { repeat, sleep } from '../utils/utils'
 import BigNumber from '../../src/utils/BigNumber'
@@ -36,14 +36,14 @@ describe('Consume Asset (Documentation example)', () => {
         await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        metadata = await getDocsCommonMetadata()
+        metadata = await getMetadata()
         metadata.userId = payload.sub
         assetPrice = new AssetPrice(publisher.getId(), BigNumber.from('0'))
     })
 
     it('should register an asset', async () => {
         ddo = await nevermined.assets.create(
-            AssetAttributes.getInstance({ 
+            AssetAttributes.getInstance({
                 metadata,
                 price: assetPrice
             }),
@@ -65,7 +65,7 @@ describe('Consume Asset (Documentation example)', () => {
 
         try {
             await consumer.requestTokens(claimedTokens)
-        } catch(error) {
+        } catch (error) {
             Logger.error(error)
         }
 
@@ -153,7 +153,7 @@ describe('Consume Asset (Documentation example)', () => {
                 )
 
             assert.isTrue(accessGranted, 'Consumer has been granted.')
-        } catch(error) {
+        } catch (error) {
             Logger.error(error)
         }
     })
@@ -172,12 +172,12 @@ describe('Consume Asset (Documentation example)', () => {
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js-1'
-        const path = await nevermined.assets.access(
+        const path = (await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,
             folder
-        )  as string
+        )) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 
@@ -189,20 +189,20 @@ describe('Consume Asset (Documentation example)', () => {
 
         assert.deepEqual(
             files,
-            ['README.md', 'package.json'],
+            ['README.md', 'ddo-example.json'],
             'Stored files are not correct.'
         )
     })
 
     it('should consume and store one asset', async () => {
         const folder = '/tmp/nevermined/sdk-js-2'
-        const path = await nevermined.assets.access(
+        const path = (await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,
             folder,
             0
-        ) as string
+        )) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 
@@ -212,6 +212,6 @@ describe('Consume Asset (Documentation example)', () => {
             })
         })
 
-        assert.deepEqual(files, ['package.json'], 'Stored files are not correct.')
+        assert.deepEqual(files, ['ddo-example.json'], 'Stored files are not correct.')
     })
 })

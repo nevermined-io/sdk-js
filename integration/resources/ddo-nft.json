@@ -1,0 +1,414 @@
+{
+  "@context": "https://w3id.org/did/v1",
+  "id": "did:nv:e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5",
+  "didSeed": "0x0de36dbde567c65f4db49b270cb6c7a802d3d7e8f51034f7c0ba044b4abe95b6",
+  "publicKey": [
+    {
+      "id": "did:nv:e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5",
+      "type": "EthereumECDSAKey",
+      "owner": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+    }
+  ],
+  "authentication": [
+    {
+      "type": "RsaSignatureAuthentication2018",
+      "publicKey": "did:nv:e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5"
+    }
+  ],
+  "service": [
+    {
+      "type": "metadata",
+      "index": 0,
+      "serviceEndpoint": "http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo/did:nv:e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5",
+      "attributes": {
+        "curation": {
+          "rating": 0,
+          "numVotes": 0
+        },
+        "userId": "us-10669984-2840-43c3-93ef-1f6769051cd1",
+        "main": {
+          "name": "Nevermined NFT DDO",
+          "type": "dataset",
+          "dateCreated": "2023-01-01T00:00:00Z",
+          "datePublished": "2023-01-01T00:00:00Z",
+          "author": "root@nevermined.io",
+          "license": "Apache License 2.0",
+          "files": [
+            {
+              "index": 0,
+              "contentType": "text/markdown",
+              "checksum": "17c7341576944303a04acc34fca061d14b7bcdb4d9464b6d9b7f38590cd0fe7f"
+            }
+          ],
+          "ercType": 1155,
+          "nftType": "nft1155"
+        },
+        "additionalInformation": {
+          "description": "Nevermined is an ecosystem development platform.",
+          "customData": {}
+        },
+        "encryptedFiles": "336f33496750436d636d3842544a726b6a4f2f714d744e50646b52424a7872533265484d5546346b6459334a4464742f6949425165385239327131625a6e783154794c50486c6970673130446f6a63434d39667658726b446f6f36324735677064495a42686247786e5a6d5556664b6d34394d4c5647702f53707a466a6d75392f72684738524576506c347155567561557157627a6877443037482f484d446b726f50794c487a73332f634f653039712b6176683249442b56334a367048766f575a52535434706762466932336e5834334c655a3867514c6976535a4e4578364a4233444850536862456f3653757736535053776e614a566737456e6d4a4174794d683172776c4e575678794f6a352f51673667645361564e2f7251476d374341417159774d747a61634a6b75334d69685670556e32312b454d6b32354a433037464141674868394e633952656b56484b4d4f772f673d3d|7235e74814e7a08f78f8237dccf534b895da0e01fd77c2b245e465636ec900157988b28c4ae07d498ba1fcba011f9ba51eb0b5606bf589af409a4b7510a58be29f95c55e36168d3249aa7cb2bf6f4c491b92c7e57af146096053cb97b0bf32a56b843eca6e959c2043ad0d755f87842f38201823d3b695ca9300dff31d5dd842"
+      }
+    },
+    {
+      "type": "authorization",
+      "index": 2,
+      "serviceEndpoint": "http://node.nevermined.localnet",
+      "attributes": {
+        "main": {
+          "publicKey": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC2qIisJyMd6YXJNzs23zKLajtP\nC7w6aO9mXq+Ukr6d3cVmPCx8XJRTT3IV7PmHb3o4XFc8ZGX5/SSg7tp5/cfAIg9X\nF13yjssJttaDTa4srhLJvxyjR8cHEJ39GevFTgrtbYzXTZ723ROJP4NEDxtp8a0f\n5l7W3NTH8v39k3G50QIDAQAB\n-----END PUBLIC KEY-----",
+          "service": "PSK-RSA",
+          "threshold": 0
+        }
+      }
+    },
+    {
+      "type": "nft-sales",
+      "index": 6,
+      "serviceEndpoint": "http://node.nevermined.localnet/api/v1/node/services/nft-sales",
+      "templateId": "0x8286B22CE970831C2da158674e498F99802e0C48",
+      "attributes": {
+        "main": {
+          "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",
+          "datePublished": "2023-01-01T00:00:00Z",
+          "name": "nft1155SalesAgreement",
+          "price": "1"
+        },
+        "additionalInformation": {
+          "description": "Sales Agreement with NFT-1155 token",
+          "priceHighestDenomination": 1e-18
+        },
+        "serviceAgreementTemplate": {
+          "contractName": "NFTSalesTemplate",
+          "events": [
+            {
+              "name": "AgreementCreated",
+              "actorType": "consumer",
+              "handler": {
+                "moduleName": "nftSalesTemplate",
+                "functionName": "fulfillLockPaymentCondition",
+                "version": "0.1"
+              }
+            }
+          ],
+          "fulfillmentOrder": [
+            "lockPayment.fulfill",
+            "transferNFT.fulfill",
+            "escrowPayment.fulfill"
+          ],
+          "conditionDependency": {
+            "lockPayment": [],
+            "transferNFT": [],
+            "escrowPayment": [
+              "lockPayment",
+              "transferNFT"
+            ]
+          },
+          "conditions": [
+            {
+              "name": "lockPayment",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "LockPaymentCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_did",
+                  "type": "bytes32",
+                  "value": "e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5"
+                },
+                {
+                  "name": "_rewardAddress",
+                  "type": "address",
+                  "value": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+                },
+                {
+                  "name": "_tokenAddress",
+                  "type": "address",
+                  "value": "0x168bc74Fd30D1559A0dF48cF61AC7dD4F23e1dA1"
+                },
+                {
+                  "name": "_amounts",
+                  "type": "uint256[]",
+                  "value": [
+                    "1"
+                  ]
+                },
+                {
+                  "name": "_receivers",
+                  "type": "address[]",
+                  "value": [
+                    "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "lockPaymentCondition",
+                    "functionName": "fulfillAccessCondition",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "transferNFT",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "TransferNFTCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_documentId",
+                  "type": "bytes32",
+                  "value": "e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5"
+                },
+                {
+                  "name": "_receiver",
+                  "type": "address",
+                  "value": ""
+                },
+                {
+                  "name": "_numberNfts",
+                  "type": "uint256",
+                  "value": "1"
+                },
+                {
+                  "name": "_nftHolder",
+                  "type": "address",
+                  "value": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+                },
+                {
+                  "name": "_conditionId",
+                  "type": "bytes32",
+                  "value": ""
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "transferNFT",
+                    "functionName": "fulfillEscrowPaymentCondition",
+                    "version": "0.1"
+                  }
+                },
+                {
+                  "name": "TimedOut",
+                  "actorType": "consumer",
+                  "handler": {
+                    "moduleName": "access",
+                    "functionName": "fulfillEscrowPaymentCondition",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "escrowPayment",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "EscrowPaymentCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_did",
+                  "type": "bytes32",
+                  "value": "e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5"
+                },
+                {
+                  "name": "_amounts",
+                  "type": "uint256[]",
+                  "value": [
+                    "1"
+                  ]
+                },
+                {
+                  "name": "_receivers",
+                  "type": "address[]",
+                  "value": [
+                    "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+                  ]
+                },
+                {
+                  "name": "_sender",
+                  "type": "address",
+                  "value": ""
+                },
+                {
+                  "name": "_tokenAddress",
+                  "type": "address",
+                  "value": "0x168bc74Fd30D1559A0dF48cF61AC7dD4F23e1dA1"
+                },
+                {
+                  "name": "_lockCondition",
+                  "type": "bytes32",
+                  "value": ""
+                },
+                {
+                  "name": "_releaseCondition",
+                  "type": "bytes32",
+                  "value": ""
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "escrowPaymentCondition",
+                    "functionName": "verifyRewardTokens",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "nft-access",
+      "index": 7,
+      "serviceEndpoint": "http://node.nevermined.localnet/api/v1/node/services/nft-access",
+      "templateId": "0x99a9F881b4C3b03877d2058D14471ADb69991831",
+      "attributes": {
+        "main": {
+          "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",
+          "datePublished": "2023-01-01T00:00:00Z",
+          "name": "nft1155AccessAgreement"
+        },
+        "additionalInformation": {
+          "description": "Access Agreement with NFT-1155 token"
+        },
+        "serviceAgreementTemplate": {
+          "contractName": "NFTAccessTemplate",
+          "events": [
+            {
+              "name": "AgreementCreated",
+              "actorType": "consumer",
+              "handler": {
+                "moduleName": "nftAccessTemplate",
+                "functionName": "fulfillNFTHolderCondition",
+                "version": "0.1"
+              }
+            }
+          ],
+          "fulfillmentOrder": [
+            "nftHolder.fulfill",
+            "nftAccess.fulfill"
+          ],
+          "conditionDependency": {
+            "nftHolder": [],
+            "nftAccess": []
+          },
+          "conditions": [
+            {
+              "name": "nftHolder",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "NFTHolderCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_did",
+                  "type": "bytes32",
+                  "value": "e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5"
+                },
+                {
+                  "name": "_holderAddress",
+                  "type": "address",
+                  "value": ""
+                },
+                {
+                  "name": "_numberNfts",
+                  "type": "uint256",
+                  "value": "1"
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "nftHolderCondition",
+                    "functionName": "fulfillNFTHolderCondition",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "nftAccess",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "NFTAccessCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_documentId",
+                  "type": "bytes32",
+                  "value": "e435f7e9c76e08fccdc9b80700c555dc149922ea1b7e1202307d3be1e7aacfb5"
+                },
+                {
+                  "name": "_grantee",
+                  "type": "address",
+                  "value": ""
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "nftAccess",
+                    "functionName": "fulfillNFTAccessCondition",
+                    "version": "0.1"
+                  }
+                },
+                {
+                  "name": "TimedOut",
+                  "actorType": "consumer",
+                  "handler": {
+                    "moduleName": "access",
+                    "functionName": "fulfillNFTAccessCondition",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "_nvm": {
+    "userId": "us-10669984-2840-43c3-93ef-1f6769051cd1",
+    "appId": "",
+    "versions": [
+      {
+        "id": 0,
+        "updated": "2023-01-04T12:15:12Z",
+        "checksum": "0x0de36dbde567c65f4db49b270cb6c7a802d3d7e8f51034f7c0ba044b4abe95b6",
+        "immutableUrl": ""
+      }
+    ]
+  },
+  "created": "2023-01-04T12:15:12Z",
+  "proof": {
+    "created": "2023-01-04T12:15:12Z",
+    "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",
+    "type": "DDOIntegritySignature",
+    "signatureValue": "0xf1367997cec5b27270ca6df1c84055b2abce5d4a3ad65502a855a7fa94a412d3638f219dda87a12310cf010cb5b9c6275f4369699bdbd5a5098c3cbdaf9170ae1b",
+    "checksum": {
+      "0": "0xb014a068572f708b49987161af559cc6ee636cfcc454a5d03dba94307ec66e12",
+      "2": "0xe52923b599cdd934cb0c65b1bf636204963ef4553b7eb00f04bd500a1ffdf7e8",
+      "6": "0x73a679c036d2001b06ba1b015b32d938815b8fafa3013e6e9902a4dcf78fe2c8",
+      "7": "0x1f5108cb06c67230f468210e2dc8b134bace4a630d36664e74748dd97bd02845"
+    }
+  }
+}
