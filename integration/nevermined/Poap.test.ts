@@ -55,9 +55,15 @@ describe('POAPs with Assets', () => {
 
         // INFO: We allow the gateway to fulfill the transfer condition in behalf of the user
         // Typically this only needs to happen once per NFT contract
-        await poapContract.setApprovalForAll(gatewayAddress, true, {
-            from: editor.getId()
-        })
+        const transactionResponse = await poapContract.setApprovalForAll(
+            gatewayAddress,
+            true,
+            {
+                from: editor.getId()
+            }
+        )
+        await transactionResponse.wait()
+
         const isApproved = await poapContract.isApprovedForAll(
             editor.getId(),
             gatewayAddress
@@ -66,10 +72,13 @@ describe('POAPs with Assets', () => {
     })
 
     it('editor should be able to register poap', async () => {
-
         const nftAttributes = NFTAttributes.getPOAPInstance({
             metadata,
-            price: new AssetPrice(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
+            price: new AssetPrice(
+                editor.getId(),
+                BigNumber.from(0),
+                nevermined.utils.token.getAddress()
+            ),
             serviceTypes: ['nft-sales', 'nft-access'],
             providers: [gatewayAddress],
             nftContractAddress: poapContract.address,
@@ -77,29 +86,7 @@ describe('POAPs with Assets', () => {
             nftTransfer: false,
             royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
         })
-        poapDDO = await nevermined.nfts721.create(
-            nftAttributes,
-            editor
-        )
-
-
-        // const assetAttributes = AssetAttributes.getInstance({
-        //     metadata,
-        //     price: new AssetPrice(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
-        //     serviceTypes: ['nft-sales', 'nft-access'],
-        //     providers: [gatewayAddress]
-        // })
-        // const nftAttributes = NFTAttributes.getPOAPInstance({
-        //     nftContractAddress: poapContract.address,
-        //     preMint: false,
-        //     nftTransfer: false,
-        //     royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
-        // })
-        // poapDDO = await nevermined.nfts721.create(
-        //     assetAttributes,
-        //     nftAttributes,
-        //     editor
-        // )
+        poapDDO = await nevermined.nfts721.create(nftAttributes, editor)
 
         assert.isDefined(poapDDO)
     })

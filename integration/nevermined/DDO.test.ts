@@ -96,7 +96,8 @@ describe('DDO Tests', () => {
                 'publicKey',
                 'created',
                 'didSeed',
-                'signatureValue'
+                'signatureValue',
+                'userId'
             ] as any
         )
     })
@@ -167,7 +168,8 @@ describe('DDO Tests', () => {
                 'publicKey',
                 'created',
                 'didSeed',
-                'signatureValue'
+                'signatureValue',
+                'userId'
             ] as any
         )
     })
@@ -235,7 +237,8 @@ describe('DDO Tests', () => {
                 'publicKey',
                 'created',
                 'didSeed',
-                'signatureValue'
+                'signatureValue',
+                'userId'
             ] as any
         )
     })
@@ -316,7 +319,8 @@ describe('DDO Tests', () => {
                 'publicKey',
                 'created',
                 'didSeed',
-                'signatureValue'
+                'signatureValue',
+                'userId'
             ] as any
         )
     })
@@ -373,7 +377,8 @@ describe('DDO Tests', () => {
                 'publicKey',
                 'created',
                 'didSeed',
-                'signatureValue'
+                'signatureValue',
+                'userId'
             ] as any
         )
     })
