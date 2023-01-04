@@ -9,6 +9,7 @@ import AssetPrice from '../../src/models/AssetPrice'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { decodeJwt } from 'jose'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { sleep } from '../utils/utils'
 
 describe('POAPs with Assets', () => {
     let nevermined: Nevermined
@@ -58,6 +59,9 @@ describe('POAPs with Assets', () => {
         await poapContract.setApprovalForAll(gatewayAddress, true, {
             from: editor.getId()
         })
+
+        await sleep(2000)
+
         const isApproved = await poapContract.isApprovedForAll(
             editor.getId(),
             gatewayAddress
