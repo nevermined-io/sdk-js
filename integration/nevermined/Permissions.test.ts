@@ -18,7 +18,9 @@ describe('Permissions', () => {
         config.marketplaceAuthToken =
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweGUyREQwOWQ3MTlEYTg5ZTVhM0QwRjI1NDljN0UyNDU2NmU5NDcyNjAiLCJzdWIiOiJ1LWU2YzI2NDhjLTIwZjktNDJlMC1iMWZlLWZjZWEwNzA4ODY3NyIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTY1MTI0ODM1NCwiZXhwIjoxNzUxMjUxOTU0fQ.p9fr_c_HVlJzY1cJSGDod1zMdhRCRWdExOB_UxMDrKg'
 
-        const userProfile = await nevermined.services.profiles.findOneByAddress(account1.getId())
+        const userProfile = await nevermined.services.profiles.findOneByAddress(
+            account1.getId()
+        )
 
         newPermission = {
             userId: userProfile.userId,
@@ -51,7 +53,7 @@ describe('Permissions', () => {
     })
 
     it('should get permissions by userId', async () => {
-        await sleep(1000)
+        await sleep(2000)
         const response = await nevermined.services.permissions.findManyByUserId(
             newPermission.userId
         )
@@ -68,7 +70,7 @@ describe('Permissions', () => {
     })
 
     it('should get permissions by userId and type', async () => {
-        await sleep(1000)
+        await sleep(2000)
         const response = await nevermined.services.permissions.findManyByUserIdAndType(
             newPermission.userId,
             PermissionType.Read
@@ -101,7 +103,7 @@ describe('Permissions', () => {
     it('should delete a permission by id', async () => {
         await nevermined.services.permissions.deleteOneById(id)
 
-        await sleep(1000)
+        await sleep(2000)
 
         const response = await nevermined.services.permissions.findManyByUserId(
             newPermission.userId
