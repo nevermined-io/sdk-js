@@ -1,0 +1,282 @@
+{
+  "@context": "https://w3id.org/did/v1",
+  "id": "did:nv:7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3",
+  "didSeed": "0xeceda4a36c458dd7f209f4418af4173848acbd78fe2acaac1f1a1e1f04ceede8",
+  "publicKey": [
+    {
+      "id": "did:nv:7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3",
+      "type": "EthereumECDSAKey",
+      "owner": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+    }
+  ],
+  "authentication": [
+    {
+      "type": "RsaSignatureAuthentication2018",
+      "publicKey": "did:nv:7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3"
+    }
+  ],
+  "service": [
+    {
+      "type": "metadata",
+      "index": 0,
+      "serviceEndpoint": "http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo/did:nv:7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3",
+      "attributes": {
+        "curation": {
+          "rating": 0,
+          "numVotes": 0
+        },
+        "userId": "us-10669984-2840-43c3-93ef-1f6769051cd1",
+        "main": {
+          "name": "Nevermined dataset DDO",
+          "type": "dataset",
+          "dateCreated": "2023-01-01T00:00:00Z",
+          "datePublished": "2023-01-01T00:00:00Z",
+          "author": "root@nevermined.io",
+          "license": "Apache License 2.0",
+          "files": [
+            {
+              "index": 0,
+              "contentType": "text/markdown",
+              "checksum": "54e534593b0441448fc3d708d72c7a7636cc2d52199b40d8ac42f3c7343944af"
+            }
+          ]
+        },
+        "additionalInformation": {
+          "description": "Nevermined is an ecosystem development platform.",
+          "customData": {}
+        },
+        "encryptedFiles": "3963357771337641526c2f473850704a534c6479704a6c766c387a54614353424837544c2f634d304e6f6c5a4967426f694173653875304e7a645a684f4951364e5864325157704871476e646f4d6b4d327935437a45334e57616a38587a757778696631477370712b6932782b4237556f63334c39767978644f766c5a657077774e30654b556b63514e6f457249532b45455237766a666361514d663944304e776c39635259356671364e555a7a7176327841742f70477068566737424e515738702f47717a42455464454a792b66556e5444503948336b46415a476763394f666969414b4a77345a6a4f436a4d7a522f33474b6d4935557a672f5a4b4445416c6f366e6855616e5a473731612f2b36427971796f4359584b365235715338624475666c72382b3552666b736d5167333847712f4a4579414b74334e4e5a45305256464546415578697934687036316e3561737759673d3d|5f5acd44664066e62d433392fee2a8b4030f4fc4a42d7b77b2214a19a03f7eaf10ec3e89e4b2d995112a42bd2589446967d98509cf9a3d0fff181bb2b37ce1dfa09b96c83ce02fdc453268349a8035230140c09965dd37003008f5a014d7fb2e13c8f9bf6b8b44093a4624c95b7439fa32aa30ec467fc3e40792a46551d1dde8"
+      }
+    },
+    {
+      "type": "authorization",
+      "index": 2,
+      "serviceEndpoint": "http://node.nevermined.localnet",
+      "attributes": {
+        "main": {
+          "publicKey": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC2qIisJyMd6YXJNzs23zKLajtP\nC7w6aO9mXq+Ukr6d3cVmPCx8XJRTT3IV7PmHb3o4XFc8ZGX5/SSg7tp5/cfAIg9X\nF13yjssJttaDTa4srhLJvxyjR8cHEJ39GevFTgrtbYzXTZ723ROJP4NEDxtp8a0f\n5l7W3NTH8v39k3G50QIDAQAB\n-----END PUBLIC KEY-----",
+          "service": "PSK-RSA",
+          "threshold": 0
+        }
+      }
+    },
+    {
+      "type": "access",
+      "index": 3,
+      "serviceEndpoint": "http://node.nevermined.localnet/api/v1/node/services/access",
+      "templateId": "0xb761bE571673A8f93DADe4D9D64618e3Eb989477",
+      "attributes": {
+        "main": {
+          "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",
+          "datePublished": "2023-01-01T00:00:00Z",
+          "name": "AccessAgreement",
+          "price": "1"
+        },
+        "additionalInformation": {
+          "description": "Access Agreement",
+          "priceHighestDenomination": 1e-18
+        },
+        "serviceAgreementTemplate": {
+          "contractName": "AccessTemplate",
+          "events": [
+            {
+              "name": "AgreementCreated",
+              "actorType": "consumer",
+              "handler": {
+                "moduleName": "escrowAccessTemplate",
+                "functionName": "fulfillLockPaymentCondition",
+                "version": "0.1"
+              }
+            }
+          ],
+          "fulfillmentOrder": [
+            "access.fulfill",
+            "lockPayment.fulfill",
+            "escrowPayment.fulfill"
+          ],
+          "conditionDependency": {
+            "lockPayment": [],
+            "access": [],
+            "escrowPayment": [
+              "lockPayment",
+              "access"
+            ]
+          },
+          "conditions": [
+            {
+              "name": "lockPayment",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "LockPaymentCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_did",
+                  "type": "bytes32",
+                  "value": "7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3"
+                },
+                {
+                  "name": "_rewardAddress",
+                  "type": "address",
+                  "value": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+                },
+                {
+                  "name": "_tokenAddress",
+                  "type": "address",
+                  "value": "0x168bc74Fd30D1559A0dF48cF61AC7dD4F23e1dA1"
+                },
+                {
+                  "name": "_amounts",
+                  "type": "uint256[]",
+                  "value": [
+                    "1"
+                  ]
+                },
+                {
+                  "name": "_receivers",
+                  "type": "address[]",
+                  "value": [
+                    "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "lockPaymentCondition",
+                    "functionName": "fulfillAccessCondition",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "access",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "AccessCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_documentId",
+                  "type": "bytes32",
+                  "value": "7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3"
+                },
+                {
+                  "name": "_grantee",
+                  "type": "address",
+                  "value": ""
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "access",
+                    "functionName": "fulfillEscrowPaymentCondition",
+                    "version": "0.1"
+                  }
+                },
+                {
+                  "name": "TimedOut",
+                  "actorType": "consumer",
+                  "handler": {
+                    "moduleName": "access",
+                    "functionName": "fulfillEscrowPaymentCondition",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "escrowPayment",
+              "timelock": 0,
+              "timeout": 0,
+              "contractName": "EscrowPaymentCondition",
+              "functionName": "fulfill",
+              "parameters": [
+                {
+                  "name": "_did",
+                  "type": "bytes32",
+                  "value": "7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3"
+                },
+                {
+                  "name": "_amounts",
+                  "type": "uint256[]",
+                  "value": [
+                    "1"
+                  ]
+                },
+                {
+                  "name": "_receivers",
+                  "type": "address[]",
+                  "value": [
+                    "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
+                  ]
+                },
+                {
+                  "name": "_sender",
+                  "type": "address",
+                  "value": ""
+                },
+                {
+                  "name": "_tokenAddress",
+                  "type": "address",
+                  "value": "0x168bc74Fd30D1559A0dF48cF61AC7dD4F23e1dA1"
+                },
+                {
+                  "name": "_lockCondition",
+                  "type": "bytes32",
+                  "value": ""
+                },
+                {
+                  "name": "_releaseCondition",
+                  "type": "bytes32",
+                  "value": ""
+                }
+              ],
+              "events": [
+                {
+                  "name": "Fulfilled",
+                  "actorType": "publisher",
+                  "handler": {
+                    "moduleName": "escrowPaymentCondition",
+                    "functionName": "verifyRewardTokens",
+                    "version": "0.1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "_nvm": {
+    "userId": "us-10669984-2840-43c3-93ef-1f6769051cd1",
+    "appId": "",
+    "versions": [
+      {
+        "id": 0,
+        "updated": "2023-01-04T12:15:12Z",
+        "checksum": "0xeceda4a36c458dd7f209f4418af4173848acbd78fe2acaac1f1a1e1f04ceede8",
+        "immutableUrl": ""
+      }
+    ]
+  },
+  "created": "2023-01-04T12:15:12Z",
+  "proof": {
+    "created": "2023-01-04T12:15:12Z",
+    "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",
+    "type": "DDOIntegritySignature",
+    "signatureValue": "0x416964841a46a02e829bf7703897b64e73f78385bf341415d768a7bd68fe842e329bb1840c62a0a54aae77bcd0b7406245506021cca91d428dca6ff9eb85e63a1c",
+    "checksum": {
+      "0": "0x7b28bba33ae4d64f7e0454f75d254d3ec2ffb690bfba17d8fc19d678b5669580",
+      "2": "0xe52923b599cdd934cb0c65b1bf636204963ef4553b7eb00f04bd500a1ffdf7e8",
+      "3": "0x79dfee3cc535a8e9457f9a2c37d534acf2703db46beac2bf938b11b934a4fe79"
+    }
+  }
+}

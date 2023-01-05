@@ -7,7 +7,6 @@ import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { decodeJwt } from 'jose'
-import { sleep } from '../utils/utils'
 
 describe('POAPs with Assets', () => {
     let nevermined: Nevermined
@@ -54,11 +53,14 @@ describe('POAPs with Assets', () => {
 
         // INFO: We allow the gateway to fulfill the transfer condition in behalf of the user
         // Typically this only needs to happen once per NFT contract
-        await poapContract.setApprovalForAll(gatewayAddress, true, {
-            from: editor.getId()
-        })
-
-        await sleep(2000)
+        const transactionResponse = await poapContract.setApprovalForAll(
+            gatewayAddress,
+            true,
+            {
+                from: editor.getId()
+            }
+        )
+        await transactionResponse.wait()
 
         const isApproved = await poapContract.isApprovedForAll(
             editor.getId(),

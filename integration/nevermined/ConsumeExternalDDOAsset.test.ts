@@ -12,7 +12,7 @@ import {
     AssetPrice,
     AssetAttributes
 } from '../../src'
-import { getDocsCommonMetadata } from '../utils'
+import { getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
 import { BigNumber } from '../../src/utils'
 import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
@@ -43,7 +43,7 @@ describe('Consume Asset (Documentation example)', () => {
         await nevermined.services.marketplace.login(clientAssertion)
         const payload = decodeJwt(config.marketplaceAuthToken)
 
-        metadata = await getDocsCommonMetadata()
+        metadata = await getMetadata()
         metadata.userId = payload.sub
         assetPrice = new AssetPrice(publisher.getId(), BigNumber.from('0'))
     })
@@ -196,7 +196,7 @@ describe('Consume Asset (Documentation example)', () => {
 
         assert.deepEqual(
             files,
-            ['README.md', 'package.json'],
+            ['README.md', 'ddo-example.json'],
             'Stored files are not correct.'
         )
     })
@@ -219,6 +219,6 @@ describe('Consume Asset (Documentation example)', () => {
             })
         })
 
-        assert.deepEqual(files, ['package.json'], 'Stored files are not correct.')
+        assert.deepEqual(files, ['ddo-example.json'], 'Stored files are not correct.')
     })
 })

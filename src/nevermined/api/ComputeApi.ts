@@ -49,7 +49,7 @@ export class ComputeApi extends RegistryBaseApi {
         txParams?: TxParameters
     ): SubscribablePromise<CreateProgressStep, DDO> {
         if (!assetAttributes.serviceTypes.includes('compute'))
-            assetAttributes.serviceTypes.push('compute')
+            assetAttributes.serviceTypes = [...assetAttributes.serviceTypes, 'compute']
         return this.registerNeverminedAsset(
             assetAttributes,
             publisherAccount,
