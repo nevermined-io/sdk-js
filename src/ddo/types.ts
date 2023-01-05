@@ -1,6 +1,5 @@
-import { AaveConditionType, ServiceAaveCredit } from '../keeper/contracts/defi/Service'
+import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
 import { Account } from '../sdk'
-import { TxParameters } from '../keeper/contracts/ContractBase'
 import { BigNumber } from 'ethers'
 import { ERCType, NeverminedNFTType, AssetPrice, Babysig } from '..'
 

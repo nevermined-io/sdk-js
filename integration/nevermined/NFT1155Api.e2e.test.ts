@@ -9,11 +9,7 @@ import {
     AssetAttributes,
     NFTAttributes
 } from '../../src'
-import {
-    EscrowPaymentCondition,
-    TransferNFTCondition
-} from '../../src/keeper/contracts/conditions'
-import Token from '../../src/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition, Token } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'

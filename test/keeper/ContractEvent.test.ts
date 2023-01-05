@@ -4,7 +4,7 @@ import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
 import { Account } from '../../src'
-import Web3Provider from '../../src/keeper/Web3Provider'
+import { Web3Provider } from '../../src/keeper'
 import { ethers } from 'ethers'
 
 describe('ContractEvent', () => {

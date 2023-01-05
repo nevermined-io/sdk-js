@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { Nevermined } from '../../src'
-import { LockPaymentCondition } from '../../src/keeper/contracts/conditions'
+import { LockPaymentCondition } from '../../src/keeper'
 import { BigNumber } from '../../src/utils'
 import { config } from '../config'
 

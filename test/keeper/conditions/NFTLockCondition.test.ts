@@ -8,10 +8,12 @@ import {
     NeverminedNFT1155Type,
     NFTAttributes
 } from '../../../src'
-import { NFTLockCondition } from '../../../src/keeper/contracts/conditions'
-import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
+import {
+    DIDRegistry,
+    NFTLockCondition,
+    Nft1155Contract,
+    ConditionStoreManager
+} from '../../../src/keeper'
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import { BigNumber } from '../../../src/utils'
 import config from '../../config'

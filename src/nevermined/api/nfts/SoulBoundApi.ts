@@ -1,11 +1,9 @@
 import { Account, NeverminedOptions, Nevermined } from '../../..'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import ContractHandler from '../../../keeper/ContractHandler'
-import Nft721Contract from '../../../keeper/contracts/Nft721Contract'
+import { ContractHandler, Nft721Contract } from '../../../keeper'
 import { NFT721Api } from './NFT721Api'
 
-export default class SoulBoundNFTApi extends NFT721Api {  
-
+export default class SoulBoundNFTApi extends NFT721Api {
     public static async getInstanceUsingABI(
         config: InstantiableConfig,
         nftContractAddress: string,
@@ -16,8 +14,8 @@ export default class SoulBoundNFTApi extends NFT721Api {
         instance.setInstanceConfig(config)
 
         instance.nftContract = await Nft721Contract.getInstanceUsingABI(
-            config, 
-            nftContractAddress, 
+            config,
+            nftContractAddress,
             solidityABI
         )
         return instance
@@ -29,11 +27,13 @@ export default class SoulBoundNFTApi extends NFT721Api {
         from: Account,
         args: string[] = []
     ): Promise<SoulBoundNFTApi> {
-                
         const { instanceConfig } = (await Nevermined.getInstance(config)) as any
         const contractHandler = new ContractHandler(instanceConfig)
         const nftContract = await contractHandler.deployAbi(contractABI, from, args)
-        return SoulBoundNFTApi.getInstanceUsingABI(instanceConfig, nftContract.address, contractABI)
+        return SoulBoundNFTApi.getInstanceUsingABI(
+            instanceConfig,
+            nftContract.address,
+            contractABI
+        )
     }
-
 }

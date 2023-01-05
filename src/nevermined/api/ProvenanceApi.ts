@@ -1,9 +1,8 @@
 import { Account } from '..'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { TxParameters, ProvenanceMethod } from '../../keeper'
 import { ethers } from 'ethers'
 import { zeroX } from '../../utils'
-import { ProvenanceMethod } from '../../keeper/contracts/Provenance'
 
 /**
  * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry

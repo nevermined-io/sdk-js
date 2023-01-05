@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { NeverminedOptions } from '..'
 
-export default class Web3Provider {
+export class Web3Provider {
     /**
      * Returns ethers.Provider instance.
      *

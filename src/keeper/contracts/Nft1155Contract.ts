@@ -5,7 +5,7 @@ import { TxParameters } from './ContractBase'
 import { BigNumber } from '../../utils'
 import { ethers } from 'ethers'
 import { NFTContractsBase } from './NFTContractsBase'
-import ContractHandler from '../ContractHandler'
+import { ContractHandler } from '../ContractHandler'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs

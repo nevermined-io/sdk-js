@@ -6,14 +6,14 @@ import {
     ValidationParams
 } from '../ddo'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
 import {
+    TxParameters,
     AccessTemplate,
     NFT721AccessTemplate,
     NFT721SalesTemplate,
     NFTAccessTemplate,
     NFTSalesTemplate
-} from '../keeper/contracts/templates'
+} from '../keeper'
 import { Account, MetaData, MetaDataMain, AssetPrice } from '..'
 
 export interface AccessProofTemplateParams {

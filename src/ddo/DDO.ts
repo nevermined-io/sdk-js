@@ -10,7 +10,7 @@ import {
     Proof
 } from './types'
 import { didPrefixed, getAssetPriceFromService, zeroX } from '../utils'
-import DIDRegistry from '../keeper/contracts/DIDRegistry'
+import { DIDRegistry } from '../keeper'
 import { ethers } from 'ethers'
 import { NFTAttributes } from '..'
 import { BigNumber } from '../utils'

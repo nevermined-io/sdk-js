@@ -8,18 +8,20 @@ import {
     AgreementStoreManager,
     ConditionStoreManager
 } from '../../src/keeper/contracts/managers/index'
-import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import CustomToken from '../../src/keeper/contracts/CustomToken'
-import { AaveCreditTemplate } from '../../src/keeper/contracts/templates/index'
-import { NFT721LockCondition } from '../../src/keeper/contracts/defi/NFT721LockCondition'
-import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCondition'
+import {
+    DIDRegistry,
+    CustomToken,
+    AaveCreditTemplate,
+    NFT721LockCondition,
+    AaveRepayCondition,
+    Nft721Contract
+} from '../../src/keeper'
 import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { decodeJwt } from 'jose'
 import { Contract } from 'ethers'
 import { BigNumber } from '../../src/utils'
-import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)

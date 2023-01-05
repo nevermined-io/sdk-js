@@ -1,4 +1,4 @@
-import { MarketplaceApi } from '../../services'
+import { MarketplaceApi } from './MarketplaceAPI'
 import { NewBookmark, Bookmark } from './types'
 import { HttpError, ApiError } from '../../errors'
 import { MarketplaceResults } from '../../common/interfaces'

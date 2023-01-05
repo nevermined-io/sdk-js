@@ -1,4 +1,4 @@
-import ContractBase from '../keeper/contracts/ContractBase'
+import { ContractBase } from '../keeper'
 import { Instantiable } from '../Instantiable.abstract'
 
 export interface Filter {

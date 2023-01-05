@@ -9,17 +9,15 @@ import {
     NFTAttributes
 } from '../../../src'
 import {
+    DIDRegistry,
+    Token,
+    Nft1155Contract,
     EscrowPaymentCondition,
     LockPaymentCondition,
-    TransferNFTCondition
-} from '../../../src/keeper/contracts/conditions'
-import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import Token from '../../../src/keeper/contracts/Token'
-import { didZeroX, ZeroAddress, zeroX } from '../../../src/utils'
-import { BigNumber } from '../../../src/utils'
-import { generateId } from '../../../src/utils'
+    TransferNFTCondition,
+    ConditionStoreManager
+} from '../../../src/keeper'
+import { didZeroX, ZeroAddress, zeroX, generateId, BigNumber } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 

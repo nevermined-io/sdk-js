@@ -3,19 +3,13 @@ import { AgreementsApi } from './api/AgreementsApi'
 import { AssetsApi } from './api/AssetsApi'
 import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
-import Keeper from '../keeper/Keeper'
+import { Keeper, CustomToken, Nft1155Contract } from '../keeper'
 import { NeverminedOptions } from '..'
 import {
     Instantiable,
     generateIntantiableConfigFromConfig
 } from '../Instantiable.abstract'
-import { NFT1155Api } from './api/nfts/NFT1155Api'
-import { NFT721Api } from './api/nfts/NFT721Api'
-import CustomToken from '../keeper/contracts/CustomToken'
-import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
-import { ComputeApi } from './api/ComputeApi'
-import { SearchApi } from './api/SearchApi'
-import { ServicesApi } from './api/ServicesApi'
+import { NFT1155Api, NFT721Api, ComputeApi, SearchApi, ServicesApi } from './api'
 
 /**
  * Main interface for Nevermined Protocol.

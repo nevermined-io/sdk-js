@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { FormatTypes, Interface } from 'ethers/lib/utils'
-import ContractHandler from '../../src/keeper/ContractHandler'
+import { ContractHandler } from '../../src/keeper'
 import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 

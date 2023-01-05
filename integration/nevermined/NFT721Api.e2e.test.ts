@@ -3,15 +3,15 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
 import {
     EscrowPaymentCondition,
-    TransferNFT721Condition
-} from '../../src/keeper/contracts/conditions'
-import Token from '../../src/keeper/contracts/Token'
+    TransferNFT721Condition,
+    Token,
+    Nft721Contract
+} from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { zeroX } from '../../src/utils'
 import { ethers } from 'ethers'
-import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
 import { BigNumber } from '../../src/utils'
 import '../globals'
 

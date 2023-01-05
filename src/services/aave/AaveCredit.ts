@@ -1,17 +1,17 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../nevermined'
-import GenericContract from '../../keeper/contracts/GenericContract'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
-import { ConditionState } from '../../keeper/contracts/conditions/Condition.abstract'
-import { NFT721Api, AaveConfig } from '../..'
 import {
+    GenericContract,
+    TxParameters,
+    ConditionState,
     AaveCreditTemplate,
-    AaveCreditTemplateParams
-} from '../../keeper/contracts/defi/AaveCreditTemplate'
+    AaveCreditTemplateParams,
+    AgreementData,
+    CustomToken,
+    AgreementInstance
+} from '../../keeper'
+import { NFT721Api, AaveConfig } from '../..'
 import { didZeroX, generateId, zeroX } from '../../utils'
-import { AgreementData } from '../../keeper/contracts/managers'
-import CustomToken from '../../keeper/contracts/CustomToken'
-import { AgreementInstance } from '../../keeper/contracts/templates'
 import { ContractReceipt, ethers } from 'ethers'
 import { BigNumber } from '../../utils'
 

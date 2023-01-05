@@ -17,8 +17,7 @@ import {
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetPrice, BabyjubPublicKey } from '../../..'
 import { Account, OrderProgressStep } from '../../../nevermined'
-import Token from '../Token'
-import CustomToken from '../CustomToken'
+import { Token, CustomToken } from '..'
 import { BigNumber } from '../../../utils'
 
 export interface AgreementConditionsStatus {

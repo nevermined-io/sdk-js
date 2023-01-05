@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
-import Keeper from '../../src/keeper/Keeper'
+import { Keeper } from '../../src/keeper'
 import { Nevermined } from '../../src/nevermined'
 import { ZeroAddress } from '../../src/utils'
 

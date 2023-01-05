@@ -1,14 +1,13 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Nevermined } from '../../../src/nevermined'
-import { Account, ConditionState, utils } from '../../../src'
-import { NFT721LockCondition } from '../../../src/keeper/contracts/conditions'
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import { didZeroX, zeroX } from '../../../src/utils'
+import { Account, ConditionState } from '../../../src'
+import { NFT721LockCondition, ConditionStoreManager } from '../../../src/keeper'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { NFT721Api } from '../../../src'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { DIDRegistry } from '../../../src/keeper'
 import { Contract, ContractReceipt, Event } from 'ethers'
 import { BigNumber } from '../../../src/utils'
 
@@ -55,8 +54,8 @@ describe('NFT721LockCondition', () => {
     })
 
     beforeEach(async () => {
-        agreementId = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+        agreementId = generateId()
+        didSeed = `did:nv:${generateId()}`
         did = await didRegistry.hashDID(didSeed, owner.getId())
 
         await nft721Wrapper.mint(didZeroX(did), owner)

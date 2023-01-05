@@ -14,7 +14,11 @@ import {
     AssetAttributes,
     NFTAttributes
 } from '../..'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
+import {
+    TxParameters,
+    ServiceAaveCredit,
+    DEFAULT_REGISTRATION_ACTIVITY_ID
+} from '../../keeper'
 import {
     SubscribablePromise,
     zeroX,
@@ -25,8 +29,6 @@ import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ServiceAaveCredit } from '../../keeper/contracts/defi/Service'
-import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper/contracts/Provenance'
 import { AccessService, NFTSalesService, NFTAccessService } from '../AccessService'
 
 /**

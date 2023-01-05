@@ -3,7 +3,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../nevermined'
 import { BigNumber } from '../../utils'
 
-export default class Token extends ContractBase {
+export class Token extends ContractBase {
     static ERC20_ABI = [
         // Read-Only Functions
         'function balanceOf(address owner) view returns (uint256)',

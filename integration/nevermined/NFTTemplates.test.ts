@@ -15,12 +15,13 @@ import {
     LockPaymentCondition,
     NFTAccessCondition,
     NFTHolderCondition,
-    TransferNFTCondition
-} from '../../src/keeper/contracts/conditions'
-import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
-import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
-import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
-import Token from '../../src/keeper/contracts/Token'
+    TransferNFTCondition,
+    Nft1155Contract,
+    ConditionStoreManager,
+    NFTAccessTemplate,
+    NFTSalesTemplate,
+    Token
+} from '../../src/keeper'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,

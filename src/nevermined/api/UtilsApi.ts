@@ -1,6 +1,6 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Files } from '../Files'
-import { Token } from '../Token'
+import { TokenUtils } from '../Token'
 import { Versions } from '../Versions'
 import { JwtUtils, ServiceAgreement, SignatureUtils, WebServiceConnector } from '../utils'
 
@@ -36,7 +36,7 @@ export class UtilsApi extends Instantiable {
     /**
      * Token utils.
      */
-    public token: Token
+    public token: TokenUtils
 
     /**
      * Token utils.
@@ -57,7 +57,7 @@ export class UtilsApi extends Instantiable {
         this.files = new Files(config)
         this.jwt = new JwtUtils(config)
         this.signature = new SignatureUtils(config)
-        this.token = new Token(config)
+        this.token = new TokenUtils(config)
         this.versions = new Versions(config)
     }
 }

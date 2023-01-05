@@ -15,14 +15,12 @@ import {
     LockPaymentCondition,
     NFT721HolderCondition,
     NFTAccessCondition,
-    TransferNFT721Condition
-} from '../../src/keeper/contracts/conditions'
-import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
-import {
+    TransferNFT721Condition,
+    ConditionStoreManager,
+    Token,
     NFT721AccessTemplate,
     NFT721SalesTemplate
-} from '../../src/keeper/contracts/templates'
-import Token from '../../src/keeper/contracts/Token'
+} from '../../src/keeper'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NFT721Api } from '../../src'

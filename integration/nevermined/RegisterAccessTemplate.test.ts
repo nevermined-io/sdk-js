@@ -12,17 +12,16 @@ import {
     AssetAttributes,
     AssetPrice
 } from '../../src'
-import Token from '../../src/keeper/contracts/Token'
-import { getMetadata } from '../utils'
 import {
+    Token,
     AccessCondition,
     EscrowPaymentCondition,
-    LockPaymentCondition
-} from '../../src/keeper/contracts/conditions'
-import { AccessTemplate } from '../../src/keeper/contracts/templates'
-import { generateId } from '../../src/utils'
+    LockPaymentCondition,
+    AccessTemplate
+} from '../../src/keeper'
+import { getMetadata } from '../utils'
+import { generateId, BigNumber } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import { BigNumber } from '../../src/utils'
 
 describe('Register Escrow Access Template', () => {
     let nevermined: Nevermined

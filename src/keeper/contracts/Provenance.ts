@@ -1,4 +1,4 @@
-import { SignatureUtils } from '../../nevermined'
+import { SignatureUtils } from '../../nevermined/utils/SignatureUtils'
 
 /**
  * Identifies the default Provenance Activity Id to be recorded on-chain in the DIDRegistry Smart Contract when

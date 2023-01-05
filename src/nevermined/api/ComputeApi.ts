@@ -1,6 +1,6 @@
 import { MetaData, Account, DDO, AssetAttributes } from '../..'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { TxParameters } from '../../keeper'
 import { SubscribablePromise } from '../../utils'
 import {
     CreateProgressStep,

@@ -8,7 +8,7 @@ import {
     AssetAttributes,
     AssetPrice
 } from '../../src'
-import CustomToken from '../../src/keeper/contracts/CustomToken'
+import { CustomToken } from '../../src/keeper'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { generateId } from '../../src/utils'
 import { BigNumber } from '../../src/utils'

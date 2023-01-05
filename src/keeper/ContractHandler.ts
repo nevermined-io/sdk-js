@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
     fetch = require('node-fetch')
 }
 
-export default class ContractHandler extends Instantiable {
+export class ContractHandler extends Instantiable {
     protected static getContract(what: string, networkId: number, address?: string) {
         return ContractHandler.contracts.get(this.getHash(what, networkId, address))
     }

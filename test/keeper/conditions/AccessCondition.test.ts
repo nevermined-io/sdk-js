@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { AccessCondition } from '../../../src/keeper/contracts/conditions'
+import { AccessCondition } from '../../../src/keeper'
 import { Nevermined } from '../../../src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'

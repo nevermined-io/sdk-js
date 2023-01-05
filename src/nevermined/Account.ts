@@ -1,7 +1,7 @@
 import { Balance } from '..'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
+import { TxParameters } from '../keeper'
 import { KeeperError } from '../errors'
 import { BigNumber } from '../utils'
 

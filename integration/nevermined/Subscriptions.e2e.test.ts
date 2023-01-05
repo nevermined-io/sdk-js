@@ -1,11 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
-import {
-    EscrowPaymentCondition,
-    TransferNFT721Condition
-} from '../../src/keeper/contracts/conditions'
-import Token from '../../src/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'

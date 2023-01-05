@@ -1,5 +1,5 @@
-import ContractHandler from '../../src/keeper/ContractHandler'
-import Web3Provider from '../../src/keeper/Web3Provider'
+import { ContractHandler } from '../../src/keeper'
+import { Web3Provider } from '../../src/keeper'
 import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'

@@ -5,11 +5,10 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, NFTAttributes, AssetPrice } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ZeroAddress, zeroX } from '../../src/utils'
-import { Token } from '../../src/nevermined'
+import { TokenUtils } from '../../src/nevermined'
 import { ethers } from 'ethers'
-import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
+import { Nft721Contract, TransferNFT721Condition } from '../../src/keeper'
 import { BigNumber } from '../../src/utils'
-import { TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
 
 describe('Nfts721 operations', async () => {
     let nevermined: Nevermined
@@ -22,7 +21,7 @@ describe('Nfts721 operations', async () => {
     let collector: Account
     let ddo: DDO
 
-    let token: Token
+    let token: TokenUtils
     let payload: JWTPayload
 
     before(async () => {

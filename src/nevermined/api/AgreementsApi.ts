@@ -4,7 +4,7 @@ import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ConditionsApi } from './ConditionsApi'
 import { ServiceType } from '../../ddo'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { TxParameters } from '../../keeper'
 
 export interface AgreementPrepareResult {
     agreementIdSeed: string

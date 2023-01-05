@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
-import ContractHandler from '../ContractHandler'
+import { ContractHandler } from '../ContractHandler'
 import { Account } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'

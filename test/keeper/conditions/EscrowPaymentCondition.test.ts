@@ -1,6 +1,5 @@
 import { assert } from 'chai'
-import { EscrowPaymentCondition } from '../../../src/keeper/contracts/conditions'
-import Token from '../../../src/keeper/contracts/Token'
+import { EscrowPaymentCondition, Token } from '../../../src/keeper'
 import { Nevermined } from '../../../src/nevermined'
 import { BigNumber } from '../../../src/utils'
 import config from '../../config'

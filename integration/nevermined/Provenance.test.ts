@@ -5,7 +5,7 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, zeroX, generateId, AssetAttributes } from '../../src'
 import { sleep } from '../utils/utils'
 import { ethers } from 'ethers'
-import { ProvenanceMethod } from '../../src/keeper/contracts/Provenance'
+import { ProvenanceMethod } from '../../src/keeper'
 
 describe('Provenance', () => {
     let nevermined: Nevermined

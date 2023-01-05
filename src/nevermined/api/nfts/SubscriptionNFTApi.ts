@@ -1,7 +1,6 @@
 import { Account, NeverminedOptions, Nevermined } from '../../..'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import ContractHandler from '../../../keeper/ContractHandler'
-import Nft721Contract from '../../../keeper/contracts/Nft721Contract'
+import { ContractHandler, Nft721Contract } from '../../../keeper'
 import { NFT721Api } from './NFT721Api'
 
 export class SubscriptionNFTApi extends NFT721Api {

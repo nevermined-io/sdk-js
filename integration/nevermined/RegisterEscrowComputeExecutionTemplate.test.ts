@@ -8,16 +8,14 @@ import {
     DDO,
     Logger,
     AssetPrice,
-    AssetAttributes
-} from '../../src'
-import Token from '../../src/keeper/contracts/Token'
-import { getMetadata } from '../utils'
-import { EscrowComputeExecutionTemplate } from '../../src/keeper/contracts/templates'
-import {
+    AssetAttributes,
+    EscrowComputeExecutionTemplate,
     ComputeExecutionCondition,
     EscrowPaymentCondition,
     LockPaymentCondition
-} from '../../src/keeper/contracts/conditions'
+} from '../../src'
+import { Token } from '../../src/keeper'
+import { getMetadata } from '../utils'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import { BigNumber } from '../../src/utils'

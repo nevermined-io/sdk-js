@@ -1,6 +1,6 @@
 import { Service, ServiceType, MetaData } from '../ddo'
 import { EncryptionMethod } from '../services'
-import { AssetPrice } from './'
+import { AssetPrice } from './AssetPrice'
 
 export class AssetAttributes {
     static DEFAULT_ENCRYPTION_METHOD = 'PSK-RSA' as EncryptionMethod

@@ -1,6 +1,6 @@
 import chai, { assert, expect } from 'chai'
 import { Account, DDO, Nevermined, AssetAttributes, AssetPrice } from '../../src'
-import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
+import { DIDRegistry } from '../../src/keeper'
 import { DDOStatus } from '../../src/services'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'

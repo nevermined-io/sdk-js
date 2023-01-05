@@ -1,9 +1,6 @@
 import { ContractBase } from './contracts/ContractBase'
 
 import NeverminedConfig from './contracts/governance/NeverminedConfig'
-import DIDRegistry from './contracts/DIDRegistry'
-import Dispenser from './contracts/Dispenser'
-import Token from './contracts/Token'
 import {
     LockPaymentCondition,
     EscrowPaymentCondition,
@@ -22,9 +19,10 @@ import {
     AaveRepayCondition,
     NFT721LockCondition,
     DistributeNFTCollateralCondition,
-    ConditionSmall
-} from './contracts/conditions'
-import {
+    ConditionSmall,
+    DIDRegistry,
+    Dispenser,
+    Token,
     AccessTemplate,
     EscrowComputeExecutionTemplate,
     DIDSalesTemplate,
@@ -32,25 +30,21 @@ import {
     NFT721AccessTemplate,
     NFTSalesTemplate,
     NFT721SalesTemplate,
-    AaveCreditTemplate
-} from './contracts/templates'
-import {
+    AaveCreditTemplate,
     TemplateStoreManager,
     AgreementStoreManager,
-    ConditionStoreManager
-} from './contracts/managers'
-import {
+    ConditionStoreManager,
     RewardsDistributor,
     StandardRoyalties,
-    CurveRoyalties
-} from './contracts/royalties'
+    CurveRoyalties,
+    Nft1155Contract,
+    GenericAccess
+} from './contracts'
 import * as KeeperUtils from './utils'
 import { objectPromiseAll } from '../utils'
 import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { Nft1155Contract } from './contracts/Nft1155Contract'
-import { GenericAccess } from './contracts/templates/GenericAccess'
 import { KeeperError } from '../errors'
 
 /**
@@ -206,7 +200,7 @@ export class Keeper extends Instantiable {
         this.token = this.instances.token
         this.nvmConfig = this.instances.nvmConfig
         this.didRegistry = this.instances.didRegistry
-        this.nftUpgradeable = this.instances.nftUpgradeable        
+        this.nftUpgradeable = this.instances.nftUpgradeable
         // Managers
         this.templateStoreManager = this.instances.templateStoreManager
         this.agreementStoreManager = this.instances.agreementStoreManager

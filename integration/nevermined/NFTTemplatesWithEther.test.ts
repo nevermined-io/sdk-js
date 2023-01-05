@@ -15,14 +15,15 @@ import {
     LockPaymentCondition,
     NFTAccessCondition,
     NFTHolderCondition,
-    TransferNFTCondition
-} from '../../src/keeper/contracts/conditions'
-import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
-import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
+    TransferNFTCondition,
+    ConditionStoreManager,
+    NFTAccessTemplate,
+    NFTSalesTemplate,
+    Nft1155Contract
+} from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { ZeroAddress } from '../../src/utils'
-import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import { BigNumber } from '../../src/utils'
 import {
     getRoyaltyAttributes,

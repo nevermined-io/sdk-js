@@ -1,12 +1,12 @@
 import { Account } from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
+import { TxParameters } from '../keeper'
 import { BigNumber } from '../utils'
 
 /**
  * Tokens submodule of Nevermined.
  */
-export class Token extends Instantiable {
+export class TokenUtils extends Instantiable {
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
@@ -16,8 +16,8 @@ export class Token extends Instantiable {
      * Returns the instance of Token.
      * @returns {@link Token}
      */
-    public static async getInstance(config: InstantiableConfig): Promise<Token> {
-        const instance = new Token(config)
+    public static async getInstance(config: InstantiableConfig): Promise<TokenUtils> {
+        const instance = new TokenUtils(config)
         return instance
     }
 

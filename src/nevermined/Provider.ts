@@ -1,6 +1,6 @@
 import { Account } from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
+import { TxParameters } from '../keeper'
 
 /**
  * Providers API that allows the basic management of the provider accounts associated to an asset.

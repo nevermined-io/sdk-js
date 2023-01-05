@@ -12,7 +12,7 @@ import {
 import { ethers, Wallet } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
-import { Web3ProviderWrapper } from '../../src/keeper/utils'
+import { Web3ProviderWrapper } from '../../src/keeper'
 
 describe('MetaTx test with nfts', () => {
     let nevermined: Nevermined

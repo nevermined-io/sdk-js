@@ -1,12 +1,12 @@
 import { assert } from 'chai'
-import { AaveRepayCondition } from '../../../src/keeper/contracts/conditions/'
+import { AaveRepayCondition } from '../../../src/keeper'
 import { Nevermined } from '../../../src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { didZeroX } from '../../../src/utils'
 import { Account } from '../../../src/nevermined'
 import * as utils from '../../../src/utils'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { DIDRegistry } from '../../../src/keeper'
 import { BigNumber } from '../../../src/utils'
 
 let condition: AaveRepayCondition

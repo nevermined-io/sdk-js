@@ -2,13 +2,13 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
 import { Nevermined, Account, ConditionState } from '../../../src'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { DIDRegistry } from '../../../src/keeper'
 import {
     AgreementStoreManager,
     ConditionStoreManager,
-    TemplateStoreManager
-} from '../../../src/keeper/contracts/managers'
-import { DIDSalesTemplate } from '../../../src/keeper/contracts/templates'
+    TemplateStoreManager,
+    DIDSalesTemplate
+} from '../../../src/keeper'
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
