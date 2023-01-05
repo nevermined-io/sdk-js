@@ -14,7 +14,8 @@ export default class Web3Provider {
         if (config.web3Provider) {
             return new ethers.providers.Web3Provider(config.web3Provider)
         }
-        const web3JsonRpcProvider =  new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
-        isValidWeb3Provider(web3JsonRpcProvider).then(provider => provider)
+        const web3JsonRpcProvider = new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
+        isValidWeb3Provider(web3JsonRpcProvider)
+        return web3JsonRpcProvider
     }
 }

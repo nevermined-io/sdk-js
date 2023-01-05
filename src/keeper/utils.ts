@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { KeeperError } from '../errors'
+import { throws } from "assert";
 
 export async function getNetworkName(networkId: number): Promise<string> {
     switch (networkId) {
@@ -82,10 +83,11 @@ export class Web3ProviderWrapper {
     }
 }
 
-export async function isValidWeb3Provider(web3Provider: ethers.providers.JsonRpcProvider){
+export function isValidWeb3Provider(web3Provider: ethers.providers.JsonRpcProvider) {
     try {
-        await web3Provider.getNetwork()
-        return web3Provider
+        web3Provider.getNetwork().then(() => {
+            return web3Provider
+        }).catch(() => {throw new Error('Invalid web3 provider uri.')})
     } catch (e) {
         throw new Error('Invalid web3 provider uri.')
     }
