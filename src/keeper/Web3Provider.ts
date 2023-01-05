@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import NeverminedOptions from '../models/NeverminedOptions'
-import { isValidWeb3Provider } from "./utils";
+import { isValidWeb3Provider } from "./utils"
 
 export default class Web3Provider {
     /**
