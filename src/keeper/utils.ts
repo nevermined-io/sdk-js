@@ -1,6 +1,5 @@
 import { ethers } from 'ethers'
 import { KeeperError } from '../errors'
-import { throws } from "assert";
 
 export async function getNetworkName(networkId: number): Promise<string> {
     switch (networkId) {
