@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import NeverminedOptions from '../models/NeverminedOptions'
+import { isValidWeb3Provider } from "./utils";
 
 export default class Web3Provider {
     /**
@@ -13,7 +14,7 @@ export default class Web3Provider {
         if (config.web3Provider) {
             return new ethers.providers.Web3Provider(config.web3Provider)
         }
-
-        return new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
+        const web3JsonRpcProvider =  new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
+        isValidWeb3Provider(web3JsonRpcProvider).then(provider => provider)
     }
 }
