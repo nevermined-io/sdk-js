@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import { AccessTemplate } from '../../../src/keeper/contracts/templates'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { Nevermined } from '../../../src/nevermined'
 import Token from '../../../src/keeper/contracts/Token'
 import { ConditionSmall } from '../../../src/keeper/contracts/conditions'
 

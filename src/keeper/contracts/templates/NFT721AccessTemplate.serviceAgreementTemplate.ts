@@ -1,4 +1,4 @@
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import { ServiceAgreementTemplate } from '../../../ddo'
 import { nft721HolderTemplate, nftAccessCondition } from './ConditionTemplates'
 
 export const nft721AccessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {

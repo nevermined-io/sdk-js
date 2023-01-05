@@ -1,13 +1,19 @@
-import { SearchQuery } from '../../src/common/interfaces'
+import { SearchQuery } from '../../src/common'
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
-import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from '../../src'
+import {
+    Nevermined,
+    Account,
+    MetaData,
+    DDO,
+    AssetPrice,
+    AssetAttributes
+} from '../../src'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import { PublishMetadata } from '../../src/nevermined/api/AssetsApi'
-import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
+import { PublishMetadata, DIDResolvePolicy } from '../../src/nevermined'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -37,14 +43,10 @@ describe('Assets', () => {
             metadata,
             price: assetPrice
         })
-        ddoBefore = await nevermined.assets.create(
-            assetAttributes,
-            publisher
-        )        
+        ddoBefore = await nevermined.assets.create(assetAttributes, publisher)
     })
 
     describe('#register()', () => {
-
         it('create with immutable data', async () => {
             const nonce = Math.random()
             const immutableMetadata = getMetadata(nonce, `Immutable Test ${nonce}`)
@@ -57,64 +59,90 @@ describe('Assets', () => {
                 assetAttributes,
                 publisher,
                 PublishMetadata.IPFS
-            ) 
-            
+            )
+
             assert.isDefined(ddo)
             assert.equal(ddo._nvm.versions.length, 1)
             assert.isTrue(ddo._nvm.versions[0].immutableUrl.startsWith('cid://'))
             assert.isTrue(ddo._nvm.versions[0].immutableUrl.length > 10)
             assert.equal(ddo._nvm.versions[0].immutableBackend, 'ipfs')
         })
-
     })
 
-    describe('#resolve()', () => {      
+    describe('#resolve()', () => {
         it('resolve with immutable metadata first for a ddo without immutable url', async () => {
-            const resolvedDDO = await nevermined.assets.resolve(ddoBefore.id, DIDResolvePolicy.ImmutableFirst)
+            const resolvedDDO = await nevermined.assets.resolve(
+                ddoBefore.id,
+                DIDResolvePolicy.ImmutableFirst
+            )
             assert.isDefined(resolvedDDO)
             assert.equal(resolvedDDO._nvm.versions.length, 1)
         })
 
         it('resolve with immutable metadata', async () => {
-            const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.OnlyImmutable)
+            const resolvedDDO = await nevermined.assets.resolve(
+                ddo.id,
+                DIDResolvePolicy.OnlyImmutable
+            )
             assert.isDefined(resolvedDDO)
             assert.equal(resolvedDDO._nvm.versions.length, 1)
         })
 
         it('resolve without immutable metadata', async () => {
-            const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.MetadataAPIFirst)
+            const resolvedDDO = await nevermined.assets.resolve(
+                ddo.id,
+                DIDResolvePolicy.MetadataAPIFirst
+            )
             assert.isDefined(resolvedDDO)
             assert.equal(resolvedDDO._nvm.versions.length, 1)
         })
 
         it('resolve immutable first metadata', async () => {
-            const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
+            const resolvedDDO = await nevermined.assets.resolve(
+                ddo.id,
+                DIDResolvePolicy.ImmutableFirst
+            )
             assert.isDefined(resolvedDDO)
             assert.equal(resolvedDDO._nvm.versions.length, 1)
-        })        
+        })
     })
 
-
-    describe('#update()', () => {        
+    describe('#update()', () => {
         it('update an existing asset', async () => {
             const nonce = Math.random()
             const name = `Updated Metadata Test ${nonce}`
             const updatedMetadata = getMetadata(nonce, name)
 
-            await nevermined.assets.update(ddo.shortId(), updatedMetadata, publisher, PublishMetadata.IPFS)
+            await nevermined.assets.update(
+                ddo.shortId(),
+                updatedMetadata,
+                publisher,
+                PublishMetadata.IPFS
+            )
 
             // Waiting to metadata to be updated and propagated
             await sleep(3000)
 
-            const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
+            const resolvedDDO = await nevermined.assets.resolve(
+                ddo.id,
+                DIDResolvePolicy.ImmutableFirst
+            )
             assert.isDefined(resolvedDDO)
-            assert.equal(updatedMetadata.main.name, resolvedDDO.findServiceByType('metadata').attributes.main.name)
+            assert.equal(
+                updatedMetadata.main.name,
+                resolvedDDO.findServiceByType('metadata').attributes.main.name
+            )
 
-            const metaApiDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.OnlyMetadataAPI)
+            const metaApiDDO = await nevermined.assets.resolve(
+                ddo.id,
+                DIDResolvePolicy.OnlyMetadataAPI
+            )
             assert.isDefined(metaApiDDO)
-            assert.equal(updatedMetadata.main.name, metaApiDDO.findServiceByType('metadata').attributes.main.name)
-
-        })     
+            assert.equal(
+                updatedMetadata.main.name,
+                metaApiDDO.findServiceByType('metadata').attributes.main.name
+            )
+        })
     })
 
     describe('#query()', () => {
@@ -170,10 +198,7 @@ describe('Assets', () => {
                 price: assetPrice,
                 appId: appId1
             })
-            ddoBefore = await neverminedApp1.assets.create(
-                assetAttributes,
-                publisher
-            )             
+            ddoBefore = await neverminedApp1.assets.create(assetAttributes, publisher)
 
             // Create 2 assets with appId-test2
             const assetAttributes2 = AssetAttributes.getInstance({
@@ -181,20 +206,14 @@ describe('Assets', () => {
                 price: assetPrice,
                 appId: appId2
             })
-            ddoBefore = await neverminedApp2.assets.create(
-                assetAttributes2,
-                publisher
-            )              
+            ddoBefore = await neverminedApp2.assets.create(assetAttributes2, publisher)
 
             const assetAttributes22 = AssetAttributes.getInstance({
                 metadata: metadata22,
                 price: assetPrice,
                 appId: appId2
             })
-            ddoBefore = await neverminedApp2.assets.create(
-                assetAttributes22,
-                publisher
-            )             
+            ddoBefore = await neverminedApp2.assets.create(assetAttributes22, publisher)
 
             // wait for elasticsearch
             await sleep(2000)

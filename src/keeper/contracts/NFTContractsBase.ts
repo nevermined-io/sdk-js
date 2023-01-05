@@ -1,18 +1,16 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX } from '../../utils'
-import Account from '../../nevermined/Account'
+import { Account } from '../../nevermined'
 import { BigNumber, ContractReceipt } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export class NFTContractsBase extends ContractBase {
-
-
     /**
      * Gets the contract owner
      *
      * @returns Address of the contract owner
      */
-     public async owner(): Promise<string> {
+    public async owner(): Promise<string> {
         return this.call('owner', [])
     }
 
@@ -26,7 +24,7 @@ export class NFTContractsBase extends ContractBase {
      * @param from - Sender account
      * @returns Contract Receipt
      */
-     protected async _createClone(
+    protected async _createClone(
         name: string,
         symbol: string,
         uri: string,
@@ -35,21 +33,18 @@ export class NFTContractsBase extends ContractBase {
         params?: TxParameters
     ) {
         try {
-            const contractReceipt: ContractReceipt = 
-            await this.sendFrom(
+            const contractReceipt: ContractReceipt = await this.sendFrom(
                 'createClone',
                 cap ? [name, symbol, uri, String(cap)] : [name, symbol, uri],
                 from,
                 params
             )
-            const event = contractReceipt.events.find(
-                    e => e.event === 'NFTCloned'
-            )
+            const event = contractReceipt.events.find(e => e.event === 'NFTCloned')
             return event.args._newAddress
-        } catch (error)    {
+        } catch (error) {
             throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)
         }
-    } 
+    }
 
     /**
      * Configure proxy approval for a specific operator address
@@ -59,7 +54,7 @@ export class NFTContractsBase extends ContractBase {
      * @param from - Sender account
      * @returns Contract Receipt
      */
-     public setProxyApproval(
+    public setProxyApproval(
         operatorAddress: string,
         approved: boolean,
         from?: Account,
@@ -73,7 +68,6 @@ export class NFTContractsBase extends ContractBase {
         )
     }
 
-
     /**
      * Add an address as a minter in the NFT Contract
      *
@@ -81,17 +75,8 @@ export class NFTContractsBase extends ContractBase {
      * @param from - Sender account
      * @returns Contract Receipt
      */
-     public addMinter(
-        minterAddress: string,
-        from?: Account,
-        params?: TxParameters
-    ) {
-        return this.sendFrom(
-            'addMinter',
-            [zeroX(minterAddress)],
-            from,
-            params
-        )
+    public addMinter(minterAddress: string, from?: Account, params?: TxParameters) {
+        return this.sendFrom('addMinter', [zeroX(minterAddress)], from, params)
     }
 
     /**
@@ -101,17 +86,7 @@ export class NFTContractsBase extends ContractBase {
      * @param from - Sender account
      * @returns Contract Receipt
      */
-     public revokeMinter(
-        minterAddress: string,
-        from?: Account,
-        params?: TxParameters
-    ) {
-        return this.sendFrom(
-            'revokeMinter',
-            [zeroX(minterAddress)],
-            from,
-            params
-        )
+    public revokeMinter(minterAddress: string, from?: Account, params?: TxParameters) {
+        return this.sendFrom('revokeMinter', [zeroX(minterAddress)], from, params)
     }
-
 }

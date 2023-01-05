@@ -1,11 +1,13 @@
-import { DDO } from '../ddo/DDO'
-import { ConditionType, Service, ServiceType } from '../ddo/Service'
 import {
+    DDO,
     ServiceAgreementTemplateCondition,
-    ServiceAgreementTemplateParameter
-} from '../ddo/ServiceAgreementTemplate'
+    ServiceAgreementTemplateParameter,
+    ConditionType,
+    Service,
+    ServiceType
+} from '../ddo'
 import { AssetPrice } from '..'
-import BigNumber from './BigNumber'
+import { BigNumber } from './BigNumber'
 
 function fillParameterWithDDO(
     parameter: ServiceAgreementTemplateParameter,

@@ -7,11 +7,11 @@ import {
     ServicePlugin,
     ServiceType,
     ValidationParams
-} from '../../../ddo/Service'
+} from '../../../ddo'
 import { Account, Condition, MetaData, AssetPrice } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 
 export abstract class BaseTemplate<Params, S extends Service>
     extends AgreementTemplate<Params>

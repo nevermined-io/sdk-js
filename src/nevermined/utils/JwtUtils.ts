@@ -1,6 +1,6 @@
 import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import Account from '../Account'
+import { Account } from '..'
 import { SignatureUtils } from './SignatureUtils'
 import { ethers } from 'ethers'
 import { Babysig } from '../..'

@@ -1,12 +1,16 @@
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import {
+    ServiceAgreementTemplate,
+    ServiceNFTAccess,
+    ServiceType,
+    ValidationParams
+} from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
-import { ServiceNFTAccess, ServiceType, ValidationParams } from '../../../ddo/Service'
 import { NFTAccessCondition, NFTHolderCondition } from '../conditions'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 
 export interface NFTAccessTemplateParams {
     holderAddress: string
@@ -88,8 +92,7 @@ export class NFTAccessTemplate extends BaseTemplate<
         return nftAccessTemplateServiceAgreementTemplate
     }
 
-    public async accept(params: ValidationParams): Promise<boolean> {        
-        
+    public async accept(params: ValidationParams): Promise<boolean> {
         if (
             await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
                 params.consumer_address,
@@ -99,7 +102,7 @@ export class NFTAccessTemplate extends BaseTemplate<
             return true
         }
         const ddo = await this.nevermined.assets.resolve(params.did)
-        const service = ddo.findServiceByType(this.service())        
+        const service = ddo.findServiceByType(this.service())
         const limit =
             this.nevermined.keeper.conditions.nftHolderCondition.amountFromService(
                 service

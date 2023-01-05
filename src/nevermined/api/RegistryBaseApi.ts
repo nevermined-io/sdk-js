@@ -1,4 +1,10 @@
-import { Service, ServicePlugin, ServiceType } from '../../ddo/Service'
+import {
+    Service,
+    ServicePlugin,
+    ServiceType,
+    NvmConfigVersions,
+    ServiceAgreementTemplate
+} from '../../ddo'
 import {
     MetaData,
     Account,
@@ -8,7 +14,6 @@ import {
     AssetAttributes,
     NFTAttributes
 } from '../..'
-import { NvmConfigVersions } from '../../ddo/NvmConfig'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import {
     SubscribablePromise,
@@ -19,7 +24,6 @@ import {
 import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
-import { ServiceAgreementTemplate } from '../../ddo/ServiceAgreementTemplate'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ServiceAaveCredit } from '../../keeper/contracts/defi/Service'
 import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper/contracts/Provenance'

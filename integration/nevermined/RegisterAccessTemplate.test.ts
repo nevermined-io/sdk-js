@@ -5,7 +5,6 @@ import { config } from '../config'
 
 import {
     Nevermined,
-    utils,
     Account,
     Keeper,
     DDO,
@@ -23,7 +22,7 @@ import {
 import { AccessTemplate } from '../../src/keeper/contracts/templates'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 
 describe('Register Escrow Access Template', () => {
     let nevermined: Nevermined
@@ -97,12 +96,12 @@ describe('Register Escrow Access Template', () => {
         let conditionIdEscrow: [string, string]
 
         before(async () => {
-            agreementIdSeed = utils.generateId()
+            agreementIdSeed = generateId()
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
                 publisher.getId()
             )
-            didSeed = utils.generateId()
+            didSeed = generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
 

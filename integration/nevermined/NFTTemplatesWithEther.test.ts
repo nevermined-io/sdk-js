@@ -3,8 +3,8 @@ import {
     Account,
     DDO,
     Nevermined,
-    utils,
     AssetPrice,
+    generateId,
     AssetAttributes,
     NFTAttributes
 } from '../../src'
@@ -23,12 +23,12 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { ZeroAddress } from '../../src/utils'
 import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
+} from '../../src/nevermined'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -149,8 +149,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     .getEtherBalance()
             }
 
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,

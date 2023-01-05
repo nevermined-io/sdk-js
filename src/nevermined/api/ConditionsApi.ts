@@ -1,6 +1,6 @@
-import Account from '../Account'
+import { Account } from '..'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { DDO } from '../../ddo/DDO'
+import { DDO } from '../../ddo'
 import { findServiceConditionByName, ZeroAddress } from '../../utils'
 import Token from '../../keeper/contracts/Token'
 import CustomToken from '../../keeper/contracts/CustomToken'
@@ -8,7 +8,7 @@ import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { AssetPrice } from '../..'
 import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
-import BigNumber from '../../utils/BigNumber'
+import { BigNumber } from '../../utils'
 
 /**
  * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached

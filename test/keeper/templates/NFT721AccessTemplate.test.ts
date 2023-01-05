@@ -1,13 +1,13 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined, Account, utils, ConditionState } from '../../../src'
+import { Nevermined, Account, ConditionState } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import {
     AgreementStoreManager,
     ConditionStoreManager,
     TemplateStoreManager
 } from '../../../src/keeper/contracts/managers'
-import { didZeroX, zeroX } from '../../../src/utils'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { NFT721AccessTemplate } from '../../../src/keeper/contracts/templates/NFT721AccessTemplate'
@@ -55,12 +55,12 @@ describe('NFT721AccessTemplate', () => {
     })
 
     beforeEach(async () => {
-        agreementIdSeed = zeroX(utils.generateId())
+        agreementIdSeed = zeroX(generateId())
         agreementId = await agreementStoreManager.agreementId(
             agreementIdSeed,
             sender.getId()
         )
-        conditionIdSeeds = [zeroX(utils.generateId()), zeroX(utils.generateId())]
+        conditionIdSeeds = [zeroX(generateId()), zeroX(generateId())]
         conditionIds = [
             await nevermined.keeper.conditions.nft721HolderCondition.generateId(
                 agreementId,
@@ -71,8 +71,8 @@ describe('NFT721AccessTemplate', () => {
                 conditionIdSeeds[1]
             )
         ]
-        didSeed = `did:nv:${utils.generateId()}`
-        checksum = utils.generateId()
+        didSeed = `did:nv:${generateId()}`
+        checksum = generateId()
     })
 
     describe('create agreement', () => {

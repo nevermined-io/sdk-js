@@ -3,7 +3,6 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import {
     Nevermined,
-    utils,
     Account,
     Keeper,
     DDO,
@@ -21,7 +20,7 @@ import {
 } from '../../src/keeper/contracts/conditions'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -97,12 +96,12 @@ describe('Register Escrow Compute Execution Template', () => {
         let conditionIdEscrow: [string, string]
 
         before(async () => {
-            agreementIdSeed = utils.generateId()
+            agreementIdSeed = generateId()
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
                 publisher.getId()
             )
-            didSeed = utils.generateId()
+            didSeed = generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
 

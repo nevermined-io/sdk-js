@@ -1,4 +1,4 @@
-import Account from './Account'
+import { Account } from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 
@@ -6,7 +6,6 @@ import { TxParameters } from '../keeper/contracts/ContractBase'
  * Providers API that allows the basic management of the provider accounts associated to an asset.
  */
 export class Providers extends Instantiable {
-
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)

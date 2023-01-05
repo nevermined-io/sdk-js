@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { Nevermined } from '../../src'
 import { LockPaymentCondition } from '../../src/keeper/contracts/conditions'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import { config } from '../config'
 
 describe('Test Encoding', () => {

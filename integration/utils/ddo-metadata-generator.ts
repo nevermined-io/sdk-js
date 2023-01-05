@@ -1,5 +1,5 @@
 import { MetaData, AssetPrice } from '../../src'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 
 const metadata: Partial<MetaData> = {
     main: {

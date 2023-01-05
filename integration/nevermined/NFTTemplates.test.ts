@@ -4,7 +4,7 @@ import {
     Account,
     DDO,
     Nevermined,
-    utils,
+    generateId,
     AssetPrice,
     NFTAttributes,
     AssetAttributes
@@ -25,9 +25,9 @@ import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
-import BigNumber from '../../src/utils/BigNumber'
-import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
+} from '../../src/nevermined'
+import { BigNumber } from '../../src/utils'
+import { setNFTRewardsFromDDOByService } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
@@ -147,9 +147,9 @@ describe('NFTTemplates E2E', () => {
                 )
             }
 
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
@@ -720,9 +720,9 @@ describe('NFTTemplates E2E', () => {
                     await token.balanceOf(escrowPaymentCondition.getAddress())
                 )
             }
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
@@ -1095,9 +1095,9 @@ describe('NFTTemplates E2E', () => {
                     await token.balanceOf(escrowPaymentCondition.getAddress())
                 )
             }
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,

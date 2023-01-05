@@ -218,7 +218,7 @@ Ether and Nevermined Token balance.
 
 #### Defined in
 
-[src/nevermined/Accounts.ts:47](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Accounts.ts#L47)
+[src/nevermineds.ts:47](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermineds.ts#L47)
 
 ___
 
@@ -288,7 +288,7 @@ The list of accounts.
 
 #### Defined in
 
-[src/nevermined/Accounts.ts:26](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Accounts.ts#L26)
+[src/nevermineds.ts:26](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermineds.ts#L26)
 
 ___
 
@@ -308,7 +308,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Accounts.ts:70](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Accounts.ts#L70)
+[src/nevermineds.ts:70](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermineds.ts#L70)
 
 ___
 
@@ -326,7 +326,7 @@ provider
 
 #### Defined in
 
-[src/nevermined/Accounts.ts:38](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Accounts.ts#L38)
+[src/nevermineds.ts:38](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermineds.ts#L38)
 
 ___
 
@@ -352,7 +352,7 @@ true if the call was successful. false otherwise.
 
 #### Defined in
 
-[src/nevermined/Accounts.ts:57](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Accounts.ts#L57)
+[src/nevermineds.ts:57](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermineds.ts#L57)
 
 ___
 
@@ -455,7 +455,7 @@ Instantiable.getInstance
 
 #### Defined in
 
-[src/nevermined/Accounts.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Accounts.ts#L14)
+[src/nevermineds.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermineds.ts#L14)
 
 ___
 

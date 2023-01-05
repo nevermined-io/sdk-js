@@ -1,5 +1,5 @@
-import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
-import { NewBookmark, Bookmark } from './Bookmarks.interfaces'
+import { MarketplaceApi } from '../../services'
+import { NewBookmark, Bookmark } from './types'
 import { HttpError, ApiError } from '../../errors'
 import { MarketplaceResults } from '../../common/interfaces'
 import { SearchQuery } from '../../common/interfaces'

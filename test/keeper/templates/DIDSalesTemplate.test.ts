@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
-import { Nevermined, Account, utils, ConditionState } from '../../../src'
+import { Nevermined, Account, ConditionState } from '../../../src'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import {
     AgreementStoreManager,
@@ -9,7 +9,7 @@ import {
     TemplateStoreManager
 } from '../../../src/keeper/contracts/managers'
 import { DIDSalesTemplate } from '../../../src/keeper/contracts/templates'
-import { didZeroX, zeroX } from '../../../src/utils'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -55,16 +55,12 @@ describe('DIDSalesTemplate', () => {
     })
 
     beforeEach(async () => {
-        agreementIdSeed = zeroX(utils.generateId())
+        agreementIdSeed = zeroX(generateId())
         agreementId = await agreementStoreManager.agreementId(
             agreementIdSeed,
             sender.getId()
         )
-        conditionIdSeeds = [
-            zeroX(utils.generateId()),
-            zeroX(utils.generateId()),
-            zeroX(utils.generateId())
-        ]
+        conditionIdSeeds = [zeroX(generateId()), zeroX(generateId()), zeroX(generateId())]
         conditionIds = [
             await nevermined.keeper.conditions.lockPaymentCondition.generateId(
                 agreementId,
@@ -79,8 +75,8 @@ describe('DIDSalesTemplate', () => {
                 conditionIdSeeds[2]
             )
         ]
-        didSeed = `did:nv:${utils.generateId()}`
-        checksum = utils.generateId()
+        didSeed = `did:nv:${generateId()}`
+        checksum = generateId()
     })
 
     describe('create agreement', () => {

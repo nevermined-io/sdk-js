@@ -5,10 +5,10 @@ import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, NFTAttributes, AssetPrice } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ZeroAddress, zeroX } from '../../src/utils'
-import { Token } from '../../src/nevermined/Token'
+import { Token } from '../../src/nevermined'
 import { ethers } from 'ethers'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import { TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
 
 describe('Nfts721 operations', async () => {
@@ -31,10 +31,14 @@ describe('Nfts721 operations', async () => {
         TestContractHandler.setConfig(config)
 
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+        const erc721ABI = await TestContractHandler.getABI(
+            'NFT721Upgradeable',
+            config.artifactsFolder,
+            networkName
+        )
 
         // deploy a nft contract we can use
-        nft = await TestContractHandler.deployArtifact(erc721ABI)        
+        nft = await TestContractHandler.deployArtifact(erc721ABI)
         nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
             nft.address
@@ -48,7 +52,7 @@ describe('Nfts721 operations', async () => {
 
         ;({ transferNft721Condition } = nevermined.keeper.conditions)
 
-        const nftOwner = new Account(await nftContract.owner() as string)
+        const nftOwner = new Account((await nftContract.owner()) as string)
         nftContract.setProxyApproval(transferNft721Condition.address, true, nftOwner)
 
         await nevermined.services.marketplace.login(clientAssertion)
@@ -65,15 +69,18 @@ describe('Nfts721 operations', async () => {
                 metadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nft.address
-            })            
-            ddo = await nevermined.nfts721.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts721.create(nftAttributes, artist)
         })
 
         it('should clone an existing erc-721 nft contract', async () => {
-            const cloneAddress = await nftContract.createClone('My New NFT', 'xyz', '', BigNumber.from(10), artist)
+            const cloneAddress = await nftContract.createClone(
+                'My New NFT',
+                'xyz',
+                '',
+                BigNumber.from(10),
+                artist
+            )
             assert.isDefined(cloneAddress)
             console.log(`NFT (ERC-721) clonned into address ${cloneAddress}`)
         })
@@ -118,11 +125,8 @@ describe('Nfts721 operations', async () => {
                 price: new AssetPrice().setTokenAddress(token.getAddress()),
                 serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nft.address
-            })            
-            ddo = await nevermined.nfts721.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts721.create(nftAttributes, artist)
         })
 
         it('should mint an nft token', async () => {
@@ -159,19 +163,17 @@ describe('Nfts721 operations', async () => {
             // artist creates the nft
 
             const assetPrice = new AssetPrice(
-                artist.getId(), BigNumber.parseEther('0.1')
-                ).setTokenAddress(ZeroAddress) // With ETH
+                artist.getId(),
+                BigNumber.parseEther('0.1')
+            ).setTokenAddress(ZeroAddress) // With ETH
 
             const nftAttributes = NFTAttributes.getNFT721Instance({
                 metadata,
                 price: assetPrice,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nft.address
-            })            
-            ddo = await nevermined.nfts721.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts721.create(nftAttributes, artist)
         })
 
         it('should mint an nft token', async () => {

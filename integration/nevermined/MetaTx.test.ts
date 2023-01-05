@@ -3,12 +3,12 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, NFTAttributes } from '../../src'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
+} from '../../src/nevermined'
 import { ethers, Wallet } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
@@ -51,17 +51,14 @@ describe('MetaTx test with nfts', () => {
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
 
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
                 metadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         it('should mint 10 nft tokens', async () => {

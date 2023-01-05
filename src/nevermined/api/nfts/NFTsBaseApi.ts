@@ -1,4 +1,4 @@
-import { DDO, utils, AssetPrice, Babysig, ERCType } from '../../..'
+import { DDO, generateId, AssetPrice, Babysig, ERCType } from '../../..'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
@@ -7,13 +7,13 @@ import {
     getNftHolderFromService,
     zeroX
 } from '../../../utils'
-import { RoyaltyKind } from '../RoyaltyKind'
-import Account from '../../Account'
+import { RoyaltyKind } from '..'
+import { Account } from '../..'
 import Token from '../../../keeper/contracts/Token'
-import { ServiceSecondary } from '../../../ddo/Service'
+import { ServiceSecondary } from '../../../ddo'
 import { TxParameters } from '../../../keeper/contracts/ContractBase'
 import { NFTError } from '../../../errors'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 import { RegistryBaseApi } from '../RegistryBaseApi'
 
 /**
@@ -180,7 +180,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         owner: string
     ): Promise<string> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
-        const agreementIdSeed = zeroX(utils.generateId())
+        const agreementIdSeed = zeroX(generateId())
         const nftSalesServiceAgreementTemplate =
             await nftSalesTemplate.getServiceAgreementTemplate()
         const nftSalesTemplateConditions =

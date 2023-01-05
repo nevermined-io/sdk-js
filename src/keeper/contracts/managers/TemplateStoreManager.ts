@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 
 export enum TemplateState {
     Uninitialized = 0,

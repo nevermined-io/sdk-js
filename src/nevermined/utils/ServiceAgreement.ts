@@ -1,7 +1,10 @@
-import { ServiceAgreementTemplateCondition } from '../../ddo/ServiceAgreementTemplate'
-import { DDO } from '../../ddo/DDO'
-import { ServiceAccess, ServiceType } from '../../ddo/Service'
-import Account from '../Account'
+import {
+    ServiceAgreementTemplateCondition,
+    DDO,
+    ServiceAccess,
+    ServiceType
+} from '../../ddo'
+import { Account } from '..'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ethers } from 'ethers'

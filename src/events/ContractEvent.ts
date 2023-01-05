@@ -7,7 +7,7 @@ import {
 } from './NeverminedEvent'
 import ContractBase from '../keeper/contracts/ContractBase'
 import { KeeperError } from '../errors'
-import { Nevermined } from '../nevermined/Nevermined'
+import { Nevermined } from '../nevermined'
 import { ethers } from 'ethers'
 
 export class ContractEvent extends NeverminedEvent {

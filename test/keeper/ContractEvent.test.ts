@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Nevermined } from '../../src/nevermined/Nevermined'
+import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { ContractEventSubscription } from '../../src/events/NeverminedEvent'

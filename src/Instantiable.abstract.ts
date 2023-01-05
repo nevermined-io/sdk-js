@@ -1,7 +1,7 @@
 import { NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import Web3Provider from './keeper/Web3Provider'
-import { Nevermined } from './nevermined/Nevermined'
+import { Nevermined } from './nevermined'
 import { ethers } from 'ethers'
 
 export interface InstantiableConfig {

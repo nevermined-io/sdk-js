@@ -1,18 +1,15 @@
-import { Service, ServiceType } from '../ddo/Service'
-import { EncryptionMethod } from '../services/metadata/MetadataService'
-import { MetaData } from "../ddo/MetaData"
+import { Service, ServiceType, MetaData } from '../ddo'
+import { EncryptionMethod } from '../services'
 import { AssetPrice } from './'
 
-
-export class AssetAttributes {    
-
+export class AssetAttributes {
     static DEFAULT_ENCRYPTION_METHOD = 'PSK-RSA' as EncryptionMethod
 
     /**
      * Metadata describing the asset
      * @see {@link MetaData}
      */
-    metadata: MetaData    
+    metadata: MetaData
 
     /**
      * It allows to specify the price of an asset
@@ -22,7 +19,7 @@ export class AssetAttributes {
 
     /**
      * When an asset is published in a Nevermined network, some internal Metadata attributes are encrypted so they can't be accessed.
-     * This method allows to specify the encryption method to be used. 
+     * This method allows to specify the encryption method to be used.
      * @see {@link EncryptionMethod}
      */
     encryptionMethod?: EncryptionMethod
@@ -32,7 +29,7 @@ export class AssetAttributes {
      * @see {@link ServiceType}
      */
     serviceTypes?: ServiceType[]
-    
+
     /**
      * List of additional asset services to be included as part of an asset
      * @see {@link Service}

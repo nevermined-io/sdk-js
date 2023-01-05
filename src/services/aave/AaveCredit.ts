@@ -1,5 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import Account from '../../nevermined/Account'
+import { Account } from '../../nevermined'
 import GenericContract from '../../keeper/contracts/GenericContract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { ConditionState } from '../../keeper/contracts/conditions/Condition.abstract'
@@ -13,7 +13,7 @@ import { AgreementData } from '../../keeper/contracts/managers'
 import CustomToken from '../../keeper/contracts/CustomToken'
 import { AgreementInstance } from '../../keeper/contracts/templates'
 import { ContractReceipt, ethers } from 'ethers'
-import BigNumber from '../../utils/BigNumber'
+import { BigNumber } from '../../utils'
 
 /**
  * AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral

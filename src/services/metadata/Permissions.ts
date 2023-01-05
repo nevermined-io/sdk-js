@@ -1,5 +1,5 @@
 import { MarketplaceApi } from './MarketplaceAPI'
-import { NewPermission, Permission, PermissionType } from './Permissions.interfaces'
+import { NewPermission, Permission, PermissionType } from './types'
 import { HttpError, ApiError } from '../../errors'
 import { MarketplaceResults } from '../../common/interfaces'
 import { SearchQuery } from '../../common/interfaces'

@@ -1,10 +1,9 @@
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { DDO } from '../../../ddo/DDO'
+import { DDO, ServiceCompute, ServiceType, ValidationParams } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
-import { ServiceCompute, ServiceType, ValidationParams } from '../../../ddo/Service'
 import { Account } from '../../../sdk'
 import {
     ComputeExecutionCondition,

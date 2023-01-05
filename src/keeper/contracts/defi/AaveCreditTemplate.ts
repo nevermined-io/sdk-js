@@ -3,12 +3,12 @@ import { BaseTemplate } from '../templates'
 import { DDO, AaveConfig } from '../../..'
 import { didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
-import { ServiceType, ValidationParams } from '../../../ddo/Service'
+import { ServiceType, ValidationParams } from '../../../ddo'
 import { ContractReceipt } from 'ethers'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 import {
     AaveBorrowCondition,
     AaveCollateralDepositCondition,

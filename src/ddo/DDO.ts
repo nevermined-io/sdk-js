@@ -1,16 +1,19 @@
-import { Nevermined } from '../nevermined/Nevermined'
-import { Authentication } from './Authentication'
-import { Proof } from './Proof'
-import { PublicKey } from './PublicKey'
-import { Service, ServiceType } from './Service'
+import { Nevermined, Account } from '../nevermined'
+import {
+    Authentication,
+    PublicKey,
+    Service,
+    ServiceType,
+    MetaData,
+    MetaDataMain,
+    NvmConfig,
+    Proof
+} from './types'
 import { didPrefixed, getAssetPriceFromService, zeroX } from '../utils'
 import DIDRegistry from '../keeper/contracts/DIDRegistry'
-import Account from '../nevermined/Account'
 import { ethers } from 'ethers'
-import { MetaData, MetaDataMain } from './MetaData'
 import { NFTAttributes } from '..'
-import { NvmConfig } from './NvmConfig'
-import BigNumber from '../utils/BigNumber'
+import { BigNumber } from '../utils'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
 
 /**

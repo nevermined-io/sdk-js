@@ -1,7 +1,10 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
-import { EscrowPaymentCondition, TransferNFT721Condition } from '../../src/keeper/contracts/conditions'
+import {
+    EscrowPaymentCondition,
+    TransferNFT721Condition
+} from '../../src/keeper/contracts/conditions'
 import Token from '../../src/keeper/contracts/Token'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -9,7 +12,7 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { zeroX } from '../../src/utils'
 import { ethers } from 'ethers'
 import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import '../globals'
 
 describe('NFTs721 Api End-to-End', () => {
@@ -48,7 +51,11 @@ describe('NFTs721 Api End-to-End', () => {
         TestContractHandler.setConfig(config)
 
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+        const erc721ABI = await TestContractHandler.getABI(
+            'NFT721Upgradeable',
+            config.artifactsFolder,
+            networkName
+        )
 
         nft = await TestContractHandler.deployArtifact(erc721ABI)
 
@@ -59,7 +66,7 @@ describe('NFTs721 Api End-to-End', () => {
 
         await nevermined.contracts.loadNft721(nftContract.address)
 
-        nftContractOwner = new Account(await nftContract.owner() as string)
+        nftContractOwner = new Account((await nftContract.owner()) as string)
         ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
@@ -69,7 +76,8 @@ describe('NFTs721 Api End-to-End', () => {
         metadata.userId = payload.sub
 
         // conditions
-        ;({ escrowPaymentCondition, transferNft721Condition } = nevermined.keeper.conditions)
+        ;({ escrowPaymentCondition, transferNft721Condition } =
+            nevermined.keeper.conditions)
 
         // components
         ;({ token } = nevermined.keeper)
@@ -86,7 +94,11 @@ describe('NFTs721 Api End-to-End', () => {
             ])
         )
 
-        await nftContract.setProxyApproval(transferNft721Condition.address, true, nftContractOwner)
+        await nftContract.setProxyApproval(
+            transferNft721Condition.address,
+            true,
+            nftContractOwner
+        )
 
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
@@ -100,17 +112,13 @@ describe('NFTs721 Api End-to-End', () => {
 
     describe('As an artist I want to register a new artwork', () => {
         it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-            
             const nftAttributes = NFTAttributes.getNFT721Instance({
                 metadata,
                 price: assetPrice1,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nftContract.address
-            })            
-            ddo = await nevermined.nfts721.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts721.create(nftAttributes, artist)
 
             assert.isDefined(ddo)
             await nftContract.addMinter(artist.getId(), nftContractOwner)
@@ -146,10 +154,7 @@ describe('NFTs721 Api End-to-End', () => {
         })
 
         it('The artist can check the payment and transfer the NFT to the collector', async () => {
-            assert.equal(
-                await nevermined.nfts721.ownerOfAsset(ddo.id),
-                artist.getId()
-            )
+            assert.equal(await nevermined.nfts721.ownerOfAsset(ddo.id), artist.getId())
 
             const receipt = await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
             assert.isTrue(receipt)
@@ -176,12 +181,8 @@ describe('NFTs721 Api End-to-End', () => {
             const escrowPaymentConditionBalanceAfter = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-            const receiver0Balance = await token.balanceOf(
-                assetPrice1.getReceivers()[0]
-            )
-            const receiver1Balance = await token.balanceOf(
-                assetPrice1.getReceivers()[1]
-            )
+            const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
+            const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
             const collectorBalance = await token.balanceOf(collector1.getId())
 
             assert.isTrue(

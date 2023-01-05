@@ -2,7 +2,7 @@ import fs from 'fs'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
-import Account from '../nevermined/Account'
+import { Account } from '../nevermined'
 import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 
@@ -61,7 +61,9 @@ export default class ContractHandler extends Instantiable {
         const networkId = await this.nevermined.keeper.getNetworkId()
         const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
         try {
-            this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
+            this.logger.debug(
+                `ContractHandler :: get :: ${artifactsFolder} and address ${address}`
+            )
             return (
                 ContractHandler.getContract(what, networkId, address) ||
                 (await this.load(what, where, networkId, artifactsFolder, address))
@@ -80,8 +82,7 @@ export default class ContractHandler extends Instantiable {
     ): Promise<any> {
         try {
             let where = ''
-            if (networkName && networkName.length > 0)
-                where = `.${networkName}`
+            if (networkName && networkName.length > 0) where = `.${networkName}`
 
             if (artifactsFolder.startsWith('http')) {
                 const path = `${artifactsFolder}/${contractName}${where}.json`
@@ -99,9 +100,10 @@ export default class ContractHandler extends Instantiable {
                 )
                 return artifact
             }
-            
         } catch (err) {
-            throw new Error(`Unable to load ABI ${contractName} from ${networkName} - ${err}`)
+            throw new Error(
+                `Unable to load ABI ${contractName} from ${networkName} - ${err}`
+            )
         }
     }
 
@@ -125,7 +127,9 @@ export default class ContractHandler extends Instantiable {
                     'utf8'
                 )
             )
-        this.logger.debug(`Loaded artifact ${contractName} with version ${artifact.version}`)
+        this.logger.debug(
+            `Loaded artifact ${contractName} with version ${artifact.version}`
+        )
         return artifact.version
     }
 
@@ -135,7 +139,7 @@ export default class ContractHandler extends Instantiable {
         args: string[] = []
     ): Promise<ethers.Contract> {
         console.log(`Using Account: ${from.getId()}`)
-                
+
         const signer = await this.nevermined.accounts.findSigner(from.getId())
         const contract = new ethers.ContractFactory(
             artifact.abi,
@@ -182,7 +186,9 @@ export default class ContractHandler extends Instantiable {
         this.logger.debug(`Loading ${what} from ${where} and folder ${artifactsFolder}`)
         let artifact
         if (artifactsFolder.startsWith('http'))
-            artifact = await ContractHandler.fetchJson(`${artifactsFolder}/${what}.${where}.json`)
+            artifact = await ContractHandler.fetchJson(
+                `${artifactsFolder}/${what}.${where}.json`
+            )
         else
             artifact = JSON.parse(
                 fs.readFileSync(`${artifactsFolder}/${what}.${where}.json`, 'utf8')
@@ -191,28 +197,29 @@ export default class ContractHandler extends Instantiable {
         const _address = address ? address : artifact.address
         this.logger.debug(`Loading from address ${_address}`)
 
-        // check if address is really a contract            
+        // check if address is really a contract
         await this.checkExists(_address)
 
         const contract = new ethers.Contract(_address, artifact.abi, this.web3)
 
-        this.logger.debug(`Instance of ${what} from ${where} fetched at address ${_address}`)
+        this.logger.debug(
+            `Instance of ${what} from ${where} fetched at address ${_address}`
+        )
 
         if (!address) {
             this.logger.debug(`No address given as param for ${what}. Loading instance`)
             ContractHandler.setContract(what, networkId, contract)
             return ContractHandler.getContract(what, networkId)
         }
-        
+
         return contract
     }
-
 
     /**
      * Returns true of contract exists else it throws.
      * @returns {@link true} if the contract exists.
      */
-     public async checkExists(address: string): Promise<boolean> {
+    public async checkExists(address: string): Promise<boolean> {
         const storage = await this.web3.getStorageAt(address, 0)
         // check if storage is 0x0 at position 0, this is the case most of the cases
         if (

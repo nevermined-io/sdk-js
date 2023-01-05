@@ -1,7 +1,7 @@
 import chai, { assert, expect } from 'chai'
 import { Account, DDO, Nevermined, AssetAttributes, AssetPrice } from '../../src'
 import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import { DDOStatus } from '../../src/services/metadata/MetadataService'
+import { DDOStatus } from '../../src/services'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 
@@ -25,10 +25,7 @@ describe.skip('Get DDO status', () => {
             metadata: getMetadata(),
             price: assetPrice
         })
-        const ddo = await nevermined.assets.create(
-            assetAttributes,
-            publisher
-        )
+        const ddo = await nevermined.assets.create(assetAttributes, publisher)
 
         ddoStatus = await nevermined.services.metadata.status(ddo.id)
         assert.isDefined(ddoStatus)

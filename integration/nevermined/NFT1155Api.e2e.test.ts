@@ -16,9 +16,9 @@ import {
 import Token from '../../src/keeper/contracts/Token'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { ethers } from 'ethers'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import '../globals'
 
 chai.use(chaiAsPromised)

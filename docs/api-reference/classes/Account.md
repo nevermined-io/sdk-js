@@ -78,7 +78,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined/Account.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L20)
+[src/nevermined.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L20)
 
 ## Properties
 
@@ -88,7 +88,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined/Account.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L18)
+[src/nevermined.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L18)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L16)
+[src/nevermined.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L16)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:17](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L17)
+[src/nevermined.ts:17](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L17)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L20)
+[src/nevermined.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L20)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L12)
+[src/nevermined.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L12)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L14)
+[src/nevermined.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L14)
 
 ## Accessors
 
@@ -298,7 +298,7 @@ Authenticate the account.
 
 #### Defined in
 
-[src/nevermined/Account.ts:82](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L82)
+[src/nevermined.ts:82](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L82)
 
 ___
 
@@ -366,7 +366,7 @@ Balances of Ether and Nevermined Token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:108](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L108)
+[src/nevermined.ts:108](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L108)
 
 ___
 
@@ -382,7 +382,7 @@ Balance of Ether.
 
 #### Defined in
 
-[src/nevermined/Account.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L100)
+[src/nevermined.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L100)
 
 ___
 
@@ -396,7 +396,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:27](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L27)
+[src/nevermined.ts:27](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L27)
 
 ___
 
@@ -412,7 +412,7 @@ Balance of Nevermined Token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:90](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L90)
+[src/nevermined.ts:90](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L90)
 
 ___
 
@@ -430,7 +430,7 @@ The account password.
 
 #### Defined in
 
-[src/nevermined/Account.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L51)
+[src/nevermined.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L51)
 
 ___
 
@@ -444,7 +444,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:35](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L35)
+[src/nevermined.ts:35](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L35)
 
 ___
 
@@ -462,7 +462,7 @@ Account token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:67](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L67)
+[src/nevermined.ts:67](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L67)
 
 ___
 
@@ -480,7 +480,7 @@ true if the token is stored.
 
 #### Defined in
 
-[src/nevermined/Account.ts:75](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L75)
+[src/nevermined.ts:75](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L75)
 
 ___
 
@@ -503,7 +503,7 @@ Request Nevermined Tokens.
 
 #### Defined in
 
-[src/nevermined/Account.ts:120](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L120)
+[src/nevermined.ts:120](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L120)
 
 ___
 
@@ -523,7 +523,7 @@ ___
 
 #### Defined in
 
-[src/nevermined/Account.ts:31](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L31)
+[src/nevermined.ts:31](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L31)
 
 ___
 
@@ -569,7 +569,7 @@ Set account password.
 
 #### Defined in
 
-[src/nevermined/Account.ts:43](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L43)
+[src/nevermined.ts:43](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L43)
 
 ___
 
@@ -591,7 +591,7 @@ Set account token.
 
 #### Defined in
 
-[src/nevermined/Account.ts:59](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Account.ts#L59)
+[src/nevermined.ts:59](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L59)
 
 ___
 

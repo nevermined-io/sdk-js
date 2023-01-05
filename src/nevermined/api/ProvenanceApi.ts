@@ -1,4 +1,4 @@
-import Account from '../Account'
+import { Account } from '..'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 import { ethers } from 'ethers'
@@ -6,17 +6,16 @@ import { zeroX } from '../../utils'
 import { ProvenanceMethod } from '../../keeper/contracts/Provenance'
 
 /**
- * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry 
+ * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry
  * You can find more information about Nevermined Provenance here:
  * {@link https://docs.nevermined.io/docs/architecture/specs/Spec-PROVENANCE}
  */
 export class ProvenanceApi extends Instantiable {
-
     /**
      * Creates a new ProvenanceApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link ProvenanceApi}
-     */ 
+     */
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
@@ -25,7 +24,7 @@ export class ProvenanceApi extends Instantiable {
     /**
      * Given a provenance id it returns the provenance details
      * @param provenanceId Unique identifier of a provenance entry
-     * @returns 
+     * @returns
      */
     public async getProvenanceEntry(provenanceId: string) {
         return this.nevermined.keeper.didRegistry.getProvenanceEntry(provenanceId)

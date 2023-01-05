@@ -5,7 +5,6 @@ import {
     Account,
     ConditionState,
     Nevermined,
-    utils,
     NeverminedNFT1155Type,
     NFTAttributes
 } from '../../../src'
@@ -13,8 +12,8 @@ import { NFTHolderCondition } from '../../../src/keeper/contracts/conditions'
 import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import { didZeroX, zeroX } from '../../../src/utils'
-import BigNumber from '../../../src/utils/BigNumber'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
+import { BigNumber } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -31,7 +30,7 @@ describe('NFTHolderCondition', () => {
     let agreementId: string
     let checksum: string
     let didSeed: string
-    const activityId = utils.generateId()
+    const activityId = generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const amount = BigNumber.from(10)
 
@@ -46,9 +45,9 @@ describe('NFTHolderCondition', () => {
     })
 
     beforeEach(async () => {
-        agreementId = utils.generateId()
-        checksum = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+        agreementId = generateId()
+        checksum = generateId()
+        didSeed = `did:nv:${generateId()}`
     })
 
     describe('#hashValues()', () => {

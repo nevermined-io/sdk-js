@@ -1,6 +1,6 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 
 export default class NeverminedConfig extends ContractBase {
     templates: any
@@ -39,7 +39,11 @@ export default class NeverminedConfig extends ContractBase {
         return this.sendFrom('setGovernor', [address], from, params)
     }
 
-    public async setTrustedForwarder(address: string, from?: Account, params?: TxParameters) {
+    public async setTrustedForwarder(
+        address: string,
+        from?: Account,
+        params?: TxParameters
+    ) {
         return this.sendFrom('setTrustedForwarder', [address], from, params)
     }
 

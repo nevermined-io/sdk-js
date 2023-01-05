@@ -5,7 +5,7 @@ import POAPUpgradeable from '../../test/testdata/POAPUpgradeable.json'
 import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { decodeJwt } from 'jose'
 import { sleep } from '../utils/utils'
 

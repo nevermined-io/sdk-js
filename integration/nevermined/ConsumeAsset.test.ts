@@ -6,9 +6,18 @@ import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
 
-import { Nevermined, DDO, Account, ConditionState, MetaData, Logger, AssetPrice, AssetAttributes } from '../../src'
-import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
-import BigNumber from '../../src/utils/BigNumber'
+import {
+    Nevermined,
+    DDO,
+    Account,
+    ConditionState,
+    MetaData,
+    Logger,
+    AssetPrice,
+    AssetAttributes
+} from '../../src'
+import { AgreementPrepareResult } from '../../src/nevermined'
+import { BigNumber } from '../../src/utils'
 
 describe('Consume Asset', () => {
     let nevermined: Nevermined
@@ -25,7 +34,7 @@ describe('Consume Asset', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        
+
         // Accounts
         ;[publisher, consumer] = await nevermined.accounts.list()
 
@@ -177,12 +186,12 @@ describe('Consume Asset', () => {
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js-1'
-        const path = await nevermined.assets.access(
+        const path = (await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,
             folder
-        ) as string
+        )) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 
@@ -201,13 +210,13 @@ describe('Consume Asset', () => {
 
     it('should consume and store one asset', async () => {
         const folder = '/tmp/nevermined/sdk-js-2'
-        const path = await nevermined.assets.access(
+        const path = (await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,
             folder,
             1
-        ) as string
+        )) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 

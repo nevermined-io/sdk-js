@@ -7,9 +7,9 @@ import {
     ConditionParameters,
     ProviderCondition
 } from '../Condition.abstract'
-import Account from '../../../../nevermined/Account'
+import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import BigNumber from '../../../../utils/BigNumber'
+import { BigNumber } from '../../../../utils'
 
 export interface TransferNFTConditionContext extends ConditionContext {
     providerId: string

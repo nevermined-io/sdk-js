@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
 import { Nevermined, Account, NewProfile, Profile, State } from '../../src'
 import config from '../config'
-import { Profiles } from '../../src/services/metadata/Profiles'
+import { Profiles } from '../../src/services'
 
 use(spies)
 

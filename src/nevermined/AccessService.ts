@@ -4,7 +4,7 @@ import {
     ServiceNFTSales,
     ServicePlugin,
     ValidationParams
-} from '../ddo/Service'
+} from '../ddo'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper/contracts/ContractBase'
 import {

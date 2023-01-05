@@ -4,13 +4,13 @@ import {
     LockPaymentCondition
 } from '../../../src/keeper/contracts/conditions'
 import Token from '../../../src/keeper/contracts/Token'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { Nevermined } from '../../../src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { Account, AssetPrice } from '../../../src'
 import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
 import { generateId, ZeroAddress } from '../../../src/utils'
-import BigNumber from '../../../src/utils/BigNumber'
+import { BigNumber } from '../../../src/utils'
 
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition

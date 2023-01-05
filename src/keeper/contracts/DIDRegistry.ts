@@ -2,7 +2,7 @@ import ContractBase, { TxParameters } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
-import BigNumber from '../../utils/BigNumber'
+import { BigNumber } from '../../utils'
 import { NFTAttributes } from '../..'
 import { AssetError } from '../../errors/AssetError'
 import {

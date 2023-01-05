@@ -1,6 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { Nevermined } from '../../../src/nevermined'
 import { Account, ConditionState, utils } from '../../../src'
 import { NFTAccessCondition } from '../../../src/keeper/contracts/conditions'
 import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'

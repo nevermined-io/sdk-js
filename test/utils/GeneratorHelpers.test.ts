@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { generateId } from '../../src/utils/GeneratorHelpers'
+import { generateId } from '../../src/utils'
 
 describe('GeneratorHelpers', () => {
     describe('#generateId()', () => {

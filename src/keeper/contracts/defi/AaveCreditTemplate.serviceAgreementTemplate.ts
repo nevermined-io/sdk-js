@@ -1,4 +1,4 @@
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import { ServiceAgreementTemplate } from '../../../ddo'
 
 export const aaveCreditTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
     contractName: 'AaveCreditTemplate',

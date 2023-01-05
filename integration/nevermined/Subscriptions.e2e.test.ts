@@ -10,16 +10,16 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
-    RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
-import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
-import SubscriptionNFTApi from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
+    RoyaltyKind,
+    NFT721Api,
+    SubscriptionNFTApi
+} from '../../src/nevermined'
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let editor: Account

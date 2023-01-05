@@ -4,19 +4,18 @@ import {
     generateId,
     getDIDFromService,
     getNftAmountFromService,
-    OrderProgressStep,
     SubscribablePromise,
     zeroX
 } from '../../../utils'
 import { PublishMetadata } from '../AssetsApi'
-import Account from '../../Account'
+import { Account } from '../..'
 import { TxParameters } from '../../../keeper/contracts/ContractBase'
 import { NFTError } from '../../../errors'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 import { Nft1155Contract } from '../../../keeper/contracts/Nft1155Contract'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { ContractReceipt } from 'ethers'
-import { CreateProgressStep } from '../../ProgressSteps'
+import { CreateProgressStep, OrderProgressStep } from '../..'
 
 /**
  * Allows the interaction with external ERC-1155 NFT contracts built on top of the Nevermined NFT extra features.

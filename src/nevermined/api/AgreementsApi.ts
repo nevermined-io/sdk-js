@@ -1,9 +1,9 @@
-import { generateId } from '../../utils/GeneratorHelpers'
-import Account from '../Account'
+import { generateId } from '../../utils'
+import { Account } from '../Account'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ConditionsApi } from './ConditionsApi'
-import { ServiceType } from '../../ddo/Service'
+import { ServiceType } from '../../ddo'
 import { TxParameters } from '../../keeper/contracts/ContractBase'
 
 export interface AgreementPrepareResult {
@@ -15,18 +15,17 @@ export interface AgreementPrepareResult {
  * Nevermined Agreements API. It allows the integration with Nevermined Service Execution Agreements
  */
 export class AgreementsApi extends Instantiable {
-
     /**
      * Agreements Conditions submodule.
      */
-     public conditions: ConditionsApi
+    public conditions: ConditionsApi
 
     /**
      * Creates a new AgreementsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link AgreementsApi}
-     */ 
-     constructor(config: InstantiableConfig) {
+     */
+    constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
         this.conditions = new ConditionsApi(config)
@@ -142,7 +141,7 @@ export class AgreementsApi extends Instantiable {
     }
 
     /**
-     * It returns the details of one agreement 
+     * It returns the details of one agreement
      * @param agreementId The unique agreement id
      * @returns the details of the agreement
      */

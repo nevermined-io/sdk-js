@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { AssetPrice } from '../../src'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 
 describe('AssetPrice', () => {
     describe('Initialize asset rewards', () => {

@@ -1,13 +1,12 @@
-import { SignatureUtils } from "../../nevermined/utils/SignatureUtils"
+import { SignatureUtils } from '../../nevermined'
 
 /**
- * Identifies the default Provenance Activity Id to be recorded on-chain in the DIDRegistry Smart Contract when 
+ * Identifies the default Provenance Activity Id to be recorded on-chain in the DIDRegistry Smart Contract when
  * an asset is registered. It associates to the new DID created the 'Asset Registration' activity.
  * (@see https://docs.nevermined.io/docs/architecture/specs/Spec-PROVENANCE#provenance-relations)
- * 
+ *
  */
 export const DEFAULT_REGISTRATION_ACTIVITY_ID = SignatureUtils.hash('AssetRegistration')
-
 
 export enum ProvenanceMethod {
     ENTITY = 0,

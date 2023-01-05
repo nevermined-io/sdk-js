@@ -1,14 +1,14 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO, OrderProgressStep, NFTAttributes, AssetAttributes } from '../../..'
 import { generateId, getDIDFromService, SubscribablePromise, zeroX } from '../../../utils'
-import Account from '../../Account'
+import { Account } from '../..'
 import Nft721Contract from '../../../keeper/contracts/Nft721Contract'
 import { TxParameters } from '../../../keeper/contracts/ContractBase'
 import { PublishMetadata } from '../AssetsApi'
 import { NFTError } from '../../../errors/NFTError'
 import { ContractReceipt, ethers } from 'ethers'
 import { NFTsBaseApi } from './NFTsBaseApi'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 import { CreateProgressStep } from '../../ProgressSteps'
 
 /**

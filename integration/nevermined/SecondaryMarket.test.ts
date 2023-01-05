@@ -5,12 +5,12 @@ import {
     Account,
     DDO,
     Nevermined,
-    utils,
+    generateId,
     AssetPrice,
     AssetAttributes,
     NFTAttributes
 } from '../../src'
-import { Service } from '../../src/ddo/Service'
+import { Service } from '../../src/ddo'
 import {
     ConditionState,
     EscrowPaymentCondition,
@@ -28,12 +28,12 @@ import {
 } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
+} from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
 
@@ -153,10 +153,10 @@ describe('Secondary Markets', () => {
                     escrowPaymentCondition.getAddress()
                 )
             }
-            agreementIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementAccessId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementId2Seed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementAccessId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,

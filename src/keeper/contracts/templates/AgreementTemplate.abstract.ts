@@ -6,23 +6,20 @@ import {
     ConditionState,
     conditionStateNames
 } from '../conditions'
-import { DDO } from '../../../ddo/DDO'
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../ddo'
 import {
     didZeroX,
     findServiceConditionByName,
     getAssetPriceFromService,
-    OrderProgressStep,
     ZeroAddress,
     zeroX
 } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetPrice, BabyjubPublicKey } from '../../..'
-import Account from '../../../nevermined/Account'
-import { Service, ServiceType } from '../../../ddo/Service'
+import { Account, OrderProgressStep } from '../../../nevermined'
 import Token from '../Token'
 import CustomToken from '../CustomToken'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {

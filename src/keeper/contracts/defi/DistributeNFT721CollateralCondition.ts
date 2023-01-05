@@ -1,11 +1,11 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../utils/index'
+import { didZeroX, zeroX } from '../../../utils'
 import {
     Condition,
     ConditionContext,
     ProviderCondition
 } from '../conditions/Condition.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface DistributeNFTCollateralConditionContext extends ConditionContext {

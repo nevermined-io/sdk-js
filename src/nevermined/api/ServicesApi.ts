@@ -1,17 +1,18 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
-import { MetadataService } from '../../services/metadata/MetadataService'
-import { NeverminedNode } from '../../services/node/NeverminedNode'
-import { Profiles } from '../../services/metadata/Profiles'
-import { Permissions } from '../../services/metadata/Permissions'
-import { AaveCredit } from '../../services/aave/AaveCredit'
-import { Bookmarks } from '../../services/metadata/Bookmarks'
+import {
+    MarketplaceApi,
+    MetadataService,
+    NeverminedNode,
+    Profiles,
+    Permissions,
+    AaveCredit,
+    Bookmarks
+} from '../../services'
 
 /**
  * Utils internal submodule of Nevermined.
  */
 export class ServicesApi extends Instantiable {
-
     /**
      * Nevermined Node Service
      */
@@ -20,38 +21,38 @@ export class ServicesApi extends Instantiable {
     /**
      * Nevermined Node Service
      */
-     public marketplace: MarketplaceApi
+    public marketplace: MarketplaceApi
 
     /**
      * Marketplace instance.
      */
-     public metadata: MetadataService
+    public metadata: MetadataService
 
     /**
      * Permissions service
      */
-     public permissions: Permissions
+    public permissions: Permissions
 
-     /**
-      * Profiles instance
-      */
-     public profiles: Profiles
- 
-     /**
-      * Bookmarks instance
-      */
-     public bookmarks: Bookmarks
+    /**
+     * Profiles instance
+     */
+    public profiles: Profiles
 
-     /**
-      * Aave instance.
-      */
-      public aave: AaveCredit
+    /**
+     * Bookmarks instance
+     */
+    public bookmarks: Bookmarks
+
+    /**
+     * Aave instance.
+     */
+    public aave: AaveCredit
 
     /**
      * Creates a new ServicesApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link ServicesApi}
-     */ 
+     */
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
