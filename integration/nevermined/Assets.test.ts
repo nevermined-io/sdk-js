@@ -199,6 +199,7 @@ describe('Assets', () => {
                 appId: appId1
             })
             ddoBefore = await neverminedApp1.assets.create(assetAttributes, publisher)
+            await sleep(2000)
 
             // Create 2 assets with appId-test2
             const assetAttributes2 = AssetAttributes.getInstance({
@@ -207,6 +208,7 @@ describe('Assets', () => {
                 appId: appId2
             })
             ddoBefore = await neverminedApp2.assets.create(assetAttributes2, publisher)
+            await sleep(2000)
 
             const assetAttributes22 = AssetAttributes.getInstance({
                 metadata: metadata22,
