@@ -7,7 +7,7 @@ import { ZeroAddress } from '../../src/utils'
 import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 import fs from 'fs'
-import { NeverminedOptions } from '../..'
+import { NeverminedOptions } from '../../src'
 
 interface ContractTest extends ethers.Contract {
     testContract?: boolean
