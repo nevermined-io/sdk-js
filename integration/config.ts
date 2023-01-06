@@ -12,10 +12,9 @@ const ipfsProjectId = process.env['IPFS_PROJECT_ID']
 const ipfsProjectSecret = process.env['IPFS_PROJECT_SECRET']
 
 const configBase: NeverminedOptions = {
-    web3ProviderUri: 'http://contracts.nevermined.localnet',
-    marketplaceUri: 'http://marketplace.nevermined.localnet',
-    neverminedNodeUri:
-        process.env.NEVERMINED_NODE_URI || 'http://node.nevermined.localnet',
+    web3ProviderUri: 'http://localhost:8545',
+    marketplaceUri: 'http://nevermined-metadata:3100',
+    neverminedNodeUri: process.env.NEVERMINED_NODE_URI || 'http://localhost:8030',
     neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
     marketplaceAuthToken: undefined,
     artifactsFolder: './artifacts',

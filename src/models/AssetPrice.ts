@@ -1,4 +1,4 @@
-import { BigNumber } from '../utils'
+import BigNumber from '../utils/BigNumber'
 
 export class AssetPrice {
     public static readonly NETWORK_FEE_DENOMINATOR = BigNumber.from(10000)

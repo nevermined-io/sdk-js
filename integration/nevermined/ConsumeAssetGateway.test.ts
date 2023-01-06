@@ -92,7 +92,7 @@ describe('Consume Asset (Nevermined Node)', () => {
             .next(step => steps.push(step))
 
         assert.isDefined(agreementId)
-        assert.deepEqual(steps, [0, 1, 2, 3])
+        assert.deepEqual(steps, [2, 3, 4, 5])
     })
 
     it('should get the lockPayment condition fulfilled', async () => {

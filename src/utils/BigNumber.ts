@@ -76,3 +76,5 @@ export class BigNumber extends ethers.BigNumber {
         return ethers.utils.formatUnits(value, decimals)
     }
 }
+
+export default BigNumber

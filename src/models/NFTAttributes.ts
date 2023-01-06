@@ -1,5 +1,5 @@
 import { RoyaltyAttributes } from '../nevermined'
-import { BigNumber } from '../utils'
+import BigNumber from '../utils/BigNumber'
 import { AssetAttributes } from './AssetAttributes'
 import {
     ERCType,
