@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { KeeperError, Web3Error } from "../errors";
+import { KeeperError, Web3Error } from "../errors"
 
 export async function getNetworkName(networkId: number): Promise<string> {
     switch (networkId) {
