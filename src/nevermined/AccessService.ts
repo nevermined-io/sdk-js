@@ -3,7 +3,9 @@ import {
     ServiceNFTAccess,
     ServiceNFTSales,
     ServicePlugin,
-    ValidationParams
+    ValidationParams,
+    MetaData,
+    MetaDataMain
 } from '../ddo'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import {
@@ -14,7 +16,8 @@ import {
     NFTAccessTemplate,
     NFTSalesTemplate
 } from '../keeper'
-import { Account, MetaData, MetaDataMain, AssetPrice } from '..'
+import { Account } from './Account'
+import { AssetPrice } from '../models'
 
 export interface AccessProofTemplateParams {
     type: 'access-proof'

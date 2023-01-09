@@ -1,5 +1,5 @@
-import { Balance } from '../..'
-import { Account } from '..'
+import { Balance } from '../../models'
+import { Account } from '../../nevermined'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper'
 import { ethers } from 'ethers'

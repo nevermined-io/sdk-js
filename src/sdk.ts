@@ -13,5 +13,6 @@ export * from './services'
 export * from './utils'
 export * from './keeper'
 export * from './Instantiable.abstract'
+export * from './errors'
 
 export { Logger, subgraphs, BigNumber }

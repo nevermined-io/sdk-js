@@ -1,4 +1,4 @@
-import { Balance } from '..'
+import { Balance } from '../models'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper'

@@ -4,7 +4,7 @@ import { AssetsApi } from './api/AssetsApi'
 import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
 import { Keeper, CustomToken, Nft1155Contract } from '../keeper'
-import { NeverminedOptions } from '..'
+import { NeverminedOptions } from '../models'
 import {
     Instantiable,
     generateIntantiableConfigFromConfig

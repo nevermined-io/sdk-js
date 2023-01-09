@@ -12,7 +12,7 @@ import {
 import { didPrefixed, getAssetPriceFromService, zeroX } from '../utils'
 import { DIDRegistry } from '../keeper'
 import { ethers } from 'ethers'
-import { NFTAttributes } from '..'
+import { NFTAttributes } from '../models'
 import { BigNumber } from '../utils'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
 

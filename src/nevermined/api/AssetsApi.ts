@@ -1,5 +1,5 @@
 import { DDO, MetaData, ServiceType } from '../../ddo'
-import { Account } from '..'
+import { Account } from '../Account'
 import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
@@ -13,7 +13,7 @@ import {
     UpdateProgressStep
 } from '../ProgressSteps'
 import { Providers } from '../Provider'
-import { Babysig, AssetAttributes } from '../..'
+import { Babysig, AssetAttributes } from '../../models'
 
 /**
  * Where the metadata will be published. Options:

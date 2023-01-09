@@ -4,7 +4,7 @@ import {
     ServiceAccess,
     ServiceType
 } from '../../ddo'
-import { Account } from '..'
+import { Account } from '../Account'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ethers } from 'ethers'

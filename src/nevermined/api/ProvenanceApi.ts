@@ -1,4 +1,4 @@
-import { Account } from '..'
+import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, ProvenanceMethod } from '../../keeper'
 import { ethers } from 'ethers'

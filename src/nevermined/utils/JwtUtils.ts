@@ -1,9 +1,9 @@
 import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { Account } from '..'
+import { Account } from '../Account'
 import { SignatureUtils } from './SignatureUtils'
 import { ethers } from 'ethers'
-import { Babysig } from '../..'
+import { Babysig } from '../../models'
 
 export class EthSignJWT extends SignJWT {
     protectedHeader: JWSHeaderParameters

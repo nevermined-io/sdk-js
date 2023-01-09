@@ -1,14 +1,15 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO, OrderProgressStep, NFTAttributes, AssetAttributes } from '../../..'
+import { DDO } from '../../../ddo'
+import { NFTAttributes, AssetAttributes } from '../../../models'
 import { generateId, getDIDFromService, SubscribablePromise, zeroX } from '../../../utils'
-import { Account } from '../..'
+import { Account } from '../../Account'
 import { Nft721Contract, TxParameters } from '../../../keeper'
 import { PublishMetadata } from '../AssetsApi'
 import { NFTError } from '../../../errors/NFTError'
 import { ContractReceipt, ethers } from 'ethers'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { BigNumber } from '../../../utils'
-import { CreateProgressStep } from '../../ProgressSteps'
+import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.

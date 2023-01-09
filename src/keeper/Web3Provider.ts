@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { NeverminedOptions } from '..'
+import { NeverminedOptions } from '../models'
 
 export class Web3Provider {
     /**

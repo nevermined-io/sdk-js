@@ -5,7 +5,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
 import { NeverminedNodeError, HttpError } from '../../errors'
 import { BigNumber } from '../../utils'
-import { ERCType, Babysig } from '../..'
+import { ERCType, Babysig } from '../../models'
 import { PublishMetadata } from '../../nevermined'
 
 const apiPath = '/api/v1/node/services'

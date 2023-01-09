@@ -1,7 +1,7 @@
 import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX } from '../../utils'
-import { Account } from '../..'
+import { Account } from '../../nevermined'
 import { ethers } from 'ethers'
 import { BigNumber } from '../../utils'
 import { ContractEvent, EventHandler } from '../../events'

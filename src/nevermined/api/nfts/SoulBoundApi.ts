@@ -1,4 +1,5 @@
-import { Account, NeverminedOptions, Nevermined } from '../../..'
+import { Account, Nevermined } from '../../../nevermined'
+import { NeverminedOptions } from '../../../models'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { ContractHandler, Nft721Contract } from '../../../keeper'
 import { NFT721Api } from './NFT721Api'

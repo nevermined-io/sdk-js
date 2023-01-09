@@ -1,4 +1,6 @@
-import { MetaData, Account, DDO, AssetAttributes } from '../..'
+import { DDO, MetaData } from '../../ddo'
+import { AssetAttributes } from '../../models'
+import { Account } from '../../nevermined'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper'
 import { SubscribablePromise } from '../../utils'

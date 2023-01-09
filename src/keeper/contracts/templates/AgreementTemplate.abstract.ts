@@ -15,9 +15,10 @@ import {
     zeroX
 } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { AssetPrice, BabyjubPublicKey } from '../../..'
+import { AssetPrice, BabyjubPublicKey } from '../../../models'
 import { Account, OrderProgressStep } from '../../../nevermined'
-import { Token, CustomToken } from '..'
+import { CustomToken } from '../CustomToken'
+import { Token } from '../Token'
 import { BigNumber } from '../../../utils'
 
 export interface AgreementConditionsStatus {

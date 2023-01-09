@@ -6,7 +6,7 @@ import {
     Service,
     ServiceType
 } from '../ddo'
-import { AssetPrice } from '..'
+import { AssetPrice } from '../models'
 import { BigNumber } from './BigNumber'
 
 function fillParameterWithDDO(

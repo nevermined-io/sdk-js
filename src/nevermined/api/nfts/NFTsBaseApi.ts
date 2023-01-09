@@ -1,4 +1,4 @@
-import { DDO, generateId, AssetPrice, Babysig, ERCType } from '../../..'
+import { DDO } from '../../../ddo'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
@@ -7,12 +7,13 @@ import {
     getNftHolderFromService,
     zeroX
 } from '../../../utils'
-import { RoyaltyKind } from '..'
-import { Account } from '../..'
+import { AssetPrice, Babysig, ERCType } from '../../../models'
+import { RoyaltyKind } from '../AssetsApi'
+import { Account } from '../../Account'
 import { Token, TxParameters } from '../../../keeper'
 import { ServiceSecondary } from '../../../ddo'
 import { NFTError } from '../../../errors'
-import { BigNumber } from '../../../utils'
+import { BigNumber, generateId } from '../../../utils'
 import { RegistryBaseApi } from '../RegistryBaseApi'
 
 /**
