@@ -3,17 +3,12 @@ import {
     ServicePlugin,
     ServiceType,
     NvmConfigVersions,
-    ServiceAgreementTemplate
-} from '../../ddo'
-import {
-    MetaData,
-    Account,
+    ServiceAgreementTemplate,
     DDO,
-    CreateProgressStep,
-    DID,
-    AssetAttributes,
-    NFTAttributes
-} from '../..'
+    MetaData
+} from '../../ddo'
+import { AssetAttributes, NFTAttributes } from '../../models'
+import { Account, CreateProgressStep, DID } from '../../nevermined'
 import {
     TxParameters,
     ServiceAaveCredit,

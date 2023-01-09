@@ -3,7 +3,7 @@ import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
 import { BigNumber } from '../../utils'
-import { NFTAttributes } from '../..'
+import { NFTAttributes } from '../../models'
 import { AssetError } from '../../errors/AssetError'
 import {
     DEFAULT_REGISTRATION_ACTIVITY_ID,
