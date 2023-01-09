@@ -85,5 +85,5 @@ export class Web3ProviderWrapper {
 export function isValidWeb3Provider(web3Provider: ethers.providers.JsonRpcProvider) {
         web3Provider.getNetwork().then(() => {
             return web3Provider
-        }).catch(() => {throw new Web3Error(`Invalid web3 provider uri: ${{web3Provider}}.`)})
+        }).catch(() => {throw new Web3Error(`Invalid web3 provider uri: ${web3Provider.connection.url}.`)})
 }
