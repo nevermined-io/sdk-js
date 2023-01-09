@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { KeeperError } from '../errors'
+import { KeeperError, Web3Error } from "../errors";
 
 export async function getNetworkName(networkId: number): Promise<string> {
     switch (networkId) {
@@ -85,5 +85,5 @@ export class Web3ProviderWrapper {
 export function isValidWeb3Provider(web3Provider: ethers.providers.JsonRpcProvider) {
         web3Provider.getNetwork().then(() => {
             return web3Provider
-        }).catch(() => {throw new Error(`Invalid web3 provider uri: ${web3Provider}.`)})
+        }).catch(() => {throw new Web3Error(`Invalid web3 provider uri: ${{web3Provider}}.`)})
 }
