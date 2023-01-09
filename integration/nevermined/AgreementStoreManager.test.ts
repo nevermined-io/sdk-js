@@ -6,7 +6,7 @@ import { decodeJwt } from 'jose'
 import { sleep } from '../utils/utils'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 
-describe('Agreement Store Manager', () => {
+describe('Agreement Store Manager', async () => {
     let nevermined: Nevermined
 
     let account1: Account
