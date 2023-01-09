@@ -202,7 +202,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
             // Let's use the Node to mint the subscription and release the payments
 
-            const receipt = await nevermined.nfts721.transferForDelegate(
+            const receipt = await nevermined.nfts721.claim(
                 agreementId,
                 editor.getId(),
                 subscriber.getId(),

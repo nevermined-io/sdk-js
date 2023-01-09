@@ -310,7 +310,7 @@ describe('NFTs 1155 Api End-to-End', () => {
 
         it('Ask the Node to transfer the nft and release the rewards', async () => {
 
-            const result = await nevermined.nfts1155.transferForDelegate(
+            const result = await nevermined.nfts1155.claim(
                 agreementId,
                 artist.getId(),
                 collector1.getId(),
@@ -392,7 +392,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         })
 
         it('Ask the Node to transfer the nft and release the rewards', async () => {
-            const result = await nevermined.nfts1155.transferForDelegate(
+            const result = await nevermined.nfts1155.claim(
                 agreementId,
                 artist.getId(),
                 collector1.getId(),
@@ -425,7 +425,7 @@ describe('NFTs 1155 Api End-to-End', () => {
 
         it('The Node should not be able to transfer the nft', async () => {
             await assert.isRejected(
-                nevermined.nfts1155.transferForDelegate(
+                nevermined.nfts1155.claim(
                     agreementId2,
                     artist.getId(),
                     collector2.getId(),

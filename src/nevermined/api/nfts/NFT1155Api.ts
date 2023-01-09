@@ -396,7 +396,7 @@ export class NFT1155Api extends NFTsBaseApi {
     /**
      * Enable or disable NFT permissions for an operator.
      *
-     * @see {@link transferForDelegate}
+     * @see {@link claim}
      *
      * @example
      * ```ts
@@ -434,7 +434,7 @@ export class NFT1155Api extends NFTsBaseApi {
      /**
      * Returns if the `operatorAddress` is approved 
      *
-     * @see {@link transferForDelegate}
+     * @see {@link claim}
      *
      * @example
      * ```ts
