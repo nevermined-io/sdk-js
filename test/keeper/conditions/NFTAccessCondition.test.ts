@@ -1,14 +1,15 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
-import { Account, ConditionState, utils } from '../../../src'
-import { NFTAccessCondition } from '../../../src/keeper/contracts/conditions'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { Nevermined } from '../../../src/nevermined'
+import { Account, generateId } from '../../../src'
 import {
+    NFTAccessCondition,
     AgreementStoreManager,
     ConditionStoreManager,
-    TemplateStoreManager
-} from '../../../src/keeper/contracts/managers'
+    TemplateStoreManager,
+    ConditionState
+} from '../../../src/keeper'
+import { DIDRegistry } from '../../../src/keeper'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
@@ -56,14 +57,14 @@ describe('NFTAccessCondition', () => {
     })
 
     beforeEach(async () => {
-        agreementIdSeed = utils.generateId()
+        agreementIdSeed = generateId()
         agreementId = await agreementStoreManager.agreementId(
             agreementIdSeed,
             owner.getId()
         )
 
-        checksum = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+        checksum = generateId()
+        didSeed = `did:nv:${generateId()}`
     })
 
     describe('#hashValues()', () => {

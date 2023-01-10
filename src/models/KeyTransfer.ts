@@ -29,8 +29,3 @@ export class MimcCipher {
         return [zeroX(this.x), zeroX(this.y)]
     }
 }
-
-export interface Babysig {
-    R8: [string, string]
-    S: string
-}

@@ -1,21 +1,20 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import Account from '../../nevermined/Account'
-import BigNumber from '../../utils/BigNumber'
+import { Account } from '../../nevermined'
+import { BigNumber } from '../../utils'
 
-export default class Token extends ContractBase {
-
+export class Token extends ContractBase {
     static ERC20_ABI = [
         // Read-Only Functions
-        "function balanceOf(address owner) view returns (uint256)",
-        "function decimals() view returns (uint8)",
-        "function symbol() view returns (string)",
-        "function name() view returns (string)",
+        'function balanceOf(address owner) view returns (uint256)',
+        'function decimals() view returns (uint8)',
+        'function symbol() view returns (string)',
+        'function name() view returns (string)',
         // Authenticated Functions
-        "function transfer(address to, uint amount) returns (bool)",
-        "function approve(address spender, uint256 amount) returns (bool)",
+        'function transfer(address to, uint amount) returns (bool)',
+        'function approve(address spender, uint256 amount) returns (bool)',
         // Events
-        "event Transfer(address indexed from, address indexed to, uint amount)"
+        'event Transfer(address indexed from, address indexed to, uint amount)'
     ]
 
     public static async getInstance(config: InstantiableConfig): Promise<Token> {

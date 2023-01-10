@@ -1,11 +1,11 @@
-import { generateId } from '../utils/GeneratorHelpers'
+import { generateId } from '../utils'
 
 const prefix = 'did:nv:'
 
 /**
  * Decentralized ID.
  */
-export default class DID {
+export class DID {
     /**
      * Parses a DID from a string.
      * @param didString  - DID in string.

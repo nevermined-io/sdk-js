@@ -1,25 +1,27 @@
 import { getMetadata } from '../../integration/utils/index'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Account, ConditionState, DDO, utils } from '../../src/index'
+import { Account, ConditionState, DDO, generateId } from '../../src/index'
 import ERC721 from '../../test/resources/artifacts/ERC721.json'
-import { Nevermined } from '../../src/nevermined/Nevermined'
+import { Nevermined } from '../../src/nevermined'
 import { didZeroX, zeroX } from '../../src/utils/index'
 import {
     AgreementStoreManager,
     ConditionStoreManager
 } from '../../src/keeper/contracts/managers/index'
-import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import CustomToken from '../../src/keeper/contracts/CustomToken'
-import { AaveCreditTemplate } from '../../src/keeper/contracts/templates/index'
-import { NFT721LockCondition } from '../../src/keeper/contracts/defi/NFT721LockCondition'
-import { AaveRepayCondition } from '../../src/keeper/contracts/defi/AaveRepayCondition'
+import {
+    DIDRegistry,
+    CustomToken,
+    AaveCreditTemplate,
+    NFT721LockCondition,
+    AaveRepayCondition,
+    Nft721Contract
+} from '../../src/keeper'
 import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { decodeJwt } from 'jose'
 import { Contract } from 'ethers'
-import BigNumber from '../../src/utils/BigNumber'
-import Nft721Contract from '../../src/keeper/contracts/Nft721Contract'
+import { BigNumber } from '../../src/utils'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
@@ -98,7 +100,8 @@ describe('AaveCredit', () => {
         const nftAddress = ''
         // nft721Wrapper is instance of Nft721Contract -> ContractBase
         if (nftAddress.toString() !== '') {
-            nft721Wrapper = (await nevermined.contracts.loadNft721(nftAddress)).getContract
+            nft721Wrapper = (await nevermined.contracts.loadNft721(nftAddress))
+                .getContract
         } else {
             nftContract = await TestContractHandler.deployArtifact(
                 ERC721,
@@ -126,11 +129,8 @@ describe('AaveCredit', () => {
                 metadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nft721Wrapper.address
-            })            
-            ddo = await nevermined.nfts721.create(
-                nftAttributes,
-                borrower
-            )
+            })
+            ddo = await nevermined.nfts721.create(nftAttributes, borrower)
         }
         assert.isDefined(ddo)
         did = ddo.id
@@ -250,7 +250,10 @@ describe('AaveCredit', () => {
                     borrower
                 )
                 assert.equal(await nft721Wrapper.balanceOf(vaultAddress), 1 as unknown)
-                assert.equal(await nft721Wrapper.balanceOf(borrower.getId()), 0 as unknown)
+                assert.equal(
+                    await nft721Wrapper.balanceOf(borrower.getId()),
+                    0 as unknown
+                )
                 assert.equal(await nft721Wrapper.ownerOf(did), vaultAddress)
                 const { state: stateNftLock } = await conditionStoreManager.getCondition(
                     conditionIds[0]
@@ -260,7 +263,7 @@ describe('AaveCredit', () => {
         })
 
         it('A second NFT cant be locked into the Vault', async () => {
-            const didSeed = `did:nv:${utils.generateId()}`
+            const didSeed = `did:nv:${generateId()}`
             const _did = await didRegistry.hashDID(didSeed, borrower.getId())
             await nft721Wrapper.mint(_did, borrower.getId())
             await nft721Wrapper.send('approve', borrower.getId(), [
@@ -349,7 +352,11 @@ describe('AaveCredit', () => {
 
         it('Borrower/Delegatee can not get back the NFT without repaying the loan', async () => {
             await assert.isRejected(
-                nevermined.services.aave.unlockNft(agreementId, nftContractAddress, borrower)
+                nevermined.services.aave.unlockNft(
+                    agreementId,
+                    nftContractAddress,
+                    borrower
+                )
             )
             const { state: stateTransfer } = await conditionStoreManager.getCondition(
                 conditionIds[5]
@@ -398,7 +405,10 @@ describe('AaveCredit', () => {
                 assert.strictEqual(stateRepay, ConditionState.Fulfilled)
 
                 const vaultBalancesAfter =
-                    await nevermined.services.aave.getActualCreditDebt(agreementId, borrower)
+                    await nevermined.services.aave.getActualCreditDebt(
+                        agreementId,
+                        borrower
+                    )
                 // Compare the vault debt after repayment
                 assert.strictEqual(vaultBalancesAfter, 0)
             }

@@ -3,20 +3,25 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 
-import { Nevermined, utils, Account, Keeper, DDO, Logger } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
-import Token from '../../src/keeper/contracts/Token'
-import { getMetadata } from '../utils'
 import {
+    Nevermined,
+    Account,
+    Keeper,
+    DDO,
+    Logger,
+    AssetAttributes,
+    AssetPrice
+} from '../../src'
+import {
+    Token,
     AccessCondition,
     EscrowPaymentCondition,
-    LockPaymentCondition
-} from '../../src/keeper/contracts/conditions'
-import { AccessTemplate } from '../../src/keeper/contracts/templates'
-import { generateId } from '../../src/utils'
+    LockPaymentCondition,
+    AccessTemplate
+} from '../../src/keeper'
+import { getMetadata } from '../utils'
+import { generateId, BigNumber } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import BigNumber from '../../src/utils/BigNumber'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Register Escrow Access Template', () => {
     let nevermined: Nevermined
@@ -90,12 +95,12 @@ describe('Register Escrow Access Template', () => {
         let conditionIdEscrow: [string, string]
 
         before(async () => {
-            agreementIdSeed = utils.generateId()
+            agreementIdSeed = generateId()
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
                 publisher.getId()
             )
-            didSeed = utils.generateId()
+            didSeed = generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
 
@@ -203,7 +208,7 @@ describe('Register Escrow Access Template', () => {
         it('should fulfill LockPaymentCondition', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch(error) {
+            } catch (error) {
                 Logger.error(error)
             }
 
@@ -324,7 +329,7 @@ describe('Register Escrow Access Template', () => {
         it('should fulfill the conditions from consumer side', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch(error) {
+            } catch (error) {
                 Logger.error(error)
             }
 

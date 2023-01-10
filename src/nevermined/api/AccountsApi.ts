@@ -1,7 +1,7 @@
-import Balance from '../../models/Balance'
-import Account from '../Account'
+import { Balance } from '../../models'
+import { Account } from '../../nevermined'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
+import { TxParameters } from '../../keeper'
 import { ethers } from 'ethers'
 
 /**

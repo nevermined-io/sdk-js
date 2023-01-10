@@ -1,16 +1,20 @@
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import {
+    ServiceAgreementTemplate,
+    ServiceNFTSales,
+    ServiceType,
+    ValidationParams
+} from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
-import { ServiceNFTSales, ServiceType, ValidationParams } from '../../../ddo/Service'
 import {
     EscrowPaymentCondition,
     LockPaymentCondition,
     TransferNFTCondition
 } from '../conditions'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 
 export interface NFTSalesTemplateParams {
     consumerId: string

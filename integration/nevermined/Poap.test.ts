@@ -1,14 +1,12 @@
-import { Account, DDO, MetaData, Nevermined } from '../../src'
+import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
 import POAPUpgradeable from '../../test/testdata/POAPUpgradeable.json'
 import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'
-import AssetPrice from '../../src/models/AssetPrice'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { decodeJwt } from 'jose'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('POAPs with Assets', () => {
     let nevermined: Nevermined

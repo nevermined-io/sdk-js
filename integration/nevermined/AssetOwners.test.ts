@@ -1,10 +1,15 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, NeverminedOptions, utils } from '../../src'
+import {
+    Nevermined,
+    Account,
+    generateId,
+    NeverminedOptions,
+    AssetAttributes,
+    MetaData
+} from '../../src'
 import { decodeJwt } from 'jose'
-import { MetaData } from '../../src'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Asset Owners', () => {
     let nevermined: Nevermined
@@ -36,10 +41,10 @@ describe('Asset Owners', () => {
         await nevermined2.services.marketplace.login(clientAssertion2)
 
         newMetadata = (token: string) => {
-            const metadata = getMetadata()            
+            const metadata = getMetadata()
             const jwtPayload = decodeJwt(token)
             metadata.userId = jwtPayload.sub
-            metadata.main.name = `Test Metadata ${utils.generateId()}`
+            metadata.main.name = `Test Metadata ${generateId()}`
             return metadata
         }
     })
@@ -48,10 +53,7 @@ describe('Asset Owners', () => {
         const assetAttributes = AssetAttributes.getInstance({
             metadata: newMetadata(config.marketplaceAuthToken)
         })
-        const ddo = await nevermined.assets.create(
-            assetAttributes,
-            account1
-        )
+        const ddo = await nevermined.assets.create(assetAttributes, account1)
 
         const owner = await nevermined.assets.owner(ddo.id)
 
@@ -63,10 +65,7 @@ describe('Asset Owners', () => {
             metadata: newMetadata(config.marketplaceAuthToken),
             providers: [config.neverminedNodeAddress]
         })
-        const ddo = await nevermined.assets.create(
-            assetAttributes,
-            account1
-        )
+        const ddo = await nevermined.assets.create(assetAttributes, account1)
 
         const isProvider = await nevermined.keeper.didRegistry.isDIDProvider(
             ddo.id,
@@ -80,10 +79,7 @@ describe('Asset Owners', () => {
         const assetAttributes = AssetAttributes.getInstance({
             metadata: newMetadata(config.marketplaceAuthToken)
         })
-        const ddo = await nevermined.assets.create(
-            assetAttributes,
-            account1
-        )
+        const ddo = await nevermined.assets.create(assetAttributes, account1)
 
         assert.isFalse(
             await nevermined.keeper.didRegistry.getPermission(ddo.id, account2.getId())
@@ -105,19 +101,24 @@ describe('Asset Owners', () => {
             account2.getId()
         )
 
-        
         await nevermined.assets.create(
-            AssetAttributes.getInstance({ metadata: newMetadata(config.marketplaceAuthToken)}),
+            AssetAttributes.getInstance({
+                metadata: newMetadata(config.marketplaceAuthToken)
+            }),
             account1
         )
         await nevermined.assets.create(
-            AssetAttributes.getInstance({ metadata: newMetadata(config.marketplaceAuthToken)}),
+            AssetAttributes.getInstance({
+                metadata: newMetadata(config.marketplaceAuthToken)
+            }),
             account1
         )
         await nevermined2.assets.create(
-            AssetAttributes.getInstance({ metadata: newMetadata(config2.marketplaceAuthToken)}),
+            AssetAttributes.getInstance({
+                metadata: newMetadata(config2.marketplaceAuthToken)
+            }),
             account2
-        )        
+        )
 
         // wait a bit for the subgraph to index the events
         await new Promise(r => setTimeout(r, 5000))
@@ -131,7 +132,9 @@ describe('Asset Owners', () => {
 
     it('should be able to transfer ownership', async () => {
         const { id } = await nevermined.assets.create(
-            AssetAttributes.getInstance({ metadata: newMetadata(config.marketplaceAuthToken)}),
+            AssetAttributes.getInstance({
+                metadata: newMetadata(config.marketplaceAuthToken)
+            }),
             account1
         )
 

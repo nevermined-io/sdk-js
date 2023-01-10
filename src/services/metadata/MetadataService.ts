@@ -1,6 +1,5 @@
-import { DDO } from '../../ddo/DDO'
-import DID from '../../nevermined/DID'
-import { ServiceSecondary } from '../../ddo/Service'
+import { DDO, ServiceSecondary } from '../../ddo'
+import { DID } from '../../nevermined'
 import { MarketplaceApi } from './MarketplaceAPI'
 import { ApiError, HttpError } from '../../errors'
 import { SearchQuery } from '../../common/interfaces'
@@ -135,11 +134,9 @@ export class MetadataService extends MarketplaceApi {
         did = did && DID.parse(did)
         const fullUrl = `${this.url}${apiPath}/${did.getDid()}`
         const result: DDO = await this.nevermined.utils.fetch
-            .put(fullUrl, DDO.serialize(ddo),
-            {
+            .put(fullUrl, DDO.serialize(ddo), {
                 Authorization: `Bearer ${this.config.marketplaceAuthToken}`
-            }
-            )
+            })
             .then((response: any) => {
                 if (response.ok) {
                     return response.json()
@@ -200,16 +197,16 @@ export class MetadataService extends MarketplaceApi {
         did?: DID | string,
         metadataServiceEndpoint?: string
     ): Promise<DDO> {
-        let fullUrl:string
-        if (did)    {
+        let fullUrl: string
+        if (did) {
             did = did && DID.parse(did)
             fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
         } else if (metadataServiceEndpoint) {
             fullUrl = metadataServiceEndpoint
-        }   else {
+        } else {
             throw new ApiError(`A DID or metadataServiceEndpoint needs to be specified`)
         }
-            
+
         const result = await this.nevermined.utils.fetch
             .get(fullUrl)
             .then((response: any) => {
@@ -235,7 +232,7 @@ export class MetadataService extends MarketplaceApi {
     public async retrieveDDOFromImmutableBackend(immutableUrl: string): Promise<DDO> {
         if (!(immutableUrl && immutableUrl.length > 10))
             throw new Error(`Invalid immutable url`)
-        if (immutableUrl.startsWith('cid://'))  {
+        if (immutableUrl.startsWith('cid://')) {
             return await this.nevermined.utils.fetch
                 .fetchCID(immutableUrl)
                 .then((response: string) => {
@@ -363,5 +360,4 @@ export class MetadataService extends MarketplaceApi {
     public getServiceEndpoint(did: DID) {
         return `${this.url}${apiPath}/did:nv:${did.getId()}`
     }
-
 }

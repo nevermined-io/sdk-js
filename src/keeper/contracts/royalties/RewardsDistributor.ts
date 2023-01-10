@@ -1,8 +1,8 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 import { didZeroX, zeroX } from '../../../utils'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 
 export class RewardsDistributor extends ContractBase {
     public static async getInstance(

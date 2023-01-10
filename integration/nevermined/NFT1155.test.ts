@@ -1,22 +1,25 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    AssetPrice,
+    AssetAttributes,
+    NFTAttributes
+} from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { ethers } from 'ethers'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import '../globals'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
 
 describe('NFT1155 End-to-End', () => {
-
     let deployer: Account
     let publisher: Account
     let someone: Account
@@ -30,7 +33,7 @@ describe('NFT1155 End-to-End', () => {
 
     const amounts = [BigNumber.from(15), BigNumber.from(5)]
 
-    const metadata = getMetadata()    
+    const metadata = getMetadata()
     const royalties = 0 // 10% of royalties in the secondary market
     const cappedAmount = BigNumber.from(10)
     const preMint = false
@@ -44,10 +47,12 @@ describe('NFT1155 End-to-End', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[deployer, publisher, someone, minter, , ] = await nevermined.accounts.list()
+        ;[deployer, publisher, someone, minter, ,] = await nevermined.accounts.list()
         ;({ token, nftUpgradeable } = nevermined.keeper)
 
-        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
 
         await nevermined.services.marketplace.login(clientAssertion)
 
@@ -62,26 +67,37 @@ describe('NFT1155 End-to-End', () => {
                 [receivers[1], amounts[1]]
             ])
         ).setTokenAddress(token.getAddress())
-        
     })
 
     describe('As user I can deploy Nevermined ERC-1155 NFT contract instances', () => {
         it('Using the ABI', async () => {
             TestContractHandler.setConfig(config)
             const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-            const erc1155ABI = await TestContractHandler.getABI('NFT1155Upgradeable', config.artifactsFolder, networkName)
-    
-            nftContract = await TestContractHandler.deployArtifact(erc1155ABI, deployer.getId())
-            
+            const erc1155ABI = await TestContractHandler.getABI(
+                'NFT1155Upgradeable',
+                config.artifactsFolder,
+                networkName
+            )
+
+            nftContract = await TestContractHandler.deployArtifact(
+                erc1155ABI,
+                deployer.getId()
+            )
+
             assert.isDefined(nftContract)
             console.log(`NFT (ERC-1155) deployed at address ${nftContract.address}`)
         })
 
         it('Clonning an instance', async () => {
-            const cloneAddress = await nftUpgradeable.createClone('My New NFT', 'xyz', '', deployer)
+            const cloneAddress = await nftUpgradeable.createClone(
+                'My New NFT',
+                'xyz',
+                '',
+                deployer
+            )
             assert.isDefined(cloneAddress)
             console.log(`NFT (ERC-1155) clonned into address ${cloneAddress}`)
-        })     
+        })
     })
 
     describe('As user I can register a mintable asset and manage some permissions', () => {
@@ -98,46 +114,43 @@ describe('NFT1155 End-to-End', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes,
                 preMint
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                publisher
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, publisher)
 
             assert.isDefined(ddo.shortId())
         })
 
         it('Should be able to approve permissions', async () => {
-            await nftUpgradeable.setApprovalForAll(
-                someone.getId(),
-                true,
-                deployer
-            )
+            await nftUpgradeable.setApprovalForAll(someone.getId(), true, deployer)
 
-            const isApproved = await nftUpgradeable.isApprovedForAll(deployer.getId(), someone.getId())
+            const isApproved = await nftUpgradeable.isApprovedForAll(
+                deployer.getId(),
+                someone.getId()
+            )
             assert.isTrue(isApproved)
         })
 
         it('Should be able to revoke permissions', async () => {
-            await nftUpgradeable.setApprovalForAll(
-                someone.getId(),
-                false,
-                deployer
-            )
+            await nftUpgradeable.setApprovalForAll(someone.getId(), false, deployer)
 
-            const isApproved = await nftUpgradeable.isApprovedForAll(deployer.getId(), someone.getId())
+            const isApproved = await nftUpgradeable.isApprovedForAll(
+                deployer.getId(),
+                someone.getId()
+            )
             assert.isFalse(isApproved)
         })
 
-
         it('Should be able to mint', async () => {
-            const beforeBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
+            const beforeBalance = await nftUpgradeable.balance(
+                someone.getId(),
+                ddo.shortId()
+            )
             console.log(`Contract owner ${await nftUpgradeable.owner()}`)
             const owner = new Account(await nftUpgradeable.owner())
             await nftUpgradeable.addMinter(minter.getId(), owner)
@@ -145,27 +158,30 @@ describe('NFT1155 End-to-End', () => {
             await nftUpgradeable.mint(
                 someone.getId(),
                 ddo.shortId(),
-                BigNumber.from(1),                
+                BigNumber.from(1),
                 minter.getId()
             )
 
-            const afterBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
-            assert.isTrue(beforeBalance.add(1).eq(afterBalance))            
+            const afterBalance = await nftUpgradeable.balance(
+                someone.getId(),
+                ddo.shortId()
+            )
+            assert.isTrue(beforeBalance.add(1).eq(afterBalance))
         })
 
         it('Should be able to burn', async () => {
-            const beforeBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
-
-            await nftUpgradeable.burn(
+            const beforeBalance = await nftUpgradeable.balance(
                 someone.getId(),
-                ddo.shortId(),
-                BigNumber.from(1)
+                ddo.shortId()
             )
 
-            const afterBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
+            await nftUpgradeable.burn(someone.getId(), ddo.shortId(), BigNumber.from(1))
+
+            const afterBalance = await nftUpgradeable.balance(
+                someone.getId(),
+                ddo.shortId()
+            )
             assert.isTrue(beforeBalance.sub(1).eq(afterBalance))
         })
-
     })
-
 })

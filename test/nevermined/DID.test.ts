@@ -1,5 +1,5 @@
 import assert from 'assert'
-import DID from '../../src/nevermined/DID'
+import { DID } from '../../src/nevermined'
 
 describe('DID', () => {
     describe('#generate()', () => {

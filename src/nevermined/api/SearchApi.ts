@@ -1,21 +1,20 @@
-import { ServiceType } from "../../ddo/Service"
-import { Instantiable, InstantiableConfig } from "../../Instantiable.abstract"
-import { QueryResult } from "../../services/metadata/MetadataService"
-import { SearchQuery } from "../../sdk"
+import { ServiceType } from '../../ddo'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { QueryResult } from '../../services'
+import { SearchQuery } from '../../sdk'
 
 /**
- * Nevermined Search API. It allows the search of assets registered in Nevermined ecosystems. 
+ * Nevermined Search API. It allows the search of assets registered in Nevermined ecosystems.
  * You can find more information about Nevermined Metadata here:
  * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
  */
 export class SearchApi extends Instantiable {
-
     /**
      * Creates a new SearchApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link SearchApi}
-     */ 
-     constructor(config: InstantiableConfig) {
+     */
+    constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
     }
@@ -30,7 +29,7 @@ export class SearchApi extends Instantiable {
      * @param query - Query to filter the assets.
      * @returns A list of {@link DDO}s matching the query
      */
-     public async query(query: SearchQuery) {
+    public async query(query: SearchQuery) {
         if (query.appId) {
             query = {
                 query: {
@@ -131,5 +130,4 @@ export class SearchApi extends Instantiable {
         }
         return this.query(query)
     }
-
 }

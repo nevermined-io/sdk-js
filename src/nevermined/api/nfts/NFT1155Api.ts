@@ -1,31 +1,26 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
+import { AssetAttributes, NFTAttributes } from '../../../models'
 import {
     generateId,
     getDIDFromService,
     getNftAmountFromService,
-    OrderProgressStep,
     SubscribablePromise,
     zeroX
 } from '../../../utils'
 import { PublishMetadata } from '../AssetsApi'
-import Account from '../../Account'
-import { TxParameters } from '../../../keeper/contracts/ContractBase'
+import { Account } from '../../Account'
+import { TxParameters, Nft1155Contract } from '../../../keeper'
+import { DDO } from '../../../ddo'
 import { NFTError } from '../../../errors'
-import BigNumber from '../../../utils/BigNumber'
-import { Nft1155Contract } from '../../../keeper/contracts/Nft1155Contract'
+import { BigNumber } from '../../../utils'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { ContractReceipt } from 'ethers'
-import { CreateProgressStep } from '../../ProgressSteps'
-import { AssetAttributes } from '../../../models/AssetAttributes'
-import { NFTAttributes } from '../../../models/NFTAttributes'
-
+import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
 
 /**
  * Allows the interaction with external ERC-1155 NFT contracts built on top of the Nevermined NFT extra features.
  */
 export class NFT1155Api extends NFTsBaseApi {
-
     // Instance of the ERC-1155 NFT Contract where the API is connected
     nftContract: Nft1155Contract
 
@@ -35,7 +30,7 @@ export class NFT1155Api extends NFTsBaseApi {
      * @example
      * ```ts
      * nfts1155 = await Nft1155Api.getInstance(
-     *      instanceConfig, 
+     *      instanceConfig,
      *      nft1155Contract
      * )
      * ```
@@ -49,15 +44,17 @@ export class NFT1155Api extends NFTsBaseApi {
         config: InstantiableConfig,
         nftContractInstance?: Nft1155Contract,
         nftContractAddress?: string
-        ): Promise<NFT1155Api> {
+    ): Promise<NFT1155Api> {
         const instance = new NFT1155Api()
         instance.servicePlugin = NFT1155Api.getServicePlugin(config)
         instance.setInstanceConfig(config)
-        
-        if (nftContractInstance)
-            instance.nftContract = nftContractInstance
+
+        if (nftContractInstance) instance.nftContract = nftContractInstance
         else if (nftContractAddress)
-            instance.nftContract = await Nft1155Contract.getInstance(config, nftContractAddress)
+            instance.nftContract = await Nft1155Contract.getInstance(
+                config,
+                nftContractAddress
+            )
 
         return instance
     }
@@ -65,8 +62,8 @@ export class NFT1155Api extends NFTsBaseApi {
     /**
      * Gets the ERC-721 NFT Contract address
      * @returns The NFT contract address
-     */     
-      public get address(): string {
+     */
+    public get address(): string {
         return this.nftContract.address
     }
 
@@ -77,8 +74,6 @@ export class NFT1155Api extends NFTsBaseApi {
     public get getContract(): Nft1155Contract {
         return this.nftContract
     }
-
-
 
     /**
      * Creates a new Nevermined asset associted to a NFT (ERC-1155).
@@ -91,13 +86,13 @@ export class NFT1155Api extends NFTsBaseApi {
      *           serviceTypes: ['nft-sales', 'nft-access']
      *       })
      * const nftAttributes = NFTAttributes.getNFT1155Instance({
-     *           ...assetAttributes,                                
+     *           ...assetAttributes,
      *           nftContractAddress: nftUpgradeable.address,
      *           cap: cappedAmount,
      *           amount: numberNFTs,
      *           royaltyAttributes,
      *           preMint
-     *       })            
+     *       })
      * const ddo = await nevermined.nfts1155.create(
      *           nftAttributes,
      *           publisher
@@ -110,9 +105,9 @@ export class NFT1155Api extends NFTsBaseApi {
      * @param txParams - Optional transaction parameters
      *
      * @returns The newly registered {@link DDO}.
-     */    
-     public create(
-        nftAttributes: NFTAttributes,        
+     */
+    public create(
+        nftAttributes: NFTAttributes,
         publisher: Account,
         publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
         txParams?: TxParameters
@@ -250,7 +245,6 @@ export class NFT1155Api extends NFTsBaseApi {
         })
     }
 
-
     /**
      * Transfer NFTs to the consumer.
      *
@@ -303,7 +297,6 @@ export class NFT1155Api extends NFTsBaseApi {
 
         return true
     }
-
 
     /**
      * Release the funds from escrow.
@@ -359,7 +352,6 @@ export class NFT1155Api extends NFTsBaseApi {
         return true
     }
 
-
     /**
      * Get the NFT balance for a particular did
      *
@@ -379,7 +371,7 @@ export class NFT1155Api extends NFTsBaseApi {
 
     /**
      * Gets the contract owner
-     * 
+     *
      * @example
      * ```ts
      * const nftContractOwner = new Account(
@@ -418,21 +410,20 @@ export class NFT1155Api extends NFTsBaseApi {
         approved: boolean,
         from: Account
     ): Promise<ContractReceipt> {
-        const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress)
+        const isApproved = await this.nftContract.isApprovedForAll(
+            from.getId(),
+            operatorAddress
+        )
 
         if (isApproved) {
             return
         }
 
-        return this.nftContract.setApprovalForAll(
-            operatorAddress,
-            approved,
-            from
-        )
+        return this.nftContract.setApprovalForAll(operatorAddress, approved, from)
     }
 
-     /**
-     * Returns if the `operatorAddress` is approved 
+    /**
+     * Returns if the `operatorAddress` is approved
      *
      * @see {@link transferForDelegate}
      *
@@ -445,14 +436,10 @@ export class NFT1155Api extends NFTsBaseApi {
      * @param from - The address of the account granting or revoking the permissions via `setApprovalForAll`.
      *
      * @returns Boolean saying if the `operatorAddress` is approved
-     */   
-    public async isApprovedForAll(
-        operatorAddress: string,
-        from: string
-    ) {
+     */
+    public async isApprovedForAll(operatorAddress: string, from: string) {
         return this.nftContract.isApprovedForAll(from, operatorAddress)
     }
-
 
     /**
      * Used to release the secondary market NFT & the locked rewards.
@@ -470,13 +457,15 @@ export class NFT1155Api extends NFTsBaseApi {
      * @throws {@link NFTError}
      * Thrown if there is an error releasing the rewards.
      */
-     public async releaseSecondaryMarketRewards(
+    public async releaseSecondaryMarketRewards(
         owner: Account,
         consumer: Account,
         agreementIdSeed: string,
         params?: TxParameters
     ): Promise<boolean> {
-        const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
+        const service = await this.nevermined.services.metadata.retrieveService(
+            agreementIdSeed
+        )
         const did = getDIDFromService(service)
         const nftAmount = getNftAmountFromService(service)
         const ddo = await this.nevermined.assets.resolve(did)
@@ -511,7 +500,7 @@ export class NFT1155Api extends NFTsBaseApi {
     }
 
     /**
-     * Adds a minter (`minterAddress`) to the NFT Contract. 
+     * Adds a minter (`minterAddress`) to the NFT Contract.
      * Granting and revoking minting permissions only can be done by the NFT Contract owner
      *
      *
@@ -538,7 +527,7 @@ export class NFT1155Api extends NFTsBaseApi {
     }
 
     /**
-     * Revokes a minter (`minterAddress`) of the NFT Contract. 
+     * Revokes a minter (`minterAddress`) of the NFT Contract.
      * Granting and revoking minting permissions only can be done by the NFT Contract owner
      *
      * @example
@@ -555,12 +544,11 @@ export class NFT1155Api extends NFTsBaseApi {
      *
      * @returns The {@link ethers.ContractReceipt}
      */
-     public async revokeMinter(
+    public async revokeMinter(
         minterAddress: string,
         from?: Account,
         params?: TxParameters
     ): Promise<ContractReceipt> {
         return this.nftContract.revokeMinter(minterAddress, from, params)
     }
-
 }

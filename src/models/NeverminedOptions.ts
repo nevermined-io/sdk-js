@@ -1,10 +1,8 @@
 import { ethers } from 'ethers'
-import { LogLevel } from '../utils/Logger'
-import { AaveConfig } from './AaveConfig'
-export { LogLevel } from '../utils/Logger'
+import { LogLevel } from '../utils'
+import { AaveConfig } from './'
 
 export class NeverminedOptions {
-
     /**
      * Ethereum Web3 Provider URL. This Url allows the SDK to connect to a blockchain.
      * This provider depends on the network where you want to connect (Ethereum Mainnet, Rinkeby, Polygon Matic, etc).
@@ -29,7 +27,7 @@ export class NeverminedOptions {
      * The public address of the Nevermined Node.
      * @see {@link neverminedNodeUri}
      */
-     public neverminedNodeAddress?: string
+    public neverminedNodeAddress?: string
 
     /**
      * Marketplace auth token.
@@ -77,5 +75,3 @@ export class NeverminedOptions {
 
     public ipfsProjectSecret?: string
 }
-
-export default NeverminedOptions

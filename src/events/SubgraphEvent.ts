@@ -7,7 +7,7 @@ import {
 import * as subgraphs from '@nevermined-io/subgraphs'
 import axios from 'codegen-graph-ts/build/src/lib/axios'
 import generateGql from 'codegen-graph-ts/build/src/lib/gql'
-import ContractBase from '../keeper/contracts/ContractBase'
+import { ContractBase } from '../keeper'
 import { GraphError } from '../errors'
 
 export class SubgraphEvent extends NeverminedEvent {

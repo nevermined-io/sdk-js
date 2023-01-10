@@ -1,4 +1,4 @@
-import { WebServiceConnector } from '../../src/nevermined/utils/WebServiceConnector'
+import { WebServiceConnector } from '../../src/nevermined'
 import { InstantiableConfig } from '../../src/Instantiable.abstract'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -1,15 +1,15 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
-import { Account, ConditionState, Nevermined, utils } from '../../../src'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { Account, ConditionState, Nevermined } from '../../../src'
 import {
+    DIDRegistry,
     AgreementStoreManager,
     ConditionStoreManager,
-    TemplateStoreManager
-} from '../../../src/keeper/contracts/managers'
-import { NFT721SalesTemplate } from '../../../src/keeper/contracts/templates'
-import { didZeroX, zeroX } from '../../../src/utils'
+    TemplateStoreManager,
+    NFT721SalesTemplate
+} from '../../../src/keeper'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -55,12 +55,8 @@ describe('NFT721SalesTemplate', () => {
     })
 
     beforeEach(async () => {
-        agreementIdSeed = zeroX(utils.generateId())
-        conditionIdSeeds = [
-            zeroX(utils.generateId()),
-            zeroX(utils.generateId()),
-            zeroX(utils.generateId())
-        ]
+        agreementIdSeed = zeroX(generateId())
+        conditionIdSeeds = [zeroX(generateId()), zeroX(generateId()), zeroX(generateId())]
         agreementId = await agreementStoreManager.agreementId(
             agreementIdSeed,
             sender.getId()
@@ -79,8 +75,8 @@ describe('NFT721SalesTemplate', () => {
                 conditionIdSeeds[2]
             )
         ]
-        didSeed = `did:nv:${utils.generateId()}`
-        checksum = utils.generateId()
+        didSeed = `did:nv:${generateId()}`
+        checksum = generateId()
     })
 
     describe('create agreement', () => {

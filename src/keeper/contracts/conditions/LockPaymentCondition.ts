@@ -1,9 +1,9 @@
 import { Condition, ConditionContext, ConsumerCondition } from './Condition.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
-import BigNumber from '../../../utils/BigNumber'
+import { BigNumber } from '../../../utils'
 
 export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     public static async getInstance(

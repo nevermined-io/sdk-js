@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 
-export default class BigNumber extends ethers.BigNumber {
+export class BigNumber extends ethers.BigNumber {
     /**
      * Converts a ether _value_ into _wei_.
      *
@@ -16,7 +16,7 @@ export default class BigNumber extends ethers.BigNumber {
      * // { BigNumber: "-500000000000000000" }
      * ```
      */
-    public static parseEther(value: string): BigNumber {        
+    public static parseEther(value: string): BigNumber {
         return ethers.utils.parseEther(value)
     }
 
@@ -76,3 +76,5 @@ export default class BigNumber extends ethers.BigNumber {
         return ethers.utils.formatUnits(value, decimals)
     }
 }
+
+export default BigNumber

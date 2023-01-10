@@ -1,9 +1,9 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
-import Account from '../../../../nevermined/Account'
+import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../../ddo/Service'
+import { ServiceCommon } from '../../../../ddo'
 
 export interface NFT721HolderConditionContext extends ConditionContext {
     holderAddress: string

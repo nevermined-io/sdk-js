@@ -1,12 +1,12 @@
 import { assert } from 'chai'
-import { AaveCollateralWithdrawCondition } from '../../../src/keeper/contracts/conditions/'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { AaveCollateralWithdrawCondition } from '../../../src/keeper'
+import { Nevermined } from '../../../src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { didZeroX } from '../../../src/utils'
-import Account from '../../../src/nevermined/Account'
+import { Account } from '../../../src/nevermined'
 import * as utils from '../../../src/utils'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { DIDRegistry } from '../../../src/keeper'
 
 let condition: AaveCollateralWithdrawCondition
 

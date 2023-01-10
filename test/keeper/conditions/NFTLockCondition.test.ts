@@ -1,14 +1,21 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
-import { Account, ConditionState, Nevermined, utils } from '../../../src'
-import { NFTLockCondition } from '../../../src/keeper/contracts/conditions'
-import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import { NeverminedNFT1155Type, NFTAttributes } from '../../../src/models/NFTAttributes'
-import { didZeroX, zeroX } from '../../../src/utils'
-import BigNumber from '../../../src/utils/BigNumber'
+import {
+    Account,
+    ConditionState,
+    Nevermined,
+    NeverminedNFT1155Type,
+    NFTAttributes
+} from '../../../src'
+import {
+    DIDRegistry,
+    NFTLockCondition,
+    Nft1155Contract,
+    ConditionStoreManager
+} from '../../../src/keeper'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
+import { BigNumber } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -26,7 +33,7 @@ describe('NFTLockCondition', () => {
     let agreementId: string
     let checksum: string
     let didSeed: string
-    const activityId = utils.generateId()
+    const activityId = generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const amount = BigNumber.from(10)
 
@@ -39,9 +46,9 @@ describe('NFTLockCondition', () => {
     })
 
     beforeEach(async () => {
-        agreementId = utils.generateId()
-        checksum = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+        agreementId = generateId()
+        checksum = generateId()
+        didSeed = `did:nv:${generateId()}`
     })
 
     describe('#hashValues()', () => {
@@ -74,14 +81,14 @@ describe('NFTLockCondition', () => {
     describe('fulfill correctly', () => {
         it('should fulfill if conditions exist for account address', async () => {
             // register DID
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
                 amount,
-                preMint: true,
+                preMint: true
             })
 
             await didRegistry.registerMintableDID(
@@ -93,9 +100,9 @@ describe('NFTLockCondition', () => {
                 value,
                 '',
                 activityId
-            )           
-            const did = await didRegistry.hashDID(didSeed, owner.getId())            
-                 
+            )
+            const did = await didRegistry.hashDID(didSeed, owner.getId())
+
             const hashValues = await nftLockCondition.hashValues(
                 did,
                 rewardAddress.getId(),
@@ -134,15 +141,15 @@ describe('NFTLockCondition', () => {
     describe('trying to fulfill but is invalid', () => {
         it('should not fulfill if conditions do not exist', async () => {
             // register DID
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
                 amount,
-                preMint: true,
-            })            
+                preMint: true
+            })
 
             await didRegistry.registerMintableDID(
                 didSeed,
@@ -154,7 +161,7 @@ describe('NFTLockCondition', () => {
                 '',
                 activityId
             )
-           
+
             const did = await didRegistry.hashDID(didSeed, owner.getId())
 
             await assert.isRejected(
@@ -165,15 +172,15 @@ describe('NFTLockCondition', () => {
 
         it('out of balance should fail to fulfill', async () => {
             // register DID
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
                 amount,
-                preMint: false,
-            })            
+                preMint: false
+            })
 
             await didRegistry.registerMintableDID(
                 didSeed,
@@ -184,9 +191,14 @@ describe('NFTLockCondition', () => {
                 value,
                 '',
                 activityId
-            )            
+            )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
-            await nftUpgradeable.mint(owner.getId(), did, BigNumber.from(1), owner.getId())
+            await nftUpgradeable.mint(
+                owner.getId(),
+                did,
+                BigNumber.from(1),
+                owner.getId()
+            )
 
             const hashValues = await nftLockCondition.hashValues(
                 did,
@@ -214,14 +226,14 @@ describe('NFTLockCondition', () => {
 
         it('right transfer should fail to fulfill if conditions already fulfilled', async () => {
             // register DID
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
                 amount,
-                preMint: false,
+                preMint: false
             })
 
             await didRegistry.registerMintableDID(
@@ -233,7 +245,7 @@ describe('NFTLockCondition', () => {
                 value,
                 '',
                 activityId
-            )              
+            )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
             await didRegistry.mint(did, amount, owner.getId())
 

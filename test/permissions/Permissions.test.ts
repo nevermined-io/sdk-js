@@ -4,7 +4,7 @@ import spies from 'chai-spies'
 import { Nevermined, Permission, PermissionType, NewPermission } from '../../src'
 import { MarketplaceResults } from '../../src/common/interfaces'
 import config from '../config'
-import { Permissions } from '../../src/services/metadata/Permissions'
+import { Permissions } from '../../src'
 
 use(spies)
 

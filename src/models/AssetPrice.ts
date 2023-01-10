@@ -1,6 +1,6 @@
 import BigNumber from '../utils/BigNumber'
 
-export default class AssetPrice {
+export class AssetPrice {
     public static readonly NETWORK_FEE_DENOMINATOR = BigNumber.from(10000)
 
     private totalPrice: BigNumber
@@ -82,10 +82,7 @@ export default class AssetPrice {
      * @param networkFeePercent - the percent of fees to receive, it uses the contract denominator @see AssetPrice.NETWORK_FEE_DENOMINATOR
      * @returns the asset rewards object
      */
-    public addNetworkFees(
-        feeReceiver: string,
-        networkFeePercent: BigNumber
-    ): AssetPrice {
+    public addNetworkFees(feeReceiver: string, networkFeePercent: BigNumber): AssetPrice {
         return this.setReceiver(
             feeReceiver,
             this.totalPrice

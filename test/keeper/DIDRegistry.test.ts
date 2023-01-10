@@ -1,13 +1,12 @@
 import { assert } from 'chai'
-import DIDRegistry from '../../src/keeper/contracts/DIDRegistry'
-import { Nevermined } from '../../src/nevermined/Nevermined'
-import { generateId } from '../../src/utils/GeneratorHelpers'
+import { DIDRegistry } from '../../src/keeper'
+import { Nevermined } from '../../src/nevermined'
+import { generateId } from '../../src/utils'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
 import { ContractReceipt, ethers } from 'ethers'
-import { TxParameters } from '../../src/keeper/contracts/ContractBase'
-import Web3Provider from '../../src/keeper/Web3Provider'
+import { TxParameters, Web3Provider } from '../../src/keeper'
 // import { NonceManager } from '@ethersproject/experimental'
 
 let nevermined: Nevermined

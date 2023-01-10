@@ -1,26 +1,23 @@
-import Account from '../Account'
+import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { DDO } from '../../ddo/DDO'
+import { DDO } from '../../ddo'
 import { findServiceConditionByName, ZeroAddress } from '../../utils'
-import Token from '../../keeper/contracts/Token'
-import CustomToken from '../../keeper/contracts/CustomToken'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
-import AssetPrice from '../../models/AssetPrice'
+import { Token, CustomToken, TxParameters } from '../../keeper'
+import { AssetPrice } from '../../models'
 import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
-import BigNumber from '../../utils/BigNumber'
+import { BigNumber } from '../../utils'
 
 /**
- * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached 
+ * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached
  * to the Nevermined Service Execution Agreements.
  */
 export class ConditionsApi extends Instantiable {
-
     /**
      * Creates a new ConditionsApi
      * @param config - Configuration of the Nevermined instance
      * @returns {@link ConditionsApi}
-     */ 
+     */
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
@@ -54,7 +51,7 @@ export class ConditionsApi extends Instantiable {
         let token: Token
 
         if (!erc20TokenAddress) {
-            ({ token } = this.nevermined.keeper)
+            token = this.nevermined.keeper.token
         } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {
@@ -192,7 +189,7 @@ export class ConditionsApi extends Instantiable {
             let token: CustomToken
 
             if (!erc20TokenAddress) {
-                ({ token } = this.nevermined.keeper)
+                token = this.nevermined.keeper.token
             } else if (erc20TokenAddress.toLowerCase() !== ZeroAddress) {
                 token = await CustomToken.getInstanceByAddress(
                     {

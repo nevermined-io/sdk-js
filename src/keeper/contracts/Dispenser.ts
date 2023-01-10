@@ -1,8 +1,8 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import BigNumber from '../../utils/BigNumber'
+import { BigNumber } from '../../utils'
 
-export default class Dispenser extends ContractBase {
+export class Dispenser extends ContractBase {
     public static async getInstance(config: InstantiableConfig): Promise<Dispenser> {
         const dispenser: Dispenser = new Dispenser('Dispenser')
         await dispenser.init(config, true)

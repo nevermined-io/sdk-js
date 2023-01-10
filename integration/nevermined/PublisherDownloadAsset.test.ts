@@ -5,8 +5,7 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, DDO, Account, MetaData } from '../../src'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { Nevermined, DDO, Account, MetaData, AssetAttributes } from '../../src'
 
 describe('Publisher Download Asset', () => {
     let nevermined: Nevermined
@@ -49,7 +48,11 @@ describe('Publisher Download Asset', () => {
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js-1'
-        const path = await nevermined.assets.download(ddo.id, publisher, folder) as string
+        const path = (await nevermined.assets.download(
+            ddo.id,
+            publisher,
+            folder
+        )) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 
@@ -68,7 +71,12 @@ describe('Publisher Download Asset', () => {
 
     it('should consume and store one asset', async () => {
         const folder = '/tmp/nevermined/sdk-js-2'
-        const path = await nevermined.assets.download(ddo.id, publisher, folder, 1) as string
+        const path = (await nevermined.assets.download(
+            ddo.id,
+            publisher,
+            folder,
+            1
+        )) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 

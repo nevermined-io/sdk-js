@@ -1,5 +1,4 @@
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { ServiceCommon } from '../../../ddo/Service'
+import { ServiceAgreementTemplate, ServiceCommon } from '../../../ddo'
 
 const lockNft = 'lockNft'
 const depositCollateral = 'depositCollateral'

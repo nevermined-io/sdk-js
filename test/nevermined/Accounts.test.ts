@@ -2,10 +2,10 @@ import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
 import config from '../config'
-import Account from '../../src/nevermined/Account'
-import { Nevermined } from '../../src/nevermined/Nevermined'
-import BigNumber from '../../src/utils/BigNumber'
-import { AccountsApi } from '../../src/nevermined/api/AccountsApi'
+import { Account } from '../../src/nevermined'
+import { Nevermined } from '../../src/nevermined'
+import { BigNumber } from '../../src/utils'
+import { AccountsApi } from '../../src/nevermined'
 
 use(spies)
 
@@ -13,7 +13,8 @@ describe('Accounts', () => {
     let accounts: AccountsApi
 
     before(async () => {
-        ({ accounts } = await Nevermined.getInstance(config))
+        // eslint-disable-next-line @typescript-eslint/no-extra-semi
+        ;({ accounts } = await Nevermined.getInstance(config))
     })
 
     afterEach(() => {

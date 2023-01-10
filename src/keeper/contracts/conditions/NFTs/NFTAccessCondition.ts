@@ -1,7 +1,7 @@
 import { Condition, ConditionContext, ProviderCondition } from '../Condition.abstract'
 import { zeroX, didZeroX } from '../../../../utils'
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import Account from '../../../../nevermined/Account'
+import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
 
 export interface NFTAccessConditionContext extends ConditionContext {

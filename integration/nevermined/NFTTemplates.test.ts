@@ -1,30 +1,36 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { Account, DDO, Nevermined, utils } from '../../src'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    generateId,
+    AssetPrice,
+    NFTAttributes,
+    AssetAttributes
+} from '../../src'
 import {
     ConditionState,
     EscrowPaymentCondition,
     LockPaymentCondition,
     NFTAccessCondition,
     NFTHolderCondition,
-    TransferNFTCondition
-} from '../../src/keeper/contracts/conditions'
-import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
-import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
-import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
-import Token from '../../src/keeper/contracts/Token'
-import AssetPrice from '../../src/models/AssetPrice'
+    TransferNFTCondition,
+    Nft1155Contract,
+    ConditionStoreManager,
+    NFTAccessTemplate,
+    NFTSalesTemplate,
+    Token
+} from '../../src/keeper'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
-import BigNumber from '../../src/utils/BigNumber'
-import { setNFTRewardsFromDDOByService } from '../../src/utils/DDOHelpers'
+} from '../../src/nevermined'
+import { BigNumber } from '../../src/utils'
+import { setNFTRewardsFromDDOByService } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('NFTTemplates E2E', () => {
     let owner: Account
@@ -142,9 +148,9 @@ describe('NFTTemplates E2E', () => {
                 )
             }
 
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
@@ -181,17 +187,13 @@ describe('NFTTemplates E2E', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
-
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -719,9 +721,9 @@ describe('NFTTemplates E2E', () => {
                     await token.balanceOf(escrowPaymentCondition.getAddress())
                 )
             }
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
@@ -746,16 +748,13 @@ describe('NFTTemplates E2E', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
 
             await collector1.requestTokens(nftPrice.div(scale))
         })
@@ -1097,9 +1096,9 @@ describe('NFTTemplates E2E', () => {
                     await token.balanceOf(escrowPaymentCondition.getAddress())
                 )
             }
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
@@ -1124,16 +1123,13 @@ describe('NFTTemplates E2E', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         describe('As an artist I want to register a new artwork', () => {

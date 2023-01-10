@@ -1,7 +1,8 @@
-import { MetaData, Account, DDO } from '../..'
+import { DDO, MetaData } from '../../ddo'
+import { AssetAttributes } from '../../models'
+import { Account } from '../../nevermined'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters } from '../../keeper/contracts/ContractBase'
-import { AssetAttributes } from '../../models/AssetAttributes'
+import { TxParameters } from '../../keeper'
 import { SubscribablePromise } from '../../utils'
 import {
     CreateProgressStep,

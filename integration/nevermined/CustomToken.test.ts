@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { Account, Nevermined } from '../../src'
-import CustomToken from '../../src/keeper/contracts/CustomToken'
+import { CustomToken } from '../../src/keeper'
 import { config } from '../config'
 
 describe('CustomToken', () => {

@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { Account } from '../../src'
-import { Nevermined } from '../../src/nevermined/Nevermined'
-import BigNumber from '../../src/utils/BigNumber'
+import { Nevermined } from '../../src/nevermined'
+import { BigNumber } from '../../src/utils'
 import config from '../config'
 import TestContractHandler from '../keeper/TestContractHandler'
 
