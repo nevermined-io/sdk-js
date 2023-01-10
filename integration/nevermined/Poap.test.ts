@@ -100,9 +100,7 @@ describe('POAPs with Assets', () => {
         const receipt = await nevermined.nfts721.claim(
             agreementId,
             editor.getId(),
-            user.getId(),
-            BigNumber.from(1),
-            721
+            user.getId()
         )
         assert.isTrue(receipt)
     })

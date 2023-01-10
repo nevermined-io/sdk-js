@@ -7,12 +7,13 @@ import Token from '../../src/keeper/contracts/Token'
 import AssetPrice from '../../src/models/AssetPrice'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
+import { getRoyaltyAttributes, PublishMetadata, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
 import { ethers } from 'ethers'
 import BigNumber from '../../src/utils/BigNumber'
 import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 
 chai.use(chaiAsPromised)
 
@@ -37,7 +38,7 @@ describe('NFTs 1155 Api End-to-End', () => {
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberNFTs = BigNumber.from(1)
+    const numberEditions = BigNumber.from(1)
     let nftPrice = BigNumber.from(100)
     let amounts = [BigNumber.from(75), BigNumber.from(25)]
     let receivers: string[]
@@ -79,7 +80,8 @@ describe('NFTs 1155 Api End-to-End', () => {
         await collector1.requestTokens(nftPrice.div(scale))
         
         const nftContractOwner = new Account(await nevermined.nfts1155.owner())
-        await nevermined.keeper.nftUpgradeable.setProxyApproval(transferNftCondition.address, true, nftContractOwner)
+        
+        await nevermined.nfts1155.getContract.setProxyApproval(transferNftCondition.address, true, nftContractOwner)
 
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
@@ -110,13 +112,14 @@ describe('NFTs 1155 Api End-to-End', () => {
                 ...assetAttributes,                
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: cappedAmount,
-                amount: numberNFTs,
+                amount: numberEditions,
                 royaltyAttributes,
                 preMint: true
             })            
             ddo = await nevermined.nfts1155.create(
                 nftAttributes,
-                artist
+                artist,
+                PublishMetadata.IPFS
             )
             
             assert.isDefined(ddo)
@@ -135,6 +138,7 @@ describe('NFTs 1155 Api End-to-End', () => {
 
     describe('As a collector I want to buy some art', () => {
         it('I check the details of the NFT', async () => {
+            await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
             const details = await nevermined.nfts1155.details(ddo.id)
             assert.equal(details.mintCap, 5)
             assert.equal(details.nftSupply, 5)
@@ -151,7 +155,7 @@ describe('NFTs 1155 Api End-to-End', () => {
                 escrowPaymentCondition.getAddress()
             )
 
-            agreementId = await nevermined.nfts1155.order(ddo.id, numberNFTs, collector1)
+            agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
             assert.isDefined(agreementId)
 
             const collector1BalanceAfter = await token.balanceOf(collector1.getId())
@@ -179,7 +183,7 @@ describe('NFTs 1155 Api End-to-End', () => {
             const receipt = await nevermined.nfts1155.transfer(
                 agreementId,
                 ddo.id,
-                numberNFTs,
+                numberEditions,
                 artist
             )
             assert.isTrue(receipt)
@@ -191,11 +195,11 @@ describe('NFTs 1155 Api End-to-End', () => {
             )
             assert.equal(
                 Number(nftBalanceArtistAfter),
-                Number(nftBalanceArtistBefore) - Number(numberNFTs)
+                Number(nftBalanceArtistBefore) - Number(numberEditions)
             )
             assert.equal(
                 Number(nftBalanceCollectorAfter),
-                Number(nftBalanceCollectorBefore) + Number(numberNFTs)
+                Number(nftBalanceCollectorBefore) + Number(numberEditions)
             )
         })
 
@@ -206,7 +210,7 @@ describe('NFTs 1155 Api End-to-End', () => {
             const receipt = await nevermined.nfts1155.releaseRewards(
                 agreementId,
                 ddo.id,
-                numberNFTs,
+                numberEditions,
                 artist
             )
             assert.isTrue(receipt)
@@ -304,7 +308,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         it('The collector orders the nft', async () => {
             await collector1.requestTokens(nftPrice.div(scale))
 
-            agreementId = await nevermined.nfts1155.order(ddo.id, numberNFTs, collector1)
+            agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
             assert.isDefined(agreementId)
         })
 
@@ -314,7 +318,7 @@ describe('NFTs 1155 Api End-to-End', () => {
                 agreementId,
                 artist.getId(),
                 collector1.getId(),
-                numberNFTs
+                numberEditions
             )
             assert.isTrue(result)
         })
@@ -387,7 +391,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         it('Collector1 orders the nft', async () => {
             await collector1.requestTokens(nftPrice.div(scale))
 
-            agreementId = await nevermined.nfts1155.order(ddo.id, numberNFTs, collector1)
+            agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
             assert.isDefined(agreementId)
         })
 
@@ -419,7 +423,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         it('Collector 2 setups a service agreement to buy the nft', async () => {
             await collector2.requestTokens(nftPrice.div(scale))
 
-            agreementId2 = await nevermined.nfts1155.order(ddo.id, numberNFTs, collector2)
+            agreementId2 = await nevermined.nfts1155.order(ddo.id, numberEditions, collector2)
             assert.isDefined(agreementId2)
         })
 

@@ -50,23 +50,23 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
      * @param agreementId - The NFT sales agreement id.
      * @param nftHolder - The address of the current owner of the NFT.
      * @param nftReceiver - The address where the NFT should be transferred.
-     * @param nftAmount - The amount of NFTs to transfer.
+     * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
      * @param ercType  - The Type of the NFT ERC (1155 or 721).
      *
      * @returns true if the transfer was successful.
      */
-    public async claim(
+    protected async claimNFT(
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
-        nftAmount: BigNumber,
+        numberEditions: BigNumber = BigNumber.from(1),
         ercType: ERCType = 1155
     ): Promise<boolean> {
         return await this.nevermined.services.node.claimNFT(
             agreementId,
             nftHolder,
             nftReceiver,
-            nftAmount,
+            numberEditions,
             ercType
         )
     }

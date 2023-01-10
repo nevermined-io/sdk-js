@@ -49,7 +49,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     const royalties = 0
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
-    const nftAmount = BigNumber.from(1)
+    const numberEditions = BigNumber.from(1) // Its a ERC-721 so just 1
 
     let initialBalances: any
     let scale: BigNumber
@@ -205,9 +205,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             const receipt = await nevermined.nfts721.claim(
                 agreementId,
                 editor.getId(),
-                subscriber.getId(),
-                nftAmount,
-                721
+                subscriber.getId()
             )
             assert.isTrue(receipt)
 
