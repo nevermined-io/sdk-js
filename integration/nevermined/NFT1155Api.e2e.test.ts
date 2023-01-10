@@ -124,7 +124,7 @@ describe('NFTs 1155 Api End-to-End', () => {
             
             assert.isDefined(ddo)
 
-            const balance = await nevermined.nfts1155.balance(ddo.id, artist)
+            const balance = await nevermined.nfts1155.balance(ddo.id, artist.getId())
             assert.deepEqual(balance, BigNumber.from(5))
         })
 

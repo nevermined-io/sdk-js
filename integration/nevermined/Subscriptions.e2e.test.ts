@@ -49,7 +49,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     const royalties = 0
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
-    const numberEditions = BigNumber.from(1) // Its a ERC-721 so just 1
 
     let initialBalances: any
     let scale: BigNumber

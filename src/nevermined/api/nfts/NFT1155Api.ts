@@ -398,7 +398,7 @@ export class NFT1155Api extends NFTsBaseApi {
 
 
     /**
-     * Get the NFT balance for a particular did
+     * Get the NFT balance for a particular did associated to an account/address
      *
      * @example
      * ```ts
@@ -406,12 +406,13 @@ export class NFT1155Api extends NFTsBaseApi {
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
-     * @param account - The account to check the balance of.
+     * @param account - The account/address to check the balance of.
      *
-     * @returns The amount of NFTs owned by the account.
+     * @returns The number of editions of a NFT owned by the account/address.
      */
-    public async balance(did: string, account: Account): Promise<BigNumber> {
-        return await this.nftContract.balance(account.getId(), did)
+    public async balance(did: string, account: Account | string): Promise<BigNumber> {
+        const _address = account instanceof Account ? account.getId() : account
+        return await this.nftContract.balance(_address, did)
     }
 
     /**

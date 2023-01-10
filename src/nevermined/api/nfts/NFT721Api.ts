@@ -16,7 +16,7 @@ import { NFTsBaseApi } from './NFTsBaseApi'
 import BigNumber from '../../../utils/BigNumber'
 import { CreateProgressStep } from '../../ProgressSteps'
 import { AssetAttributes } from '../../../models/AssetAttributes'
-import { ERCType, NFTAttributes } from '../../../models/NFTAttributes'
+import { NFTAttributes } from '../../../models/NFTAttributes'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.
@@ -472,19 +472,20 @@ export class NFT721Api extends NFTsBaseApi {
     }
 
      /**
-     * Get the NFT balance for a particular account
+     * Get the NFT balance for a particular account/address
      *
      * @example
      * ```ts
      * const balance = await nevermined.nfts721.balance(artist)
      * ```
      *
-     * @param account - The account to check the balance of.
+     * @param account - The account/address to check the balance of.
      *
-     * @returns The amount of NFTs owned by the account.
+     * @returns The balance of NFTs owned by the account.
      */   
-    public async balanceOf(owner: Account): Promise<BigNumber> {
-        return await this.nftContract.balanceOf(owner.getId())
+    public async balanceOf(account: Account | string): Promise<BigNumber> {
+        const _address = account instanceof Account ? account.getId() : account
+        return await this.nftContract.balanceOf(_address)
     }
 
     /**
