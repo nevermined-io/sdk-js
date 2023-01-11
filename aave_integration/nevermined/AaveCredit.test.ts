@@ -1,7 +1,7 @@
 import { getMetadata } from '../../integration/utils/index'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { Account, ConditionState, DDO, generateId } from '../../src/index'
-import ERC721 from '../../test/resources/artifacts/ERC721.json'
+import ERC721 from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
 import { Nevermined } from '../../src/nevermined'
 import { didZeroX, zeroX } from '../../src/utils/index'
 import {
