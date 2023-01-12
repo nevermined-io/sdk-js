@@ -20,7 +20,6 @@ jobs:
           repository: nevermined-io/node
           ref: 'fix/merge-master' # TODO: Remove this when ready to use main branch
           path: node
-          ref: main
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
         with:
