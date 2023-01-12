@@ -241,6 +241,7 @@ export class AssetsApi extends RegistryBaseApi {
             files,
             resultPath,
             fileIndex,
+            undefined,
             buyer,
             babysig
         )
