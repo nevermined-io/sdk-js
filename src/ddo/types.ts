@@ -503,6 +503,7 @@ export type ServiceType =
     | 'nft-access'
     | 'nft-sales'
     | 'aave-credit'
+    | 'nft-sales-proof'
 
 export const serviceIndex = {
     authorization: 2,
