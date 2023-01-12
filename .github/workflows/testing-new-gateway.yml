@@ -33,7 +33,7 @@ jobs:
         with:
           repository: nevermined-io/node
           path: node
-          ref: feat/asset-return-types
+          ref: main
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
         with:
