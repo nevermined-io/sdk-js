@@ -1,7 +1,7 @@
 import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
 import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 import { EventOptions } from '../../../events/NeverminedEvent'
 

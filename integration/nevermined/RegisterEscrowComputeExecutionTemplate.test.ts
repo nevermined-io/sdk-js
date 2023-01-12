@@ -1,20 +1,24 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, utils, Account, Keeper, DDO, Logger } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
-import Token from '../../src/keeper/contracts/Token'
-import { getMetadata } from '../utils'
-import { EscrowComputeExecutionTemplate } from '../../src/keeper/contracts/templates'
 import {
+    Nevermined,
+    Account,
+    Keeper,
+    DDO,
+    Logger,
+    AssetPrice,
+    AssetAttributes,
+    EscrowComputeExecutionTemplate,
     ComputeExecutionCondition,
     EscrowPaymentCondition,
     LockPaymentCondition
-} from '../../src/keeper/contracts/conditions'
+} from '../../src'
+import { Token } from '../../src/keeper'
+import { getMetadata } from '../utils'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import BigNumber from '../../src/utils/BigNumber'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { BigNumber } from '../../src/utils'
 
 describe('Register Escrow Compute Execution Template', () => {
     let nevermined: Nevermined
@@ -90,12 +94,12 @@ describe('Register Escrow Compute Execution Template', () => {
         let conditionIdEscrow: [string, string]
 
         before(async () => {
-            agreementIdSeed = utils.generateId()
+            agreementIdSeed = generateId()
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
                 publisher.getId()
             )
-            didSeed = utils.generateId()
+            didSeed = generateId()
             did = await keeper.didRegistry.hashDID(didSeed, publisher.getId())
         })
 
@@ -206,7 +210,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill LockPaymentCondition', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch(error) {
+            } catch (error) {
                 Logger.error(error)
             }
 
@@ -297,15 +301,12 @@ describe('Register Escrow Compute Execution Template', () => {
                 ])
             )
 
-            const assetAttributes = AssetAttributes.getInstance({ 
+            const assetAttributes = AssetAttributes.getInstance({
                 metadata,
                 price: assetPrice,
                 serviceTypes: ['access', 'compute']
             })
-            ddo = await nevermined.assets.create(
-                assetAttributes,
-                publisher
-            )
+            ddo = await nevermined.assets.create(assetAttributes, publisher)
         })
 
         it('should create a new agreement (short way)', async () => {
@@ -332,7 +333,7 @@ describe('Register Escrow Compute Execution Template', () => {
         it('should fulfill the conditions from consumer side', async () => {
             try {
                 await consumer.requestTokens(totalAmount)
-            } catch(error) {
+            } catch (error) {
                 Logger.error(error)
             }
 

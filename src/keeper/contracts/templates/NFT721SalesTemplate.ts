@@ -1,10 +1,14 @@
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import {
+    ServiceAgreementTemplate,
+    ServiceNFTSales,
+    ServiceType,
+    ValidationParams
+} from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import { ServiceNFTSales, ServiceType, ValidationParams } from '../../../ddo/Service'
 import {
     LockPaymentCondition,
     EscrowPaymentCondition,

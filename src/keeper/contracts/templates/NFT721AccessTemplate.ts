@@ -1,11 +1,15 @@
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
+import {
+    ServiceAgreementTemplate,
+    ServiceNFTAccess,
+    ServiceType,
+    ValidationParams
+} from '../../../ddo'
 import { Account, DDO } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
-import { ServiceNFTAccess, ServiceType, ValidationParams } from '../../../ddo/Service'
 import { NFT721HolderCondition, NFTAccessCondition } from '../conditions'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 export interface NFT721AccessTemplateParams {
     holderAddress: string

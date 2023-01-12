@@ -1,13 +1,17 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, Nevermined } from '../../src'
-import CustomToken from '../../src/keeper/contracts/CustomToken'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import AssetPrice from '../../src/models/AssetPrice'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    NFTAttributes,
+    AssetAttributes,
+    AssetPrice
+} from '../../src'
+import { CustomToken } from '../../src/keeper'
+import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { generateId } from '../../src/utils'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { sleep } from '../utils/utils'
@@ -45,20 +49,16 @@ describe('Assets Query by Price', () => {
         // publish asset with priced service `access`
         let metadata = getMetadata()
         metadata.userId = payload.sub
-        let assetPrice = new AssetPrice(
-            account.getId(), 
-            price1
-            ).setTokenAddress(token.getAddress())
+        let assetPrice = new AssetPrice(account.getId(), price1).setTokenAddress(
+            token.getAddress()
+        )
 
         const _attributes = AssetAttributes.getInstance({
             metadata,
             price: assetPrice,
             appId
         })
-        ddoAccess = await nevermined.assets.create(
-            _attributes,
-            account
-        )            
+        ddoAccess = await nevermined.assets.create(_attributes, account)
 
         // publish asset with priced service `nft-sales`
         metadata = getMetadata()
@@ -86,11 +86,8 @@ describe('Assets Query by Price', () => {
             nftContractAddress: nevermined.nfts1155.nftContract.address,
             cap: BigNumber.from(1),
             royaltyAttributes
-        })            
-        ddoNftSales = await nevermined.nfts1155.create(
-            nftAttributes,
-            account
-        )
+        })
+        ddoNftSales = await nevermined.nfts1155.create(nftAttributes, account)
 
         // wait for elasticsearch
         await sleep(2000)

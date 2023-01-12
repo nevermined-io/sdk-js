@@ -1,4 +1,4 @@
-import { ServiceType } from '../ddo/Service'
+import { ServiceType } from '../ddo'
 
 export class DDOError extends Error {
     constructor(message: string, did?: string) {

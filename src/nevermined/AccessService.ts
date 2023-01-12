@@ -3,19 +3,21 @@ import {
     ServiceNFTAccess,
     ServiceNFTSales,
     ServicePlugin,
-    ValidationParams
-} from '../ddo/Service'
+    ValidationParams,
+    MetaData,
+    MetaDataMain
+} from '../ddo'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
 import {
+    TxParameters,
     AccessTemplate,
     NFT721AccessTemplate,
     NFT721SalesTemplate,
     NFTAccessTemplate,
     NFTSalesTemplate
-} from '../keeper/contracts/templates'
-import AssetPrice from '../models/AssetPrice'
-import { Account, MetaData, MetaDataMain } from '../sdk'
+} from '../keeper'
+import { Account } from './Account'
+import { AssetPrice } from '../models'
 
 export interface AccessProofTemplateParams {
     type: 'access-proof'

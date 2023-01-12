@@ -1,5 +1,13 @@
 import { assert } from 'chai'
-import { Account, DDO, Nevermined, utils } from '../../src'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    AssetPrice,
+    generateId,
+    AssetAttributes,
+    NFTAttributes
+} from '../../src'
 import { decodeJwt } from 'jose'
 import {
     ConditionState,
@@ -7,23 +15,21 @@ import {
     LockPaymentCondition,
     NFTAccessCondition,
     NFTHolderCondition,
-    TransferNFTCondition
-} from '../../src/keeper/contracts/conditions'
-import { ConditionStoreManager } from '../../src/keeper/contracts/managers'
-import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
-import AssetPrice from '../../src/models/AssetPrice'
+    TransferNFTCondition,
+    ConditionStoreManager,
+    NFTAccessTemplate,
+    NFTSalesTemplate,
+    Nft1155Contract
+} from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { ZeroAddress } from '../../src/utils'
-import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
+} from '../../src/nevermined'
 
 describe('NFTTemplates With Ether E2E', async () => {
     let artist: Account
@@ -144,8 +150,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     .getEtherBalance()
             }
 
-            agreementIdSeed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementAccessIdSeed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,

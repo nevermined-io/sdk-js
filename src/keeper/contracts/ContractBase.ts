@@ -1,12 +1,11 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
-import ContractHandler from '../ContractHandler'
-
-import Account from '../../nevermined/Account'
+import { ContractHandler } from '../ContractHandler'
+import { Account } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import { ContractReceipt, ethers } from 'ethers'
-import BigNumber from '../../utils/BigNumber'
+import { BigNumber } from '../../utils'
 
 export interface TxParameters {
     value?: string
@@ -39,7 +38,7 @@ export abstract class ContractBase extends Instantiable {
         return this.contract
     }
 
-    public getAddress(): string {        
+    public getAddress(): string {
         return this.contract.address
     }
 
@@ -88,11 +87,10 @@ export abstract class ContractBase extends Instantiable {
         }
     }
 
-
-
     protected async getFromAddress(from?: string): Promise<string> {
-        if (!from) {            
-            [from] = await this.nevermined.accounts.addresses()
+        if (!from) {
+            // eslint-disable-next-line @typescript-eslint/no-extra-semi
+            ;[from] = await this.nevermined.accounts.addresses()
         }
         return from
     }
@@ -117,12 +115,16 @@ export abstract class ContractBase extends Instantiable {
         return receipt
     }
 
-    private async internalSend(name: string, from: string, args: any[], txparams: any, contract: ethers.Contract, progress: (data: any) => void) {
+    private async internalSend(
+        name: string,
+        from: string,
+        args: any[],
+        txparams: any,
+        contract: ethers.Contract,
+        progress: (data: any) => void
+    ) {
         const methodSignature = this.getSignatureOfMethod(name, args)
-        const {
-            gasLimit,
-            value,
-        } = txparams
+        const { gasLimit, value } = txparams
         // make the call
         if (progress) {
             progress({
@@ -137,9 +139,10 @@ export abstract class ContractBase extends Instantiable {
             })
         }
 
-        const transactionResponse: TransactionResponse = await contract[
-            methodSignature
-        ](...args, txparams)
+        const transactionResponse: TransactionResponse = await contract[methodSignature](
+            ...args,
+            txparams
+        )
         if (progress) {
             progress({
                 stage: 'sent',
@@ -170,7 +173,6 @@ export abstract class ContractBase extends Instantiable {
         }
 
         return ContractReceipt
-
     }
 
     public async send(
@@ -180,9 +182,16 @@ export abstract class ContractBase extends Instantiable {
         params: TxParameters = {}
     ): Promise<ContractReceipt> {
         if (params.signer) {
-            const paramsFixed = {...params, signer: undefined}
+            const paramsFixed = { ...params, signer: undefined }
             const contract = this.contract.connect(params.signer)
-            return await this.internalSend(name, from, args, paramsFixed, contract, params.progress)
+            return await this.internalSend(
+                name,
+                from,
+                args,
+                paramsFixed,
+                contract,
+                params.progress
+            )
         }
 
         const methodSignature = this.getSignatureOfMethod(name, args)
@@ -239,7 +248,14 @@ export abstract class ContractBase extends Instantiable {
                 nonce,
                 ...feeData
             }
-            return await this.internalSend(name, from, args, txparams, contract, params.progress)
+            return await this.internalSend(
+                name,
+                from,
+                args,
+                txparams,
+                contract,
+                params.progress
+            )
         } catch (err) {
             const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
                 return {

@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import Account from '../../src/nevermined/Account'
-import { Nevermined } from '../../src/nevermined/Nevermined'
+import { Account } from '../../src/nevermined'
+import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'

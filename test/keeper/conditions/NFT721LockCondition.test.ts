@@ -1,16 +1,15 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
-import { Account, ConditionState, utils } from '../../../src'
-import { NFT721LockCondition } from '../../../src/keeper/contracts/conditions'
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import { didZeroX, zeroX } from '../../../src/utils'
+import { Nevermined } from '../../../src/nevermined'
+import { Account, ConditionState } from '../../../src'
+import { NFT721LockCondition, ConditionStoreManager } from '../../../src/keeper'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { NFT721Api } from '../../../src'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { DIDRegistry } from '../../../src/keeper'
 import { Contract, ContractReceipt, Event } from 'ethers'
-import BigNumber from '../../../src/utils/BigNumber'
+import { BigNumber } from '../../../src/utils'
 
 chai.use(chaiAsPromised)
 
@@ -36,20 +35,27 @@ describe('NFT721LockCondition', () => {
         ;({ nft721LockCondition } = nevermined.keeper.conditions)
         ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
         ;[owner, lockAddress] = await nevermined.accounts.list()
-        
+
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
 
-        const erc721ABI = await TestContractHandler.getABI('NFT721Upgradeable', config.artifactsFolder, networkName)
+        const erc721ABI = await TestContractHandler.getABI(
+            'NFT721Upgradeable',
+            config.artifactsFolder,
+            networkName
+        )
 
         _nftContract = await TestContractHandler.deployArtifact(erc721ABI)
         nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
         nftContractAddress = nft721Wrapper.address
-        await nft721Wrapper.nftContract.setProxyApproval(nft721LockCondition.address, true)
+        await nft721Wrapper.nftContract.setProxyApproval(
+            nft721LockCondition.address,
+            true
+        )
     })
 
     beforeEach(async () => {
-        agreementId = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+        agreementId = generateId()
+        didSeed = `did:nv:${generateId()}`
         did = await didRegistry.hashDID(didSeed, owner.getId())
 
         await nft721Wrapper.mint(didZeroX(did), owner)

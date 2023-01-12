@@ -1,14 +1,14 @@
-import Balance from '../models/Balance'
+import { Balance } from '../models'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper/contracts/ContractBase'
+import { TxParameters } from '../keeper'
 import { KeeperError } from '../errors'
-import BigNumber from '../utils/BigNumber'
+import { BigNumber } from '../utils'
 
 /**
  * Account information.
  */
-export default class Account extends Instantiable {
+export class Account extends Instantiable {
     private password?: string
 
     private token?: string

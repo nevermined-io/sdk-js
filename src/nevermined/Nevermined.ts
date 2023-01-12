@@ -3,19 +3,13 @@ import { AgreementsApi } from './api/AgreementsApi'
 import { AssetsApi } from './api/AssetsApi'
 import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
-import Keeper from '../keeper/Keeper'
-import { NeverminedOptions } from '../models/NeverminedOptions'
+import { Keeper, CustomToken, Nft1155Contract } from '../keeper'
+import { NeverminedOptions } from '../models'
 import {
     Instantiable,
     generateIntantiableConfigFromConfig
 } from '../Instantiable.abstract'
-import { NFT1155Api } from './api/nfts/NFT1155Api'
-import { NFT721Api } from './api/nfts/NFT721Api'
-import CustomToken from '../keeper/contracts/CustomToken'
-import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
-import { ComputeApi } from './api/ComputeApi'
-import { SearchApi } from './api/SearchApi'
-import { ServicesApi } from './api/ServicesApi'
+import { NFT1155Api, NFT721Api, ComputeApi, SearchApi, ServicesApi } from './api'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -52,7 +46,10 @@ export class Nevermined extends Instantiable {
         instance.agreements = new AgreementsApi(instanceConfig)
         instance.assets = new AssetsApi(instanceConfig)
         instance.compute = new ComputeApi(instanceConfig)
-        instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
+        instance.nfts1155 = await NFT1155Api.getInstance(
+            instanceConfig,
+            instance.keeper.nftUpgradeable
+        )
         instance.provenance = new ProvenanceApi(instanceConfig)
         instance.search = new SearchApi(instanceConfig)
         instance.services = new ServicesApi(instanceConfig)
@@ -60,7 +57,6 @@ export class Nevermined extends Instantiable {
 
         return instance
     }
-
 
     /**
      * Nevermined very own contract reflector.
@@ -99,7 +95,6 @@ export class Nevermined extends Instantiable {
             return await CustomToken.getInstanceByAddress(this.instanceConfig, address)
         }
     }
-
 
     /**
      * Keeper instance.

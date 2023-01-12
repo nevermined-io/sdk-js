@@ -1,9 +1,9 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
-import Account from '../../../../nevermined/Account'
+import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import BigNumber from '../../../../utils/BigNumber'
+import { BigNumber } from '../../../../utils'
 
 export interface NFTLockConditionContext extends ConditionContext {
     rewardAddress: string

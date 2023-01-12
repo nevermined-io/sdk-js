@@ -1,9 +1,9 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import ContractHandler from '../ContractHandler'
+import { ContractHandler } from '../ContractHandler'
 import { ContractReceipt, ethers } from 'ethers'
 
-export default class GenericContract extends ContractBase {
+export class GenericContract extends ContractBase {
     protected fixedAddress: string
 
     public static async getInstance(

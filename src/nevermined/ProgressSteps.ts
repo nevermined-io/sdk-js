@@ -1,4 +1,3 @@
-
 export enum CreateProgressStep {
     ServicesAdded,
     GeneratingProof,
@@ -27,10 +26,12 @@ export enum UpdateProgressStep {
 }
 
 export enum OrderProgressStep {
-    CreatingAgreement,
-    AgreementInitialized,
     LockingPayment,
-    LockedPayment
+    LockedPayment,
+    ApprovingPayment,
+    ApprovedPayment,
+    CreatingAgreement,
+    AgreementInitialized
 }
 
 export enum ExecuteProgressStep {

@@ -1,10 +1,5 @@
 import { assert } from 'chai'
-import {
-    zeroX,
-    noZeroX,
-    didPrefixed,
-    noDidPrefixed
-} from '../../src/utils/ConversionTypeHelpers'
+import { zeroX, noZeroX, didPrefixed, noDidPrefixed } from '../../src/utils'
 
 describe('ConversionTypeHelpers', () => {
     describe('#zeroXTransformer()', () => {

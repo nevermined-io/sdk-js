@@ -1,8 +1,7 @@
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
 
 describe('Providers operations', () => {
     let nevermined: Nevermined

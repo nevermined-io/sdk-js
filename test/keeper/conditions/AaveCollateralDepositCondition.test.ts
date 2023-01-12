@@ -1,13 +1,13 @@
 import { assert } from 'chai'
-import { AaveCollateralDepositCondition } from '../../../src/keeper/contracts/conditions/'
-import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { AaveCollateralDepositCondition } from '../../../src/keeper'
+import { Nevermined } from '../../../src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { didZeroX } from '../../../src/utils'
-import Account from '../../../src/nevermined/Account'
+import { Account } from '../../../src/nevermined'
 import * as utils from '../../../src/utils'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
-import BigNumber from '../../../src/utils/BigNumber'
+import { DIDRegistry } from '../../../src/keeper'
+import { BigNumber } from '../../../src/utils'
 
 let condition: AaveCollateralDepositCondition
 

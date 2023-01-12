@@ -1,7 +1,7 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
-import Account from '../../../nevermined/Account'
+import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface AccessConditionContext extends ConditionContext {

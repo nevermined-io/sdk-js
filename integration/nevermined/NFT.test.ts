@@ -2,16 +2,14 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import { Nevermined, Account, DDO, AssetPrice, NFTAttributes } from '../../src'
 import { ZeroAddress } from '../../src/utils'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
+} from '../../src/nevermined'
 
 describe('Nfts operations', () => {
     let nevermined: Nevermined
@@ -40,18 +38,14 @@ describe('Nfts operations', () => {
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
 
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
                 metadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
-
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         it('should mint 10 nft tokens', async () => {
@@ -67,7 +61,12 @@ describe('Nfts operations', () => {
                 BigNumber.from(2),
                 collector
             )
-            await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+            await nevermined.nfts1155.transfer(
+                agreementId,
+                ddo.id,
+                BigNumber.from(2),
+                artist
+            )
 
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),
@@ -80,8 +79,15 @@ describe('Nfts operations', () => {
         })
 
         it('should the operation be approved', async () => {
-            await nevermined.nfts1155.setApprovalForAll(config.neverminedNodeAddress, true, artist)
-            const isApproved = await nevermined.nfts1155.isApprovedForAll(config.neverminedNodeAddress, artist.getId())
+            await nevermined.nfts1155.setApprovalForAll(
+                config.neverminedNodeAddress,
+                true,
+                artist
+            )
+            const isApproved = await nevermined.nfts1155.isApprovedForAll(
+                config.neverminedNodeAddress,
+                artist.getId()
+            )
             assert.equal(Boolean(isApproved), true)
         })
 
@@ -99,17 +105,14 @@ describe('Nfts operations', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            const nftAttributes = NFTAttributes.getNFT1155Instance({   
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
                 metadata,
-                serviceTypes: ['nft-sales', 'nft-access'],             
+                serviceTypes: ['nft-sales', 'nft-access'],
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         it('should mint 10 nft tokens', async () => {
@@ -125,7 +128,12 @@ describe('Nfts operations', () => {
                 BigNumber.from(2),
                 collector
             )
-            await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+            await nevermined.nfts1155.transfer(
+                agreementId,
+                ddo.id,
+                BigNumber.from(2),
+                artist
+            )
 
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),
@@ -151,18 +159,18 @@ describe('Nfts operations', () => {
             const metadata = getMetadata()
             metadata.userId = payload.sub
 
-            const nftAttributes = NFTAttributes.getNFT1155Instance({                
+            const nftAttributes = NFTAttributes.getNFT1155Instance({
                 metadata,
                 serviceTypes: ['nft-sales', 'nft-access'],
-                price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(ZeroAddress),
+                price: new AssetPrice(
+                    artist.getId(),
+                    BigNumber.parseEther('0.1')
+                ).setTokenAddress(ZeroAddress),
                 nftContractAddress: nevermined.nfts1155.nftContract.address,
                 cap: BigNumber.from(10),
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         it('should mint 10 nft tokens', async () => {
@@ -178,7 +186,12 @@ describe('Nfts operations', () => {
                 BigNumber.from(2),
                 collector
             )
-            await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+            await nevermined.nfts1155.transfer(
+                agreementId,
+                ddo.id,
+                BigNumber.from(2),
+                artist
+            )
 
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),

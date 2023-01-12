@@ -2,11 +2,10 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, utils } from '../../src'
+import { Nevermined, Account, DDO, zeroX, generateId, AssetAttributes } from '../../src'
 import { sleep } from '../utils/utils'
 import { ethers } from 'ethers'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { ProvenanceMethod } from '../../src/keeper/contracts/Provenance'
+import { ProvenanceMethod } from '../../src/keeper'
 
 describe('Provenance', () => {
     let nevermined: Nevermined
@@ -15,8 +14,8 @@ describe('Provenance', () => {
     let ddo: DDO
 
     const activitiesIds = {
-        publisher: utils.generateId(),
-        intermediary: utils.generateId()
+        publisher: generateId(),
+        intermediary: generateId()
     }
 
     before(async () => {
@@ -44,13 +43,13 @@ describe('Provenance', () => {
         await sleep(2000)
         const provenance = await nevermined.provenance.getProvenanceEntry(ddo.shortId())
 
-        assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))
-        assert.equal(utils.zeroX(provenance.agentId), utils.zeroX(publisher.getId()))
+        assert.equal(zeroX(provenance.did), zeroX(ddo.shortId()))
+        assert.equal(zeroX(provenance.agentId), zeroX(publisher.getId()))
         assert.equal(provenance.method, ProvenanceMethod.WAS_GENERATED_BY)
     })
 
     it('should register an association', async () => {
-        const provId = utils.generateId()
+        const provId = generateId()
         await nevermined.provenance.wasAssociatedWith(
             provId,
             ddo.shortId(),
@@ -61,13 +60,13 @@ describe('Provenance', () => {
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
-        assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))
-        assert.equal(utils.zeroX(provenance.agentId), utils.zeroX(publisher.getId()))
+        assert.equal(zeroX(provenance.did), zeroX(ddo.shortId()))
+        assert.equal(zeroX(provenance.agentId), zeroX(publisher.getId()))
         assert.equal(provenance.method, ProvenanceMethod.WAS_ASSOCIATED_WITH)
     })
 
     it('should delegate the next step of the provenance', async () => {
-        const provId = utils.generateId()
+        const provId = generateId()
         await nevermined.provenance.actedOnBehalf(
             provId,
             ddo.shortId(),
@@ -80,17 +79,14 @@ describe('Provenance', () => {
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
-        assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))
-        assert.equal(utils.zeroX(provenance.agentId), utils.zeroX(intermediary.getId()))
-        assert.equal(
-            utils.zeroX(provenance.agentInvolvedId),
-            utils.zeroX(publisher.getId())
-        )
+        assert.equal(zeroX(provenance.did), zeroX(ddo.shortId()))
+        assert.equal(zeroX(provenance.agentId), zeroX(intermediary.getId()))
+        assert.equal(zeroX(provenance.agentInvolvedId), zeroX(publisher.getId()))
         assert.equal(provenance.method, ProvenanceMethod.ACTED_ON_BEHALF)
     })
 
     it('should register an intermediary association', async () => {
-        const provId = utils.generateId()
+        const provId = generateId()
         await nevermined.provenance.wasAssociatedWith(
             provId,
             ddo.shortId(),
@@ -101,13 +97,13 @@ describe('Provenance', () => {
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
-        assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))
-        assert.equal(utils.zeroX(provenance.agentId), utils.zeroX(intermediary.getId()))
+        assert.equal(zeroX(provenance.did), zeroX(ddo.shortId()))
+        assert.equal(zeroX(provenance.agentId), zeroX(intermediary.getId()))
         assert.equal(provenance.method, ProvenanceMethod.WAS_ASSOCIATED_WITH)
     })
 
     it('should register a use', async () => {
-        const provId = utils.generateId()
+        const provId = generateId()
         await nevermined.provenance.used(
             provId,
             ddo.shortId(),
@@ -119,8 +115,8 @@ describe('Provenance', () => {
         )
 
         const provenance = await nevermined.provenance.getProvenanceEntry(provId)
-        assert.equal(utils.zeroX(provenance.did), utils.zeroX(ddo.shortId()))
-        assert.equal(utils.zeroX(provenance.agentId), utils.zeroX(intermediary.getId()))
+        assert.equal(zeroX(provenance.did), zeroX(ddo.shortId()))
+        assert.equal(zeroX(provenance.agentId), zeroX(intermediary.getId()))
         assert.equal(provenance.method, ProvenanceMethod.USED)
     })
 

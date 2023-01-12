@@ -6,24 +6,20 @@ import {
     ConditionState,
     conditionStateNames
 } from '../conditions'
-import { DDO } from '../../../ddo/DDO'
-import { ServiceAgreementTemplate } from '../../../ddo/ServiceAgreementTemplate'
+import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../ddo'
 import {
     didZeroX,
     findServiceConditionByName,
     getAssetPriceFromService,
-    OrderProgressStep,
     ZeroAddress,
     zeroX
 } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import AssetPrice from '../../../models/AssetPrice'
-import Account from '../../../nevermined/Account'
-import { BabyjubPublicKey } from '../../../models/KeyTransfer'
-import { Service, ServiceType } from '../../../ddo/Service'
-import Token from '../Token'
-import CustomToken from '../CustomToken'
-import BigNumber from '../../../utils/BigNumber'
+import { AssetPrice, BabyjubPublicKey } from '../../../models'
+import { Account, OrderProgressStep } from '../../../nevermined'
+import { CustomToken } from '../CustomToken'
+import { Token } from '../Token'
+import { BigNumber } from '../../../utils'
 
 export interface AgreementConditionsStatus {
     [condition: string]: {
@@ -406,7 +402,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         const { lockPaymentCondition } = this.nevermined.keeper.conditions
 
         if (!tokenAddress) {
-            ({ token } = this.nevermined.keeper)
+            token = this.nevermined.keeper.token
         } else if (tokenAddress.toLowerCase() !== ZeroAddress) {
             token = await CustomToken.getInstanceByAddress(
                 {

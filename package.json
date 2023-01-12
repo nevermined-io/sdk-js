@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/nevermined-sdk-js",
-  "version": "1.0.0-rc5",
+  "version": "1.0.0-rc8",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -16,6 +16,7 @@
     "test:watch": "mocha -w --watch-extensions js,ts,json",
     "test:cover": "nyc --report-dir coverage/unit mocha --opts test/mocha.opts ./test/**/*.test.ts",
     "integration": "mocha --opts integration/mocha.opts ./integration/**/*.test.ts",
+    "integration:subgraph": "mocha --opts integration/mocha.opts ./integration/**/*.test.subgraph.ts",
     "integration:production": "export NETWORK_NAME=production; yarn integration",
     "integration:staging": "export NETWORK_NAME=staging; yarn integration",
     "integration:integration": "export NETWORK_NAME=integration; yarn integration",
@@ -114,10 +115,10 @@
     "stream-http": "^3.2.0",
     "tar": "^6.1.11",
     "terser-webpack-plugin": "^5.3.1",
-    "ts-node": "^10.8.2",
-    "typedoc": "^0.23.10",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.23.23",
     "typedoc-plugin-markdown": "^3.13.4",
-    "typescript": "^4.7.4",
+    "typescript": "^4.9.4",
     "url": "^0.11.0",
     "webpack": "^5.69.1",
     "webpack-cli": "^4.9.2",
@@ -165,13 +166,6 @@
     "npm": {
       "publish": false
     }
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/serviceWorker.ts",
-      "!src/**/*.d.ts"
-    ]
   },
   "browser": {
     "fs": false

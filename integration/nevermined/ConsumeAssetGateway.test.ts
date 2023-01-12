@@ -5,12 +5,19 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO, ConditionState, MetaData, Logger } from '../../src'
-import AssetPrice from '../../src/models/AssetPrice'
+import {
+    Nevermined,
+    Account,
+    DDO,
+    ConditionState,
+    MetaData,
+    Logger,
+    AssetPrice,
+    AssetAttributes
+} from '../../src'
 import { repeat, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
-import BigNumber from '../../src/utils/BigNumber'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { BigNumber } from '../../src/utils'
 
 describe('Consume Asset (Nevermined Node)', () => {
     let nevermined: Nevermined
@@ -61,11 +68,13 @@ describe('Consume Asset (Nevermined Node)', () => {
         const steps = []
 
         const assetAttributes = AssetAttributes.getInstance({
-            metadata, price: assetPrice, providers: [config.neverminedNodeAddress]
+            metadata,
+            price: assetPrice,
+            providers: [config.neverminedNodeAddress]
         })
         ddo = await nevermined.assets
             .create(assetAttributes, publisher)
-            .next(step => steps.push(step))        
+            .next(step => steps.push(step))
 
         assert.instanceOf(ddo, DDO)
         assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])
@@ -83,7 +92,7 @@ describe('Consume Asset (Nevermined Node)', () => {
             .next(step => steps.push(step))
 
         assert.isDefined(agreementId)
-        assert.deepEqual(steps, [0, 1, 2, 3])
+        assert.deepEqual(steps, [2, 3, 4, 5])
     })
 
     it('should get the lockPayment condition fulfilled', async () => {
@@ -100,7 +109,12 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     it('should be able to download the asset if you are the owner', async () => {
         const folder = '/tmp/nevermined/sdk-js'
-        const path = await nevermined.assets.download(ddo.id, publisher, folder, -1) as string
+        const path = (await nevermined.assets.download(
+            ddo.id,
+            publisher,
+            folder,
+            -1
+        )) as string
         assert.include(path, folder, 'The storage path is not correct.')
         const files = await new Promise<string[]>(resolve => {
             fs.readdir(path, (e, fileList) => {
@@ -117,13 +131,13 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     it('should consume and store the assets', async () => {
         const folder = '/tmp/nevermined/sdk-js'
-        const path = await nevermined.assets.access(
+        const path = (await nevermined.assets.access(
             agreementId,
             ddo.id,
             consumer,
             folder,
             -1
-        ) as string
+        )) as string
 
         assert.include(path, folder, 'The storage path is not correct.')
 

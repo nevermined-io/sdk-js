@@ -1,4 +1,4 @@
-import { NeverminedNode } from '../../src/node/NeverminedNode'
+import { NeverminedNode } from '../../src/'
 
 export default class NodeMock extends NeverminedNode {
     public async initializeServiceAgreement(

@@ -1,18 +1,26 @@
 import chai, { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined, utils } from '../../src'
-import { Service } from '../../src/ddo/Service'
+import {
+    Account,
+    DDO,
+    Nevermined,
+    generateId,
+    AssetPrice,
+    AssetAttributes,
+    NFTAttributes
+} from '../../src'
+import { Service } from '../../src/ddo'
 import {
     ConditionState,
     EscrowPaymentCondition,
     LockPaymentCondition,
-    TransferNFTCondition
-} from '../../src/keeper/contracts/conditions'
-import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
-import { NFTAccessTemplate, NFTSalesTemplate } from '../../src/keeper/contracts/templates'
-import Token from '../../src/keeper/contracts/Token'
-import AssetPrice from '../../src/models/AssetPrice'
+    TransferNFTCondition,
+    Nft1155Contract,
+    NFTAccessTemplate,
+    NFTSalesTemplate,
+    Token
+} from '../../src/keeper'
 import {
     fillConditionsWithDDO,
     findServiceConditionByName,
@@ -21,14 +29,12 @@ import {
 } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import BigNumber from '../../src/utils/BigNumber'
+import { BigNumber } from '../../src/utils'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
-} from '../../src/nevermined/api/AssetsApi'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
+} from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
 
@@ -148,10 +154,10 @@ describe('Secondary Markets', () => {
                     escrowPaymentCondition.getAddress()
                 )
             }
-            agreementIdSeed = utils.generateId()
-            agreementId2Seed = utils.generateId()
-            agreementAccessIdSeed = utils.generateId()
-            agreementAccessId2Seed = utils.generateId()
+            agreementIdSeed = generateId()
+            agreementId2Seed = generateId()
+            agreementAccessIdSeed = generateId()
+            agreementAccessId2Seed = generateId()
 
             agreementId = await nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
@@ -193,16 +199,13 @@ describe('Secondary Markets', () => {
                 serviceTypes: ['nft-sales', 'nft-access']
             })
             const nftAttributes = NFTAttributes.getNFT1155Instance({
-                ...assetAttributes,                
+                ...assetAttributes,
                 nftContractAddress: nftUpgradeable.address,
                 cap: cappedAmount,
                 amount: numberNFTs,
                 royaltyAttributes
-            })            
-            ddo = await nevermined.nfts1155.create(
-                nftAttributes,
-                artist
-            )
+            })
+            ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
         describe('As an artist I want to register a new artwork', () => {
@@ -682,7 +685,9 @@ describe('Secondary Markets', () => {
                 )
                 assert.isNotNull(agreementId3)
 
-                const service = await nevermined.services.metadata.retrieveService(agreementId3)
+                const service = await nevermined.services.metadata.retrieveService(
+                    agreementId3
+                )
                 assert.isDefined(service)
             })
 

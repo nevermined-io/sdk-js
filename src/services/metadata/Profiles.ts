@@ -1,5 +1,5 @@
 import { MarketplaceApi } from './MarketplaceAPI'
-import { NewProfile, Profile } from './Profiles.interfaces'
+import { NewProfile, Profile } from './types'
 import { HttpError, ApiError } from '../../errors'
 
 const profilePath = '/api/v1/metadata/profiles'

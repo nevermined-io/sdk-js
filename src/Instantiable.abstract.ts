@@ -1,7 +1,7 @@
-import NeverminedOptions from './models/NeverminedOptions'
+import { NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
-import Web3Provider from './keeper/Web3Provider'
-import { Nevermined } from './nevermined/Nevermined'
+import { Web3Provider } from './keeper/Web3Provider'
+import { Nevermined } from './nevermined'
 import { ethers } from 'ethers'
 
 export interface InstantiableConfig {
@@ -79,7 +79,6 @@ export abstract class Instantiable {
         return { nevermined, web3, config, logger, artifactsFolder }
     }
 
-
     public static getInstance(..._args: any): any {
         LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
     }
@@ -96,5 +95,4 @@ export abstract class Instantiable {
     protected setInstanceConfig(config: InstantiableConfig) {
         Instantiable.setInstanceConfig(this, config)
     }
-
 }

@@ -4,8 +4,7 @@ import spies from 'chai-spies'
 import { Nevermined } from '../../src'
 import { MarketplaceResults } from '../../src/common/interfaces'
 import config from '../config'
-import { Bookmark, NewBookmark } from '../../src/services/metadata/Bookmarks.interfaces'
-import { Bookmarks } from '../../src/services/metadata/Bookmarks'
+import { Bookmark, Bookmarks, NewBookmark } from '../../src/services'
 
 use(spies)
 

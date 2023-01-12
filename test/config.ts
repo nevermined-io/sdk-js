@@ -1,4 +1,4 @@
-import { NeverminedOptions, LogLevel } from '../src/models/NeverminedOptions'
+import { NeverminedOptions, LogLevel } from '../src'
 import { LoggerInstance } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)

@@ -1,9 +1,8 @@
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { DDO } from '../../../ddo/DDO'
+import { DDO, ServiceAccess, ServiceType, ValidationParams } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import { ServiceAccess, ServiceType, ValidationParams } from '../../../ddo/Service'
 import { Account } from '../../../sdk'
 import {
     AccessCondition,

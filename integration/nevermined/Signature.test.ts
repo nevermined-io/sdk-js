@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { Nevermined, Account, DDO } from '../../src'
-import { Service } from '../../src/ddo/Service'
+import { Service } from '../../src/ddo'
 
 // WARN: not integration test. It has been done here because constant values
 // depends on the first account on localnet (only accessible from integration test)

@@ -5,8 +5,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO, MetaData, Logger } from '../../src'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { Nevermined, Account, DDO, MetaData, Logger, AssetAttributes } from '../../src'
 
 // Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {

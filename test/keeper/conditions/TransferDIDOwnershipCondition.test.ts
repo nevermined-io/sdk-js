@@ -1,16 +1,16 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
-import { Account, ConditionState, Nevermined, utils } from '../../../src'
-import { TransferDIDOwnershipCondition } from '../../../src/keeper/contracts/conditions'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
+import { Account, ConditionState, Nevermined } from '../../../src'
 import {
     AgreementStoreManager,
-    TemplateStoreManager
-} from '../../../src/keeper/contracts/managers'
+    TemplateStoreManager,
+    ConditionStoreManager,
+    TransferDIDOwnershipCondition,
+    DIDRegistry
+} from '../../../src/keeper'
 
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers/ConditionStoreManager'
-import { didZeroX, zeroX } from '../../../src/utils'
+import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -64,9 +64,9 @@ describe('TransferDIDOwnershipCondition', () => {
     })
 
     beforeEach(async () => {
-        agreementId = utils.generateId()
-        checksum = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+        agreementId = generateId()
+        checksum = generateId()
+        didSeed = `did:nv:${generateId()}`
     })
 
     describe('#hashValues()', () => {

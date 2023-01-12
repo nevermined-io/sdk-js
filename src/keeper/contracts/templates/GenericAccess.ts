@@ -1,5 +1,5 @@
-import { DDO } from '../../../ddo/DDO'
-import Account from '../../../nevermined/Account'
+import { DDO } from '../../../ddo'
+import { Account, OrderProgressStep } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface GenericAccess {
@@ -11,7 +11,7 @@ export interface GenericAccess {
         from: Account,
         timeOuts?: number[],
         txParams?: TxParameters,
-        observer?: (OrderProgressStep) => void
+        observer?: (orderProgressStep: OrderProgressStep) => void
     ): Promise<string>
 
     params(consumer: any, ...args): any

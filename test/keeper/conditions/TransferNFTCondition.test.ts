@@ -1,19 +1,23 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractReceipt, Event } from 'ethers'
-import { Account, ConditionState, Nevermined, utils } from '../../../src'
 import {
+    Account,
+    ConditionState,
+    Nevermined,
+    NeverminedNFT1155Type,
+    NFTAttributes
+} from '../../../src'
+import {
+    DIDRegistry,
+    Token,
+    Nft1155Contract,
     EscrowPaymentCondition,
     LockPaymentCondition,
-    TransferNFTCondition
-} from '../../../src/keeper/contracts/conditions'
-import { Nft1155Contract } from '../../../src/keeper/contracts/Nft1155Contract'
-import DIDRegistry from '../../../src/keeper/contracts/DIDRegistry'
-import { ConditionStoreManager } from '../../../src/keeper/contracts/managers'
-import Token from '../../../src/keeper/contracts/Token'
-import { NeverminedNFT1155Type, NFTAttributes } from '../../../src/models/NFTAttributes'
-import { didZeroX, ZeroAddress, zeroX } from '../../../src/utils'
-import BigNumber from '../../../src/utils/BigNumber'
+    TransferNFTCondition,
+    ConditionStoreManager
+} from '../../../src/keeper'
+import { didZeroX, ZeroAddress, zeroX, generateId, BigNumber } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -38,7 +42,7 @@ describe('TransferNFTCondition', () => {
     let didSeed: string
     let receivers: string[]
 
-    const activityId = utils.generateId()
+    const activityId = generateId()
     const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
     const nftAmount = BigNumber.from(2)
     const amounts = [BigNumber.from(10)]
@@ -48,7 +52,8 @@ describe('TransferNFTCondition', () => {
         nevermined = await Nevermined.getInstance(config)
         ;({ transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
             nevermined.keeper.conditions)
-        ;({ conditionStoreManager, didRegistry, token, nftUpgradeable } = nevermined.keeper)
+        ;({ conditionStoreManager, didRegistry, token, nftUpgradeable } =
+            nevermined.keeper)
         ;[owner, nftReceiver, other] = await nevermined.accounts.list()
         receivers = [nftReceiver.getId()]
 
@@ -56,14 +61,14 @@ describe('TransferNFTCondition', () => {
     })
 
     beforeEach(async () => {
-        agreementId = utils.generateId()
-        checksum = utils.generateId()
-        didSeed = `did:nv:${utils.generateId()}`
+        agreementId = generateId()
+        checksum = generateId()
+        didSeed = `did:nv:${generateId()}`
     })
 
     describe('#hashValues()', () => {
         it('should hash the values', async () => {
-            const conditionId = utils.generateId()
+            const conditionId = generateId()
             const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
             const hash = await transferNftCondition.hashValues(
                 did,
@@ -79,7 +84,7 @@ describe('TransferNFTCondition', () => {
 
     describe('#generateId()', () => {
         it('should generate an ID', async () => {
-            const conditionId = utils.generateId()
+            const conditionId = generateId()
             const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
             const hash = await transferNftCondition.hashValues(
                 did,
@@ -116,14 +121,14 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
                 amount: nftAmount,
-                preMint: true,
+                preMint: true
             })
 
             await didRegistry.registerMintableDID(
@@ -135,7 +140,7 @@ describe('TransferNFTCondition', () => {
                 value,
                 '',
                 activityId
-            )              
+            )
             // await didRegistry.mint(did, nftAmount, owner.getId())
 
             await nftReceiver.requestTokens(10)
@@ -218,14 +223,14 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(0),
                 amount: nftAmount,
-                preMint: false,
+                preMint: false
             })
 
             await didRegistry.registerMintableDID(
@@ -237,7 +242,7 @@ describe('TransferNFTCondition', () => {
                 value,
                 '',
                 activityId
-            )              
+            )
             await didRegistry.mint(did, nftAmount, owner.getId())
 
             await lockPaymentCondition.fulfill(
@@ -315,14 +320,14 @@ describe('TransferNFTCondition', () => {
                 owner
             )
 
-            const nftAttributes= NFTAttributes.getInstance({
+            const nftAttributes = NFTAttributes.getInstance({
                 metadata: undefined,
                 ercType: 1155,
                 nftType: NeverminedNFT1155Type.nft1155,
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(0),
                 amount: nftAmount,
-                preMint: false,
+                preMint: false
             })
 
             await didRegistry.registerMintableDID(
@@ -334,7 +339,7 @@ describe('TransferNFTCondition', () => {
                 value,
                 '',
                 activityId
-            )              
+            )
             await didRegistry.mint(did, nftAmount, owner.getId())
 
             await nftReceiver.requestTokens(10)
@@ -398,7 +403,7 @@ describe('TransferNFTCondition', () => {
             )
 
             // Invalid conditionId
-            const invalidConditionId = zeroX(utils.generateId())
+            const invalidConditionId = zeroX(generateId())
             await assert.isRejected(
                 transferNftCondition.fulfill(
                     agreementId,
@@ -410,7 +415,7 @@ describe('TransferNFTCondition', () => {
             )
 
             // Invalid agreementID
-            const invalidAgreementId = zeroX(utils.generateId())
+            const invalidAgreementId = zeroX(generateId())
             await assert.isRejected(
                 transferNftCondition.fulfill(
                     invalidAgreementId,

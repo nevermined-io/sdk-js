@@ -1,7 +1,7 @@
 import { assert, expect, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import { SubscribablePromise } from '../../src/utils/SubscribablePromise'
+import { SubscribablePromise } from '../../src/utils'
 
 use(spies)
 

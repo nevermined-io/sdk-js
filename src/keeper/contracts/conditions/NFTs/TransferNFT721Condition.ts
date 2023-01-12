@@ -7,7 +7,7 @@ import {
     ConditionParameters,
     ProviderCondition
 } from '../Condition.abstract'
-import Account from '../../../../nevermined/Account'
+import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
@@ -92,7 +92,8 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         const transfer = findServiceConditionByName(service, 'transferNFT')
         if (!transfer) throw new Error('TransferNFT condition not found!')
 
-        const nftAddress = transfer.parameters.find(p => p.name === '_contractAddress').value as string
+        const nftAddress = transfer.parameters.find(p => p.name === '_contractAddress')
+            .value as string
         const nftHolder = transfer.parameters.find(p => p.name === '_nftHolder')
             .value as string
 
