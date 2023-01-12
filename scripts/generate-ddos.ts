@@ -210,13 +210,6 @@ const generateWorkflowDDO = async (
                     {
                         index: 0,
                         stageType: 'Compute',
-                        requirements: {
-                            container: {
-                                image: '',
-                                tag: '',
-                                checksum: generateId()
-                            }
-                        },
                         input: [
                             {
                                 index: 0,
