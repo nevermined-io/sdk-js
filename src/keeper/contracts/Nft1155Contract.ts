@@ -14,14 +14,19 @@ export class Nft1155Contract extends NFTContractsBase {
     
     public static async getInstance(
         config: InstantiableConfig,
-        address?: string
+        address?: string,
+        contractName = 'NFT1155Upgradeable',
+        artifactsFolder = config.artifactsFolder
     ): Promise<Nft1155Contract> {
 
-        const nft: Nft1155Contract = new Nft1155Contract('NFT1155Upgradeable')
+        const nft: Nft1155Contract = new Nft1155Contract(contractName)
         await nft.init(config)
         
-        if (address) {                   
-            const solidityABI = await ContractHandler.getABI('NFT1155Upgradeable', config.artifactsFolder)             
+        if (address) {                    
+            const networkName = (await nft.nevermined.keeper.getNetworkName()).toLowerCase()
+
+            const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
+            await new ContractHandler(config).checkExists(address)
             nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)    
         }
                 
