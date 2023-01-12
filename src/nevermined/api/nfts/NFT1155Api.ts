@@ -506,49 +506,49 @@ export class NFT1155Api extends NFTsBaseApi {
      *
      * @example
      * ```ts
-     * await nevermined.nfts1155.addMinter(
+     * await nevermined.nfts1155.grantOperatorRole(
      *               someoneElse,
      *               artist
      * )
      * ```
      *
-     * @param minterAddress - The address of the account to be added as minter in the NFT Contract
-     * @param from - The account giving minting permissions
+     * @param operatorAddress - The address of the account to be added as operator in the NFT Contract
+     * @param from - The account giving operator permissions
      * @param txParams - Optional transaction parameters.
      *
      * @returns The {@link ethers.ContractReceipt}
      */
-    public async addMinter(
-        minterAddress: string,
+    public async grantOperatorRole(
+        operatorAddress: string,
         from?: Account,
         params?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.addMinter(minterAddress, from, params)
+        return this.nftContract.grantOperatorRole(operatorAddress, from, params)
     }
 
     /**
-     * Revokes a minter (`minterAddress`) of the NFT Contract.
+     * Revokes an address (`operatorAddress`) of the NFT Contract as operator.
      * Granting and revoking minting permissions only can be done by the NFT Contract owner
      *
      * @example
      * ```ts
-     * await nevermined.nfts1155.revokeMinter(
+     * await nevermined.nfts1155.revokeOperatorRole(
      *               someoneElse,
      *               artist
      * )
      * ```
      *
-     * @param minterAddress - The address of the account to be revoked as minter in the NFT Contract
-     * @param from - The account revoking minting permissions
+     * @param operatorAddress - The address of the account to be revoked as operator in the NFT Contract
+     * @param from - The account revoking operator permissions
      * @param txParams - Optional transaction parameters.
      *
      * @returns The {@link ethers.ContractReceipt}
      */
-    public async revokeMinter(
-        minterAddress: string,
+    public async revokeOperatorRole(
+        operatorAddress: string,
         from?: Account,
         params?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.revokeMinter(minterAddress, from, params)
+        return this.nftContract.revokeOperatorRole(operatorAddress, from, params)
     }
 }

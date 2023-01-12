@@ -57,7 +57,7 @@ describe('TransferDIDOwnershipCondition', () => {
             }
         }
 
-        await didRegistry.setManager(
+        await didRegistry.grantRegistryOperatorRole(
             transferDidOwnershipCondition.getAddress(),
             owner.getId()
         )

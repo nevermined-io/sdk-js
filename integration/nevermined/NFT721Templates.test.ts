@@ -131,9 +131,8 @@ describe('NFT721Templates E2E', () => {
             nftAccessCondition
         } = nevermined.keeper.conditions)
 
-        await nft.nftContract.setProxyApproval(
+        await nft.nftContract.grantOperatorRole(
             transferNft721Condition.address,
-            true,
             nftContractOwner
         )
 
@@ -221,7 +220,7 @@ describe('NFT721Templates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-                await nft.nftContract.addMinter(artist.getId(), nftContractOwner)
+                await nft.nftContract.grantOperatorRole(artist.getId(), nftContractOwner)
 
                 await nft.mint(ddo.shortId(), artist)
 
@@ -727,9 +726,8 @@ describe('NFT721Templates E2E', () => {
             nft = await nevermined.contracts.loadNft721(nftContract.address)
 
             nftContractOwner = new Account((await nft.nftContract.owner()) as string)
-            await nft.nftContract.setProxyApproval(
+            await nft.nftContract.grantOperatorRole(
                 transferNft721Condition.address,
-                true,
                 nftContractOwner
             )
 
@@ -754,7 +752,7 @@ describe('NFT721Templates E2E', () => {
 
         describe('As an artist I want to register a new artwork', () => {
             it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-                await nft.nftContract.addMinter(artist.getId(), nftContractOwner)
+                await nft.nftContract.grantOperatorRole(artist.getId(), nftContractOwner)
                 await nft.mint(ddo.shortId(), artist)
 
                 const balance = await nft.balanceOf(artist)

@@ -153,7 +153,7 @@ describe('NFT1155 End-to-End', () => {
             )
             console.log(`Contract owner ${await nftUpgradeable.owner()}`)
             const owner = new Account(await nftUpgradeable.owner())
-            await nftUpgradeable.addMinter(minter.getId(), owner)
+            await nftUpgradeable.grantOperatorRole(minter.getId(), owner)
 
             await nftUpgradeable.mint(
                 someone.getId(),

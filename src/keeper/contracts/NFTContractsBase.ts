@@ -47,46 +47,24 @@ export class NFTContractsBase extends ContractBase {
     }
 
     /**
-     * Configure proxy approval for a specific operator address
+     * Add an address as operator in the NFT Contract
      *
-     * @param operatorAddress - Operator address
-     * @param approved - Is approved
+     * @param operatorAddress - New minter address
      * @param from - Sender account
      * @returns Contract Receipt
      */
-    public setProxyApproval(
-        operatorAddress: string,
-        approved: boolean,
-        from?: Account,
-        params?: TxParameters
-    ) {
-        return this.sendFrom(
-            'setProxyApproval',
-            [zeroX(operatorAddress), approved],
-            from,
-            params
-        )
+    public grantOperatorRole(operatorAddress: string, from?: Account, params?: TxParameters) {
+        return this.sendFrom('grantOperatorRole', [zeroX(operatorAddress)], from, params)
     }
 
     /**
-     * Add an address as a minter in the NFT Contract
+     * Revoke an address as operator in the NFT Contract
      *
-     * @param addMinter - New minter address
+     * @param operatorAddress - Minter address to revoke
      * @param from - Sender account
      * @returns Contract Receipt
      */
-    public addMinter(minterAddress: string, from?: Account, params?: TxParameters) {
-        return this.sendFrom('addMinter', [zeroX(minterAddress)], from, params)
-    }
-
-    /**
-     * Revoke an address as a minter in the NFT Contract
-     *
-     * @param minterAddress - Minter address to revoke
-     * @param from - Sender account
-     * @returns Contract Receipt
-     */
-    public revokeMinter(minterAddress: string, from?: Account, params?: TxParameters) {
-        return this.sendFrom('revokeMinter', [zeroX(minterAddress)], from, params)
+    public revokeOperatorRole(operatorAddress: string, from?: Account, params?: TxParameters) {
+        return this.sendFrom('revokeOperatorRole', [zeroX(operatorAddress)], from, params)
     }
 }
