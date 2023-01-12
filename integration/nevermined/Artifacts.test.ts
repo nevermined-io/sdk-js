@@ -7,27 +7,13 @@ import { x } from 'tar'
 describe('Artifacts', () => {
     const artifactsRepo = 'https://artifacts.nevermined.network/'
     const tests = [
-        // {
-        //     web3ProviderUri: 'https://goerli-rollup.arbitrum.io/rpc',
-        //     networkName: ['arbitrum-goerli'],
-        //     networkId: [421613],
-        //     versions: ['v2.1.0'],
-        //     tag: 'public'
-        // },
         {
             web3ProviderUri: 'https://matic-mumbai.chainstacklabs.com',
             networkName: ['mumbai'],
             networkId: [80001],
             versions: ['v3.0.0'],
             tag: 'public'
-        }//,
-        // {
-        //     web3ProviderUri: 'https://polygon-rpc.com',
-        //     networkName: ['matic'],
-        //     networkId: [137],
-        //     versions: ['v2.0.0'],
-        //     tag: 'common'
-        // }
+        }
     ]
 
     const downloadFile = async (url, path) => {
