@@ -98,14 +98,6 @@ export const workflowMetadatas = {
                         {
                             index: 0,
                             stageType: 'Filtering',
-                            requirements: {
-                                container: {
-                                    image: 'openjdk',
-                                    tag: '14-jdl',
-                                    checksum:
-                                        'sha256:53ad3a03b2fb240b6c494339821e6638cd44c989bcf26ec4d51a6a52f7518c1d'
-                                }
-                            },
                             input: [
                                 {
                                     index: 0,
