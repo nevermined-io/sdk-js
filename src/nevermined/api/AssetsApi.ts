@@ -432,4 +432,29 @@ export class AssetsApi extends RegistryBaseApi {
     public async getPermissions(did: string, address: string) {
         return await this.nevermined.keeper.didRegistry.getPermission(did, address)
     }
+
+    /**
+     * Get the NFT contract address associated with a Nevermined asset.
+     *
+     * @example
+     * ```ts
+     * // TODO
+     * ```
+     *
+     * @param ddo - The DDO of the asset.
+     *
+     * @returns The NFT contract address.
+     */
+    public getNftContractAddress(ddo: DDO) {
+        const service = ddo.findServiceByType('nft-access')
+        if (service) {
+            const cond = service.attributes.serviceAgreementTemplate.conditions.find(
+                c => c.name === 'nftHolder'
+            )
+            return !cond
+                ? null
+                : cond.parameters.find(p => p.name === '_contractAddress').value
+        }
+        return null
+    }
 }

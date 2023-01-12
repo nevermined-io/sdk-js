@@ -49,7 +49,7 @@ describe('Nfts operations', () => {
         })
 
         it('nft contract address is correct', async() => {
-            assert.equal(nevermined.nfts.getNftContractAddress(ddo), nevermined.keeper.nftUpgradeable.address)
+            assert.equal(nevermined.assets.getNftContractAddress(ddo), nevermined.keeper.nftUpgradeable.address)
         })
 
         it('should mint 10 nft tokens', async () => {
