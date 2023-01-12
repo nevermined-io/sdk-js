@@ -18,14 +18,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/node
-          ref: 'develop' # TODO: Remove this when ready to use main branch
+          ref: 'fix/merge-master' # TODO: Remove this when ready to use main branch
           path: node
           ref: main
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/sdk-dtp
-          ref: develop
+          ref: fix/merge-master
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: nevermined-io/nvm-tools-actions@v0.2.0
