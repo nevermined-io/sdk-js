@@ -48,6 +48,10 @@ describe('Nfts operations', () => {
             ddo = await nevermined.nfts1155.create(nftAttributes, artist)
         })
 
+        it('nft contract address is correct', async() => {
+            assert.equal(nevermined.nfts.getNftContractAddress(ddo), nevermined.keeper.nftUpgradeable.address)
+        })
+
         it('should mint 10 nft tokens', async () => {
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),
