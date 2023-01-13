@@ -33,7 +33,7 @@ jobs:
           opengsn: "true"
           estuary: "true"
           node: "false"
-          contracts-version: "rc-3.0.0-rc2"
+          contracts-version: "v3.0.0-rc2"
 
       - name: Install dependencies
         run: yarn
