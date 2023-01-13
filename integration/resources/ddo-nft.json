@@ -328,6 +328,11 @@
                   "name": "_numberNfts",
                   "type": "uint256",
                   "value": "1"
+                },
+                {
+                  "name": "_contractAddress",
+                  "type": "address",
+                  "value": "1"
                 }
               ],
               "events": [

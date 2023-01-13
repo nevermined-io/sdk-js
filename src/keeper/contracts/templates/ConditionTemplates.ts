@@ -322,6 +322,11 @@ export const nftHolderTemplate = () => ({
             name: '_numberNfts',
             type: 'uint256',
             value: ''
+        },
+        {
+            name: '_contractAddress',
+            type: 'address',
+            value: ''
         }
     ],
     events: [
