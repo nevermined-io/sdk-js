@@ -117,18 +117,18 @@ export default abstract class TestContractHandler extends ContractHandler {
             ]
         )
 
-        let transactionResponse: TransactionResponse = await erc1155.addMinter(
+        let transactionResponse: TransactionResponse = await erc1155.grantOperatorRole(
             didRegistry.address
         )
         let contractReceipt: ContractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
-            throw new Error('Error calling "addMinter" on "erc1155"')
+            throw new Error('Error calling "grantOperatorRole" on "erc1155"')
         }
 
-        transactionResponse = await erc721.addMinter(didRegistry.address)
+        transactionResponse = await erc721.grantOperatorRole(didRegistry.address)
         contractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
-            throw new Error('Error calling "addMinter" on "erc721"')
+            throw new Error('Error calling "grantOperatorRole" on "erc721"')
         }
 
         // Managers
@@ -187,13 +187,12 @@ export default abstract class TestContractHandler extends ContractHandler {
             deployerAddress,
             [deployerAddress, conditionStoreManager.address, erc1155.address]
         )
-        transactionResponse = await erc1155.setProxyApproval(
-            nftLockCondition.address,
-            true
+        transactionResponse = await erc1155.grantOperatorRole(
+            nftLockCondition.address
         )
         contractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
-            throw new Error('Error calling "setProxyApproval" on "erc1155"')
+            throw new Error('Error calling "grantOperatorRole" on "erc1155"')
         }
 
         const nftAcessCondition = await TestContractHandler.deployContract(
@@ -225,19 +224,16 @@ export default abstract class TestContractHandler extends ContractHandler {
                 ZeroAddress
             ]
         )
-        transactionResponse = await erc1155.setProxyApproval(
-            transferNftCondition.address,
-            true
-        )
+        transactionResponse = await erc1155.grantOperatorRole(transferNftCondition.address)
         contractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
-            throw new Error('Error calling "addMinter" on "erc721"')
+            throw new Error('Error calling "grantOperatorRole" on "erc721"')
         }
 
-        transactionResponse = await erc1155.setProxyApproval(didRegistry.address, true)
+        transactionResponse = await erc1155.grantOperatorRole(didRegistry.address)
         contractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
-            throw new Error('Error calling "addMinter" on "erc721"')
+            throw new Error('Error calling "grantOperatorRole" on "erc721"')
         }
 
         const transferDidOwnershipCondition = await TestContractHandler.deployContract(

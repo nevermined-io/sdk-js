@@ -47,10 +47,7 @@ describe('NFT721LockCondition', () => {
         _nftContract = await TestContractHandler.deployArtifact(erc721ABI)
         nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
         nftContractAddress = nft721Wrapper.address
-        await nft721Wrapper.nftContract.setProxyApproval(
-            nft721LockCondition.address,
-            true
-        )
+        await nft721Wrapper.nftContract.grantOperatorRole(nft721LockCondition.address)
     })
 
     beforeEach(async () => {

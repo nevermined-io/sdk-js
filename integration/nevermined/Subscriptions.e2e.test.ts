@@ -121,12 +121,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 config,
                 contractABI,
                 editor,
-                ['Subscription', 'NVM']
+                []
             )
 
             await nevermined.contracts.loadNft721Api(subscriptionNFT)
 
-            subscriptionNFT.addMinter(transferNft721Condition.address, editor)
+            subscriptionNFT.grantOperatorRole(transferNft721Condition.address, editor)
 
             const nftAttributes = NFTAttributes.getSubscriptionInstance({
                 metadata: subscriptionMetadata,

@@ -44,7 +44,7 @@ describe('POAPs with Assets', () => {
 
         // INFO: We allow transferNFT condition to mint NFTs
         // Typically this only needs to happen once per NFT contract
-        const tx = await poapContract.addMinter(
+        const tx = await poapContract.grantOperatorRole(
             nevermined.keeper.conditions.transferNft721Condition.address,
             { from: editor.getId() }
         )

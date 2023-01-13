@@ -94,9 +94,8 @@ describe('NFTs721 Api End-to-End', () => {
             ])
         )
 
-        await nftContract.setProxyApproval(
+        await nftContract.grantOperatorRole(
             transferNft721Condition.address,
-            true,
             nftContractOwner
         )
 
@@ -121,7 +120,7 @@ describe('NFTs721 Api End-to-End', () => {
             ddo = await nevermined.nfts721.create(nftAttributes, artist)
 
             assert.isDefined(ddo)
-            await nftContract.addMinter(artist.getId(), nftContractOwner)
+            await nftContract.grantOperatorRole(artist.getId(), nftContractOwner)
 
             await nftContract.mint(zeroX(ddo.shortId()), artist.getId())
 

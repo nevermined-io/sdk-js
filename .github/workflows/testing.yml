@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
       - uses: nevermined-io/nvm-tools-actions@v0.2.0
@@ -20,7 +20,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
-          contracts-version: "rc-3.0.0-rc2"
+          contracts-version: "v3.0.0-rc2"
           node-version: "develop"
 
       - name: Install dependencies

@@ -5,28 +5,14 @@ import fetch from 'node-fetch'
 import { x } from 'tar'
 
 describe('Artifacts', () => {
-    const artifactsRepo = 'https://artifacts.nevermined.rocks/'
+    const artifactsRepo = 'https://artifacts.nevermined.network/'
     const tests = [
-        {
-            web3ProviderUri: 'https://goerli-rollup.arbitrum.io/rpc',
-            networkName: ['arbitrum-goerli'],
-            networkId: [421613],
-            versions: ['v2.1.0'],
-            tag: 'public'
-        },
         {
             web3ProviderUri: 'https://matic-mumbai.chainstacklabs.com',
             networkName: ['mumbai'],
             networkId: [80001],
-            versions: ['v2.1.0'],
+            versions: ['v3.0.0'],
             tag: 'public'
-        },
-        {
-            web3ProviderUri: 'https://polygon-rpc.com',
-            networkName: ['matic'],
-            networkId: [137],
-            versions: ['v2.0.0'],
-            tag: 'common'
         }
     ]
 
@@ -39,9 +25,7 @@ describe('Artifacts', () => {
     for (const test of tests) {
         const { web3ProviderUri, networkId, networkName, versions, tag } = test
 
-        // TODO: This test breaks because a contract rename.
-        // Re-enable when contracts 2.2 are deployed in a public network
-        it.skip(`Should get the correct artifacts for ${networkName}-${versions} with tag ${tag}`, async () => {
+        it(`Should get the correct artifacts for ${networkName}-${versions} with tag ${tag}`, async () => {
             const tempDir = mkdtempSync('/tmp/artifacts_')
 
             const artifactPackageUrl = `${artifactsRepo}${networkId}/${tag}/contracts_${versions}.tar.gz`
