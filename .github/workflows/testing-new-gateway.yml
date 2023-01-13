@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/sdk-dtp
-          ref: fix/merge-master
+          ref: develop
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: nevermined-io/nvm-tools-actions@v0.2.0
