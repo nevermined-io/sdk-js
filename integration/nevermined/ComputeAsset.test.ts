@@ -69,7 +69,7 @@ describe('Compute Asset', () => {
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
-    it.skip('should execute the compute service', async () => {
+    it('should execute the compute service', async () => {
         workflowId = await nevermined.compute.execute(
             agreementId,
             workflowDdo.id,
@@ -86,7 +86,7 @@ describe('Compute Asset', () => {
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
-    it.skip('should return the status of the current execution', async () => {
+    it('should return the status of the current execution', async () => {
         const status = await nevermined.compute.status(agreementId, workflowId, consumer)
         assert.isDefined(status)
     })
