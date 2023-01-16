@@ -15,11 +15,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.2.0
+      - uses: nevermined-io/nvm-tools-actions@v0.3.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
+          compute: "true"
           contracts-version: "v3.0.0-rc2"
           node-version: "develop"
 
@@ -42,7 +43,7 @@ jobs:
           ETH_PORT: 18545
         run: |
           yarn run test:cover
-      
+
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
