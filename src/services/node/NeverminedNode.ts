@@ -16,6 +16,12 @@ export enum NodeUploadBackends {
     AmazonS3 = 's3'
 }
 
+export enum AssetResult {
+    DATA = 'data',
+    DECRYPTED = 'decrypted',
+    URL = 'url',
+}
+
 /**
  * Provides a interface with Nevermined Node.
  * The Nevermined Node is the technical component executed by the Publishers allowing to them to provide extended data services.
@@ -159,8 +165,9 @@ export class NeverminedNode extends Instantiable {
         files: MetaDataFile[],
         destination: string,
         index = -1,
+        result = AssetResult.DATA,
         buyer?: string,
-        babysig?: Babysig
+        babysig?: Babysig,
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string
@@ -186,7 +193,7 @@ export class NeverminedNode extends Instantiable {
         const filesPromises = files
             .filter((_, i) => index === -1 || i === index)
             .map(async ({ index: i }) => {
-                const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}`
+                const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}?result=${result}`
                 try {
                     await this.nevermined.utils.fetch.downloadFile(
                         consumeUrl,
@@ -229,12 +236,13 @@ export class NeverminedNode extends Instantiable {
         files: MetaDataFile[],
         destination: string,
         index = -1,
-        headers?: { [key: string]: string }
+        headers?: { [key: string]: string },
+        result = AssetResult.DATA,
     ) {
         const filesPromises = files
             .filter((_, i) => +index === -1 || i === index)
             .map(async ({ index: i }) => {
-                const consumeUrl = `${this.getDownloadEndpoint()}/${i}`
+                const consumeUrl = `${this.getDownloadEndpoint()}/${i}?result=${result}`
                 try {
                     await this.nevermined.utils.fetch.downloadFile(
                         consumeUrl,

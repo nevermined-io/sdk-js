@@ -38,9 +38,8 @@ describe('MetaTx test with nfts', () => {
         payload = decodeJwt(config.marketplaceAuthToken)
 
         const nftContractOwner = new Account(await nevermined.nfts1155.owner())
-        await nevermined.keeper.nftUpgradeable.setProxyApproval(
-            artist.getId(),
-            true,
+        await nevermined.keeper.nftUpgradeable.grantOperatorRole(
+            artist.getId(),            
             nftContractOwner
         )
     })

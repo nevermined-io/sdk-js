@@ -16,7 +16,7 @@ sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," packag
 yarn
 yarn build
 yarn pack
-cp *dtp*.tgz ../ndoe/$PKG2
+cp *dtp*.tgz ../node/$PKG2
 
 cd ../node
 sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json

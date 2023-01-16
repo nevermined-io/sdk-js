@@ -682,20 +682,6 @@ export class DIDRegistry extends ContractBase {
         return registeredValues[5].filter((x: string) => x != ZeroAddress)
     }
 
-    public async setProxyApproval(
-        operator: string,
-        approved: boolean,
-        from: string,
-        params?: TxParameters
-    ) {
-        return await this.send(
-            'setProxyApproval',
-            from,
-            [zeroX(operator), approved],
-            params
-        )
-    }
-
     public async getDIDRegister(did: string) {
         return this.call('getDIDRegister', [didZeroX(did)])
     }
@@ -704,7 +690,7 @@ export class DIDRegistry extends ContractBase {
         return this.call('hashDID', [didZeroX(didSeed), zeroX(creator)])
     }
 
-    public async setManager(manager: string, from: string, params?: TxParameters) {
-        return await this.send('setManager', from, [zeroX(manager)], params)
+    public async grantRegistryOperatorRole(manager: string, from: string, params?: TxParameters) {
+        return await this.send('grantRegistryOperatorRole', from, [zeroX(manager)], params)
     }
 }
