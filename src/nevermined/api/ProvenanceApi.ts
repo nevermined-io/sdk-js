@@ -38,6 +38,7 @@ export class ProvenanceApi extends Instantiable {
      * @param signature - Signature (optional) provided by the agent involved
      * @param attributes - Attributes associated with the action
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async used(
@@ -48,7 +49,7 @@ export class ProvenanceApi extends Instantiable {
         signature: string,
         attributes: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.used(
             provenanceId,
@@ -58,7 +59,7 @@ export class ProvenanceApi extends Instantiable {
             signature,
             attributes,
             from.getId(),
-            params
+            txParams
         )
         return true
     }
@@ -72,6 +73,7 @@ export class ProvenanceApi extends Instantiable {
      * @param activityId - Identifier of the activity creating the new entity
      * @param attributes - Attributes associated with the action
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async wasDerivedFrom(
@@ -82,7 +84,7 @@ export class ProvenanceApi extends Instantiable {
         activityId: string,
         attributes: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.wasDerivedFrom(
             provenanceId,
@@ -92,7 +94,7 @@ export class ProvenanceApi extends Instantiable {
             ethers.utils.hexZeroPad(zeroX(activityId), 32),
             attributes,
             from.getId(),
-            params
+            txParams
         )
         return true
     }
@@ -105,6 +107,7 @@ export class ProvenanceApi extends Instantiable {
      * @param activityId - Identifier of the activity creating the new entity
      * @param attributes - Attributes associated with the action
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async wasAssociatedWith(
@@ -114,7 +117,7 @@ export class ProvenanceApi extends Instantiable {
         activityId: string,
         attributes: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.wasAssociatedWith(
             provenanceId,
@@ -123,7 +126,7 @@ export class ProvenanceApi extends Instantiable {
             ethers.utils.hexZeroPad(zeroX(activityId), 32),
             attributes,
             from.getId(),
-            params
+            txParams
         )
         return true
     }
@@ -138,6 +141,7 @@ export class ProvenanceApi extends Instantiable {
      * @param signature - Signature provided by the delegated agent
      * @param attributes - Attributes associated with the action
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async actedOnBehalf(
@@ -149,7 +153,7 @@ export class ProvenanceApi extends Instantiable {
         signature: string,
         attributes: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.actedOnBehalf(
             provenanceId,
@@ -160,7 +164,7 @@ export class ProvenanceApi extends Instantiable {
             signature,
             attributes,
             from.getId(),
-            params
+            txParams
         )
         return true
     }
@@ -170,19 +174,20 @@ export class ProvenanceApi extends Instantiable {
      * @param did - Identifier of the entity created
      * @param delegated - Delegate Address
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async addDidProvenanceDelegate(
         did: string,
         delegated: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
             did,
             delegated,
             from.getId(),
-            params
+            txParams
         )
         return true
     }
@@ -192,19 +197,20 @@ export class ProvenanceApi extends Instantiable {
      * @param did - Identifier of the entity created
      * @param delegated - Delegate Address
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async removeDidProvenanceDelegate(
         did: string,
         delegated: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(
             did,
             delegated,
             from.getId(),
-            params
+            txParams
         )
         return true
     }

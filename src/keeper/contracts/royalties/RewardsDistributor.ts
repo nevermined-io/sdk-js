@@ -1,4 +1,4 @@
-import ContractBase, { TxParameters } from '../ContractBase'
+import ContractBase, { TxParameters as txParams } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { didZeroX, zeroX } from '../../../utils'
@@ -22,7 +22,7 @@ export class RewardsDistributor extends ContractBase {
         did: string,
         addr: string[],
         from?: Account,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.sendFrom('setReceivers', [didZeroX(did), addr], from, params)
     }
@@ -37,7 +37,7 @@ export class RewardsDistributor extends ContractBase {
         lockCondition: string,
         releaseConditions: string[],
         from?: Account,
-        txParams?: TxParameters
+        txParams?: txParams
     ) {
         const amountsString = amounts.map(v => v.toString())
         return this.sendFrom(

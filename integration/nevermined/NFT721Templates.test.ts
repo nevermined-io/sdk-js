@@ -103,7 +103,11 @@ describe('NFT721Templates E2E', () => {
         )
 
         // deploy a nft contract we can use
-        const nftContract = await TestContractHandler.deployArtifact(erc721ABI)
+        const nftContract = await TestContractHandler.deployArtifact(
+            erc721ABI,
+            artist.getId(),
+            [ artist.getId(), nevermined.keeper.didRegistry.address, 'NFT721', 'NVM', '', 0 ]
+        )
 
         ;[owner, artist, collector1, collector2, gallery] =
             await nevermined.accounts.list()
@@ -721,8 +725,12 @@ describe('NFT721Templates E2E', () => {
                 config.artifactsFolder,
                 networkName
             )
-
-            const nftContract = await TestContractHandler.deployArtifact(erc721ABI)
+            
+            const nftContract = await TestContractHandler.deployArtifact(
+                erc721ABI,
+                artist.getId(),
+                [ artist.getId(), nevermined.keeper.didRegistry.address, 'NFT721', 'NVM', '', 0 ]
+            )            
             nft = await nevermined.contracts.loadNft721(nftContract.address)
 
             nftContractOwner = new Account((await nft.nftContract.owner()) as string)

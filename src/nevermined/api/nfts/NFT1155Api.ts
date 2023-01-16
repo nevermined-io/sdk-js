@@ -138,22 +138,28 @@ export class NFT1155Api extends NFTsBaseApi {
      *
      * @param did - The Decentralized Identifier of the NFT asset.
      * @param nftAmount - The amount of NFTs to mint.
-     * @param publisher - The account of the publisher of the NFT.
-     * @param params - Optional transaction parameters.
+     * @param receiver - Account address of the NFT receiver, if `undefined` the minter account will receive the NFT/s
+     * @param account - The account to mint the NFT.    * 
+     * @param data - Data
+     * @param txParams - Optional transaction parameters.
      *
      * @returns The {@link ethers.ContractReceipt}
      */
     public async mint(
         did: string,
         nftAmount: BigNumber,
-        publisher: Account,
-        params?: TxParameters
+        receiver: string | undefined,
+        account: Account,
+        data?: string,
+        txParams?: TxParameters
     ) {
-        return await this.nevermined.keeper.didRegistry.mint(
-            did,
-            nftAmount,
-            publisher.getId(),
-            params
+        return await this.nftContract.mint(
+            receiver || account.getId(), 
+            did, 
+            nftAmount, 
+            account.getId(),
+            data || '0x',
+            txParams
         )
     }
 
@@ -174,23 +180,23 @@ export class NFT1155Api extends NFTsBaseApi {
      *
      * @param did - The Decentralized Identifier of the NFT asset.
      * @param nftAmount - The amount of NFTs to burn.
-     * @param publisher - The account of the publisher of the NFT.
-     * @param params - Optional transaction parameters.
+     * @param account - The account of the publisher of the NFT.
+     * @param txParams - Optional transaction parameters.
      *
      * @returns The {@link ethers.ContractReceipt}
      */
     public async burn(
         did: string,
         nftAmount: BigNumber,
-        publisher: Account,
-        params?: TxParameters
+        account: Account,
+        txParams?: TxParameters
     ) {
-        return await this.nevermined.keeper.didRegistry.burn(
-            did,
+        return await this.nftContract.burn(
+            account.getId(), 
+            did, 
             nftAmount,
-            publisher.getId(),
-            params
-        )
+            txParams
+        )        
     }
 
     // TODO: We need to improve this to allow for secondary market sales
@@ -365,8 +371,11 @@ export class NFT1155Api extends NFTsBaseApi {
      *
      * @returns The amount of NFTs owned by the account.
      */
-    public async balance(did: string, account: Account): Promise<BigNumber> {
-        return await this.nftContract.balance(account.getId(), did)
+    public async balance(did: string, account: Account | string): Promise<BigNumber> {
+        return await this.nftContract.balance(
+            account instanceof Account ? account.getId() : account, 
+            did
+        )
     }
 
     /**
@@ -402,13 +411,15 @@ export class NFT1155Api extends NFTsBaseApi {
      * @param operatorAddress - The address that of the operator we want to give transfer rights to.
      * @param approved - Give or remove transfer rights from the operator.
      * @param from - The account that wants to give transfer rights to the operator.
+     * @param txParams - Transaction additional parameters
      *
      * @returns The {@link ethers.ContractReceipt}
      */
     public async setApprovalForAll(
         operatorAddress: string,
         approved: boolean,
-        from: Account
+        from: Account,
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
         const isApproved = await this.nftContract.isApprovedForAll(
             from.getId(),
@@ -419,7 +430,7 @@ export class NFT1155Api extends NFTsBaseApi {
             return
         }
 
-        return this.nftContract.setApprovalForAll(operatorAddress, approved, from)
+        return this.nftContract.setApprovalForAll(operatorAddress, approved, from, txParams)
     }
 
     /**
@@ -461,7 +472,7 @@ export class NFT1155Api extends NFTsBaseApi {
         owner: Account,
         consumer: Account,
         agreementIdSeed: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         const service = await this.nevermined.services.metadata.retrieveService(
             agreementIdSeed
@@ -481,7 +492,7 @@ export class NFT1155Api extends NFTsBaseApi {
             ddo,
             nftAmount,
             owner,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('TransferNft Failed.')
@@ -492,7 +503,7 @@ export class NFT1155Api extends NFTsBaseApi {
             nftAmount,
             owner,
             undefined,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('ReleaseNftReward Failed.')
@@ -521,9 +532,9 @@ export class NFT1155Api extends NFTsBaseApi {
     public async grantOperatorRole(
         operatorAddress: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.grantOperatorRole(operatorAddress, from, params)
+        return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
     }
 
     /**
@@ -547,8 +558,8 @@ export class NFT1155Api extends NFTsBaseApi {
     public async revokeOperatorRole(
         operatorAddress: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.revokeOperatorRole(operatorAddress, from, params)
+        return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
     }
 }

@@ -81,18 +81,20 @@ describe('NFT1155 End-to-End', () => {
 
             nftContract = await TestContractHandler.deployArtifact(
                 erc1155ABI,
-                deployer.getId()
+                deployer.getId(),
+                [ deployer.getId(), nevermined.keeper.didRegistry.getAddress(), 'NFT1155', 'NVM', '' ]
             )
 
             assert.isDefined(nftContract)
             console.log(`NFT (ERC-1155) deployed at address ${nftContract.address}`)
         })
 
-        it('Clonning an instance', async () => {
-            const cloneAddress = await nftUpgradeable.createClone(
+        it('Clonning an instance', async () => {            
+            const cloneAddress = await nevermined.nfts1155.getContract.createClone(
                 'My New NFT',
                 'xyz',
                 '',
+                [ ],
                 deployer
             )
             assert.isDefined(cloneAddress)

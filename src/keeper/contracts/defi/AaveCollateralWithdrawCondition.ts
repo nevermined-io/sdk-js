@@ -43,13 +43,13 @@ export class AaveCollateralWithdrawCondition extends ProviderCondition<AaveColla
         vaultAddress: string,
         collateralAsset: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
             [didZeroX(did), ...[vaultAddress, collateralAsset].map(zeroX)],
             from,
-            params
+            txParams
         )
     }
 }

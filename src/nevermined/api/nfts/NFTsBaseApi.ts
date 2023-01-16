@@ -20,6 +20,7 @@ import { RegistryBaseApi } from '../RegistryBaseApi'
  * Abstract class providing common NFT methods for different ERC implementations.
  */
 export abstract class NFTsBaseApi extends RegistryBaseApi {
+
     /**
      * Asks the Node to transfer the NFT on behalf of the publisher.
      *
@@ -105,6 +106,19 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             royaltyScheme = RoyaltyKind.Standard
             royalties = await this.nevermined.keeper.royalties.standard.getRoyalty(did)
         }
+        
+        const nftInfo = await this.nevermined.keeper.didRegistry.getNFTInfo(did)
+        let nftSupply = BigNumber.from(0)
+        let mintCap = BigNumber.from(0)
+        let nftURI = ''
+        if (nftInfo[1]) { // NFT is initialized so asking the NFT contract
+            const nftApi = await this.nevermined.contracts.loadNft1155(nftInfo[0])
+            
+            const nftAttributes = await nftApi.getContract.getNFTAttributes(did)
+            nftSupply = nftAttributes.nftSupply
+            mintCap = nftAttributes.mintCap
+            nftURI = nftAttributes.nftURI
+        }
 
         return {
             owner: details[0],
@@ -113,10 +127,13 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             lastUpdatedBy: details[3],
             blockNumberUpdated: Number(details[4]),
             providers: details[5],
-            nftSupply: Number(details[6]),
-            mintCap: Number(details[7]),
+            nftSupply,
+            mintCap,
             royalties,
-            royaltyScheme
+            royaltyScheme,
+            nftContractAddress: nftInfo[0],
+            nftInitialized: nftInfo[1],
+            nftURI
         }
     }
 
@@ -255,7 +272,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         nftAmount: BigNumber = BigNumber.from(1),
         agreementIdSeed: string,
         conditionsTimeout: number[] = [86400, 86400, 86400],
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const service = await this.nevermined.services.metadata.retrieveService(
@@ -279,7 +296,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             consumer,
             consumer,
             conditionsTimeout,
-            params
+            txParams
         )
 
         if (!agreementId) throw new Error('Creating buy agreement failed')
@@ -293,7 +310,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             assetPrice.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             consumer,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('LockPayment Failed.')
@@ -359,4 +376,5 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         }
         return result
     }
+
 }

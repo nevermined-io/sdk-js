@@ -66,7 +66,7 @@ export class AaveRepayCondition extends ProviderCondition<AaveRepayConditionCont
         amountToRepay: string,
         interestRateMode: number,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
@@ -77,7 +77,7 @@ export class AaveRepayCondition extends ProviderCondition<AaveRepayConditionCont
                 interestRateMode
             ],
             from,
-            params
+            txParams
         )
     }
 }

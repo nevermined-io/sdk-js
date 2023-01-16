@@ -29,9 +29,9 @@ export class Token extends ContractBase {
         to: string,
         price: BigNumber,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.sendFrom('approve', [to, price.toString()], from, params)
+        return this.sendFrom('approve', [to, price.toString()], from, txParams)
     }
 
     public async decimals(): Promise<number> {
@@ -68,8 +68,8 @@ export class Token extends ContractBase {
         to: string,
         amount: BigNumber,
         from: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.send('transfer', from, [to, amount.toString()], params)
+        return this.send('transfer', from, [to, amount.toString()], txParams)
     }
 }

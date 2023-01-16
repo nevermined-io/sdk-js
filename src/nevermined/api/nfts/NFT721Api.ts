@@ -453,7 +453,9 @@ export class NFT721Api extends NFTsBaseApi {
      * ```
      *
      * @param owner - The owner account.
-     * @param agreementId - the Id of the underlying service agreement.
+     * @param account - Account of the user sending the transaction
+     * @param agreementIdSeed - the seed of the Agreement Id of the underlying service agreement.
+     * @param txParams - Transaction parameters
      *
      * @returns  true if the transaction was successful.
      *
@@ -462,9 +464,9 @@ export class NFT721Api extends NFTsBaseApi {
      */
     public async releaseSecondaryMarketRewards(
         owner: Account,
-        consumer: Account,
+        account: Account,
         agreementIdSeed: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         const service = await this.nevermined.services.metadata.retrieveService(
             agreementIdSeed
@@ -475,14 +477,14 @@ export class NFT721Api extends NFTsBaseApi {
         const agreementId =
             await this.nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
-                consumer.getId()
+                account.getId()
             )
 
         let receipt = await this.nevermined.agreements.conditions.transferNft721(
             agreementId,
             ddo,
             owner,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('TransferNft Failed.')
@@ -492,7 +494,7 @@ export class NFT721Api extends NFTsBaseApi {
             ddo,
             owner,
             undefined,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('ReleaseNftReward Failed.')
@@ -520,9 +522,9 @@ export class NFT721Api extends NFTsBaseApi {
     public async grantOperatorRole(
         operatorAddress: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.grantOperatorRole(operatorAddress, from, params)
+        return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
     }
 
     /**
@@ -546,8 +548,8 @@ export class NFT721Api extends NFTsBaseApi {
     public async revokeOperatorRole(
         operatorAddress: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.revokeOperatorRole(operatorAddress, from, params)
+        return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
     }
 }

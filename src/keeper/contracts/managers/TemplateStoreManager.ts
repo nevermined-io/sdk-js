@@ -36,7 +36,7 @@ export class TemplateStoreManager extends ContractBase {
         address: string,
         from?: Account,
         ignoreExists?: boolean,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         const template = await this.getTemplate(address)
         if (template.blockNumberUpdated !== 0) {
@@ -45,7 +45,7 @@ export class TemplateStoreManager extends ContractBase {
                 throw new Error('Template already exist.')
             }
         } else {
-            return this.sendFrom('proposeTemplate', [zeroX(address)], from, params)
+            return this.sendFrom('proposeTemplate', [zeroX(address)], from, txParams)
         }
     }
 
@@ -53,7 +53,7 @@ export class TemplateStoreManager extends ContractBase {
         address: string,
         from?: Account,
         ignoreApproved?: boolean,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         const template = await this.getTemplate(address)
         if (template.state !== TemplateState.Proposed) {
@@ -62,12 +62,12 @@ export class TemplateStoreManager extends ContractBase {
                 throw new Error(`Template not in "proposed" state.`)
             }
         } else {
-            return this.sendFrom('approveTemplate', [zeroX(address)], from, params)
+            return this.sendFrom('approveTemplate', [zeroX(address)], from, txParams)
         }
     }
 
-    public revokeTemplate(address: string, from?: Account, params?: TxParameters) {
-        return this.sendFrom('revokeTemplate', [zeroX(address)], from, params)
+    public revokeTemplate(address: string, from?: Account, txParams?: TxParameters) {
+        return this.sendFrom('revokeTemplate', [zeroX(address)], from, txParams)
     }
 
     public async getTemplate(templateId: string) {

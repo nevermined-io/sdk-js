@@ -47,6 +47,7 @@ describe('NFTs721 Api End-to-End', () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
+        ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
 
         TestContractHandler.setConfig(config)
 
@@ -57,7 +58,11 @@ describe('NFTs721 Api End-to-End', () => {
             networkName
         )
 
-        nft = await TestContractHandler.deployArtifact(erc721ABI)
+        nft = await TestContractHandler.deployArtifact(
+            erc721ABI,
+            artist.getId(),
+            [ artist.getId(), nevermined.keeper.didRegistry.address, 'NFT721', 'NVM', '', 0 ]
+        )
 
         nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
@@ -67,7 +72,7 @@ describe('NFTs721 Api End-to-End', () => {
         await nevermined.contracts.loadNft721(nftContract.address)
 
         nftContractOwner = new Account((await nftContract.owner()) as string)
-        ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
+        
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 

@@ -17,6 +17,7 @@ describe('Nfts721 operations', async () => {
     let nft: ethers.Contract
     let nftContract: Nft721Contract
 
+    let deployer: Account
     let artist: Account
     let collector: Account
     let ddo: DDO
@@ -26,6 +27,10 @@ describe('Nfts721 operations', async () => {
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
+
+        // Accounts
+        ;[deployer, artist, collector] = await nevermined.accounts.list()
+
 
         TestContractHandler.setConfig(config)
 
@@ -37,7 +42,11 @@ describe('Nfts721 operations', async () => {
         )
 
         // deploy a nft contract we can use
-        nft = await TestContractHandler.deployArtifact(erc721ABI)
+        nft = await TestContractHandler.deployArtifact(
+            erc721ABI,
+            deployer.getId(),
+            [ deployer.getId(), nevermined.keeper.didRegistry.address, 'NFT721', 'NVM', '', 0 ]
+        )
         nftContract = await Nft721Contract.getInstance(
             (nevermined.keeper as any).instanceConfig,
             nft.address
@@ -45,8 +54,6 @@ describe('Nfts721 operations', async () => {
 
         await nevermined.contracts.loadNft721(nftContract.address)
 
-        // Accounts
-        ;[artist, collector] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
         ;({ transferNft721Condition } = nevermined.keeper.conditions)
@@ -78,6 +85,7 @@ describe('Nfts721 operations', async () => {
                 'xyz',
                 '',
                 BigNumber.from(10),
+                [],
                 artist
             )
             assert.isDefined(cloneAddress)

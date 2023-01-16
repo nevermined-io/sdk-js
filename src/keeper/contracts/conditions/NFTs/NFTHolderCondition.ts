@@ -56,7 +56,8 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
      * @param did - The Decentralized Identifier of the asset.
      * @param holderAddress - The contract address where the reward is locked.
      * @param amount - The amount of NFT to be hold
-     * @param from -
+     * @param from - Account sending the transaction
+     * @param txParams - Transacion parameters
      * @returns condition state
      */
     public fulfill(
@@ -65,13 +66,13 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
         holderAddress: string,
         amount: BigNumber,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(holderAddress), String(amount)],
             from,
-            params
+            txParams
         )
     }
 }

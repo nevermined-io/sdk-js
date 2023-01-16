@@ -82,8 +82,10 @@ export class Nevermined extends Instantiable {
          * @param address - The address of the ERC-721 contracts to load
          * @returns An instance of {@link NFT721Api}
          */
-        loadNft1155: async (address: string): Promise<Nft1155Contract> => {
-            return await Nft1155Contract.getInstance(this.instanceConfig, address)
+        loadNft1155: async (address: string): Promise<NFT1155Api> => {
+            this.nfts1155 = await NFT1155Api.getInstance(this.instanceConfig, undefined, address)
+            return this.nfts1155
+            // return await Nft1155Contract.getInstance(this.instanceConfig, address)
         },
         /**
          * Load a custom ERC-20 nft.

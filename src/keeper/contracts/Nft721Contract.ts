@@ -71,6 +71,7 @@ export class Nft721Contract extends NFTContractsBase {
      * @param symbol - NFT Contract symbol
      * @param uri - NFT Contract metadata uri
      * @param cap - NFT cap
+     * @param operators - Array of account addresses to be added as NFT operators
      * @param from - Sender account
      * @returns Contract Receipt
      */
@@ -79,14 +80,15 @@ export class Nft721Contract extends NFTContractsBase {
         symbol: string,
         uri: string,
         cap: BigNumber,
+        operators: string[] = [],
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this._createClone(name, symbol, uri, cap, from, params)
+        return this._createClone(name, symbol, uri, cap, operators, from, txParams)
     }
 
-    public async mint(did: string, from: string, params?: TxParameters) {
-        return this.send('mint', from, [didZeroX(did)], params)
+    public async mint(did: string, from: string, txParams?: TxParameters) {
+        return this.send('mint', from, [didZeroX(did)], txParams)
     }
 
     public async mintWithURL(
@@ -94,18 +96,18 @@ export class Nft721Contract extends NFTContractsBase {
         did: string,
         url: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.sendFrom('mint', [to, didZeroX(did), url], from, params)
+        return this.sendFrom('mint', [to, didZeroX(did), url], from, txParams)
     }
 
     public async setApprovalForAll(
         target: string,
         state: boolean,
         from: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.send('setApprovalForAll', from, [target, state], params)
+        return this.send('setApprovalForAll', from, [target, state], txParams)
     }
 
     public isApprovedForAll(accountAddress: string, operatorAddress: string) {

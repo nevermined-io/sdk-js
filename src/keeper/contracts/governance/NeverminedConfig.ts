@@ -35,16 +35,16 @@ export default class NeverminedConfig extends ContractBase {
         return this.call('isGovernor', [address])
     }
 
-    public async setGovernor(address: string, from?: Account, params?: TxParameters) {
-        return this.sendFrom('setGovernor', [address], from, params)
+    public async setGovernor(address: string, from?: Account, txParams?: TxParameters) {
+        return this.sendFrom('setGovernor', [address], from, txParams)
     }
 
     public async setTrustedForwarder(
         address: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.sendFrom('setTrustedForwarder', [address], from, params)
+        return this.sendFrom('setTrustedForwarder', [address], from, txParams)
     }
 
     public async getTrustedForwarder(): Promise<string> {
@@ -55,13 +55,13 @@ export default class NeverminedConfig extends ContractBase {
         networkFee: number,
         feeReceiver: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.sendFrom(
             'setMarketplaceFees',
             [networkFee, feeReceiver],
             from,
-            params
+            txParams
         )
     }
 }

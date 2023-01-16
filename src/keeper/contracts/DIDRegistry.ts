@@ -1,4 +1,4 @@
-import ContractBase, { TxParameters } from './ContractBase'
+import ContractBase, { TxParameters as txParams } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
@@ -28,7 +28,7 @@ export class DIDRegistry extends ContractBase {
      * @param providers - List of addresses in charge of interact with the asset
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param ownerAddress - Address of the user registering the DID
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async registerAttribute(
@@ -37,13 +37,13 @@ export class DIDRegistry extends ContractBase {
         providers: string[],
         url: string,
         ownerAddress: string,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'registerAttribute',
             ownerAddress,
             [didZeroX(did), zeroX(checksum), providers.map(zeroX), url],
-            params
+            txParams
         )
     }
 
@@ -57,7 +57,7 @@ export class DIDRegistry extends ContractBase {
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
      * @param activityId - Provenance identifier about the asset registration action
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async registerDID(
@@ -68,7 +68,7 @@ export class DIDRegistry extends ContractBase {
         url: string,
         immutableUrl = '',
         activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'registerDID',
@@ -81,7 +81,7 @@ export class DIDRegistry extends ContractBase {
                 zeroX(activityId),
                 immutableUrl
             ],
-            params
+            txParams
         )
     }
 
@@ -96,7 +96,7 @@ export class DIDRegistry extends ContractBase {
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
      * @param activityId - Provenance identifier about the asset registration action
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async registerMintableDID(
@@ -108,13 +108,14 @@ export class DIDRegistry extends ContractBase {
         url: string,
         immutableUrl = '',
         activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'registerMintableDID',
             ownerAddress,
             [
                 didZeroX(did),
+                nftAttributes.nftContractAddress,
                 zeroX(checksum),
                 providers.map(zeroX),
                 url,
@@ -127,7 +128,7 @@ export class DIDRegistry extends ContractBase {
                 nftAttributes.nftMetadataUrl || '',
                 immutableUrl
             ],
-            params
+            txParams
         )
     }
 
@@ -142,7 +143,7 @@ export class DIDRegistry extends ContractBase {
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
      * @param activityId - Provenance identifier about the asset registration action
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async registerMintableDID721(
@@ -154,7 +155,7 @@ export class DIDRegistry extends ContractBase {
         url: string,
         immutableUrl = '',
         activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'registerMintableDID721',
@@ -171,7 +172,7 @@ export class DIDRegistry extends ContractBase {
                 ethers.utils.hexZeroPad(zeroX(activityId), 32),
                 immutableUrl
             ],
-            params
+            txParams
         )
     }
 
@@ -183,7 +184,7 @@ export class DIDRegistry extends ContractBase {
      * @param ownerAddress - Address of the user registering the DID
      * @param url - URL to the metadata in the Metadata/Marketplace API
      * @param immutableUrl - Hash or URL to the metadata stored in a immutable data store like IPFS, Filecoin, etc
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async updateMetadataUrl(
@@ -192,13 +193,13 @@ export class DIDRegistry extends ContractBase {
         ownerAddress: string,
         url: string,
         immutableUrl = '',
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'updateMetadataUrl',
             ownerAddress,
             [didZeroX(did), checksum, url, immutableUrl],
-            params
+            txParams
         )
     }
 
@@ -213,7 +214,7 @@ export class DIDRegistry extends ContractBase {
      * @param preMint - If true pre-mints the editions of NFT
      * @param ownerAddress - Address of the user registering the DID
      * @param nftMetadata - URL to the metadata describing the NFT
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async enableAndMintDidNft(
@@ -223,13 +224,13 @@ export class DIDRegistry extends ContractBase {
         preMint: boolean,
         ownerAddress: string,
         nftMetadata: string,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'enableAndMintDidNft',
             ownerAddress,
             [didZeroX(did), cap, royalties, preMint, nftMetadata],
-            params
+            txParams
         )
     }
 
@@ -243,7 +244,7 @@ export class DIDRegistry extends ContractBase {
      * @param preMint - If true pre-mints the editions of NFT
      * @param ownerAddress - Address of the user registering the DID
      * @param nftMetadata - URL to the metadata describing the NFT
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async enableAndMintDidNft721(
@@ -252,13 +253,13 @@ export class DIDRegistry extends ContractBase {
         preMint: boolean,
         ownerAddress: string,
         nftMetadata: string,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'enableAndMintDidNft721',
             ownerAddress,
             [didZeroX(did), royalties, preMint, nftMetadata],
-            params
+            txParams
         )
     }
 
@@ -306,10 +307,9 @@ export class DIDRegistry extends ContractBase {
         checksum: string
         owner: string
         providers: string[]
-        nftSupply: BigNumber
-        mintCap: BigNumber
         royalties: BigNumber
         immutableUrl: string
+        nftInitialized: boolean
     }> {
         const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
         if (registeredValues[4] < 1)
@@ -321,10 +321,11 @@ export class DIDRegistry extends ContractBase {
             checksum: registeredValues[1],
             owner: registeredValues[0],
             providers: registeredValues[5],
-            nftSupply: BigNumber.from(registeredValues[6]),
-            mintCap: BigNumber.from(registeredValues[7]),
-            royalties: BigNumber.from(registeredValues[8]),
-            immutableUrl: registeredValues[9]
+            // nftSupply: BigNumber.from(registeredValues[6]),
+            // mintCap: BigNumber.from(registeredValues[7]),
+            royalties: BigNumber.from(registeredValues[6]),
+            immutableUrl: registeredValues[7],
+            nftInitialized: registeredValues[8]
         }
     }
 
@@ -332,13 +333,13 @@ export class DIDRegistry extends ContractBase {
         did: string,
         grantee: string,
         ownerAddress: string,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'grantPermission',
             ownerAddress,
             [didZeroX(did), zeroX(grantee)],
-            params
+            txParams
         )
     }
 
@@ -346,13 +347,13 @@ export class DIDRegistry extends ContractBase {
         did: string,
         grantee: string,
         ownerAddress: string,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'revokePermission',
             ownerAddress,
             [didZeroX(did), zeroX(grantee)],
-            params
+            txParams
         )
     }
 
@@ -360,13 +361,13 @@ export class DIDRegistry extends ContractBase {
         did: string,
         scheme: string,
         ownerAddress: string,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         return this.send(
             'setDIDRoyalties',
             ownerAddress,
             [didZeroX(did), zeroX(scheme)],
-            params
+            txParams
         )
     }
 
@@ -382,7 +383,7 @@ export class DIDRegistry extends ContractBase {
         did: string,
         newOwnerAddress: string,
         ownerAddress: string,
-        params?: TxParameters
+        params?: txParams
     ): Promise<ContractReceipt> {
         return this.send(
             'transferDIDOwnership',
@@ -509,7 +510,7 @@ export class DIDRegistry extends ContractBase {
         signatureUsing: string,
         attributes: string,
         ownerAddress: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send(
             'used',
@@ -534,7 +535,7 @@ export class DIDRegistry extends ContractBase {
         activityId: string,
         attributes: string,
         ownerAddress: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send(
             'wasDerivedFrom',
@@ -558,7 +559,7 @@ export class DIDRegistry extends ContractBase {
         activityId: string,
         attributes: string,
         ownerAddress: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send(
             'wasAssociatedWith',
@@ -577,7 +578,7 @@ export class DIDRegistry extends ContractBase {
         signatureDelegate: string,
         attributes: string,
         ownerAddress: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send(
             'actedOnBehalf',
@@ -599,7 +600,7 @@ export class DIDRegistry extends ContractBase {
         did: string,
         delegateAddress: string,
         ownerAddress: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send(
             'addDIDProvenanceDelegate',
@@ -613,7 +614,7 @@ export class DIDRegistry extends ContractBase {
         did: string,
         delegateAddress: string,
         ownerAddress: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send(
             'removeDIDProvenanceDelegate',
@@ -635,7 +636,7 @@ export class DIDRegistry extends ContractBase {
         did: string,
         amount: BigNumber,
         from: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send('mint', from, [didZeroX(did), String(amount)], params)
     }
@@ -644,7 +645,7 @@ export class DIDRegistry extends ContractBase {
         did: string,
         amount: BigNumber,
         from: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return this.send('burn', from, [didZeroX(did), String(amount)], params)
     }
@@ -653,7 +654,7 @@ export class DIDRegistry extends ContractBase {
         did: string,
         provider: string,
         from: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return await this.send(
             'addDIDProvider',
@@ -667,7 +668,7 @@ export class DIDRegistry extends ContractBase {
         did: string,
         provider: string,
         from: string,
-        params?: TxParameters
+        params?: txParams
     ) {
         return await this.send(
             'removeDIDProvider',
@@ -686,11 +687,15 @@ export class DIDRegistry extends ContractBase {
         return this.call('getDIDRegister', [didZeroX(did)])
     }
 
+    public async getNFTInfo(did: string) {
+        return this.call('getNFTInfo', [didZeroX(did)])
+    }
+
     public async hashDID(didSeed: string, creator: string): Promise<string> {
         return this.call('hashDID', [didZeroX(didSeed), zeroX(creator)])
     }
 
-    public async grantRegistryOperatorRole(manager: string, from: string, params?: TxParameters) {
+    public async grantRegistryOperatorRole(manager: string, from: string, params?: txParams) {
         return await this.send('grantRegistryOperatorRole', from, [zeroX(manager)], params)
     }
 }

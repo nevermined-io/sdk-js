@@ -36,7 +36,8 @@ describe('POAPs with Assets', () => {
         TestContractHandler.setConfig(config)
         poapContract = await TestContractHandler.deployArtifact(
             POAPUpgradeable,
-            editor.getId()
+            editor.getId(),
+            [ editor.getId(), nevermined.keeper.didRegistry.address, 'NFT721', 'NVM', '', 0 ]
         )
         assert.isDefined(poapContract)
 

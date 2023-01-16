@@ -49,7 +49,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
         amounts: BigNumber[],
         receivers: string[],
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         const amountsString = amounts.map(v => v.toString())
         return super.fulfillPlain(
@@ -62,7 +62,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
                 receivers
             ],
             from,
-            params
+            txParams
         )
     }
 }

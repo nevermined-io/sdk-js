@@ -1,7 +1,7 @@
 import { Balance } from '../../models'
 import { Account } from '../../nevermined'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters } from '../../keeper'
+import { TxParameters as txParams } from '../../keeper'
 import { ethers } from 'ethers'
 
 /**
@@ -53,12 +53,13 @@ export class AccountsApi extends Instantiable {
      * Request tokens for an account.
      * @param account - Account instance.
      * @param amount  - Token amount.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call was successful. {@link false} otherwise.
      */
     public async requestTokens(
         account: Account,
         amount: number,
-        params?: TxParameters
+        params?: txParams
     ): Promise<boolean> {
         try {
             await account.requestTokens(amount, params)

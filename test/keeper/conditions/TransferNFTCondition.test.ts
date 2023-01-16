@@ -128,7 +128,7 @@ describe('TransferNFTCondition', () => {
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
                 amount: nftAmount,
-                preMint: true
+                preMint: false
             })
 
             await didRegistry.registerMintableDID(
@@ -141,7 +141,7 @@ describe('TransferNFTCondition', () => {
                 '',
                 activityId
             )
-            // await didRegistry.mint(did, nftAmount, owner.getId())
+            await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
@@ -243,7 +243,7 @@ describe('TransferNFTCondition', () => {
                 '',
                 activityId
             )
-            await didRegistry.mint(did, nftAmount, owner.getId())
+            await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
             await lockPaymentCondition.fulfill(
                 agreementId,
@@ -340,7 +340,8 @@ describe('TransferNFTCondition', () => {
                 '',
                 activityId
             )
-            await didRegistry.mint(did, nftAmount, owner.getId())
+            await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
+            // await didRegistry.mint(did, nftAmount, owner.getId())
 
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(

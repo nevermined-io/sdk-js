@@ -150,7 +150,8 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
      * @param nftReceiver - The address of the account to receive the NFT.
      * @param nftAmount - The amount of NFTs to transfer.
      * @param lockPaymentCondition - The lock payment condition identifier.
-     * @param from -
+     * @param from - Account sending the transaction
+     * @param txParams - Transaction parameters
      * @returns Condition state.
      */
     public fulfillForDelegate(
@@ -162,7 +163,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         lockPaymentCondition: string,
         transferAsset = true,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
@@ -175,7 +176,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
                 transferAsset
             ],
             from,
-            params,
+            txParams,
             'fulfillForDelegate'
         )
     }

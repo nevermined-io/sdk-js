@@ -44,7 +44,11 @@ describe('NFT721LockCondition', () => {
             networkName
         )
 
-        _nftContract = await TestContractHandler.deployArtifact(erc721ABI)
+        _nftContract = await TestContractHandler.deployArtifact(
+            erc721ABI, 
+            owner.getId(),
+            [ owner.getId(), didRegistry.address, 'NFT721', 'NVM', '', 0 ]
+        )
         nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
         nftContractAddress = nft721Wrapper.address
         await nft721Wrapper.nftContract.grantOperatorRole(nft721LockCondition.address)

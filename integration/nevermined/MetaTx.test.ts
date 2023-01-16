@@ -123,13 +123,12 @@ describe('MetaTx test with nfts', () => {
             gsnProvider.addAccount(wallet.privateKey)
             const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
             const signer = etherProvider.getSigner(wallet.address)
-
-            await nevermined.keeper.didRegistry.burn(
-                ddo.id,
-                BigNumber.from(2),
-                await wallet.getAddress(),
-                { signer }
-            )
+            
+            await nevermined.nfts1155.burn(
+                ddo.id, 
+                BigNumber.from(2), 
+                new Account(await signer.getAddress())
+                )
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),
                 BigNumber.from(6)

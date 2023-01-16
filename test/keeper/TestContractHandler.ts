@@ -58,18 +58,6 @@ export default abstract class TestContractHandler extends ContractHandler {
             [deployerAddress, deployerAddress]
         )
 
-        const erc1155 = await TestContractHandler.deployContract(
-            'NFT1155Upgradeable',
-            deployerAddress,
-            ['']
-        )
-
-        const erc721 = await TestContractHandler.deployContract(
-            'NFT721Upgradeable',
-            deployerAddress,
-            []
-        )
-
         const dispenser = await TestContractHandler.deployContract(
             'Dispenser',
             deployerAddress,
@@ -110,26 +98,45 @@ export default abstract class TestContractHandler extends ContractHandler {
             deployerAddress,
             [
                 deployerAddress,
-                erc1155.address,
-                erc721.address,
+                ZeroAddress,
+                ZeroAddress,
                 nvmConfig.address,
                 royalties.address
             ]
         )
 
-        let transactionResponse: TransactionResponse = await erc1155.grantOperatorRole(
-            didRegistry.address
+        const erc1155 = await TestContractHandler.deployContract(
+            'NFT1155Upgradeable',
+            deployerAddress,
+            [deployerAddress, didRegistry.address, 'Nevermined NFT1155', 'NVM', '']
+        )
+
+        const erc721 = await TestContractHandler.deployContract(
+            'NFT721Upgradeable',
+            deployerAddress,
+            [deployerAddress, didRegistry.address, 'Nevermined NFT721', 'NVM', '', 0]
+        )
+
+        let transactionResponse: TransactionResponse = await didRegistry.setNFT1155(
+            erc1155.address
         )
         let contractReceipt: ContractReceipt = await transactionResponse.wait()
         if (contractReceipt.status !== 1) {
-            throw new Error('Error calling "grantOperatorRole" on "erc1155"')
-        }
+            throw new Error('Error calling "setNFT1155" on "didRegistry"')
+        }        
+        // let transactionResponse: TransactionResponse = await erc1155.grantOperatorRole(
+        //     didRegistry.address
+        // )
+        // let contractReceipt: ContractReceipt = await transactionResponse.wait()
+        // if (contractReceipt.status !== 1) {
+        //     throw new Error('Error calling "grantOperatorRole" on "erc1155"')
+        // }
 
-        transactionResponse = await erc721.grantOperatorRole(didRegistry.address)
-        contractReceipt = await transactionResponse.wait()
-        if (contractReceipt.status !== 1) {
-            throw new Error('Error calling "grantOperatorRole" on "erc721"')
-        }
+        // transactionResponse = await erc721.grantOperatorRole(didRegistry.address)
+        // contractReceipt = await transactionResponse.wait()
+        // if (contractReceipt.status !== 1) {
+        //     throw new Error('Error calling "grantOperatorRole" on "erc721"')
+        // }
 
         // Managers
         const templateStoreManager = await TestContractHandler.deployContract(
