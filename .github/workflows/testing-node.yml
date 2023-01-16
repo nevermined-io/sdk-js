@@ -73,7 +73,7 @@ jobs:
           cd node
           export ARGO_AUTH_TOKEN=$(kubectl get secret -n nevermined argo-workflow-token -o jsonpath='{.data.token}' | base64 --decode)
           export MINIO_ACCESS_KEY=$(kubectl get secret -n nevermined minio-access-key -o jsonpath='{.data.accesskey}' | base64 --decode)
-          export MINIO_SECRET_KEY=(kubectl get secret -n nevermined minio-secret-key -o jsonpath='{.data.secretkey}' | base64 --decode)
+          export MINIO_SECRET_KEY=$(kubectl get secret -n nevermined minio-secret-key -o jsonpath='{.data.secretkey}' | base64 --decode)
           nvm-tools copy-artifacts ./artifacts
           yarn start 2>&1 | tee node_log.txt &
 
