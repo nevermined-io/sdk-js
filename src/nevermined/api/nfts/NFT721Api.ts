@@ -462,16 +462,8 @@ export class NFT721Api extends NFTsBaseApi {
         return await this.nftContract.isApprovedForAll(from, operatorAddress)
     }
 
-<<<<<<< HEAD
-    /**
-     * Get the NFT balance for a particular account
-||||||| 2c6317ee
-     /**
-     * Get the NFT balance for a particular account
-=======
      /**
      * Get the NFT balance for a particular account/address
->>>>>>> feature/create_contracts
      *
      * @example
      * ```ts
@@ -480,23 +472,11 @@ export class NFT721Api extends NFTsBaseApi {
      *
      * @param account - The account/address to check the balance of.
      *
-<<<<<<< HEAD
-     * @returns The amount of NFTs owned by the account.
-     */
-    public async balanceOf(owner: Account): Promise<BigNumber> {
-        return await this.nftContract.balanceOf(owner.getId())
-||||||| 2c6317ee
-     * @returns The amount of NFTs owned by the account.
-     */   
-    public async balanceOf(owner: Account): Promise<BigNumber> {
-        return await this.nftContract.balanceOf(owner.getId())
-=======
      * @returns The balance of NFTs owned by the account.
      */   
     public async balanceOf(account: Account | string): Promise<BigNumber> {
         const _address = account instanceof Account ? account.getId() : account
         return await this.nftContract.balanceOf(_address)
->>>>>>> feature/create_contracts
     }
 
     /**
