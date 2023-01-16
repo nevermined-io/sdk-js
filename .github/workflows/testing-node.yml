@@ -66,8 +66,8 @@ jobs:
           ESTUARY_TOKEN: ESTaa43688b-4ccf-4dad-8a16-410e488706ffARY
           ESTUARY_ENDPOINT: http://estuary.nevermined.localnet
           ENABLE_COMPUTE: "true"
-          ARGO_HOST: "true"
-          ARGO_NAMESPACE: "true"
+          ARGO_HOST: https://argo.nevermined.localnet
+          ARGO_NAMESPACE: "argo"
           NODE_TLS_REJECT_UNAUTHORIZED: "0"
         run: |
           cd node
