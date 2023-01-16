@@ -49,10 +49,18 @@ describe('NFT1155 End-to-End', () => {
         nevermined = await Nevermined.getInstance(config)
         ;[deployer, publisher, someone, minter, ,] = await nevermined.accounts.list()
         ;({ token, nftUpgradeable } = nevermined.keeper)
+<<<<<<< HEAD
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
             publisher
         )
+||||||| 2c6317ee
+
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
+=======
+        
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
+>>>>>>> feature/create_contracts
 
         await nevermined.services.marketplace.login(clientAssertion)
 
@@ -89,6 +97,7 @@ describe('NFT1155 End-to-End', () => {
             console.log(`NFT (ERC-1155) deployed at address ${nftContract.address}`)
         })
 
+<<<<<<< HEAD
         it('Clonning an instance', async () => {            
             const cloneAddress = await nevermined.nfts1155.getContract.createClone(
                 'My New NFT',
@@ -97,6 +106,14 @@ describe('NFT1155 End-to-End', () => {
                 [ ],
                 deployer
             )
+||||||| 2c6317ee
+        it('Clonning an instance', async () => {
+            const cloneAddress = await nftUpgradeable.createClone('My New NFT', 'xyz', '', deployer)
+=======
+        it('Clonning an instance', async () => {
+            
+            const cloneAddress = await nevermined.nfts1155.getContract.createClone('My New NFT', 'xyz', '', deployer)
+>>>>>>> feature/create_contracts
             assert.isDefined(cloneAddress)
             console.log(`NFT (ERC-1155) clonned into address ${cloneAddress}`)
         })

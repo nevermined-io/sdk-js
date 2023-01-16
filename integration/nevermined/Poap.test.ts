@@ -95,13 +95,11 @@ describe('POAPs with Assets', () => {
         assert.isDefined(agreementId)
     })
 
-    it('we should be able to ask the gateway to transfer the poap', async () => {
-        const receipt = await nevermined.nfts721.transferForDelegate(
+    it('we should be able to claim the POAP via the Nevermined Node', async () => {
+        const receipt = await nevermined.nfts721.claim(
             agreementId,
             editor.getId(),
-            user.getId(),
-            BigNumber.from(1),
-            721
+            user.getId()
         )
         assert.isTrue(receipt)
     })

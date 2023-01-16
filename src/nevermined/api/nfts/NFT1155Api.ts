@@ -214,7 +214,7 @@ export class NFT1155Api extends NFTsBaseApi {
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
-     * @param nftAmount - The amount of NFTs to buy.
+     * @param numberEditions - The amount of NFTs to buy.
      * @param consumer - The account of the NFT buyer.
      * @param txParams - Optional transaction parameters.
      *
@@ -222,7 +222,7 @@ export class NFT1155Api extends NFTsBaseApi {
      */
     public order(
         did: string,
-        nftAmount: BigNumber,
+        numberEditions: BigNumber,
         consumer: Account,
         txParams?: TxParameters
     ): SubscribablePromise<OrderProgressStep, string> {
@@ -236,7 +236,7 @@ export class NFT1155Api extends NFTsBaseApi {
             const agreementId = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
                 agreementIdSeed,
                 ddo,
-                nftSalesTemplate.params(consumer.getId(), nftAmount),
+                nftSalesTemplate.params(consumer.getId(), numberEditions),
                 consumer,
                 consumer,
                 undefined,
@@ -250,6 +250,44 @@ export class NFT1155Api extends NFTsBaseApi {
             return agreementId
         })
     }
+
+    /**
+     * Claims the transfer of a NFT to the Nevermined Node on behalf of the publisher.
+     *
+     * @remarks
+     * This is useful when the consumer does not want to wait for the publisher
+     * to transfer the NFT once the payment is made. Assuming the publisher delegated
+     * transfer permissions to the Node.
+     *
+     * One example would be a marketplace where the user wants to get access to the NFT
+     * as soon as the payment is made
+     *
+     * @example
+     * ```ts
+     * const receipt = await nevermined.nfts721.claim(
+     *           agreementId,
+     *           editor.getId(),
+     *           subscriber.getId(),
+     *           BigNumber.from(1)
+     *       )
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param nftHolder - The address of the current owner of the NFT.
+     * @param nftReceiver - The address where the NFT should be transferred.
+     * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
+     *
+     * @returns true if the transfer was successful.
+     */
+    public async claim(
+        agreementId: string,
+        nftHolder: string,
+        nftReceiver: string,
+        numberEditions: BigNumber = BigNumber.from(1)
+    ): Promise<boolean> {
+        return await this.claimNFT(agreementId, nftHolder, nftReceiver, numberEditions, 1155)
+    }
+
 
     /**
      * Transfer NFTs to the consumer.
@@ -359,7 +397,7 @@ export class NFT1155Api extends NFTsBaseApi {
     }
 
     /**
-     * Get the NFT balance for a particular did
+     * Get the NFT balance for a particular did associated to an account/address
      *
      * @example
      * ```ts
@@ -367,9 +405,9 @@ export class NFT1155Api extends NFTsBaseApi {
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
-     * @param account - The account to check the balance of.
+     * @param account - The account/address to check the balance of.
      *
-     * @returns The amount of NFTs owned by the account.
+     * @returns The number of editions of a NFT owned by the account/address.
      */
     public async balance(did: string, account: Account | string): Promise<BigNumber> {
         return await this.nftContract.balance(
@@ -397,7 +435,7 @@ export class NFT1155Api extends NFTsBaseApi {
     /**
      * Enable or disable NFT permissions for an operator.
      *
-     * @see {@link transferForDelegate}
+     * @see {@link claim}
      *
      * @example
      * ```ts
@@ -436,7 +474,7 @@ export class NFT1155Api extends NFTsBaseApi {
     /**
      * Returns if the `operatorAddress` is approved
      *
-     * @see {@link transferForDelegate}
+     * @see {@link claim}
      *
      * @example
      * ```ts

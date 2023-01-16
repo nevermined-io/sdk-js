@@ -159,6 +159,40 @@ export class NFT721Api extends NFTsBaseApi {
     }
 
     /**
+     * Claims the transfer of a NFT to the Nevermined Node on behalf of the publisher.
+     *
+     * @remarks
+     * This is useful when the consumer does not want to wait for the publisher
+     * to transfer the NFT once the payment is made. Assuming the publisher delegated
+     * transfer permissions to the Node.
+     *
+     * One example would be a marketplace where the user wants to get access to the NFT
+     * as soon as the payment is made
+     *
+     * @example
+     * ```ts
+     * const receipt = await nevermined.nfts721.claim(
+     *           agreementId,
+     *           editor.getId(),
+     *           subscriber.getId()
+     *       )
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param nftHolder - The address of the current owner of the NFT.
+     * @param nftReceiver - The address where the NFT should be transferred.
+     *
+     * @returns true if the transfer was successful.
+     */
+    public async claim(
+        agreementId: string,
+        nftHolder: string,
+        nftReceiver: string
+    ): Promise<boolean> {
+        return await this.claimNFT(agreementId, nftHolder, nftReceiver, BigNumber.from(1), 721)
+    }
+
+    /**
      * Transfer NFT-721 to the consumer.
      *
      * @remarks
@@ -428,20 +462,41 @@ export class NFT721Api extends NFTsBaseApi {
         return await this.nftContract.isApprovedForAll(from, operatorAddress)
     }
 
+<<<<<<< HEAD
     /**
      * Get the NFT balance for a particular account
+||||||| 2c6317ee
+     /**
+     * Get the NFT balance for a particular account
+=======
+     /**
+     * Get the NFT balance for a particular account/address
+>>>>>>> feature/create_contracts
      *
      * @example
      * ```ts
      * const balance = await nevermined.nfts721.balance(artist)
      * ```
      *
-     * @param account - The account to check the balance of.
+     * @param account - The account/address to check the balance of.
      *
+<<<<<<< HEAD
      * @returns The amount of NFTs owned by the account.
      */
     public async balanceOf(owner: Account): Promise<BigNumber> {
         return await this.nftContract.balanceOf(owner.getId())
+||||||| 2c6317ee
+     * @returns The amount of NFTs owned by the account.
+     */   
+    public async balanceOf(owner: Account): Promise<BigNumber> {
+        return await this.nftContract.balanceOf(owner.getId())
+=======
+     * @returns The balance of NFTs owned by the account.
+     */   
+    public async balanceOf(account: Account | string): Promise<BigNumber> {
+        const _address = account instanceof Account ? account.getId() : account
+        return await this.nftContract.balanceOf(_address)
+>>>>>>> feature/create_contracts
     }
 
     /**
