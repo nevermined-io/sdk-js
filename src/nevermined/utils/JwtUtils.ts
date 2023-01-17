@@ -29,9 +29,8 @@ export class EthSignJWT extends SignJWT {
         const encodedHeader = encoder.encode(
             this.base64url(JSON.stringify(this.protectedHeader))
         )
-        const data = this.concat(encodedHeader, encoder.encode('.'), encodedPayload)
 
-        const sign = await signatureUtils.signText(decoder.decode(data), address)
+        const sign = await signatureUtils.signText(this._payload.iss, address)
 
         let input = ethers.utils.arrayify(sign)
 
@@ -81,6 +80,17 @@ export class JwtUtils extends Instantiable {
         this.tokenCache = new Map()
     }
 
+    private getEthSignaturePayload(
+        walletAddress: string,
+        customMessage?: (walletAddress: string) => string
+    ) {
+        if (!customMessage) {
+            return walletAddress
+        }
+
+        return customMessage(walletAddress)
+    }
+
     public generateCacheKey(...args: string[]): string {
         return args.join()
     }
@@ -109,7 +119,10 @@ export class JwtUtils extends Instantiable {
     public async generateClientAssertion(account: Account) {
         const address = ethers.utils.getAddress(account.getId())
         return new EthSignJWT({
-            iss: address
+            iss: this.getEthSignaturePayload(
+                address,
+                this.config.signatureMessage?.GenerateClientAssertion
+            )
         })
             .setProtectedHeader({ alg: 'ES256K' })
             .setIssuedAt()
