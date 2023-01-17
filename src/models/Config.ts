@@ -88,6 +88,10 @@ export class Config {
      * The address receiving the fee if this is higher than 0
      */
     public feeReceiver?: string = ZeroAddress
+
+    public signatureMessage?: {
+        GenerateClientAssertion: (walletAddress: string) => string
+    }
 }
 
 export default Config
