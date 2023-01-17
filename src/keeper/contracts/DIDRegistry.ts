@@ -101,6 +101,7 @@ export class DIDRegistry extends ContractBase {
      */
     public async registerMintableDID(
         did: string,
+        nftContractAddress: string,
         checksum: string,
         providers: string[],
         ownerAddress: string,
@@ -115,7 +116,7 @@ export class DIDRegistry extends ContractBase {
             ownerAddress,
             [
                 didZeroX(did),
-                nftAttributes.nftContractAddress,
+                zeroX(nftContractAddress),
                 zeroX(checksum),
                 providers.map(zeroX),
                 url,
@@ -148,6 +149,7 @@ export class DIDRegistry extends ContractBase {
      */
     public async registerMintableDID721(
         did: string,
+        nftContractAddress: string,
         checksum: string,
         providers: string[],
         ownerAddress: string,
@@ -162,6 +164,7 @@ export class DIDRegistry extends ContractBase {
             ownerAddress,
             [
                 didZeroX(did),
+                zeroX(nftContractAddress),
                 zeroX(checksum),
                 providers.map(zeroX),
                 url,

@@ -76,9 +76,17 @@ export class NFTContractsBase extends ContractBase {
         nftURI: string                        
     }> {
         const registeredValues = await this.call('getNFTAttributes', [didZeroX(did)])
-        if (!registeredValues[0])
-            // If `nftInitialized` is because the NFT is not initialized on-chain
-            throw new NFTError(`NFTError with id ${didZeroX(did)} not found on-chain`)
+        if (!registeredValues[0])   {
+            // If `nftInitialized` is because the NFT information is not on-chain
+            // It could be also a ERC-721 NFT
+            return {
+                nftInitialized: false,
+                nftSupply: BigNumber.from(0),
+                mintCap: BigNumber.from(0),
+                nftURI: ''
+            }
+        }
+                        
         return {            
             nftInitialized: registeredValues[0],
             nftSupply: BigNumber.from(registeredValues[1]),

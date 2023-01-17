@@ -120,8 +120,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 config,
                 contractABI,
                 editor,
-                []
+                [ editor.getId(), nevermined.keeper.didRegistry.getAddress(), 'Subscription NFT', '', '', 0 ]
             )
+
 
             await nevermined.contracts.loadNft721Api(subscriptionNFT)
 
@@ -164,6 +165,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 royaltyAttributes: royaltyAttributes
             })
             assetDDO = await nevermined.nfts721.create(nftAttributes, editor)
+            console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
             assert.isDefined(assetDDO)
         })
     })

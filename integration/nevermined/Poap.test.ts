@@ -1,7 +1,7 @@
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
-import POAPUpgradeable from '../../test/testdata/POAPUpgradeable.json'
+import POAPUpgradeable from '../../test/resources/artifacts/POAPUpgradeable.json'
 import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'

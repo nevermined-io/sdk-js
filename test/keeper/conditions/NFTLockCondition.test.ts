@@ -93,6 +93,7 @@ describe('NFTLockCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -153,6 +154,7 @@ describe('NFTLockCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -184,6 +186,7 @@ describe('NFTLockCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -238,6 +241,7 @@ describe('NFTLockCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),

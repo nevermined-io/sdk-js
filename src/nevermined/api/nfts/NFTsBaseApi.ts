@@ -158,6 +158,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         let nftSupply = BigNumber.from(0)
         let mintCap = BigNumber.from(0)
         let nftURI = ''
+
         if (nftInfo[1]) { // NFT is initialized so asking the NFT contract
             const nftApi = await this.nevermined.contracts.loadNft1155(nftInfo[0])
             

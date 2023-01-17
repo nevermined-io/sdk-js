@@ -133,6 +133,7 @@ describe('TransferNFTCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -235,6 +236,7 @@ describe('TransferNFTCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -332,6 +334,7 @@ describe('TransferNFTCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
