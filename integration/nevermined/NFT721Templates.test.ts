@@ -220,7 +220,7 @@ describe('NFT721Templates E2E', () => {
                     royaltyAttributes: getRoyaltyAttributes(
                         nevermined,
                         RoyaltyKind.Standard,
-                        0
+                        10000
                     )
                 })
                 ddo = await nevermined.nfts721.create(nftAttributes, artist)

@@ -124,20 +124,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         if (contractReceipt.status !== 1) {
             throw new Error('Error calling "setNFT1155" on "didRegistry"')
         }        
-        // let transactionResponse: TransactionResponse = await erc1155.grantOperatorRole(
-        //     didRegistry.address
-        // )
-        // let contractReceipt: ContractReceipt = await transactionResponse.wait()
-        // if (contractReceipt.status !== 1) {
-        //     throw new Error('Error calling "grantOperatorRole" on "erc1155"')
-        // }
-
-        // transactionResponse = await erc721.grantOperatorRole(didRegistry.address)
-        // contractReceipt = await transactionResponse.wait()
-        // if (contractReceipt.status !== 1) {
-        //     throw new Error('Error calling "grantOperatorRole" on "erc721"')
-        // }
-
+        
         // Managers
         const templateStoreManager = await TestContractHandler.deployContract(
             'TemplateStoreManager',

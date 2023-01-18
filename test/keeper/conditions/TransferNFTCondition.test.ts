@@ -344,7 +344,6 @@ describe('TransferNFTCondition', () => {
                 activityId
             )
             await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
-            // await didRegistry.mint(did, nftAmount, owner.getId())
 
             await nftReceiver.requestTokens(10)
             await nevermined.keeper.token.approve(
