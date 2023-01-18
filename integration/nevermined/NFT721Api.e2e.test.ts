@@ -10,7 +10,6 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { zeroX } from '../../src/utils'
 import { ethers } from 'ethers'
 import { BigNumber } from '../../src/utils'
 import '../globals'

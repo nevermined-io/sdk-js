@@ -124,6 +124,7 @@ describe('MetaTx test with nfts', () => {
             const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
             const signer = etherProvider.getSigner(wallet.address)
             
+            
             await nevermined.nfts1155.burn(
                 ddo.id, 
                 BigNumber.from(2), 
