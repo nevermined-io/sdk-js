@@ -40,7 +40,15 @@ jobs:
           ETH_PORT: 18545
         run: |
           yarn run test:cover
-      
+
+      - name: Run subgraph integration tests
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+        run: |
+          export ${{ matrix.delay }}=true
+          npm run integration:subgraph
+
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
@@ -51,7 +59,6 @@ jobs:
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
           NO_GRAPH: true
         run: yarn run integration:cover
-
 
   integration:
     runs-on: ubuntu-latest
