@@ -2,7 +2,7 @@ import ContractBase, { TxParameters } from './ContractBase'
 import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
 import { BigNumber, ContractReceipt } from 'ethers'
-import { KeeperError, NFTError } from '../../errors'
+import { KeeperError } from '../../errors'
 
 export class NFTContractsBase extends ContractBase {
     /**
@@ -37,7 +37,9 @@ export class NFTContractsBase extends ContractBase {
         try {
             const contractReceipt: ContractReceipt = await this.sendFrom(
                 'createClone',
-                cap ? [name, symbol, uri, String(cap), operators] : [name, symbol, uri, operators],
+                cap
+                    ? [name, symbol, uri, String(cap), operators]
+                    : [name, symbol, uri, operators],
                 from,
                 txParams
             )
@@ -55,8 +57,17 @@ export class NFTContractsBase extends ContractBase {
      * @param from - Sender account
      * @returns Contract Receipt
      */
-    public grantOperatorRole(operatorAddress: string, from?: Account, txParams?: TxParameters) {
-        return this.sendFrom('grantOperatorRole', [zeroX(operatorAddress)], from, txParams)
+    public grantOperatorRole(
+        operatorAddress: string,
+        from?: Account,
+        txParams?: TxParameters
+    ) {
+        return this.sendFrom(
+            'grantOperatorRole',
+            [zeroX(operatorAddress)],
+            from,
+            txParams
+        )
     }
 
     /**
@@ -68,15 +79,14 @@ export class NFTContractsBase extends ContractBase {
         return this.call('isOperator', [zeroX(address)])
     }
 
-
     public async getNFTAttributes(did: string): Promise<{
         nftInitialized: boolean
         nftSupply: BigNumber
         mintCap: BigNumber
-        nftURI: string                        
+        nftURI: string
     }> {
         const registeredValues = await this.call('getNFTAttributes', [didZeroX(did)])
-        if (!registeredValues[0])   {
+        if (!registeredValues[0]) {
             // If `nftInitialized` is because the NFT information is not on-chain
             // It could be also a ERC-721 NFT
             return {
@@ -86,8 +96,8 @@ export class NFTContractsBase extends ContractBase {
                 nftURI: ''
             }
         }
-                        
-        return {            
+
+        return {
             nftInitialized: registeredValues[0],
             nftSupply: BigNumber.from(registeredValues[1]),
             mintCap: BigNumber.from(registeredValues[2]),
@@ -102,7 +112,16 @@ export class NFTContractsBase extends ContractBase {
      * @param from - Sender account
      * @returns Contract Receipt
      */
-    public revokeOperatorRole(operatorAddress: string, from?: Account, txParams?: TxParameters) {
-        return this.sendFrom('revokeOperatorRole', [zeroX(operatorAddress)], from, txParams)
+    public revokeOperatorRole(
+        operatorAddress: string,
+        from?: Account,
+        txParams?: TxParameters
+    ) {
+        return this.sendFrom(
+            'revokeOperatorRole',
+            [zeroX(operatorAddress)],
+            from,
+            txParams
+        )
     }
 }
