@@ -94,6 +94,8 @@ describe('NFT721Templates E2E', () => {
         nevermined = await Nevermined.getInstance(config)
 
         TestContractHandler.setConfig(config)
+        ;[owner, artist, collector1, collector2, gallery] =
+            await nevermined.accounts.list()
 
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
         const erc721ABI = await TestContractHandler.getABI(
@@ -108,9 +110,6 @@ describe('NFT721Templates E2E', () => {
             artist.getId(),
             [ artist.getId(), nevermined.keeper.didRegistry.address, 'NFT721', 'NVM', '', 0 ]
         )
-
-        ;[owner, artist, collector1, collector2, gallery] =
-            await nevermined.accounts.list()
 
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 

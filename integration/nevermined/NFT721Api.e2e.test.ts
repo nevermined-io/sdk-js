@@ -125,9 +125,6 @@ describe('NFTs721 Api End-to-End', () => {
             ddo = await nevermined.nfts721.create(nftAttributes, artist)
 
             assert.isDefined(ddo)
-            await nftContract.grantOperatorRole(artist.getId(), nftContractOwner)
-
-            await nftContract.mint(zeroX(ddo.shortId()), artist.getId())
 
             const owner = await nevermined.nfts721.ownerOfAsset(ddo.id)
             assert.equal(owner, artist.getId())
