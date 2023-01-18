@@ -92,7 +92,7 @@ describe('NFT1155 End-to-End', () => {
                 'My New NFT',
                 'xyz',
                 '',
-                [nevermined.keeper.didRegistry.getAddress()],
+                [],
                 deployer
             )
             assert.isDefined(cloneAddress)
