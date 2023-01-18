@@ -3,13 +3,13 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, NFTAttributes } from '../../src'
-import { BigNumber } from '../../src/utils'
+import { BigNumber, makeAccounts } from '../../src/utils'
 import {
     getRoyaltyAttributes,
     RoyaltyAttributes,
     RoyaltyKind
 } from '../../src/nevermined'
-import { ethers, Wallet } from 'ethers'
+import { ethers } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper'
@@ -26,9 +26,11 @@ describe('MetaTx test with nfts', () => {
     const paymasterAddress = JSON.parse(
         fs.readFileSync('artifacts/opengsn.json').toString()
     ).paymasterAddress
+    let wallets
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
+        wallets = makeAccounts(process.env.SEED_WORDS)
 
         // Accounts
         ;[artist, collector] = await nevermined.accounts.list()
@@ -46,7 +48,7 @@ describe('MetaTx test with nfts', () => {
 
     describe('with default token', async () => {
         before(async () => {
-            const metadata = getMetadata()
+            const metadata = getMetadata(Math.random())
             metadata.userId = payload.sub
             royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0)
 
@@ -91,8 +93,9 @@ describe('MetaTx test with nfts', () => {
             )
         })
 
-        it('metatransactions should work', async () => {
-            const wallet = Wallet.createRandom()
+        it('metatransactions should work', async () => { 
+                                           
+            const wallet = wallets[1]
 
             await nevermined.keeper.nftUpgradeable.transferNft(
                 ddo.id,
@@ -100,6 +103,7 @@ describe('MetaTx test with nfts', () => {
                 BigNumber.from(2),
                 artist.getId()
             )
+
             assert.deepEqual(
                 BigNumber.from(
                     await nevermined.keeper.nftUpgradeable.balance(
@@ -107,7 +111,7 @@ describe('MetaTx test with nfts', () => {
                         ddo.id
                     )
                 ),
-                BigNumber.from(2)
+                BigNumber.from(4)
             )
 
             const config = await {
@@ -119,16 +123,18 @@ describe('MetaTx test with nfts', () => {
                 provider: new Web3ProviderWrapper(nevermined.web3),
                 config
             })
+            
             await gsnProvider.init()
             gsnProvider.addAccount(wallet.privateKey)
             const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
             const signer = etherProvider.getSigner(wallet.address)
             
-            
+            const signerAccount = new Account(await signer.getAddress())
+
             await nevermined.nfts1155.burn(
                 ddo.id, 
                 BigNumber.from(2), 
-                new Account(await signer.getAddress())
+                signerAccount
                 )
             assert.deepEqual(
                 await nevermined.nfts1155.balance(ddo.id, artist),
@@ -141,7 +147,7 @@ describe('MetaTx test with nfts', () => {
                         ddo.id
                     )
                 ),
-                BigNumber.from(0)
+                BigNumber.from(2)
             )
         })
     })
