@@ -27,12 +27,11 @@ jobs:
           ref: develop
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.3.0
+      - uses: nevermined-io/nvm-tools-actions@v0.4.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
-          compute: "true"
           node: "false"
           contracts-version: "v3.0.0-rc2"
 
@@ -65,15 +64,8 @@ jobs:
           # estuary token for local development
           ESTUARY_TOKEN: ESTaa43688b-4ccf-4dad-8a16-410e488706ffARY
           ESTUARY_ENDPOINT: http://estuary.nevermined.localnet
-          ENABLE_COMPUTE: "true"
-          ARGO_HOST: https://argo.nevermined.localnet
-          ARGO_NAMESPACE: "argo"
-          NODE_TLS_REJECT_UNAUTHORIZED: "0"
         run: |
           cd node
-          export ARGO_AUTH_TOKEN=$(kubectl get secret -n nevermined argo-workflow-token -o jsonpath='{.data.token}' | base64 --decode)
-          export MINIO_ACCESS_KEY=$(kubectl get secret -n nevermined minio-access-key -o jsonpath='{.data.accesskey}' | base64 --decode)
-          export MINIO_SECRET_KEY=$(kubectl get secret -n nevermined minio-secret-key -o jsonpath='{.data.secretkey}' | base64 --decode)
           nvm-tools copy-artifacts ./artifacts
           yarn start 2>&1 | tee node_log.txt &
 
