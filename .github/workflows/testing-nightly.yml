@@ -45,41 +45,12 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-<<<<<<< HEAD
-        run: |
-          export ${{ matrix.delay }}=true
-          npm run integration:cover
-      - name: Run subgraph integration tests
-        env:
-          SEED_WORDS: ${{ secrets.seedWords }}
-          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-        run: |
-          export ${{ matrix.delay }}=true
-          npm run integration:subgraph
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt
-||||||| 2c6317ee
-        run: |
-          export ${{ matrix.delay }}=true
-          npm run integration:cover
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt
-=======
           IPFS_GATEWAY: https://ipfs.infura.io:5001
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
           NO_GRAPH: true
         run: yarn run integration:cover
->>>>>>> feature/create_contracts
 
 
   integration:
