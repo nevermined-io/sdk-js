@@ -1,7 +1,7 @@
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
-import POAPUpgradeable from '../../test/resources/artifacts/POAPUpgradeable.json'
+import POAPUpgradeable from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
 import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'
@@ -37,7 +37,14 @@ describe('POAPs with Assets', () => {
         poapContract = await TestContractHandler.deployArtifact(
             POAPUpgradeable,
             editor.getId(),
-            [ editor.getId(), nevermined.keeper.didRegistry.address, 'NFT721', 'NVM', '', 0 ]
+            [
+                editor.getId(),
+                nevermined.keeper.didRegistry.address,
+                'NFT721',
+                'NVM',
+                '',
+                0
+            ]
         )
         assert.isDefined(poapContract)
 
