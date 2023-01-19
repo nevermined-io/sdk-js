@@ -19,7 +19,7 @@ export enum NodeUploadBackends {
 export enum AssetResult {
     DATA = 'data',
     DECRYPTED = 'decrypted',
-    URL = 'url',
+    URL = 'url'
 }
 
 /**
@@ -86,6 +86,10 @@ export class NeverminedNode extends Instantiable {
 
     public getUploadIPFSEndpoint() {
         return `${this.url}${apiPath}/upload/ipfs`
+    }
+
+    public getUploadS3Endpoint() {
+        return `${this.url}${apiPath}/upload/s3`
     }
 
     public getNftEndpoint() {
@@ -167,7 +171,7 @@ export class NeverminedNode extends Instantiable {
         index = -1,
         result = AssetResult.DATA,
         buyer?: string,
-        babysig?: Babysig,
+        babysig?: Babysig
     ): Promise<string> {
         const { jwt } = this.nevermined.utils
         let accessToken: string
@@ -193,7 +197,9 @@ export class NeverminedNode extends Instantiable {
         const filesPromises = files
             .filter((_, i) => index === -1 || i === index)
             .map(async ({ index: i }) => {
-                const consumeUrl = `${serviceEndpoint}/${noZeroX(agreementId)}/${i}?result=${result}`
+                const consumeUrl = `${serviceEndpoint}/${noZeroX(
+                    agreementId
+                )}/${i}?result=${result}`
                 try {
                     await this.nevermined.utils.fetch.downloadFile(
                         consumeUrl,
@@ -237,7 +243,7 @@ export class NeverminedNode extends Instantiable {
         destination: string,
         index = -1,
         headers?: { [key: string]: string },
-        result = AssetResult.DATA,
+        result = AssetResult.DATA
     ) {
         const filesPromises = files
             .filter((_, i) => +index === -1 || i === index)
@@ -477,10 +483,22 @@ export class NeverminedNode extends Instantiable {
         backend: NodeUploadBackends = NodeUploadBackends.Filecoin
     ): Promise<any> {
         let response
-        const uploadEndpoint =
-            backend === NodeUploadBackends.Filecoin
-                ? this.getUploadFilecoinEndpoint()
-                : this.getUploadIPFSEndpoint()
+        let uploadEndpoint: string
+
+        switch (backend) {
+            case NodeUploadBackends.Filecoin:
+                uploadEndpoint = this.getUploadFilecoinEndpoint()
+                break
+            case NodeUploadBackends.IPFS:
+                uploadEndpoint = this.getUploadIPFSEndpoint()
+                break
+            case NodeUploadBackends.AmazonS3:
+                uploadEndpoint = this.getUploadS3Endpoint()
+                break
+            default:
+                throw new Error(`Backend ${backend} not supported`)
+        }
+
         if (typeof data === 'string')
             response = await this.nevermined.utils.fetch.uploadMessage(
                 uploadEndpoint,
