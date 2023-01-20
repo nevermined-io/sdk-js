@@ -40,13 +40,6 @@
               {
                 "index": 0,
                 "stageType": "Compute",
-                "requirements": {
-                  "container": {
-                    "image": "",
-                    "tag": "",
-                    "checksum": "17f283e41792426285c96cd74ee3760d7da4b8228fa24f8ca4bef032a2df9884"
-                  }
-                },
                 "input": [
                   {
                     "index": 0,

@@ -34,14 +34,6 @@ export interface Provider {
     }
 }
 
-export interface StageRequirements {
-    container: {
-        image: string
-        tag: string
-        checksum: string
-    }
-}
-
 export interface StageInput {
     index: number
     id: string
@@ -60,7 +52,6 @@ export interface StageOutput {
 export interface Stage {
     index: number
     stageType?: string
-    requirements: StageRequirements
     input: StageInput[]
     transformation: StageTransformation
     output: StageOutput
