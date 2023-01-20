@@ -69,10 +69,10 @@ export abstract class ConditionSmall extends ContractBase {
         agreementId: string,
         args: any[],
         from?: Account,
-        params?: TxParameters,
+        txParams?: TxParameters,
         method: ConditionMethod = 'fulfill'
     ) {
-        return this.sendFrom(method, [zeroX(agreementId), ...args], from, params)
+        return this.sendFrom(method, [zeroX(agreementId), ...args], from, txParams)
     }
 
     public async generateIdHash(agreementId: string, ...values: any[]) {
@@ -162,14 +162,14 @@ export abstract class Condition<
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
-        params?: TxParameters,
+        txParams?: TxParameters,
         method: ConditionMethod = 'fulfill'
     ) {
         return this.sendFrom(
             method,
             [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],
             from,
-            params
+            txParams
         )
     }
 
@@ -177,7 +177,7 @@ export abstract class Condition<
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt | void>
 
     public async instance(
@@ -204,7 +204,7 @@ export abstract class ProviderCondition<
         cond: ConditionInstance<Extra>,
         additionalParams: Extra,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.sendFrom(
             this.nodeMethod(),
@@ -213,7 +213,7 @@ export abstract class ProviderCondition<
                 ...(await cond.params(this.nodeMethod(), additionalParams))
             ],
             from,
-            params
+            txParams
         )
     }
 
@@ -230,7 +230,7 @@ export abstract class ConsumerCondition<
         _cond: ConditionInstance<Extra>,
         _additionalParams: Extra,
         _from?: Account,
-        _params?: TxParameters
+        _txParams?: TxParameters
     ) {
         return
     }

@@ -101,6 +101,7 @@ describe('NFTHolderCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -148,6 +149,7 @@ describe('NFTHolderCondition', () => {
             })
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -201,6 +203,7 @@ describe('NFTHolderCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),

@@ -3,13 +3,17 @@ import { AgreementsApi } from './api/AgreementsApi'
 import { AssetsApi } from './api/AssetsApi'
 import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
-import { Keeper, CustomToken, Nft1155Contract } from '../keeper'
+import { Keeper, CustomToken, Nft1155Contract, Nft721Contract } from '../keeper'
 import { NeverminedOptions } from '../models'
 import {
     Instantiable,
     generateIntantiableConfigFromConfig
 } from '../Instantiable.abstract'
-import { NFT1155Api, NFT721Api, ComputeApi, SearchApi, ServicesApi } from './api'
+import { NFT1155Api } from './api/nfts/NFT1155Api'
+import { NFT721Api } from './api/nfts/NFT721Api'
+import { SearchApi } from './api/SearchApi'
+import { ServicesApi } from './api/ServicesApi'
+import { ComputeApi } from './api'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -62,8 +66,12 @@ export class Nevermined extends Instantiable {
      * Nevermined very own contract reflector.
      */
     public contracts = {
+
+        ////////////////
+        // ERC-721
+        ////////////////
         /**
-         * Load a custom ERC-721 nft.
+         * Load the ERC-721 API in the `nevermined` object given a remote NFT contract address.
          *
          * @param address - The address of the ERC-721 contracts to load
          * @returns An instance of {@link NFT721Api}
@@ -72,19 +80,58 @@ export class Nevermined extends Instantiable {
             this.nfts721 = await NFT721Api.getInstance(this.instanceConfig, address)
             return this.nfts721
         },
+        /**
+         * Loads the ERC-721 API in the `nevermined` object
+         *
+         * @param api - An instance of the `NFT721Api`
+         * @returns An instance of {@link NFT721Api}
+         */
         loadNft721Api: async (api: NFT721Api): Promise<NFT721Api> => {
             this.nfts721 = api
             return this.nfts721
         },
         /**
-         * Load a custom ERC-1155 nft.
+         * Returns a ERC-721 NFT contract instance given a remote NFT contract address.
          *
          * @param address - The address of the ERC-721 contracts to load
-         * @returns An instance of {@link NFT721Api}
-         */
-        loadNft1155: async (address: string): Promise<Nft1155Contract> => {
-            return await Nft1155Contract.getInstance(this.instanceConfig, address)
+         * @returns An instance of {@link Nft721Contract}
+         */        
+        loadNft721Contract: async (address: string): Promise<Nft721Contract> => {
+            return await Nft721Contract.getInstance(this.instanceConfig, address)
+        },        
+
+        ////////////////
+        // ERC-1155
+        ////////////////
+        /**
+         * Load the ERC-1155 API in the `nevermined` object given a remote NFT contract address.
+         *
+         * @param address - The address of the ERC-1155 contracts to load
+         * @returns An instance of {@link NFT1155Api}
+         */        
+        loadNft1155: async (address: string): Promise<NFT1155Api> => {
+            this.nfts1155 = await NFT1155Api.getInstance(this.instanceConfig, undefined, address)
+            return this.nfts1155
         },
+        /**
+         * Loads the ERC-1155 API in the `nevermined` object
+         *
+         * @param api - An instance of the `NFT1155Api`
+         * @returns An instance of {@link NFT1155Api}
+         */        
+        loadNft1155Api: async (api: NFT1155Api): Promise<NFT1155Api> => {
+            this.nfts1155 = api
+            return this.nfts1155
+        },
+        /**
+         * Returns a ERC-1155 NFT contract instance given a remote NFT contract address.
+         *
+         * @param address - The address of the ERC-1155 contracts to load
+         * @returns An instance of {@link Nft1155Contract}
+         */         
+        loadNft1155Contract: async (address: string): Promise<Nft1155Contract> => {
+            return await Nft1155Contract.getInstance(this.instanceConfig, address)
+        },                
         /**
          * Load a custom ERC-20 nft.
          *

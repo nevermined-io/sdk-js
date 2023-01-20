@@ -28,13 +28,13 @@ export class NFTAccessCondition extends ProviderCondition<NFTAccessConditionCont
         did: string,
         grantee: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
             [didZeroX(did), grantee].map(zeroX),
             from,
-            params
+            txParams
         )
     }
 

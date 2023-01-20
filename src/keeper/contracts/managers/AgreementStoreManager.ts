@@ -81,7 +81,7 @@ export class AgreementStoreManager extends ContractBase {
         timeLocks: number[],
         timeOuts: number[],
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.send(
             'createAgreement',
@@ -94,7 +94,7 @@ export class AgreementStoreManager extends ContractBase {
                 timeLocks,
                 timeOuts
             ],
-            params
+            txParams
         )
     }
 }

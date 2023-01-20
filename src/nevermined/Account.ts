@@ -84,17 +84,18 @@ export class Account extends Instantiable {
     /**
      * Request Nevermined Tokens.
      * @param amount - Tokens to be requested.
+     * @param txParams - Transaction parameters
      * @returns
      */
     public async requestTokens(
         amount: number | string | BigNumber,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<string> {
         if (!this.nevermined.keeper.dispenser) {
             throw new KeeperError('Dispenser not available on this network.')
         }
         try {
-            await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, params)
+            await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, txParams)
         } catch (e) {
             throw new KeeperError(`Error requesting tokens: ${e}`)
         }

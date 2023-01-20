@@ -46,7 +46,8 @@ export class TransferDIDOwnershipCondition extends ProviderCondition<AccessCondi
      * @param agreementId - Agreement identifier.
      * @param did - The Decentralized Identifier of the asset.
      * @param receiver - The address of the granted user.
-     * @param from -
+     * @param from - Account fullfilling
+     * @param txParams - Transaction parameters
      * @returns Condition state.
      */
     public fulfill(
@@ -54,13 +55,13 @@ export class TransferDIDOwnershipCondition extends ProviderCondition<AccessCondi
         did: string,
         receiver: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(receiver)],
             from,
-            params
+            txParams
         )
     }
 }

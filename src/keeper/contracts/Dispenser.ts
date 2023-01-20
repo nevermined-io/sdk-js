@@ -12,13 +12,13 @@ export class Dispenser extends ContractBase {
     public async requestTokens(
         amount: number | string | BigNumber,
         receiverAddress: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.send(
             'requestTokens',
             receiverAddress,
             [BigNumber.parseUnits(amount.toString(), 0)],
-            params
+            txParams
         )
     }
 }

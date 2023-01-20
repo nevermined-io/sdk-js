@@ -46,7 +46,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     const royalties = 0
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
-    const nftAmount = BigNumber.from(1)
 
     let initialBalances: any
     let scale: BigNumber
@@ -121,8 +120,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 config,
                 contractABI,
                 editor,
-                []
+                [ editor.getId(), nevermined.keeper.didRegistry.getAddress(), 'Subscription NFT', '', '', 0 ]
             )
+
 
             await nevermined.contracts.loadNft721Api(subscriptionNFT)
 
@@ -165,6 +165,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 royaltyAttributes: royaltyAttributes
             })
             assetDDO = await nevermined.nfts721.create(nftAttributes, editor)
+            console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
             assert.isDefined(assetDDO)
         })
     })
@@ -197,12 +198,10 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
             // Let's use the Node to mint the subscription and release the payments
 
-            const receipt = await nevermined.nfts721.transferForDelegate(
+            const receipt = await nevermined.nfts721.claim(
                 agreementId,
                 editor.getId(),
-                subscriber.getId(),
-                nftAmount,
-                721
+                subscriber.getId()
             )
             assert.isTrue(receipt)
 

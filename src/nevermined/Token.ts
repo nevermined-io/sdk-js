@@ -1,6 +1,6 @@
 import { Account } from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper'
+import { TxParameters as txParams } from '../keeper'
 import { BigNumber } from '../utils'
 
 /**
@@ -51,15 +51,16 @@ export class TokenUtils extends Instantiable {
      * @param to - Address that receives the tokens.
      * @param amount - Tokens to transfer.
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns True if the transfer succeeded.
      */
     public async transfer(
         to: string,
         amount: BigNumber,
         from: Account,
-        params?: TxParameters
+        txParams?: txParams
     ): Promise<boolean> {
-        this.nevermined.keeper.token.transfer(to, amount, from.getId(), params)
+        this.nevermined.keeper.token.transfer(to, amount, from.getId(), txParams)
         return true
     }
 
@@ -67,12 +68,13 @@ export class TokenUtils extends Instantiable {
      * Request tokens for an account.
      * @param account - Account instance.
      * @param amount - Token amount.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded, {@link false} otherwise
      */
     public async request(
         account: Account,
         amount: number,
-        params?: TxParameters
+        params?: txParams
     ): Promise<boolean> {
         try {
             await account.requestTokens(amount, params)

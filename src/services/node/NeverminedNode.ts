@@ -104,7 +104,7 @@ export class NeverminedNode extends Instantiable {
         return `${this.url}${apiPath}/nft-access`
     }
 
-    public getNftTransferForDelegateEndpoint() {
+    public getClaimNftEndpoint() {
         return `${this.url}${apiPath}/nft-transfer`
     }
 
@@ -403,7 +403,7 @@ export class NeverminedNode extends Instantiable {
         }
     }
 
-    public async nftTransferForDelegate(
+    public async claimNFT(
         agreementId: string,
         nftHolder: string,
         nftReceiver: string,
@@ -412,7 +412,7 @@ export class NeverminedNode extends Instantiable {
     ): Promise<boolean> {
         try {
             const response = await this.nevermined.utils.fetch.post(
-                this.getNftTransferForDelegateEndpoint(),
+                this.getClaimNftEndpoint(),
                 JSON.stringify({
                     agreementId,
                     nftHolder,

@@ -41,7 +41,8 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
      * @param did - Asset Decentralized identifier.
      * @param rewardAddress - The contract address where the reward is locked.
      * @param amount - The amount of tokens to be transferred.
-     * @param from -
+     * @param from - Account sending the transaction
+     * @param txParams - Transaction parameters
      * @returns Condition state.
      */
     public fulfill(
@@ -50,13 +51,13 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
         rewardAddress: string,
         amount: BigNumber,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(rewardAddress), String(amount)],
             from,
-            params
+            txParams
         )
     }
 }

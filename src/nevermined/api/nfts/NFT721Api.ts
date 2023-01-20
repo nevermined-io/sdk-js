@@ -159,6 +159,40 @@ export class NFT721Api extends NFTsBaseApi {
     }
 
     /**
+     * Claims the transfer of a NFT to the Nevermined Node on behalf of the publisher.
+     *
+     * @remarks
+     * This is useful when the consumer does not want to wait for the publisher
+     * to transfer the NFT once the payment is made. Assuming the publisher delegated
+     * transfer permissions to the Node.
+     *
+     * One example would be a marketplace where the user wants to get access to the NFT
+     * as soon as the payment is made
+     *
+     * @example
+     * ```ts
+     * const receipt = await nevermined.nfts721.claim(
+     *           agreementId,
+     *           editor.getId(),
+     *           subscriber.getId()
+     *       )
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param nftHolder - The address of the current owner of the NFT.
+     * @param nftReceiver - The address where the NFT should be transferred.
+     *
+     * @returns true if the transfer was successful.
+     */
+    public async claim(
+        agreementId: string,
+        nftHolder: string,
+        nftReceiver: string
+    ): Promise<boolean> {
+        return await this.claimNFT(agreementId, nftHolder, nftReceiver, BigNumber.from(1), 721)
+    }
+
+    /**
      * Transfer NFT-721 to the consumer.
      *
      * @remarks
@@ -428,20 +462,21 @@ export class NFT721Api extends NFTsBaseApi {
         return await this.nftContract.isApprovedForAll(from, operatorAddress)
     }
 
-    /**
-     * Get the NFT balance for a particular account
+     /**
+     * Get the NFT balance for a particular account/address
      *
      * @example
      * ```ts
      * const balance = await nevermined.nfts721.balance(artist)
      * ```
      *
-     * @param account - The account to check the balance of.
+     * @param account - The account/address to check the balance of.
      *
-     * @returns The amount of NFTs owned by the account.
-     */
-    public async balanceOf(owner: Account): Promise<BigNumber> {
-        return await this.nftContract.balanceOf(owner.getId())
+     * @returns The balance of NFTs owned by the account.
+     */   
+    public async balanceOf(account: Account | string): Promise<BigNumber> {
+        const _address = account instanceof Account ? account.getId() : account
+        return await this.nftContract.balanceOf(_address)
     }
 
     /**
@@ -453,7 +488,9 @@ export class NFT721Api extends NFTsBaseApi {
      * ```
      *
      * @param owner - The owner account.
-     * @param agreementId - the Id of the underlying service agreement.
+     * @param account - Account of the user sending the transaction
+     * @param agreementIdSeed - the seed of the Agreement Id of the underlying service agreement.
+     * @param txParams - Transaction parameters
      *
      * @returns  true if the transaction was successful.
      *
@@ -462,9 +499,9 @@ export class NFT721Api extends NFTsBaseApi {
      */
     public async releaseSecondaryMarketRewards(
         owner: Account,
-        consumer: Account,
+        account: Account,
         agreementIdSeed: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         const service = await this.nevermined.services.metadata.retrieveService(
             agreementIdSeed
@@ -475,14 +512,14 @@ export class NFT721Api extends NFTsBaseApi {
         const agreementId =
             await this.nevermined.keeper.agreementStoreManager.agreementId(
                 agreementIdSeed,
-                consumer.getId()
+                account.getId()
             )
 
         let receipt = await this.nevermined.agreements.conditions.transferNft721(
             agreementId,
             ddo,
             owner,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('TransferNft Failed.')
@@ -492,7 +529,7 @@ export class NFT721Api extends NFTsBaseApi {
             ddo,
             owner,
             undefined,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('ReleaseNftReward Failed.')
@@ -520,9 +557,9 @@ export class NFT721Api extends NFTsBaseApi {
     public async grantOperatorRole(
         operatorAddress: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.grantOperatorRole(operatorAddress, from, params)
+        return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
     }
 
     /**
@@ -546,8 +583,8 @@ export class NFT721Api extends NFTsBaseApi {
     public async revokeOperatorRole(
         operatorAddress: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
-        return this.nftContract.revokeOperatorRole(operatorAddress, from, params)
+        return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
     }
 }

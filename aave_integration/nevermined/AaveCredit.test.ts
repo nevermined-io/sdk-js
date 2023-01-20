@@ -105,7 +105,8 @@ describe('AaveCredit', () => {
         } else {
             nftContract = await TestContractHandler.deployArtifact(
                 ERC721,
-                deployer.getId()
+                deployer.getId(),
+                [ deployer.getId(), didRegistry.address, 'NFT721', 'NVM', '', 0 ]
             )
             nft721Wrapper = (await nevermined.contracts.loadNft721(nftContract.address))
                 .getContract

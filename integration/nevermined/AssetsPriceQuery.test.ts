@@ -90,7 +90,7 @@ describe('Assets Query by Price', () => {
         ddoNftSales = await nevermined.nfts1155.create(nftAttributes, account)
 
         // wait for elasticsearch
-        await sleep(2000)
+        await sleep(5000)
     })
 
     it('Should query all services by default', async () => {

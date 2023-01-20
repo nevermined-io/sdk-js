@@ -78,7 +78,7 @@ export class AaveCollateralDepositCondition extends ProviderCondition<AaveCollat
         delegatedAmount: string,
         interestRateMode: number,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
@@ -91,7 +91,7 @@ export class AaveCollateralDepositCondition extends ProviderCondition<AaveCollat
                 interestRateMode
             ],
             from,
-            params
+            txParams
         )
     }
 }

@@ -289,19 +289,20 @@ export class AssetsApi extends RegistryBaseApi {
      * Transfer ownership of an asset.
      * @param did - Asset DID.
      * @param newOwner - Ethereum address of the new owner of the DID.
+     * @param txParams - Transaction parameters
      * @returns Returns ethers transaction receipt.
      */
     public async transferOwnership(
         did: string,
         newOwner: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<ContractReceipt> {
         const owner = await this.nevermined.assets.owner(did)
         return this.nevermined.keeper.didRegistry.transferDIDOwnership(
             did,
             newOwner,
             owner,
-            params
+            txParams
         )
     }
 
@@ -385,19 +386,19 @@ export class AssetsApi extends RegistryBaseApi {
      * @param did - The unique identifier of the assert
      * @param address - The account to grant the permissions
      * @param ownerAccount - Account sending the request. It must be the owner of the asset
-     * @param params  - Transaction parameters
+     * @param txParams  - Transaction parameters
      */
     public async grantPermissions(
         did: string,
         address: string,
         ownerAccount: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return await this.nevermined.keeper.didRegistry.grantPermission(
             did,
             address,
             ownerAccount.getId(),
-            params
+            txParams
         )
     }
 
@@ -407,19 +408,19 @@ export class AssetsApi extends RegistryBaseApi {
      * @param did - The unique identifier of the assert
      * @param address - The account to revoke the permissions
      * @param ownerAccount - Account sending the request. It must be the owner of the asset
-     * @param params  - Transaction parameters
+     * @param txParams  - Transaction parameters
      */
     public async revokePermissions(
         did: string,
         address: string,
         ownerAccount: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return await this.nevermined.keeper.didRegistry.revokePermission(
             did,
             address,
             ownerAccount.getId(),
-            params
+            txParams
         )
     }
 

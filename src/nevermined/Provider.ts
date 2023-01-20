@@ -17,19 +17,20 @@ export class Providers extends Instantiable {
      * @param did - Identifier of the entity created
      * @param address - New provider address in the list of providers.
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async add(
         did: string,
         address: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.addProvider(
             did,
             address,
             from.getId(),
-            params
+            txParams
         )
         return true
     }
@@ -39,19 +40,20 @@ export class Providers extends Instantiable {
      * @param did - Identifier of the entity created
      * @param address - New provider address in the list of providers.
      * @param from - Sender account address.
+     * @param txParams - Transaction parameters
      * @returns {@link true} if the call succeeded.
      */
     public async remove(
         did: string,
         address: string,
         from: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         await this.nevermined.keeper.didRegistry.removeProvider(
             did,
             address,
             from.getId(),
-            params
+            txParams
         )
         return true
     }

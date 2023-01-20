@@ -1,7 +1,7 @@
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
-import POAPUpgradeable from '../../test/testdata/POAPUpgradeable.json'
+import POAPUpgradeable from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
 import { assert } from 'chai'
 import { BigNumber, ethers } from 'ethers'
 import { getMetadata } from '../utils'
@@ -36,7 +36,15 @@ describe('POAPs with Assets', () => {
         TestContractHandler.setConfig(config)
         poapContract = await TestContractHandler.deployArtifact(
             POAPUpgradeable,
-            editor.getId()
+            editor.getId(),
+            [
+                editor.getId(),
+                nevermined.keeper.didRegistry.address,
+                'NFT721',
+                'NVM',
+                '',
+                0
+            ]
         )
         assert.isDefined(poapContract)
 
@@ -94,13 +102,11 @@ describe('POAPs with Assets', () => {
         assert.isDefined(agreementId)
     })
 
-    it('we should be able to ask the gateway to transfer the poap', async () => {
-        const receipt = await nevermined.nfts721.transferForDelegate(
+    it('we should be able to claim the POAP via the Nevermined Node', async () => {
+        const receipt = await nevermined.nfts721.claim(
             agreementId,
             editor.getId(),
-            user.getId(),
-            BigNumber.from(1),
-            721
+            user.getId()
         )
         assert.isTrue(receipt)
     })

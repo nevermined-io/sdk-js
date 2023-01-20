@@ -13,17 +13,20 @@ import { ContractHandler } from '../ContractHandler'
 export class Nft1155Contract extends NFTContractsBase {
     public static async getInstance(
         config: InstantiableConfig,
-        address?: string
+        address?: string,
+        contractName = 'NFT1155Upgradeable',
+        artifactsFolder = config.artifactsFolder
     ): Promise<Nft1155Contract> {
-        const nft: Nft1155Contract = new Nft1155Contract('NFT1155Upgradeable')
-        await nft.init(config)
 
-        if (address) {
-            const solidityABI = await ContractHandler.getABI(
-                'NFT1155Upgradeable',
-                config.artifactsFolder
-            )
-            nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+        const nft: Nft1155Contract = new Nft1155Contract(contractName)
+        await nft.init(config)
+        
+        if (address) {                    
+            const networkName = (await nft.nevermined.keeper.getNetworkName()).toLowerCase()
+
+            const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
+            await new ContractHandler(config).checkExists(address)
+            nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)    
         }
 
         return nft
@@ -35,6 +38,7 @@ export class Nft1155Contract extends NFTContractsBase {
      * @param name - NFT Contract name
      * @param symbol - NFT Contract symbol
      * @param uri - NFT Contract metadata uri
+     * @param operators - Array of account addresses to be added as NFT operators
      * @param from - Sender account
      * @returns Contract Receipt
      */
@@ -42,10 +46,11 @@ export class Nft1155Contract extends NFTContractsBase {
         name: string,
         symbol: string,
         uri: string,
+        operators: string[] = [],
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this._createClone(name, symbol, uri, undefined, from, params)
+        return this._createClone(name, symbol, uri, undefined, operators, from, txParams)
     }
 
     /**
@@ -68,20 +73,20 @@ export class Nft1155Contract extends NFTContractsBase {
      * @param operatorAddress - Operator address
      * @param approved - Is approved
      * @param from - Sender account
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public setApprovalForAll(
         operatorAddress: string,
         approved: boolean,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.sendFrom(
             'setApprovalForAll',
             [zeroX(operatorAddress), approved],
             from,
-            params
+            txParams
         )
     }
 
@@ -103,7 +108,7 @@ export class Nft1155Contract extends NFTContractsBase {
      * @param to - Account address of the NFT receiver
      * @param amount - Number of editions to transfer. Typically just 1
      * @param from - Account address transferring the NFT
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async transferNft(
@@ -111,13 +116,13 @@ export class Nft1155Contract extends NFTContractsBase {
         to: string,
         amount: BigNumber,
         from: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.send(
             'safeTransferFrom',
             from,
             [from, to, didZeroX(did), amount, []],
-            params
+            txParams
         )
     }
 
@@ -128,7 +133,8 @@ export class Nft1155Contract extends NFTContractsBase {
      * @param did - The NFT id to mint
      * @param amount - Number of editions to mint
      * @param from - Account address minting the NFT
-     * @param params - Transaction additional parameters
+     * @param data - Data
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async mint(
@@ -137,9 +143,9 @@ export class Nft1155Contract extends NFTContractsBase {
         amount: BigNumber,
         from: string,
         data?: string,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.send('mint', from, [to, didZeroX(did), amount, data || '0x'], params)
+        return this.send('mint', from, [to, didZeroX(did), amount, data || '0x'], txParams)
     }
 
     /**
@@ -148,16 +154,16 @@ export class Nft1155Contract extends NFTContractsBase {
      * @param from - Account address burning the NFT editions
      * @param did - The NFT id to burn
      * @param amount - Number of editions to burn
-     * @param params - Transaction additional parameters
+     * @param txParams - Transaction additional parameters
      * @returns Contract Receipt
      */
     public async burn(
         from: string,
         did: string,
         amount: BigNumber,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.send('burn', from, [from, didZeroX(did), amount], params)
+        return this.send('burn', from, [from, didZeroX(did), amount], txParams)
     }
 
     /**

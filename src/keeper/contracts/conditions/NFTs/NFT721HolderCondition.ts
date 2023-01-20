@@ -65,7 +65,8 @@ export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditi
      * @param did - The Decentralized Identifier of the asset.
      * @param holderAddress - The contract address where the reward is locked.
      * @param nftTokenAddress - The contract address of the nft to use.
-     * @param from -
+     * @param from - Account sending the transaction
+     * @param txParams - Transacion parameters
      * @returns condition state
      */
     public fulfill(
@@ -74,13 +75,13 @@ export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditi
         holderAddress: string,
         nftTokenAddress: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
             [didZeroX(did), zeroX(holderAddress), String(1), nftTokenAddress],
             from,
-            params
+            txParams
         )
     }
 }

@@ -32,13 +32,13 @@ export class ComputeExecutionCondition extends ProviderCondition<ComputeExecutio
         did: string,
         computeConsumer: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
             [didZeroX(did), computeConsumer].map(zeroX),
             from,
-            params
+            txParams
         )
     }
 

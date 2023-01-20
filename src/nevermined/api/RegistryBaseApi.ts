@@ -248,6 +248,7 @@ export abstract class RegistryBaseApi extends Instantiable {
                 if (nftAttributes.ercType === 721) {
                     await didRegistry.registerMintableDID721(
                         didSeed,
+                        nftAttributes.nftContractAddress,
                         checksum,
                         assetAttributes.providers || [this.config.neverminedNodeAddress],
                         publisher.getId(),
@@ -260,6 +261,7 @@ export abstract class RegistryBaseApi extends Instantiable {
                 } else {
                     await didRegistry.registerMintableDID(
                         didSeed,
+                        nftAttributes.nftContractAddress,
                         checksum,
                         assetAttributes.providers || [this.config.neverminedNodeAddress],
                         publisher.getId(),

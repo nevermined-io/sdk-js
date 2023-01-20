@@ -2,7 +2,7 @@ import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { DDO } from '../../ddo'
 import { findServiceConditionByName, ZeroAddress } from '../../utils'
-import { Token, CustomToken, TxParameters } from '../../keeper'
+import { Token, CustomToken, TxParameters as txParams } from '../../keeper'
 import { AssetPrice } from '../../models'
 import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
@@ -43,7 +43,7 @@ export class ConditionsApi extends Instantiable {
         receivers: string[],
         erc20TokenAddress?: string,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: txParams
     ): Promise<boolean> {
         const { lockPaymentCondition, escrowPaymentCondition } =
             this.nevermined.keeper.conditions
@@ -102,13 +102,14 @@ export class ConditionsApi extends Instantiable {
      * @param did - Asset ID.
      * @param grantee - Consumer address.
      * @param from - Account of sender.
+     * @param txParams - Transaction parameters
      */
     public async grantAccess(
         agreementId: string,
         did: string,
         grantee: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         try {
             const { accessCondition } = this.nevermined.keeper.conditions
@@ -118,7 +119,7 @@ export class ConditionsApi extends Instantiable {
                 did,
                 grantee,
                 from,
-                params
+                txParams
             )
             return this.isFulfilled(contractReceipt)
         } catch (e) {
@@ -132,13 +133,14 @@ export class ConditionsApi extends Instantiable {
      * @param did - Asset ID.
      * @param grantee - Consumer address.
      * @param from - Account of sender.
+     * @param txParams - Transaction parameters
      */
     public async grantServiceExecution(
         agreementId: string,
         did: string,
         grantee: string,
         from?: Account,
-        params?: TxParameters
+        params?: txParams
     ) {
         try {
             const { computeExecutionCondition } = this.nevermined.keeper.conditions
@@ -172,6 +174,7 @@ export class ConditionsApi extends Instantiable {
      * @param did - Asset ID.
      * @param erc20TokenAddress - Publisher address.
      * @param from - Account of sender.
+     * @param txParams - Transaction parameters
      */
     public async releaseReward(
         agreementId: string,
@@ -181,7 +184,7 @@ export class ConditionsApi extends Instantiable {
         did: string,
         erc20TokenAddress?: string,
         from?: Account,
-        params?: TxParameters
+        txParams?: txParams
     ) {
         try {
             const { escrowPaymentCondition } = this.nevermined.keeper.conditions
@@ -216,7 +219,7 @@ export class ConditionsApi extends Instantiable {
                 storedAgreement.conditionIds[1],
                 storedAgreement.conditionIds[0],
                 from,
-                params
+                txParams
             )
             return this.isFulfilled(contractReceipt)
         } catch (e) {
@@ -238,7 +241,7 @@ export class ConditionsApi extends Instantiable {
         nftAmount: BigNumber,
         publisher: Account,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: txParams
     ) {
         const template = this.nevermined.keeper.templates.nftSalesTemplate
         const { accessConsumer } = await template.getAgreementData(agreementId)
@@ -279,7 +282,7 @@ export class ConditionsApi extends Instantiable {
         ddo: DDO,
         publisher: Account,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: txParams
     ) {
         const template = this.nevermined.keeper.templates.nft721SalesTemplate
         const { accessConsumer } = await template.getAgreementData(agreementId)
@@ -325,7 +328,7 @@ export class ConditionsApi extends Instantiable {
         holder: string,
         nftAmount: BigNumber,
         from?: Account,
-        params?: TxParameters
+        params?: txParams
     ) {
         const { nftHolderCondition } = this.nevermined.keeper.conditions
 
@@ -355,7 +358,7 @@ export class ConditionsApi extends Instantiable {
         ddo: DDO,
         holderAddress: string,
         from?: Account,
-        params?: TxParameters
+        params?: txParams
     ) {
         const { nft721HolderCondition } = this.nevermined.keeper.conditions
         const accessService = ddo.findServiceByType('nft-access')
@@ -388,7 +391,7 @@ export class ConditionsApi extends Instantiable {
         did: string,
         grantee: string,
         from?: Account,
-        params?: TxParameters
+        params?: txParams
     ) {
         const { nftAccessCondition } = this.nevermined.keeper.conditions
 
@@ -415,7 +418,7 @@ export class ConditionsApi extends Instantiable {
         ddo: DDO,
         nftAmount: BigNumber,
         from?: Account,
-        txParams?: TxParameters
+        txParams?: txParams
     ) {
         const { transferNftCondition } = this.nevermined.keeper.conditions
         const template = this.nevermined.keeper.templates.nftSalesTemplate
@@ -454,7 +457,7 @@ export class ConditionsApi extends Instantiable {
         ddo: DDO,
         nftAmount: BigNumber,
         from?: Account,
-        params?: TxParameters
+        params?: txParams
     ) {
         const { transferNftCondition } = this.nevermined.keeper.conditions
         const template = this.nevermined.keeper.templates.nftSalesTemplate
@@ -506,7 +509,7 @@ export class ConditionsApi extends Instantiable {
         agreementId: string,
         ddo: DDO,
         publisher: Account,
-        txParams?: TxParameters
+        txParams?: txParams
     ) {
         const { transferNft721Condition } = this.nevermined.keeper.conditions
         const template = this.nevermined.keeper.templates.nft721SalesTemplate

@@ -20,9 +20,57 @@ import { RegistryBaseApi } from '../RegistryBaseApi'
  * Abstract class providing common NFT methods for different ERC implementations.
  */
 export abstract class NFTsBaseApi extends RegistryBaseApi {
+
+    /**
+     * Claims the transfer of a NFT to the Nevermined Node on behalf of the publisher.
+     *
+     * @remarks
+     * This is useful when the consumer does not want to wait for the publisher
+     * to transfer the NFT once the payment is made. Assuming the publisher delegated
+     * transfer permissions to the Node.
+     *
+     * One example would be a marketplace where the user wants to get access to the NFT
+     * as soon as the payment is made
+     *
+     * @example
+     * ```ts
+     * const receipt = await nevermined.nfts721.claim(
+     *           agreementId,
+     *           editor.getId(),
+     *           subscriber.getId(),
+     *           nftAmount,
+     *           721
+     *       )
+     * ```
+     *
+     * @param agreementId - The NFT sales agreement id.
+     * @param nftHolder - The address of the current owner of the NFT.
+     * @param nftReceiver - The address where the NFT should be transferred.
+     * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
+     * @param ercType  - The Type of the NFT ERC (1155 or 721).
+     *
+     * @returns true if the transfer was successful.
+     */
+    protected async claimNFT(
+        agreementId: string,
+        nftHolder: string,
+        nftReceiver: string,
+        numberEditions: BigNumber = BigNumber.from(1),
+        ercType: ERCType = 1155
+    ): Promise<boolean> {
+        return await this.nevermined.services.node.claimNFT(
+            agreementId,
+            nftHolder,
+            nftReceiver,
+            numberEditions,
+            ercType
+        )
+    }
+
     /**
      * Asks the Node to transfer the NFT on behalf of the publisher.
      *
+     * @deprecated Use the `claim` method instead
      * @remarks
      * This is useful when the consumer does not want to wait for the publisher
      * to transfer the NFT once the payment is made. Assuming the publisher delegated
@@ -57,7 +105,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         nftAmount: BigNumber,
         ercType: ERCType = 1155
     ): Promise<boolean> {
-        return await this.nevermined.services.node.nftTransferForDelegate(
+        return await this.nevermined.services.node.claimNFT(
             agreementId,
             nftHolder,
             nftReceiver,
@@ -105,6 +153,20 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             royaltyScheme = RoyaltyKind.Standard
             royalties = await this.nevermined.keeper.royalties.standard.getRoyalty(did)
         }
+        
+        const nftInfo = await this.nevermined.keeper.didRegistry.getNFTInfo(did)
+        let nftSupply = BigNumber.from(0)
+        let mintCap = BigNumber.from(0)
+        let nftURI = ''
+
+        if (nftInfo[1]) { // NFT is initialized so asking the NFT contract
+            const nftApi = await this.nevermined.contracts.loadNft1155(nftInfo[0])
+            
+            const nftAttributes = await nftApi.getContract.getNFTAttributes(did)
+            nftSupply = nftAttributes.nftSupply
+            mintCap = nftAttributes.mintCap
+            nftURI = nftAttributes.nftURI
+        }
 
         return {
             owner: details[0],
@@ -113,10 +175,13 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             lastUpdatedBy: details[3],
             blockNumberUpdated: Number(details[4]),
             providers: details[5],
-            nftSupply: Number(details[6]),
-            mintCap: Number(details[7]),
+            nftSupply,
+            mintCap,
             royalties,
-            royaltyScheme
+            royaltyScheme,
+            nftContractAddress: nftInfo[0],
+            nftInitialized: nftInfo[1],
+            nftURI
         }
     }
 
@@ -255,7 +320,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         nftAmount: BigNumber = BigNumber.from(1),
         agreementIdSeed: string,
         conditionsTimeout: number[] = [86400, 86400, 86400],
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<boolean> {
         const { nftSalesTemplate } = this.nevermined.keeper.templates
         const service = await this.nevermined.services.metadata.retrieveService(
@@ -279,7 +344,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             consumer,
             consumer,
             conditionsTimeout,
-            params
+            txParams
         )
 
         if (!agreementId) throw new Error('Creating buy agreement failed')
@@ -293,7 +358,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
             assetPrice.getReceivers(),
             payment.parameters.find(p => p.name === '_tokenAddress').value as string,
             consumer,
-            params
+            txParams
         )
 
         if (!receipt) throw new NFTError('LockPayment Failed.')
@@ -359,4 +424,5 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         }
         return result
     }
+
 }

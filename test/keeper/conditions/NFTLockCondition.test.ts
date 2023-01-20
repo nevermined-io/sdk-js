@@ -93,6 +93,7 @@ describe('NFTLockCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -153,6 +154,7 @@ describe('NFTLockCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -184,6 +186,7 @@ describe('NFTLockCondition', () => {
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -233,11 +236,12 @@ describe('NFTLockCondition', () => {
                 nftContractAddress: nftUpgradeable.address,
                 cap: BigNumber.from(100),
                 amount,
-                preMint: false
+                preMint: true
             })
 
             await didRegistry.registerMintableDID(
                 didSeed,
+                nftUpgradeable.address,
                 checksum,
                 [],
                 owner.getId(),
@@ -247,7 +251,7 @@ describe('NFTLockCondition', () => {
                 activityId
             )
             const did = await didRegistry.hashDID(didSeed, owner.getId())
-            await didRegistry.mint(did, amount, owner.getId())
+            // await didRegistry.mint(did, amount, owner.getId())
 
             const hashValues = await nftLockCondition.hashValues(
                 did,

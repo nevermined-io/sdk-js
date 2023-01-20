@@ -100,7 +100,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         timeOuts: number[],
         extraArgs: any[],
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.sendFrom(
             'createAgreement',
@@ -113,7 +113,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 ...extraArgs
             ],
             from,
-            params
+            txParams
         )
     }
 
@@ -130,7 +130,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         amounts: BigNumber[],
         receivers: string[],
         from?: Account,
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
         return this.sendFrom(
             'createAgreementAndPayEscrow',
@@ -148,7 +148,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
                 receivers
             ],
             from,
-            params
+            txParams
         )
     }
 
@@ -225,7 +225,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         consumer: Account,
         from: Account,
         timeOuts?: number[],
-        params?: TxParameters
+        txParams?: TxParameters
     ): Promise<string> {
         const { agreementId, instances } = await this.instanceFromDDO(
             agreementIdSeed,
@@ -242,7 +242,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
             timeOuts ? timeOuts : new Array(instances.length).fill(0),
             [consumer.getId()],
             from,
-            params
+            txParams
         )
 
         return zeroX(agreementId)

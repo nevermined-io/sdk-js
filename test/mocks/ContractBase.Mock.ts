@@ -21,8 +21,8 @@ export default class ContractBaseMock extends ContractBase {
         name: string,
         from: string,
         args: any[],
-        params?: TxParameters
+        txParams?: TxParameters
     ) {
-        return this.send(name, from, args, params)
+        return this.send(name, from, args, txParams)
     }
 }
