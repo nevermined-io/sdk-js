@@ -161,10 +161,10 @@ export class ComputeApi extends RegistryBaseApi {
         executionId: string,
         consumerAccount: Account
     ) {
-        return await this.nevermined.services.node.computeStatus(
+        return (await this.nevermined.services.node.computeStatus(
             agreementId,
             executionId,
             consumerAccount
-        )
+        )).workflowStatus
     }
 }

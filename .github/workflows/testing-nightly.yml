@@ -5,15 +5,15 @@ on:
     - cron: '30 5 * * *'
 
 jobs:
-  
+
   e2e:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.2.0
+      - uses: nevermined-io/nvm-tools-actions@v0.6.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
@@ -49,6 +49,16 @@ jobs:
           export ${{ matrix.delay }}=true
           npm run integration:subgraph
 
+      - name: Run compute integration tests
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+          NO_GRAPH: true
+          NEVERMINED_NODE_URI: http://node.nevermined.localnet
+          WEB3_PROVIDER_URL: http://contracts.nevermined.localnet
+        run: |
+          npm run integration:compute
+
+
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
@@ -79,7 +89,7 @@ jobs:
           ls -l node_modules/@nevermined-io/contracts/artifacts
 
       - name: Run nightly tests
-        env:        
+        env:
           SEED_WORDS: ${{ secrets.TEST_MNEMONIC_NIGHTLY }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
           IPFS_GATEWAY: https://ipfs.infura.io:5001
@@ -87,4 +97,4 @@ jobs:
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
         run: |
           yarn integration:e2e:mumbai
-  
+
