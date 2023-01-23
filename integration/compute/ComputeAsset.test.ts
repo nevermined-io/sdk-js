@@ -67,30 +67,88 @@ describe('Compute Asset', () => {
 
     it('should order the compute service', async () => {
         agreementId = await nevermined.compute.order(computeDdo.id, consumer)
-
         assert.isDefined(agreementId)
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
-    it.skip('should execute the compute service', async () => {
+    it('should execute the compute service', async () => {
         workflowId = await nevermined.compute.execute(
             agreementId,
             workflowDdo.id,
             consumer
         )
-
         assert.isDefined(workflowId)
+        const result = await getResultDidFromStatus(
+            workflowId,
+            agreementId,
+            consumer,
+            nevermined
+        )
+        assert.equal(result.status, 'Succeeded')
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
-    it.skip('should return the logs of the current execution', async () => {
+    it('should return the logs of the current execution', async () => {
         const logs = await nevermined.compute.logs(agreementId, workflowId, consumer)
+        console.log(logs)
         assert.isDefined(logs)
     })
 
     // Skipping this randomly failing test. Check https://github.com/nevermined-io/sdk-js/issues/33
-    it.skip('should return the status of the current execution', async () => {
+    it('should return the status of the current execution', async () => {
         const status = await nevermined.compute.status(agreementId, workflowId, consumer)
-        assert.isDefined(status)
+        assert.equal( status.status, 'Succeeded')
     })
+
+    const getResultDidFromStatus = async (
+        argoWorkflowId: string,
+        agreementID: string,
+        account: Account,
+        nvm: Nevermined,
+        maxAttempts = -1,
+        wait = 5000
+    ): Promise<any> => {
+        let resultDid = ''
+        let statusObject
+        const statusResponse = ''
+        let currentStatus = ''
+        let computeFinished = false
+        let attemp = 0
+
+        while (!computeFinished && (attemp < maxAttempts || maxAttempts === -1)) {
+            console.log('Fetching compute status...')
+            attemp++
+
+            await new Promise(f => setTimeout(f, wait))
+
+            statusObject = await nvm.compute.status(
+                agreementID,
+                argoWorkflowId,
+                account
+            )
+            console.log(statusResponse)
+
+            console.log('complete status: ' + JSON.stringify(statusObject))
+            currentStatus = statusObject?.status
+            console.log('job status: ' + currentStatus)
+
+            if (currentStatus === 'Succeeded' || currentStatus === 'Failed') {
+                console.log(`Compute finished with status ${currentStatus}`)
+                resultDid = statusObject?.did
+                computeFinished = true
+            }
+        }
+
+        if (!computeFinished) {
+            console.log(
+                `Compute not finished for workflow ${argoWorkflowId}. Last known status: ${JSON.stringify(
+                    statusObject
+                )}`
+            )
+        } else if (currentStatus === 'Succeeded') {
+            console.log(`Compute finished succesfully. Did published: ${resultDid}`)
+        }
+
+        return { status: currentStatus, completeStatus: statusObject, did: resultDid }
+    }
 })

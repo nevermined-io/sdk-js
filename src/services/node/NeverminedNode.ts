@@ -397,7 +397,7 @@ export class NeverminedNode extends Instantiable {
                     response.status
                 )
             }
-            return await response.text()
+            return await response.json()
         } catch (e) {
             throw new NeverminedNodeError(e)
         }
