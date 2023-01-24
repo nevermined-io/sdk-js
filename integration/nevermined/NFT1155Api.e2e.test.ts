@@ -87,9 +87,6 @@ describe('NFTs 1155 Api End-to-End', () => {
             nftContractOwner
         )
 
-        const isOperator = await nevermined.keeper.nftUpgradeable.isOperator(transferNftCondition.address)
-        console.log(`Is transfer condition operator? ${isOperator}`)
-
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
             collector1: await token.balanceOf(collector1.getId()),
