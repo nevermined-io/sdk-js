@@ -172,7 +172,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     describe('As a subscriber I want to get access to some contents', () => {
         it('I check the details of the subscription NFT', async () => {
-            const details = await nevermined.nfts721.details(subscriptionDDO.id, 721)
+            const details = await nevermined.nfts721.details(subscriptionDDO.id)
             assert.equal(details.owner, editor.getId())
         })
 
