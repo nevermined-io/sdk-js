@@ -587,4 +587,28 @@ export class NFT721Api extends NFTsBaseApi {
     ): Promise<ContractReceipt> {
         return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
     }
+
+    /**
+     * Get the details of an NFT
+     *
+     * @example
+     * ```ts
+     * const details = await nevermined.nfts1155.details(ddo.id)
+     *
+     * // The `details` object includes the NFT information
+     *
+     * assert.equal(details.mintCap, 5)
+     * assert.equal(details.nftSupply, 5)
+     * assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
+     * assert.equal(details.royalties, 100000)
+     * assert.equal(details.owner, artist.getId())
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     *
+     * @returns The details of the NFT.
+     */     
+    public async details(did: string) {
+        return this._details(did, 721)
+    }
 }
