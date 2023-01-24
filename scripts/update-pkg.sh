@@ -12,6 +12,7 @@ yarn pack
 cp *.tgz ../sdk-dtp/$PKG
 cp *.tgz ../node/$PKG
 cd ../sdk-dtp
+rm *dtp*.tgz
 sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
 yarn
 yarn build

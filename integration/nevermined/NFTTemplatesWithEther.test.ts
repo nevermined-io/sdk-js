@@ -443,7 +443,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     agreementAccessId,
                     ddo.shortId(),
                     collector1.getId(),
-                    numberNFTs
+                    numberNFTs,
+                    nevermined.keeper.nftUpgradeable.address
                 )
 
                 assert.equal(

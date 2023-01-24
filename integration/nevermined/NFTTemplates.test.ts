@@ -463,7 +463,8 @@ describe('NFTTemplates E2E', () => {
                     agreementAccessId,
                     ddo.id,
                     collector1.getId(),
-                    numberNFTs
+                    numberNFTs,
+                    nevermined.keeper.nftUpgradeable.address
                 )
 
                 assert.equal(
