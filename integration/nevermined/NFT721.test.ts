@@ -92,10 +92,12 @@ describe('Nfts721 operations', async () => {
             console.log(`NFT (ERC-721) clonned into address ${cloneAddress}`)
         })
 
-        it('should mint an nft token', async () => {
+        it('should mint and burn a nft token', async () => {
             // artist mints the nft
             const tokenId = generateId()            
             await nftContract.mint(zeroX(tokenId), artist.getId())
+
+            await nftContract.burn(zeroX(tokenId), artist)
         })
 
         it('should transfer an nft token with default token', async () => {

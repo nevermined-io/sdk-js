@@ -310,6 +310,38 @@ export class NFT721Api extends NFTsBaseApi {
     }
 
     /**
+     * Burn NFTs associated with an asset.
+     *
+     * @remarks
+     * The publisher can only burn NFTs that it owns. NFTs that were already transferred cannot be burned by the publisher.
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts721.burn(
+     *           tokenId,     
+     *           artist
+     * )
+     * ```
+     *
+     * @param tokenId - The identifier of the token to burn
+     * @param account - The account of the publisher of the NFT.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
+     */
+    public async burn(
+        tokenId: string,        
+        account: Account,
+        txParams?: TxParameters
+    ) {
+        return await this.nftContract.burn(
+            tokenId,
+            account,
+            txParams
+        )        
+    }
+
+    /**
      * Mint NFTs associated with an asset allowing to specify some metadata
      *
      * This function can be called multiple times as long as the minting does not exceed the maximum cap set during creation.
