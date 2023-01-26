@@ -344,7 +344,9 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     collector1.getId(),
                     numberNFTs,
+                    nevermined.keeper.nftUpgradeable.address,
                     conditionIdLockPayment[1],
+                    true,
                     artist
                 )
 
@@ -455,7 +457,7 @@ describe('NFTTemplates E2E', () => {
                 )
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it owns the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))
@@ -636,7 +638,9 @@ describe('NFTTemplates E2E', () => {
                     ddo.id,
                     collector2.getId(),
                     numberNFTs2,
+                    nevermined.keeper.nftUpgradeable.address,
                     conditionIdLockPayment2[1],
+                    true,
                     collector1
                 )
 
@@ -905,7 +909,7 @@ describe('NFTTemplates E2E', () => {
                 assert.equal(status && status.nftAccess.state, ConditionState.Unfulfilled)
             })
 
-            it('The collector demonstrates it onws the NFT', async function () {
+            it('The collector demonstrates it owns the NFT', async function () {
                 // TODO: Not sure why we need to wait here but without this the
                 // the fulfillment will fail
                 await new Promise(r => setTimeout(r, 10000))

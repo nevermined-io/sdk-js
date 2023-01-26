@@ -10,6 +10,7 @@ import {
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
 import { BigNumber } from '../../../../utils'
+import { ServiceCommon } from '../../../..'
 
 export interface TransferNFTConditionContext extends ConditionContext {
     providerId: string
@@ -68,6 +69,9 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
                         zeroX(nftReceiver),
                         String(nftAmount),
                         lockCondition,
+                        zeroX(
+                            nftContractAddress || this.nevermined.keeper.nftUpgradeable.address
+                        ),
                         willBeTransferred
                     ]
                 } else if (method === 'fulfill') {
@@ -87,6 +91,13 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         }
     }
 
+    public nftContractFromService(service: ServiceCommon): string {
+        const holder = findServiceConditionByName(service, 'transferNFT')
+        if (!holder) throw new Error('TransferNFT condition not found!')
+        let res = holder.parameters.find(p => p.name === '_contractAddress').value as string
+        return res || this.nevermined.keeper.nftUpgradeable.address
+    }
+
     public async paramsFromDDO(
         { ddo, service, providerId, consumerId, nftAmount }: TransferNFTConditionContext,
         lockCondition
@@ -102,7 +113,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
             consumerId,
             nftAmount,
             lockCondition.id,
-            this.nevermined.keeper.nftUpgradeable.address,
+            this.nftContractFromService(service),
             true
         )
     }
@@ -126,13 +137,15 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         did: string,
         nftReceiver: string,
         nftAmount: BigNumber,
+        nftAddress: string,
         lockPaymentCondition: string,
+        transfer : boolean = true,
         from?: Account,
         txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
-            [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition],
+            [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition, zeroX(nftAddress), transfer],
             from,
             txParams
         )
@@ -161,6 +174,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         nftReceiver: string,
         nftAmount: BigNumber,
         lockPaymentCondition: string,
+        nftAddress: string,
         transferAsset = true,
         from?: Account,
         txParams?: TxParameters
@@ -173,6 +187,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
                 zeroX(nftReceiver),
                 String(nftAmount),
                 lockPaymentCondition,
+                zeroX(nftAddress),
                 transferAsset
             ],
             from,
