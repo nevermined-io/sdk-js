@@ -90,6 +90,12 @@ describe('NFTs 1155 Api End-to-End', () => {
 
         await nevermined.contracts.loadNft1155(nftContract.address)
 
+        const nftContractOwner = new Account(await nevermined.nfts1155.owner())
+        await nftContract.grantOperatorRole(
+            transferNftCondition.address,
+            nftContractOwner
+        )
+
         // components
         ;({ token } = nevermined.keeper)
 
@@ -106,11 +112,6 @@ describe('NFTs 1155 Api End-to-End', () => {
         )
         await collector1.requestTokens(nftPrice.div(scale))
 
-        const nftContractOwner = new Account(await nevermined.nfts1155.owner())
-        await nftContract.grantOperatorRole(
-            transferNftCondition.address,
-            nftContractOwner
-        )
 
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
