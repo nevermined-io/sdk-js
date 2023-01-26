@@ -151,7 +151,7 @@ export class WebServiceConnector extends Instantiable {
         if (encrypt) {
             form.append('encrypt', 'true')
         }
-        return this.fetch(url, { method: 'POST', body: form })    
+        return this.fetch(url, { method: 'POST', body: form })
     }
 
     public async uploadFile(
@@ -177,9 +177,9 @@ export class WebServiceConnector extends Instantiable {
             url,
             {
                 method: 'POST',
-                body: `grant_type=${encodeURI(
-                    this.nevermined.utils.jwt.GRANT_TYPE
-                )}&assertion=${encodeURI(grantToken)}`,
+                body: `client_assertion_type=${encodeURI(
+                    this.nevermined.utils.jwt.CLIENT_ASSERTION_TYPE
+                )}&client_assertion=${encodeURI(grantToken)}`,
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
                 }
@@ -189,30 +189,28 @@ export class WebServiceConnector extends Instantiable {
     }
 
     public async fetchCID(cid: string): Promise<string> {
-        
-        const url = `${this.config.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
+        const url = `${this.config.ipfsGateway}/api/v0/cat?arg=${cid.replace(
+            'cid://',
+            ''
+        )}`
         const authToken = WebServiceConnector.getIPFSAuthToken()
         const options = {
             method: 'POST',
             ...(authToken && {
-            headers: { Authorization: `Basic ${authToken}` }
+                headers: { Authorization: `Basic ${authToken}` }
             })
         }
 
-
-        return fetch(url, options)
-        .then(async (res) => {
+        return fetch(url, options).then(async res => {
             if (!res.ok) {
-                throw new Error(
-                `${res.status}: ${res.statusText} - ${await res.text()}`
-                )
+                throw new Error(`${res.status}: ${res.statusText} - ${await res.text()}`)
             }
             return res.text()
         })
     }
 
     private static getIPFSAuthToken(): string | undefined {
-        if (!process.env.IPFS_PROJECT_ID || !process.env.IPFS_PROJECT_SECRET) {          
+        if (!process.env.IPFS_PROJECT_ID || !process.env.IPFS_PROJECT_SECRET) {
             return undefined
         } else {
             return Buffer.from(
@@ -228,7 +226,7 @@ export class WebServiceConnector extends Instantiable {
     ): Promise<Response> {
         let counterTries = 1
         let result: Response
-        while (counterTries <= numberTries) {            
+        while (counterTries <= numberTries) {
             result = await fetch(url, opts)
             if (result.ok) return result
 

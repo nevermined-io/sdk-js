@@ -434,8 +434,6 @@ export class NeverminedNode extends Instantiable {
     }
 
     public async fetchToken(grantToken: string): Promise<string> {
-        // we need to use "application/x-www-form-urlencoded" format
-        // as per https://tools.ietf.org/html/rfc6749#section-4.1.3
         const response = await this.nevermined.utils.fetch.fetchToken(
             this.getFetchTokenEndpoint(),
             grantToken,

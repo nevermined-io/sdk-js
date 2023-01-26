@@ -4,7 +4,6 @@ import { ApiError, HttpError } from '../../errors'
 const authPath = '/api/v1/auth'
 
 export class MarketplaceApi extends Instantiable {
-
     constructor(config: InstantiableConfig) {
         super()
         this.setInstanceConfig(config)
@@ -13,29 +12,27 @@ export class MarketplaceApi extends Instantiable {
     protected get url() {
         return this.config.marketplaceUri
     }
-    
-    // prettier-ignore
+
     public async login(clientAssertion: string): Promise<string> {
+        try {
+            const response = await this.nevermined.utils.fetch.fetchToken(
+                `${this.url}${authPath}/login`,
+                clientAssertion
+            )
 
-      const payload = {
-          'client_assertion_type':
-              'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-          'client_assertion': clientAssertion
-      }
+            if (!response.ok) {
+                throw new HttpError(
+                    `Error Login - ${response.statusText} ${response.url}`,
+                    response.status
+                )
+            }
 
-      try {
-          const response = await this.nevermined.utils.fetch.post(`${this.url}${authPath}/login`, JSON.stringify(payload))
+            this.config.marketplaceAuthToken = (await response.json()).access_token
 
-          if (!response.ok) {
-              throw new HttpError(`Error Login - ${response.statusText} ${response.url}`, response.status)
-          }
-
-          this.config.marketplaceAuthToken = (await response.json()).access_token
-
-          return this.config.marketplaceAuthToken
-      } catch (error) {
-          throw new ApiError(error)
-      }
+            return this.config.marketplaceAuthToken
+        } catch (error) {
+            throw new ApiError(error)
+        }
     }
 
     // prettier-ignore
