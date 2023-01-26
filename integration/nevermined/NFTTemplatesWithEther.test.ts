@@ -313,8 +313,8 @@ describe('NFTTemplates With Ether E2E', async () => {
                     ddo.shortId(),
                     collector1.getId(),
                     numberNFTs,
-                    conditionIdLockPayment[1],
                     nevermined.keeper.nftUpgradeable.address,
+                    conditionIdLockPayment[1],
                     true,
                     artist
                 )
