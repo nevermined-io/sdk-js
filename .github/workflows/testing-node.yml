@@ -55,6 +55,7 @@ jobs:
           sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./sdk.tgz\"," package.json
           sed -i "/sdk-dtp/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./dtp.tgz\"," package.json
           cat package.json
+          which jq
           yarn
           yarn run setup:dev
           yarn build
