@@ -131,10 +131,11 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
      * ```
      *
      * @param did - The Decentralized Identifier of the NFT asset.
+     * @param ercType - The type of NFT used
      *
      * @returns The details of the NFT.
      */
-    public async details(did: string) {
+    protected async _details(did: string, ercType: ERCType) {
         const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
         const royaltySchemeAddress =
             await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
@@ -160,7 +161,12 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         let nftURI = ''
 
         if (nftInfo[1]) { // NFT is initialized so asking the NFT contract
-            const nftApi = await this.nevermined.contracts.loadNft1155(nftInfo[0])
+            let nftApi
+            if (ercType == 1155)    {
+                nftApi = await this.nevermined.contracts.loadNft1155(nftInfo[0])
+            }   else {
+                nftApi = await this.nevermined.contracts.loadNft721(nftInfo[0])
+            }            
             
             const nftAttributes = await nftApi.getContract.getNFTAttributes(did)
             nftSupply = nftAttributes.nftSupply

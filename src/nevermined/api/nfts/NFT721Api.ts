@@ -310,6 +310,38 @@ export class NFT721Api extends NFTsBaseApi {
     }
 
     /**
+     * Burn NFTs associated with an asset.
+     *
+     * @remarks
+     * The publisher can only burn NFTs that it owns. NFTs that were already transferred cannot be burned by the publisher.
+     *
+     * @example
+     * ```ts
+     * await nevermined.nfts721.burn(
+     *           tokenId,     
+     *           artist
+     * )
+     * ```
+     *
+     * @param tokenId - The identifier of the token to burn
+     * @param account - The account of the publisher of the NFT.
+     * @param txParams - Optional transaction parameters.
+     *
+     * @returns The {@link ethers.ContractReceipt}
+     */
+    public async burn(
+        tokenId: string,        
+        account: Account,
+        txParams?: TxParameters
+    ) {
+        return await this.nftContract.burn(
+            tokenId,
+            account,
+            txParams
+        )        
+    }
+
+    /**
      * Mint NFTs associated with an asset allowing to specify some metadata
      *
      * This function can be called multiple times as long as the minting does not exceed the maximum cap set during creation.
@@ -586,5 +618,29 @@ export class NFT721Api extends NFTsBaseApi {
         txParams?: TxParameters
     ): Promise<ContractReceipt> {
         return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
+    }
+
+    /**
+     * Get the details of an NFT
+     *
+     * @example
+     * ```ts
+     * const details = await nevermined.nfts1155.details(ddo.id)
+     *
+     * // The `details` object includes the NFT information
+     *
+     * assert.equal(details.mintCap, 5)
+     * assert.equal(details.nftSupply, 5)
+     * assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
+     * assert.equal(details.royalties, 100000)
+     * assert.equal(details.owner, artist.getId())
+     * ```
+     *
+     * @param did - The Decentralized Identifier of the NFT asset.
+     *
+     * @returns The details of the NFT.
+     */     
+    public async details(did: string) {
+        return this._details(did, 721)
     }
 }

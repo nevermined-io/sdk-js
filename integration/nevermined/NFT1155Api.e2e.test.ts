@@ -158,8 +158,8 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
                 nftAttributes,
                 artist,
                 PublishMetadata.IPFS
-            )
-            
+            )            
+
             assert.isDefined(ddo)
 
             const balance = await nevermined.nfts1155.balance(ddo.id, artist.getId())
@@ -194,7 +194,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
             const escrowPaymentConditionBalanceBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-
+            
             agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
             assert.isDefined(agreementId)
 

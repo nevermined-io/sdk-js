@@ -1,6 +1,6 @@
 import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { didZeroX } from '../../utils'
+import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
 import { ethers } from 'ethers'
 import { BigNumber } from '../../utils'
@@ -100,6 +100,23 @@ export class Nft721Contract extends NFTContractsBase {
     ) {
         return this.sendFrom('mint', [to, didZeroX(did), url], from, txParams)
     }
+
+    /**
+     * It burns some editions of a NFT (ERC-721)
+     *
+     * @param tokenId - The NFT id to burn
+     * @param from - The account burning the NFT
+     * @param txParams - Transaction additional parameters
+     * @returns Contract Receipt
+     */
+    public async burn(        
+        tokenId: string,
+        from?: Account,
+        txParams?: TxParameters
+    ) {
+        return this.sendFrom('burn', [zeroX(tokenId)], from, txParams)
+    }
+
 
     public async setApprovalForAll(
         target: string,
