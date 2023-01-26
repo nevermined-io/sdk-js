@@ -1,0 +1,10 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPoints": [
+     "./src/index.ts",
+    ],
+    "plugin": ["typedoc-plugin-markdown"],
+    "out": "./docs/api-reference",
+    "readme": "none",
+    "entryDocument": "code-reference.md"
+}

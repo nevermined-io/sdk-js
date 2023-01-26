@@ -1,0 +1,21 @@
+{
+  "name": "Nevermined Javascript SDK",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nevermined-io/sdk-js.git"
+  },
+  "dependencies": [
+    {
+      "name": "contracts",
+      "version": "2.1.0"
+    },
+    {
+      "name": "node",
+      "version": "0.3.0"
+    },
+    {
+      "name": "marketplace-api",
+      "version": "0.3.0"
+    }
+  ]
+}
