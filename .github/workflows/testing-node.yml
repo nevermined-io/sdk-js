@@ -35,6 +35,9 @@ jobs:
           node: "false"
           contracts-version: "v3.0.0-rc5"
 
+      - name: Install sponge
+        run: sudo apt-get install -y moreutils
+
       - name: Install dependencies
         run: yarn
 
