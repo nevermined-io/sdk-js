@@ -27,13 +27,12 @@ jobs:
           ref: develop
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.5.0
+      - uses: nevermined-io/nvm-tools-actions@v0.6.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
           node: "false"
-          contracts-version: "v3.0.0-rc5"
 
       - name: Install dependencies
         run: yarn
