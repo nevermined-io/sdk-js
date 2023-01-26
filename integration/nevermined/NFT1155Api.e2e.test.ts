@@ -106,7 +106,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
         }
 
         // components
-        ;({ token } = nevermined.keeper)
+        ({ token } = nevermined.keeper)
 
         scale = BigNumber.from(10).pow(await token.decimals())
 
