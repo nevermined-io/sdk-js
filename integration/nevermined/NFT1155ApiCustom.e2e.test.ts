@@ -7,7 +7,7 @@ import {
     Nevermined,
     AssetPrice
 } from '../../src'
-import { EscrowPaymentCondition, TransferNFTCondition, Token, Nft721Contract, Nft1155Contract } from '../../src/keeper'
+import { EscrowPaymentCondition, TransferNFTCondition, Token, Nft1155Contract } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, PublishMetadata, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'

@@ -42,7 +42,7 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     public nftContractFromService(service: ServiceCommon): string {
         const holder = findServiceConditionByName(service, 'nftHolder')
         if (!holder) throw new Error('Holder condition not found!')
-        let res = holder.parameters.find(p => p.name === '_contractAddress').value as string
+        const res = holder.parameters.find(p => p.name === '_contractAddress').value as string
         return res || this.nevermined.keeper.nftUpgradeable.address
     }
 

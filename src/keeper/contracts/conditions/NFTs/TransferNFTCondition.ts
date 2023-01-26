@@ -94,7 +94,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     public nftContractFromService(service: ServiceCommon): string {
         const holder = findServiceConditionByName(service, 'transferNFT')
         if (!holder) throw new Error('TransferNFT condition not found!')
-        let res = holder.parameters.find(p => p.name === '_contractAddress').value as string
+        const res = holder.parameters.find(p => p.name === '_contractAddress').value as string
         return res || this.nevermined.keeper.nftUpgradeable.address
     }
 
@@ -139,7 +139,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         nftAmount: BigNumber,
         nftAddress: string,
         lockPaymentCondition: string,
-        transfer : boolean = true,
+        transfer  = true,
         from?: Account,
         txParams?: TxParameters
     ) {
