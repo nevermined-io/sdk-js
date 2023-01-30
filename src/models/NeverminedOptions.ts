@@ -61,6 +61,10 @@ export class NeverminedOptions {
      * The folder where the nevermined contract artifacts are located.
      */
     public artifactsFolder?: string
+    /**
+     * The folder where the nevermined contract circuits are located.
+     */
+    public circuitsFolder?: string
 
     public accounts?: ethers.Signer[]
 
