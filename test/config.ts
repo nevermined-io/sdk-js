@@ -10,6 +10,7 @@ export default {
     web3ProviderUri: `http://localhost:${process.env.ETH_PORT || 8545}`,
     verbose: LogLevel.Error,
     artifactsFolder: './artifacts',
+    circuitsFolder: './circuits',
     aaveConfig: {
         lendingPoolAddress: '0xE0fBa4Fc209b4948668006B2bE61711b7f465bAe', // Kovan
         dataProviderAddress: '0x744C1aaA95232EeF8A9994C4E0b3a89659D9AB79', // Kovan

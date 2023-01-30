@@ -10,6 +10,7 @@ export interface InstantiableConfig {
     web3?: ethers.providers.JsonRpcProvider
     logger?: Logger
     artifactsFolder?: string
+    circuitsFolder?: string
 }
 
 export function generateIntantiableConfigFromConfig(
@@ -25,7 +26,8 @@ export function generateIntantiableConfigFromConfig(
         config,
         web3: Web3Provider.getWeb3(config),
         logger: new Logger(logLevel),
-        artifactsFolder: config.artifactsFolder
+        artifactsFolder: config.artifactsFolder,
+        circuitsFolder: config.circuitsFolder
     }
 }
 
@@ -74,9 +76,13 @@ export abstract class Instantiable {
         return this._instantiableConfig?.artifactsFolder
     }
 
+    protected get circuitsFolder() {
+        return this._instantiableConfig?.circuitsFolder
+    }
+
     protected get instanceConfig(): InstantiableConfig {
-        const { nevermined, web3, config, logger, artifactsFolder } = this
-        return { nevermined, web3, config, logger, artifactsFolder }
+        const { nevermined, web3, config, logger, artifactsFolder, circuitsFolder } = this
+        return { nevermined, web3, config, logger, artifactsFolder, circuitsFolder }
     }
 
     public static getInstance(..._args: any): any {
