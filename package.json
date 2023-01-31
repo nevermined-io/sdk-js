@@ -55,7 +55,7 @@
   },
   "homepage": "https://github.com/nevermined-io/sdk-js#readme",
   "dependencies": {
-    "@nevermined-io/subgraphs": "0.5.0-rc1",
+    "@nevermined-io/subgraphs": "0.5.0",
     "assert": "^2.0.0",
     "codegen-graph-ts": "npm:@nevermined-io/codegen-graph-ts@0.1.4",
     "crypto-browserify": "^3.12.0",
