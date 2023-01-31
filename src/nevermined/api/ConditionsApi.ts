@@ -327,6 +327,7 @@ export class ConditionsApi extends Instantiable {
         did: string,
         holder: string,
         nftAmount: BigNumber,
+        contractAddress?: string,
         from?: Account,
         params?: txParams
     ) {
@@ -337,6 +338,7 @@ export class ConditionsApi extends Instantiable {
             did,
             holder,
             nftAmount,
+            contractAddress || this.nevermined.keeper.nftUpgradeable.address,
             from,
             params
         )

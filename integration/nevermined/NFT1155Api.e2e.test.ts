@@ -7,7 +7,7 @@ import {
     Nevermined,
     AssetPrice
 } from '../../src'
-import { EscrowPaymentCondition, TransferNFTCondition, Token } from '../../src/keeper'
+import { EscrowPaymentCondition, TransferNFTCondition, Token, Nft1155Contract } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, PublishMetadata, RoyaltyKind } from '../../src/nevermined/api/AssetsApi'
@@ -17,10 +17,12 @@ import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 import { BigNumber } from '../../src/utils'
+import TestContractHandler from '../../test/keeper/TestContractHandler'
 
 chai.use(chaiAsPromised)
 
-describe('NFTs 1155 Api End-to-End', () => {
+function makeTest(isCustom) {
+describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () => {
     let artist: Account
     let collector1: Account
     let collector2: Account
@@ -65,8 +67,46 @@ describe('NFTs 1155 Api End-to-End', () => {
         // conditions
         ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
 
+        if (isCustom) {
+            TestContractHandler.setConfig(config)
+
+            const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+            const erc1155ABI = await TestContractHandler.getABI(
+                'NFT1155Upgradeable',
+                config.artifactsFolder,
+                networkName
+            )
+
+            const nft = await TestContractHandler.deployArtifact(erc1155ABI, artist.getId(), [
+                artist.getId(),
+                nevermined.keeper.didRegistry.address,
+                'NFT1155',
+                'NVM',
+                ''
+            ])
+
+            const nftContract = await Nft1155Contract.getInstance(
+                (nevermined.keeper as any).instanceConfig,
+                nft.address
+            )
+
+            await nevermined.contracts.loadNft1155(nftContract.address)
+
+            const nftContractOwner = new Account(await nevermined.nfts1155.owner())
+            await nftContract.grantOperatorRole(
+                transferNftCondition.address,
+                nftContractOwner
+            )
+        } else {
+            const nftContractOwner = new Account(await nevermined.nfts1155.owner())
+            await nevermined.keeper.nftUpgradeable.grantOperatorRole(
+                transferNftCondition.address,
+                nftContractOwner
+            )
+        }
+
         // components
-        ;({ token } = nevermined.keeper)
+        ({ token } = nevermined.keeper)
 
         scale = BigNumber.from(10).pow(await token.decimals())
 
@@ -80,12 +120,6 @@ describe('NFTs 1155 Api End-to-End', () => {
             ])
         )
         await collector1.requestTokens(nftPrice.div(scale))
-
-        const nftContractOwner = new Account(await nevermined.nfts1155.owner())
-        await nevermined.keeper.nftUpgradeable.grantOperatorRole(
-            transferNftCondition.address,
-            nftContractOwner
-        )
 
         initialBalances = {
             artist: await token.balanceOf(artist.getId()),
@@ -441,3 +475,7 @@ describe('NFTs 1155 Api End-to-End', () => {
         })
     })
 })
+}
+
+makeTest(false)
+makeTest(true)

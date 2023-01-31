@@ -440,6 +440,11 @@ export const transferNftTemplate = () => ({
             value: ''
         },
         {
+            name: '_contractAddress',
+            type: 'address',
+            value: ''
+        },
+        {
             name: '_conditionId',
             type: 'bytes32',
             value: ''

@@ -29,14 +29,21 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
      * @param amount - The amount of NFTs that need to be hold by the holder
      * @returns hash of all the values
      */
-    public params(did: string, holderAddress: string, amount?: BigNumber) {
-        return super.params(didZeroX(did), zeroX(holderAddress), amount.toString())
+    public params(did: string, holderAddress: string, amount: BigNumber, contractAddress?: string) {
+        return super.params(didZeroX(did), zeroX(holderAddress), amount.toString(), zeroX(contractAddress || this.nevermined.keeper.nftUpgradeable.address))
     }
 
     public amountFromService(service: ServiceCommon): BigNumber {
         const holder = findServiceConditionByName(service, 'nftHolder')
         if (!holder) throw new Error('Holder condition not found!')
         return BigNumber.from(holder.parameters.find(p => p.name === '_numberNfts').value)
+    }
+
+    public nftContractFromService(service: ServiceCommon): string {
+        const holder = findServiceConditionByName(service, 'nftHolder')
+        if (!holder) throw new Error('Holder condition not found!')
+        const res = holder.parameters.find(p => p.name === '_contractAddress').value as string
+        return res || this.nevermined.keeper.nftUpgradeable.address
     }
 
     public async paramsFromDDO({
@@ -46,7 +53,7 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
         amount
     }: NFTHolderConditionContext) {
         const numberNfts = amount || this.amountFromService(service)
-        return this.params(ddo.shortId(), holderAddress, numberNfts)
+        return this.params(ddo.shortId(), holderAddress, numberNfts, this.nftContractFromService(service))
     }
 
     /**
@@ -65,12 +72,13 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
         did: string,
         holderAddress: string,
         amount: BigNumber,
+        contractAddress: string,
         from?: Account,
         txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
-            [didZeroX(did), zeroX(holderAddress), String(amount)],
+            [didZeroX(did), zeroX(holderAddress), String(amount), zeroX(contractAddress)],
             from,
             txParams
         )

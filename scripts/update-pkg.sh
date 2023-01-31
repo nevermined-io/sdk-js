@@ -12,6 +12,7 @@ yarn pack
 cp *.tgz ../sdk-dtp/$PKG
 cp *.tgz ../node/$PKG
 cd ../sdk-dtp
+rm *dtp*.tgz
 sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
 yarn
 yarn build
@@ -19,8 +20,8 @@ yarn pack
 cp *dtp*.tgz ../node/$PKG2
 
 cd ../node
-sed -i "/sdk-js/c\\    \"@nevermined-io/nevermined-sdk-js\": \"./$PKG\"," package.json
-sed -i "/sdk-dtp/c\\    \"@nevermined-io/nevermined-sdk-dtp\": \"./$PKG2\"," package.json
+cat package.json | jq ".dependencies.\"@nevermined-io/nevermined-sdk-js\"=\"./$PKG\"" | sponge package.json
+cat package.json | jq ".dependencies.\"@nevermined-io/nevermined-sdk-dtp\"=\"./$PKG2\"" | sponge package.json
 yarn
 yarn run setup:dev
 yarn build

@@ -5,7 +5,7 @@ import {
     ValidationParams
 } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
+import { DDO, Nft1155Contract } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
@@ -107,7 +107,15 @@ export class NFTAccessTemplate extends BaseTemplate<
             this.nevermined.keeper.conditions.nftHolderCondition.amountFromService(
                 service
             )
-        const balance = await this.nevermined.keeper.nftUpgradeable.balance(
+        const contractAddress =
+            this.nevermined.keeper.conditions.nftHolderCondition.nftContractFromService(
+                service
+            )
+        const nftContract = await Nft1155Contract.getInstance(
+            (this.nevermined.keeper as any).instanceConfig,
+            contractAddress
+        )
+        const balance = await nftContract.balance(
             params.consumer_address,
             params.did
         )
