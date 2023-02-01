@@ -302,6 +302,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
     describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
         it.skip('The subscriber access the service endpoints available', async () => {
+            opts.headers = {'Authorization': 'Bearer xxxxx'}
             const result = await fetch(`${ENDPOINT}`, opts)
             assert.isTrue(result.ok)
         })
