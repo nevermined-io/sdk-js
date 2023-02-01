@@ -1,4 +1,4 @@
-import { MetaDataFile, ServiceType, DDO, ImmutableBackends } from '../../ddo'
+import { MetaDataExternalResource, ServiceType, DDO, ImmutableBackends } from '../../ddo'
 import { Account } from '../../nevermined'
 import { noZeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
@@ -166,7 +166,7 @@ export class NeverminedNode extends Instantiable {
         agreementId: string,
         serviceEndpoint: string,
         account: Account,
-        files: MetaDataFile[],
+        files: MetaDataExternalResource[],
         destination: string,
         index = -1,
         result = AssetResult.DATA,
@@ -239,7 +239,7 @@ export class NeverminedNode extends Instantiable {
     }
 
     public async downloadService(
-        files: MetaDataFile[],
+        files: MetaDataExternalResource[],
         destination: string,
         index = -1,
         headers?: { [key: string]: string },
