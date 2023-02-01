@@ -165,6 +165,8 @@ export interface MetaDataExternalResource {
 
 export interface WebService {
 
+    type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
+
     endpoints?:  { [verb: string]: string }[]
 
     authentication?: WebServiceAuthentication

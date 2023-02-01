@@ -71,7 +71,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
-    "uuid": "^3.4.0",
+    "uuid": "^3.4.0",    
     "whatwg-url": "^7.1.0"
   },
   "devDependencies": {
@@ -113,7 +113,8 @@
     "source-map-support": "^0.5.19",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "tar": "^6.1.11",
+    "proxy-agent": "^5.0.0",
+    "tar": "^6.1.11",    
     "terser-webpack-plugin": "^5.3.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.23",

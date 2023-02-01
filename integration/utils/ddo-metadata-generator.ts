@@ -44,6 +44,47 @@ const metadata: Partial<MetaData> = {
     }
 }
 
+const webServiceMetadata: Partial<MetaData> = {
+    main: {
+        name: undefined,
+        type: 'service',
+        dateCreated: '2022-10-10T17:00:00Z',
+        datePublished: '2022-10-10T17:00:00Z',
+        author: 'Nevermined',
+        license: 'CC-BY',
+        files: [
+            {
+                index: 0,
+                contentType: 'application/json',
+                url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
+                webService: {
+                    type: 'RESTful',
+                    endpoints: [{
+                        'GET': 'http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo'
+                    }],
+                    additionalHeaders: [{
+                        'Accept': 'application/json'
+                    }]
+                }
+            }
+        ]
+    },
+    additionalInformation: {
+        description: 'Endpoints allowing to read information from a Nevermined Marketplace',
+        copyrightHolder: 'Nevermined',        
+        links: [
+            {
+                name: 'Swagger documentation',
+                type: 'sample',
+                url: 'http://marketplace.nevermined.localnet/api/v1/docs/'
+            }
+        ],
+        inLanguage: 'en',
+        categories: ['Marketplace', 'Data Science'],
+        tags: ['assets']
+    }
+}
+
 export const generateMetadata = (
     name: string,
     nonce: string | number = Math.random()
@@ -56,6 +97,21 @@ export const generateMetadata = (
     },
     additionalInformation: {
         ...metadata.additionalInformation
+    }
+})
+
+export const generateWebServiceMetadata = (
+    name: string,
+    nonce: string | number = Math.random()
+): Partial<MetaData> => ({
+    ...webServiceMetadata,
+    main: {
+        ...webServiceMetadata.main,
+        name,
+        ...({ nonce } as any)
+    },
+    additionalInformation: {
+        ...webServiceMetadata.additionalInformation
     }
 })
 

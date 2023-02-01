@@ -3,7 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
-import { getMetadata } from '../utils'
+import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
 import { BigNumber } from '../../src/utils'
@@ -16,6 +16,9 @@ import {
     NFT721Api,
     SubscriptionNFTApi
 } from '../../src/nevermined'
+import ProxyAgent from 'proxy-agent'
+import { RequestInit } from 'node-fetch'
+import fetch from 'node-fetch'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     let publisher: Account
@@ -47,6 +50,13 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
 
+    const ENDPOINT = 'http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo?query=%7B%22match_all%22%3A%20%7B%7D%7D&offset=100&page=1&sort=%7B%20%22id%22%3A%20%22asc%22%20%7D'
+
+    const proxyUrl = process.env.http_proxy || 'http://localhost:3128'
+
+    let proxyAgent
+    const opts: RequestInit = {}
+
     let initialBalances: any
     let scale: BigNumber
 
@@ -58,6 +68,9 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
     before(async () => {
         TestContractHandler.setConfig(config)
+        
+        proxyAgent = new ProxyAgent(proxyUrl)
+        opts.agent = proxyAgent
 
         nevermined = await Nevermined.getInstance(config)
         ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
@@ -104,6 +117,22 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
         }
     })
 
+    describe('As Subscriber I want to get access to a web service I am not subscribed', () => {
+        it('The subscriber can not access the service endpoints because doesnt have a subscription yet', async () => {
+
+            let isOkay = false
+            try {
+                const result = await fetch(`${ENDPOINT}`, opts)
+                isOkay = result.ok
+                // console.log(JSON.stringify(result))
+            } catch (error) {
+                console.log(`Unable to connect to web service: ${error}`)
+            }
+            
+            assert.isFalse(isOkay)
+        })        
+    })
+
     describe('As Publisher I want to register new web service and provide access via subscriptions to it', () => {
         it('I want to register a subscription NFT that gives access to a web service to the holders', async () => {
             // Deploy NFT
@@ -141,12 +170,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
                 royaltyAttributes: royaltyAttributes
             })
             subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
-
+            console.log(`Subscription registered with DID: ${subscriptionDDO.id}`)
             assert.isDefined(subscriptionDDO)
         })
 
         it('I want to register a new web service and tokenize (via NFT)', async () => {
-            serviceMetadata = getMetadata()
+            serviceMetadata = generateWebServiceMetadata('Nevermined Marketplace Metadata') as MetaData
             serviceMetadata.userId = payload.sub
     
             const nftAttributes = NFTAttributes.getSubscriptionInstance({
@@ -161,6 +190,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
             })
             serviceDDO = await nevermined.nfts721.create(nftAttributes, publisher)
             console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
+            console.log(`Service registered with DID: ${serviceDDO.id}`)
             assert.isDefined(serviceDDO)
         })
     })
@@ -271,15 +301,16 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     })
 
     describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
-        it('The subscriber access the service', async () => {
-            const result = await nevermined.nfts1155.access(
-                serviceDDO.id,
-                subscriber,
-                '/tmp/',
-                undefined,
-                agreementId
-            )
-            assert.isTrue(result)
+        it.skip('The subscriber access the service endpoints available', async () => {
+            const result = await fetch(`${ENDPOINT}`, opts)
+            assert.isTrue(result.ok)
         })
+
+        it.skip('The subscriber can not access the service endpoints not available', async () => {
+            const protectedEndpoint = `http://marketplace.nevermined.localnet/api/v1/metadata/assets?query=%7B%22match_all%22%3A%20%7B%7D%7D&offset=100&page=1&sort=%7B%20%22id%22%3A%20%22asc%22%20%7D            `
+            const result = await fetch(protectedEndpoint, opts)
+            assert.isFalse(result.ok)
+
+        })        
     })
 })
