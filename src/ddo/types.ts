@@ -95,7 +95,7 @@ export interface ServiceMetadata {
     definition: ServiceDefinition
 }
 
-export interface MetaDataExternalResource {
+export interface MetaDataFile {
     /**
      * File name.
      */
@@ -156,22 +156,16 @@ export interface MetaDataExternalResource {
      * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
      */
     encryption?: 'dtp'
-
-    /**
-     * If the external resource refers to a Web Service
-     */
-    webService?: WebService
 }
 
 export interface WebService {
-
     type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
 
-    endpoints?:  { [verb: string]: string }[]
+    endpoints?: { [verb: string]: string }[]
 
     authentication?: WebServiceAuthentication
 
-    additionalHeaders?:  { [name: string]: string }[]
+    additionalHeaders?: { [name: string]: string }[]
 }
 
 export interface WebServiceAuthentication {
@@ -197,7 +191,14 @@ export interface MetaDataMain {
      * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
      * @example "dataset"
      */
-    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'service' | 'other'
+    type:
+        | 'dataset'
+        | 'algorithm'
+        | 'compute'
+        | 'workflow'
+        | 'compute'
+        | 'service'
+        | 'other'
 
     /**
      * The date on which the asset was created by the originator in
@@ -230,7 +231,9 @@ export interface MetaDataMain {
     /**
      * Array of File objects including the encrypted file urls and some additional information.
      */
-    files?: MetaDataExternalResource[]
+    files?: MetaDataFile[]
+
+    webService?: WebService
 
     encryptedService?: any
 

@@ -43,6 +43,12 @@ jobs:
         run: |
           yarn run test:cover
 
+      - name: Start web-service
+        run: yarn start:web-service &
+
+      - name: Start proxy
+        run: yarn start:proxy &
+
       - name: Run integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
