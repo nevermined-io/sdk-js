@@ -122,7 +122,8 @@ describe('NFTHolderCondition', () => {
                 agreementId,
                 did,
                 holder.getId(),
-                amount
+                amount,
+                nftUpgradeable.address
             )
             const { state } = await conditionStoreManager.getCondition(conditionId)
             assert.equal(state, ConditionState.Fulfilled)
@@ -167,7 +168,7 @@ describe('NFTHolderCondition', () => {
             )
 
             await assert.isRejected(
-                nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),
+                nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount, nftUpgradeable.address),
                 /Condition doesnt exist/
             )
         })
@@ -221,7 +222,7 @@ describe('NFTHolderCondition', () => {
             )
 
             await assert.isRejected(
-                nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount),
+                nftHolderCondition.fulfill(agreementId, did, holder.getId(), amount, nftUpgradeable.address),
                 /The holder doesnt have enough NFT balance for the did given/
             )
         })

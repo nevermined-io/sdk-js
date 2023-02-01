@@ -187,7 +187,8 @@ describe('TransferNFTCondition', () => {
                 did,
                 nftReceiver.getId(),
                 nftAmount,
-                conditionIdPayment
+                nftUpgradeable.address,
+                conditionIdPayment,
             )
             ;({ state } = await conditionStoreManager.getCondition(conditionId))
             assert.equal(state, ConditionState.Fulfilled)
@@ -285,6 +286,7 @@ describe('TransferNFTCondition', () => {
                 did,
                 nftReceiver.getId(),
                 nftAmount,
+                nftUpgradeable.address,
                 conditionIdPayment
             )
             ;({ state } = await conditionStoreManager.getCondition(conditionId))
@@ -389,7 +391,9 @@ describe('TransferNFTCondition', () => {
                     did,
                     nftReceiver.getId(),
                     nftAmount,
+                    nftUpgradeable.address,
                     conditionIdPayment,
+                    true,
                     other
                 )
             )
@@ -401,7 +405,8 @@ describe('TransferNFTCondition', () => {
                     did,
                     other.getId(),
                     nftAmount,
-                    conditionIdPayment
+                    nftUpgradeable.address,
+                    conditionIdPayment                    
                 )
             )
 
@@ -413,7 +418,9 @@ describe('TransferNFTCondition', () => {
                     did,
                     nftReceiver.getId(),
                     nftAmount,
+                    nftUpgradeable.address,
                     invalidConditionId
+                    
                 )
             )
 
@@ -425,6 +432,7 @@ describe('TransferNFTCondition', () => {
                     did,
                     nftReceiver.getId(),
                     nftAmount,
+                    nftUpgradeable.address,
                     conditionIdPayment
                 )
             )

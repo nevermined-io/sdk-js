@@ -128,6 +128,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
      * @param did - The DID of the asset with NFTs.
      * @param nftReceiver - The address of the account to receive the NFT.
      * @param nftAmount - amount of NFTs to transfer.
+     * @param nftContractAddress - Address of the nft contract
      * @param lockPaymentCondition - lock payment condition identifier.
      * @param from -
      * @returns Condition state.
@@ -137,7 +138,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         did: string,
         nftReceiver: string,
         nftAmount: BigNumber,
-        nftAddress: string,
+        nftContractAddress: string,
         lockPaymentCondition: string,
         transfer  = true,
         from?: Account,
@@ -145,7 +146,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     ) {
         return super.fulfillPlain(
             agreementId,
-            [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition, zeroX(nftAddress), transfer],
+            [didZeroX(did), zeroX(nftReceiver), String(nftAmount), lockPaymentCondition, zeroX(nftContractAddress), transfer],
             from,
             txParams
         )
