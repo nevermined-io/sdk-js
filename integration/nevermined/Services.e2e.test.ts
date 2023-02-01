@@ -6,7 +6,7 @@ import { config } from '../config'
 import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
+import { BigNumber, findServiceConditionByName } from '../../src/utils'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -19,6 +19,7 @@ import {
 import ProxyAgent from 'proxy-agent'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
+import * as jwt from 'jsonwebtoken'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     let publisher: Account
@@ -50,9 +51,9 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
 
-    const ENDPOINT = 'http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo?query=%7B%22match_all%22%3A%20%7B%7D%7D&offset=100&page=1&sort=%7B%20%22id%22%3A%20%22asc%22%20%7D'
+    const ENDPOINT = 'http://localhost:3000'
 
-    const proxyUrl = process.env.http_proxy || 'http://localhost:3128'
+    const proxyUrl = process.env.http_proxy || 'http://localhost:3001'
 
     let proxyAgent
     const opts: RequestInit = {}
@@ -66,20 +67,25 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
     let payload: JWTPayload
 
+    const JWT_SECRET = 'secret'
+    let accessToken: string
+
     before(async () => {
         TestContractHandler.setConfig(config)
-        
+
         proxyAgent = new ProxyAgent(proxyUrl)
         opts.agent = proxyAgent
 
         nevermined = await Nevermined.getInstance(config)
         ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
 
-        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
 
         await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
-                
+
         neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
         // conditions
@@ -118,19 +124,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     })
 
     describe('As Subscriber I want to get access to a web service I am not subscribed', () => {
-        it('The subscriber can not access the service endpoints because doesnt have a subscription yet', async () => {
+        it('The subscriber can not access the service endpoints because does not have a subscription yet', async () => {
+            const result = await fetch(ENDPOINT, opts)
 
-            let isOkay = false
-            try {
-                const result = await fetch(`${ENDPOINT}`, opts)
-                isOkay = result.ok
-                // console.log(JSON.stringify(result))
-            } catch (error) {
-                console.log(`Unable to connect to web service: ${error}`)
-            }
-            
-            assert.isFalse(isOkay)
-        })        
+            assert.isFalse(result.ok)
+            assert.equal(result.status, 401)
+        })
     })
 
     describe('As Publisher I want to register new web service and provide access via subscriptions to it', () => {
@@ -146,15 +145,26 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
                 config,
                 contractABI,
                 publisher,
-                [ publisher.getId(), nevermined.keeper.didRegistry.getAddress(), 'Subscription Service NFT', '', '', 0 ]
+                [
+                    publisher.getId(),
+                    nevermined.keeper.didRegistry.getAddress(),
+                    'Subscription Service NFT',
+                    '',
+                    '',
+                    0
+                ]
             )
-
 
             await nevermined.contracts.loadNft721Api(subscriptionNFT)
 
-            await subscriptionNFT.grantOperatorRole(transferNft721Condition.address, publisher)
+            await subscriptionNFT.grantOperatorRole(
+                transferNft721Condition.address,
+                publisher
+            )
 
-            const isOperator = await subscriptionNFT.getContract.isOperator(transferNft721Condition.address)
+            const isOperator = await subscriptionNFT.getContract.isOperator(
+                transferNft721Condition.address
+            )
             assert.isTrue(isOperator)
 
             subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
@@ -175,9 +185,11 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
         })
 
         it('I want to register a new web service and tokenize (via NFT)', async () => {
-            serviceMetadata = generateWebServiceMetadata('Nevermined Marketplace Metadata') as MetaData
+            serviceMetadata = generateWebServiceMetadata(
+                'Nevermined Web Service Metadata'
+            ) as MetaData
             serviceMetadata.userId = payload.sub
-    
+
             const nftAttributes = NFTAttributes.getSubscriptionInstance({
                 metadata: serviceMetadata,
                 serviceTypes: ['nft-access'],
@@ -300,18 +312,60 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
         })
     })
 
-    describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
-        it.skip('The subscriber access the service endpoints available', async () => {
-            opts.headers = {'Authorization': 'Bearer xxxxx'}
-            const result = await fetch(`${ENDPOINT}`, opts)
-            assert.isTrue(result.ok)
+    describe('As a subscriber I want to get an access token for the web service', () => {
+        it('Nevermined One validates that the subscriber owns a subscription', async () => {
+            const nftAccessService = serviceDDO.findServiceByType('nft-access')
+            const nftHolderCondition = findServiceConditionByName(
+                nftAccessService,
+                'nftHolder'
+            )
+            const numberNfts = nftHolderCondition.parameters.find(
+                p => p.name === '_numberNfts'
+            ).value
+            const contractAddress = nftHolderCondition.parameters.find(
+                p => p.name === '_contractAddress'
+            ).value
+
+            const nft = await nevermined.contracts.loadNft721(contractAddress as string)
+            const balance = await nft.balanceOf(subscriber.getId())
+
+            assert.isAtLeast(balance.toNumber(), Number(numberNfts))
         })
 
-        it.skip('The subscriber can not access the service endpoints not available', async () => {
-            const protectedEndpoint = `http://marketplace.nevermined.localnet/api/v1/metadata/assets?query=%7B%22match_all%22%3A%20%7B%7D%7D&offset=100&page=1&sort=%7B%20%22id%22%3A%20%22asc%22%20%7D            `
+        it('Nevermined One issues and access token', async () => {
+            const metadata = serviceDDO.findServiceByType('metadata')
+            const endpoints = metadata.attributes.main.webService.endpoints.flatMap(e =>
+                Object.values(e)
+            )
+
+            accessToken = jwt.sign(
+                {
+                    did: serviceDDO.id,
+                    endpoints
+                },
+                JWT_SECRET,
+                { expiresIn: '1d' }
+            )
+
+            assert.isDefined(accessToken)
+        })
+    })
+
+    describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
+        it('The subscriber access the service endpoints available', async () => {
+            opts.headers = { Authorization: `Bearer ${accessToken}` }
+            const result = await fetch(ENDPOINT, opts)
+
+            assert.isTrue(result.ok)
+            assert.equal(result.status, 200)
+        })
+
+        it('The subscriber can not access the service endpoints not available', async () => {
+            const protectedEndpoint = `http://google.com`
+            opts.headers = { Authorization: `Bearer ${accessToken}` }
             const result = await fetch(protectedEndpoint, opts)
             assert.isFalse(result.ok)
-
-        })        
+            assert.equal(result.status, 401)
+        })
     })
 })

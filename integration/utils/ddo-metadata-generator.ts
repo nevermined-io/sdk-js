@@ -52,26 +52,25 @@ const webServiceMetadata: Partial<MetaData> = {
         datePublished: '2022-10-10T17:00:00Z',
         author: 'Nevermined',
         license: 'CC-BY',
-        files: [
-            {
-                index: 0,
-                contentType: 'application/json',
-                url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
-                webService: {
-                    type: 'RESTful',
-                    endpoints: [{
-                        'GET': 'http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo'
-                    }],
-                    additionalHeaders: [{
-                        'Accept': 'application/json'
-                    }]
+        files: [],
+        webService: {
+            type: 'RESTful',
+            endpoints: [
+                {
+                    GET: 'http://localhost:3000'
                 }
-            }
-        ]
+            ],
+            additionalHeaders: [
+                {
+                    Accept: 'application/json'
+                }
+            ]
+        }
     },
     additionalInformation: {
-        description: 'Endpoints allowing to read information from a Nevermined Marketplace',
-        copyrightHolder: 'Nevermined',        
+        description:
+            'Endpoints allowing to read information from a Nevermined Marketplace',
+        copyrightHolder: 'Nevermined',
         links: [
             {
                 name: 'Swagger documentation',
