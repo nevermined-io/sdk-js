@@ -27,10 +27,11 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
      * @param did - The Decentralized Identifier of the asset.
      * @param holderAddress - The address of the NFT holder .
      * @param amount - The amount of NFTs that need to be hold by the holder
+     * @param nftContractAddress - The address of the NFT token to use.
      * @returns hash of all the values
      */
-    public params(did: string, holderAddress: string, amount: BigNumber, contractAddress?: string) {
-        return super.params(didZeroX(did), zeroX(holderAddress), amount.toString(), zeroX(contractAddress || this.nevermined.keeper.nftUpgradeable.address))
+    public params(did: string, holderAddress: string, amount: BigNumber, nftContractAddress?: string) {
+        return super.params(didZeroX(did), zeroX(holderAddress), amount.toString(), zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address))
     }
 
     public amountFromService(service: ServiceCommon): BigNumber {
@@ -63,6 +64,7 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
      * @param did - The Decentralized Identifier of the asset.
      * @param holderAddress - The contract address where the reward is locked.
      * @param amount - The amount of NFT to be hold
+     * @param nftContractAddress - Address of the nft contract
      * @param from - Account sending the transaction
      * @param txParams - Transacion parameters
      * @returns condition state
@@ -72,13 +74,13 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
         did: string,
         holderAddress: string,
         amount: BigNumber,
-        contractAddress: string,
+        nftContractAddress: string,
         from?: Account,
         txParams?: TxParameters
     ) {
         return super.fulfillPlain(
             agreementId,
-            [didZeroX(did), zeroX(holderAddress), String(amount), zeroX(contractAddress)],
+            [didZeroX(did), zeroX(holderAddress), String(amount), zeroX(nftContractAddress)],
             from,
             txParams
         )

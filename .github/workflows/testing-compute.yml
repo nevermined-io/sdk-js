@@ -15,12 +15,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.6.0
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
           compute: "true"
+          contracts-version: "v3.0.0"
           node-version: "develop"
 
       - name: Install dependencies

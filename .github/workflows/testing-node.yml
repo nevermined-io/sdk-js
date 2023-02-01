@@ -27,11 +27,12 @@ jobs:
           ref: develop
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.6.0
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
+          contracts-version: "v3.0.0"
           node: "false"
 
       - name: Install sponge
