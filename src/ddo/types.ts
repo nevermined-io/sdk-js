@@ -95,7 +95,7 @@ export interface ServiceMetadata {
     definition: ServiceDefinition
 }
 
-export interface MetaDataFile {
+export interface MetaDataExternalResource {
     /**
      * File name.
      */
@@ -156,23 +156,23 @@ export interface MetaDataFile {
      * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
      */
     encryption?: 'dtp'
+
+    authentication?: ResourceAuthentication
 }
 
 export interface WebService {
     type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
 
-    endpoints?: { [verb: string]: string }[]
-
-    authentication?: WebServiceAuthentication
-
-    additionalHeaders?: { [name: string]: string }[]
+    endpoints?: { [verb: string]: string }[]    
 }
 
-export interface WebServiceAuthentication {
+export interface ResourceAuthentication {
     type: 'none' | 'basic' | 'oauth'
 
     user?: string
     password?: string
+    token?: string
+    privateParameters?: { [name: string]: string }[]
 }
 
 /**
@@ -231,7 +231,7 @@ export interface MetaDataMain {
     /**
      * Array of File objects including the encrypted file urls and some additional information.
      */
-    files?: MetaDataFile[]
+    files?: MetaDataExternalResource[]
 
     webService?: WebService
 

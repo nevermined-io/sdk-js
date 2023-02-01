@@ -52,17 +52,19 @@ const webServiceMetadata: Partial<MetaData> = {
         datePublished: '2022-10-10T17:00:00Z',
         author: 'Nevermined',
         license: 'CC-BY',
-        files: [],
+        files: [{
+            url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
+            contentType: 'application/json',
+            authentication: {
+                type: 'basic',
+                token: ''
+            }
+        }],
         webService: {
             type: 'RESTful',
             endpoints: [
                 {
                     GET: 'http://localhost:3000'
-                }
-            ],
-            additionalHeaders: [
-                {
-                    Accept: 'application/json'
                 }
             ]
         }

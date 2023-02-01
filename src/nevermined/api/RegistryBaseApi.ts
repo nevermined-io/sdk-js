@@ -199,7 +199,8 @@ export abstract class RegistryBaseApi extends Instantiable {
                             (file, index) => ({
                                 ...file,
                                 index,
-                                url: undefined
+                                url: undefined,
+                                authentication: undefined
                             })
                         )
                     } as any
