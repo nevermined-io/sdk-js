@@ -174,7 +174,7 @@ export interface MetaDataMain {
      * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
      * @example "dataset"
      */
-    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'other'
+    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'service' | 'other'
 
     /**
      * The date on which the asset was created by the originator in

@@ -18,8 +18,8 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
-          compute: "true"
-          contracts-version: "develop"
+          compute: "true"          
+          contracts-version: "v3.0.0"
           node-version: "develop"
 
       - name: Install dependencies

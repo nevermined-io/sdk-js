@@ -32,6 +32,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
           estuary: "true"
+          contracts-version: "v3.0.0"
           node: "false"
 
       - name: Install sponge

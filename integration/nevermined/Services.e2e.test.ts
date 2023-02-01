@@ -17,7 +17,7 @@ import {
     SubscriptionNFTApi
 } from '../../src/nevermined'
 
-describe('Gatekeeping of Web Services using NFT ERC-721 End-to-End', () => {
+describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     let publisher: Account
     let subscriber: Account
     let reseller: Account
@@ -66,10 +66,7 @@ describe('Gatekeeping of Web Services using NFT ERC-721 End-to-End', () => {
 
         await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
-
-        serviceMetadata = getMetadata()
-        subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
-        serviceMetadata.userId = payload.sub
+                
         neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
         // conditions
@@ -131,6 +128,7 @@ describe('Gatekeeping of Web Services using NFT ERC-721 End-to-End', () => {
             const isOperator = await subscriptionNFT.getContract.isOperator(transferNft721Condition.address)
             assert.isTrue(isOperator)
 
+            subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
             const nftAttributes = NFTAttributes.getSubscriptionInstance({
                 metadata: subscriptionMetadata,
                 price: assetPrice,
@@ -147,7 +145,10 @@ describe('Gatekeeping of Web Services using NFT ERC-721 End-to-End', () => {
             assert.isDefined(subscriptionDDO)
         })
 
-        it('I want to register a new asset and tokenize (via NFT)', async () => {
+        it('I want to register a new web service and tokenize (via NFT)', async () => {
+            serviceMetadata = getMetadata()
+            serviceMetadata.userId = payload.sub
+    
             const nftAttributes = NFTAttributes.getSubscriptionInstance({
                 metadata: serviceMetadata,
                 serviceTypes: ['nft-access'],
@@ -189,7 +190,7 @@ describe('Gatekeeping of Web Services using NFT ERC-721 End-to-End', () => {
             assert.isTrue(subscriberBalanceAfter.sub(initialBalances.subscriber).eq(0))
         })
 
-        it('The Publisher can check the payment and transfer the NFT to the subscriber', async () => {
+        it('The Publisher can check the payment and transfer the NFT to the Subscriber', async () => {
             // Let's use the Node to mint the subscription and release the payments
 
             const receipt = await nevermined.nfts721.claim(
@@ -208,7 +209,7 @@ describe('Gatekeeping of Web Services using NFT ERC-721 End-to-End', () => {
             )
         })
 
-        it('the editor and reseller can receive their payment', async () => {
+        it('the Publisher and reseller can receive their payment', async () => {
             const receiver0Balance = await token.balanceOf(assetPrice.getReceivers()[0])
             const receiver1Balance = await token.balanceOf(assetPrice.getReceivers()[1])
 
@@ -269,8 +270,8 @@ describe('Gatekeeping of Web Services using NFT ERC-721 End-to-End', () => {
         })
     })
 
-    describe('As subscriber I want to get access to assets include as part of my subscription', () => {
-        it('The collector access the files', async () => {
+    describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
+        it('The subscriber access the service', async () => {
             const result = await nevermined.nfts1155.access(
                 serviceDDO.id,
                 subscriber,
