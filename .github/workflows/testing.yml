@@ -62,9 +62,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: Start ganache
-        run: yarn ganache --port 18545 --chain.chainId 8998 &
-
       - name: Deploy contracts
         run: |
           cd contracts
@@ -83,6 +80,9 @@ jobs:
           yarn
       - name: Run linters
         run: yarn lint
+
+      - name: Start ganache
+        run: yarn ganache --port 18545 --chain.chainId 8998 &
 
 #      - name: Check artifacts
 #        run: |
