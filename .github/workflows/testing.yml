@@ -74,6 +74,9 @@ jobs:
           ./scripts/build-circuit.sh
           yarn deploy
           mv artifacts ..
+          mv circuits ..
+          cd ..
+          rm -rf contracts
 
       - name: Install dependencies
         run: |
