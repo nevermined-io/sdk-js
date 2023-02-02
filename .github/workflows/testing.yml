@@ -52,9 +52,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/contracts
+          ref: 'master'
+          path: contracts
+          token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+
+      - name: Start ganache
+        run: yarn ganache --port 18545 --chain.chainId 8998 &
+
+      - name: Deploy contracts
+        run: |
+          cd contracts
+          yarn
+          export TESTNET=true
+          export NETWORK=external
+          ./scripts/build-circuit.sh
+          yarn deploy
+          mv artifacts ..
 
       - name: Install dependencies
         run: |
@@ -66,9 +85,6 @@ jobs:
 #        run: |
 #          nvm-tools copy-artifacts ./artifacts
 #          ls -l artifacts
-
-      - name: Start ganache
-        run: yarn ganache --port 18545 --chain.chainId 8998 &
 
       - name: Run unit tests
         env:
