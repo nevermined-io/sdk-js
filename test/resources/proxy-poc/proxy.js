@@ -1,50 +1,66 @@
-var http = require('http'),
-    httpProxy = require('http-proxy');
-    jwt = require('jsonwebtoken')
+const http = require('http')
+const httpProxy = require('http-proxy')
+const jose = require('jose')
 
+const JWT_SECRET = new Uint8Array(32)
 
-// Issue access token
-// This should be done by nevermined one after it validated that a user has a valid subscription
-var token = jwt.sign(
+const validateAuthorization = async (authorizationHeader) => {
+  const token = authorizationHeader.split(' ')[1]
+  const { _header, payload } = await jose.jwtDecrypt(token, JWT_SECRET)
+
+  return payload
+}
+
+const main = async () => {
+  // Issue access token
+  // This should be done by nevermined one after it validated that a user has a valid subscription
+  const token = await new jose.EncryptJWT(
     {
         endpoints: ['http://localhost:3000']
-    },
-    'secret',
-    { expiresIn: '8h' }
-)
-console.log('Access token:\n\n', token)
- 
-var proxy = httpProxy.createProxyServer({});
- 
-var server = http.createServer(function(req, res) {
+    })
+    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256'})
+    .setIssuedAt()
+    .setExpirationTime('1d')
+    .encrypt(JWT_SECRET)
 
-  console.log('proxying request', req.headers)
-
-  // validate authorization header
-  var decoded
-  try {
-    var token = req.headers['authorization'].split(' ')[1]
-    decoded = jwt.verify(token, 'secret')
-    console.log(decoded)
-  } catch (err) {
-    console.error(err)
-    res.writeHead(401)
-    res.end()
-    return
-  }
-
-  // validate origin url is valid
-  var url = new URL(req.url)
-
-  if (!decoded.endpoints.includes(url.origin)) {
-    console.log(`${url.origin} not in ${decoded.endpoints}`)
-    res.writeHead(401)
-    res.end()
-    return
-  }
+  console.log('Access token:\n\n', token)
+   
+  const proxy = httpProxy.createProxyServer({})
+   
+  const server = http.createServer(async function(req, res) {
   
-  proxy.web(req, res, { target: url.origin });
-});
- 
-console.log("listening on port 3001")
-server.listen(3001);
+    console.log('proxying request', req.headers)
+  
+    // validate authorization header
+    let payload
+    try {
+      payload = await validateAuthorization(req.headers.authorization)
+    } catch (err) {
+      console.error(err)
+      res.writeHead(401)
+      res.end()
+      return
+    }
+  
+    // validate origin url is valid
+    const url = new URL(req.url)
+  
+    if (!payload.endpoints.includes(url.origin)) {
+      console.log(`${url.origin} not in ${payload.endpoints}`)
+      res.writeHead(401)
+      res.end()
+      return
+    }
+    
+    proxy.web(req, res, { target: url.origin })
+  })
+   
+  console.log("listening on port 3001")
+  server.listen(3001)
+}
+
+(async () => {
+
+  await main()
+
+})()

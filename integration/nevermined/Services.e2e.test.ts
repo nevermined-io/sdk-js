@@ -19,7 +19,7 @@ import {
 import ProxyAgent from 'proxy-agent'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
-import * as jwt from 'jsonwebtoken'
+import * as jose from 'jose'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     let publisher: Account
@@ -67,7 +67,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
     let payload: JWTPayload
 
-    const JWT_SECRET = 'secret'
+    const JWT_SECRET = new Uint8Array(32)
     let accessToken: string
 
     before(async () => {
@@ -338,14 +338,14 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
                 Object.values(e)
             )
 
-            accessToken = jwt.sign(
-                {
-                    did: serviceDDO.id,
-                    endpoints
-                },
-                JWT_SECRET,
-                { expiresIn: '1d' }
-            )
+            accessToken = await new jose.EncryptJWT({
+                did: serviceDDO.id,
+                endpoints
+            })
+                .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
+                .setIssuedAt()
+                .setExpirationTime('1d')
+                .encrypt(JWT_SECRET)
 
             assert.isDefined(accessToken)
         })

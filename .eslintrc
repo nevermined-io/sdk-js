@@ -11,5 +11,6 @@
          "varsIgnorePattern": "^_",
          "caughtErrorsIgnorePattern": "^_"
     }]
-  }
+  },
+  "ignorePatterns": ["test/resources/proxy-poc/*.js"]
 }
