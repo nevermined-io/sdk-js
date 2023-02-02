@@ -47,6 +47,7 @@ jobs:
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
           NO_GRAPH: true
         run: yarn run integration:cover
+
   unit-tests:
     runs-on: ubuntu-latest
 
@@ -83,11 +84,6 @@ jobs:
 
       - name: Start ganache
         run: yarn ganache --port 18545 --chain.chainId 8998 &
-
-#      - name: Check artifacts
-#        run: |
-#          nvm-tools copy-artifacts ./artifacts
-#          ls -l artifacts
 
       - name: Run unit tests
         env:

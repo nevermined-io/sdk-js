@@ -13,7 +13,7 @@ const reponsify = async data => ({
     json: () => Promise.resolve(data)
 })
 
-describe.skip('Bookmarks', () => {
+describe('Bookmarks', () => {
     let nevermined: Nevermined
     let bookmarks: Bookmarks
     let newBookmark: NewBookmark
