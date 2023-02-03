@@ -340,7 +340,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
             accessToken = await new jose.EncryptJWT({
                 did: serviceDDO.id,
-                endpoints
+                endpoints,
+                headers: [
+                    {
+                        authorization: 'Bearer xxxx'
+                    }
+                ]
             })
                 .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
                 .setIssuedAt()
@@ -353,7 +358,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
     describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
         it('The subscriber access the service endpoints available', async () => {
-            opts.headers = { Authorization: `Bearer ${accessToken}` }
+            opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
             const result = await fetch(ENDPOINT, opts)
 
             assert.isTrue(result.ok)
@@ -362,7 +367,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
         it('The subscriber can not access the service endpoints not available', async () => {
             const protectedEndpoint = `http://google.com`
-            opts.headers = { Authorization: `Bearer ${accessToken}` }
+            opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
             const result = await fetch(protectedEndpoint, opts)
             assert.isFalse(result.ok)
             assert.equal(result.status, 401)
