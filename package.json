@@ -26,6 +26,7 @@
     "integration:e2e": "mocha --opts integration/mocha.opts ./integration/nevermined/NFTApi.e2e.test.ts",
     "integration:e2e:mumbai": "export NETWORK_NAME=mumbai; yarn integration:e2e",
     "integration:compute": "mocha --opts integration/mocha.opts ./integration/compute/Compute*.test.ts",
+    "integration:external": "mocha --opts integration/mocha.opts ./integration/external/*.test.ts",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint ./",
     "lint:fix": "yarn run lint -- --fix",
