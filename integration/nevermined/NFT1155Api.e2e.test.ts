@@ -27,6 +27,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
     let collector1: Account
     let collector2: Account
     let gallery: Account
+    let governor: Account
 
     let nevermined: Nevermined
     let token: Token
@@ -55,7 +56,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
+        ;[, artist, collector1, collector2, , gallery, , , , governor] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
         await nevermined.services.marketplace.login(clientAssertion)
@@ -97,29 +98,40 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
                 transferNftCondition.address,
                 nftContractOwner
             )
-        } else {
-            /*
-            const nftContractOwner = new Account(await nevermined.nfts1155.owner())
-            await nevermined.keeper.nftUpgradeable.grantOperatorRole(
-                transferNftCondition.address,
-                nftContractOwner
-            )*/
         }
 
+        const networkFee = 200000 // 20%
+        await nevermined.keeper.nvmConfig.setNetworkFees(
+            networkFee,
+            governor.getId(),
+            governor
+        )
+
+        const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+        console.debug(`FEE RECEIVER = ${feeReceiver}`)
+
+        const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
+        console.debug(`NETWORK FEE = ${fee}`)
+
         // components
-        ({ token } = nevermined.keeper)
+        ; ({ token } = nevermined.keeper)
 
         scale = BigNumber.from(10).pow(await token.decimals())
 
-        nftPrice = nftPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
         receivers = [artist.getId(), gallery.getId()]
-        assetPrice1 = new AssetPrice(
-            new Map([
-                [receivers[0], amounts[0]],
-                [receivers[1], amounts[1]]
-            ])
-        )
+        const lst : [string, BigNumber][] = [
+            [receivers[0], amounts[0]],
+            [receivers[1], amounts[1]]
+        ]
+        if (feeReceiver !== '0x0000000000000000000000000000000000000000') {
+            receivers.push(feeReceiver)
+            const price = amounts.reduce((a,b) => a.add(b), BigNumber.from(0))
+            amounts.push(price.mul(fee).div(BigNumber.from(1000000).sub(fee)))
+            lst.push([receivers[2], amounts[2]])
+        }
+        nftPrice = amounts.reduce((a,b) => a.add(b), BigNumber.from(0))
+        assetPrice1 = new AssetPrice(new Map(lst))
         await collector1.requestTokens(nftPrice.div(scale))
 
         initialBalances = {
