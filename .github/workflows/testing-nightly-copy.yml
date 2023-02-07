@@ -38,6 +38,26 @@ jobs:
       - name: Start ganache
         run: yarn ganache --port 18545 --chain.chainId 8998 &
 
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/contracts
+          ref: 'master'
+          path: contracts
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Deploy contracts
+        run: |
+          cd contracts
+          yarn
+          export TESTNET=true
+          export NETWORK=external
+          ./scripts/build-circuit.sh
+          yarn deploy
+          mv artifacts ..
+          mv circuits ..
+          cd ..
+          rm -rf contracts
+
       - name: Run unit tests
         env:
           ETH_PORT: 18545
