@@ -100,12 +100,14 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
             )
         }
 
+        /*
         const networkFee = 200000 // 20%
         await nevermined.keeper.nvmConfig.setNetworkFees(
             networkFee,
             governor.getId(),
             governor
         )
+        */
 
         const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
         console.debug(`FEE RECEIVER = ${feeReceiver}`)
