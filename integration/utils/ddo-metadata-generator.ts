@@ -55,10 +55,7 @@ const webServiceMetadata: Partial<MetaData> = {
         files: [{
             url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
             contentType: 'application/json',
-            authentication: {
-                type: 'basic',
-                token: ''
-            }
+            
         }],
         webService: {
             type: 'RESTful',
@@ -66,7 +63,18 @@ const webServiceMetadata: Partial<MetaData> = {
                 {
                     GET: 'http://localhost:3000'
                 }
-            ]
+            ],
+            internalAttributes: {
+                authentication: {
+                    type: 'basic',
+                    token: ''
+                },
+                headers: [
+                    {
+                        Authorization: 'Bearer xxxxxx'
+                    }
+                ]
+            }            
         }
     },
     additionalInformation: {

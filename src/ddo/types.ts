@@ -156,14 +156,26 @@ export interface MetaDataExternalResource {
      * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
      */
     encryption?: 'dtp'
-
-    authentication?: ResourceAuthentication
 }
 
+/**
+ * Interface describing an asset of type `service`
+ */
 export interface WebService {
     type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
 
-    endpoints?: { [verb: string]: string }[]    
+    endpoints?: { [verb: string]: string }[]
+
+    internalAttributes?: WebServiceInternalAttributes
+
+    encryptedAttributes?: string
+}
+
+export interface WebServiceInternalAttributes {
+
+    authentication?: ResourceAuthentication
+
+    headers?: { [verb: string]: string }[]
 }
 
 export interface ResourceAuthentication {

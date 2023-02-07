@@ -164,7 +164,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             this.logger.log('Encrypting files')
             observer.next(CreateProgressStep.EncryptingFiles)
 
-            let encryptedFiles
+            let encryptedFiles, encryptedAttributes
             if (!['workflow'].includes(assetAttributes.metadata.main.type)) {
                 const encryptedFilesResponse =
                     await this.nevermined.services.node.encrypt(
@@ -173,7 +173,19 @@ export abstract class RegistryBaseApi extends Instantiable {
                         new String(assetAttributes.encryptionMethod)
                     )
                 encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
-            }
+
+                if (assetAttributes.metadata.main.type === 'service')   {
+                    const encryptedServiceAttributesResponse =
+                    await this.nevermined.services.node.encrypt(
+                        ddo.id,
+                        JSON.stringify(assetAttributes.metadata.main.webService.internalAttributes),
+                        new String(assetAttributes.encryptionMethod)
+                    )
+                    encryptedAttributes = JSON.parse(encryptedServiceAttributesResponse)['hash']
+                    assetAttributes.metadata.main.webService.encryptedAttributes = encryptedAttributes
+                    assetAttributes.metadata.main.webService.internalAttributes = undefined
+                }
+            }            
 
             let serviceEndpoint = this.nevermined.services.metadata.getServiceEndpoint(
                 DID.parse(ddo.id)
@@ -194,13 +206,12 @@ export abstract class RegistryBaseApi extends Instantiable {
                     encryptedFiles,
                     // Cleaning not needed information
                     main: {
-                        ...assetAttributes.metadata.main,
+                        ...assetAttributes.metadata.main,                        
                         files: assetAttributes.metadata.main.files?.map(
                             (file, index) => ({
                                 ...file,
                                 index,
-                                url: undefined,
-                                authentication: undefined
+                                url: undefined
                             })
                         )
                     } as any
