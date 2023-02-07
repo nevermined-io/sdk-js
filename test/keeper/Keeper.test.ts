@@ -35,7 +35,8 @@ describe('Keeper', () => {
             assert(
                 networkName === 'geth-localnet' ||
                     networkName === 'polygon-localnet' ||
-                    networkName === 'spree'
+                    networkName === 'spree' ||
+                    networkName === 'hardhat'
             )
         })
     })
