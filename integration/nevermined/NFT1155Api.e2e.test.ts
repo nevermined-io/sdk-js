@@ -27,7 +27,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
     let collector1: Account
     let collector2: Account
     let gallery: Account
-    let governor: Account
+//    let governor: Account
 
     let nevermined: Nevermined
     let token: Token
@@ -56,7 +56,8 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
 
     before(async () => {
         nevermined = await Nevermined.getInstance(config)
-        ;[, artist, collector1, collector2, , gallery, , , , governor] = await nevermined.accounts.list()
+        // ;[, artist, collector1, collector2, , gallery, , , , governor] = await nevermined.accounts.list()
+        ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
         await nevermined.services.marketplace.login(clientAssertion)
