@@ -98,11 +98,12 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
                 nftContractOwner
             )
         } else {
+            /*
             const nftContractOwner = new Account(await nevermined.nfts1155.owner())
             await nevermined.keeper.nftUpgradeable.grantOperatorRole(
                 transferNftCondition.address,
                 nftContractOwner
-            )
+            )*/
         }
 
         // components
