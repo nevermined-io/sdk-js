@@ -4,6 +4,7 @@ dist/
 coverage/
 doc/
 test/**/*.js
+!test/resources/proxy-poc/*.js
 src/**/*.js
 package-lock.json
 yarn.lock

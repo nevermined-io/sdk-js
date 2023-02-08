@@ -95,7 +95,7 @@ export interface ServiceMetadata {
     definition: ServiceDefinition
 }
 
-export interface MetaDataFile {
+export interface MetaDataExternalResource {
     /**
      * File name.
      */
@@ -159,6 +159,35 @@ export interface MetaDataFile {
 }
 
 /**
+ * Interface describing an asset of type `service`
+ */
+export interface WebService {
+    type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
+
+    endpoints?: { [verb: string]: string }[]
+
+    internalAttributes?: WebServiceInternalAttributes
+
+    encryptedAttributes?: string
+}
+
+export interface WebServiceInternalAttributes {
+
+    authentication?: ResourceAuthentication
+
+    headers?: { [verb: string]: string }[]
+}
+
+export interface ResourceAuthentication {
+    type: 'none' | 'basic' | 'oauth'
+
+    user?: string
+    password?: string
+    token?: string
+    privateParameters?: { [name: string]: string }[]
+}
+
+/**
  * Main attributes of assets metadata.
  * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md
  */
@@ -174,7 +203,14 @@ export interface MetaDataMain {
      * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
      * @example "dataset"
      */
-    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'other'
+    type:
+        | 'dataset'
+        | 'algorithm'
+        | 'compute'
+        | 'workflow'
+        | 'compute'
+        | 'service'
+        | 'other'
 
     /**
      * The date on which the asset was created by the originator in
@@ -207,7 +243,9 @@ export interface MetaDataMain {
     /**
      * Array of File objects including the encrypted file urls and some additional information.
      */
-    files?: MetaDataFile[]
+    files?: MetaDataExternalResource[]
+
+    webService?: WebService
 
     encryptedService?: any
 

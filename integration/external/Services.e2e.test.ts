@@ -3,10 +3,10 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
-import { getMetadata } from '../utils'
+import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
+import { BigNumber, findServiceConditionByName } from '../../src/utils'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -16,9 +16,13 @@ import {
     NFT721Api,
     SubscriptionNFTApi
 } from '../../src/nevermined'
+import ProxyAgent from 'proxy-agent'
+import { RequestInit } from 'node-fetch'
+import fetch from 'node-fetch'
+import * as jose from 'jose'
 
-describe('Subscriptions using NFT ERC-721 End-to-End', () => {
-    let editor: Account
+describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
+    let publisher: Account
     let subscriber: Account
     let reseller: Account
 
@@ -27,7 +31,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let escrowPaymentCondition: EscrowPaymentCondition
     let transferNft721Condition: TransferNFT721Condition
     let subscriptionDDO: DDO
-    let assetDDO: DDO
+    let serviceDDO: DDO
 
     let agreementId: string
 
@@ -36,16 +40,23 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     let subscriptionPrice = BigNumber.from(20)
     let amounts = [BigNumber.from(15), BigNumber.from(5)]
     let receivers: string[]
-    let assetPrice1: AssetPrice
+    let assetPrice: AssetPrice
     let royaltyAttributes: RoyaltyAttributes
 
     let subscriptionMetadata: MetaData
-    let assetMetadata: MetaData
+    let serviceMetadata: MetaData
 
     const preMint = false
     const royalties = 0
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
+
+    const ENDPOINT = 'http://localhost:3000'
+
+    const proxyUrl = process.env.http_proxy || 'http://localhost:3001'
+
+    let proxyAgent
+    const opts: RequestInit = {}
 
     let initialBalances: any
     let scale: BigNumber
@@ -56,20 +67,25 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     let payload: JWTPayload
 
+    const JWT_SECRET = new Uint8Array(32)
+    let accessToken: string
+
     before(async () => {
         TestContractHandler.setConfig(config)
 
-        nevermined = await Nevermined.getInstance(config)
-        ;[, editor, subscriber, , reseller] = await nevermined.accounts.list()
+        proxyAgent = new ProxyAgent(proxyUrl)
+        opts.agent = proxyAgent
 
-        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
+        nevermined = await Nevermined.getInstance(config)
+        ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
+
+        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+            publisher
+        )
 
         await nevermined.services.marketplace.login(clientAssertion)
         payload = decodeJwt(config.marketplaceAuthToken)
 
-        assetMetadata = getMetadata()
-        subscriptionMetadata = getMetadata(undefined, 'Subscription NFT')
-        assetMetadata.userId = payload.sub
         neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
         // conditions
@@ -83,8 +99,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
         subscriptionPrice = subscriptionPrice.mul(scale)
         amounts = amounts.map(v => v.mul(scale))
-        receivers = [editor.getId(), reseller.getId()]
-        assetPrice1 = new AssetPrice(
+        receivers = [publisher.getId(), reseller.getId()]
+        assetPrice = new AssetPrice(
             new Map([
                 [receivers[0], amounts[0]],
                 [receivers[1], amounts[1]]
@@ -98,7 +114,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         )
 
         initialBalances = {
-            editor: await token.balanceOf(editor.getId()),
+            editor: await token.balanceOf(publisher.getId()),
             subscriber: await token.balanceOf(subscriber.getId()),
             reseller: await token.balanceOf(reseller.getId()),
             escrowPaymentCondition: Number(
@@ -107,8 +123,17 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         }
     })
 
-    describe('As an editor I want to register new content and provide a subscriptions to my content', () => {
-        it('I want to register a subscriptions NFT that gives access to exclusive contents to the holders', async () => {
+    describe('As Subscriber I want to get access to a web service I am not subscribed', () => {
+        it('The subscriber can not access the service endpoints because does not have a subscription yet', async () => {
+            const result = await fetch(ENDPOINT, opts)
+
+            assert.isFalse(result.ok)
+            assert.equal(result.status, 401)
+        })
+    })
+
+    describe('As Publisher I want to register new web service and provide access via subscriptions to it', () => {
+        it('I want to register a subscription NFT that gives access to a web service to the holders', async () => {
             // Deploy NFT
             TestContractHandler.setConfig(config)
 
@@ -119,21 +144,33 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             subscriptionNFT = await SubscriptionNFTApi.deployInstance(
                 config,
                 contractABI,
-                editor,
-                [ editor.getId(), nevermined.keeper.didRegistry.getAddress(), 'Subscription NFT', '', '', 0 ]
+                publisher,
+                [
+                    publisher.getId(),
+                    nevermined.keeper.didRegistry.getAddress(),
+                    'Subscription Service NFT',
+                    '',
+                    '',
+                    0
+                ]
             )
-
 
             await nevermined.contracts.loadNft721Api(subscriptionNFT)
 
-            await subscriptionNFT.grantOperatorRole(transferNft721Condition.address, editor)
+            await subscriptionNFT.grantOperatorRole(
+                transferNft721Condition.address,
+                publisher
+            )
 
-            const isOperator = await subscriptionNFT.getContract.isOperator(transferNft721Condition.address)
+            const isOperator = await subscriptionNFT.getContract.isOperator(
+                transferNft721Condition.address
+            )
             assert.isTrue(isOperator)
 
+            subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
             const nftAttributes = NFTAttributes.getSubscriptionInstance({
                 metadata: subscriptionMetadata,
-                price: assetPrice1,
+                price: assetPrice,
                 serviceTypes: ['nft-sales'],
                 providers: [neverminedNodeAddress],
                 duration: subscriptionDuration,
@@ -142,14 +179,19 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 nftTransfer,
                 royaltyAttributes: royaltyAttributes
             })
-            subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
-
+            subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
+            console.log(`Subscription registered with DID: ${subscriptionDDO.id}`)
             assert.isDefined(subscriptionDDO)
         })
 
-        it('I want to register a new asset and tokenize (via NFT)', async () => {
+        it('I want to register a new web service and tokenize (via NFT)', async () => {
+            serviceMetadata = generateWebServiceMetadata(
+                'Nevermined Web Service Metadata'
+            ) as MetaData
+            serviceMetadata.userId = payload.sub
+
             const nftAttributes = NFTAttributes.getSubscriptionInstance({
-                metadata: assetMetadata,
+                metadata: serviceMetadata,
                 serviceTypes: ['nft-access'],
                 providers: [neverminedNodeAddress],
                 duration: subscriptionDuration,
@@ -158,16 +200,17 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
                 nftTransfer,
                 royaltyAttributes: royaltyAttributes
             })
-            assetDDO = await nevermined.nfts721.create(nftAttributes, editor)
+            serviceDDO = await nevermined.nfts721.create(nftAttributes, publisher)
             console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
-            assert.isDefined(assetDDO)
+            console.log(`Service registered with DID: ${serviceDDO.id}`)
+            assert.isDefined(serviceDDO)
         })
     })
 
-    describe('As a subscriber I want to get access to some contents', () => {
+    describe('As a Subscriber I want to get access to a web service', () => {
         it('I check the details of the subscription NFT', async () => {
             const details = await nevermined.nfts721.details(subscriptionDDO.id)
-            assert.equal(details.owner, editor.getId())
+            assert.equal(details.owner, publisher.getId())
         })
 
         it('I am ordering the subscription NFT', async () => {
@@ -189,12 +232,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             assert.isTrue(subscriberBalanceAfter.sub(initialBalances.subscriber).eq(0))
         })
 
-        it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
+        it('The Publisher can check the payment and transfer the NFT to the Subscriber', async () => {
             // Let's use the Node to mint the subscription and release the payments
 
             const receipt = await nevermined.nfts721.claim(
                 agreementId,
-                editor.getId(),
+                publisher.getId(),
                 subscriber.getId()
             )
             assert.isTrue(receipt)
@@ -208,19 +251,19 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
             )
         })
 
-        it('the editor and reseller can receive their payment', async () => {
-            const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
-            const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
+        it('the Publisher and reseller can receive their payment', async () => {
+            const receiver0Balance = await token.balanceOf(assetPrice.getReceivers()[0])
+            const receiver1Balance = await token.balanceOf(assetPrice.getReceivers()[1])
 
             assert.isTrue(
                 receiver0Balance.eq(
-                    initialBalances.editor.add(assetPrice1.getAmounts()[0])
+                    initialBalances.editor.add(assetPrice.getAmounts()[0])
                 )
             )
 
             assert.isTrue(
                 receiver1Balance.eq(
-                    initialBalances.reseller.add(assetPrice1.getAmounts()[1])
+                    initialBalances.reseller.add(assetPrice.getAmounts()[1])
                 )
             )
         })
@@ -269,16 +312,65 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         })
     })
 
-    describe('As subscriber I want to get access to assets include as part of my subscription', () => {
-        it('The collector access the files', async () => {
-            const result = await nevermined.nfts1155.access(
-                assetDDO.id,
-                subscriber,
-                '/tmp/',
-                undefined,
-                agreementId
+    describe('As a subscriber I want to get an access token for the web service', () => {
+        it('Nevermined One validates that the subscriber owns a subscription', async () => {
+            const nftAccessService = serviceDDO.findServiceByType('nft-access')
+            const nftHolderCondition = findServiceConditionByName(
+                nftAccessService,
+                'nftHolder'
             )
-            assert.isTrue(result)
+            const numberNfts = nftHolderCondition.parameters.find(
+                p => p.name === '_numberNfts'
+            ).value
+            const contractAddress = nftHolderCondition.parameters.find(
+                p => p.name === '_contractAddress'
+            ).value
+
+            const nft = await nevermined.contracts.loadNft721(contractAddress as string)
+            const balance = await nft.balanceOf(subscriber.getId())
+
+            assert.isAtLeast(balance.toNumber(), Number(numberNfts))
+        })
+
+        it('Nevermined One issues and access token', async () => {
+            const metadata = serviceDDO.findServiceByType('metadata')
+            const endpoints = metadata.attributes.main.webService.endpoints.flatMap(e =>
+                Object.values(e)
+            )
+
+            accessToken = await new jose.EncryptJWT({
+                did: serviceDDO.id,
+                endpoints,
+                headers: [
+                    {
+                        authorization: 'Bearer xxxx'
+                    }
+                ]
+            })
+                .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
+                .setIssuedAt()
+                .setExpirationTime('1d')
+                .encrypt(JWT_SECRET)
+
+            assert.isDefined(accessToken)
+        })
+    })
+
+    describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
+        it('The subscriber access the service endpoints available', async () => {
+            opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
+            const result = await fetch(ENDPOINT, opts)
+
+            assert.isTrue(result.ok)
+            assert.equal(result.status, 200)
+        })
+
+        it('The subscriber can not access the service endpoints not available', async () => {
+            const protectedEndpoint = `http://google.com`
+            opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
+            const result = await fetch(protectedEndpoint, opts)
+            assert.isFalse(result.ok)
+            assert.equal(result.status, 401)
         })
     })
 })

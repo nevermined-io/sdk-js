@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+      - uses: nevermined-io/nvm-tools-actions@v0.7.1
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: "true"
@@ -32,10 +32,8 @@ jobs:
       - name: Check artifacts
         run: |
           nvm-tools copy-artifacts ./artifacts
+          nvm-tools copy-circuits ./circuits
           ls -l artifacts
-
-      - name: Start ganache
-        run: yarn ganache --port 18545 --chain.chainId 8998 &
 
       - name: Run integration tests
         env:
