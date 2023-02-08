@@ -95,67 +95,97 @@ export interface ServiceMetadata {
   definition: ServiceDefinition
 }
 
-export interface MetaDataFile {
-  /**
-   * File name.
-   */
-  name?: string
 
-  /**
-   * File URL.
-   */
-  url: string
+export interface MetaDataExternalResource {
+    /**
+     * File name.
+     */
+    name?: string
 
-  /**
-   * File index.
-   */
-  index?: number
+    /**
+     * File URL.
+     */
+    url: string
 
-  /**
-   * File format, if applicable.
-   * @example "text/csv"
-   */
-  contentType: string
+    /**
+     * File index.
+     */
+    index?: number
 
-  /**
-   * File checksum.
-   */
-  checksum?: string
+    /**
+     * File format, if applicable.
+     * @example "text/csv"
+     */
+    contentType: string
 
-  /**
-   * Checksum hash algorithm.
-   */
-  checksumType?: string
+    /**
+     * File checksum.
+     */
+    checksum?: string
 
-  /**
-   * File content length.
-   */
-  contentLength?: string
+    /**
+     * Checksum hash algorithm.
+     */
+    checksumType?: string
 
-  /**
-   * Resource ID (depending on the source).
-   */
-  resourceId?: string
+    /**
+     * File content length.
+     */
+    contentLength?: string
 
-  /**
-   * File encoding.
-   * @example "UTF-8"
-   */
-  encoding?: string
+    /**
+     * Resource ID (depending on the source).
+     */
+    resourceId?: string
 
-  /**
-   * File compression (e.g. no, gzip, bzip2, etc).
-   * @example "zip"
-   */
-  compression?: string
+    /**
+     * File encoding.
+     * @example "UTF-8"
+     */
+    encoding?: string
 
-  /**
-   * Encryption mode used.
-   *
-   * @remarks
-   * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
-   */
-  encryption?: 'dtp'
+    /**
+     * File compression (e.g. no, gzip, bzip2, etc).
+     * @example "zip"
+     */
+    compression?: string
+
+    /**
+     * Encryption mode used.
+     *
+     * @remarks
+     * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
+     */
+    encryption?: 'dtp'
+}
+
+/**
+ * Interface describing an asset of type `service`
+ */
+export interface WebService {
+    type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
+
+    endpoints?: { [verb: string]: string }[]
+
+    internalAttributes?: WebServiceInternalAttributes
+
+    encryptedAttributes?: string
+}
+
+export interface WebServiceInternalAttributes {
+
+    authentication?: ResourceAuthentication
+
+    headers?: { [verb: string]: string }[]
+}
+
+export interface ResourceAuthentication {
+    type: 'none' | 'basic' | 'oauth'
+
+    user?: string
+    password?: string
+    token?: string
+    privateParameters?: { [name: string]: string }[]
 }
 
 /**
@@ -169,12 +199,20 @@ export interface MetaDataMain {
    */
   name: string
 
-  /**
-   * Type of the Asset. Helps to filter by the type of asset,
-   * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
-   * @example "dataset"
-   */
-  type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'other'
+
+    /**
+     * Type of the Asset. Helps to filter by the type of asset,
+     * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
+     * @example "dataset"
+     */
+    type:
+        | 'dataset'
+        | 'algorithm'
+        | 'compute'
+        | 'workflow'
+        | 'compute'
+        | 'service'
+        | 'other'
 
   /**
    * The date on which the asset was created by the originator in
@@ -204,10 +242,13 @@ export interface MetaDataMain {
    */
   license: string
 
+
   /**
    * Array of File objects including the encrypted file urls and some additional information.
    */
-  files?: MetaDataFile[]
+  files?: MetaDataExternalResource[]
+
+  webService?: WebService
 
   encryptedService?: any
 
