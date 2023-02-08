@@ -40,7 +40,9 @@
     "changelog": "auto-changelog --commit-limit false && sed -i 's/keyko-io/nevermind-/nevermined-io//' CHANGELOG.md",
     "prepublishOnly": "npm run build",
     "prebuild": "npm run build:metadata",
-    "prepare": "npm run build:metadata",
+    "prepare": "npm run build:metadata && husky install .husky",
+    "prettier": "prettier --config ./.prettierrc.js --write \"**/*.{js,json,md,sol,ts,yml}\"",
+    "prettier:check": "prettier --check --config ./.prettierrc.js \"**/*.{js,json,md,sol,ts,yml}\"",
     "artifacts:download": "./scripts/download-artifacts.sh",
     "utils:generate-ddos": "ts-node ./scripts/generate-ddos.ts"
   },
@@ -76,6 +78,8 @@
     "whatwg-url": "^7.1.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "@faker-js/faker": "^6.3.1",
     "@opengsn/provider": "^2.2.6",
     "@release-it/bumper": "^1.4.1",
@@ -103,7 +107,9 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tsdoc": "^0.2.16",
     "ganache": "^7.0.2",
+    "husky": "^8.0.3",
     "lcov-result-merger": "^3.1.0",
+    "lint-staged": "^13.0.4",
     "mocha": "^7.2.0",
     "mock-local-storage": "^1.1.15",
     "nyc": "^14.1.1",
@@ -124,6 +130,14 @@
     "webpack": "^5.69.1",
     "webpack-cli": "^4.9.2",
     "webpack-merge": "^5.8.0"
+  },
+  "lint-staged": {
+    "**/*.{js,json,md,sol,yml}": [
+      "yarn run prettier"
+    ],
+    "**/*.ts": [
+      "yarn run lint:fix"
+    ]
   },
   "nyc": {
     "include": [

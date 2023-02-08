@@ -50,8 +50,8 @@ Contains all the data related to an asset.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type                        |
+| :---- | :-------------------------- |
 | `ddo` | `Partial`<[`DDO`](DDO.md)\> |
 
 #### Defined in
@@ -68,7 +68,7 @@ Contains all the data related to an asset.
 
 [src/ddo/DDO.ts:41](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L41)
 
-___
+---
 
 ### \_nvm
 
@@ -78,7 +78,7 @@ ___
 
 [src/ddo/DDO.ts:50](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L50)
 
-___
+---
 
 ### authentication
 
@@ -88,7 +88,7 @@ ___
 
 [src/ddo/DDO.ts:56](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L56)
 
-___
+---
 
 ### created
 
@@ -98,7 +98,7 @@ ___
 
 [src/ddo/DDO.ts:52](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L52)
 
-___
+---
 
 ### didSeed
 
@@ -108,7 +108,7 @@ ___
 
 [src/ddo/DDO.ts:48](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L48)
 
-___
+---
 
 ### id
 
@@ -120,7 +120,7 @@ DID, decentralizes ID.
 
 [src/ddo/DDO.ts:46](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L46)
 
-___
+---
 
 ### proof
 
@@ -130,7 +130,7 @@ ___
 
 [src/ddo/DDO.ts:60](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L60)
 
-___
+---
 
 ### publicKey
 
@@ -140,7 +140,7 @@ ___
 
 [src/ddo/DDO.ts:54](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L54)
 
-___
+---
 
 ### service
 
@@ -158,10 +158,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `metadata` | [`MetaData`](../interfaces/MetaData.md) |
-| `nftAttributes?` | `NFTAttributes` |
+| Name             | Type                                    |
+| :--------------- | :-------------------------------------- |
+| `metadata`       | [`MetaData`](../interfaces/MetaData.md) |
+| `nftAttributes?` | `NFTAttributes`                         |
 
 #### Returns
 
@@ -171,7 +171,7 @@ ___
 
 [src/ddo/DDO.ts:199](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L199)
 
-___
+---
 
 ### addProof
 
@@ -181,8 +181,8 @@ Generates and adds a proof using personal sign on the DDO.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type     | Description                             |
+| :---------- | :------- | :-------------------------------------- |
 | `publicKey` | `string` | Public key to be used on personal sign. |
 
 #### Returns
@@ -195,7 +195,7 @@ Proof object.
 
 [src/ddo/DDO.ts:188](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L188)
 
-___
+---
 
 ### addService
 
@@ -203,8 +203,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type  |
+| :-------- | :---- |
 | `service` | `any` |
 
 #### Returns
@@ -215,7 +215,7 @@ ___
 
 [src/ddo/DDO.ts:195](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L195)
 
-___
+---
 
 ### addSignature
 
@@ -223,10 +223,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name         | Type                          |
+| :----------- | :---------------------------- |
 | `nevermined` | [`Nevermined`](Nevermined.md) |
-| `publicKey` | `string` |
+| `publicKey`  | `string`                      |
 
 #### Returns
 
@@ -236,7 +236,7 @@ ___
 
 [src/ddo/DDO.ts:250](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L250)
 
-___
+---
 
 ### assignDid
 
@@ -244,11 +244,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `didSeed` | `string` |
-| `didRegistry` | `default` |
-| `publisher` | [`Account`](Account.md) |
+| Name          | Type                    |
+| :------------ | :---------------------- |
+| `didSeed`     | `string`                |
+| `didRegistry` | `default`               |
+| `publisher`   | [`Account`](Account.md) |
 
 #### Returns
 
@@ -258,7 +258,7 @@ ___
 
 [src/ddo/DDO.ts:234](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L234)
 
-___
+---
 
 ### checksum
 
@@ -266,8 +266,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type     |
+| :----- | :------- |
 | `seed` | `string` |
 
 #### Returns
@@ -278,7 +278,7 @@ ___
 
 [src/ddo/DDO.ts:156](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L156)
 
-___
+---
 
 ### findServiceById
 
@@ -288,15 +288,15 @@ Finds a service of a DDO by index.
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `ServiceType` |
+| Name | Type                  |
+| :--- | :-------------------- |
+| `T`  | extends `ServiceType` |
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `index` | `number` | index. |
+| Name    | Type     | Description |
+| :------ | :------- | :---------- |
+| `index` | `number` | index.      |
 
 #### Returns
 
@@ -308,7 +308,7 @@ Service.
 
 [src/ddo/DDO.ts:106](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L106)
 
-___
+---
 
 ### findServiceByType
 
@@ -322,15 +322,15 @@ DDOServiceNotFoundError If the service is not in the DDO.
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `ServiceType` |
+| Name | Type                  |
+| :--- | :-------------------- |
+| `T`  | extends `ServiceType` |
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `serviceType` | `T` | Service type. |
+| Name          | Type | Description   |
+| :------------ | :--- | :------------ |
+| `serviceType` | `T`  | Service type. |
 
 #### Returns
 
@@ -342,7 +342,7 @@ DDOServiceNotFoundError If the service is not in the DDO.
 
 [src/ddo/DDO.ts:126](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L126)
 
-___
+---
 
 ### generateDidSeed
 
@@ -350,8 +350,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type  |
+| :----- | :---- |
 | `seed` | `any` |
 
 #### Returns
@@ -362,7 +362,7 @@ ___
 
 [src/ddo/DDO.ts:246](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L246)
 
-___
+---
 
 ### generateProof
 
@@ -372,8 +372,8 @@ Generates proof using personal sign.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type     | Description                             |
+| :---------- | :------- | :-------------------------------------- |
 | `publicKey` | `string` | Public key to be used on personal sign. |
 
 #### Returns
@@ -386,7 +386,7 @@ Proof object.
 
 [src/ddo/DDO.ts:167](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L167)
 
-___
+---
 
 ### getPriceByService
 
@@ -406,9 +406,9 @@ DDOPriceNotFoundError
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `serviceType` | `ServiceType` | `'access'` | Service type |
+| Name          | Type          | Default value | Description  |
+| :------------ | :------------ | :------------ | :----------- |
+| `serviceType` | `ServiceType` | `'access'`    | Service type |
 
 #### Returns
 
@@ -420,7 +420,7 @@ BigNumber
 
 [src/ddo/DDO.ts:146](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L146)
 
-___
+---
 
 ### shortId
 
@@ -434,7 +434,7 @@ ___
 
 [src/ddo/DDO.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L97)
 
-___
+---
 
 ### updateService
 
@@ -442,10 +442,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name         | Type                          |
+| :----------- | :---------------------------- |
 | `nevermined` | [`Nevermined`](Nevermined.md) |
-| `service` | `any` |
+| `service`    | `any`                         |
 
 #### Returns
 
@@ -455,7 +455,7 @@ ___
 
 [src/ddo/DDO.ts:230](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L230)
 
-___
+---
 
 ### deserialize
 
@@ -465,8 +465,8 @@ Deserializes the DDO object.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type     | Description                                      |
+| :---------- | :------- | :----------------------------------------------- |
 | `ddoString` | `string` | The serialized [DDO](DDO.md) to be deserialized. |
 
 #### Returns
@@ -479,7 +479,7 @@ The deserialized [DDO](DDO.md).
 
 [src/ddo/DDO.ts:35](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L35)
 
-___
+---
 
 ### getInstance
 
@@ -487,11 +487,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `userId` | `string` |
+| Name               | Type     |
+| :----------------- | :------- |
+| `userId`           | `string` |
 | `publisherAddress` | `string` |
-| `appId?` | `string` |
+| `appId?`           | `string` |
 
 #### Returns
 
@@ -501,7 +501,7 @@ ___
 
 [src/ddo/DDO.ts:69](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/DDO.ts#L69)
 
-___
+---
 
 ### serialize
 
@@ -511,8 +511,8 @@ Serializes the DDO object.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name  | Type            | Description                         |
+| :---- | :-------------- | :---------------------------------- |
 | `ddo` | [`DDO`](DDO.md) | The [DDO](DDO.md) to be serialized. |
 
 #### Returns

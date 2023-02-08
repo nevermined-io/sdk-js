@@ -26,7 +26,7 @@
 
 [src/keeper.ts:27](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L27)
 
-___
+---
 
 ### agentId
 
@@ -36,7 +36,7 @@ ___
 
 [src/keeper.ts:26](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L26)
 
-___
+---
 
 ### agentInvolvedId
 
@@ -46,7 +46,7 @@ ___
 
 [src/keeper.ts:28](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L28)
 
-___
+---
 
 ### blockNumberUpdated
 
@@ -56,7 +56,7 @@ ___
 
 [src/keeper.ts:31](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L31)
 
-___
+---
 
 ### createdBy
 
@@ -66,7 +66,7 @@ ___
 
 [src/keeper.ts:30](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L30)
 
-___
+---
 
 ### did
 
@@ -76,7 +76,7 @@ ___
 
 [src/keeper.ts:24](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L24)
 
-___
+---
 
 ### method
 
@@ -86,7 +86,7 @@ ___
 
 [src/keeper.ts:29](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L29)
 
-___
+---
 
 ### relatedDid
 
@@ -96,7 +96,7 @@ ___
 
 [src/keeper.ts:25](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper.ts#L25)
 
-___
+---
 
 ### signatureDelegate
 

@@ -9,239 +9,215 @@ import { URL } from 'whatwg-url'
 
 let fetch
 if (typeof window !== 'undefined') {
-    fetch = window.fetch.bind(window)
+  fetch = window.fetch.bind(window)
 } else {
-    fetch = require('node-fetch')
+  fetch = require('node-fetch')
 }
 
 /**
  * Provides a common interface to web services.
  */
 export class WebServiceConnector extends Instantiable {
-    constructor(config: InstantiableConfig) {
-        super()
-        this.setInstanceConfig(config)
+  constructor(config: InstantiableConfig) {
+    super()
+    this.setInstanceConfig(config)
+  }
+
+  public post(
+    url: string,
+    payload: BodyInit,
+    headers: { [header: string]: string } = {},
+  ): Promise<Response> {
+    return this.fetch(url, {
+      method: 'POST',
+      body: payload,
+      headers: {
+        'Content-type': 'application/json',
+        ...headers,
+      },
+    })
+  }
+
+  public get(url: string | URL, headers: { [header: string]: string } = {}): Promise<Response> {
+    return this.fetch(url, {
+      method: 'GET',
+      headers: {
+        ...headers,
+      },
+    })
+  }
+
+  public put(
+    url: string,
+    payload: BodyInit,
+    headers: { [header: string]: string } = {},
+  ): Promise<Response> {
+    return this.fetch(url, {
+      method: 'PUT',
+      body: payload,
+      headers: {
+        'Content-type': 'application/json',
+        ...headers,
+      },
+    })
+  }
+
+  public delete(
+    url: string,
+    payload?: BodyInit,
+    headers: { [header: string]: string } = {},
+  ): Promise<Response> {
+    return this.fetch(url, {
+      method: 'DELETE',
+      body: payload,
+      headers: {
+        'Content-type': 'application/json',
+        ...headers,
+      },
+    })
+  }
+
+  public async downloadFile(
+    url: string,
+    destination?: string,
+    index?: number,
+    headers?: { [key: string]: string },
+  ): Promise<string> {
+    const { response, name } = await this.getFileResponse(url, index, headers)
+
+    if (destination) {
+      await new Promise((resolve, reject) => {
+        fs.mkdirSync(destination, { recursive: true })
+        const fileStream = fs.createWriteStream(`${destination}${name}`)
+        response.body.pipe(fileStream)
+        response.body.on('error', reject)
+        fileStream.on('finish', resolve)
+        fileStream.on('close', resolve)
+      })
+    } else {
+      const buff = await response.arrayBuffer()
+      fileDownload(buff, name)
+      destination = process.cwd()
+    }
+    const d = path.join(destination, name)
+    this.logger.log(`Downloaded: ${d}`)
+    return d
+  }
+
+  private async getFileResponse(
+    url: string,
+    index?: number,
+    headers?: { [key: string]: string },
+  ): Promise<{ response: Response; name: string }> {
+    const response = await this.get(url, headers)
+    if (!response.ok) {
+      throw new Error('Response error.')
     }
 
-    public post(
-        url: string,
-        payload: BodyInit,
-        headers: { [header: string]: string } = {}
-    ): Promise<Response> {
-        return this.fetch(url, {
-            method: 'POST',
-            body: payload,
-            headers: {
-                'Content-type': 'application/json',
-                ...headers
-            }
-        })
+    let name: string
+    try {
+      ;[, name] = response.headers.get('content-disposition').match(/attachment;filename=(.+)/)
+    } catch {
+      try {
+        name = url.split('/').pop()
+      } catch {
+        name = `file${index}`
+      }
     }
 
-    public get(
-        url: string | URL,
-        headers: { [header: string]: string } = {}
-    ): Promise<Response> {
-        return this.fetch(url, {
-            method: 'GET',
-            headers: {
-                ...headers
-            }
-        })
+    return { response, name }
+  }
+
+  public async downloadUrl(url: string, headers?: any): Promise<string> {
+    const response = await this.get(url, headers)
+    if (!response.ok) {
+      throw new Error('Response error.')
+    }
+    return await response.text()
+  }
+
+  public async uploadMessage(url: string, data: string, encrypt?: boolean): Promise<any> {
+    const form = new FormData()
+    form.append('message', data)
+    if (encrypt) {
+      form.append('encrypt', 'true')
+    }
+    return this.fetch(url, { method: 'POST', body: form })
+  }
+
+  public async uploadFile(url: string, data: ReadStream, encrypt?: boolean): Promise<any> {
+    console.log(`Trying to upload file`)
+    const form = new FormData()
+    form.append('file', data)
+    if (encrypt) {
+      form.append('encrypt', 'true')
+    }
+    return this.fetch(url, { method: 'POST', body: form })
+  }
+
+  public async fetchToken(url: string, grantToken: string, numberTries = 1): Promise<Response> {
+    return await this.nevermined.utils.fetch.fetch(
+      url,
+      {
+        method: 'POST',
+        body: `client_assertion_type=${encodeURI(
+          this.nevermined.utils.jwt.CLIENT_ASSERTION_TYPE,
+        )}&client_assertion=${encodeURI(grantToken)}`,
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded',
+        },
+      },
+      numberTries,
+    )
+  }
+
+  public async fetchCID(cid: string): Promise<string> {
+    const url = `${this.config.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
+    const authToken = WebServiceConnector.getIPFSAuthToken()
+    const options = {
+      method: 'POST',
+      ...(authToken && {
+        headers: { Authorization: `Basic ${authToken}` },
+      }),
     }
 
-    public put(
-        url: string,
-        payload: BodyInit,
-        headers: { [header: string]: string } = {}
-    ): Promise<Response> {
-        return this.fetch(url, {
-            method: 'PUT',
-            body: payload,
-            headers: {
-                'Content-type': 'application/json',
-                ...headers
-            }
-        })
+    return fetch(url, options).then(async (res) => {
+      if (!res.ok) {
+        throw new Error(`${res.status}: ${res.statusText} - ${await res.text()}`)
+      }
+      return res.text()
+    })
+  }
+
+  private static getIPFSAuthToken(): string | undefined {
+    if (!process.env.IPFS_PROJECT_ID || !process.env.IPFS_PROJECT_SECRET) {
+      return undefined
+    } else {
+      return Buffer.from(
+        `${process.env.IPFS_PROJECT_ID}:${process.env.IPFS_PROJECT_SECRET}`,
+      ).toString('base64')
+    }
+  }
+
+  private async fetch(url: string | URL, opts: RequestInit, numberTries = 1): Promise<Response> {
+    let counterTries = 1
+    let result: Response
+    while (counterTries <= numberTries) {
+      result = await fetch(url, opts)
+      if (result.ok) return result
+
+      counterTries++
+      this.logger.debug(`Sleeping ...`)
+      await this.nevermined.utils.fetch._sleep(500)
     }
 
-    public delete(
-        url: string,
-        payload?: BodyInit,
-        headers: { [header: string]: string } = {}
-    ): Promise<Response> {
-        return this.fetch(url, {
-            method: 'DELETE',
-            body: payload,
-            headers: {
-                'Content-type': 'application/json',
-                ...headers
-            }
-        })
-    }
+    throw new HttpError(
+      `Request ${opts.method} ${url} fail - ${await result.clone().text()}`,
+      result.status,
+    )
+  }
 
-    public async downloadFile(
-        url: string,
-        destination?: string,
-        index?: number,
-        headers?: { [key: string]: string }
-    ): Promise<string> {
-        const { response, name } = await this.getFileResponse(url, index, headers)
-
-        if (destination) {
-            await new Promise((resolve, reject) => {
-                fs.mkdirSync(destination, { recursive: true })
-                const fileStream = fs.createWriteStream(`${destination}${name}`)
-                response.body.pipe(fileStream)
-                response.body.on('error', reject)
-                fileStream.on('finish', resolve)
-                fileStream.on('close', resolve)
-            })
-        } else {
-            const buff = await response.arrayBuffer()
-            fileDownload(buff, name)
-            destination = process.cwd()
-        }
-        const d = path.join(destination, name)
-        this.logger.log(`Downloaded: ${d}`)
-        return d
-    }
-
-    private async getFileResponse(
-        url: string,
-        index?: number,
-        headers?: { [key: string]: string }
-    ): Promise<{ response: Response; name: string }> {
-        const response = await this.get(url, headers)
-        if (!response.ok) {
-            throw new Error('Response error.')
-        }
-
-        let name: string
-        try {
-            [, name] = response.headers
-                .get('content-disposition')
-                .match(/attachment;filename=(.+)/)
-        } catch {
-            try {
-                name = url.split('/').pop()
-            } catch {
-                name = `file${index}`
-            }
-        }
-
-        return { response, name }
-    }
-
-    public async downloadUrl(url: string, headers?: any): Promise<string> {
-        const response = await this.get(url, headers)
-        if (!response.ok) {
-            throw new Error('Response error.')
-        }
-        return await response.text()
-    }
-
-    public async uploadMessage(
-        url: string,
-        data: string,
-        encrypt?: boolean
-    ): Promise<any> {
-        const form = new FormData()
-        form.append('message', data)
-        if (encrypt) {
-            form.append('encrypt', 'true')
-        }
-        return this.fetch(url, { method: 'POST', body: form })
-    }
-
-    public async uploadFile(
-        url: string,
-        data: ReadStream,
-        encrypt?: boolean
-    ): Promise<any> {
-        console.log(`Trying to upload file`)
-        const form = new FormData()
-        form.append('file', data)
-        if (encrypt) {
-            form.append('encrypt', 'true')
-        }
-        return this.fetch(url, { method: 'POST', body: form })
-    }
-
-    public async fetchToken(
-        url: string,
-        grantToken: string,
-        numberTries = 1
-    ): Promise<Response> {
-        return await this.nevermined.utils.fetch.fetch(
-            url,
-            {
-                method: 'POST',
-                body: `client_assertion_type=${encodeURI(
-                    this.nevermined.utils.jwt.CLIENT_ASSERTION_TYPE
-                )}&client_assertion=${encodeURI(grantToken)}`,
-                headers: {
-                    'Content-type': 'application/x-www-form-urlencoded'
-                }
-            },
-            numberTries
-        )
-    }
-
-    public async fetchCID(cid: string): Promise<string> {
-        const url = `${this.config.ipfsGateway}/api/v0/cat?arg=${cid.replace(
-            'cid://',
-            ''
-        )}`
-        const authToken = WebServiceConnector.getIPFSAuthToken()
-        const options = {
-            method: 'POST',
-            ...(authToken && {
-                headers: { Authorization: `Basic ${authToken}` }
-            })
-        }
-
-        return fetch(url, options).then(async res => {
-            if (!res.ok) {
-                throw new Error(`${res.status}: ${res.statusText} - ${await res.text()}`)
-            }
-            return res.text()
-        })
-    }
-
-    private static getIPFSAuthToken(): string | undefined {
-        if (!process.env.IPFS_PROJECT_ID || !process.env.IPFS_PROJECT_SECRET) {
-            return undefined
-        } else {
-            return Buffer.from(
-                `${process.env.IPFS_PROJECT_ID}:${process.env.IPFS_PROJECT_SECRET}`
-            ).toString('base64')
-        }
-    }
-
-    private async fetch(
-        url: string | URL,
-        opts: RequestInit,
-        numberTries = 1
-    ): Promise<Response> {
-        let counterTries = 1
-        let result: Response
-        while (counterTries <= numberTries) {
-            result = await fetch(url, opts)
-            if (result.ok) return result
-
-            counterTries++
-            this.logger.debug(`Sleeping ...`)
-            await this.nevermined.utils.fetch._sleep(500)
-        }
-
-        throw new HttpError(
-            `Request ${opts.method} ${url} fail - ${await result.clone().text()}`,
-            result.status
-        )
-    }
-
-    private _sleep(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-    }
+  private _sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+  }
 }

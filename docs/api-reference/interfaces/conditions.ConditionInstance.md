@@ -6,7 +6,7 @@
 
 ## Type parameters
 
-| Name |
+| Name    |
 | :------ |
 | `Extra` |
 
@@ -41,7 +41,7 @@
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L35)
 
-___
+---
 
 ### condition
 
@@ -55,7 +55,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L36)
 
-___
+---
 
 ### id
 
@@ -69,7 +69,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:34](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L34)
 
-___
+---
 
 ### list
 
@@ -83,7 +83,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:32](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L32)
 
-___
+---
 
 ### params
 
@@ -95,10 +95,10 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                                                          |
+| :------- | :------------------------------------------------------------ |
 | `method` | [`ConditionMethod`](../modules/conditions.md#conditionmethod) |
-| `arg` | `Extra` |
+| `arg`    | `Extra`                                                       |
 
 ##### Returns
 
@@ -108,7 +108,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:40](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L40)
 
-___
+---
 
 ### seed
 

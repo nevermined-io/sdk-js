@@ -28,15 +28,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.StandardRoyalties.md#initializedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.StandardRoyalties.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:46
 
-___
+---
 
 ### InitializedFields
 
@@ -44,16 +44,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:42
 
-___
+---
 
 ### InitializedFilter
 
@@ -61,30 +61,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:20
 
-___
+---
 
 ### InitializedResult
 
@@ -92,16 +92,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:38
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -110,25 +110,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:9
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -136,10 +136,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -153,17 +153,17 @@ node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:1
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.StandardRoyalties.md#initializedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.StandardRoyalties.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                      |
+| :-------- | :------------------------------------------------------------------------ |
+| `url`     | `string`                                                                  |
 | `options` | [`SingleQueryOptions`](subgraphs.StandardRoyalties.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.StandardRoyalties.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.StandardRoyalties.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -173,7 +173,7 @@ node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:1
 
 node_modules/@nevermined-io/subgraphs/build/StandardRoyalties.d.ts:49
 
-___
+---
 
 ### getInitializeds
 
@@ -181,17 +181,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.StandardRoyalties.md#initializedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.StandardRoyalties.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.StandardRoyalties.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.StandardRoyalties.md#initializedfilter), [`InitializedResult`](subgraphs.StandardRoyalties.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.StandardRoyalties.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.StandardRoyalties.md#initializedargs)<`K`\>                                                                                                                                                  |
 
 #### Returns
 

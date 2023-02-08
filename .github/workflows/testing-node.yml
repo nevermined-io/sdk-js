@@ -30,10 +30,10 @@ jobs:
       - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: "true"
-          estuary: "true"
-          contracts-version: "v3.0.0"
-          node: "false"
+          opengsn: 'true'
+          estuary: 'true'
+          contracts-version: 'v3.0.0'
+          node: 'false'
 
       - name: Install sponge
         run: sudo apt-get install -y moreutils

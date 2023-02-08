@@ -3,10 +3,7 @@
     "target": "ES5",
     "noEmit": true,
     "resolveJsonModule": true,
-    "lib": [
-      "ES6",
-      "ES7"
-    ],
+    "lib": ["ES6", "ES7"],
     "noUnusedLocals": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true

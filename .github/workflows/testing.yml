@@ -18,10 +18,10 @@ jobs:
       - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: "true"
-          estuary: "true"
-          contracts-version: "v3.0.0"
-          node-version: "develop"
+          opengsn: 'true'
+          estuary: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
 
       - name: Install dependencies
         run: |
@@ -90,4 +90,3 @@ jobs:
           ETH_PORT: 18545
         run: |
           yarn run test:cover
-

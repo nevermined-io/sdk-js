@@ -5,10 +5,7 @@ import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
 import { Keeper, CustomToken, Nft1155Contract, Nft721Contract } from '../keeper'
 import { NeverminedOptions } from '../models'
-import {
-    Instantiable,
-    generateIntantiableConfigFromConfig
-} from '../Instantiable.abstract'
+import { Instantiable, generateIntantiableConfigFromConfig } from '../Instantiable.abstract'
 import { NFT1155Api } from './api/nfts/NFT1155Api'
 import { NFT721Api } from './api/nfts/NFT721Api'
 import { SearchApi } from './api/SearchApi'
@@ -19,186 +16,182 @@ import { ComputeApi } from './api'
  * Main interface for Nevermined Protocol.
  */
 export class Nevermined extends Instantiable {
-    /**
-     * Returns the instance of Nevermined.
-     *
-     * @example
-     * ```ts
-     * import { Nevermined, Config } from '@nevermined-io/nevermied-sdk-js'
-     *
-     * const config: Config = {...}
-     * const nevermined = await Nevermined.getInstance(config)
-     * ```
-     *
-     * @param config - Nevermined instance configuration.
-     * @returns A {@link Nevermined} instance
-     */
-    public static async getInstance(config: NeverminedOptions): Promise<Nevermined> {
-        const instance = new Nevermined()
+  /**
+   * Returns the instance of Nevermined.
+   *
+   * @example
+   * ```ts
+   * import { Nevermined, Config } from '@nevermined-io/nevermied-sdk-js'
+   *
+   * const config: Config = {...}
+   * const nevermined = await Nevermined.getInstance(config)
+   * ```
+   *
+   * @param config - Nevermined instance configuration.
+   * @returns A {@link Nevermined} instance
+   */
+  public static async getInstance(config: NeverminedOptions): Promise<Nevermined> {
+    const instance = new Nevermined()
 
-        const instanceConfig = {
-            ...generateIntantiableConfigFromConfig(config),
-            nevermined: instance
-        }
-        instance.setInstanceConfig(instanceConfig)
-
-        instance.keeper = await Keeper.getInstance(instanceConfig)
-        await instance.keeper.init()
-
-        // Nevermined main API
-        instance.accounts = new AccountsApi(instanceConfig)
-        instance.agreements = new AgreementsApi(instanceConfig)
-        instance.assets = new AssetsApi(instanceConfig)
-        instance.compute = new ComputeApi(instanceConfig)
-        instance.nfts1155 = await NFT1155Api.getInstance(
-            instanceConfig,
-            instance.keeper.nftUpgradeable
-        )
-        instance.provenance = new ProvenanceApi(instanceConfig)
-        instance.search = new SearchApi(instanceConfig)
-        instance.services = new ServicesApi(instanceConfig)
-        instance.utils = new UtilsApi(instanceConfig)
-
-        return instance
+    const instanceConfig = {
+      ...generateIntantiableConfigFromConfig(config),
+      nevermined: instance,
     }
+    instance.setInstanceConfig(instanceConfig)
 
+    instance.keeper = await Keeper.getInstance(instanceConfig)
+    await instance.keeper.init()
+
+    // Nevermined main API
+    instance.accounts = new AccountsApi(instanceConfig)
+    instance.agreements = new AgreementsApi(instanceConfig)
+    instance.assets = new AssetsApi(instanceConfig)
+    instance.compute = new ComputeApi(instanceConfig)
+    instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
+    instance.provenance = new ProvenanceApi(instanceConfig)
+    instance.search = new SearchApi(instanceConfig)
+    instance.services = new ServicesApi(instanceConfig)
+    instance.utils = new UtilsApi(instanceConfig)
+
+    return instance
+  }
+
+  /**
+   * Nevermined very own contract reflector.
+   */
+  public contracts = {
+    ////////////////
+    // ERC-721
+    ////////////////
     /**
-     * Nevermined very own contract reflector.
+     * Load the ERC-721 API in the `nevermined` object given a remote NFT contract address.
+     *
+     * @param address - The address of the ERC-721 contracts to load
+     * @returns An instance of {@link NFT721Api}
      */
-    public contracts = {
-
-        ////////////////
-        // ERC-721
-        ////////////////
-        /**
-         * Load the ERC-721 API in the `nevermined` object given a remote NFT contract address.
-         *
-         * @param address - The address of the ERC-721 contracts to load
-         * @returns An instance of {@link NFT721Api}
-         */
-        loadNft721: async (address: string): Promise<NFT721Api> => {
-            this.nfts721 = await NFT721Api.getInstance(this.instanceConfig, address)
-            return this.nfts721
-        },
-        /**
-         * Loads the ERC-721 API in the `nevermined` object
-         *
-         * @param api - An instance of the `NFT721Api`
-         * @returns An instance of {@link NFT721Api}
-         */
-        loadNft721Api: async (api: NFT721Api): Promise<NFT721Api> => {
-            this.nfts721 = api
-            return this.nfts721
-        },
-        /**
-         * Returns a ERC-721 NFT contract instance given a remote NFT contract address.
-         *
-         * @param address - The address of the ERC-721 contracts to load
-         * @returns An instance of {@link Nft721Contract}
-         */        
-        loadNft721Contract: async (address: string): Promise<Nft721Contract> => {
-            return await Nft721Contract.getInstance(this.instanceConfig, address)
-        },        
-
-        ////////////////
-        // ERC-1155
-        ////////////////
-        /**
-         * Load the ERC-1155 API in the `nevermined` object given a remote NFT contract address.
-         *
-         * @param address - The address of the ERC-1155 contracts to load
-         * @returns An instance of {@link NFT1155Api}
-         */        
-        loadNft1155: async (address: string): Promise<NFT1155Api> => {
-            this.nfts1155 = await NFT1155Api.getInstance(this.instanceConfig, undefined, address)
-            return this.nfts1155
-        },
-        /**
-         * Loads the ERC-1155 API in the `nevermined` object
-         *
-         * @param api - An instance of the `NFT1155Api`
-         * @returns An instance of {@link NFT1155Api}
-         */        
-        loadNft1155Api: async (api: NFT1155Api): Promise<NFT1155Api> => {
-            this.nfts1155 = api
-            return this.nfts1155
-        },
-        /**
-         * Returns a ERC-1155 NFT contract instance given a remote NFT contract address.
-         *
-         * @param address - The address of the ERC-1155 contracts to load
-         * @returns An instance of {@link Nft1155Contract}
-         */         
-        loadNft1155Contract: async (address: string): Promise<Nft1155Contract> => {
-            return await Nft1155Contract.getInstance(this.instanceConfig, address)
-        },                
-        /**
-         * Load a custom ERC-20 nft.
-         *
-         * @param address - The address of the ERC-20 contracts to load
-         * @returns An instance of the {@link CustomToken}
-         */
-        loadErc20: async (address: string): Promise<CustomToken> => {
-            return await CustomToken.getInstanceByAddress(this.instanceConfig, address)
-        }
-    }
-
+    loadNft721: async (address: string): Promise<NFT721Api> => {
+      this.nfts721 = await NFT721Api.getInstance(this.instanceConfig, address)
+      return this.nfts721
+    },
     /**
-     * Keeper instance.
+     * Loads the ERC-721 API in the `nevermined` object
+     *
+     * @param api - An instance of the `NFT721Api`
+     * @returns An instance of {@link NFT721Api}
      */
-    public keeper: Keeper
-
+    loadNft721Api: async (api: NFT721Api): Promise<NFT721Api> => {
+      this.nfts721 = api
+      return this.nfts721
+    },
     /**
-     * Accounts submodule
+     * Returns a ERC-721 NFT contract instance given a remote NFT contract address.
+     *
+     * @param address - The address of the ERC-721 contracts to load
+     * @returns An instance of {@link Nft721Contract}
      */
-    public accounts: AccountsApi
+    loadNft721Contract: async (address: string): Promise<Nft721Contract> => {
+      return await Nft721Contract.getInstance(this.instanceConfig, address)
+    },
 
+    ////////////////
+    // ERC-1155
+    ////////////////
     /**
-     * Agreements submodule
+     * Load the ERC-1155 API in the `nevermined` object given a remote NFT contract address.
+     *
+     * @param address - The address of the ERC-1155 contracts to load
+     * @returns An instance of {@link NFT1155Api}
      */
-    public agreements: AgreementsApi
-
+    loadNft1155: async (address: string): Promise<NFT1155Api> => {
+      this.nfts1155 = await NFT1155Api.getInstance(this.instanceConfig, undefined, address)
+      return this.nfts1155
+    },
     /**
-     * Assets API
+     * Loads the ERC-1155 API in the `nevermined` object
+     *
+     * @param api - An instance of the `NFT1155Api`
+     * @returns An instance of {@link NFT1155Api}
      */
-    public assets: AssetsApi
-
+    loadNft1155Api: async (api: NFT1155Api): Promise<NFT1155Api> => {
+      this.nfts1155 = api
+      return this.nfts1155
+    },
     /**
-     * Compute API
+     * Returns a ERC-1155 NFT contract instance given a remote NFT contract address.
+     *
+     * @param address - The address of the ERC-1155 contracts to load
+     * @returns An instance of {@link Nft1155Contract}
      */
-    public compute: ComputeApi
-
+    loadNft1155Contract: async (address: string): Promise<Nft1155Contract> => {
+      return await Nft1155Contract.getInstance(this.instanceConfig, address)
+    },
     /**
-     * ERC-1155 Nfts API
+     * Load a custom ERC-20 nft.
+     *
+     * @param address - The address of the ERC-20 contracts to load
+     * @returns An instance of the {@link CustomToken}
      */
-    public nfts1155: NFT1155Api
+    loadErc20: async (address: string): Promise<CustomToken> => {
+      return await CustomToken.getInstanceByAddress(this.instanceConfig, address)
+    },
+  }
 
-    /**
-     * ERC-721 Nfts API
-     */
-    public nfts721: NFT721Api
+  /**
+   * Keeper instance.
+   */
+  public keeper: Keeper
 
-    /**
-     * Provenance submodule
-     */
-    public provenance: ProvenanceApi
+  /**
+   * Accounts submodule
+   */
+  public accounts: AccountsApi
 
-    /**
-     * SearchApi API
-     */
-    public search: SearchApi
+  /**
+   * Agreements submodule
+   */
+  public agreements: AgreementsApi
 
-    /**
-     * SearchApi API
-     */
-    public services: ServicesApi
+  /**
+   * Assets API
+   */
+  public assets: AssetsApi
 
-    /**
-     * Utils submodule
-     */
-    public utils: UtilsApi
+  /**
+   * Compute API
+   */
+  public compute: ComputeApi
 
-    private constructor() {
-        super()
-    }
+  /**
+   * ERC-1155 Nfts API
+   */
+  public nfts1155: NFT1155Api
+
+  /**
+   * ERC-721 Nfts API
+   */
+  public nfts721: NFT721Api
+
+  /**
+   * Provenance submodule
+   */
+  public provenance: ProvenanceApi
+
+  /**
+   * SearchApi API
+   */
+  public search: SearchApi
+
+  /**
+   * SearchApi API
+   */
+  public services: ServicesApi
+
+  /**
+   * Utils submodule
+   */
+  public utils: UtilsApi
+
+  private constructor() {
+    super()
+  }
 }
