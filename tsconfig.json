@@ -5,13 +5,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "es2019",
-      "ES2017",
-      "ES6",
-      "ES7",
-      "DOM"
-    ],
+    "lib": ["es2019", "ES2017", "ES6", "ES7", "DOM"],
     "declaration": true,
     "module": "CommonJS",
     "target": "ES6",
@@ -22,15 +16,8 @@
     "outDir": "./dist/node/",
     "rootDir": "./src/",
     "sourceMap": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"]
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }
