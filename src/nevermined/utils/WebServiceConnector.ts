@@ -116,7 +116,8 @@ export class WebServiceConnector extends Instantiable {
 
     let name: string
     try {
-      ;[, name] = response.headers.get('content-disposition').match(/attachment;filename=(.+)/)
+      // prettier-ignore
+      [, name] = response.headers.get('content-disposition').match(/attachment;filename=(.+)/)
     } catch {
       try {
         name = url.split('/').pop()

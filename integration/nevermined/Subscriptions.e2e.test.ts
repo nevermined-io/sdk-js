@@ -191,60 +191,63 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     })
 
     describe('As an editor I want to register new content and provide a subscriptions to my content', () => {
-        it('I want to register a subscriptions NFT that gives access to exclusive contents to the holders', async () => {
-            // Deploy NFT
-            TestContractHandler.setConfig(config)
+      it('I want to register a subscriptions NFT that gives access to exclusive contents to the holders', async () => {
+        // Deploy NFT
+        TestContractHandler.setConfig(config)
 
-            const contractABI = await TestContractHandler.getABI(
-                'NFT721SubscriptionUpgradeable',
-                './test/resources/artifacts/'
-            )
-            subscriptionNFT = await SubscriptionNFTApi.deployInstance(
-                config,
-                contractABI,
-                editor,
-                [ editor.getId(), nevermined.keeper.didRegistry.getAddress(), 'Subscription NFT', '', '', 0 ]
-            )
+        const contractABI = await TestContractHandler.getABI(
+          'NFT721SubscriptionUpgradeable',
+          './test/resources/artifacts/',
+        )
+        subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
+          editor.getId(),
+          nevermined.keeper.didRegistry.getAddress(),
+          'Subscription NFT',
+          '',
+          '',
+          0,
+        ])
 
+        await nevermined.contracts.loadNft721Api(subscriptionNFT)
 
-            await nevermined.contracts.loadNft721Api(subscriptionNFT)
+        await subscriptionNFT.grantOperatorRole(transferNft721Condition.address, editor)
 
-            await subscriptionNFT.grantOperatorRole(transferNft721Condition.address, editor)
+        const isOperator = await subscriptionNFT.getContract.isOperator(
+          transferNft721Condition.address,
+        )
+        assert.isTrue(isOperator)
 
-            const isOperator = await subscriptionNFT.getContract.isOperator(transferNft721Condition.address)
-            assert.isTrue(isOperator)
-
-            const nftAttributes = NFTAttributes.getSubscriptionInstance({
-                metadata: subscriptionMetadata,
-                price: assetPrice1,
-                serviceTypes: ['nft-sales'],
-                providers: [neverminedNodeAddress],
-                duration: subscriptionDuration,
-                nftContractAddress: subscriptionNFT.address,
-                preMint,
-                nftTransfer,
-                royaltyAttributes: royaltyAttributes
-            })
-            subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
-
-            assert.isDefined(subscriptionDDO)
+        const nftAttributes = NFTAttributes.getSubscriptionInstance({
+          metadata: subscriptionMetadata,
+          price: assetPrice1,
+          serviceTypes: ['nft-sales'],
+          providers: [neverminedNodeAddress],
+          duration: subscriptionDuration,
+          nftContractAddress: subscriptionNFT.address,
+          preMint,
+          nftTransfer,
+          royaltyAttributes: royaltyAttributes,
         })
+        subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
 
-        it('I want to register a new asset and tokenize (via NFT)', async () => {
-            const nftAttributes = NFTAttributes.getSubscriptionInstance({
-                metadata: assetMetadata,
-                serviceTypes: ['nft-access'],
-                providers: [neverminedNodeAddress],
-                duration: subscriptionDuration,
-                nftContractAddress: subscriptionNFT.address,
-                preMint,
-                nftTransfer,
-                royaltyAttributes: royaltyAttributes
-            })
-            assetDDO = await nevermined.nfts721.create(nftAttributes, editor)
-            console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
-            assert.isDefined(assetDDO)
+        assert.isDefined(subscriptionDDO)
+      })
+
+      it('I want to register a new asset and tokenize (via NFT)', async () => {
+        const nftAttributes = NFTAttributes.getSubscriptionInstance({
+          metadata: assetMetadata,
+          serviceTypes: ['nft-access'],
+          providers: [neverminedNodeAddress],
+          duration: subscriptionDuration,
+          nftContractAddress: subscriptionNFT.address,
+          preMint,
+          nftTransfer,
+          royaltyAttributes: royaltyAttributes,
         })
+        assetDDO = await nevermined.nfts721.create(nftAttributes, editor)
+        console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
+        assert.isDefined(assetDDO)
+      })
     })
 
     it('the editor and reseller can receive their payment', async () => {

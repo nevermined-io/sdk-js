@@ -58,7 +58,6 @@ jobs:
         run: |
           yarn run integration:compute
 
-
       - name: Run external tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
@@ -69,7 +68,6 @@ jobs:
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
           NO_GRAPH: true
         run: yarn run integration:external
-
 
       - name: Run integration tests
         env:

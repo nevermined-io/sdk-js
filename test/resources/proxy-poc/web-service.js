@@ -8,10 +8,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/sum', (req, res) => {
-    let a = Number(req.query.a)
-    let b = Number(req.query.b)
-    let result = `${a + b}`
-    res.send(result)
+  let a = Number(req.query.a)
+  let b = Number(req.query.b)
+  let result = `${a + b}`
+  res.send(result)
 })
 
 app.listen(port, () => {

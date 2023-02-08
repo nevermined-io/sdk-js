@@ -1,4 +1,5 @@
-;(global as any).File = class MockFile {
+// prettier-ignore
+(global as any).File = class MockFile {
   name: string
   constructor(
     parts: (string | Blob | ArrayBuffer | ArrayBufferView)[],

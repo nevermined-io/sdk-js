@@ -45,53 +45,53 @@ const metadata: Partial<MetaData> = {
 }
 
 const webServiceMetadata: Partial<MetaData> = {
-    main: {
-        name: undefined,
-        type: 'service',
-        dateCreated: '2022-10-10T17:00:00Z',
-        datePublished: '2022-10-10T17:00:00Z',
-        author: 'Nevermined',
-        license: 'CC-BY',
-        files: [{
-            url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
-            contentType: 'application/json',
-            
-        }],
-        webService: {
-            type: 'RESTful',
-            endpoints: [
-                {
-                    GET: 'http://localhost:3000'
-                }
-            ],
-            internalAttributes: {
-                authentication: {
-                    type: 'basic',
-                    token: ''
-                },
-                headers: [
-                    {
-                        Authorization: 'Bearer xxxxxx'
-                    }
-                ]
-            }            
-        }
-    },
-    additionalInformation: {
-        description:
-            'Endpoints allowing to read information from a Nevermined Marketplace',
-        copyrightHolder: 'Nevermined',
-        links: [
-            {
-                name: 'Swagger documentation',
-                type: 'sample',
-                url: 'http://marketplace.nevermined.localnet/api/v1/docs/'
-            }
+  main: {
+    name: undefined,
+    type: 'service',
+    dateCreated: '2022-10-10T17:00:00Z',
+    datePublished: '2022-10-10T17:00:00Z',
+    author: 'Nevermined',
+    license: 'CC-BY',
+    files: [
+      {
+        url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
+        contentType: 'application/json',
+      },
+    ],
+    webService: {
+      type: 'RESTful',
+      endpoints: [
+        {
+          GET: 'http://localhost:3000',
+        },
+      ],
+      internalAttributes: {
+        authentication: {
+          type: 'basic',
+          token: '',
+        },
+        headers: [
+          {
+            Authorization: 'Bearer xxxxxx',
+          },
         ],
-        inLanguage: 'en',
-        categories: ['Marketplace', 'Data Science'],
-        tags: ['assets']
-    }
+      },
+    },
+  },
+  additionalInformation: {
+    description: 'Endpoints allowing to read information from a Nevermined Marketplace',
+    copyrightHolder: 'Nevermined',
+    links: [
+      {
+        name: 'Swagger documentation',
+        type: 'sample',
+        url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
+      },
+    ],
+    inLanguage: 'en',
+    categories: ['Marketplace', 'Data Science'],
+    tags: ['assets'],
+  },
 }
 
 export const generateMetadata = (
@@ -109,26 +109,23 @@ export const generateMetadata = (
   },
 })
 
-
 export const generateWebServiceMetadata = (
-    name: string,
-    nonce: string | number = Math.random()
+  name: string,
+  nonce: string | number = Math.random(),
 ): Partial<MetaData> => ({
-    ...webServiceMetadata,
-    main: {
-        ...webServiceMetadata.main,
-        name,
-        ...({ nonce } as any)
-    },
-    additionalInformation: {
-        ...webServiceMetadata.additionalInformation
-    }
+  ...webServiceMetadata,
+  main: {
+    ...webServiceMetadata.main,
+    name,
+    ...({ nonce } as any),
+  },
+  additionalInformation: {
+    ...webServiceMetadata.additionalInformation,
+  },
 })
 
-export const getMetadata = (
-    nonce: string | number = Math.random(),
-    name = 'TestAsset'
-): MetaData => generateMetadata(name, nonce) as MetaData
+export const getMetadata = (nonce: string | number = Math.random(), name = 'TestAsset'): MetaData =>
+  generateMetadata(name, nonce) as MetaData
 
 export const getAssetPrice = (receiver: string) =>
   new AssetPrice(receiver, BigNumber.from('21' + '0'.repeat(18)))
