@@ -23,7 +23,7 @@
 
 [src/ddo/MetaData.ts:27](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L27)
 
-___
+---
 
 ### input
 
@@ -33,7 +33,7 @@ ___
 
 [src/ddo/MetaData.ts:30](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L30)
 
-___
+---
 
 ### output
 
@@ -43,7 +43,7 @@ ___
 
 [src/ddo/MetaData.ts:32](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L32)
 
-___
+---
 
 ### requirements
 
@@ -53,7 +53,7 @@ ___
 
 [src/ddo/MetaData.ts:29](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L29)
 
-___
+---
 
 ### stageType
 
@@ -63,7 +63,7 @@ ___
 
 [src/ddo/MetaData.ts:28](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L28)
 
-___
+---
 
 ### transformation
 
