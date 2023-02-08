@@ -132,7 +132,7 @@
     "webpack-merge": "^5.8.0"
   },
   "lint-staged": {
-    "**/*.{js,json,md,sol,yml}": [
+    "**/*.{js,json,md,sol,ts,yml}": [
       "yarn run prettier"
     ],
     "**/*.ts": [
