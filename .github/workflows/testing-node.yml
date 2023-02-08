@@ -3,8 +3,6 @@ name: Testing w/ Nevermined Node depending on SDK changes
 on:
   push:
     branches: [master, develop]
-  pull_request:
-    branches: [master, develop]
 
 jobs:
   build:
