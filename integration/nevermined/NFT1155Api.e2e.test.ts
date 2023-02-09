@@ -115,7 +115,7 @@ function makeTest(isCustom) {
       }
 
       // components
-      ;({ token } = nevermined.keeper)
+      ({ token } = nevermined.keeper)
 
       scale = BigNumber.from(10).pow(await token.decimals())
 
