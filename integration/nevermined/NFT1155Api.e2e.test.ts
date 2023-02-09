@@ -18,6 +18,7 @@ import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 import { BigNumber } from '../../src/utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
@@ -194,6 +195,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
         it('I check the details of the NFT', async () => {
             await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
             const details = await nevermined.nfts1155.details(ddo.id)
+            console.log('details', ddo.id, details)
             assert.equal(details.mintCap.toNumber(), 5)
             assert.equal(details.nftSupply.toNumber(), 5)
             assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
@@ -212,6 +214,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
             )
             
             agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
+            await sleep(3000)
             assert.isDefined(agreementId)
 
             const collector1BalanceAfter = await token.balanceOf(collector1.getId())
@@ -369,6 +372,13 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
 
         it('Ask the Node to transfer the nft and release the rewards', async () => {
 
+            console.log(
+                'here...',
+                agreementId,
+                artist.getId(),
+                collector1.getId(),
+                numberEditions
+            )
             const result = await nevermined.nfts1155.claim(
                 agreementId,
                 artist.getId(),

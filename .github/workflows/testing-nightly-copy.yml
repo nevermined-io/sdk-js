@@ -186,6 +186,7 @@ jobs:
           SEED_WORDS: ${{ secrets.TEST_MNEMONIC_NIGHTLY }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
           IPFS_GATEWAY: https://ipfs.infura.io:5001
+          GRAPH_DELAY: "true"
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
         run: |

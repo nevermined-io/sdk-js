@@ -53,7 +53,7 @@ if (process.env.NETWORK_NAME === 'mumbai') {
         marketplaceUri: 'https://marketplace-api.mumbai.public.nevermined.network',
         neverminedNodeUri: 'https://node.mumbai.public.nevermined.network',
         web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
-        neverminedNodeAddress: '0xB82dc620BB4dE6712376055a5cfc0DF11112D442',
+        neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
         graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
     } as NeverminedOptions)
 }
