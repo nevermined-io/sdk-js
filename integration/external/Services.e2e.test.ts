@@ -316,8 +316,49 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
       const result = await fetch(ENDPOINT, opts)
 
-      assert.isTrue(result.ok)
-      assert.equal(result.status, 200)
+    describe('As a subscriber I want to get an access token for the web service', () => {
+        it('Nevermined One validates that the subscriber owns a subscription', async () => {
+            const nftAccessService = serviceDDO.findServiceByType('nft-access')
+            const nftHolderCondition = findServiceConditionByName(
+                nftAccessService,
+                'nftHolder'
+            )
+            const numberNfts = nftHolderCondition.parameters.find(
+                p => p.name === '_numberNfts'
+            ).value
+            const contractAddress = nftHolderCondition.parameters.find(
+                p => p.name === '_contractAddress'
+            ).value
+
+            const nft = await nevermined.contracts.loadNft721(contractAddress as string)
+            const balance = await nft.balanceOf(subscriber.getId())
+
+            assert.isAtLeast(balance.toNumber(), Number(numberNfts))
+        })
+
+        it('Nevermined One issues and access token', async () => {
+            const metadata = serviceDDO.findServiceByType('metadata')
+            const endpoints = metadata.attributes.main.webService.endpoints.flatMap(e =>
+                Object.values(e)
+            )
+
+            accessToken = await new jose.EncryptJWT({
+                did: serviceDDO.id,
+                endpoints,
+                headers: [
+                    {
+                        authorization: 'Bearer xxxx'
+                    }
+                ]
+            })
+                .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
+                .setIssuedAt()
+                .setExpirationTime('1d')
+                .encrypt(JWT_SECRET)
+
+            console.log(`Access Token: ${accessToken}`)
+            assert.isDefined(accessToken)
+        })
     })
 
     it('The subscriber can not access the service endpoints not available', async () => {
