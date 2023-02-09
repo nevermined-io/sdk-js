@@ -27,7 +27,7 @@
 
 [src/permissions/Permissions.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L12)
 
-___
+---
 
 ### issuer
 
@@ -37,7 +37,7 @@ ___
 
 [src/permissions/Permissions.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L11)
 
-___
+---
 
 ### type
 
@@ -47,7 +47,7 @@ ___
 
 [src/permissions/Permissions.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L10)
 
-___
+---
 
 ### userId
 

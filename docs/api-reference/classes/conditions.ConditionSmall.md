@@ -72,8 +72,8 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name           | Type     |
+| :------------- | :------- |
 | `contractName` | `string` |
 
 #### Inherited from
@@ -98,7 +98,7 @@ ContractBase.contract
 
 [src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L24)
 
-___
+---
 
 ### contractName
 
@@ -112,7 +112,7 @@ ContractBase.contractName
 
 [src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L23)
 
-___
+---
 
 ### events
 
@@ -126,7 +126,7 @@ ContractBase.events
 
 [src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L25)
 
-___
+---
 
 ### version
 
@@ -158,7 +158,7 @@ ContractBase.address
 
 [src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L28)
 
-___
+---
 
 ### artifactsFolder
 
@@ -176,7 +176,7 @@ ContractBase.artifactsFolder
 
 [src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
 
-___
+---
 
 ### config
 
@@ -194,7 +194,7 @@ ContractBase.config
 
 [src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
 
-___
+---
 
 ### instanceConfig
 
@@ -212,7 +212,7 @@ ContractBase.instanceConfig
 
 [src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
 
-___
+---
 
 ### instantiableConfig
 
@@ -230,7 +230,7 @@ ContractBase.instantiableConfig
 
 [src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
 
-___
+---
 
 ### logger
 
@@ -248,7 +248,7 @@ ContractBase.logger
 
 [src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
 
-___
+---
 
 ### nevermined
 
@@ -266,7 +266,7 @@ ContractBase.nevermined
 
 [src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
 
-___
+---
 
 ### web3
 
@@ -292,11 +292,11 @@ ContractBase.web3
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `agreementId` | `string` |
-| `from?` | [`Account`](Account.md) |
-| `params?` | `TxParameters` |
+| Name          | Type                    |
+| :------------ | :---------------------- |
+| `agreementId` | `string`                |
+| `from?`       | [`Account`](Account.md) |
+| `params?`     | `TxParameters`          |
 
 #### Returns
 
@@ -306,7 +306,7 @@ ContractBase.web3
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L97)
 
-___
+---
 
 ### addresses
 
@@ -324,7 +324,7 @@ ContractBase.addresses
 
 [src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
 
-___
+---
 
 ### call
 
@@ -333,15 +333,15 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
+| :--- |
+| `T`  |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `args` | `any`[] |
+| Name    | Type     |
+| :------ | :------- |
+| `name`  | `string` |
+| `args`  | `any`[]  |
 | `from?` | `string` |
 
 #### Returns
@@ -356,7 +356,7 @@ ContractBase.call
 
 [src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L244)
 
-___
+---
 
 ### checkExists
 
@@ -366,8 +366,8 @@ Returns true of contract exists else it throws.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `address` | `string` |
 
 #### Returns
@@ -384,7 +384,7 @@ ContractBase.checkExists
 
 [src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
 
-___
+---
 
 ### findSigner
 
@@ -392,8 +392,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type     |
+| :----- | :------- |
 | `from` | `string` |
 
 #### Returns
@@ -408,7 +408,7 @@ ContractBase.findSigner
 
 [src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
 
-___
+---
 
 ### fulfill
 
@@ -416,10 +416,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type     |
+| :------------ | :------- |
 | `agreementId` | `string` |
-| `...args` | `any`[] |
+| `...args`     | `any`[]  |
 
 #### Returns
 
@@ -429,7 +429,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:67](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L67)
 
-___
+---
 
 ### fulfillPlain
 
@@ -437,13 +437,13 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `agreementId` | `string` | `undefined` |
-| `args` | `any`[] | `undefined` |
-| `from?` | [`Account`](Account.md) | `undefined` |
-| `params?` | `TxParameters` | `undefined` |
-| `method` | [`ConditionMethod`](../modules/conditions.md#conditionmethod) | `'fulfill'` |
+| Name          | Type                                                          | Default value |
+| :------------ | :------------------------------------------------------------ | :------------ |
+| `agreementId` | `string`                                                      | `undefined`   |
+| `args`        | `any`[]                                                       | `undefined`   |
+| `from?`       | [`Account`](Account.md)                                       | `undefined`   |
+| `params?`     | `TxParameters`                                                | `undefined`   |
+| `method`      | [`ConditionMethod`](../modules/conditions.md#conditionmethod) | `'fulfill'`   |
 
 #### Returns
 
@@ -453,7 +453,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:69](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L69)
 
-___
+---
 
 ### generateId
 
@@ -461,10 +461,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type     |
+| :------------ | :------- |
 | `agreementId` | `string` |
-| `valueHash` | `string` |
+| `valueHash`   | `string` |
 
 #### Returns
 
@@ -474,7 +474,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:83](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L83)
 
-___
+---
 
 ### generateIdHash
 
@@ -482,10 +482,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type     |
+| :------------ | :------- |
 | `agreementId` | `string` |
-| `...values` | `any`[] |
+| `...values`   | `any`[]  |
 
 #### Returns
 
@@ -495,7 +495,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
 
-___
+---
 
 ### generateIdWithSeed
 
@@ -503,10 +503,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type     |
+| :------------ | :------- |
 | `agreementId` | `string` |
-| `valueHash` | `string` |
+| `valueHash`   | `string` |
 
 #### Returns
 
@@ -516,7 +516,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L87)
 
-___
+---
 
 ### getAddress
 
@@ -534,7 +534,7 @@ ContractBase.getAddress
 
 [src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L41)
 
-___
+---
 
 ### getConditionFulfilledEvent
 
@@ -542,8 +542,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type     |
+| :------------ | :------- |
 | `agreementId` | `string` |
 
 #### Returns
@@ -554,7 +554,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:101](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L101)
 
-___
+---
 
 ### getContract
 
@@ -572,7 +572,7 @@ ContractBase.getContract
 
 [src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L37)
 
-___
+---
 
 ### getFromAddress
 
@@ -580,8 +580,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type     |
+| :------ | :------- |
 | `from?` | `string` |
 
 #### Returns
@@ -596,7 +596,7 @@ ContractBase.getFromAddress
 
 [src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L90)
 
-___
+---
 
 ### getInputsOfMethod
 
@@ -604,8 +604,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name         | Type     |
+| :----------- | :------- |
 | `methodName` | `string` |
 
 #### Returns
@@ -620,7 +620,7 @@ ContractBase.getInputsOfMethod
 
 [src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L50)
 
-___
+---
 
 ### getSignatureOfMethod
 
@@ -628,10 +628,10 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `methodName` | `string` | `undefined` |
-| `args` | `any`[] | `[]` |
+| Name         | Type     | Default value |
+| :----------- | :------- | :------------ |
+| `methodName` | `string` | `undefined`   |
+| `args`       | `any`[]  | `[]`          |
 
 #### Returns
 
@@ -645,7 +645,7 @@ ContractBase.getSignatureOfMethod
 
 [src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L45)
 
-___
+---
 
 ### hashValues
 
@@ -653,8 +653,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type    |
+| :-------- | :------ |
 | `...args` | `any`[] |
 
 #### Returns
@@ -665,7 +665,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L63)
 
-___
+---
 
 ### init
 
@@ -673,10 +673,10 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `config` | `InstantiableConfig` | `undefined` |
-| `optional` | `boolean` | `false` |
+| Name       | Type                 | Default value |
+| :--------- | :------------------- | :------------ |
+| `config`   | `InstantiableConfig` | `undefined`   |
+| `optional` | `boolean`            | `false`       |
 
 #### Returns
 
@@ -690,7 +690,7 @@ ContractBase.init
 
 [src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L55)
 
-___
+---
 
 ### send
 
@@ -698,11 +698,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `from` | `string` |
-| `args` | `any`[] |
+| Name     | Type           |
+| :------- | :------------- |
+| `name`   | `string`       |
+| `from`   | `string`       |
+| `args`   | `any`[]        |
 | `params` | `TxParameters` |
 
 #### Returns
@@ -717,7 +717,7 @@ ContractBase.send
 
 [src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L117)
 
-___
+---
 
 ### sendFrom
 
@@ -725,12 +725,12 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `args` | `any`[] |
-| `from?` | [`Account`](Account.md) |
-| `value?` | `TxParameters` |
+| Name     | Type                    |
+| :------- | :---------------------- |
+| `name`   | `string`                |
+| `args`   | `any`[]                 |
+| `from?`  | [`Account`](Account.md) |
+| `value?` | `TxParameters`          |
 
 #### Returns
 
@@ -744,7 +744,7 @@ ContractBase.sendFrom
 
 [src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L97)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -752,8 +752,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                 |
+| :------- | :------------------- |
 | `config` | `InstantiableConfig` |
 
 #### Returns
@@ -768,7 +768,7 @@ ContractBase.setInstanceConfig
 
 [src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
 
-___
+---
 
 ### addressesStatic
 
@@ -776,10 +776,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
+| `web3`   | `JsonRpcProvider`     |
 
 #### Returns
 
@@ -793,7 +793,7 @@ ContractBase.addressesStatic
 
 [src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
 
-___
+---
 
 ### findSignerStatic
 
@@ -801,11 +801,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
-| `from` | `string` |
+| `web3`   | `JsonRpcProvider`     |
+| `from`   | `string`              |
 
 #### Returns
 
@@ -819,7 +819,7 @@ ContractBase.findSignerStatic
 
 [src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
 
-___
+---
 
 ### getInstance
 
@@ -827,19 +827,19 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `Ctx` | extends [`ConditionContext`](../interfaces/conditions.ConditionContext.md) |
-| `Extra` | `Extra` |
+| Name    | Type                                                                       |
+| :------ | :------------------------------------------------------------------------- |
+| `Ctx`   | extends [`ConditionContext`](../interfaces/conditions.ConditionContext.md) |
+| `Extra` | `Extra`                                                                    |
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `config` | `InstantiableConfig` | `undefined` |
-| `conditionName` | `string` | `undefined` |
-| `conditionsClass` | `any` | `undefined` |
-| `optional` | `boolean` | `false` |
+| Name              | Type                 | Default value |
+| :---------------- | :------------------- | :------------ |
+| `config`          | `InstantiableConfig` | `undefined`   |
+| `conditionName`   | `string`             | `undefined`   |
+| `conditionsClass` | `any`                | `undefined`   |
+| `optional`        | `boolean`            | `false`       |
 
 #### Returns
 
@@ -853,7 +853,7 @@ ContractBase.getInstance
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:52](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L52)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -861,15 +861,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Instantiable`<`T`\> |
+| Name | Type                         |
+| :--- | :--------------------------- |
+| `T`  | extends `Instantiable`<`T`\> |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `instance` | `T` |
+| Name                 | Type                 |
+| :------------------- | :------------------- |
+| `instance`           | `T`                  |
 | `instantiableConfig` | `InstantiableConfig` |
 
 #### Returns

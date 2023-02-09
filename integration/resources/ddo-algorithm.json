@@ -101,18 +101,11 @@
               }
             }
           ],
-          "fulfillmentOrder": [
-            "access.fulfill",
-            "lockPayment.fulfill",
-            "escrowPayment.fulfill"
-          ],
+          "fulfillmentOrder": ["access.fulfill", "lockPayment.fulfill", "escrowPayment.fulfill"],
           "conditionDependency": {
             "lockPayment": [],
             "access": [],
-            "escrowPayment": [
-              "lockPayment",
-              "access"
-            ]
+            "escrowPayment": ["lockPayment", "access"]
           },
           "conditions": [
             {
@@ -140,16 +133,12 @@
                 {
                   "name": "_amounts",
                   "type": "uint256[]",
-                  "value": [
-                    "1"
-                  ]
+                  "value": ["1"]
                 },
                 {
                   "name": "_receivers",
                   "type": "address[]",
-                  "value": [
-                    "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-                  ]
+                  "value": ["0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"]
                 }
               ],
               "events": [
@@ -218,16 +207,12 @@
                 {
                   "name": "_amounts",
                   "type": "uint256[]",
-                  "value": [
-                    "1"
-                  ]
+                  "value": ["1"]
                 },
                 {
                   "name": "_receivers",
                   "type": "address[]",
-                  "value": [
-                    "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-                  ]
+                  "value": ["0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"]
                 },
                 {
                   "name": "_sender",

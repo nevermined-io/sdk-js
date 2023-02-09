@@ -23,10 +23,10 @@
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `callback` | () => `Promise`<`void`\> |
-| `arg1` | () => `Promise`<`number`\> |
+| Name       | Type                       |
+| :--------- | :------------------------- |
+| `callback` | () => `Promise`<`void`\>   |
+| `arg1`     | () => `Promise`<`number`\> |
 
 ##### Returns
 
@@ -36,7 +36,7 @@
 
 [src/events/NeverminedEvent.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L18)
 
-___
+---
 
 ### unsubscribe
 
@@ -48,8 +48,8 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type                     |
+| :----- | :----------------------- |
 | `arg0` | () => `Promise`<`void`\> |
 
 ##### Returns

@@ -22,7 +22,7 @@
 
 [src/ddo/MetaData.ts:43](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L43)
 
-___
+---
 
 ### format
 
@@ -32,7 +32,7 @@ ___
 
 [src/ddo/MetaData.ts:41](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L41)
 
-___
+---
 
 ### language
 
@@ -42,7 +42,7 @@ ___
 
 [src/ddo/MetaData.ts:40](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L40)
 
-___
+---
 
 ### requirements
 
@@ -50,17 +50,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `container?` | `any` |
+| Name           | Type     |
+| :------------- | :------- |
+| `container?`   | `any`    |
 | `requirement?` | `string` |
-| `version?` | `string` |
+| `version?`     | `string` |
 
 #### Defined in
 
 [src/ddo/MetaData.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L44)
 
-___
+---
 
 ### version
 
