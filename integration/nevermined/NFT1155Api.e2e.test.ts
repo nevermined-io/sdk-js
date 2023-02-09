@@ -297,9 +297,9 @@ function makeTest(isCustom) {
       })
     })
 
-    describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
+    describe('As a collector I want to order and access the NFT without the intervention of the artist', () => {
       it('The artist gives the Node permissions to transfer his nfts', async () => {
-        const message = 'shold throw this error message'
+        const message = 'should throw this error message'
 
         try {
           await nevermined.nfts1155.setApprovalForAll(transferNftCondition.address, true, artist)
