@@ -4,9 +4,6 @@ webpack*
 plugins
 scripts
 test/mocks
-integration
-test
-src
 .nyc_output
 artifacts
 circuits
