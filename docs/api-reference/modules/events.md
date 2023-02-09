@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / events
+[@nevermined-io/sdk](../code-reference.md) / events
 
 # Namespace: events
 

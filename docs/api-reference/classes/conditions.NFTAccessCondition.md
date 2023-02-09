@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / NFTAccessCondition
+[@nevermined-io/sdk](../code-reference.md) / [conditions](../modules/conditions.md) / NFTAccessCondition
 
 # Class: NFTAccessCondition
 

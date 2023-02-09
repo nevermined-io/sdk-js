@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / StageRequirements
+[@nevermined-io/sdk](../code-reference.md) / StageRequirements
 
 # Interface: StageRequirements
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Condition
+[@nevermined-io/sdk](../code-reference.md) / Condition
 
 # Class: Condition<Ctx, Extra\>
 

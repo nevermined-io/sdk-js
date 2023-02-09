@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [events](../modules/events.md) / ContractEventSubscription
+[@nevermined-io/sdk](../code-reference.md) / [events](../modules/events.md) / ContractEventSubscription
 
 # Interface: ContractEventSubscription
 

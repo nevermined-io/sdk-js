@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / MetaData
+[@nevermined-io/sdk](../code-reference.md) / MetaData
 
 # Interface: MetaData
 

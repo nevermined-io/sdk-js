@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / AaveCollateralDepositCondition
+[@nevermined-io/sdk](../code-reference.md) / [conditions](../modules/conditions.md) / AaveCollateralDepositCondition
 
 # Class: AaveCollateralDepositCondition
 

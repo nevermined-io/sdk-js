@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / DIDRegistry
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / DIDRegistry
 
 # Namespace: DIDRegistry
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [templates](../modules/templates.md) / BaseTemplate
+[@nevermined-io/sdk](../code-reference.md) / [templates](../modules/templates.md) / BaseTemplate
 
 # Class: BaseTemplate<Params, S\>
 

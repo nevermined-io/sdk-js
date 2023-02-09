@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Workflow
+[@nevermined-io/sdk](../code-reference.md) / Workflow
 
 # Interface: Workflow
 

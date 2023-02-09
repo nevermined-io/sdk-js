@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / PlatformTechStatus
+[@nevermined-io/sdk](../code-reference.md) / PlatformTechStatus
 
 # Enumeration: PlatformTechStatus
 

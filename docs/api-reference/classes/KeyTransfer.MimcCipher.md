@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [KeyTransfer](../modules/KeyTransfer.md) / MimcCipher
+[@nevermined-io/sdk](../code-reference.md) / [KeyTransfer](../modules/KeyTransfer.md) / MimcCipher
 
 # Class: MimcCipher
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / ProvenanceMethod
+[@nevermined-io/sdk](../code-reference.md) / ProvenanceMethod
 
 # Enumeration: ProvenanceMethod
 

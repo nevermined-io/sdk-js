@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / DID
+[@nevermined-io/sdk](../code-reference.md) / DID
 
 # Class: DID
 

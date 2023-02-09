@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / NFTSalesTemplate
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / NFTSalesTemplate
 
 # Namespace: NFTSalesTemplate
 

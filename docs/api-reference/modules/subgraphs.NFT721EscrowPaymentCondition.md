@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721EscrowPaymentCondition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721EscrowPaymentCondition
 
 # Namespace: NFT721EscrowPaymentCondition
 

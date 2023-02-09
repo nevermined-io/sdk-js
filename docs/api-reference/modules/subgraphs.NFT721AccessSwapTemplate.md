@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721AccessSwapTemplate
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721AccessSwapTemplate
 
 # Namespace: NFT721AccessSwapTemplate
 

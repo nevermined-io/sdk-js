@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / PlatformTech
+[@nevermined-io/sdk](../code-reference.md) / PlatformTech
 
 # Interface: PlatformTech
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Curation
+[@nevermined-io/sdk](../code-reference.md) / Curation
 
 # Interface: Curation
 

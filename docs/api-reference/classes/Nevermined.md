@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Nevermined
+[@nevermined-io/sdk](../code-reference.md) / Nevermined
 
 # Class: Nevermined
 

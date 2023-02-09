@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / ServiceDefinition
+[@nevermined-io/sdk](../code-reference.md) / ServiceDefinition
 
 # Interface: ServiceDefinition
 

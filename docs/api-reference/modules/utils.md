@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / utils
+[@nevermined-io/sdk](../code-reference.md) / utils
 
 # Namespace: utils
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / TransferNFT721Condition
+[@nevermined-io/sdk](../code-reference.md) / [conditions](../modules/conditions.md) / TransferNFT721Condition
 
 # Class: TransferNFT721Condition
 

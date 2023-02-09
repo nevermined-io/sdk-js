@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / NewBookmark
+[@nevermined-io/sdk](../code-reference.md) / NewBookmark
 
 # Interface: NewBookmark
 

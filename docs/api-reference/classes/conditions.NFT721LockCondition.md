@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / NFT721LockCondition
+[@nevermined-io/sdk](../code-reference.md) / [conditions](../modules/conditions.md) / NFT721LockCondition
 
 # Class: NFT721LockCondition
 

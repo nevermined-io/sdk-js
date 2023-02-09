@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / DDO
+[@nevermined-io/sdk](../code-reference.md) / DDO
 
 # Class: DDO
 
