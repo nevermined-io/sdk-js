@@ -352,6 +352,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
                 .setExpirationTime('1d')
                 .encrypt(JWT_SECRET)
 
+            console.log(`Access Token: ${accessToken}`)
             assert.isDefined(accessToken)
         })
     })
