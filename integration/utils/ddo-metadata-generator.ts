@@ -89,23 +89,7 @@ const webServiceMetadata: Partial<MetaData> = {
                 url: 'http://marketplace.nevermined.localnet/api/v1/docs/'
             }
         ],
-      },
-    },
-  },
-  additionalInformation: {
-    description: 'Endpoints allowing to read information from a Nevermined Marketplace',
-    copyrightHolder: 'Nevermined',
-    links: [
-      {
-        name: 'Swagger documentation',
-        type: 'sample',
-        url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
-      },
-    ],
-    inLanguage: 'en',
-    categories: ['Marketplace', 'Data Science'],
-    tags: ['assets'],
-  },
+      }
 }
 
 export const generateMetadata = (

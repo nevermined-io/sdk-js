@@ -313,31 +313,20 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
-    it('The subscriber access the service endpoints available', async () => {
-      opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
-      const result = await fetch(ENDPOINT, opts)
+    it('The subscriber access the service endpoints available', async () => {            
+        opts.headers = { 'nvm-authorization': `Bearer ${accessToken}` }
+        const result = await fetch(ENDPOINT, opts)
 
-      assert.isTrue(result.ok)
-      assert.equal(result.status, 200)
+        assert.isTrue(result.ok)
+        assert.equal(result.status, 200)
     })
 
-    describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
-        it('The subscriber access the service endpoints available', async () => {            
-            opts.headers = { 'nvm-authorization': `Bearer ${accessToken}` }
-            const result = await fetch(ENDPOINT, opts)
-
-            assert.isTrue(result.ok)
-            assert.equal(result.status, 200)
-        })
-
-        it('The subscriber can not access the service endpoints not available', async () => {
-            const protectedEndpoint = `http://google.com`
-            opts.headers = { 'nvm-authorization': `Bearer ${accessToken}` }
-            const result = await fetch(protectedEndpoint, opts)
-            assert.isFalse(result.ok)
-            assert.equal(result.status, 401)
-        })
-
+    it('The subscriber can not access the service endpoints not available', async () => {
+        const protectedEndpoint = `http://google.com`
+        opts.headers = { 'nvm-authorization': `Bearer ${accessToken}` }
+        const result = await fetch(protectedEndpoint, opts)
+        assert.isFalse(result.ok)
+        assert.equal(result.status, 401)
     })
   })
 })
