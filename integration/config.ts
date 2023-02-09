@@ -58,6 +58,7 @@ if (process.env.NETWORK_NAME === 'mumbai') {
 }
 
 if (process.env.SEED_WORDS) {
+  console.log('have seed words', process.env.SEED_WORDS)
   configBase.accounts = makeAccounts(process.env.SEED_WORDS)
 }
 
