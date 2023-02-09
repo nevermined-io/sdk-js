@@ -269,6 +269,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
         })
 
         it('the artist asks and receives the payment', async () => {
+            await sleep(3000)
             const escrowPaymentConditionBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
@@ -288,6 +289,13 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
             const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
             const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
             const collectorBalance = await token.balanceOf(collector1.getId())
+
+            console.log(
+                `${receiver0Balance} == ${initialBalances.artist} + ${assetPrice1.getAmounts()[0]}`,
+                `${receiver1Balance} == ${initialBalances.gallery} + ${assetPrice1.getAmounts()[1]}`,
+                `${initialBalances.collector1} - ${nftPrice} == ${collectorBalance}`,
+                `${escrowPaymentConditionBefore} - ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`
+            )
 
             assert.isTrue(
                 receiver0Balance.eq(
