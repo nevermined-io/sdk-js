@@ -7,7 +7,6 @@ on:
     branches: [master, develop]
 
 jobs:
-
   unit-test:
     runs-on: ubuntu-latest
     steps:
@@ -61,11 +60,11 @@ jobs:
       - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: "true"
-          estuary: "true"
-          compute: "true"
-          contracts-version: "v3.0.0"
-          node-version: "develop"
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
 
       - name: Install dependencies
         run: |
@@ -103,11 +102,11 @@ jobs:
       - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: "true"
-          estuary: "true"
-          compute: "true"
-          contracts-version: "v3.0.0"
-          node-version: "develop"
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
 
       - name: Install dependencies
         run: |
@@ -137,11 +136,11 @@ jobs:
       - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: "true"
-          estuary: "true"
-          compute: "true"
-          contracts-version: "v3.0.0"
-          node-version: "develop"
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
 
       - name: Install dependencies
         run: |
@@ -186,9 +185,8 @@ jobs:
           SEED_WORDS: ${{ secrets.TEST_MNEMONIC_NIGHTLY }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
           IPFS_GATEWAY: https://ipfs.infura.io:5001
-          GRAPH_DELAY: "true"
+          GRAPH_DELAY: 'true'
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
         run: |
           yarn integration:e2e:mumbai
-

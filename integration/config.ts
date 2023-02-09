@@ -48,18 +48,18 @@ if (process.env.NETWORK_NAME === 'goerli') {
 }
 
 if (process.env.NETWORK_NAME === 'mumbai') {
-    Object.assign(configBase, {
-        marketplaceUri: 'https://marketplace-api.mumbai.public.nevermined.network',
-        neverminedNodeUri: 'https://node.mumbai.public.nevermined.network',
-        web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
-        neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
-        graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
-    } as NeverminedOptions)
+  Object.assign(configBase, {
+    marketplaceUri: 'https://marketplace-api.mumbai.public.nevermined.network',
+    neverminedNodeUri: 'https://node.mumbai.public.nevermined.network',
+    web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
+    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
+    graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
+  } as NeverminedOptions)
 }
 
 if (process.env.SEED_WORDS) {
-    console.log('have seed words', process.env.SEED_WORDS)
-    configBase.accounts = makeAccounts(process.env.SEED_WORDS)
+  console.log('have seed words', process.env.SEED_WORDS)
+  configBase.accounts = makeAccounts(process.env.SEED_WORDS)
 }
 
 export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } = configBase as any
