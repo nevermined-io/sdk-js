@@ -61,7 +61,7 @@ const webServiceMetadata: Partial<MetaData> = {
             type: 'RESTful',
             endpoints: [
                 {
-                    GET: 'http://localhost:3000'
+                    GET: 'http://127.0.0.1:3000'
                 }
             ],
             internalAttributes: {

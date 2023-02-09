@@ -51,9 +51,9 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     const nftTransfer = false
     const subscriptionDuration = 1000 // in blocks
 
-    const ENDPOINT = 'http://localhost:3000'
+    const ENDPOINT = 'http://127.0.0.1:3000/'
 
-    const proxyUrl = process.env.http_proxy || 'http://localhost:3001'
+    const proxyUrl = process.env.http_proxy || 'http://127.0.0.1:3128'
 
     let proxyAgent
     const opts: RequestInit = {}
@@ -358,8 +358,8 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     })
 
     describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
-        it('The subscriber access the service endpoints available', async () => {
-            opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
+        it('The subscriber access the service endpoints available', async () => {            
+            opts.headers = { 'nvm-authorization': `Bearer ${accessToken}` }
             const result = await fetch(ENDPOINT, opts)
 
             assert.isTrue(result.ok)
@@ -368,7 +368,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
         it('The subscriber can not access the service endpoints not available', async () => {
             const protectedEndpoint = `http://google.com`
-            opts.headers = { 'nvm-authentication': `Bearer ${accessToken}` }
+            opts.headers = { 'nvm-authorization': `Bearer ${accessToken}` }
             const result = await fetch(protectedEndpoint, opts)
             assert.isFalse(result.ok)
             assert.equal(result.status, 401)
