@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / TransferNFT721Condition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / TransferNFT721Condition
 
 # Namespace: TransferNFT721Condition
 

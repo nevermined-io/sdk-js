@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / StageTransformation
+[@nevermined-io/sdk](../code-reference.md) / StageTransformation
 
 # Interface: StageTransformation
 

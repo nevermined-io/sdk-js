@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Bookmark
+[@nevermined-io/sdk](../code-reference.md) / Bookmark
 
 # Interface: Bookmark
 

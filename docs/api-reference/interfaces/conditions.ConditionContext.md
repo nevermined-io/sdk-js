@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / ConditionContext
+[@nevermined-io/sdk](../code-reference.md) / [conditions](../modules/conditions.md) / ConditionContext
 
 # Interface: ConditionContext
 

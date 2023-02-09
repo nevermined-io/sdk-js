@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Keeper
+[@nevermined-io/sdk](../code-reference.md) / Keeper
 
 # Class: Keeper
 

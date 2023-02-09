@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [templates](../modules/templates.md) / AaveCreditTemplate
+[@nevermined-io/sdk](../code-reference.md) / [templates](../modules/templates.md) / AaveCreditTemplate
 
 # Class: AaveCreditTemplate
 

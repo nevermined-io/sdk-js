@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / CreateProgressStep
+[@nevermined-io/sdk](../code-reference.md) / CreateProgressStep
 
 # Enumeration: CreateProgressStep
 

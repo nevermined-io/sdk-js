@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / AccessProofTemplate
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / AccessProofTemplate
 
 # Namespace: AccessProofTemplate
 

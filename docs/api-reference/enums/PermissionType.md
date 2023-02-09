@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / PermissionType
+[@nevermined-io/sdk](../code-reference.md) / PermissionType
 
 # Enumeration: PermissionType
 

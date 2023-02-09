@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / AccessCondition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / AccessCondition
 
 # Namespace: AccessCondition
 

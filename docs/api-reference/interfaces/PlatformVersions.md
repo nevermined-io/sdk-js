@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / PlatformVersions
+[@nevermined-io/sdk](../code-reference.md) / PlatformVersions
 
 # Interface: PlatformVersions
 

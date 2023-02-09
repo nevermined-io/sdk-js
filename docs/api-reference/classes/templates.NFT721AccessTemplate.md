@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [templates](../modules/templates.md) / NFT721AccessTemplate
+[@nevermined-io/sdk](../code-reference.md) / [templates](../modules/templates.md) / NFT721AccessTemplate
 
 # Class: NFT721AccessTemplate
 

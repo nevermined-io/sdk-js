@@ -1,6 +1,6 @@
-@nevermined-io/nevermined-sdk-js
+@nevermined-io/sdk
 
-# @nevermined-io/nevermined-sdk-js
+# @nevermined-io/sdk
 
 ## Table of contents
 
