@@ -28,7 +28,7 @@
 
 [src/bookmarks/Bookmarks.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/bookmarks/Bookmarks.interfaces.ts#L9)
 
-___
+---
 
 ### description
 
@@ -42,7 +42,7 @@ ___
 
 [src/bookmarks/Bookmarks.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/bookmarks/Bookmarks.interfaces.ts#L4)
 
-___
+---
 
 ### did
 
@@ -56,7 +56,7 @@ ___
 
 [src/bookmarks/Bookmarks.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/bookmarks/Bookmarks.interfaces.ts#L2)
 
-___
+---
 
 ### id
 
@@ -66,7 +66,7 @@ ___
 
 [src/bookmarks/Bookmarks.interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/bookmarks/Bookmarks.interfaces.ts#L8)
 
-___
+---
 
 ### userId
 

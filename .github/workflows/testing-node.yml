@@ -1,10 +1,6 @@
 name: Testing w/ Nevermined Node depending on SDK changes
 
-on:
-  push:
-    branches: [master, develop]
-  pull_request:
-    branches: [master, develop]
+on: [push]
 
 jobs:
   build:
@@ -27,13 +23,13 @@ jobs:
           ref: develop
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+      - uses: nevermined-io/nvm-tools-actions@v0.7.1
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: "true"
-          estuary: "true"
-          contracts-version: "v3.0.0"
-          node: "false"
+          opengsn: 'true'
+          estuary: 'true'
+          contracts-version: 'v3.0.0'
+          node: 'false'
 
       - name: Install sponge
         run: sudo apt-get install -y moreutils

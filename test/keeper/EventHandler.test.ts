@@ -7,86 +7,84 @@ import config from '../config'
 use(spies)
 
 describe('EventHandler', () => {
-    let nevermined: Nevermined
-    let eventHandler: EventHandler
+  let nevermined: Nevermined
+  let eventHandler: EventHandler
 
-    before(async () => {
-        nevermined = await Nevermined.getInstance(config)
-        eventHandler = new EventHandler()
+  before(async () => {
+    nevermined = await Nevermined.getInstance(config)
+    eventHandler = new EventHandler()
+  })
+
+  afterEach(() => {
+    spy.restore()
+  })
+
+  describe('#subscribe()', () => {
+    it('should subscribe to an event', async () => {
+      const countBefore = eventHandler.count
+
+      const subscription = eventHandler.subscribe(
+        () => null,
+        () => (nevermined as any).web3.getBlockNumber(),
+      )
+      assert.isDefined(subscription)
+
+      const countAfter = eventHandler.count
+      assert.equal(countBefore + 1, countAfter, 'The event seems not added.')
+
+      subscription.unsubscribe()
     })
 
-    afterEach(() => {
-        spy.restore()
+    it('should unsubscribe using the subscription', async () => {
+      const countBefore = eventHandler.count
+
+      const subscription = eventHandler.subscribe(
+        () => null,
+        () => (nevermined as any).web3.getBlockNumber(),
+      )
+      assert.isDefined(subscription)
+
+      subscription.unsubscribe()
+
+      const countAfter = eventHandler.count
+      assert.equal(countBefore, countAfter, 'The event seems not added.')
     })
+  })
 
-    describe('#subscribe()', () => {
-        it('should subscribe to an event', async () => {
-            const countBefore = eventHandler.count
+  describe('#unsubscribe()', () => {
+    it('should unsubscribe from an event', async () => {
+      const countBefore = eventHandler.count
+      const callback = () => null
 
-            const subscription = eventHandler.subscribe(
-                () => null,
-                () => (nevermined as any).web3.getBlockNumber()
-            )
-            assert.isDefined(subscription)
+      eventHandler.subscribe(callback, () => (nevermined as any).web3.getBlockNumber())
+      eventHandler.unsubscribe(callback)
 
-            const countAfter = eventHandler.count
-            assert.equal(countBefore + 1, countAfter, 'The event seems not added.')
-
-            subscription.unsubscribe()
-        })
-
-        it('should unsubscribe using the subscription', async () => {
-            const countBefore = eventHandler.count
-
-            const subscription = eventHandler.subscribe(
-                () => null,
-                () => (nevermined as any).web3.getBlockNumber()
-            )
-            assert.isDefined(subscription)
-
-            subscription.unsubscribe()
-
-            const countAfter = eventHandler.count
-            assert.equal(countBefore, countAfter, 'The event seems not added.')
-        })
+      const countAfter = eventHandler.count
+      assert.equal(countBefore, countAfter, 'The event seems not removed.')
     })
+  })
 
-    describe('#unsubscribe()', () => {
-        it('should unsubscribe from an event', async () => {
-            const countBefore = eventHandler.count
-            const callback = () => null
+  describe('#checkBlock()', () => {
+    it('should call the callback on each new block', async () => {
+      let blockNumber = 100000000000
+      const callbackSpy = spy()
 
-            eventHandler.subscribe(callback, () =>
-                (nevermined as any).web3.getBlockNumber()
-            )
-            eventHandler.unsubscribe(callback)
+      spy.on((nevermined as any).web3, 'getBlockNumber', () => blockNumber)
 
-            const countAfter = eventHandler.count
-            assert.equal(countBefore, countAfter, 'The event seems not removed.')
-        })
+      const subscription = eventHandler.subscribe(callbackSpy, () =>
+        (nevermined as any).web3.getBlockNumber(),
+      )
+
+      await new Promise((resolve) => setTimeout(resolve, 300))
+
+      expect(callbackSpy).not.to.has.been.called()
+      blockNumber++
+
+      await new Promise((resolve) => setTimeout(resolve, 300))
+
+      expect(callbackSpy).to.has.been.called.with(blockNumber)
+
+      subscription.unsubscribe()
     })
-
-    describe('#checkBlock()', () => {
-        it('should call the callback on each new block', async () => {
-            let blockNumber = 100000000000
-            const callbackSpy = spy()
-
-            spy.on((nevermined as any).web3, 'getBlockNumber', () => blockNumber)
-
-            const subscription = eventHandler.subscribe(callbackSpy, () =>
-                (nevermined as any).web3.getBlockNumber()
-            )
-
-            await new Promise(resolve => setTimeout(resolve, 300))
-
-            expect(callbackSpy).not.to.has.been.called()
-            blockNumber++
-
-            await new Promise(resolve => setTimeout(resolve, 300))
-
-            expect(callbackSpy).to.has.been.called.with(blockNumber)
-
-            subscription.unsubscribe()
-        })
-    })
+  })
 })

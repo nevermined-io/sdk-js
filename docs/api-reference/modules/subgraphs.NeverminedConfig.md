@@ -58,15 +58,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NeverminedConfig.md#initializedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NeverminedConfig.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:46
 
-___
+---
 
 ### InitializedFields
 
@@ -74,16 +74,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:42
 
-___
+---
 
 ### InitializedFilter
 
@@ -91,30 +91,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:20
 
-___
+---
 
 ### InitializedResult
 
@@ -122,16 +122,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:38
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -140,25 +140,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:9
 
-___
+---
 
 ### NeverminedConfigChangeArgs
 
@@ -166,15 +166,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`NeverminedConfigChangeResult`](subgraphs.NeverminedConfig.md#neverminedconfigchangeresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`NeverminedConfigChangeResult`](subgraphs.NeverminedConfig.md#neverminedconfigchangeresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:83
 
-___
+---
 
 ### NeverminedConfigChangeFields
 
@@ -182,17 +182,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_parameter` | ``true`` |
-| `_whoChanged` | ``true`` |
-| `id` | ``true`` |
+| Name          | Type   |
+| :------------ | :----- |
+| `_parameter`  | `true` |
+| `_whoChanged` | `true` |
+| `id`          | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:78
 
-___
+---
 
 ### NeverminedConfigChangeFilter
 
@@ -200,34 +200,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_parameter?` | `string` \| ``null`` |
-| `_parameter_contains?` | `string` \| ``null`` |
-| `_parameter_in?` | `string`[] |
-| `_parameter_not?` | `string` \| ``null`` |
-| `_parameter_not_contains?` | `string` \| ``null`` |
-| `_parameter_not_in?` | `string`[] |
-| `_whoChanged?` | `string` \| ``null`` |
-| `_whoChanged_contains?` | `string` \| ``null`` |
-| `_whoChanged_in?` | `string`[] |
-| `_whoChanged_not?` | `string` \| ``null`` |
-| `_whoChanged_not_contains?` | `string` \| ``null`` |
-| `_whoChanged_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                        | Type               |
+| :-------------------------- | :----------------- |
+| `_parameter?`               | `string` \| `null` |
+| `_parameter_contains?`      | `string` \| `null` |
+| `_parameter_in?`            | `string`[]         |
+| `_parameter_not?`           | `string` \| `null` |
+| `_parameter_not_contains?`  | `string` \| `null` |
+| `_parameter_not_in?`        | `string`[]         |
+| `_whoChanged?`              | `string` \| `null` |
+| `_whoChanged_contains?`     | `string` \| `null` |
+| `_whoChanged_in?`           | `string`[]         |
+| `_whoChanged_not?`          | `string` \| `null` |
+| `_whoChanged_not_contains?` | `string` \| `null` |
+| `_whoChanged_not_in?`       | `string`[]         |
+| `id?`                       | `string` \| `null` |
+| `id_gt?`                    | `string` \| `null` |
+| `id_gte?`                   | `string` \| `null` |
+| `id_in?`                    | `string`[]         |
+| `id_lt?`                    | `string` \| `null` |
+| `id_lte?`                   | `string` \| `null` |
+| `id_not?`                   | `string` \| `null` |
+| `id_not_in?`                | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:51
 
-___
+---
 
 ### NeverminedConfigChangeResult
 
@@ -235,17 +235,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_parameter` | `string` |
+| Name          | Type     |
+| :------------ | :------- |
+| `_parameter`  | `string` |
 | `_whoChanged` | `string` |
-| `id` | `string` |
+| `id`          | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:73
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -253,15 +253,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NeverminedConfig.md#ownershiptransferredresult) |
+| Name | Type                                                                                                   |
+| :--- | :----------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NeverminedConfig.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:120
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -269,17 +269,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:115
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -287,34 +287,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:88
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -322,17 +322,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:110
 
-___
+---
 
 ### RoleAdminChangedArgs
 
@@ -340,15 +340,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.NeverminedConfig.md#roleadminchangedresult) |
+| Name | Type                                                                                           |
+| :--- | :--------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.NeverminedConfig.md#roleadminchangedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:165
 
-___
+---
 
 ### RoleAdminChangedFields
 
@@ -356,18 +356,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newAdminRole` | ``true`` |
-| `previousAdminRole` | ``true`` |
-| `role` | ``true`` |
+| Name                | Type   |
+| :------------------ | :----- |
+| `id`                | `true` |
+| `newAdminRole`      | `true` |
+| `previousAdminRole` | `true` |
+| `role`              | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:159
 
-___
+---
 
 ### RoleAdminChangedFilter
 
@@ -375,40 +375,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newAdminRole?` | `string` \| ``null`` |
-| `newAdminRole_contains?` | `string` \| ``null`` |
-| `newAdminRole_in?` | `string`[] |
-| `newAdminRole_not?` | `string` \| ``null`` |
-| `newAdminRole_not_contains?` | `string` \| ``null`` |
-| `newAdminRole_not_in?` | `string`[] |
-| `previousAdminRole?` | `string` \| ``null`` |
-| `previousAdminRole_contains?` | `string` \| ``null`` |
-| `previousAdminRole_in?` | `string`[] |
-| `previousAdminRole_not?` | `string` \| ``null`` |
-| `previousAdminRole_not_contains?` | `string` \| ``null`` |
-| `previousAdminRole_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
+| Name                              | Type               |
+| :-------------------------------- | :----------------- |
+| `id?`                             | `string` \| `null` |
+| `id_gt?`                          | `string` \| `null` |
+| `id_gte?`                         | `string` \| `null` |
+| `id_in?`                          | `string`[]         |
+| `id_lt?`                          | `string` \| `null` |
+| `id_lte?`                         | `string` \| `null` |
+| `id_not?`                         | `string` \| `null` |
+| `id_not_in?`                      | `string`[]         |
+| `newAdminRole?`                   | `string` \| `null` |
+| `newAdminRole_contains?`          | `string` \| `null` |
+| `newAdminRole_in?`                | `string`[]         |
+| `newAdminRole_not?`               | `string` \| `null` |
+| `newAdminRole_not_contains?`      | `string` \| `null` |
+| `newAdminRole_not_in?`            | `string`[]         |
+| `previousAdminRole?`              | `string` \| `null` |
+| `previousAdminRole_contains?`     | `string` \| `null` |
+| `previousAdminRole_in?`           | `string`[]         |
+| `previousAdminRole_not?`          | `string` \| `null` |
+| `previousAdminRole_not_contains?` | `string` \| `null` |
+| `previousAdminRole_not_in?`       | `string`[]         |
+| `role?`                           | `string` \| `null` |
+| `role_contains?`                  | `string` \| `null` |
+| `role_in?`                        | `string`[]         |
+| `role_not?`                       | `string` \| `null` |
+| `role_not_contains?`              | `string` \| `null` |
+| `role_not_in?`                    | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:125
 
-___
+---
 
 ### RoleAdminChangedResult
 
@@ -416,18 +416,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newAdminRole` | `string` |
+| Name                | Type     |
+| :------------------ | :------- |
+| `id`                | `string` |
+| `newAdminRole`      | `string` |
 | `previousAdminRole` | `string` |
-| `role` | `string` |
+| `role`              | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:153
 
-___
+---
 
 ### RoleGrantedArgs
 
@@ -435,15 +435,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.NeverminedConfig.md#rolegrantedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.NeverminedConfig.md#rolegrantedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:210
 
-___
+---
 
 ### RoleGrantedFields
 
@@ -451,18 +451,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:204
 
-___
+---
 
 ### RoleGrantedFilter
 
@@ -470,40 +470,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:170
 
-___
+---
 
 ### RoleGrantedResult
 
@@ -511,18 +511,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:198
 
-___
+---
 
 ### RoleRevokedArgs
 
@@ -530,15 +530,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.NeverminedConfig.md#rolerevokedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.NeverminedConfig.md#rolerevokedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:255
 
-___
+---
 
 ### RoleRevokedFields
 
@@ -546,18 +546,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:249
 
-___
+---
 
 ### RoleRevokedFilter
 
@@ -565,40 +565,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:215
 
-___
+---
 
 ### RoleRevokedResult
 
@@ -606,18 +606,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:243
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -625,10 +625,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -642,17 +642,17 @@ node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:1
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NeverminedConfig.md#initializedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NeverminedConfig.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                     |
+| :-------- | :----------------------------------------------------------------------- |
+| `url`     | `string`                                                                 |
 | `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.NeverminedConfig.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NeverminedConfig.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -662,7 +662,7 @@ node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:1
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:49
 
-___
+---
 
 ### getInitializeds
 
@@ -670,17 +670,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NeverminedConfig.md#initializedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NeverminedConfig.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                    |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.NeverminedConfig.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.NeverminedConfig.md#initializedfilter), [`InitializedResult`](subgraphs.NeverminedConfig.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.NeverminedConfig.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NeverminedConfig.md#initializedargs)<`K`\>                                                                                                                                                |
 
 #### Returns
 
@@ -690,7 +690,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:50
 
-___
+---
 
 ### getNeverminedConfigChangeById
 
@@ -698,17 +698,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`NeverminedConfigChangeResult`](subgraphs.NeverminedConfig.md#neverminedconfigchangeresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`NeverminedConfigChangeResult`](subgraphs.NeverminedConfig.md#neverminedconfigchangeresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions) |
-| `args` | [`NeverminedConfigChangeArgs`](subgraphs.NeverminedConfig.md#neverminedconfigchangeargs)<`K`\> |
+| Name      | Type                                                                                           |
+| :-------- | :--------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                       |
+| `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions)                       |
+| `args`    | [`NeverminedConfigChangeArgs`](subgraphs.NeverminedConfig.md#neverminedconfigchangeargs)<`K`\> |
 
 #### Returns
 
@@ -718,7 +718,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:86
 
-___
+---
 
 ### getNeverminedConfigChanges
 
@@ -726,17 +726,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`NeverminedConfigChangeResult`](subgraphs.NeverminedConfig.md#neverminedconfigchangeresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`NeverminedConfigChangeResult`](subgraphs.NeverminedConfig.md#neverminedconfigchangeresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `url`     | `string`                                                                                                                                                                                                                                                            |
 | `options` | [`MultiQueryOptions`](subgraphs.NeverminedConfig.md#multiqueryoptions)<[`NeverminedConfigChangeFilter`](subgraphs.NeverminedConfig.md#neverminedconfigchangefilter), [`NeverminedConfigChangeResult`](subgraphs.NeverminedConfig.md#neverminedconfigchangeresult)\> |
-| `args` | [`NeverminedConfigChangeArgs`](subgraphs.NeverminedConfig.md#neverminedconfigchangeargs)<`K`\> |
+| `args`    | [`NeverminedConfigChangeArgs`](subgraphs.NeverminedConfig.md#neverminedconfigchangeargs)<`K`\>                                                                                                                                                                      |
 
 #### Returns
 
@@ -746,7 +746,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:87
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -754,17 +754,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NeverminedConfig.md#ownershiptransferredresult) |
+| Name | Type                                                                                                   |
+| :--- | :----------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NeverminedConfig.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NeverminedConfig.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                       |
+| :-------- | :----------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                   |
+| `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NeverminedConfig.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -774,7 +774,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:123
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -782,17 +782,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NeverminedConfig.md#ownershiptransferredresult) |
+| Name | Type                                                                                                   |
+| :--- | :----------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NeverminedConfig.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                        |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                    |
 | `options` | [`MultiQueryOptions`](subgraphs.NeverminedConfig.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.NeverminedConfig.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.NeverminedConfig.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NeverminedConfig.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NeverminedConfig.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                  |
 
 #### Returns
 
@@ -802,7 +802,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:124
 
-___
+---
 
 ### getRoleAdminChangedById
 
@@ -810,17 +810,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.NeverminedConfig.md#roleadminchangedresult) |
+| Name | Type                                                                                           |
+| :--- | :--------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.NeverminedConfig.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions) |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.NeverminedConfig.md#roleadminchangedargs)<`K`\> |
+| Name      | Type                                                                               |
+| :-------- | :--------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                           |
+| `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions)           |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.NeverminedConfig.md#roleadminchangedargs)<`K`\> |
 
 #### Returns
 
@@ -830,7 +830,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:168
 
-___
+---
 
 ### getRoleAdminChangeds
 
@@ -838,17 +838,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.NeverminedConfig.md#roleadminchangedresult) |
+| Name | Type                                                                                           |
+| :--- | :--------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.NeverminedConfig.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                        |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `url`     | `string`                                                                                                                                                                                                                                    |
 | `options` | [`MultiQueryOptions`](subgraphs.NeverminedConfig.md#multiqueryoptions)<[`RoleAdminChangedFilter`](subgraphs.NeverminedConfig.md#roleadminchangedfilter), [`RoleAdminChangedResult`](subgraphs.NeverminedConfig.md#roleadminchangedresult)\> |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.NeverminedConfig.md#roleadminchangedargs)<`K`\> |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.NeverminedConfig.md#roleadminchangedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 
@@ -858,7 +858,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:169
 
-___
+---
 
 ### getRoleGrantedById
 
@@ -866,17 +866,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.NeverminedConfig.md#rolegrantedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.NeverminedConfig.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                     |
+| :-------- | :----------------------------------------------------------------------- |
+| `url`     | `string`                                                                 |
 | `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions) |
-| `args` | [`RoleGrantedArgs`](subgraphs.NeverminedConfig.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.NeverminedConfig.md#rolegrantedargs)<`K`\> |
 
 #### Returns
 
@@ -886,7 +886,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:213
 
-___
+---
 
 ### getRoleGranteds
 
@@ -894,17 +894,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.NeverminedConfig.md#rolegrantedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.NeverminedConfig.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                    |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.NeverminedConfig.md#multiqueryoptions)<[`RoleGrantedFilter`](subgraphs.NeverminedConfig.md#rolegrantedfilter), [`RoleGrantedResult`](subgraphs.NeverminedConfig.md#rolegrantedresult)\> |
-| `args` | [`RoleGrantedArgs`](subgraphs.NeverminedConfig.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.NeverminedConfig.md#rolegrantedargs)<`K`\>                                                                                                                                                |
 
 #### Returns
 
@@ -914,7 +914,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:214
 
-___
+---
 
 ### getRoleRevokedById
 
@@ -922,17 +922,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.NeverminedConfig.md#rolerevokedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.NeverminedConfig.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                     |
+| :-------- | :----------------------------------------------------------------------- |
+| `url`     | `string`                                                                 |
 | `options` | [`SingleQueryOptions`](subgraphs.NeverminedConfig.md#singlequeryoptions) |
-| `args` | [`RoleRevokedArgs`](subgraphs.NeverminedConfig.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.NeverminedConfig.md#rolerevokedargs)<`K`\> |
 
 #### Returns
 
@@ -942,7 +942,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NeverminedConfig.d.ts:258
 
-___
+---
 
 ### getRoleRevokeds
 
@@ -950,17 +950,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.NeverminedConfig.md#rolerevokedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.NeverminedConfig.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                    |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.NeverminedConfig.md#multiqueryoptions)<[`RoleRevokedFilter`](subgraphs.NeverminedConfig.md#rolerevokedfilter), [`RoleRevokedResult`](subgraphs.NeverminedConfig.md#rolerevokedresult)\> |
-| `args` | [`RoleRevokedArgs`](subgraphs.NeverminedConfig.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.NeverminedConfig.md#rolerevokedargs)<`K`\>                                                                                                                                                |
 
 #### Returns
 
