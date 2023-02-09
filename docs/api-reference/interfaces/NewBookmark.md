@@ -26,7 +26,7 @@
 
 [src/bookmarks/Bookmarks.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/bookmarks/Bookmarks.interfaces.ts#L4)
 
-___
+---
 
 ### did
 
@@ -36,7 +36,7 @@ ___
 
 [src/bookmarks/Bookmarks.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/bookmarks/Bookmarks.interfaces.ts#L2)
 
-___
+---
 
 ### userId
 

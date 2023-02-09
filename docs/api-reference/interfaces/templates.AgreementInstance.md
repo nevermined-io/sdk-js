@@ -6,8 +6,8 @@
 
 ## Type parameters
 
-| Name |
-| :------ |
+| Name     |
+| :------- |
 | `Params` |
 
 ## Table of contents
@@ -28,7 +28,7 @@
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L50)
 
-___
+---
 
 ### instances
 
@@ -38,7 +38,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L51)
 
-___
+---
 
 ### list
 

@@ -52,15 +52,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.AgreementStoreManager.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.AgreementStoreManager.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:46
 
-___
+---
 
 ### InitializedFields
 
@@ -68,16 +68,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:42
 
-___
+---
 
 ### InitializedFilter
 
@@ -85,30 +85,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:20
 
-___
+---
 
 ### InitializedResult
 
@@ -116,16 +116,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:38
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -134,25 +134,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:9
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -160,15 +160,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.AgreementStoreManager.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.AgreementStoreManager.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:83
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -176,17 +176,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:78
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -194,34 +194,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:51
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -229,17 +229,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:73
 
-___
+---
 
 ### RoleAdminChangedArgs
 
@@ -247,15 +247,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.AgreementStoreManager.md#roleadminchangedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.AgreementStoreManager.md#roleadminchangedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:128
 
-___
+---
 
 ### RoleAdminChangedFields
 
@@ -263,18 +263,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newAdminRole` | ``true`` |
-| `previousAdminRole` | ``true`` |
-| `role` | ``true`` |
+| Name                | Type   |
+| :------------------ | :----- |
+| `id`                | `true` |
+| `newAdminRole`      | `true` |
+| `previousAdminRole` | `true` |
+| `role`              | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:122
 
-___
+---
 
 ### RoleAdminChangedFilter
 
@@ -282,40 +282,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newAdminRole?` | `string` \| ``null`` |
-| `newAdminRole_contains?` | `string` \| ``null`` |
-| `newAdminRole_in?` | `string`[] |
-| `newAdminRole_not?` | `string` \| ``null`` |
-| `newAdminRole_not_contains?` | `string` \| ``null`` |
-| `newAdminRole_not_in?` | `string`[] |
-| `previousAdminRole?` | `string` \| ``null`` |
-| `previousAdminRole_contains?` | `string` \| ``null`` |
-| `previousAdminRole_in?` | `string`[] |
-| `previousAdminRole_not?` | `string` \| ``null`` |
-| `previousAdminRole_not_contains?` | `string` \| ``null`` |
-| `previousAdminRole_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
+| Name                              | Type               |
+| :-------------------------------- | :----------------- |
+| `id?`                             | `string` \| `null` |
+| `id_gt?`                          | `string` \| `null` |
+| `id_gte?`                         | `string` \| `null` |
+| `id_in?`                          | `string`[]         |
+| `id_lt?`                          | `string` \| `null` |
+| `id_lte?`                         | `string` \| `null` |
+| `id_not?`                         | `string` \| `null` |
+| `id_not_in?`                      | `string`[]         |
+| `newAdminRole?`                   | `string` \| `null` |
+| `newAdminRole_contains?`          | `string` \| `null` |
+| `newAdminRole_in?`                | `string`[]         |
+| `newAdminRole_not?`               | `string` \| `null` |
+| `newAdminRole_not_contains?`      | `string` \| `null` |
+| `newAdminRole_not_in?`            | `string`[]         |
+| `previousAdminRole?`              | `string` \| `null` |
+| `previousAdminRole_contains?`     | `string` \| `null` |
+| `previousAdminRole_in?`           | `string`[]         |
+| `previousAdminRole_not?`          | `string` \| `null` |
+| `previousAdminRole_not_contains?` | `string` \| `null` |
+| `previousAdminRole_not_in?`       | `string`[]         |
+| `role?`                           | `string` \| `null` |
+| `role_contains?`                  | `string` \| `null` |
+| `role_in?`                        | `string`[]         |
+| `role_not?`                       | `string` \| `null` |
+| `role_not_contains?`              | `string` \| `null` |
+| `role_not_in?`                    | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:88
 
-___
+---
 
 ### RoleAdminChangedResult
 
@@ -323,18 +323,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newAdminRole` | `string` |
+| Name                | Type     |
+| :------------------ | :------- |
+| `id`                | `string` |
+| `newAdminRole`      | `string` |
 | `previousAdminRole` | `string` |
-| `role` | `string` |
+| `role`              | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:116
 
-___
+---
 
 ### RoleGrantedArgs
 
@@ -342,15 +342,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.AgreementStoreManager.md#rolegrantedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.AgreementStoreManager.md#rolegrantedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:173
 
-___
+---
 
 ### RoleGrantedFields
 
@@ -358,18 +358,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:167
 
-___
+---
 
 ### RoleGrantedFilter
 
@@ -377,40 +377,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:133
 
-___
+---
 
 ### RoleGrantedResult
 
@@ -418,18 +418,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:161
 
-___
+---
 
 ### RoleRevokedArgs
 
@@ -437,15 +437,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.AgreementStoreManager.md#rolerevokedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.AgreementStoreManager.md#rolerevokedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:218
 
-___
+---
 
 ### RoleRevokedFields
 
@@ -453,18 +453,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:212
 
-___
+---
 
 ### RoleRevokedFilter
 
@@ -472,40 +472,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:178
 
-___
+---
 
 ### RoleRevokedResult
 
@@ -513,18 +513,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:206
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -532,10 +532,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -549,17 +549,17 @@ node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:1
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.AgreementStoreManager.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.AgreementStoreManager.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.AgreementStoreManager.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.AgreementStoreManager.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.AgreementStoreManager.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -569,7 +569,7 @@ node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:1
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:49
 
-___
+---
 
 ### getInitializeds
 
@@ -577,17 +577,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.AgreementStoreManager.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.AgreementStoreManager.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.AgreementStoreManager.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.AgreementStoreManager.md#initializedfilter), [`InitializedResult`](subgraphs.AgreementStoreManager.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.AgreementStoreManager.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.AgreementStoreManager.md#initializedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 
@@ -597,7 +597,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:50
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -605,17 +605,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.AgreementStoreManager.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.AgreementStoreManager.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.AgreementStoreManager.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.AgreementStoreManager.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                            |
+| :-------- | :---------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                        |
+| `options` | [`SingleQueryOptions`](subgraphs.AgreementStoreManager.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.AgreementStoreManager.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -625,7 +625,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:86
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -633,17 +633,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.AgreementStoreManager.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.AgreementStoreManager.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.AgreementStoreManager.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.AgreementStoreManager.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.AgreementStoreManager.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.AgreementStoreManager.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.AgreementStoreManager.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                            |
 
 #### Returns
 
@@ -653,7 +653,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:87
 
-___
+---
 
 ### getRoleAdminChangedById
 
@@ -661,17 +661,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.AgreementStoreManager.md#roleadminchangedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.AgreementStoreManager.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.AgreementStoreManager.md#singlequeryoptions) |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.AgreementStoreManager.md#roleadminchangedargs)<`K`\> |
+| Name      | Type                                                                                    |
+| :-------- | :-------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                |
+| `options` | [`SingleQueryOptions`](subgraphs.AgreementStoreManager.md#singlequeryoptions)           |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.AgreementStoreManager.md#roleadminchangedargs)<`K`\> |
 
 #### Returns
 
@@ -681,7 +681,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:131
 
-___
+---
 
 ### getRoleAdminChangeds
 
@@ -689,17 +689,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.AgreementStoreManager.md#roleadminchangedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.AgreementStoreManager.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                       |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.AgreementStoreManager.md#multiqueryoptions)<[`RoleAdminChangedFilter`](subgraphs.AgreementStoreManager.md#roleadminchangedfilter), [`RoleAdminChangedResult`](subgraphs.AgreementStoreManager.md#roleadminchangedresult)\> |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.AgreementStoreManager.md#roleadminchangedargs)<`K`\> |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.AgreementStoreManager.md#roleadminchangedargs)<`K`\>                                                                                                                                                                    |
 
 #### Returns
 
@@ -709,7 +709,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:132
 
-___
+---
 
 ### getRoleGrantedById
 
@@ -717,17 +717,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.AgreementStoreManager.md#rolegrantedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.AgreementStoreManager.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.AgreementStoreManager.md#singlequeryoptions) |
-| `args` | [`RoleGrantedArgs`](subgraphs.AgreementStoreManager.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.AgreementStoreManager.md#rolegrantedargs)<`K`\> |
 
 #### Returns
 
@@ -737,7 +737,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:176
 
-___
+---
 
 ### getRoleGranteds
 
@@ -745,17 +745,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.AgreementStoreManager.md#rolegrantedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.AgreementStoreManager.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.AgreementStoreManager.md#multiqueryoptions)<[`RoleGrantedFilter`](subgraphs.AgreementStoreManager.md#rolegrantedfilter), [`RoleGrantedResult`](subgraphs.AgreementStoreManager.md#rolegrantedresult)\> |
-| `args` | [`RoleGrantedArgs`](subgraphs.AgreementStoreManager.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.AgreementStoreManager.md#rolegrantedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 
@@ -765,7 +765,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:177
 
-___
+---
 
 ### getRoleRevokedById
 
@@ -773,17 +773,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.AgreementStoreManager.md#rolerevokedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.AgreementStoreManager.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.AgreementStoreManager.md#singlequeryoptions) |
-| `args` | [`RoleRevokedArgs`](subgraphs.AgreementStoreManager.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.AgreementStoreManager.md#rolerevokedargs)<`K`\> |
 
 #### Returns
 
@@ -793,7 +793,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/AgreementStoreManager.d.ts:221
 
-___
+---
 
 ### getRoleRevokeds
 
@@ -801,17 +801,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.AgreementStoreManager.md#rolerevokedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.AgreementStoreManager.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.AgreementStoreManager.md#multiqueryoptions)<[`RoleRevokedFilter`](subgraphs.AgreementStoreManager.md#rolerevokedfilter), [`RoleRevokedResult`](subgraphs.AgreementStoreManager.md#rolerevokedresult)\> |
-| `args` | [`RoleRevokedArgs`](subgraphs.AgreementStoreManager.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.AgreementStoreManager.md#rolerevokedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 

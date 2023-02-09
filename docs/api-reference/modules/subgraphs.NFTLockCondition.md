@@ -40,15 +40,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.NFTLockCondition.md#fulfilledresult) |
+| Name | Type                                                                             |
+| :--- | :------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.NFTLockCondition.md#fulfilledresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:95
 
-___
+---
 
 ### FulfilledFields
 
@@ -56,22 +56,22 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId` | ``true`` |
-| `_amount` | ``true`` |
-| `_conditionId` | ``true`` |
-| `_did` | ``true`` |
-| `_lockAddress` | ``true`` |
-| `_nftContractAddress` | ``true`` |
-| `_receiver` | ``true`` |
-| `id` | ``true`` |
+| Name                  | Type   |
+| :-------------------- | :----- |
+| `_agreementId`        | `true` |
+| `_amount`             | `true` |
+| `_conditionId`        | `true` |
+| `_did`                | `true` |
+| `_lockAddress`        | `true` |
+| `_nftContractAddress` | `true` |
+| `_receiver`           | `true` |
+| `id`                  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:85
 
-___
+---
 
 ### FulfilledFilter
 
@@ -79,66 +79,66 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId?` | `string` \| ``null`` |
-| `_agreementId_contains?` | `string` \| ``null`` |
-| `_agreementId_in?` | `string`[] |
-| `_agreementId_not?` | `string` \| ``null`` |
-| `_agreementId_not_contains?` | `string` \| ``null`` |
-| `_agreementId_not_in?` | `string`[] |
-| `_amount?` | `WeiSource` \| ``null`` |
-| `_amount_gt?` | `WeiSource` \| ``null`` |
-| `_amount_gte?` | `WeiSource` \| ``null`` |
-| `_amount_in?` | `WeiSource`[] |
-| `_amount_lt?` | `WeiSource` \| ``null`` |
-| `_amount_lte?` | `WeiSource` \| ``null`` |
-| `_amount_not?` | `WeiSource` \| ``null`` |
-| `_amount_not_in?` | `WeiSource`[] |
-| `_conditionId?` | `string` \| ``null`` |
-| `_conditionId_contains?` | `string` \| ``null`` |
-| `_conditionId_in?` | `string`[] |
-| `_conditionId_not?` | `string` \| ``null`` |
-| `_conditionId_not_contains?` | `string` \| ``null`` |
-| `_conditionId_not_in?` | `string`[] |
-| `_did?` | `string` \| ``null`` |
-| `_did_contains?` | `string` \| ``null`` |
-| `_did_in?` | `string`[] |
-| `_did_not?` | `string` \| ``null`` |
-| `_did_not_contains?` | `string` \| ``null`` |
-| `_did_not_in?` | `string`[] |
-| `_lockAddress?` | `string` \| ``null`` |
-| `_lockAddress_contains?` | `string` \| ``null`` |
-| `_lockAddress_in?` | `string`[] |
-| `_lockAddress_not?` | `string` \| ``null`` |
-| `_lockAddress_not_contains?` | `string` \| ``null`` |
-| `_lockAddress_not_in?` | `string`[] |
-| `_nftContractAddress?` | `string` \| ``null`` |
-| `_nftContractAddress_contains?` | `string` \| ``null`` |
-| `_nftContractAddress_in?` | `string`[] |
-| `_nftContractAddress_not?` | `string` \| ``null`` |
-| `_nftContractAddress_not_contains?` | `string` \| ``null`` |
-| `_nftContractAddress_not_in?` | `string`[] |
-| `_receiver?` | `string` \| ``null`` |
-| `_receiver_contains?` | `string` \| ``null`` |
-| `_receiver_in?` | `string`[] |
-| `_receiver_not?` | `string` \| ``null`` |
-| `_receiver_not_contains?` | `string` \| ``null`` |
-| `_receiver_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                                | Type                  |
+| :---------------------------------- | :-------------------- |
+| `_agreementId?`                     | `string` \| `null`    |
+| `_agreementId_contains?`            | `string` \| `null`    |
+| `_agreementId_in?`                  | `string`[]            |
+| `_agreementId_not?`                 | `string` \| `null`    |
+| `_agreementId_not_contains?`        | `string` \| `null`    |
+| `_agreementId_not_in?`              | `string`[]            |
+| `_amount?`                          | `WeiSource` \| `null` |
+| `_amount_gt?`                       | `WeiSource` \| `null` |
+| `_amount_gte?`                      | `WeiSource` \| `null` |
+| `_amount_in?`                       | `WeiSource`[]         |
+| `_amount_lt?`                       | `WeiSource` \| `null` |
+| `_amount_lte?`                      | `WeiSource` \| `null` |
+| `_amount_not?`                      | `WeiSource` \| `null` |
+| `_amount_not_in?`                   | `WeiSource`[]         |
+| `_conditionId?`                     | `string` \| `null`    |
+| `_conditionId_contains?`            | `string` \| `null`    |
+| `_conditionId_in?`                  | `string`[]            |
+| `_conditionId_not?`                 | `string` \| `null`    |
+| `_conditionId_not_contains?`        | `string` \| `null`    |
+| `_conditionId_not_in?`              | `string`[]            |
+| `_did?`                             | `string` \| `null`    |
+| `_did_contains?`                    | `string` \| `null`    |
+| `_did_in?`                          | `string`[]            |
+| `_did_not?`                         | `string` \| `null`    |
+| `_did_not_contains?`                | `string` \| `null`    |
+| `_did_not_in?`                      | `string`[]            |
+| `_lockAddress?`                     | `string` \| `null`    |
+| `_lockAddress_contains?`            | `string` \| `null`    |
+| `_lockAddress_in?`                  | `string`[]            |
+| `_lockAddress_not?`                 | `string` \| `null`    |
+| `_lockAddress_not_contains?`        | `string` \| `null`    |
+| `_lockAddress_not_in?`              | `string`[]            |
+| `_nftContractAddress?`              | `string` \| `null`    |
+| `_nftContractAddress_contains?`     | `string` \| `null`    |
+| `_nftContractAddress_in?`           | `string`[]            |
+| `_nftContractAddress_not?`          | `string` \| `null`    |
+| `_nftContractAddress_not_contains?` | `string` \| `null`    |
+| `_nftContractAddress_not_in?`       | `string`[]            |
+| `_receiver?`                        | `string` \| `null`    |
+| `_receiver_contains?`               | `string` \| `null`    |
+| `_receiver_in?`                     | `string`[]            |
+| `_receiver_not?`                    | `string` \| `null`    |
+| `_receiver_not_contains?`           | `string` \| `null`    |
+| `_receiver_not_in?`                 | `string`[]            |
+| `id?`                               | `string` \| `null`    |
+| `id_gt?`                            | `string` \| `null`    |
+| `id_gte?`                           | `string` \| `null`    |
+| `id_in?`                            | `string`[]            |
+| `id_lt?`                            | `string` \| `null`    |
+| `id_lte?`                           | `string` \| `null`    |
+| `id_not?`                           | `string` \| `null`    |
+| `id_not_in?`                        | `string`[]            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:21
 
-___
+---
 
 ### FulfilledResult
 
@@ -146,22 +146,22 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId` | `string` |
-| `_amount` | `Wei` |
-| `_conditionId` | `string` |
-| `_did` | `string` |
-| `_lockAddress` | `string` |
+| Name                  | Type     |
+| :-------------------- | :------- |
+| `_agreementId`        | `string` |
+| `_amount`             | `Wei`    |
+| `_conditionId`        | `string` |
+| `_did`                | `string` |
+| `_lockAddress`        | `string` |
 | `_nftContractAddress` | `string` |
-| `_receiver` | `string` |
-| `id` | `string` |
+| `_receiver`           | `string` |
+| `id`                  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:75
 
-___
+---
 
 ### InitializedArgs
 
@@ -169,15 +169,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFTLockCondition.md#initializedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFTLockCondition.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:126
 
-___
+---
 
 ### InitializedFields
 
@@ -185,16 +185,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:122
 
-___
+---
 
 ### InitializedFilter
 
@@ -202,30 +202,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:100
 
-___
+---
 
 ### InitializedResult
 
@@ -233,16 +233,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:118
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -251,25 +251,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:10
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -277,15 +277,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFTLockCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                   |
+| :--- | :----------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFTLockCondition.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:163
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -293,17 +293,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:158
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -311,34 +311,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:131
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -346,17 +346,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:153
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -364,10 +364,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -381,17 +381,17 @@ node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:2
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.NFTLockCondition.md#fulfilledresult) |
+| Name | Type                                                                             |
+| :--- | :------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.NFTLockCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                     |
+| :-------- | :----------------------------------------------------------------------- |
+| `url`     | `string`                                                                 |
 | `options` | [`SingleQueryOptions`](subgraphs.NFTLockCondition.md#singlequeryoptions) |
-| `args` | [`FulfilledArgs`](subgraphs.NFTLockCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.NFTLockCondition.md#fulfilledargs)<`K`\>     |
 
 #### Returns
 
@@ -401,7 +401,7 @@ node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:2
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:98
 
-___
+---
 
 ### getFulfilleds
 
@@ -409,17 +409,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.NFTLockCondition.md#fulfilledresult) |
+| Name | Type                                                                             |
+| :--- | :------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.NFTLockCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                            |
+| :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                        |
 | `options` | [`MultiQueryOptions`](subgraphs.NFTLockCondition.md#multiqueryoptions)<[`FulfilledFilter`](subgraphs.NFTLockCondition.md#fulfilledfilter), [`FulfilledResult`](subgraphs.NFTLockCondition.md#fulfilledresult)\> |
-| `args` | [`FulfilledArgs`](subgraphs.NFTLockCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.NFTLockCondition.md#fulfilledargs)<`K`\>                                                                                                                                            |
 
 #### Returns
 
@@ -429,7 +429,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:99
 
-___
+---
 
 ### getInitializedById
 
@@ -437,17 +437,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFTLockCondition.md#initializedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFTLockCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                     |
+| :-------- | :----------------------------------------------------------------------- |
+| `url`     | `string`                                                                 |
 | `options` | [`SingleQueryOptions`](subgraphs.NFTLockCondition.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.NFTLockCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NFTLockCondition.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -457,7 +457,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:129
 
-___
+---
 
 ### getInitializeds
 
@@ -465,17 +465,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFTLockCondition.md#initializedresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFTLockCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                    |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.NFTLockCondition.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.NFTLockCondition.md#initializedfilter), [`InitializedResult`](subgraphs.NFTLockCondition.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.NFTLockCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NFTLockCondition.md#initializedargs)<`K`\>                                                                                                                                                |
 
 #### Returns
 
@@ -485,7 +485,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:130
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -493,17 +493,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFTLockCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                   |
+| :--- | :----------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFTLockCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NFTLockCondition.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NFTLockCondition.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                       |
+| :-------- | :----------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                   |
+| `options` | [`SingleQueryOptions`](subgraphs.NFTLockCondition.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NFTLockCondition.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -513,7 +513,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFTLockCondition.d.ts:166
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -521,17 +521,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFTLockCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                   |
+| :--- | :----------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFTLockCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                        |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                    |
 | `options` | [`MultiQueryOptions`](subgraphs.NFTLockCondition.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.NFTLockCondition.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.NFTLockCondition.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NFTLockCondition.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NFTLockCondition.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                  |
 
 #### Returns
 

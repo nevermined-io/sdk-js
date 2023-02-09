@@ -6,4 +6,4 @@
 
 ## Indexable
 
-▪ [condition: `string`]: { `blocked`: `boolean` ; `blockedBy`: `string`[] ; `condition`: `string` ; `contractName`: `string` ; `state`: [`ConditionState`](../enums/ConditionState.md)  }
+▪ [condition: `string`]: { `blocked`: `boolean` ; `blockedBy`: `string`[] ; `condition`: `string` ; `contractName`: `string` ; `state`: [`ConditionState`](../enums/ConditionState.md) }

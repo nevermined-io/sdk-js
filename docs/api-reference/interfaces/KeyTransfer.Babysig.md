@@ -21,7 +21,7 @@
 
 [src/models/KeyTransfer.ts:34](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/KeyTransfer.ts#L34)
 
-___
+---
 
 ### S
 

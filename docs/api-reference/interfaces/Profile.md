@@ -37,7 +37,7 @@
 
 [src/profiles/Profiles.interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L14)
 
-___
+---
 
 ### addresses
 
@@ -51,7 +51,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L10)
 
-___
+---
 
 ### creationDate
 
@@ -61,7 +61,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L19)
 
-___
+---
 
 ### email
 
@@ -75,7 +75,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:13](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L13)
 
-___
+---
 
 ### isListed
 
@@ -89,7 +89,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L8)
 
-___
+---
 
 ### name
 
@@ -103,7 +103,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L12)
 
-___
+---
 
 ### nickname
 
@@ -117,7 +117,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L11)
 
-___
+---
 
 ### state
 
@@ -131,7 +131,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L9)
 
-___
+---
 
 ### updateDate
 
@@ -141,7 +141,7 @@ ___
 
 [src/profiles/Profiles.interfaces.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L20)
 
-___
+---
 
 ### userId
 

@@ -64,15 +64,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ConditionCreatedResult`](subgraphs.ConditionStoreManager.md#conditioncreatedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ConditionCreatedResult`](subgraphs.ConditionStoreManager.md#conditioncreatedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:52
 
-___
+---
 
 ### ConditionCreatedFields
 
@@ -80,17 +80,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_typeRef` | ``true`` |
-| `_who` | ``true`` |
-| `id` | ``true`` |
+| Name       | Type   |
+| :--------- | :----- |
+| `_typeRef` | `true` |
+| `_who`     | `true` |
+| `id`       | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:47
 
-___
+---
 
 ### ConditionCreatedFilter
 
@@ -98,34 +98,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_typeRef?` | `string` \| ``null`` |
-| `_typeRef_contains?` | `string` \| ``null`` |
-| `_typeRef_in?` | `string`[] |
-| `_typeRef_not?` | `string` \| ``null`` |
-| `_typeRef_not_contains?` | `string` \| ``null`` |
-| `_typeRef_not_in?` | `string`[] |
-| `_who?` | `string` \| ``null`` |
-| `_who_contains?` | `string` \| ``null`` |
-| `_who_in?` | `string`[] |
-| `_who_not?` | `string` \| ``null`` |
-| `_who_not_contains?` | `string` \| ``null`` |
-| `_who_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                     | Type               |
+| :----------------------- | :----------------- |
+| `_typeRef?`              | `string` \| `null` |
+| `_typeRef_contains?`     | `string` \| `null` |
+| `_typeRef_in?`           | `string`[]         |
+| `_typeRef_not?`          | `string` \| `null` |
+| `_typeRef_not_contains?` | `string` \| `null` |
+| `_typeRef_not_in?`       | `string`[]         |
+| `_who?`                  | `string` \| `null` |
+| `_who_contains?`         | `string` \| `null` |
+| `_who_in?`               | `string`[]         |
+| `_who_not?`              | `string` \| `null` |
+| `_who_not_contains?`     | `string` \| `null` |
+| `_who_not_in?`           | `string`[]         |
+| `id?`                    | `string` \| `null` |
+| `id_gt?`                 | `string` \| `null` |
+| `id_gte?`                | `string` \| `null` |
+| `id_in?`                 | `string`[]         |
+| `id_lt?`                 | `string` \| `null` |
+| `id_lte?`                | `string` \| `null` |
+| `id_not?`                | `string` \| `null` |
+| `id_not_in?`             | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:20
 
-___
+---
 
 ### ConditionCreatedResult
 
@@ -133,17 +133,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type     |
+| :--------- | :------- |
 | `_typeRef` | `string` |
-| `_who` | `string` |
-| `id` | `string` |
+| `_who`     | `string` |
+| `id`       | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:42
 
-___
+---
 
 ### ConditionUpdatedArgs
 
@@ -151,15 +151,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ConditionUpdatedResult`](subgraphs.ConditionStoreManager.md#conditionupdatedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ConditionUpdatedResult`](subgraphs.ConditionStoreManager.md#conditionupdatedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:99
 
-___
+---
 
 ### ConditionUpdatedFields
 
@@ -167,18 +167,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_state` | ``true`` |
-| `_typeRef` | ``true`` |
-| `_who` | ``true`` |
-| `id` | ``true`` |
+| Name       | Type   |
+| :--------- | :----- |
+| `_state`   | `true` |
+| `_typeRef` | `true` |
+| `_who`     | `true` |
+| `id`       | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:93
 
-___
+---
 
 ### ConditionUpdatedFilter
 
@@ -186,42 +186,42 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_state?` | `number` \| ``null`` |
-| `_state_gt?` | `number` \| ``null`` |
-| `_state_gte?` | `number` \| ``null`` |
-| `_state_in?` | `number`[] |
-| `_state_lt?` | `number` \| ``null`` |
-| `_state_lte?` | `number` \| ``null`` |
-| `_state_not?` | `number` \| ``null`` |
-| `_state_not_in?` | `number`[] |
-| `_typeRef?` | `string` \| ``null`` |
-| `_typeRef_contains?` | `string` \| ``null`` |
-| `_typeRef_in?` | `string`[] |
-| `_typeRef_not?` | `string` \| ``null`` |
-| `_typeRef_not_contains?` | `string` \| ``null`` |
-| `_typeRef_not_in?` | `string`[] |
-| `_who?` | `string` \| ``null`` |
-| `_who_contains?` | `string` \| ``null`` |
-| `_who_in?` | `string`[] |
-| `_who_not?` | `string` \| ``null`` |
-| `_who_not_contains?` | `string` \| ``null`` |
-| `_who_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                     | Type               |
+| :----------------------- | :----------------- |
+| `_state?`                | `number` \| `null` |
+| `_state_gt?`             | `number` \| `null` |
+| `_state_gte?`            | `number` \| `null` |
+| `_state_in?`             | `number`[]         |
+| `_state_lt?`             | `number` \| `null` |
+| `_state_lte?`            | `number` \| `null` |
+| `_state_not?`            | `number` \| `null` |
+| `_state_not_in?`         | `number`[]         |
+| `_typeRef?`              | `string` \| `null` |
+| `_typeRef_contains?`     | `string` \| `null` |
+| `_typeRef_in?`           | `string`[]         |
+| `_typeRef_not?`          | `string` \| `null` |
+| `_typeRef_not_contains?` | `string` \| `null` |
+| `_typeRef_not_in?`       | `string`[]         |
+| `_who?`                  | `string` \| `null` |
+| `_who_contains?`         | `string` \| `null` |
+| `_who_in?`               | `string`[]         |
+| `_who_not?`              | `string` \| `null` |
+| `_who_not_contains?`     | `string` \| `null` |
+| `_who_not_in?`           | `string`[]         |
+| `id?`                    | `string` \| `null` |
+| `id_gt?`                 | `string` \| `null` |
+| `id_gte?`                | `string` \| `null` |
+| `id_in?`                 | `string`[]         |
+| `id_lt?`                 | `string` \| `null` |
+| `id_lte?`                | `string` \| `null` |
+| `id_not?`                | `string` \| `null` |
+| `id_not_in?`             | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:57
 
-___
+---
 
 ### ConditionUpdatedResult
 
@@ -229,18 +229,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_state` | `number` |
+| Name       | Type     |
+| :--------- | :------- |
+| `_state`   | `number` |
 | `_typeRef` | `string` |
-| `_who` | `string` |
-| `id` | `string` |
+| `_who`     | `string` |
+| `id`       | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:87
 
-___
+---
 
 ### InitializedArgs
 
@@ -248,15 +248,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.ConditionStoreManager.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.ConditionStoreManager.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:130
 
-___
+---
 
 ### InitializedFields
 
@@ -264,16 +264,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:126
 
-___
+---
 
 ### InitializedFilter
 
@@ -281,30 +281,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:104
 
-___
+---
 
 ### InitializedResult
 
@@ -312,16 +312,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:122
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -330,25 +330,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:9
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -356,15 +356,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.ConditionStoreManager.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.ConditionStoreManager.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:167
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -372,17 +372,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:162
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -390,34 +390,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:135
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -425,17 +425,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:157
 
-___
+---
 
 ### RoleAdminChangedArgs
 
@@ -443,15 +443,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.ConditionStoreManager.md#roleadminchangedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.ConditionStoreManager.md#roleadminchangedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:212
 
-___
+---
 
 ### RoleAdminChangedFields
 
@@ -459,18 +459,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newAdminRole` | ``true`` |
-| `previousAdminRole` | ``true`` |
-| `role` | ``true`` |
+| Name                | Type   |
+| :------------------ | :----- |
+| `id`                | `true` |
+| `newAdminRole`      | `true` |
+| `previousAdminRole` | `true` |
+| `role`              | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:206
 
-___
+---
 
 ### RoleAdminChangedFilter
 
@@ -478,40 +478,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newAdminRole?` | `string` \| ``null`` |
-| `newAdminRole_contains?` | `string` \| ``null`` |
-| `newAdminRole_in?` | `string`[] |
-| `newAdminRole_not?` | `string` \| ``null`` |
-| `newAdminRole_not_contains?` | `string` \| ``null`` |
-| `newAdminRole_not_in?` | `string`[] |
-| `previousAdminRole?` | `string` \| ``null`` |
-| `previousAdminRole_contains?` | `string` \| ``null`` |
-| `previousAdminRole_in?` | `string`[] |
-| `previousAdminRole_not?` | `string` \| ``null`` |
-| `previousAdminRole_not_contains?` | `string` \| ``null`` |
-| `previousAdminRole_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
+| Name                              | Type               |
+| :-------------------------------- | :----------------- |
+| `id?`                             | `string` \| `null` |
+| `id_gt?`                          | `string` \| `null` |
+| `id_gte?`                         | `string` \| `null` |
+| `id_in?`                          | `string`[]         |
+| `id_lt?`                          | `string` \| `null` |
+| `id_lte?`                         | `string` \| `null` |
+| `id_not?`                         | `string` \| `null` |
+| `id_not_in?`                      | `string`[]         |
+| `newAdminRole?`                   | `string` \| `null` |
+| `newAdminRole_contains?`          | `string` \| `null` |
+| `newAdminRole_in?`                | `string`[]         |
+| `newAdminRole_not?`               | `string` \| `null` |
+| `newAdminRole_not_contains?`      | `string` \| `null` |
+| `newAdminRole_not_in?`            | `string`[]         |
+| `previousAdminRole?`              | `string` \| `null` |
+| `previousAdminRole_contains?`     | `string` \| `null` |
+| `previousAdminRole_in?`           | `string`[]         |
+| `previousAdminRole_not?`          | `string` \| `null` |
+| `previousAdminRole_not_contains?` | `string` \| `null` |
+| `previousAdminRole_not_in?`       | `string`[]         |
+| `role?`                           | `string` \| `null` |
+| `role_contains?`                  | `string` \| `null` |
+| `role_in?`                        | `string`[]         |
+| `role_not?`                       | `string` \| `null` |
+| `role_not_contains?`              | `string` \| `null` |
+| `role_not_in?`                    | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:172
 
-___
+---
 
 ### RoleAdminChangedResult
 
@@ -519,18 +519,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newAdminRole` | `string` |
+| Name                | Type     |
+| :------------------ | :------- |
+| `id`                | `string` |
+| `newAdminRole`      | `string` |
 | `previousAdminRole` | `string` |
-| `role` | `string` |
+| `role`              | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:200
 
-___
+---
 
 ### RoleGrantedArgs
 
@@ -538,15 +538,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.ConditionStoreManager.md#rolegrantedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.ConditionStoreManager.md#rolegrantedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:257
 
-___
+---
 
 ### RoleGrantedFields
 
@@ -554,18 +554,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:251
 
-___
+---
 
 ### RoleGrantedFilter
 
@@ -573,40 +573,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:217
 
-___
+---
 
 ### RoleGrantedResult
 
@@ -614,18 +614,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:245
 
-___
+---
 
 ### RoleRevokedArgs
 
@@ -633,15 +633,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.ConditionStoreManager.md#rolerevokedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.ConditionStoreManager.md#rolerevokedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:302
 
-___
+---
 
 ### RoleRevokedFields
 
@@ -649,18 +649,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:296
 
-___
+---
 
 ### RoleRevokedFilter
 
@@ -668,40 +668,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:262
 
-___
+---
 
 ### RoleRevokedResult
 
@@ -709,18 +709,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:290
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -728,10 +728,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -745,17 +745,17 @@ node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:1
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ConditionCreatedResult`](subgraphs.ConditionStoreManager.md#conditioncreatedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ConditionCreatedResult`](subgraphs.ConditionStoreManager.md#conditioncreatedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions) |
-| `args` | [`ConditionCreatedArgs`](subgraphs.ConditionStoreManager.md#conditioncreatedargs)<`K`\> |
+| Name      | Type                                                                                    |
+| :-------- | :-------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                |
+| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions)           |
+| `args`    | [`ConditionCreatedArgs`](subgraphs.ConditionStoreManager.md#conditioncreatedargs)<`K`\> |
 
 #### Returns
 
@@ -765,7 +765,7 @@ node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:1
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:55
 
-___
+---
 
 ### getConditionCreateds
 
@@ -773,17 +773,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ConditionCreatedResult`](subgraphs.ConditionStoreManager.md#conditioncreatedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ConditionCreatedResult`](subgraphs.ConditionStoreManager.md#conditioncreatedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                       |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.ConditionStoreManager.md#multiqueryoptions)<[`ConditionCreatedFilter`](subgraphs.ConditionStoreManager.md#conditioncreatedfilter), [`ConditionCreatedResult`](subgraphs.ConditionStoreManager.md#conditioncreatedresult)\> |
-| `args` | [`ConditionCreatedArgs`](subgraphs.ConditionStoreManager.md#conditioncreatedargs)<`K`\> |
+| `args`    | [`ConditionCreatedArgs`](subgraphs.ConditionStoreManager.md#conditioncreatedargs)<`K`\>                                                                                                                                                                    |
 
 #### Returns
 
@@ -793,7 +793,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:56
 
-___
+---
 
 ### getConditionUpdatedById
 
@@ -801,17 +801,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ConditionUpdatedResult`](subgraphs.ConditionStoreManager.md#conditionupdatedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ConditionUpdatedResult`](subgraphs.ConditionStoreManager.md#conditionupdatedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions) |
-| `args` | [`ConditionUpdatedArgs`](subgraphs.ConditionStoreManager.md#conditionupdatedargs)<`K`\> |
+| Name      | Type                                                                                    |
+| :-------- | :-------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                |
+| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions)           |
+| `args`    | [`ConditionUpdatedArgs`](subgraphs.ConditionStoreManager.md#conditionupdatedargs)<`K`\> |
 
 #### Returns
 
@@ -821,7 +821,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:102
 
-___
+---
 
 ### getConditionUpdateds
 
@@ -829,17 +829,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ConditionUpdatedResult`](subgraphs.ConditionStoreManager.md#conditionupdatedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ConditionUpdatedResult`](subgraphs.ConditionStoreManager.md#conditionupdatedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                       |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.ConditionStoreManager.md#multiqueryoptions)<[`ConditionUpdatedFilter`](subgraphs.ConditionStoreManager.md#conditionupdatedfilter), [`ConditionUpdatedResult`](subgraphs.ConditionStoreManager.md#conditionupdatedresult)\> |
-| `args` | [`ConditionUpdatedArgs`](subgraphs.ConditionStoreManager.md#conditionupdatedargs)<`K`\> |
+| `args`    | [`ConditionUpdatedArgs`](subgraphs.ConditionStoreManager.md#conditionupdatedargs)<`K`\>                                                                                                                                                                    |
 
 #### Returns
 
@@ -849,7 +849,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:103
 
-___
+---
 
 ### getInitializedById
 
@@ -857,17 +857,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.ConditionStoreManager.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.ConditionStoreManager.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.ConditionStoreManager.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.ConditionStoreManager.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -877,7 +877,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:133
 
-___
+---
 
 ### getInitializeds
 
@@ -885,17 +885,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.ConditionStoreManager.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.ConditionStoreManager.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.ConditionStoreManager.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.ConditionStoreManager.md#initializedfilter), [`InitializedResult`](subgraphs.ConditionStoreManager.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.ConditionStoreManager.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.ConditionStoreManager.md#initializedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 
@@ -905,7 +905,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:134
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -913,17 +913,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.ConditionStoreManager.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.ConditionStoreManager.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.ConditionStoreManager.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                            |
+| :-------- | :---------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                        |
+| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.ConditionStoreManager.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -933,7 +933,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:170
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -941,17 +941,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.ConditionStoreManager.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.ConditionStoreManager.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.ConditionStoreManager.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.ConditionStoreManager.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.ConditionStoreManager.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.ConditionStoreManager.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.ConditionStoreManager.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                            |
 
 #### Returns
 
@@ -961,7 +961,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:171
 
-___
+---
 
 ### getRoleAdminChangedById
 
@@ -969,17 +969,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.ConditionStoreManager.md#roleadminchangedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.ConditionStoreManager.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions) |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.ConditionStoreManager.md#roleadminchangedargs)<`K`\> |
+| Name      | Type                                                                                    |
+| :-------- | :-------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                |
+| `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions)           |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.ConditionStoreManager.md#roleadminchangedargs)<`K`\> |
 
 #### Returns
 
@@ -989,7 +989,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:215
 
-___
+---
 
 ### getRoleAdminChangeds
 
@@ -997,17 +997,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.ConditionStoreManager.md#roleadminchangedresult) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.ConditionStoreManager.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                       |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.ConditionStoreManager.md#multiqueryoptions)<[`RoleAdminChangedFilter`](subgraphs.ConditionStoreManager.md#roleadminchangedfilter), [`RoleAdminChangedResult`](subgraphs.ConditionStoreManager.md#roleadminchangedresult)\> |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.ConditionStoreManager.md#roleadminchangedargs)<`K`\> |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.ConditionStoreManager.md#roleadminchangedargs)<`K`\>                                                                                                                                                                    |
 
 #### Returns
 
@@ -1017,7 +1017,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:216
 
-___
+---
 
 ### getRoleGrantedById
 
@@ -1025,17 +1025,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.ConditionStoreManager.md#rolegrantedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.ConditionStoreManager.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions) |
-| `args` | [`RoleGrantedArgs`](subgraphs.ConditionStoreManager.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.ConditionStoreManager.md#rolegrantedargs)<`K`\> |
 
 #### Returns
 
@@ -1045,7 +1045,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:260
 
-___
+---
 
 ### getRoleGranteds
 
@@ -1053,17 +1053,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.ConditionStoreManager.md#rolegrantedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.ConditionStoreManager.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.ConditionStoreManager.md#multiqueryoptions)<[`RoleGrantedFilter`](subgraphs.ConditionStoreManager.md#rolegrantedfilter), [`RoleGrantedResult`](subgraphs.ConditionStoreManager.md#rolegrantedresult)\> |
-| `args` | [`RoleGrantedArgs`](subgraphs.ConditionStoreManager.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.ConditionStoreManager.md#rolegrantedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 
@@ -1073,7 +1073,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:261
 
-___
+---
 
 ### getRoleRevokedById
 
@@ -1081,17 +1081,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.ConditionStoreManager.md#rolerevokedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.ConditionStoreManager.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.ConditionStoreManager.md#singlequeryoptions) |
-| `args` | [`RoleRevokedArgs`](subgraphs.ConditionStoreManager.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.ConditionStoreManager.md#rolerevokedargs)<`K`\> |
 
 #### Returns
 
@@ -1101,7 +1101,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/ConditionStoreManager.d.ts:305
 
-___
+---
 
 ### getRoleRevokeds
 
@@ -1109,17 +1109,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.ConditionStoreManager.md#rolerevokedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.ConditionStoreManager.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.ConditionStoreManager.md#multiqueryoptions)<[`RoleRevokedFilter`](subgraphs.ConditionStoreManager.md#rolerevokedfilter), [`RoleRevokedResult`](subgraphs.ConditionStoreManager.md#rolerevokedresult)\> |
-| `args` | [`RoleRevokedArgs`](subgraphs.ConditionStoreManager.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.ConditionStoreManager.md#rolerevokedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 

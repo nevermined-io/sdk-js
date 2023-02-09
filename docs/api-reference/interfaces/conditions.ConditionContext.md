@@ -23,7 +23,7 @@
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:23](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L23)
 
-___
+---
 
 ### ddo
 
@@ -33,7 +33,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L20)
 
-___
+---
 
 ### rewards
 
@@ -43,7 +43,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:22](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L22)
 
-___
+---
 
 ### service
 

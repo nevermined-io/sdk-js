@@ -27,10 +27,10 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `x` | `string` |
-| `y` | `string` |
+| Name | Type     |
+| :--- | :------- |
+| `x`  | `string` |
+| `y`  | `string` |
 
 #### Defined in
 
@@ -46,7 +46,7 @@
 
 [src/models/KeyTransfer.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/KeyTransfer.ts#L20)
 
-___
+---
 
 ### y
 

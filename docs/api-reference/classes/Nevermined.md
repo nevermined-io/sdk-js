@@ -87,7 +87,7 @@ AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral
 
 [src/nevermined.ts:196](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L196)
 
-___
+---
 
 ### accounts
 
@@ -99,7 +99,7 @@ Accounts submodule
 
 [src/nevermined.ts:156](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L156)
 
-___
+---
 
 ### agreements
 
@@ -111,7 +111,7 @@ Agreements submodule
 
 [src/nevermined.ts:181](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L181)
 
-___
+---
 
 ### assets
 
@@ -123,7 +123,7 @@ Assets submodule
 
 [src/nevermined.ts:166](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L166)
 
-___
+---
 
 ### auth
 
@@ -135,7 +135,7 @@ Auth submodule
 
 [src/nevermined.ts:161](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L161)
 
-___
+---
 
 ### bookmarks
 
@@ -147,7 +147,7 @@ Bookmarks instance
 
 [src/nevermined.ts:141](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L141)
 
-___
+---
 
 ### contracts
 
@@ -157,16 +157,16 @@ Nevermind very own contract reflector.
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `loadErc20` | (`address`: `string`) => `Promise`<`default`\> |
+| Name         | Type                                                       |
+| :----------- | :--------------------------------------------------------- |
+| `loadErc20`  | (`address`: `string`) => `Promise`<`default`\>             |
 | `loadNft721` | (`address`: `string`) => `Promise`<[`Nft721`](Nft721.md)\> |
 
 #### Defined in
 
 [src/nevermined.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L97)
 
-___
+---
 
 ### faucet
 
@@ -178,7 +178,7 @@ Metadata instance.
 
 [src/nevermined.ts:151](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L151)
 
-___
+---
 
 ### files
 
@@ -190,7 +190,7 @@ Files submodule
 
 [src/nevermined.ts:176](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L176)
 
-___
+---
 
 ### gateway
 
@@ -202,7 +202,7 @@ Gateway instance.
 
 [src/nevermined.ts:121](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L121)
 
-___
+---
 
 ### keeper
 
@@ -214,7 +214,7 @@ Keeper instance.
 
 [src/nevermined.ts:92](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L92)
 
-___
+---
 
 ### marketplace
 
@@ -226,7 +226,7 @@ Marketplace instance.
 
 [src/nevermined.ts:131](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L131)
 
-___
+---
 
 ### metadata
 
@@ -238,7 +238,7 @@ Metadata instance.
 
 [src/nevermined.ts:126](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L126)
 
-___
+---
 
 ### nfts
 
@@ -250,7 +250,7 @@ Nfts submodule
 
 [src/nevermined.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L171)
 
-___
+---
 
 ### permissions
 
@@ -262,7 +262,7 @@ Permissions instance
 
 [src/nevermined.ts:146](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L146)
 
-___
+---
 
 ### profiles
 
@@ -274,7 +274,7 @@ Profiles instance
 
 [src/nevermined.ts:136](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L136)
 
-___
+---
 
 ### provenance
 
@@ -286,7 +286,7 @@ Provenance submodule
 
 [src/nevermined.ts:206](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L206)
 
-___
+---
 
 ### provider
 
@@ -298,7 +298,7 @@ Nevermined probiders submodule
 
 [src/nevermined.ts:186](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L186)
 
-___
+---
 
 ### token
 
@@ -310,7 +310,7 @@ Nevermined tokens submodule
 
 [src/nevermined.ts:191](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L191)
 
-___
+---
 
 ### utils
 
@@ -322,7 +322,7 @@ Utils submodule
 
 [src/nevermined.ts:211](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L211)
 
-___
+---
 
 ### versions
 
@@ -352,7 +352,7 @@ Instantiable.artifactsFolder
 
 [src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
 
-___
+---
 
 ### config
 
@@ -370,7 +370,7 @@ Instantiable.config
 
 [src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
 
-___
+---
 
 ### instanceConfig
 
@@ -388,7 +388,7 @@ Instantiable.instanceConfig
 
 [src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
 
-___
+---
 
 ### instantiableConfig
 
@@ -406,7 +406,7 @@ Instantiable.instantiableConfig
 
 [src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
 
-___
+---
 
 ### logger
 
@@ -424,7 +424,7 @@ Instantiable.logger
 
 [src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
 
-___
+---
 
 ### nevermined
 
@@ -442,7 +442,7 @@ Instantiable.nevermined
 
 [src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
 
-___
+---
 
 ### web3
 
@@ -478,7 +478,7 @@ Instantiable.addresses
 
 [src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
 
-___
+---
 
 ### checkExists
 
@@ -488,8 +488,8 @@ Returns true of contract exists else it throws.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `address` | `string` |
 
 #### Returns
@@ -506,7 +506,7 @@ Instantiable.checkExists
 
 [src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
 
-___
+---
 
 ### findSigner
 
@@ -514,8 +514,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type     |
+| :----- | :------- |
 | `from` | `string` |
 
 #### Returns
@@ -530,7 +530,7 @@ Instantiable.findSigner
 
 [src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -538,8 +538,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                 |
+| :------- | :------------------- |
 | `config` | `InstantiableConfig` |
 
 #### Returns
@@ -554,7 +554,7 @@ Instantiable.setInstanceConfig
 
 [src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
 
-___
+---
 
 ### addressesStatic
 
@@ -562,10 +562,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
+| `web3`   | `JsonRpcProvider`     |
 
 #### Returns
 
@@ -579,7 +579,7 @@ Instantiable.addressesStatic
 
 [src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
 
-___
+---
 
 ### findSignerStatic
 
@@ -587,11 +587,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
-| `from` | `string` |
+| `web3`   | `JsonRpcProvider`     |
+| `from`   | `string`              |
 
 #### Returns
 
@@ -605,7 +605,7 @@ Instantiable.findSignerStatic
 
 [src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
 
-___
+---
 
 ### getInstance
 
@@ -624,8 +624,8 @@ const nevermined = await Nevermined.getInstance(config)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name     | Type                  | Description                        |
+| :------- | :-------------------- | :--------------------------------- |
 | `config` | [`Config`](Config.md) | Nevermined instance configuration. |
 
 #### Returns
@@ -642,7 +642,7 @@ Instantiable.getInstance
 
 [src/nevermined.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L51)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -650,15 +650,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Instantiable`<`T`\> |
+| Name | Type                         |
+| :--- | :--------------------------- |
+| `T`  | extends `Instantiable`<`T`\> |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `instance` | `T` |
+| Name                 | Type                 |
+| :------------------- | :------------------- |
+| `instance`           | `T`                  |
 | `instantiableConfig` | `InstantiableConfig` |
 
 #### Returns

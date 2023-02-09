@@ -58,15 +58,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.TransferNFTCondition.md#fulfilledresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.TransferNFTCondition.md#fulfilledresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:87
 
-___
+---
 
 ### FulfilledFields
 
@@ -74,21 +74,21 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId` | ``true`` |
-| `_amount` | ``true`` |
-| `_conditionId` | ``true`` |
-| `_contract` | ``true`` |
-| `_did` | ``true`` |
-| `_receiver` | ``true`` |
-| `id` | ``true`` |
+| Name           | Type   |
+| :------------- | :----- |
+| `_agreementId` | `true` |
+| `_amount`      | `true` |
+| `_conditionId` | `true` |
+| `_contract`    | `true` |
+| `_did`         | `true` |
+| `_receiver`    | `true` |
+| `id`           | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:78
 
-___
+---
 
 ### FulfilledFilter
 
@@ -96,60 +96,60 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId?` | `string` \| ``null`` |
-| `_agreementId_contains?` | `string` \| ``null`` |
-| `_agreementId_in?` | `string`[] |
-| `_agreementId_not?` | `string` \| ``null`` |
-| `_agreementId_not_contains?` | `string` \| ``null`` |
-| `_agreementId_not_in?` | `string`[] |
-| `_amount?` | `WeiSource` \| ``null`` |
-| `_amount_gt?` | `WeiSource` \| ``null`` |
-| `_amount_gte?` | `WeiSource` \| ``null`` |
-| `_amount_in?` | `WeiSource`[] |
-| `_amount_lt?` | `WeiSource` \| ``null`` |
-| `_amount_lte?` | `WeiSource` \| ``null`` |
-| `_amount_not?` | `WeiSource` \| ``null`` |
-| `_amount_not_in?` | `WeiSource`[] |
-| `_conditionId?` | `string` \| ``null`` |
-| `_conditionId_contains?` | `string` \| ``null`` |
-| `_conditionId_in?` | `string`[] |
-| `_conditionId_not?` | `string` \| ``null`` |
-| `_conditionId_not_contains?` | `string` \| ``null`` |
-| `_conditionId_not_in?` | `string`[] |
-| `_contract?` | `string` \| ``null`` |
-| `_contract_contains?` | `string` \| ``null`` |
-| `_contract_in?` | `string`[] |
-| `_contract_not?` | `string` \| ``null`` |
-| `_contract_not_contains?` | `string` \| ``null`` |
-| `_contract_not_in?` | `string`[] |
-| `_did?` | `string` \| ``null`` |
-| `_did_contains?` | `string` \| ``null`` |
-| `_did_in?` | `string`[] |
-| `_did_not?` | `string` \| ``null`` |
-| `_did_not_contains?` | `string` \| ``null`` |
-| `_did_not_in?` | `string`[] |
-| `_receiver?` | `string` \| ``null`` |
-| `_receiver_contains?` | `string` \| ``null`` |
-| `_receiver_in?` | `string`[] |
-| `_receiver_not?` | `string` \| ``null`` |
-| `_receiver_not_contains?` | `string` \| ``null`` |
-| `_receiver_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                         | Type                  |
+| :--------------------------- | :-------------------- |
+| `_agreementId?`              | `string` \| `null`    |
+| `_agreementId_contains?`     | `string` \| `null`    |
+| `_agreementId_in?`           | `string`[]            |
+| `_agreementId_not?`          | `string` \| `null`    |
+| `_agreementId_not_contains?` | `string` \| `null`    |
+| `_agreementId_not_in?`       | `string`[]            |
+| `_amount?`                   | `WeiSource` \| `null` |
+| `_amount_gt?`                | `WeiSource` \| `null` |
+| `_amount_gte?`               | `WeiSource` \| `null` |
+| `_amount_in?`                | `WeiSource`[]         |
+| `_amount_lt?`                | `WeiSource` \| `null` |
+| `_amount_lte?`               | `WeiSource` \| `null` |
+| `_amount_not?`               | `WeiSource` \| `null` |
+| `_amount_not_in?`            | `WeiSource`[]         |
+| `_conditionId?`              | `string` \| `null`    |
+| `_conditionId_contains?`     | `string` \| `null`    |
+| `_conditionId_in?`           | `string`[]            |
+| `_conditionId_not?`          | `string` \| `null`    |
+| `_conditionId_not_contains?` | `string` \| `null`    |
+| `_conditionId_not_in?`       | `string`[]            |
+| `_contract?`                 | `string` \| `null`    |
+| `_contract_contains?`        | `string` \| `null`    |
+| `_contract_in?`              | `string`[]            |
+| `_contract_not?`             | `string` \| `null`    |
+| `_contract_not_contains?`    | `string` \| `null`    |
+| `_contract_not_in?`          | `string`[]            |
+| `_did?`                      | `string` \| `null`    |
+| `_did_contains?`             | `string` \| `null`    |
+| `_did_in?`                   | `string`[]            |
+| `_did_not?`                  | `string` \| `null`    |
+| `_did_not_contains?`         | `string` \| `null`    |
+| `_did_not_in?`               | `string`[]            |
+| `_receiver?`                 | `string` \| `null`    |
+| `_receiver_contains?`        | `string` \| `null`    |
+| `_receiver_in?`              | `string`[]            |
+| `_receiver_not?`             | `string` \| `null`    |
+| `_receiver_not_contains?`    | `string` \| `null`    |
+| `_receiver_not_in?`          | `string`[]            |
+| `id?`                        | `string` \| `null`    |
+| `id_gt?`                     | `string` \| `null`    |
+| `id_gte?`                    | `string` \| `null`    |
+| `id_in?`                     | `string`[]            |
+| `id_lt?`                     | `string` \| `null`    |
+| `id_lte?`                    | `string` \| `null`    |
+| `id_not?`                    | `string` \| `null`    |
+| `id_not_in?`                 | `string`[]            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:21
 
-___
+---
 
 ### FulfilledResult
 
@@ -157,21 +157,21 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name           | Type     |
+| :------------- | :------- |
 | `_agreementId` | `string` |
-| `_amount` | `Wei` |
+| `_amount`      | `Wei`    |
 | `_conditionId` | `string` |
-| `_contract` | `string` |
-| `_did` | `string` |
-| `_receiver` | `string` |
-| `id` | `string` |
+| `_contract`    | `string` |
+| `_did`         | `string` |
+| `_receiver`    | `string` |
+| `id`           | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:69
 
-___
+---
 
 ### InitializedArgs
 
@@ -179,15 +179,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.TransferNFTCondition.md#initializedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.TransferNFTCondition.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:118
 
-___
+---
 
 ### InitializedFields
 
@@ -195,16 +195,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:114
 
-___
+---
 
 ### InitializedFilter
 
@@ -212,30 +212,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:92
 
-___
+---
 
 ### InitializedResult
 
@@ -243,16 +243,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:110
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -261,25 +261,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:10
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -287,15 +287,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.TransferNFTCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.TransferNFTCondition.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:155
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -303,17 +303,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:150
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -321,34 +321,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:123
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -356,17 +356,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:145
 
-___
+---
 
 ### RoleAdminChangedArgs
 
@@ -374,15 +374,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.TransferNFTCondition.md#roleadminchangedresult) |
+| Name | Type                                                                                               |
+| :--- | :------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.TransferNFTCondition.md#roleadminchangedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:200
 
-___
+---
 
 ### RoleAdminChangedFields
 
@@ -390,18 +390,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newAdminRole` | ``true`` |
-| `previousAdminRole` | ``true`` |
-| `role` | ``true`` |
+| Name                | Type   |
+| :------------------ | :----- |
+| `id`                | `true` |
+| `newAdminRole`      | `true` |
+| `previousAdminRole` | `true` |
+| `role`              | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:194
 
-___
+---
 
 ### RoleAdminChangedFilter
 
@@ -409,40 +409,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newAdminRole?` | `string` \| ``null`` |
-| `newAdminRole_contains?` | `string` \| ``null`` |
-| `newAdminRole_in?` | `string`[] |
-| `newAdminRole_not?` | `string` \| ``null`` |
-| `newAdminRole_not_contains?` | `string` \| ``null`` |
-| `newAdminRole_not_in?` | `string`[] |
-| `previousAdminRole?` | `string` \| ``null`` |
-| `previousAdminRole_contains?` | `string` \| ``null`` |
-| `previousAdminRole_in?` | `string`[] |
-| `previousAdminRole_not?` | `string` \| ``null`` |
-| `previousAdminRole_not_contains?` | `string` \| ``null`` |
-| `previousAdminRole_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
+| Name                              | Type               |
+| :-------------------------------- | :----------------- |
+| `id?`                             | `string` \| `null` |
+| `id_gt?`                          | `string` \| `null` |
+| `id_gte?`                         | `string` \| `null` |
+| `id_in?`                          | `string`[]         |
+| `id_lt?`                          | `string` \| `null` |
+| `id_lte?`                         | `string` \| `null` |
+| `id_not?`                         | `string` \| `null` |
+| `id_not_in?`                      | `string`[]         |
+| `newAdminRole?`                   | `string` \| `null` |
+| `newAdminRole_contains?`          | `string` \| `null` |
+| `newAdminRole_in?`                | `string`[]         |
+| `newAdminRole_not?`               | `string` \| `null` |
+| `newAdminRole_not_contains?`      | `string` \| `null` |
+| `newAdminRole_not_in?`            | `string`[]         |
+| `previousAdminRole?`              | `string` \| `null` |
+| `previousAdminRole_contains?`     | `string` \| `null` |
+| `previousAdminRole_in?`           | `string`[]         |
+| `previousAdminRole_not?`          | `string` \| `null` |
+| `previousAdminRole_not_contains?` | `string` \| `null` |
+| `previousAdminRole_not_in?`       | `string`[]         |
+| `role?`                           | `string` \| `null` |
+| `role_contains?`                  | `string` \| `null` |
+| `role_in?`                        | `string`[]         |
+| `role_not?`                       | `string` \| `null` |
+| `role_not_contains?`              | `string` \| `null` |
+| `role_not_in?`                    | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:160
 
-___
+---
 
 ### RoleAdminChangedResult
 
@@ -450,18 +450,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newAdminRole` | `string` |
+| Name                | Type     |
+| :------------------ | :------- |
+| `id`                | `string` |
+| `newAdminRole`      | `string` |
 | `previousAdminRole` | `string` |
-| `role` | `string` |
+| `role`              | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:188
 
-___
+---
 
 ### RoleGrantedArgs
 
@@ -469,15 +469,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.TransferNFTCondition.md#rolegrantedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.TransferNFTCondition.md#rolegrantedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:245
 
-___
+---
 
 ### RoleGrantedFields
 
@@ -485,18 +485,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:239
 
-___
+---
 
 ### RoleGrantedFilter
 
@@ -504,40 +504,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:205
 
-___
+---
 
 ### RoleGrantedResult
 
@@ -545,18 +545,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:233
 
-___
+---
 
 ### RoleRevokedArgs
 
@@ -564,15 +564,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.TransferNFTCondition.md#rolerevokedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.TransferNFTCondition.md#rolerevokedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:290
 
-___
+---
 
 ### RoleRevokedFields
 
@@ -580,18 +580,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:284
 
-___
+---
 
 ### RoleRevokedFilter
 
@@ -599,40 +599,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:250
 
-___
+---
 
 ### RoleRevokedResult
 
@@ -640,18 +640,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:278
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -659,10 +659,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -676,17 +676,17 @@ node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:2
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.TransferNFTCondition.md#fulfilledresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.TransferNFTCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions) |
-| `args` | [`FulfilledArgs`](subgraphs.TransferNFTCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.TransferNFTCondition.md#fulfilledargs)<`K`\>     |
 
 #### Returns
 
@@ -696,7 +696,7 @@ node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:2
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:90
 
-___
+---
 
 ### getFulfilleds
 
@@ -704,17 +704,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.TransferNFTCondition.md#fulfilledresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.TransferNFTCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                        |
+| :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                    |
 | `options` | [`MultiQueryOptions`](subgraphs.TransferNFTCondition.md#multiqueryoptions)<[`FulfilledFilter`](subgraphs.TransferNFTCondition.md#fulfilledfilter), [`FulfilledResult`](subgraphs.TransferNFTCondition.md#fulfilledresult)\> |
-| `args` | [`FulfilledArgs`](subgraphs.TransferNFTCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.TransferNFTCondition.md#fulfilledargs)<`K`\>                                                                                                                                                    |
 
 #### Returns
 
@@ -724,7 +724,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:91
 
-___
+---
 
 ### getInitializedById
 
@@ -732,17 +732,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.TransferNFTCondition.md#initializedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.TransferNFTCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.TransferNFTCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.TransferNFTCondition.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -752,7 +752,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:121
 
-___
+---
 
 ### getInitializeds
 
@@ -760,17 +760,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.TransferNFTCondition.md#initializedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.TransferNFTCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                            |
 | `options` | [`MultiQueryOptions`](subgraphs.TransferNFTCondition.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.TransferNFTCondition.md#initializedfilter), [`InitializedResult`](subgraphs.TransferNFTCondition.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.TransferNFTCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.TransferNFTCondition.md#initializedargs)<`K`\>                                                                                                                                                        |
 
 #### Returns
 
@@ -780,7 +780,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:122
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -788,17 +788,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.TransferNFTCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.TransferNFTCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.TransferNFTCondition.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                           |
+| :-------- | :--------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                       |
+| `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.TransferNFTCondition.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -808,7 +808,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:158
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -816,17 +816,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.TransferNFTCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.TransferNFTCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                    |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.TransferNFTCondition.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.TransferNFTCondition.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.TransferNFTCondition.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.TransferNFTCondition.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.TransferNFTCondition.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                          |
 
 #### Returns
 
@@ -836,7 +836,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:159
 
-___
+---
 
 ### getRoleAdminChangedById
 
@@ -844,17 +844,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.TransferNFTCondition.md#roleadminchangedresult) |
+| Name | Type                                                                                               |
+| :--- | :------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.TransferNFTCondition.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions) |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.TransferNFTCondition.md#roleadminchangedargs)<`K`\> |
+| Name      | Type                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                               |
+| `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions)           |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.TransferNFTCondition.md#roleadminchangedargs)<`K`\> |
 
 #### Returns
 
@@ -864,7 +864,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:203
 
-___
+---
 
 ### getRoleAdminChangeds
 
@@ -872,17 +872,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.TransferNFTCondition.md#roleadminchangedresult) |
+| Name | Type                                                                                               |
+| :--- | :------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.TransferNFTCondition.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                    |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `url`     | `string`                                                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.TransferNFTCondition.md#multiqueryoptions)<[`RoleAdminChangedFilter`](subgraphs.TransferNFTCondition.md#roleadminchangedfilter), [`RoleAdminChangedResult`](subgraphs.TransferNFTCondition.md#roleadminchangedresult)\> |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.TransferNFTCondition.md#roleadminchangedargs)<`K`\> |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.TransferNFTCondition.md#roleadminchangedargs)<`K`\>                                                                                                                                                                  |
 
 #### Returns
 
@@ -892,7 +892,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:204
 
-___
+---
 
 ### getRoleGrantedById
 
@@ -900,17 +900,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.TransferNFTCondition.md#rolegrantedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.TransferNFTCondition.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions) |
-| `args` | [`RoleGrantedArgs`](subgraphs.TransferNFTCondition.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.TransferNFTCondition.md#rolegrantedargs)<`K`\> |
 
 #### Returns
 
@@ -920,7 +920,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:248
 
-___
+---
 
 ### getRoleGranteds
 
@@ -928,17 +928,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.TransferNFTCondition.md#rolegrantedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.TransferNFTCondition.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                            |
 | `options` | [`MultiQueryOptions`](subgraphs.TransferNFTCondition.md#multiqueryoptions)<[`RoleGrantedFilter`](subgraphs.TransferNFTCondition.md#rolegrantedfilter), [`RoleGrantedResult`](subgraphs.TransferNFTCondition.md#rolegrantedresult)\> |
-| `args` | [`RoleGrantedArgs`](subgraphs.TransferNFTCondition.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.TransferNFTCondition.md#rolegrantedargs)<`K`\>                                                                                                                                                        |
 
 #### Returns
 
@@ -948,7 +948,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:249
 
-___
+---
 
 ### getRoleRevokedById
 
@@ -956,17 +956,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.TransferNFTCondition.md#rolerevokedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.TransferNFTCondition.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.TransferNFTCondition.md#singlequeryoptions) |
-| `args` | [`RoleRevokedArgs`](subgraphs.TransferNFTCondition.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.TransferNFTCondition.md#rolerevokedargs)<`K`\> |
 
 #### Returns
 
@@ -976,7 +976,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/TransferNFTCondition.d.ts:293
 
-___
+---
 
 ### getRoleRevokeds
 
@@ -984,17 +984,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.TransferNFTCondition.md#rolerevokedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.TransferNFTCondition.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                            |
 | `options` | [`MultiQueryOptions`](subgraphs.TransferNFTCondition.md#multiqueryoptions)<[`RoleRevokedFilter`](subgraphs.TransferNFTCondition.md#rolerevokedfilter), [`RoleRevokedResult`](subgraphs.TransferNFTCondition.md#rolerevokedresult)\> |
-| `args` | [`RoleRevokedArgs`](subgraphs.TransferNFTCondition.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.TransferNFTCondition.md#rolerevokedargs)<`K`\>                                                                                                                                                        |
 
 #### Returns
 

@@ -35,12 +35,12 @@ Fill this section in if you know how this could or should be fixed.
 
 Please provide any relevant information about your setup. This is important in case the issue is not reproducible except for under certain conditions.
 
-* Version: x.x.x
-* Python: x.x
-* Solidity: x.x.x
-* JavaScript: x.x.x
-* Node: x.x.x
-* OS: macOS/linux/win
+- Version: x.x.x
+- Python: x.x
+- Solidity: x.x.x
+- JavaScript: x.x.x
+- Node: x.x.x
+- OS: macOS/linux/win
 
 ## Failure Logs
 

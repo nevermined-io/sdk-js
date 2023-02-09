@@ -10,5 +10,5 @@ export * from './BigNumber'
 export * from './MakeAccounts'
 
 export function makeBuffer(a, b) {
-    return Buffer.from(a, b)
+  return Buffer.from(a, b)
 }

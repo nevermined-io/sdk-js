@@ -53,7 +53,7 @@
 
 Re-exports [Condition](../classes/Condition.md)
 
-___
+---
 
 ### ConditionState
 
@@ -63,7 +63,7 @@ Re-exports [ConditionState](../enums/ConditionState.md)
 
 ### ConditionMethod
 
-Ƭ **ConditionMethod**: ``"fulfill"`` \| ``"fulfillForDelegate"``
+Ƭ **ConditionMethod**: `"fulfill"` \| `"fulfillForDelegate"`
 
 #### Defined in
 
