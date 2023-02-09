@@ -272,12 +272,14 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
             const escrowPaymentConditionBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
+            await sleep(3000)
             const receipt = await nevermined.nfts1155.releaseRewards(
                 agreementId,
                 ddo.id,
                 numberEditions,
                 artist
             )
+            await sleep(3000)
             assert.isTrue(receipt)
 
             const escrowPaymentConditionBalanceAfter = await token.balanceOf(
