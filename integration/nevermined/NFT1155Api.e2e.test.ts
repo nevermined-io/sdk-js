@@ -110,12 +110,12 @@ function makeTest(isCustom) {
 
         await nevermined.contracts.loadNft1155(nftContract.address)
 
-        const nftContractOwner = new Account(await nevermined.nfts1155.owner())
+        const nftContractOwner = new Account(artist.getId())
         await nftContract.grantOperatorRole(transferNftCondition.address, nftContractOwner)
       }
 
       // components
-      ({ token } = nevermined.keeper)
+      ;({ token } = nevermined.keeper)
 
       scale = BigNumber.from(10).pow(await token.decimals())
 
@@ -320,7 +320,6 @@ function makeTest(isCustom) {
       })
 
       it('Ask the Node to transfer the nft and release the rewards', async () => {
-        console.log('here...', agreementId, artist.getId(), collector1.getId(), numberEditions)
         const result = await nevermined.nfts1155.claim(
           agreementId,
           artist.getId(),
