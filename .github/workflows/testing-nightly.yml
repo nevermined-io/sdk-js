@@ -5,14 +5,58 @@ on:
     - cron: '30 5 * * *'
 
 jobs:
-  e2e:
+  unit-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.7.1
+
+      - name: Install dependencies
+        run: |
+          yarn
+      - name: Run linters
+        run: yarn lint
+
+      - name: Start ganache
+        run: yarn ganache --port 18545 --chain.chainId 8998 &
+
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/contracts
+          ref: 'master'
+          path: contracts
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Deploy contracts
+        run: |
+          cd contracts
+          yarn
+          export TESTNET=true
+          export NETWORK=external
+          ./scripts/build-circuit.sh
+          yarn deploy
+          mv artifacts ..
+          mv circuits ..
+          cd ..
+          rm -rf contracts
+
+      - name: Run unit tests
+        env:
+          ETH_PORT: 18545
+        run: |
+          yarn run test:cover
+
+  subgraph-integration:
+    runs-on: ubuntu-latest
+    if: ${{ false }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
@@ -24,29 +68,18 @@ jobs:
       - name: Install dependencies
         run: |
           yarn
-      - name: Run linters
-        run: yarn lint
 
       - name: Check artifacts
         run: |
           nvm-tools copy-artifacts ./artifacts
           ls -l artifacts
 
-      - name: Start ganache
-        run: yarn ganache --port 18545 --chain.chainId 8998 &
-
-      - name: Run unit tests
-        env:
-          ETH_PORT: 18545
-        run: |
-          yarn run test:cover
-
       - name: Run subgraph integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
         run: |
-          export ${{ matrix.delay }}=true
+          export GRAPH_DELAY=true
           npm run integration:subgraph
 
       - name: Run compute integration tests
@@ -58,16 +91,64 @@ jobs:
         run: |
           yarn run integration:compute
 
-      - name: Run external tests
+  compute-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Check artifacts
+        run: |
+          nvm-tools copy-artifacts ./artifacts
+          ls -l artifacts
+
+      - name: Run compute integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
-          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-          IPFS_GATEWAY: https://ipfs.infura.io:5001
-          IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
-          IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
-          LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
           NO_GRAPH: true
-        run: yarn run integration:external
+          NEVERMINED_NODE_URI: http://node.nevermined.localnet
+          WEB3_PROVIDER_URL: http://contracts.nevermined.localnet
+        run: |
+          yarn run integration:compute
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Check artifacts
+        run: |
+          nvm-tools copy-artifacts ./artifacts
+          ls -l artifacts
 
       - name: Run integration tests
         env:
@@ -80,7 +161,7 @@ jobs:
           NO_GRAPH: true
         run: yarn run integration:cover
 
-  integration:
+  mumbai-integration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -103,6 +184,7 @@ jobs:
           SEED_WORDS: ${{ secrets.TEST_MNEMONIC_NIGHTLY }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
           IPFS_GATEWAY: https://ipfs.infura.io:5001
+          GRAPH_DELAY: 'true'
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
         run: |
