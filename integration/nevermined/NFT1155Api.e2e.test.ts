@@ -22,7 +22,7 @@ import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
-const DELAY = 10000
+const DELAY = 20000
 
 function makeTest(isCustom) {
 describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () => {
@@ -226,7 +226,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
 
             console.log(
                 `${collector1BalanceBefore} - ${nftPrice} == ${collector1BalanceAfter}`,
-                `${escrowPaymentConditionBalanceBefore} + ${nftPrice} + ${escrowPaymentConditionBalanceAfter}`,
+                `${escrowPaymentConditionBalanceBefore} + ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`,
             )
 
             assert.isTrue(
