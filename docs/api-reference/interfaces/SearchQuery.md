@@ -10,7 +10,7 @@
 - [offset](SearchQuery.md#offset)
 - [page](SearchQuery.md#page)
 - [query](SearchQuery.md#query)
-- [show\_unlisted](SearchQuery.md#show_unlisted)
+- [show_unlisted](SearchQuery.md#show_unlisted)
 - [sort](SearchQuery.md#sort)
 - [text](SearchQuery.md#text)
 
@@ -24,7 +24,7 @@
 
 [src/common/interfaces.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/common/interfaces.ts#L20)
 
-___
+---
 
 ### offset
 
@@ -34,7 +34,7 @@ ___
 
 [src/common/interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/common/interfaces.ts#L14)
 
-___
+---
 
 ### page
 
@@ -44,7 +44,7 @@ ___
 
 [src/common/interfaces.ts:15](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/common/interfaces.ts#L15)
 
-___
+---
 
 ### query
 
@@ -54,17 +54,17 @@ ___
 
 [src/common/interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/common/interfaces.ts#L17)
 
-___
+---
 
-### show\_unlisted
+### show_unlisted
 
-• `Optional` **show\_unlisted**: `boolean`
+• `Optional` **show_unlisted**: `boolean`
 
 #### Defined in
 
 [src/common/interfaces.ts:19](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/common/interfaces.ts#L19)
 
-___
+---
 
 ### sort
 
@@ -74,7 +74,7 @@ ___
 
 [src/common/interfaces.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/common/interfaces.ts#L18)
 
-___
+---
 
 ### text
 

@@ -1,5 +1,5 @@
 export class ApiError extends Error {
-    constructor(message: string) {
-        super(`Api error: ${message}`)
-    }
+  constructor(message: string) {
+    super(`Api error: ${message}`)
+  }
 }

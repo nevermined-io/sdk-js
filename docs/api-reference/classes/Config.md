@@ -45,7 +45,7 @@
 
 [src/models/Config.ts:71](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L71)
 
-___
+---
 
 ### accounts
 
@@ -55,7 +55,7 @@ ___
 
 [src/models/Config.ts:78](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L78)
 
-___
+---
 
 ### artifactsFolder
 
@@ -67,7 +67,7 @@ The folder where the nevermined contract artifacts are located.
 
 [src/models/Config.ts:76](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L76)
 
-___
+---
 
 ### authMessage
 
@@ -79,7 +79,7 @@ Message shown when the user creates its own token.
 
 [src/models/Config.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L51)
 
-___
+---
 
 ### authTokenExpiration
 
@@ -91,7 +91,7 @@ Token expiration time in ms.
 
 [src/models/Config.ts:56](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L56)
 
-___
+---
 
 ### faucetUri
 
@@ -103,7 +103,7 @@ Faucet URL.
 
 [src/models/Config.ts:26](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L26)
 
-___
+---
 
 ### feeReceiver
 
@@ -115,7 +115,7 @@ The address receiving the fee if this is higher than 0
 
 [src/models/Config.ts:90](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L90)
 
-___
+---
 
 ### gasMultiplier
 
@@ -128,7 +128,7 @@ Can be used to speed up the transactions.
 
 [src/models/Config.ts:64](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L64)
 
-___
+---
 
 ### neverminedNodeAddress
 
@@ -140,7 +140,7 @@ Address of Nevermined Node.
 
 [src/models/Config.ts:31](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L31)
 
-___
+---
 
 ### neverminedNodeUri
 
@@ -152,7 +152,7 @@ Nevermined Node URL.
 
 [src/models/Config.ts:21](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L21)
 
-___
+---
 
 ### graphHttpUri
 
@@ -164,7 +164,7 @@ Enpoint for the graph-node http query
 
 [src/models/Config.ts:69](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L69)
 
-___
+---
 
 ### marketplaceAuthToken
 
@@ -176,7 +176,7 @@ Marketplace auth token.
 
 [src/models/Config.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L16)
 
-___
+---
 
 ### marketplaceUri
 
@@ -188,7 +188,7 @@ MarketPlace URL.
 
 [src/models/Config.ts:11](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L11)
 
-___
+---
 
 ### networkFee
 
@@ -200,7 +200,7 @@ The fee charged by Nevermined for using the Service Agreements
 
 [src/models/Config.ts:85](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L85)
 
-___
+---
 
 ### web3ProviderUri
 
@@ -212,7 +212,7 @@ Ethereum node URL.
 
 [src/models/Config.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L36)
 
-___
+---
 
 ### threshold
 
@@ -222,7 +222,7 @@ ___
 
 [src/models/Config.ts:58](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L58)
 
-___
+---
 
 ### verbose
 
@@ -234,7 +234,7 @@ Log level.
 
 [src/models/Config.ts:46](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/models/Config.ts#L46)
 
-___
+---
 
 ### web3Provider
 

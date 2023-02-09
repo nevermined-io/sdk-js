@@ -6,7 +6,7 @@
 
 ## Type parameters
 
-| Name |
+| Name    |
 | :------ |
 | `Extra` |
 
@@ -27,7 +27,7 @@
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:27](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L27)
 
-___
+---
 
 ### params
 
@@ -39,10 +39,10 @@ ___
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                                                          |
+| :------- | :------------------------------------------------------------ |
 | `method` | [`ConditionMethod`](../modules/conditions.md#conditionmethod) |
-| `arg` | `Extra` |
+| `arg`    | `Extra`                                                       |
 
 ##### Returns
 

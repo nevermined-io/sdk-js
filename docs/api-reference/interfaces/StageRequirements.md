@@ -16,11 +16,11 @@
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type     |
+| :--------- | :------- |
 | `checksum` | `string` |
-| `image` | `string` |
-| `tag` | `string` |
+| `image`    | `string` |
+| `tag`      | `string` |
 
 #### Defined in
 

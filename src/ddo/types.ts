@@ -4,158 +4,186 @@ import { BigNumber } from 'ethers'
 import { ERCType, NeverminedNFTType, AssetPrice, Babysig } from '../models'
 
 export interface Authentication {
-    type: string
-    publicKey: string
+  type: string
+  publicKey: string
 }
 
 export interface Provider {
-    type: string
-    description: string
-    environment: {
-        cluster: {
-            type: string
-            url: string
-        }
-        supportedContainers: {
-            image: string
-            tag: string
-            checksum: string
-        }[]
-        supportedServers: {
-            serverId: string
-            serverType: string
-            price: string
-            cpu: string
-            gpu: string
-            memory: string
-            disk: string
-            maxExecutionTime: number
-        }[]
+  type: string
+  description: string
+  environment: {
+    cluster: {
+      type: string
+      url: string
     }
+    supportedContainers: {
+      image: string
+      tag: string
+      checksum: string
+    }[]
+    supportedServers: {
+      serverId: string
+      serverType: string
+      price: string
+      cpu: string
+      gpu: string
+      memory: string
+      disk: string
+      maxExecutionTime: number
+    }[]
+  }
 }
 
 export interface StageInput {
-    index: number
-    id: string
+  index: number
+  id: string
 }
 
 export interface StageTransformation {
-    id: string
+  id: string
 }
 
 export interface StageOutput {
-    metadataUrl: string
-    accessProxyUrl: string
-    metadata: MetaDataMain
+  metadataUrl: string
+  accessProxyUrl: string
+  metadata: MetaDataMain
 }
 
 export interface Stage {
-    index: number
-    stageType?: string
-    input: StageInput[]
-    transformation: StageTransformation
-    output: StageOutput
+  index: number
+  stageType?: string
+  input: StageInput[]
+  transformation: StageTransformation
+  output: StageOutput
 }
 
 export interface Workflow {
-    coordinationType: 'argo' | 'fl-coordinator' | 'bacalhau'
-    stages: Stage[]
+  coordinationType: 'argo' | 'fl-coordinator' | 'bacalhau'
+  stages: Stage[]
 }
 
 export interface Algorithm {
-    language: string
-    format?: string
+  language: string
+  format?: string
+  version?: string
+  entrypoint: string
+  requirements: {
+    requirement?: string
     version?: string
-    entrypoint: string
-    requirements: {
-        requirement?: string
-        version?: string
-        container?: any
-    }
+    container?: any
+  }
 }
 
 export interface ServiceDefinition {
-    auth: {
-        type: string
-        user?: string
-        password?: string
-        token?: string
-    }
-    endpoints: {
-        index: number
-        url: string
-        method: string
-        contentTypes: string[]
-    }
+  auth: {
+    type: string
+    user?: string
+    password?: string
+    token?: string
+  }
+  endpoints: {
+    index: number
+    url: string
+    method: string
+    contentTypes: string[]
+  }
 }
 
 export interface ServiceMetadata {
-    spec?: string
-    specChecksum?: string
-    definition: ServiceDefinition
+  spec?: string
+  specChecksum?: string
+  definition: ServiceDefinition
 }
 
-export interface MetaDataFile {
-    /**
-     * File name.
-     */
-    name?: string
+export interface MetaDataExternalResource {
+  /**
+   * File name.
+   */
+  name?: string
 
-    /**
-     * File URL.
-     */
-    url: string
+  /**
+   * File URL.
+   */
+  url: string
 
-    /**
-     * File index.
-     */
-    index?: number
+  /**
+   * File index.
+   */
+  index?: number
 
-    /**
-     * File format, if applicable.
-     * @example "text/csv"
-     */
-    contentType: string
+  /**
+   * File format, if applicable.
+   * @example "text/csv"
+   */
+  contentType: string
 
-    /**
-     * File checksum.
-     */
-    checksum?: string
+  /**
+   * File checksum.
+   */
+  checksum?: string
 
-    /**
-     * Checksum hash algorithm.
-     */
-    checksumType?: string
+  /**
+   * Checksum hash algorithm.
+   */
+  checksumType?: string
 
-    /**
-     * File content length.
-     */
-    contentLength?: string
+  /**
+   * File content length.
+   */
+  contentLength?: string
 
-    /**
-     * Resource ID (depending on the source).
-     */
-    resourceId?: string
+  /**
+   * Resource ID (depending on the source).
+   */
+  resourceId?: string
 
-    /**
-     * File encoding.
-     * @example "UTF-8"
-     */
-    encoding?: string
+  /**
+   * File encoding.
+   * @example "UTF-8"
+   */
+  encoding?: string
 
-    /**
-     * File compression (e.g. no, gzip, bzip2, etc).
-     * @example "zip"
-     */
-    compression?: string
+  /**
+   * File compression (e.g. no, gzip, bzip2, etc).
+   * @example "zip"
+   */
+  compression?: string
 
-    /**
-     * Encryption mode used.
-     *
-     * @remarks
-     * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
-     */
-    encryption?: 'dtp'
+  /**
+   * Encryption mode used.
+   *
+   * @remarks
+   * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
+   */
+  encryption?: 'dtp'
+}
+
+/**
+ * Interface describing an asset of type `service`
+ */
+export interface WebService {
+  type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
+
+  endpoints?: { [verb: string]: string }[]
+
+  internalAttributes?: WebServiceInternalAttributes
+
+  encryptedAttributes?: string
+}
+
+export interface WebServiceInternalAttributes {
+  authentication?: ResourceAuthentication
+
+  headers?: { [verb: string]: string }[]
+}
+
+export interface ResourceAuthentication {
+  type: 'none' | 'basic' | 'oauth'
+
+  user?: string
+  password?: string
+  token?: string
+  privateParameters?: { [name: string]: string }[]
 }
 
 /**
@@ -163,65 +191,67 @@ export interface MetaDataFile {
  * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md
  */
 export interface MetaDataMain {
-    /**
-     * Descriptive name of the Asset.
-     * @example "UK Weather information 2011"
-     */
-    name: string
+  /**
+   * Descriptive name of the Asset.
+   * @example "UK Weather information 2011"
+   */
+  name: string
 
-    /**
-     * Type of the Asset. Helps to filter by the type of asset,
-     * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
-     * @example "dataset"
-     */
-    type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'other'
+  /**
+   * Type of the Asset. Helps to filter by the type of asset,
+   * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
+   * @example "dataset"
+   */
+  type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'service' | 'other'
 
-    /**
-     * The date on which the asset was created by the originator in
-     * ISO 8601 format, Coordinated Universal Time.
-     * @example "2019-01-31T08:38:32Z"
-     */
-    dateCreated: string
+  /**
+   * The date on which the asset was created by the originator in
+   * ISO 8601 format, Coordinated Universal Time.
+   * @example "2019-01-31T08:38:32Z"
+   */
+  dateCreated: string
 
-    /**
-     * The date on which the asset DDO was registered into the metadata store.
-     * This value is created automatically by Metadata upon registering,
-     * so this value can't be set.
-     * @example "2019-01-31T08:38:32Z"
-     */
-    datePublished?: string
+  /**
+   * The date on which the asset DDO was registered into the metadata store.
+   * This value is created automatically by Metadata upon registering,
+   * so this value can't be set.
+   * @example "2019-01-31T08:38:32Z"
+   */
+  datePublished?: string
 
-    /**
-     * Name of the entity generating this data (e.g. Tfl, Disney Corp, etc.).
-     * @example "Met Office"
-     */
-    author: string
+  /**
+   * Name of the entity generating this data (e.g. Tfl, Disney Corp, etc.).
+   * @example "Met Office"
+   */
+  author: string
 
-    /**
-     * Short name referencing the license of the asset (e.g. Public Domain, CC-0, CC-BY, No License Specified, etc. ).
-     * If it's not specified, the following value will be added: "No License Specified".
-     * @example "CC-BY"
-     */
-    license: string
+  /**
+   * Short name referencing the license of the asset (e.g. Public Domain, CC-0, CC-BY, No License Specified, etc. ).
+   * If it's not specified, the following value will be added: "No License Specified".
+   * @example "CC-BY"
+   */
+  license: string
 
-    /**
-     * Array of File objects including the encrypted file urls and some additional information.
-     */
-    files?: MetaDataFile[]
+  /**
+   * Array of File objects including the encrypted file urls and some additional information.
+   */
+  files?: MetaDataExternalResource[]
 
-    encryptedService?: any
+  webService?: WebService
 
-    workflow?: Workflow
+  encryptedService?: any
 
-    algorithm?: Algorithm
+  workflow?: Workflow
 
-    service?: Service
+  algorithm?: Algorithm
 
-    ercType?: ERCType
+  service?: Service
 
-    nftType?: NeverminedNFTType
+  ercType?: ERCType
 
-    isDTP?: boolean
+  nftType?: NeverminedNFTType
+
+  isDTP?: boolean
 }
 
 /**
@@ -229,29 +259,29 @@ export interface MetaDataMain {
  * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md#curation-attributes
  */
 export interface Curation {
-    /**
-     * Decimal value between 0 and 1. 0 is the default value.
-     * @example 0.93
-     */
-    rating: number
+  /**
+   * Decimal value between 0 and 1. 0 is the default value.
+   * @example 0.93
+   */
+  rating: number
 
-    /**
-     * Number of votes. 0 is the default value.
-     * @example 123
-     */
-    numVotes: number
+  /**
+   * Number of votes. 0 is the default value.
+   * @example 123
+   */
+  numVotes: number
 
-    /**
-     * Schema applied to calculate the rating.
-     * @example "Binary Voting"
-     */
-    schema?: string
+  /**
+   * Schema applied to calculate the rating.
+   * @example "Binary Voting"
+   */
+  schema?: string
 
-    /**
-     * Flag unsuitable content.
-     * @example true
-     */
-    isListed?: boolean
+  /**
+   * Flag unsuitable content.
+   * @example true
+   */
+  isListed?: boolean
 }
 
 /**
@@ -259,144 +289,144 @@ export interface Curation {
  * @see https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metadata/README.md#additional-attributes
  */
 export interface AdditionalInformation {
-    /**
-     * Details of what the resource is. For a dataset, this attribute
-     * explains what the data represents and what it can be used for.
-     * @example "Weather information of UK including temperature and humidity"
-     */
-    description?: string
+  /**
+   * Details of what the resource is. For a dataset, this attribute
+   * explains what the data represents and what it can be used for.
+   * @example "Weather information of UK including temperature and humidity"
+   */
+  description?: string
 
-    /**
-     * The party holding the legal copyright. Empty by default.
-     * @example "Met Office"
-     */
-    copyrightHolder?: string
+  /**
+   * The party holding the legal copyright. Empty by default.
+   * @example "Met Office"
+   */
+  copyrightHolder?: string
 
-    /**
-     * Example of the concept of this asset. This example is part
-     * of the metadata, not an external link.
-     * @example "423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68"
-     */
-    workExample?: string
+  /**
+   * Example of the concept of this asset. This example is part
+   * of the metadata, not an external link.
+   * @example "423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68"
+   */
+  workExample?: string
 
-    /**
-     * Mapping of links for data samples, or links to find out more information.
-     * Links may be to either a URL or another Asset. We expect marketplaces to
-     * converge on agreements of typical formats for linked data: Nevermined
-     * itself does not mandate any specific formats as these requirements are likely
-     * to be domain-specific.
-     * @example
-     * ```ts
-     * [
-     *    {
-     *      anotherSample: "http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/",
-     *    },
-     *    {
-     *      fieldsDescription: "http://data.ceda.ac.uk/badc/ukcp09/",
-     *    },
-     *  ]
-     * ```
-     */
-    links?: { [name: string]: string }[]
+  /**
+   * Mapping of links for data samples, or links to find out more information.
+   * Links may be to either a URL or another Asset. We expect marketplaces to
+   * converge on agreements of typical formats for linked data: Nevermined
+   * itself does not mandate any specific formats as these requirements are likely
+   * to be domain-specific.
+   * @example
+   * ```ts
+   * [
+   *    {
+   *      anotherSample: "http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/",
+   *    },
+   *    {
+   *      fieldsDescription: "http://data.ceda.ac.uk/badc/ukcp09/",
+   *    },
+   *  ]
+   * ```
+   */
+  links?: { [name: string]: string }[]
 
-    /**
-     * The language of the content. Please use one of the language
-     * codes from the {@link https://tools.ietf.org/html/bcp47 | IETF BCP 47 standard}.
-     * @example "en"
-     */
-    inLanguage?: string
+  /**
+   * The language of the content. Please use one of the language
+   * codes from the {@link https://tools.ietf.org/html/bcp47 | IETF BCP 47 standard}.
+   * @example "en"
+   */
+  inLanguage?: string
 
-    /**
-     * Categories used to describe this content. Empty by default.
-     * @example ["Economy", "Data Science"]
-     */
-    categories?: string[]
+  /**
+   * Categories used to describe this content. Empty by default.
+   * @example ["Economy", "Data Science"]
+   */
+  categories?: string[]
 
-    /**
-     * Keywords or tags used to describe this content. Empty by default.
-     * @example ["weather", "uk", "2011", "temperature", "humidity"]
-     */
-    tags?: string[]
+  /**
+   * Keywords or tags used to describe this content. Empty by default.
+   * @example ["weather", "uk", "2011", "temperature", "humidity"]
+   */
+  tags?: string[]
 
-    /**
-     * An indication of update latency - i.e. How often are updates expected (seldom,
-     * annually, quarterly, etc.), or is the resource static that is never expected
-     * to get updated.
-     * @example "yearly"
-     */
-    updateFrequency?: string
+  /**
+   * An indication of update latency - i.e. How often are updates expected (seldom,
+   * annually, quarterly, etc.), or is the resource static that is never expected
+   * to get updated.
+   * @example "yearly"
+   */
+  updateFrequency?: string
 
-    /**
-     * A link to machine-readable structured markup (such as ttl/json-ld/rdf)
-     * describing the dataset.
-     */
-    structuredMarkup?: {
-        uri: string
-        mediaType: string
-    }[]
+  /**
+   * A link to machine-readable structured markup (such as ttl/json-ld/rdf)
+   * describing the dataset.
+   */
+  structuredMarkup?: {
+    uri: string
+    mediaType: string
+  }[]
 
-    /**
-     * A dynamic field containing marketplace specific data.
-     * Can be used to store any non-default data, needs to be checked
-     */
-    customData?: {
-        [key: string]: any
-    }
+  /**
+   * A dynamic field containing marketplace specific data.
+   * Can be used to store any non-default data, needs to be checked
+   */
+  customData?: {
+    [key: string]: any
+  }
 
-    poseidonHash?: string
+  poseidonHash?: string
 
-    providerKey?: {
-        x: string
-        y: string
-    }
+  providerKey?: {
+    x: string
+    y: string
+  }
 
-    /**
-     * Price store in the highest denomination and stored as a
-     * number on elastic search
-     *
-     * @remarks
-     * We currently do this because elasticsearch does not support
-     * BigNumbers
-     */
-    priceHighestDenomination?: number
+  /**
+   * Price store in the highest denomination and stored as a
+   * number on elastic search
+   *
+   * @remarks
+   * We currently do this because elasticsearch does not support
+   * BigNumbers
+   */
+  priceHighestDenomination?: number
 }
 
 export interface MetaData {
-    userId?: string
-    main: MetaDataMain
-    encryptedFiles?: string
-    additionalInformation?: AdditionalInformation
-    curation?: Curation
+  userId?: string
+  main: MetaDataMain
+  encryptedFiles?: string
+  additionalInformation?: AdditionalInformation
+  curation?: Curation
 }
 
 /**
  * Public key data.
  */
 export interface PublicKey {
-    /**
-     * ID of the key.
-     * @example "did:nv:123456789abcdefghi#keys-1"
-     */
-    id: string
+  /**
+   * ID of the key.
+   * @example "did:nv:123456789abcdefghi#keys-1"
+   */
+  id: string
 
-    /**
-     * Type of key.
-     */
-    type:
-        | 'Ed25519VerificationKey2018'
-        | 'RsaVerificationKey2018'
-        | 'EdDsaSAPublicKeySecp256k1'
-        | 'EthereumECDSAKey'
+  /**
+   * Type of key.
+   */
+  type:
+    | 'Ed25519VerificationKey2018'
+    | 'RsaVerificationKey2018'
+    | 'EdDsaSAPublicKeySecp256k1'
+    | 'EthereumECDSAKey'
 
-    /**
-     * Key owner.
-     * @example "did:nv:123456789abcdefghi"
-     */
-    owner: string
+  /**
+   * Key owner.
+   * @example "did:nv:123456789abcdefghi"
+   */
+  owner: string
 
-    publicKeyPem?: string
-    publicKeyBase58?: string
-    publicKeyHex?: string
+  publicKeyPem?: string
+  publicKeyBase58?: string
+  publicKeyHex?: string
 }
 
 /**
@@ -423,295 +453,290 @@ export interface PublicKey {
  * ```
  */
 export interface NvmConfig {
-    /**
-     * The `userId` will be a `string` storing an identifier in `UUID` format.
-     *
-     * @remarks
-     * Used to identify a user in the marketplace api
-     */
-    userId: string
-    /**
-     * The `appId` will be a `string` storing an identifier in `UUID` format.
-     *
-     * @remarks
-     * Used to identity the application responsible for the DDO in the marketplace-api.
-     * Useful for querying assets belonging to a particular app, allowing us to have multiple
-     * apps using the same marketplace api
-     */
-    appId: string
-    /**
-     * The `versions` list stores the reference to all the changes done to the Metadata document.
-     */
-    versions: NvmConfigVersions[]
+  /**
+   * The `userId` will be a `string` storing an identifier in `UUID` format.
+   *
+   * @remarks
+   * Used to identify a user in the marketplace api
+   */
+  userId: string
+  /**
+   * The `appId` will be a `string` storing an identifier in `UUID` format.
+   *
+   * @remarks
+   * Used to identity the application responsible for the DDO in the marketplace-api.
+   * Useful for querying assets belonging to a particular app, allowing us to have multiple
+   * apps using the same marketplace api
+   */
+  appId: string
+  /**
+   * The `versions` list stores the reference to all the changes done to the Metadata document.
+   */
+  versions: NvmConfigVersions[]
 }
 
 export enum ImmutableBackends {
-    Filecoin = 'filecoin',
-    IPFS = 'ipfs'
+  Filecoin = 'filecoin',
+  IPFS = 'ipfs',
 }
 
 export interface NvmConfigVersions {
-    /**
-     * The id of the DDO revision.
-     *
-     * @remarks
-     * This is a self incrementing number
-     */
-    id: number
-    /**
-     * The date when the update occurred.
-     */
-    updated: string
-    /**
-     * The checksum of the document
-     */
-    checksum: string
+  /**
+   * The id of the DDO revision.
+   *
+   * @remarks
+   * This is a self incrementing number
+   */
+  id: number
+  /**
+   * The date when the update occurred.
+   */
+  updated: string
+  /**
+   * The checksum of the document
+   */
+  checksum: string
 
-    /**
-     * ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arweave, ..)
-     */
-    immutableUrl?: string
+  /**
+   * ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arweave, ..)
+   */
+  immutableUrl?: string
 
-    /**
-     * The immutable solution to record the DDO
-     */
-    immutableBackend?: ImmutableBackends
+  /**
+   * The immutable solution to record the DDO
+   */
+  immutableBackend?: ImmutableBackends
 }
 
 export type ConditionType =
-    | 'lockPayment'
-    | 'escrowPayment'
-    | 'nftHolder'
-    | 'transferNFT'
-    | AaveConditionType
+  | 'lockPayment'
+  | 'escrowPayment'
+  | 'nftHolder'
+  | 'transferNFT'
+  | AaveConditionType
 
 export type ServiceType =
-    | 'authorization'
-    | 'metadata'
-    | 'access'
-    | 'compute'
-    | 'workflow'
-    | 'nft-access'
-    | 'nft-sales'
-    | 'aave-credit'
-    | 'nft-sales-proof'
+  | 'authorization'
+  | 'metadata'
+  | 'access'
+  | 'compute'
+  | 'workflow'
+  | 'nft-access'
+  | 'nft-sales'
+  | 'aave-credit'
+  | 'nft-sales-proof'
 
 export const serviceIndex = {
-    authorization: 2,
-    metadata: 0,
-    access: 3,
-    'access-proof': 10,
-    compute: 4,
-    workflow: 5,
-    'nft-access': 7,
-    'nft-sales': 6,
-    'nft721-access': 9,
-    'nft721-sales': 8,
-    'aave-credit': 11,
-    'nft-access-proof': 12,
-    'nft-sales-proof': 13,
-    'nft721-access-proof': 14,
-    'nft721-sales-proof': 15
+  authorization: 2,
+  metadata: 0,
+  access: 3,
+  'access-proof': 10,
+  compute: 4,
+  workflow: 5,
+  'nft-access': 7,
+  'nft-sales': 6,
+  'nft721-access': 9,
+  'nft721-sales': 8,
+  'aave-credit': 11,
+  'nft-access-proof': 12,
+  'nft-sales-proof': 13,
+  'nft721-access-proof': 14,
+  'nft721-sales-proof': 15,
 }
 export interface ServiceCommon {
-    type: ServiceType
-    index: number
-    serviceEndpoint?: string
-    templateId?: string
-    attributes: any & {
-        main: { [key: string]: any }
-    }
+  type: ServiceType
+  index: number
+  serviceEndpoint?: string
+  templateId?: string
+  attributes: any & {
+    main: { [key: string]: any }
+  }
 }
 
 export type Priced = {
-    attributes: {
-        main: {
-            price: string
-        }
-        additionalInformation: {
-            priceHighestDenomination: number
-        }
+  attributes: {
+    main: {
+      price: string
     }
+    additionalInformation: {
+      priceHighestDenomination: number
+    }
+  }
 }
 
 export interface Proof {
-    type: string
-    created: string
-    creator: string
-    signatureValue: string
-    checksum: any
+  type: string
+  created: string
+  creator: string
+  signatureValue: string
+  checksum: any
 }
 
 export interface ServiceAuthorization extends ServiceCommon {
-    type: 'authorization'
-    service: 'None' | 'RSAES-OAEP'
+  type: 'authorization'
+  service: 'None' | 'RSAES-OAEP'
 }
 
 export interface ServiceMetadata extends ServiceCommon {
-    type: 'metadata'
-    attributes: MetaData
+  type: 'metadata'
+  attributes: MetaData
 }
 
 export interface ServiceAccess extends ServiceCommon, Priced {
-    type: 'access'
-    templateId?: string
-    attributes: {
-        main: {
-            creator: string
-            name: string
-            datePublished: string
-            price: string
-            timeout: number
-        }
-        serviceAgreementTemplate?: ServiceAgreementTemplate
-        additionalInformation: {
-            description: string
-            priceHighestDenomination: number
-        }
+  type: 'access'
+  templateId?: string
+  attributes: {
+    main: {
+      creator: string
+      name: string
+      datePublished: string
+      price: string
+      timeout: number
     }
+    serviceAgreementTemplate?: ServiceAgreementTemplate
+    additionalInformation: {
+      description: string
+      priceHighestDenomination: number
+    }
+  }
 }
 
 export interface ServiceCompute extends ServiceCommon, Priced {
-    type: 'compute'
-    templateId?: string
-    attributes: {
-        main: {
-            creator: string
-            name: string
-            datePublished: string
-            price: string
-            timeout: number
-        }
-        serviceAgreementTemplate?: ServiceAgreementTemplate
-        additionalInformation: {
-            description: string
-            priceHighestDenomination: number
-        }
+  type: 'compute'
+  templateId?: string
+  attributes: {
+    main: {
+      creator: string
+      name: string
+      datePublished: string
+      price: string
+      timeout: number
     }
+    serviceAgreementTemplate?: ServiceAgreementTemplate
+    additionalInformation: {
+      description: string
+      priceHighestDenomination: number
+    }
+  }
 }
 
 export interface ServiceNFTAccess extends ServiceCommon {
-    type: 'nft-access'
-    templateId?: string
-    attributes: {
-        main: {
-            ercType: ERCType
-            nftType: NeverminedNFTType
-            creator: string
-            name: string
-            datePublished: string
-            timeout: number
-        }
-        serviceAgreementTemplate?: ServiceAgreementTemplate
-        additionalInformation: {
-            description: string
-        }
+  type: 'nft-access'
+  templateId?: string
+  attributes: {
+    main: {
+      ercType: ERCType
+      nftType: NeverminedNFTType
+      creator: string
+      name: string
+      datePublished: string
+      timeout: number
     }
+    serviceAgreementTemplate?: ServiceAgreementTemplate
+    additionalInformation: {
+      description: string
+    }
+  }
 }
 
 export interface ServiceNFTSales extends ServiceCommon, Priced {
-    type: 'nft-sales'
-    templateId?: string
-    attributes: {
-        main: {
-            ercType: ERCType
-            nftType: NeverminedNFTType
-            creator: string
-            name: string
-            datePublished: string
-            price: string
-            timeout: number
-        }
-        serviceAgreementTemplate?: ServiceAgreementTemplate
-        additionalInformation: {
-            description: string
-            priceHighestDenomination: number
-        }
+  type: 'nft-sales'
+  templateId?: string
+  attributes: {
+    main: {
+      ercType: ERCType
+      nftType: NeverminedNFTType
+      creator: string
+      name: string
+      datePublished: string
+      price: string
+      timeout: number
     }
+    serviceAgreementTemplate?: ServiceAgreementTemplate
+    additionalInformation: {
+      description: string
+      priceHighestDenomination: number
+    }
+  }
 }
 
 export interface ServiceSecondary extends Service {
-    agreementId: string
-    did: string
+  agreementId: string
+  did: string
 }
 
-export type Service<T extends ServiceType | 'default' = 'default'> =
-    T extends 'authorization'
-        ? ServiceAuthorization
-        : T extends 'metadata'
-        ? ServiceMetadata
-        : T extends 'nft-access'
-        ? ServiceNFTAccess
-        : T extends 'nft-sales'
-        ? ServiceNFTSales
-        : T extends 'access'
-        ? ServiceAccess
-        : T extends 'compute'
-        ? ServiceCompute
-        : T extends 'aave-credit'
-        ? ServiceAaveCredit
-        : T extends 'default'
-        ? ServiceCommon
-        : ServiceCommon
+export type Service<T extends ServiceType | 'default' = 'default'> = T extends 'authorization'
+  ? ServiceAuthorization
+  : T extends 'metadata'
+  ? ServiceMetadata
+  : T extends 'nft-access'
+  ? ServiceNFTAccess
+  : T extends 'nft-sales'
+  ? ServiceNFTSales
+  : T extends 'access'
+  ? ServiceAccess
+  : T extends 'compute'
+  ? ServiceCompute
+  : T extends 'aave-credit'
+  ? ServiceAaveCredit
+  : T extends 'default'
+  ? ServiceCommon
+  : ServiceCommon
 
 export interface ValidationParams {
-    agreement_id: string
-    did: string
-    consumer_address?: string
-    buyer?: string
-    babysig?: Babysig
-    nft_amount?: BigNumber
-    nft_holder?: string
+  agreement_id: string
+  did: string
+  consumer_address?: string
+  buyer?: string
+  babysig?: Babysig
+  nft_amount?: BigNumber
+  nft_holder?: string
 }
 
 export interface ServicePlugin<T extends Service> {
-    createService(
-        publisher: Account,
-        metadata: MetaData,
-        assetPrice?: AssetPrice,
-        erc20TokenAddress?: string,
-        priced?: boolean
-    ): Promise<T>
-    // Process agreement for provider
-    process(
-        params: ValidationParams,
-        from: Account,
-        txparams?: TxParameters
-    ): Promise<void>
-    // Check if service can be granted without agreement
-    accept(params: ValidationParams): Promise<boolean>
+  createService(
+    publisher: Account,
+    metadata: MetaData,
+    assetPrice?: AssetPrice,
+    erc20TokenAddress?: string,
+    priced?: boolean,
+  ): Promise<T>
+  // Process agreement for provider
+  process(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<void>
+  // Check if service can be granted without agreement
+  accept(params: ValidationParams): Promise<boolean>
 }
 
 export interface ServiceAgreementTemplateParameter {
-    name: string
-    type: string
-    value: string | number | string[]
+  name: string
+  type: string
+  value: string | number | string[]
 }
 
 export interface ServiceAgreementTemplateEvent {
-    name: string
-    actorType: string
-    handler: {
-        moduleName: string
-        functionName: string
-        version: string
-    }
+  name: string
+  actorType: string
+  handler: {
+    moduleName: string
+    functionName: string
+    version: string
+  }
 }
 
 export interface ServiceAgreementTemplateCondition {
-    name: string
-    timelock: number
-    timeout: number
-    contractName: string
-    functionName: string
-    parameters: ServiceAgreementTemplateParameter[]
-    events: ServiceAgreementTemplateEvent[]
+  name: string
+  timelock: number
+  timeout: number
+  contractName: string
+  functionName: string
+  parameters: ServiceAgreementTemplateParameter[]
+  events: ServiceAgreementTemplateEvent[]
 }
 
 export interface ServiceAgreementTemplate {
-    contractName: string
-    events: ServiceAgreementTemplateEvent[]
-    fulfillmentOrder: string[]
-    conditionDependency: { [condition: string]: string[] }
-    conditions: ServiceAgreementTemplateCondition[]
+  contractName: string
+  events: ServiceAgreementTemplateEvent[]
+  fulfillmentOrder: string[]
+  conditionDependency: { [condition: string]: string[] }
+  conditions: ServiceAgreementTemplateCondition[]
 }

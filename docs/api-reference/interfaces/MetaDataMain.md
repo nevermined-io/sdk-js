@@ -36,7 +36,7 @@ https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metada
 
 [src/ddo/MetaData.ts:190](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L190)
 
-___
+---
 
 ### author
 
@@ -47,14 +47,14 @@ Name of the entity generating this data (e.g. Tfl, Disney Corp, etc.).
 **`Example`**
 
 ```ts
-"Met Office"
+'Met Office'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:172](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L172)
 
-___
+---
 
 ### dateCreated
 
@@ -66,14 +66,14 @@ ISO 8601 format, Coordinated Universal Time.
 **`Example`**
 
 ```ts
-"2019-01-31T08:38:32Z"
+'2019-01-31T08:38:32Z'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:158](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L158)
 
-___
+---
 
 ### datePublished
 
@@ -86,14 +86,14 @@ so this value can't be set.
 **`Example`**
 
 ```ts
-"2019-01-31T08:38:32Z"
+'2019-01-31T08:38:32Z'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:166](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L166)
 
-___
+---
 
 ### encryptedService
 
@@ -103,7 +103,7 @@ ___
 
 [src/ddo/MetaData.ts:186](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L186)
 
-___
+---
 
 ### ercType
 
@@ -113,7 +113,7 @@ ___
 
 [src/ddo/MetaData.ts:194](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L194)
 
-___
+---
 
 ### files
 
@@ -125,7 +125,7 @@ Array of File objects including the encrypted file urls and some additional info
 
 [src/ddo/MetaData.ts:184](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L184)
 
-___
+---
 
 ### license
 
@@ -137,14 +137,14 @@ If it's not specified, the following value will be added: "No License Specified"
 **`Example`**
 
 ```ts
-"CC-BY"
+'CC-BY'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:179](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L179)
 
-___
+---
 
 ### name
 
@@ -155,14 +155,14 @@ Descriptive name of the Asset.
 **`Example`**
 
 ```ts
-"UK Weather information 2011"
+'UK Weather information 2011'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:144](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L144)
 
-___
+---
 
 ### nftType
 
@@ -172,7 +172,7 @@ ___
 
 [src/ddo/MetaData.ts:196](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L196)
 
-___
+---
 
 ### service
 
@@ -182,11 +182,11 @@ ___
 
 [src/ddo/MetaData.ts:192](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L192)
 
-___
+---
 
 ### type
 
-• **type**: ``"dataset"`` \| ``"compute"`` \| ``"workflow"`` \| ``"algorithm"``
+• **type**: `"dataset"` \| `"compute"` \| `"workflow"` \| `"algorithm"`
 
 Type of the Asset. Helps to filter by the type of asset,
 initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
@@ -194,14 +194,14 @@ initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
 **`Example`**
 
 ```ts
-"dataset"
+'dataset'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:151](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L151)
 
-___
+---
 
 ### workflow
 

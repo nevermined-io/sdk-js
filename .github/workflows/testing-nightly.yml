@@ -5,7 +5,6 @@ on:
     - cron: '30 5 * * *'
 
 jobs:
-
   e2e:
     runs-on: ubuntu-latest
     steps:
@@ -13,14 +12,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+      - uses: nevermined-io/nvm-tools-actions@v0.7.1
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: "true"
-          estuary: "true"
-          compute: "true"
-          contracts-version: "v3.0.0"
-          node-version: "develop"
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
 
       - name: Install dependencies
         run: |
@@ -59,6 +58,16 @@ jobs:
         run: |
           yarn run integration:compute
 
+      - name: Run external tests
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+          IPFS_GATEWAY: https://ipfs.infura.io:5001
+          IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
+          IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
+          LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
+          NO_GRAPH: true
+        run: yarn run integration:external
 
       - name: Run integration tests
         env:
@@ -98,4 +107,3 @@ jobs:
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
         run: |
           yarn integration:e2e:mumbai
-
