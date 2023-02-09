@@ -22,6 +22,8 @@ import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
+const DELAY = 10000
+
 function makeTest(isCustom) {
 describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () => {
     let artist: Account
@@ -214,12 +216,17 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
             )
             
             agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
-            await sleep(3000)
+            await sleep(DELAY)
             assert.isDefined(agreementId)
 
             const collector1BalanceAfter = await token.balanceOf(collector1.getId())
             const escrowPaymentConditionBalanceAfter = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
+            )
+
+            console.log(
+                `${collector1BalanceBefore} - ${nftPrice} == ${collector1BalanceAfter}`,
+                `${escrowPaymentConditionBalanceBefore} + ${nftPrice} + ${escrowPaymentConditionBalanceAfter}`,
             )
 
             assert.isTrue(
@@ -249,6 +256,7 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
                 artist
             )
             assert.isTrue(receipt)
+            await sleep(DELAY)
 
             const nftBalanceArtistAfter = await nevermined.nfts1155.balance(
                 ddo.id,
@@ -269,18 +277,18 @@ describe(`NFTs 1155 Api End-to-End (${isCustom?'custom':'builtin'} token)`, () =
         })
 
         it('the artist asks and receives the payment', async () => {
-            await sleep(3000)
+            await sleep(DELAY)
             const escrowPaymentConditionBefore = await token.balanceOf(
                 escrowPaymentCondition.getAddress()
             )
-            await sleep(3000)
+            await sleep(DELAY)
             const receipt = await nevermined.nfts1155.releaseRewards(
                 agreementId,
                 ddo.id,
                 numberEditions,
                 artist
             )
-            await sleep(3000)
+            await sleep(DELAY)
             assert.isTrue(receipt)
 
             const escrowPaymentConditionBalanceAfter = await token.balanceOf(
