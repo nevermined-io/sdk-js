@@ -76,6 +76,16 @@ function makeTest(isCustom) {
       // conditions
       ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
 
+      const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+      console.debug(`FEE RECEIVER = ${feeReceiver}`)
+
+      const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
+      console.debug(`NETWORK FEE = ${fee}`)
+
+      console.log(
+        `Fee receiver: ${feeReceiver}, contract: ${escrowPaymentCondition.getAddress()}, artist: ${artist.getId()}, gallery: ${gallery.getId()}`,
+      )
+
       if (isCustom) {
         TestContractHandler.setConfig(config)
 
@@ -114,18 +124,10 @@ function makeTest(isCustom) {
         )
         */
 
-      const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
-      console.debug(`FEE RECEIVER = ${feeReceiver}`)
-
-      const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
-      console.debug(`NETWORK FEE = ${fee}`)
-
       // components
       ;({ token } = nevermined.keeper)
 
       scale = BigNumber.from(10).pow(await token.decimals())
-
-      console.log(`Fee receiver: ${feeReceiver}, contract: ${escrowPaymentCondition.getAddress()}, artist: ${artist.getId()}, gallery: ${gallery.getId()}`)
 
       amounts = amounts.map((v) => v.mul(scale))
       receivers = [artist.getId(), gallery.getId()]
@@ -143,7 +145,9 @@ function makeTest(isCustom) {
       assetPrice1 = new AssetPrice(new Map(lst))
       await collector1.requestTokens(nftPrice.div(scale))
 
-      console.log(`Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`)
+      console.log(
+        `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
+      )
       initialBalances = {
         artist: await token.balanceOf(artist.getId()),
         collector1: await token.balanceOf(collector1.getId()),
