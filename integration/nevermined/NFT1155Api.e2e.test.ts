@@ -82,7 +82,7 @@ function makeTest(isCustom) {
       const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
       console.debug(`NETWORK FEE = ${fee}`)
 
-      console.log(
+      console.debug(
         `Fee receiver: ${feeReceiver}, contract: ${escrowPaymentCondition.getAddress()}, artist: ${artist.getId()}, gallery: ${gallery.getId()}`,
       )
 
@@ -115,17 +115,8 @@ function makeTest(isCustom) {
         await nftContract.grantOperatorRole(transferNftCondition.address, nftContractOwner)
       }
 
-      /*
-        const networkFee = 200000 // 20%
-        await nevermined.keeper.nvmConfig.setNetworkFees(
-            networkFee,
-            governor.getId(),
-            governor
-        )
-        */
-
       // components
-      ({ token } = nevermined.keeper)
+      ;({ token } = nevermined.keeper)
 
       scale = BigNumber.from(10).pow(await token.decimals())
 
@@ -145,7 +136,7 @@ function makeTest(isCustom) {
       assetPrice1 = new AssetPrice(new Map(lst))
       await collector1.requestTokens(nftPrice.div(scale))
 
-      console.log(
+      console.debug(
         `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
       )
       initialBalances = {
@@ -193,7 +184,6 @@ function makeTest(isCustom) {
       it('I check the details of the NFT', async () => {
         await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
         const details = await nevermined.nfts1155.details(ddo.id)
-        console.log('details', ddo.id, details)
         assert.equal(details.mintCap.toNumber(), 5)
         assert.equal(details.nftSupply.toNumber(), 5)
         assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
@@ -220,8 +210,8 @@ function makeTest(isCustom) {
           escrowPaymentCondition.getAddress(),
         )
 
-        console.log(
-          `${collector1BalanceBefore} - ${nftPrice} == ${collector1BalanceAfter}`,
+        console.debug(
+          `${collector1BalanceBefore} - ${nftPrice} == ${collector1BalanceAfter}\n`,
           `${escrowPaymentConditionBalanceBefore} + ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`,
         )
 
@@ -235,7 +225,7 @@ function makeTest(isCustom) {
         const nftBalanceArtistBefore = await nevermined.nfts1155.balance(ddo.id, artist)
         const nftBalanceCollectorBefore = await nevermined.nfts1155.balance(ddo.id, collector1)
 
-        console.log(
+        console.debug(
           `Contract balance ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
         )
 
@@ -248,7 +238,7 @@ function makeTest(isCustom) {
         assert.isTrue(receipt)
         await sleep(DELAY)
 
-        console.log(
+        console.debug(
           `Contract balance (after) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
         )
         const nftBalanceArtistAfter = await nevermined.nfts1155.balance(ddo.id, artist)
@@ -285,10 +275,10 @@ function makeTest(isCustom) {
         const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
         const collectorBalance = await token.balanceOf(collector1.getId())
 
-        console.log(
-          `${receiver0Balance} == ${initialBalances.artist} + ${assetPrice1.getAmounts()[0]}`,
-          `${receiver1Balance} == ${initialBalances.gallery} + ${assetPrice1.getAmounts()[1]}`,
-          `${initialBalances.collector1} - ${nftPrice} == ${collectorBalance}`,
+        console.debug(
+          `${receiver0Balance} == ${initialBalances.artist} + ${assetPrice1.getAmounts()[0]}\n`,
+          `${receiver1Balance} == ${initialBalances.gallery} + ${assetPrice1.getAmounts()[1]}\n`,
+          `${initialBalances.collector1} - ${nftPrice} == ${collectorBalance}\n`,
           `${escrowPaymentConditionBefore} - ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`,
         )
 
