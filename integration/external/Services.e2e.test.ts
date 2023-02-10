@@ -307,7 +307,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       })
         .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
         .setIssuedAt()
-        .setExpirationTime('1w')
+        .setExpirationTime('1d')
         .encrypt(JWT_SECRET)
 
       console.log(`Access Token: ${accessToken}`)
