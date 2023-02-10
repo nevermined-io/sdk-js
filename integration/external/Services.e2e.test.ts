@@ -55,6 +55,8 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   const proxyUrl = process.env.http_proxy || 'http://127.0.0.1:3128'
 
+  const AUTHORIZATION_TOKEN = 'new_authorization_token'
+
   let proxyAgent
   const opts: RequestInit = {}
 
@@ -295,16 +297,17 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
       accessToken = await new jose.EncryptJWT({
         did: serviceDDO.id,
+        userId: subscriber.getId(),
         endpoints,
         headers: [
           {
-            authorization: 'Bearer xxxx',
+            authorization: `Bearer ${AUTHORIZATION_TOKEN}`,
           },
         ],
       })
         .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
         .setIssuedAt()
-        .setExpirationTime('1d')
+        .setExpirationTime('1w')
         .encrypt(JWT_SECRET)
 
       console.log(`Access Token: ${accessToken}`)
