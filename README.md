@@ -180,7 +180,7 @@ npm run build
 
 ## Releases
 
-From a clean `master` branch you can run any release task doing the following:
+From a clean `main` branch you can run any release task doing the following:
 
 - bumps the project version in `package.json`, `package-lock.json`
 - auto-generates and updates the CHANGELOG.md file from commit messages
