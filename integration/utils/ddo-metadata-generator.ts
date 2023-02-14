@@ -67,7 +67,7 @@ const webServiceMetadata: Partial<MetaData> = {
             ],
             internalAttributes: {
                 authentication: {
-                    type: 'basic',
+                    type: 'oauth',
                     token: ''
                 },
                 headers: [
@@ -109,18 +109,29 @@ export const generateMetadata = (
 
 export const generateWebServiceMetadata = (
   name: string,
+  endpoint: string,
+  authToken: string,
   nonce: string | number = Math.random(),
-): Partial<MetaData> => ({
-  ...webServiceMetadata,
-  main: {
-    ...webServiceMetadata.main,
-    name,
-    ...({ nonce } as any),
-  },
-  additionalInformation: {
-    ...webServiceMetadata.additionalInformation,
-  },
-})
+): Partial<MetaData> => {
+    const serviceMetadata = {
+        ...webServiceMetadata,
+        main: {
+          ...webServiceMetadata.main,
+          name,
+          ...({ nonce } as any),
+        },
+        additionalInformation: {
+          ...webServiceMetadata.additionalInformation,
+        },
+      }
+    serviceMetadata.main.webService.endpoints[0] = { GET: endpoint}
+    serviceMetadata.main.webService.internalAttributes.authentication = { type: 'oauth', token: authToken}
+    serviceMetadata.main.webService.internalAttributes.headers = [
+        {'Authorization': `Bearer ${authToken}`}, 
+        {'X-Extra-Header': 'hey there'}
+    ]
+    return serviceMetadata
+}
 
 export const getMetadata = (nonce: string | number = Math.random(), name = 'TestAsset'): MetaData =>
   generateMetadata(name, nonce) as MetaData
