@@ -22,8 +22,11 @@ import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 import { BigNumber } from '../../src/utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
+
+const DELAY = 20000
 
 function makeTest(isCustom) {
   describe(`NFTs 1155 Api End-to-End (${isCustom ? 'custom' : 'builtin'} token)`, () => {
@@ -31,6 +34,7 @@ function makeTest(isCustom) {
     let collector1: Account
     let collector2: Account
     let gallery: Account
+    //    let governor: Account
 
     let nevermined: Nevermined
     let token: Token
@@ -59,6 +63,7 @@ function makeTest(isCustom) {
 
     before(async () => {
       nevermined = await Nevermined.getInstance(config)
+      // ;[, artist, collector1, collector2, , gallery, , , , governor] = await nevermined.accounts.list()
       ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
@@ -70,6 +75,16 @@ function makeTest(isCustom) {
 
       // conditions
       ;({ escrowPaymentCondition, transferNftCondition } = nevermined.keeper.conditions)
+
+      const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+      console.debug(`FEE RECEIVER = ${feeReceiver}`)
+
+      const fee = await nevermined.keeper.nvmConfig.getNetworkFee()
+      console.debug(`NETWORK FEE = ${fee}`)
+
+      console.debug(
+        `Fee receiver: ${feeReceiver}, contract: ${escrowPaymentCondition.getAddress()}, artist: ${artist.getId()}, gallery: ${gallery.getId()}`,
+      )
 
       if (isCustom) {
         TestContractHandler.setConfig(config)
@@ -96,33 +111,34 @@ function makeTest(isCustom) {
 
         await nevermined.contracts.loadNft1155(nftContract.address)
 
-        const nftContractOwner = new Account(await nevermined.nfts1155.owner())
+        const nftContractOwner = new Account(artist.getId())
         await nftContract.grantOperatorRole(transferNftCondition.address, nftContractOwner)
-      } else {
-        const nftContractOwner = new Account(await nevermined.nfts1155.owner())
-        await nevermined.keeper.nftUpgradeable.grantOperatorRole(
-          transferNftCondition.address,
-          nftContractOwner,
-        )
       }
 
       // components
-      // prettier-ignore
       ({ token } = nevermined.keeper)
 
       scale = BigNumber.from(10).pow(await token.decimals())
 
-      nftPrice = nftPrice.mul(scale)
       amounts = amounts.map((v) => v.mul(scale))
       receivers = [artist.getId(), gallery.getId()]
-      assetPrice1 = new AssetPrice(
-        new Map([
-          [receivers[0], amounts[0]],
-          [receivers[1], amounts[1]],
-        ]),
-      )
+      const lst: [string, BigNumber][] = [
+        [receivers[0], amounts[0]],
+        [receivers[1], amounts[1]],
+      ]
+      if (feeReceiver !== '0x0000000000000000000000000000000000000000') {
+        receivers.push(feeReceiver)
+        const price = amounts.reduce((a, b) => a.add(b), BigNumber.from(0))
+        amounts.push(price.mul(fee).div(BigNumber.from(1000000).sub(fee)))
+        lst.push([receivers[2], amounts[2]])
+      }
+      nftPrice = amounts.reduce((a, b) => a.add(b), BigNumber.from(0))
+      assetPrice1 = new AssetPrice(new Map(lst))
       await collector1.requestTokens(nftPrice.div(scale))
 
+      console.debug(
+        `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
+      )
       initialBalances = {
         artist: await token.balanceOf(artist.getId()),
         collector1: await token.balanceOf(collector1.getId()),
@@ -186,11 +202,17 @@ function makeTest(isCustom) {
         )
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
+        await sleep(DELAY)
         assert.isDefined(agreementId)
 
         const collector1BalanceAfter = await token.balanceOf(collector1.getId())
         const escrowPaymentConditionBalanceAfter = await token.balanceOf(
           escrowPaymentCondition.getAddress(),
+        )
+
+        console.debug(
+          `${collector1BalanceBefore} - ${nftPrice} == ${collector1BalanceAfter}\n`,
+          `${escrowPaymentConditionBalanceBefore} + ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`,
         )
 
         assert.isTrue(collector1BalanceBefore.sub(nftPrice).eq(collector1BalanceAfter))
@@ -203,6 +225,10 @@ function makeTest(isCustom) {
         const nftBalanceArtistBefore = await nevermined.nfts1155.balance(ddo.id, artist)
         const nftBalanceCollectorBefore = await nevermined.nfts1155.balance(ddo.id, collector1)
 
+        console.debug(
+          `Contract balance ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
+        )
+
         const receipt = await nevermined.nfts1155.transfer(
           agreementId,
           ddo.id,
@@ -210,7 +236,11 @@ function makeTest(isCustom) {
           artist,
         )
         assert.isTrue(receipt)
+        await sleep(DELAY)
 
+        console.debug(
+          `Contract balance (after) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
+        )
         const nftBalanceArtistAfter = await nevermined.nfts1155.balance(ddo.id, artist)
         const nftBalanceCollectorAfter = await nevermined.nfts1155.balance(ddo.id, collector1)
         assert.equal(
@@ -224,15 +254,18 @@ function makeTest(isCustom) {
       })
 
       it('the artist asks and receives the payment', async () => {
+        await sleep(DELAY)
         const escrowPaymentConditionBefore = await token.balanceOf(
           escrowPaymentCondition.getAddress(),
         )
+        await sleep(DELAY)
         const receipt = await nevermined.nfts1155.releaseRewards(
           agreementId,
           ddo.id,
           numberEditions,
           artist,
         )
+        await sleep(DELAY)
         assert.isTrue(receipt)
 
         const escrowPaymentConditionBalanceAfter = await token.balanceOf(
@@ -241,6 +274,13 @@ function makeTest(isCustom) {
         const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
         const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
         const collectorBalance = await token.balanceOf(collector1.getId())
+
+        console.debug(
+          `${receiver0Balance} == ${initialBalances.artist} + ${assetPrice1.getAmounts()[0]}\n`,
+          `${receiver1Balance} == ${initialBalances.gallery} + ${assetPrice1.getAmounts()[1]}\n`,
+          `${initialBalances.collector1} - ${nftPrice} == ${collectorBalance}\n`,
+          `${escrowPaymentConditionBefore} - ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`,
+        )
 
         assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(assetPrice1.getAmounts()[0])))
         assert.isTrue(receiver1Balance.eq(initialBalances.gallery.add(assetPrice1.getAmounts()[1])))
@@ -251,9 +291,9 @@ function makeTest(isCustom) {
       })
     })
 
-    describe('As a collector I want to order and access the NFT wihout the intervention of the artist', () => {
+    describe('As a collector I want to order and access the NFT without the intervention of the artist', () => {
       it('The artist gives the Node permissions to transfer his nfts', async () => {
-        const message = 'shold throw this error message'
+        const message = 'should throw this error message'
 
         try {
           await nevermined.nfts1155.setApprovalForAll(transferNftCondition.address, true, artist)
