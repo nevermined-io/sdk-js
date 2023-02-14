@@ -14,7 +14,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/node
-          ref: 'develop' # TODO: Remove this when ready to use main branch
           path: node
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/checkout@v3
@@ -52,7 +51,7 @@ jobs:
 
           cd ../node
           cat package.json | jq '.dependencies."@nevermined-io/sdk"="./sdk.tgz"' | sponge package.json
-          cat package.json | jq '.dependencies."@nevermined-io/nevermined-sdk-dtp"="./dtp.tgz"' | sponge package.json
+          cat package.json | jq '.dependencies."@nevermined-io/sdk-dtp"="./dtp.tgz"' | sponge package.json
           yarn
           yarn run setup:dev
           yarn build
