@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [events](../modules/events.md) / ContractEvent
+[@nevermined-io/sdk](../code-reference.md) / [events](../modules/events.md) / ContractEvent
 
 # Class: ContractEvent
 
@@ -57,9 +57,9 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `contract` | `ContractBase` |
+| Name           | Type                                                   |
+| :------------- | :----------------------------------------------------- |
+| `contract`     | `ContractBase`                                         |
 | `eventEmitter` | [`EventEmitter`](../interfaces/events.EventEmitter.md) |
 
 #### Inherited from
@@ -84,7 +84,7 @@
 
 [src/events/NeverminedEvent.ts:30](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L30)
 
-___
+---
 
 ### eventEmitter
 
@@ -116,7 +116,7 @@ NeverminedEvent.artifactsFolder
 
 [src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
 
-___
+---
 
 ### config
 
@@ -134,7 +134,7 @@ NeverminedEvent.config
 
 [src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
 
-___
+---
 
 ### instanceConfig
 
@@ -152,7 +152,7 @@ NeverminedEvent.instanceConfig
 
 [src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
 
-___
+---
 
 ### instantiableConfig
 
@@ -170,7 +170,7 @@ NeverminedEvent.instantiableConfig
 
 [src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
 
-___
+---
 
 ### logger
 
@@ -188,7 +188,7 @@ NeverminedEvent.logger
 
 [src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
 
-___
+---
 
 ### nevermined
 
@@ -206,7 +206,7 @@ NeverminedEvent.nevermined
 
 [src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
 
-___
+---
 
 ### web3
 
@@ -242,7 +242,7 @@ NeverminedEvent.web3
 
 [src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
 
-___
+---
 
 ### checkExists
 
@@ -252,8 +252,8 @@ Returns true of contract exists else it throws.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `address` | `string` |
 
 #### Returns
@@ -270,7 +270,7 @@ true if the contract exists.
 
 [src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
 
-___
+---
 
 ### eventExists
 
@@ -278,8 +278,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name        | Type     |
+| :---------- | :------- |
 | `eventName` | `string` |
 
 #### Returns
@@ -290,7 +290,7 @@ ___
 
 [src/events/ContractEvent.ts:69](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/ContractEvent.ts#L69)
 
-___
+---
 
 ### filterToArgs
 
@@ -298,10 +298,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `eventName` | `string` |
-| `filter` | [`Filter`](../interfaces/events.Filter.md) |
+| Name        | Type                                       |
+| :---------- | :----------------------------------------- |
+| `eventName` | `string`                                   |
+| `filter`    | [`Filter`](../interfaces/events.Filter.md) |
 
 #### Returns
 
@@ -311,7 +311,7 @@ ___
 
 [src/events/ContractEvent.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/ContractEvent.ts#L73)
 
-___
+---
 
 ### findSigner
 
@@ -319,8 +319,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type     |
+| :----- | :------- |
 | `from` | `string` |
 
 #### Returns
@@ -335,7 +335,7 @@ ___
 
 [src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
 
-___
+---
 
 ### getBlockNumber
 
@@ -353,7 +353,7 @@ ___
 
 [src/events/ContractEvent.ts:65](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/ContractEvent.ts#L65)
 
-___
+---
 
 ### getEventData
 
@@ -361,8 +361,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type                                                   |
+| :-------- | :----------------------------------------------------- |
 | `options` | [`EventOptions`](../interfaces/events.EventOptions.md) |
 
 #### Returns
@@ -377,7 +377,7 @@ ___
 
 [src/events/ContractEvent.ts:29](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/ContractEvent.ts#L29)
 
-___
+---
 
 ### getPastEvents
 
@@ -385,8 +385,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type                                                   |
+| :-------- | :----------------------------------------------------- |
 | `options` | [`EventOptions`](../interfaces/events.EventOptions.md) |
 
 #### Returns
@@ -401,7 +401,7 @@ ___
 
 [src/events/ContractEvent.ts:47](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/ContractEvent.ts#L47)
 
-___
+---
 
 ### once
 
@@ -409,10 +409,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name        | Type                                                                      |
+| :---------- | :------------------------------------------------------------------------ |
 | `callback?` | (`events`: [`EventResult`](../modules/events.md#eventresult)[]) => `void` |
-| `options?` | [`EventOptions`](../interfaces/events.EventOptions.md) |
+| `options?`  | [`EventOptions`](../interfaces/events.EventOptions.md)                    |
 
 #### Returns
 
@@ -426,7 +426,7 @@ ___
 
 [src/events/NeverminedEvent.ts:55](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L55)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -434,8 +434,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                 |
+| :------- | :------------------- |
 | `config` | `InstantiableConfig` |
 
 #### Returns
@@ -450,7 +450,7 @@ ___
 
 [src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
 
-___
+---
 
 ### subscribe
 
@@ -458,10 +458,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type                                                                      |
+| :--------- | :------------------------------------------------------------------------ |
 | `callback` | (`events`: [`EventResult`](../modules/events.md#eventresult)[]) => `void` |
-| `options` | [`EventOptions`](../interfaces/events.EventOptions.md) |
+| `options`  | [`EventOptions`](../interfaces/events.EventOptions.md)                    |
 
 #### Returns
 
@@ -475,7 +475,7 @@ ___
 
 [src/events/NeverminedEvent.ts:41](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L41)
 
-___
+---
 
 ### addressesStatic
 
@@ -483,10 +483,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
+| `web3`   | `JsonRpcProvider`     |
 
 #### Returns
 
@@ -500,7 +500,7 @@ ___
 
 [src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
 
-___
+---
 
 ### findSignerStatic
 
@@ -508,11 +508,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
-| `from` | `string` |
+| `web3`   | `JsonRpcProvider`     |
+| `from`   | `string`              |
 
 #### Returns
 
@@ -526,7 +526,7 @@ ___
 
 [src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
 
-___
+---
 
 ### getInstance
 
@@ -534,12 +534,12 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `contract` | `ContractBase` |
+| Name           | Type                                                   |
+| :------------- | :----------------------------------------------------- |
+| `contract`     | `ContractBase`                                         |
 | `eventEmitter` | [`EventEmitter`](../interfaces/events.EventEmitter.md) |
-| `nevermined` | [`Nevermined`](Nevermined.md) |
-| `web3` | `JsonRpcProvider` |
+| `nevermined`   | [`Nevermined`](Nevermined.md)                          |
+| `web3`         | `JsonRpcProvider`                                      |
 
 #### Returns
 
@@ -553,7 +553,7 @@ ___
 
 [src/events/ContractEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/ContractEvent.ts#L14)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -561,15 +561,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Instantiable`<`T`\> |
+| Name | Type                         |
+| :--- | :--------------------------- |
+| `T`  | extends `Instantiable`<`T`\> |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `instance` | `T` |
+| Name                 | Type                 |
+| :------------------- | :------------------- |
+| `instance`           | `T`                  |
 | `instantiableConfig` | `InstantiableConfig` |
 
 #### Returns

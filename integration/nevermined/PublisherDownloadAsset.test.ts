@@ -5,75 +5,66 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, DDO, Account, MetaData } from '../../src'
+import { Nevermined, DDO, Account, MetaData, AssetAttributes } from '../../src'
 
 describe('Publisher Download Asset', () => {
-    let nevermined: Nevermined
-    let publisher: Account
-    let metadata: MetaData
-    let ddo: DDO
+  let nevermined: Nevermined
+  let publisher: Account
+  let metadata: MetaData
+  let ddo: DDO
 
-    before(async () => {
-        nevermined = await Nevermined.getInstance(config)
+  before(async () => {
+    nevermined = await Nevermined.getInstance(config)
 
-        // Accounts
-        ;[publisher] = await nevermined.accounts.list()
+    // Accounts
+    ;[publisher] = await nevermined.accounts.list()
 
-        const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
-            publisher
-        )
+    const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
-        await nevermined.marketplace.login(clientAssertion)
+    await nevermined.services.marketplace.login(clientAssertion)
 
-        const payload = decodeJwt(config.marketplaceAuthToken)
+    const payload = decodeJwt(config.marketplaceAuthToken)
 
-        metadata = getMetadata()
-        metadata.userId = payload.sub
+    metadata = getMetadata()
+    metadata.userId = payload.sub
+  })
+
+  it('should register an asset', async () => {
+    ddo = await nevermined.assets.create(AssetAttributes.getInstance({ metadata }), publisher)
+
+    assert.isDefined(ddo, 'Register has not returned a DDO')
+    assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
+    assert.isAtLeast(ddo.authentication.length, 1, 'Default authentication not added')
+    assert.isDefined(ddo.findServiceByType('access'), "DDO access service doesn't exist")
+  })
+
+  it('should consume and store the assets', async () => {
+    const folder = '/tmp/nevermined/sdk-js-1'
+    const path = (await nevermined.assets.download(ddo.id, publisher, folder)) as string
+
+    assert.include(path, folder, 'The storage path is not correct.')
+
+    const files = await new Promise<string[]>((resolve) => {
+      fs.readdir(path, (e, fileList) => {
+        resolve(fileList)
+      })
     })
 
-    it('should register an asset', async () => {
-        ddo = await nevermined.assets.create(metadata, publisher)
+    assert.deepEqual(files, ['README.md', 'ddo-example.json'], 'Stored files are not correct.')
+  })
 
-        assert.isDefined(ddo, 'Register has not returned a DDO')
-        assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
-        assert.isAtLeast(ddo.authentication.length, 1, 'Default authentication not added')
-        assert.isDefined(
-            ddo.findServiceByType('access'),
-            "DDO access service doesn't exist"
-        )
+  it('should consume and store one asset', async () => {
+    const folder = '/tmp/nevermined/sdk-js-2'
+    const path = (await nevermined.assets.download(ddo.id, publisher, folder, 1)) as string
+
+    assert.include(path, folder, 'The storage path is not correct.')
+
+    const files = await new Promise<string[]>((resolve) => {
+      fs.readdir(path, (e, fileList) => {
+        resolve(fileList)
+      })
     })
 
-    it('should consume and store the assets', async () => {
-        const folder = '/tmp/nevermined/sdk-js-1'
-        const path = await nevermined.assets.download(ddo.id, publisher, folder) as string
-
-        assert.include(path, folder, 'The storage path is not correct.')
-
-        const files = await new Promise<string[]>(resolve => {
-            fs.readdir(path, (e, fileList) => {
-                resolve(fileList)
-            })
-        })
-
-        assert.deepEqual(
-            files,
-            ['README.md', 'ddo-example.json'],
-            'Stored files are not correct.'
-        )
-    })
-
-    it('should consume and store one asset', async () => {
-        const folder = '/tmp/nevermined/sdk-js-2'
-        const path = await nevermined.assets.download(ddo.id, publisher, folder, 1) as string
-
-        assert.include(path, folder, 'The storage path is not correct.')
-
-        const files = await new Promise<string[]>(resolve => {
-            fs.readdir(path, (e, fileList) => {
-                resolve(fileList)
-            })
-        })
-
-        assert.deepEqual(files, ['README.md'], 'Stored files are not correct.')
-    })
+    assert.deepEqual(files, ['README.md'], 'Stored files are not correct.')
+  })
 })

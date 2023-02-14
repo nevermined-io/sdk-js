@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / LockPaymentCondition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / LockPaymentCondition
 
 # Namespace: LockPaymentCondition
 
@@ -58,15 +58,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.LockPaymentCondition.md#fulfilledresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.LockPaymentCondition.md#fulfilledresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:93
 
-___
+---
 
 ### FulfilledFields
 
@@ -74,22 +74,22 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId` | ``true`` |
-| `_amounts` | ``true`` |
-| `_conditionId` | ``true`` |
-| `_did` | ``true`` |
-| `_receivers` | ``true`` |
-| `_rewardAddress` | ``true`` |
-| `_tokenAddress` | ``true`` |
-| `id` | ``true`` |
+| Name             | Type   |
+| :--------------- | :----- |
+| `_agreementId`   | `true` |
+| `_amounts`       | `true` |
+| `_conditionId`   | `true` |
+| `_did`           | `true` |
+| `_receivers`     | `true` |
+| `_rewardAddress` | `true` |
+| `_tokenAddress`  | `true` |
+| `id`             | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:83
 
-___
+---
 
 ### FulfilledFilter
 
@@ -97,64 +97,64 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId?` | `string` \| ``null`` |
-| `_agreementId_contains?` | `string` \| ``null`` |
-| `_agreementId_in?` | `string`[] |
-| `_agreementId_not?` | `string` \| ``null`` |
-| `_agreementId_not_contains?` | `string` \| ``null`` |
-| `_agreementId_not_in?` | `string`[] |
-| `_amounts?` | `WeiSource`[] |
-| `_amounts_contains?` | `WeiSource`[] |
-| `_amounts_contains_nocase?` | `WeiSource`[] |
-| `_amounts_not?` | `WeiSource`[] |
-| `_amounts_not_contains?` | `WeiSource`[] |
-| `_amounts_not_contains_nocase?` | `WeiSource`[] |
-| `_conditionId?` | `string` \| ``null`` |
-| `_conditionId_contains?` | `string` \| ``null`` |
-| `_conditionId_in?` | `string`[] |
-| `_conditionId_not?` | `string` \| ``null`` |
-| `_conditionId_not_contains?` | `string` \| ``null`` |
-| `_conditionId_not_in?` | `string`[] |
-| `_did?` | `string` \| ``null`` |
-| `_did_contains?` | `string` \| ``null`` |
-| `_did_in?` | `string`[] |
-| `_did_not?` | `string` \| ``null`` |
-| `_did_not_contains?` | `string` \| ``null`` |
-| `_did_not_in?` | `string`[] |
-| `_receivers?` | `string`[] |
-| `_receivers_contains?` | `string`[] |
-| `_receivers_contains_nocase?` | `string`[] |
-| `_receivers_not?` | `string`[] |
-| `_receivers_not_contains?` | `string`[] |
-| `_receivers_not_contains_nocase?` | `string`[] |
-| `_rewardAddress?` | `string` \| ``null`` |
-| `_rewardAddress_contains?` | `string` \| ``null`` |
-| `_rewardAddress_in?` | `string`[] |
-| `_rewardAddress_not?` | `string` \| ``null`` |
-| `_rewardAddress_not_contains?` | `string` \| ``null`` |
-| `_rewardAddress_not_in?` | `string`[] |
-| `_tokenAddress?` | `string` \| ``null`` |
-| `_tokenAddress_contains?` | `string` \| ``null`` |
-| `_tokenAddress_in?` | `string`[] |
-| `_tokenAddress_not?` | `string` \| ``null`` |
-| `_tokenAddress_not_contains?` | `string` \| ``null`` |
-| `_tokenAddress_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                              | Type               |
+| :-------------------------------- | :----------------- |
+| `_agreementId?`                   | `string` \| `null` |
+| `_agreementId_contains?`          | `string` \| `null` |
+| `_agreementId_in?`                | `string`[]         |
+| `_agreementId_not?`               | `string` \| `null` |
+| `_agreementId_not_contains?`      | `string` \| `null` |
+| `_agreementId_not_in?`            | `string`[]         |
+| `_amounts?`                       | `WeiSource`[]      |
+| `_amounts_contains?`              | `WeiSource`[]      |
+| `_amounts_contains_nocase?`       | `WeiSource`[]      |
+| `_amounts_not?`                   | `WeiSource`[]      |
+| `_amounts_not_contains?`          | `WeiSource`[]      |
+| `_amounts_not_contains_nocase?`   | `WeiSource`[]      |
+| `_conditionId?`                   | `string` \| `null` |
+| `_conditionId_contains?`          | `string` \| `null` |
+| `_conditionId_in?`                | `string`[]         |
+| `_conditionId_not?`               | `string` \| `null` |
+| `_conditionId_not_contains?`      | `string` \| `null` |
+| `_conditionId_not_in?`            | `string`[]         |
+| `_did?`                           | `string` \| `null` |
+| `_did_contains?`                  | `string` \| `null` |
+| `_did_in?`                        | `string`[]         |
+| `_did_not?`                       | `string` \| `null` |
+| `_did_not_contains?`              | `string` \| `null` |
+| `_did_not_in?`                    | `string`[]         |
+| `_receivers?`                     | `string`[]         |
+| `_receivers_contains?`            | `string`[]         |
+| `_receivers_contains_nocase?`     | `string`[]         |
+| `_receivers_not?`                 | `string`[]         |
+| `_receivers_not_contains?`        | `string`[]         |
+| `_receivers_not_contains_nocase?` | `string`[]         |
+| `_rewardAddress?`                 | `string` \| `null` |
+| `_rewardAddress_contains?`        | `string` \| `null` |
+| `_rewardAddress_in?`              | `string`[]         |
+| `_rewardAddress_not?`             | `string` \| `null` |
+| `_rewardAddress_not_contains?`    | `string` \| `null` |
+| `_rewardAddress_not_in?`          | `string`[]         |
+| `_tokenAddress?`                  | `string` \| `null` |
+| `_tokenAddress_contains?`         | `string` \| `null` |
+| `_tokenAddress_in?`               | `string`[]         |
+| `_tokenAddress_not?`              | `string` \| `null` |
+| `_tokenAddress_not_contains?`     | `string` \| `null` |
+| `_tokenAddress_not_in?`           | `string`[]         |
+| `id?`                             | `string` \| `null` |
+| `id_gt?`                          | `string` \| `null` |
+| `id_gte?`                         | `string` \| `null` |
+| `id_in?`                          | `string`[]         |
+| `id_lt?`                          | `string` \| `null` |
+| `id_lte?`                         | `string` \| `null` |
+| `id_not?`                         | `string` \| `null` |
+| `id_not_in?`                      | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:21
 
-___
+---
 
 ### FulfilledResult
 
@@ -162,22 +162,22 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId` | `string` |
-| `_amounts` | (`Wei` \| ``null``)[] |
-| `_conditionId` | `string` |
-| `_did` | `string` |
-| `_receivers` | (`string` \| ``null``)[] |
-| `_rewardAddress` | `string` |
-| `_tokenAddress` | `string` |
-| `id` | `string` |
+| Name             | Type                   |
+| :--------------- | :--------------------- |
+| `_agreementId`   | `string`               |
+| `_amounts`       | (`Wei` \| `null`)[]    |
+| `_conditionId`   | `string`               |
+| `_did`           | `string`               |
+| `_receivers`     | (`string` \| `null`)[] |
+| `_rewardAddress` | `string`               |
+| `_tokenAddress`  | `string`               |
+| `id`             | `string`               |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:73
 
-___
+---
 
 ### InitializedArgs
 
@@ -185,15 +185,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.LockPaymentCondition.md#initializedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.LockPaymentCondition.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:124
 
-___
+---
 
 ### InitializedFields
 
@@ -201,16 +201,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:120
 
-___
+---
 
 ### InitializedFilter
 
@@ -218,30 +218,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:98
 
-___
+---
 
 ### InitializedResult
 
@@ -249,16 +249,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:116
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -267,25 +267,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:10
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -293,15 +293,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.LockPaymentCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.LockPaymentCondition.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:161
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -309,17 +309,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:156
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -327,34 +327,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:129
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -362,17 +362,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:151
 
-___
+---
 
 ### RoleAdminChangedArgs
 
@@ -380,15 +380,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.LockPaymentCondition.md#roleadminchangedresult) |
+| Name | Type                                                                                               |
+| :--- | :------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.LockPaymentCondition.md#roleadminchangedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:206
 
-___
+---
 
 ### RoleAdminChangedFields
 
@@ -396,18 +396,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newAdminRole` | ``true`` |
-| `previousAdminRole` | ``true`` |
-| `role` | ``true`` |
+| Name                | Type   |
+| :------------------ | :----- |
+| `id`                | `true` |
+| `newAdminRole`      | `true` |
+| `previousAdminRole` | `true` |
+| `role`              | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:200
 
-___
+---
 
 ### RoleAdminChangedFilter
 
@@ -415,40 +415,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newAdminRole?` | `string` \| ``null`` |
-| `newAdminRole_contains?` | `string` \| ``null`` |
-| `newAdminRole_in?` | `string`[] |
-| `newAdminRole_not?` | `string` \| ``null`` |
-| `newAdminRole_not_contains?` | `string` \| ``null`` |
-| `newAdminRole_not_in?` | `string`[] |
-| `previousAdminRole?` | `string` \| ``null`` |
-| `previousAdminRole_contains?` | `string` \| ``null`` |
-| `previousAdminRole_in?` | `string`[] |
-| `previousAdminRole_not?` | `string` \| ``null`` |
-| `previousAdminRole_not_contains?` | `string` \| ``null`` |
-| `previousAdminRole_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
+| Name                              | Type               |
+| :-------------------------------- | :----------------- |
+| `id?`                             | `string` \| `null` |
+| `id_gt?`                          | `string` \| `null` |
+| `id_gte?`                         | `string` \| `null` |
+| `id_in?`                          | `string`[]         |
+| `id_lt?`                          | `string` \| `null` |
+| `id_lte?`                         | `string` \| `null` |
+| `id_not?`                         | `string` \| `null` |
+| `id_not_in?`                      | `string`[]         |
+| `newAdminRole?`                   | `string` \| `null` |
+| `newAdminRole_contains?`          | `string` \| `null` |
+| `newAdminRole_in?`                | `string`[]         |
+| `newAdminRole_not?`               | `string` \| `null` |
+| `newAdminRole_not_contains?`      | `string` \| `null` |
+| `newAdminRole_not_in?`            | `string`[]         |
+| `previousAdminRole?`              | `string` \| `null` |
+| `previousAdminRole_contains?`     | `string` \| `null` |
+| `previousAdminRole_in?`           | `string`[]         |
+| `previousAdminRole_not?`          | `string` \| `null` |
+| `previousAdminRole_not_contains?` | `string` \| `null` |
+| `previousAdminRole_not_in?`       | `string`[]         |
+| `role?`                           | `string` \| `null` |
+| `role_contains?`                  | `string` \| `null` |
+| `role_in?`                        | `string`[]         |
+| `role_not?`                       | `string` \| `null` |
+| `role_not_contains?`              | `string` \| `null` |
+| `role_not_in?`                    | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:166
 
-___
+---
 
 ### RoleAdminChangedResult
 
@@ -456,18 +456,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newAdminRole` | `string` |
+| Name                | Type     |
+| :------------------ | :------- |
+| `id`                | `string` |
+| `newAdminRole`      | `string` |
 | `previousAdminRole` | `string` |
-| `role` | `string` |
+| `role`              | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:194
 
-___
+---
 
 ### RoleGrantedArgs
 
@@ -475,15 +475,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.LockPaymentCondition.md#rolegrantedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.LockPaymentCondition.md#rolegrantedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:251
 
-___
+---
 
 ### RoleGrantedFields
 
@@ -491,18 +491,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:245
 
-___
+---
 
 ### RoleGrantedFilter
 
@@ -510,40 +510,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:211
 
-___
+---
 
 ### RoleGrantedResult
 
@@ -551,18 +551,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:239
 
-___
+---
 
 ### RoleRevokedArgs
 
@@ -570,15 +570,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.LockPaymentCondition.md#rolerevokedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.LockPaymentCondition.md#rolerevokedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:296
 
-___
+---
 
 ### RoleRevokedFields
 
@@ -586,18 +586,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:290
 
-___
+---
 
 ### RoleRevokedFilter
 
@@ -605,40 +605,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:256
 
-___
+---
 
 ### RoleRevokedResult
 
@@ -646,18 +646,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:284
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -665,10 +665,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -682,17 +682,17 @@ node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:2
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.LockPaymentCondition.md#fulfilledresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.LockPaymentCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions) |
-| `args` | [`FulfilledArgs`](subgraphs.LockPaymentCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.LockPaymentCondition.md#fulfilledargs)<`K`\>     |
 
 #### Returns
 
@@ -702,7 +702,7 @@ node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:2
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:96
 
-___
+---
 
 ### getFulfilleds
 
@@ -710,17 +710,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.LockPaymentCondition.md#fulfilledresult) |
+| Name | Type                                                                                 |
+| :--- | :----------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.LockPaymentCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                        |
+| :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                    |
 | `options` | [`MultiQueryOptions`](subgraphs.LockPaymentCondition.md#multiqueryoptions)<[`FulfilledFilter`](subgraphs.LockPaymentCondition.md#fulfilledfilter), [`FulfilledResult`](subgraphs.LockPaymentCondition.md#fulfilledresult)\> |
-| `args` | [`FulfilledArgs`](subgraphs.LockPaymentCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.LockPaymentCondition.md#fulfilledargs)<`K`\>                                                                                                                                                    |
 
 #### Returns
 
@@ -730,7 +730,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:97
 
-___
+---
 
 ### getInitializedById
 
@@ -738,17 +738,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.LockPaymentCondition.md#initializedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.LockPaymentCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.LockPaymentCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.LockPaymentCondition.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -758,7 +758,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:127
 
-___
+---
 
 ### getInitializeds
 
@@ -766,17 +766,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.LockPaymentCondition.md#initializedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.LockPaymentCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                            |
 | `options` | [`MultiQueryOptions`](subgraphs.LockPaymentCondition.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.LockPaymentCondition.md#initializedfilter), [`InitializedResult`](subgraphs.LockPaymentCondition.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.LockPaymentCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.LockPaymentCondition.md#initializedargs)<`K`\>                                                                                                                                                        |
 
 #### Returns
 
@@ -786,7 +786,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:128
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -794,17 +794,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.LockPaymentCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.LockPaymentCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.LockPaymentCondition.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                           |
+| :-------- | :--------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                       |
+| `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.LockPaymentCondition.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -814,7 +814,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:164
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -822,17 +822,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.LockPaymentCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                       |
+| :--- | :--------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.LockPaymentCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                    |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.LockPaymentCondition.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.LockPaymentCondition.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.LockPaymentCondition.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.LockPaymentCondition.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.LockPaymentCondition.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                          |
 
 #### Returns
 
@@ -842,7 +842,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:165
 
-___
+---
 
 ### getRoleAdminChangedById
 
@@ -850,17 +850,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.LockPaymentCondition.md#roleadminchangedresult) |
+| Name | Type                                                                                               |
+| :--- | :------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.LockPaymentCondition.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions) |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.LockPaymentCondition.md#roleadminchangedargs)<`K`\> |
+| Name      | Type                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                               |
+| `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions)           |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.LockPaymentCondition.md#roleadminchangedargs)<`K`\> |
 
 #### Returns
 
@@ -870,7 +870,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:209
 
-___
+---
 
 ### getRoleAdminChangeds
 
@@ -878,17 +878,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.LockPaymentCondition.md#roleadminchangedresult) |
+| Name | Type                                                                                               |
+| :--- | :------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.LockPaymentCondition.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                    |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `url`     | `string`                                                                                                                                                                                                                                                |
 | `options` | [`MultiQueryOptions`](subgraphs.LockPaymentCondition.md#multiqueryoptions)<[`RoleAdminChangedFilter`](subgraphs.LockPaymentCondition.md#roleadminchangedfilter), [`RoleAdminChangedResult`](subgraphs.LockPaymentCondition.md#roleadminchangedresult)\> |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.LockPaymentCondition.md#roleadminchangedargs)<`K`\> |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.LockPaymentCondition.md#roleadminchangedargs)<`K`\>                                                                                                                                                                  |
 
 #### Returns
 
@@ -898,7 +898,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:210
 
-___
+---
 
 ### getRoleGrantedById
 
@@ -906,17 +906,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.LockPaymentCondition.md#rolegrantedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.LockPaymentCondition.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions) |
-| `args` | [`RoleGrantedArgs`](subgraphs.LockPaymentCondition.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.LockPaymentCondition.md#rolegrantedargs)<`K`\> |
 
 #### Returns
 
@@ -926,7 +926,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:254
 
-___
+---
 
 ### getRoleGranteds
 
@@ -934,17 +934,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.LockPaymentCondition.md#rolegrantedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.LockPaymentCondition.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                            |
 | `options` | [`MultiQueryOptions`](subgraphs.LockPaymentCondition.md#multiqueryoptions)<[`RoleGrantedFilter`](subgraphs.LockPaymentCondition.md#rolegrantedfilter), [`RoleGrantedResult`](subgraphs.LockPaymentCondition.md#rolegrantedresult)\> |
-| `args` | [`RoleGrantedArgs`](subgraphs.LockPaymentCondition.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.LockPaymentCondition.md#rolegrantedargs)<`K`\>                                                                                                                                                        |
 
 #### Returns
 
@@ -954,7 +954,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:255
 
-___
+---
 
 ### getRoleRevokedById
 
@@ -962,17 +962,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.LockPaymentCondition.md#rolerevokedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.LockPaymentCondition.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| `url`     | `string`                                                                     |
 | `options` | [`SingleQueryOptions`](subgraphs.LockPaymentCondition.md#singlequeryoptions) |
-| `args` | [`RoleRevokedArgs`](subgraphs.LockPaymentCondition.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.LockPaymentCondition.md#rolerevokedargs)<`K`\> |
 
 #### Returns
 
@@ -982,7 +982,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/LockPaymentCondition.d.ts:299
 
-___
+---
 
 ### getRoleRevokeds
 
@@ -990,17 +990,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.LockPaymentCondition.md#rolerevokedresult) |
+| Name | Type                                                                                     |
+| :--- | :--------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.LockPaymentCondition.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                            |
 | `options` | [`MultiQueryOptions`](subgraphs.LockPaymentCondition.md#multiqueryoptions)<[`RoleRevokedFilter`](subgraphs.LockPaymentCondition.md#rolerevokedfilter), [`RoleRevokedResult`](subgraphs.LockPaymentCondition.md#rolerevokedresult)\> |
-| `args` | [`RoleRevokedArgs`](subgraphs.LockPaymentCondition.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.LockPaymentCondition.md#rolerevokedargs)<`K`\>                                                                                                                                                        |
 
 #### Returns
 

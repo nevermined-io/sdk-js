@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / ClientError
+[@nevermined-io/sdk](../code-reference.md) / ClientError
 
 # Class: ClientError
 
@@ -34,9 +34,9 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `message` | `string` |
+| Name         | Type     |
+| :----------- | :------- |
+| `message`    | `string` |
 | `clientName` | `string` |
 
 #### Overrides
@@ -61,7 +61,7 @@ Error.message
 
 node_modules/typescript/lib/lib.es5.d.ts:1041
 
-___
+---
 
 ### name
 
@@ -75,7 +75,7 @@ Error.name
 
 node_modules/typescript/lib/lib.es5.d.ts:1040
 
-___
+---
 
 ### stack
 
@@ -91,7 +91,7 @@ node_modules/typescript/lib/lib.es5.d.ts:1042
 
 node_modules/@types/node/globals.d.ts:127
 
-___
+---
 
 ### prepareStackTrace
 
@@ -109,9 +109,9 @@ https://github.com/v8/v8/wiki/Stack%20Trace%20API#customizing-stack-traces
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `err` | `Error` |
+| Name          | Type         |
+| :------------ | :----------- |
+| `err`         | `Error`      |
 | `stackTraces` | `CallSite`[] |
 
 ##### Returns
@@ -126,7 +126,7 @@ Error.prepareStackTrace
 
 node_modules/@types/node/globals.d.ts:140
 
-___
+---
 
 ### stackTraceLimit
 
@@ -150,9 +150,9 @@ Create .stack property on a target object
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `targetObject` | `Object` |
+| Name              | Type       |
+| :---------------- | :--------- |
+| `targetObject`    | `Object`   |
 | `constructorOpt?` | `Function` |
 
 #### Returns

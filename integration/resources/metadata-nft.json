@@ -1,0 +1,24 @@
+{
+  "main": {
+    "name": "Nevermined NFT DDO",
+    "type": "dataset",
+    "dateCreated": "2023-01-01T00:00:00Z",
+    "datePublished": "2023-01-01T00:00:00Z",
+    "author": "root@nevermined.io",
+    "license": "Apache License 2.0",
+    "files": [
+      {
+        "index": 0,
+        "contentType": "text/markdown",
+        "url": "https://raw.githubusercontent.com/nevermined-io/.github/master/profile/README.md",
+        "checksum": "17c7341576944303a04acc34fca061d14b7bcdb4d9464b6d9b7f38590cd0fe7f"
+      }
+    ],
+    "ercType": 1155,
+    "nftType": "nft1155"
+  },
+  "additionalInformation": {
+    "description": "Nevermined is an ecosystem development platform.",
+    "customData": {}
+  }
+}

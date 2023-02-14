@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721HolderCondition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721HolderCondition
 
 # Namespace: NFT721HolderCondition
 
@@ -40,15 +40,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.NFT721HolderCondition.md#fulfilledresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.NFT721HolderCondition.md#fulfilledresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:79
 
-___
+---
 
 ### FulfilledFields
 
@@ -56,20 +56,20 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_address` | ``true`` |
-| `_agreementId` | ``true`` |
-| `_amount` | ``true`` |
-| `_conditionId` | ``true`` |
-| `_did` | ``true`` |
-| `id` | ``true`` |
+| Name           | Type   |
+| :------------- | :----- |
+| `_address`     | `true` |
+| `_agreementId` | `true` |
+| `_amount`      | `true` |
+| `_conditionId` | `true` |
+| `_did`         | `true` |
+| `id`           | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:71
 
-___
+---
 
 ### FulfilledFilter
 
@@ -77,54 +77,54 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_address?` | `string` \| ``null`` |
-| `_address_contains?` | `string` \| ``null`` |
-| `_address_in?` | `string`[] |
-| `_address_not?` | `string` \| ``null`` |
-| `_address_not_contains?` | `string` \| ``null`` |
-| `_address_not_in?` | `string`[] |
-| `_agreementId?` | `string` \| ``null`` |
-| `_agreementId_contains?` | `string` \| ``null`` |
-| `_agreementId_in?` | `string`[] |
-| `_agreementId_not?` | `string` \| ``null`` |
-| `_agreementId_not_contains?` | `string` \| ``null`` |
-| `_agreementId_not_in?` | `string`[] |
-| `_amount?` | `WeiSource` \| ``null`` |
-| `_amount_gt?` | `WeiSource` \| ``null`` |
-| `_amount_gte?` | `WeiSource` \| ``null`` |
-| `_amount_in?` | `WeiSource`[] |
-| `_amount_lt?` | `WeiSource` \| ``null`` |
-| `_amount_lte?` | `WeiSource` \| ``null`` |
-| `_amount_not?` | `WeiSource` \| ``null`` |
-| `_amount_not_in?` | `WeiSource`[] |
-| `_conditionId?` | `string` \| ``null`` |
-| `_conditionId_contains?` | `string` \| ``null`` |
-| `_conditionId_in?` | `string`[] |
-| `_conditionId_not?` | `string` \| ``null`` |
-| `_conditionId_not_contains?` | `string` \| ``null`` |
-| `_conditionId_not_in?` | `string`[] |
-| `_did?` | `string` \| ``null`` |
-| `_did_contains?` | `string` \| ``null`` |
-| `_did_in?` | `string`[] |
-| `_did_not?` | `string` \| ``null`` |
-| `_did_not_contains?` | `string` \| ``null`` |
-| `_did_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                         | Type                  |
+| :--------------------------- | :-------------------- |
+| `_address?`                  | `string` \| `null`    |
+| `_address_contains?`         | `string` \| `null`    |
+| `_address_in?`               | `string`[]            |
+| `_address_not?`              | `string` \| `null`    |
+| `_address_not_contains?`     | `string` \| `null`    |
+| `_address_not_in?`           | `string`[]            |
+| `_agreementId?`              | `string` \| `null`    |
+| `_agreementId_contains?`     | `string` \| `null`    |
+| `_agreementId_in?`           | `string`[]            |
+| `_agreementId_not?`          | `string` \| `null`    |
+| `_agreementId_not_contains?` | `string` \| `null`    |
+| `_agreementId_not_in?`       | `string`[]            |
+| `_amount?`                   | `WeiSource` \| `null` |
+| `_amount_gt?`                | `WeiSource` \| `null` |
+| `_amount_gte?`               | `WeiSource` \| `null` |
+| `_amount_in?`                | `WeiSource`[]         |
+| `_amount_lt?`                | `WeiSource` \| `null` |
+| `_amount_lte?`               | `WeiSource` \| `null` |
+| `_amount_not?`               | `WeiSource` \| `null` |
+| `_amount_not_in?`            | `WeiSource`[]         |
+| `_conditionId?`              | `string` \| `null`    |
+| `_conditionId_contains?`     | `string` \| `null`    |
+| `_conditionId_in?`           | `string`[]            |
+| `_conditionId_not?`          | `string` \| `null`    |
+| `_conditionId_not_contains?` | `string` \| `null`    |
+| `_conditionId_not_in?`       | `string`[]            |
+| `_did?`                      | `string` \| `null`    |
+| `_did_contains?`             | `string` \| `null`    |
+| `_did_in?`                   | `string`[]            |
+| `_did_not?`                  | `string` \| `null`    |
+| `_did_not_contains?`         | `string` \| `null`    |
+| `_did_not_in?`               | `string`[]            |
+| `id?`                        | `string` \| `null`    |
+| `id_gt?`                     | `string` \| `null`    |
+| `id_gte?`                    | `string` \| `null`    |
+| `id_in?`                     | `string`[]            |
+| `id_lt?`                     | `string` \| `null`    |
+| `id_lte?`                    | `string` \| `null`    |
+| `id_not?`                    | `string` \| `null`    |
+| `id_not_in?`                 | `string`[]            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:21
 
-___
+---
 
 ### FulfilledResult
 
@@ -132,20 +132,20 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_address` | `string` |
+| Name           | Type     |
+| :------------- | :------- |
+| `_address`     | `string` |
 | `_agreementId` | `string` |
-| `_amount` | `Wei` |
+| `_amount`      | `Wei`    |
 | `_conditionId` | `string` |
-| `_did` | `string` |
-| `id` | `string` |
+| `_did`         | `string` |
+| `id`           | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:63
 
-___
+---
 
 ### InitializedArgs
 
@@ -153,15 +153,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFT721HolderCondition.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFT721HolderCondition.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:110
 
-___
+---
 
 ### InitializedFields
 
@@ -169,16 +169,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:106
 
-___
+---
 
 ### InitializedFilter
 
@@ -186,30 +186,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:84
 
-___
+---
 
 ### InitializedResult
 
@@ -217,16 +217,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:102
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -235,25 +235,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:10
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -261,15 +261,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721HolderCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721HolderCondition.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:147
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -277,17 +277,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:142
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -295,34 +295,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:115
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -330,17 +330,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:137
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -348,10 +348,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -365,17 +365,17 @@ node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:2
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.NFT721HolderCondition.md#fulfilledresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.NFT721HolderCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.NFT721HolderCondition.md#singlequeryoptions) |
-| `args` | [`FulfilledArgs`](subgraphs.NFT721HolderCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.NFT721HolderCondition.md#fulfilledargs)<`K`\>     |
 
 #### Returns
 
@@ -385,7 +385,7 @@ node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:2
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:82
 
-___
+---
 
 ### getFulfilleds
 
@@ -393,17 +393,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.NFT721HolderCondition.md#fulfilledresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.NFT721HolderCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                           |
+| :-------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                       |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721HolderCondition.md#multiqueryoptions)<[`FulfilledFilter`](subgraphs.NFT721HolderCondition.md#fulfilledfilter), [`FulfilledResult`](subgraphs.NFT721HolderCondition.md#fulfilledresult)\> |
-| `args` | [`FulfilledArgs`](subgraphs.NFT721HolderCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.NFT721HolderCondition.md#fulfilledargs)<`K`\>                                                                                                                                                      |
 
 #### Returns
 
@@ -413,7 +413,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:83
 
-___
+---
 
 ### getInitializedById
 
@@ -421,17 +421,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFT721HolderCondition.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFT721HolderCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.NFT721HolderCondition.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.NFT721HolderCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NFT721HolderCondition.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -441,7 +441,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:113
 
-___
+---
 
 ### getInitializeds
 
@@ -449,17 +449,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFT721HolderCondition.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFT721HolderCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721HolderCondition.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.NFT721HolderCondition.md#initializedfilter), [`InitializedResult`](subgraphs.NFT721HolderCondition.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.NFT721HolderCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NFT721HolderCondition.md#initializedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 
@@ -469,7 +469,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:114
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -477,17 +477,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721HolderCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721HolderCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NFT721HolderCondition.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NFT721HolderCondition.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                            |
+| :-------- | :---------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                        |
+| `options` | [`SingleQueryOptions`](subgraphs.NFT721HolderCondition.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NFT721HolderCondition.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -497,7 +497,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721HolderCondition.d.ts:150
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -505,17 +505,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721HolderCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721HolderCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721HolderCondition.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.NFT721HolderCondition.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.NFT721HolderCondition.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NFT721HolderCondition.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NFT721HolderCondition.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                            |
 
 #### Returns
 

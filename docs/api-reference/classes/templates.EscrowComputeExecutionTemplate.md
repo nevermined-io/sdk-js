@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [templates](../modules/templates.md) / EscrowComputeExecutionTemplate
+[@nevermined-io/sdk](../code-reference.md) / [templates](../modules/templates.md) / EscrowComputeExecutionTemplate
 
 # Class: EscrowComputeExecutionTemplate
 
@@ -97,8 +97,8 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name           | Type     |
+| :------------- | :------- |
 | `contractName` | `string` |
 
 #### Inherited from
@@ -123,7 +123,7 @@
 
 [src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L24)
 
-___
+---
 
 ### contractName
 
@@ -137,7 +137,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L23)
 
-___
+---
 
 ### events
 
@@ -151,7 +151,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L25)
 
-___
+---
 
 ### version
 
@@ -183,7 +183,7 @@ BaseTemplate.address
 
 [src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L28)
 
-___
+---
 
 ### artifactsFolder
 
@@ -201,7 +201,7 @@ BaseTemplate.artifactsFolder
 
 [src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
 
-___
+---
 
 ### config
 
@@ -219,7 +219,7 @@ BaseTemplate.config
 
 [src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
 
-___
+---
 
 ### instanceConfig
 
@@ -237,7 +237,7 @@ BaseTemplate.instanceConfig
 
 [src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
 
-___
+---
 
 ### instantiableConfig
 
@@ -255,7 +255,7 @@ BaseTemplate.instantiableConfig
 
 [src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
 
-___
+---
 
 ### logger
 
@@ -273,7 +273,7 @@ BaseTemplate.logger
 
 [src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
 
-___
+---
 
 ### nevermined
 
@@ -291,7 +291,7 @@ BaseTemplate.nevermined
 
 [src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
 
-___
+---
 
 ### web3
 
@@ -317,8 +317,8 @@ BaseTemplate.web3
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type               |
+| :-------- | :----------------- |
 | `_params` | `ValidationParams` |
 
 #### Returns
@@ -333,7 +333,7 @@ BaseTemplate.web3
 
 [src/keeper/contracts/templates/BaseTemplate.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L112)
 
-___
+---
 
 ### addresses
 
@@ -351,7 +351,7 @@ ___
 
 [src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
 
-___
+---
 
 ### agreementId
 
@@ -359,10 +359,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name              | Type     |
+| :---------------- | :------- |
 | `agreementIdSeed` | `string` |
-| `creator` | `string` |
+| `creator`         | `string` |
 
 #### Returns
 
@@ -376,7 +376,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:213](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L213)
 
-___
+---
 
 ### call
 
@@ -385,15 +385,15 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
+| :--- |
+| `T`  |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `args` | `any`[] |
+| Name    | Type     |
+| :------ | :------- |
+| `name`  | `string` |
+| `args`  | `any`[]  |
 | `from?` | `string` |
 
 #### Returns
@@ -408,7 +408,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L244)
 
-___
+---
 
 ### checkExists
 
@@ -418,8 +418,8 @@ Returns true of contract exists else it throws.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `address` | `string` |
 
 #### Returns
@@ -436,7 +436,7 @@ true if the contract exists.
 
 [src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
 
-___
+---
 
 ### conditions
 
@@ -454,7 +454,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:107](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L107)
 
-___
+---
 
 ### createAgreement
 
@@ -462,16 +462,16 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `agreementId` | `string` |
-| `did` | `string` |
-| `conditionIds` | `string`[] |
-| `timeLocks` | `number`[] |
-| `timeOuts` | `number`[] |
-| `extraArgs` | `any`[] |
-| `from?` | [`Account`](Account.md) |
-| `params?` | `TxParameters` |
+| Name           | Type                    |
+| :------------- | :---------------------- |
+| `agreementId`  | `string`                |
+| `did`          | `string`                |
+| `conditionIds` | `string`[]              |
+| `timeLocks`    | `number`[]              |
+| `timeOuts`     | `number`[]              |
+| `extraArgs`    | `any`[]                 |
+| `from?`        | [`Account`](Account.md) |
+| `params?`      | `TxParameters`          |
 
 #### Returns
 
@@ -485,7 +485,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L99)
 
-___
+---
 
 ### createAgreementAndPay
 
@@ -493,21 +493,21 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `agreementId` | `string` |
-| `did` | `string` |
-| `conditionIds` | `string`[] |
-| `timeLocks` | `number`[] |
-| `timeOuts` | `number`[] |
-| `accessConsumer` | `string` |
-| `condIdx` | `number` |
-| `rewardAddress` | `string` |
-| `tokenAddress` | `string` |
-| `amounts` | `default`[] |
-| `receivers` | `string`[] |
-| `from?` | [`Account`](Account.md) |
-| `params?` | `TxParameters` |
+| Name             | Type                    |
+| :--------------- | :---------------------- |
+| `agreementId`    | `string`                |
+| `did`            | `string`                |
+| `conditionIds`   | `string`[]              |
+| `timeLocks`      | `number`[]              |
+| `timeOuts`       | `number`[]              |
+| `accessConsumer` | `string`                |
+| `condIdx`        | `number`                |
+| `rewardAddress`  | `string`                |
+| `tokenAddress`   | `string`                |
+| `amounts`        | `default`[]             |
+| `receivers`      | `string`[]              |
+| `from?`          | [`Account`](Account.md) |
+| `params?`        | `TxParameters`          |
 
 #### Returns
 
@@ -521,7 +521,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:124](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L124)
 
-___
+---
 
 ### createAgreementFromDDO
 
@@ -531,15 +531,15 @@ Create a new agreement using the data of a DDO.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `agreementIdSeed` | `string` | - |
-| `ddo` | [`DDO`](DDO.md) | DDO. |
-| `parameters` | `EscrowComputeExecutionParams` |  |
-| `consumer` | [`Account`](Account.md) | - |
-| `from` | [`Account`](Account.md) | - |
-| `timeOuts?` | `number`[] | - |
-| `params?` | `TxParameters` | - |
+| Name              | Type                           | Description |
+| :---------------- | :----------------------------- | :---------- |
+| `agreementIdSeed` | `string`                       | -           |
+| `ddo`             | [`DDO`](DDO.md)                | DDO.        |
+| `parameters`      | `EscrowComputeExecutionParams` |             |
+| `consumer`        | [`Account`](Account.md)        | -           |
+| `from`            | [`Account`](Account.md)        | -           |
+| `timeOuts?`       | `number`[]                     | -           |
+| `params?`         | `TxParameters`                 | -           |
 
 #### Returns
 
@@ -555,7 +555,7 @@ true if the call was successful.
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:225](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L225)
 
-___
+---
 
 ### createAgreementWithPaymentFromDDO
 
@@ -563,16 +563,16 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `agreementIdSeed` | `string` |
-| `ddo` | [`DDO`](DDO.md) |
-| `parameters` | `EscrowComputeExecutionParams` |
-| `consumer` | [`Account`](Account.md) |
-| `from` | [`Account`](Account.md) |
-| `timeOuts?` | `number`[] |
-| `txParams?` | `TxParameters` |
-| `observer?` | (`OrderProgressStep`: `any`) => `void` |
+| Name              | Type                                   |
+| :---------------- | :------------------------------------- |
+| `agreementIdSeed` | `string`                               |
+| `ddo`             | [`DDO`](DDO.md)                        |
+| `parameters`      | `EscrowComputeExecutionParams`         |
+| `consumer`        | [`Account`](Account.md)                |
+| `from`            | [`Account`](Account.md)                |
+| `timeOuts?`       | `number`[]                             |
+| `txParams?`       | `TxParameters`                         |
+| `observer?`       | (`OrderProgressStep`: `any`) => `void` |
 
 #### Returns
 
@@ -586,21 +586,21 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:255](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L255)
 
-___
+---
 
 ### createService
 
-▸ **createService**(`publisher`, `metadata`, `assetRewards?`, `erc20TokenAddress?`, `priced?`): `Promise`<`ServiceCompute`\>
+▸ **createService**(`publisher`, `metadata`, `assetPrice?`, `erc20TokenAddress?`, `priced?`): `Promise`<`ServiceCompute`\>
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `publisher` | [`Account`](Account.md) | `undefined` |
-| `metadata` | [`MetaData`](../interfaces/MetaData.md) | `undefined` |
-| `assetRewards?` | `default` | `undefined` |
-| `erc20TokenAddress?` | `string` | `undefined` |
-| `priced` | `boolean` | `false` |
+| Name                 | Type                                    | Default value |
+| :------------------- | :-------------------------------------- | :------------ |
+| `publisher`          | [`Account`](Account.md)                 | `undefined`   |
+| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | `undefined`   |
+| `assetPrice?`        | `default`                               | `undefined`   |
+| `erc20TokenAddress?` | `string`                                | `undefined`   |
+| `priced`             | `boolean`                               | `false`       |
 
 #### Returns
 
@@ -614,7 +614,7 @@ ___
 
 [src/keeper/contracts/templates/BaseTemplate.abstract.ts:65](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L65)
 
-___
+---
 
 ### description
 
@@ -632,7 +632,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:42](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L42)
 
-___
+---
 
 ### extraGen
 
@@ -640,8 +640,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type               |
+| :-------- | :----------------- |
 | `_params` | `ValidationParams` |
 
 #### Returns
@@ -656,7 +656,7 @@ ___
 
 [src/keeper/contracts/templates/BaseTemplate.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L108)
 
-___
+---
 
 ### findSigner
 
@@ -664,8 +664,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type     |
+| :----- | :------- |
 | `from` | `string` |
 
 #### Returns
@@ -680,7 +680,7 @@ ___
 
 [src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
 
-___
+---
 
 ### getAddress
 
@@ -698,7 +698,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L41)
 
-___
+---
 
 ### getAgreementCreatedEvent
 
@@ -708,8 +708,8 @@ Generates and returns the agreement creation event.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name          | Type     | Description   |
+| :------------ | :------- | :------------ |
 | `agreementId` | `string` | Agreement ID. |
 
 #### Returns
@@ -726,21 +726,21 @@ Agreement created event.
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:469](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L469)
 
-___
+---
 
 ### getAgreementData
 
-▸ **getAgreementData**(`agreementId`): `Promise`<{ `accessConsumer`: `string` ; `accessProvider`: `string`  }\>
+▸ **getAgreementData**(`agreementId`): `Promise`<{ `accessConsumer`: `string` ; `accessProvider`: `string` }\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type     |
+| :------------ | :------- |
 | `agreementId` | `string` |
 
 #### Returns
 
-`Promise`<{ `accessConsumer`: `string` ; `accessProvider`: `string`  }\>
+`Promise`<{ `accessConsumer`: `string` ; `accessProvider`: `string` }\>
 
 #### Inherited from
 
@@ -750,7 +750,7 @@ ___
 
 [src/keeper/contracts/templates/BaseTemplate.abstract.ts:21](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L21)
 
-___
+---
 
 ### getAgreementIdsFromDDO
 
@@ -760,12 +760,12 @@ Get agreement conditions IDs.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `agreementId` | `string` | Agreement ID. |
-| `ddo` | [`DDO`](DDO.md) | DDO. |
-| `creator` | `string` | - |
-| `params` | `EscrowComputeExecutionParams` | - |
+| Name          | Type                           | Description   |
+| :------------ | :----------------------------- | :------------ |
+| `agreementId` | `string`                       | Agreement ID. |
+| `ddo`         | [`DDO`](DDO.md)                | DDO.          |
+| `creator`     | `string`                       | -             |
+| `params`      | `EscrowComputeExecutionParams` | -             |
 
 #### Returns
 
@@ -781,23 +781,23 @@ The condition IDs.
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:183](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L183)
 
-___
+---
 
 ### getAgreementStatus
 
-▸ **getAgreementStatus**(`agreementId`): `Promise`<``false`` \| [`AgreementConditionsStatus`](../interfaces/templates.AgreementConditionsStatus.md)\>
+▸ **getAgreementStatus**(`agreementId`): `Promise`<`false` \| [`AgreementConditionsStatus`](../interfaces/templates.AgreementConditionsStatus.md)\>
 
 Returns the status of the conditions.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name          | Type     | Description   |
+| :------------ | :------- | :------------ |
 | `agreementId` | `string` | Agreement ID. |
 
 #### Returns
 
-`Promise`<``false`` \| [`AgreementConditionsStatus`](../interfaces/templates.AgreementConditionsStatus.md)\>
+`Promise`<`false` \| [`AgreementConditionsStatus`](../interfaces/templates.AgreementConditionsStatus.md)\>
 
 The conditions status.
 
@@ -809,7 +809,7 @@ The conditions status.
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:343](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L343)
 
-___
+---
 
 ### getAgreementsForDID
 
@@ -817,8 +817,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type     |
+| :---- | :------- |
 | `did` | `string` |
 
 #### Returns
@@ -833,7 +833,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:496](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L496)
 
-___
+---
 
 ### getConditionTypes
 
@@ -855,7 +855,7 @@ A list of condition addresses.
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L163)
 
-___
+---
 
 ### getConditions
 
@@ -877,7 +877,7 @@ A list of condition contracts.
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L171)
 
-___
+---
 
 ### getContract
 
@@ -895,7 +895,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L37)
 
-___
+---
 
 ### getFromAddress
 
@@ -903,8 +903,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type     |
+| :------ | :------- |
 | `from?` | `string` |
 
 #### Returns
@@ -919,7 +919,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L90)
 
-___
+---
 
 ### getInputsOfMethod
 
@@ -927,8 +927,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name         | Type     |
+| :----------- | :------- |
 | `methodName` | `string` |
 
 #### Returns
@@ -943,7 +943,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L50)
 
-___
+---
 
 ### getServiceAgreementTemplate
 
@@ -961,7 +961,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:95](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L95)
 
-___
+---
 
 ### getServiceAgreementTemplateConditionByRef
 
@@ -969,8 +969,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type     |
+| :---- | :------- |
 | `ref` | `string` |
 
 #### Returns
@@ -985,7 +985,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:324](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L324)
 
-___
+---
 
 ### getServiceAgreementTemplateConditions
 
@@ -1003,15 +1003,15 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:319](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L319)
 
-___
+---
 
 ### getServiceAgreementTemplateDependencies
 
-▸ **getServiceAgreementTemplateDependencies**(): `Promise`<{ `[condition: string]`: `string`[];  }\>
+▸ **getServiceAgreementTemplateDependencies**(): `Promise`<{ `[condition: string]`: `string`[]; }\>
 
 #### Returns
 
-`Promise`<{ `[condition: string]`: `string`[];  }\>
+`Promise`<{ `[condition: string]`: `string`[]; }\>
 
 #### Inherited from
 
@@ -1021,7 +1021,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:333](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L333)
 
-___
+---
 
 ### getSignatureOfMethod
 
@@ -1029,10 +1029,10 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `methodName` | `string` | `undefined` |
-| `args` | `any`[] | `[]` |
+| Name         | Type     | Default value |
+| :----------- | :------- | :------------ |
+| `methodName` | `string` | `undefined`   |
+| `args`       | `any`[]  | `[]`          |
 
 #### Returns
 
@@ -1046,7 +1046,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L45)
 
-___
+---
 
 ### init
 
@@ -1054,10 +1054,10 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `config` | `InstantiableConfig` | `undefined` |
-| `optional` | `boolean` | `false` |
+| Name       | Type                 | Default value |
+| :--------- | :------------------- | :------------ |
+| `config`   | `InstantiableConfig` | `undefined`   |
+| `optional` | `boolean`            | `false`       |
 
 #### Returns
 
@@ -1071,7 +1071,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L55)
 
-___
+---
 
 ### instanceFromDDO
 
@@ -1079,12 +1079,12 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `agreementIdSeed` | `string` |
-| `ddo` | [`DDO`](DDO.md) |
-| `creator` | `string` |
-| `parameters` | `EscrowComputeExecutionParams` |
+| Name              | Type                           |
+| :---------------- | :----------------------------- |
+| `agreementIdSeed` | `string`                       |
+| `ddo`             | [`DDO`](DDO.md)                |
+| `creator`         | `string`                       |
+| `parameters`      | `EscrowComputeExecutionParams` |
 
 #### Returns
 
@@ -1098,7 +1098,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:120](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L120)
 
-___
+---
 
 ### lockConditionIndex
 
@@ -1116,7 +1116,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L81)
 
-___
+---
 
 ### lockTokens
 
@@ -1124,12 +1124,12 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `tokenAddress` | `any` |
-| `amounts` | `any` |
-| `from` | [`Account`](Account.md) |
-| `txParams` | `TxParameters` |
+| Name           | Type                    |
+| :------------- | :---------------------- |
+| `tokenAddress` | `any`                   |
+| `amounts`      | `any`                   |
+| `from`         | [`Account`](Account.md) |
+| `txParams`     | `TxParameters`          |
 
 #### Returns
 
@@ -1143,7 +1143,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:398](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L398)
 
-___
+---
 
 ### name
 
@@ -1161,7 +1161,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:39](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L39)
 
-___
+---
 
 ### params
 
@@ -1169,8 +1169,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type                    |
+| :--------- | :---------------------- |
 | `consumer` | [`Account`](Account.md) |
 
 #### Returns
@@ -1185,7 +1185,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:103](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L103)
 
-___
+---
 
 ### paramsGen
 
@@ -1195,8 +1195,8 @@ Specialize params
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name     | Type               | Description        |
+| :------- | :----------------- | :----------------- |
 | `params` | `ValidationParams` | Generic parameters |
 
 #### Returns
@@ -1211,7 +1211,7 @@ Specialize params
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:23](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L23)
 
-___
+---
 
 ### paymentData
 
@@ -1219,8 +1219,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type            |
+| :-------- | :-------------- |
 | `service` | `ServiceCommon` |
 
 #### Returns
@@ -1235,7 +1235,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:85](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L85)
 
-___
+---
 
 ### printAgreementStatus
 
@@ -1245,8 +1245,8 @@ Prints the agreement status.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name          | Type     | Description   |
+| :------------ | :------- | :------------ |
 | `agreementId` | `string` | Agreement ID. |
 
 #### Returns
@@ -1261,7 +1261,7 @@ Prints the agreement status.
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:439](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L439)
 
-___
+---
 
 ### process
 
@@ -1269,11 +1269,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `params` | `ValidationParams` |
-| `from` | [`Account`](Account.md) |
-| `txparams?` | `TxParameters` |
+| Name        | Type                    |
+| :---------- | :---------------------- |
+| `params`    | `ValidationParams`      |
+| `from`      | [`Account`](Account.md) |
+| `txparams?` | `TxParameters`          |
 
 #### Returns
 
@@ -1287,21 +1287,21 @@ ___
 
 [src/keeper/contracts/templates/BaseTemplate.abstract.ts:116](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L116)
 
-___
+---
 
 ### providerConfig
 
-▸ **providerConfig**(): `Promise`<{ `description`: `string` = ''; `environment`: { `cluster`: { `type`: `string` = 'Kubernetes'; `url`: `string` = 'http://10.0.0.17/xxx' } ; `supportedContainers`: { `checksum`: `string` = 'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'; `image`: `string` = 'tensorflow/tensorflow'; `tag`: `string` = 'latest' }[] ; `supportedServers`: { `cpu`: `string` = '16'; `disk`: `string` = '160gb'; `gpu`: `string` = '0'; `maxExecutionTime`: `number` = 86400; `memory`: `string` = '128gb'; `price`: `string` = '50'; `serverId`: `string` = '1'; `serverType`: `string` = 'xlsize' }[]  } ; `type`: `string` = 'Azure' }\>
+▸ **providerConfig**(): `Promise`<{ `description`: `string` = ''; `environment`: { `cluster`: { `type`: `string` = 'Kubernetes'; `url`: `string` = 'http://10.0.0.17/xxx' } ; `supportedContainers`: { `checksum`: `string` = 'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'; `image`: `string` = 'tensorflow/tensorflow'; `tag`: `string` = 'latest' }[] ; `supportedServers`: { `cpu`: `string` = '16'; `disk`: `string` = '160gb'; `gpu`: `string` = '0'; `maxExecutionTime`: `number` = 86400; `memory`: `string` = '128gb'; `price`: `string` = '50'; `serverId`: `string` = '1'; `serverType`: `string` = 'xlsize' }[] } ; `type`: `string` = 'Azure' }\>
 
 #### Returns
 
-`Promise`<{ `description`: `string` = ''; `environment`: { `cluster`: { `type`: `string` = 'Kubernetes'; `url`: `string` = 'http://10.0.0.17/xxx' } ; `supportedContainers`: { `checksum`: `string` = 'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'; `image`: `string` = 'tensorflow/tensorflow'; `tag`: `string` = 'latest' }[] ; `supportedServers`: { `cpu`: `string` = '16'; `disk`: `string` = '160gb'; `gpu`: `string` = '0'; `maxExecutionTime`: `number` = 86400; `memory`: `string` = '128gb'; `price`: `string` = '50'; `serverId`: `string` = '1'; `serverType`: `string` = 'xlsize' }[]  } ; `type`: `string` = 'Azure' }\>
+`Promise`<{ `description`: `string` = ''; `environment`: { `cluster`: { `type`: `string` = 'Kubernetes'; `url`: `string` = 'http://10.0.0.17/xxx' } ; `supportedContainers`: { `checksum`: `string` = 'sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc'; `image`: `string` = 'tensorflow/tensorflow'; `tag`: `string` = 'latest' }[] ; `supportedServers`: { `cpu`: `string` = '16'; `disk`: `string` = '160gb'; `gpu`: `string` = '0'; `maxExecutionTime`: `number` = 86400; `memory`: `string` = '128gb'; `price`: `string` = '50'; `serverId`: `string` = '1'; `serverType`: `string` = 'xlsize' }[] } ; `type`: `string` = 'Azure' }\>
 
 #### Defined in
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:46](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L46)
 
-___
+---
 
 ### send
 
@@ -1309,11 +1309,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `from` | `string` |
-| `args` | `any`[] |
+| Name     | Type           |
+| :------- | :------------- |
+| `name`   | `string`       |
+| `from`   | `string`       |
+| `args`   | `any`[]        |
 | `params` | `TxParameters` |
 
 #### Returns
@@ -1328,7 +1328,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L117)
 
-___
+---
 
 ### sendFrom
 
@@ -1336,12 +1336,12 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `args` | `any`[] |
-| `from?` | [`Account`](Account.md) |
-| `value?` | `TxParameters` |
+| Name     | Type                    |
+| :------- | :---------------------- |
+| `name`   | `string`                |
+| `args`   | `any`[]                 |
+| `from?`  | [`Account`](Account.md) |
+| `value?` | `TxParameters`          |
 
 #### Returns
 
@@ -1355,7 +1355,7 @@ ___
 
 [src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L97)
 
-___
+---
 
 ### service
 
@@ -1373,7 +1373,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:99](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L99)
 
-___
+---
 
 ### serviceEndpoint
 
@@ -1391,7 +1391,7 @@ ___
 
 [src/keeper/contracts/templates/BaseTemplate.abstract.ts:31](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L31)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -1399,8 +1399,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                 |
+| :------- | :------------------- |
 | `config` | `InstantiableConfig` |
 
 #### Returns
@@ -1415,7 +1415,7 @@ ___
 
 [src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
 
-___
+---
 
 ### standardContext
 
@@ -1423,10 +1423,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ddo` | [`DDO`](DDO.md) |
-| `creator` | `string` |
+| Name      | Type            |
+| :-------- | :-------------- |
+| `ddo`     | [`DDO`](DDO.md) |
+| `creator` | `string`        |
 
 #### Returns
 
@@ -1440,7 +1440,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:207](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L207)
 
-___
+---
 
 ### validateAgreement
 
@@ -1448,14 +1448,14 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `agreement_id` | `string` |
-| `did` | `string` |
-| `params` | `EscrowComputeExecutionParams` |
-| `from` | [`Account`](Account.md) |
-| `extra` | `any` |
-| `txparams?` | `TxParameters` |
+| Name           | Type                           |
+| :------------- | :----------------------------- |
+| `agreement_id` | `string`                       |
+| `did`          | `string`                       |
+| `params`       | `EscrowComputeExecutionParams` |
+| `from`         | [`Account`](Account.md)        |
+| `extra`        | `any`                          |
+| `txparams?`    | `TxParameters`                 |
 
 #### Returns
 
@@ -1469,7 +1469,7 @@ ___
 
 [src/keeper/contracts/templates/BaseTemplate.abstract.ts:131](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L131)
 
-___
+---
 
 ### addressesStatic
 
@@ -1477,10 +1477,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
+| `web3`   | `JsonRpcProvider`     |
 
 #### Returns
 
@@ -1494,7 +1494,7 @@ ___
 
 [src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
 
-___
+---
 
 ### findSignerStatic
 
@@ -1502,11 +1502,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
-| `from` | `string` |
+| `web3`   | `JsonRpcProvider`     |
+| `from`   | `string`              |
 
 #### Returns
 
@@ -1520,7 +1520,7 @@ ___
 
 [src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
 
-___
+---
 
 ### getInstance
 
@@ -1528,8 +1528,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                 |
+| :------- | :------------------- |
 | `config` | `InstantiableConfig` |
 
 #### Returns
@@ -1544,7 +1544,7 @@ ___
 
 [src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts:30](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/EscrowComputeExecutionTemplate.ts#L30)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -1552,15 +1552,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Instantiable`<`T`\> |
+| Name | Type                         |
+| :--- | :--------------------------- |
+| `T`  | extends `Instantiable`<`T`\> |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `instance` | `T` |
+| Name                 | Type                 |
+| :------------------- | :------------------- |
+| `instance`           | `T`                  |
 | `instantiableConfig` | `InstantiableConfig` |
 
 #### Returns

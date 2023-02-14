@@ -10,12 +10,5 @@ export * from './BigNumber'
 export * from './MakeAccounts'
 
 export function makeBuffer(a, b) {
-    return Buffer.from(a, b)
-}
-
-export enum OrderProgressStep {
-    ApprovingPayment,
-    ApprovedPayment,
-    CreatingAgreement,
-    AgreementInitialized
+  return Buffer.from(a, b)
 }

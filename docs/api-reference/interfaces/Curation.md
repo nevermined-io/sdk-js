@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Curation
+[@nevermined-io/sdk](../code-reference.md) / Curation
 
 # Interface: Curation
 
@@ -35,7 +35,7 @@ true
 
 [src/ddo/MetaData.ts:226](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L226)
 
-___
+---
 
 ### numVotes
 
@@ -53,7 +53,7 @@ Number of votes. 0 is the default value.
 
 [src/ddo/MetaData.ts:214](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L214)
 
-___
+---
 
 ### rating
 
@@ -71,7 +71,7 @@ Decimal value between 0 and 1. 0 is the default value.
 
 [src/ddo/MetaData.ts:208](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L208)
 
-___
+---
 
 ### schema
 
@@ -82,7 +82,7 @@ Schema applied to calculate the rating.
 **`Example`**
 
 ```ts
-"Binary Voting"
+'Binary Voting'
 ```
 
 #### Defined in

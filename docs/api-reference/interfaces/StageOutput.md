@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / StageOutput
+[@nevermined-io/sdk](../code-reference.md) / StageOutput
 
 # Interface: StageOutput
 
@@ -20,7 +20,7 @@
 
 [src/ddo/MetaData.ts:22](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L22)
 
-___
+---
 
 ### metadata
 
@@ -30,7 +30,7 @@ ___
 
 [src/ddo/MetaData.ts:23](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L23)
 
-___
+---
 
 ### metadataUrl
 

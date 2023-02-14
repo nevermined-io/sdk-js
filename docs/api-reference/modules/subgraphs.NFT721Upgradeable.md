@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721Upgradeable
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / NFT721Upgradeable
 
 # Namespace: NFT721Upgradeable
 
@@ -76,15 +76,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ApprovalResult`](subgraphs.NFT721Upgradeable.md#approvalresult) |
+| Name | Type                                                                            |
+| :--- | :------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`ApprovalResult`](subgraphs.NFT721Upgradeable.md#approvalresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:63
 
-___
+---
 
 ### ApprovalFields
 
@@ -92,18 +92,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `approved` | ``true`` |
-| `id` | ``true`` |
-| `owner` | ``true`` |
-| `tokenId` | ``true`` |
+| Name       | Type   |
+| :--------- | :----- |
+| `approved` | `true` |
+| `id`       | `true` |
+| `owner`    | `true` |
+| `tokenId`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:57
 
-___
+---
 
 ### ApprovalFilter
 
@@ -111,42 +111,42 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `approved?` | `string` \| ``null`` |
-| `approved_contains?` | `string` \| ``null`` |
-| `approved_in?` | `string`[] |
-| `approved_not?` | `string` \| ``null`` |
-| `approved_not_contains?` | `string` \| ``null`` |
-| `approved_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `owner?` | `string` \| ``null`` |
-| `owner_contains?` | `string` \| ``null`` |
-| `owner_in?` | `string`[] |
-| `owner_not?` | `string` \| ``null`` |
-| `owner_not_contains?` | `string` \| ``null`` |
-| `owner_not_in?` | `string`[] |
-| `tokenId?` | `WeiSource` \| ``null`` |
-| `tokenId_gt?` | `WeiSource` \| ``null`` |
-| `tokenId_gte?` | `WeiSource` \| ``null`` |
-| `tokenId_in?` | `WeiSource`[] |
-| `tokenId_lt?` | `WeiSource` \| ``null`` |
-| `tokenId_lte?` | `WeiSource` \| ``null`` |
-| `tokenId_not?` | `WeiSource` \| ``null`` |
-| `tokenId_not_in?` | `WeiSource`[] |
+| Name                     | Type                  |
+| :----------------------- | :-------------------- |
+| `approved?`              | `string` \| `null`    |
+| `approved_contains?`     | `string` \| `null`    |
+| `approved_in?`           | `string`[]            |
+| `approved_not?`          | `string` \| `null`    |
+| `approved_not_contains?` | `string` \| `null`    |
+| `approved_not_in?`       | `string`[]            |
+| `id?`                    | `string` \| `null`    |
+| `id_gt?`                 | `string` \| `null`    |
+| `id_gte?`                | `string` \| `null`    |
+| `id_in?`                 | `string`[]            |
+| `id_lt?`                 | `string` \| `null`    |
+| `id_lte?`                | `string` \| `null`    |
+| `id_not?`                | `string` \| `null`    |
+| `id_not_in?`             | `string`[]            |
+| `owner?`                 | `string` \| `null`    |
+| `owner_contains?`        | `string` \| `null`    |
+| `owner_in?`              | `string`[]            |
+| `owner_not?`             | `string` \| `null`    |
+| `owner_not_contains?`    | `string` \| `null`    |
+| `owner_not_in?`          | `string`[]            |
+| `tokenId?`               | `WeiSource` \| `null` |
+| `tokenId_gt?`            | `WeiSource` \| `null` |
+| `tokenId_gte?`           | `WeiSource` \| `null` |
+| `tokenId_in?`            | `WeiSource`[]         |
+| `tokenId_lt?`            | `WeiSource` \| `null` |
+| `tokenId_lte?`           | `WeiSource` \| `null` |
+| `tokenId_not?`           | `WeiSource` \| `null` |
+| `tokenId_not_in?`        | `WeiSource`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:21
 
-___
+---
 
 ### ApprovalForAllArgs
 
@@ -154,15 +154,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ApprovalForAllResult`](subgraphs.NFT721Upgradeable.md#approvalforallresult) |
+| Name | Type                                                                                        |
+| :--- | :------------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`ApprovalForAllResult`](subgraphs.NFT721Upgradeable.md#approvalforallresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:106
 
-___
+---
 
 ### ApprovalForAllFields
 
@@ -170,18 +170,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `approved` | ``true`` |
-| `id` | ``true`` |
-| `operator` | ``true`` |
-| `owner` | ``true`` |
+| Name       | Type   |
+| :--------- | :----- |
+| `approved` | `true` |
+| `id`       | `true` |
+| `operator` | `true` |
+| `owner`    | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:100
 
-___
+---
 
 ### ApprovalForAllFilter
 
@@ -189,38 +189,38 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `approved?` | `boolean` \| ``null`` |
-| `approved_in?` | `boolean`[] |
-| `approved_not?` | `boolean` \| ``null`` |
-| `approved_not_in?` | `boolean`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `operator?` | `string` \| ``null`` |
-| `operator_contains?` | `string` \| ``null`` |
-| `operator_in?` | `string`[] |
-| `operator_not?` | `string` \| ``null`` |
-| `operator_not_contains?` | `string` \| ``null`` |
-| `operator_not_in?` | `string`[] |
-| `owner?` | `string` \| ``null`` |
-| `owner_contains?` | `string` \| ``null`` |
-| `owner_in?` | `string`[] |
-| `owner_not?` | `string` \| ``null`` |
-| `owner_not_contains?` | `string` \| ``null`` |
-| `owner_not_in?` | `string`[] |
+| Name                     | Type                |
+| :----------------------- | :------------------ |
+| `approved?`              | `boolean` \| `null` |
+| `approved_in?`           | `boolean`[]         |
+| `approved_not?`          | `boolean` \| `null` |
+| `approved_not_in?`       | `boolean`[]         |
+| `id?`                    | `string` \| `null`  |
+| `id_gt?`                 | `string` \| `null`  |
+| `id_gte?`                | `string` \| `null`  |
+| `id_in?`                 | `string`[]          |
+| `id_lt?`                 | `string` \| `null`  |
+| `id_lte?`                | `string` \| `null`  |
+| `id_not?`                | `string` \| `null`  |
+| `id_not_in?`             | `string`[]          |
+| `operator?`              | `string` \| `null`  |
+| `operator_contains?`     | `string` \| `null`  |
+| `operator_in?`           | `string`[]          |
+| `operator_not?`          | `string` \| `null`  |
+| `operator_not_contains?` | `string` \| `null`  |
+| `operator_not_in?`       | `string`[]          |
+| `owner?`                 | `string` \| `null`  |
+| `owner_contains?`        | `string` \| `null`  |
+| `owner_in?`              | `string`[]          |
+| `owner_not?`             | `string` \| `null`  |
+| `owner_not_contains?`    | `string` \| `null`  |
+| `owner_not_in?`          | `string`[]          |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:68
 
-___
+---
 
 ### ApprovalForAllResult
 
@@ -228,18 +228,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type      |
+| :--------- | :-------- |
 | `approved` | `boolean` |
-| `id` | `string` |
-| `operator` | `string` |
-| `owner` | `string` |
+| `id`       | `string`  |
+| `operator` | `string`  |
+| `owner`    | `string`  |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:94
 
-___
+---
 
 ### ApprovalResult
 
@@ -247,18 +247,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type     |
+| :--------- | :------- |
 | `approved` | `string` |
-| `id` | `string` |
-| `owner` | `string` |
-| `tokenId` | `Wei` |
+| `id`       | `string` |
+| `owner`    | `string` |
+| `tokenId`  | `Wei`    |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:51
 
-___
+---
 
 ### InitializedArgs
 
@@ -266,15 +266,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFT721Upgradeable.md#initializedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFT721Upgradeable.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:137
 
-___
+---
 
 ### InitializedFields
 
@@ -282,16 +282,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:133
 
-___
+---
 
 ### InitializedFilter
 
@@ -299,30 +299,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:111
 
-___
+---
 
 ### InitializedResult
 
@@ -330,16 +330,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:129
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -348,25 +348,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:10
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -374,15 +374,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721Upgradeable.md#ownershiptransferredresult) |
+| Name | Type                                                                                                    |
+| :--- | :------------------------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721Upgradeable.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:174
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -390,17 +390,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:169
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -408,34 +408,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:142
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -443,17 +443,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:164
 
-___
+---
 
 ### ProxyApprovalArgs
 
@@ -461,15 +461,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ProxyApprovalResult`](subgraphs.NFT721Upgradeable.md#proxyapprovalresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ProxyApprovalResult`](subgraphs.NFT721Upgradeable.md#proxyapprovalresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:217
 
-___
+---
 
 ### ProxyApprovalFields
 
@@ -477,18 +477,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `approved` | ``true`` |
-| `id` | ``true`` |
-| `operator` | ``true`` |
-| `sender` | ``true`` |
+| Name       | Type   |
+| :--------- | :----- |
+| `approved` | `true` |
+| `id`       | `true` |
+| `operator` | `true` |
+| `sender`   | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:211
 
-___
+---
 
 ### ProxyApprovalFilter
 
@@ -496,38 +496,38 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `approved?` | `boolean` \| ``null`` |
-| `approved_in?` | `boolean`[] |
-| `approved_not?` | `boolean` \| ``null`` |
-| `approved_not_in?` | `boolean`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `operator?` | `string` \| ``null`` |
-| `operator_contains?` | `string` \| ``null`` |
-| `operator_in?` | `string`[] |
-| `operator_not?` | `string` \| ``null`` |
-| `operator_not_contains?` | `string` \| ``null`` |
-| `operator_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                     | Type                |
+| :----------------------- | :------------------ |
+| `approved?`              | `boolean` \| `null` |
+| `approved_in?`           | `boolean`[]         |
+| `approved_not?`          | `boolean` \| `null` |
+| `approved_not_in?`       | `boolean`[]         |
+| `id?`                    | `string` \| `null`  |
+| `id_gt?`                 | `string` \| `null`  |
+| `id_gte?`                | `string` \| `null`  |
+| `id_in?`                 | `string`[]          |
+| `id_lt?`                 | `string` \| `null`  |
+| `id_lte?`                | `string` \| `null`  |
+| `id_not?`                | `string` \| `null`  |
+| `id_not_in?`             | `string`[]          |
+| `operator?`              | `string` \| `null`  |
+| `operator_contains?`     | `string` \| `null`  |
+| `operator_in?`           | `string`[]          |
+| `operator_not?`          | `string` \| `null`  |
+| `operator_not_contains?` | `string` \| `null`  |
+| `operator_not_in?`       | `string`[]          |
+| `sender?`                | `string` \| `null`  |
+| `sender_contains?`       | `string` \| `null`  |
+| `sender_in?`             | `string`[]          |
+| `sender_not?`            | `string` \| `null`  |
+| `sender_not_contains?`   | `string` \| `null`  |
+| `sender_not_in?`         | `string`[]          |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:179
 
-___
+---
 
 ### ProxyApprovalResult
 
@@ -535,18 +535,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type      |
+| :--------- | :-------- |
 | `approved` | `boolean` |
-| `id` | `string` |
-| `operator` | `string` |
-| `sender` | `string` |
+| `id`       | `string`  |
+| `operator` | `string`  |
+| `sender`   | `string`  |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:205
 
-___
+---
 
 ### RoleAdminChangedArgs
 
@@ -554,15 +554,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.NFT721Upgradeable.md#roleadminchangedresult) |
+| Name | Type                                                                                            |
+| :--- | :---------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.NFT721Upgradeable.md#roleadminchangedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:262
 
-___
+---
 
 ### RoleAdminChangedFields
 
@@ -570,18 +570,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newAdminRole` | ``true`` |
-| `previousAdminRole` | ``true`` |
-| `role` | ``true`` |
+| Name                | Type   |
+| :------------------ | :----- |
+| `id`                | `true` |
+| `newAdminRole`      | `true` |
+| `previousAdminRole` | `true` |
+| `role`              | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:256
 
-___
+---
 
 ### RoleAdminChangedFilter
 
@@ -589,40 +589,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newAdminRole?` | `string` \| ``null`` |
-| `newAdminRole_contains?` | `string` \| ``null`` |
-| `newAdminRole_in?` | `string`[] |
-| `newAdminRole_not?` | `string` \| ``null`` |
-| `newAdminRole_not_contains?` | `string` \| ``null`` |
-| `newAdminRole_not_in?` | `string`[] |
-| `previousAdminRole?` | `string` \| ``null`` |
-| `previousAdminRole_contains?` | `string` \| ``null`` |
-| `previousAdminRole_in?` | `string`[] |
-| `previousAdminRole_not?` | `string` \| ``null`` |
-| `previousAdminRole_not_contains?` | `string` \| ``null`` |
-| `previousAdminRole_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
+| Name                              | Type               |
+| :-------------------------------- | :----------------- |
+| `id?`                             | `string` \| `null` |
+| `id_gt?`                          | `string` \| `null` |
+| `id_gte?`                         | `string` \| `null` |
+| `id_in?`                          | `string`[]         |
+| `id_lt?`                          | `string` \| `null` |
+| `id_lte?`                         | `string` \| `null` |
+| `id_not?`                         | `string` \| `null` |
+| `id_not_in?`                      | `string`[]         |
+| `newAdminRole?`                   | `string` \| `null` |
+| `newAdminRole_contains?`          | `string` \| `null` |
+| `newAdminRole_in?`                | `string`[]         |
+| `newAdminRole_not?`               | `string` \| `null` |
+| `newAdminRole_not_contains?`      | `string` \| `null` |
+| `newAdminRole_not_in?`            | `string`[]         |
+| `previousAdminRole?`              | `string` \| `null` |
+| `previousAdminRole_contains?`     | `string` \| `null` |
+| `previousAdminRole_in?`           | `string`[]         |
+| `previousAdminRole_not?`          | `string` \| `null` |
+| `previousAdminRole_not_contains?` | `string` \| `null` |
+| `previousAdminRole_not_in?`       | `string`[]         |
+| `role?`                           | `string` \| `null` |
+| `role_contains?`                  | `string` \| `null` |
+| `role_in?`                        | `string`[]         |
+| `role_not?`                       | `string` \| `null` |
+| `role_not_contains?`              | `string` \| `null` |
+| `role_not_in?`                    | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:222
 
-___
+---
 
 ### RoleAdminChangedResult
 
@@ -630,18 +630,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newAdminRole` | `string` |
+| Name                | Type     |
+| :------------------ | :------- |
+| `id`                | `string` |
+| `newAdminRole`      | `string` |
 | `previousAdminRole` | `string` |
-| `role` | `string` |
+| `role`              | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:250
 
-___
+---
 
 ### RoleGrantedArgs
 
@@ -649,15 +649,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.NFT721Upgradeable.md#rolegrantedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.NFT721Upgradeable.md#rolegrantedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:307
 
-___
+---
 
 ### RoleGrantedFields
 
@@ -665,18 +665,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:301
 
-___
+---
 
 ### RoleGrantedFilter
 
@@ -684,40 +684,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:267
 
-___
+---
 
 ### RoleGrantedResult
 
@@ -725,18 +725,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:295
 
-___
+---
 
 ### RoleRevokedArgs
 
@@ -744,15 +744,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.NFT721Upgradeable.md#rolerevokedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.NFT721Upgradeable.md#rolerevokedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:352
 
-___
+---
 
 ### RoleRevokedFields
 
@@ -760,18 +760,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account` | ``true`` |
-| `id` | ``true`` |
-| `role` | ``true`` |
-| `sender` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `account` | `true` |
+| `id`      | `true` |
+| `role`    | `true` |
+| `sender`  | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:346
 
-___
+---
 
 ### RoleRevokedFilter
 
@@ -779,40 +779,40 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `account?` | `string` \| ``null`` |
-| `account_contains?` | `string` \| ``null`` |
-| `account_in?` | `string`[] |
-| `account_not?` | `string` \| ``null`` |
-| `account_not_contains?` | `string` \| ``null`` |
-| `account_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `role?` | `string` \| ``null`` |
-| `role_contains?` | `string` \| ``null`` |
-| `role_in?` | `string`[] |
-| `role_not?` | `string` \| ``null`` |
-| `role_not_contains?` | `string` \| ``null`` |
-| `role_not_in?` | `string`[] |
-| `sender?` | `string` \| ``null`` |
-| `sender_contains?` | `string` \| ``null`` |
-| `sender_in?` | `string`[] |
-| `sender_not?` | `string` \| ``null`` |
-| `sender_not_contains?` | `string` \| ``null`` |
-| `sender_not_in?` | `string`[] |
+| Name                    | Type               |
+| :---------------------- | :----------------- |
+| `account?`              | `string` \| `null` |
+| `account_contains?`     | `string` \| `null` |
+| `account_in?`           | `string`[]         |
+| `account_not?`          | `string` \| `null` |
+| `account_not_contains?` | `string` \| `null` |
+| `account_not_in?`       | `string`[]         |
+| `id?`                   | `string` \| `null` |
+| `id_gt?`                | `string` \| `null` |
+| `id_gte?`               | `string` \| `null` |
+| `id_in?`                | `string`[]         |
+| `id_lt?`                | `string` \| `null` |
+| `id_lte?`               | `string` \| `null` |
+| `id_not?`               | `string` \| `null` |
+| `id_not_in?`            | `string`[]         |
+| `role?`                 | `string` \| `null` |
+| `role_contains?`        | `string` \| `null` |
+| `role_in?`              | `string`[]         |
+| `role_not?`             | `string` \| `null` |
+| `role_not_contains?`    | `string` \| `null` |
+| `role_not_in?`          | `string`[]         |
+| `sender?`               | `string` \| `null` |
+| `sender_contains?`      | `string` \| `null` |
+| `sender_in?`            | `string`[]         |
+| `sender_not?`           | `string` \| `null` |
+| `sender_not_contains?`  | `string` \| `null` |
+| `sender_not_in?`        | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:312
 
-___
+---
 
 ### RoleRevokedResult
 
@@ -820,18 +820,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `account` | `string` |
-| `id` | `string` |
-| `role` | `string` |
-| `sender` | `string` |
+| `id`      | `string` |
+| `role`    | `string` |
+| `sender`  | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:340
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -839,16 +839,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:2
 
-___
+---
 
 ### TransferArgs
 
@@ -856,15 +856,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`TransferResult`](subgraphs.NFT721Upgradeable.md#transferresult) |
+| Name | Type                                                                            |
+| :--- | :------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`TransferResult`](subgraphs.NFT721Upgradeable.md#transferresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:399
 
-___
+---
 
 ### TransferFields
 
@@ -872,18 +872,18 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `from` | ``true`` |
-| `id` | ``true`` |
-| `to` | ``true`` |
-| `tokenId` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `from`    | `true` |
+| `id`      | `true` |
+| `to`      | `true` |
+| `tokenId` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:393
 
-___
+---
 
 ### TransferFilter
 
@@ -891,42 +891,42 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `from?` | `string` \| ``null`` |
-| `from_contains?` | `string` \| ``null`` |
-| `from_in?` | `string`[] |
-| `from_not?` | `string` \| ``null`` |
-| `from_not_contains?` | `string` \| ``null`` |
-| `from_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `to?` | `string` \| ``null`` |
-| `to_contains?` | `string` \| ``null`` |
-| `to_in?` | `string`[] |
-| `to_not?` | `string` \| ``null`` |
-| `to_not_contains?` | `string` \| ``null`` |
-| `to_not_in?` | `string`[] |
-| `tokenId?` | `WeiSource` \| ``null`` |
-| `tokenId_gt?` | `WeiSource` \| ``null`` |
-| `tokenId_gte?` | `WeiSource` \| ``null`` |
-| `tokenId_in?` | `WeiSource`[] |
-| `tokenId_lt?` | `WeiSource` \| ``null`` |
-| `tokenId_lte?` | `WeiSource` \| ``null`` |
-| `tokenId_not?` | `WeiSource` \| ``null`` |
-| `tokenId_not_in?` | `WeiSource`[] |
+| Name                 | Type                  |
+| :------------------- | :-------------------- |
+| `from?`              | `string` \| `null`    |
+| `from_contains?`     | `string` \| `null`    |
+| `from_in?`           | `string`[]            |
+| `from_not?`          | `string` \| `null`    |
+| `from_not_contains?` | `string` \| `null`    |
+| `from_not_in?`       | `string`[]            |
+| `id?`                | `string` \| `null`    |
+| `id_gt?`             | `string` \| `null`    |
+| `id_gte?`            | `string` \| `null`    |
+| `id_in?`             | `string`[]            |
+| `id_lt?`             | `string` \| `null`    |
+| `id_lte?`            | `string` \| `null`    |
+| `id_not?`            | `string` \| `null`    |
+| `id_not_in?`         | `string`[]            |
+| `to?`                | `string` \| `null`    |
+| `to_contains?`       | `string` \| `null`    |
+| `to_in?`             | `string`[]            |
+| `to_not?`            | `string` \| `null`    |
+| `to_not_contains?`   | `string` \| `null`    |
+| `to_not_in?`         | `string`[]            |
+| `tokenId?`           | `WeiSource` \| `null` |
+| `tokenId_gt?`        | `WeiSource` \| `null` |
+| `tokenId_gte?`       | `WeiSource` \| `null` |
+| `tokenId_in?`        | `WeiSource`[]         |
+| `tokenId_lt?`        | `WeiSource` \| `null` |
+| `tokenId_lte?`       | `WeiSource` \| `null` |
+| `tokenId_not?`       | `WeiSource` \| `null` |
+| `tokenId_not_in?`    | `WeiSource`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:357
 
-___
+---
 
 ### TransferResult
 
@@ -934,12 +934,12 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `from` | `string` |
-| `id` | `string` |
-| `to` | `string` |
-| `tokenId` | `Wei` |
+| Name      | Type     |
+| :-------- | :------- |
+| `from`    | `string` |
+| `id`      | `string` |
+| `to`      | `string` |
+| `tokenId` | `Wei`    |
 
 #### Defined in
 
@@ -953,17 +953,17 @@ node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:387
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ApprovalResult`](subgraphs.NFT721Upgradeable.md#approvalresult) |
+| Name | Type                                                                            |
+| :--- | :------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`ApprovalResult`](subgraphs.NFT721Upgradeable.md#approvalresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                      |
+| :-------- | :------------------------------------------------------------------------ |
+| `url`     | `string`                                                                  |
 | `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`ApprovalArgs`](subgraphs.NFT721Upgradeable.md#approvalargs)<`K`\> |
+| `args`    | [`ApprovalArgs`](subgraphs.NFT721Upgradeable.md#approvalargs)<`K`\>       |
 
 #### Returns
 
@@ -973,7 +973,7 @@ node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:387
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:66
 
-___
+---
 
 ### getApprovalForAllById
 
@@ -981,17 +981,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ApprovalForAllResult`](subgraphs.NFT721Upgradeable.md#approvalforallresult) |
+| Name | Type                                                                                        |
+| :--- | :------------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`ApprovalForAllResult`](subgraphs.NFT721Upgradeable.md#approvalforallresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`ApprovalForAllArgs`](subgraphs.NFT721Upgradeable.md#approvalforallargs)<`K`\> |
+| Name      | Type                                                                            |
+| :-------- | :------------------------------------------------------------------------------ |
+| `url`     | `string`                                                                        |
+| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions)       |
+| `args`    | [`ApprovalForAllArgs`](subgraphs.NFT721Upgradeable.md#approvalforallargs)<`K`\> |
 
 #### Returns
 
@@ -1001,7 +1001,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:109
 
-___
+---
 
 ### getApprovalForAlls
 
@@ -1009,17 +1009,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ApprovalForAllResult`](subgraphs.NFT721Upgradeable.md#approvalforallresult) |
+| Name | Type                                                                                        |
+| :--- | :------------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`ApprovalForAllResult`](subgraphs.NFT721Upgradeable.md#approvalforallresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`ApprovalForAllFilter`](subgraphs.NFT721Upgradeable.md#approvalforallfilter), [`ApprovalForAllResult`](subgraphs.NFT721Upgradeable.md#approvalforallresult)\> |
-| `args` | [`ApprovalForAllArgs`](subgraphs.NFT721Upgradeable.md#approvalforallargs)<`K`\> |
+| `args`    | [`ApprovalForAllArgs`](subgraphs.NFT721Upgradeable.md#approvalforallargs)<`K`\>                                                                                                                                                        |
 
 #### Returns
 
@@ -1029,7 +1029,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:110
 
-___
+---
 
 ### getApprovals
 
@@ -1037,17 +1037,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ApprovalResult`](subgraphs.NFT721Upgradeable.md#approvalresult) |
+| Name | Type                                                                            |
+| :--- | :------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`ApprovalResult`](subgraphs.NFT721Upgradeable.md#approvalresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                           |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                       |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`ApprovalFilter`](subgraphs.NFT721Upgradeable.md#approvalfilter), [`ApprovalResult`](subgraphs.NFT721Upgradeable.md#approvalresult)\> |
-| `args` | [`ApprovalArgs`](subgraphs.NFT721Upgradeable.md#approvalargs)<`K`\> |
+| `args`    | [`ApprovalArgs`](subgraphs.NFT721Upgradeable.md#approvalargs)<`K`\>                                                                                                                                            |
 
 #### Returns
 
@@ -1057,7 +1057,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:67
 
-___
+---
 
 ### getInitializedById
 
@@ -1065,17 +1065,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFT721Upgradeable.md#initializedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFT721Upgradeable.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                      |
+| :-------- | :------------------------------------------------------------------------ |
+| `url`     | `string`                                                                  |
 | `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.NFT721Upgradeable.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NFT721Upgradeable.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -1085,7 +1085,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:140
 
-___
+---
 
 ### getInitializeds
 
@@ -1093,17 +1093,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.NFT721Upgradeable.md#initializedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.NFT721Upgradeable.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.NFT721Upgradeable.md#initializedfilter), [`InitializedResult`](subgraphs.NFT721Upgradeable.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.NFT721Upgradeable.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.NFT721Upgradeable.md#initializedargs)<`K`\>                                                                                                                                                  |
 
 #### Returns
 
@@ -1113,7 +1113,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:141
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -1121,17 +1121,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721Upgradeable.md#ownershiptransferredresult) |
+| Name | Type                                                                                                    |
+| :--- | :------------------------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721Upgradeable.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NFT721Upgradeable.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                        |
+| :-------- | :------------------------------------------------------------------------------------------ |
+| `url`     | `string`                                                                                    |
+| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NFT721Upgradeable.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -1141,7 +1141,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:177
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -1149,17 +1149,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721Upgradeable.md#ownershiptransferredresult) |
+| Name | Type                                                                                                    |
+| :--- | :------------------------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.NFT721Upgradeable.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                           |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                       |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.NFT721Upgradeable.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.NFT721Upgradeable.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.NFT721Upgradeable.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.NFT721Upgradeable.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                    |
 
 #### Returns
 
@@ -1169,7 +1169,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:178
 
-___
+---
 
 ### getProxyApprovalById
 
@@ -1177,17 +1177,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ProxyApprovalResult`](subgraphs.NFT721Upgradeable.md#proxyapprovalresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ProxyApprovalResult`](subgraphs.NFT721Upgradeable.md#proxyapprovalresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`ProxyApprovalArgs`](subgraphs.NFT721Upgradeable.md#proxyapprovalargs)<`K`\> |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
+| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions)     |
+| `args`    | [`ProxyApprovalArgs`](subgraphs.NFT721Upgradeable.md#proxyapprovalargs)<`K`\> |
 
 #### Returns
 
@@ -1197,7 +1197,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:220
 
-___
+---
 
 ### getProxyApprovals
 
@@ -1205,17 +1205,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`ProxyApprovalResult`](subgraphs.NFT721Upgradeable.md#proxyapprovalresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`ProxyApprovalResult`](subgraphs.NFT721Upgradeable.md#proxyapprovalresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                               |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                           |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`ProxyApprovalFilter`](subgraphs.NFT721Upgradeable.md#proxyapprovalfilter), [`ProxyApprovalResult`](subgraphs.NFT721Upgradeable.md#proxyapprovalresult)\> |
-| `args` | [`ProxyApprovalArgs`](subgraphs.NFT721Upgradeable.md#proxyapprovalargs)<`K`\> |
+| `args`    | [`ProxyApprovalArgs`](subgraphs.NFT721Upgradeable.md#proxyapprovalargs)<`K`\>                                                                                                                                                      |
 
 #### Returns
 
@@ -1225,7 +1225,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:221
 
-___
+---
 
 ### getRoleAdminChangedById
 
@@ -1233,17 +1233,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.NFT721Upgradeable.md#roleadminchangedresult) |
+| Name | Type                                                                                            |
+| :--- | :---------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.NFT721Upgradeable.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.NFT721Upgradeable.md#roleadminchangedargs)<`K`\> |
+| Name      | Type                                                                                |
+| :-------- | :---------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                            |
+| `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions)           |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.NFT721Upgradeable.md#roleadminchangedargs)<`K`\> |
 
 #### Returns
 
@@ -1253,7 +1253,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:265
 
-___
+---
 
 ### getRoleAdminChangeds
 
@@ -1261,17 +1261,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleAdminChangedResult`](subgraphs.NFT721Upgradeable.md#roleadminchangedresult) |
+| Name | Type                                                                                            |
+| :--- | :---------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`RoleAdminChangedResult`](subgraphs.NFT721Upgradeable.md#roleadminchangedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                           |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                       |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`RoleAdminChangedFilter`](subgraphs.NFT721Upgradeable.md#roleadminchangedfilter), [`RoleAdminChangedResult`](subgraphs.NFT721Upgradeable.md#roleadminchangedresult)\> |
-| `args` | [`RoleAdminChangedArgs`](subgraphs.NFT721Upgradeable.md#roleadminchangedargs)<`K`\> |
+| `args`    | [`RoleAdminChangedArgs`](subgraphs.NFT721Upgradeable.md#roleadminchangedargs)<`K`\>                                                                                                                                                            |
 
 #### Returns
 
@@ -1281,7 +1281,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:266
 
-___
+---
 
 ### getRoleGrantedById
 
@@ -1289,17 +1289,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.NFT721Upgradeable.md#rolegrantedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.NFT721Upgradeable.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                      |
+| :-------- | :------------------------------------------------------------------------ |
+| `url`     | `string`                                                                  |
 | `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`RoleGrantedArgs`](subgraphs.NFT721Upgradeable.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.NFT721Upgradeable.md#rolegrantedargs)<`K`\> |
 
 #### Returns
 
@@ -1309,7 +1309,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:310
 
-___
+---
 
 ### getRoleGranteds
 
@@ -1317,17 +1317,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleGrantedResult`](subgraphs.NFT721Upgradeable.md#rolegrantedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`RoleGrantedResult`](subgraphs.NFT721Upgradeable.md#rolegrantedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`RoleGrantedFilter`](subgraphs.NFT721Upgradeable.md#rolegrantedfilter), [`RoleGrantedResult`](subgraphs.NFT721Upgradeable.md#rolegrantedresult)\> |
-| `args` | [`RoleGrantedArgs`](subgraphs.NFT721Upgradeable.md#rolegrantedargs)<`K`\> |
+| `args`    | [`RoleGrantedArgs`](subgraphs.NFT721Upgradeable.md#rolegrantedargs)<`K`\>                                                                                                                                                  |
 
 #### Returns
 
@@ -1337,7 +1337,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:311
 
-___
+---
 
 ### getRoleRevokedById
 
@@ -1345,17 +1345,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.NFT721Upgradeable.md#rolerevokedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.NFT721Upgradeable.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                      |
+| :-------- | :------------------------------------------------------------------------ |
+| `url`     | `string`                                                                  |
 | `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`RoleRevokedArgs`](subgraphs.NFT721Upgradeable.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.NFT721Upgradeable.md#rolerevokedargs)<`K`\> |
 
 #### Returns
 
@@ -1365,7 +1365,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:355
 
-___
+---
 
 ### getRoleRevokeds
 
@@ -1373,17 +1373,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`RoleRevokedResult`](subgraphs.NFT721Upgradeable.md#rolerevokedresult) |
+| Name | Type                                                                                  |
+| :--- | :------------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`RoleRevokedResult`](subgraphs.NFT721Upgradeable.md#rolerevokedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`RoleRevokedFilter`](subgraphs.NFT721Upgradeable.md#rolerevokedfilter), [`RoleRevokedResult`](subgraphs.NFT721Upgradeable.md#rolerevokedresult)\> |
-| `args` | [`RoleRevokedArgs`](subgraphs.NFT721Upgradeable.md#rolerevokedargs)<`K`\> |
+| `args`    | [`RoleRevokedArgs`](subgraphs.NFT721Upgradeable.md#rolerevokedargs)<`K`\>                                                                                                                                                  |
 
 #### Returns
 
@@ -1393,7 +1393,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:356
 
-___
+---
 
 ### getTransferById
 
@@ -1401,17 +1401,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`TransferResult`](subgraphs.NFT721Upgradeable.md#transferresult) |
+| Name | Type                                                                            |
+| :--- | :------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`TransferResult`](subgraphs.NFT721Upgradeable.md#transferresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                      |
+| :-------- | :------------------------------------------------------------------------ |
+| `url`     | `string`                                                                  |
 | `options` | [`SingleQueryOptions`](subgraphs.NFT721Upgradeable.md#singlequeryoptions) |
-| `args` | [`TransferArgs`](subgraphs.NFT721Upgradeable.md#transferargs)<`K`\> |
+| `args`    | [`TransferArgs`](subgraphs.NFT721Upgradeable.md#transferargs)<`K`\>       |
 
 #### Returns
 
@@ -1421,7 +1421,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/NFT721Upgradeable.d.ts:402
 
-___
+---
 
 ### getTransfers
 
@@ -1429,17 +1429,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`TransferResult`](subgraphs.NFT721Upgradeable.md#transferresult) |
+| Name | Type                                                                            |
+| :--- | :------------------------------------------------------------------------------ |
+| `K`  | extends keyof [`TransferResult`](subgraphs.NFT721Upgradeable.md#transferresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                           |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                       |
 | `options` | [`MultiQueryOptions`](subgraphs.NFT721Upgradeable.md#multiqueryoptions)<[`TransferFilter`](subgraphs.NFT721Upgradeable.md#transferfilter), [`TransferResult`](subgraphs.NFT721Upgradeable.md#transferresult)\> |
-| `args` | [`TransferArgs`](subgraphs.NFT721Upgradeable.md#transferargs)<`K`\> |
+| `args`    | [`TransferArgs`](subgraphs.NFT721Upgradeable.md#transferargs)<`K`\>                                                                                                                                            |
 
 #### Returns
 

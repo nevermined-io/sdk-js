@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [conditions](../modules/conditions.md) / ConditionInstanceSmall
+[@nevermined-io/sdk](../code-reference.md) / [conditions](../modules/conditions.md) / ConditionInstanceSmall
 
 # Interface: ConditionInstanceSmall
 
@@ -30,7 +30,7 @@
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L35)
 
-___
+---
 
 ### condition
 
@@ -40,7 +40,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L36)
 
-___
+---
 
 ### id
 
@@ -50,7 +50,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:34](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L34)
 
-___
+---
 
 ### list
 
@@ -60,7 +60,7 @@ ___
 
 [src/keeper/contracts/conditions/Condition.abstract.ts:32](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L32)
 
-___
+---
 
 ### seed
 

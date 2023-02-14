@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [events](../modules/events.md) / Filter
+[@nevermined-io/sdk](../code-reference.md) / [events](../modules/events.md) / Filter
 
 # Interface: Filter
 

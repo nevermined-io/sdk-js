@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / State
+[@nevermined-io/sdk](../code-reference.md) / State
 
 # Enumeration: State
 
@@ -14,27 +14,27 @@
 
 ### Confirmed
 
-• **Confirmed** = ``"confirmed"``
+• **Confirmed** = `"confirmed"`
 
 #### Defined in
 
 [src/profiles/Profiles.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L4)
 
-___
+---
 
 ### Disabled
 
-• **Disabled** = ``"disabled"``
+• **Disabled** = `"disabled"`
 
 #### Defined in
 
 [src/profiles/Profiles.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L2)
 
-___
+---
 
 ### Unconfirmed
 
-• **Unconfirmed** = ``"unconfirmed"``
+• **Unconfirmed** = `"unconfirmed"`
 
 #### Defined in
 

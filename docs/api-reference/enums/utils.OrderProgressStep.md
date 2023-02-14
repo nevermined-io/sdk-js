@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [utils](../modules/utils.md) / OrderProgressStep
+[@nevermined-io/sdk](../code-reference.md) / [utils](../modules/utils.md) / OrderProgressStep
 
 # Enumeration: OrderProgressStep
 
@@ -17,37 +17,37 @@
 
 ### AgreementInitialized
 
-• **AgreementInitialized** = ``3``
+• **AgreementInitialized** = `3`
 
 #### Defined in
 
 [src/utils/index.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/index.ts#L20)
 
-___
+---
 
 ### ApprovedPayment
 
-• **ApprovedPayment** = ``1``
+• **ApprovedPayment** = `1`
 
 #### Defined in
 
 [src/utils/index.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/index.ts#L18)
 
-___
+---
 
 ### ApprovingPayment
 
-• **ApprovingPayment** = ``0``
+• **ApprovingPayment** = `0`
 
 #### Defined in
 
 [src/utils/index.ts:17](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/index.ts#L17)
 
-___
+---
 
 ### CreatingAgreement
 
-• **CreatingAgreement** = ``2``
+• **CreatingAgreement** = `2`
 
 #### Defined in
 

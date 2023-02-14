@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [events](../modules/events.md) / EventHandler
+[@nevermined-io/sdk](../code-reference.md) / [events](../modules/events.md) / EventHandler
 
 # Class: EventHandler
 
@@ -45,7 +45,7 @@
 
 [src/events/EventHandler.ts:6](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/EventHandler.ts#L6)
 
-___
+---
 
 ### getBlockNumber
 
@@ -63,7 +63,7 @@ ___
 
 [src/events/EventHandler.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/EventHandler.ts#L16)
 
-___
+---
 
 ### interval
 
@@ -73,7 +73,7 @@ ___
 
 [src/events/EventHandler.ts:10](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/EventHandler.ts#L10)
 
-___
+---
 
 ### lastBlock
 
@@ -83,7 +83,7 @@ ___
 
 [src/events/EventHandler.ts:8](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/EventHandler.ts#L8)
 
-___
+---
 
 ### lastTimeout
 
@@ -93,7 +93,7 @@ ___
 
 [src/events/EventHandler.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/EventHandler.ts#L14)
 
-___
+---
 
 ### polling
 
@@ -125,10 +125,10 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `isInterval?` | `boolean` | `undefined` |
-| `n` | `number` | `0` |
+| Name          | Type      | Default value |
+| :------------ | :-------- | :------------ |
+| `isInterval?` | `boolean` | `undefined`   |
+| `n`           | `number`  | `0`           |
 
 #### Returns
 
@@ -138,7 +138,7 @@ ___
 
 [src/events/EventHandler.ts:40](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/EventHandler.ts#L40)
 
-___
+---
 
 ### subscribe
 
@@ -146,24 +146,24 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `callback` | (`blockNumber`: `number`) => `void` |
-| `getBlockNumber` | () => `Promise`<`number`\> |
+| Name             | Type                                |
+| :--------------- | :---------------------------------- |
+| `callback`       | (`blockNumber`: `number`) => `void` |
+| `getBlockNumber` | () => `Promise`<`number`\>          |
 
 #### Returns
 
 `Object`
 
-| Name | Type |
-| :------ | :------ |
+| Name          | Type         |
+| :------------ | :----------- |
 | `unsubscribe` | () => `void` |
 
 #### Defined in
 
 [src/events/EventHandler.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/EventHandler.ts#L18)
 
-___
+---
 
 ### unsubscribe
 
@@ -171,8 +171,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type                                |
+| :--------- | :---------------------------------- |
 | `callback` | (`blockNumber`: `number`) => `void` |
 
 #### Returns

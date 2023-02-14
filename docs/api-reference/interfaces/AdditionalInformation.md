@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / AdditionalInformation
+[@nevermined-io/sdk](../code-reference.md) / AdditionalInformation
 
 # Interface: AdditionalInformation
 
@@ -37,14 +37,14 @@ Categories used to describe this content. Empty by default.
 **`Example`**
 
 ```ts
-["Economy", "Data Science"]
+;['Economy', 'Data Science']
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:285](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L285)
 
-___
+---
 
 ### copyrightHolder
 
@@ -55,14 +55,14 @@ The party holding the legal copyright. Empty by default.
 **`Example`**
 
 ```ts
-"Met Office"
+'Met Office'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:245](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L245)
 
-___
+---
 
 ### customData
 
@@ -79,7 +79,7 @@ Can be used to store any non-default data, needs to be checked
 
 [src/ddo/MetaData.ts:314](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L314)
 
-___
+---
 
 ### description
 
@@ -91,14 +91,14 @@ explains what the data represents and what it can be used for.
 **`Example`**
 
 ```ts
-"Weather information of UK including temperature and humidity"
+'Weather information of UK including temperature and humidity'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:239](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L239)
 
-___
+---
 
 ### inLanguage
 
@@ -110,18 +110,18 @@ codes from the [IETF BCP 47 standard](https://tools.ietf.org/html/bcp47).
 **`Example`**
 
 ```ts
-"en"
+'en'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:279](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L279)
 
-___
+---
 
 ### links
 
-• `Optional` **links**: { `[name: string]`: `string`;  }[]
+• `Optional` **links**: { `[name: string]`: `string`; }[]
 
 Mapping of links for data samples, or links to find out more information.
 Links may be to either a URL or another Asset. We expect marketplaces to
@@ -132,21 +132,22 @@ to be domain-specific.
 **`Example`**
 
 ```ts
-[
-   {
-     anotherSample: "http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/",
-   },
-   {
-     fieldsDescription: "http://data.ceda.ac.uk/badc/ukcp09/",
-   },
- ]
+;[
+  {
+    anotherSample:
+      'http://data.ceda.ac.uk/badc/ukcp09/data/gridded-land-obs/gridded-land-obs-daily/',
+  },
+  {
+    fieldsDescription: 'http://data.ceda.ac.uk/badc/ukcp09/',
+  },
+]
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:272](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L272)
 
-___
+---
 
 ### poseidonHash
 
@@ -156,7 +157,7 @@ ___
 
 [src/ddo/MetaData.ts:318](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L318)
 
-___
+---
 
 ### priceHighestDenomination
 
@@ -174,7 +175,7 @@ BigNumbers
 
 [src/ddo/MetaData.ts:333](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L333)
 
-___
+---
 
 ### providerKey
 
@@ -182,20 +183,20 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `x` | `string` |
-| `y` | `string` |
+| Name | Type     |
+| :--- | :------- |
+| `x`  | `string` |
+| `y`  | `string` |
 
 #### Defined in
 
 [src/ddo/MetaData.ts:320](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L320)
 
-___
+---
 
 ### structuredMarkup
 
-• `Optional` **structuredMarkup**: { `mediaType`: `string` ; `uri`: `string`  }[]
+• `Optional` **structuredMarkup**: { `mediaType`: `string` ; `uri`: `string` }[]
 
 A link to machine-readable structured markup (such as ttl/json-ld/rdf)
 describing the dataset.
@@ -204,7 +205,7 @@ describing the dataset.
 
 [src/ddo/MetaData.ts:305](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L305)
 
-___
+---
 
 ### tags
 
@@ -215,14 +216,14 @@ Keywords or tags used to describe this content. Empty by default.
 **`Example`**
 
 ```ts
-["weather", "uk", "2011", "temperature", "humidity"]
+;['weather', 'uk', '2011', 'temperature', 'humidity']
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:291](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L291)
 
-___
+---
 
 ### updateFrequency
 
@@ -235,14 +236,14 @@ to get updated.
 **`Example`**
 
 ```ts
-"yearly"
+'yearly'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:299](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L299)
 
-___
+---
 
 ### workExample
 
@@ -254,7 +255,7 @@ of the metadata, not an external link.
 **`Example`**
 
 ```ts
-"423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68"
+'423432fsd,51.509865,-0.118092,2011-01-01T10:55:11+00:00,7.2,68'
 ```
 
 #### Defined in

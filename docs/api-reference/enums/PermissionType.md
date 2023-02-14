@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / PermissionType
+[@nevermined-io/sdk](../code-reference.md) / PermissionType
 
 # Enumeration: PermissionType
 
@@ -15,37 +15,37 @@
 
 ### Admin
 
-• **Admin** = ``"admin"``
+• **Admin** = `"admin"`
 
 #### Defined in
 
 [src/permissions/Permissions.interfaces.ts:5](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L5)
 
-___
+---
 
 ### Delete
 
-• **Delete** = ``"delete"``
+• **Delete** = `"delete"`
 
 #### Defined in
 
 [src/permissions/Permissions.interfaces.ts:4](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L4)
 
-___
+---
 
 ### Read
 
-• **Read** = ``"read"``
+• **Read** = `"read"`
 
 #### Defined in
 
 [src/permissions/Permissions.interfaces.ts:2](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L2)
 
-___
+---
 
 ### Update
 
-• **Update** = ``"update"``
+• **Update** = `"update"`
 
 #### Defined in
 

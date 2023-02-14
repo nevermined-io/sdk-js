@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / MetaData
+[@nevermined-io/sdk](../code-reference.md) / MetaData
 
 # Interface: MetaData
 
@@ -22,7 +22,7 @@
 
 [src/ddo/MetaData.ts:340](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L340)
 
-___
+---
 
 ### curation
 
@@ -32,7 +32,7 @@ ___
 
 [src/ddo/MetaData.ts:341](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L341)
 
-___
+---
 
 ### encryptedFiles
 
@@ -42,7 +42,7 @@ ___
 
 [src/ddo/MetaData.ts:339](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L339)
 
-___
+---
 
 ### main
 
@@ -52,7 +52,7 @@ ___
 
 [src/ddo/MetaData.ts:338](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L338)
 
-___
+---
 
 ### userId
 

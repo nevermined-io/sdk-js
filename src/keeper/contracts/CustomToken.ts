@@ -1,20 +1,20 @@
-import Token from './Token'
+import { Token } from './Token'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { abi } from './../../artifacts/ERC20.json'
 import { ethers } from 'ethers'
+import { ContractHandler } from '../ContractHandler'
 
-export default class CustomToken extends Token {
-    public static async getInstanceByAddress(
-        config: InstantiableConfig,
-        address: string
-    ): Promise<CustomToken> {
-        const token: CustomToken = new Token('Custom-Token')
-        token.setInstanceConfig(config)
+export class CustomToken extends Token {
+  public static async getInstanceByAddress(
+    config: InstantiableConfig,
+    address: string,
+  ): Promise<CustomToken> {
+    const token: CustomToken = new Token('Custom-Token')
+    token.setInstanceConfig(config)
 
-        await token.checkExists(address)
+    await new ContractHandler(config).checkExists(address)
 
-        token.contract = new ethers.Contract(address, abi, token.web3)
+    token.contract = new ethers.Contract(address, Token.ERC20_ABI, token.web3)
 
-        return token
-    }
+    return token
+  }
 }

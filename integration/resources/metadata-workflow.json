@@ -1,0 +1,38 @@
+{
+  "main": {
+    "name": "Nevermined workflow DDO",
+    "type": "workflow",
+    "dateCreated": "2023-01-01T00:00:00Z",
+    "datePublished": "2023-01-01T00:00:00Z",
+    "author": "root@nevermined.io",
+    "license": "Apache License 2.0",
+    "files": [],
+    "workflow": {
+      "coordinationType": "argo",
+      "stages": [
+        {
+          "index": 0,
+          "stageType": "Compute",
+          "input": [
+            {
+              "index": 0,
+              "id": "did:nv:56479438c221a9a49b49b52da0fefdd1de67a7d5be267d02ba92b9b38dfd3ea1"
+            }
+          ],
+          "transformation": {
+            "id": "did:nv:1a9ce6b48364642a66e8a1d9c2957a582c33d3c1473e0af72aa483e933e2afa5"
+          },
+          "output": {
+            "metadataUrl": "https://marketplace-api.mumbai.public.nevermined.network/",
+            "accessProxyUrl": "https://node.mumbai.public.nevermined.network/api/v1/gateway/",
+            "metadata": {}
+          }
+        }
+      ]
+    }
+  },
+  "additionalInformation": {
+    "description": "Nevermined is an ecosystem development platform.",
+    "customData": {}
+  }
+}

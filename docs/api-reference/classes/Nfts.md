@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Nfts
+[@nevermined-io/sdk](../code-reference.md) / Nfts
 
 # Class: Nfts
 
@@ -87,7 +87,7 @@ Instantiable.artifactsFolder
 
 [src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
 
-___
+---
 
 ### config
 
@@ -105,7 +105,7 @@ Instantiable.config
 
 [src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
 
-___
+---
 
 ### instanceConfig
 
@@ -123,7 +123,7 @@ Instantiable.instanceConfig
 
 [src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
 
-___
+---
 
 ### instantiableConfig
 
@@ -141,7 +141,7 @@ Instantiable.instantiableConfig
 
 [src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
 
-___
+---
 
 ### logger
 
@@ -159,7 +159,7 @@ Instantiable.logger
 
 [src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
 
-___
+---
 
 ### nevermined
 
@@ -177,7 +177,7 @@ Instantiable.nevermined
 
 [src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
 
-___
+---
 
 ### web3
 
@@ -216,13 +216,13 @@ before providing the files.
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `did` | `string` | `undefined` | The Decentralized Identifier of the NFT asset. |
-| `consumer` | [`Account`](Account.md) | `undefined` | The NFT holder account. |
-| `destination?` | `string` | `undefined` | The download destination for the files. |
-| `index?` | `number` | `undefined` | - |
-| `agreementId` | `string` | `'0x'` | - |
+| Name           | Type                    | Default value | Description                                    |
+| :------------- | :---------------------- | :------------ | :--------------------------------------------- |
+| `did`          | `string`                | `undefined`   | The Decentralized Identifier of the NFT asset. |
+| `consumer`     | [`Account`](Account.md) | `undefined`   | The NFT holder account.                        |
+| `destination?` | `string`                | `undefined`   | The download destination for the files.        |
+| `index?`       | `number`                | `undefined`   | -                                              |
+| `agreementId`  | `string`                | `'0x'`        | -                                              |
 
 #### Returns
 
@@ -234,7 +234,7 @@ true if the access was successful.
 
 [src/nevermined/Nfts.ts:618](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L618)
 
-___
+---
 
 ### addresses
 
@@ -252,7 +252,7 @@ Instantiable.addresses
 
 [src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
 
-___
+---
 
 ### balance
 
@@ -268,10 +268,10 @@ Get the NFT balance for a particular did
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `did` | `string` | The Decentralized Identifier of the NFT asset. |
-| `account` | [`Account`](Account.md) | The account to check the balance of. |
+| Name      | Type                    | Description                                    |
+| :-------- | :---------------------- | :--------------------------------------------- |
+| `did`     | `string`                | The Decentralized Identifier of the NFT asset. |
+| `account` | [`Account`](Account.md) | The account to check the balance of.           |
 
 #### Returns
 
@@ -283,7 +283,7 @@ The amount of NFTs owned by the account.
 
 [src/nevermined/Nfts.ts:645](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L645)
 
-___
+---
 
 ### burn
 
@@ -303,12 +303,12 @@ The publisher can only burn NFTs that it owns. NFTs that were already transferre
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `did` | `string` | The Decentralized Identifier of the NFT asset. |
-| `nftAmount` | `default` | The amount of NFTs to burn. |
-| `publisher` | [`Account`](Account.md) | The account of the publisher of the NFT. |
-| `params?` | `TxParameters` | Optional transaction parameters. |
+| Name        | Type                    | Description                                    |
+| :---------- | :---------------------- | :--------------------------------------------- |
+| `did`       | `string`                | The Decentralized Identifier of the NFT asset. |
+| `nftAmount` | `default`               | The amount of NFTs to burn.                    |
+| `publisher` | [`Account`](Account.md) | The account of the publisher of the NFT.       |
+| `params?`   | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -320,7 +320,7 @@ The ethers.ContractReceipt
 
 [src/nevermined/Nfts.ts:256](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L256)
 
-___
+---
 
 ### buySecondaryMarketNft
 
@@ -341,12 +341,12 @@ Thrown if there is an error buying the NFT.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `consumer` | [`Account`](Account.md) | The account of the buyer/consumer. |
-| `nftAmount` | `default` | The number of assets to buy. 1 by default. |
-| `agreementIdSeed` | `string` | - |
-| `params?` | `TxParameters` | - |
+| Name              | Type                    | Description                                |
+| :---------------- | :---------------------- | :----------------------------------------- |
+| `consumer`        | [`Account`](Account.md) | The account of the buyer/consumer.         |
+| `nftAmount`       | `default`               | The number of assets to buy. 1 by default. |
+| `agreementIdSeed` | `string`                | -                                          |
+| `params?`         | `TxParameters`          | -                                          |
 
 #### Returns
 
@@ -358,7 +358,7 @@ true if the buy was successful.
 
 [src/nevermined/Nfts.ts:934](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L934)
 
-___
+---
 
 ### checkExists
 
@@ -368,8 +368,8 @@ Returns true of contract exists else it throws.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `address` | `string` |
 
 #### Returns
@@ -386,11 +386,11 @@ Instantiable.checkExists
 
 [src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
 
-___
+---
 
 ### create
 
-▸ **create**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **create**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetPrice`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new NFT Nevermined NFT.
 
@@ -402,19 +402,19 @@ Create a new NFT Nevermined NFT.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `metadata` | [`MetaData`](../interfaces/MetaData.md) | The metadata associated with the NFT. |
-| `publisher` | [`Account`](Account.md) | The account of the creator od the NFT. |
-| `cap` | `default` | The max number of nfts. |
-| `royaltyAttributes` | `RoyaltyAttributes` | The royalties associated with the NFT. |
-| `assetRewards` | `default` | The sales reward distribution. |
-| `nftAmount` | `default` | The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1. |
-| `erc20TokenAddress?` | `string` | The ERC-20 Token used to price the NFT. |
-| `preMint?` | `boolean` | Set to true to mint _nftAmount_ during creation. |
-| `nftMetadata?` | `string` | Url to the NFT metadata. |
-| `appId?` | `string` | The id of the application creating the NFT. |
-| `txParams?` | `TxParameters` | Optional transaction parameters |
+| Name                 | Type                                    | Description                                                                                                                                  |
+| :------------------- | :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | The metadata associated with the NFT.                                                                                                        |
+| `publisher`          | [`Account`](Account.md)                 | The account of the creator od the NFT.                                                                                                       |
+| `cap`                | `default`                               | The max number of nfts.                                                                                                                      |
+| `royaltyAttributes`  | `RoyaltyAttributes`                     | The royalties associated with the NFT.                                                                                                       |
+| `assetPrice`         | `default`                               | The sales reward distribution.                                                                                                               |
+| `nftAmount`          | `default`                               | The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1. |
+| `erc20TokenAddress?` | `string`                                | The ERC-20 Token used to price the NFT.                                                                                                      |
+| `preMint?`           | `boolean`                               | Set to true to mint _nftAmount_ during creation.                                                                                             |
+| `nftMetadata?`       | `string`                                | Url to the NFT metadata.                                                                                                                     |
+| `appId?`             | `string`                                | The id of the application creating the NFT.                                                                                                  |
+| `txParams?`          | `TxParameters`                          | Optional transaction parameters                                                                                                              |
 
 #### Returns
 
@@ -426,11 +426,11 @@ The newly registered [DDO](DDO.md).
 
 [src/nevermined/Nfts.ts:64](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L64)
 
-___
+---
 
 ### create721
 
-▸ **create721**(`metadata`, `publisher`, `assetRewards`, `nftTokenAddress`, `erc20TokenAddress?`, `royaltyAttributes?`, `nftMetadata?`, `nftTransfer?`, `duration?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **create721**(`metadata`, `publisher`, `assetPrice`, `nftTokenAddress`, `erc20TokenAddress?`, `royaltyAttributes?`, `nftMetadata?`, `nftTransfer?`, `duration?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new Nevermined NFT-721.
 
@@ -442,19 +442,19 @@ Create a new Nevermined NFT-721.
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `metadata` | [`MetaData`](../interfaces/MetaData.md) | `undefined` | The metadata associated with the NFT. |
-| `publisher` | [`Account`](Account.md) | `undefined` | The account of the creator od the NFT. |
-| `assetRewards` | `default` | `undefined` | The sales reward distribution. |
-| `nftTokenAddress` | `string` | `undefined` | The address of the ERC-721 contract |
-| `erc20TokenAddress?` | `string` | `undefined` | The ERC-20 Token used to price the NFT. |
-| `royaltyAttributes?` | `RoyaltyAttributes` | `undefined` | The royalties associated with the NFT. |
-| `nftMetadata?` | `string` | `undefined` | Url to the NFT metadata. |
-| `nftTransfer` | `boolean` | `true` | TODO |
-| `duration` | `number` | `0` | TODO |
-| `appId?` | `string` | `undefined` | Id of the application creating this NFT. |
-| `txParams?` | `TxParameters` | `undefined` | Optional transaction parameters |
+| Name                 | Type                                    | Default value | Description                              |
+| :------------------- | :-------------------------------------- | :------------ | :--------------------------------------- |
+| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | `undefined`   | The metadata associated with the NFT.    |
+| `publisher`          | [`Account`](Account.md)                 | `undefined`   | The account of the creator od the NFT.   |
+| `assetPrice`         | `default`                               | `undefined`   | The sales reward distribution.           |
+| `nftTokenAddress`    | `string`                                | `undefined`   | The address of the ERC-721 contract      |
+| `erc20TokenAddress?` | `string`                                | `undefined`   | The ERC-20 Token used to price the NFT.  |
+| `royaltyAttributes?` | `RoyaltyAttributes`                     | `undefined`   | The royalties associated with the NFT.   |
+| `nftMetadata?`       | `string`                                | `undefined`   | Url to the NFT metadata.                 |
+| `nftTransfer`        | `boolean`                               | `true`        | TODO                                     |
+| `duration`           | `number`                                | `0`           | TODO                                     |
+| `appId?`             | `string`                                | `undefined`   | Id of the application creating this NFT. |
+| `txParams?`          | `TxParameters`                          | `undefined`   | Optional transaction parameters          |
 
 #### Returns
 
@@ -466,11 +466,11 @@ The newly registered [DDO](DDO.md).
 
 [src/nevermined/Nfts.ts:173](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L173)
 
-___
+---
 
 ### createWithRoyalties
 
-▸ **createWithRoyalties**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetRewards`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `nftType?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **createWithRoyalties**(`metadata`, `publisher`, `cap`, `royaltyAttributes`, `assetPrice`, `nftAmount?`, `erc20TokenAddress?`, `preMint?`, `nftMetadata?`, `nftType?`, `appId?`, `txParams?`): [`SubscribablePromise`](utils.SubscribablePromise.md)<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Create a new Nevermined NFT with royalties.
 
@@ -482,20 +482,20 @@ Create a new Nevermined NFT with royalties.
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `metadata` | [`MetaData`](../interfaces/MetaData.md) | `undefined` | The metadata associated with the NFT. |
-| `publisher` | [`Account`](Account.md) | `undefined` | The account of the creator od the NFT. |
-| `cap` | `default` | `undefined` | The max number of nfts. |
-| `royaltyAttributes` | `RoyaltyAttributes` | `undefined` | The royalties associated with the NFT. |
-| `assetRewards` | `default` | `undefined` | The sales reward distribution. |
-| `nftAmount` | `default` | `undefined` | The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1. |
-| `erc20TokenAddress?` | `string` | `undefined` | The ERC-20 Token used to price the NFT. |
-| `preMint?` | `boolean` | `undefined` | Set to true to mint _nftAmount_ during creation. |
-| `nftMetadata?` | `string` | `undefined` | Url to the NFT metadata. |
-| `nftType` | `NeverminedNFTType` | `NeverminedNFT1155Type.nft1155` | - |
-| `appId?` | `string` | `undefined` | The id of the application creating the NFT. |
-| `txParams?` | `TxParameters` | `undefined` | Optional transaction parameters |
+| Name                 | Type                                    | Default value                   | Description                                                                                                                                  |
+| :------------------- | :-------------------------------------- | :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | `undefined`                     | The metadata associated with the NFT.                                                                                                        |
+| `publisher`          | [`Account`](Account.md)                 | `undefined`                     | The account of the creator od the NFT.                                                                                                       |
+| `cap`                | `default`                               | `undefined`                     | The max number of nfts.                                                                                                                      |
+| `royaltyAttributes`  | `RoyaltyAttributes`                     | `undefined`                     | The royalties associated with the NFT.                                                                                                       |
+| `assetPrice`         | `default`                               | `undefined`                     | The sales reward distribution.                                                                                                               |
+| `nftAmount`          | `default`                               | `undefined`                     | The amount of NFTs that an address needs to hold in order to access the DID's protected assets. Leave it undefined and it will default to 1. |
+| `erc20TokenAddress?` | `string`                                | `undefined`                     | The ERC-20 Token used to price the NFT.                                                                                                      |
+| `preMint?`           | `boolean`                               | `undefined`                     | Set to true to mint _nftAmount_ during creation.                                                                                             |
+| `nftMetadata?`       | `string`                                | `undefined`                     | Url to the NFT metadata.                                                                                                                     |
+| `nftType`            | `NeverminedNFTType`                     | `NeverminedNFT1155Type.nft1155` | -                                                                                                                                            |
+| `appId?`             | `string`                                | `undefined`                     | The id of the application creating the NFT.                                                                                                  |
+| `txParams?`          | `TxParameters`                          | `undefined`                     | Optional transaction parameters                                                                                                              |
 
 #### Returns
 
@@ -507,11 +507,11 @@ The newly registered [DDO](DDO.md).
 
 [src/nevermined/Nfts.ts:119](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L119)
 
-___
+---
 
 ### details
 
-▸ **details**(`did`): `Promise`<{ `blockNumberUpdated`: `number` ; `lastChecksum`: `any` ; `lastUpdatedBy`: `any` ; `mintCap`: `number` ; `nftSupply`: `number` ; `owner`: `any` ; `providers`: `any` ; `royalties`: `number` ; `royaltyScheme`: `RoyaltyKind` ; `url`: `any`  }\>
+▸ **details**(`did`): `Promise`<{ `blockNumberUpdated`: `number` ; `lastChecksum`: `any` ; `lastUpdatedBy`: `any` ; `mintCap`: `number` ; `nftSupply`: `number` ; `owner`: `any` ; `providers`: `any` ; `royalties`: `number` ; `royaltyScheme`: `RoyaltyKind` ; `url`: `any` }\>
 
 Get the details of an NFT
 
@@ -523,13 +523,13 @@ Get the details of an NFT
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name  | Type     | Description                                    |
+| :---- | :------- | :--------------------------------------------- |
 | `did` | `string` | The Decentralized Identifier of the NFT asset. |
 
 #### Returns
 
-`Promise`<{ `blockNumberUpdated`: `number` ; `lastChecksum`: `any` ; `lastUpdatedBy`: `any` ; `mintCap`: `number` ; `nftSupply`: `number` ; `owner`: `any` ; `providers`: `any` ; `royalties`: `number` ; `royaltyScheme`: `RoyaltyKind` ; `url`: `any`  }\>
+`Promise`<{ `blockNumberUpdated`: `number` ; `lastChecksum`: `any` ; `lastUpdatedBy`: `any` ; `mintCap`: `number` ; `nftSupply`: `number` ; `owner`: `any` ; `providers`: `any` ; `royalties`: `number` ; `royaltyScheme`: `RoyaltyKind` ; `url`: `any` }\>
 
 The details of the NFT.
 
@@ -537,7 +537,7 @@ The details of the NFT.
 
 [src/nevermined/Nfts.ts:693](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L693)
 
-___
+---
 
 ### downloadFiles
 
@@ -545,13 +545,13 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `agreementId` | `string` |
-| `ddo` | [`DDO`](DDO.md) |
-| `consumer` | [`Account`](Account.md) |
-| `destination?` | `string` |
-| `index?` | `number` |
+| Name           | Type                    |
+| :------------- | :---------------------- |
+| `agreementId`  | `string`                |
+| `ddo`          | [`DDO`](DDO.md)         |
+| `consumer`     | [`Account`](Account.md) |
+| `destination?` | `string`                |
+| `index?`       | `number`                |
 
 #### Returns
 
@@ -561,7 +561,7 @@ ___
 
 [src/nevermined/Nfts.ts:752](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L752)
 
-___
+---
 
 ### findSigner
 
@@ -569,8 +569,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type     |
+| :----- | :------- |
 | `from` | `string` |
 
 #### Returns
@@ -585,7 +585,7 @@ Instantiable.findSigner
 
 [src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
 
-___
+---
 
 ### getNftContractAddress
 
@@ -601,8 +601,8 @@ Get the NFT contract address associated with a Nevermined asset.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name  | Type            | Description           |
+| :---- | :-------------- | :-------------------- |
 | `ddo` | [`DDO`](DDO.md) | The DDO of the asset. |
 
 #### Returns
@@ -615,11 +615,11 @@ The NFT contract address.
 
 [src/nevermined/Nfts.ts:739](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L739)
 
-___
+---
 
 ### listOnSecondaryMarkets
 
-▸ **listOnSecondaryMarkets**(`ddo`, `assetRewards`, `nftAmount`, `provider`, `token`, `owner`): `Promise`<`string`\>
+▸ **listOnSecondaryMarkets**(`ddo`, `assetPrice`, `nftAmount`, `provider`, `token`, `owner`): `Promise`<`string`\>
 
 After purchase re-list an NFT to enable secondary market sales.
 
@@ -636,14 +636,14 @@ Thrown if there is an error listing the NFT.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ddo` | [`DDO`](DDO.md) | The DDO of the asset. |
-| `assetRewards` | `default` | The current setup of asset rewards. |
-| `nftAmount` | `default` | The number of NFTs put up for secondary sale. |
-| `provider` | `string` | The address that will be the provider of the secondary sale. |
-| `token` | `default` | - |
-| `owner` | `string` | The account of the current owner. |
+| Name         | Type            | Description                                                  |
+| :----------- | :-------------- | :----------------------------------------------------------- |
+| `ddo`        | [`DDO`](DDO.md) | The DDO of the asset.                                        |
+| `assetPrice` | `default`       | The current setup of asset rewards.                          |
+| `nftAmount`  | `default`       | The number of NFTs put up for secondary sale.                |
+| `provider`   | `string`        | The address that will be the provider of the secondary sale. |
+| `token`      | `default`       | -                                                            |
+| `owner`      | `string`        | The account of the current owner.                            |
 
 #### Returns
 
@@ -655,7 +655,7 @@ the agreementId of the secondary sale.
 
 [src/nevermined/Nfts.ts:859](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L859)
 
-___
+---
 
 ### mint
 
@@ -675,12 +675,12 @@ This function can be called multiple times as long as the minting does not excee
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `did` | `string` | The Decentralized Identifier of the NFT asset. |
-| `nftAmount` | `default` | The amount of NFTs to mint. |
-| `publisher` | [`Account`](Account.md) | The account of the publisher of the NFT. |
-| `params?` | `TxParameters` | Optional transaction parameters. |
+| Name        | Type                    | Description                                    |
+| :---------- | :---------------------- | :--------------------------------------------- |
+| `did`       | `string`                | The Decentralized Identifier of the NFT asset. |
+| `nftAmount` | `default`               | The amount of NFTs to mint.                    |
+| `publisher` | [`Account`](Account.md) | The account of the publisher of the NFT.       |
+| `params?`   | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -692,7 +692,7 @@ The ethers.ContractReceipt
 
 [src/nevermined/Nfts.ts:224](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L224)
 
-___
+---
 
 ### order
 
@@ -713,12 +713,12 @@ from the publisher.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `did` | `string` | The Decentralized Identifier of the NFT asset. |
-| `nftAmount` | `default` | The amount of NFTs to buy. |
-| `consumer` | [`Account`](Account.md) | The account of the NFT buyer. |
-| `txParams?` | `TxParameters` | Optional transaction parameters. |
+| Name        | Type                    | Description                                    |
+| :---------- | :---------------------- | :--------------------------------------------- |
+| `did`       | `string`                | The Decentralized Identifier of the NFT asset. |
+| `nftAmount` | `default`               | The amount of NFTs to buy.                     |
+| `consumer`  | [`Account`](Account.md) | The account of the NFT buyer.                  |
+| `txParams?` | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -730,7 +730,7 @@ The agreement ID.
 
 [src/nevermined/Nfts.ts:291](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L291)
 
-___
+---
 
 ### order721
 
@@ -751,11 +751,11 @@ from the publisher.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `did` | `string` | The Decentralized Identifier of the NFT asset. |
-| `consumer` | [`Account`](Account.md) | The account of the NFT buyer. |
-| `txParams?` | `TxParameters` | Optional transaction parameters. |
+| Name        | Type                    | Description                                    |
+| :---------- | :---------------------- | :--------------------------------------------- |
+| `did`       | `string`                | The Decentralized Identifier of the NFT asset. |
+| `consumer`  | [`Account`](Account.md) | The account of the NFT buyer.                  |
+| `txParams?` | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -767,7 +767,7 @@ The agreement ID.
 
 [src/nevermined/Nfts.ts:340](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L340)
 
-___
+---
 
 ### ownerOf
 
@@ -783,11 +783,11 @@ Get the owner of the NFT
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `did` | `string` | The Decentralized identifier of the NFT asset. |
-| `nftTokenAddress` | `string` | The address of the ERC-721 contract. |
-| `agreementId?` | `string` | The NFT sales agreement id. |
+| Name              | Type     | Description                                    |
+| :---------------- | :------- | :--------------------------------------------- |
+| `did`             | `string` | The Decentralized identifier of the NFT asset. |
+| `nftTokenAddress` | `string` | The address of the ERC-721 contract.           |
+| `agreementId?`    | `string` | The NFT sales agreement id.                    |
 
 #### Returns
 
@@ -799,7 +799,7 @@ The address of the NFT owner.
 
 [src/nevermined/Nfts.ts:663](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L663)
 
-___
+---
 
 ### release721Rewards
 
@@ -824,12 +824,12 @@ Thrown if there is an error releasing the rewards.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `agreementId` | `string` | The NFT sales agreement id. |
-| `did` | `string` | The Decentralized identifier of the NFT asset. |
-| `publisher` | [`Account`](Account.md) | The current owner of the NFTs. |
-| `txParams?` | `TxParameters` | Optional transaction parameters. |
+| Name          | Type                    | Description                                    |
+| :------------ | :---------------------- | :--------------------------------------------- |
+| `agreementId` | `string`                | The NFT sales agreement id.                    |
+| `did`         | `string`                | The Decentralized identifier of the NFT asset. |
+| `publisher`   | [`Account`](Account.md) | The current owner of the NFTs.                 |
+| `txParams?`   | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -841,7 +841,7 @@ true if the funds release was successful.
 
 [src/nevermined/Nfts.ts:574](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L574)
 
-___
+---
 
 ### releaseRewards
 
@@ -866,13 +866,13 @@ Thrown if there is an error releasing the rewards
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `agreementId` | `string` | The NFT sales agreement id. |
-| `did` | `string` | The Decentralized identifier of the NFT asset. |
-| `nftAmount` | `default` | The amount of NFTs to transfer. |
-| `publisher` | [`Account`](Account.md) | The current owner of the NFTs. |
-| `txParams?` | `TxParameters` | Optional transaction parameters. |
+| Name          | Type                    | Description                                    |
+| :------------ | :---------------------- | :--------------------------------------------- |
+| `agreementId` | `string`                | The NFT sales agreement id.                    |
+| `did`         | `string`                | The Decentralized identifier of the NFT asset. |
+| `nftAmount`   | `default`               | The amount of NFTs to transfer.                |
+| `publisher`   | [`Account`](Account.md) | The current owner of the NFTs.                 |
+| `txParams?`   | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -884,7 +884,7 @@ true if the funds release was successful.
 
 [src/nevermined/Nfts.ts:526](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L526)
 
-___
+---
 
 ### releaseSecondaryMarketRewards
 
@@ -905,12 +905,12 @@ Thrown if there is an error releasing the rewards.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `owner` | [`Account`](Account.md) | The owner account. |
-| `consumer` | [`Account`](Account.md) | - |
-| `agreementIdSeed` | `string` | - |
-| `params?` | `TxParameters` | - |
+| Name              | Type                    | Description        |
+| :---------------- | :---------------------- | :----------------- |
+| `owner`           | [`Account`](Account.md) | The owner account. |
+| `consumer`        | [`Account`](Account.md) | -                  |
+| `agreementIdSeed` | `string`                | -                  |
+| `params?`         | `TxParameters`          | -                  |
 
 #### Returns
 
@@ -922,7 +922,7 @@ true if the transaction was successful.
 
 [src/nevermined/Nfts.ts:997](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L997)
 
-___
+---
 
 ### setApprovalForAll
 
@@ -942,11 +942,11 @@ Enable or disable NFT transfer rights for an operator.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `operatorAddress` | `string` | The address that of the operator we want to give transfer rights to. |
-| `approved` | `boolean` | Give or remove transfer rights from the operator. |
-| `from` | [`Account`](Account.md) | The account that wants to give transfer rights to the operator. |
+| Name              | Type                    | Description                                                          |
+| :---------------- | :---------------------- | :------------------------------------------------------------------- |
+| `operatorAddress` | `string`                | The address that of the operator we want to give transfer rights to. |
+| `approved`        | `boolean`               | Give or remove transfer rights from the operator.                    |
+| `from`            | [`Account`](Account.md) | The account that wants to give transfer rights to the operator.      |
 
 #### Returns
 
@@ -958,7 +958,7 @@ The ethers.ContractReceipt
 
 [src/nevermined/Nfts.ts:822](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L822)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -966,8 +966,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                 |
+| :------- | :------------------- |
 | `config` | `InstantiableConfig` |
 
 #### Returns
@@ -982,7 +982,7 @@ Instantiable.setInstanceConfig
 
 [src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
 
-___
+---
 
 ### transfer
 
@@ -1008,13 +1008,13 @@ Thrown if there is an error transferring the NFT
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `agreementId` | `string` | The NFT sales agreement id. |
-| `did` | `string` | The Decentralized identifier of the NFT asset. |
-| `nftAmount` | `default` | The number of NFTs to transfer. |
-| `publisher` | [`Account`](Account.md) | The current owner of the NFTs. |
-| `txParams?` | `TxParameters` | Optional transaction parameters. |
+| Name          | Type                    | Description                                    |
+| :------------ | :---------------------- | :--------------------------------------------- |
+| `agreementId` | `string`                | The NFT sales agreement id.                    |
+| `did`         | `string`                | The Decentralized identifier of the NFT asset. |
+| `nftAmount`   | `default`               | The number of NFTs to transfer.                |
+| `publisher`   | [`Account`](Account.md) | The current owner of the NFTs.                 |
+| `txParams?`   | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -1026,7 +1026,7 @@ true if the transfer was successful.
 
 [src/nevermined/Nfts.ts:394](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L394)
 
-___
+---
 
 ### transfer721
 
@@ -1052,12 +1052,12 @@ Thrown if there is an error transferring the NFT
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `agreementId` | `string` | The NFT sales agreement id. |
-| `did` | `string` | The Decentralized identifier of the NFT asset. |
-| `publisher` | [`Account`](Account.md) | The current owner of the NFTs. |
-| `txParams?` | `TxParameters` | Optional transaction parameters. |
+| Name          | Type                    | Description                                    |
+| :------------ | :---------------------- | :--------------------------------------------- |
+| `agreementId` | `string`                | The NFT sales agreement id.                    |
+| `did`         | `string`                | The Decentralized identifier of the NFT asset. |
+| `publisher`   | [`Account`](Account.md) | The current owner of the NFTs.                 |
+| `txParams?`   | `TxParameters`          | Optional transaction parameters.               |
 
 #### Returns
 
@@ -1069,7 +1069,7 @@ true if the transfer was successful.
 
 [src/nevermined/Nfts.ts:481](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L481)
 
-___
+---
 
 ### transferForDelegate
 
@@ -1094,13 +1094,13 @@ as soon as the payment is made
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `agreementId` | `string` | `undefined` | The NFT sales agreement id. |
-| `nftHolder` | `string` | `undefined` | The address of the current owner of the NFT. |
-| `nftReceiver` | `string` | `undefined` | The address where the NFT should be transferred. |
-| `nftAmount` | `default` | `undefined` | The amount of NFTs to transfer. |
-| `ercType` | `ERCType` | `1155` | The Type of the NFT ERC (1155 or 721). |
+| Name          | Type      | Default value | Description                                      |
+| :------------ | :-------- | :------------ | :----------------------------------------------- |
+| `agreementId` | `string`  | `undefined`   | The NFT sales agreement id.                      |
+| `nftHolder`   | `string`  | `undefined`   | The address of the current owner of the NFT.     |
+| `nftReceiver` | `string`  | `undefined`   | The address where the NFT should be transferred. |
+| `nftAmount`   | `default` | `undefined`   | The amount of NFTs to transfer.                  |
+| `ercType`     | `ERCType` | `1155`        | The Type of the NFT ERC (1155 or 721).           |
 
 #### Returns
 
@@ -1112,7 +1112,7 @@ true if the transfer was successful.
 
 [src/nevermined/Nfts.ts:443](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L443)
 
-___
+---
 
 ### addressesStatic
 
@@ -1120,10 +1120,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
+| `web3`   | `JsonRpcProvider`     |
 
 #### Returns
 
@@ -1137,7 +1137,7 @@ Instantiable.addressesStatic
 
 [src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
 
-___
+---
 
 ### findSignerStatic
 
@@ -1145,11 +1145,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                  |
+| :------- | :-------------------- |
 | `config` | [`Config`](Config.md) |
-| `web3` | `JsonRpcProvider` |
-| `from` | `string` |
+| `web3`   | `JsonRpcProvider`     |
+| `from`   | `string`              |
 
 #### Returns
 
@@ -1163,7 +1163,7 @@ Instantiable.findSignerStatic
 
 [src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
 
-___
+---
 
 ### getInstance
 
@@ -1171,8 +1171,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name     | Type                 |
+| :------- | :------------------- |
 | `config` | `InstantiableConfig` |
 
 #### Returns
@@ -1187,7 +1187,7 @@ Instantiable.getInstance
 
 [src/nevermined/Nfts.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Nfts.ts#L36)
 
-___
+---
 
 ### setInstanceConfig
 
@@ -1195,15 +1195,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | extends `Instantiable`<`T`\> |
+| Name | Type                         |
+| :--- | :--------------------------- |
+| `T`  | extends `Instantiable`<`T`\> |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `instance` | `T` |
+| Name                 | Type                 |
+| :------------------- | :------------------- |
+| `instance`           | `T`                  |
 | `instantiableConfig` | `InstantiableConfig` |
 
 #### Returns

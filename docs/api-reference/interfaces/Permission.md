@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Permission
+[@nevermined-io/sdk](../code-reference.md) / Permission
 
 # Interface: Permission
 
@@ -33,7 +33,7 @@
 
 [src/permissions/Permissions.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L12)
 
-___
+---
 
 ### id
 
@@ -43,7 +43,7 @@ ___
 
 [src/permissions/Permissions.interfaces.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L16)
 
-___
+---
 
 ### issuanceDate
 
@@ -53,7 +53,7 @@ ___
 
 [src/permissions/Permissions.interfaces.ts:17](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L17)
 
-___
+---
 
 ### issuer
 
@@ -67,7 +67,7 @@ ___
 
 [src/permissions/Permissions.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L11)
 
-___
+---
 
 ### type
 
@@ -81,7 +81,7 @@ ___
 
 [src/permissions/Permissions.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/permissions/Permissions.interfaces.ts#L10)
 
-___
+---
 
 ### userId
 

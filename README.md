@@ -34,33 +34,33 @@
 Start by adding the package to your dependencies:
 
 ```bash
-npm i @nevermined-io/nevermined-sdk-js
+npm i @nevermined-io/sdk
 ```
 
 The package exposes `Nevermined` and `Logger` which you can import in your code like this:
 
 ```js
 // ES6
-import { Nevermined, Logger } from '@nevermined-io/nevermined-sdk-js'
+import { Nevermined, Logger } from '@nevermined-io/sdk'
 
 // ES2015
-const { Nevermined, Logger } = require('@nevermined-io/nevermined-sdk-js')
+const { Nevermined, Logger } = require('@nevermined-io/sdk')
 ```
 
 You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Metadata API](https://github.com/nevermined-io/metadata), [Nevermined Node](https://github.com/nevermined-io/node) instances, e.g.:
 
 ```js
 const nevermined: Nevermined = await Nevermined.getInstance({
-    // the node of the blockchain to connect to, could also be infura
-    web3ProviderUri: 'http://localhost:8545',
-    // the uri of metadata
-    metadataUri: 'http://localhost:5000',
-    // the uri of nevermined node
-    neverminedNodeUri: 'http://localhost:8030',
-    // the uri of faucet
-    faucetUri: 'http://localhost:3001',
-    // address that node uses
-    neverminedNodeAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e'
+  // the node of the blockchain to connect to, could also be infura
+  web3ProviderUri: 'http://localhost:8545',
+  // the uri of metadata
+  metadataUri: 'http://localhost:5000',
+  // the uri of nevermined node
+  neverminedNodeUri: 'http://localhost:8030',
+  // the uri of faucet
+  faucetUri: 'http://localhost:3001',
+  // address that node uses
+  neverminedNodeAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
 })
 ```
 

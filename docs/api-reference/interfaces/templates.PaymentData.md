@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [templates](../modules/templates.md) / PaymentData
+[@nevermined-io/sdk](../code-reference.md) / [templates](../modules/templates.md) / PaymentData
 
 # Interface: PaymentData
 
@@ -23,7 +23,7 @@
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L57)
 
-___
+---
 
 ### receivers
 
@@ -33,7 +33,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:58](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L58)
 
-___
+---
 
 ### rewardAddress
 
@@ -43,7 +43,7 @@ ___
 
 [src/keeper/contracts/templates/AgreementTemplate.abstract.ts:55](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L55)
 
-___
+---
 
 ### tokenAddress
 

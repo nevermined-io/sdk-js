@@ -5,82 +5,169 @@ on:
     - cron: '30 5 * * *'
 
 jobs:
-  
-  e2e:
+  unit-test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        network: ["--polygon", "--geth"]
-        node: ["16"]
-        include:
-          - network: "--polygon"
-            network-name: polygon-localnet
-            chainId: 8997
-            delay: none
-          - network: "--geth"
-            network-name: geth-localnet
-            chainId: 8998
-            delay: GRAPH_DELAY
-
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 16
+
       - name: Install dependencies
         run: |
           yarn
       - name: Run linters
-        run: npm run lint
-      - name: Run tools (network)
+        run: yarn lint
+
+      - name: Start ganache
+        run: yarn ganache --port 18545 --chain.chainId 8998 &
+
+      - uses: actions/checkout@v3
+        with:
+          repository: nevermined-io/contracts
+          ref: 'master'
+          path: contracts
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Deploy contracts
         run: |
-          docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          yarn ganache --port 18545 --chain.chainId ${{ matrix.chainId }} > ganache-cli.log &
-          sudo chmod go+r /etc/hosts
-          sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-          git clone https://github.com/nevermined-io/tools
-          cd tools
-
-          export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
-
-          # Disabling the compute api for now
-          # Check https://github.com/nevermined-io/sdk-js/issues/33
-
-          ./start_nevermined.sh --latest ${{ matrix.network }} --opengsn 2>&1 | tee nevermined_tools.txt &
+          cd contracts
+          yarn
+          export TESTNET=true
+          export NETWORK=external
+          ./scripts/build-circuit.sh
+          yarn deploy
+          mv artifacts ..
+          mv circuits ..
           cd ..
-          ./scripts/wait-nevermined.sh
-          ./scripts/wait-subgraphs.sh ${{ matrix.network-name }}
-
-      - name: Check artifacts
-        run: ls -l artifacts
+          rm -rf contracts
 
       - name: Run unit tests
-        run: export ETH_PORT=18545; npm run test:cover
-      - name: Run integration tests
+        env:
+          ETH_PORT: 18545
+        run: |
+          yarn run test:cover
+
+  subgraph-integration:
+    runs-on: ubuntu-latest
+    if: ${{ false }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Check artifacts
+        run: |
+          nvm-tools copy-artifacts ./artifacts
+          ls -l artifacts
+
+      - name: Run subgraph integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-          OLD_GATEWAY: false
         run: |
-          export ${{ matrix.delay }}=true
-          npm run integration:cover
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt
+          export GRAPH_DELAY=true
+          npm run integration:subgraph
 
+      - name: Run compute integration tests
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+          NO_GRAPH: true
+          NEVERMINED_NODE_URI: http://node.nevermined.localnet
+          WEB3_PROVIDER_URL: http://contracts.nevermined.localnet
+        run: |
+          yarn run integration:compute
+
+  compute-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Check artifacts
+        run: |
+          nvm-tools copy-artifacts ./artifacts
+          ls -l artifacts
+
+      - name: Run compute integration tests
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+          NO_GRAPH: true
+          NEVERMINED_NODE_URI: http://node.nevermined.localnet
+          WEB3_PROVIDER_URL: http://contracts.nevermined.localnet
+        run: |
+          yarn run integration:compute
 
   integration:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: 16
+      - uses: nevermined-io/nvm-tools-actions@v0.7.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'v3.0.0'
+          node-version: 'develop'
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Check artifacts
+        run: |
+          nvm-tools copy-artifacts ./artifacts
+          ls -l artifacts
+
+      - name: Run integration tests
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+          IPFS_GATEWAY: https://ipfs.infura.io:5001
+          IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
+          IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
+          LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
+          NO_GRAPH: true
+        run: yarn run integration:cover
+
+  mumbai-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Install dependencies
         run: |
@@ -89,54 +176,16 @@ jobs:
       - name: Download artifacts
         run: |
           mkdir -p node_modules/@nevermined-io/contracts/artifacts
-          yarn artifacts:download v2.0.0 mumbai public
+          yarn artifacts:download v3.0.0 mumbai public
           ls -l node_modules/@nevermined-io/contracts/artifacts
 
       - name: Run nightly tests
         env:
           SEED_WORDS: ${{ secrets.TEST_MNEMONIC_NIGHTLY }}
           INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+          IPFS_GATEWAY: https://ipfs.infura.io:5001
+          GRAPH_DELAY: 'true'
+          IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
+          IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
         run: |
           yarn integration:e2e:mumbai
-
-
-  aave-integration:
-    if: ${{ false }}  # See https://github.com/nevermined-io/internal/issues/230
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "14.x"
-      - name: Install dependencies
-        run: |
-          yarn
-          sudo apt-get install mmv
-      - name: Run tools (network)
-        run: |
-          docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-          sudo chmod go+r /etc/hosts
-          sudo echo "127.0.0.1  nevermined-metadata" | sudo tee -a /etc/hosts
-          git clone https://github.com/nevermined-io/tools
-          cd tools
-          git checkout set-rpc-port
-          export KEEPER_RPC_PORT="18545"
-          export KEEPER_NETWORK_NAME="geth-localnet"
-          export KEEPER_OWNER_ROLE_ADDRESS="0xe2DD09d719Da89e5a3D0F2549c7E24566e947260"
-          export KEEPER_VERSION=v2.0.5
-          export NODE_VERSION=latest
-          export MARKETPLACE_API_VERSION=latest
-          export GANACHE_COMMAND_OPTIONS="-d -p 18545 -m 'taxi music thumb unique chat sand crew more leg another off lamp' -u 0xAFD49D613467c0DaBf47B8f5C841089d96Cf7167 -f https://eth-kovan.alchemyapi.io/v2/UaH4LeYR7hHlx00yQZanF1B5AUSmDsTA@28000000"
-          ./start_nevermined.sh --marketplace-api --no-marketplace --no-faucet --no-graph --local-ganache-node 2>&1 | tee nevermined_tools.txt &
-          cd ..
-          ./scripts/wait-nevermined-external.sh
-      - name: Run aave integration test
-        run: |
-          export ETH_PORT=18545
-          npm run integration:aave
-      - name: Upload logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: nevermined-tools-output
-          path: tools/nevermined_tools.txt          

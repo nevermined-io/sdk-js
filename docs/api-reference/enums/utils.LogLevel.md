@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [utils](../modules/utils.md) / LogLevel
+[@nevermined-io/sdk](../code-reference.md) / [utils](../modules/utils.md) / LogLevel
 
 # Enumeration: LogLevel
 
@@ -18,47 +18,47 @@
 
 ### Error
 
-• **Error** = ``0``
+• **Error** = `0`
 
 #### Defined in
 
 [src/utils/Logger.ts:3](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L3)
 
-___
+---
 
 ### Log
 
-• **Log** = ``2``
+• **Log** = `2`
 
 #### Defined in
 
 [src/utils/Logger.ts:5](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L5)
 
-___
+---
 
 ### None
 
-• **None** = ``-1``
+• **None** = `-1`
 
 #### Defined in
 
 [src/utils/Logger.ts:2](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L2)
 
-___
+---
 
 ### Verbose
 
-• **Verbose** = ``3``
+• **Verbose** = `3`
 
 #### Defined in
 
 [src/utils/Logger.ts:6](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L6)
 
-___
+---
 
 ### Warn
 
-• **Warn** = ``1``
+• **Warn** = `1`
 
 #### Defined in
 

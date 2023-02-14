@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / DistributeNFTCollateralCondition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / DistributeNFTCollateralCondition
 
 # Namespace: DistributeNFTCollateralCondition
 
@@ -34,15 +34,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledresult) |
+| Name | Type                                                                                             |
+| :--- | :----------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:76
 
-___
+---
 
 ### FulfilledFields
 
@@ -50,20 +50,20 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId` | ``true`` |
-| `_conditionId` | ``true`` |
-| `_contract` | ``true`` |
-| `_did` | ``true`` |
-| `_receiver` | ``true`` |
-| `id` | ``true`` |
+| Name           | Type   |
+| :------------- | :----- |
+| `_agreementId` | `true` |
+| `_conditionId` | `true` |
+| `_contract`    | `true` |
+| `_did`         | `true` |
+| `_receiver`    | `true` |
+| `id`           | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:68
 
-___
+---
 
 ### FulfilledFilter
 
@@ -71,52 +71,52 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `_agreementId?` | `string` \| ``null`` |
-| `_agreementId_contains?` | `string` \| ``null`` |
-| `_agreementId_in?` | `string`[] |
-| `_agreementId_not?` | `string` \| ``null`` |
-| `_agreementId_not_contains?` | `string` \| ``null`` |
-| `_agreementId_not_in?` | `string`[] |
-| `_conditionId?` | `string` \| ``null`` |
-| `_conditionId_contains?` | `string` \| ``null`` |
-| `_conditionId_in?` | `string`[] |
-| `_conditionId_not?` | `string` \| ``null`` |
-| `_conditionId_not_contains?` | `string` \| ``null`` |
-| `_conditionId_not_in?` | `string`[] |
-| `_contract?` | `string` \| ``null`` |
-| `_contract_contains?` | `string` \| ``null`` |
-| `_contract_in?` | `string`[] |
-| `_contract_not?` | `string` \| ``null`` |
-| `_contract_not_contains?` | `string` \| ``null`` |
-| `_contract_not_in?` | `string`[] |
-| `_did?` | `string` \| ``null`` |
-| `_did_contains?` | `string` \| ``null`` |
-| `_did_in?` | `string`[] |
-| `_did_not?` | `string` \| ``null`` |
-| `_did_not_contains?` | `string` \| ``null`` |
-| `_did_not_in?` | `string`[] |
-| `_receiver?` | `string` \| ``null`` |
-| `_receiver_contains?` | `string` \| ``null`` |
-| `_receiver_in?` | `string`[] |
-| `_receiver_not?` | `string` \| ``null`` |
-| `_receiver_not_contains?` | `string` \| ``null`` |
-| `_receiver_not_in?` | `string`[] |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
+| Name                         | Type               |
+| :--------------------------- | :----------------- |
+| `_agreementId?`              | `string` \| `null` |
+| `_agreementId_contains?`     | `string` \| `null` |
+| `_agreementId_in?`           | `string`[]         |
+| `_agreementId_not?`          | `string` \| `null` |
+| `_agreementId_not_contains?` | `string` \| `null` |
+| `_agreementId_not_in?`       | `string`[]         |
+| `_conditionId?`              | `string` \| `null` |
+| `_conditionId_contains?`     | `string` \| `null` |
+| `_conditionId_in?`           | `string`[]         |
+| `_conditionId_not?`          | `string` \| `null` |
+| `_conditionId_not_contains?` | `string` \| `null` |
+| `_conditionId_not_in?`       | `string`[]         |
+| `_contract?`                 | `string` \| `null` |
+| `_contract_contains?`        | `string` \| `null` |
+| `_contract_in?`              | `string`[]         |
+| `_contract_not?`             | `string` \| `null` |
+| `_contract_not_contains?`    | `string` \| `null` |
+| `_contract_not_in?`          | `string`[]         |
+| `_did?`                      | `string` \| `null` |
+| `_did_contains?`             | `string` \| `null` |
+| `_did_in?`                   | `string`[]         |
+| `_did_not?`                  | `string` \| `null` |
+| `_did_not_contains?`         | `string` \| `null` |
+| `_did_not_in?`               | `string`[]         |
+| `_receiver?`                 | `string` \| `null` |
+| `_receiver_contains?`        | `string` \| `null` |
+| `_receiver_in?`              | `string`[]         |
+| `_receiver_not?`             | `string` \| `null` |
+| `_receiver_not_contains?`    | `string` \| `null` |
+| `_receiver_not_in?`          | `string`[]         |
+| `id?`                        | `string` \| `null` |
+| `id_gt?`                     | `string` \| `null` |
+| `id_gte?`                    | `string` \| `null` |
+| `id_in?`                     | `string`[]         |
+| `id_lt?`                     | `string` \| `null` |
+| `id_lte?`                    | `string` \| `null` |
+| `id_not?`                    | `string` \| `null` |
+| `id_not_in?`                 | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:20
 
-___
+---
 
 ### FulfilledResult
 
@@ -124,20 +124,20 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name           | Type     |
+| :------------- | :------- |
 | `_agreementId` | `string` |
 | `_conditionId` | `string` |
-| `_contract` | `string` |
-| `_did` | `string` |
-| `_receiver` | `string` |
-| `id` | `string` |
+| `_contract`    | `string` |
+| `_did`         | `string` |
+| `_receiver`    | `string` |
+| `id`           | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:60
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -146,25 +146,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:9
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -172,15 +172,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                                   |
+| :--- | :--------------------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:113
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -188,17 +188,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:108
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -206,34 +206,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:81
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -241,17 +241,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:103
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -259,10 +259,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -276,17 +276,17 @@ node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.t
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledresult) |
+| Name | Type                                                                                             |
+| :--- | :----------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                     |
+| :-------- | :--------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                 |
 | `options` | [`SingleQueryOptions`](subgraphs.DistributeNFTCollateralCondition.md#singlequeryoptions) |
-| `args` | [`FulfilledArgs`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledargs)<`K`\>     |
 
 #### Returns
 
@@ -296,7 +296,7 @@ node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.t
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:79
 
-___
+---
 
 ### getFulfilleds
 
@@ -304,17 +304,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`FulfilledResult`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledresult) |
+| Name | Type                                                                                             |
+| :--- | :----------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`FulfilledResult`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                            |
+| :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                        |
 | `options` | [`MultiQueryOptions`](subgraphs.DistributeNFTCollateralCondition.md#multiqueryoptions)<[`FulfilledFilter`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledfilter), [`FulfilledResult`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledresult)\> |
-| `args` | [`FulfilledArgs`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledargs)<`K`\> |
+| `args`    | [`FulfilledArgs`](subgraphs.DistributeNFTCollateralCondition.md#fulfilledargs)<`K`\>                                                                                                                                                                            |
 
 #### Returns
 
@@ -324,7 +324,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:80
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -332,17 +332,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                                   |
+| :--- | :--------------------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.DistributeNFTCollateralCondition.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                                       |
+| :-------- | :--------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                   |
+| `options` | [`SingleQueryOptions`](subgraphs.DistributeNFTCollateralCondition.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -352,7 +352,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/DistributeNFTCollateralCondition.d.ts:116
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -360,17 +360,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                                   |
+| :--- | :--------------------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                                                        |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                                                                    |
 | `options` | [`MultiQueryOptions`](subgraphs.DistributeNFTCollateralCondition.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.DistributeNFTCollateralCondition.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                                                  |
 
 #### Returns
 

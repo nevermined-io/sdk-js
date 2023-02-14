@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / PlatformTech
+[@nevermined-io/sdk](../code-reference.md) / PlatformTech
 
 # Interface: PlatformTech
 
@@ -27,7 +27,7 @@
 
 [src/nevermined/Versions.ts:15](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Versions.ts#L15)
 
-___
+---
 
 ### name
 
@@ -37,7 +37,7 @@ ___
 
 [src/nevermined/Versions.ts:13](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Versions.ts#L13)
 
-___
+---
 
 ### status
 
@@ -47,7 +47,7 @@ ___
 
 [src/nevermined/Versions.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Versions.ts#L16)
 
-___
+---
 
 ### version
 

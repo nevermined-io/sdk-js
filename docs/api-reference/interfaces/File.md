@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / File
+[@nevermined-io/sdk](../code-reference.md) / File
 
 # Interface: File
 
@@ -30,7 +30,7 @@ File checksum.
 
 [src/ddo/MetaData.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L97)
 
-___
+---
 
 ### checksumType
 
@@ -42,7 +42,7 @@ Checksum hash algorithm.
 
 [src/ddo/MetaData.ts:102](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L102)
 
-___
+---
 
 ### compression
 
@@ -53,14 +53,14 @@ File compression (e.g. no, gzip, bzip2, etc).
 **`Example`**
 
 ```ts
-"zip"
+'zip'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:124](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L124)
 
-___
+---
 
 ### contentLength
 
@@ -72,7 +72,7 @@ File content length.
 
 [src/ddo/MetaData.ts:107](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L107)
 
-___
+---
 
 ### contentType
 
@@ -83,14 +83,14 @@ File format, if applicable.
 **`Example`**
 
 ```ts
-"text/csv"
+'text/csv'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:92](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L92)
 
-___
+---
 
 ### encoding
 
@@ -101,18 +101,18 @@ File encoding.
 **`Example`**
 
 ```ts
-"UTF-8"
+'UTF-8'
 ```
 
 #### Defined in
 
 [src/ddo/MetaData.ts:118](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L118)
 
-___
+---
 
 ### encryption
 
-• `Optional` **encryption**: ``"dtp"``
+• `Optional` **encryption**: `"dtp"`
 
 Encryption mode used.
 
@@ -124,7 +124,7 @@ If not provided is assumed the files are not encrypted. Currently only `dtp` is 
 
 [src/ddo/MetaData.ts:132](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L132)
 
-___
+---
 
 ### index
 
@@ -136,7 +136,7 @@ File index.
 
 [src/ddo/MetaData.ts:86](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L86)
 
-___
+---
 
 ### name
 
@@ -148,7 +148,7 @@ File name.
 
 [src/ddo/MetaData.ts:76](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L76)
 
-___
+---
 
 ### resourceId
 
@@ -160,7 +160,7 @@ Resource ID (depending on the source).
 
 [src/ddo/MetaData.ts:112](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L112)
 
-___
+---
 
 ### url
 

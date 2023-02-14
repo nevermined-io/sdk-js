@@ -1,0 +1,22 @@
+{
+  "main": {
+    "name": "Nevermined dataset DDO",
+    "type": "dataset",
+    "dateCreated": "2023-01-01T00:00:00Z",
+    "datePublished": "2023-01-01T00:00:00Z",
+    "author": "root@nevermined.io",
+    "license": "Apache License 2.0",
+    "files": [
+      {
+        "index": 0,
+        "contentType": "text/markdown",
+        "url": "https://raw.githubusercontent.com/nevermined-io/.github/master/profile/README.md",
+        "checksum": "427968e901bc4802bd0417ca48edb66fcc978599410c4dd5a366b7862078d237"
+      }
+    ]
+  },
+  "additionalInformation": {
+    "description": "Nevermined is an ecosystem development platform.",
+    "customData": {}
+  }
+}

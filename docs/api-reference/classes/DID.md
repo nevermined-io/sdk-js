@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / DID
+[@nevermined-io/sdk](../code-reference.md) / DID
 
 # Class: DID
 
@@ -29,8 +29,8 @@ Decentralized ID.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name | Type     |
+| :--- | :------- |
 | `id` | `string` |
 
 #### Defined in
@@ -67,7 +67,7 @@ A string with the prefixed id.
 
 [src/nevermined/DID.ts:53](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/DID.ts#L53)
 
-___
+---
 
 ### getId
 
@@ -85,7 +85,7 @@ A string of the _id_ without the prefix.
 
 [src/nevermined/DID.ts:61](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/DID.ts#L61)
 
-___
+---
 
 ### generate
 
@@ -103,7 +103,7 @@ Returns a new DID.
 
 [src/nevermined/DID.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/DID.ts#L36)
 
-___
+---
 
 ### parse
 
@@ -113,8 +113,8 @@ Parses a DID from a string.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type                        | Description    |
+| :---------- | :-------------------------- | :------------- |
 | `didString` | `string` \| [`DID`](DID.md) | DID in string. |
 
 #### Returns

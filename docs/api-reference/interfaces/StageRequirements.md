@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / StageRequirements
+[@nevermined-io/sdk](../code-reference.md) / StageRequirements
 
 # Interface: StageRequirements
 
@@ -16,11 +16,11 @@
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type     |
+| :--------- | :------- |
 | `checksum` | `string` |
-| `image` | `string` |
-| `tag` | `string` |
+| `image`    | `string` |
+| `tag`      | `string` |
 
 #### Defined in
 

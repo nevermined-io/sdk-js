@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [events](../modules/events.md) / EventOptions
+[@nevermined-io/sdk](../code-reference.md) / [events](../modules/events.md) / EventOptions
 
 # Interface: EventOptions
 
@@ -26,7 +26,7 @@
 
 [src/events/NeverminedEvent.ts:9](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L9)
 
-___
+---
 
 ### filterJsonRpc
 
@@ -36,7 +36,7 @@ ___
 
 [src/events/NeverminedEvent.ts:10](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L10)
 
-___
+---
 
 ### filterSubgraph
 
@@ -46,7 +46,7 @@ ___
 
 [src/events/NeverminedEvent.ts:11](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L11)
 
-___
+---
 
 ### fromBlock
 
@@ -56,7 +56,7 @@ ___
 
 [src/events/NeverminedEvent.ts:13](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L13)
 
-___
+---
 
 ### methodName
 
@@ -66,7 +66,7 @@ ___
 
 [src/events/NeverminedEvent.ts:8](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L8)
 
-___
+---
 
 ### result
 
@@ -76,7 +76,7 @@ ___
 
 [src/events/NeverminedEvent.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/events/NeverminedEvent.ts#L12)
 
-___
+---
 
 ### toBlock
 

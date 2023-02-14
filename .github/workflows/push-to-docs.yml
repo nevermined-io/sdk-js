@@ -3,7 +3,7 @@ name: Push documentation to docs repo
 on:
   workflow_dispatch:
   push:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   push-to-docs:

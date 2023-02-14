@@ -2,19 +2,13 @@ import { ReadStream } from 'fs'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 
 export class Files extends Instantiable {
-    /**
-     * Returns the instance of Files
-     * @returns {@link Files}
-     */
-    public static async getInstance(config: InstantiableConfig): Promise<Files> {
-        const instance = new Files()
-        instance.setInstanceConfig(config)
+  constructor(config: InstantiableConfig) {
+    super()
+    this.setInstanceConfig(config)
+  }
 
-        return instance
-    }
-
-    public async uploadFilecoin(stream: ReadStream, encrypt?: boolean): Promise<any> {
-        const response = await this.nevermined.node.uploadFilecoin(stream, encrypt)
-        return response
-    }
+  public async uploadFilecoin(data: ReadStream | string, encrypt?: boolean): Promise<any> {
+    const response = await this.nevermined.services.node.uploadContent(data, encrypt)
+    return response
+  }
 }

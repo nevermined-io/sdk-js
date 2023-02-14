@@ -1,174 +1,102 @@
-import Config from './models/Config'
+import { NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
-import Web3Provider from './keeper/Web3Provider'
-import { Nevermined } from './nevermined/Nevermined'
+import { Web3Provider } from './keeper/Web3Provider'
+import { Nevermined } from './nevermined'
 import { ethers } from 'ethers'
 
 export interface InstantiableConfig {
-    nevermined: Nevermined
-    config?: Config
-    web3?: ethers.providers.JsonRpcProvider
-    logger?: Logger
-    artifactsFolder?: string
+  nevermined: Nevermined
+  config?: NeverminedOptions
+  web3?: ethers.providers.JsonRpcProvider
+  logger?: Logger
+  artifactsFolder?: string
+  circuitsFolder?: string
 }
 
 export function generateIntantiableConfigFromConfig(
-    config: Config
+  config: NeverminedOptions,
 ): Partial<InstantiableConfig> {
-    const logLevel =
-        typeof config.verbose !== 'number'
-            ? config.verbose
-                ? LogLevel.Log
-                : LogLevel.None
-            : (config.verbose as LogLevel)
-    return {
-        config,
-        web3: Web3Provider.getWeb3(config),
-        logger: new Logger(logLevel),
-        artifactsFolder: config.artifactsFolder
-    }
+  const logLevel =
+    typeof config.verbose !== 'number'
+      ? config.verbose
+        ? LogLevel.Log
+        : LogLevel.None
+      : (config.verbose as LogLevel)
+  return {
+    config,
+    web3: Web3Provider.getWeb3(config),
+    logger: new Logger(logLevel),
+    artifactsFolder: config.artifactsFolder,
+    circuitsFolder: config.circuitsFolder,
+  }
 }
 
 export abstract class Instantiable {
-    protected get nevermined() {
-        if (!this._instantiableConfig?.nevermined) {
-            this.logger.error('Nevermined instance is not defined.')
-        }
-        return this._instantiableConfig.nevermined
+  protected get nevermined() {
+    if (!this._instantiableConfig?.nevermined) {
+      this.logger.error('Nevermined instance is not defined.')
     }
+    return this._instantiableConfig.nevermined
+  }
 
-    /**
-     * Returns true of contract exists else it throws.
-     * @returns {@link true} if the contract exists.
-     */
-    protected async checkExists(address: string): Promise<boolean> {
-        const storage = await this.web3.getStorageAt(address, 0)
-        // check if storage is 0x0 at position 0, this is the case most of the cases
-        if (
-            storage ===
-            '0x0000000000000000000000000000000000000000000000000000000000000000'
-        ) {
-            // if the storage is empty, check if there is no code for this contract,
-            // if so we can be sure it does not exist
-            const code = await this.web3.getCode(address)
-            if (code === '0x0') {
-                // no contract in the blockchain dude
-                throw new Error(`No contract deployed at address ${address}, sorry.`)
-            }
-        }
-
-        return true
+  public get web3() {
+    if (!this._instantiableConfig?.web3) {
+      this.logger.warn('ethers.Provider instance is not defined. Using default instance.')
+      return Web3Provider.getWeb3()
     }
+    return this._instantiableConfig.web3
+  }
 
-    public get web3() {
-        if (!this._instantiableConfig?.web3) {
-            this.logger.warn(
-                'ethers.Provider instance is not defined. Using default instance.'
-            )
-            return Web3Provider.getWeb3()
-        }
-        return this._instantiableConfig.web3
+  protected get instantiableConfig() {
+    if (!this._instantiableConfig) {
+      this.logger.error('InstantiableConfig instance is not defined.')
     }
+    return this._instantiableConfig
+  }
 
-    protected get instantiableConfig() {
-        if (!this._instantiableConfig) {
-            this.logger.error('InstantiableConfig instance is not defined.')
-        }
-        return this._instantiableConfig
+  protected get config() {
+    if (!this._instantiableConfig?.config) {
+      this.logger.error('Config instance is not defined.')
     }
+    return this._instantiableConfig.config
+  }
 
-    protected get config() {
-        if (!this._instantiableConfig?.config) {
-            this.logger.error('Config instance is not defined.')
-        }
-        return this._instantiableConfig.config
+  protected get logger() {
+    if (!this._instantiableConfig?.logger) {
+      LoggerInstance.error('Logger instance is not defined.')
+      LoggerInstance.error('Using default instance.')
+      return LoggerInstance
     }
+    return this._instantiableConfig.logger
+  }
 
-    protected get logger() {
-        if (!this._instantiableConfig?.logger) {
-            LoggerInstance.error('Logger instance is not defined.')
-            LoggerInstance.error('Using default instance.')
-            return LoggerInstance
-        }
-        return this._instantiableConfig.logger
-    }
+  protected get artifactsFolder() {
+    return this._instantiableConfig?.artifactsFolder
+  }
 
-    protected get artifactsFolder() {
-        return this._instantiableConfig?.artifactsFolder
-    }
+  protected get circuitsFolder() {
+    return this._instantiableConfig?.circuitsFolder
+  }
 
-    protected get instanceConfig(): InstantiableConfig {
-        const { nevermined, web3, config, logger, artifactsFolder } = this
-        return { nevermined, web3, config, logger, artifactsFolder }
-    }
+  protected get instanceConfig(): InstantiableConfig {
+    const { nevermined, web3, config, logger, artifactsFolder, circuitsFolder } = this
+    return { nevermined, web3, config, logger, artifactsFolder, circuitsFolder }
+  }
 
-    public async findSigner(from: string): Promise<ethers.Signer> {
-        for (const acc of this.config.accounts || []) {
-            const addr = await acc.getAddress()
-            if (addr.toLowerCase() === from.toLowerCase()) {
-                return acc.connect(this.web3)
-            }
-        }
-        return this.web3.getSigner(from)
-    }
+  public static getInstance(..._args: any): any {
+    LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
+  }
 
-    public static async findSignerStatic(
-        config: Config,
-        web3: ethers.providers.JsonRpcProvider,
-        from: string
-    ): Promise<ethers.Signer> {
-        for (const acc of config.accounts || []) {
-            const addr = await acc.getAddress()
-            if (addr.toLowerCase() === from.toLowerCase()) {
-                return acc.connect(web3)
-            }
-        }
-        return web3.getSigner(from)
-    }
+  protected static setInstanceConfig<T extends Instantiable>(
+    instance: T,
+    instantiableConfig: InstantiableConfig,
+  ) {
+    instance._instantiableConfig = instantiableConfig
+  }
 
-    public async addresses(): Promise<string[]> {
-        let ethAccounts: string[] = []
-        try {
-            ethAccounts = await this.web3.listAccounts()
-        } catch (e) {
-            // ignore
-        }
-        const addresses = await Promise.all(
-            (this.config.accounts || []).map(a => a.getAddress())
-        )
-        return addresses.concat(ethAccounts)
-    }
+  private _instantiableConfig?: InstantiableConfig
 
-    public static async addressesStatic(
-        config: Config,
-        web3: ethers.providers.JsonRpcProvider
-    ): Promise<string[]> {
-        let ethAccounts: string[] = []
-        try {
-            ethAccounts = await web3.listAccounts()
-        } catch (e) {
-            // ignore
-        }
-        const addresses = await Promise.all(
-            (config.accounts || []).map(a => a.getAddress())
-        )
-        return addresses.concat(ethAccounts)
-    }
-
-    public static getInstance(..._args: any): any {
-        LoggerInstance.warn('getInstance() methods has needs to be added to child class.')
-    }
-
-    protected static setInstanceConfig<T extends Instantiable>(
-        instance: T,
-        instantiableConfig: InstantiableConfig
-    ) {
-        instance._instantiableConfig = instantiableConfig
-    }
-
-    private _instantiableConfig?: InstantiableConfig
-
-    protected setInstanceConfig(config: InstantiableConfig) {
-        Instantiable.setInstanceConfig(this, config)
-    }
+  protected setInstanceConfig(config: InstantiableConfig) {
+    Instantiable.setInstanceConfig(this, config)
+  }
 }

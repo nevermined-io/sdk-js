@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / utils
+[@nevermined-io/sdk](../code-reference.md) / utils
 
 # Namespace: utils
 
@@ -32,8 +32,8 @@
 - [fillConditionsWithDDO](utils.md#fillconditionswithddo)
 - [findServiceConditionByName](utils.md#findserviceconditionbyname)
 - [generateId](utils.md#generateid)
-- [getAssetRewardsFromDDOByService](utils.md#getassetrewardsfromddobyservice)
-- [getAssetRewardsFromService](utils.md#getassetrewardsfromservice)
+- [getAssetPriceFromDDOByService](utils.md#getassetrewardsfromddobyservice)
+- [getAssetPriceFromService](utils.md#getassetrewardsfromservice)
 - [getDIDFromService](utils.md#getdidfromservice)
 - [getNftAmountFromService](utils.md#getnftamountfromservice)
 - [getNftHolderFromService](utils.md#getnftholderfromservice)
@@ -42,7 +42,7 @@
 - [noDidPrefixed](utils.md#nodidprefixed)
 - [noZeroX](utils.md#nozerox)
 - [objectPromiseAll](utils.md#objectpromiseall)
-- [setAssetRewardsFromDDOByService](utils.md#setassetrewardsfromddobyservice)
+- [setAssetPriceFromDDOByService](utils.md#setassetrewardsfromddobyservice)
 - [setNFTRewardsFromDDOByService](utils.md#setnftrewardsfromddobyservice)
 - [zeroX](utils.md#zerox)
 - [zeroXTransformer](utils.md#zeroxtransformer)
@@ -57,7 +57,7 @@ Renames and re-exports [Logger](../code-reference.md#logger)
 
 ### ZeroAddress
 
-• `Const` **ZeroAddress**: ``"0x0000000000000000000000000000000000000000"``
+• `Const` **ZeroAddress**: `"0x0000000000000000000000000000000000000000"`
 
 #### Defined in
 
@@ -71,8 +71,8 @@ Renames and re-exports [Logger](../code-reference.md#logger)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type     |
+| :------ | :------- |
 | `input` | `string` |
 
 #### Returns
@@ -83,7 +83,7 @@ Renames and re-exports [Logger](../code-reference.md#logger)
 
 [src/utils/ConversionTypeHelpers.ts:17](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/ConversionTypeHelpers.ts#L17)
 
-___
+---
 
 ### didTransformer
 
@@ -91,10 +91,10 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `input` | `string` | `''` |
-| `prefixOutput` | `boolean` | `undefined` |
+| Name           | Type      | Default value |
+| :------------- | :-------- | :------------ |
+| `input`        | `string`  | `''`          |
+| `prefixOutput` | `boolean` | `undefined`   |
 
 #### Returns
 
@@ -104,7 +104,7 @@ ___
 
 [src/utils/ConversionTypeHelpers.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/ConversionTypeHelpers.ts#L20)
 
-___
+---
 
 ### didZeroX
 
@@ -112,8 +112,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type     |
+| :------ | :------- |
 | `input` | `string` |
 
 #### Returns
@@ -124,7 +124,7 @@ ___
 
 [src/utils/ConversionTypeHelpers.ts:30](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/ConversionTypeHelpers.ts#L30)
 
-___
+---
 
 ### eventToObject
 
@@ -132,8 +132,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type  |
+| :------ | :---- |
 | `event` | `any` |
 
 #### Returns
@@ -144,27 +144,27 @@ ___
 
 [src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Events.ts#L1)
 
-___
+---
 
 ### fillConditionsWithDDO
 
-▸ **fillConditionsWithDDO**(`conditions`, `ddo`, `assetRewards?`, `erc20TokenContract?`, `nftTokenContract?`, `nftHolder?`, `nftAmount?`, `nftTransfer?`, `duration?`): `ServiceAgreementTemplateCondition`[]
+▸ **fillConditionsWithDDO**(`conditions`, `ddo`, `assetPrice?`, `erc20TokenContract?`, `nftTokenContract?`, `nftHolder?`, `nftAmount?`, `nftTransfer?`, `duration?`): `ServiceAgreementTemplateCondition`[]
 
 Fill some static parameters that depends on the metadata.
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `conditions` | `ServiceAgreementTemplateCondition`[] | `undefined` | Conditions to fill. |
-| `ddo` | [`DDO`](../classes/DDO.md) | `undefined` | DDO related to this conditions. |
-| `assetRewards` | `default` | `undefined` | Rewards distribution |
-| `erc20TokenContract?` | `string` | `undefined` | Number of nfts to handle |
-| `nftTokenContract?` | `string` | `undefined` | Number of nfts to handle |
-| `nftHolder?` | `string` | `undefined` | - |
-| `nftAmount?` | `default` | `undefined` | Number of nfts to handle |
-| `nftTransfer` | `boolean` | `false` | - |
-| `duration` | `number` | `0` | - |
+| Name                  | Type                                  | Default value | Description                     |
+| :-------------------- | :------------------------------------ | :------------ | :------------------------------ |
+| `conditions`          | `ServiceAgreementTemplateCondition`[] | `undefined`   | Conditions to fill.             |
+| `ddo`                 | [`DDO`](../classes/DDO.md)            | `undefined`   | DDO related to this conditions. |
+| `assetPrice`          | `default`                             | `undefined`   | Rewards distribution            |
+| `erc20TokenContract?` | `string`                              | `undefined`   | Number of nfts to handle        |
+| `nftTokenContract?`   | `string`                              | `undefined`   | Number of nfts to handle        |
+| `nftHolder?`          | `string`                              | `undefined`   | -                               |
+| `nftAmount?`          | `default`                             | `undefined`   | Number of nfts to handle        |
+| `nftTransfer`         | `boolean`                             | `false`       | -                               |
+| `duration`            | `number`                              | `0`           | -                               |
 
 #### Returns
 
@@ -176,7 +176,7 @@ Filled conditions.
 
 [src/utils/DDOHelpers.ts:71](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L71)
 
-___
+---
 
 ### findServiceConditionByName
 
@@ -184,10 +184,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type            |
+| :-------- | :-------------- |
 | `service` | `ServiceCommon` |
-| `name` | `ConditionType` |
+| `name`    | `ConditionType` |
 
 #### Returns
 
@@ -197,7 +197,7 @@ ___
 
 [src/utils/DDOHelpers.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L100)
 
-___
+---
 
 ### generateId
 
@@ -205,9 +205,9 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `length` | `number` | `64` |
+| Name     | Type     | Default value |
+| :------- | :------- | :------------ |
+| `length` | `number` | `64`          |
 
 #### Returns
 
@@ -217,48 +217,48 @@ ___
 
 [src/utils/GeneratorHelpers.ts:3](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/GeneratorHelpers.ts#L3)
 
-___
+---
 
-### getAssetRewardsFromDDOByService
+### getAssetPriceFromDDOByService
 
-▸ **getAssetRewardsFromDDOByService**(`ddo`, `service`): `AssetRewards`
+▸ **getAssetPriceFromDDOByService**(`ddo`, `service`): `AssetPrice`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ddo` | [`DDO`](../classes/DDO.md) |
-| `service` | `ServiceType` |
+| Name      | Type                       |
+| :-------- | :------------------------- |
+| `ddo`     | [`DDO`](../classes/DDO.md) |
+| `service` | `ServiceType`              |
 
 #### Returns
 
-`AssetRewards`
+`AssetPrice`
 
 #### Defined in
 
 [src/utils/DDOHelpers.ts:109](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L109)
 
-___
+---
 
-### getAssetRewardsFromService
+### getAssetPriceFromService
 
-▸ **getAssetRewardsFromService**(`service`): `AssetRewards`
+▸ **getAssetPriceFromService**(`service`): `AssetPrice`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type            |
+| :-------- | :-------------- |
 | `service` | `ServiceCommon` |
 
 #### Returns
 
-`AssetRewards`
+`AssetPrice`
 
 #### Defined in
 
 [src/utils/DDOHelpers.ts:148](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L148)
 
-___
+---
 
 ### getDIDFromService
 
@@ -266,8 +266,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type            |
+| :-------- | :-------------- |
 | `service` | `ServiceCommon` |
 
 #### Returns
@@ -278,7 +278,7 @@ ___
 
 [src/utils/DDOHelpers.ts:167](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L167)
 
-___
+---
 
 ### getNftAmountFromService
 
@@ -286,8 +286,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type            |
+| :-------- | :-------------- |
 | `service` | `ServiceCommon` |
 
 #### Returns
@@ -298,7 +298,7 @@ ___
 
 [src/utils/DDOHelpers.ts:179](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L179)
 
-___
+---
 
 ### getNftHolderFromService
 
@@ -306,8 +306,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type            |
+| :-------- | :-------------- |
 | `service` | `ServiceCommon` |
 
 #### Returns
@@ -318,7 +318,7 @@ ___
 
 [src/utils/DDOHelpers.ts:173](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L173)
 
-___
+---
 
 ### makeAccounts
 
@@ -326,8 +326,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name         | Type     |
+| :----------- | :------- |
 | `seedphrase` | `string` |
 
 #### Returns
@@ -338,7 +338,7 @@ ___
 
 [src/utils/MakeAccounts.ts:4](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/MakeAccounts.ts#L4)
 
-___
+---
 
 ### makeBuffer
 
@@ -346,10 +346,10 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `a` | `any` |
-| `b` | `any` |
+| Name | Type  |
+| :--- | :---- |
+| `a`  | `any` |
+| `b`  | `any` |
 
 #### Returns
 
@@ -359,7 +359,7 @@ ___
 
 [src/utils/index.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/index.ts#L12)
 
-___
+---
 
 ### noDidPrefixed
 
@@ -367,8 +367,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type     |
+| :------ | :------- |
 | `input` | `string` |
 
 #### Returns
@@ -379,7 +379,7 @@ ___
 
 [src/utils/ConversionTypeHelpers.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/ConversionTypeHelpers.ts#L18)
 
-___
+---
 
 ### noZeroX
 
@@ -387,8 +387,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type     |
+| :------ | :------- |
 | `input` | `string` |
 
 #### Returns
@@ -399,7 +399,7 @@ ___
 
 [src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/ConversionTypeHelpers.ts#L5)
 
-___
+---
 
 ### objectPromiseAll
 
@@ -407,8 +407,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type     |
+| :---- | :------- |
 | `obj` | `Object` |
 
 #### Returns
@@ -419,19 +419,19 @@ ___
 
 [src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/PromiseResolver.ts#L11)
 
-___
+---
 
-### setAssetRewardsFromDDOByService
+### setAssetPriceFromDDOByService
 
-▸ **setAssetRewardsFromDDOByService**(`ddo`, `serviceType`, `rewards`): `void`
+▸ **setAssetPriceFromDDOByService**(`ddo`, `serviceType`, `rewards`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ddo` | [`DDO`](../classes/DDO.md) |
-| `serviceType` | `ServiceType` |
-| `rewards` | `default` |
+| Name          | Type                       |
+| :------------ | :------------------------- |
+| `ddo`         | [`DDO`](../classes/DDO.md) |
+| `serviceType` | `ServiceType`              |
+| `rewards`     | `default`                  |
 
 #### Returns
 
@@ -441,7 +441,7 @@ ___
 
 [src/utils/DDOHelpers.ts:132](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L132)
 
-___
+---
 
 ### setNFTRewardsFromDDOByService
 
@@ -449,12 +449,12 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `ddo` | [`DDO`](../classes/DDO.md) |
-| `serviceType` | `ServiceType` |
-| `rewards` | `default` |
-| `holderAddress` | `string` |
+| Name            | Type                       |
+| :-------------- | :------------------------- |
+| `ddo`           | [`DDO`](../classes/DDO.md) |
+| `serviceType`   | `ServiceType`              |
+| `rewards`       | `default`                  |
+| `holderAddress` | `string`                   |
 
 #### Returns
 
@@ -464,7 +464,7 @@ ___
 
 [src/utils/DDOHelpers.ts:116](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/DDOHelpers.ts#L116)
 
-___
+---
 
 ### zeroX
 
@@ -472,8 +472,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type     |
+| :------ | :------- |
 | `input` | `string` |
 
 #### Returns
@@ -484,7 +484,7 @@ ___
 
 [src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/ConversionTypeHelpers.ts#L4)
 
-___
+---
 
 ### zeroXTransformer
 
@@ -492,10 +492,10 @@ ___
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `input` | `string` | `''` |
-| `zeroOutput` | `boolean` | `undefined` |
+| Name         | Type      | Default value |
+| :----------- | :-------- | :------------ |
+| `input`      | `string`  | `''`          |
+| `zeroOutput` | `boolean` | `undefined`   |
 
 #### Returns
 

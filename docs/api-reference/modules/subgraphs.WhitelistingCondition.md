@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / WhitelistingCondition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / WhitelistingCondition
 
 # Namespace: WhitelistingCondition
 
@@ -34,15 +34,15 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.WhitelistingCondition.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.WhitelistingCondition.md#initializedresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:46
 
-___
+---
 
 ### InitializedFields
 
@@ -50,16 +50,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `version` | ``true`` |
+| Name      | Type   |
+| :-------- | :----- |
+| `id`      | `true` |
+| `version` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:42
 
-___
+---
 
 ### InitializedFilter
 
@@ -67,30 +67,30 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `version?` | `number` \| ``null`` |
-| `version_gt?` | `number` \| ``null`` |
-| `version_gte?` | `number` \| ``null`` |
-| `version_in?` | `number`[] |
-| `version_lt?` | `number` \| ``null`` |
-| `version_lte?` | `number` \| ``null`` |
-| `version_not?` | `number` \| ``null`` |
-| `version_not_in?` | `number`[] |
+| Name              | Type               |
+| :---------------- | :----------------- |
+| `id?`             | `string` \| `null` |
+| `id_gt?`          | `string` \| `null` |
+| `id_gte?`         | `string` \| `null` |
+| `id_in?`          | `string`[]         |
+| `id_lt?`          | `string` \| `null` |
+| `id_lte?`         | `string` \| `null` |
+| `id_not?`         | `string` \| `null` |
+| `id_not_in?`      | `string`[]         |
+| `version?`        | `number` \| `null` |
+| `version_gt?`     | `number` \| `null` |
+| `version_gte?`    | `number` \| `null` |
+| `version_in?`     | `number`[]         |
+| `version_lt?`     | `number` \| `null` |
+| `version_lte?`    | `number` \| `null` |
+| `version_not?`    | `number` \| `null` |
+| `version_not_in?` | `number`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:20
 
-___
+---
 
 ### InitializedResult
 
@@ -98,16 +98,16 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
+| Name      | Type     |
+| :-------- | :------- |
+| `id`      | `string` |
 | `version` | `number` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:38
 
-___
+---
 
 ### MultiQueryOptions
 
@@ -116,25 +116,25 @@ ___
 #### Type parameters
 
 | Name |
-| :------ |
-| `T` |
-| `R` |
+| :--- |
+| `T`  |
+| `R`  |
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `first?` | `number` |
-| `orderBy?` | keyof `R` |
-| `orderDirection?` | ``"asc"`` \| ``"desc"`` |
-| `where?` | `T` |
+| Name              | Type                                           |
+| :---------------- | :--------------------------------------------- |
+| `block?`          | { `number`: `number` } \| { `hash`: `string` } |
+| `first?`          | `number`                                       |
+| `orderBy?`        | keyof `R`                                      |
+| `orderDirection?` | `"asc"` \| `"desc"`                            |
+| `where?`          | `T`                                            |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:9
 
-___
+---
 
 ### OwnershipTransferredArgs
 
@@ -142,15 +142,15 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.WhitelistingCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.WhitelistingCondition.md#ownershiptransferredresult) |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:83
 
-___
+---
 
 ### OwnershipTransferredFields
 
@@ -158,17 +158,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | ``true`` |
-| `newOwner` | ``true`` |
-| `previousOwner` | ``true`` |
+| Name            | Type   |
+| :-------------- | :----- |
+| `id`            | `true` |
+| `newOwner`      | `true` |
+| `previousOwner` | `true` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:78
 
-___
+---
 
 ### OwnershipTransferredFilter
 
@@ -176,34 +176,34 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id?` | `string` \| ``null`` |
-| `id_gt?` | `string` \| ``null`` |
-| `id_gte?` | `string` \| ``null`` |
-| `id_in?` | `string`[] |
-| `id_lt?` | `string` \| ``null`` |
-| `id_lte?` | `string` \| ``null`` |
-| `id_not?` | `string` \| ``null`` |
-| `id_not_in?` | `string`[] |
-| `newOwner?` | `string` \| ``null`` |
-| `newOwner_contains?` | `string` \| ``null`` |
-| `newOwner_in?` | `string`[] |
-| `newOwner_not?` | `string` \| ``null`` |
-| `newOwner_not_contains?` | `string` \| ``null`` |
-| `newOwner_not_in?` | `string`[] |
-| `previousOwner?` | `string` \| ``null`` |
-| `previousOwner_contains?` | `string` \| ``null`` |
-| `previousOwner_in?` | `string`[] |
-| `previousOwner_not?` | `string` \| ``null`` |
-| `previousOwner_not_contains?` | `string` \| ``null`` |
-| `previousOwner_not_in?` | `string`[] |
+| Name                          | Type               |
+| :---------------------------- | :----------------- |
+| `id?`                         | `string` \| `null` |
+| `id_gt?`                      | `string` \| `null` |
+| `id_gte?`                     | `string` \| `null` |
+| `id_in?`                      | `string`[]         |
+| `id_lt?`                      | `string` \| `null` |
+| `id_lte?`                     | `string` \| `null` |
+| `id_not?`                     | `string` \| `null` |
+| `id_not_in?`                  | `string`[]         |
+| `newOwner?`                   | `string` \| `null` |
+| `newOwner_contains?`          | `string` \| `null` |
+| `newOwner_in?`                | `string`[]         |
+| `newOwner_not?`               | `string` \| `null` |
+| `newOwner_not_contains?`      | `string` \| `null` |
+| `newOwner_not_in?`            | `string`[]         |
+| `previousOwner?`              | `string` \| `null` |
+| `previousOwner_contains?`     | `string` \| `null` |
+| `previousOwner_in?`           | `string`[]         |
+| `previousOwner_not?`          | `string` \| `null` |
+| `previousOwner_not_contains?` | `string` \| `null` |
+| `previousOwner_not_in?`       | `string`[]         |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:51
 
-___
+---
 
 ### OwnershipTransferredResult
 
@@ -211,17 +211,17 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `id` | `string` |
-| `newOwner` | `string` |
+| Name            | Type     |
+| :-------------- | :------- |
+| `id`            | `string` |
+| `newOwner`      | `string` |
 | `previousOwner` | `string` |
 
 #### Defined in
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:73
 
-___
+---
 
 ### SingleQueryOptions
 
@@ -229,10 +229,10 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `block?` | { `number`: `number`  } \| { `hash`: `string`  } |
-| `id` | `string` |
+| Name     | Type                                           |
+| :------- | :--------------------------------------------- |
+| `block?` | { `number`: `number` } \| { `hash`: `string` } |
+| `id`     | `string`                                       |
 
 #### Defined in
 
@@ -246,17 +246,17 @@ node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:1
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.WhitelistingCondition.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.WhitelistingCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                          |
+| :-------- | :---------------------------------------------------------------------------- |
+| `url`     | `string`                                                                      |
 | `options` | [`SingleQueryOptions`](subgraphs.WhitelistingCondition.md#singlequeryoptions) |
-| `args` | [`InitializedArgs`](subgraphs.WhitelistingCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.WhitelistingCondition.md#initializedargs)<`K`\> |
 
 #### Returns
 
@@ -266,7 +266,7 @@ node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:1
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:49
 
-___
+---
 
 ### getInitializeds
 
@@ -274,17 +274,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`InitializedResult`](subgraphs.WhitelistingCondition.md#initializedresult) |
+| Name | Type                                                                                      |
+| :--- | :---------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`InitializedResult`](subgraphs.WhitelistingCondition.md#initializedresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                   |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                               |
 | `options` | [`MultiQueryOptions`](subgraphs.WhitelistingCondition.md#multiqueryoptions)<[`InitializedFilter`](subgraphs.WhitelistingCondition.md#initializedfilter), [`InitializedResult`](subgraphs.WhitelistingCondition.md#initializedresult)\> |
-| `args` | [`InitializedArgs`](subgraphs.WhitelistingCondition.md#initializedargs)<`K`\> |
+| `args`    | [`InitializedArgs`](subgraphs.WhitelistingCondition.md#initializedargs)<`K`\>                                                                                                                                                          |
 
 #### Returns
 
@@ -294,7 +294,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:50
 
-___
+---
 
 ### getOwnershipTransferredById
 
@@ -302,17 +302,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.WhitelistingCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.WhitelistingCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
-| `options` | [`SingleQueryOptions`](subgraphs.WhitelistingCondition.md#singlequeryoptions) |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.WhitelistingCondition.md#ownershiptransferredargs)<`K`\> |
+| Name      | Type                                                                                            |
+| :-------- | :---------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                        |
+| `options` | [`SingleQueryOptions`](subgraphs.WhitelistingCondition.md#singlequeryoptions)                   |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.WhitelistingCondition.md#ownershiptransferredargs)<`K`\> |
 
 #### Returns
 
@@ -322,7 +322,7 @@ ___
 
 node_modules/@nevermined-io/subgraphs/build/WhitelistingCondition.d.ts:86
 
-___
+---
 
 ### getOwnershipTransferreds
 
@@ -330,17 +330,17 @@ ___
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `K` | extends keyof [`OwnershipTransferredResult`](subgraphs.WhitelistingCondition.md#ownershiptransferredresult) |
+| Name | Type                                                                                                        |
+| :--- | :---------------------------------------------------------------------------------------------------------- |
+| `K`  | extends keyof [`OwnershipTransferredResult`](subgraphs.WhitelistingCondition.md#ownershiptransferredresult) |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `url` | `string` |
+| Name      | Type                                                                                                                                                                                                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`     | `string`                                                                                                                                                                                                                                                                   |
 | `options` | [`MultiQueryOptions`](subgraphs.WhitelistingCondition.md#multiqueryoptions)<[`OwnershipTransferredFilter`](subgraphs.WhitelistingCondition.md#ownershiptransferredfilter), [`OwnershipTransferredResult`](subgraphs.WhitelistingCondition.md#ownershiptransferredresult)\> |
-| `args` | [`OwnershipTransferredArgs`](subgraphs.WhitelistingCondition.md#ownershiptransferredargs)<`K`\> |
+| `args`    | [`OwnershipTransferredArgs`](subgraphs.WhitelistingCondition.md#ownershiptransferredargs)<`K`\>                                                                                                                                                                            |
 
 #### Returns
 

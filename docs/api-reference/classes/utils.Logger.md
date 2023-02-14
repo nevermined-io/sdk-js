@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [utils](../modules/utils.md) / Logger
+[@nevermined-io/sdk](../code-reference.md) / [utils](../modules/utils.md) / Logger
 
 # Class: Logger
 
@@ -32,8 +32,8 @@
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
+| Name       | Type                                     | Default value   |
+| :--------- | :--------------------------------------- | :-------------- |
 | `logLevel` | [`LogLevel`](../enums/utils.LogLevel.md) | `LogLevel.Warn` |
 
 #### Defined in
@@ -58,8 +58,8 @@
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type    |
+| :-------- | :------ |
 | `...args` | `any`[] |
 
 #### Returns
@@ -70,7 +70,7 @@
 
 [src/utils/Logger.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L16)
 
-___
+---
 
 ### debug
 
@@ -78,8 +78,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type    |
+| :-------- | :------ |
 | `...args` | `any`[] |
 
 #### Returns
@@ -90,7 +90,7 @@ ___
 
 [src/utils/Logger.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L20)
 
-___
+---
 
 ### dispatch
 
@@ -98,11 +98,11 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `verb` | `string` |
-| `level` | [`LogLevel`](../enums/utils.LogLevel.md) |
-| `...args` | `any`[] |
+| Name      | Type                                     |
+| :-------- | :--------------------------------------- |
+| `verb`    | `string`                                 |
+| `level`   | [`LogLevel`](../enums/utils.LogLevel.md) |
+| `...args` | `any`[]                                  |
 
 #### Returns
 
@@ -112,7 +112,7 @@ ___
 
 [src/utils/Logger.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L36)
 
-___
+---
 
 ### error
 
@@ -120,8 +120,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type    |
+| :-------- | :------ |
 | `...args` | `any`[] |
 
 #### Returns
@@ -132,7 +132,7 @@ ___
 
 [src/utils/Logger.ts:32](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L32)
 
-___
+---
 
 ### log
 
@@ -140,8 +140,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type    |
+| :-------- | :------ |
 | `...args` | `any`[] |
 
 #### Returns
@@ -152,7 +152,7 @@ ___
 
 [src/utils/Logger.ts:24](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L24)
 
-___
+---
 
 ### setLevel
 
@@ -160,8 +160,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name       | Type                                     |
+| :--------- | :--------------------------------------- |
 | `logLevel` | [`LogLevel`](../enums/utils.LogLevel.md) |
 
 #### Returns
@@ -172,7 +172,7 @@ ___
 
 [src/utils/Logger.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/utils/Logger.ts#L12)
 
-___
+---
 
 ### warn
 
@@ -180,8 +180,8 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type    |
+| :-------- | :------ |
 | `...args` | `any`[] |
 
 #### Returns

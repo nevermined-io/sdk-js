@@ -25,6 +25,7 @@ if [ $COMMAND_STATUS -ne 0 ]; then
 fi
 
 printf '\e[32m✔ Found new contract artifacts.\e[0m\n'
+rm -rf artifacts/*
 
 docker cp ${nevermined_keeper_docker_id}:/nevermined-contracts/artifacts/. artifacts/
 
