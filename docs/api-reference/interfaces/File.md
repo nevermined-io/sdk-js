@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / File
+[@nevermined-io/sdk](../code-reference.md) / File
 
 # Interface: File
 

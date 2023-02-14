@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Account
+[@nevermined-io/sdk](../code-reference.md) / Account
 
 # Class: Account
 

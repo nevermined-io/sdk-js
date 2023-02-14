@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [templates](../modules/templates.md) / NFTSalesTemplate
+[@nevermined-io/sdk](../code-reference.md) / [templates](../modules/templates.md) / NFTSalesTemplate
 
 # Class: NFTSalesTemplate
 

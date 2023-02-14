@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Nfts
+[@nevermined-io/sdk](../code-reference.md) / Nfts
 
 # Class: Nfts
 

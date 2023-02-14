@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / NewProfile
+[@nevermined-io/sdk](../code-reference.md) / NewProfile
 
 # Interface: NewProfile
 

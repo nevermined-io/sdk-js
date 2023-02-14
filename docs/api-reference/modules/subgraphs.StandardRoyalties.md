@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / StandardRoyalties
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / StandardRoyalties
 
 # Namespace: StandardRoyalties
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / AgreementTemplate
+[@nevermined-io/sdk](../code-reference.md) / AgreementTemplate
 
 # Class: AgreementTemplate<Params\>
 

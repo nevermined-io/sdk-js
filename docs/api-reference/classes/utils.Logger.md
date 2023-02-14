@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [utils](../modules/utils.md) / Logger
+[@nevermined-io/sdk](../code-reference.md) / [utils](../modules/utils.md) / Logger
 
 # Class: Logger
 

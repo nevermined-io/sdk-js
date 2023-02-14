@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / templates
+[@nevermined-io/sdk](../code-reference.md) / templates
 
 # Namespace: templates
 

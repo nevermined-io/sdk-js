@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Config
+[@nevermined-io/sdk](../code-reference.md) / Config
 
 # Class: Config
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / State
+[@nevermined-io/sdk](../code-reference.md) / State
 
 # Enumeration: State
 

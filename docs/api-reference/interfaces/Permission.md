@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / Permission
+[@nevermined-io/sdk](../code-reference.md) / Permission
 
 # Interface: Permission
 

@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / ConditionState
+[@nevermined-io/sdk](../code-reference.md) / ConditionState
 
 # Enumeration: ConditionState
 

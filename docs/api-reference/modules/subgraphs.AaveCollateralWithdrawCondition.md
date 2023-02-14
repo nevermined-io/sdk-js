@@ -1,4 +1,4 @@
-[@nevermined-io/nevermined-sdk-js](../code-reference.md) / [subgraphs](subgraphs.md) / AaveCollateralWithdrawCondition
+[@nevermined-io/sdk](../code-reference.md) / [subgraphs](subgraphs.md) / AaveCollateralWithdrawCondition
 
 # Namespace: AaveCollateralWithdrawCondition
 
