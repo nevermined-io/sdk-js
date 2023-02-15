@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "1.0.0-rc21",
+  "version": "1.0.0",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -23,7 +23,7 @@
     "integration:watch": "mocha -w --watch-extensions js,ts,json --opts integration/mocha.opts ./integration/**/*.test.ts",
     "integration:cover": "nyc --report-dir coverage/integration mocha --opts integration/mocha.opts ./integration/nevermined/*.test.ts",
     "integration:aave": "mocha --opts aave_integration/mocha.opts ./aave_integration/**/*.test.ts",
-    "integration:e2e": "mocha --opts integration/mocha.opts ./integration/nevermined/NFTApi.e2e.test.ts",
+    "integration:e2e": "mocha --opts integration/mocha.opts ./integration/nevermined/NFT1155Api.e2e.test.ts",
     "integration:e2e:mumbai": "export NETWORK_NAME=mumbai; yarn integration:e2e",
     "integration:compute": "mocha --opts integration/mocha.opts ./integration/compute/Compute*.test.ts",
     "integration:external": "mocha --opts integration/mocha.opts ./integration/external/*.test.ts",

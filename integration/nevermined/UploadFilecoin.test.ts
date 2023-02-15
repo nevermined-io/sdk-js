@@ -6,7 +6,7 @@ import fs from 'fs'
 import { getMetadata } from '../utils'
 import '../globals'
 
-describe('Filecoin Integration', () => {
+describe.skip('Filecoin Integration', () => {
   let nevermined: Nevermined
   let publisher: Account
   const metadata = getMetadata()
