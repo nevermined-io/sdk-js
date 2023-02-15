@@ -41,8 +41,8 @@ jobs:
           echo "$tagged_branches"
           if echo "$tagged_branches" | grep -E '^[[:space:]]*main$' > /dev/null; then
             commit_branch=main
-          elif echo "$tagged_branches" | grep -E '^[[:space:]]*master$' > /dev/null; then
-            commit_branch=master
+          elif echo "$tagged_branches" | grep -E '^[[:space:]]*main$' > /dev/null; then
+            commit_branch=main
           elif echo "$tagged_branches" | grep -E '^[[:space:]]*develop$' > /dev/null; then
             commit_branch=develop
           else
