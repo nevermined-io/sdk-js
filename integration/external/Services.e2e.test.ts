@@ -130,7 +130,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As Subscriber I want to get access to a web service I am not subscribed', () => {
-    it.skip('The subscriber can not access the service endpoints because does not have a subscription yet', async () => {
+    it('The subscriber can not access the service endpoints because does not have a subscription yet', async () => {
       const result = await fetch(SERVICE_ENDPOINT, opts)
 
       assert.isFalse(result.ok)
