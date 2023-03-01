@@ -6,7 +6,7 @@ import { config } from '../config'
 import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import { BigNumber, findServiceConditionByName } from '../../src/utils'
+import { BigNumber } from '../../src/utils'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -18,7 +18,6 @@ import {
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
-import * as jose from 'jose'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   let publisher: Account
@@ -51,21 +50,16 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   const subscriptionDuration = 1000 // in blocks
 
   // The service to register into Nevermined and attach to a subscription
-  const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'  
+  const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'
 
   // The OAuth token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
 
   // The NVM proxy that will be used to authorize the service requests
   const PROXY_URL = process.env.PROXY_URL || 'http://127.0.0.1:3128'
-  
-  // Required because we are dealing with self signed certificates locally
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
-  // Shared JWT secret phrase between the generator of the NVM-Authorization header and the Proxy
-  // IMPORTANT: This must be 32 characters string and have the SAME VALUE in both processes
-  const JWT_SECRET_PHRASE = process.env.JWT_SECRET_PHRASE || '12345678901234567890123456789012'
-  const JWT_SECRET= Uint8Array.from(JWT_SECRET_PHRASE.split("").map(x => parseInt(x)))
+  // Required because we are dealing with self signed certificates locally
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
   // let proxyAgent
   const opts: RequestInit = {}
@@ -126,7 +120,6 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
     console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
     console.log(`  REQUEST_DATA=${process.env.REQUEST_DATA}`)
-
   })
 
   describe('As Subscriber I want to get access to a web service I am not subscribed', () => {
@@ -186,10 +179,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       serviceMetadata = generateWebServiceMetadata(
         'Nevermined Web Service Metadata',
         SERVICE_ENDPOINT,
-        AUTHORIZATION_TOKEN
-        ) as MetaData
+        AUTHORIZATION_TOKEN,
+      ) as MetaData
       serviceMetadata.userId = payload.sub
-      
+
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: serviceMetadata,
         serviceTypes: ['nft-access'],
@@ -292,70 +285,37 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As a subscriber I want to get an access token for the web service', () => {
-    it('Nevermined One validates that the subscriber owns a subscription', async () => {
-      const nftAccessService = serviceDDO.findServiceByType('nft-access')
-      const nftHolderCondition = findServiceConditionByName(nftAccessService, 'nftHolder')
-      const numberNfts = nftHolderCondition.parameters.find((p) => p.name === '_numberNfts').value
-      const contractAddress = nftHolderCondition.parameters.find(
-        (p) => p.name === '_contractAddress',
-      ).value
+    it('Nevermined One issues an access token', async () => {
+      const response = await nevermined.nfts1155.getSubscriptionToken(serviceDDO.id, subscriber)
+      accessToken = response.accessToken
 
-      const nft = await nevermined.contracts.loadNft721(contractAddress as string)
-      const balance = await nft.balanceOf(subscriber.getId())
-
-      assert.isAtLeast(balance.toNumber(), Number(numberNfts))
-    })
-
-    it('Nevermined One issues and access token', async () => {
-      const metadata = serviceDDO.findServiceByType('metadata')
-      const endpoints = metadata.attributes.main.webService.endpoints.flatMap((e) =>
-        Object.values(e),
-      )
-
-      accessToken = await new jose.EncryptJWT({
-        did: serviceDDO.id,
-        userId: subscriber.getId(),
-        endpoints,
-        headers: [
-          {
-            authorization: `Bearer ${AUTHORIZATION_TOKEN}`,
-          },
-        ],
-      })
-        .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
-        .setIssuedAt()
-        .setExpirationTime('1w')
-        .encrypt(JWT_SECRET)
-
-      console.log(`Access Token: ${accessToken}`)
       assert.isDefined(accessToken)
     })
   })
 
   describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
     it('The subscriber access the service endpoints available', async () => {
-        const url = new URL(SERVICE_ENDPOINT)
-        const proxyEndpoint = `${PROXY_URL}${url.pathname}`
+      const url = new URL(SERVICE_ENDPOINT)
+      const proxyEndpoint = `${PROXY_URL}${url.pathname}`
 
-        opts.headers = { 
-          'nvm-authorization': `Bearer ${accessToken}`,
-          'content-type': 'application/json',
-          'host': url.port ? url.hostname.concat(`:${url.port}`) : url.hostname
-        }
-        
-        if (process.env.REQUEST_DATA) {
-          opts.method = 'POST'
-          opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
-        }
+      opts.headers = {
+        'nvm-authorization': `Bearer ${accessToken}`,
+        'content-type': 'application/json',
+        host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
+      }
 
-        // console.debug(JSON.stringify(opts))
-        const result = await fetch(proxyEndpoint, opts)
-        
-        console.debug(` ${result.status} - ${await result.text()}`)
-        
-        assert.isTrue(result.ok)
-        assert.equal(result.status, 200)
+      if (process.env.REQUEST_DATA) {
+        opts.method = 'POST'
+        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
+      }
+
+      // console.debug(JSON.stringify(opts))
+      const result = await fetch(proxyEndpoint, opts)
+
+      console.debug(` ${result.status} - ${await result.text()}`)
+
+      assert.isTrue(result.ok)
+      assert.equal(result.status, 200)
     })
-
   })
 })

@@ -22,6 +22,11 @@ export enum AssetResult {
   URL = 'url',
 }
 
+export interface SubscriptionToken {
+  accessToken: string
+  neverminedProxyUri: string
+}
+
 /**
  * Provides a interface with Nevermined Node.
  * The Nevermined Node is the technical component executed by the Publishers allowing to them to provide extended data services.
@@ -106,6 +111,10 @@ export class NeverminedNode extends Instantiable {
 
   public getClaimNftEndpoint() {
     return `${this.url}${apiPath}/nft-transfer`
+  }
+
+  public getSubscriptionsEndpoint(did: string): string {
+    return `${this.url}${apiPath}/subscriptions/${did}`
   }
 
   public async getNeverminedNodeInfo() {
@@ -458,5 +467,36 @@ export class NeverminedNode extends Instantiable {
       response = await this.nevermined.utils.fetch.uploadMessage(uploadEndpoint, data, encrypt)
     else response = await this.nevermined.utils.fetch.uploadFile(uploadEndpoint, data, encrypt)
     return response.json()
+  }
+
+  public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
+    const { jwt } = this.nevermined.utils
+    let accessToken: string
+    const cacheKey = jwt.generateCacheKey(account.getId())
+
+    try {
+      if (!jwt.tokenCache.has(cacheKey)) {
+        const clientAssertion = await jwt.generateClientAssertion(account)
+        accessToken = await this.fetchToken(clientAssertion)
+        jwt.tokenCache.set(cacheKey, accessToken)
+      } else {
+        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+      }
+      const headers = {
+        Authorization: 'Bearer ' + accessToken,
+      }
+
+      const response = await this.nevermined.utils.fetch.get(
+        this.getSubscriptionsEndpoint(did),
+        headers,
+      )
+
+      if (!response.ok) {
+        throw new HttpError(`${response.statusText} ${response.url}`, response.status)
+      }
+      return await response.json()
+    } catch (e) {
+      throw new NeverminedNodeError(e)
+    }
   }
 }
