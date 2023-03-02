@@ -1,7 +1,7 @@
 import { ServiceType } from '../../ddo'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { QueryResult } from '../../services'
-import { SearchQuery } from '../../sdk'
+import { NeverminedNFT721Type, SearchQuery } from '../../sdk'
 
 /**
  * Nevermined Search API. It allows the search of assets registered in Nevermined ecosystems.
@@ -112,6 +112,76 @@ export class SearchApi extends Instantiable {
               ],
             },
           },
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   *
+   * @param contractAddress - The address of the NFT-721 subscription contract
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async bySubscriptionContractAddress(
+    contractAddress: string,
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'service',
+                query: {
+                  bool: {
+                    filter: [
+                      { match: { 'service.type': 'metadata' } },
+                      {
+                        match: {
+                          'service.attributes.main.nftType':
+                            NeverminedNFT721Type.nft721Subscription,
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+            {
+              nested: {
+                path: 'service',
+                query: {
+                  bool: {
+                    must: [
+                      { match: { 'service.type': 'nft-sales' } },
+                      {
+                        match: {
+                          'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                            contractAddress,
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
         },
       },
       offset,
