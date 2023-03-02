@@ -15,7 +15,6 @@ import { ServiceSecondary } from '../../../ddo'
 import { NFTError } from '../../../errors'
 import { BigNumber, generateId } from '../../../utils'
 import { RegistryBaseApi } from '../RegistryBaseApi'
-import { SubscriptionToken } from '../../../services'
 
 /**
  * Abstract class providing common NFT methods for different ERC implementations.
@@ -420,17 +419,5 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       return true
     }
     return result
-  }
-
-  /**
-   * Get a JWT token for an asset associated with a webService
-   *
-   * @param did - The did of the asset with a webService resource and an associated subscription
-   * @param account - Account of the user requesting the token
-   *
-   * @returns {@link SubscriptionToken}
-   */
-  public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
-    return this.nevermined.services.node.getSubscriptionToken(did, account)
   }
 }

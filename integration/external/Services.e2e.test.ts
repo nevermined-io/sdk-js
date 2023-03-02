@@ -285,7 +285,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   describe('As a subscriber I want to get an access token for the web service', () => {
     it('Nevermined One issues an access token', async () => {
-      const response = await nevermined.nfts1155.getSubscriptionToken(serviceDDO.id, subscriber)
+      const response = await nevermined.nfts721.getSubscriptionToken(serviceDDO.id, subscriber)
       accessToken = response.accessToken
 
       assert.isDefined(accessToken)
