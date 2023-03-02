@@ -29,7 +29,7 @@
     "integration:external": "mocha --opts integration/mocha.opts ./integration/external/*.test.ts",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint ./",
-    "lint:fix": "yarn run lint -- --fix",
+    "lint:fix": "eslint ./ --fix",
     "format": "prettier --parser typescript --ignore-path .gitignore --write '**/*.{js,jsx,ts,tsx}'",
     "docs": "typedoc",
     "merge-coverages": "npx lcov-result-merger \"coverage/*/lcov.info\" coverage/lcov.info",
