@@ -183,11 +183,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       ) as MetaData
       serviceMetadata.userId = payload.sub
 
-      const nftAttributes = NFTAttributes.getSubscriptionInstance({
+      const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: serviceMetadata,
         serviceTypes: ['nft-access'],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
         nftTransfer,
