@@ -141,7 +141,7 @@
       "yarn run prettier"
     ],
     "**/*.ts": [
-      "yarn run lint:fix"
+      "yarn run lint"
     ]
   },
   "nyc": {
