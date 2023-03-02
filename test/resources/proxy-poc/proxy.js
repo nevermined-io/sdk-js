@@ -3,7 +3,9 @@ const httpProxy = require('http-proxy')
 const jose = require('jose')
 
 const PROXY_PORT = 3128
-const JWT_SECRET = new Uint8Array(32)
+
+const JWT_SECRET_PHRASE = process.env.JWT_SECRET_PHRASE || '12345678901234567890123456789012'
+const JWT_SECRET = Uint8Array.from(JWT_SECRET_PHRASE.split('').map((x) => parseInt(x)))
 
 const validateAuthorization = async (authorizationHeader) => {
   const token = authorizationHeader.split(' ')[1]
@@ -16,12 +18,11 @@ const main = async () => {
   // Issue access token
   // This should be done by nevermined one after it validated that a user has a valid subscription
 
-  const token = await new jose.EncryptJWT(
-    {
-        endpoints: ['http://127.0.0.1:3000'],
-        headers: [{ authorization: 'Bearer xxxxx'}]
-    })
-    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256'})
+  const token = await new jose.EncryptJWT({
+    endpoints: ['http://127.0.0.1:3000'],
+    headers: [{ authorization: 'Bearer xxxxx' }],
+  })
+    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
     .setIssuedAt()
     .setExpirationTime('1d')
     .encrypt(JWT_SECRET)
@@ -54,9 +55,9 @@ const main = async () => {
       return
     }
 
-    proxy.on('proxyReq', function(proxyReq, req, res, options) {
+    proxy.on('proxyReq', function (proxyReq, req, res, options) {
       proxyReq.removeHeader('nvm-authorization')
-      payload.headers.forEach(header => {
+      payload.headers.forEach((header) => {
         const key = Object.keys(header)[0]
         proxyReq.setHeader(key, header[key])
       })
@@ -64,7 +65,7 @@ const main = async () => {
 
     proxy.web(req, res, { target: url.origin })
   })
-   
+
   console.log(`Proxy listening on port ${PROXY_PORT}`)
   server.listen(PROXY_PORT)
 }

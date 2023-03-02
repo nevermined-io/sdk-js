@@ -63,7 +63,6 @@ function makeTest(isCustom) {
 
     before(async () => {
       nevermined = await Nevermined.getInstance(config)
-      // ;[, artist, collector1, collector2, , gallery, , , , governor] = await nevermined.accounts.list()
       ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
@@ -116,7 +115,8 @@ function makeTest(isCustom) {
       }
 
       // components
-      ({ token } = nevermined.keeper)
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;({ token } = nevermined.keeper)
 
       scale = BigNumber.from(10).pow(await token.decimals())
 

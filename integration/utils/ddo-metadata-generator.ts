@@ -45,51 +45,50 @@ const metadata: Partial<MetaData> = {
 }
 
 const webServiceMetadata: Partial<MetaData> = {
-
-    main: {
-        name: undefined,
-        type: 'service',
-        dateCreated: '2022-10-10T17:00:00Z',
-        datePublished: '2022-10-10T17:00:00Z',
-        author: 'Nevermined',
-        license: 'CC-BY',
-        files: [{
-            url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
-            contentType: 'application/json',
-            
-        }],
-        webService: {
-            type: 'RESTful',
-            endpoints: [
-                {
-                    GET: 'http://127.0.0.1:3000'
-                }
-            ],
-            internalAttributes: {
-                authentication: {
-                    type: 'oauth',
-                    token: ''
-                },
-                headers: [
-                    {
-                        Authorization: 'Bearer xxxxxx'
-                    }
-                ]
-            }            
-        }
-    },
-    additionalInformation: {
-        description:
-            'Endpoints allowing to read information from a Nevermined Marketplace',
-        copyrightHolder: 'Nevermined',
-        links: [
-            {
-                name: 'Swagger documentation',
-                type: 'sample',
-                url: 'http://marketplace.nevermined.localnet/api/v1/docs/'
-            }
+  main: {
+    name: undefined,
+    type: 'service',
+    dateCreated: '2022-10-10T17:00:00Z',
+    datePublished: '2022-10-10T17:00:00Z',
+    author: 'Nevermined',
+    license: 'CC-BY',
+    files: [
+      {
+        url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
+        contentType: 'application/json',
+      },
+    ],
+    webService: {
+      type: 'RESTful',
+      endpoints: [
+        {
+          GET: 'http://127.0.0.1:3000',
+        },
+      ],
+      internalAttributes: {
+        authentication: {
+          type: 'oauth',
+          token: '',
+        },
+        headers: [
+          {
+            Authorization: 'Bearer xxxxxx',
+          },
         ],
-      }
+      },
+    },
+  },
+  additionalInformation: {
+    description: 'Endpoints allowing to read information from a Nevermined Marketplace',
+    copyrightHolder: 'Nevermined',
+    links: [
+      {
+        name: 'Swagger documentation',
+        type: 'sample',
+        url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
+      },
+    ],
+  },
 }
 
 export const generateMetadata = (
@@ -113,24 +112,27 @@ export const generateWebServiceMetadata = (
   authToken: string,
   nonce: string | number = Math.random(),
 ): Partial<MetaData> => {
-    const serviceMetadata = {
-        ...webServiceMetadata,
-        main: {
-          ...webServiceMetadata.main,
-          name,
-          ...({ nonce } as any),
-        },
-        additionalInformation: {
-          ...webServiceMetadata.additionalInformation,
-        },
-      }
-    serviceMetadata.main.webService.endpoints[0] = { GET: endpoint}
-    serviceMetadata.main.webService.internalAttributes.authentication = { type: 'oauth', token: authToken}
-    serviceMetadata.main.webService.internalAttributes.headers = [
-        {'Authorization': `Bearer ${authToken}`}, 
-        {'X-Extra-Header': 'hey there'}
-    ]
-    return serviceMetadata
+  const serviceMetadata = {
+    ...webServiceMetadata,
+    main: {
+      ...webServiceMetadata.main,
+      name,
+      ...({ nonce } as any),
+    },
+    additionalInformation: {
+      ...webServiceMetadata.additionalInformation,
+    },
+  }
+  serviceMetadata.main.webService.endpoints[0] = { GET: endpoint }
+  serviceMetadata.main.webService.internalAttributes.authentication = {
+    type: 'oauth',
+    token: authToken,
+  }
+  serviceMetadata.main.webService.internalAttributes.headers = [
+    { Authorization: `Bearer ${authToken}` },
+    { 'X-Extra-Header': 'hey there' },
+  ]
+  return serviceMetadata
 }
 
 export const getMetadata = (nonce: string | number = Math.random(), name = 'TestAsset'): MetaData =>

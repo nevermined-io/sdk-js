@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -29,7 +29,7 @@
     "integration:external": "mocha --opts integration/mocha.opts ./integration/external/*.test.ts",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint ./",
-    "lint:fix": "yarn run lint -- --fix",
+    "lint:fix": "eslint ./ --fix",
     "format": "prettier --parser typescript --ignore-path .gitignore --write '**/*.{js,jsx,ts,tsx}'",
     "docs": "typedoc",
     "merge-coverages": "npx lcov-result-merger \"coverage/*/lcov.info\" coverage/lcov.info",
@@ -141,7 +141,7 @@
       "yarn run prettier"
     ],
     "**/*.ts": [
-      "yarn run lint:fix"
+      "yarn run lint"
     ]
   },
   "nyc": {

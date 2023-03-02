@@ -190,7 +190,7 @@ describe('Assets', () => {
       ddoBefore = await neverminedApp2.assets.create(assetAttributes22, publisher)
 
       // wait for elasticsearch
-      await sleep(2000)
+      await sleep(4000)
     })
 
     it('should query by appId1', async () => {
