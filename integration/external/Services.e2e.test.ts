@@ -18,6 +18,7 @@ import {
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
+import { sleep } from '../utils/utils'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   let publisher: Account
@@ -183,6 +184,8 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       ) as MetaData
       serviceMetadata.userId = payload.sub
 
+      console.log(JSON.stringify(serviceMetadata))
+
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: serviceMetadata,
         serviceTypes: ['nft-access'],
@@ -283,19 +286,23 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     })
   })
 
+
+  describe('As a user I want to be able to search DDOs by subscriptions', () => {
+    it('should be able to retrieve the subscriptionDDO by contractAddress', async () => {
+      // Waiting to metadata to be updated and propagated
+      await sleep(3000)
+      
+      const result = await nevermined.search.bySubscriptionContractAddress(subscriptionNFT.address)
+      assert.equal(result.totalResults.value, 1)
+    })
+  })
+
   describe('As a subscriber I want to get an access token for the web service', () => {
     it('Nevermined One issues an access token', async () => {
       const response = await nevermined.nfts721.getSubscriptionToken(serviceDDO.id, subscriber)
       accessToken = response.accessToken
 
       assert.isDefined(accessToken)
-    })
-  })
-
-  describe('As a user I want to be able to search DDOs by subscriptions', () => {
-    it('should be able to retrieve the subscriptionDDO by contractAddress', async () => {
-      const result = await nevermined.search.bySubscriptionContractAddress(subscriptionNFT.address)
-      assert.equal(result.totalResults.value, 1)
     })
   })
 
