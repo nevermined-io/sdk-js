@@ -1,7 +1,7 @@
 import { ServiceType } from '../../ddo'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { QueryResult } from '../../services'
-import { Account, NeverminedNFT721Type, SearchQuery } from '../../sdk'
+import { Account, didPrefixed, EventOptions, NeverminedNFT721Type, SearchQuery } from '../../sdk'
 
 /**
  * Nevermined Search API. It allows the search of assets registered in Nevermined ecosystems.
@@ -241,6 +241,87 @@ export class SearchApi extends Instantiable {
               },
             },
           ],
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all subscriptions purchased by `account`
+   *
+   * @param account - The account that purchased the subscriptions.
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async subscriptionsPurchased(
+    account: Account,
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    // get on chain dids for nft-721 bought
+    const eventOptions: EventOptions = {
+      methodName: 'getFulfilleds',
+      eventName: 'Fulfilled',
+      filterSubgraph: {
+        where: {
+          _receiver: account.getId(),
+        },
+      },
+      filterJsonRpc: {
+        _receiver: account.getId(),
+      },
+      result: {
+        _did: true,
+      },
+    }
+
+    const events =
+      await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+        eventOptions,
+      )
+    const dids = events.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'service',
+                query: {
+                  bool: {
+                    filter: [
+                      { match: { 'service.type': 'metadata' } },
+                      {
+                        match: {
+                          'service.attributes.main.nftType':
+                            NeverminedNFT721Type.nft721Subscription,
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          filter: {
+            terms: {
+              id: dids,
+            },
+          },
         },
       },
       offset,

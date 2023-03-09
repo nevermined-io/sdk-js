@@ -311,6 +311,14 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       const dids = result.results.map((ddo) => ddo.id)
       assert.include(dids, subscriptionDDO.id)
     })
+
+    it('should be able to retrieve subscriptions purchased', async () => {
+      const result = await nevermined.search.subscriptionsPurchased(subscriber)
+      assert.isAbove(result.totalResults.value, 1)
+
+      const dids = result.results.map((ddo) => ddo.id)
+      assert.include(dids, subscriptionDDO.id)
+    })
   })
 
   describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
