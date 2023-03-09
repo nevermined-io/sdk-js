@@ -42,7 +42,7 @@ jobs:
           cp *.tgz sdk-dtp/sdk.tgz
           cp *.tgz node/sdk.tgz
           cd sdk-dtp
-          sed -i "/sdk-js/c\\    \"@nevermined-io/sdk\": \"./sdk.tgz\"," package.json
+          cat package.json | jq '.dependencies."@nevermined-io/sdk"="./sdk.tgz"' | sponge package.json
           yarn
           yarn build
           yarn pack
