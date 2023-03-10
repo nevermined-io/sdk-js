@@ -1,7 +1,21 @@
-import { ServiceType } from '../../ddo'
+import { Service, ServiceType } from '../../ddo'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { QueryResult } from '../../services'
-import { NeverminedNFT721Type, SearchQuery } from '../../sdk'
+import {
+  Account,
+  didPrefixed,
+  EventOptions,
+  findServiceConditionByName,
+  NeverminedNFT721Type,
+  SearchQuery,
+} from '../../sdk'
+
+const EMPTY_RESULT: QueryResult = {
+  results: [],
+  page: 1,
+  totalPages: 0,
+  totalResults: { value: 0, relation: 'eq' },
+}
 
 /**
  * Nevermined Search API. It allows the search of assets registered in Nevermined ecosystems.
@@ -125,6 +139,7 @@ export class SearchApi extends Instantiable {
   }
 
   /**
+   * Search for all subscription DDOs with `contractAddress`
    *
    * @param contractAddress - The address of the NFT-721 subscription contract
    * @param offset - The number of results to return
@@ -170,6 +185,240 @@ export class SearchApi extends Instantiable {
                   bool: {
                     must: [
                       { match: { 'service.type': 'nft-sales' } },
+                      {
+                        match: {
+                          'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                            contractAddress,
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all subscriptions created by `account`
+   *
+   * @param account - The account that created the subscriptions.
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async subscriptionsCreated(
+    account: Account,
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'service',
+                query: {
+                  bool: {
+                    filter: [
+                      { match: { 'service.type': 'metadata' } },
+                      {
+                        match: {
+                          'service.attributes.main.nftType':
+                            NeverminedNFT721Type.nft721Subscription,
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+            {
+              match: {
+                'proof.creator': account.getId(),
+              },
+            },
+          ],
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all subscriptions purchased by `account`
+   *
+   * @param account - The account that purchased the subscriptions.
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async subscriptionsPurchased(
+    account: Account,
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    // get on chain dids for nft-721 bought
+    const eventOptions: EventOptions = {
+      methodName: 'getFulfilleds',
+      eventName: 'Fulfilled',
+      filterSubgraph: {
+        where: {
+          _receiver: account.getId(),
+        },
+      },
+      filterJsonRpc: {
+        _receiver: account.getId(),
+      },
+      result: {
+        _did: true,
+      },
+    }
+
+    const events =
+      await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+        eventOptions,
+      )
+    const dids = events.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'service',
+                query: {
+                  bool: {
+                    filter: [
+                      { match: { 'service.type': 'metadata' } },
+                      {
+                        match: {
+                          'service.attributes.main.nftType':
+                            NeverminedNFT721Type.nft721Subscription,
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          filter: {
+            terms: {
+              id: dids,
+            },
+          },
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all services belonging to a subscription
+   *
+   * @param subscriptionDid - The DID of the subscription.
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async servicesBySubscription(
+    subscriptionDid: string,
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    const subscriptionDDO = await this.nevermined.assets.resolve(subscriptionDid)
+
+    // return empty result
+    if (!subscriptionDDO) {
+      return EMPTY_RESULT
+    }
+
+    // get contract address for subscription
+    let nftSalesService: Service<'nft-sales'>
+    try {
+      nftSalesService = subscriptionDDO.findServiceByType('nft-sales')
+    } catch (e) {
+      return EMPTY_RESULT
+    }
+
+    const transferNftCondition = findServiceConditionByName(nftSalesService, 'transferNFT')
+    const contractAddress = transferNftCondition.parameters.find(
+      (p) => p.name === '_contractAddress',
+    ).value as string
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: [
+            {
+              nested: {
+                path: 'service',
+                query: {
+                  bool: {
+                    filter: [
+                      { match: { 'service.type': 'metadata' } },
+                      {
+                        match: {
+                          'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
+                        },
+                      },
+                      {
+                        exists: {
+                          field: 'service.attributes.main.webService',
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+            {
+              nested: {
+                path: 'service',
+                query: {
+                  bool: {
+                    must: [
+                      { match: { 'service.type': 'nft-access' } },
                       {
                         match: {
                           'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
