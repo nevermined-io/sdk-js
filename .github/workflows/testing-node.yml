@@ -21,7 +21,7 @@ jobs:
           repository: nevermined-io/sdk-dtp
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.8.0
+      - uses: nevermined-io/nvm-tools-actions@v0.9.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'

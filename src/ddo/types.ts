@@ -199,10 +199,18 @@ export interface MetaDataMain {
 
   /**
    * Type of the Asset. Helps to filter by the type of asset,
-   * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
+   * initially ("dataset", "algorithm", "compute", "workflow", "compute", "subscription", "other").
    * @example "dataset"
    */
-  type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'service' | 'other'
+  type:
+    | 'dataset'
+    | 'algorithm'
+    | 'compute'
+    | 'workflow'
+    | 'compute'
+    | 'service'
+    | 'subscription'
+    | 'other'
 
   /**
    * The date on which the asset was created by the originator in
