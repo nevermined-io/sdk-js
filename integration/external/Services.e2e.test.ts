@@ -160,6 +160,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       assert.isTrue(isOperator)
 
       subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
+      subscriptionMetadata.main.type = 'subscription'
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
         price: assetPrice,
