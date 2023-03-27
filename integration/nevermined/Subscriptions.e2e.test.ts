@@ -69,6 +69,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     assetMetadata = getMetadata()
     subscriptionMetadata = getMetadata(undefined, 'Subscription NFT')
+    subscriptionMetadata.main.type = 'subscription'
+
     assetMetadata.userId = payload.sub
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
@@ -126,7 +128,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         transferNft721Condition.address,
       )
       assert.isTrue(isOperator)
-
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
         price: assetPrice1,
