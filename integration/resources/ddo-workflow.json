@@ -22,6 +22,7 @@
       "serviceEndpoint": "http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo/did:nv:c7fe6187190e4282709251c38265226a374bc19aefade8c759fb5ccc05bfb101",
       "attributes": {
         "curation": {
+          "isListed": true,
           "rating": 0,
           "numVotes": 0
         },
@@ -33,7 +34,12 @@
           "datePublished": "2023-01-01T00:00:00Z",
           "author": "root@nevermined.io",
           "license": "Apache License 2.0",
-          "files": [],
+          "files": [
+            {
+              "index": 0,
+              "contentType": "text/markdown"
+            }
+          ],
           "workflow": {
             "coordinationType": "argo",
             "stages": [
