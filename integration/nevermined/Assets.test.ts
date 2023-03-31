@@ -132,7 +132,7 @@ describe('Assets', () => {
 
     it('unlist and list an asset', async () => {
       // Unlisting Asset
-      await nevermined.assets.switchListing(ddo.shortId(), false, publisher)
+      await nevermined.assets.list(ddo.shortId(), false, publisher)
       // Waiting to metadata to be updated and propagated
       await sleep(3000)
       let resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
@@ -141,7 +141,7 @@ describe('Assets', () => {
       assert.equal(metadata.attributes.curation.isListed, false)
 
       // Listing Asset back
-      await nevermined.assets.switchListing(ddo.shortId(), true, publisher)
+      await nevermined.assets.list(ddo.shortId(), true, publisher)
       // Waiting to metadata to be updated and propagated
       await sleep(3000)
       resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)

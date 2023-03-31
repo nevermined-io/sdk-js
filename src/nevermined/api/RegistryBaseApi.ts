@@ -438,7 +438,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    * @param txParams - Optional transaction parameters
    * @returns {@link DDO} The DDO updated
    */
-  public switchListing(
+  public list(
     did: string,
     list: boolean,
     publisher: Account,
