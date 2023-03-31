@@ -22,6 +22,7 @@
       "serviceEndpoint": "http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo/did:nv:7c15b3449af541258f4f098a6444a8f15c98e9721db57fc4a02f2922521bd4a3",
       "attributes": {
         "curation": {
+          "isListed": true,
           "rating": 0,
           "numVotes": 0
         },

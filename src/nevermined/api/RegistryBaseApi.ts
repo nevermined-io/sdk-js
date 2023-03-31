@@ -180,6 +180,7 @@ export abstract class RegistryBaseApi extends Instantiable {
         attributes: {
           // Default values
           curation: {
+            isListed: true,
             rating: 0,
             numVotes: 0,
           },
@@ -309,18 +310,37 @@ export abstract class RegistryBaseApi extends Instantiable {
   }
 
   /**
-   * Initialities the default Nevermined service plugins and return that instance
-   * @param config Nevermined config
-   * @returns The Nevermined Service Plugin instance
+   * Returns a DDO by DID. Depending of the resolution policy it prioritize the Metadata API or Immutable urls.
+   * @param did - Decentralized ID.
+   * @param policy - It specifies the resolve policy to apply. It allows to select that priorities during the asset resolution via Metadata API or Immutable URLs (IPFS, Filecoin, etc)
+   * @returns {@link DDO}
    */
-  protected static getServicePlugin(config: InstantiableConfig) {
-    return {
-      access: new AccessService(config, config.nevermined.keeper.templates.accessTemplate),
-      compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
-      'nft-sales': new NFTSalesService(config),
-      'nft-access': new NFTAccessService(config),
-      'aave-credit': config.nevermined.keeper.templates
-        .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>,
+  protected async resolveAsset(
+    did: string,
+    policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst,
+  ): Promise<DDO> {
+    const { serviceEndpoint, immutableUrl } =
+      await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
+
+    if (policy === DIDResolvePolicy.OnlyImmutable)
+      return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+    else if (policy === DIDResolvePolicy.OnlyMetadataAPI)
+      return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
+    else if (policy === DIDResolvePolicy.ImmutableFirst) {
+      try {
+        return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
+      } catch (error) {
+        this.logger.debug(`Unable to fetch DDO from immutable data store`)
+      }
+      return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
+    } else {
+      // DIDResolvePolicy.MetadataAPIFirst
+      try {
+        return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
+      } catch (error) {
+        this.logger.debug(`Unable to fetch DDO metadata api`)
+      }
+      return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
     }
   }
 
@@ -346,10 +366,17 @@ export abstract class RegistryBaseApi extends Instantiable {
       const ddo = await this.resolveAsset(did)
 
       observer.next(UpdateProgressStep.UpdateMetadataInDDO)
-      const metadataService = ddo.findServiceByType('metadata')
+      let metadataService = ddo.findServiceByType('metadata')
 
-      metadataService.attributes.additionalInformation = metadata.additionalInformation
-      metadataService.attributes.main = metadata.main
+      metadataService = {
+        ...metadataService,
+        attributes: {
+          ...metadataService.attributes,
+          main: metadata.main,
+          additionalInformation: metadata.additionalInformation,
+          curation: metadata.curation,
+        },
+      }
 
       await ddo.replaceService(metadataService.index, metadataService)
 
@@ -401,38 +428,105 @@ export abstract class RegistryBaseApi extends Instantiable {
   }
 
   /**
-   * Returns a DDO by DID. Depending of the resolution policy it prioritize the Metadata API or Immutable urls.
-   * @param did - Decentralized ID.
-   * @param policy - It specifies the resolve policy to apply. It allows to select that priorities during the asset resolution via Metadata API or Immutable URLs (IPFS, Filecoin, etc)
-   * @returns {@link DDO}
+   * Given a DID, updates the metadata associated to the asset allowing to list or unlist it. It also can upload this metadata to a remote decentralized stored depending on the `publishMetadata` parameter.
+   * In a Nevermined environment, when an asset is unlisted, it is not possible to be found and accessed by any user.
+   *
+   * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
+   * @param list - Needs the asset to be listed or unlisted
+   * @param publisher - Account of the user updating the metadata
+   * @param publishMetadata - It allows to specify where to store the metadata
+   * @param txParams - Optional transaction parameters
+   * @returns {@link DDO} The DDO updated
    */
-  protected async resolveAsset(
+  public list(
     did: string,
-    policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst,
-  ): Promise<DDO> {
-    const { serviceEndpoint, immutableUrl } =
-      await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
+    list: boolean,
+    publisher: Account,
+    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    txParams?: TxParameters,
+  ): SubscribablePromise<UpdateProgressStep, DDO> {
+    this.logger.log('Switching Asset Publication')
+    return new SubscribablePromise(async (observer) => {
+      observer.next(UpdateProgressStep.ResolveAsset)
+      const ddo = await this.resolveAsset(did)
 
-    if (policy === DIDResolvePolicy.OnlyImmutable)
-      return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
-    else if (policy === DIDResolvePolicy.OnlyMetadataAPI)
-      return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
-    else if (policy === DIDResolvePolicy.ImmutableFirst) {
-      try {
-        return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
-      } catch (error) {
-        this.logger.debug(`Unable to fetch DDO from immutable data store`)
+      const metadataService = ddo.findServiceByType('metadata')
+      if (!metadataService.attributes.curation) {
+        metadataService.attributes.curation = {
+          isListed: list,
+          rating: 0,
+          numVotes: 0,
+        }
+      } else if (
+        metadataService.attributes.curation.isListed &&
+        metadataService.attributes.curation.isListed === list
+      ) {
+        this.logger.log('Asset was already having the same listing status')
+        return ddo
       }
-      return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
-    } else {
-      // DIDResolvePolicy.MetadataAPIFirst
-      try {
-        return await this.nevermined.services.metadata.retrieveDDOByUrl(serviceEndpoint)
-      } catch (error) {
-        this.logger.debug(`Unable to fetch DDO metadata api`)
+
+      metadataService.attributes.curation = {
+        ...metadataService.attributes.curation,
+        isListed: list,
       }
-      return await this.nevermined.services.metadata.retrieveDDOFromImmutableBackend(immutableUrl)
-    }
+      return await this.updateAsset(
+        did,
+        metadataService.attributes,
+        publisher,
+        publishMetadata,
+        txParams,
+      )
+    })
+  }
+
+  /**
+   * Given a DID, it adds a vote to the asset curation information.
+   *
+   * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
+   * @param newRating - New average rating of the asset
+   * @param numVotesAdded - Number of new votes added to the rating, typically just 1
+   * @param publisher - Account of the user updating the metadata
+   * @param publishMetadata - It allows to specify where to store the metadata
+   * @param txParams - Optional transaction parameters
+   * @returns {@link DDO} The DDO updated
+   */
+  public addRating(
+    did: string,
+    newRating: number,
+    numVotesAdded = 1,
+    publisher: Account,
+    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    txParams?: TxParameters,
+  ): SubscribablePromise<UpdateProgressStep, DDO> {
+    this.logger.log('Adding votes to the asset')
+    return new SubscribablePromise(async (observer) => {
+      if (newRating < 0 || newRating > 1) throw new Error('Rating must be between 0 and 1')
+
+      observer.next(UpdateProgressStep.ResolveAsset)
+      const ddo = await this.resolveAsset(did)
+
+      const metadataService = ddo.findServiceByType('metadata')
+      if (!metadataService.attributes.curation) {
+        metadataService.attributes.curation = {
+          isListed: true,
+          rating: newRating,
+          numVotes: numVotesAdded,
+        }
+      }
+
+      metadataService.attributes.curation = {
+        ...metadataService.attributes.curation,
+        rating: newRating,
+        numVotes: metadataService.attributes.curation.numVotes + numVotesAdded,
+      }
+      return await this.updateAsset(
+        did,
+        metadataService.attributes,
+        publisher,
+        publishMetadata,
+        txParams,
+      )
+    })
   }
 
   /**
@@ -477,5 +571,21 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       return agreementId
     })
+  }
+
+  /**
+   * Initialities the default Nevermined service plugins and return that instance
+   * @param config Nevermined config
+   * @returns The Nevermined Service Plugin instance
+   */
+  protected static getServicePlugin(config: InstantiableConfig) {
+    return {
+      access: new AccessService(config, config.nevermined.keeper.templates.accessTemplate),
+      compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
+      'nft-sales': new NFTSalesService(config),
+      'nft-access': new NFTAccessService(config),
+      'aave-credit': config.nevermined.keeper.templates
+        .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>,
+    }
   }
 }
