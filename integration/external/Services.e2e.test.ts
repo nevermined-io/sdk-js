@@ -180,7 +180,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     it('I want to register a new web service and tokenize (via NFT)', async () => {
       serviceMetadata = generateWebServiceMetadata(
         'Nevermined Web Service Metadata',
-        SERVICE_ENDPOINT,
+        // regex to match the service endpoints
+        // works with: https://www.npmjs.com/package/path-to-regexp
+        // Example of regex: `https://api.openai.com/v1/(.*)`,
+        `${SERVICE_ENDPOINT}(.*)`,
         AUTHORIZATION_TOKEN,
       ) as MetaData
       serviceMetadata.userId = payload.sub
@@ -336,7 +339,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       const proxyEndpoint = `${PROXY_URL}${url.pathname}`
 
       opts.headers = {
-        'nvm-authorization': `Bearer ${accessToken}`,
+        authorization: `Bearer ${accessToken}`, // 'nvm-authorization': `Bearer ${accessToken}`,
         'content-type': 'application/json',
         host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
       }
