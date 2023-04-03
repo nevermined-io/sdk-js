@@ -339,9 +339,11 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       const proxyEndpoint = `${PROXY_URL}${url.pathname}`
 
       opts.headers = {
-        authorization: `Bearer ${accessToken}`, // 'nvm-authorization': `Bearer ${accessToken}`,
+        // The proxy expects the `HTTP Authorization` header with the JWT
+        authorization: `Bearer ${accessToken}`,
         'content-type': 'application/json',
-        host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
+        // Host header is not required anymore from the proxy, it picks this up from the JWT
+        // host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
       }
 
       if (process.env.REQUEST_DATA) {
