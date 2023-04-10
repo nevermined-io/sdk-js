@@ -319,7 +319,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    */
   protected async resolveAsset(
     did: string,
-    policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst,
+    policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
   ): Promise<DDO> {
     const { serviceEndpoint, immutableUrl } =
       await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
@@ -508,19 +508,21 @@ export abstract class RegistryBaseApi extends Instantiable {
       const ddo = await this.resolveAsset(did)
 
       const metadataService = ddo.findServiceByType('metadata')
+
       if (!metadataService.attributes.curation) {
         metadataService.attributes.curation = {
           isListed: true,
           rating: newRating,
           numVotes: numVotesAdded,
         }
+      } else {
+        metadataService.attributes.curation = {
+          ...metadataService.attributes.curation,
+          rating: newRating,
+          numVotes: metadataService.attributes.curation.numVotes + numVotesAdded,
+        }
       }
 
-      metadataService.attributes.curation = {
-        ...metadataService.attributes.curation,
-        rating: newRating,
-        numVotes: metadataService.attributes.curation.numVotes + numVotesAdded,
-      }
       return await this.updateAsset(
         did,
         metadataService.attributes,

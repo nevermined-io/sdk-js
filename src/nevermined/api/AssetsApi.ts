@@ -104,7 +104,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public async resolve(
     did: string,
-    policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst,
+    policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
   ): Promise<DDO> {
     return this.resolveAsset(did, policy)
   }
