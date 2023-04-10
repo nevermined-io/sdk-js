@@ -122,7 +122,9 @@ export abstract class RegistryBaseApi extends Instantiable {
       const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
       await ddo.assignDid(didSeed, didRegistry, publisher)
 
-      await ddo.addSignature(this.nevermined, publisher.getId())
+      // TODO: Evaluate if we need to add the signature to the DDO
+      // Removing it by the time being to save a wallet interaction
+      // await ddo.addSignature(this.nevermined, publisher.getId())
 
       this.logger.log('Proof generated')
       observer.next(CreateProgressStep.ProofGenerated)
