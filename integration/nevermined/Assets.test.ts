@@ -132,6 +132,7 @@ describe('Assets', () => {
 
     it('unlist and list an asset', async () => {
       // Unlisting Asset
+      console.log(`Unlisting asset ${ddo.shortId()}`)
       await nevermined.assets.list(ddo.shortId(), false, publisher)
       // Waiting to metadata to be updated and propagated
       await sleep(3000)

@@ -123,7 +123,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       await ddo.assignDid(didSeed, didRegistry, publisher)
 
       // TODO: Evaluate if we need to add the signature to the DDO
-      // Removing it by the time being to save a wallet interaction
+      // Removing it would save a wallet interaction during asset creation
       // await ddo.addSignature(this.nevermined, publisher.getId())
 
       this.logger.log('Proof generated')
