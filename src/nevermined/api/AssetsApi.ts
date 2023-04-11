@@ -104,7 +104,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public async resolve(
     did: string,
-    policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst,
+    policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
   ): Promise<DDO> {
     return this.resolveAsset(did, policy)
   }
@@ -247,6 +247,15 @@ export class AssetsApi extends RegistryBaseApi {
    * @returns The address of the owner of the asset
    */
   public async owner(did: string): Promise<string> {
+    return this.nevermined.keeper.didRegistry.getDIDOwner(didZeroX(did))
+  }
+
+  /**
+   * Returns the owner of an asset.
+   * @param did - Decentralized ID.
+   * @returns The address of the owner of the asset
+   */
+  public async ownerSignature(did: string): Promise<string> {
     const ddo = await this.resolve(did)
     const checksum = ddo.checksum(didZeroX(did))
     const { creator, signatureValue } = ddo.proof
@@ -274,16 +283,24 @@ export class AssetsApi extends RegistryBaseApi {
    * Transfer ownership of an asset.
    * @param did - Asset DID.
    * @param newOwner - Ethereum address of the new owner of the DID.
+   * @param owner - Account owning the DID and doing the transfer of ownership
    * @param txParams - Transaction parameters
    * @returns Returns ethers transaction receipt.
    */
   public async transferOwnership(
     did: string,
     newOwner: string,
+    owner: string | Account,
     txParams?: TxParameters,
   ): Promise<ContractReceipt> {
-    const owner = await this.nevermined.assets.owner(did)
-    return this.nevermined.keeper.didRegistry.transferDIDOwnership(did, newOwner, owner, txParams)
+    // const owner = await this.nevermined.assets.owner(did)
+    const ownerAddress = owner instanceof Account ? owner.getId() : owner
+    return this.nevermined.keeper.didRegistry.transferDIDOwnership(
+      did,
+      newOwner,
+      ownerAddress,
+      txParams,
+    )
   }
 
   /**

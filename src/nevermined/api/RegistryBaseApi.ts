@@ -122,7 +122,9 @@ export abstract class RegistryBaseApi extends Instantiable {
       const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
       await ddo.assignDid(didSeed, didRegistry, publisher)
 
-      await ddo.addSignature(this.nevermined, publisher.getId())
+      // TODO: Evaluate if we need to add the signature to the DDO
+      // Removing it would save a wallet interaction during asset creation
+      // await ddo.addSignature(this.nevermined, publisher.getId())
 
       this.logger.log('Proof generated')
       observer.next(CreateProgressStep.ProofGenerated)
@@ -317,7 +319,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    */
   protected async resolveAsset(
     did: string,
-    policy: DIDResolvePolicy = DIDResolvePolicy.ImmutableFirst,
+    policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
   ): Promise<DDO> {
     const { serviceEndpoint, immutableUrl } =
       await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
@@ -406,17 +408,17 @@ export abstract class RegistryBaseApi extends Instantiable {
         } catch (error) {
           this.logger.log(`Unable to publish immutable content`)
         }
-      }
 
-      observer.next(UpdateProgressStep.UpdatingAssetOnChain)
-      await this.nevermined.keeper.didRegistry.updateMetadataUrl(
-        ddo.id,
-        checksum,
-        publisher.getId(),
-        metadataService.serviceEndpoint,
-        ddoVersion.immutableUrl,
-        txParams,
-      )
+        observer.next(UpdateProgressStep.UpdatingAssetOnChain)
+        await this.nevermined.keeper.didRegistry.updateMetadataUrl(
+          ddo.id,
+          checksum,
+          publisher.getId(),
+          metadataService.serviceEndpoint,
+          ddoVersion.immutableUrl,
+          txParams,
+        )
+      }
 
       observer.next(UpdateProgressStep.StoringDDOMarketplaceAPI)
       const storedDdo = await this.nevermined.services.metadata.updateDDO(ddo.id, ddo)
@@ -506,19 +508,21 @@ export abstract class RegistryBaseApi extends Instantiable {
       const ddo = await this.resolveAsset(did)
 
       const metadataService = ddo.findServiceByType('metadata')
+
       if (!metadataService.attributes.curation) {
         metadataService.attributes.curation = {
           isListed: true,
           rating: newRating,
           numVotes: numVotesAdded,
         }
+      } else {
+        metadataService.attributes.curation = {
+          ...metadataService.attributes.curation,
+          rating: newRating,
+          numVotes: metadataService.attributes.curation.numVotes + numVotesAdded,
+        }
       }
 
-      metadataService.attributes.curation = {
-        ...metadataService.attributes.curation,
-        rating: newRating,
-        numVotes: metadataService.attributes.curation.numVotes + numVotesAdded,
-      }
       return await this.updateAsset(
         did,
         metadataService.attributes,

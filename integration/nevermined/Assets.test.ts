@@ -135,7 +135,7 @@ describe('Assets', () => {
       await nevermined.assets.list(ddo.shortId(), false, publisher)
       // Waiting to metadata to be updated and propagated
       await sleep(3000)
-      let resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
+      let resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.MetadataAPIFirst)
       assert.isDefined(resolvedDDO)
       let metadata = resolvedDDO.findServiceByType('metadata')
       assert.equal(metadata.attributes.curation.isListed, false)
@@ -144,7 +144,7 @@ describe('Assets', () => {
       await nevermined.assets.list(ddo.shortId(), true, publisher)
       // Waiting to metadata to be updated and propagated
       await sleep(3000)
-      resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
+      resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.MetadataAPIFirst)
       assert.isDefined(resolvedDDO)
       metadata = resolvedDDO.findServiceByType('metadata')
       assert.equal(metadata.attributes.curation.isListed, true)
@@ -154,18 +154,19 @@ describe('Assets', () => {
       // Adding some votes
       await nevermined.assets.addRating(ddo.shortId(), 0.5, 1, publisher)
       // Waiting to metadata to be updated and propagated
-      await sleep(3000)
-      let resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
+      await sleep(5000)
+      let resolvedDDO = await nevermined.assets.resolve(ddo.id)
       assert.isDefined(resolvedDDO)
       let metadata = resolvedDDO.findServiceByType('metadata')
+
       assert.equal(metadata.attributes.curation.rating, 0.5)
       assert.equal(metadata.attributes.curation.numVotes, 1)
 
       // More votes
       await nevermined.assets.addRating(ddo.shortId(), 0.4, 2, publisher)
       // Waiting to metadata to be updated and propagated
-      await sleep(3000)
-      resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
+      await sleep(5000)
+      resolvedDDO = await nevermined.assets.resolve(ddo.id)
       assert.isDefined(resolvedDDO)
       metadata = resolvedDDO.findServiceByType('metadata')
       assert.equal(metadata.attributes.curation.rating, 0.4)
