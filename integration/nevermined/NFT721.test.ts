@@ -106,6 +106,7 @@ describe('Nfts721 operations', async () => {
       console.log(`Checking owner of DID ${ddo.id}`)
 
       assert.equal(await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())), artist.getId())
+      assert.isTrue(BigNumber.from(0).eq(await nevermined.nfts721.balanceOf(collector.getId())))
 
       // collector orders the nft
       const agreementId = await nevermined.nfts721.order(ddo.id, collector)
@@ -114,6 +115,7 @@ describe('Nfts721 operations', async () => {
       await nevermined.nfts721.transfer(agreementId, ddo.id, artist)
 
       assert.equal(await nevermined.nfts721.ownerOfAsset(zeroX(ddo.shortId())), collector.getId())
+      assert.isTrue(BigNumber.from(1).eq(await nevermined.nfts721.balanceOf(collector.getId())))
 
       // artist fetches the payment
       await nevermined.nfts721.releaseRewards(agreementId, ddo.id, artist)
