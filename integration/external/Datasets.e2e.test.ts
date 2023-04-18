@@ -253,6 +253,22 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       // thegraph stores the addresses in lower case
       assert.equal(ethers.utils.getAddress(eventValues._receiver), subscriber.getId())
     })
+
+    it('The Subscriber should have an NFT balance', async () => {
+      const balance = await subscriptionNFT.balanceOf(subscriber.getId())
+      assert.equal(balance.toNumber(), 1)
+    })
+
+    it('The Subscriber should have access to the dataset', async () => {
+      const result = await nevermined.nfts721.access(
+        datasetDDO.id,
+        subscriber,
+        '/tmp/',
+        undefined,
+        agreementId,
+      )
+      assert.isTrue(result)
+    })
   })
 
   describe('As a user I want to be able to search DDOs by subscriptions', () => {
