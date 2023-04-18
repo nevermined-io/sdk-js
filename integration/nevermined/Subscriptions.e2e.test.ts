@@ -203,6 +203,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         subscriber.getId(),
       )
 
+      const minted = await subscriptionNFT.getContract.getMintedEntries(subscriber.getId())
+      console.log(`Minted: ${JSON.stringify(minted)}`)
+
       assert.isTrue(BigNumber.from(1).eq(await subscriptionNFT.balanceOf(subscriber.getId())))
     })
 

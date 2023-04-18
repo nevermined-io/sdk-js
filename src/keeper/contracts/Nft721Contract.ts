@@ -123,4 +123,24 @@ export class Nft721Contract extends NFTContractsBase {
   public async tokenURI(did: string): Promise<string> {
     return this.call('tokenURI', [didZeroX(did)])
   }
+
+  public async getMintedEntries(owner: string): Promise<MintedEntry[]> {
+    const minted: string[][] = await this.call('getMintedEntries', [owner])
+
+    const entries: MintedEntry[] = []
+    for (let i = 0; i < minted.length; i++) {
+      entries.push({
+        tokenId: BigNumber.from(minted[i][0]),
+        expirationBlock: BigNumber.from(minted[i][1]),
+        mintBlock: BigNumber.from(minted[i][2]),
+      })
+    }
+    return entries
+  }
+}
+
+export interface MintedEntry {
+  tokenId: BigNumber
+  expirationBlock: BigNumber
+  mintBlock: BigNumber
 }
