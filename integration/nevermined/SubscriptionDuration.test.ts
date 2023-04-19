@@ -1,8 +1,9 @@
 import { assert } from 'chai'
-import { Account, DDO, NFTAttributes, Nevermined, SubscriptionNFTApi } from '../../src'
+import { Account, AssetPrice, DDO, NFTAttributes, Nevermined, SubscriptionNFTApi } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
 import { getMetadata } from '../utils'
+import { BigNumber } from 'ethers'
 
 describe('Subscription Durations', () => {
   let publisher: Account
@@ -47,6 +48,7 @@ describe('Subscription Durations', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
+        price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
         serviceTypes: ['nft-sales'],
         providers: [config.neverminedNodeAddress],
         duration: 0,
