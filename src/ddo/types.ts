@@ -382,8 +382,14 @@ export interface AdditionalInformation {
   }
 
   poseidonHash?: string
+  cipher?: string
 
   providerKey?: {
+    x: string
+    y: string
+  }
+
+  secretId?: {
     x: string
     y: string
   }
