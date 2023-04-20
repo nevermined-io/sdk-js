@@ -44,8 +44,9 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
   }
   public async paramsGen({
     consumer_address,
+    expiration = 0,
   }: ValidationParams): Promise<NFT721SalesTemplateParams> {
-    return this.params(consumer_address)
+    return this.params(consumer_address, expiration)
   }
 
   public lockConditionIndex(): number {
