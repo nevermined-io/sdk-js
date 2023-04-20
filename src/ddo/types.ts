@@ -155,7 +155,7 @@ export interface MetaDataExternalResource {
    * @remarks
    * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
    */
-  encryption?: 'dtp'
+  encryption?: 'dtp' | 'dleq'
 }
 
 /**
