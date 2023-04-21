@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
-          contracts-version: 'latest'
+          contracts-version: 'v3.1.0'
 
       - name: Install dependencies
         run: |
