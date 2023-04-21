@@ -383,6 +383,7 @@ export class DIDRegistry extends ContractBase {
         filterJsonRpc: { _did: didZeroX(did) },
         filterSubgraph: { where: { _did: didZeroX(did) } },
         result: {
+          id: true,
           provId: true,
           _did: true,
           _agentId: true,
