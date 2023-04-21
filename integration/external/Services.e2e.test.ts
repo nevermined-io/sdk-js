@@ -291,7 +291,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   describe('As a subscriber I want to get an access token for the web service', () => {
     before(async () => {
       // wait for elasticsearch
-      await sleep(4000)
+      await sleep(5000)
     })
 
     it('Nevermined One issues an access token', async () => {
@@ -299,6 +299,35 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       accessToken = response.accessToken
 
       assert.isDefined(accessToken)
+    })
+  })
+
+  describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
+    it('The subscriber access the service endpoints available', async () => {
+      const url = new URL(SERVICE_ENDPOINT)
+      const proxyEndpoint = `${PROXY_URL}${url.pathname}`
+
+      console.log(accessToken)
+      opts.headers = {
+        // The proxy expects the `HTTP Authorization` header with the JWT
+        authorization: `Bearer ${accessToken}`,
+        'content-type': 'application/json',
+        // Host header is not required anymore from the proxy, it picks this up from the JWT
+        // host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
+      }
+
+      if (process.env.REQUEST_DATA) {
+        opts.method = 'POST'
+        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
+      }
+
+      // console.debug(JSON.stringify(opts))
+      const result = await fetch(proxyEndpoint, opts)
+
+      console.debug(` ${result.status} - ${await result.text()}`)
+
+      assert.isTrue(result.ok)
+      assert.equal(result.status, 200)
     })
   })
 
@@ -330,34 +359,6 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
       const ddo = result.results.pop()
       assert.equal(ddo.id, serviceDDO.id)
-    })
-  })
-
-  describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
-    it('The subscriber access the service endpoints available', async () => {
-      const url = new URL(SERVICE_ENDPOINT)
-      const proxyEndpoint = `${PROXY_URL}${url.pathname}`
-
-      opts.headers = {
-        // The proxy expects the `HTTP Authorization` header with the JWT
-        authorization: `Bearer ${accessToken}`,
-        'content-type': 'application/json',
-        // Host header is not required anymore from the proxy, it picks this up from the JWT
-        // host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
-      }
-
-      if (process.env.REQUEST_DATA) {
-        opts.method = 'POST'
-        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
-      }
-
-      // console.debug(JSON.stringify(opts))
-      const result = await fetch(proxyEndpoint, opts)
-
-      console.debug(` ${result.status} - ${await result.text()}`)
-
-      assert.isTrue(result.ok)
-      assert.equal(result.status, 200)
     })
   })
 })
