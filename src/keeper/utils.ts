@@ -25,6 +25,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
       return 'matic'
     case 1337:
       return 'geth-localnet'
+    case 3141:
+      return 'hyperspace'
     case 31337:
       return 'geth-localnet'
     case 8996:
