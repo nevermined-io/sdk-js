@@ -17,7 +17,7 @@ jobs:
           opengsn: 'true'
           estuary: 'true'
           compute: 'true'
-          contracts-version: 'v3.0.0'
+          contracts-version: 'v3.1.0'
 
       - name: Install dependencies
         run: |
