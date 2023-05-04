@@ -49,8 +49,8 @@ if (process.env.NETWORK_NAME === 'goerli') {
 
 if (process.env.NETWORK_NAME === 'mumbai') {
   Object.assign(configBase, {
-    marketplaceUri: 'https://marketplace-api.mumbai.nevermined.one',
-    neverminedNodeUri: 'https://node.mumbai.nevermined.one',
+    marketplaceUri: 'https://marketplace-api.mumbai.nevermined.app',
+    neverminedNodeUri: 'https://node.mumbai.nevermined.app',
     web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
     neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
     graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
