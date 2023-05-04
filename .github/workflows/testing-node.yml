@@ -61,6 +61,7 @@ jobs:
           # estuary token for local development
           ESTUARY_TOKEN: ESTaa43688b-4ccf-4dad-8a16-410e488706ffARY
           ESTUARY_ENDPOINT: http://estuary.nevermined.localnet
+          NO_GRAPH: true
         run: |
           cd node
           nvm-tools copy-artifacts ./artifacts
