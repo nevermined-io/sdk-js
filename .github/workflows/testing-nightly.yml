@@ -63,7 +63,7 @@ jobs:
           estuary: 'true'
           compute: 'true'
           contracts-version: 'v3.2.1'
-          node-version: 'v1.2.4'
+          node-version: 'v1.2.5'
 
       - name: Install dependencies
         run: |
@@ -139,7 +139,7 @@ jobs:
           estuary: 'true'
           compute: 'true'
           contracts-version: 'v3.2.1'
-          node-version: 'v1.2.4'
+          node-version: 'v1.2.5'
 
       - name: Install dependencies
         run: |
