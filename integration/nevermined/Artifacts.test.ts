@@ -11,7 +11,7 @@ describe('Artifacts', () => {
       web3ProviderUri: 'https://matic-mumbai.chainstacklabs.com',
       networkName: ['mumbai'],
       networkId: [80001],
-      versions: ['v3.0.0'],
+      versions: ['v3.2.1'],
       tag: 'public',
     },
   ]
