@@ -92,7 +92,7 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^20.1.0",
     "@types/node-fetch": "^2.5.7",
-    "@types/temp": "^0.8.34",
+    "@types/temp": "^0.9.1",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
     "auto-changelog": "^2.4.0",
