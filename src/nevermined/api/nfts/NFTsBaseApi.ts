@@ -1,4 +1,4 @@
-import { DDO } from '../../../ddo'
+import { DDO, ServiceType } from '../../../ddo'
 import {
   fillConditionsWithDDO,
   findServiceConditionByName,
@@ -247,6 +247,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     token: Token,
     owner: string,
   ): Promise<string> {
+    const serviceType: ServiceType = 'nft-sales'
     const { nftSalesTemplate } = this.nevermined.keeper.templates
     const agreementIdSeed = zeroX(generateId())
     const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
@@ -254,6 +255,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
     nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+      serviceType,
       nftSalesTemplateConditions,
       ddo,
       assetPrice,
@@ -265,7 +267,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
 
     const nftSalesServiceAgreement: ServiceSecondary = {
       agreementId: agreementIdSeed,
-      type: 'nft-sales',
+      type: serviceType,
       index: 6,
       serviceEndpoint: this.nevermined.services.node.getNftEndpoint(),
       templateId: nftSalesTemplate.getAddress(),

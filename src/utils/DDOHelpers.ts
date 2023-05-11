@@ -9,6 +9,11 @@ import {
 import { AssetPrice } from '../models'
 import { BigNumber } from './BigNumber'
 
+// DDO Services including a sales process
+const SALES_SERVICES = ['nft-sales', 'access', 'compute', 'nft-sales']
+// Condition Names that are the final dependency for releasing the payment in a service agreement
+const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
+
 function fillParameterWithDDO(
   parameter: ServiceAgreementTemplateParameter,
   ddo: DDO,
@@ -71,6 +76,7 @@ function fillParameterWithDDO(
  * @returns Filled conditions.
  */
 export function fillConditionsWithDDO(
+  serviceType: ServiceType,
   conditions: ServiceAgreementTemplateCondition[],
   ddo: DDO,
   assetPrice: AssetPrice = new AssetPrice(),
@@ -80,7 +86,22 @@ export function fillConditionsWithDDO(
   nftAmount?: BigNumber,
   nftTransfer = false,
   duration = 0,
+  fulfillAccessTimeout = 0,
+  fulfillAccessTimelock = 0,
 ): ServiceAgreementTemplateCondition[] {
+  conditions.map((condition) => {
+    if (
+      DEPENDENCIES_RELEASE_CONDITION.includes(condition.name) &&
+      SALES_SERVICES.includes(serviceType)
+    ) {
+      if (fulfillAccessTimeout > 0) {
+        condition.timeout = fulfillAccessTimeout
+      }
+      if (fulfillAccessTimelock > 0) {
+        condition.timelock = fulfillAccessTimelock
+      }
+    }
+  })
   return conditions.map((condition) => ({
     ...condition,
     parameters: condition.parameters.map((parameter) => ({

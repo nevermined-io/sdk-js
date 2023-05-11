@@ -267,6 +267,13 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
 
+    const timeouts: number[] = []
+    const timelocks: number[] = []
+    service.attributes.serviceAgreementTemplate.conditions.map((condition) => {
+      timeouts.push(condition.timeout)
+      timelocks.push(condition.timelock)
+    })
+
     observer(OrderProgressStep.ApprovingPayment)
     await this.lockTokens(tokenAddress, amounts, from, txParams)
     observer(OrderProgressStep.ApprovedPayment)
@@ -282,8 +289,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       agreementIdSeed,
       ddo.shortId(),
       instances.map((a) => a.seed),
-      new Array(instances.length).fill(0),
-      timeOuts ? timeOuts : new Array(instances.length).fill(0),
+      timelocks ? timelocks : new Array(instances.length).fill(0),
+      timeouts ? timeouts : new Array(instances.length).fill(0),
       consumer.getId(),
       this.lockConditionIndex(),
       rewardAddress,
