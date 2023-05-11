@@ -124,6 +124,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
       await subscriptionNFT.grantOperatorRole(transferNft721Condition.address, editor)
 
+      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(editor.getId())))
+
       const isOperator = await subscriptionNFT.getContract.isOperator(
         transferNft721Condition.address,
       )
@@ -140,6 +142,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
+
+      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(editor.getId())))
 
       assert.isDefined(subscriptionDDO)
     })
@@ -185,6 +189,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
       // Let's use the Node to mint the subscription and release the payments
 
+      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(subscriber.getId())))
+
       const receipt = await nevermined.nfts721.claim(
         agreementId,
         editor.getId(),
@@ -196,6 +202,11 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         await nevermined.nfts721.ownerOfAssetByAgreement(subscriptionDDO.shortId(), agreementId),
         subscriber.getId(),
       )
+
+      const minted = await subscriptionNFT.getContract.getMintedEntries(subscriber.getId())
+      console.log(`Minted: ${JSON.stringify(minted)}`)
+
+      assert.isTrue(BigNumber.from(1).eq(await subscriptionNFT.balanceOf(subscriber.getId())))
     })
 
     it('the editor and reseller can receive their payment', async () => {
@@ -246,8 +257,13 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As subscriber I want to get access to assets include as part of my subscription', () => {
+    it('The Subscriber should have an NFT balance', async () => {
+      const balance = await subscriptionNFT.balanceOf(subscriber.getId())
+      assert.equal(balance.toNumber(), 1)
+    })
+
     it('The collector access the files', async () => {
-      const result = await nevermined.nfts1155.access(
+      const result = await nevermined.nfts721.access(
         assetDDO.id,
         subscriber,
         '/tmp/',

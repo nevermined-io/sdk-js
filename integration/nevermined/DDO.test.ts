@@ -101,6 +101,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -165,6 +166,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -234,6 +236,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -319,6 +322,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -377,6 +381,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })

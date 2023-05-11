@@ -37,6 +37,7 @@ export interface ProvenanceRegistry {
 }
 
 export interface ProvenanceAttributeRegisteredEvent {
+  id: string
   provId: string
   did: string
   agentId: string

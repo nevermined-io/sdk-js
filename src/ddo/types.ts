@@ -705,6 +705,7 @@ export interface ValidationParams {
   babysig?: Babysig
   nft_amount?: BigNumber
   nft_holder?: string
+  expiration?: number
 }
 
 export interface ServicePlugin<T extends Service> {

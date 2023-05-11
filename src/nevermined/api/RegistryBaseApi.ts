@@ -233,8 +233,8 @@ export abstract class RegistryBaseApi extends Instantiable {
       if (nftAttributes) {
         this.logger.log('Registering Mintable Asset', ddo.id)
 
-        const nftAttributesWithoutRoyalties = { ...nftAttributes }
-        nftAttributesWithoutRoyalties.royaltyAttributes = undefined
+        const nftAttributesWithoutRoyalties = { ...nftAttributes, royaltyAttributes: undefined }
+
         if (nftAttributes.ercType === 721) {
           await didRegistry.registerMintableDID721(
             didSeed,
@@ -264,6 +264,8 @@ export abstract class RegistryBaseApi extends Instantiable {
         }
 
         if (nftAttributes.royaltyAttributes != undefined) {
+          console.log(`Setting up royalties`)
+
           observer.next(CreateProgressStep.SettingRoyaltyScheme)
           await didRegistry.setDIDRoyalties(
             ddo.shortId(),

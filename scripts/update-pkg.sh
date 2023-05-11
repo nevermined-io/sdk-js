@@ -21,7 +21,7 @@ cp *dtp*.tgz ../node/$PKG2
 
 cd ../node
 cat package.json | jq ".dependencies.\"@nevermined-io/sdk\"=\"./$PKG\"" | sponge package.json
-cat package.json | jq ".dependencies.\"@nevermined-io/nevermined-sdk-dtp\"=\"./$PKG2\"" | sponge package.json
+cat package.json | jq ".dependencies.\"@nevermined-io/sdk-dtp\"=\"./$PKG2\"" | sponge package.json
 yarn
 yarn run setup:dev
 yarn build

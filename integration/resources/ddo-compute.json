@@ -65,7 +65,7 @@
       "type": "compute",
       "index": 4,
       "serviceEndpoint": "http://node.nevermined.localnet/api/v1/node/services/compute",
-      "templateId": "0x6d21f91932b998fE62B3cc4d883e6aab589Af56b",
+      "templateId": "0x9F204302bEB97Bd34148EC620F5cc44635f0b05c",
       "attributes": {
         "main": {
           "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",

@@ -56,14 +56,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.9.0
+      - uses: nevermined-io/nvm-tools-actions@v0.10.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
           compute: 'true'
-          contracts-version: 'v3.0.0'
-          node-version: 'v1.0.0'
+          contracts-version: 'v3.2.1'
+          node-version: 'v1.2.5'
 
       - name: Install dependencies
         run: |
@@ -104,8 +104,8 @@ jobs:
           opengsn: 'true'
           estuary: 'true'
           compute: 'true'
-          contracts-version: 'v3.0.0'
-          node-version: 'v1.0.0'
+          contracts-version: 'v3.2.1'
+          node-version: 'v1.2.5'
 
       - name: Install dependencies
         run: |
@@ -132,14 +132,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.9.0
+      - uses: nevermined-io/nvm-tools-actions@v0.10.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
           compute: 'true'
-          contracts-version: 'v3.0.0'
-          node-version: 'v1.0.0'
+          contracts-version: 'v3.2.1'
+          node-version: 'v1.2.5'
 
       - name: Install dependencies
         run: |
@@ -176,7 +176,7 @@ jobs:
       - name: Download artifacts
         run: |
           mkdir -p node_modules/@nevermined-io/contracts/artifacts
-          yarn artifacts:download v3.0.0 mumbai public
+          yarn artifacts:download v3.2.1 mumbai public
           ls -l node_modules/@nevermined-io/contracts/artifacts
 
       - name: Run nightly tests

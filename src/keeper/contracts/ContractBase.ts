@@ -105,6 +105,8 @@ export abstract class ContractBase extends Instantiable {
     contract: ethers.Contract,
     progress: (data: any) => void,
   ) {
+    // Uncomment to debug contract calls
+    //console.debug(`Making contract call ....: ${name} - ${from} - ${JSON.stringify(args)}`)
     const methodSignature = this.getSignatureOfMethod(name, args)
     const { gasLimit, value } = txparams
     // make the call
