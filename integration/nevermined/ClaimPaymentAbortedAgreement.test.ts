@@ -80,7 +80,7 @@ describe('NFTs721 Api End-to-End', () => {
     metadata.userId = payload.sub
 
     // conditions
-    ;({ escrowPaymentCondition, transferNft721Condition } = nevermined.keeper.conditions)
+    ;({ transferNft721Condition } = nevermined.keeper.conditions)
 
     // components
     ;({ token } = nevermined.keeper)
