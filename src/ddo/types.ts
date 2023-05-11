@@ -155,7 +155,7 @@ export interface MetaDataExternalResource {
    * @remarks
    * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
    */
-  encryption?: 'dtp'
+  encryption?: 'dtp' | 'dleq'
 }
 
 /**
@@ -382,8 +382,14 @@ export interface AdditionalInformation {
   }
 
   poseidonHash?: string
+  cipher?: string
 
   providerKey?: {
+    x: string
+    y: string
+  }
+
+  secretId?: {
     x: string
     y: string
   }
