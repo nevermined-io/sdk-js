@@ -131,9 +131,18 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       for (const name of assetAttributes.serviceTypes) {
         const service = ddo.findServiceByType(name)
-        const { nftContractAddress, amount, nftTransfer, duration } = nftAttributes || {}
+        const {
+          nftContractAddress,
+          amount,
+          nftTransfer,
+          duration,
+          fulfillAccessTimeout,
+          fulfillAccessTimelock,
+        } = nftAttributes || {}
         const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+
         sat.conditions = fillConditionsWithDDO(
+          name,
           sat.conditions,
           ddo,
           assetAttributes.price,
@@ -143,6 +152,8 @@ export abstract class RegistryBaseApi extends Instantiable {
           amount,
           nftTransfer,
           duration,
+          fulfillAccessTimeout,
+          fulfillAccessTimelock,
         )
       }
 

@@ -78,6 +78,7 @@ describe('Nfts721 operations', async () => {
         serviceTypes: ['nft-sales', 'nft-access'],
         nftContractAddress: nft.address,
       })
+      assert.equal(nftAttributes.fulfillAccessTimelock, 0)
       ddo = await nevermined.nfts721.create(nftAttributes, artist)
     })
 
