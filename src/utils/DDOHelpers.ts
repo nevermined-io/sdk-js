@@ -10,7 +10,7 @@ import { AssetPrice } from '../models'
 import { BigNumber } from './BigNumber'
 
 // DDO Services including a sales process
-const SALES_SERVICES = ['nft-sales', 'access', 'compute', 'nft-sales']
+const SALES_SERVICES = ['access', 'compute', 'nft-sales']
 // Condition Names that are the final dependency for releasing the payment in a service agreement
 const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
 
@@ -89,35 +89,33 @@ export function fillConditionsWithDDO(
   fulfillAccessTimeout = 0,
   fulfillAccessTimelock = 0,
 ): ServiceAgreementTemplateCondition[] {
-  conditions.map((condition) => {
-    if (
-      DEPENDENCIES_RELEASE_CONDITION.includes(condition.name) &&
-      SALES_SERVICES.includes(serviceType)
-    ) {
-      if (fulfillAccessTimeout > 0) {
+  return conditions
+    .map((condition) => {
+      if (
+        DEPENDENCIES_RELEASE_CONDITION.includes(condition.name) &&
+        SALES_SERVICES.includes(serviceType)
+      ) {
         condition.timeout = fulfillAccessTimeout
-      }
-      if (fulfillAccessTimelock > 0) {
         condition.timelock = fulfillAccessTimelock
       }
-    }
-  })
-  return conditions.map((condition) => ({
-    ...condition,
-    parameters: condition.parameters.map((parameter) => ({
-      ...fillParameterWithDDO(
-        parameter,
-        ddo,
-        assetPrice,
-        erc20TokenContract,
-        nftTokenContract,
-        nftHolder,
-        nftAmount,
-        nftTransfer,
-        duration,
-      ),
-    })),
-  }))
+      return condition
+    })
+    .map((condition) => ({
+      ...condition,
+      parameters: condition.parameters.map((parameter) => ({
+        ...fillParameterWithDDO(
+          parameter,
+          ddo,
+          assetPrice,
+          erc20TokenContract,
+          nftTokenContract,
+          nftHolder,
+          nftAmount,
+          nftTransfer,
+          duration,
+        ),
+      })),
+    }))
 }
 
 export function findServiceConditionByName(

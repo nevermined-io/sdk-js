@@ -6,11 +6,11 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
+import { BigNumber, generateId } from '../../src/utils'
 import '../globals'
 import { mineBlocks } from '../utils/utils'
 
-describe('NFTs721 Api End-to-End', () => {
+describe('Claim aborted agreements End-to-End', () => {
   let publisher: Account
   let collector1: Account
   let other: Account
@@ -20,7 +20,7 @@ describe('NFTs721 Api End-to-End', () => {
   let transferNft721Condition: TransferNFT721Condition
   let ddo: DDO
 
-  const metadata = getMetadata()
+  const metadata = getMetadata(Math.random(), generateId())
   let agreementId: string
 
   // Configuration of First Sale:
@@ -38,8 +38,8 @@ describe('NFTs721 Api End-to-End', () => {
 
   let payload: JWTPayload
 
-  const fullfillAccessTimeout = 10
-  const fullfillAccessTimelock = 3
+  const accessTimeout = 10
+  const accessTimelock = 3
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
@@ -109,13 +109,14 @@ describe('NFTs721 Api End-to-End', () => {
         providers: [neverminedNodeAddress],
         serviceTypes: ['nft-sales', 'nft-access'],
         nftContractAddress: nftContract.address,
-        fulfillAccessTimeout: fullfillAccessTimeout,
-        fulfillAccessTimelock: fullfillAccessTimelock,
+        fulfillAccessTimeout: accessTimeout,
+        fulfillAccessTimelock: accessTimelock,
       })
       ddo = await nevermined.nfts721.create(nftAttributes, publisher)
 
       assert.isDefined(ddo)
 
+      console.log(ddo.id)
       // Timeout & Timelock should only be set for the access condition
       assert.equal(
         ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[0]
@@ -125,7 +126,7 @@ describe('NFTs721 Api End-to-End', () => {
       assert.equal(
         ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[1]
           .timeout,
-        fullfillAccessTimeout,
+        accessTimeout,
       )
       assert.equal(
         ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[0]
@@ -135,7 +136,7 @@ describe('NFTs721 Api End-to-End', () => {
       assert.equal(
         ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[1]
           .timelock,
-        fullfillAccessTimelock,
+        accessTimelock,
       )
 
       // Timeout & Timelock should not affect access services
@@ -208,7 +209,7 @@ describe('NFTs721 Api End-to-End', () => {
     })
 
     it('I can order the NFT after the timelock', async () => {
-      await mineBlocks(nevermined, collector1, fullfillAccessTimelock + 1)
+      await mineBlocks(nevermined, collector1, accessTimelock + 1)
 
       const publisherBalanceBefore = await token.balanceOf(publisher.getId())
       const collector1BalanceBefore = await token.balanceOf(collector1.getId())
@@ -272,7 +273,7 @@ describe('NFTs721 Api End-to-End', () => {
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
       assert.isTrue(collector1BalanceBeforeOrder.sub(nftPrice).eq(collector1BalanceAfter))
 
-      await mineBlocks(nevermined, collector1, fullfillAccessTimeout + 1)
+      await mineBlocks(nevermined, collector1, accessTimeout + 1)
 
       try {
         assert.isTrue(

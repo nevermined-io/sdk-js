@@ -140,6 +140,7 @@ export abstract class RegistryBaseApi extends Instantiable {
           fulfillAccessTimelock,
         } = nftAttributes || {}
         const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+
         sat.conditions = fillConditionsWithDDO(
           name,
           sat.conditions,
