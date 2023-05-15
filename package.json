@@ -118,7 +118,7 @@
     "mocha": "^7.2.0",
     "mock-local-storage": "^1.1.15",
     "nyc": "^14.1.1",
-    "ora": "^4.1.1",
+    "ora": "^6.3.0",
     "prettier": "^2.7.1",
     "prettier-package-json": "^2.7.0",
     "resolve-url-loader": "^5.0.0",
