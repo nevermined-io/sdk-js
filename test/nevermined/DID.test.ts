@@ -9,6 +9,26 @@ describe('DID', () => {
     })
   })
 
+  describe('#encode() and #decode()', () => {
+    let did: DID
+    let decoded: DID
+    let encoded: string
+    it('should encode a did', () => {
+      did = DID.generate()
+      encoded = did.getEncoded()
+      assert(encoded)
+    })
+
+    it('should decode a did', () => {
+      decoded = DID.fromEncoded(encoded)
+      assert(decoded)
+    })
+
+    it('decoded did should match before encoding', () => {
+      assert(did.getId === decoded.getId)
+    })
+  })
+
   describe('#parse()', () => {
     it('should parse a valid did', () => {
       const id = 'a'.repeat(64)
