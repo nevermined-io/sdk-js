@@ -42,6 +42,12 @@ export class Nevermined extends Instantiable {
 
     // Nevermined main API
     try {
+      instance.accounts = new AccountsApi(instanceConfig)
+      instance.agreements = new AgreementsApi(instanceConfig)
+      instance.provenance = new ProvenanceApi(instanceConfig)
+      instance.search = new SearchApi(instanceConfig)
+      instance.services = new ServicesApi(instanceConfig)
+      instance.utils = new UtilsApi(instanceConfig)
       instance.keeper = await Keeper.getInstance(instanceConfig)
       await instance.keeper.init()
       instance.assets = new AssetsApi(instanceConfig)
@@ -50,19 +56,14 @@ export class Nevermined extends Instantiable {
         instanceConfig,
         instance.keeper.nftUpgradeable,
       )
+      instance.isKeeperConnected = true
     } catch (error) {
+      instance.isKeeperConnected = false
       Logger.error(error)
       Logger.error(
         "Contracts didn't initialize because for the above mentioned reason. Loading SDK in offchain mode...",
       )
     }
-
-    instance.accounts = new AccountsApi(instanceConfig)
-    instance.agreements = new AgreementsApi(instanceConfig)
-    instance.provenance = new ProvenanceApi(instanceConfig)
-    instance.search = new SearchApi(instanceConfig)
-    instance.services = new ServicesApi(instanceConfig)
-    instance.utils = new UtilsApi(instanceConfig)
 
     return instance
   }
@@ -201,6 +202,11 @@ export class Nevermined extends Instantiable {
    * Utils submodule
    */
   public utils: UtilsApi
+
+  /**
+   * If keeper is connected
+   */
+  public isKeeperConnected: boolean
 
   private constructor() {
     super()

@@ -15,6 +15,10 @@ describe('Sdk working without artifacts', () => {
     nevermined = await Nevermined.getInstance(configCopy)
   })
 
+  it('should keeper be disconnected', () => {
+    assert.isFalse(nevermined.isKeeperConnected)
+  })
+
   it('should login to metamask without artifacts', async () => {
     const node = HDNode.fromMnemonic(process.env.SEED_WORDS)
     const accounts: ethers.Wallet[] = []
