@@ -52,7 +52,9 @@ export class Nevermined extends Instantiable {
       )
     } catch (error) {
       Logger.error(error)
-      Logger.error("Contracts didn't initialize because of error. Loading SDK in offchain mode...")
+      Logger.error(
+        "Contracts didn't initialize because for the above mentioned reason. Loading SDK in offchain mode...",
+      )
     }
 
     instance.accounts = new AccountsApi(instanceConfig)
