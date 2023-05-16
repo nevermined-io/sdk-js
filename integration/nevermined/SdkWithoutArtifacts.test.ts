@@ -8,9 +8,10 @@ import { HDNode } from 'ethers/lib/utils'
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined
   let account: Account
+  let configCopy
 
-  beforeEach(async () => {
-    const configCopy = { ...config }
+  before(async () => {
+    configCopy = { ...config }
     configCopy.artifactsFolder = undefined
     nevermined = await Nevermined.getInstance(configCopy)
   })
@@ -27,8 +28,8 @@ describe('Sdk working without artifacts', () => {
       const wallet = new ethers.Wallet(acc.privateKey)
       accounts.push(wallet)
     }
-    config.accounts = accounts
-    nevermined = await Nevermined.getInstance(config)
+    configCopy.accounts = accounts
+    nevermined = await Nevermined.getInstance(configCopy)
 
     // Accounts
     ;[account] = await nevermined.accounts.list()
@@ -37,12 +38,12 @@ describe('Sdk working without artifacts', () => {
 
     await nevermined.services.marketplace.login(clientAssertion)
 
-    const payload = decodeJwt(config.marketplaceAuthToken)
+    const payload = decodeJwt(configCopy.marketplaceAuthToken)
 
     assert.isDefined(payload.sub)
   })
 
-  it('Should be able to log in markeplace without artifacts', async () => {
+  it('Should be able to query the markeplace without artifacts', async () => {
     const query: SearchQuery = {
       offset: 100,
       page: 1,
