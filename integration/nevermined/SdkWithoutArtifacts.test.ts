@@ -10,8 +10,9 @@ describe('Sdk working without artifacts', () => {
   let account: Account
 
   beforeEach(async () => {
-    config.artifactsFolder = undefined
-    nevermined = await Nevermined.getInstance(config)
+    const configCopy = { ...config }
+    configCopy.artifactsFolder = undefined
+    nevermined = await Nevermined.getInstance(configCopy)
   })
 
   it('should login to metamask without artifacts', async () => {
