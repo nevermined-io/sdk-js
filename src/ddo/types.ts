@@ -166,6 +166,8 @@ export interface WebService {
 
   endpoints?: { [verb: string]: string }[]
 
+  openEndpoints?: string[]
+
   internalAttributes?: WebServiceInternalAttributes
 
   encryptedAttributes?: string

@@ -1,3 +1,4 @@
+import { base64url } from 'jose'
 import { generateId } from '../utils'
 
 const prefix = 'did:nv:'
@@ -38,6 +39,14 @@ export class DID {
   }
 
   /**
+   * Returns a new DID.
+   * @returns {@link DID}
+   */
+  public static fromEncoded(encoded: string): DID {
+    return new DID(Buffer.from(base64url.decode(encoded)).toString('hex'))
+  }
+
+  /**
    * ID.
    */
   private id: string
@@ -60,5 +69,9 @@ export class DID {
    */
   public getId(): string {
     return this.id
+  }
+
+  public getEncoded(): string {
+    return base64url.encode(Buffer.from(this.id, 'hex'))
   }
 }

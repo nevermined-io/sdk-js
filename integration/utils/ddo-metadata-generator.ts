@@ -65,6 +65,7 @@ const webServiceMetadata: Partial<MetaData> = {
           GET: 'http://127.0.0.1:3000',
         },
       ],
+      openEndpoints: ['/openapi.json', '/.well-known/(.*)'],
       internalAttributes: {
         authentication: {
           type: 'oauth',
