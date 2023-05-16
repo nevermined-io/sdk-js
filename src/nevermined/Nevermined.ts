@@ -11,6 +11,7 @@ import { NFT721Api } from './api/nfts/NFT721Api'
 import { SearchApi } from './api/SearchApi'
 import { ServicesApi } from './api/ServicesApi'
 import { ComputeApi } from './api'
+import { Logger } from '../sdk'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -39,15 +40,23 @@ export class Nevermined extends Instantiable {
     }
     instance.setInstanceConfig(instanceConfig)
 
-    instance.keeper = await Keeper.getInstance(instanceConfig)
-    await instance.keeper.init()
-
     // Nevermined main API
+    try {
+      instance.keeper = await Keeper.getInstance(instanceConfig)
+      await instance.keeper.init()
+      instance.assets = new AssetsApi(instanceConfig)
+      instance.compute = new ComputeApi(instanceConfig)
+      instance.nfts1155 = await NFT1155Api.getInstance(
+        instanceConfig,
+        instance.keeper.nftUpgradeable,
+      )
+    } catch (error) {
+      Logger.error(error)
+      Logger.error("Contracts didn't initialize because of error. Loading SDK in offchain mode...")
+    }
+
     instance.accounts = new AccountsApi(instanceConfig)
     instance.agreements = new AgreementsApi(instanceConfig)
-    instance.assets = new AssetsApi(instanceConfig)
-    instance.compute = new ComputeApi(instanceConfig)
-    instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
     instance.provenance = new ProvenanceApi(instanceConfig)
     instance.search = new SearchApi(instanceConfig)
     instance.services = new ServicesApi(instanceConfig)
