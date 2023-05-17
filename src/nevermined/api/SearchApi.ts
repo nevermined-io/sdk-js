@@ -36,8 +36,9 @@ export class SearchApi extends Instantiable {
 
   /**
    * Search over the assets using a keyword.
-   * @param text - Text to filter the assets.
-   * @returns A list of {@link DDO}s.
+   * @param did - DID of the asset.
+   * @param metadataServiceEndpoint - Metadata service endpoint.
+   * @returns DDO of the asset.
    */
   public async byDID(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
     return this.nevermined.services.metadata.retrieveDDO(did, metadataServiceEndpoint)

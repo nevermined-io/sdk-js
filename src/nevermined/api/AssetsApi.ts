@@ -3,7 +3,7 @@ import { Account } from '../Account'
 import { SubscribablePromise, didZeroX, getNftContractAddressFromService } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
-import { AssetError } from '../../errors'
+import { AssetError, DDOError } from '../../errors'
 import { Nevermined } from '../../sdk'
 import { ContractReceipt } from 'ethers'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
@@ -435,6 +435,7 @@ export class AssetsApi extends RegistryBaseApi {
    * @param ddo - The DDO of the asset.
    * @param serviceType - The service type to use to get the NFT contract address.
    *
+   * @throws DDOError - If the NFT contract address is not found in the DDO.
    * @returns The NFT contract address.
    */
   public getNftContractAddress(ddo: DDO, serviceType: ServiceType = 'nft-access') {
@@ -443,6 +444,6 @@ export class AssetsApi extends RegistryBaseApi {
       return getNftContractAddressFromService(service as ServiceNFTAccess)
     else if (service.type === 'nft-sales')
       return getNftContractAddressFromService(service as ServiceNFTSales)
-    else return null
+    throw new DDOError(`Unable to find NFT contract address in service ${serviceType}`)
   }
 }
