@@ -42,7 +42,7 @@ describe('Search Asset', () => {
     await nevermined.assets.create(AssetAttributes.getInstance({ metadata, appId }), account)
 
     // wait for elasticsearch
-    await sleep(2000)
+    await sleep(4000)
   })
 
   it('should search by text', async () => {
