@@ -1,8 +1,9 @@
-import { Service, ServiceType } from '../../ddo'
+import { DDO, Service, ServiceType } from '../../ddo'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { QueryResult } from '../../services'
 import {
   Account,
+  DID,
   didPrefixed,
   EventOptions,
   findServiceConditionByName,
@@ -31,6 +32,16 @@ export class SearchApi extends Instantiable {
   constructor(config: InstantiableConfig) {
     super()
     this.setInstanceConfig(config)
+  }
+
+  /**
+   * Search over the assets using a keyword.
+   * @param did - DID of the asset.
+   * @param metadataServiceEndpoint - Metadata service endpoint.
+   * @returns DDO of the asset.
+   */
+  public async byDID(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
+    return this.nevermined.services.metadata.retrieveDDO(did, metadataServiceEndpoint)
   }
 
   /**
