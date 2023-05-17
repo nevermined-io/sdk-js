@@ -84,4 +84,19 @@ describe('Search Asset', () => {
     assert.equal(ddos.length, 2)
     ddos.map((ddo) => assert.instanceOf(ddo, DDO))
   })
+
+  it('should be able get the assets by DID', async () => {
+    const { results: ddos } = await nevermined.search.byText(
+      'Test2',
+      undefined,
+      undefined,
+      undefined,
+      appId,
+    )
+
+    assert.equal(ddos.length, 2)
+    ddos.map((ddo) => {
+      nevermined.search.byDID(ddo.id).then((ddo) => assert.instanceOf(ddo, DDO))
+    })
+  })
 })

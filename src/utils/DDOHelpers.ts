@@ -5,6 +5,8 @@ import {
   ConditionType,
   Service,
   ServiceType,
+  ServiceNFTAccess,
+  ServiceNFTSales,
 } from '../ddo'
 import { AssetPrice } from '../models'
 import { BigNumber } from './BigNumber'
@@ -193,4 +195,13 @@ export function getNftHolderFromService(service: Service): string {
 export function getNftAmountFromService(service: Service): BigNumber {
   const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
   return BigNumber.from(nftTransferCondition.parameters.find((p) => p.name === '_numberNfts').value)
+}
+
+export function getNftContractAddressFromService(
+  service: ServiceNFTAccess | ServiceNFTSales,
+): string {
+  const paramName = '_contractAddress'
+  const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+  const nftTransferCondition = findServiceConditionByName(service, conditionName)
+  return nftTransferCondition.parameters.find((p) => p.name === paramName).value as string
 }

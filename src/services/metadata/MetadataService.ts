@@ -193,7 +193,7 @@ export class MetadataService extends MarketplaceApi {
    * @param did - DID of the asset.
    * @returns DDO of the asset.
    */
-  private async retrieveDDO(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
+  public async retrieveDDO(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
     let fullUrl: string
     if (did) {
       did = did && DID.parse(did)

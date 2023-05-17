@@ -1,6 +1,6 @@
-import { DDO, MetaData, ServiceType } from '../../ddo'
+import { DDO, MetaData, ServiceNFTAccess, ServiceNFTSales, ServiceType } from '../../ddo'
 import { Account } from '../Account'
-import { SubscribablePromise, didZeroX } from '../../utils'
+import { SubscribablePromise, didZeroX, getNftContractAddressFromService } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
 import { AssetError } from '../../errors'
@@ -429,21 +429,20 @@ export class AssetsApi extends RegistryBaseApi {
    *
    * @example
    * ```ts
-   * // TODO
+   * nevermined.assets.getNftContractAddress(ddo)
    * ```
    *
    * @param ddo - The DDO of the asset.
+   * @param serviceType - The service type to use to get the NFT contract address.
    *
    * @returns The NFT contract address.
    */
-  public getNftContractAddress(ddo: DDO) {
-    const service = ddo.findServiceByType('nft-access')
-    if (service) {
-      const cond = service.attributes.serviceAgreementTemplate.conditions.find(
-        (c) => c.name === 'nftHolder',
-      )
-      return !cond ? null : cond.parameters.find((p) => p.name === '_contractAddress').value
-    }
-    return null
+  public getNftContractAddress(ddo: DDO, serviceType: ServiceType = 'nft-access') {
+    const service = ddo.findServiceByType(serviceType)
+    if (service.type === 'nft-access')
+      return getNftContractAddressFromService(service as ServiceNFTAccess)
+    else if (service.type === 'nft-sales')
+      return getNftContractAddressFromService(service as ServiceNFTSales)
+    else return null
   }
 }
