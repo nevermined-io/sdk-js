@@ -38,7 +38,6 @@ jobs:
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
-          NO_GRAPH: true
           GRAPH_HTTP_URI: ''
         run: yarn run integration:cover
 
