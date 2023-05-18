@@ -32,6 +32,7 @@ jobs:
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
           NO_GRAPH: true
+          GRAPH_HTTP_URI: ''
           NEVERMINED_NODE_URI: http://node.nevermined.localnet
           WEB3_PROVIDER_URL: http://contracts.nevermined.localnet
         run: |
