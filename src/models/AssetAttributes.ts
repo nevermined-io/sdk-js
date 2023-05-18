@@ -78,7 +78,7 @@ export class AssetAttributes {
     predefinedAssetServices: [] as Service[], // By default there in additional services to add to the asset
     providers: [], // By default there are no addresses registered as providers for the asset
     appId: '', // No appId by default
-    fulfillAccessTimeout: 0, // By default the access condition will never expire
+    fulfillAccessTimeout: 90, // By default the access condition will never expire
     fulfillAccessTimelock: 0, // By default the access condition can be fulfilled at any time
   }
 
