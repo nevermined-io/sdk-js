@@ -10,7 +10,7 @@ describe('SubgraphEvent', () => {
   let executeTransaction: () => Promise<any>
 
   before(async function () {
-    if (process.env.NO_GRAPH === 'true') {
+    if (process.env['GRAPH_HTTP_URI'] === '') {
       this.skip()
     }
     config.graphHttpUri =
