@@ -593,9 +593,22 @@ export abstract class RegistryBaseApi extends Instantiable {
       }
 
       // Checking the agreementId was created on-chain with the correct DID associated to it
-      const agreementData = await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
-        agreementId,
-      )
+      let agreementData
+      if (serviceType === 'compute') {
+        agreementData =
+          await this.nevermined.keeper.templates.escrowComputeExecutionTemplate.getAgreementData(
+            agreementId,
+          )
+      } else if (serviceType.startsWith('nft')) {
+        agreementData = await this.nevermined.keeper.templates.nftSalesTemplate.getAgreementData(
+          agreementId,
+        )
+      } else {
+        agreementData = await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
+          agreementId,
+        )
+      }
+
       if (
         agreementData.accessConsumer === ZeroAddress ||
         agreementData.accessConsumer.toLowerCase() !== consumer.getId().toLowerCase()
