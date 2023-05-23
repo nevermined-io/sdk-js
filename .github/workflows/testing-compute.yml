@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.10.0
+      - uses: nevermined-io/nvm-tools-actions@v0.11.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
@@ -31,7 +31,7 @@ jobs:
       - name: Run compute integration tests
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
-          NO_GRAPH: true
+          GRAPH_HTTP_URI: ''
           NEVERMINED_NODE_URI: http://node.nevermined.localnet
           WEB3_PROVIDER_URL: http://contracts.nevermined.localnet
         run: |
