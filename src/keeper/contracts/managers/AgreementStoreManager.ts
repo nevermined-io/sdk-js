@@ -2,6 +2,7 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
+import { KeeperError } from '../../../errors'
 
 export interface AgreementData {
   did: string
@@ -18,11 +19,11 @@ export class AgreementStoreManager extends ContractBase {
   templates: any
 
   public static async getInstance(config: InstantiableConfig): Promise<AgreementStoreManager> {
-    const templateStoreManeger: AgreementStoreManager = new AgreementStoreManager(
+    const templateStoreManager: AgreementStoreManager = new AgreementStoreManager(
       'AgreementStoreManager',
     )
-    await templateStoreManeger.init(config)
-    return templateStoreManeger
+    await templateStoreManager.init(config)
+    return templateStoreManager
   }
 
   public setTemplates(temp: any) {
@@ -39,7 +40,17 @@ export class AgreementStoreManager extends ContractBase {
 
   public async getAgreement(agreementId: string): Promise<AgreementData> {
     const templateId: string = await this.call('getAgreementTemplate', [zeroX(agreementId)])
+
+    if (!this.templates[templateId]) {
+      throw new KeeperError(`Could not find template for agreementId: ${agreementId}`)
+    }
+
     const events = await this.templates[templateId].getAgreementCreatedEvent(agreementId)
+
+    if (!Array.isArray(events) || events.length == 0) {
+      throw new KeeperError(`Could not find agreement with id: ${agreementId}`)
+    }
+
     const values = events.map((e) => e.args || e)
     const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] = values
     return {

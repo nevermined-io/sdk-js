@@ -263,6 +263,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param nftHolder - The address of the current owner of the NFT.
    * @param nftReceiver - The address where the NFT should be transferred.
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
+   * @param did - The DID of the NFT to claim.
    *
    * @returns true if the transfer was successful.
    */
@@ -271,8 +272,9 @@ export class NFT1155Api extends NFTsBaseApi {
     nftHolder: string,
     nftReceiver: string,
     numberEditions: BigNumber = BigNumber.from(1),
+    did?: string,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, numberEditions, 1155)
+    return await this.claimNFT(agreementId, nftHolder, nftReceiver, numberEditions, 1155, did)
   }
 
   /**
