@@ -30,7 +30,7 @@ export class NFT721Api extends NFTsBaseApi {
    * )
    * ```
    *
-   * @param cpnfig - The Nevermined config
+   * @param config - The Nevermined config
    * @param nftContractAddress - If the Nft721 Contract is deployed in an address it will connect to that contract
    * @returns The NFTs 721 API instance {@link NFT721Api}.
    */
@@ -63,7 +63,7 @@ export class NFT721Api extends NFTsBaseApi {
   }
 
   /**
-   * Creates a new Nevermined asset associted to a NFT (ERC-721).
+   * Creates a new Nevermined asset associated to a NFT (ERC-721).
    *
    * @example
    * ```ts
@@ -409,9 +409,6 @@ export class NFT721Api extends NFTsBaseApi {
    */
   public async ownerOfTokenId(tokenId: string) {
     return this.nftContract.ownerOf(tokenId)
-    // return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
-    //     tokenId
-    // )
   }
 
   /**
@@ -419,7 +416,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @example
    * ```ts
-   * const owner = await nevermined.nfts721.ownerOfAsset(ddo.id, nftTokebnAddress)
+   * const owner = await nevermined.nfts721.ownerOfAsset(ddo.id, nftTokenAddress)
    * ```
    *
    * @param did - The Decentralized identifier of the NFT asset.

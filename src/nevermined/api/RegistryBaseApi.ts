@@ -275,7 +275,7 @@ export abstract class RegistryBaseApi extends Instantiable {
         }
 
         if (nftAttributes.royaltyAttributes != undefined) {
-          console.log(`Setting up royalties`)
+          this.logger.log(`Setting up royalties`)
 
           observer.next(CreateProgressStep.SettingRoyaltyScheme)
           await didRegistry.setDIDRoyalties(
