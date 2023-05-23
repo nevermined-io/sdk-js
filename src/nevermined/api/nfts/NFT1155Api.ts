@@ -263,7 +263,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param nftHolder - The address of the current owner of the NFT.
    * @param nftReceiver - The address where the NFT should be transferred.
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
-   * @param did - The DID of the NFT to claim.
+   * @param did - The Decentralized Identifier of the asset.
    *
    * @returns true if the transfer was successful.
    */

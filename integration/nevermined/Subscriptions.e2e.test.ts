@@ -203,6 +203,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         agreementId,
         editor.getId(),
         subscriber.getId(),
+        subscriptionDDO.id,
       )
       assert.isTrue(receipt)
 

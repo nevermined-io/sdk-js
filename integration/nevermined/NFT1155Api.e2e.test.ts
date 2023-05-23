@@ -353,6 +353,7 @@ function makeTest(isCustom) {
           artist.getId(),
           collector1.getId(),
           numberEditions,
+          ddo.id,
         )
         assert.isTrue(result)
       })
