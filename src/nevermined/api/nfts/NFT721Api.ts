@@ -178,6 +178,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param agreementId - The NFT sales agreement id.
    * @param nftHolder - The address of the current owner of the NFT.
    * @param nftReceiver - The address where the NFT should be transferred.
+   * @param did - The Decentralized Identifier of the asset.
    *
    * @returns true if the transfer was successful.
    */
@@ -185,8 +186,9 @@ export class NFT721Api extends NFTsBaseApi {
     agreementId: string,
     nftHolder: string,
     nftReceiver: string,
+    did?: string,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, BigNumber.from(1), 721)
+    return await this.claimNFT(agreementId, nftHolder, nftReceiver, BigNumber.from(1), 721, did)
   }
 
   /**

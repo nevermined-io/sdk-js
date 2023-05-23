@@ -10,7 +10,13 @@ import {
 import { AssetAttributes, NFTAttributes } from '../../models'
 import { Account, CreateProgressStep, DID } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import { SubscribablePromise, zeroX, generateId, fillConditionsWithDDO } from '../../utils'
+import {
+  SubscribablePromise,
+  zeroX,
+  generateId,
+  fillConditionsWithDDO,
+  ZeroAddress,
+} from '../../utils'
 import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
@@ -587,10 +593,13 @@ export abstract class RegistryBaseApi extends Instantiable {
       }
 
       // Checking the agreementId was created on-chain with the correct DID associated to it
-      const agreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+      const agreementData = await this.nevermined.keeper.templates.accessTemplate.getAgreementData(
         agreementId,
       )
-      if (agreementData.did.toLowerCase() !== did.toLowerCase().replace('did:nv:', '0x'))
+      if (
+        agreementData.accessConsumer === ZeroAddress ||
+        agreementData.accessConsumer.toLowerCase() !== consumer.getId().toLowerCase()
+      )
         throw new AssetError(
           `Agreement Id ${agreementId} not found on-chain. Agreement Data ${JSON.stringify(
             agreementData,

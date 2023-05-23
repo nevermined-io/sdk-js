@@ -47,6 +47,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * @param nftReceiver - The address where the NFT should be transferred.
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
    * @param ercType  - The Type of the NFT ERC (1155 or 721).
+   * @param did - The DID of the asset.
    *
    * @returns true if the transfer was successful.
    */
@@ -56,6 +57,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     nftReceiver: string,
     numberEditions: BigNumber = BigNumber.from(1),
     ercType: ERCType = 1155,
+    did?: string,
   ): Promise<boolean> {
     return await this.nevermined.services.node.claimNFT(
       agreementId,
@@ -63,53 +65,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       nftReceiver,
       numberEditions,
       ercType,
-    )
-  }
-
-  /**
-   * Asks the Node to transfer the NFT on behalf of the publisher.
-   *
-   * @deprecated Use the `claim` method instead
-   * @remarks
-   * This is useful when the consumer does not want to wait for the publisher
-   * to transfer the NFT once the payment is made. Assuming the publisher delegated
-   * transfer permissions to the Node.
-   *
-   * One example would be a marketplace where the user wants to get access to the NFT
-   * as soon as the payment is made
-   *
-   * @example
-   * ```ts
-   * const receipt = await nevermined.nfts721.transferForDelegate(
-   *           agreementId,
-   *           editor.getId(),
-   *           subscriber.getId(),
-   *           nftAmount,
-   *           721
-   *       )
-   * ```
-   *
-   * @param agreementId - The NFT sales agreement id.
-   * @param nftHolder - The address of the current owner of the NFT.
-   * @param nftReceiver - The address where the NFT should be transferred.
-   * @param nftAmount - The amount of NFTs to transfer.
-   * @param ercType  - The Type of the NFT ERC (1155 or 721).
-   *
-   * @returns true if the transfer was successful.
-   */
-  public async transferForDelegate(
-    agreementId: string,
-    nftHolder: string,
-    nftReceiver: string,
-    nftAmount: BigNumber,
-    ercType: ERCType = 1155,
-  ): Promise<boolean> {
-    return await this.nevermined.services.node.claimNFT(
-      agreementId,
-      nftHolder,
-      nftReceiver,
-      nftAmount,
-      ercType,
+      did,
     )
   }
 
