@@ -384,7 +384,6 @@ export class NeverminedNode extends Instantiable {
       const agreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
         agreementId,
       )
-      console.log(`Agreement DATA: ${JSON.stringify(agreementData)}`)
       const response = await this.nevermined.utils.fetch.post(
         this.getClaimNftEndpoint(),
         JSON.stringify({
