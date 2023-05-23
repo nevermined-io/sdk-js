@@ -18,7 +18,7 @@ if [ -z "$TAG" ]; then
   TAG="common"
 fi
 
-REPO_URL=http://artifacts-nevermined-rocks.s3.amazonaws.com
+REPO_URL=https://artifacts.nevermined.network
 declare -A NETWORKS_MAP
 NETWORKS_MAP=( ["mainnet"]="1" ["rinkeby"]="4" ["kovan"]="42" ["matic"]="137" ["mumbai"]="80001" ["celo-alfajores"]="44787" ["celo"]="42220" ["aurora"]="1313161554" ["aurora-testnet"]="1313161555" )
 
