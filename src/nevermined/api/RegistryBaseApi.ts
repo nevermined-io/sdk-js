@@ -586,6 +586,17 @@ export abstract class RegistryBaseApi extends Instantiable {
         throw new AssetError(`Error creating ${serviceType} agreement`)
       }
 
+      // Checking the agreementId was created on-chain with the correct DID associated to it
+      const agreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+        agreementId,
+      )
+      if (agreementData.did.toLowerCase() !== did.toLowerCase().replace('did:nv:', '0x'))
+        throw new AssetError(
+          `Agreement Id ${agreementId} not found on-chain. Agreement Data ${JSON.stringify(
+            agreementData,
+          )}`,
+        )
+
       return agreementId
     })
   }

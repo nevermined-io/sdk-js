@@ -1,5 +1,5 @@
 import { ServiceType, DDO, ImmutableBackends, MetaDataExternalResource } from '../../ddo'
-import { Account } from '../../nevermined'
+import { Account, DID } from '../../nevermined'
 import { noZeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
@@ -380,10 +380,16 @@ export class NeverminedNode extends Instantiable {
     ercType: ERCType = 1155,
   ): Promise<boolean> {
     try {
+      // We get the DID on-chain to make sure the DID and agreement id exist
+      const agreementData = await this.nevermined.keeper.agreementStoreManager.getAgreement(
+        agreementId,
+      )
+      console.log(`Agreement DATA: ${JSON.stringify(agreementData)}`)
       const response = await this.nevermined.utils.fetch.post(
         this.getClaimNftEndpoint(),
         JSON.stringify({
           agreementId,
+          did: DID.parse(agreementData.did).getDid(),
           nftHolder,
           nftReceiver,
           nftAmount: nftAmount.toString(),
