@@ -128,7 +128,7 @@
     "tar": "^6.1.11",
     "terser-webpack-plugin": "^5.3.1",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.23.23",
+    "typedoc": "^0.24.7",
     "typedoc-plugin-markdown": "^3.13.4",
     "typescript": "^5.0.4",
     "url": "^0.11.0",
