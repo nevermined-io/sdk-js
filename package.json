@@ -70,7 +70,7 @@
     "https-browserify": "^1.0.0",
     "jose": "^4.5.1",
     "js-file-download": "^0.4.12",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.3.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "save-file": "^2.3.1",
