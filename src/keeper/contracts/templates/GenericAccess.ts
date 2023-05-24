@@ -14,6 +14,8 @@ export interface GenericAccess {
     observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string>
 
+  getAgreementData(agreementId: string): Promise<{ accessProvider: string; accessConsumer: string }>
+
   params(consumer: any, ...args): any
   contractName: string
 }
