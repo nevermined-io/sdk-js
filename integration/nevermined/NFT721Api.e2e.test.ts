@@ -124,6 +124,15 @@ describe('NFTs721 Api End-to-End', () => {
       const owner = await nevermined.nfts721.ownerOfAsset(ddo.id)
       assert.equal(owner, artist.getId())
     })
+
+    it('should give operator role to Nevermined', async () => {
+      assert.isTrue(
+        await nevermined.nfts721.isOperator(
+          ddo.id,
+          nevermined.keeper.conditions.transferNft721Condition.address,
+        ),
+      )
+    })
   })
 
   describe('As a collector I want to buy some art', () => {

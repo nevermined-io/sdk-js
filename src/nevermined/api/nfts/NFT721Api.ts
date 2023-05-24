@@ -635,4 +635,8 @@ export class NFT721Api extends NFTsBaseApi {
   public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
     return this.nevermined.services.node.getSubscriptionToken(did, account)
   }
+
+  public async isOperator(did: string, address: string): Promise<boolean> {
+    return super.isOperator(did, address, 721)
+  }
 }

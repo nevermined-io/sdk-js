@@ -1,17 +1,30 @@
-import { assert } from 'chai'
-import { Account, Nevermined, MetaData, AssetAttributes } from '../../src'
+import chai, { assert } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+import {
+  Account,
+  Nevermined,
+  MetaData,
+  AssetAttributes,
+  DDO,
+  didZeroX,
+  generateId,
+  ZeroAddress,
+} from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
-import { sleep } from '../utils/utils'
+import { mineBlocks, sleep } from '../utils/utils'
+
+chai.use(chaiAsPromised)
 
 describe('Agreement Store Manager', () => {
   let nevermined: Nevermined
-
   let account1: Account
   let account2: Account
-
   let newMetadata: (token: string) => MetaData
+  let agreementId: string
+  let ddo: DDO
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
@@ -35,7 +48,7 @@ describe('Agreement Store Manager', () => {
     const assetAttributes = AssetAttributes.getInstance({
       metadata: newMetadata(config.marketplaceAuthToken),
     })
-    const ddo = await nevermined.assets.create(assetAttributes, account1)
+    ddo = await nevermined.assets.create(assetAttributes, account1)
 
     let agreements = await nevermined.agreements.getAgreements(ddo.id)
     const num = agreements.length
@@ -43,7 +56,7 @@ describe('Agreement Store Manager', () => {
     await account2.requestTokens(
       +ddo.getPriceByService() * 10 ** -(await nevermined.keeper.token.decimals()),
     )
-    const agreementId = await nevermined.assets.order(ddo.id, account2)
+    agreementId = await nevermined.assets.order(ddo.id, account2)
 
     // wait for the graph to pickup the event
     await sleep(3000)
@@ -56,5 +69,35 @@ describe('Agreement Store Manager', () => {
 
     assert.isTrue(agreementFound != undefined)
     assert.equal(agreementFound.agreementId, agreementId)
+  })
+
+  it('should get the agreement data for an agreementId', async () => {
+    const agreementData = await nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+    assert.equal(didZeroX(ddo.id), agreementData.did)
+    assert.equal(agreementId, agreementData.agreementId)
+  })
+
+  it('should raise a keeper error if the template is not found', async () => {
+    const randomId = `0x${generateId()}`
+    await assert.isRejected(
+      nevermined.keeper.agreementStoreManager.getAgreement(randomId),
+      /Could not find template for agreementId/,
+    )
+  })
+
+  it('should raise a keeper error if the agreement is not found', async () => {
+    const randomId = `0x${generateId()}`
+
+    // trick agreementStoreManager to think there exists a template for the randomId
+    const accessTemplate = nevermined.keeper.getTemplateByName('AccessTemplate')
+    nevermined.keeper.agreementStoreManager.addTemplate(ZeroAddress, accessTemplate)
+
+    const assertionPromise = assert.isRejected(
+      nevermined.keeper.agreementStoreManager.getAgreement(randomId),
+      /Could not find agreement with id/,
+    )
+
+    await mineBlocks(nevermined, account2, 1)
+    await assertionPromise
   })
 })
