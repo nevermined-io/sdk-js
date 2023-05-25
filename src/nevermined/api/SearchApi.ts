@@ -582,6 +582,6 @@ export class SearchApi extends Instantiable {
 
     const nftContractAddress = getNftContractAddressFromService(nftSalesService)
 
-    return this.servicesByNftContract(nftContractAddress, offset, page, sort, appId)
+    return this.datasetsByNftContract(nftContractAddress, offset, page, sort, appId)
   }
 }
