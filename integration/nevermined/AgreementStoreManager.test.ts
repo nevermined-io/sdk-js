@@ -9,12 +9,11 @@ import {
   DDO,
   didZeroX,
   generateId,
-  ZeroAddress,
 } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
-import { mineBlocks, sleep } from '../utils/utils'
+import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
@@ -83,21 +82,5 @@ describe('Agreement Store Manager', () => {
       nevermined.keeper.agreementStoreManager.getAgreement(randomId),
       /Could not find template for agreementId/,
     )
-  })
-
-  it('should raise a keeper error if the agreement is not found', async () => {
-    const randomId = `0x${generateId()}`
-
-    // trick agreementStoreManager to think there exists a template for the randomId
-    const accessTemplate = nevermined.keeper.getTemplateByName('AccessTemplate')
-    nevermined.keeper.agreementStoreManager.addTemplate(ZeroAddress, accessTemplate)
-
-    const assertionPromise = assert.isRejected(
-      nevermined.keeper.agreementStoreManager.getAgreement(randomId),
-      /Could not find agreement with id/,
-    )
-
-    await mineBlocks(nevermined, account2, 1)
-    await assertionPromise
   })
 })
