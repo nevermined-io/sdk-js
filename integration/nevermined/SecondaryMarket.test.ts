@@ -360,6 +360,7 @@ describe('Secondary Markets', () => {
           await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
         nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+          'nft-sales',
           nftSalesTemplateConditions,
           ddo,
           assetPrice2,

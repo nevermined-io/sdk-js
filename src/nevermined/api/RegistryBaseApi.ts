@@ -10,7 +10,13 @@ import {
 import { AssetAttributes, NFTAttributes } from '../../models'
 import { Account, CreateProgressStep, DID } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import { SubscribablePromise, zeroX, generateId, fillConditionsWithDDO } from '../../utils'
+import {
+  SubscribablePromise,
+  zeroX,
+  generateId,
+  fillConditionsWithDDO,
+  ZeroAddress,
+} from '../../utils'
 import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
@@ -131,9 +137,18 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       for (const name of assetAttributes.serviceTypes) {
         const service = ddo.findServiceByType(name)
-        const { nftContractAddress, amount, nftTransfer, duration } = nftAttributes || {}
+        const {
+          nftContractAddress,
+          amount,
+          nftTransfer,
+          duration,
+          fulfillAccessTimeout,
+          fulfillAccessTimelock,
+        } = nftAttributes || {}
         const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+
         sat.conditions = fillConditionsWithDDO(
+          name,
           sat.conditions,
           ddo,
           assetAttributes.price,
@@ -143,6 +158,8 @@ export abstract class RegistryBaseApi extends Instantiable {
           amount,
           nftTransfer,
           duration,
+          fulfillAccessTimeout,
+          fulfillAccessTimelock,
         )
       }
 
@@ -264,7 +281,7 @@ export abstract class RegistryBaseApi extends Instantiable {
         }
 
         if (nftAttributes.royaltyAttributes != undefined) {
-          console.log(`Setting up royalties`)
+          this.logger.log(`Setting up royalties`)
 
           observer.next(CreateProgressStep.SettingRoyaltyScheme)
           await didRegistry.setDIDRoyalties(
@@ -574,6 +591,19 @@ export abstract class RegistryBaseApi extends Instantiable {
       if (!agreementId) {
         throw new AssetError(`Error creating ${serviceType} agreement`)
       }
+
+      // Checking the agreementId was created on-chain with the correct DID associated to it
+      const agreementData = await template.getAgreementData(agreementId)
+
+      if (
+        agreementData.accessConsumer === ZeroAddress ||
+        agreementData.accessConsumer.toLowerCase() !== consumer.getId().toLowerCase()
+      )
+        throw new AssetError(
+          `Agreement Id ${agreementId} not found on-chain. Agreement Data ${JSON.stringify(
+            agreementData,
+          )}`,
+        )
 
       return agreementId
     })

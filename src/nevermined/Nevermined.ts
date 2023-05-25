@@ -11,6 +11,7 @@ import { NFT721Api } from './api/nfts/NFT721Api'
 import { SearchApi } from './api/SearchApi'
 import { ServicesApi } from './api/ServicesApi'
 import { ComputeApi } from './api'
+import { Logger } from '../sdk'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -39,19 +40,30 @@ export class Nevermined extends Instantiable {
     }
     instance.setInstanceConfig(instanceConfig)
 
-    instance.keeper = await Keeper.getInstance(instanceConfig)
-    await instance.keeper.init()
-
     // Nevermined main API
-    instance.accounts = new AccountsApi(instanceConfig)
-    instance.agreements = new AgreementsApi(instanceConfig)
-    instance.assets = new AssetsApi(instanceConfig)
-    instance.compute = new ComputeApi(instanceConfig)
-    instance.nfts1155 = await NFT1155Api.getInstance(instanceConfig, instance.keeper.nftUpgradeable)
-    instance.provenance = new ProvenanceApi(instanceConfig)
-    instance.search = new SearchApi(instanceConfig)
-    instance.services = new ServicesApi(instanceConfig)
-    instance.utils = new UtilsApi(instanceConfig)
+    try {
+      instance.accounts = new AccountsApi(instanceConfig)
+      instance.agreements = new AgreementsApi(instanceConfig)
+      instance.provenance = new ProvenanceApi(instanceConfig)
+      instance.search = new SearchApi(instanceConfig)
+      instance.services = new ServicesApi(instanceConfig)
+      instance.utils = new UtilsApi(instanceConfig)
+      instance.keeper = await Keeper.getInstance(instanceConfig)
+      await instance.keeper.init()
+      instance.assets = new AssetsApi(instanceConfig)
+      instance.compute = new ComputeApi(instanceConfig)
+      instance.nfts1155 = await NFT1155Api.getInstance(
+        instanceConfig,
+        instance.keeper.nftUpgradeable,
+      )
+      instance.isKeeperConnected = true
+    } catch (error) {
+      instance.isKeeperConnected = false
+      Logger.error(error)
+      Logger.error(
+        "Contracts didn't initialize because for the above mentioned reason. Loading SDK in offchain mode...",
+      )
+    }
 
     return instance
   }
@@ -190,6 +202,11 @@ export class Nevermined extends Instantiable {
    * Utils submodule
    */
   public utils: UtilsApi
+
+  /**
+   * If keeper is connected
+   */
+  public isKeeperConnected: boolean
 
   private constructor() {
     super()

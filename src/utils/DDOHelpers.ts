@@ -5,9 +5,16 @@ import {
   ConditionType,
   Service,
   ServiceType,
+  ServiceNFTAccess,
+  ServiceNFTSales,
 } from '../ddo'
 import { AssetPrice } from '../models'
 import { BigNumber } from './BigNumber'
+
+// DDO Services including a sales process
+const SALES_SERVICES = ['access', 'compute', 'nft-sales']
+// Condition Names that are the final dependency for releasing the payment in a service agreement
+const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
 
 function fillParameterWithDDO(
   parameter: ServiceAgreementTemplateParameter,
@@ -71,6 +78,7 @@ function fillParameterWithDDO(
  * @returns Filled conditions.
  */
 export function fillConditionsWithDDO(
+  serviceType: ServiceType,
   conditions: ServiceAgreementTemplateCondition[],
   ddo: DDO,
   assetPrice: AssetPrice = new AssetPrice(),
@@ -80,23 +88,36 @@ export function fillConditionsWithDDO(
   nftAmount?: BigNumber,
   nftTransfer = false,
   duration = 0,
+  fulfillAccessTimeout = 0,
+  fulfillAccessTimelock = 0,
 ): ServiceAgreementTemplateCondition[] {
-  return conditions.map((condition) => ({
-    ...condition,
-    parameters: condition.parameters.map((parameter) => ({
-      ...fillParameterWithDDO(
-        parameter,
-        ddo,
-        assetPrice,
-        erc20TokenContract,
-        nftTokenContract,
-        nftHolder,
-        nftAmount,
-        nftTransfer,
-        duration,
-      ),
-    })),
-  }))
+  return conditions
+    .map((condition) => {
+      if (
+        DEPENDENCIES_RELEASE_CONDITION.includes(condition.name) &&
+        SALES_SERVICES.includes(serviceType)
+      ) {
+        condition.timeout = fulfillAccessTimeout
+        condition.timelock = fulfillAccessTimelock
+      }
+      return condition
+    })
+    .map((condition) => ({
+      ...condition,
+      parameters: condition.parameters.map((parameter) => ({
+        ...fillParameterWithDDO(
+          parameter,
+          ddo,
+          assetPrice,
+          erc20TokenContract,
+          nftTokenContract,
+          nftHolder,
+          nftAmount,
+          nftTransfer,
+          duration,
+        ),
+      })),
+    }))
 }
 
 export function findServiceConditionByName(
@@ -174,4 +195,13 @@ export function getNftHolderFromService(service: Service): string {
 export function getNftAmountFromService(service: Service): BigNumber {
   const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
   return BigNumber.from(nftTransferCondition.parameters.find((p) => p.name === '_numberNfts').value)
+}
+
+export function getNftContractAddressFromService(
+  service: ServiceNFTAccess | ServiceNFTSales,
+): string {
+  const paramName = '_contractAddress'
+  const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+  const nftTransferCondition = findServiceConditionByName(service, conditionName)
+  return nftTransferCondition.parameters.find((p) => p.name === paramName).value as string
 }

@@ -21,7 +21,7 @@ jobs:
           repository: nevermined-io/sdk-dtp
           path: sdk-dtp
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.10.0
+      - uses: nevermined-io/nvm-tools-actions@v0.11.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
@@ -61,7 +61,7 @@ jobs:
           # estuary token for local development
           ESTUARY_TOKEN: ESTaa43688b-4ccf-4dad-8a16-410e488706ffARY
           ESTUARY_ENDPOINT: http://estuary.nevermined.localnet
-          NO_GRAPH: true
+          GRAPH_HTTP_URI: ''
         run: |
           cd node
           nvm-tools copy-artifacts ./artifacts
@@ -75,7 +75,7 @@ jobs:
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           NEVERMINED_NODE_URI: http://localhost:8030
-          NO_GRAPH: true
+          GRAPH_HTTP_URI: ''
         run: |
           nvm-tools copy-artifacts ./artifacts
           yarn run integration:cover

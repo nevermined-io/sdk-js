@@ -30,7 +30,7 @@ export class NFT721Api extends NFTsBaseApi {
    * )
    * ```
    *
-   * @param cpnfig - The Nevermined config
+   * @param config - The Nevermined config
    * @param nftContractAddress - If the Nft721 Contract is deployed in an address it will connect to that contract
    * @returns The NFTs 721 API instance {@link NFT721Api}.
    */
@@ -63,7 +63,7 @@ export class NFT721Api extends NFTsBaseApi {
   }
 
   /**
-   * Creates a new Nevermined asset associted to a NFT (ERC-721).
+   * Creates a new Nevermined asset associated to a NFT (ERC-721).
    *
    * @example
    * ```ts
@@ -178,6 +178,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param agreementId - The NFT sales agreement id.
    * @param nftHolder - The address of the current owner of the NFT.
    * @param nftReceiver - The address where the NFT should be transferred.
+   * @param did - The Decentralized Identifier of the asset.
    *
    * @returns true if the transfer was successful.
    */
@@ -185,8 +186,9 @@ export class NFT721Api extends NFTsBaseApi {
     agreementId: string,
     nftHolder: string,
     nftReceiver: string,
+    did?: string,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, BigNumber.from(1), 721)
+    return await this.claimNFT(agreementId, nftHolder, nftReceiver, BigNumber.from(1), 721, did)
   }
 
   /**
@@ -409,9 +411,6 @@ export class NFT721Api extends NFTsBaseApi {
    */
   public async ownerOfTokenId(tokenId: string) {
     return this.nftContract.ownerOf(tokenId)
-    // return (await this.nevermined.contracts.loadNft721(nftTokenAddress)).ownerOf(
-    //     tokenId
-    // )
   }
 
   /**
@@ -419,7 +418,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @example
    * ```ts
-   * const owner = await nevermined.nfts721.ownerOfAsset(ddo.id, nftTokebnAddress)
+   * const owner = await nevermined.nfts721.ownerOfAsset(ddo.id, nftTokenAddress)
    * ```
    *
    * @param did - The Decentralized identifier of the NFT asset.
@@ -635,5 +634,9 @@ export class NFT721Api extends NFTsBaseApi {
    */
   public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
     return this.nevermined.services.node.getSubscriptionToken(did, account)
+  }
+
+  public async isOperator(did: string, address: string): Promise<boolean> {
+    return super.isOperator(did, address, 721)
   }
 }

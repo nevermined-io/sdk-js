@@ -1,3 +1,4 @@
+import { base64url } from 'jose'
 import { generateId } from '../utils'
 
 const prefix = 'did:nv:'
@@ -8,7 +9,8 @@ const prefix = 'did:nv:'
 export class DID {
   /**
    * Parses a DID from a string.
-   * @param didString  - DID in string.
+   * @param didString  - DID in string format or DID instance.
+   * The didString can be in did:nv: format or 0x: format.
    * @returns {@link DID}
    */
   public static parse(didString: string | DID): DID {
@@ -16,10 +18,17 @@ export class DID {
       didString = didString.getDid()
     }
     let did: DID
-    const didMatch = didString.match(/^did:nv:([a-f0-9]{64})$/i)
 
-    if (didMatch) {
-      did = new DID(didMatch[1])
+    const did0xMatch = didString.match(/^0x([a-f0-9]{64})$/i)
+
+    if (did0xMatch) {
+      did = new DID(did0xMatch[1])
+    } else {
+      const didMatch = didString.match(/^did:nv:([a-f0-9]{64})$/i)
+
+      if (didMatch) {
+        did = new DID(didMatch[1])
+      }
     }
 
     if (!did) {
@@ -35,6 +44,14 @@ export class DID {
    */
   public static generate(): DID {
     return new DID(generateId())
+  }
+
+  /**
+   * Returns a new DID.
+   * @returns {@link DID}
+   */
+  public static fromEncoded(encoded: string): DID {
+    return new DID(Buffer.from(base64url.decode(encoded)).toString('hex'))
   }
 
   /**
@@ -60,5 +77,9 @@ export class DID {
    */
   public getId(): string {
     return this.id
+  }
+
+  public getEncoded(): string {
+    return base64url.encode(Buffer.from(this.id, 'hex'))
   }
 }

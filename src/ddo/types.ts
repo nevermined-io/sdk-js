@@ -155,7 +155,7 @@ export interface MetaDataExternalResource {
    * @remarks
    * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
    */
-  encryption?: 'dtp'
+  encryption?: 'dtp' | 'dleq'
 }
 
 /**
@@ -165,6 +165,8 @@ export interface WebService {
   type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
 
   endpoints?: { [verb: string]: string }[]
+
+  openEndpoints?: string[]
 
   internalAttributes?: WebServiceInternalAttributes
 
@@ -382,8 +384,14 @@ export interface AdditionalInformation {
   }
 
   poseidonHash?: string
+  cipher?: string
 
   providerKey?: {
+    x: string
+    y: string
+  }
+
+  secretId?: {
     x: string
     y: string
   }

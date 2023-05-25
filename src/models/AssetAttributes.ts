@@ -51,6 +51,26 @@ export class AssetAttributes {
    */
   appId?: string
 
+  /**
+   * An asset can offer different services. Each service can have different conditions that need to be fulfilled
+   * to provide that service. These conditions can expire if they are not fulfilled in a certain period of time.
+   * This attribute allows to specify the timeouts for the access condition associated to the service.
+   * Setting up a timeout of 0 means that the condition will never expire.
+   * Setting a timeout greater than 0 means that the condition will expire after that number of blocks after the agreement is created.
+   * This would allow to create an agreement that is not fulfilled after a certain period of time, the user can claim back funds locked if the condition is any.
+   */
+  fulfillAccessTimeout?: number
+
+  /**
+   * An asset can offer different services. Each service can have different conditions that need to be fulfilled
+   * to provide that service. These conditions can expire if they are not fulfilled in a certain period of time.
+   * This attribute allows to specify a period of time the condition can not be fullfilled
+   * Setting up a timelock of 0 means that the condition can be fulfilled at any time.
+   * Setting a timelock greater than 0 means that the condition can not be fulfilled until that number of blocks after the agreement is created are mined.
+   * This would allow to create an agreement that can not fulfilled until certain period of time.
+   */
+  fulfillAccessTimelock?: number
+
   static defaultValues = {
     price: new AssetPrice(), // It means there is no payment required
     encryptionMethod: AssetAttributes.DEFAULT_ENCRYPTION_METHOD, // The default encryption method for the internal metadata attributes is PSK-RSA
@@ -58,6 +78,8 @@ export class AssetAttributes {
     predefinedAssetServices: [] as Service[], // By default there in additional services to add to the asset
     providers: [], // By default there are no addresses registered as providers for the asset
     appId: '', // No appId by default
+    fulfillAccessTimeout: 90, // By default the access condition will never expire
+    fulfillAccessTimelock: 0, // By default the access condition can be fulfilled at any time
   }
 
   static getInstance(assetAttributes: AssetAttributes): Required<AssetAttributes> {

@@ -378,12 +378,14 @@ export class NeverminedNode extends Instantiable {
     nftReceiver: string,
     nftAmount: BigNumber,
     ercType: ERCType = 1155,
+    did?: string,
   ): Promise<boolean> {
     try {
       const response = await this.nevermined.utils.fetch.post(
         this.getClaimNftEndpoint(),
         JSON.stringify({
           agreementId,
+          did,
           nftHolder,
           nftReceiver,
           nftAmount: nftAmount.toString(),

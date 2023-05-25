@@ -85,8 +85,8 @@ export abstract class ConditionSmall extends ContractBase {
     return [valueHash, await this.call<string>('generateId', [zeroX(agreementId), valueHash])]
   }
 
-  public abortByTimeOut(agreementId: string, from?: Account, params?: TxParameters) {
-    return this.sendFrom('abortByTimeOut', [zeroX(agreementId)], from, params)
+  public abortByTimeOut(conditionId: string, from?: Account, params?: TxParameters) {
+    return this.sendFrom('abortByTimeOut', [zeroX(conditionId)], from, params)
   }
 
   public getConditionFulfilledEvent(agreementId: string) {
