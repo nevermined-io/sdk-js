@@ -12,6 +12,22 @@ export const transformMetadata = (metadata: any): any => {
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+/**
+ * Promise that raises a error if the timeout occurs.
+ *
+ * Useful to test promises that never resolve or take a long time to resolve
+ *
+ * @example
+ * ```ts
+ * await Promise.race([promiseNotResolving, awaitTimeout(2000)])
+ * ```
+ *
+ * @param delay - time to wait in milliseconds
+ * @returns
+ */
+export const awaitTimeout = (delay): Promise<void> =>
+  new Promise((_resolve, reject) => setTimeout(() => reject('Timeout'), delay))
+
 export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
   for (let i = 0; i < n; i++) {
     try {

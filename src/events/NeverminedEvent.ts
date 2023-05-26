@@ -69,10 +69,10 @@ export abstract class NeverminedEvent extends Instantiable {
           subscription.unsubscribe()
         }
 
-        if (callback) {
+        if (callback && events.length) {
           callback(events)
+          resolve(events)
         }
-        resolve(events)
       }, options)
     })
   }

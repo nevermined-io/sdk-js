@@ -1,7 +1,7 @@
-import { Account, Nevermined } from '../../src'
+import { Account, Nevermined, generateId } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
-import { sleep } from '../utils/utils'
+import { awaitTimeout, mineBlocks, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 
 describe('SubgraphEvent', () => {
@@ -10,11 +10,9 @@ describe('SubgraphEvent', () => {
   let executeTransaction: () => Promise<any>
 
   before(async function () {
-    if (process.env['GRAPH_HTTP_URI'] === '') {
+    if (!config.graphHttpUri) {
       this.skip()
     }
-    config.graphHttpUri =
-      config.graphHttpUri || 'http://localhost:9000/subgraphs/name/nevermined-io/development'
     nevermined = await Nevermined.getInstance(config)
     ;[account] = await nevermined.accounts.list()
 
@@ -138,5 +136,30 @@ describe('SubgraphEvent', () => {
     await executeTransaction()
 
     await waitUntilEvent
+  })
+
+  it('once should not return unless there is an event', async () => {
+    // non-existent provId
+    const provId = `0x${generateId()}`
+
+    const resultPromise = nevermined.keeper.didRegistry.events.once((e) => e, {
+      methodName: 'getProvenanceAttributeRegistereds',
+      filterSubgraph: { where: { provId: provId } },
+      result: {
+        id: true,
+        provId: true,
+        _did: true,
+        _agentId: true,
+        _activityId: true,
+        _relatedDid: true,
+        _agentInvolvedId: true,
+        _method: true,
+        _attributes: true,
+        _blockNumberUpdated: true,
+      },
+    })
+
+    await mineBlocks(nevermined, account, 1)
+    await assert.isRejected(Promise.race([resultPromise, awaitTimeout(2000)]), /Timeout/)
   })
 })
