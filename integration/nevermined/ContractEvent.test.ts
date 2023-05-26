@@ -1,9 +1,12 @@
-import { Account, Nevermined } from '../../src'
+import { Account, Nevermined, generateId } from '../../src'
 import { config } from '../config'
-import { assert } from 'chai'
+import chai, { assert } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
 import { ContractEvent } from '../../src/events'
-import { sleep } from '../utils/utils'
+import { sleep, mineBlocks, awaitTimeout } from '../utils/utils'
 import { ethers } from 'ethers'
+
+chai.use(chaiAsPromised)
 
 describe('ContractEvent', () => {
   let account: Account
@@ -120,5 +123,18 @@ describe('ContractEvent', () => {
     await executeTransaction()
 
     await waitUntilEvent
+  })
+
+  it('once should not return unless there is an event', async () => {
+    // non-existent provId
+    const provId = `0x${generateId()}`
+
+    const resultPromise = nevermined.keeper.didRegistry.events.once((e) => e, {
+      eventName: 'ProvenanceAttributeRegistered',
+      filterJsonRpc: { provId },
+    })
+
+    await mineBlocks(nevermined, account, 1)
+    await assert.isRejected(Promise.race([resultPromise, awaitTimeout(2000)]), /Timeout/)
   })
 })

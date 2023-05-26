@@ -4,7 +4,6 @@ import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 LoggerInstance.setLevel(LogLevel.Error)
 
 const logLevel = Number(process.env['LOG_LEVEL']) || 1 // warn by default
-const nograph = process.env['GRAPH_HTTP_URI'] === ''
 const infuraToken = process.env['INFURA_TOKEN']
 
 const ipfsGateway = process.env['IPFS_GATEWAY'] || 'https://ipfs.io'
@@ -19,9 +18,7 @@ const configBase: NeverminedOptions = {
   marketplaceAuthToken: undefined,
   artifactsFolder: './artifacts',
   circuitsFolder: './circuits',
-  graphHttpUri: nograph
-    ? undefined
-    : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
+  graphHttpUri: process.env['GRAPH_HTTP_URI'],
   gasMultiplier: 1.1,
   ipfsGateway,
   ipfsProjectId,

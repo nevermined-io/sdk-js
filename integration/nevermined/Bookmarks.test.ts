@@ -84,7 +84,7 @@ describe('Bookmarks', () => {
   it('should delete a bookmark by id', async () => {
     await nevermined.services.bookmarks.deleteOneById(id)
 
-    await sleep(2000)
+    await sleep(4000)
 
     const response = await nevermined.services.bookmarks.findManyByUserId(newBookmark.userId)
 
