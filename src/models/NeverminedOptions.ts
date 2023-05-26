@@ -78,9 +78,4 @@ export class NeverminedOptions {
   public ipfsProjectId?: string
 
   public ipfsProjectSecret?: string
-
-  /**
-   * Default token address. If Zero_Address it will use the Native token of the network.
-   */
-  public tokenAddress?: string
 }
