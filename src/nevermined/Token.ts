@@ -42,7 +42,7 @@ export class TokenUtils extends Instantiable {
   /**
    * Get token total supply
    */
-  public async getTotalSupply(): Promise<number> {
+  public async getTotalSupply(): Promise<BigNumber> {
     return await this.nevermined.keeper.token.totalSupply()
   }
 

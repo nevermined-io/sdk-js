@@ -54,6 +54,16 @@ if (process.env.NETWORK_NAME === 'mumbai') {
   } as NeverminedOptions)
 }
 
+if (process.env.NETWORK_NAME === 'gnosis') {
+  Object.assign(configBase, {
+    marketplaceUri: 'https://marketplace-api.gnosis.nevermined.app',
+    neverminedNodeUri: 'https://node.gnosis.nevermined.app',
+    web3ProviderUri: `https://rpc.gnosischain.com/`,
+    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
+  } as NeverminedOptions)
+}
+
 if (process.env.SEED_WORDS) {
   configBase.accounts = makeAccounts(process.env.SEED_WORDS)
 }
