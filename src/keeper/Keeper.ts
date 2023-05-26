@@ -39,6 +39,7 @@ import {
   CurveRoyalties,
   Nft1155Contract,
   GenericAccess,
+  CustomToken,
 } from './contracts'
 import * as KeeperUtils from './utils'
 import { objectPromiseAll } from '../utils'
@@ -162,7 +163,10 @@ export class Keeper extends Instantiable {
     }
 
     try {
-      this.instances.token = await Token.getInstance(this.instantiableConfig)
+      this.instances.token = await CustomToken.getInstanceByAddress(
+        this.instantiableConfig,
+        this.instantiableConfig.config.tokenAddress,
+      )
     } catch {
       this.logger.debug('Token not available on this network.')
     }
