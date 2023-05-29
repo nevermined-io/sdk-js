@@ -1,5 +1,6 @@
 import { Service, ServiceType, MetaData } from '../ddo'
 import { EncryptionMethod } from '../services'
+import { ZeroAddress } from '../utils'
 import { AssetPrice } from './AssetPrice'
 
 export class AssetAttributes {
@@ -72,7 +73,7 @@ export class AssetAttributes {
   fulfillAccessTimelock?: number
 
   static defaultValues = {
-    price: new AssetPrice(), // It means there is no payment required
+    price: new AssetPrice().setTokenAddress(process.env.TOKEN_ADDRESS || ZeroAddress), // It means there is no payment required
     encryptionMethod: AssetAttributes.DEFAULT_ENCRYPTION_METHOD, // The default encryption method for the internal metadata attributes is PSK-RSA
     serviceTypes: ['access'] as ServiceType[], // By default it will be added an access service
     predefinedAssetServices: [] as Service[], // By default there in additional services to add to the asset

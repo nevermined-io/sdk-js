@@ -8,7 +8,7 @@ export class CustomToken extends Token {
     config: InstantiableConfig,
     address: string,
   ): Promise<CustomToken> {
-    const token: CustomToken = new Token('Custom-Token')
+    const token: CustomToken = new Token(process.env.TOKEN_CONTRACT_NAME || 'Custom-Token')
     token.setInstanceConfig(config)
 
     await new ContractHandler(config).checkExists(address)
