@@ -1,4 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { ContractHandler } from '../../keeper'
 import { Files } from '../Files'
 import { TokenUtils } from '../Token'
 import { Versions } from '../Versions'
@@ -44,6 +45,11 @@ export class UtilsApi extends Instantiable {
   public versions: Versions
 
   /**
+   * Contract utils
+   */
+  public contractHandler: ContractHandler
+
+  /**
    * Creates a new AssetsApi
    * @param config - Configuration of the Nevermined instance
    * @returns {@link UtilsApi}
@@ -59,5 +65,6 @@ export class UtilsApi extends Instantiable {
     this.signature = new SignatureUtils(config)
     this.token = new TokenUtils(config)
     this.versions = new Versions(config)
+    this.contractHandler = new ContractHandler(config)
   }
 }
