@@ -119,12 +119,26 @@ export class ContractHandler extends Instantiable {
     const isZos = contract.interface.fragments.some((f) => f.name === 'initialize')
 
     const argument = isZos ? [] : args
-    const feeData = this.getFeeData()
     let contractInstance: ethers.Contract
 
     try {
-      console.log('contract deployment')
-      contractInstance = await contract.deploy(...argument, feeData)
+      // https://ethereum.stackexchange.com/a/106800/3831
+      const deploymentData = contract.interface.encodeDeploy(argument)
+      const gasLimit = await this.nevermined.web3.estimateGas({
+        data: deploymentData,
+        from: from.getId(),
+      })
+
+      const feeData = await this.getFeeData()
+      const extraParams = {
+        ...feeData,
+        gasLimit: BigNumber.from('10000000'),
+      }
+
+      console.log('contract deployment with argument:', argument)
+      console.log('fee data', extraParams)
+      console.log('gasLimit:', gasLimit.toNumber())
+      contractInstance = await contract.deploy(...argument, extraParams)
       await contractInstance.deployTransaction.wait()
     } catch (error) {
       console.error(JSON.stringify(error))
