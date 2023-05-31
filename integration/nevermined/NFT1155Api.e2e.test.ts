@@ -92,7 +92,6 @@ function makeTest(isCustom) {
           networkName,
         )
 
-        console.log('deploying abi')
         const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
@@ -100,7 +99,6 @@ function makeTest(isCustom) {
           'NVM',
           '',
         ])
-        console.log('finished deploying abi')
 
         const nftContract = await Nft1155Contract.getInstance(
           (nevermined.keeper as any).instanceConfig,
@@ -133,7 +131,7 @@ function makeTest(isCustom) {
       }
       nftPrice = amounts.reduce((a, b) => a.add(b), BigNumber.from(0))
       assetPrice1 = new AssetPrice(new Map(lst))
-      // await collector1.requestTokens(nftPrice.div(scale))
+      await collector1.requestTokens(nftPrice.div(scale))
 
       console.debug(
         `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
@@ -513,5 +511,5 @@ function makeTest(isCustom) {
   })
 }
 
-// makeTest(false)
+makeTest(false)
 makeTest(true)

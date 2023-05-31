@@ -20,9 +20,9 @@ import {
   Token,
   NFT721AccessTemplate,
   NFT721SalesTemplate,
+  ContractHandler,
 } from '../../src/keeper'
 import { config } from '../config'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NFT721Api } from '../../src'
 import { getMetadata } from '../utils'
 import { setNFTRewardsFromDDOByService } from '../../src/utils'
@@ -88,25 +88,23 @@ describe('NFT721Templates E2E', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-
-    TestContractHandler.setConfig(config)
     ;[owner, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
 
     const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-    const erc721ABI = await TestContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
     // deploy a nft contract we can use
-    const nftContract = await TestContractHandler.deployArtifact(erc721ABI, artist.getId(), [
+    const nftContract = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
       artist.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
       'NVM',
       '',
-      0,
+      '0',
     ])
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
@@ -612,19 +610,19 @@ describe('NFT721Templates E2E', () => {
       )
 
       const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-      const erc721ABI = await TestContractHandler.getABI(
+      const erc721ABI = await ContractHandler.getABI(
         'NFT721Upgradeable',
         config.artifactsFolder,
         networkName,
       )
 
-      const nftContract = await TestContractHandler.deployArtifact(erc721ABI, artist.getId(), [
+      const nftContract = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
         artist.getId(),
         nevermined.keeper.didRegistry.address,
         'NFT721',
         'NVM',
         '',
-        0,
+        '0',
       ])
       nft = await nevermined.contracts.loadNft721(nftContract.address)
 

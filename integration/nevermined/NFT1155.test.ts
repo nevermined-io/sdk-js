@@ -1,14 +1,21 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined, AssetPrice, AssetAttributes, NFTAttributes } from '../../src'
+import {
+  Account,
+  DDO,
+  Nevermined,
+  AssetPrice,
+  AssetAttributes,
+  NFTAttributes,
+  ContractHandler,
+} from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { ethers } from 'ethers'
 import { BigNumber } from '../../src/utils'
 import '../globals'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
 
 chai.use(chaiAsPromised)
 
@@ -62,15 +69,14 @@ describe('NFT1155 End-to-End', () => {
 
   describe('As user I can deploy Nevermined ERC-1155 NFT contract instances', () => {
     it('Using the ABI', async () => {
-      TestContractHandler.setConfig(config)
       const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-      const erc1155ABI = await TestContractHandler.getABI(
+      const erc1155ABI = await ContractHandler.getABI(
         'NFT1155Upgradeable',
         config.artifactsFolder,
         networkName,
       )
 
-      nftContract = await TestContractHandler.deployArtifact(erc1155ABI, deployer.getId(), [
+      nftContract = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, deployer, [
         deployer.getId(),
         nevermined.keeper.didRegistry.getAddress(),
         'NFT1155',

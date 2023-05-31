@@ -107,12 +107,11 @@ export class ContractHandler extends Instantiable {
   }
 
   public async deployAbi(
-    artifact: any,
+    artifact: { name?: string; abi: ethers.ContractInterface; bytecode: string },
     from: Account,
     args: string[] = [],
   ): Promise<ethers.Contract> {
-    console.log(`Using Account: ${from.getId()}`)
-    console.log('----------------------------------- calling contractHandler')
+    this.logger.debug(`Deploying abi using account: ${from.getId()}`)
 
     const signer = await this.nevermined.accounts.findSigner(from.getId())
     const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer)
@@ -122,22 +121,12 @@ export class ContractHandler extends Instantiable {
     let contractInstance: ethers.Contract
 
     try {
-      // https://ethereum.stackexchange.com/a/106800/3831
-      const deploymentData = contract.interface.encodeDeploy(argument)
-      const gasLimit = await this.nevermined.web3.estimateGas({
-        data: deploymentData,
-        from: from.getId(),
-      })
-
       const feeData = await this.getFeeData()
       const extraParams = {
         ...feeData,
         gasLimit: BigNumber.from('10000000'),
       }
 
-      console.log('contract deployment with argument:', argument)
-      console.log('fee data', extraParams)
-      console.log('gasLimit:', gasLimit.toNumber())
       contractInstance = await contract.deploy(...argument, extraParams)
       await contractInstance.deployTransaction.wait()
     } catch (error) {
@@ -155,7 +144,6 @@ export class ContractHandler extends Instantiable {
       const contract = contractInstance.connect(signer)
 
       // estimate gas
-      console.log('estimating gas')
       const gasLimit = await contract.estimateGas[methodSignature](...args, {
         from: from.getId(),
       })
@@ -164,14 +152,12 @@ export class ContractHandler extends Instantiable {
         ...feeData,
         gasLimit,
       }
-      console.log('calling method', methodSignature)
-      console.log('args', args)
-      console.log('extra params', extraParams)
+
       const transactionResponse: TransactionResponse = await contract[methodSignature](
         ...args,
         extraParams,
       )
-      console.log('waiting for transaction')
+
       const contractReceipt: ContractReceipt = await transactionResponse.wait()
       if (contractReceipt.status !== 1) {
         throw new Error(`Error deploying contract ${artifact.name}`)

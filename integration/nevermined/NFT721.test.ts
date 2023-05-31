@@ -3,11 +3,10 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, NFTAttributes, AssetPrice } from '../../src'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { generateId, ZeroAddress, zeroX } from '../../src/utils'
 import { TokenUtils } from '../../src/nevermined'
 import { ethers } from 'ethers'
-import { Nft721Contract, TransferNFT721Condition } from '../../src/keeper'
+import { ContractHandler, Nft721Contract, TransferNFT721Condition } from '../../src/keeper'
 import { BigNumber } from '../../src/utils'
 
 describe('Nfts721 operations', async () => {
@@ -31,23 +30,21 @@ describe('Nfts721 operations', async () => {
     // Accounts
     ;[deployer, artist, collector] = await nevermined.accounts.list()
 
-    TestContractHandler.setConfig(config)
-
     const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-    const erc721ABI = await TestContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
     // deploy a nft contract we can use
-    nft = await TestContractHandler.deployArtifact(erc721ABI, deployer.getId(), [
+    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, deployer, [
       artist.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
       'NVM',
       '',
-      0,
+      '0',
     ])
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
