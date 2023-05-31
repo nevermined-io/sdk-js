@@ -1,5 +1,4 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider'
-import { ContractHandler } from '../ContractHandler'
 import { Account } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
@@ -54,10 +53,16 @@ export abstract class ContractBase extends Instantiable {
 
   protected async init(config: InstantiableConfig, optional = false) {
     this.setInstanceConfig(config)
-    const contractHandler = new ContractHandler(config)
-    this.contract = await contractHandler.get(this.contractName, optional, config.artifactsFolder)
+    this.contract = await this.nevermined.utils.contractHandler.get(
+      this.contractName,
+      optional,
+      config.artifactsFolder,
+    )
     try {
-      this.version = await contractHandler.getVersion(this.contractName, config.artifactsFolder)
+      this.version = await this.nevermined.utils.contractHandler.getVersion(
+        this.contractName,
+        config.artifactsFolder,
+      )
     } catch {
       throw new KeeperError(`${this.contractName} not available on this network.`)
     }
@@ -206,7 +211,7 @@ export abstract class ContractBase extends Instantiable {
       }
 
       // get correct fee data
-      const feeData = await this.getFeeData(
+      const feeData = await this.nevermined.utils.contractHandler.getFeeData(
         gasPrice && BigNumber.from(gasPrice),
         maxFeePerGas && BigNumber.from(maxFeePerGas),
         maxPriorityFeePerGas && BigNumber.from(maxPriorityFeePerGas),
@@ -289,28 +294,6 @@ export abstract class ContractBase extends Instantiable {
     }
 
     return gasLimit
-  }
-
-  private async getFeeData(
-    gasPrice?: BigNumber,
-    maxFeePerGas?: BigNumber,
-    maxPriorityFeePerGas?: BigNumber,
-  ) {
-    const feeData = await this.web3.getFeeData()
-
-    // EIP-1559 fee parameters
-    if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
-      return {
-        maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
-        maxPriorityFeePerGas: maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
-        type: 2,
-      }
-    }
-
-    // Non EIP-1559 fee parameters
-    return {
-      gasPrice: gasPrice || feeData.gasPrice,
-    }
   }
 }
 

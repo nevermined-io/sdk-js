@@ -7,6 +7,7 @@ import {
   TransferNFTCondition,
   Token,
   Nft1155Contract,
+  ContractHandler,
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -21,7 +22,6 @@ import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 import { BigNumber } from '../../src/utils'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
@@ -85,16 +85,14 @@ function makeTest(isCustom) {
       )
 
       if (isCustom) {
-        TestContractHandler.setConfig(config)
-
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-        const erc1155ABI = await TestContractHandler.getABI(
+        const erc1155ABI = await ContractHandler.getABI(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await TestContractHandler.deployArtifact(erc1155ABI, artist.getId(), [
+        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',
@@ -455,16 +453,14 @@ function makeTest(isCustom) {
 
     describe('Node should not be able to transfer the nft without the operator role', () => {
       it('should create the subscription NFT without granting Nevermined the operator role', async () => {
-        TestContractHandler.setConfig(config)
-
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-        const erc1155ABI = await TestContractHandler.getABI(
+        const erc1155ABI = await ContractHandler.getABI(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await TestContractHandler.deployArtifact(erc1155ABI, artist.getId(), [
+        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',

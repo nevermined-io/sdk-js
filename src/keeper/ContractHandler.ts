@@ -3,7 +3,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
 import { Account } from '../nevermined'
-import { ContractReceipt, ethers } from 'ethers'
+import { BigNumber, ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 
 let fetch
@@ -107,11 +107,11 @@ export class ContractHandler extends Instantiable {
   }
 
   public async deployAbi(
-    artifact: any,
+    artifact: { name?: string; abi: ethers.ContractInterface; bytecode: string },
     from: Account,
     args: string[] = [],
   ): Promise<ethers.Contract> {
-    console.log(`Using Account: ${from.getId()}`)
+    this.logger.debug(`Deploying abi using account: ${from.getId()}`)
 
     const signer = await this.nevermined.accounts.findSigner(from.getId())
     const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer)
@@ -119,8 +119,15 @@ export class ContractHandler extends Instantiable {
 
     const argument = isZos ? [] : args
     let contractInstance: ethers.Contract
+
     try {
-      contractInstance = await contract.deploy(...argument)
+      const feeData = await this.getFeeData()
+      const extraParams = {
+        ...feeData,
+        gasLimit: BigNumber.from('10000000'),
+      }
+
+      contractInstance = await contract.deploy(...argument, extraParams)
       await contractInstance.deployTransaction.wait()
     } catch (error) {
       console.error(JSON.stringify(error))
@@ -133,8 +140,24 @@ export class ContractHandler extends Instantiable {
         'initialize',
         args,
       )
+
       const contract = contractInstance.connect(signer)
-      const transactionResponse: TransactionResponse = await contract[methodSignature](...args)
+
+      // estimate gas
+      const gasLimit = await contract.estimateGas[methodSignature](...args, {
+        from: from.getId(),
+      })
+      const feeData = await this.getFeeData()
+      const extraParams = {
+        ...feeData,
+        gasLimit,
+      }
+
+      const transactionResponse: TransactionResponse = await contract[methodSignature](
+        ...args,
+        extraParams,
+      )
+
       const contractReceipt: ContractReceipt = await transactionResponse.wait()
       if (contractReceipt.status !== 1) {
         throw new Error(`Error deploying contract ${artifact.name}`)
@@ -224,6 +247,70 @@ export class ContractHandler extends Instantiable {
       throw new ApiError(`Error to fetch json file from url ${path}`)
     } catch (error) {
       throw new KeeperError(error)
+    }
+  }
+
+  public async getFeeData(
+    gasPrice?: BigNumber,
+    maxFeePerGas?: BigNumber,
+    maxPriorityFeePerGas?: BigNumber,
+  ) {
+    // Custom gas fee for polygon networks
+    const networkId = await this.nevermined.keeper.getNetworkId()
+    if (networkId === 137 || networkId === 80001) {
+      return this.getFeeDataPolygon(networkId)
+    }
+
+    const feeData = await this.web3.getFeeData()
+
+    // EIP-1559 fee parameters
+    if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
+      return {
+        maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
+        maxPriorityFeePerGas: maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
+        type: 2,
+      }
+    }
+
+    // Non EIP-1559 fee parameters
+    return {
+      gasPrice: gasPrice || feeData.gasPrice,
+    }
+  }
+
+  private async getFeeDataPolygon(networkId: number) {
+    // Calculating the right fees in polygon networks has always been a problem
+    // This workaround is based on https://github.com/ethers-io/ethers.js/issues/2828#issuecomment-1073423774
+    let gasStationUrl: string
+    if (networkId === 137) {
+      gasStationUrl = 'https://gasstation-mainnet.matic.network/v2'
+    } else if (networkId === 80001) {
+      gasStationUrl = 'https://gasstation-mumbai.matic.today/v2'
+    } else {
+      throw new KeeperError(
+        'Using polygon gas station is only available in networks with id `137` and `80001`',
+      )
+    }
+
+    // get max fees from gas station
+    let maxFeePerGas = ethers.BigNumber.from(40000000000) // fallback to 40 gwei
+    let maxPriorityFeePerGas = ethers.BigNumber.from(40000000000) // fallback to 40 gwei
+    try {
+      const response = await this.nevermined.utils.fetch.get(gasStationUrl)
+      const data = await response.json()
+      maxFeePerGas = ethers.utils.parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
+      maxPriorityFeePerGas = ethers.utils.parseUnits(
+        Math.ceil(data.fast.maxPriorityFee) + '',
+        'gwei',
+      )
+    } catch (error) {
+      this.logger.warn(`Failed to ges gas price from gas station ${gasStationUrl}: ${error}`)
+    }
+
+    return {
+      maxFeePerGas: maxFeePerGas,
+      maxPriorityFeePerGas: maxPriorityFeePerGas,
+      type: 2,
     }
   }
 }

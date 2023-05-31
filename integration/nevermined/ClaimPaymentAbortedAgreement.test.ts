@@ -1,10 +1,15 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
-import { TransferNFT721Condition, Token, Nft721Contract, ConditionState } from '../../src/keeper'
+import {
+  TransferNFT721Condition,
+  Token,
+  Nft721Contract,
+  ConditionState,
+  ContractHandler,
+} from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
 import { BigNumber, generateId } from '../../src/utils'
 import '../globals'
@@ -45,22 +50,20 @@ describe('Claim aborted agreements End-to-End', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[, publisher, collector1, , other] = await nevermined.accounts.list()
 
-    TestContractHandler.setConfig(config)
-
     const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-    const erc721ABI = await TestContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
-    nft = await TestContractHandler.deployArtifact(erc721ABI, publisher.getId(), [
+    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, publisher, [
       publisher.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
       'NVM',
       '',
-      0,
+      '0',
     ])
 
     nftContract = await Nft721Contract.getInstance(
