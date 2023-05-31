@@ -250,7 +250,7 @@ export class ContractHandler extends Instantiable {
     }
   }
 
-  private async getFeeData(
+  public async getFeeData(
     gasPrice?: BigNumber,
     maxFeePerGas?: BigNumber,
     maxPriorityFeePerGas?: BigNumber,

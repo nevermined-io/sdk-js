@@ -211,7 +211,7 @@ export abstract class ContractBase extends Instantiable {
       }
 
       // get correct fee data
-      const feeData = await this.getFeeData(
+      const feeData = await this.nevermined.utils.contractHandler.getFeeData(
         gasPrice && BigNumber.from(gasPrice),
         maxFeePerGas && BigNumber.from(maxFeePerGas),
         maxPriorityFeePerGas && BigNumber.from(maxPriorityFeePerGas),
@@ -294,70 +294,6 @@ export abstract class ContractBase extends Instantiable {
     }
 
     return gasLimit
-  }
-
-  private async getFeeData(
-    gasPrice?: BigNumber,
-    maxFeePerGas?: BigNumber,
-    maxPriorityFeePerGas?: BigNumber,
-  ) {
-    // Custom gas fee for polygon networks
-    const networkId = await this.nevermined.keeper.getNetworkId()
-    if (networkId === 137 || networkId === 80001) {
-      return this.getFeeDataPolygon(networkId)
-    }
-
-    const feeData = await this.web3.getFeeData()
-
-    // EIP-1559 fee parameters
-    if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
-      return {
-        maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
-        maxPriorityFeePerGas: maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
-        type: 2,
-      }
-    }
-
-    // Non EIP-1559 fee parameters
-    return {
-      gasPrice: gasPrice || feeData.gasPrice,
-    }
-  }
-
-  private async getFeeDataPolygon(networkId: number) {
-    // Calculating the right fees in polygon networks has always been a problem
-    // This workaround is based on https://github.com/ethers-io/ethers.js/issues/2828#issuecomment-1073423774
-    let gasStationUrl: string
-    if (networkId === 137) {
-      gasStationUrl = 'https://gasstation-mainnet.matic.network/v2'
-    } else if (networkId === 80001) {
-      gasStationUrl = 'https://gasstation-mumbai.matic.today/v2'
-    } else {
-      throw new KeeperError(
-        'Using polygon gas station is only available in networks with id `137` and `80001`',
-      )
-    }
-
-    // get max fees from gas station
-    let maxFeePerGas = ethers.BigNumber.from(40000000000) // fallback to 40 gwei
-    let maxPriorityFeePerGas = ethers.BigNumber.from(40000000000) // fallback to 40 gwei
-    try {
-      const response = await this.nevermined.utils.fetch.get(gasStationUrl)
-      const data = await response.json()
-      maxFeePerGas = ethers.utils.parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
-      maxPriorityFeePerGas = ethers.utils.parseUnits(
-        Math.ceil(data.fast.maxPriorityFee) + '',
-        'gwei',
-      )
-    } catch (error) {
-      this.logger.warn(`Failed to ges gas price from gas station ${gasStationUrl}: ${error}`)
-    }
-
-    return {
-      maxFeePerGas: maxFeePerGas,
-      maxPriorityFeePerGas: maxPriorityFeePerGas,
-      type: 2,
-    }
   }
 }
 
