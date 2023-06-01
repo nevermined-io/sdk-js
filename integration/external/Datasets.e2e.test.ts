@@ -62,6 +62,46 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
   let payload: JWTPayload
 
+  const tagsFilter = [
+    {
+      nested: {
+        path: ['service'],
+        query: {
+          bool: {
+            filter: [
+              { match: { 'service.type': 'metadata' } },
+              {
+                match: {
+                  'service.attributes.additionalInformation.tags': 'weather',
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+  ]
+
+  const tagsFilter2 = [
+    {
+      nested: {
+        path: ['service'],
+        query: {
+          bool: {
+            filter: [
+              { match: { 'service.type': 'metadata' } },
+              {
+                match: {
+                  'service.attributes.additionalInformation.tags': 'nvm',
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+  ]
+
   before(async () => {
     TestContractHandler.setConfig(config)
 
@@ -293,12 +333,68 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.include(dids, subscriptionDDO.id)
     })
 
+    it('should be able to retrieve subscriptions published filtering by tags', async () => {
+      const result = await nevermined.search.subscriptionsCreated(publisher, tagsFilter)
+
+      assert.isAbove(result.totalResults.value, 1)
+
+      assert.isTrue(
+        result.results.every((r) =>
+          r
+            .findServiceByType('metadata')
+            .attributes.additionalInformation.tags.some((t) => t === 'weather'),
+        ),
+      )
+    })
+
+    it('should not be able to retrieve any subscriptions published filtering by tags which not exist', async () => {
+      const result = await nevermined.search.subscriptionsCreated(publisher, tagsFilter2)
+
+      assert.equal(result.totalResults.value, 0)
+    })
+
+    it('should be able to retrieve subscriptions purchased filtering by tags', async () => {
+      const result = await nevermined.search.subscriptionsPurchased(subscriber, tagsFilter)
+      assert.isAbove(result.totalResults.value, 1)
+
+      assert.isTrue(
+        result.results.every((r) =>
+          r
+            .findServiceByType('metadata')
+            .attributes.additionalInformation.tags.some((t) => t === 'weather'),
+        ),
+      )
+    })
+
+    it('should not be able to retrieve not subscriptions purchased filtering by tags which do not exist', async () => {
+      const result = await nevermined.search.subscriptionsPurchased(subscriber, tagsFilter2)
+      assert.equal(result.totalResults.value, 0)
+    })
+
     it('should be able to retrieve all datasets associated with a subscription', async () => {
       const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id)
       assert.equal(result.totalResults.value, 1)
 
       const ddo = result.results.pop()
       assert.equal(ddo.id, datasetDDO.id)
+    })
+
+    it('should be able to retrieve datasets associated with a subscription filtering by tags', async () => {
+      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter)
+      assert.equal(result.totalResults.value, 1)
+
+      assert.isTrue(
+        result.results.every((r) =>
+          r
+            .findServiceByType('metadata')
+            .attributes.additionalInformation.tags.some((t) => t === 'weather'),
+        ),
+      )
+    })
+
+    it('should not be able to retrieve any datasets associated with a subscription filtering by tags which do not exist', async () => {
+      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter2)
+      assert.equal(result.totalResults.value, 0)
     })
   })
 })

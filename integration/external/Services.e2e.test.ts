@@ -76,6 +76,46 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   let accessToken: string
 
+  const endpointsFilter = [
+    {
+      nested: {
+        path: ['service'],
+        query: {
+          bool: {
+            filter: [
+              { match: { 'service.type': 'metadata' } },
+              {
+                match: {
+                  'service.attributes.main.webService.openEndpoints': '/openapi.json',
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+  ]
+
+  const endpointsFilter2 = [
+    {
+      nested: {
+        path: ['service'],
+        query: {
+          bool: {
+            filter: [
+              { match: { 'service.type': 'metadata' } },
+              {
+                match: {
+                  'service.attributes.main.webService.openEndpoints': '/nvm.json',
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+  ]
+
   before(async () => {
     TestContractHandler.setConfig(config)
 
@@ -359,6 +399,30 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
       const ddo = result.results.pop()
       assert.equal(ddo.id, serviceDDO.id)
+    })
+
+    it('should be able to retrieve services associated with a subscription filtering by endpoints', async () => {
+      const result = await nevermined.search.servicesBySubscription(
+        subscriptionDDO.id,
+        endpointsFilter,
+      )
+      assert.equal(result.totalResults.value, 1)
+
+      assert.isTrue(
+        result.results.every((r) =>
+          r
+            .findServiceByType('metadata')
+            .attributes.main.webService.openEndpoints.some((e) => e === '/openapi.json'),
+        ),
+      )
+    })
+
+    it('should not be able to retrieve any services associated with a subscription filtering by endpoints which do not exist', async () => {
+      const result = await nevermined.search.servicesBySubscription(
+        subscriptionDDO.id,
+        endpointsFilter2,
+      )
+      assert.equal(result.totalResults.value, 0)
     })
   })
 })
