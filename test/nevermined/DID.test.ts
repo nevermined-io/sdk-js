@@ -25,7 +25,7 @@ describe('DID', () => {
     })
 
     it('decoded did should match before encoding', () => {
-      assert(did.getId === decoded.getId)
+      assert(did.getDid() === decoded.getDid())
     })
   })
 
