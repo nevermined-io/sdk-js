@@ -20,6 +20,7 @@ describe('DID', () => {
     })
 
     it('should decode a did', () => {
+      console.log(encoded)
       decoded = DID.fromEncoded(encoded)
       assert(decoded)
     })

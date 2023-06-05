@@ -227,7 +227,11 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
       const OPEN_PROXY_URL = `${proxyUrl.protocol}//${subdomain}.${proxyUrl.host}${OPEN_PATH}`
 
-      console.log(`Using Proxied Open Endpoint: ${OPEN_PROXY_URL}`)
+      console.log(`Using Proxied Open Endpoint: ${OPEN_PROXY_URL} for DID: ${serviceDDO.id}`)
+
+      const didFromEncoded = DID.fromEncoded(subdomain)
+
+      console.log(`DID from encoded: ${didFromEncoded.getDid()}`)
 
       const result = await fetch(OPEN_PROXY_URL, opts)
 
