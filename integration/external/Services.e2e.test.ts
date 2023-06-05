@@ -15,6 +15,7 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
+  DID,
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
@@ -52,6 +53,9 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   // The service to register into Nevermined and attach to a subscription
   const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'
+
+  // The path of the SERVICE_ENDPOINT open that can be accessed via Proxy without authentication
+  const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
 
   // The OAuth token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
@@ -201,6 +205,34 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
       console.log(`Service registered with DID: ${serviceDDO.id}`)
       assert.isDefined(serviceDDO)
+    })
+  })
+
+  describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
+    it('The user can access the open service endpoints directly', async () => {
+      const OPEN_SERVICE_ENDPOINT = `${SERVICE_ENDPOINT}${OPEN_PATH}`
+
+      console.log(`Using Open Endpoint: ${OPEN_SERVICE_ENDPOINT}`)
+
+      const result = await fetch(OPEN_SERVICE_ENDPOINT, opts)
+
+      assert.isTrue(result.ok)
+      assert.isTrue(result.status === 200)
+    })
+
+    it('The subscriber can access the open service endpoints through the proxy', async () => {
+      const proxyUrl = new URL(PROXY_URL)
+      const serviceDID = DID.parse(serviceDDO.id)
+      const subdomain = serviceDID.getEncoded()
+
+      const OPEN_PROXY_URL = `${proxyUrl.protocol}//${subdomain}.${proxyUrl.host}${OPEN_PATH}`
+
+      console.log(`Using Proxied Open Endpoint: ${OPEN_PROXY_URL}`)
+
+      const result = await fetch(OPEN_PROXY_URL, opts)
+
+      assert.isTrue(result.ok)
+      assert.isTrue(result.status === 200)
     })
   })
 
