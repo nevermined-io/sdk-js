@@ -154,6 +154,7 @@ export class SearchApi extends Instantiable {
    *
    * @param contractAddress - The address of the NFT-721 subscription contract
    * @param offset - The number of results to return
+   * @param customNestedQueries - Custom nested queries to add to the search
    * @param page
    * @param sort - The sort order
    * @param appId - The appId used to filter the results
@@ -162,52 +163,58 @@ export class SearchApi extends Instantiable {
    */
   public async bySubscriptionContractAddress(
     contractAddress: string,
+    customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
     appId?: string,
   ): Promise<QueryResult> {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              must: [
+                { match: { 'service.type': 'nft-sales' } },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      contractAddress,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
     const query: SearchQuery = {
       query: {
         bool: {
-          must: [
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    filter: [
-                      { match: { 'service.type': 'metadata' } },
-                      {
-                        match: {
-                          'service.attributes.main.nftType':
-                            NeverminedNFT721Type.nft721Subscription,
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    must: [
-                      { match: { 'service.type': 'nft-sales' } },
-                      {
-                        match: {
-                          'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
-                            contractAddress,
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          ],
+          must: search,
         },
       },
       offset,
@@ -224,6 +231,7 @@ export class SearchApi extends Instantiable {
    * Search of all subscriptions created by `account`
    *
    * @param account - The account that created the subscriptions.
+   * @param customNestedQueries - Custom nested queries to add to the search
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
@@ -233,39 +241,45 @@ export class SearchApi extends Instantiable {
    */
   public async subscriptionsCreated(
     account: Account,
+    customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
     appId?: string,
   ): Promise<QueryResult> {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        match: {
+          'proof.creator': account.getId(),
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
     const query: SearchQuery = {
       query: {
         bool: {
-          must: [
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    filter: [
-                      { match: { 'service.type': 'metadata' } },
-                      {
-                        match: {
-                          'service.attributes.main.nftType':
-                            NeverminedNFT721Type.nft721Subscription,
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-            {
-              match: {
-                'proof.creator': account.getId(),
-              },
-            },
-          ],
+          must: search,
         },
       },
       offset,
@@ -282,6 +296,7 @@ export class SearchApi extends Instantiable {
    * Search of all subscriptions purchased by `account`
    *
    * @param account - The account that purchased the subscriptions.
+   * @param customNestedQueries - Custom nested queries to add to the search
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
@@ -291,6 +306,7 @@ export class SearchApi extends Instantiable {
    */
   public async subscriptionsPurchased(
     account: Account,
+    customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
@@ -319,29 +335,34 @@ export class SearchApi extends Instantiable {
       )
     const dids = events.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
 
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
     const query: SearchQuery = {
       query: {
         bool: {
-          must: [
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    filter: [
-                      { match: { 'service.type': 'metadata' } },
-                      {
-                        match: {
-                          'service.attributes.main.nftType':
-                            NeverminedNFT721Type.nft721Subscription,
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          ],
+          must: search,
           filter: {
             terms: {
               id: dids,
@@ -363,6 +384,7 @@ export class SearchApi extends Instantiable {
    * Search of all services belonging to a subscription nft contract
    *
    * @param nftContractAddress - The NFT contract address of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
@@ -372,56 +394,63 @@ export class SearchApi extends Instantiable {
    */
   public async servicesByNftContract(
     nftContractAddress: string,
+    customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
     appId?: string,
   ) {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
+                  },
+                },
+                {
+                  exists: {
+                    field: 'service.attributes.main.webService',
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              must: [
+                { match: { 'service.type': 'nft-access' } },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      nftContractAddress,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
     const query: SearchQuery = {
       query: {
         bool: {
-          must: [
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    filter: [
-                      { match: { 'service.type': 'metadata' } },
-                      {
-                        match: {
-                          'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
-                        },
-                      },
-                      {
-                        exists: {
-                          field: 'service.attributes.main.webService',
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    must: [
-                      { match: { 'service.type': 'nft-access' } },
-                      {
-                        match: {
-                          'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
-                            nftContractAddress,
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          ],
+          must: search,
         },
       },
       offset,
@@ -438,6 +467,7 @@ export class SearchApi extends Instantiable {
    * Search of all services belonging to a subscription
    *
    * @param subscriptionDid - The DID of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
@@ -447,6 +477,7 @@ export class SearchApi extends Instantiable {
    */
   public async servicesBySubscription(
     subscriptionDid: string,
+    customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
@@ -469,13 +500,21 @@ export class SearchApi extends Instantiable {
 
     const nftContractAddress = getNftContractAddressFromService(nftSalesService)
 
-    return this.servicesByNftContract(nftContractAddress, offset, page, sort, appId)
+    return this.servicesByNftContract(
+      nftContractAddress,
+      customNestedQueries,
+      offset,
+      page,
+      sort,
+      appId,
+    )
   }
 
   /**
    * Search of all datasets belonging to a subscription NFT contract
    *
    * @param nftContractAddress - The DID of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
@@ -485,56 +524,63 @@ export class SearchApi extends Instantiable {
    */
   public async datasetsByNftContract(
     nftContractAddress: string,
+    customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
     appId?: string,
   ): Promise<QueryResult> {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
+                  },
+                },
+                {
+                  match: {
+                    'service.attributes.main.type': 'dataset',
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              must: [
+                { match: { 'service.type': 'nft-access' } },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      nftContractAddress,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
     const query: SearchQuery = {
       query: {
         bool: {
-          must: [
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    filter: [
-                      { match: { 'service.type': 'metadata' } },
-                      {
-                        match: {
-                          'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
-                        },
-                      },
-                      {
-                        match: {
-                          'service.attributes.main.type': 'dataset',
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-            {
-              nested: {
-                path: 'service',
-                query: {
-                  bool: {
-                    must: [
-                      { match: { 'service.type': 'nft-access' } },
-                      {
-                        match: {
-                          'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
-                            nftContractAddress,
-                        },
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          ],
+          must: search,
         },
       },
       offset,
@@ -551,6 +597,7 @@ export class SearchApi extends Instantiable {
    * Search of all datasets belonging to a subscription
    *
    * @param subscriptionDid - The DID of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
@@ -560,6 +607,7 @@ export class SearchApi extends Instantiable {
    */
   public async datasetsBySubscription(
     subscriptionDid: string,
+    customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
@@ -582,6 +630,13 @@ export class SearchApi extends Instantiable {
 
     const nftContractAddress = getNftContractAddressFromService(nftSalesService)
 
-    return this.datasetsByNftContract(nftContractAddress, offset, page, sort, appId)
+    return this.datasetsByNftContract(
+      nftContractAddress,
+      customNestedQueries,
+      offset,
+      page,
+      sort,
+      appId,
+    )
   }
 }
