@@ -57,6 +57,9 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   // The path of the SERVICE_ENDPOINT open that can be accessed via Proxy without authentication
   const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
 
+  // The URL of the OPEN API endpoint that can be accessed via Proxy without authentication
+  const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
+
   // The OAuth token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
 
@@ -123,6 +126,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     console.log(`USING CONFIG:`)
     console.log(`  PROXY_URL=${PROXY_URL}`)
     console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
+    console.log(`  OPEN_ENDPOINT=${OPEN_ENDPOINT}`)
     console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
     console.log(`  REQUEST_DATA=${process.env.REQUEST_DATA}`)
   })
@@ -188,6 +192,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
         // works with: https://www.npmjs.com/package/path-to-regexp
         // Example of regex: `https://api.openai.com/v1/(.*)`,
         `${SERVICE_ENDPOINT}(.*)`,
+        [OPEN_ENDPOINT],
         AUTHORIZATION_TOKEN,
       ) as MetaData
       serviceMetadata.userId = payload.sub
@@ -210,11 +215,9 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
     it('The user can access the open service endpoints directly', async () => {
-      const OPEN_SERVICE_ENDPOINT = `${SERVICE_ENDPOINT}${OPEN_PATH}`
+      console.log(`Using Open Endpoint: ${OPEN_ENDPOINT}`)
 
-      console.log(`Using Open Endpoint: ${OPEN_SERVICE_ENDPOINT}`)
-
-      const result = await fetch(OPEN_SERVICE_ENDPOINT, opts)
+      const result = await fetch(OPEN_ENDPOINT, opts)
 
       assert.isTrue(result.ok)
       assert.isTrue(result.status === 200)
