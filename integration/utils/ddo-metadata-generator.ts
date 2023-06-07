@@ -65,7 +65,10 @@ const webServiceMetadata: Partial<MetaData> = {
           GET: 'http://127.0.0.1:3000',
         },
       ],
-      openEndpoints: ['/openapi.json', '/.well-known/(.*)'],
+      openEndpoints: [
+        'http://tijuana.inet:3000/openapi.json',
+        'http://tijuana.inet:3000/.well-known/(.*)',
+      ],
       internalAttributes: {
         authentication: {
           type: 'oauth',
@@ -110,6 +113,7 @@ export const generateMetadata = (
 export const generateWebServiceMetadata = (
   name: string,
   endpoint: string,
+  openEndpoints: string[],
   authToken: string,
   nonce: string | number = Math.random(),
 ): Partial<MetaData> => {
@@ -133,6 +137,9 @@ export const generateWebServiceMetadata = (
     { Authorization: `Bearer ${authToken}` },
     { 'X-Extra-Header': 'hey there' },
   ]
+  if (openEndpoints) {
+    serviceMetadata.main.webService.openEndpoints = openEndpoints
+  }
   return serviceMetadata
 }
 

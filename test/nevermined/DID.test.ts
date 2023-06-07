@@ -20,12 +20,13 @@ describe('DID', () => {
     })
 
     it('should decode a did', () => {
+      console.log(encoded)
       decoded = DID.fromEncoded(encoded)
       assert(decoded)
     })
 
     it('decoded did should match before encoding', () => {
-      assert(did.getId === decoded.getId)
+      assert(did.getDid() === decoded.getDid())
     })
   })
 

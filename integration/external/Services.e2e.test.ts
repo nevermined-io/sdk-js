@@ -15,6 +15,7 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
+  DID,
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
@@ -52,6 +53,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   // The service to register into Nevermined and attach to a subscription
   const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'
+
+  // The path of the SERVICE_ENDPOINT open that can be accessed via Proxy without authentication
+  const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
+
+  // The URL of the OPEN API endpoint that can be accessed via Proxy without authentication
+  const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
 
   // The OAuth token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
@@ -159,6 +166,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     console.log(`USING CONFIG:`)
     console.log(`  PROXY_URL=${PROXY_URL}`)
     console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
+    console.log(`  OPEN_ENDPOINT=${OPEN_ENDPOINT}`)
     console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
     console.log(`  REQUEST_DATA=${process.env.REQUEST_DATA}`)
   })
@@ -224,6 +232,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
         // works with: https://www.npmjs.com/package/path-to-regexp
         // Example of regex: `https://api.openai.com/v1/(.*)`,
         `${SERVICE_ENDPOINT}(.*)`,
+        [OPEN_ENDPOINT],
         AUTHORIZATION_TOKEN,
       ) as MetaData
       serviceMetadata.userId = payload.sub
@@ -241,6 +250,36 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
       console.log(`Service registered with DID: ${serviceDDO.id}`)
       assert.isDefined(serviceDDO)
+    })
+  })
+
+  describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
+    it('The user can access the open service endpoints directly', async () => {
+      console.log(`Using Open Endpoint: ${OPEN_ENDPOINT}`)
+
+      const result = await fetch(OPEN_ENDPOINT, opts)
+
+      assert.isTrue(result.ok)
+      assert.isTrue(result.status === 200)
+    })
+
+    it('The subscriber can access the open service endpoints through the proxy', async () => {
+      const proxyUrl = new URL(PROXY_URL)
+      const serviceDID = DID.parse(serviceDDO.id)
+      const subdomain = serviceDID.getEncoded()
+
+      const OPEN_PROXY_URL = `${proxyUrl.protocol}//${subdomain}.${proxyUrl.host}${OPEN_PATH}`
+
+      console.log(`Using Proxied Open Endpoint: ${OPEN_PROXY_URL} for DID: ${serviceDDO.id}`)
+
+      const didFromEncoded = DID.fromEncoded(subdomain)
+
+      console.log(`DID from encoded: ${didFromEncoded.getDid()}`)
+
+      const result = await fetch(OPEN_PROXY_URL, opts)
+
+      assert.isTrue(result.ok)
+      assert.isTrue(result.status === 200)
     })
   })
 
