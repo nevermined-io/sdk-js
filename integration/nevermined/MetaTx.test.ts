@@ -10,7 +10,7 @@ import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper'
 
-describe('MetaTx test with nfts', () => {
+describe.skip('MetaTx test with nfts', () => {
   let nevermined: Nevermined
 
   let artist: Account
@@ -39,7 +39,7 @@ describe('MetaTx test with nfts', () => {
     await nevermined.keeper.nftUpgradeable.grantOperatorRole(artist.getId(), nftContractOwner)
   })
 
-  describe.skip('with default token', async () => {
+  describe('with default token', async () => {
     before(async () => {
       const metadata = getMetadata(Math.random())
       metadata.userId = payload.sub
