@@ -62,7 +62,9 @@ export class DID {
    * @returns {@link DID}
    */
   public static fromEncoded(encoded: string): DID {
-    return new DID(this.parseBigInt(encoded).toString(16))
+    const decoded = this.parseBigInt(encoded).toString(16)
+    if (decoded.length !== 64) return new DID(`0${decoded}`)
+    else return new DID(decoded)
   }
 
   /**

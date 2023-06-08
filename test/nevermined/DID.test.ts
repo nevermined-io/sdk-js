@@ -28,6 +28,13 @@ describe('DID', () => {
     it('decoded did should match before encoding', () => {
       assert(did.getDid() === decoded.getDid())
     })
+
+    it('it encodes and decodes shorter dids (starting by 0)', () => {
+      did = DID.parse('did:nv:04c1fb4b3892ac46eee2226545828244501b228a1eddc68efc26917eb352b02c')
+      encoded = did.getEncoded()
+      decoded = DID.fromEncoded(encoded)
+      assert(did.getDid() === decoded.getDid())
+    })
   })
 
   describe('#parse()', () => {

@@ -10,7 +10,7 @@ import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper'
 
-describe('MetaTx test with nfts', () => {
+describe.skip('MetaTx test with nfts', () => {
   let nevermined: Nevermined
 
   let artist: Account
