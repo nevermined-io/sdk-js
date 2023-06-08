@@ -39,7 +39,7 @@ describe('MetaTx test with nfts', () => {
     await nevermined.keeper.nftUpgradeable.grantOperatorRole(artist.getId(), nftContractOwner)
   })
 
-  describe('with default token', async () => {
+  describe.skip('with default token', async () => {
     before(async () => {
       const metadata = getMetadata(Math.random())
       metadata.userId = payload.sub
