@@ -489,6 +489,13 @@ export interface NvmConfig {
    * The `versions` list stores the reference to all the changes done to the Metadata document.
    */
   versions: NvmConfigVersions[]
+
+  /**
+   * Block networks where the asset is available. It is represented as a map of network Id and a boolean value.
+   */
+  networks?: {
+    [key: string]: boolean
+  }
 }
 
 export enum ImmutableBackends {
