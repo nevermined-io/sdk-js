@@ -209,7 +209,7 @@ describe('Assets', () => {
   })
 
   describe('#retire()', () => {
-    it.skip('retire an existing asset', async () => {
+    it('retire an existing asset', async () => {
       await nevermined.assets.retire(ddo.id)
       await sleep(3000)
       await expect(await nevermined.assets.resolve(ddo.id)).to.be.rejectedWith(Error)
