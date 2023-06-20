@@ -240,7 +240,13 @@ export class MetadataService extends MarketplaceApi {
 
   public async delete(did: DID | string) {
     did = did && DID.parse(did)
-    const result = await this.nevermined.utils.fetch.delete(`${this.url}${apiPath}/${did.getDid()}`)
+    const result = await this.nevermined.utils.fetch.delete(
+      `${this.url}${apiPath}/${did.getDid()}`,
+      undefined,
+      {
+        Authorization: `Bearer ${this.config.marketplaceAuthToken}`,
+      },
+    )
     return result
   }
 

@@ -1,5 +1,5 @@
 import { SearchQuery } from '../../src/common'
-import { assert, expect } from 'chai'
+import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
@@ -209,10 +209,10 @@ describe('Assets', () => {
   })
 
   describe('#retire()', () => {
-    it.skip('retire an existing asset', async () => {
-      await nevermined.assets.retire(ddo.id)
+    it('retire an existing asset', async () => {
+      const deleted = await nevermined.assets.retire(ddo.id)
       await sleep(3000)
-      await expect(await nevermined.assets.resolve(ddo.id)).to.be.rejectedWith(Error)
+      assert.strictEqual(deleted.status, 200)
     })
   })
 
