@@ -55,6 +55,10 @@ export interface PaymentData {
 }
 
 export abstract class AgreementTemplate<Params> extends ContractBase {
+  // cache these values since they are always the same for a template
+  private _conditionTypes: string[]
+  private _conditions: ConditionSmall[]
+
   public static async getInstance<Params>(
     config: InstantiableConfig,
     templateContractName: string,
@@ -154,8 +158,11 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
    * Conditions address list.
    * @returns A list of condition addresses.
    */
-  public getConditionTypes(): Promise<string[]> {
-    return this.call('getConditionTypes', [])
+  public async getConditionTypes(): Promise<string[]> {
+    if (!this._conditionTypes) {
+      this._conditionTypes = await this.call('getConditionTypes', [])
+    }
+    return this._conditionTypes
   }
 
   /**
@@ -163,9 +170,12 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
    * @returns A list of condition contracts.
    */
   public async getConditions(): Promise<ConditionSmall[]> {
-    return (await this.getConditionTypes()).map((address) =>
-      this.nevermined.keeper.getConditionByAddress(address),
-    )
+    if (!this._conditions) {
+      this._conditions = (await this.getConditionTypes()).map((address) =>
+        this.nevermined.keeper.getConditionByAddress(address),
+      )
+    }
+    return this._conditions
   }
 
   /**
