@@ -78,4 +78,9 @@ export class NeverminedOptions {
   public ipfsProjectId?: string
 
   public ipfsProjectSecret?: string
+
+  /**
+   * Use a gas station to calculate transaction fees
+   */
+  public gasStationUri?: string
 }
