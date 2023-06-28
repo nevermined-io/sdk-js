@@ -283,11 +283,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
-    it('The user can access the open service endpoints directly', async () => {
+    it('The user can access the open service endpoints directly', async function () {
       if (SKIP_OPEN_ENDPOINT) {
         console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
-        assert.isTrue(true)
-        return
+        this.skip()
       }
       console.log(`Using Open Endpoint: ${OPEN_ENDPOINT}`)
 
@@ -297,11 +296,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       assert.isTrue(result.status === 200)
     })
 
-    it('The subscriber can access the open service endpoints through the proxy', async () => {
+    it('The subscriber can access the open service endpoints through the proxy', async function () {
       if (SKIP_OPEN_ENDPOINT) {
         console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
-        assert.isTrue(true)
-        return
+        this.skip()
       }
 
       const proxyUrl = new URL(PROXY_URL)
