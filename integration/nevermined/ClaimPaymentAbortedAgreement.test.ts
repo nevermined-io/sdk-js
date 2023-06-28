@@ -199,7 +199,7 @@ describe('Claim aborted agreements End-to-End', () => {
       } catch (error) {
         console.debug(`Unable to fullfill condition because timelock`)
       }
-      nevermined.keeper.templates.nft721SalesTemplate
+
       const agreementStatusAfter =
         await nevermined.keeper.templates.nftSalesTemplate.getAgreementStatus(agreementId)
 
