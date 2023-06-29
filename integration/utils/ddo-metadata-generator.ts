@@ -1,4 +1,4 @@
-import { MetaData, AssetPrice } from '../../src'
+import { MetaData, AssetPrice, ResourceAuthentication } from '../../src'
 import { BigNumber } from '../../src/utils'
 
 const metadata: Partial<MetaData> = {
@@ -69,17 +69,7 @@ const webServiceMetadata: Partial<MetaData> = {
         'http://tijuana.inet:3000/openapi.json',
         'http://tijuana.inet:3000/.well-known/(.*)',
       ],
-      internalAttributes: {
-        authentication: {
-          type: 'oauth',
-          token: '',
-        },
-        headers: [
-          {
-            Authorization: 'Bearer xxxxxx',
-          },
-        ],
-      },
+      internalAttributes: {},
     },
   },
   additionalInformation: {
@@ -114,7 +104,10 @@ export const generateWebServiceMetadata = (
   name: string,
   endpoint: string,
   openEndpoints: string[],
-  authToken: string,
+  authType: ResourceAuthentication['type'],
+  authToken?: string,
+  authUser?: string,
+  authPassword?: string,
   nonce: string | number = Math.random(),
 ): Partial<MetaData> => {
   const serviceMetadata = {
@@ -129,14 +122,28 @@ export const generateWebServiceMetadata = (
     },
   }
   serviceMetadata.main.webService.endpoints[0] = { GET: endpoint }
-  serviceMetadata.main.webService.internalAttributes.authentication = {
-    type: 'oauth',
-    token: authToken,
+
+  if (authType === 'basic') {
+    serviceMetadata.main.webService.internalAttributes.authentication = {
+      type: 'basic',
+      username: authUser,
+      password: authPassword,
+    }
+  } else if (authType === 'oauth') {
+    serviceMetadata.main.webService.internalAttributes.authentication = {
+      type: 'oauth',
+      token: authToken,
+    }
+    serviceMetadata.main.webService.internalAttributes.headers = [
+      { Authorization: `Bearer ${authToken}` },
+      { 'X-Extra-Header': 'hey there' },
+    ]
+  } else {
+    serviceMetadata.main.webService.internalAttributes.authentication = {
+      type: 'none',
+    }
   }
-  serviceMetadata.main.webService.internalAttributes.headers = [
-    { Authorization: `Bearer ${authToken}` },
-    { 'X-Extra-Header': 'hey there' },
-  ]
+
   if (openEndpoints) {
     serviceMetadata.main.webService.openEndpoints = openEndpoints
   }

@@ -1,6 +1,14 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import {
+  Account,
+  DDO,
+  MetaData,
+  Nevermined,
+  AssetPrice,
+  NFTAttributes,
+  ResourceAuthentication,
+} from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
 import { generateWebServiceMetadata, getMetadata } from '../utils'
@@ -57,11 +65,24 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   // The path of the SERVICE_ENDPOINT open that can be accessed via Proxy without authentication
   const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
 
+  const SKIP_OPEN_ENDPOINT = process.env.SKIP_OPEN_ENDPOINT === 'true'
+
   // The URL of the OPEN API endpoint that can be accessed via Proxy without authentication
   const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
 
-  // The OAuth token required by the service
+  // We separate how the authorization of the service is done.
+  // If oauth we will use the AUTHORIZATION_TOKEN env
+  // If basic we will use the AUTHORIZATION_USER and AUTHORIZATION_PASSWORD envs
+  const AUTHORIZATION_TYPE = (process.env.AUTHORIZATION_TYPE ||
+    'oauth') as ResourceAuthentication['type']
+
+  // The http authorization bearer token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
+
+  // If the Authe
+  const AUTHORIZATION_USER = process.env.AUTHORIZATION_USER || 'user'
+
+  const AUTHORIZATION_PASSWORD = process.env.AUTHORIZATION_PASSWORD || 'password'
 
   // The NVM proxy that will be used to authorize the service requests
   const PROXY_URL = process.env.PROXY_URL || 'http://127.0.0.1:3128'
@@ -167,7 +188,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     console.log(`  PROXY_URL=${PROXY_URL}`)
     console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
     console.log(`  OPEN_ENDPOINT=${OPEN_ENDPOINT}`)
-    console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
+    console.log(`  AUTHORIZATION_TYPE=${AUTHORIZATION_TYPE}`)
+    if (AUTHORIZATION_TYPE === 'oauth') console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
+    else {
+      console.log(`  AUTHORIZATION_USER=${AUTHORIZATION_USER}`)
+      console.log(`  AUTHORIZATION_PASSWORD=${AUTHORIZATION_PASSWORD}`)
+    }
     console.log(`  REQUEST_DATA=${process.env.REQUEST_DATA}`)
   })
 
@@ -233,7 +259,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
         // Example of regex: `https://api.openai.com/v1/(.*)`,
         `${SERVICE_ENDPOINT}(.*)`,
         [OPEN_ENDPOINT],
+        AUTHORIZATION_TYPE,
         AUTHORIZATION_TOKEN,
+        AUTHORIZATION_USER,
+        AUTHORIZATION_PASSWORD,
       ) as MetaData
       serviceMetadata.userId = payload.sub
 
@@ -254,7 +283,11 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
-    it('The user can access the open service endpoints directly', async () => {
+    it('The user can access the open service endpoints directly', async function () {
+      if (SKIP_OPEN_ENDPOINT) {
+        console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
+        this.skip()
+      }
       console.log(`Using Open Endpoint: ${OPEN_ENDPOINT}`)
 
       const result = await fetch(OPEN_ENDPOINT, opts)
@@ -263,7 +296,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       assert.isTrue(result.status === 200)
     })
 
-    it('The subscriber can access the open service endpoints through the proxy', async () => {
+    it('The subscriber can access the open service endpoints through the proxy', async function () {
+      if (SKIP_OPEN_ENDPOINT) {
+        console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
+        this.skip()
+      }
+
       const proxyUrl = new URL(PROXY_URL)
       const serviceDID = DID.parse(serviceDDO.id)
       const subdomain = serviceDID.getEncoded()
