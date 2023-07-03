@@ -483,7 +483,7 @@ export class SearchApi extends Instantiable {
     sort = 'desc',
     appId?: string,
   ): Promise<QueryResult> {
-    const subscriptionDDO = await this.nevermined.assets.resolve(subscriptionDid)
+    const subscriptionDDO = await this.byDID(subscriptionDid)
 
     // return empty result
     if (!subscriptionDDO) {
