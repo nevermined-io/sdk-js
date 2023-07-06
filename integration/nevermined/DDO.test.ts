@@ -104,6 +104,14 @@ describe('DDO Tests', () => {
         'templateId',
       ] as any,
     )
+
+    assert.isTrue(ddo.serviceExists('metadata'))
+    assert.isTrue(ddo.serviceExists('access'))
+    assert.isFalse(ddo.serviceExists('compute'))
+
+    assert.isTrue(ddo.serviceIndexExists(0)) // metadata
+    assert.isTrue(ddo.serviceIndexExists(3)) // access
+    assert.isFalse(ddo.serviceIndexExists(99))
   })
 
   it('should create correct nft DDO', async () => {

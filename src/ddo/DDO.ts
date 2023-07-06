@@ -152,6 +152,26 @@ export class DDO {
   }
 
   /**
+   * Checks if a service exists in the DDO.
+   * @param serviceType - Service type.
+   *
+   * @returns true if service exists.
+   */
+  public serviceExists<T extends ServiceType>(serviceType: T): boolean {
+    return this.service.find((s) => s.type === serviceType) ? true : false
+  }
+
+  /**
+   * Checks if a service index in the DDO.
+   * @param serviceIndex - Service .
+   *
+   * @returns true if service exists.
+   */
+  public serviceIndexExists(serviceIndex: number): boolean {
+    return this.service.find((s) => s.index === serviceIndex) ? true : false
+  }
+
+  /**
    * Get the total price of a service.
    * @example
    * ```ts
