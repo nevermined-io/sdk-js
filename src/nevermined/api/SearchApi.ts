@@ -314,7 +314,6 @@ export class SearchApi extends Instantiable {
   ): Promise<QueryResult> {
     // get on chain dids for nft-721 bought
     const eventOptions: EventOptions = {
-      methodName: 'getFulfilleds',
       eventName: 'Fulfilled',
       filterSubgraph: {
         where: {
