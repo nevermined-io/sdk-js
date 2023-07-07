@@ -1,12 +1,6 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetAttributes, NFTAttributes } from '../../../models'
-import {
-  generateId,
-  getDIDFromService,
-  getNftAmountFromService,
-  SubscribablePromise,
-  zeroX,
-} from '../../../utils'
+import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import { PublishMetadata } from '../AssetsApi'
 import { Account } from '../../Account'
 import { TxParameters, Nft1155Contract } from '../../../keeper'
@@ -498,8 +492,8 @@ export class NFT1155Api extends NFTsBaseApi {
     txParams?: TxParameters,
   ): Promise<boolean> {
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-    const did = getDIDFromService(service)
-    const nftAmount = getNftAmountFromService(service)
+    const did = DDO.getDIDFromService(service)
+    const nftAmount = DDO.getNftAmountFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
     ddo.updateService(this.nevermined, service)
     const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(

@@ -10,13 +10,7 @@ import {
 import { AssetAttributes, NFTAttributes } from '../../models'
 import { Account, CreateProgressStep, DID } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import {
-  SubscribablePromise,
-  zeroX,
-  generateId,
-  fillConditionsWithDDO,
-  ZeroAddress,
-} from '../../utils'
+import { SubscribablePromise, zeroX, generateId, ZeroAddress } from '../../utils'
 import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
@@ -147,10 +141,9 @@ export abstract class RegistryBaseApi extends Instantiable {
         } = nftAttributes || {}
         const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
 
-        sat.conditions = fillConditionsWithDDO(
+        sat.conditions = ddo.fillConditionsWithDDO(
           name,
           sat.conditions,
-          ddo,
           assetAttributes.price,
           tokenAddress,
           nftContractAddress,

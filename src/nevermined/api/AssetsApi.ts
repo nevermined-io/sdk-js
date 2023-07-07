@@ -1,10 +1,10 @@
 import { DDO, MetaData, ServiceNFTAccess, ServiceNFTSales, ServiceType } from '../../ddo'
 import { Account } from '../Account'
-import { SubscribablePromise, didZeroX, getNftContractAddressFromService } from '../../utils'
+import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
 import { AssetError, DDOError } from '../../errors'
-import { Nevermined } from '../../sdk'
+import { Nevermined, apiPath } from '../../sdk'
 import { ContractReceipt } from 'ethers'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
@@ -346,7 +346,15 @@ export class AssetsApi extends RegistryBaseApi {
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
 
-    const { serviceEndpoint, index } = ddo.findServiceByType(serviceType)
+    let serviceEndpoint, index
+    if (ddo.serviceExists(serviceType)) {
+      const service = ddo.findServiceByType(serviceType)
+      serviceEndpoint = service.serviceEndpoint
+      index = service.index
+    } else {
+      serviceEndpoint = `${this.config.marketplaceUri}/${apiPath}/${did}`
+      index = 0
+    }
 
     if (!serviceEndpoint) {
       throw new AssetError(
@@ -441,9 +449,9 @@ export class AssetsApi extends RegistryBaseApi {
   public getNftContractAddress(ddo: DDO, serviceType: ServiceType = 'nft-access') {
     const service = ddo.findServiceByType(serviceType)
     if (service.type === 'nft-access')
-      return getNftContractAddressFromService(service as ServiceNFTAccess)
+      return DDO.getNftContractAddressFromService(service as ServiceNFTAccess)
     else if (service.type === 'nft-sales')
-      return getNftContractAddressFromService(service as ServiceNFTSales)
+      return DDO.getNftContractAddressFromService(service as ServiceNFTSales)
     throw new DDOError(`Unable to find NFT contract address in service ${serviceType}`)
   }
 }

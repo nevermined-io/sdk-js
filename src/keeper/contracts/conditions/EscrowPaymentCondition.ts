@@ -4,11 +4,12 @@ import {
   ConditionInstanceSmall,
   ProviderCondition,
 } from './Condition.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
+import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 import { BigNumber } from '../../../utils'
+import { DDO } from '../../../ddo/DDO'
 
 export interface EscrowPaymentConditionContext extends ConditionContext {
   consumerId: string
@@ -43,7 +44,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
     access: ConditionInstanceSmall,
     lock: ConditionInstanceSmall,
   ) {
-    const escrow = findServiceConditionByName(service, 'escrowPayment')
+    const escrow = DDO.findServiceConditionByName(service, 'escrowPayment')
     if (!escrow) throw new Error('Escrow Condition not found!')
     return this.params(
       ddo.shortId(),

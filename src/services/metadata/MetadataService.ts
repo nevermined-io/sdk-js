@@ -4,8 +4,8 @@ import { MarketplaceApi } from './MarketplaceAPI'
 import { ApiError, HttpError } from '../../errors'
 import { SearchQuery } from '../../common/interfaces'
 
-const apiPath = '/api/v1/metadata/assets/ddo'
-const servicePath = '/api/v1/metadata/assets/service'
+export const apiPath = '/api/v1/metadata/assets/ddo'
+export const servicePath = '/api/v1/metadata/assets/service'
 
 export interface QueryResult {
   results: DDO[]

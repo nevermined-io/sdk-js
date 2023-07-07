@@ -25,7 +25,6 @@ import {
 import { config } from '../config'
 import { NFT721Api } from '../../src'
 import { getMetadata } from '../utils'
-import { setNFTRewardsFromDDOByService } from '../../src/utils'
 import { BigNumber } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 
@@ -784,7 +783,7 @@ describe('NFT721Templates E2E', () => {
             await token.balanceOf(escrowPaymentCondition.getAddress()),
           ),
         }
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice2, collector1.getId())
+        ddo.setNFTRewardsFromDDOByService('nft-sales', assetPrice2, collector1.getId())
       })
       it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
         const result = await nft721SalesTemplate.createAgreementFromDDO(

@@ -16,6 +16,7 @@ const SALES_SERVICES = ['access', 'compute', 'nft-sales']
 // Condition Names that are the final dependency for releasing the payment in a service agreement
 const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
 
+// @deprecated Use `DDO.fillParameterWithDDO`
 function fillParameterWithDDO(
   parameter: ServiceAgreementTemplateParameter,
   ddo: DDO,
@@ -77,6 +78,7 @@ function fillParameterWithDDO(
  *
  * @returns Filled conditions.
  */
+// @deprecated Use `fillConditionsWithDDO`
 export function fillConditionsWithDDO(
   serviceType: ServiceType,
   conditions: ServiceAgreementTemplateCondition[],
@@ -120,6 +122,7 @@ export function fillConditionsWithDDO(
     }))
 }
 
+// @deprecated Use `DDO.findServiceConditionByName` instead
 export function findServiceConditionByName(
   service: Service,
   name: ConditionType,
@@ -127,10 +130,12 @@ export function findServiceConditionByName(
   return service.attributes.serviceAgreementTemplate.conditions.find((c) => c.name === name)
 }
 
+// @deprecated Use `DDO.getAssetPriceFromDDOByServiceType` instead
 export function getAssetPriceFromDDOByService(ddo: DDO, service: ServiceType): AssetPrice {
   return getAssetPriceFromService(ddo.findServiceByType(service))
 }
 
+// @deprecated Use `DDO.setNFTRewardsFromDDOByService` instead
 export function setNFTRewardsFromDDOByService(
   ddo: DDO,
   serviceType: ServiceType,
@@ -147,6 +152,7 @@ export function setNFTRewardsFromDDOByService(
   holder.value = holderAddress
 }
 
+// @deprecated Use `DDO.setAssetPriceFromDDOByService` instead
 export function setAssetPriceFromDDOByService(
   ddo: DDO,
   serviceType: ServiceType,
@@ -163,6 +169,7 @@ export function setAssetPriceFromDDOByService(
   receivers.value = rewards.getReceivers()
 }
 
+// @deprecated Use `DDO.getAssetPriceFromService` instead
 export function getAssetPriceFromService(service: Service): AssetPrice {
   const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
   if (!escrowPaymentCondition) {
@@ -181,22 +188,26 @@ export function getAssetPriceFromService(service: Service): AssetPrice {
   return new AssetPrice(rewardsMap)
 }
 
+// @deprecated Use `DDO.getDIDFromService` instead
 export function getDIDFromService(service: Service): string {
   const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
   return ('did:nv:' +
     escrowPaymentCondition.parameters.find((p) => p.name === '_did').value) as string
 }
 
+// @deprecated Use `DDO.getNftHolderFromService` instead
 export function getNftHolderFromService(service: Service): string {
   const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
   return nftTransferCondition.parameters.find((p) => p.name === '_nftHolder').value as string
 }
 
+// @deprecated Use `DDO.getNftAmountFromService` instead
 export function getNftAmountFromService(service: Service): BigNumber {
   const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
   return BigNumber.from(nftTransferCondition.parameters.find((p) => p.name === '_numberNfts').value)
 }
 
+// @deprecated Use `DDO.getNftContractAddressFromService` instead
 export function getNftContractAddressFromService(
   service: ServiceNFTAccess | ServiceNFTSales,
 ): string {

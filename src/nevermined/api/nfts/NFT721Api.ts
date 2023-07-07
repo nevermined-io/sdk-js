@@ -1,7 +1,7 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO } from '../../../ddo'
 import { NFTAttributes, AssetAttributes } from '../../../models'
-import { generateId, getDIDFromService, SubscribablePromise, zeroX } from '../../../utils'
+import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import { Account } from '../../Account'
 import { Nft721Contract, TxParameters } from '../../../keeper'
 import { PublishMetadata } from '../AssetsApi'
@@ -511,7 +511,7 @@ export class NFT721Api extends NFTsBaseApi {
     txParams?: TxParameters,
   ): Promise<boolean> {
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-    const did = getDIDFromService(service)
+    const did = DDO.getDIDFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
     ddo.updateService(this.nevermined, service)
     const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(

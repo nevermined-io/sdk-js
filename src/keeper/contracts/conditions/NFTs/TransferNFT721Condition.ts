@@ -1,5 +1,5 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { didZeroX, zeroX } from '../../../../utils'
 import {
   Condition,
   ConditionContext,
@@ -9,6 +9,7 @@ import {
 } from '../Condition.abstract'
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
+import { DDO } from '../../../../ddo/DDO'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
   consumerId: string
@@ -82,7 +83,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     { ddo, service, consumerId, expiration }: TransferNFT721ConditionContext,
     lockCondition,
   ) {
-    const transfer = findServiceConditionByName(service, 'transferNFT')
+    const transfer = DDO.findServiceConditionByName(service, 'transferNFT')
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
     const nftAddress = transfer.parameters.find((p) => p.name === '_contractAddress')

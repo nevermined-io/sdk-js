@@ -1,7 +1,7 @@
 import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { DDO } from '../../ddo'
-import { findServiceConditionByName, ZeroAddress } from '../../utils'
+import { ZeroAddress } from '../../utils'
 import { Token, CustomToken, TxParameters as txParams } from '../../keeper'
 import { AssetPrice } from '../../models'
 import { KeeperError } from '../../errors/KeeperError'
@@ -355,7 +355,7 @@ export class ConditionsApi extends Instantiable {
     const { nft721HolderCondition } = this.nevermined.keeper.conditions
     const accessService = ddo.findServiceByType('nft-access')
 
-    const holder = findServiceConditionByName(accessService, 'nftHolder')
+    const holder = DDO.findServiceConditionByName(accessService, 'nftHolder')
 
     const contractReceipt: ContractReceipt = await nft721HolderCondition.fulfill(
       agreementId,

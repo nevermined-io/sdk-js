@@ -21,12 +21,6 @@ import {
   NFTSalesTemplate,
   Token,
 } from '../../src/keeper'
-import {
-  fillConditionsWithDDO,
-  findServiceConditionByName,
-  getAssetPriceFromService,
-  setNFTRewardsFromDDOByService,
-} from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { BigNumber } from '../../src/utils'
@@ -350,7 +344,7 @@ describe('Secondary Markets', () => {
           lockPaymentCondition: await token.balanceOf(lockPaymentCondition.getAddress()),
           escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.getAddress()),
         }
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice2, collector1.getId())
+        ddo.setNFTRewardsFromDDOByService('nft-sales', assetPrice2, collector1.getId())
       })
 
       it('As collector1 I create and store an off-chain service agreement', async () => {
@@ -359,10 +353,9 @@ describe('Secondary Markets', () => {
         const nftSalesTemplateConditions =
           await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
-        nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+        nftSalesServiceAgreementTemplate.conditions = ddo.fillConditionsWithDDO(
           'nft-sales',
           nftSalesTemplateConditions,
-          ddo,
           assetPrice2,
           token.getAddress(),
           undefined,
@@ -417,8 +410,9 @@ describe('Secondary Markets', () => {
         assert.isTrue(collector2BalanceBefore.eq(initialBalances.collector2.add(nftPrice2)))
 
         // After fetching the previously created sales agreement
-        const assetPriceFromServiceAgreement = getAssetPriceFromService(nftSalesServiceAgreement)
-        const payment = findServiceConditionByName(nftSalesServiceAgreement, 'lockPayment')
+        const assetPriceFromServiceAgreement =
+          DDO.getAssetPriceFromService(nftSalesServiceAgreement)
+        const payment = DDO.findServiceConditionByName(nftSalesServiceAgreement, 'lockPayment')
 
         const receipt = await nevermined.agreements.conditions.lockPayment(
           agreementId2,
@@ -468,7 +462,8 @@ describe('Secondary Markets', () => {
 
       it('Collector1 and Artist get the payment', async () => {
         // After fetching the previously created sales agreement
-        const assetPriceFromServiceAgreement = getAssetPriceFromService(nftSalesServiceAgreement)
+        const assetPriceFromServiceAgreement =
+          DDO.getAssetPriceFromService(nftSalesServiceAgreement)
 
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
           escrowPaymentCondition.getAddress(),
@@ -504,7 +499,7 @@ describe('Secondary Markets', () => {
     describe('As collector1 I want to give exclusive access to the collectors owning a specific NFT', () => {
       before(async () => {
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(collector2)
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice3, collector2.getId())
+        ddo.setNFTRewardsFromDDOByService('nft-sales', assetPrice3, collector2.getId())
 
         await nevermined.services.marketplace.login(clientAssertion)
       })

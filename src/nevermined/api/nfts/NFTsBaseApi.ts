@@ -1,12 +1,5 @@
 import { DDO, ServiceType } from '../../../ddo'
-import {
-  fillConditionsWithDDO,
-  findServiceConditionByName,
-  getAssetPriceFromService,
-  getDIDFromService,
-  getNftHolderFromService,
-  zeroX,
-} from '../../../utils'
+import { zeroX } from '../../../utils'
 import { AssetPrice, Babysig, ERCType } from '../../../models'
 import { RoyaltyKind } from '../AssetsApi'
 import { Account } from '../../Account'
@@ -247,10 +240,9 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     const nftSalesTemplateConditions =
       await nftSalesTemplate.getServiceAgreementTemplateConditions()
 
-    nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+    nftSalesServiceAgreementTemplate.conditions = ddo.fillConditionsWithDDO(
       serviceType,
       nftSalesTemplateConditions,
-      ddo,
       assetPrice,
       token.getAddress(),
       undefined,
@@ -321,10 +313,10 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
   ): Promise<boolean> {
     const { nftSalesTemplate } = this.nevermined.keeper.templates
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-    const assetPrice = getAssetPriceFromService(service)
+    const assetPrice = DDO.getAssetPriceFromService(service)
     // has no privkeys, so we can't sign
-    const currentNftHolder = new Account(getNftHolderFromService(service))
-    const did = getDIDFromService(service)
+    const currentNftHolder = new Account(DDO.getNftHolderFromService(service))
+    const did = DDO.getDIDFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
     ddo.updateService(this.nevermined, service)
 
@@ -340,7 +332,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
 
     if (!agreementId) throw new Error('Creating buy agreement failed')
 
-    const payment = findServiceConditionByName(service, 'lockPayment')
+    const payment = DDO.findServiceConditionByName(service, 'lockPayment')
 
     const receipt = await this.nevermined.agreements.conditions.lockPayment(
       agreementId,

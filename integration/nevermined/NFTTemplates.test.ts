@@ -24,7 +24,6 @@ import {
 } from '../../src/keeper'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { BigNumber } from '../../src/utils'
-import { setNFTRewardsFromDDOByService } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
@@ -786,7 +785,7 @@ describe('NFTTemplates E2E', () => {
             await token.balanceOf(escrowPaymentCondition.getAddress()),
           ),
         }
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice2, collector1.getId())
+        ddo.setNFTRewardsFromDDOByService('nft-sales', assetPrice2, collector1.getId())
       })
 
       it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
