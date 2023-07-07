@@ -282,8 +282,16 @@ describe('Register Escrow Compute Execution Template', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice,
-        serviceTypes: ['access', 'compute'],
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+          {
+            serviceType: 'compute',
+            price: assetPrice,
+          },
+        ],
       })
       ddo = await nevermined.assets.create(assetAttributes, publisher)
     })

@@ -72,7 +72,14 @@ describe('Nfts721 operations', async () => {
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: nft.address,
       })
       assert.equal(nftAttributes.fulfillAccessTimelock, 0)
@@ -128,8 +135,15 @@ describe('Nfts721 operations', async () => {
       // artist creates the nft
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        price: new AssetPrice().setTokenAddress(token.getAddress()),
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: new AssetPrice().setTokenAddress(token.getAddress()),
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: nft.address,
         preMint: false,
       })
@@ -170,8 +184,15 @@ describe('Nfts721 operations', async () => {
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: nft.address,
         preMint: false,
       })

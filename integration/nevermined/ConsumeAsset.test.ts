@@ -51,7 +51,15 @@ describe('Consume Asset', () => {
 
   it('should register an asset', async () => {
     ddo = await nevermined.assets.create(
-      AssetAttributes.getInstance({ metadata, price: assetPrice }),
+      AssetAttributes.getInstance({
+        metadata,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
+      }),
       publisher,
     )
 

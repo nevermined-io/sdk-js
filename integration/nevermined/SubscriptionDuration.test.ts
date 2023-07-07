@@ -48,8 +48,12 @@ describe('Subscription Durations', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+          },
+        ],
         providers: [config.neverminedNodeAddress],
         duration: 0,
         nftContractAddress: subscriptionNFT.address,
@@ -63,7 +67,11 @@ describe('Subscription Durations', () => {
     it('The publisher creates a dataset to associate to the subscription', async () => {
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: getMetadata(),
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         providers: [config.neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
@@ -133,8 +141,12 @@ describe('Subscription Durations', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+          },
+        ],
         providers: [config.neverminedNodeAddress],
         duration: 1000,
         nftContractAddress: subscriptionNFT.address,
@@ -148,7 +160,11 @@ describe('Subscription Durations', () => {
     it('The publisher creates a dataset to associate to the subscription', async () => {
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: getMetadata(),
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         providers: [config.neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
@@ -218,8 +234,12 @@ describe('Subscription Durations', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+          },
+        ],
         providers: [config.neverminedNodeAddress],
         duration: 1,
         nftContractAddress: subscriptionNFT.address,
@@ -233,7 +253,11 @@ describe('Subscription Durations', () => {
     it('The publisher creates a dataset to associate to the subscription', async () => {
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: getMetadata(),
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         providers: [config.neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint: false,

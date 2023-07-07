@@ -108,9 +108,16 @@ describe('Claim aborted agreements End-to-End', () => {
     it('I want to register a new asset and tokenize (via NFT). The sales agreement expires in a few blocks', async () => {
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        price: assetPrice1,
         providers: [neverminedNodeAddress],
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice1,
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: nftContract.address,
         fulfillAccessTimeout: accessTimeout,
         fulfillAccessTimelock: accessTimelock,

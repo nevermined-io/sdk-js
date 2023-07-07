@@ -146,7 +146,7 @@ export class DDO {
   }
 
   /**
-   * Finds a service of a DDO by type.
+   * Finds the first service of a DDO by type.
    * @param serviceType - Service type.
    *
    * @throws {@link DDOServiceNotFoundError} If the service is not in the DDO.
@@ -159,6 +159,16 @@ export class DDO {
       return service as Service<T>
     }
     throw new DDOServiceNotFoundError(serviceType, this.id)
+  }
+
+  /**
+   * Gets all the services of a DDO with a specific type.
+   * @param serviceType - Service type.
+   *
+   * @returns {@link Service}.
+   */
+  public getServicesByType<T extends ServiceType>(serviceType: T): Service<T>[] {
+    return this.service.filter((s) => s.type === serviceType).map((s) => s as Service<T>)
   }
 
   /**
@@ -245,7 +255,16 @@ export class DDO {
     this.proof = await this.generateProof(publicKey)
   }
 
+  public reorderServices(): void {
+    this.service.sort((a, b) => (a.index > b.index ? 1 : -1))
+    for (let i = 0; i < this.service.length; i++) {
+      this.service[i].index = i
+    }
+    this.service.sort((a, b) => (a.index > b.index ? 1 : -1))
+  }
+
   public async addService(service: any): Promise<void> {
+    // console.log(`Adding service: ${service.type}} with price: ${JSON.stringify(service.attributes.serviceAgreementTemplate)}`)
     this.service.push(service)
   }
 
@@ -284,8 +303,8 @@ export class DDO {
     return metadataService.attributes.main
   }
 
-  public async updateService(nevermined: Nevermined, service: any): Promise<void> {
-    this.service[0] = service
+  public updateService(service: any, serviceIndex = 0) {
+    this.service[serviceIndex] = service
   }
 
   public async assignDid(didSeed: string, didRegistry: DIDRegistry, publisher: Account) {

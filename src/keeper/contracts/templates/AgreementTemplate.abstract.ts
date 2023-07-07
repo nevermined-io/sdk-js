@@ -248,7 +248,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     parameters: Params,
     consumer: Account,
     from: Account,
-    timeOuts?: number[],
+    _timeOuts?: number[],
     txParams?: TxParameters,
     observer?: (OrderProgressStep) => void,
   ): Promise<string> {

@@ -34,7 +34,12 @@ describe('Assets', () => {
     metadata.userId = payload.sub
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
     })
     ddoBefore = await nevermined.assets.create(assetAttributes, publisher)
   })
@@ -49,7 +54,12 @@ describe('Assets', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata: createdMetadata,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
       })
       ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMetadata.IPFS)
 
@@ -61,6 +71,41 @@ describe('Assets', () => {
 
       assert.equal(Object.keys(ddo._nvm.networks).length, 1)
       assert.equal(ddo._nvm.networks[await nevermined.keeper.getNetworkId()], true)
+
+      const metadata = ddo.findServiceByType('metadata')
+      assert.equal(metadata.attributes.main.ercType, 721)
+      assert.equal(metadata.attributes.additionalInformation.tags[0], 'test')
+    })
+
+    it('register with multiple services of the same service type', async () => {
+      const nonce = Math.random()
+      createdMetadata = getMetadata(nonce, `Immutable Multiple Services Test ${nonce}`)
+
+      createdMetadata.main.ercType = 721
+      createdMetadata.additionalInformation.tags = ['test']
+
+      const assetAttributes = AssetAttributes.getInstance({
+        metadata: createdMetadata,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
+      })
+      ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMetadata.IPFS)
+
+      assert.isDefined(ddo)
+      console.log(ddo.id)
+
+      const accessServices = ddo.getServicesByType('access')
+      assert.equal(accessServices.length, 2)
+      assert.equal(accessServices[0].index, 2)
+      assert.equal(accessServices[1].index, 3)
 
       const metadata = ddo.findServiceByType('metadata')
       assert.equal(metadata.attributes.main.ercType, 721)
@@ -240,7 +285,12 @@ describe('Assets', () => {
       // Create 1 asset with appId-test1
       const assetAttributes = AssetAttributes.getInstance({
         metadata: metadata1,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId1,
       })
       ddoBefore = await neverminedApp1.assets.create(assetAttributes, publisher)
@@ -249,7 +299,12 @@ describe('Assets', () => {
       // Create 2 assets with appId-test2
       const assetAttributes2 = AssetAttributes.getInstance({
         metadata: metadata2,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes2, publisher)
@@ -257,7 +312,12 @@ describe('Assets', () => {
 
       const assetAttributes22 = AssetAttributes.getInstance({
         metadata: metadata22,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes22, publisher)

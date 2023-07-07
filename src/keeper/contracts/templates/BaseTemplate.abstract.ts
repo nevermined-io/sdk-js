@@ -69,7 +69,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       priceData = await this.getPriced(assetPrice, erc20TokenAddress)
     }
 
-    return {
+    const service = {
       type: this.service(),
       index: serviceIndex[this.service()],
       serviceEndpoint: this.nevermined.services.node.getServiceEndpoint(this.serviceEndpoint()),
@@ -88,6 +88,7 @@ export abstract class BaseTemplate<Params, S extends Service>
         serviceAgreementTemplate,
       },
     } as S
+    return service
   }
 
   /**

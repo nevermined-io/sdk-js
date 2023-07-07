@@ -258,7 +258,15 @@ describe('Register Escrow Access Template', () => {
       )
 
       ddo = await nevermined.assets.create(
-        AssetAttributes.getInstance({ metadata, price: assetPrice }),
+        AssetAttributes.getInstance({
+          metadata,
+          services: [
+            {
+              serviceType: 'access',
+              price: assetPrice,
+            },
+          ],
+        }),
         publisher,
       )
     })

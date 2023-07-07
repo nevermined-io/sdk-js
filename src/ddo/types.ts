@@ -595,6 +595,12 @@ export interface Proof {
   checksum: any
 }
 
+export interface ServiceAttributes {
+  serviceType: ServiceType
+  serviceIndex?: number
+  price?: AssetPrice
+}
+
 export interface ServiceAuthorization extends ServiceCommon {
   type: 'authorization'
   service: 'None' | 'RSAES-OAEP'

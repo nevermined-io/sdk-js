@@ -50,7 +50,12 @@ describe('Consume Asset (Documentation example)', () => {
     ddo = await nevermined.assets.create(
       AssetAttributes.getInstance({
         metadata,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
       }),
       publisher,
     )

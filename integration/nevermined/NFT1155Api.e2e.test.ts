@@ -151,8 +151,15 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata,
-          price: assetPrice1,
-          serviceTypes: ['nft-sales', 'nft-access'],
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
           providers: [config.neverminedNodeAddress],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
@@ -319,8 +326,15 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: newMetadata,
-          serviceTypes: ['nft-sales', 'nft-access'],
-          price: assetPrice1,
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
@@ -388,8 +402,15 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: newMetadata,
-          serviceTypes: ['nft-sales', 'nft-access'],
-          price: assetPrice1,
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
@@ -477,8 +498,12 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: getMetadata(),
-          serviceTypes: ['nft-sales'],
-          price: new AssetPrice(artist.getId(), BigNumber.from(0)),
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: new AssetPrice(artist.getId(), BigNumber.from(0)),
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,

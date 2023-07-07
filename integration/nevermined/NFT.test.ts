@@ -36,7 +36,7 @@ describe('Nfts operations', () => {
 
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [{ serviceType: 'nft-sales' }, { serviceType: 'nft-access' }],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
         cap: BigNumber.from(10),
         royaltyAttributes,
@@ -85,7 +85,7 @@ describe('Nfts operations', () => {
 
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [{ serviceType: 'nft-sales' }, { serviceType: 'nft-access' }],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
         cap: BigNumber.from(10),
         royaltyAttributes,
@@ -118,10 +118,17 @@ describe('Nfts operations', () => {
 
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
-        serviceTypes: ['nft-sales', 'nft-access'],
-        price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(
-          ZeroAddress,
-        ),
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(
+              ZeroAddress,
+            ),
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
         cap: BigNumber.from(10),
         royaltyAttributes,

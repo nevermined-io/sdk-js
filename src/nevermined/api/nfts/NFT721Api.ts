@@ -513,7 +513,7 @@ export class NFT721Api extends NFTsBaseApi {
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
     const did = DDO.getDIDFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
-    ddo.updateService(this.nevermined, service)
+    ddo.updateService(service)
     const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
       agreementIdSeed,
       account.getId(),

@@ -132,8 +132,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
-        price: assetPrice1,
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice1,
+          },
+        ],
         providers: [neverminedNodeAddress],
         duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
@@ -160,7 +164,11 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     it('I want to register a new asset and tokenize (via NFT)', async () => {
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: assetMetadata,
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         providers: [neverminedNodeAddress],
         duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
@@ -304,8 +312,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(editor.getId(), BigNumber.from(0)),
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: new AssetPrice(editor.getId(), BigNumber.from(0)),
+          },
+        ],
         providers: [neverminedNodeAddress],
         duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,

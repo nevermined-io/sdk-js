@@ -165,8 +165,15 @@ describe('NFTTemplates With Ether E2E', async () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
       })
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,

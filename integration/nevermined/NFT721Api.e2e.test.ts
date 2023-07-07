@@ -111,8 +111,15 @@ describe('NFTs721 Api End-to-End', () => {
     it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        price: assetPrice1,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice1,
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: nftContract.address,
       })
       ddo = await nevermined.nfts721.create(nftAttributes, artist)
@@ -147,6 +154,7 @@ describe('NFTs721 Api End-to-End', () => {
 
       agreementId = await nevermined.nfts721.order(ddo.id, collector1)
 
+      console.log(`DID: ${ddo.id}`)
       assert.isDefined(agreementId)
 
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())

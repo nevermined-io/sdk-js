@@ -44,7 +44,12 @@ describe('Assets Query by Price', () => {
 
     const _attributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
       appId,
     })
     ddoAccess = await nevermined.assets.create(_attributes, account)
@@ -62,8 +67,15 @@ describe('Assets Query by Price', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
-      serviceTypes: ['nft-sales', 'nft-access'],
+      services: [
+        {
+          serviceType: 'nft-sales',
+          price: assetPrice,
+        },
+        {
+          serviceType: 'nft-access',
+        },
+      ],
       appId,
     })
     const nftAttributes = NFTAttributes.getNFT1155Instance({

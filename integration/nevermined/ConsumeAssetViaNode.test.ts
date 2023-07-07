@@ -67,7 +67,12 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
     ddo = await nevermined.assets

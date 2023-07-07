@@ -177,8 +177,12 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+          },
+        ],
         providers: [neverminedNodeAddress],
         duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
@@ -197,7 +201,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: datasetMetadata,
-        serviceTypes: ['nft-access'],
+        services: [{ serviceType: 'nft-access' }],
         providers: [neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint,

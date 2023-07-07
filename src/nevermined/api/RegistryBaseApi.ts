@@ -59,8 +59,8 @@ export abstract class RegistryBaseApi extends Instantiable {
     return new SubscribablePromise(async (observer) => {
       const { neverminedNodeUri } = this.config
       const { didRegistry } = this.nevermined.keeper
-      const tokenAddress =
-        assetAttributes.price.getTokenAddress() || this.nevermined.utils.token.getAddress()
+      // const tokenAddress =
+      //   assetAttributes.price.getTokenAddress() || this.nevermined.utils.token.getAddress()
 
       // create ddo itself
       const ddo = DDO.getInstance(
@@ -95,24 +95,26 @@ export abstract class RegistryBaseApi extends Instantiable {
         nftAttributes,
       )
 
-      for (const name of assetAttributes.serviceTypes) {
-        const plugin = this.servicePlugin[name]
+      for (const serviceAttributes of assetAttributes.services) {
+        const plugin = this.servicePlugin[serviceAttributes.serviceType]
         if (plugin) {
           await ddo.addService(
             await plugin.createService(
               publisher,
               assetAttributes.metadata,
-              assetAttributes.price,
-              tokenAddress,
+              serviceAttributes.price,
+              serviceAttributes.price?.getTokenAddress() ||
+                this.nevermined.utils.token.getAddress(),
+              serviceAttributes.price ? true : false,
             ),
           )
         }
       }
 
+      ddo.reorderServices()
+
       this.logger.log('Services Added')
       observer.next(CreateProgressStep.ServicesAdded)
-
-      ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
 
       this.logger.log('Generating proof')
       observer.next(CreateProgressStep.GeneratingProof)
@@ -129,8 +131,11 @@ export abstract class RegistryBaseApi extends Instantiable {
       this.logger.log('Proof generated')
       observer.next(CreateProgressStep.ProofGenerated)
 
-      for (const name of assetAttributes.serviceTypes) {
-        const service = ddo.findServiceByType(name)
+      for (const serviceAttributes of assetAttributes.services) {
+        let service
+        if (serviceAttributes.serviceIndex)
+          service = ddo.findServiceById(serviceAttributes.serviceIndex)
+        else service = ddo.findServiceByType(serviceAttributes.serviceType)
         const {
           nftContractAddress,
           amount,
@@ -142,10 +147,10 @@ export abstract class RegistryBaseApi extends Instantiable {
         const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
 
         sat.conditions = ddo.fillConditionsWithDDO(
-          name,
+          serviceAttributes.serviceType,
           sat.conditions,
-          assetAttributes.price,
-          tokenAddress,
+          serviceAttributes.price,
+          serviceAttributes.price?.getTokenAddress() || this.nevermined.utils.token.getAddress(),
           nftContractAddress,
           publisher.getId(),
           amount,
@@ -185,7 +190,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       let serviceEndpoint = this.nevermined.services.metadata.getServiceEndpoint(DID.parse(ddo.id))
 
-      await ddo.updateService(this.nevermined, {
+      ddo.updateService({
         type: 'metadata',
         index: 0,
         serviceEndpoint,

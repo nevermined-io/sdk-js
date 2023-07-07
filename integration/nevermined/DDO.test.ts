@@ -74,7 +74,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -110,7 +115,7 @@ describe('DDO Tests', () => {
     assert.isFalse(ddo.serviceExists('compute'))
 
     assert.isTrue(ddo.serviceIndexExists(0)) // metadata
-    assert.isTrue(ddo.serviceIndexExists(3)) // access
+    assert.isTrue(ddo.serviceIndexExists(2)) // access
     assert.isFalse(ddo.serviceIndexExists(99))
   })
 
@@ -141,8 +146,15 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
-      serviceTypes: ['nft-sales', 'nft-access'],
+      services: [
+        {
+          serviceType: 'nft-sales',
+          price,
+        },
+        {
+          serviceType: 'nft-access',
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
     const royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 100000)
@@ -218,7 +230,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -304,7 +321,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -362,8 +384,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
-      serviceTypes: ['compute'],
+      services: [
+        {
+          serviceType: 'compute',
+          price: price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 

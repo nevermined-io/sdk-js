@@ -318,7 +318,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     const currentNftHolder = new Account(DDO.getNftHolderFromService(service))
     const did = DDO.getDIDFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
-    ddo.updateService(this.nevermined, service)
+    ddo.updateService(service)
 
     const agreementId = await nftSalesTemplate.createAgreementFromDDO(
       agreementIdSeed,

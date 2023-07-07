@@ -194,8 +194,15 @@ describe('NFT721Templates E2E', () => {
 
         const nftAttributes = NFTAttributes.getInstance({
           metadata,
-          price: assetPrice1,
-          serviceTypes: ['nft-sales', 'nft-access'],
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
           ercType: 721,
           nftType: NeverminedNFT721Type.nft721,
           nftContractAddress: nft.address,
@@ -639,8 +646,15 @@ describe('NFT721Templates E2E', () => {
 
         const nftAttributes = NFTAttributes.getInstance({
           metadata,
-          price: assetPrice1,
-          serviceTypes: ['nft-sales', 'nft-access'],
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
           ercType: 721,
           nftType: NeverminedNFT721Type.nft721,
           nftContractAddress: nft.address,
