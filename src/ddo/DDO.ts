@@ -325,9 +325,7 @@ export class DDO {
    * @returns the DID
    */
   public static getDIDFromService(service: Service): string {
-    const escrowPaymentCondition = DDO.findServiceConditionByName(service, 'escrowPayment')
-    return ('did:nv:' +
-      escrowPaymentCondition.parameters.find((p) => p.name === '_did').value) as string
+    return `did:nv:${DDO.getParameterFromCondition(service, 'escrowPayment', '_did') as string}`
   }
 
   /**
@@ -336,8 +334,7 @@ export class DDO {
    * @returns the NFT Holder address
    */
   public static getNftHolderFromService(service: Service): string {
-    const nftTransferCondition = DDO.findServiceConditionByName(service, 'transferNFT')
-    return nftTransferCondition.parameters.find((p) => p.name === '_nftHolder').value as string
+    return DDO.getParameterFromCondition(service, 'transferNFT', '_nftHolder') as string
   }
 
   /**
@@ -346,10 +343,23 @@ export class DDO {
    * @returns the number of NFTs
    */
   public static getNftAmountFromService(service: Service): BigNumber {
-    const nftTransferCondition = DDO.findServiceConditionByName(service, 'transferNFT')
-    return BigNumber.from(
-      nftTransferCondition.parameters.find((p) => p.name === '_numberNfts').value,
-    )
+    return BigNumber.from(DDO.getParameterFromCondition(service, 'transferNFT', '_numberNfts'))
+  }
+
+  /**
+   * Given a service, condition and param name it returns the value
+   * @param service The service where the condition is
+   * @param conditionType the condition type
+   * @param paramName the param name
+   * @returns the value
+   */
+  public static getParameterFromCondition(
+    service: Service,
+    conditionType: ConditionType,
+    paramName: string,
+  ): string | number | string[] {
+    const nftTransferCondition = DDO.findServiceConditionByName(service, conditionType)
+    return nftTransferCondition.parameters.find((p) => p.name === paramName).value
   }
 
   /**
