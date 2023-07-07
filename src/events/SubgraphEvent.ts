@@ -1,14 +1,13 @@
 import { EventEmitter, EventOptions, EventResult, NeverminedEvent } from '../events/NeverminedEvent'
-import * as subgraphs from '@nevermined-io/subgraphs'
-import axios from 'codegen-graph-ts/build/src/lib/axios'
-import generateGql from 'codegen-graph-ts/build/src/lib/gql'
 import { ContractBase } from '../keeper'
 import { GraphError } from '../errors'
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from '@apollo/client/core'
+import _ from 'lodash'
+import { GqlArgs, generateGql, getMethodName } from './utils'
 
 export class SubgraphEvent extends NeverminedEvent {
-  private graphHttpUri: string
-  public subgraph
-  private networkName: string
+  public subgraph: ApolloClient<NormalizedCacheObject>
+
   public static getInstance(
     contract: ContractBase,
     eventEmitter: EventEmitter,
@@ -16,30 +15,40 @@ export class SubgraphEvent extends NeverminedEvent {
     networkName: string,
   ): SubgraphEvent {
     const instance = new SubgraphEvent(contract, eventEmitter)
-    instance.graphHttpUri = graphHttpUri
-    instance.subgraph = subgraphs[contract.contractName]
-    instance.networkName = networkName.toLowerCase()
+
+    const networkNameLower = networkName.toLowerCase()
+    const [majorVersion] = contract.version.split('.')
+    const contractName = contract.contractName.toLowerCase()
+
+    instance.subgraph = new ApolloClient({
+      uri: `${graphHttpUri}${networkNameLower}${majorVersion}${contractName}`,
+      cache: new InMemoryCache(),
+      defaultOptions: {
+        query: {
+          fetchPolicy: 'network-only',
+        },
+      },
+    })
 
     return instance
   }
 
   public async getEventData(options: EventOptions): EventResult {
-    if (process.env.GRAPH_DELAY) {
-      await new Promise((resolve) => setTimeout(resolve, 3000))
-    }
     if (!this.subgraph) {
       throw new GraphError(`Subgraph client for ${this.contract.contractName} is not implemented!`)
     }
-    if (!this.subgraph[options.methodName]) {
-      throw new GraphError(
-        `Method "${options.methodName}" not found on subgraph "neverminedio/${this.contract.contractName}"`,
-      )
+
+    try {
+      const methodName = getMethodName(options.eventName)
+      const query = generateGql(methodName, options.filterSubgraph, options.result as GqlArgs)
+      const response = await this.subgraph.query({
+        query: gql`query ${query}`,
+      })
+
+      return response.data[methodName]
+    } catch (error) {
+      throw new GraphError(`Error calling executing query ${error}`)
     }
-    return this.subgraph[options.methodName](
-      await this.subgraphUrl(),
-      options.filterSubgraph,
-      options.result,
-    )
   }
 
   public async getPastEvents(options: EventOptions): EventResult {
@@ -47,15 +56,18 @@ export class SubgraphEvent extends NeverminedEvent {
   }
 
   public async getBlockNumber(): Promise<number> {
-    const result = await axios.post(await this.subgraphUrl(), {
-      query: generateGql('_meta', {}, { block: { number: true } }),
+    const result = await this.subgraph.query({
+      query: gql`
+        query {
+          _meta {
+            block {
+              number
+            }
+          }
+        }
+      `,
     })
-    return result.data.data._meta.block.number
-  }
 
-  private async subgraphUrl(): Promise<string> {
-    const [majorVersion] = this.contract.version.split('.')
-    const contractName = this.contract.contractName.toLowerCase()
-    return `${this.graphHttpUri}${this.networkName}${majorVersion}${contractName}`
+    return result.data._meta.block.number
   }
 }

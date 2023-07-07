@@ -449,7 +449,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async getAgreementCreatedEvent(agreementId: string) {
     const res = await this.events.once((events) => events, {
       eventName: 'AgreementCreated',
-      methodName: 'getAgreementCreateds',
       filterJsonRpc: {
         _agreementId: zeroX(agreementId),
       },
@@ -476,7 +475,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async getAgreementsForDID(did: string): Promise<string[]> {
     const res = await this.events.getPastEvents({
       eventName: 'AgreementCreated',
-      methodName: 'getAgreementCreateds',
       filterJsonRpc: {
         _did: didZeroX(did),
       },
