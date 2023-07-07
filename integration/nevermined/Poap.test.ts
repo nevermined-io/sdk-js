@@ -34,13 +34,13 @@ describe('POAPs with Assets', () => {
 
   it('should deploy the contract', async () => {
     TestContractHandler.setConfig(config)
-    poapContract = await TestContractHandler.deployArtifact(POAPUpgradeable, editor.getId(), [
+    poapContract = await nevermined.utils.contractHandler.deployAbi(POAPUpgradeable, editor, [
       editor.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
       'NVM',
       '',
-      0,
+      '0',
     ])
     assert.isDefined(poapContract)
 

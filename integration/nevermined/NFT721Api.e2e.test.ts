@@ -6,10 +6,10 @@ import {
   TransferNFT721Condition,
   Token,
   Nft721Contract,
+  ContractHandler,
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
 import { BigNumber } from '../../src/utils'
 import '../globals'
@@ -48,22 +48,20 @@ describe('NFTs721 Api End-to-End', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
 
-    TestContractHandler.setConfig(config)
-
     const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-    const erc721ABI = await TestContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
-    nft = await TestContractHandler.deployArtifact(erc721ABI, artist.getId(), [
+    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
       artist.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
       'NVM',
       '',
-      0,
+      '0',
     ])
 
     nftContract = await Nft721Contract.getInstance(
@@ -123,6 +121,15 @@ describe('NFTs721 Api End-to-End', () => {
 
       const owner = await nevermined.nfts721.ownerOfAsset(ddo.id)
       assert.equal(owner, artist.getId())
+    })
+
+    it('should give operator role to Nevermined', async () => {
+      assert.isTrue(
+        await nevermined.nfts721.isOperator(
+          ddo.id,
+          nevermined.keeper.conditions.transferNft721Condition.address,
+        ),
+      )
     })
   })
 

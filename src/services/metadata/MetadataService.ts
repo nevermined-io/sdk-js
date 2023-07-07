@@ -191,9 +191,10 @@ export class MetadataService extends MarketplaceApi {
   /**
    * Retrieves a DDO by DID.
    * @param did - DID of the asset.
+   * @param metadataServiceEndpoint - Metadata service endpoint.
    * @returns DDO of the asset.
    */
-  private async retrieveDDO(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
+  public async retrieveDDO(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
     let fullUrl: string
     if (did) {
       did = did && DID.parse(did)
@@ -239,7 +240,13 @@ export class MetadataService extends MarketplaceApi {
 
   public async delete(did: DID | string) {
     did = did && DID.parse(did)
-    const result = await this.nevermined.utils.fetch.delete(`${this.url}${apiPath}/${did.getDid()}`)
+    const result = await this.nevermined.utils.fetch.delete(
+      `${this.url}${apiPath}/${did.getDid()}`,
+      undefined,
+      {
+        Authorization: `Bearer ${this.config.marketplaceAuthToken}`,
+      },
+    )
     return result
   }
 

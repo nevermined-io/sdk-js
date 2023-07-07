@@ -1,4 +1,6 @@
-import { assert } from 'chai'
+import chai, { assert } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
 import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
@@ -16,6 +18,8 @@ import {
   NFT721Api,
   SubscriptionNFTApi,
 } from '../../src/nevermined'
+
+chai.use(chaiAsPromised)
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   let editor: Account
@@ -69,6 +73,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     assetMetadata = getMetadata()
     subscriptionMetadata = getMetadata(undefined, 'Subscription NFT')
+    subscriptionMetadata.main.type = 'subscription'
+
     assetMetadata.userId = payload.sub
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
@@ -122,10 +128,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
       await subscriptionNFT.grantOperatorRole(transferNft721Condition.address, editor)
 
-      const isOperator = await subscriptionNFT.getContract.isOperator(
-        transferNft721Condition.address,
-      )
-      assert.isTrue(isOperator)
+      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(editor.getId())))
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
@@ -140,7 +143,18 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
 
+      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(editor.getId())))
+
       assert.isDefined(subscriptionDDO)
+    })
+
+    it('should grant Nevermined the operator role', async () => {
+      assert.isTrue(
+        await nevermined.nfts721.isOperator(
+          subscriptionDDO.id,
+          nevermined.keeper.conditions.transferNft721Condition.address,
+        ),
+      )
     })
 
     it('I want to register a new asset and tokenize (via NFT)', async () => {
@@ -155,7 +169,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         royaltyAttributes: royaltyAttributes,
       })
       assetDDO = await nevermined.nfts721.create(nftAttributes, editor)
-      console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
       assert.isDefined(assetDDO)
     })
   })
@@ -184,10 +197,13 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
       // Let's use the Node to mint the subscription and release the payments
 
+      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(subscriber.getId())))
+
       const receipt = await nevermined.nfts721.claim(
         agreementId,
         editor.getId(),
         subscriber.getId(),
+        subscriptionDDO.id,
       )
       assert.isTrue(receipt)
 
@@ -195,6 +211,11 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         await nevermined.nfts721.ownerOfAssetByAgreement(subscriptionDDO.shortId(), agreementId),
         subscriber.getId(),
       )
+
+      const minted = await subscriptionNFT.getContract.getMintedEntries(subscriber.getId())
+      console.log(`Minted: ${JSON.stringify(minted)}`)
+
+      assert.isTrue(BigNumber.from(1).eq(await subscriptionNFT.balanceOf(subscriber.getId())))
     })
 
     it('the editor and reseller can receive their payment', async () => {
@@ -245,8 +266,13 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As subscriber I want to get access to assets include as part of my subscription', () => {
+    it('The Subscriber should have an NFT balance', async () => {
+      const balance = await subscriptionNFT.balanceOf(subscriber.getId())
+      assert.equal(balance.toNumber(), 1)
+    })
+
     it('The collector access the files', async () => {
-      const result = await nevermined.nfts1155.access(
+      const result = await nevermined.nfts721.access(
         assetDDO.id,
         subscriber,
         '/tmp/',
@@ -254,6 +280,59 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         agreementId,
       )
       assert.isTrue(result)
+    })
+  })
+
+  describe('Node should not be able to transfer the nft without the operator role', () => {
+    it('should create the subscription NFT without granting Nevermined the operator role', async () => {
+      // Deploy NFT
+      TestContractHandler.setConfig(config)
+
+      const contractABI = await TestContractHandler.getABI(
+        'NFT721SubscriptionUpgradeable',
+        './test/resources/artifacts/',
+      )
+      subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
+        editor.getId(),
+        nevermined.keeper.didRegistry.getAddress(),
+        'Subscription NFT',
+        '',
+        '',
+        0,
+      ])
+
+      await nevermined.contracts.loadNft721Api(subscriptionNFT)
+
+      const nftAttributes = NFTAttributes.getSubscriptionInstance({
+        metadata: getMetadata(),
+        price: new AssetPrice(editor.getId(), BigNumber.from(0)),
+        serviceTypes: ['nft-sales'],
+        providers: [neverminedNodeAddress],
+        duration: subscriptionDuration,
+        nftContractAddress: subscriptionNFT.address,
+        preMint,
+        nftTransfer,
+        royaltyAttributes: royaltyAttributes,
+      })
+      subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
+      assert.isDefined(subscriptionDDO)
+    })
+
+    it('subscriber should be able to order the nft', async () => {
+      agreementId = await nevermined.nfts721.order(subscriptionDDO.id, subscriber)
+      assert.isDefined(agreementId)
+    })
+
+    it('nevermined should not allow the subscriber to claim through the node', async () => {
+      await assert.isRejected(
+        nevermined.nfts721.claim(
+          agreementId,
+          editor.getId(),
+          subscriber.getId(),
+          subscriptionDDO.id,
+        ),
+        /Nevermined does not have operator role/,
+      )
     })
   })
 })

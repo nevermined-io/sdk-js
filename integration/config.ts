@@ -4,7 +4,6 @@ import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 LoggerInstance.setLevel(LogLevel.Error)
 
 const logLevel = Number(process.env['LOG_LEVEL']) || 1 // warn by default
-const nograph = process.env['NO_GRAPH'] === 'true'
 const infuraToken = process.env['INFURA_TOKEN']
 
 const ipfsGateway = process.env['IPFS_GATEWAY'] || 'https://ipfs.io'
@@ -19,9 +18,7 @@ const configBase: NeverminedOptions = {
   marketplaceAuthToken: undefined,
   artifactsFolder: './artifacts',
   circuitsFolder: './circuits',
-  graphHttpUri: nograph
-    ? undefined
-    : 'http://localhost:9000/subgraphs/name/nevermined-io/development',
+  graphHttpUri: process.env['GRAPH_HTTP_URI'],
   gasMultiplier: 1.1,
   ipfsGateway,
   ipfsProjectId,
@@ -49,8 +46,38 @@ if (process.env.NETWORK_NAME === 'goerli') {
 
 if (process.env.NETWORK_NAME === 'mumbai') {
   Object.assign(configBase, {
-    marketplaceUri: 'https://marketplace-api.mumbai.public.nevermined.network',
-    neverminedNodeUri: 'https://node.mumbai.public.nevermined.network',
+    marketplaceUri: 'https://marketplace-api.mumbai.nevermined.app',
+    neverminedNodeUri: 'https://node.mumbai.nevermined.app',
+    web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
+    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
+    graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
+  } as NeverminedOptions)
+}
+
+if (process.env.NETWORK_NAME === 'matic') {
+  Object.assign(configBase, {
+    marketplaceUri: 'https://marketplace-api.matic.nevermined.app',
+    neverminedNodeUri: 'https://node.matic.nevermined.app',
+    web3ProviderUri: `https://polygon-mainnet.infura.io/v3/${infuraToken}`,
+    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
+  } as NeverminedOptions)
+}
+
+if (process.env.NETWORK_NAME === 'gnosis') {
+  Object.assign(configBase, {
+    marketplaceUri: 'https://marketplace-api.gnosis.nevermined.app',
+    neverminedNodeUri: 'https://node.gnosis.nevermined.app',
+    web3ProviderUri: `https://rpc.gnosischain.com/`,
+    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
+  } as NeverminedOptions)
+}
+
+if (process.env.NETWORK_NAME === 'nvm-one') {
+  Object.assign(configBase, {
+    marketplaceUri: 'https://marketplace-api.mumbai.nevermined.one',
+    neverminedNodeUri: 'https://node.mumbai.nevermined.one',
     web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
     neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
     graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',

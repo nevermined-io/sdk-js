@@ -1,7 +1,22 @@
-import { ServiceType } from '../../ddo'
+import { DDO, Service, ServiceType } from '../../ddo'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { QueryResult } from '../../services'
-import { SearchQuery } from '../../sdk'
+import {
+  Account,
+  DID,
+  didPrefixed,
+  EventOptions,
+  NeverminedNFT721Type,
+  SearchQuery,
+  getNftContractAddressFromService,
+} from '../../sdk'
+
+const EMPTY_RESULT: QueryResult = {
+  results: [],
+  page: 1,
+  totalPages: 0,
+  totalResults: { value: 0, relation: 'eq' },
+}
 
 /**
  * Nevermined Search API. It allows the search of assets registered in Nevermined ecosystems.
@@ -17,6 +32,16 @@ export class SearchApi extends Instantiable {
   constructor(config: InstantiableConfig) {
     super()
     this.setInstanceConfig(config)
+  }
+
+  /**
+   * Search over the assets using a keyword.
+   * @param did - DID of the asset.
+   * @param metadataServiceEndpoint - Metadata service endpoint.
+   * @returns DDO of the asset.
+   */
+  public async byDID(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
+    return this.nevermined.services.metadata.retrieveDDO(did, metadataServiceEndpoint)
   }
 
   /**
@@ -122,5 +147,496 @@ export class SearchApi extends Instantiable {
       appId,
     }
     return this.query(query)
+  }
+
+  /**
+   * Search for all subscription DDOs with `contractAddress`
+   *
+   * @param contractAddress - The address of the NFT-721 subscription contract
+   * @param offset - The number of results to return
+   * @param customNestedQueries - Custom nested queries to add to the search
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async bySubscriptionContractAddress(
+    contractAddress: string,
+    customNestedQueries?: SearchQuery['query'][],
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              must: [
+                { match: { 'service.type': 'nft-sales' } },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      contractAddress,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: search,
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all subscriptions created by `account`
+   *
+   * @param account - The account that created the subscriptions.
+   * @param customNestedQueries - Custom nested queries to add to the search
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async subscriptionsCreated(
+    account: Account,
+    customNestedQueries?: SearchQuery['query'][],
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        match: {
+          'proof.creator': account.getId(),
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: search,
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all subscriptions purchased by `account`
+   *
+   * @param account - The account that purchased the subscriptions.
+   * @param customNestedQueries - Custom nested queries to add to the search
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async subscriptionsPurchased(
+    account: Account,
+    customNestedQueries?: SearchQuery['query'][],
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    // get on chain dids for nft-721 bought
+    const eventOptions: EventOptions = {
+      methodName: 'getFulfilleds',
+      eventName: 'Fulfilled',
+      filterSubgraph: {
+        where: {
+          _receiver: account.getId(),
+        },
+      },
+      filterJsonRpc: {
+        _receiver: account.getId(),
+      },
+      result: {
+        _did: true,
+      },
+    }
+
+    const events =
+      await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+        eventOptions,
+      )
+    const dids = events.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
+
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: search,
+          filter: {
+            terms: {
+              id: dids,
+            },
+          },
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all services belonging to a subscription nft contract
+   *
+   * @param nftContractAddress - The NFT contract address of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async servicesByNftContract(
+    nftContractAddress: string,
+    customNestedQueries?: SearchQuery['query'][],
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ) {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
+                  },
+                },
+                {
+                  exists: {
+                    field: 'service.attributes.main.webService',
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              must: [
+                { match: { 'service.type': 'nft-access' } },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      nftContractAddress,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: search,
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all services belonging to a subscription
+   *
+   * @param subscriptionDid - The DID of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async servicesBySubscription(
+    subscriptionDid: string,
+    customNestedQueries?: SearchQuery['query'][],
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    const subscriptionDDO = await this.byDID(subscriptionDid)
+
+    // return empty result
+    if (!subscriptionDDO) {
+      return EMPTY_RESULT
+    }
+
+    // get contract address for subscription
+    let nftSalesService: Service<'nft-sales'>
+    try {
+      nftSalesService = subscriptionDDO.findServiceByType('nft-sales')
+    } catch (e) {
+      return EMPTY_RESULT
+    }
+
+    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+
+    return this.servicesByNftContract(
+      nftContractAddress,
+      customNestedQueries,
+      offset,
+      page,
+      sort,
+      appId,
+    )
+  }
+
+  /**
+   * Search of all datasets belonging to a subscription NFT contract
+   *
+   * @param nftContractAddress - The DID of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async datasetsByNftContract(
+    nftContractAddress: string,
+    customNestedQueries?: SearchQuery['query'][],
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    let search: SearchQuery['query'][] = [
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              filter: [
+                { match: { 'service.type': 'metadata' } },
+                {
+                  match: {
+                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
+                  },
+                },
+                {
+                  match: {
+                    'service.attributes.main.type': 'dataset',
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        nested: {
+          path: 'service',
+          query: {
+            bool: {
+              must: [
+                { match: { 'service.type': 'nft-access' } },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      nftContractAddress,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    ]
+
+    if (customNestedQueries?.length) {
+      search = search.concat(customNestedQueries)
+    }
+
+    const query: SearchQuery = {
+      query: {
+        bool: {
+          must: search,
+        },
+      },
+      offset,
+      page,
+      sort: {
+        created: sort,
+      },
+      appId,
+    }
+    return this.query(query)
+  }
+
+  /**
+   * Search of all datasets belonging to a subscription
+   *
+   * @param subscriptionDid - The DID of the subscription.
+   * @param customNestedQueries - Custom nested queries to add to the search
+   * @param offset - The number of results to return
+   * @param page
+   * @param sort - The sort order
+   * @param appId - The appId used to filter the results
+   *
+   * @returns {@link Promise<QueryResult>}
+   */
+  public async datasetsBySubscription(
+    subscriptionDid: string,
+    customNestedQueries?: SearchQuery['query'][],
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
+    const subscriptionDDO = await this.byDID(subscriptionDid)
+
+    // return empty result
+    if (!subscriptionDDO) {
+      return EMPTY_RESULT
+    }
+
+    // get contract address for subscription
+    let nftSalesService: Service<'nft-sales'>
+    try {
+      nftSalesService = subscriptionDDO.findServiceByType('nft-sales')
+    } catch (e) {
+      return EMPTY_RESULT
+    }
+
+    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+
+    return this.datasetsByNftContract(
+      nftContractAddress,
+      customNestedQueries,
+      offset,
+      page,
+      sort,
+      appId,
+    )
   }
 }

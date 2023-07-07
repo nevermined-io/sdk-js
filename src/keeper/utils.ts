@@ -20,11 +20,15 @@ export async function getNetworkName(networkId: number): Promise<string> {
     case 42:
       return 'Kovan'
     case 100:
-      return 'xDai'
+      return 'Gnosis'
     case 137:
       return 'matic'
     case 1337:
       return 'geth-localnet'
+    case 3141:
+      return 'hyperspace'
+    case 10200:
+      return 'chiado' // Gnosis testnet
     case 31337:
       return 'geth-localnet'
     case 8996:

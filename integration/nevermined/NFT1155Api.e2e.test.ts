@@ -7,6 +7,7 @@ import {
   TransferNFTCondition,
   Token,
   Nft1155Contract,
+  ContractHandler,
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -21,7 +22,6 @@ import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 import { BigNumber } from '../../src/utils'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
@@ -34,7 +34,6 @@ function makeTest(isCustom) {
     let collector1: Account
     let collector2: Account
     let gallery: Account
-    //    let governor: Account
 
     let nevermined: Nevermined
     let token: Token
@@ -63,7 +62,6 @@ function makeTest(isCustom) {
 
     before(async () => {
       nevermined = await Nevermined.getInstance(config)
-      // ;[, artist, collector1, collector2, , gallery, , , , governor] = await nevermined.accounts.list()
       ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
@@ -87,16 +85,14 @@ function makeTest(isCustom) {
       )
 
       if (isCustom) {
-        TestContractHandler.setConfig(config)
-
         const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-        const erc1155ABI = await TestContractHandler.getABI(
+        const erc1155ABI = await ContractHandler.getABI(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await TestContractHandler.deployArtifact(erc1155ABI, artist.getId(), [
+        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',
@@ -116,7 +112,8 @@ function makeTest(isCustom) {
       }
 
       // components
-      ({ token } = nevermined.keeper)
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;({ token } = nevermined.keeper)
 
       scale = BigNumber.from(10).pow(await token.decimals())
 
@@ -172,6 +169,15 @@ function makeTest(isCustom) {
 
         const balance = await nevermined.nfts1155.balance(ddo.id, artist.getId())
         assert.deepEqual(balance, BigNumber.from(5))
+      })
+
+      it('should give Nevermined the operator role', async () => {
+        assert.isTrue(
+          await nevermined.nfts1155.isOperator(
+            ddo.id,
+            nevermined.keeper.conditions.transferNftCondition.address,
+          ),
+        )
       })
 
       it('Should set the Node as a provider by default', async () => {
@@ -345,6 +351,7 @@ function makeTest(isCustom) {
           artist.getId(),
           collector1.getId(),
           numberEditions,
+          ddo.id,
         )
         assert.isTrue(result)
       })
@@ -440,6 +447,64 @@ function makeTest(isCustom) {
             collector2.getId(),
             BigNumber.from(1),
           ),
+        )
+      })
+    })
+
+    describe('Node should not be able to transfer the nft without the operator role', () => {
+      it('should create the subscription NFT without granting Nevermined the operator role', async () => {
+        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+        const erc1155ABI = await ContractHandler.getABI(
+          'NFT1155Upgradeable',
+          config.artifactsFolder,
+          networkName,
+        )
+
+        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
+          artist.getId(),
+          nevermined.keeper.didRegistry.address,
+          'NFT1155',
+          'NVM',
+          '',
+        ])
+
+        const nftContract = await Nft1155Contract.getInstance(
+          (nevermined.keeper as any).instanceConfig,
+          nft.address,
+        )
+
+        await nevermined.contracts.loadNft1155(nftContract.address)
+
+        const assetAttributes = AssetAttributes.getInstance({
+          metadata: getMetadata(),
+          serviceTypes: ['nft-sales'],
+          price: new AssetPrice(artist.getId(), BigNumber.from(0)),
+        })
+        const nftAttributes = NFTAttributes.getNFT1155Instance({
+          ...assetAttributes,
+          nftContractAddress: nevermined.nfts1155.nftContract.address,
+          cap: BigNumber.from(1),
+        })
+        ddo = await nevermined.nfts1155.create(nftAttributes, artist)
+
+        assert.isDefined(ddo)
+      })
+
+      it('subscriber should be able to order the nft', async () => {
+        agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
+        assert.isDefined(agreementId)
+      })
+
+      it('nevermined should not allow the subscriber to claim through the node', async () => {
+        await assert.isRejected(
+          nevermined.nfts1155.claim(
+            agreementId,
+            artist.getId(),
+            collector1.getId(),
+            numberEditions,
+            ddo.id,
+          ),
+          /Nevermined does not have operator role/,
         )
       })
     })

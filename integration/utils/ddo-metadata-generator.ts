@@ -1,4 +1,4 @@
-import { MetaData, AssetPrice } from '../../src'
+import { MetaData, AssetPrice, ResourceAuthentication } from '../../src'
 import { BigNumber } from '../../src/utils'
 
 const metadata: Partial<MetaData> = {
@@ -62,20 +62,14 @@ const webServiceMetadata: Partial<MetaData> = {
       type: 'RESTful',
       endpoints: [
         {
-          GET: 'http://localhost:3000',
+          GET: 'http://127.0.0.1:3000',
         },
       ],
-      internalAttributes: {
-        authentication: {
-          type: 'basic',
-          token: '',
-        },
-        headers: [
-          {
-            Authorization: 'Bearer xxxxxx',
-          },
-        ],
-      },
+      openEndpoints: [
+        'http://tijuana.inet:3000/openapi.json',
+        'http://tijuana.inet:3000/.well-known/(.*)',
+      ],
+      internalAttributes: {},
     },
   },
   additionalInformation: {
@@ -88,9 +82,6 @@ const webServiceMetadata: Partial<MetaData> = {
         url: 'http://marketplace.nevermined.localnet/api/v1/docs/',
       },
     ],
-    inLanguage: 'en',
-    categories: ['Marketplace', 'Data Science'],
-    tags: ['assets'],
   },
 }
 
@@ -111,18 +102,53 @@ export const generateMetadata = (
 
 export const generateWebServiceMetadata = (
   name: string,
+  endpoint: string,
+  openEndpoints: string[],
+  authType: ResourceAuthentication['type'],
+  authToken?: string,
+  authUser?: string,
+  authPassword?: string,
   nonce: string | number = Math.random(),
-): Partial<MetaData> => ({
-  ...webServiceMetadata,
-  main: {
-    ...webServiceMetadata.main,
-    name,
-    ...({ nonce } as any),
-  },
-  additionalInformation: {
-    ...webServiceMetadata.additionalInformation,
-  },
-})
+): Partial<MetaData> => {
+  const serviceMetadata = {
+    ...webServiceMetadata,
+    main: {
+      ...webServiceMetadata.main,
+      name,
+      ...({ nonce } as any),
+    },
+    additionalInformation: {
+      ...webServiceMetadata.additionalInformation,
+    },
+  }
+  serviceMetadata.main.webService.endpoints[0] = { GET: endpoint }
+
+  if (authType === 'basic') {
+    serviceMetadata.main.webService.internalAttributes.authentication = {
+      type: 'basic',
+      username: authUser,
+      password: authPassword,
+    }
+  } else if (authType === 'oauth') {
+    serviceMetadata.main.webService.internalAttributes.authentication = {
+      type: 'oauth',
+      token: authToken,
+    }
+    serviceMetadata.main.webService.internalAttributes.headers = [
+      { Authorization: `Bearer ${authToken}` },
+      { 'X-Extra-Header': 'hey there' },
+    ]
+  } else {
+    serviceMetadata.main.webService.internalAttributes.authentication = {
+      type: 'none',
+    }
+  }
+
+  if (openEndpoints) {
+    serviceMetadata.main.webService.openEndpoints = openEndpoints
+  }
+  return serviceMetadata
+}
 
 export const getMetadata = (nonce: string | number = Math.random(), name = 'TestAsset'): MetaData =>
   generateMetadata(name, nonce) as MetaData

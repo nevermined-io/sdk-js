@@ -123,7 +123,7 @@ describe('Asset Owners', () => {
     )
 
     // transfer
-    await nevermined.assets.transferOwnership(id, account2.getId())
+    await nevermined.assets.transferOwnership(id, account2.getId(), account1)
     const newOwner = await nevermined.keeper.didRegistry.getDIDOwner(id)
 
     assert.equal(newOwner, account2.getId())

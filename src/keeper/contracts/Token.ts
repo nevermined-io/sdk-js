@@ -10,6 +10,7 @@ export class Token extends ContractBase {
     'function decimals() view returns (uint8)',
     'function symbol() view returns (string)',
     'function name() view returns (string)',
+    'function totalSupply() view returns (uint256)',
     // Authenticated Functions
     'function transfer(address to, uint amount) returns (bool)',
     'function approve(address spender, uint256 amount) returns (bool)',
@@ -51,7 +52,7 @@ export class Token extends ContractBase {
     return this.call('name', [])
   }
 
-  public async totalSupply(): Promise<number> {
+  public async totalSupply(): Promise<BigNumber> {
     return this.call('totalSupply', [])
   }
 

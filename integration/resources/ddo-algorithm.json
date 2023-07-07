@@ -22,6 +22,7 @@
       "serviceEndpoint": "http://marketplace.nevermined.localnet/api/v1/metadata/assets/ddo/did:nv:9b695884eea8bea44141a7517bd8120f497dc507aeeded39c87077f288c0d1ea",
       "attributes": {
         "curation": {
+          "isListed": true,
           "rating": 0,
           "numVotes": 0
         },
@@ -76,7 +77,7 @@
       "type": "access",
       "index": 3,
       "serviceEndpoint": "http://node.nevermined.localnet/api/v1/node/services/access",
-      "templateId": "0xb761bE571673A8f93DADe4D9D64618e3Eb989477",
+      "templateId": "0x37cB53b6e0224b03D2cD11b68ea5Df6141D95a1e",
       "attributes": {
         "main": {
           "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",

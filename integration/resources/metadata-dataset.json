@@ -18,5 +18,10 @@
   "additionalInformation": {
     "description": "Nevermined is an ecosystem development platform.",
     "customData": {}
+  },
+  "curation": {
+    "isListed": true,
+    "numVotes": 0,
+    "rating": 0
   }
 }

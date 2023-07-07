@@ -96,7 +96,7 @@ export class NFTAttributes extends AssetAttributes {
   static getNFT721Instance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
     return {
       ercType: 721,
-      nftType: NeverminedNFT721Type.nft721Subscription,
+      nftType: NeverminedNFT721Type.nft721,
       nftContractAddress: nftAttributes.nftContractAddress,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,

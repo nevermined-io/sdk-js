@@ -65,6 +65,11 @@ describe('DDO Tests', () => {
         description: 'Nevermined is an ecosystem development platform.',
         customData: {},
       },
+      curation: {
+        isListed: true,
+        numVotes: 0,
+        rating: 0,
+      },
     }
 
     const assetAttributes = AssetAttributes.getInstance({
@@ -75,6 +80,7 @@ describe('DDO Tests', () => {
 
     const ddo = await nevermined.assets.create(assetAttributes, publisher)
 
+    console.log(ddo.id)
     assert.deepEqualExcludingEvery(
       metadata,
       metadataDataset as MetaData,
@@ -95,6 +101,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -159,6 +166,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -228,6 +236,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -242,7 +251,14 @@ describe('DDO Tests', () => {
         datePublished: '2023-01-01T00:00:00Z',
         author: 'root@nevermined.io',
         license: 'Apache License 2.0',
-        files: [],
+        files: [
+          {
+            index: 0,
+            contentType: 'text/markdown',
+            url: 'https://raw.githubusercontent.com/nevermined-io/.github/master/profile/README.md',
+            checksum: generateId(),
+          },
+        ],
         workflow: {
           coordinationType: 'argo',
           stages: [
@@ -270,6 +286,11 @@ describe('DDO Tests', () => {
       additionalInformation: {
         description: 'Nevermined is an ecosystem development platform.',
         customData: {},
+      },
+      curation: {
+        isListed: true,
+        numVotes: 0,
+        rating: 0,
       },
     }
 
@@ -301,6 +322,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })
@@ -359,6 +381,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'templateId',
       ] as any,
     )
   })

@@ -155,7 +155,7 @@ export interface MetaDataExternalResource {
    * @remarks
    * If not provided is assumed the files are not encrypted. Currently only `dtp` is implemented.
    */
-  encryption?: 'dtp'
+  encryption?: 'dtp' | 'dleq'
 }
 
 /**
@@ -165,6 +165,8 @@ export interface WebService {
   type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
 
   endpoints?: { [verb: string]: string }[]
+
+  openEndpoints?: string[]
 
   internalAttributes?: WebServiceInternalAttributes
 
@@ -199,10 +201,18 @@ export interface MetaDataMain {
 
   /**
    * Type of the Asset. Helps to filter by the type of asset,
-   * initially ("dataset", "algorithm", "compute", "workflow", "compute", "other").
+   * initially ("dataset", "algorithm", "compute", "workflow", "compute", "subscription", "other").
    * @example "dataset"
    */
-  type: 'dataset' | 'algorithm' | 'compute' | 'workflow' | 'compute' | 'service' | 'other'
+  type:
+    | 'dataset'
+    | 'algorithm'
+    | 'compute'
+    | 'workflow'
+    | 'compute'
+    | 'service'
+    | 'subscription'
+    | 'other'
 
   /**
    * The date on which the asset was created by the originator in
@@ -374,8 +384,14 @@ export interface AdditionalInformation {
   }
 
   poseidonHash?: string
+  cipher?: string
 
   providerKey?: {
+    x: string
+    y: string
+  }
+
+  secretId?: {
     x: string
     y: string
   }
@@ -473,6 +489,13 @@ export interface NvmConfig {
    * The `versions` list stores the reference to all the changes done to the Metadata document.
    */
   versions: NvmConfigVersions[]
+
+  /**
+   * Block networks where the asset is available. It is represented as a map of network Id and a boolean value.
+   */
+  networks?: {
+    [key: string]: boolean
+  }
 }
 
 export enum ImmutableBackends {
@@ -691,6 +714,7 @@ export interface ValidationParams {
   babysig?: Babysig
   nft_amount?: BigNumber
   nft_holder?: string
+  expiration?: number
 }
 
 export interface ServicePlugin<T extends Service> {

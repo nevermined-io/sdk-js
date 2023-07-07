@@ -6,7 +6,14 @@
     "datePublished": "2023-01-01T00:00:00Z",
     "author": "root@nevermined.io",
     "license": "Apache License 2.0",
-    "files": [],
+    "files": [
+      {
+        "index": 0,
+        "contentType": "text/markdown",
+        "url": "https://raw.githubusercontent.com/nevermined-io/.github/master/profile/README.md",
+        "checksum": "85ccecc5352d4e38840ad5047ca019fc88e8e30c9f704e78b345eeecb1504569"
+      }
+    ],
     "workflow": {
       "coordinationType": "argo",
       "stages": [
@@ -34,5 +41,10 @@
   "additionalInformation": {
     "description": "Nevermined is an ecosystem development platform.",
     "customData": {}
+  },
+  "curation": {
+    "isListed": true,
+    "numVotes": 0,
+    "rating": 0
   }
 }
