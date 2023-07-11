@@ -1,7 +1,14 @@
 import { EventEmitter, EventOptions, EventResult, NeverminedEvent } from '../events/NeverminedEvent'
 import { ContractBase } from '../keeper'
 import { GraphError } from '../errors'
-import { ApolloClient, InMemoryCache, NormalizedCacheObject, gql } from '@apollo/client/core'
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject,
+  gql,
+  HttpLink,
+} from '@apollo/client/core'
+import fetch from 'cross-fetch'
 import _ from 'lodash'
 import { GqlArgs, generateGql, getMethodName } from './utils'
 
@@ -21,7 +28,10 @@ export class SubgraphEvent extends NeverminedEvent {
     const contractName = contract.contractName.toLowerCase()
 
     instance.subgraph = new ApolloClient({
-      uri: `${graphHttpUri}${networkNameLower}${majorVersion}${contractName}`,
+      link: new HttpLink({
+        uri: `${graphHttpUri}${networkNameLower}${majorVersion}${contractName}`,
+        fetch,
+      }),
       cache: new InMemoryCache(),
       defaultOptions: {
         query: {
