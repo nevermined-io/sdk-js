@@ -4,11 +4,10 @@ import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import { ContractReceipt, ethers } from 'ethers'
-import { BigNumber } from '../../utils'
-
+import { parseUnits } from '../../sdk'
 export interface TxParameters {
   value?: string
-  gasLimit?: BigNumber
+  gasLimit?: bigint
   gasMultiplier?: number
   gasPrice?: string
   maxPriorityFeePerGas?: string
@@ -212,9 +211,9 @@ export abstract class ContractBase extends Instantiable {
 
       // get correct fee data
       const feeData = await this.nevermined.utils.contractHandler.getFeeData(
-        gasPrice && BigNumber.from(gasPrice),
-        maxFeePerGas && BigNumber.from(maxFeePerGas),
-        maxPriorityFeePerGas && BigNumber.from(maxPriorityFeePerGas),
+        gasPrice && BigInt(gasPrice),
+        maxFeePerGas && BigInt(maxFeePerGas),
+        maxPriorityFeePerGas && BigInt(maxPriorityFeePerGas),
       )
 
       const txparams = {
@@ -280,7 +279,7 @@ export abstract class ContractBase extends Instantiable {
     from: string,
     value: string,
     gasMultiplier?: number,
-  ): Promise<BigNumber> {
+  ): Promise<bigint> {
     let gasLimit = await contract.estimateGas[methodSignature](...args, {
       from,
       value,
@@ -289,7 +288,7 @@ export abstract class ContractBase extends Instantiable {
 
     gasMultiplier = gasMultiplier || this.config.gasMultiplier
     if (gasMultiplier) {
-      const gasMultiplierParsed = BigNumber.parseUnits(gasMultiplier.toString(), 2)
+      const gasMultiplierParsed = parseUnits(gasMultiplier.toString(), 2)
       gasLimit = gasLimit.mul(gasMultiplierParsed).div(100)
     }
 

@@ -12,7 +12,6 @@ import { Account } from '../../Account'
 import { TxParameters, Nft1155Contract } from '../../../keeper'
 import { DDO } from '../../../ddo'
 import { NFTError } from '../../../errors'
-import { BigNumber } from '../../../utils'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { ContractReceipt } from 'ethers'
 import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
@@ -128,7 +127,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * ```ts
    * await nevermined.nfts1155.mint(
    *           did,
-   *           BigNumber.from(10),
+   *           10n,
    *           artist
    * )
    * ```
@@ -144,7 +143,7 @@ export class NFT1155Api extends NFTsBaseApi {
    */
   public async mint(
     did: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     receiver: string | undefined,
     account: Account,
     data?: string,
@@ -170,7 +169,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * ```ts
    * await nevermined.nfts1155.burn(
    *           did,
-   *           BigNumber.from(2),
+   *           2n,
    *           artist
    * )
    * ```
@@ -182,7 +181,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The {@link ethers.ContractReceipt}
    */
-  public async burn(did: string, nftAmount: BigNumber, account: Account, txParams?: TxParameters) {
+  public async burn(did: string, nftAmount: bigint, account: Account, txParams?: TxParameters) {
     return await this.nftContract.burn(account.getId(), did, nftAmount, txParams)
   }
 
@@ -209,7 +208,7 @@ export class NFT1155Api extends NFTsBaseApi {
    */
   public order(
     did: string,
-    numberEditions: BigNumber,
+    numberEditions: bigint,
     consumer: Account,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
@@ -255,7 +254,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *           agreementId,
    *           editor.getId(),
    *           subscriber.getId(),
-   *           BigNumber.from(1)
+   *           1n
    *       )
    * ```
    *
@@ -271,7 +270,7 @@ export class NFT1155Api extends NFTsBaseApi {
     agreementId: string,
     nftHolder: string,
     nftReceiver: string,
-    numberEditions: BigNumber = BigNumber.from(1),
+    numberEditions = 1n,
     did?: string,
   ): Promise<boolean> {
     return await this.claimNFT(agreementId, nftHolder, nftReceiver, numberEditions, 1155, did)
@@ -308,7 +307,7 @@ export class NFT1155Api extends NFTsBaseApi {
   public async transfer(
     agreementId: string,
     did: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     publisher: Account,
     txParams?: TxParameters,
   ): Promise<boolean> {
@@ -360,7 +359,7 @@ export class NFT1155Api extends NFTsBaseApi {
   public async releaseRewards(
     agreementId: string,
     did: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     publisher: Account,
     txParams?: TxParameters,
   ): Promise<boolean> {
@@ -397,7 +396,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The number of editions of a NFT owned by the account/address.
    */
-  public async balance(did: string, account: Account | string): Promise<BigNumber> {
+  public async balance(did: string, account: Account | string): Promise<bigint> {
     return await this.nftContract.balance(
       account instanceof Account ? account.getId() : account,
       did,

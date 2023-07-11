@@ -1,4 +1,4 @@
-import { EventEmitter, EventOptions, EventResult, Filter, NeverminedEvent } from './NeverminedEvent'
+import { EventEmitter, EventOptions, EventResult, NeverminedEvent } from './NeverminedEvent'
 import { ContractBase } from '../keeper'
 import { KeeperError } from '../errors'
 import { Nevermined } from '../nevermined'
@@ -9,7 +9,7 @@ export class ContractEvent extends NeverminedEvent {
     contract: ContractBase,
     eventEmitter: EventEmitter,
     nevermined: Nevermined,
-    web3: ethers.providers.JsonRpcProvider,
+    web3: ethers.JsonRpcProvider,
   ): ContractEvent {
     const instance = new ContractEvent(contract, eventEmitter)
     instance.setInstanceConfig({
@@ -26,10 +26,7 @@ export class ContractEvent extends NeverminedEvent {
         `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`,
       )
     }
-    const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
-    const eventFilter: ethers.EventFilter = this.contract.contract.filters[options.eventName](
-      ...args,
-    )
+    const eventFilter: ethers.ContractEventName = options.eventName
 
     return this.contract.contract.queryFilter(eventFilter, options.fromBlock, options.toBlock)
   }
@@ -58,10 +55,5 @@ export class ContractEvent extends NeverminedEvent {
 
   private eventExists(eventName: string): boolean {
     return !!this.contract.contract.interface.getEvent(eventName)
-  }
-
-  private filterToArgs(eventName: string, filter: Filter): Array<any> {
-    const event = this.contract.contract.interface.getEvent(eventName)
-    return event.inputs.filter((i) => i.indexed).map((i) => filter[i.name])
   }
 }

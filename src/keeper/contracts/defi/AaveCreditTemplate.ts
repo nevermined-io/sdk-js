@@ -1,7 +1,7 @@
 import { AgreementInstance, AgreementTemplate } from '../templates'
 import { BaseTemplate } from '../templates'
 import { DDO } from '../../../ddo'
-import { didZeroX } from '../../../utils'
+import { didZeroX, parseEther } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { AaveConfig } from '../../../models'
@@ -9,7 +9,6 @@ import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { ServiceType, ValidationParams } from '../../../ddo'
 import { ContractReceipt } from 'ethers'
-import { BigNumber } from '../../../utils'
 import {
   AaveBorrowCondition,
   AaveCollateralDepositCondition,
@@ -110,9 +109,9 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     txParams?: TxParameters,
     from?: Account,
   ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
-    const _collateralAmount = BigNumber.parseEther(collateralAmount.toString())
+    const _collateralAmount = parseEther(collateralAmount.toString())
 
-    const _delegatedAmount = BigNumber.parseEther(delegatedAmount.toString())
+    const _delegatedAmount = parseEther(delegatedAmount.toString())
 
     const data = await this.instanceFromDDO(
       agreementIdSeed,

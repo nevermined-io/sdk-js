@@ -19,7 +19,6 @@ import { AssetPrice, BabyjubPublicKey } from '../../../models'
 import { Account, OrderProgressStep } from '../../../nevermined'
 import { CustomToken } from '../CustomToken'
 import { Token } from '../Token'
-import { BigNumber } from '../../../utils'
 
 export interface AgreementConditionsStatus {
   [condition: string]: {
@@ -50,7 +49,7 @@ export interface AgreementInstance<Params> {
 export interface PaymentData {
   rewardAddress: string
   tokenAddress: string
-  amounts: BigNumber[]
+  amounts: bigint[]
   receivers: string[]
 }
 
@@ -129,7 +128,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     condIdx: number,
     rewardAddress: string,
     tokenAddress: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     from?: Account,
     txParams?: TxParameters,

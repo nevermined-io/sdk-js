@@ -8,7 +8,6 @@ import { PublishMetadata } from '../AssetsApi'
 import { NFTError } from '../../../errors/NFTError'
 import { ContractReceipt, ethers } from 'ethers'
 import { NFTsBaseApi } from './NFTsBaseApi'
-import { BigNumber } from '../../../utils'
 import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
 import { SubscriptionToken } from '../../../services'
 
@@ -188,7 +187,7 @@ export class NFT721Api extends NFTsBaseApi {
     nftReceiver: string,
     did?: string,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, BigNumber.from(1), 721, did)
+    return await this.claimNFT(agreementId, nftHolder, nftReceiver, 1n, 721, did)
   }
 
   /**
@@ -481,7 +480,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The balance of NFTs owned by the account.
    */
-  public async balanceOf(account: Account | string): Promise<BigNumber> {
+  public async balanceOf(account: Account | string): Promise<bigint> {
     const _address = account instanceof Account ? account.getId() : account
     return await this.nftContract.balanceOf(_address)
   }

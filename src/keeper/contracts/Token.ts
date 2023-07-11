@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../../nevermined'
-import { BigNumber } from '../../utils'
+import { formatEther } from '../../sdk'
 
 export class Token extends ContractBase {
   static ERC20_ABI = [
@@ -24,7 +24,7 @@ export class Token extends ContractBase {
     return token
   }
 
-  public async approve(to: string, price: BigNumber, from?: Account, txParams?: TxParameters) {
+  public async approve(to: string, price: bigint, from?: Account, txParams?: TxParameters) {
     return this.sendFrom('approve', [to, price.toString()], from, txParams)
   }
 
@@ -32,15 +32,15 @@ export class Token extends ContractBase {
     return this.call('decimals', [])
   }
 
-  public async balanceOfConverted(address: string): Promise<BigNumber> {
-    return BigNumber.from(BigNumber.formatEther(await this.call('balanceOf', [address])))
+  public async balanceOfConverted(address: string): Promise<bigint> {
+    return BigInt(formatEther(await this.call('balanceOf', [address])))
   }
 
   public async strBalanceOf(address: string): Promise<string> {
     return this.call('balanceOf', [address])
   }
 
-  public async balanceOf(address: string): Promise<BigNumber> {
+  public async balanceOf(address: string): Promise<bigint> {
     return this.call('balanceOf', [address])
   }
 
@@ -52,11 +52,11 @@ export class Token extends ContractBase {
     return this.call('name', [])
   }
 
-  public async totalSupply(): Promise<BigNumber> {
+  public async totalSupply(): Promise<bigint> {
     return this.call('totalSupply', [])
   }
 
-  public async transfer(to: string, amount: BigNumber, from: string, txParams?: TxParameters) {
+  public async transfer(to: string, amount: bigint, from: string, txParams?: TxParameters) {
     return this.send('transfer', from, [to, amount.toString()], txParams)
   }
 }

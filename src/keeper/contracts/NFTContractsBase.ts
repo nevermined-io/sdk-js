@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
-import { BigNumber, ContractReceipt } from 'ethers'
+import { ContractReceipt } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export class NFTContractsBase extends ContractBase {
@@ -29,7 +29,7 @@ export class NFTContractsBase extends ContractBase {
     name: string,
     symbol: string,
     uri: string,
-    cap: BigNumber | undefined,
+    cap: bigint | undefined,
     operators: string[] = [],
     from?: Account,
     txParams?: TxParameters,
@@ -70,8 +70,8 @@ export class NFTContractsBase extends ContractBase {
 
   public async getNFTAttributes(did: string): Promise<{
     nftInitialized: boolean
-    nftSupply: BigNumber
-    mintCap: BigNumber
+    nftSupply: bigint
+    mintCap: bigint
     nftURI: string
   }> {
     const registeredValues = await this.call('getNFTAttributes', [didZeroX(did)])
@@ -80,16 +80,16 @@ export class NFTContractsBase extends ContractBase {
       // It could be also a ERC-721 NFT
       return {
         nftInitialized: false,
-        nftSupply: BigNumber.from(0),
-        mintCap: BigNumber.from(0),
+        nftSupply: 0n,
+        mintCap: 0n,
         nftURI: '',
       }
     }
 
     return {
       nftInitialized: registeredValues[0],
-      nftSupply: BigNumber.from(registeredValues[1]),
-      mintCap: BigNumber.from(registeredValues[2]),
+      nftSupply: BigInt(registeredValues[1]),
+      mintCap: BigInt(registeredValues[2]),
       nftURI: registeredValues[3],
     }
   }

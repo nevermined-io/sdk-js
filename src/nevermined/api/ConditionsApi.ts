@@ -6,7 +6,6 @@ import { Token, CustomToken, TxParameters as txParams } from '../../keeper'
 import { AssetPrice } from '../../models'
 import { KeeperError } from '../../errors/KeeperError'
 import { ContractReceipt } from 'ethers'
-import { BigNumber } from '../../utils'
 
 /**
  * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached
@@ -39,7 +38,7 @@ export class ConditionsApi extends Instantiable {
   public async lockPayment(
     agreementId: string,
     did: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     erc20TokenAddress?: string,
     from?: Account,
@@ -171,7 +170,7 @@ export class ConditionsApi extends Instantiable {
    */
   public async releaseReward(
     agreementId: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     returnAddress: string,
     did: string,
@@ -230,7 +229,7 @@ export class ConditionsApi extends Instantiable {
   public async releaseNftReward(
     agreementId: string,
     ddo: DDO,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     publisher: Account,
     from?: Account,
     txParams?: txParams,
@@ -316,7 +315,7 @@ export class ConditionsApi extends Instantiable {
     agreementId: string,
     did: string,
     holder: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     contractAddress?: string,
     from?: Account,
     params?: txParams,
@@ -408,7 +407,7 @@ export class ConditionsApi extends Instantiable {
   public async transferNft(
     agreementId: string,
     ddo: DDO,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     from?: Account,
     txParams?: txParams,
   ) {
@@ -446,7 +445,7 @@ export class ConditionsApi extends Instantiable {
   public async transferNftForDelegate(
     agreementId: string,
     ddo: DDO,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     from?: Account,
     params?: txParams,
   ) {

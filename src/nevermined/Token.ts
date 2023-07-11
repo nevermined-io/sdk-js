@@ -1,7 +1,6 @@
 import { Account } from './Account'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters as txParams } from '../keeper'
-import { BigNumber } from '../utils'
 
 /**
  * Tokens submodule of Nevermined.
@@ -42,7 +41,7 @@ export class TokenUtils extends Instantiable {
   /**
    * Get token total supply
    */
-  public async getTotalSupply(): Promise<BigNumber> {
+  public async getTotalSupply(): Promise<bigint> {
     return await this.nevermined.keeper.token.totalSupply()
   }
 
@@ -56,7 +55,7 @@ export class TokenUtils extends Instantiable {
    */
   public async transfer(
     to: string,
-    amount: BigNumber,
+    amount: bigint,
     from: Account,
     txParams?: txParams,
   ): Promise<boolean> {

@@ -3,7 +3,6 @@ import { didZeroX, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import { BigNumber } from '../../../../utils'
 
 export interface NFTLockConditionContext extends ConditionContext {
   rewardAddress: string
@@ -47,7 +46,7 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
     agreementId: string,
     did: string,
     rewardAddress: string,
-    amount: BigNumber,
+    amount: bigint,
     from?: Account,
     txParams?: TxParameters,
   ) {

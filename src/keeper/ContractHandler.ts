@@ -3,7 +3,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
 import { Account } from '../nevermined'
-import { BigNumber, ContractReceipt, ethers } from 'ethers'
+import { ContractReceipt, ethers } from 'ethers'
 import { TransactionResponse } from '@ethersproject/abstract-provider'
 
 let fetch
@@ -124,7 +124,7 @@ export class ContractHandler extends Instantiable {
       const feeData = await this.getFeeData()
       const extraParams = {
         ...feeData,
-        gasLimit: BigNumber.from('10000000'),
+        gasLimit: 10000000n,
       }
 
       contractInstance = await contract.deploy(...argument, extraParams)
@@ -250,11 +250,7 @@ export class ContractHandler extends Instantiable {
     }
   }
 
-  public async getFeeData(
-    gasPrice?: BigNumber,
-    maxFeePerGas?: BigNumber,
-    maxPriorityFeePerGas?: BigNumber,
-  ) {
+  public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
     // Custom gas fee for polygon networks
     const networkId = await this.nevermined.keeper.getNetworkId()
     if (networkId === 137 || networkId === 80001) {
@@ -295,8 +291,8 @@ export class ContractHandler extends Instantiable {
     }
 
     // get max fees from gas station
-    let maxFeePerGas = ethers.BigNumber.from(40000000000) // fallback to 40 gwei
-    let maxPriorityFeePerGas = ethers.BigNumber.from(40000000000) // fallback to 40 gwei
+    let maxFeePerGas = 40000000000n // fallback to 40 gwei
+    let maxPriorityFeePerGas = 40000000000n // fallback to 40 gwei
     try {
       const response = await this.nevermined.utils.fetch.get(gasStationUri)
       const data = await response.json()

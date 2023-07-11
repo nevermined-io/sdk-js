@@ -2,7 +2,6 @@ import ContractBase, { TxParameters as txParams } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractReceipt, ethers } from 'ethers'
-import { BigNumber } from '../../utils'
 import { NFTAttributes } from '../../models'
 import { AssetError } from '../../errors/AssetError'
 import {
@@ -303,7 +302,7 @@ export class DIDRegistry extends ContractBase {
     checksum: string
     owner: string
     providers: string[]
-    royalties: BigNumber
+    royalties: bigint
     immutableUrl: string
     nftInitialized: boolean
   }> {
@@ -317,9 +316,7 @@ export class DIDRegistry extends ContractBase {
       checksum: registeredValues[1],
       owner: registeredValues[0],
       providers: registeredValues[5],
-      // nftSupply: BigNumber.from(registeredValues[6]),
-      // mintCap: BigNumber.from(registeredValues[7]),
-      royalties: BigNumber.from(registeredValues[6]),
+      royalties: BigInt(registeredValues[6]),
       immutableUrl: registeredValues[7],
       nftInitialized: registeredValues[8],
     }
@@ -605,11 +602,11 @@ export class DIDRegistry extends ContractBase {
     return this.call('getProvenanceOwner', [didZeroX(did)])
   }
 
-  public async mint(did: string, amount: BigNumber, from: string, params?: txParams) {
+  public async mint(did: string, amount: bigint, from: string, params?: txParams) {
     return this.send('mint', from, [didZeroX(did), String(amount)], params)
   }
 
-  public async burn(did: string, amount: BigNumber, from: string, params?: txParams) {
+  public async burn(did: string, amount: bigint, from: string, params?: txParams) {
     return this.send('burn', from, [didZeroX(did), String(amount)], params)
   }
 

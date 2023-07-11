@@ -1,5 +1,5 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { ZeroAddress, zeroX } from '../../../utils'
+import { ZeroAddress, formatUnits, zeroX } from '../../../utils'
 import {
   Priced,
   Service,
@@ -11,7 +11,6 @@ import {
 import { Account, Condition, MetaData, AssetPrice } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
-import { BigNumber } from '../../../utils'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>
@@ -42,7 +41,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     }
 
     const price = assetPrice.getTotalPrice().toString()
-    const priceHighestDenomination = +BigNumber.formatUnits(assetPrice.getTotalPrice(), decimals)
+    const priceHighestDenomination = +formatUnits(assetPrice.getTotalPrice(), decimals)
     return {
       attributes: {
         main: {
