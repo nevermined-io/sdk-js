@@ -275,7 +275,6 @@ export class DIDRegistry extends ContractBase {
     return (
       await this.events.getPastEvents({
         eventName: 'DIDAttributeRegistered',
-        methodName: 'getDIDAttributeRegistereds',
         filterJsonRpc: { _owner: zeroX(owner) },
         filterSubgraph: { where: { _owner: zeroX(owner) } },
         result: {
@@ -379,7 +378,6 @@ export class DIDRegistry extends ContractBase {
     return (
       await this.events.getPastEvents({
         eventName: 'ProvenanceAttributeRegistered',
-        methodName: 'getProvenanceAttributeRegistereds',
         filterJsonRpc: { _did: didZeroX(did) },
         filterSubgraph: { where: { _did: didZeroX(did) } },
         result: {
@@ -416,36 +414,29 @@ export class DIDRegistry extends ContractBase {
     method: T,
   ): Promise<ProvenanceEvent<T>[]> {
     let filter: any = { _did: didZeroX(did) }
-    let methodName = ''
     let eventName = ''
     switch (method) {
       case ProvenanceMethod.ACTED_ON_BEHALF:
         filter = { _entityDid: didZeroX(did) }
         eventName = 'ActedOnBehalf'
-        methodName = 'getActedOnBehalfs'
         break
       case ProvenanceMethod.WAS_ASSOCIATED_WITH:
         eventName = 'WasAssociatedWith'
-        methodName = 'getWasAssociatedWiths'
         filter = { _entityDid: didZeroX(did) }
         break
       case ProvenanceMethod.WAS_DERIVED_FROM:
         eventName = 'WasDerivedFrom'
-        methodName = 'getWasDerivedFroms'
         filter = { _usedEntityDid: didZeroX(did) }
         break
       case ProvenanceMethod.USED:
         eventName = 'Used'
-        methodName = 'getUseds'
         break
       case ProvenanceMethod.WAS_GENERATED_BY:
         eventName = 'WasGeneratedBy'
-        methodName = 'getWasGeneratedBys'
         break
     }
     const eventOptions = {
       eventName,
-      methodName,
       filterJsonRpc: filter,
       filterSubgraph: { where: filter },
       result: {
