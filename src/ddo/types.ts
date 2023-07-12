@@ -1,7 +1,7 @@
 import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
 import { Account } from '../sdk'
 import { BigNumber } from 'ethers'
-import { ERCType, NeverminedNFTType, AssetPrice, Babysig } from '../models'
+import { ERCType, NeverminedNFTType, AssetPrice, Babysig, NFTAttributes } from '../models'
 
 export interface Authentication {
   type: string
@@ -576,7 +576,7 @@ export interface ServiceCommon {
   }
 }
 
-export type Priced = {
+export type PricedMetadataInformation = {
   attributes: {
     main: {
       price: string
@@ -611,7 +611,7 @@ export interface ServiceMetadata extends ServiceCommon {
   attributes: MetaData
 }
 
-export interface ServiceAccess extends ServiceCommon, Priced {
+export interface ServiceAccess extends ServiceCommon, PricedMetadataInformation {
   type: 'access'
   templateId?: string
   attributes: {
@@ -630,7 +630,7 @@ export interface ServiceAccess extends ServiceCommon, Priced {
   }
 }
 
-export interface ServiceCompute extends ServiceCommon, Priced {
+export interface ServiceCompute extends ServiceCommon, PricedMetadataInformation {
   type: 'compute'
   templateId?: string
   attributes: {
@@ -668,7 +668,7 @@ export interface ServiceNFTAccess extends ServiceCommon {
   }
 }
 
-export interface ServiceNFTSales extends ServiceCommon, Priced {
+export interface ServiceNFTSales extends ServiceCommon, PricedMetadataInformation {
   type: 'nft-sales'
   templateId?: string
   attributes: {
@@ -727,10 +727,10 @@ export interface ServicePlugin<T extends Service> {
   createService(
     publisher: Account,
     metadata: MetaData,
+    nftAttributes: NFTAttributes,
     assetPrice?: AssetPrice,
-    erc20TokenAddress?: string,
-    priced?: boolean,
-  ): Promise<T>
+    pricedData?: PricedMetadataInformation,
+  ): T
   // Process agreement for provider
   process(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<void>
   // Check if service can be granted without agreement

@@ -12,7 +12,7 @@ import {
   ServiceNFTSales,
   ConditionType,
   ServiceAgreementTemplateCondition,
-  ServiceAgreementTemplateParameter,
+  ServiceCommon,
 } from './types'
 import { didPrefixed, zeroX } from '../utils'
 import { DIDRegistry } from '../keeper'
@@ -20,11 +20,12 @@ import { ethers } from 'ethers'
 import { AssetPrice, NFTAttributes } from '../models'
 import { BigNumber } from '../utils'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
+import { DDOConditionNotFoundError } from '../errors/DDOError'
 
 // DDO Services including a sales process
-const SALES_SERVICES = ['access', 'compute', 'nft-sales']
+export const SALES_SERVICES = ['access', 'compute', 'nft-sales']
 // Condition Names that are the final dependency for releasing the payment in a service agreement
-const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
+export const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
 
 /**
  * DID Descriptor Object.
@@ -178,7 +179,7 @@ export class DDO {
    * @returns true if service exists.
    */
   public serviceExists<T extends ServiceType>(serviceType: T): boolean {
-    return this.service.find((s) => s.type === serviceType) ? true : false
+    return this.service.some((s) => s.type === serviceType)
   }
 
   /**
@@ -188,7 +189,7 @@ export class DDO {
    * @returns true if service exists.
    */
   public serviceIndexExists(serviceIndex: number): boolean {
-    return this.service.find((s) => s.index === serviceIndex) ? true : false
+    return this.service.some((s) => s.index === serviceIndex)
   }
 
   /**
@@ -263,19 +264,18 @@ export class DDO {
     this.service.sort((a, b) => (a.index > b.index ? 1 : -1))
   }
 
-  public async addService(service: any): Promise<void> {
-    // console.log(`Adding service: ${service.type}} with price: ${JSON.stringify(service.attributes.serviceAgreementTemplate)}`)
+  public addService(service: ServiceCommon) {
     this.service.push(service)
   }
 
-  public async replaceService(index: number, service: any): Promise<void> {
+  public replaceService(index: number, service: any) {
     this.service[index] = service
   }
 
-  public async addDefaultMetadataService(
+  public addDefaultMetadataService(
     metadata: MetaData,
     nftAttributes?: NFTAttributes,
-  ): Promise<MetaDataMain> {
+  ): MetaDataMain {
     const metadataService = {
       type: 'metadata',
       index: 0,
@@ -335,7 +335,11 @@ export class DDO {
     service: Service,
     name: ConditionType,
   ): ServiceAgreementTemplateCondition {
-    return service.attributes.serviceAgreementTemplate.conditions.find((c) => c.name === name)
+    const condition = service.attributes.serviceAgreementTemplate.conditions.find(
+      (c) => c.name === name,
+    )
+    if (!service) throw new DDOConditionNotFoundError(name)
+    return condition
   }
 
   /**
@@ -403,7 +407,7 @@ export class DDO {
   public static getAssetPriceFromService(service: Service): AssetPrice {
     const escrowPaymentCondition = DDO.findServiceConditionByName(service, 'escrowPayment')
     if (!escrowPaymentCondition) {
-      return
+      throw new DDOConditionNotFoundError('escrowPayment')
     }
 
     const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
@@ -438,12 +442,16 @@ export class DDO {
     const service = this.findServiceByType(serviceType)
     const escrowPaymentCondition = DDO.findServiceConditionByName(service, 'escrowPayment')
     if (!escrowPaymentCondition) {
-      return
+      throw new DDOConditionNotFoundError('escrowPayment')
     }
-    const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
-    const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
-    amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
-    receivers.value = rewards.getReceivers()
+    try {
+      const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
+      const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
+      amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
+      receivers.value = rewards.getReceivers()
+    } catch (e) {
+      throw new Error('Error setting the AssetPrice in the DDO')
+    }
   }
 
   /**
@@ -453,7 +461,7 @@ export class DDO {
    * @param holderAddress the NFT Holder address to set
    * @returns
    */
-  public setNFTRewardsFromDDOByService(
+  public setNFTRewardsFromService(
     serviceType: ServiceType,
     rewards: AssetPrice,
     holderAddress: string,
@@ -461,126 +469,9 @@ export class DDO {
     this.setAssetPriceFromDDOByService(serviceType, rewards)
     const service = this.findServiceByType(serviceType)
     const transferCondition = DDO.findServiceConditionByName(service, 'transferNFT')
-    if (!transferCondition) {
-      return
-    }
+    if (!transferCondition) return new DDOConditionNotFoundError('transferNFT')
+
     const holder = transferCondition.parameters.find((p) => p.name === '_nftHolder')
     holder.value = holderAddress
-  }
-
-  /**
-   * Fills and return the conditions with the values given
-   * @param serviceType the service type
-   * @param conditions array of conditions
-   * @param assetPrice AssetPrice object
-   * @param erc20TokenContract the erc20 contract address
-   * @param nftTokenContract the nft contract address
-   * @param nftHolder the NFT holder address
-   * @param nftAmount the number of NFTs
-   * @param nftTransfer if is a NFT transfer or a NFT mint
-   * @param duration duration of the subscription
-   * @param fulfillAccessTimeout access timeout of the access condition
-   * @param fulfillAccessTimelock access time lock of the access condition
-   * @returns array of ServiceAgreementTemplateConditions
-   */
-  public fillConditionsWithDDO(
-    serviceType: ServiceType,
-    conditions: ServiceAgreementTemplateCondition[],
-    assetPrice: AssetPrice = new AssetPrice(),
-    erc20TokenContract?: string,
-    nftTokenContract?: string,
-    nftHolder?: string,
-    nftAmount?: BigNumber,
-    nftTransfer = false,
-    duration = 0,
-    fulfillAccessTimeout = 0,
-    fulfillAccessTimelock = 0,
-  ): ServiceAgreementTemplateCondition[] {
-    return conditions
-      .map((condition) => {
-        if (
-          DEPENDENCIES_RELEASE_CONDITION.includes(condition.name) &&
-          SALES_SERVICES.includes(serviceType)
-        ) {
-          condition.timeout = fulfillAccessTimeout
-          condition.timelock = fulfillAccessTimelock
-        }
-        return condition
-      })
-      .map((condition) => ({
-        ...condition,
-        parameters: condition.parameters.map((parameter) => ({
-          ...this.fillParameterWithDDO(
-            parameter,
-            assetPrice,
-            erc20TokenContract,
-            nftTokenContract,
-            nftHolder,
-            nftAmount,
-            nftTransfer,
-            duration,
-          ),
-        })),
-      }))
-  }
-
-  /**
-   * If fills and get a ServiceAgreementTemplateParameter with the values of the DDO
-   * @param parameter parameter
-   * @param assetPrice AssetPrice object
-   * @param erc20TokenContract ERC20 contract address
-   * @param nftTokenContract NFT contract address
-   * @param nftHolder NFT Holder
-   * @param nftAmount Number of NFTs
-   * @param nftTransfer If is a NFT Transfer or a NFT mint
-   * @param duration Duration of the subscription
-   * @returns ServiceAgreementTemplateParameter
-   */
-  fillParameterWithDDO(
-    parameter: ServiceAgreementTemplateParameter,
-    assetPrice: AssetPrice = new AssetPrice(),
-    erc20TokenContract?: string,
-    nftTokenContract?: string,
-    nftHolder?: string,
-    nftAmount: BigNumber = BigNumber.from(1),
-    nftTransfer = false,
-    duration = 0,
-  ): ServiceAgreementTemplateParameter {
-    const getValue = (name) => {
-      switch (name) {
-        case 'amounts':
-          return Array.from(assetPrice.getAmounts(), (v) => v.toString())
-        case 'receivers':
-          return assetPrice.getReceivers()
-        case 'amount':
-        case 'price':
-          return String(assetPrice.getTotalPrice())
-        case 'assetId':
-        case 'documentId':
-        case 'documentKeyId':
-        case 'did':
-          return this.shortId()
-        case 'rewardAddress':
-          return this.publicKey[0].owner
-        case 'numberNfts':
-          return String(nftAmount)
-        case 'tokenAddress':
-          return erc20TokenContract
-        case 'contract':
-        case 'contractAddress':
-          return nftTokenContract ? nftTokenContract : ''
-        case 'nftHolder':
-          return nftHolder ? nftHolder : ''
-        case 'nftTransfer':
-          return String(nftTransfer)
-        case 'duration':
-          return String(duration)
-      }
-
-      return ''
-    }
-    const value = getValue(parameter.name.replace(/^_/, ''))
-
-    return { ...parameter, value }
   }
 }

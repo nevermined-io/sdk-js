@@ -36,7 +36,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
     return 'access'
   }
 
-  public async getServiceAgreementTemplate() {
+  public getServiceAgreementTemplate() {
     return accessTemplateServiceAgreementTemplate
   }
 

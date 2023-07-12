@@ -309,22 +309,22 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return agreementId
   }
 
-  public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
+  public abstract getServiceAgreementTemplate(): ServiceAgreementTemplate
 
-  public async getServiceAgreementTemplateConditions() {
-    const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
+  public getServiceAgreementTemplateConditions() {
+    const serviceAgreementTemplate = this.getServiceAgreementTemplate()
     return serviceAgreementTemplate.conditions
   }
 
   public async getServiceAgreementTemplateConditionByRef(ref: string) {
-    const name = (await this.getServiceAgreementTemplateConditions()).find(
+    const name = this.getServiceAgreementTemplateConditions().find(
       ({ name: conditionRef }) => conditionRef === ref,
     ).contractName
     return (await this.getConditions()).find((condition) => condition.contractName === name)
   }
 
   public async getServiceAgreementTemplateDependencies() {
-    const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
+    const serviceAgreementTemplate = this.getServiceAgreementTemplate()
     return serviceAgreementTemplate.conditionDependency
   }
 

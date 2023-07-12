@@ -23,7 +23,7 @@ import {
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { BigNumber } from '../../src/utils'
+import { BigNumber, getConditionsByParams } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
@@ -351,18 +351,17 @@ describe('Secondary Markets', () => {
           lockPaymentCondition: await token.balanceOf(lockPaymentCondition.getAddress()),
           escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.getAddress()),
         }
-        ddo.setNFTRewardsFromDDOByService('nft-sales', assetPrice2, collector1.getId())
+        ddo.setNFTRewardsFromService('nft-sales', assetPrice2, collector1.getId())
       })
 
       it('As collector1 I create and store an off-chain service agreement', async () => {
-        const nftSalesServiceAgreementTemplate =
-          await nftSalesTemplate.getServiceAgreementTemplate()
-        const nftSalesTemplateConditions =
-          await nftSalesTemplate.getServiceAgreementTemplateConditions()
+        const nftSalesServiceAgreementTemplate = nftSalesTemplate.getServiceAgreementTemplate()
+        const nftSalesTemplateConditions = nftSalesTemplate.getServiceAgreementTemplateConditions()
 
-        nftSalesServiceAgreementTemplate.conditions = ddo.fillConditionsWithDDO(
+        nftSalesServiceAgreementTemplate.conditions = getConditionsByParams(
           'nft-sales',
           nftSalesTemplateConditions,
+          collector1.getId(),
           assetPrice2,
           token.getAddress(),
           undefined,
@@ -506,7 +505,7 @@ describe('Secondary Markets', () => {
     describe('As collector1 I want to give exclusive access to the collectors owning a specific NFT', () => {
       before(async () => {
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(collector2)
-        ddo.setNFTRewardsFromDDOByService('nft-sales', assetPrice3, collector2.getId())
+        ddo.setNFTRewardsFromService('nft-sales', assetPrice3, collector2.getId())
 
         await nevermined.services.marketplace.login(clientAssertion)
       })
@@ -569,7 +568,7 @@ describe('Secondary Markets', () => {
           numberNFTs2,
           collector2.getId(),
           token,
-          collector2.getId(),
+          collector2,
         )
         assert.isNotNull(agreementId3)
 

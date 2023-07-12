@@ -3,14 +3,14 @@ import {
   ServicePlugin,
   ServiceType,
   NvmConfigVersions,
-  ServiceAgreementTemplate,
   DDO,
   MetaData,
+  PricedMetadataInformation,
 } from '../../ddo'
-import { AssetAttributes, NFTAttributes } from '../../models'
+import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
 import { Account, CreateProgressStep, DID } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import { SubscribablePromise, zeroX, generateId, ZeroAddress } from '../../utils'
+import { SubscribablePromise, zeroX, generateId, ZeroAddress, BigNumber } from '../../utils'
 import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
@@ -59,8 +59,6 @@ export abstract class RegistryBaseApi extends Instantiable {
     return new SubscribablePromise(async (observer) => {
       const { neverminedNodeUri } = this.config
       const { didRegistry } = this.nevermined.keeper
-      // const tokenAddress =
-      //   assetAttributes.price.getTokenAddress() || this.nevermined.utils.token.getAddress()
 
       // create ddo itself
       const ddo = DDO.getInstance(
@@ -81,7 +79,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       }
 
       this.logger.debug('Adding Authorization Service')
-      await ddo.addService(
+      ddo.addService(
         DDO.createAuthorizationService(
           neverminedNodeUri,
           publicKey,
@@ -90,26 +88,55 @@ export abstract class RegistryBaseApi extends Instantiable {
       )
 
       this.logger.debug('Adding Metadata Service')
-      assetAttributes.metadata.main = await ddo.addDefaultMetadataService(
+      assetAttributes.metadata.main = ddo.addDefaultMetadataService(
         assetAttributes.metadata,
         nftAttributes,
       )
 
       for (const serviceAttributes of assetAttributes.services) {
         const plugin = this.servicePlugin[serviceAttributes.serviceType]
+
         if (plugin) {
-          await ddo.addService(
-            await plugin.createService(
-              publisher,
-              assetAttributes.metadata,
-              serviceAttributes.price,
-              serviceAttributes.price?.getTokenAddress() ||
-                this.nevermined.utils.token.getAddress(),
-              serviceAttributes.price ? true : false,
-            ),
+          console.log(
+            `Generating service ${
+              serviceAttributes.serviceType
+            } with price: ${serviceAttributes.price.toString()}}`,
           )
+          const pricedData = await this.getPriced(serviceAttributes.price)
+
+          const serviceCreated = plugin.createService(
+            publisher,
+            assetAttributes.metadata,
+            nftAttributes,
+            serviceAttributes.price,
+            pricedData,
+          )
+
+          ddo.addService(serviceCreated)
+
+          console.log(
+            `> Added service ${JSON.stringify(
+              ddo.service[ddo.service.length - 1].attributes.serviceAgreementTemplate.conditions[0],
+            )}`,
+          )
+          console.log(ddo.service.length)
         }
       }
+
+      console.log(`----- DDO Services: `)
+      console.log(JSON.stringify(ddo.service))
+      console.log(`----- Step 1: `)
+      ddo.service
+        .filter((service) => service.type === 'access')
+        .forEach((service) => {
+          console.log(`1# Service ${service.type}`)
+          const cond = service.attributes.serviceAgreementTemplate.conditions[0]
+          cond.parameters
+            .filter((p) => p.name === '_amounts')
+            .map((c) => {
+              console.log(`Param ${c.name} with price: ${JSON.stringify(c.value)}`)
+            })
+        })
 
       ddo.reorderServices()
 
@@ -131,35 +158,68 @@ export abstract class RegistryBaseApi extends Instantiable {
       this.logger.log('Proof generated')
       observer.next(CreateProgressStep.ProofGenerated)
 
-      for (const serviceAttributes of assetAttributes.services) {
-        let service
-        if (serviceAttributes.serviceIndex)
-          service = ddo.findServiceById(serviceAttributes.serviceIndex)
-        else service = ddo.findServiceByType(serviceAttributes.serviceType)
-        const {
-          nftContractAddress,
-          amount,
-          nftTransfer,
-          duration,
-          fulfillAccessTimeout,
-          fulfillAccessTimelock,
-        } = nftAttributes || {}
-        const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+      // ddo.service.map((service) => {
 
-        sat.conditions = ddo.fillConditionsWithDDO(
-          serviceAttributes.serviceType,
-          sat.conditions,
-          serviceAttributes.price,
-          serviceAttributes.price?.getTokenAddress() || this.nevermined.utils.token.getAddress(),
-          nftContractAddress,
-          publisher.getId(),
-          amount,
-          nftTransfer,
-          duration,
-          fulfillAccessTimeout,
-          fulfillAccessTimelock,
-        )
-      }
+      // })
+
+      // ddo.service.map((service) => {
+      //   const {
+      //     nftContractAddress,
+      //     nftTransfer,
+      //     duration,
+      //     fulfillAccessTimeout,
+      //     fulfillAccessTimelock,
+      //   } = nftAttributes || {}
+      //   const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+
+      //   sat.conditions = ddo.fillConditionsWithDDO(
+      //     service.type,
+      //     sat.conditions,
+      //     serviceAttributes.price,
+      //     serviceAttributes.price?.getTokenAddress() || this.nevermined.utils.token.getAddress(),
+      //     nftContractAddress,
+      //     publisher.getId(),
+      //     serviceAttributes.price.getTotalPrice(),
+      //     nftTransfer,
+      //     duration,
+      //     fulfillAccessTimeout,
+      //     fulfillAccessTimelock,
+      //   )
+      //   console.log(`SAT ${JSON.stringify(sat.conditions)}`)
+      // })
+      // for (const serviceAttributes of assetAttributes.services) {
+      //   let service
+      //   if (serviceAttributes.serviceIndex)
+      //     service = ddo.findServiceById(serviceAttributes.serviceIndex)
+      //   else service = ddo.findServiceByType(serviceAttributes.serviceType)
+
+      //   console.log(`Service ${serviceAttributes.serviceType} with price: ${serviceAttributes.price.toString()}}`)
+
+      //   // const {
+      //   //   nftContractAddress,
+      //   //   nftTransfer,
+      //   //   duration,
+      //   //   fulfillAccessTimeout,
+      //   //   fulfillAccessTimelock,
+      //   // } = nftAttributes || {}
+      //   // const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
+
+      //   // sat.conditions = ddo.fillConditionsWithDDO(
+      //   //   serviceAttributes.serviceType,
+      //   //   sat.conditions,
+      //   //   serviceAttributes.price,
+      //   //   serviceAttributes.price?.getTokenAddress() || this.nevermined.utils.token.getAddress(),
+      //   //   nftContractAddress,
+      //   //   publisher.getId(),
+      //   //   serviceAttributes.price.getTotalPrice(),
+      //   //   nftTransfer,
+      //   //   duration,
+      //   //   fulfillAccessTimeout,
+      //   //   fulfillAccessTimelock,
+      //   // )
+      //   // console.log(`SAT ${JSON.stringify(sat.conditions)}`)
+
+      // }
 
       this.logger.log('Conditions filled')
       observer.next(CreateProgressStep.ConditionsFilled)
@@ -190,6 +250,8 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       let serviceEndpoint = this.nevermined.services.metadata.getServiceEndpoint(DID.parse(ddo.id))
 
+      // console.log(`--- DDO Before Update Service: \n${JSON.stringify(ddo)}`)
+
       ddo.updateService({
         type: 'metadata',
         index: 0,
@@ -215,6 +277,8 @@ export abstract class RegistryBaseApi extends Instantiable {
           } as any,
         },
       } as Service)
+
+      // console.log(`--- DDO After: \n${JSON.stringify(ddo)}`)
 
       this.logger.log('Files encrypted')
       observer.next(CreateProgressStep.FilesEncrypted)
@@ -556,13 +620,13 @@ export abstract class RegistryBaseApi extends Instantiable {
    * Start the purchase/order of an asset's service. Starts by signing the service agreement
    * then sends the request to the publisher via the service endpoint (Node http service).
    * @param did - Decentralized ID.
-   * @param serviceType - Service.
+   * @param serviceReference - Service.
    * @param consumer - Consumer account.
    * @returns The agreement ID.
    */
   public orderAsset(
     did: string,
-    serviceType: ServiceType,
+    serviceReference: ServiceType | number,
     consumer: Account,
     params?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
@@ -571,12 +635,19 @@ export abstract class RegistryBaseApi extends Instantiable {
       const ddo = await this.resolveAsset(did)
 
       const { keeper } = this.nevermined
-      const service = ddo.findServiceByType(serviceType)
+
+      let service
+      if (typeof serviceReference === 'number') {
+        service = ddo.findServiceById(serviceReference)
+      } else {
+        service = ddo.findServiceByType(serviceReference)
+      }
+
       const templateName = service.attributes.serviceAgreementTemplate.contractName
 
       const template = keeper.getAccessTemplateByName(templateName)
 
-      this.logger.log(`Creating ${serviceType} agreement and paying`)
+      this.logger.log(`Creating ${serviceReference} agreement and paying`)
       const agreementId = await template.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
@@ -589,7 +660,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       )
 
       if (!agreementId) {
-        throw new AssetError(`Error creating ${serviceType} agreement`)
+        throw new AssetError(`Error creating ${serviceReference} agreement`)
       }
 
       // Checking the agreementId was created on-chain with the correct DID associated to it
@@ -622,6 +693,32 @@ export abstract class RegistryBaseApi extends Instantiable {
       'nft-access': new NFTAccessService(config),
       'aave-credit': config.nevermined.keeper.templates
         .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>,
+    }
+  }
+
+  private async getPriced(assetPrice: AssetPrice): Promise<PricedMetadataInformation> {
+    let decimals: number
+    const erc20TokenAddress =
+      assetPrice.getTokenAddress() || this.nevermined.utils.token.getAddress()
+
+    if (erc20TokenAddress === ZeroAddress) {
+      decimals = 18
+    } else {
+      const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
+      decimals = await token.decimals()
+    }
+
+    const price = assetPrice.getTotalPrice().toString()
+    const priceHighestDenomination = +BigNumber.formatUnits(assetPrice.getTotalPrice(), decimals)
+    return {
+      attributes: {
+        main: {
+          price,
+        },
+        additionalInformation: {
+          priceHighestDenomination,
+        },
+      },
     }
   }
 }

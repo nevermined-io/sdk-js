@@ -173,16 +173,18 @@ export class AssetsApi extends RegistryBaseApi {
    * If the access service to purchase is having associated some price, it will make the payment
    * for that service.
    * @param did - Unique identifier of the asset to order
+   * @param serviceReference - The service to order. By default is the access service, but it can be specified the service.index too
    * @param consumerAccount - The account of the user ordering the asset
    * @param txParams - Optional transaction parameters
    * @returns The agreement ID identifying the order
    */
   public order(
     did: string,
+    serviceReference: ServiceType | number = 'access',
     consumerAccount: Account,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
-    return this.orderAsset(did, 'access', consumerAccount, txParams)
+    return this.orderAsset(did, serviceReference, consumerAccount, txParams)
   }
 
   /**

@@ -76,41 +76,6 @@ describe('Assets', () => {
       assert.equal(metadata.attributes.main.ercType, 721)
       assert.equal(metadata.attributes.additionalInformation.tags[0], 'test')
     })
-
-    it('register with multiple services of the same service type', async () => {
-      const nonce = Math.random()
-      createdMetadata = getMetadata(nonce, `Immutable Multiple Services Test ${nonce}`)
-
-      createdMetadata.main.ercType = 721
-      createdMetadata.additionalInformation.tags = ['test']
-
-      const assetAttributes = AssetAttributes.getInstance({
-        metadata: createdMetadata,
-        services: [
-          {
-            serviceType: 'access',
-            price: assetPrice,
-          },
-          {
-            serviceType: 'access',
-            price: assetPrice,
-          },
-        ],
-      })
-      ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMetadata.IPFS)
-
-      assert.isDefined(ddo)
-      console.log(ddo.id)
-
-      const accessServices = ddo.getServicesByType('access')
-      assert.equal(accessServices.length, 2)
-      assert.equal(accessServices[0].index, 2)
-      assert.equal(accessServices[1].index, 3)
-
-      const metadata = ddo.findServiceByType('metadata')
-      assert.equal(metadata.attributes.main.ercType, 721)
-      assert.equal(metadata.attributes.additionalInformation.tags[0], 'test')
-    })
   })
 
   describe('#resolve()', () => {

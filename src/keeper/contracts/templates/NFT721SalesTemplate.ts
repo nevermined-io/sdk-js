@@ -101,7 +101,7 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
     }
   }
 
-  public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {
+  public getServiceAgreementTemplate(): ServiceAgreementTemplate {
     return nft721SalesTemplateServiceAgreementTemplate
   }
 }

@@ -69,7 +69,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     }
   }
 
-  public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {
+  public getServiceAgreementTemplate(): ServiceAgreementTemplate {
     return nftAccessTemplateServiceAgreementTemplate
   }
 

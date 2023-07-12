@@ -20,6 +20,18 @@ export class DDOServiceNotFoundError extends DDOError {
   }
 }
 
+export class DDOConditionNotFoundError extends DDOError {
+  constructor(conditionName: string) {
+    super(`Condition with name "${conditionName}" not found`)
+  }
+}
+
+export class DDOParamNotFoundError extends DDOError {
+  constructor(conditionName: string, paramName?: string) {
+    super(`Parameter "${paramName}" not found on Condition with type "${conditionName}"`)
+  }
+}
+
 export class DDOPriceNotFoundError extends DDOError {
   constructor(serviceType: ServiceType, did?: string) {
     super(`Service with type "${serviceType}" is not priced.`, did)

@@ -87,7 +87,7 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams, any> 
     return AgreementTemplate.getInstance(config, 'DIDSalesTemplate', DIDSalesTemplate)
   }
 
-  public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {
+  public getServiceAgreementTemplate(): ServiceAgreementTemplate {
     return didSalesTemplateServiceAgreementTemplate
   }
 }

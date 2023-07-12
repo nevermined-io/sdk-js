@@ -16,56 +16,6 @@ const SALES_SERVICES = ['access', 'compute', 'nft-sales']
 // Condition Names that are the final dependency for releasing the payment in a service agreement
 const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
 
-// @deprecated Use `DDO.fillParameterWithDDO`
-function fillParameterWithDDO(
-  parameter: ServiceAgreementTemplateParameter,
-  ddo: DDO,
-  assetPrice: AssetPrice = new AssetPrice(),
-  erc20TokenContract?: string,
-  nftTokenContract?: string,
-  nftHolder?: string,
-  nftAmount: BigNumber = BigNumber.from(1),
-  nftTransfer = false,
-  duration = 0,
-): ServiceAgreementTemplateParameter {
-  const getValue = (name) => {
-    switch (name) {
-      case 'amounts':
-        return Array.from(assetPrice.getAmounts(), (v) => v.toString())
-      case 'receivers':
-        return assetPrice.getReceivers()
-      case 'amount':
-      case 'price':
-        return String(assetPrice.getTotalPrice())
-      case 'assetId':
-      case 'documentId':
-      case 'documentKeyId':
-      case 'did':
-        return ddo.shortId()
-      case 'rewardAddress':
-        return ddo.publicKey[0].owner
-      case 'numberNfts':
-        return String(nftAmount)
-      case 'tokenAddress':
-        return erc20TokenContract
-      case 'contract':
-      case 'contractAddress':
-        return nftTokenContract ? nftTokenContract : ''
-      case 'nftHolder':
-        return nftHolder ? nftHolder : ''
-      case 'nftTransfer':
-        return String(nftTransfer)
-      case 'duration':
-        return String(duration)
-    }
-
-    return ''
-  }
-  const value = getValue(parameter.name.replace(/^_/, ''))
-
-  return { ...parameter, value }
-}
-
 /**
  * Fill some static parameters that depends on the metadata.
  *
@@ -78,11 +28,10 @@ function fillParameterWithDDO(
  *
  * @returns Filled conditions.
  */
-// @deprecated Use `fillConditionsWithDDO`
-export function fillConditionsWithDDO(
+export function getConditionsByParams(
   serviceType: ServiceType,
-  conditions: ServiceAgreementTemplateCondition[],
-  ddo: DDO,
+  conditions: Readonly<ServiceAgreementTemplateCondition[]>,
+  owner: string,
   assetPrice: AssetPrice = new AssetPrice(),
   erc20TokenContract?: string,
   nftTokenContract?: string,
@@ -107,9 +56,9 @@ export function fillConditionsWithDDO(
     .map((condition) => ({
       ...condition,
       parameters: condition.parameters.map((parameter) => ({
-        ...fillParameterWithDDO(
+        ...getParameter(
           parameter,
-          ddo,
+          owner,
           assetPrice,
           erc20TokenContract,
           nftTokenContract,
@@ -120,6 +69,50 @@ export function fillConditionsWithDDO(
         ),
       })),
     }))
+}
+
+function getParameter(
+  parameter: ServiceAgreementTemplateParameter,
+  owner: string,
+  assetPrice: AssetPrice = new AssetPrice(),
+  erc20TokenContract?: string,
+  nftTokenContract?: string,
+  nftHolder?: string,
+  nftAmount: BigNumber = BigNumber.from(1),
+  nftTransfer = false,
+  duration = 0,
+): ServiceAgreementTemplateParameter {
+  const getValue = (name) => {
+    switch (name) {
+      case 'amounts' || '_amounts':
+        return Array.from(assetPrice.getAmounts(), (v) => v.toString())
+      case 'receivers':
+        return assetPrice.getReceivers()
+      case 'amount' || 'price':
+        return String(assetPrice.getTotalPrice())
+      case 'assetId' || 'documentId' || 'documentKeyId' || 'did':
+        return '{DID}'
+      case 'rewardAddress':
+        return owner
+      case 'numberNfts':
+        return String(nftAmount)
+      case 'tokenAddress':
+        return erc20TokenContract
+      case 'contract' || 'contractAddress':
+        return nftTokenContract ? nftTokenContract : ''
+      case 'nftHolder':
+        return nftHolder ? nftHolder : ''
+      case 'nftTransfer':
+        return String(nftTransfer)
+      case 'duration':
+        return String(duration)
+    }
+
+    return ''
+  }
+  const value = getValue(parameter.name.replace(/^_/, ''))
+
+  return { ...parameter, value }
 }
 
 // @deprecated Use `DDO.findServiceConditionByName` instead
