@@ -2,7 +2,7 @@ import { Account } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
-import { ContractTransactionResponse, TransactionReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 import { parseUnits } from '../../sdk'
 export interface TxParameters {
   value?: string
@@ -17,14 +17,11 @@ export interface TxParameters {
 }
 
 export abstract class ContractBase extends Instantiable {
-  public contractName: string
+  public readonly contractName: string
   public contract: ethers.BaseContract = null
   public events: ContractEvent | SubgraphEvent = null
   public version: string
-
-  get address() {
-    return this.getAddress()
-  }
+  public address: string
 
   constructor(contractName: string) {
     super()
@@ -56,6 +53,8 @@ export abstract class ContractBase extends Instantiable {
       optional,
       config.artifactsFolder,
     )
+    this.address = await this.contract.getAddress()
+
     try {
       this.version = await this.nevermined.utils.contractHandler.getVersion(
         this.contractName,
@@ -91,7 +90,7 @@ export abstract class ContractBase extends Instantiable {
     args: any[],
     from?: Account,
     value?: TxParameters,
-  ): Promise<TransactionReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     const fromAddress = await this.getFromAddress(from && from.getId())
     const receipt = await this.send(name, fromAddress, args, value)
     if (!receipt.status) {
@@ -107,7 +106,7 @@ export abstract class ContractBase extends Instantiable {
     txparams: any,
     contract: ethers.BaseContract,
     progress: (data: any) => void,
-  ): Promise<TransactionReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     // Uncomment to debug contract calls
     //console.debug(`Making contract call ....: ${name} - ${from} - ${JSON.stringify(args)}`)
     const methodSignature = this.getSignatureOfMethod(name, args)
@@ -144,7 +143,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    const transactionReceipt: TransactionReceipt = await transactionResponse.wait()
+    const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
     if (progress) {
       progress({
         stage: 'receipt',
@@ -167,7 +166,7 @@ export abstract class ContractBase extends Instantiable {
     from: string,
     args: any[],
     params: TxParameters = {},
-  ): Promise<TransactionReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     if (params.signer) {
       const paramsFixed = { ...params, signer: undefined }
       const contract = this.contract.connect(params.signer)

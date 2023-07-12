@@ -9,7 +9,7 @@ export class ContractEvent extends NeverminedEvent {
     contract: ContractBase,
     eventEmitter: EventEmitter,
     nevermined: Nevermined,
-    web3: ethers.JsonRpcProvider,
+    web3: ethers.JsonRpcProvider | ethers.BrowserProvider,
   ): ContractEvent {
     const instance = new ContractEvent(contract, eventEmitter)
     instance.setInstanceConfig({

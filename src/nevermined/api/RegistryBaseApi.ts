@@ -66,7 +66,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       const { neverminedNodeUri } = this.config
       const { didRegistry } = this.nevermined.keeper
       const tokenAddress =
-        assetAttributes.price.getTokenAddress() || this.nevermined.utils.token.getAddress()
+        assetAttributes.price.getTokenAddress() || (await this.nevermined.utils.token.getAddress())
 
       // create ddo itself
       const ddo = DDO.getInstance(

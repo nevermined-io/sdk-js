@@ -12,7 +12,7 @@ import {
 } from '../../keeper'
 import { AaveConfig } from '../../models'
 import { didZeroX, formatEther, generateId, parseEther, zeroX } from '../../utils'
-import { ContractReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt } from 'ethers'
 
 /**
  * AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral
@@ -139,7 +139,7 @@ export class AaveCredit extends Instantiable {
         return false
       }
     }
-    const contractReceipt: ContractReceipt = await lockCond.fulfill(
+    const contractReceipt: ContractTransactionReceipt = await lockCond.fulfill(
       agreementId,
       did,
       vaultAddress,
@@ -174,8 +174,8 @@ export class AaveCredit extends Instantiable {
     if (!did) {
       did = agreementData.did
     }
-    const _collateralAmount = ethers.utils.parseEther(collateralAmount.toString()).toString()
-    const _delegatedAmount = ethers.utils.parseEther(delegatedAmount.toString()).toString()
+    const _collateralAmount = parseEther(collateralAmount.toString()).toString()
+    const _delegatedAmount = parseEther(delegatedAmount.toString()).toString()
     const _value = useWethGateway ? _collateralAmount.toString() : '0'
     if (!useWethGateway) {
       this.logger.log(
@@ -192,7 +192,7 @@ export class AaveCredit extends Instantiable {
       )
     }
 
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
         agreementId,
         did,
@@ -235,7 +235,7 @@ export class AaveCredit extends Instantiable {
     }
     const amount = parseEther(delegatedAmount.toString()).toString()
 
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
         agreementId,
         did,
@@ -280,7 +280,7 @@ export class AaveCredit extends Instantiable {
 
     // Verify that the borrower has sufficient balance for the repayment
     const weiBalance = await erc20Token.balanceOf(from.getId())
-    if (weiBalance.lt(weiAllowanceAmount)) {
+    if (weiBalance < weiAllowanceAmount) {
       this.logger.warn(
         `borrower does not have enough balance to repay the debt:
                 token=${delegatedAsset}, weiBalance=${weiBalance}, totalDebt(wei)=${weiAllowanceAmount}`,
@@ -296,7 +296,7 @@ export class AaveCredit extends Instantiable {
 
     const weiAmount = parseEther(delegatedAmount.toString()).toString()
     // use the aaveRepayCondition to apply the repayment
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
         agreementId,
         did,
@@ -334,7 +334,7 @@ export class AaveCredit extends Instantiable {
       vaultAddress = (await this.getVaultContract(agreementId, from.getId(), vaultAddress)).address
     }
 
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
         agreementId,
         did,
@@ -369,7 +369,7 @@ export class AaveCredit extends Instantiable {
     vaultAddress = vaultContract.address
 
     // use the distributeNftCollateralCondition to withdraw the lender's collateral
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.distributeNftCollateralCondition.fulfill(
         agreementId,
         did,

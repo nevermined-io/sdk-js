@@ -72,7 +72,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       type: this.service(),
       index: serviceIndex[this.service()],
       serviceEndpoint: this.nevermined.services.node.getServiceEndpoint(this.serviceEndpoint()),
-      templateId: this.getAddress(),
+      templateId: await this.getAddress(),
       attributes: {
         main: {
           creator: publisher.getId(),

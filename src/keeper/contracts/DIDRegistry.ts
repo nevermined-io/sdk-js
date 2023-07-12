@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters as txParams } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { ContractReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt, ethers } from 'ethers'
 import { NFTAttributes } from '../../models'
 import { AssetError } from '../../errors/AssetError'
 import {
@@ -117,7 +117,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        ethers.utils.hexZeroPad(zeroX(activityId), 32),
+        ethers.zeroPadValue(zeroX(activityId), 32),
         nftAttributes.nftMetadataUrl || '',
         immutableUrl,
       ],
@@ -164,7 +164,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        ethers.utils.hexZeroPad(zeroX(activityId), 32),
+        ethers.zeroPadValue(zeroX(activityId), 32),
         immutableUrl,
       ],
       txParams,
@@ -362,7 +362,7 @@ export class DIDRegistry extends ContractBase {
     newOwnerAddress: string,
     ownerAddress: string,
     params?: txParams,
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     return this.send(
       'transferDIDOwnership',
       ownerAddress,

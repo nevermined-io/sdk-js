@@ -81,12 +81,12 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return 1
   }
 
-  public paymentData(service: Service): PaymentData {
+  public async paymentData(service: Service): Promise<PaymentData> {
     const assetPrice = getAssetPriceFromService(service)
     const payment = findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     return {
-      rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+      rewardAddress: await this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
       tokenAddress: payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
       amounts: assetPrice.getAmounts(),
       receivers: assetPrice.getReceivers(),
@@ -253,7 +253,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     parameters: Params,
     consumer: Account,
     from: Account,
-    timeOuts?: number[],
     txParams?: TxParameters,
     observer?: (OrderProgressStep) => void,
   ): Promise<string> {
@@ -271,7 +270,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const assetPrice = getAssetPriceFromService(service)
     const payment = findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
-    const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
+    const rewardAddress =
+      await this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
     const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
@@ -413,7 +413,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     if (token) {
       this.logger.debug('Approving tokens', totalAmount)
-      await token.approve(lockPaymentCondition.getAddress(), totalAmount, from, txParams)
+      await token.approve(await lockPaymentCondition.getAddress(), totalAmount, from, txParams)
     }
   }
 

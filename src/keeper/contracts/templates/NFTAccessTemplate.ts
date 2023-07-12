@@ -91,6 +91,6 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
       contractAddress,
     )
     const balance = await nftContract.balance(params.consumer_address, params.did)
-    return balance.gte(limit)
+    return balance >= limit
   }
 }

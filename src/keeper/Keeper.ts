@@ -351,7 +351,7 @@ export class Keeper extends Instantiable {
    * @returns Condition instance.
    */
   public getConditionByAddress(address: string): ConditionSmall {
-    return this.conditionsList.find((condition) => condition.getAddress() === address)
+    return this.conditionsList.find(async (condition) => (await condition.getAddress()) === address)
   }
 
   /**
@@ -378,7 +378,9 @@ export class Keeper extends Instantiable {
    * @returns Agreement template instance.
    */
   public getTemplateByAddress(address: string) {
-    return Object.values(this.templates).find((template) => template.getAddress() === address)
+    return Object.values(this.templates).find(
+      async (template) => (await template.getAddress()) === address,
+    )
   }
 
   /**
@@ -396,7 +398,7 @@ export class Keeper extends Instantiable {
   public async getNetworkId(): Promise<number> {
     if (this.network.loading) {
       this.network.loading = false
-      this.network.id = (await this.web3.getNetwork()).chainId
+      this.network.id = Number((await this.web3.getNetwork()).chainId)
     }
 
     while (!this.network.id) {

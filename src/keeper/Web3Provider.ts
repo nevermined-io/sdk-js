@@ -7,11 +7,13 @@ export class Web3Provider {
    *
    * @returns web3 instance
    */
-  public static getWeb3(config: Partial<NeverminedOptions> = {}): ethers.providers.JsonRpcProvider {
+  public static getWeb3(
+    config: Partial<NeverminedOptions> = {},
+  ): ethers.JsonRpcProvider | ethers.BrowserProvider {
     if (config.web3Provider) {
-      return new ethers.providers.Web3Provider(config.web3Provider)
+      return new ethers.BrowserProvider(config.web3Provider)
     }
 
-    return new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
+    return new ethers.JsonRpcProvider(config.web3ProviderUri)
   }
 }

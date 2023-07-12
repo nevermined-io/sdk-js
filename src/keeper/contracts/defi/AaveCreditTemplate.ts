@@ -8,7 +8,7 @@ import { AaveConfig } from '../../../models'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { ServiceType, ValidationParams } from '../../../ddo'
-import { ContractReceipt } from 'ethers'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 import {
   AaveBorrowCondition,
   AaveCollateralDepositCondition,
@@ -108,7 +108,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     timeOuts: number[],
     txParams?: TxParameters,
     from?: Account,
-  ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
+  ): Promise<[ContractTransactionReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
     const _collateralAmount = parseEther(collateralAmount.toString())
 
     const _delegatedAmount = parseEther(delegatedAmount.toString())
@@ -162,7 +162,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     timeOuts: number[],
     txParams?: TxParameters,
     from?: Account,
-  ): Promise<[ContractReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
+  ): Promise<[ContractTransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
     const vaultAddress = await this.deployVault(
       this.aaveConfig.lendingPoolAddress,
       this.aaveConfig.dataProviderAddress,
@@ -208,7 +208,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     lender: string,
     from: string,
   ): Promise<string> {
-    const contractReceipt: ContractReceipt = await this.send('deployVault', from, [
+    const contractReceipt: ContractTransactionReceipt = await this.send('deployVault', from, [
       lendingPool,
       dataProvider,
       weth,
@@ -217,7 +217,9 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
       borrower,
       lender,
     ])
-    const vaultCreatedEvent = contractReceipt.events.find((e) => e.event === 'VaultCreated')
+    const vaultCreatedEvent = contractReceipt.logs.find(
+      (e: EventLog) => e.eventName === 'VaultCreated',
+    ) as EventLog
     const { _vaultAddress } = vaultCreatedEvent.args
     return _vaultAddress
   }

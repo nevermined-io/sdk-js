@@ -5,7 +5,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
 import { AssetError, DDOError } from '../../errors'
 import { Nevermined } from '../../sdk'
-import { ContractReceipt } from 'ethers'
+import { ContractTransactionReceipt } from 'ethers'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { Providers } from '../Provider'
@@ -292,7 +292,7 @@ export class AssetsApi extends RegistryBaseApi {
     newOwner: string,
     owner: string | Account,
     txParams?: TxParameters,
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     // const owner = await this.nevermined.assets.owner(did)
     const ownerAddress = owner instanceof Account ? owner.getId() : owner
     return this.nevermined.keeper.didRegistry.transferDIDOwnership(

@@ -27,7 +27,7 @@ export class TokenUtils extends Instantiable {
     return await this.nevermined.keeper.token.symbol()
   }
 
-  public getAddress(): string {
+  public async getAddress(): Promise<string> {
     return this.nevermined.keeper.token.getAddress()
   }
 

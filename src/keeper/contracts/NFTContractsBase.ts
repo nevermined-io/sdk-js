@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
-import { ContractReceipt } from 'ethers'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export class NFTContractsBase extends ContractBase {
@@ -35,13 +35,15 @@ export class NFTContractsBase extends ContractBase {
     txParams?: TxParameters,
   ) {
     try {
-      const contractReceipt: ContractReceipt = await this.sendFrom(
+      const contractReceipt: ContractTransactionReceipt = await this.sendFrom(
         'createClone',
         cap ? [name, symbol, uri, String(cap), operators] : [name, symbol, uri, operators],
         from,
         txParams,
       )
-      const event = contractReceipt.events.find((e) => e.event === 'NFTCloned')
+      const event = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'NFTCloned',
+      ) as EventLog
       return event.args._newAddress
     } catch (error) {
       throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)

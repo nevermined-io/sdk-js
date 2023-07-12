@@ -252,7 +252,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       nftSalesTemplateConditions,
       ddo,
       assetPrice,
-      token.getAddress(),
+      await token.getAddress(),
       undefined,
       provider || owner,
       nftAmount,
@@ -263,7 +263,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       type: serviceType,
       index: 6,
       serviceEndpoint: this.nevermined.services.node.getNftEndpoint(),
-      templateId: nftSalesTemplate.getAddress(),
+      templateId: await nftSalesTemplate.getAddress(),
       did: ddo.id,
       attributes: {
         main: {

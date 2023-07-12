@@ -3,7 +3,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
 import { Account } from '../nevermined'
-import { ContractTransactionResponse, TransactionReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -152,7 +152,8 @@ export class ContractHandler extends Instantiable {
         methodSignature
       ](...args, extraParams)
 
-      const transactionReceipt: TransactionReceipt = await contractTransactionResponse.wait()
+      const transactionReceipt: ContractTransactionReceipt =
+        await contractTransactionResponse.wait()
       if (transactionReceipt.status !== 1) {
         throw new Error(`Error deploying contract ${artifact.name}`)
       }
@@ -197,7 +198,7 @@ export class ContractHandler extends Instantiable {
    * @returns {@link true} if the contract exists.
    */
   public async checkExists(address: string): Promise<boolean> {
-    const storage = await this.web3.getStorageAt(address, 0)
+    const storage = await this.web3.getStorage(address, 0)
     // check if storage is 0x0 at position 0, this is the case most of the cases
     if (storage === '0x0000000000000000000000000000000000000000000000000000000000000000') {
       // if the storage is empty, check if there is no code for this contract,
