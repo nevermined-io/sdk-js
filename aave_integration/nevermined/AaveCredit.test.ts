@@ -1,6 +1,6 @@
 import { getMetadata } from '../../integration/utils/index'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Account, ConditionState, DDO, generateId } from '../../src/index'
+import { AaveConfig, Account, ConditionState, DDO, generateId } from '../../src/index'
 import ERC721 from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
 import { Nevermined } from '../../src/nevermined'
 import { didZeroX, zeroX } from '../../src/utils/index'
@@ -21,7 +21,6 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { decodeJwt } from 'jose'
 import { Contract } from 'ethers'
-import { BigNumber } from '../../src/utils'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
@@ -81,7 +80,7 @@ describe('AaveCredit', () => {
     // await TestContractHandler.prepareContracts()
 
     nevermined = await Nevermined.getInstance(config)
-    ;({ agreementFee } = config.aaveConfig)
+    ;({ agreementFee } = config.aaveConfig as AaveConfig)
     ;({ aaveCreditTemplate } = nevermined.keeper.templates)
     ;({ conditionStoreManager, didRegistry, agreementStoreManager } = nevermined.keeper)
     ;({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)

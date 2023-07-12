@@ -5,7 +5,6 @@ import { generateId } from '../src/utils'
 import { config } from '../integration/config'
 import { getRoyaltyAttributes, RoyaltyKind } from '../src/nevermined/api/AssetsApi'
 import { NFTAttributes } from '../src/models/NFTAttributes'
-import BigNumber from '../src/utils/BigNumber'
 import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 
@@ -105,8 +104,8 @@ const generateNftDDO = async (
     const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,
         nftContractAddress: nevermined.nfts1155.nftContract.address,
-        cap: BigNumber.from(10),
-        amount: BigNumber.from(1),
+        cap: 10n,
+        amount: 1n,
         royaltyAttributes,
         preMint: true
     })
@@ -314,7 +313,7 @@ const main = async () => {
     const payload = decodeJwt(config.marketplaceAuthToken!)
 
     const userId = payload.sub!
-    const price = new AssetPrice(publisher.getId(), BigNumber.from(1))
+    const price = new AssetPrice(publisher.getId(), 1n)
 
     const destination = process.argv[2] || process.cwd()
     console.log(process.argv)

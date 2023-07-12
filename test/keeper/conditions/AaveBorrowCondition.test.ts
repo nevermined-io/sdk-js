@@ -7,7 +7,6 @@ import { didZeroX } from '../../../src/utils'
 import { Account } from '../../../src/nevermined'
 import * as utils from '../../../src/utils'
 import { DIDRegistry } from '../../../src/keeper'
-import { BigNumber } from '../../../src/utils'
 
 let condition: AaveBorrowCondition
 
@@ -16,7 +15,7 @@ describe('AaveBorrowCondition', () => {
   let agreementId: string
   const vaultAddress = `0x${'a'.repeat(40)}`
   const assetToBorrow = `0x${'a'.repeat(40)}`
-  const amount = BigNumber.from('11000000000000000000')
+  const amount = 11000000000000000000n
   const interestRateMode = 1
   let user: Account
   let nevermined: Nevermined

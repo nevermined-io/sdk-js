@@ -10,7 +10,6 @@ import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { Account, AssetPrice } from '../../../src'
 import { generateId, ZeroAddress } from '../../../src/utils'
-import { BigNumber } from '../../../src/utils'
 
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition
@@ -23,7 +22,7 @@ let buyer: Account
 let seller: Account
 
 describe('LockPaymentCondition', () => {
-  const amount = BigNumber.from(15)
+  const amount = 15n
   let agreementId
   let did
 
@@ -86,19 +85,23 @@ describe('LockPaymentCondition', () => {
 
       await conditionStoreManager.createCondition(
         conditionId,
-        lockPaymentCondition.getAddress(),
+        await lockPaymentCondition.getAddress(),
         owner,
       )
 
       await buyer.requestTokens(assetPrice.getTotalPrice())
 
-      await token.approve(lockPaymentCondition.getAddress(), assetPrice.getTotalPrice(), buyer)
+      await token.approve(
+        await lockPaymentCondition.getAddress(),
+        assetPrice.getTotalPrice(),
+        buyer,
+      )
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        await escrowPaymentCondition.getAddress(),
+        await token.getAddress(),
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
         buyer,
@@ -119,14 +122,14 @@ describe('LockPaymentCondition', () => {
 
       await conditionStoreManager.createCondition(
         conditionId,
-        lockPaymentCondition.getAddress(),
+        await lockPaymentCondition.getAddress(),
         owner,
       )
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
-        escrowPaymentCondition.getAddress(),
+        await escrowPaymentCondition.getAddress(),
         ZeroAddress,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
@@ -149,7 +152,7 @@ describe('LockPaymentCondition', () => {
 
       await conditionStoreManager.createCondition(
         conditionId,
-        lockPaymentCondition.getAddress(),
+        await lockPaymentCondition.getAddress(),
         owner,
       )
 
@@ -157,7 +160,7 @@ describe('LockPaymentCondition', () => {
         lockPaymentCondition.fulfill(
           agreementId,
           did,
-          escrowPaymentCondition.getAddress(),
+          await escrowPaymentCondition.getAddress(),
           ZeroAddress,
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
@@ -179,7 +182,7 @@ describe('LockPaymentCondition', () => {
 
       await conditionStoreManager.createCondition(
         conditionId,
-        lockPaymentCondition.getAddress(),
+        await lockPaymentCondition.getAddress(),
         owner,
       )
 
@@ -187,12 +190,12 @@ describe('LockPaymentCondition', () => {
         lockPaymentCondition.fulfill(
           agreementId,
           did,
-          escrowPaymentCondition.getAddress(),
+          await escrowPaymentCondition.getAddress(),
           ZeroAddress,
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
           buyer,
-          { value: String(assetPrice.getTotalPrice().sub(1)) },
+          { value: String(assetPrice.getTotalPrice() - 1n) },
         ),
         /Transaction value does not match amount/,
       )

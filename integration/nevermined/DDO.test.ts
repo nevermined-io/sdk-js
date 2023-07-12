@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { decodeJwt } from 'jose'
 import { Account, DDO, MetaData, Nevermined } from '../../src'
 import { AssetAttributes, AssetPrice } from '../../src/models/'
@@ -39,7 +38,7 @@ describe('DDO Tests', () => {
     const payload = decodeJwt(config.marketplaceAuthToken)
 
     userId = payload.sub
-    price = new AssetPrice(publisher.getId(), BigNumber.from(1))
+    price = new AssetPrice(publisher.getId(), 1n)
   })
 
   it('should create correct dataset DDO', async () => {
@@ -142,8 +141,8 @@ describe('DDO Tests', () => {
     const nftAttributes = NFTAttributes.getNFT1155Instance({
       ...assetAttributes,
       nftContractAddress: nevermined.nfts1155.nftContract.address,
-      cap: BigNumber.from(10),
-      amount: BigNumber.from(1),
+      cap: 10n,
+      amount: 1n,
       royaltyAttributes,
       preMint: true,
     })

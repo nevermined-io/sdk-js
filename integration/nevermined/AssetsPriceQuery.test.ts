@@ -3,17 +3,16 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, Nevermined, NFTAttributes, AssetAttributes, AssetPrice } from '../../src'
 import { CustomToken } from '../../src/keeper'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
-import { generateId } from '../../src/utils'
-import { BigNumber } from '../../src/utils'
+import { generateId, parseUnits } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { sleep } from '../utils/utils'
 
 describe('Assets Query by Price', () => {
   let nevermined: Nevermined
-  let price1: BigNumber
-  let price2: BigNumber
-  let royalties: BigNumber
+  let price1: bigint
+  let price2: bigint
+  let royalties: bigint
   let payload: JWTPayload
   let account: Account
   let account2: Account
@@ -24,11 +23,11 @@ describe('Assets Query by Price', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    token = await nevermined.contracts.loadErc20(nevermined.utils.token.getAddress())
+    token = await nevermined.contracts.loadErc20(await nevermined.utils.token.getAddress())
 
-    price1 = BigNumber.parseUnits('2', await token.decimals())
-    price2 = BigNumber.parseUnits('17.86', await token.decimals())
-    royalties = BigNumber.parseUnits('2', await token.decimals())
+    price1 = parseUnits('2', await token.decimals())
+    price2 = parseUnits('17.86', await token.decimals())
+    royalties = parseUnits('2', await token.decimals())
     appId = generateId()
     ;[account, account2] = await nevermined.accounts.list()
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)
@@ -40,7 +39,9 @@ describe('Assets Query by Price', () => {
     // publish asset with priced service `access`
     let metadata = getMetadata()
     metadata.userId = payload.sub
-    let assetPrice = new AssetPrice(account.getId(), price1).setTokenAddress(token.getAddress())
+    let assetPrice = new AssetPrice(account.getId(), price1).setTokenAddress(
+      await token.getAddress(),
+    )
 
     const _attributes = AssetAttributes.getInstance({
       metadata,
@@ -54,7 +55,7 @@ describe('Assets Query by Price', () => {
     metadata.userId = payload.sub
     assetPrice = new AssetPrice(
       new Map([
-        [account.getId(), price2.sub(royalties)],
+        [account.getId(), price2 - royalties],
         [account2.getId(), royalties],
       ]),
     )
@@ -69,7 +70,7 @@ describe('Assets Query by Price', () => {
     const nftAttributes = NFTAttributes.getNFT1155Instance({
       ...assetAttributes,
       nftContractAddress: nevermined.nfts1155.nftContract.address,
-      cap: BigNumber.from(1),
+      cap: 1n,
       royaltyAttributes,
     })
     ddoNftSales = await nevermined.nfts1155.create(nftAttributes, account)

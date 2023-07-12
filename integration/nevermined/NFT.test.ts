@@ -3,8 +3,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, AssetPrice, NFTAttributes } from '../../src'
-import { ZeroAddress } from '../../src/utils'
-import { BigNumber } from '../../src/utils'
+import { parseEther, ZeroAddress } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 
 describe('Nfts operations', () => {
@@ -38,7 +37,7 @@ describe('Nfts operations', () => {
         metadata,
         serviceTypes: ['nft-sales', 'nft-access'],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
-        cap: BigNumber.from(10),
+        cap: 10n,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -52,15 +51,15 @@ describe('Nfts operations', () => {
     })
 
     it('should mint 10 nft tokens', async () => {
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(10))
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 10n)
     })
 
     it('should transfer 2 nft tokens with default token', async () => {
-      const agreementId = await nevermined.nfts1155.order(ddo.id, BigNumber.from(2), collector)
-      await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+      const agreementId = await nevermined.nfts1155.order(ddo.id, 2n, collector)
+      await nevermined.nfts1155.transfer(agreementId, ddo.id, 2n, artist)
 
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(8))
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, collector), BigNumber.from(2))
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 8n)
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, collector), 2n)
     })
 
     it('should the operation be approved', async () => {
@@ -73,8 +72,8 @@ describe('Nfts operations', () => {
     })
 
     it('should burn nft tokens', async () => {
-      await nevermined.nfts1155.burn(ddo.id, BigNumber.from(6), artist)
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(2))
+      await nevermined.nfts1155.burn(ddo.id, 6n, artist)
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 2n)
     })
   })
 
@@ -87,27 +86,27 @@ describe('Nfts operations', () => {
         metadata,
         serviceTypes: ['nft-sales', 'nft-access'],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
-        cap: BigNumber.from(10),
+        cap: 20n,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
     })
 
     it('should mint 10 nft tokens', async () => {
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(10))
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 10n)
     })
 
     it('should transfer 2 nft tokens with custom token', async () => {
-      const agreementId = await nevermined.nfts1155.order(ddo.id, BigNumber.from(2), collector)
-      await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+      const agreementId = await nevermined.nfts1155.order(ddo.id, 2n, collector)
+      await nevermined.nfts1155.transfer(agreementId, ddo.id, 2n, artist)
 
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(8))
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, collector), BigNumber.from(2))
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 8n)
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, collector), 2n)
     })
 
     it('should burn nft tokens', async () => {
-      await nevermined.nfts1155.burn(ddo.id, BigNumber.from(6), artist)
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(2))
+      await nevermined.nfts1155.burn(ddo.id, 6n, artist)
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 2n)
     })
   })
 
@@ -119,32 +118,30 @@ describe('Nfts operations', () => {
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
         serviceTypes: ['nft-sales', 'nft-access'],
-        price: new AssetPrice(artist.getId(), BigNumber.parseEther('0.1')).setTokenAddress(
-          ZeroAddress,
-        ),
+        price: new AssetPrice(artist.getId(), parseEther('0.1')).setTokenAddress(ZeroAddress),
         nftContractAddress: nevermined.nfts1155.nftContract.address,
-        cap: BigNumber.from(10),
+        cap: 10n,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
     })
 
     it('should mint 10 nft tokens', async () => {
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(10))
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 10n)
     })
 
     it('should transfer 2 nft tokens with ether', async () => {
-      const agreementId = await nevermined.nfts1155.order(ddo.id, BigNumber.from(2), collector)
-      await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+      const agreementId = await nevermined.nfts1155.order(ddo.id, 2n, collector)
+      await nevermined.nfts1155.transfer(agreementId, ddo.id, 2n, artist)
 
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(8))
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, collector), BigNumber.from(2))
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 8n)
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, collector), 2n)
     })
 
     it('should burn nft tokens', async () => {
-      await nevermined.nfts1155.burn(ddo.id, BigNumber.from(6), artist)
+      await nevermined.nfts1155.burn(ddo.id, 6n, artist)
 
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(2))
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 2n)
     })
   })
 })

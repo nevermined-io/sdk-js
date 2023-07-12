@@ -11,7 +11,6 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
 import '../globals'
 
 describe('NFTs721 Api End-to-End', () => {
@@ -31,15 +30,15 @@ describe('NFTs721 Api End-to-End', () => {
 
   // Configuration of First Sale:
   // Artist -> Collector1, the gallery get a cut (25%)
-  let nftPrice = BigNumber.from(20)
-  let amounts = [BigNumber.from(15), BigNumber.from(5)]
+  let nftPrice = 20n
+  let amounts = [15n, 5n]
   let receivers: string[]
   let assetPrice1: AssetPrice
 
   let initialBalances: any
-  let scale: BigNumber
+  let scale: bigint
 
-  let nft: ethers.Contract
+  let nft: ethers.BaseContract
   let nftContract: Nft721Contract
 
   let payload: JWTPayload
@@ -66,7 +65,7 @@ describe('NFTs721 Api End-to-End', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      nft.address,
+      await nft.getAddress(),
     )
 
     await nevermined.contracts.loadNft721(nftContract.address)
@@ -85,10 +84,10 @@ describe('NFTs721 Api End-to-End', () => {
     // components
     ;({ token } = nevermined.keeper)
 
-    scale = BigNumber.from(10).pow(await token.decimals())
+    scale = 10n ** BigInt(await token.decimals())
 
-    nftPrice = nftPrice.mul(scale)
-    amounts = amounts.map((v) => v.mul(scale))
+    nftPrice = nftPrice * scale
+    amounts = amounts.map((v) => v * scale)
     receivers = [artist.getId(), gallery.getId()]
     assetPrice1 = new AssetPrice(
       new Map([
@@ -103,7 +102,9 @@ describe('NFTs721 Api End-to-End', () => {
       artist: await token.balanceOf(artist.getId()),
       collector1: await token.balanceOf(collector1.getId()),
       gallery: await token.balanceOf(gallery.getId()),
-      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.getAddress())),
+      escrowPaymentCondition: Number(
+        await token.balanceOf(await escrowPaymentCondition.getAddress()),
+      ),
     }
   })
 
@@ -140,10 +141,10 @@ describe('NFTs721 Api End-to-End', () => {
     })
 
     it('I am ordering the NFT', async () => {
-      await collector1.requestTokens(nftPrice.div(scale))
+      await collector1.requestTokens(nftPrice / scale)
 
       const collector1BalanceBefore = await token.balanceOf(collector1.getId())
-      assert.isTrue(collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice)))
+      assert.equal(initialBalances.collector1 + nftPrice, collector1BalanceBefore)
 
       agreementId = await nevermined.nfts721.order(ddo.id, collector1)
 
@@ -151,7 +152,7 @@ describe('NFTs721 Api End-to-End', () => {
 
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
 
-      assert.isTrue(collector1BalanceAfter.sub(initialBalances.collector1).eq(0))
+      assert.equal(collector1BalanceAfter - initialBalances.collector1, 0n)
     })
 
     it('The artist can check the payment and transfer the NFT to the collector', async () => {
@@ -165,7 +166,7 @@ describe('NFTs721 Api End-to-End', () => {
 
     it('the artist asks and receives the payment', async () => {
       const escrowPaymentConditionBalanceBefore = await token.balanceOf(
-        escrowPaymentCondition.getAddress(),
+        await escrowPaymentCondition.getAddress(),
       )
 
       const receipt = await nevermined.nfts721.releaseRewards(agreementId, ddo.id, artist)
@@ -173,21 +174,19 @@ describe('NFTs721 Api End-to-End', () => {
       assert.isTrue(receipt)
 
       const escrowPaymentConditionBalanceAfter = await token.balanceOf(
-        escrowPaymentCondition.getAddress(),
+        await escrowPaymentCondition.getAddress(),
       )
       const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
       const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
       const collectorBalance = await token.balanceOf(collector1.getId())
 
-      assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(assetPrice1.getAmounts()[0])))
+      assert.equal(initialBalances.artist + assetPrice1.getAmounts()[0], receiver0Balance)
+      assert.equal(initialBalances.gallery + assetPrice1.getAmounts()[1], receiver1Balance)
 
-      assert.isTrue(receiver1Balance.eq(initialBalances.gallery.add(assetPrice1.getAmounts()[1])))
-
-      assert.isTrue(collectorBalance.sub(initialBalances.collector1).eq(0))
-      assert.isTrue(
-        escrowPaymentConditionBalanceBefore
-          .sub(assetPrice1.getTotalPrice())
-          .eq(escrowPaymentConditionBalanceAfter),
+      assert.equal(collectorBalance - initialBalances.collector1, 0n)
+      assert.equal(
+        escrowPaymentConditionBalanceBefore - assetPrice1.getTotalPrice(),
+        escrowPaymentConditionBalanceAfter,
       )
     })
   })

@@ -11,7 +11,7 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { ethers } from 'ethers'
-import { BigNumber, generateId } from '../../src/utils'
+import { generateId } from '../../src/utils'
 import '../globals'
 import { mineBlocks } from '../utils/utils'
 
@@ -30,15 +30,15 @@ describe('Claim aborted agreements End-to-End', () => {
 
   // Configuration of First Sale:
   // Publisher -> Collector1, other account get a cut (25%)
-  let nftPrice = BigNumber.from(20)
-  let amounts = [BigNumber.from(15), BigNumber.from(5)]
+  let nftPrice = 20n
+  let amounts = [15n, 5n]
   let receivers: string[]
   let assetPrice1: AssetPrice
 
-  let scale: BigNumber
-  let neverminedNodeAddress
+  let scale: bigint
+  let neverminedNodeAddress: string
 
-  let nft: ethers.Contract
+  let nft: ethers.BaseContract
   let nftContract: Nft721Contract
 
   let payload: JWTPayload
@@ -68,7 +68,7 @@ describe('Claim aborted agreements End-to-End', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      nft.address,
+      await nft.getAddress(),
     )
 
     await nevermined.contracts.loadNft721(nftContract.address)
@@ -88,10 +88,10 @@ describe('Claim aborted agreements End-to-End', () => {
     // components
     ;({ token } = nevermined.keeper)
 
-    scale = BigNumber.from(10).pow(await token.decimals())
+    scale = 10n ** BigInt(await token.decimals())
 
-    nftPrice = nftPrice.mul(scale)
-    amounts = amounts.map((v) => v.mul(scale))
+    nftPrice = nftPrice * scale
+    amounts = amounts.map((v) => v * scale)
     receivers = [publisher.getId(), other.getId()]
     assetPrice1 = new AssetPrice(
       new Map([
@@ -101,7 +101,7 @@ describe('Claim aborted agreements End-to-End', () => {
     )
 
     await nftContract.grantOperatorRole(transferNft721Condition.address, publisher)
-    await collector1.requestTokens(nftPrice.div(scale).mul(10))
+    await collector1.requestTokens((nftPrice / scale) * 10n)
   })
 
   describe('As a publisher I want to register a new asset', () => {
@@ -209,7 +209,7 @@ describe('Claim aborted agreements End-to-End', () => {
 
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
 
-      assert.isTrue(collector1BalanceAfter.add(nftPrice).eq(collector1BalanceBefore))
+      assert.equal(collector1BalanceAfter + nftPrice, collector1BalanceBefore)
     })
 
     it('I can order the NFT after the timelock', async () => {
@@ -256,8 +256,8 @@ describe('Claim aborted agreements End-to-End', () => {
       const publisherBalanceAfter = await token.balanceOf(publisher.getId())
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
 
-      assert.isTrue(collector1BalanceBefore.eq(collector1BalanceAfter))
-      assert.isTrue(publisherBalanceBefore.add(amounts[0]).eq(publisherBalanceAfter))
+      assert.equal(collector1BalanceBefore, collector1BalanceAfter)
+      assert.equal(publisherBalanceBefore + amounts[0], publisherBalanceAfter)
     })
   })
 
@@ -275,7 +275,7 @@ describe('Claim aborted agreements End-to-End', () => {
       )
 
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
-      assert.isTrue(collector1BalanceBeforeOrder.sub(nftPrice).eq(collector1BalanceAfter))
+      assert.equal(collector1BalanceBeforeOrder - nftPrice, collector1BalanceAfter)
 
       await mineBlocks(nevermined, collector1, accessTimeout + 1)
 
@@ -309,7 +309,7 @@ describe('Claim aborted agreements End-to-End', () => {
       assert.equal(agreementStatusReleased['escrowPayment'].state, ConditionState.Fulfilled)
 
       const collector1BalanceReleased = await token.balanceOf(collector1.getId())
-      assert.isTrue(collector1BalanceBeforeOrder.eq(collector1BalanceReleased))
+      assert.equal(collector1BalanceBeforeOrder, collector1BalanceReleased)
     })
   })
 

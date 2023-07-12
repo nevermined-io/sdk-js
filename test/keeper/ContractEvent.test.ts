@@ -13,7 +13,7 @@ describe('ContractEvent', () => {
   let account2: Account
   let account3: Account
   let account4: Account
-  let web3: ethers.providers.JsonRpcProvider
+  let web3: ethers.JsonRpcProvider | ethers.BrowserProvider
 
   beforeEach(async () => {
     await TestContractHandler.prepareContracts()

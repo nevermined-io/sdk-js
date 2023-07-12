@@ -4,7 +4,6 @@ import spies from 'chai-spies'
 import config from '../config'
 import { Account } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
-import { BigNumber } from '../../src/utils'
 import { AccountsApi } from '../../src/nevermined'
 
 use(spies)
@@ -33,14 +32,14 @@ describe('Accounts', () => {
     it('should return the balance of an account', async () => {
       const [account] = await accounts.list()
       spy.on(account, 'getBalance', () => ({
-        eth: BigNumber.from(1),
-        nevermined: BigNumber.from(5),
+        eth: 1n,
+        nevermined: 5n,
       }))
       const balance = await accounts.balance(account)
 
       assert.deepEqual(balance, {
-        eth: BigNumber.from(1),
-        nevermined: BigNumber.from(5),
+        eth: 1n,
+        nevermined: 5n,
       })
     })
   })

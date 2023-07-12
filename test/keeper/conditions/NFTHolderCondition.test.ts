@@ -1,6 +1,5 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { ContractReceipt, Event } from 'ethers'
 import {
   Account,
   ConditionState,
@@ -15,9 +14,9 @@ import {
   ConditionStoreManager,
 } from '../../../src/keeper'
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
-import { BigNumber } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -34,7 +33,7 @@ describe('NFTHolderCondition', () => {
   let didSeed: string
   const activityId = generateId()
   const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
-  const amount = BigNumber.from(10)
+  const amount = 10n
 
   before(async () => {
     await TestContractHandler.prepareContracts()
@@ -79,7 +78,7 @@ describe('NFTHolderCondition', () => {
 
       await conditionStoreManager.createCondition(
         conditionId,
-        nftHolderCondition.getAddress(),
+        await nftHolderCondition.getAddress(),
         owner,
       )
 
@@ -88,7 +87,7 @@ describe('NFTHolderCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
+        cap: 100n,
         preMint: false,
       })
 
@@ -104,9 +103,9 @@ describe('NFTHolderCondition', () => {
         activityId,
       )
 
-      await nftUpgradeable.mint(holder.getId(), did, BigNumber.from(10), owner.getId())
+      await nftUpgradeable.mint(holder.getId(), did, 10n, owner.getId())
 
-      const contractReceipt: ContractReceipt = await nftHolderCondition.fulfill(
+      const contractReceipt: ContractTransactionReceipt = await nftHolderCondition.fulfill(
         agreementId,
         did,
         holder.getId(),
@@ -116,7 +115,9 @@ describe('NFTHolderCondition', () => {
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'Fulfilled')
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'Fulfilled',
+      ) as EventLog
       const { _agreementId, _did, _address, _conditionId, _amount } = event.args
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
@@ -133,7 +134,7 @@ describe('NFTHolderCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
+        cap: 100n,
         preMint: false,
       })
       await didRegistry.registerMintableDID(
@@ -148,7 +149,7 @@ describe('NFTHolderCondition', () => {
         activityId,
       )
       const did = await didRegistry.hashDID(didSeed, owner.getId())
-      await nftUpgradeable.mint(holder.getId(), did, BigNumber.from(10), owner.getId())
+      await nftUpgradeable.mint(holder.getId(), did, 10n, owner.getId())
 
       await assert.isRejected(
         nftHolderCondition.fulfill(
@@ -171,7 +172,7 @@ describe('NFTHolderCondition', () => {
 
       await conditionStoreManager.createCondition(
         conditionId,
-        nftHolderCondition.getAddress(),
+        await nftHolderCondition.getAddress(),
         owner,
       )
 
@@ -180,7 +181,7 @@ describe('NFTHolderCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
+        cap: 100n,
         preMint: false,
       })
 
@@ -196,7 +197,7 @@ describe('NFTHolderCondition', () => {
         activityId,
       )
 
-      await nftUpgradeable.mint(holder.getId(), did, BigNumber.from(1), owner.getId())
+      await nftUpgradeable.mint(holder.getId(), did, 1n, owner.getId())
 
       await assert.isRejected(
         nftHolderCondition.fulfill(

@@ -14,7 +14,6 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
 import '../globals'
 
 chai.use(chaiAsPromised)
@@ -24,20 +23,20 @@ describe('NFT1155 End-to-End', () => {
   let publisher: Account
   let someone: Account
   let minter: Account
-  let nftContract: ethers.Contract
+  let nftContract: ethers.BaseContract
 
   let nevermined: Nevermined
   let ddo: DDO
   let token
   let nftUpgradeable
 
-  const amounts = [BigNumber.from(15), BigNumber.from(5)]
+  const amounts = [15n, 5n]
 
   const metadata = getMetadata()
   const royalties = 0 // 10% of royalties in the secondary market
-  const cappedAmount = BigNumber.from(10)
+  const cappedAmount = 10n
   const preMint = false
-  const numberNFTs = BigNumber.from(1)
+  const numberNFTs = 1n
 
   let royaltyAttributes
   let receivers: string[]
@@ -78,17 +77,17 @@ describe('NFT1155 End-to-End', () => {
 
       nftContract = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, deployer, [
         deployer.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        await nevermined.keeper.didRegistry.getAddress(),
         'NFT1155',
         'NVM',
         '',
       ])
 
       assert.isDefined(nftContract)
-      console.log(`NFT (ERC-1155) deployed at address ${nftContract.address}`)
+      console.log(`NFT (ERC-1155) deployed at address ${await nftContract.getAddress()}`)
     })
 
-    it('Clonning an instance', async () => {
+    it('Cloning an instance', async () => {
       const cloneAddress = await nevermined.nfts1155.getContract.createClone(
         'My New NFT',
         'xyz',
@@ -143,7 +142,7 @@ describe('NFT1155 End-to-End', () => {
       const owner = new Account(await nftUpgradeable.owner())
       await nftUpgradeable.grantOperatorRole(minter.getId(), owner)
 
-      await nftUpgradeable.mint(someone.getId(), ddo.shortId(), BigNumber.from(1), minter.getId())
+      await nftUpgradeable.mint(someone.getId(), ddo.shortId(), 1n, minter.getId())
 
       const afterBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
       assert.isTrue(beforeBalance.add(1).eq(afterBalance))
@@ -152,7 +151,7 @@ describe('NFT1155 End-to-End', () => {
     it('Should be able to burn', async () => {
       const beforeBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
 
-      await nftUpgradeable.burn(someone.getId(), ddo.shortId(), BigNumber.from(1))
+      await nftUpgradeable.burn(someone.getId(), ddo.shortId(), 1n)
 
       const afterBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
       assert.isTrue(beforeBalance.sub(1).eq(afterBalance))

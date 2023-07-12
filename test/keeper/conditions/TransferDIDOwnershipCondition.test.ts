@@ -1,6 +1,5 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { ContractReceipt, Event } from 'ethers'
 import { Account, ConditionState, Nevermined } from '../../../src'
 import {
   AgreementStoreManager,
@@ -13,6 +12,7 @@ import {
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -40,7 +40,7 @@ describe('TransferDIDOwnershipCondition', () => {
     ;[owner, receiver, templateId] = await nevermined.accounts.list()
 
     await conditionStoreManager.delegateCreateRole(
-      agreementStoreManager.getAddress(),
+      await agreementStoreManager.getAddress(),
       owner.getId(),
     )
 
@@ -54,7 +54,7 @@ describe('TransferDIDOwnershipCondition', () => {
     }
 
     await didRegistry.grantRegistryOperatorRole(
-      transferDidOwnershipCondition.getAddress(),
+      await transferDidOwnershipCondition.getAddress(),
       owner.getId(),
     )
   })
@@ -105,7 +105,7 @@ describe('TransferDIDOwnershipCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [transferDidOwnershipCondition.getAddress()],
+        [await transferDidOwnershipCondition.getAddress()],
         [hashValues],
         [0],
         [2],
@@ -120,17 +120,15 @@ describe('TransferDIDOwnershipCondition', () => {
       const storedDIDRegister: any = await didRegistry.getDIDRegister(did)
       assert.equal(storedDIDRegister.owner, owner.getId())
 
-      const contractReceipt: ContractReceipt = await transferDidOwnershipCondition.fulfill(
-        agreementId,
-        did,
-        receiver.getId(),
-        owner,
-      )
+      const contractReceipt: ContractTransactionReceipt =
+        await transferDidOwnershipCondition.fulfill(agreementId, did, receiver.getId(), owner)
 
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'Fulfilled')
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'Fulfilled',
+      ) as EventLog
       const { _agreementId, _conditionId, _did, _receiver } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))

@@ -50,7 +50,7 @@ describe('Keeper', () => {
     it('Get Network Fee', async () => {
       const networkFee = await keeper.nvmConfig.getNetworkFee()
       console.log(`NETWORK FEE = ${networkFee}`)
-      assert.isTrue(networkFee.eq(0))
+      assert.equal(networkFee, 0n)
     })
 
     it('Get Fee Receiver', async () => {
@@ -67,7 +67,7 @@ describe('Keeper', () => {
       console.log(`NETWORK FEE = ${networkFee}`)
       console.log(`FEE RECEIVER = ${feeReceiver}`)
 
-      assert.isTrue(networkFee.eq(newNetworkFee))
+      assert.equal(networkFee, BigInt(newNetworkFee))
       assert.equal(feeReceiver, deployerAddress)
     })
   })

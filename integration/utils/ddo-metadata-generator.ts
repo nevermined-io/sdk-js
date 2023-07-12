@@ -1,5 +1,4 @@
 import { MetaData, AssetPrice, ResourceAuthentication } from '../../src'
-import { BigNumber } from '../../src/utils'
 
 const metadata: Partial<MetaData> = {
   main: {
@@ -154,4 +153,4 @@ export const getMetadata = (nonce: string | number = Math.random(), name = 'Test
   generateMetadata(name, nonce) as MetaData
 
 export const getAssetPrice = (receiver: string) =>
-  new AssetPrice(receiver, BigNumber.from('21' + '0'.repeat(18)))
+  new AssetPrice(receiver, BigInt('21' + '0'.repeat(18)))

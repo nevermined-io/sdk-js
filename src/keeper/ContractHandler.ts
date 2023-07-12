@@ -20,7 +20,7 @@ export class ContractHandler extends Instantiable {
   protected static setContract(
     what: string,
     networkId: number,
-    contractInstance: ethers.Contract,
+    contractInstance: ethers.BaseContract,
     address?: string,
   ) {
     ContractHandler.contracts.set(this.getHash(what, networkId, address), contractInstance)
@@ -30,7 +30,10 @@ export class ContractHandler extends Instantiable {
     return ContractHandler.contracts.has(this.getHash(what, networkId, address))
   }
 
-  private static contracts: Map<string, ethers.Contract> = new Map<string, ethers.Contract>()
+  private static contracts: Map<string, ethers.BaseContract> = new Map<
+    string,
+    ethers.BaseContract
+  >()
 
   private static getHash(what: string, networkId: number, address?: string): string {
     return address ? `${what}/#${networkId}/#${address}` : `${what}/#${networkId}`
@@ -46,7 +49,7 @@ export class ContractHandler extends Instantiable {
     optional = false,
     artifactsFolder: string,
     address?: string,
-  ): Promise<ethers.Contract> {
+  ): Promise<ethers.BaseContract> {
     const networkId = await this.nevermined.keeper.getNetworkId()
     const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
     try {
@@ -167,7 +170,7 @@ export class ContractHandler extends Instantiable {
     networkId: number,
     artifactsFolder: string,
     address?: string,
-  ): Promise<ethers.Contract> {
+  ): Promise<ethers.BaseContract> {
     this.logger.debug(`Loading ${what} from ${where} and folder ${artifactsFolder}`)
     let artifact
     if (artifactsFolder.startsWith('http'))

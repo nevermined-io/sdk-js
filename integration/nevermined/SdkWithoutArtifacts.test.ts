@@ -2,8 +2,7 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { Nevermined, SearchQuery, Account } from '../../src'
-import { ethers } from 'ethers'
-import { HDNode } from 'ethers/lib/utils'
+import { HDNodeWallet, ethers } from 'ethers'
 
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined
@@ -21,7 +20,7 @@ describe('Sdk working without artifacts', () => {
   })
 
   it('should login to metamask without artifacts', async () => {
-    const node = HDNode.fromMnemonic(process.env.SEED_WORDS)
+    const node = HDNodeWallet.fromPhrase(process.env.SEED_WORDS)
     const accounts: ethers.Wallet[] = []
     for (let i = 0; i < 10; i++) {
       const acc = node.derivePath("m/44'/60'/0'/0/" + i)

@@ -38,8 +38,8 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
     })
     assert.strictEqual(
-      ethers.utils.getAddress(response.pop().args.to),
-      ethers.utils.getAddress(account.getId()),
+      ethers.getAddress(response.pop().args.to),
+      ethers.getAddress(account.getId()),
     )
   })
 
