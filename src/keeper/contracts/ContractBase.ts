@@ -1,9 +1,8 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider'
 import { Account } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
-import { ContractReceipt, ethers } from 'ethers'
+import { ContractTransactionResponse, TransactionReceipt, ethers } from 'ethers'
 import { parseUnits } from '../../sdk'
 export interface TxParameters {
   value?: string
@@ -19,7 +18,7 @@ export interface TxParameters {
 
 export abstract class ContractBase extends Instantiable {
   public contractName: string
-  public contract: ethers.Contract = null
+  public contract: ethers.BaseContract = null
   public events: ContractEvent | SubgraphEvent = null
   public version: string
 
@@ -32,12 +31,12 @@ export abstract class ContractBase extends Instantiable {
     this.contractName = contractName
   }
 
-  public getContract(): ethers.Contract {
+  public getContract(): ethers.BaseContract {
     return this.contract
   }
 
-  public getAddress(): string {
-    return this.contract.address
+  public async getAddress(): Promise<string> {
+    return this.contract.getAddress()
   }
 
   public getSignatureOfMethod(methodName: string, args: any[] = []): string {
@@ -45,7 +44,7 @@ export abstract class ContractBase extends Instantiable {
     return foundMethod.format()
   }
 
-  public getInputsOfMethod(methodName: string): any[] {
+  public getInputsOfMethod(methodName: string): ReadonlyArray<ethers.ParamType> {
     const foundMethod = this.searchMethod(methodName)
     return foundMethod.inputs
   }
@@ -92,7 +91,7 @@ export abstract class ContractBase extends Instantiable {
     args: any[],
     from?: Account,
     value?: TxParameters,
-  ): Promise<ContractReceipt> {
+  ): Promise<TransactionReceipt> {
     const fromAddress = await this.getFromAddress(from && from.getId())
     const receipt = await this.send(name, fromAddress, args, value)
     if (!receipt.status) {
@@ -106,9 +105,9 @@ export abstract class ContractBase extends Instantiable {
     from: string,
     args: any[],
     txparams: any,
-    contract: ethers.Contract,
+    contract: ethers.BaseContract,
     progress: (data: any) => void,
-  ) {
+  ): Promise<TransactionReceipt> {
     // Uncomment to debug contract calls
     //console.debug(`Making contract call ....: ${name} - ${from} - ${JSON.stringify(args)}`)
     const methodSignature = this.getSignatureOfMethod(name, args)
@@ -127,7 +126,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    const transactionResponse: TransactionResponse = await contract[methodSignature](
+    const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
       ...args,
       txparams,
     )
@@ -145,12 +144,12 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    const ContractReceipt: ContractReceipt = await transactionResponse.wait()
+    const transactionReceipt: TransactionReceipt = await transactionResponse.wait()
     if (progress) {
       progress({
         stage: 'receipt',
         args: this.searchMethodInputs(name, args),
-        ContractReceipt,
+        transactionReceipt,
         method: name,
         from,
         value,
@@ -160,7 +159,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    return ContractReceipt
+    return transactionReceipt
   }
 
   public async send(
@@ -168,7 +167,7 @@ export abstract class ContractBase extends Instantiable {
     from: string,
     args: any[],
     params: TxParameters = {},
-  ): Promise<ContractReceipt> {
+  ): Promise<TransactionReceipt> {
     if (params.signer) {
       const paramsFixed = { ...params, signer: undefined }
       const contract = this.contract.connect(params.signer)
@@ -255,8 +254,9 @@ export abstract class ContractBase extends Instantiable {
   }
 
   private searchMethod(methodName: string, args: any[] = []) {
-    const methods = this.contract.interface.fragments.filter((f) => f.name === methodName)
-    const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
+    // const methods = this.contract.interface.fragments.filter((f) => f.name === methodName)
+    // const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
+    const foundMethod = this.contract.interface.getFunction(methodName, args)
     if (!foundMethod) {
       throw new KeeperError(`Method "${methodName}" is not part of contract "${this.contractName}"`)
     }
@@ -273,23 +273,23 @@ export abstract class ContractBase extends Instantiable {
   }
 
   private async estimateGas(
-    contract: ethers.Contract,
+    contract: ethers.BaseContract,
     methodSignature: string,
     args: any[],
     from: string,
     value: string,
     gasMultiplier?: number,
   ): Promise<bigint> {
-    let gasLimit = await contract.estimateGas[methodSignature](...args, {
+    let gasLimit: bigint = await contract[methodSignature].estimateGas(...args, {
       from,
       value,
     })
-    if (value) gasLimit = gasLimit.add(21500)
+    if (value) gasLimit = gasLimit + 21500n
 
     gasMultiplier = gasMultiplier || this.config.gasMultiplier
     if (gasMultiplier) {
       const gasMultiplierParsed = parseUnits(gasMultiplier.toString(), 2)
-      gasLimit = gasLimit.mul(gasMultiplierParsed).div(100)
+      gasLimit = (gasLimit * gasMultiplierParsed) / 100n
     }
 
     return gasLimit

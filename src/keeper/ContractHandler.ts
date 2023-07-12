@@ -3,8 +3,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
 import { Account } from '../nevermined'
-import { ContractReceipt, ethers } from 'ethers'
-import { TransactionResponse } from '@ethersproject/abstract-provider'
+import { ContractTransactionResponse, TransactionReceipt, ethers } from 'ethers'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -107,18 +106,18 @@ export class ContractHandler extends Instantiable {
   }
 
   public async deployAbi(
-    artifact: { name?: string; abi: ethers.ContractInterface; bytecode: string },
+    artifact: { name?: string; abi: ethers.InterfaceAbi; bytecode: string },
     from: Account,
     args: string[] = [],
-  ): Promise<ethers.Contract> {
+  ): Promise<ethers.BaseContract> {
     this.logger.debug(`Deploying abi using account: ${from.getId()}`)
 
     const signer = await this.nevermined.accounts.findSigner(from.getId())
     const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer)
-    const isZos = contract.interface.fragments.some((f) => f.name === 'initialize')
+    const isZos = contract.interface.hasFunction('initialize')
 
     const argument = isZos ? [] : args
-    let contractInstance: ethers.Contract
+    let baseContract: ethers.BaseContract
 
     try {
       const feeData = await this.getFeeData()
@@ -127,24 +126,20 @@ export class ContractHandler extends Instantiable {
         gasLimit: 10000000n,
       }
 
-      contractInstance = await contract.deploy(...argument, extraParams)
-      await contractInstance.deployTransaction.wait()
+      baseContract = await contract.deploy(...argument, extraParams)
+      await baseContract.waitForDeployment()
     } catch (error) {
       console.error(JSON.stringify(error))
       throw new Error(error.message)
     }
 
     if (isZos) {
-      const methodSignature = ContractHandler.getSignatureOfMethod(
-        contractInstance,
-        'initialize',
-        args,
-      )
+      const methodSignature = ContractHandler.getSignatureOfMethod(baseContract, 'initialize', args)
 
-      const contract = contractInstance.connect(signer)
+      const contract = baseContract.connect(signer)
 
       // estimate gas
-      const gasLimit = await contract.estimateGas[methodSignature](...args, {
+      const gasLimit = await contract[methodSignature].estimateGas(...args, {
         from: from.getId(),
       })
       const feeData = await this.getFeeData()
@@ -153,17 +148,16 @@ export class ContractHandler extends Instantiable {
         gasLimit,
       }
 
-      const transactionResponse: TransactionResponse = await contract[methodSignature](
-        ...args,
-        extraParams,
-      )
+      const contractTransactionResponse: ContractTransactionResponse = await contract[
+        methodSignature
+      ](...args, extraParams)
 
-      const contractReceipt: ContractReceipt = await transactionResponse.wait()
-      if (contractReceipt.status !== 1) {
+      const transactionReceipt: TransactionReceipt = await contractTransactionResponse.wait()
+      if (transactionReceipt.status !== 1) {
         throw new Error(`Error deploying contract ${artifact.name}`)
       }
     }
-    return contractInstance
+    return baseContract
   }
 
   private async load(
@@ -219,15 +213,11 @@ export class ContractHandler extends Instantiable {
   }
 
   public static getSignatureOfMethod(
-    contractInstance: ethers.Contract,
+    baseContract: ethers.BaseContract,
     methodName: string,
     args: any[],
   ): string {
-    const methods = contractInstance.interface.fragments.filter((f) => f.name === methodName)
-    const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
-    if (!foundMethod) {
-      throw new Error(`Method "${methodName}" not found in contract`)
-    }
+    const foundMethod = baseContract.interface.getFunction(methodName, args)
     return foundMethod.format()
   }
 
@@ -296,11 +286,8 @@ export class ContractHandler extends Instantiable {
     try {
       const response = await this.nevermined.utils.fetch.get(gasStationUri)
       const data = await response.json()
-      maxFeePerGas = ethers.utils.parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
-      maxPriorityFeePerGas = ethers.utils.parseUnits(
-        Math.ceil(data.fast.maxPriorityFee) + '',
-        'gwei',
-      )
+      maxFeePerGas = ethers.parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
+      maxPriorityFeePerGas = ethers.parseUnits(Math.ceil(data.fast.maxPriorityFee) + '', 'gwei')
     } catch (error) {
       this.logger.warn(`Failed to ges gas price from gas station ${gasStationUri}: ${error}`)
     }
