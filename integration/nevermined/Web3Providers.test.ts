@@ -3,24 +3,17 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, AssetAttributes } from '../../src'
+import { Nevermined, Account, AssetAttributes, makeAccounts } from '../../src'
 
 import * as keyFile from '../KeyFile.json'
-import { HDNodeWallet, ethers } from 'ethers'
+import { ethers } from 'ethers'
 
 describe('Web3Providers', () => {
   let nevermined: Nevermined
   let account: Account
 
   it('should register an asset (mnemonic)', async () => {
-    const node = HDNodeWallet.fromPhrase(process.env.SEED_WORDS)
-    const accounts: ethers.Wallet[] = []
-    for (let i = 0; i < 10; i++) {
-      const acc = node.derivePath("m/44'/60'/0'/0/" + i)
-      const wallet = new ethers.Wallet(acc.privateKey)
-      accounts.push(wallet)
-    }
-    config.accounts = accounts
+    config.accounts = makeAccounts(process.env.SEED_WORDS)
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts

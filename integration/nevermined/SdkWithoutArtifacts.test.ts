@@ -1,8 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, SearchQuery, Account } from '../../src'
-import { HDNodeWallet, ethers } from 'ethers'
+import { Nevermined, SearchQuery, Account, makeAccounts } from '../../src'
 
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined
@@ -20,14 +19,7 @@ describe('Sdk working without artifacts', () => {
   })
 
   it('should login to metamask without artifacts', async () => {
-    const node = HDNodeWallet.fromPhrase(process.env.SEED_WORDS)
-    const accounts: ethers.Wallet[] = []
-    for (let i = 0; i < 10; i++) {
-      const acc = node.derivePath("m/44'/60'/0'/0/" + i)
-      const wallet = new ethers.Wallet(acc.privateKey)
-      accounts.push(wallet)
-    }
-    configCopy.accounts = accounts
+    configCopy.accounts = makeAccounts(process.env.SEED_WORDS)
     nevermined = await Nevermined.getInstance(configCopy)
 
     // Accounts
