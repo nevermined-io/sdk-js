@@ -351,7 +351,7 @@ export class Keeper extends Instantiable {
    * @returns Condition instance.
    */
   public getConditionByAddress(address: string): ConditionSmall {
-    return this.conditionsList.find(async (condition) => (await condition.getAddress()) === address)
+    return this.conditionsList.find((condition) => condition.address === address)
   }
 
   /**

@@ -358,15 +358,15 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       {},
     )
 
-    const statesPromises = Object.keys(dependencies).map(async (ref) => {
+    const states: { ref: string; contractName: string; state: ConditionState }[] = []
+    for (const ref in dependencies) {
       const { contractName } = await this.getServiceAgreementTemplateConditionByRef(ref)
-      return {
+      states.push({
         ref,
         contractName,
         state: (await conditionStore.getCondition(conditionIdByCondition[contractName])).state,
-      }
-    })
-    const states = await Promise.all(statesPromises)
+      })
+    }
 
     return states.reduce((acc, { contractName, ref, state }) => {
       const blockers = dependencies[ref]
