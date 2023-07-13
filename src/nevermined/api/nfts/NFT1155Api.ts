@@ -4,7 +4,7 @@ import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import { PublishMetadata } from '../AssetsApi'
 import { Account } from '../../Account'
 import { TxParameters, Nft1155Contract } from '../../../keeper'
-import { DDO } from '../../../ddo'
+import { DDO, ServiceType } from '../../../ddo'
 import { NFTError } from '../../../errors'
 import { BigNumber } from '../../../utils'
 import { NFTsBaseApi } from './NFTsBaseApi'
@@ -197,6 +197,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param numberEditions - The amount of NFTs to buy.
    * @param consumer - The account of the NFT buyer.
+   * @param serviceReference - The reference to identify wich service within the DDO to order
    * @param txParams - Optional transaction parameters.
    *
    * @returns The agreement ID.
@@ -205,6 +206,7 @@ export class NFT1155Api extends NFTsBaseApi {
     did: string,
     numberEditions: BigNumber,
     consumer: Account,
+    serviceReference: ServiceType | number = 'nft-sales',
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
@@ -217,6 +219,7 @@ export class NFT1155Api extends NFTsBaseApi {
       const agreementId = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
+        serviceReference,
         nftSalesTemplate.params(consumer.getId(), numberEditions),
         consumer,
         consumer,

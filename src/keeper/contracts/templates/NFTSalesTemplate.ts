@@ -102,6 +102,6 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return nftSalesTemplateServiceAgreementTemplate
+    return { ...nftSalesTemplateServiceAgreementTemplate() }
   }
 }

@@ -11,6 +11,8 @@ import {
 import { Account, Condition, MetaData, AssetPrice, NFTAttributes } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
+import { BigNumber } from 'ethers'
+import { isAddress } from 'ethers/lib/utils'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>
@@ -37,16 +39,22 @@ export abstract class BaseTemplate<Params, S extends Service>
     assetPrice?: AssetPrice,
     priceData?: PricedMetadataInformation,
   ): S {
+    let tokenAddress
+    if (assetPrice === undefined || !isAddress(assetPrice.getTokenAddress()))
+      tokenAddress = this.nevermined.utils.token.getAddress()
+    else tokenAddress = assetPrice.getTokenAddress()
+
     const serviceAgreementTemplate = this.getServiceAgreementTemplate()
     const _conds = getConditionsByParams(
       this.service(),
       serviceAgreementTemplate.conditions,
       publisher.getId(),
       assetPrice,
-      assetPrice?.getTokenAddress() || this.nevermined.utils.token.getAddress(),
+      undefined, // we don't know the DID yet
+      tokenAddress,
       nftAttributes?.nftContractAddress,
       publisher.getId(),
-      assetPrice.getTotalPrice(),
+      assetPrice ? assetPrice.getTotalPrice() : BigNumber.from('0'),
       nftAttributes?.nftTransfer,
       nftAttributes?.duration,
       nftAttributes?.fulfillAccessTimeout,

@@ -102,6 +102,6 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return nft721SalesTemplateServiceAgreementTemplate
+    return { ...nft721SalesTemplateServiceAgreementTemplate() }
   }
 }

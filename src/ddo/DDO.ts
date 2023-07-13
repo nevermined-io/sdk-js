@@ -20,7 +20,7 @@ import { ethers } from 'ethers'
 import { AssetPrice, NFTAttributes } from '../models'
 import { BigNumber } from '../utils'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
-import { DDOConditionNotFoundError } from '../errors/DDOError'
+import { DDOConditionNotFoundError, DDOParamNotFoundError } from '../errors/DDOError'
 
 // DDO Services including a sales process
 export const SALES_SERVICES = ['access', 'compute', 'nft-sales']
@@ -160,6 +160,21 @@ export class DDO {
       return service as Service<T>
     }
     throw new DDOServiceNotFoundError(serviceType, this.id)
+  }
+
+  /**
+   * Finds a service of a DDO by index.
+   * @param index - index.
+   * @returns Service.
+   */
+  public findServiceByReference<T extends ServiceType>(
+    serviceReference: ServiceType | number,
+  ): Service<T> {
+    if (typeof serviceReference === 'number') {
+      return this.findServiceById(serviceReference)
+    } else {
+      return this.findServiceByType(serviceReference) as Service<T>
+    }
   }
 
   /**
@@ -335,7 +350,7 @@ export class DDO {
     service: Service,
     name: ConditionType,
   ): ServiceAgreementTemplateCondition {
-    const condition = service.attributes.serviceAgreementTemplate.conditions.find(
+    const condition = service.attributes?.serviceAgreementTemplate?.conditions?.find(
       (c) => c.name === name,
     )
     if (!service) throw new DDOConditionNotFoundError(name)
@@ -381,8 +396,12 @@ export class DDO {
     conditionType: ConditionType,
     paramName: string,
   ): string | number | string[] {
-    const nftTransferCondition = DDO.findServiceConditionByName(service, conditionType)
-    return nftTransferCondition.parameters.find((p) => p.name === paramName).value
+    try {
+      const nftTransferCondition = DDO.findServiceConditionByName(service, conditionType)
+      return nftTransferCondition.parameters?.find((p) => p.name === paramName).value
+    } catch (_e) {
+      throw new DDOParamNotFoundError(conditionType, paramName)
+    }
   }
 
   /**
@@ -473,5 +492,9 @@ export class DDO {
 
     const holder = transferCondition.parameters.find((p) => p.name === '_nftHolder')
     holder.value = holderAddress
+  }
+
+  public static findAndReplaceDDOAttribute(ddo: DDO, paramName: string, value: string): DDO {
+    return DDO.deserialize(DDO.serialize(ddo).replaceAll(paramName, value))
   }
 }

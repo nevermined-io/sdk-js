@@ -88,7 +88,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
   }
 
   public getServiceAgreementTemplate() {
-    return escrowComputeExecutionTemplateServiceAgreementTemplate
+    return { ...escrowComputeExecutionTemplateServiceAgreementTemplate() }
   }
 
   public service(): ServiceType {

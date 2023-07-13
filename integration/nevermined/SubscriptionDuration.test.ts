@@ -62,6 +62,7 @@ describe('Subscription Durations', () => {
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       assert.isDefined(subscriptionDDO)
+      console.log(subscriptionDDO.id)
     })
 
     it('The publisher creates a dataset to associate to the subscription', async () => {

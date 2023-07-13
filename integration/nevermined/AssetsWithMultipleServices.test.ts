@@ -27,6 +27,9 @@ let ddo: DDO
 let token: Token
 let balanceBefore: BigNumber
 let balanceAfter: BigNumber
+let service
+let agreementId
+let neverminedNodeAddress
 const totalAmount1 = '100'
 const totalAmount2 = '350'
 
@@ -37,6 +40,8 @@ describe('Assets with multiple services', () => {
     // Accounts
     ;[publisher, consumer] = await nevermined.accounts.list()
 
+    neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
+
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
     await nevermined.services.marketplace.login(clientAssertion)
@@ -45,18 +50,22 @@ describe('Assets with multiple services', () => {
     assetPrice1 = new AssetPrice(publisher.getId(), BigNumber.from(totalAmount1))
     assetPrice2 = new AssetPrice(publisher.getId(), BigNumber.from(totalAmount2))
 
+    try {
+      await consumer.requestTokens(BigNumber.from(totalAmount1).mul(10))
+    } catch (error) {
+      console.error(error)
+    }
+
     metadata = getMetadata()
     metadata.userId = payload.sub
   })
 
-  describe('E2E flow for access services', () => {
+  describe('E2E flow for an asset with multiple access services', () => {
     it('Register with multiple access services', async () => {
       balanceBefore = await token.balanceOf(consumer.getId())
 
       const nonce = Math.random()
       createdMetadata = getMetadata(nonce, `Immutable Multiple Services Test ${nonce}`)
-
-      createdMetadata.main.ercType = 721
       createdMetadata.additionalInformation.tags = ['test']
 
       const assetAttributes = AssetAttributes.getInstance({
@@ -71,6 +80,7 @@ describe('Assets with multiple services', () => {
             price: assetPrice2,
           },
         ],
+        providers: [neverminedNodeAddress],
       })
       ddo = await nevermined.assets.create(assetAttributes, publisher)
 
@@ -83,23 +93,24 @@ describe('Assets with multiple services', () => {
       assert.equal(accessServices[1].index, 3)
 
       assert.equal(
-        accessServices[0].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value,
-        [totalAmount1],
+        accessServices[0].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
+        totalAmount2,
       )
       assert.equal(
-        accessServices[1].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value,
-        [totalAmount2],
+        accessServices[1].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
+        totalAmount1,
       )
 
       const metadata = ddo.findServiceByType('metadata')
-      assert.equal(metadata.attributes.main.ercType, 721)
       assert.equal(metadata.attributes.additionalInformation.tags[0], 'test')
     })
 
-    it('Order and download the first of multiple access services', async () => {
+    it('Order one between multiple access services', async () => {
       const accessServices = ddo.getServicesByType('access')
 
-      const agreementId = await nevermined.assets.order(ddo.id, accessServices[0].index, consumer)
+      service = accessServices[0]
+      const price = service.attributes.main.price
+      agreementId = await nevermined.assets.order(ddo.id, service.index, consumer)
       await sleep(3000)
       const status = await repeat(3, nevermined.agreements.status(agreementId))
 
@@ -110,16 +121,19 @@ describe('Assets with multiple services', () => {
       })
       balanceAfter = await token.balanceOf(consumer.getId())
 
-      console.log(`Asset Price = ${assetPrice1.getTotalPrice()}`)
+      console.log(`Asset Price = ${price}`)
       console.log(`Balance Before: ${balanceBefore.toString()}`)
       console.log(`Balance After : ${balanceAfter.toString()}`)
 
-      assert.equal(balanceBefore.sub(assetPrice1.getTotalPrice()), balanceAfter)
+      assert.isTrue(balanceBefore.sub(BigNumber.from(price)).eq(balanceAfter))
+    })
 
+    it('Download assets through the Node', async () => {
       const folder = '/tmp/nevermined/sdk-js/multiple-services/access'
       const path = (await nevermined.assets.access(
         agreementId,
         ddo.id,
+        service.index,
         consumer,
         folder,
         -1,

@@ -33,6 +33,7 @@ export function getConditionsByParams(
   conditions: Readonly<ServiceAgreementTemplateCondition[]>,
   owner: string,
   assetPrice: AssetPrice = new AssetPrice(),
+  did?: string,
   erc20TokenContract?: string,
   nftTokenContract?: string,
   nftHolder?: string,
@@ -60,6 +61,7 @@ export function getConditionsByParams(
           parameter,
           owner,
           assetPrice,
+          did,
           erc20TokenContract,
           nftTokenContract,
           nftHolder,
@@ -75,6 +77,7 @@ function getParameter(
   parameter: ServiceAgreementTemplateParameter,
   owner: string,
   assetPrice: AssetPrice = new AssetPrice(),
+  did?: string,
   erc20TokenContract?: string,
   nftTokenContract?: string,
   nftHolder?: string,
@@ -84,21 +87,26 @@ function getParameter(
 ): ServiceAgreementTemplateParameter {
   const getValue = (name) => {
     switch (name) {
-      case 'amounts' || '_amounts':
+      case 'amounts':
         return Array.from(assetPrice.getAmounts(), (v) => v.toString())
       case 'receivers':
         return assetPrice.getReceivers()
-      case 'amount' || 'price':
+      case 'amount':
+      case 'price':
         return String(assetPrice.getTotalPrice())
-      case 'assetId' || 'documentId' || 'documentKeyId' || 'did':
-        return '{DID}'
+      case 'did':
+      case 'assetId':
+      case 'documentId':
+      case 'documentKeyId':
+        return did || '{DID}'
       case 'rewardAddress':
         return owner
       case 'numberNfts':
         return String(nftAmount)
       case 'tokenAddress':
         return erc20TokenContract
-      case 'contract' || 'contractAddress':
+      case 'contract':
+      case 'contractAddress':
         return nftTokenContract ? nftTokenContract : ''
       case 'nftHolder':
         return nftHolder ? nftHolder : ''

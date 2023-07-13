@@ -363,6 +363,7 @@ describe('Secondary Markets', () => {
           nftSalesTemplateConditions,
           collector1.getId(),
           assetPrice2,
+          ddo.id,
           token.getAddress(),
           undefined,
           collector1.getId(),

@@ -70,7 +70,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return nftAccessTemplateServiceAgreementTemplate
+    return { ...nftAccessTemplateServiceAgreementTemplate() }
   }
 
   public async accept(params: ValidationParams): Promise<boolean> {

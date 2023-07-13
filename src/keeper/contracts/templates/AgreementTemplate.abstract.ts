@@ -199,7 +199,13 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
   public standardContext(ddo: DDO, creator: string): ConditionContext {
     const service = ddo.findServiceByType(this.service())
-    const rewards = DDO.getAssetPriceFromService(service)
+    let rewards
+    try {
+      rewards = DDO.getAssetPriceFromService(service)
+    } catch (_e) {
+      rewards = undefined
+    }
+    // const rewards = DDO.getAssetPriceFromService(service)
     return { ddo, service, price: rewards, creator }
   }
 
@@ -245,6 +251,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async createAgreementWithPaymentFromDDO(
     agreementIdSeed: string,
     ddo: DDO,
+    serviceReference: ServiceType | number,
     parameters: Params,
     consumer: Account,
     from: Account,
@@ -262,7 +269,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       parameters,
     )
 
-    const service = ddo.findServiceByType(this.service())
+    const service = ddo.findServiceByReference(serviceReference)
     const assetPrice = DDO.getAssetPriceFromService(service)
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
@@ -270,6 +277,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
+
+    console.log(`Creating Agreement with AssetPrice: ${assetPrice.toString()}`)
 
     const timeouts: number[] = []
     const timelocks: number[] = []

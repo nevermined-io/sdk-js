@@ -1,5 +1,5 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../ddo'
+import { DDO, ServiceType } from '../../../ddo'
 import { NFTAttributes, AssetAttributes } from '../../../models'
 import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import { Account } from '../../Account'
@@ -121,6 +121,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param consumer - The account of the NFT buyer.
+   * @param serviceReference - The reference to identify wich service within the DDO to order
    * @param txParams - Optional transaction parameters.
    *
    * @returns The agreement ID.
@@ -128,6 +129,7 @@ export class NFT721Api extends NFTsBaseApi {
   public order(
     did: string,
     consumer: Account,
+    serviceReference: ServiceType | number = 'nft-sales',
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
@@ -140,6 +142,7 @@ export class NFT721Api extends NFTsBaseApi {
       const agreementId = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
+        serviceReference,
         nft721SalesTemplate.params(consumer.getId()),
         consumer,
         consumer,

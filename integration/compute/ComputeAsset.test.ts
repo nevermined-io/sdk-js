@@ -47,7 +47,12 @@ describe('Compute Asset', () => {
 
     const computeAttributes = AssetAttributes.getInstance({
       metadata: workflowMetadatas.compute(userId),
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'compute',
+          price: assetPrice,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
     computeDdo = await nevermined.compute.create(computeAttributes, publisher)

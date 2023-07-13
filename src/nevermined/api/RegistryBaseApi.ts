@@ -61,7 +61,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       const { didRegistry } = this.nevermined.keeper
 
       // create ddo itself
-      const ddo = DDO.getInstance(
+      let ddo = DDO.getInstance(
         assetAttributes.metadata.userId,
         publisher.getId(),
         assetAttributes.appId,
@@ -97,12 +97,9 @@ export abstract class RegistryBaseApi extends Instantiable {
         const plugin = this.servicePlugin[serviceAttributes.serviceType]
 
         if (plugin) {
-          console.log(
-            `Generating service ${
-              serviceAttributes.serviceType
-            } with price: ${serviceAttributes.price.toString()}}`,
-          )
-          const pricedData = await this.getPriced(serviceAttributes.price)
+          const pricedData = serviceAttributes.price
+            ? await this.getPriced(serviceAttributes.price)
+            : undefined
 
           const serviceCreated = plugin.createService(
             publisher,
@@ -114,29 +111,29 @@ export abstract class RegistryBaseApi extends Instantiable {
 
           ddo.addService(serviceCreated)
 
-          console.log(
-            `> Added service ${JSON.stringify(
-              ddo.service[ddo.service.length - 1].attributes.serviceAgreementTemplate.conditions[0],
-            )}`,
-          )
-          console.log(ddo.service.length)
+          // console.log(
+          //   `> Added service ${JSON.stringify(
+          //     ddo.service[ddo.service.length - 1].attributes.serviceAgreementTemplate.conditions[0],
+          //   )}`,
+          // )
+          // console.log(ddo.service.length)
         }
       }
 
-      console.log(`----- DDO Services: `)
-      console.log(JSON.stringify(ddo.service))
-      console.log(`----- Step 1: `)
-      ddo.service
-        .filter((service) => service.type === 'access')
-        .forEach((service) => {
-          console.log(`1# Service ${service.type}`)
-          const cond = service.attributes.serviceAgreementTemplate.conditions[0]
-          cond.parameters
-            .filter((p) => p.name === '_amounts')
-            .map((c) => {
-              console.log(`Param ${c.name} with price: ${JSON.stringify(c.value)}`)
-            })
-        })
+      // console.log(`----- DDO Services: `)
+      // console.log(JSON.stringify(ddo.service))
+      // console.log(`----- Step 1: `)
+      // ddo.service
+      //   .filter((service) => service.type === 'access')
+      //   .forEach((service) => {
+      //     console.log(`1# Service ${service.type}`)
+      //     const cond = service.attributes.serviceAgreementTemplate.conditions[0]
+      //     cond.parameters
+      //       .filter((p) => p.name === '_amounts')
+      //       .map((c) => {
+      //         console.log(`Param ${c.name} with price: ${JSON.stringify(c.value)}`)
+      //       })
+      //   })
 
       ddo.reorderServices()
 
@@ -150,6 +147,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
       await ddo.assignDid(didSeed, didRegistry, publisher)
+      ddo = DDO.findAndReplaceDDOAttribute(ddo, '{DID}', ddo.shortId())
 
       // TODO: Evaluate if we need to add the signature to the DDO
       // Removing it would save a wallet interaction during asset creation
@@ -157,69 +155,6 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       this.logger.log('Proof generated')
       observer.next(CreateProgressStep.ProofGenerated)
-
-      // ddo.service.map((service) => {
-
-      // })
-
-      // ddo.service.map((service) => {
-      //   const {
-      //     nftContractAddress,
-      //     nftTransfer,
-      //     duration,
-      //     fulfillAccessTimeout,
-      //     fulfillAccessTimelock,
-      //   } = nftAttributes || {}
-      //   const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
-
-      //   sat.conditions = ddo.fillConditionsWithDDO(
-      //     service.type,
-      //     sat.conditions,
-      //     serviceAttributes.price,
-      //     serviceAttributes.price?.getTokenAddress() || this.nevermined.utils.token.getAddress(),
-      //     nftContractAddress,
-      //     publisher.getId(),
-      //     serviceAttributes.price.getTotalPrice(),
-      //     nftTransfer,
-      //     duration,
-      //     fulfillAccessTimeout,
-      //     fulfillAccessTimelock,
-      //   )
-      //   console.log(`SAT ${JSON.stringify(sat.conditions)}`)
-      // })
-      // for (const serviceAttributes of assetAttributes.services) {
-      //   let service
-      //   if (serviceAttributes.serviceIndex)
-      //     service = ddo.findServiceById(serviceAttributes.serviceIndex)
-      //   else service = ddo.findServiceByType(serviceAttributes.serviceType)
-
-      //   console.log(`Service ${serviceAttributes.serviceType} with price: ${serviceAttributes.price.toString()}}`)
-
-      //   // const {
-      //   //   nftContractAddress,
-      //   //   nftTransfer,
-      //   //   duration,
-      //   //   fulfillAccessTimeout,
-      //   //   fulfillAccessTimelock,
-      //   // } = nftAttributes || {}
-      //   // const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
-
-      //   // sat.conditions = ddo.fillConditionsWithDDO(
-      //   //   serviceAttributes.serviceType,
-      //   //   sat.conditions,
-      //   //   serviceAttributes.price,
-      //   //   serviceAttributes.price?.getTokenAddress() || this.nevermined.utils.token.getAddress(),
-      //   //   nftContractAddress,
-      //   //   publisher.getId(),
-      //   //   serviceAttributes.price.getTotalPrice(),
-      //   //   nftTransfer,
-      //   //   duration,
-      //   //   fulfillAccessTimeout,
-      //   //   fulfillAccessTimelock,
-      //   // )
-      //   // console.log(`SAT ${JSON.stringify(sat.conditions)}`)
-
-      // }
 
       this.logger.log('Conditions filled')
       observer.next(CreateProgressStep.ConditionsFilled)
@@ -636,14 +571,18 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       const { keeper } = this.nevermined
 
-      let service
-      if (typeof serviceReference === 'number') {
-        service = ddo.findServiceById(serviceReference)
-      } else {
-        service = ddo.findServiceByType(serviceReference)
-      }
+      // let service
+      // if (typeof serviceReference === 'number') {
+      //   service = ddo.findServiceById(serviceReference)
+      // } else {
+      //   service = ddo.findServiceByType(serviceReference)
+      // }
+      const service = ddo.findServiceByReference(serviceReference)
 
       const templateName = service.attributes.serviceAgreementTemplate.contractName
+      console.log(
+        `Ordering Asset with reference ${serviceReference}, template ${templateName} and price ${service.attributes.main.price}`,
+      )
 
       const template = keeper.getAccessTemplateByName(templateName)
 
@@ -651,6 +590,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       const agreementId = await template.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
+        serviceReference,
         template.params(consumer),
         consumer,
         consumer,
@@ -696,11 +636,23 @@ export abstract class RegistryBaseApi extends Instantiable {
     }
   }
 
-  private async getPriced(assetPrice: AssetPrice): Promise<PricedMetadataInformation> {
-    let decimals: number
-    const erc20TokenAddress =
-      assetPrice.getTokenAddress() || this.nevermined.utils.token.getAddress()
+  private async getPriced(assetPrice: AssetPrice | undefined): Promise<PricedMetadataInformation> {
+    if (assetPrice === undefined) {
+      return {
+        attributes: {
+          main: {
+            price: '0',
+          },
+          additionalInformation: {
+            priceHighestDenomination: 0,
+          },
+        },
+      }
+    }
 
+    const erc20TokenAddress =
+      assetPrice?.getTokenAddress() || this.nevermined.utils.token.getAddress()
+    let decimals: number
     if (erc20TokenAddress === ZeroAddress) {
       decimals = 18
     } else {

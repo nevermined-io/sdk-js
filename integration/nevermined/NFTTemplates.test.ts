@@ -670,6 +670,7 @@ describe('NFTTemplates E2E', () => {
         const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
           agreementIdSeed,
           ddo,
+          'nft-sales',
           nftSalesTemplate.params(collector1.getId(), numberNFTs),
           collector1,
           collector1,

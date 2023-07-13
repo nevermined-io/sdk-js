@@ -202,6 +202,7 @@ export class AssetsApi extends RegistryBaseApi {
   public async access(
     agreementId: string,
     did: string,
+    serviceReference: ServiceType | number,
     consumerAccount: Account,
     resultPath?: string,
     fileIndex = -1,
@@ -210,18 +211,31 @@ export class AssetsApi extends RegistryBaseApi {
   ): Promise<string | true> {
     const ddo = await this.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
-    const { serviceEndpoint, index } = ddo.findServiceByType('access')
+    let service
+    if (typeof serviceReference === 'number') {
+      service = ddo.findServiceById(serviceReference)
+    } else {
+      service = ddo.findServiceByType(serviceReference)
+    }
     const { files } = attributes.main
 
-    if (!serviceEndpoint) {
-      throw new AssetError(
-        'Consume asset failed, service definition is missing the `serviceEndpoint`.',
-      )
-    }
+    const serviceEndpoint = this.nevermined.services.node.getAccessEndpoint()
+    // let serviceEndpoint
+    // if (service.serviceEndpoint) {
+    //   serviceEndpoint = service.serviceEndpoint
+    // } else {
+    //   serviceEndpoint = this.nevermined.services.node.getAccessEndpoint()
+    //   //"http://node.nevermined.localnet/api/v1/node/services/access
+    //   // throw new AssetError(
+    //   //   'Consume asset failed, service definition is missing the `serviceEndpoint`.',
+    //   // )
+    // }
 
     this.logger.log('Consuming files')
 
-    resultPath = resultPath ? `${resultPath}/datafile.${ddo.shortId()}.${index}/` : undefined
+    resultPath = resultPath
+      ? `${resultPath}/datafile.${ddo.shortId()}.${service.index}/`
+      : undefined
 
     await this.nevermined.services.node.consumeService(
       did,

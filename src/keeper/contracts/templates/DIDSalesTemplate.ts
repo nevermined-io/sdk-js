@@ -88,6 +88,6 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams, any> 
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return didSalesTemplateServiceAgreementTemplate
+    return { ...didSalesTemplateServiceAgreementTemplate() }
   }
 }

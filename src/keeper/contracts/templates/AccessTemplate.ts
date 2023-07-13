@@ -37,7 +37,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
   }
 
   public getServiceAgreementTemplate() {
-    return accessTemplateServiceAgreementTemplate
+    return accessTemplateServiceAgreementTemplate()
   }
 
   public params(consumer: Account, serviceType: ServiceType = 'access'): AccessTemplateParams {
