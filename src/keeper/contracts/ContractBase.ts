@@ -2,7 +2,12 @@ import { Account } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
-import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
+import {
+  ContractTransactionReceipt,
+  ContractTransactionResponse,
+  FunctionFragment,
+  ethers,
+} from 'ethers'
 import { parseUnits } from '../../sdk'
 export interface TxParameters {
   value?: string
@@ -253,9 +258,10 @@ export abstract class ContractBase extends Instantiable {
   }
 
   private searchMethod(methodName: string, args: any[] = []) {
-    // const methods = this.contract.interface.fragments.filter((f) => f.name === methodName)
-    // const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
-    const foundMethod = this.contract.interface.getFunction(methodName, args)
+    const methods = this.contract.interface.fragments.filter(
+      (f: FunctionFragment) => f.name === methodName,
+    )
+    const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
     if (!foundMethod) {
       throw new KeeperError(`Method "${methodName}" is not part of contract "${this.contractName}"`)
     }
