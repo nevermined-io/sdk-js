@@ -4,7 +4,7 @@ import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
 LoggerInstance.setLevel(LogLevel.Error)
 
 const logLevel = Number(process.env['LOG_LEVEL']) || 1 // warn by default
-const infuraToken = process.env['INFURA_TOKEN']
+export const infuraToken = process.env['INFURA_TOKEN']
 
 const ipfsGateway = process.env['IPFS_GATEWAY'] || 'https://ipfs.io'
 const ipfsProjectId = process.env['IPFS_PROJECT_ID']
