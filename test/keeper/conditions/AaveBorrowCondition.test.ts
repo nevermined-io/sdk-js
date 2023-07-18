@@ -11,7 +11,7 @@ import { DIDRegistry } from '../../../src/keeper'
 let condition: AaveBorrowCondition
 
 describe('AaveBorrowCondition', () => {
-  let did: string // = `did:nv:${'a'.repeat(64)}`
+  let did: string
   let agreementId: string
   const vaultAddress = `0x${'a'.repeat(40)}`
   const assetToBorrow = `0x${'a'.repeat(40)}`

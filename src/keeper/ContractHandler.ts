@@ -3,7 +3,12 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
 import { Account } from '../nevermined'
-import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
+import {
+  ContractTransactionReceipt,
+  ContractTransactionResponse,
+  FunctionFragment,
+  ethers,
+} from 'ethers'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -221,7 +226,13 @@ export class ContractHandler extends Instantiable {
     methodName: string,
     args: any[],
   ): string {
-    const foundMethod = baseContract.interface.getFunction(methodName, args)
+    const methods = baseContract.interface.fragments.filter(
+      (f: FunctionFragment) => f.name === methodName,
+    )
+    const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
+    if (!foundMethod) {
+      throw new Error(`Method "${methodName}" not found in contract`)
+    }
     return foundMethod.format()
   }
 

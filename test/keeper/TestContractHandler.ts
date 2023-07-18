@@ -4,20 +4,23 @@ import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
-import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
+import {
+  ContractTransactionReceipt,
+  ContractTransactionResponse,
+  JsonRpcSigner,
+  ethers,
+} from 'ethers'
 import fs from 'fs'
 import { NeverminedOptions } from '../../src'
-
-interface ContractTest extends ethers.BaseContract {
-  testContract?: boolean
-  $initialized?: boolean
-}
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
     TestContractHandler.setConfig(config)
 
-    const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
+    const [deployerAddress] = await TestContractHandler.addresses(
+      TestContractHandler.config,
+      TestContractHandler.web3,
+    )
     TestContractHandler.networkId = Number((await TestContractHandler.web3.getNetwork()).chainId)
     TestContractHandler.minter = ethers.encodeBytes32String('minter')
 
@@ -63,22 +66,19 @@ export default abstract class TestContractHandler extends ContractHandler {
     )
 
     // Add dispenser as Token minter
-    if (!token.$initialized) {
-      const signer = await TestContractHandler.findSignerStatic(
-        TestContractHandler.config,
-        TestContractHandler.web3,
-        deployerAddress,
-      )
-      const contract = token.connect(signer)
-      const args = [TestContractHandler.minter, await dispenser.getAddress()]
-      const methodSignature = ContractHandler.getSignatureOfMethod(contract, 'grantRole', args)
-      const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
-        ...args,
-      )
-      const contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
-      if (contractReceipt.status !== 1) {
-        throw new Error('Error calling "grantRole" on "token"')
-      }
+
+    const signer = await TestContractHandler.findSignerStatic(
+      TestContractHandler.config,
+      TestContractHandler.web3,
+      deployerAddress,
+    )
+    const contract = token.connect(signer)
+    const args = [TestContractHandler.minter, await dispenser.getAddress()]
+    const methodSignature = ContractHandler.getSignatureOfMethod(contract, 'grantRole', args)
+    let transactionResponse: ContractTransactionResponse = await contract[methodSignature](...args)
+    let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
+    if (contractReceipt.status !== 1) {
+      throw new Error('Error calling "grantRole" on "token"')
     }
 
     const didRegistry = await TestContractHandler.deployContract('DIDRegistry', deployerAddress, [
@@ -104,10 +104,10 @@ export default abstract class TestContractHandler extends ContractHandler {
       0,
     ])
 
-    let transactionResponse: ContractTransactionResponse = await didRegistry.getFunction(
-      'setNFT1155',
-    )(await erc1155.getAddress())
-    let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
+    transactionResponse = await didRegistry.connect(signer).getFunction('setNFT1155')(
+      await erc1155.getAddress(),
+    )
+    contractReceipt = await transactionResponse.wait()
     if (contractReceipt.status !== 1) {
       throw new Error('Error calling "setNFT1155" on "didRegistry"')
     }
@@ -168,7 +168,7 @@ export default abstract class TestContractHandler extends ContractHandler {
       deployerAddress,
       [deployerAddress, await conditionStoreManager.getAddress(), await erc1155.getAddress()],
     )
-    transactionResponse = await erc1155.getFunction('grantOperatorRole')(
+    transactionResponse = await erc1155.connect(signer).getFunction('grantOperatorRole')(
       await nftLockCondition.getAddress(),
     )
     contractReceipt = await transactionResponse.wait()
@@ -205,7 +205,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         ZeroAddress,
       ],
     )
-    transactionResponse = await erc1155.getFunction('grantOperatorRole')(
+    transactionResponse = await erc1155.connect(signer).getFunction('grantOperatorRole')(
       await transferNftCondition.getAddress(),
     )
     contractReceipt = await transactionResponse.wait()
@@ -213,7 +213,7 @@ export default abstract class TestContractHandler extends ContractHandler {
       throw new Error('Error calling "grantOperatorRole" on "erc721"')
     }
 
-    transactionResponse = await erc1155.getFunction('grantOperatorRole')(
+    transactionResponse = await erc1155.connect(signer).getFunction('grantOperatorRole')(
       await didRegistry.getAddress(),
     )
     contractReceipt = await transactionResponse.wait()
@@ -351,8 +351,20 @@ export default abstract class TestContractHandler extends ContractHandler {
     return web3.getSigner(from)
   }
 
-  public static async addresses(config: NeverminedOptions): Promise<string[]> {
-    return await Promise.all((config.accounts || []).map((a) => a.getAddress()))
+  public static async addresses(
+    config: NeverminedOptions,
+    web3: ethers.JsonRpcProvider | ethers.BrowserProvider,
+  ): Promise<string[]> {
+    let ethAccounts: JsonRpcSigner[] = []
+    try {
+      ethAccounts = await web3.listAccounts()
+    } catch (e) {
+      // ignore
+    }
+    const addresses = await Promise.all((config.accounts || []).map((a) => a.getAddress()))
+    return addresses.concat(
+      await Promise.all(ethAccounts.map(async (signer) => await signer.getAddress())),
+    )
   }
 
   private static async deployContract(
@@ -361,18 +373,15 @@ export default abstract class TestContractHandler extends ContractHandler {
     args: any[] = [],
     tokens: { [name: string]: string } = {},
     init = true,
-  ): Promise<ContractTest> {
+  ): Promise<ethers.BaseContract> {
     const where = TestContractHandler.networkId
 
-    // dont redeploy if there is already something loaded
+    // do not redeploy if there is already something loaded
     if (TestContractHandler.hasContract(name, where)) {
-      const contract: ContractTest = ContractHandler.getContract(name, where)
-      if (contract.testContract) {
-        return { ...contract, $initialized: true } as any
-      }
+      return ContractHandler.getContract(name, where)
     }
 
-    let contractInstance: ContractTest
+    let contractInstance: ethers.BaseContract
     try {
       const networkName = (
         await KeeperUtils.getNetworkName(TestContractHandler.networkId)
@@ -388,7 +397,6 @@ export default abstract class TestContractHandler extends ContractHandler {
         tokens,
         init,
       )
-      contractInstance.testContract = true
       ContractHandler.setContract(name, where, contractInstance)
     } catch (err) {
       Logger.error(
@@ -413,7 +421,10 @@ export default abstract class TestContractHandler extends ContractHandler {
   ): Promise<ethers.BaseContract> {
     if (!from) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;[from] = await TestContractHandler.addresses(TestContractHandler.config)
+      ;[from] = await TestContractHandler.addresses(
+        TestContractHandler.config,
+        TestContractHandler.web3,
+      )
     }
 
     const sendConfig = {
