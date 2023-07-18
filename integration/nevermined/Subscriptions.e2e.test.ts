@@ -101,9 +101,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       editor: await token.balanceOf(editor.getId()),
       subscriber: await token.balanceOf(subscriber.getId()),
       reseller: await token.balanceOf(reseller.getId()),
-      escrowPaymentCondition: Number(
-        await token.balanceOf(await escrowPaymentCondition.getAddress()),
-      ),
+      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
     }
   })
 
@@ -118,7 +116,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
         editor.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription NFT',
         '',
         '',
@@ -293,7 +291,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
         editor.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription NFT',
         '',
         '',

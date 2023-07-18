@@ -76,11 +76,7 @@ describe('NFTHolderCondition', () => {
       const hashValues = await nftHolderCondition.hashValues(did, holder.getId(), amount)
       const conditionId = await nftHolderCondition.generateId(agreementId, hashValues)
 
-      await conditionStoreManager.createCondition(
-        conditionId,
-        await nftHolderCondition.getAddress(),
-        owner,
-      )
+      await conditionStoreManager.createCondition(conditionId, nftHolderCondition.address, owner)
 
       const nftAttributes = NFTAttributes.getInstance({
         metadata: undefined,
@@ -170,11 +166,7 @@ describe('NFTHolderCondition', () => {
       const hashValues = await nftHolderCondition.hashValues(did, holder.getId(), amount)
       const conditionId = await nftHolderCondition.generateId(agreementId, hashValues)
 
-      await conditionStoreManager.createCondition(
-        conditionId,
-        await nftHolderCondition.getAddress(),
-        owner,
-      )
+      await conditionStoreManager.createCondition(conditionId, nftHolderCondition.address, owner)
 
       const nftAttributes = NFTAttributes.getInstance({
         metadata: undefined,

@@ -33,14 +33,6 @@ export abstract class ContractBase extends Instantiable {
     this.contractName = contractName
   }
 
-  public getContract(): ethers.BaseContract {
-    return this.contract
-  }
-
-  public async getAddress(): Promise<string> {
-    return this.contract.getAddress()
-  }
-
   public getSignatureOfMethod(methodName: string, args: any[] = []): string {
     const foundMethod = this.searchMethod(methodName, args)
     return foundMethod.format()

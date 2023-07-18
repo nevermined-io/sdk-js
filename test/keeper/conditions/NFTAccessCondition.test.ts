@@ -43,10 +43,7 @@ describe('NFTAccessCondition', () => {
       nevermined.keeper)
     ;[owner, grantee, templateId, other] = await nevermined.accounts.list()
 
-    await conditionStoreManager.delegateCreateRole(
-      await agreementStoreManager.getAddress(),
-      owner.getId(),
-    )
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, owner.getId())
 
     await templateStoreManager.proposeTemplate(templateId.getId())
     await templateStoreManager.approveTemplate(templateId.getId())
@@ -101,7 +98,7 @@ describe('NFTAccessCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [await nftAccessCondition.getAddress()],
+        [nftAccessCondition.address],
         [hashValues],
         [0],
         [2],
@@ -140,7 +137,7 @@ describe('NFTAccessCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [await nftAccessCondition.getAddress()],
+        [nftAccessCondition.address],
         [hashValues],
         [0],
         [2],
@@ -163,7 +160,7 @@ describe('NFTAccessCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [await nftAccessCondition.getAddress()],
+        [nftAccessCondition.address],
         [hashValues],
         [0],
         [2],

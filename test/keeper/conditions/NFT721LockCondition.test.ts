@@ -62,7 +62,7 @@ describe('NFT721LockCondition', () => {
     did = await didRegistry.hashDID(didSeed, owner.getId())
 
     await nft721Wrapper.mint(didZeroX(did), owner)
-    await nft721Wrapper.setApprovalForAll(await nft721LockCondition.getAddress(), true, owner)
+    await nft721Wrapper.setApprovalForAll(nft721LockCondition.address, true, owner)
   })
 
   describe('#hashValues()', () => {

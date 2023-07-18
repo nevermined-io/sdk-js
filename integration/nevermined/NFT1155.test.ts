@@ -77,7 +77,7 @@ describe('NFT1155 End-to-End', () => {
 
       nftContract = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, deployer, [
         deployer.getId(),
-        await nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'NFT1155',
         'NVM',
         '',

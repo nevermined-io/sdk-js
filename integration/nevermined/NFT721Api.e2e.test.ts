@@ -102,9 +102,7 @@ describe('NFTs721 Api End-to-End', () => {
       artist: await token.balanceOf(artist.getId()),
       collector1: await token.balanceOf(collector1.getId()),
       gallery: await token.balanceOf(gallery.getId()),
-      escrowPaymentCondition: Number(
-        await token.balanceOf(await escrowPaymentCondition.getAddress()),
-      ),
+      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
     }
   })
 
@@ -166,7 +164,7 @@ describe('NFTs721 Api End-to-End', () => {
 
     it('the artist asks and receives the payment', async () => {
       const escrowPaymentConditionBalanceBefore = await token.balanceOf(
-        await escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
       )
 
       const receipt = await nevermined.nfts721.releaseRewards(agreementId, ddo.id, artist)
@@ -174,7 +172,7 @@ describe('NFTs721 Api End-to-End', () => {
       assert.isTrue(receipt)
 
       const escrowPaymentConditionBalanceAfter = await token.balanceOf(
-        await escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
       )
       const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
       const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])

@@ -180,9 +180,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       editor: await token.balanceOf(publisher.getId()),
       subscriber: await token.balanceOf(subscriber.getId()),
       reseller: await token.balanceOf(reseller.getId()),
-      escrowPaymentCondition: Number(
-        await token.balanceOf(await escrowPaymentCondition.getAddress()),
-      ),
+      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
     }
 
     console.log(`USING CONFIG:`)
@@ -218,7 +216,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',

@@ -55,18 +55,14 @@ describe('Register Escrow Access Template', () => {
 
   describe('Propose and approve template', () => {
     it('should propose the template', async () => {
-      await keeper.templateStoreManager.proposeTemplate(
-        await accessTemplate.getAddress(),
-        consumer,
-        true,
-      )
+      await keeper.templateStoreManager.proposeTemplate(accessTemplate.address, consumer, true)
       // TODO: Use a event to detect template mined
       await sleep(2000)
     })
 
     it('should approve the template', async () => {
       await keeper.templateStoreManager.approveTemplate(
-        await accessTemplate.getAddress(),
+        accessTemplate.address,
         templateManagerOwner,
         true,
       )
@@ -108,8 +104,8 @@ describe('Register Escrow Access Template', () => {
         agreementId,
         await lockPaymentCondition.hashValues(
           did,
-          escrowPaymentCondition.getAddress(),
-          token.getAddress(),
+          escrowPaymentCondition.address,
+          token.address,
           amounts,
           receivers,
         ),
@@ -121,8 +117,8 @@ describe('Register Escrow Access Template', () => {
           amounts,
           receivers,
           consumer.getId(),
-          escrowPaymentCondition.getAddress(),
-          token.getAddress(),
+          escrowPaymentCondition.address,
+          token.address,
           conditionIdLock[1],
           conditionIdAccess[1],
         ),
@@ -136,9 +132,9 @@ describe('Register Escrow Access Template', () => {
       assert.deepEqual(
         [...conditionTypes].sort(),
         [
-          await accessCondition.getAddress(),
-          await escrowPaymentCondition.getAddress(),
-          await lockPaymentCondition.getAddress(),
+          accessCondition.address,
+          escrowPaymentCondition.address,
+          lockPaymentCondition.address,
         ].sort(),
         "The conditions doesn't match",
       )
@@ -184,13 +180,13 @@ describe('Register Escrow Access Template', () => {
         Logger.error(error)
       }
 
-      await keeper.token.approve(await lockPaymentCondition.getAddress(), totalAmount, consumer)
+      await keeper.token.approve(lockPaymentCondition.address, totalAmount, consumer)
 
       const contractReceipt = await lockPaymentCondition.fulfill(
         agreementId,
         did,
-        await escrowPaymentCondition.getAddress(),
-        await token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         amounts,
         receivers,
         consumer,
@@ -223,8 +219,8 @@ describe('Register Escrow Access Template', () => {
         amounts,
         receivers,
         consumer.getId(),
-        await escrowPaymentCondition.getAddress(),
-        await token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         conditionIdLock[1],
         conditionIdAccess[1],
         consumer,
@@ -298,7 +294,7 @@ describe('Register Escrow Access Template', () => {
         ddo.shortId(),
         amounts,
         receivers,
-        await token.getAddress(),
+        token.address,
         consumer,
       )
     })
@@ -316,7 +312,7 @@ describe('Register Escrow Access Template', () => {
         receivers,
         consumer.getId(),
         ddo.shortId(),
-        await token.getAddress(),
+        token.address,
         publisher,
       )
     })

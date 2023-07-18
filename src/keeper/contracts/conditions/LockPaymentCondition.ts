@@ -31,7 +31,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     const payment = findServiceConditionByName(service, 'lockPayment')
     return this.params(
       ddo.shortId(),
-      await this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+      this.nevermined.keeper.conditions.escrowPaymentCondition.address,
       payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
       rewards.getAmounts(),
       rewards.getReceivers(),

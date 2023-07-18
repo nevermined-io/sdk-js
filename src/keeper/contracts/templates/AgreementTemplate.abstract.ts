@@ -86,7 +86,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const payment = findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     return {
-      rewardAddress: await this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+      rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.address,
       tokenAddress: payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
       amounts: assetPrice.getAmounts(),
       receivers: assetPrice.getReceivers(),
@@ -270,8 +270,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const assetPrice = getAssetPriceFromService(service)
     const payment = findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
-    const rewardAddress =
-      await this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
+    const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.address
     const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
@@ -413,7 +412,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     if (token) {
       this.logger.debug('Approving tokens', totalAmount)
-      await token.approve(await lockPaymentCondition.getAddress(), totalAmount, from, txParams)
+      await token.approve(lockPaymentCondition.address, totalAmount, from, txParams)
     }
   }
 

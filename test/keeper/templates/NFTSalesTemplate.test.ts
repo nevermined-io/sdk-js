@@ -44,10 +44,7 @@ describe('NFTSalesTemplate', () => {
     timeLocks = [0, 0, 0]
     timeOuts = [0, 0, 0]
 
-    await conditionStoreManager.delegateCreateRole(
-      await agreementStoreManager.getAddress(),
-      sender.getId(),
-    )
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, sender.getId())
   })
 
   beforeEach(async () => {
@@ -91,8 +88,8 @@ describe('NFTSalesTemplate', () => {
 
     it('should fail if DID is not registered', async () => {
       // propose and approve template
-      await templateStoreManager.proposeTemplate(await nftSalesTemplate.getAddress())
-      await templateStoreManager.approveTemplate(await nftSalesTemplate.getAddress())
+      await templateStoreManager.proposeTemplate(nftSalesTemplate.address)
+      await templateStoreManager.approveTemplate(nftSalesTemplate.address)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
       await assert.isRejected(

@@ -134,7 +134,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         gallery: await gallery.getEtherBalance(),
         governor: await governor.getEtherBalance(),
         escrowPaymentCondition: await nevermined.accounts
-          .getAccount(await escrowPaymentCondition.getAddress())
+          .getAccount(escrowPaymentCondition.address)
           .getEtherBalance(),
       }
 
@@ -176,11 +176,7 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     describe('As an artist I want to register a new artwork', async () => {
       it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-        await nftUpgradeable.setApprovalForAll(
-          await transferNftCondition.getAddress(),
-          true,
-          artist,
-        )
+        await nftUpgradeable.setApprovalForAll(transferNftCondition.address, true, artist)
 
         const balance = await nftUpgradeable.balance(artist.getId(), ddo.shortId())
         assert.deepEqual(balance, 5n)
@@ -218,7 +214,7 @@ describe('NFTTemplates With Ether E2E', async () => {
             assetPrice.getAmounts(),
             assetPrice.getReceivers(),
             collector1.getId(),
-            escrowPaymentCondition.getAddress(),
+            escrowPaymentCondition.address,
             ZeroAddress,
             conditionIdLockPayment[1],
             conditionIdTransferNFT[1],
@@ -256,7 +252,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         await lockPaymentCondition.fulfill(
           agreementId,
           ddo.shortId(),
-          await escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
           ZeroAddress,
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
@@ -306,7 +302,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
           collector1.getId(),
-          await escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
           ZeroAddress,
           conditionIdLockPayment[1],
           conditionIdTransferNFT[1],
@@ -317,7 +313,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         assert.equal(state, ConditionState.Fulfilled)
 
         const escrowPaymentConditionBalance = await nevermined.accounts
-          .getAccount(await escrowPaymentCondition.getAddress())
+          .getAccount(escrowPaymentCondition.address)
           .getEtherBalance()
         const receiver0Balance = await nevermined.accounts
           .getAccount(receivers[0])

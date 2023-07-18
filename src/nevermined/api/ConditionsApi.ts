@@ -66,14 +66,14 @@ export class ConditionsApi extends Instantiable {
 
     if (token) {
       this.logger.debug('Approving tokens', totalAmount)
-      await token.approve(await lockPaymentCondition.getAddress(), totalAmount, from, txParams)
+      await token.approve(lockPaymentCondition.address, totalAmount, from, txParams)
     }
 
     const contractReceipt: ContractTransactionReceipt = await lockPaymentCondition.fulfill(
       agreementId,
       did,
-      await escrowPaymentCondition.getAddress(),
-      token ? await token.getAddress() : erc20TokenAddress,
+      escrowPaymentCondition.address,
+      token ? token.address : erc20TokenAddress,
       amounts,
       receivers,
       from,
@@ -205,8 +205,8 @@ export class ConditionsApi extends Instantiable {
         amounts,
         receivers,
         returnAddress,
-        await escrowPaymentCondition.getAddress(),
-        token ? await token.getAddress() : erc20TokenAddress,
+        escrowPaymentCondition.address,
+        token ? token.address : erc20TokenAddress,
         storedAgreement.conditionIds[1],
         storedAgreement.conditionIds[0],
         from,

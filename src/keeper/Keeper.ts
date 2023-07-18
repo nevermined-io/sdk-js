@@ -378,9 +378,7 @@ export class Keeper extends Instantiable {
    * @returns Agreement template instance.
    */
   public getTemplateByAddress(address: string) {
-    return Object.values(this.templates).find(
-      async (template) => (await template.getAddress()) === address,
-    )
+    return Object.values(this.templates).find((template) => template.address === address)
   }
 
   /**

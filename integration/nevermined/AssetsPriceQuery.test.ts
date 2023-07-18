@@ -23,7 +23,7 @@ describe('Assets Query by Price', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    token = await nevermined.contracts.loadErc20(await nevermined.utils.token.getAddress())
+    token = await nevermined.contracts.loadErc20(nevermined.utils.token.getAddress())
 
     price1 = parseUnits('2', await token.decimals())
     price2 = parseUnits('17.86', await token.decimals())
@@ -39,9 +39,7 @@ describe('Assets Query by Price', () => {
     // publish asset with priced service `access`
     let metadata = getMetadata()
     metadata.userId = payload.sub
-    let assetPrice = new AssetPrice(account.getId(), price1).setTokenAddress(
-      await token.getAddress(),
-    )
+    let assetPrice = new AssetPrice(account.getId(), price1).setTokenAddress(await token.address)
 
     const _attributes = AssetAttributes.getInstance({
       metadata,

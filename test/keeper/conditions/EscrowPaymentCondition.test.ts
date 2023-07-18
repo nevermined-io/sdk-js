@@ -26,14 +26,7 @@ describe('EscrowPaymentCondition', () => {
     ;({ token } = keeper)
 
     lockCondition = await keeper.conditions.lockPaymentCondition
-      .generateIdHash(
-        agreementId,
-        did,
-        condition.getAddress(),
-        token.getAddress(),
-        amounts,
-        receivers,
-      )
+      .generateIdHash(agreementId, did, condition.address, token.address, amounts, receivers)
       .catch((e) => {
         console.log(e)
         throw e
@@ -56,7 +49,7 @@ describe('EscrowPaymentCondition', () => {
         receivers,
         consumer,
         publisher,
-        token.getAddress(),
+        token.address,
         lockCondition,
         releaseCondition,
       )
@@ -73,7 +66,7 @@ describe('EscrowPaymentCondition', () => {
         receivers,
         consumer,
         publisher,
-        token.getAddress(),
+        token.address,
         lockCondition,
         releaseCondition,
       )

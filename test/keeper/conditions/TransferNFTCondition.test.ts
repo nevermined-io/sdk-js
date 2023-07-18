@@ -103,8 +103,8 @@ describe('TransferNFTCondition', () => {
       const did = await didRegistry.hashDID(didSeed, owner.getId())
       const hashValuesPayment = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         amounts,
         receivers,
       )
@@ -144,17 +144,13 @@ describe('TransferNFTCondition', () => {
       await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
       await nftReceiver.requestTokens(10)
-      await nevermined.keeper.token.approve(
-        await lockPaymentCondition.getAddress(),
-        10n,
-        nftReceiver,
-      )
+      await nevermined.keeper.token.approve(lockPaymentCondition.address, 10n, nftReceiver)
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
         escrowPaymentCondition.address,
-        await token.getAddress(),
+        token.address,
         amounts,
         receivers,
         nftReceiver,
@@ -203,7 +199,7 @@ describe('TransferNFTCondition', () => {
       const did = await didRegistry.hashDID(didSeed, owner.getId())
       const hashValuesPayment = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
         ZeroAddress,
         amounts,
         receivers,
@@ -298,7 +294,7 @@ describe('TransferNFTCondition', () => {
       const hashValuesPayment = await lockPaymentCondition.hashValues(
         did,
         lockPaymentCondition.address,
-        token.getAddress(),
+        token.address,
         amounts,
         receivers,
       )
@@ -337,17 +333,13 @@ describe('TransferNFTCondition', () => {
       await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
       await nftReceiver.requestTokens(10)
-      await nevermined.keeper.token.approve(
-        await lockPaymentCondition.getAddress(),
-        10n,
-        nftReceiver,
-      )
+      await nevermined.keeper.token.approve(lockPaymentCondition.address, 10n, nftReceiver)
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
         lockPaymentCondition.address,
-        await token.getAddress(),
+        token.address,
         amounts,
         receivers,
         nftReceiver,

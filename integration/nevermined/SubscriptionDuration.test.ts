@@ -31,7 +31,7 @@ describe('Subscription Durations', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',
@@ -116,7 +116,7 @@ describe('Subscription Durations', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',
@@ -201,7 +201,7 @@ describe('Subscription Durations', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',

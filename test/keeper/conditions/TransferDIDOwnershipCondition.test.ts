@@ -39,10 +39,7 @@ describe('TransferDIDOwnershipCondition', () => {
       nevermined.keeper)
     ;[owner, receiver, templateId] = await nevermined.accounts.list()
 
-    await conditionStoreManager.delegateCreateRole(
-      await agreementStoreManager.getAddress(),
-      owner.getId(),
-    )
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, owner.getId())
 
     try {
       await templateStoreManager.proposeTemplate(templateId.getId())
@@ -54,7 +51,7 @@ describe('TransferDIDOwnershipCondition', () => {
     }
 
     await didRegistry.grantRegistryOperatorRole(
-      await transferDidOwnershipCondition.getAddress(),
+      transferDidOwnershipCondition.address,
       owner.getId(),
     )
   })
@@ -105,7 +102,7 @@ describe('TransferDIDOwnershipCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [await transferDidOwnershipCondition.getAddress()],
+        [transferDidOwnershipCondition.address],
         [hashValues],
         [0],
         [2],

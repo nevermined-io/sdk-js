@@ -49,7 +49,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
       rewards.getAmounts(),
       rewards.getReceivers(),
       consumerId,
-      await this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+      this.nevermined.keeper.conditions.escrowPaymentCondition.address,
       escrow.parameters.find((p) => p.name === '_tokenAddress').value as string,
       lock.id,
       access.id,

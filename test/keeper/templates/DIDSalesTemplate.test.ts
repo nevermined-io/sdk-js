@@ -44,10 +44,7 @@ describe('DIDSalesTemplate', () => {
     timeLocks = [0, 0, 0]
     timeOuts = [0, 0, 0]
 
-    await conditionStoreManager.delegateCreateRole(
-      await agreementStoreManager.getAddress(),
-      sender.getId(),
-    )
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, sender.getId())
   })
 
   beforeEach(async () => {
@@ -91,8 +88,8 @@ describe('DIDSalesTemplate', () => {
 
     it('should fail if DID is not registered', async () => {
       // propose and approve template
-      await templateStoreManager.proposeTemplate(await didSalesTemplate.getAddress())
-      await templateStoreManager.approveTemplate(await didSalesTemplate.getAddress())
+      await templateStoreManager.proposeTemplate(didSalesTemplate.address)
+      await templateStoreManager.approveTemplate(didSalesTemplate.address)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
       await assert.isRejected(
