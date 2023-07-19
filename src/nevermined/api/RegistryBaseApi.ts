@@ -612,7 +612,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   }
 
   /**
-   * Initialities the default Nevermined service plugins and return that instance
+   * Initializes the default Nevermined service plugins and return that instance
    * @param config Nevermined config
    * @returns The Nevermined Service Plugin instance
    */

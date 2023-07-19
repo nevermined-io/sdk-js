@@ -254,9 +254,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     consumer: Account,
     from: Account,
     txParams?: TxParameters,
-    observer?: (OrderProgressStep) => void,
+    observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     observer = observer ? observer : (_) => ({})
 
     const { instances, agreementId } = await this.instanceFromDDO(

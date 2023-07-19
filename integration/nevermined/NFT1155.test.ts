@@ -63,7 +63,7 @@ describe('NFT1155 End-to-End', () => {
         [receivers[0], amounts[0]],
         [receivers[1], amounts[1]],
       ]),
-    ).setTokenAddress(token.getAddress())
+    ).setTokenAddress(token.address)
   })
 
   describe('As user I can deploy Nevermined ERC-1155 NFT contract instances', () => {
