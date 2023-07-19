@@ -145,7 +145,7 @@ describe('NFT1155 End-to-End', () => {
       await nftUpgradeable.mint(someone.getId(), ddo.shortId(), 1n, minter.getId())
 
       const afterBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
-      assert.isTrue(beforeBalance.add(1).eq(afterBalance))
+      assert.equal(beforeBalance + 1n, afterBalance)
     })
 
     it('Should be able to burn', async () => {
@@ -154,7 +154,7 @@ describe('NFT1155 End-to-End', () => {
       await nftUpgradeable.burn(someone.getId(), ddo.shortId(), 1n)
 
       const afterBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
-      assert.isTrue(beforeBalance.sub(1).eq(afterBalance))
+      assert.equal(beforeBalance - 1n, afterBalance)
     })
   })
 })

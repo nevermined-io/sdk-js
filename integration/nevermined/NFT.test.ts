@@ -86,7 +86,7 @@ describe('Nfts operations', () => {
         metadata,
         serviceTypes: ['nft-sales', 'nft-access'],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
-        cap: 20n,
+        cap: 10n,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
