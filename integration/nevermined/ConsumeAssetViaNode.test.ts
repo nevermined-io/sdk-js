@@ -82,7 +82,8 @@ describe('Consume Asset (Nevermined Node)', () => {
 
   it('should order the asset', async () => {
     const steps = []
-    agreementId = await nevermined.assets.order(ddo.id, consumer).next((step) => steps.push(step))
+    const subscribablePromise = nevermined.assets.order(ddo.id, consumer)
+    agreementId = await subscribablePromise.next((step) => steps.push(step))
 
     assert.isDefined(agreementId)
     assert.deepEqual(steps, [2, 3, 4, 5])
