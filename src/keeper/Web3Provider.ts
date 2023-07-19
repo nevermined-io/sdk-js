@@ -14,6 +14,6 @@ export class Web3Provider {
       return new ethers.BrowserProvider(config.web3Provider)
     }
 
-    return new ethers.JsonRpcProvider(config.web3ProviderUri)
+    return new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, { cacheTimeout: -1 })
   }
 }

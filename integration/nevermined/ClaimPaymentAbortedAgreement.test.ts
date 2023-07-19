@@ -70,7 +70,6 @@ describe('Claim aborted agreements End-to-End', () => {
       (nevermined.keeper as any).instanceConfig,
       await nft.getAddress(),
     )
-
     await nevermined.contracts.loadNft721(nftContract.address)
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)

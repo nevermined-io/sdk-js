@@ -26,6 +26,7 @@ export class Nft721Contract extends NFTContractsBase {
 
     await new ContractHandler(config).checkExists(address)
     nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+    nft.address = await nft.contract.getAddress()
 
     return nft
   }
@@ -45,6 +46,7 @@ export class Nft721Contract extends NFTContractsBase {
 
     await new ContractHandler(config).checkExists(address)
     nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+    nft.address = await nft.contract.getAddress()
 
     return nft
   }
