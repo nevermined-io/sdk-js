@@ -3,6 +3,7 @@ import { getConditionsByParams, zeroX } from '../../../utils'
 import {
   PricedMetadataInformation,
   Service,
+  ServiceAttributes,
   serviceIndex,
   ServicePlugin,
   ServiceType,
@@ -35,10 +36,12 @@ export abstract class BaseTemplate<Params, S extends Service>
   public createService(
     publisher: Account,
     metadata: MetaData,
+    serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
-    assetPrice?: AssetPrice,
+    // assetPrice?: AssetPrice,
     priceData?: PricedMetadataInformation,
   ): S {
+    const assetPrice = serviceAttributes.price
     let tokenAddress
     if (assetPrice === undefined || !isAddress(assetPrice.getTokenAddress()))
       tokenAddress = this.nevermined.utils.token.getAddress()
@@ -55,8 +58,8 @@ export abstract class BaseTemplate<Params, S extends Service>
       nftAttributes?.nftContractAddress,
       publisher.getId(),
       assetPrice ? assetPrice.getTotalPrice() : BigNumber.from('0'),
-      nftAttributes?.nftTransfer,
-      nftAttributes?.duration,
+      serviceAttributes?.nft?.nftTransfer,
+      serviceAttributes?.nft?.duration,
       nftAttributes?.fulfillAccessTimeout,
       nftAttributes?.fulfillAccessTimelock,
     )

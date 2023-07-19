@@ -1,7 +1,7 @@
 import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
 import { Account } from '../sdk'
 import { BigNumber } from 'ethers'
-import { ERCType, NeverminedNFTType, AssetPrice, Babysig, NFTAttributes } from '../models'
+import { ERCType, NeverminedNFTType, AssetPrice, Babysig, NFTAttributes, NFTServiceAttributes } from '../models'
 
 export interface Authentication {
   type: string
@@ -599,6 +599,7 @@ export interface ServiceAttributes {
   serviceType: ServiceType
   serviceIndex?: number
   price?: AssetPrice
+  nft?: NFTServiceAttributes
 }
 
 export interface ServiceAuthorization extends ServiceCommon {
@@ -727,8 +728,9 @@ export interface ServicePlugin<T extends Service> {
   createService(
     publisher: Account,
     metadata: MetaData,
+    serviceAttributes: ServiceAttributes,
     nftAttributes: NFTAttributes,
-    assetPrice?: AssetPrice,
+    // assetPrice?: AssetPrice,
     pricedData?: PricedMetadataInformation,
   ): T
   // Process agreement for provider

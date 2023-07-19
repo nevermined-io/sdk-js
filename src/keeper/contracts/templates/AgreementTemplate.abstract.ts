@@ -197,8 +197,9 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
   public abstract service(): ServiceType
 
-  public standardContext(ddo: DDO, creator: string): ConditionContext {
-    const service = ddo.findServiceByType(this.service())
+  public standardContext(ddo: DDO, creator: string, serviceReference?: number): ConditionContext {
+
+    const service = serviceReference ? ddo.findServiceById(serviceReference) : ddo.findServiceByType(this.service())
     let rewards
     try {
       rewards = DDO.getAssetPriceFromService(service)
@@ -206,7 +207,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       rewards = undefined
     }
     // const rewards = DDO.getAssetPriceFromService(service)
-    return { ddo, service, price: rewards, creator }
+    return { ddo, service, price: rewards, creator, serviceReference }
   }
 
   public async agreementId(agreementIdSeed: string, creator: string): Promise<string> {

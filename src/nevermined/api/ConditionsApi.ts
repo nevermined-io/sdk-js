@@ -230,6 +230,7 @@ export class ConditionsApi extends Instantiable {
   public async releaseNftReward(
     agreementId: string,
     ddo: DDO,
+    serviceReference: number,
     nftAmount: BigNumber,
     publisher: Account,
     from?: Account,
@@ -244,6 +245,7 @@ export class ConditionsApi extends Instantiable {
       ddo,
       creator,
       template.params(accessConsumer, nftAmount),
+      serviceReference
     )
 
     const { escrowPaymentCondition } = this.nevermined.keeper.conditions

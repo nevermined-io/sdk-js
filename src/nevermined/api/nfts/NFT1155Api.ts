@@ -357,6 +357,7 @@ export class NFT1155Api extends NFTsBaseApi {
   public async releaseRewards(
     agreementId: string,
     did: string,
+    serviceReference: number | undefined,
     nftAmount: BigNumber,
     publisher: Account,
     txParams?: TxParameters,
@@ -368,6 +369,7 @@ export class NFT1155Api extends NFTsBaseApi {
     const result = await agreements.conditions.releaseNftReward(
       agreementId,
       ddo,
+      serviceReference,
       nftAmount,
       publisher,
       undefined,
@@ -492,6 +494,7 @@ export class NFT1155Api extends NFTsBaseApi {
     owner: Account,
     consumer: Account,
     agreementIdSeed: string,
+    serviceReference: number | undefined,
     txParams?: TxParameters,
   ): Promise<boolean> {
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
@@ -517,6 +520,7 @@ export class NFT1155Api extends NFTsBaseApi {
     receipt = await this.nevermined.agreements.conditions.releaseNftReward(
       agreementId,
       ddo,
+      serviceReference,
       nftAmount,
       owner,
       undefined,

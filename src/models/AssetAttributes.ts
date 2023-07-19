@@ -12,24 +12,12 @@ export class AssetAttributes {
    */
   metadata: MetaData
 
-  // /**
-  //  * It allows to specify the price of an asset
-  //  * @see {@link AssetPrice}
-  //  */
-  // price?: AssetPrice
-
   /**
    * When an asset is published in a Nevermined network, some internal Metadata attributes are encrypted so they can't be accessed.
    * This method allows to specify the encryption method to be used.
    * @see {@link EncryptionMethod}
    */
   encryptionMethod?: EncryptionMethod
-
-  // /**
-  //  * List of services offered by an asset.
-  //  * @see {@link ServiceType}
-  //  */
-  // serviceTypes?: ServiceType[]
 
   /**
    * List of services and their attributes offered by an asset.

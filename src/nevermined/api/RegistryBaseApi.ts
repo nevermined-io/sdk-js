@@ -100,40 +100,18 @@ export abstract class RegistryBaseApi extends Instantiable {
           const pricedData = serviceAttributes.price
             ? await this.getPriced(serviceAttributes.price)
             : undefined
-
+            
           const serviceCreated = plugin.createService(
             publisher,
             assetAttributes.metadata,
+            serviceAttributes,
             nftAttributes,
-            serviceAttributes.price,
             pricedData,
           )
 
           ddo.addService(serviceCreated)
-
-          // console.log(
-          //   `> Added service ${JSON.stringify(
-          //     ddo.service[ddo.service.length - 1].attributes.serviceAgreementTemplate.conditions[0],
-          //   )}`,
-          // )
-          // console.log(ddo.service.length)
         }
       }
-
-      // console.log(`----- DDO Services: `)
-      // console.log(JSON.stringify(ddo.service))
-      // console.log(`----- Step 1: `)
-      // ddo.service
-      //   .filter((service) => service.type === 'access')
-      //   .forEach((service) => {
-      //     console.log(`1# Service ${service.type}`)
-      //     const cond = service.attributes.serviceAgreementTemplate.conditions[0]
-      //     cond.parameters
-      //       .filter((p) => p.name === '_amounts')
-      //       .map((c) => {
-      //         console.log(`Param ${c.name} with price: ${JSON.stringify(c.value)}`)
-      //       })
-      //   })
 
       ddo.reorderServices()
 
@@ -185,7 +163,6 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       let serviceEndpoint = this.nevermined.services.metadata.getServiceEndpoint(DID.parse(ddo.id))
 
-      // console.log(`--- DDO Before Update Service: \n${JSON.stringify(ddo)}`)
 
       ddo.updateService({
         type: 'metadata',
@@ -278,7 +255,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             txParams,
           )
         }
-
+        
         if (nftAttributes.royaltyAttributes != undefined) {
           this.logger.log(`Setting up royalties`)
 

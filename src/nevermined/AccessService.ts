@@ -7,6 +7,7 @@ import {
   MetaData,
   MetaDataMain,
   PricedMetadataInformation,
+  ServiceAttributes,
 } from '../ddo'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import {
@@ -38,11 +39,11 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
   public createService(
     publisher: Account,
     metadata: MetaData,
+    serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
-    assetPrice?: AssetPrice,
     pricedData?: PricedMetadataInformation,
   ): ServiceAccess {
-    return this.normal.createService(publisher, metadata, nftAttributes, assetPrice, pricedData)
+    return this.normal.createService(publisher, metadata, serviceAttributes, nftAttributes, pricedData)
   }
 
   public async process(
@@ -71,16 +72,15 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
   public createService(
     publisher: Account,
     metadata: MetaData,
-    nftAttributes?: NFTAttributes,
-    assetPrice?: AssetPrice,
+    serviceAttributes: ServiceAttributes,
+    nftAttributes?: NFTAttributes,    
     pricedData?: PricedMetadataInformation,
   ): ServiceNFTAccess {
     return this.select(metadata.main).createService(
       publisher,
       metadata,
+      serviceAttributes,
       nftAttributes,
-      assetPrice,
-      // erc20TokenAddress,
       pricedData,
     )
   }
@@ -120,16 +120,15 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
   public createService(
     publisher: Account,
     metadata: MetaData,
-    nftAttributes?: NFTAttributes,
-    assetPrice?: AssetPrice,
+    serviceAttributes: ServiceAttributes,
+    nftAttributes?: NFTAttributes,    
     pricedData?: PricedMetadataInformation,
   ): ServiceNFTSales {
     return this.select(metadata.main).createService(
       publisher,
       metadata,
+      serviceAttributes,
       nftAttributes,
-      assetPrice,
-      // erc20TokenAddress,
       pricedData,
     )
   }

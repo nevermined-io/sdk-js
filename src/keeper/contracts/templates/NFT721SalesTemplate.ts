@@ -64,13 +64,14 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
     ddo: DDO,
     creator: string,
     parameters: NFT721SalesTemplateParams,
+    serviceReference: number
   ): Promise<AgreementInstance<NFT721SalesTemplateParams>> {
     const { transferNft721Condition, lockPaymentCondition, escrowPaymentCondition } =
       this.nevermined.keeper.conditions
 
     const agreementId = await this.agreementId(agreementIdSeed, creator)
     const ctx = {
-      ...this.standardContext(ddo, creator),
+      ...this.standardContext(ddo, creator, serviceReference),
       ...parameters,
     }
 
