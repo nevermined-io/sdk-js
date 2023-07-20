@@ -121,7 +121,7 @@ export const generateWebServiceMetadata = (
       ...webServiceMetadata.additionalInformation,
     },
   }
-  serviceMetadata.main.webService.endpoints[0] = { GET: endpoint }
+  serviceMetadata.main.webService.endpoints[0] = { '(.*)': endpoint }
 
   if (authType === 'basic') {
     serviceMetadata.main.webService.internalAttributes.authentication = {

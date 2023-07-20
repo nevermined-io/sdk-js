@@ -270,6 +270,8 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       ) as MetaData
       serviceMetadata.userId = payload.sub
 
+      console.log(`Registering service with metadata: ${JSON.stringify(serviceMetadata)}`)
+
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: serviceMetadata,
         services: [
