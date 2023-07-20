@@ -75,7 +75,7 @@ jobs:
       - name: Start ganache
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
-        run: yarn ganache --port 18545 --chain.chainId 8998 --wallet.mnemonic $SEED_WORDS --detach
+        run: yarn ganache --port 18545 --chain.chainId 8998 --wallet.mnemonic "$SEED_WORDS" --detach
 
       - name: Run unit tests
         env:
