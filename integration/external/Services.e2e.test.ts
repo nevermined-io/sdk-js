@@ -367,7 +367,6 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
     it('the subscription can be checked on chain', async () => {
       const eventOptions: EventOptions = {
-        methodName: 'getFulfilleds',
         eventName: 'Fulfilled',
         filterSubgraph: {
           where: {

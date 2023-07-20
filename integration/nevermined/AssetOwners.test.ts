@@ -10,6 +10,7 @@ import {
   MetaData,
 } from '../../src'
 import { decodeJwt } from 'jose'
+import { mineBlocks, sleep } from '../utils/utils'
 
 describe('Asset Owners', () => {
   let nevermined: Nevermined
@@ -85,8 +86,6 @@ describe('Asset Owners', () => {
   })
 
   it('should get the assets owned by a user', async () => {
-    const { length: initialLength } = await nevermined.assets.ownerAssets(account2.getId())
-
     await nevermined.assets.create(
       AssetAttributes.getInstance({
         metadata: newMetadata(config.marketplaceAuthToken),
@@ -99,19 +98,20 @@ describe('Asset Owners', () => {
       }),
       account1,
     )
-    await nevermined2.assets.create(
+    const ddo = await nevermined2.assets.create(
       AssetAttributes.getInstance({
         metadata: newMetadata(config2.marketplaceAuthToken),
       }),
       account2,
     )
 
+    await mineBlocks(nevermined, account1, 1)
+
     // wait a bit for the subgraph to index the events
-    await new Promise((r) => setTimeout(r, 5000))
+    await sleep(5000)
 
-    const { length: finalLength } = await nevermined.assets.ownerAssets(account2.getId())
-
-    assert.equal(finalLength - initialLength, 1)
+    const result = await nevermined.assets.ownerAssets(account2.getId())
+    assert.includeMembers(result, [ddo.id])
   })
 
   it('should be able to transfer ownership', async () => {

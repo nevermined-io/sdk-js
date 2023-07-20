@@ -23,18 +23,25 @@ describe('SubgraphEvent', () => {
 
   it('should query for the event', async () => {
     const response = await nevermined.keeper.token.events.getEventData({
-      methodName: 'getTransfers',
+      eventName: 'Transfer',
       filterSubgraph: {
         where: {
           to: account.getId(),
         },
+        orderBy: 'blockNumber',
+        orderDirection: 'desc',
       },
       result: {
         to: true,
         value: true,
+        blockNumber: true,
+        blockTimestamp: true,
+        transactionHash: true,
       },
     })
-    assert.strictEqual(ethers.getAddress(response.pop().to), ethers.getAddress(account.getId()))
+
+    const event = response[0]
+    assert.strictEqual(ethers.getAddress(event.to), ethers.getAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {
@@ -51,7 +58,7 @@ describe('SubgraphEvent', () => {
           }
         },
         {
-          methodName: 'getTransfers',
+          eventName: 'Transfer',
           filterSubgraph: {
             where: {
               to: account.getId(),
@@ -91,7 +98,7 @@ describe('SubgraphEvent', () => {
           setTimeout(resolve, 600)
         },
         {
-          methodName: 'getTransfers',
+          eventName: 'Transfer',
           filterSubgraph: {
             where: {
               to: account.getId(),
@@ -116,7 +123,7 @@ describe('SubgraphEvent', () => {
     const event = nevermined.keeper.token.events
 
     const waitUntilEvent = event.once((events) => events, {
-      methodName: 'getTransfers',
+      eventName: 'Transfer',
       filterSubgraph: {
         where: {
           to: account.getId(),
@@ -140,7 +147,7 @@ describe('SubgraphEvent', () => {
     const provId = `0x${generateId()}`
 
     const resultPromise = nevermined.keeper.didRegistry.events.once((e) => e, {
-      methodName: 'getProvenanceAttributeRegistereds',
+      eventName: 'ProvenanceAttributeRegistered',
       filterSubgraph: { where: { provId: provId } },
       result: {
         id: true,

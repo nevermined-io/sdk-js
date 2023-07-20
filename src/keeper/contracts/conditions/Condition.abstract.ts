@@ -92,7 +92,6 @@ export abstract class ConditionSmall extends ContractBase {
   public getConditionFulfilledEvent(agreementId: string) {
     return this.events.getEventData({
       eventName: 'Fulfilled',
-      methodName: 'getFulfilleds',
       filterJsonRpc: { agreementId: zeroX(agreementId) },
       filterSubgraph: { where: { _agreementId: zeroX(agreementId) } },
       result: {

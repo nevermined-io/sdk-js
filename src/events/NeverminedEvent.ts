@@ -5,8 +5,7 @@ export interface Filter {
   [key: string]: number | string | string[] | number[]
 }
 export interface EventOptions {
-  methodName?: string
-  eventName?: string
+  eventName: string
   filterJsonRpc?: Filter
   filterSubgraph?: Record<string, unknown>
   result?: Record<string, unknown>

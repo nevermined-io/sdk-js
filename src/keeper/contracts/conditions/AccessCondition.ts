@@ -45,7 +45,6 @@ export class AccessCondition extends ProviderCondition<AccessConditionContext> {
   ): Promise<{ did: string; agreementId: string }[]> {
     const evOptions: EventOptions = {
       eventName: 'Fulfilled',
-      methodName: 'getFulfilleds',
       filterJsonRpc: { _grantee: zeroX(consumer) },
       filterSubgraph: { where: { _grantee: zeroX(consumer) } },
       result: {
