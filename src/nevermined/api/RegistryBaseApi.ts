@@ -585,7 +585,6 @@ export abstract class RegistryBaseApi extends Instantiable {
         template.params(consumer),
         consumer,
         consumer,
-        undefined,
         params,
         (a) => observer.next(a),
       )
