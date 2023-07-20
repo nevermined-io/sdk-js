@@ -4,12 +4,7 @@ import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
-import {
-  ContractTransactionReceipt,
-  ContractTransactionResponse,
-  JsonRpcSigner,
-  ethers,
-} from 'ethers'
+import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 import fs from 'fs'
 import { NeverminedOptions } from '../../src'
 
@@ -17,10 +12,7 @@ export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
     TestContractHandler.setConfig(config)
 
-    const [deployerAddress] = await TestContractHandler.addresses(
-      TestContractHandler.config,
-      TestContractHandler.web3,
-    )
+    const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
     TestContractHandler.networkId = Number((await TestContractHandler.web3.getNetwork()).chainId)
     TestContractHandler.minter = ethers.encodeBytes32String('minter')
 
@@ -348,23 +340,10 @@ export default abstract class TestContractHandler extends ContractHandler {
         return acc.connect(web3)
       }
     }
-    return web3.getSigner(from)
   }
 
-  public static async addresses(
-    config: NeverminedOptions,
-    web3: ethers.JsonRpcProvider | ethers.BrowserProvider,
-  ): Promise<string[]> {
-    let ethAccounts: JsonRpcSigner[] = []
-    try {
-      ethAccounts = await web3.listAccounts()
-    } catch (e) {
-      // ignore
-    }
-    const addresses = await Promise.all((config.accounts || []).map((a) => a.getAddress()))
-    return addresses.concat(
-      await Promise.all(ethAccounts.map(async (signer) => await signer.getAddress())),
-    )
+  public static async addresses(config: NeverminedOptions): Promise<string[]> {
+    return await Promise.all((config.accounts || []).map((a) => a.getAddress()))
   }
 
   private static async deployContract(
@@ -375,11 +354,6 @@ export default abstract class TestContractHandler extends ContractHandler {
     init = true,
   ): Promise<ethers.BaseContract> {
     const where = TestContractHandler.networkId
-
-    // do not redeploy if there is already something loaded
-    if (TestContractHandler.hasContract(name, where)) {
-      return ContractHandler.getContract(name, where)
-    }
 
     let contractInstance: ethers.BaseContract
     try {
@@ -421,10 +395,7 @@ export default abstract class TestContractHandler extends ContractHandler {
   ): Promise<ethers.BaseContract> {
     if (!from) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;[from] = await TestContractHandler.addresses(
-        TestContractHandler.config,
-        TestContractHandler.web3,
-      )
+      ;[from] = await TestContractHandler.addresses(TestContractHandler.config)
     }
 
     const sendConfig = {

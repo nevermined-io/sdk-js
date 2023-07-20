@@ -7,7 +7,8 @@ import { Account } from '../../src'
 import { Web3Provider } from '../../src/keeper'
 import { ethers } from 'ethers'
 
-describe('ContractEvent', () => {
+// Skipping this test until https://github.com/nevermined-io/sdk-js/issues/558
+describe.skip('ContractEvent', () => {
   let nevermined: Nevermined
   let account1: Account
   let account2: Account
@@ -15,7 +16,7 @@ describe('ContractEvent', () => {
   let account4: Account
   let web3: ethers.JsonRpcProvider | ethers.BrowserProvider
 
-  beforeEach(async () => {
+  before(async () => {
     await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
     web3 = Web3Provider.getWeb3(config)

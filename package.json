@@ -12,7 +12,7 @@
     "build:metadata": "./scripts/get-metadata.js > src/metadata.json",
     "build:dist": "cross-env NODE_ENV=production webpack",
     "build:watch": "tsc -w",
-    "test": "mocha",
+    "test": "mocha --opts test/mocha.opts ./test/**/*.test.ts",
     "test:watch": "mocha -w --watch-extensions js,ts,json",
     "test:cover": "nyc --report-dir coverage/unit mocha --opts test/mocha.opts ./test/**/*.test.ts",
     "integration": "mocha --opts integration/mocha.opts ./integration/nevermined/*.test.ts",

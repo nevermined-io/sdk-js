@@ -2,7 +2,6 @@
 --require source-map-support/register
 --require mock-local-storage
 --full-trace
---bail
 --exit
 --timeout 60000
 test/config.ts 
