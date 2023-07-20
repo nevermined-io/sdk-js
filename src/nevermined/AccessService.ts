@@ -19,7 +19,7 @@ import {
   NFTSalesTemplate,
 } from '../keeper'
 import { Account } from './Account'
-import { AssetPrice, NFTAttributes } from '../models'
+import { NFTAttributes } from '../models'
 
 export interface AccessProofTemplateParams {
   type: 'access-proof'
@@ -43,7 +43,13 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
     nftAttributes?: NFTAttributes,
     pricedData?: PricedMetadataInformation,
   ): ServiceAccess {
-    return this.normal.createService(publisher, metadata, serviceAttributes, nftAttributes, pricedData)
+    return this.normal.createService(
+      publisher,
+      metadata,
+      serviceAttributes,
+      nftAttributes,
+      pricedData,
+    )
   }
 
   public async process(
@@ -73,7 +79,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
     publisher: Account,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
-    nftAttributes?: NFTAttributes,    
+    nftAttributes?: NFTAttributes,
     pricedData?: PricedMetadataInformation,
   ): ServiceNFTAccess {
     return this.select(metadata.main).createService(
@@ -121,7 +127,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
     publisher: Account,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
-    nftAttributes?: NFTAttributes,    
+    nftAttributes?: NFTAttributes,
     pricedData?: PricedMetadataInformation,
   ): ServiceNFTSales {
     return this.select(metadata.main).createService(

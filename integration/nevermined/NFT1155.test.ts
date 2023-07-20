@@ -111,9 +111,11 @@ describe('NFT1155 End-to-End', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice,
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
           },
         ],
       })
@@ -121,7 +123,6 @@ describe('NFT1155 End-to-End', () => {
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
         preMint,
       })

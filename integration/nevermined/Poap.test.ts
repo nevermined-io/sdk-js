@@ -77,6 +77,7 @@ describe('POAPs with Assets', () => {
             BigNumber.from(0),
             nevermined.utils.token.getAddress(),
           ),
+          nft: { nftTransfer: false },
         },
         {
           serviceType: 'nft-access',
@@ -85,7 +86,6 @@ describe('POAPs with Assets', () => {
       providers: [gatewayAddress],
       nftContractAddress: poapContract.address,
       preMint: false,
-      nftTransfer: false,
       royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0),
     })
     poapDDO = await nevermined.nfts721.create(nftAttributes, editor)

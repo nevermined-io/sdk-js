@@ -136,13 +136,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
+            nft: { duration: subscriptionDuration, nftTransfer },
           },
         ],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
@@ -167,13 +166,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         services: [
           {
             serviceType: 'nft-access',
+            nft: { duration: subscriptionDuration, nftTransfer },
           },
         ],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       assetDDO = await nevermined.nfts721.create(nftAttributes, editor)
@@ -316,13 +314,12 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
           {
             serviceType: 'nft-sales',
             price: new AssetPrice(editor.getId(), BigNumber.from(0)),
+            nft: { duration: subscriptionDuration, nftTransfer },
           },
         ],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)

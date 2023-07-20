@@ -150,9 +150,11 @@ describe('DDO Tests', () => {
         {
           serviceType: 'nft-sales',
           price,
+          nft: { amount: BigNumber.from(1) },
         },
         {
           serviceType: 'nft-access',
+          nft: { amount: BigNumber.from(1) },
         },
       ],
       providers: [config.neverminedNodeAddress],
@@ -163,7 +165,6 @@ describe('DDO Tests', () => {
       ...assetAttributes,
       nftContractAddress: nevermined.nfts1155.nftContract.address,
       cap: BigNumber.from(10),
-      amount: BigNumber.from(1),
       royaltyAttributes,
       preMint: true,
     })

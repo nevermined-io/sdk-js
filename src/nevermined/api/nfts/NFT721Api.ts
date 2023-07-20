@@ -129,7 +129,7 @@ export class NFT721Api extends NFTsBaseApi {
   public order(
     did: string,
     consumer: Account,
-    serviceReference: ServiceType | number = 'nft-sales',
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
@@ -220,13 +220,20 @@ export class NFT721Api extends NFTsBaseApi {
     agreementId: string,
     did: string,
     publisher: Account,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
 
     const ddo = await this.nevermined.assets.resolve(did)
-
-    const result = await agreements.conditions.transferNft721(agreementId, ddo, publisher, txParams)
+    const service = ddo.findServiceByReference(serviceReference)
+    const result = await agreements.conditions.transferNft721(
+      agreementId,
+      ddo,
+      service.index,
+      publisher,
+      txParams,
+    )
     if (!result) {
       throw new NFTError('Error transferring nft721.')
     }
@@ -263,15 +270,18 @@ export class NFT721Api extends NFTsBaseApi {
     agreementId: string,
     did: string,
     publisher: Account,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
 
     const ddo = await this.nevermined.assets.resolve(did)
+    const service = ddo.findServiceByReference(serviceReference)
 
     const result = await agreements.conditions.releaseNft721Reward(
       agreementId,
       ddo,
+      service.index,
       publisher,
       undefined,
       txParams,
@@ -525,6 +535,7 @@ export class NFT721Api extends NFTsBaseApi {
     let receipt = await this.nevermined.agreements.conditions.transferNft721(
       agreementId,
       ddo,
+      service.index,
       owner,
       txParams,
     )
@@ -534,6 +545,7 @@ export class NFT721Api extends NFTsBaseApi {
     receipt = await this.nevermined.agreements.conditions.releaseNft721Reward(
       agreementId,
       ddo,
+      service.index,
       owner,
       undefined,
       txParams,

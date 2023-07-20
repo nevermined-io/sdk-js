@@ -198,6 +198,7 @@ describe('NFT721Templates E2E', () => {
             {
               serviceType: 'nft-sales',
               price: assetPrice1,
+              nft: { nftTransfer: false },
             },
             {
               serviceType: 'nft-access',
@@ -207,7 +208,6 @@ describe('NFT721Templates E2E', () => {
           nftType: NeverminedNFT721Type.nft721,
           nftContractAddress: nft.address,
           preMint: true,
-          nftTransfer: false,
           royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 10000),
         })
         ddo = await nevermined.nfts721.create(nftAttributes, artist)
@@ -703,9 +703,11 @@ describe('NFT721Templates E2E', () => {
         const ownerBefore = await nft.ownerOf(ddo.shortId())
         assert.equal(ownerBefore, artist.getId())
 
+        const service = ddo.findServiceByType('nft-sales')
         const receipt = await nevermined.agreements.conditions.transferNft721(
           agreementId,
           ddo,
+          service.index,
           artist,
         )
         assert.isTrue(receipt)
@@ -718,9 +720,11 @@ describe('NFT721Templates E2E', () => {
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
           escrowPaymentCondition.getAddress(),
         )
+
         const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
           agreementId,
           ddo,
+          'nft-sales',
           artist,
         )
         assert.isTrue(receipt)
@@ -851,9 +855,12 @@ describe('NFT721Templates E2E', () => {
         const ownerBefore = await nft.ownerOf(ddo.shortId())
         assert.equal(ownerBefore, collector1.getId())
 
+        const service = ddo.findServiceByType('nft-sales')
+
         const receipt = await nevermined.agreements.conditions.transferNft721(
           agreementId2,
           ddo,
+          service.index,
           collector1,
         )
         assert.isTrue(receipt)
@@ -866,9 +873,11 @@ describe('NFT721Templates E2E', () => {
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
           escrowPaymentCondition.getAddress(),
         )
+
         const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
           agreementId2,
           ddo,
+          'nft-sales',
           collector1,
         )
         assert.isTrue(receipt)

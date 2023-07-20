@@ -155,9 +155,11 @@ function makeTest(isCustom) {
             {
               serviceType: 'nft-sales',
               price: assetPrice1,
+              nft: { amount: numberEditions },
             },
             {
               serviceType: 'nft-access',
+              nft: { amount: numberEditions },
             },
           ],
           providers: [config.neverminedNodeAddress],
@@ -166,7 +168,6 @@ function makeTest(isCustom) {
           ...assetAttributes,
           nftContractAddress: nevermined.nfts1155.nftContract.address,
           cap: cappedAmount,
-          amount: numberEditions,
           royaltyAttributes,
           preMint: true,
         })
@@ -271,10 +272,12 @@ function makeTest(isCustom) {
         const escrowPaymentConditionBefore = await token.balanceOf(
           escrowPaymentCondition.getAddress(),
         )
+        const service = ddo.findServiceByReference('nft-sales')
         await sleep(DELAY)
         const receipt = await nevermined.nfts1155.releaseRewards(
           agreementId,
           ddo.id,
+          service.index,
           numberEditions,
           artist,
         )

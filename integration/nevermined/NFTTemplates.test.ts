@@ -173,9 +173,11 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
           },
         ],
       })
@@ -183,7 +185,6 @@ describe('NFTTemplates E2E', () => {
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -635,9 +636,11 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
           },
         ],
       })
@@ -645,7 +648,6 @@ describe('NFTTemplates E2E', () => {
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -722,6 +724,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           artist,
         )
@@ -883,6 +886,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId2,
           ddo,
+          'nft-sales',
           numberNFTs2,
           collector1,
         )
@@ -943,6 +947,7 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
@@ -953,7 +958,6 @@ describe('NFTTemplates E2E', () => {
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -1023,6 +1027,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.transferNftForDelegate(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           gallery,
         )
@@ -1048,6 +1053,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           artist,
           gallery,

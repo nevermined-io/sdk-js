@@ -9,7 +9,7 @@ import {
   ServiceType,
   ValidationParams,
 } from '../../../ddo'
-import { Account, Condition, MetaData, AssetPrice, NFTAttributes } from '../../../sdk'
+import { Account, Condition, MetaData, NFTAttributes } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
 import { BigNumber } from 'ethers'

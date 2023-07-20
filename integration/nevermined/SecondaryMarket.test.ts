@@ -179,9 +179,11 @@ describe('Secondary Markets', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
           },
         ],
       })
@@ -189,7 +191,6 @@ describe('Secondary Markets', () => {
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -276,6 +277,7 @@ describe('Secondary Markets', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           artist,
         )
@@ -479,6 +481,7 @@ describe('Secondary Markets', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId2,
           ddo,
+          'nft-sales',
           numberNFTs2,
           collector1,
         )

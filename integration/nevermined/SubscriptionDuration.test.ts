@@ -52,13 +52,12 @@ describe('Subscription Durations', () => {
           {
             serviceType: 'nft-sales',
             price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+            nft: { duration: 0, nftTransfer: false },
           },
         ],
         providers: [config.neverminedNodeAddress],
-        duration: 0,
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
-        nftTransfer: false,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       assert.isDefined(subscriptionDDO)
@@ -71,12 +70,12 @@ describe('Subscription Durations', () => {
         services: [
           {
             serviceType: 'nft-access',
+            nft: { nftTransfer: false },
           },
         ],
         providers: [config.neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
-        nftTransfer: false,
       })
       datasetDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       assert.isDefined(datasetDDO)
@@ -146,13 +145,12 @@ describe('Subscription Durations', () => {
           {
             serviceType: 'nft-sales',
             price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+            nft: { duration: 1000, nftTransfer: false },
           },
         ],
         providers: [config.neverminedNodeAddress],
-        duration: 1000,
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
-        nftTransfer: false,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       assert.isDefined(subscriptionDDO)
@@ -164,12 +162,12 @@ describe('Subscription Durations', () => {
         services: [
           {
             serviceType: 'nft-access',
+            nft: { nftTransfer: false },
           },
         ],
         providers: [config.neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
-        nftTransfer: false,
       })
       datasetDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       assert.isDefined(datasetDDO)
@@ -239,13 +237,12 @@ describe('Subscription Durations', () => {
           {
             serviceType: 'nft-sales',
             price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+            nft: { duration: 1, nftTransfer: false },
           },
         ],
         providers: [config.neverminedNodeAddress],
-        duration: 1,
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
-        nftTransfer: false,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       assert.isDefined(subscriptionDDO)
@@ -257,12 +254,12 @@ describe('Subscription Durations', () => {
         services: [
           {
             serviceType: 'nft-access',
+            nft: { nftTransfer: false },
           },
         ],
         providers: [config.neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint: false,
-        nftTransfer: false,
       })
       datasetDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       assert.isDefined(datasetDDO)

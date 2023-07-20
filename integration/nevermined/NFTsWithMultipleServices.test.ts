@@ -12,9 +12,11 @@ import {
   ContractHandler,
   Nft721Contract,
   NFTAttributes,
+  ConditionState,
 } from '../../src'
 import { BigNumber } from '../../src/utils'
 import { ethers } from 'ethers'
+import { repeat } from '../utils/utils'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -30,11 +32,11 @@ let agreementId
 let neverminedNodeAddress
 let nft: ethers.Contract
 let nftContract: Nft721Contract
-let nftContractOwner: Account
+let salesServices
 const totalAmount1 = '100'
 const totalAmount2 = '150'
 
-describe('NFTs with multiple services', () => {
+describe('E2E Flow for NFTs with multiple services', () => {
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ token } = nevermined.keeper)
@@ -66,11 +68,12 @@ describe('NFTs with multiple services', () => {
 
     await nevermined.contracts.loadNft721(nftContract.address)
 
-    nftContractOwner = new Account((await nftContract.owner()) as string)
+    // nftContractOwner = new Account((await nftContract.owner()) as string)
 
     await nftContract.grantOperatorRole(
-      nevermined.keeper.conditions.transferNft721Condition.address, 
-      nftContractOwner)
+      nevermined.keeper.conditions.transferNft721Condition.address,
+      publisher,
+    )
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -90,21 +93,20 @@ describe('NFTs with multiple services', () => {
     metadata.userId = payload.sub
   })
 
-  describe('E2E flow for an asset with multiple nft-sales services', () => {
+  describe('Asset with multiple NFTs registration', () => {
     it('Register with multiple access services', async () => {
-
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
         services: [
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { nftTransfer: true }
+            nft: { nftTransfer: true },
           },
           {
             serviceType: 'nft-sales',
             price: assetPrice2,
-            nft: { nftTransfer: false }
+            nft: { nftTransfer: false },
           },
           {
             serviceType: 'nft-access',
@@ -133,38 +135,107 @@ describe('NFTs with multiple services', () => {
         salesServices[1].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
         totalAmount1,
       )
-      
+
       assert.isDefined(ddo.findServiceByType('metadata'))
     })
 
-    it('I am ordering the NFT between multiple nft-sales services', async () => {
-
+    it('The collector is ordering the NFT between multiple nft-sales services', async () => {
       const collector1BalanceBefore = await token.balanceOf(collector1.getId())
 
-      const salesServices = ddo.getServicesByType('nft-sales')
-      service = salesServices[0]
+      salesServices = ddo.getServicesByType('nft-sales')
+      service = salesServices[1]
 
       agreementId = await nevermined.nfts721.order(ddo.id, collector1, service.index)
-      
+
       assert.isDefined(agreementId)
-      console.log(`Agreement Id: ${agreementId}`)
 
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
 
       const price = DDO.getAssetPriceFromService(service)
-      assert.isTrue(
-        collector1BalanceBefore.sub(price.getTotalPrice())
-        .eq(collector1BalanceAfter))
+      assert.isTrue(collector1BalanceBefore.sub(price.getTotalPrice()).eq(collector1BalanceAfter))
+
+      const status = await repeat(3, nevermined.agreements.status(agreementId))
+
+      assert.deepEqual(status, {
+        lockPayment: ConditionState.Fulfilled,
+        transferNFT: ConditionState.Unfulfilled,
+        escrowPayment: ConditionState.Unfulfilled,
+      })
     })
 
     it('The publisher can check the payment and transfer the NFT to the collector', async () => {
-      assert.equal(await nevermined.nfts721.ownerOfAsset(ddo.id), publisher.getId())
+      service = salesServices[1]
 
-      const receipt = await nevermined.nfts721.transfer(agreementId, ddo.id, collector1)
+      const receipt = await nevermined.nfts721.transfer(
+        agreementId,
+        ddo.id,
+        publisher,
+        service.index,
+      )
       assert.isTrue(receipt)
 
-      assert.equal(await nevermined.nfts721.ownerOfAsset(ddo.id), collector1.getId())
+      const status = await repeat(3, nevermined.agreements.status(agreementId))
+
+      assert.deepEqual(status, {
+        lockPayment: ConditionState.Fulfilled,
+        transferNFT: ConditionState.Fulfilled,
+        escrowPayment: ConditionState.Unfulfilled,
+      })
     })
 
+    it('The publisher can get the rewards', async () => {
+      service = salesServices[1]
+
+      const receipt = await nevermined.nfts721.releaseRewards(
+        agreementId,
+        ddo.id,
+        publisher,
+        service.index,
+      )
+      assert.isTrue(receipt)
+
+      const status = await repeat(3, nevermined.agreements.status(agreementId))
+
+      assert.deepEqual(status, {
+        lockPayment: ConditionState.Fulfilled,
+        transferNFT: ConditionState.Fulfilled,
+        escrowPayment: ConditionState.Fulfilled,
+      })
+    })
+
+    it('The collector can order the other service too', async () => {
+      const collector1BalanceBefore = await token.balanceOf(collector1.getId())
+
+      service = salesServices[0]
+
+      agreementId = await nevermined.nfts721.order(ddo.id, collector1, service.index)
+
+      assert.isDefined(agreementId)
+
+      const collector1BalanceAfter = await token.balanceOf(collector1.getId())
+
+      const price = DDO.getAssetPriceFromService(service)
+      assert.isTrue(collector1BalanceBefore.sub(price.getTotalPrice()).eq(collector1BalanceAfter))
+
+      let status = await repeat(3, nevermined.agreements.status(agreementId))
+
+      assert.deepEqual(status, {
+        lockPayment: ConditionState.Fulfilled,
+        transferNFT: ConditionState.Unfulfilled,
+        escrowPayment: ConditionState.Unfulfilled,
+      })
+
+      await nevermined.nfts721.transfer(agreementId, ddo.id, publisher)
+
+      await nevermined.nfts721.releaseRewards(agreementId, ddo.id, publisher)
+
+      status = await repeat(3, nevermined.agreements.status(agreementId))
+
+      assert.deepEqual(status, {
+        lockPayment: ConditionState.Fulfilled,
+        transferNFT: ConditionState.Fulfilled,
+        escrowPayment: ConditionState.Fulfilled,
+      })
+    })
   })
 })

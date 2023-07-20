@@ -80,7 +80,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
   }
 
   public async paramsFromDDO(
-    { ddo, service, consumerId, expiration, serviceReference }: TransferNFT721ConditionContext,
+    { ddo, service, consumerId, expiration }: TransferNFT721ConditionContext,
     lockCondition,
   ) {
     const transfer = DDO.findServiceConditionByName(service, 'transferNFT')

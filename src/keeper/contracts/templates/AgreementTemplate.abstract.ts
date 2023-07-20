@@ -193,13 +193,15 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     ddo: DDO,
     creator: string,
     parameters: Params,
+    serviceReference?: number,
   ): Promise<AgreementInstance<Params>>
 
   public abstract service(): ServiceType
 
   public standardContext(ddo: DDO, creator: string, serviceReference?: number): ConditionContext {
-
-    const service = serviceReference ? ddo.findServiceById(serviceReference) : ddo.findServiceByType(this.service())
+    const service = serviceReference
+      ? ddo.findServiceById(serviceReference)
+      : ddo.findServiceByType(this.service())
     let rewards
     try {
       rewards = DDO.getAssetPriceFromService(service)
@@ -263,14 +265,16 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     observer = observer ? observer : (_) => ({})
 
+    const service = ddo.findServiceByReference(serviceReference)
+
     const { instances, agreementId } = await this.instanceFromDDO(
       agreementIdSeed,
       ddo,
       from.getId(),
       parameters,
+      service.index,
     )
 
-    const service = ddo.findServiceByReference(serviceReference)
     const assetPrice = DDO.getAssetPriceFromService(service)
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
@@ -278,8 +282,6 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
-
-    console.log(`Creating Agreement with AssetPrice: ${assetPrice.toString()}`)
 
     const timeouts: number[] = []
     const timelocks: number[] = []

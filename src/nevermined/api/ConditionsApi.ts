@@ -1,6 +1,6 @@
 import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { DDO } from '../../ddo'
+import { DDO, ServiceType } from '../../ddo'
 import { ZeroAddress } from '../../utils'
 import { Token, CustomToken, TxParameters as txParams } from '../../keeper'
 import { AssetPrice } from '../../models'
@@ -230,7 +230,7 @@ export class ConditionsApi extends Instantiable {
   public async releaseNftReward(
     agreementId: string,
     ddo: DDO,
-    serviceReference: number,
+    serviceReference: number | ServiceType = 'nft-sales',
     nftAmount: BigNumber,
     publisher: Account,
     from?: Account,
@@ -240,12 +240,14 @@ export class ConditionsApi extends Instantiable {
     const { accessConsumer } = await template.getAgreementData(agreementId)
     const { agreementIdSeed, creator } =
       await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+    const service = ddo.findServiceByReference(serviceReference)
+
     const instance = await template.instanceFromDDO(
       agreementIdSeed,
       ddo,
       creator,
       template.params(accessConsumer, nftAmount),
-      serviceReference
+      service.index,
     )
 
     const { escrowPaymentCondition } = this.nevermined.keeper.conditions
@@ -273,10 +275,13 @@ export class ConditionsApi extends Instantiable {
   public async releaseNft721Reward(
     agreementId: string,
     ddo: DDO,
+    serviceReference: number | ServiceType = 'nft-sales',
     publisher: Account,
     from?: Account,
     txParams?: txParams,
   ) {
+    const serviceIndex = ddo.findServiceByReference(serviceReference).index
+
     const template = this.nevermined.keeper.templates.nft721SalesTemplate
     const { accessConsumer } = await template.getAgreementData(agreementId)
     const { agreementIdSeed, creator } =
@@ -286,6 +291,7 @@ export class ConditionsApi extends Instantiable {
       ddo,
       creator,
       template.params(accessConsumer),
+      serviceIndex,
     )
 
     const { escrowPaymentCondition } = this.nevermined.keeper.conditions
@@ -448,6 +454,7 @@ export class ConditionsApi extends Instantiable {
   public async transferNftForDelegate(
     agreementId: string,
     ddo: DDO,
+    serviceReference: number | ServiceType = 'nft-sales',
     nftAmount: BigNumber,
     from?: Account,
     params?: txParams,
@@ -458,11 +465,13 @@ export class ConditionsApi extends Instantiable {
     const { accessConsumer } = await template.getAgreementData(agreementId)
     const { agreementIdSeed, creator } =
       await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+    const serviceIndex = ddo.findServiceByReference(serviceReference).index
     const instance = await template.instanceFromDDO(
       agreementIdSeed,
       ddo,
       creator,
       template.params(accessConsumer, nftAmount),
+      serviceIndex,
     )
     const [did, nftHolder, nftReceiver, _nftAmount, lockPaymentCondition, , transferAsset] =
       instance.instances[1].list
@@ -487,6 +496,7 @@ export class ConditionsApi extends Instantiable {
   public async transferNft721(
     agreementId: string,
     ddo: DDO,
+    serviceIndex: number,
     publisher: Account,
     txParams?: txParams,
   ) {
@@ -501,6 +511,7 @@ export class ConditionsApi extends Instantiable {
       ddo,
       creator,
       template.params(accessConsumer),
+      serviceIndex,
     )
 
     const nft = await this.nevermined.contracts.loadNft721(instance.instances[1].list[5])
