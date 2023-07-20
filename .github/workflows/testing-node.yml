@@ -15,11 +15,8 @@ jobs:
         with:
           repository: nevermined-io/node
           path: node
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: actions/checkout@v3
-        with:
-          repository: nevermined-io/sdk-dtp
-          path: sdk-dtp
+          # replace this with develop once https://github.com/nevermined-io/node/pull/212 is merged
+          ref: feat/sdk-2.0.0-rc0
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: nevermined-io/nvm-tools-actions@v0.12.0
         with:
@@ -29,29 +26,15 @@ jobs:
           contracts-version: 'v3.2.1'
           node: 'false'
 
-      - name: Install sponge
-        run: sudo apt-get install -y moreutils
-
       - name: Install dependencies
         run: yarn
 
       - name: Build SDK-JS package and node
         run: |
           yarn build
-          yarn pack
-          cp *.tgz sdk-dtp/sdk.tgz
-          cp *.tgz node/sdk.tgz
-          cd sdk-dtp
-          cat package.json | jq '.dependencies."@nevermined-io/sdk"="./sdk.tgz"' | sponge package.json
-          yarn
-          yarn build
-          yarn pack
-          cp *dtp*.tgz ../node/dtp.tgz
 
           cd ../node
-          cat package.json | jq '.dependencies."@nevermined-io/sdk"="./sdk.tgz"' | sponge package.json
-          cat package.json | jq '.dependencies."@nevermined-io/sdk-dtp"="./dtp.tgz"' | sponge package.json
-          yarn
+          yarn add ../
           yarn run setup:dev
           yarn build
 
