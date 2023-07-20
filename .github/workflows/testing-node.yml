@@ -33,7 +33,7 @@ jobs:
         run: |
           yarn build
 
-          cd ../node
+          cd node/
           yarn add ../
           yarn run setup:dev
           yarn build
