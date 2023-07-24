@@ -8,7 +8,6 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -37,8 +36,8 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
   // Configuration of First Sale:
   // Editor -> Subscriber, the Reseller get a cut (25%)
-  let subscriptionPrice = BigNumber.from(20)
-  let amounts = [BigNumber.from(15), BigNumber.from(5)]
+  let subscriptionPrice = 20n
+  let amounts = [15n, 5n]
   let receivers: string[]
   let assetPrice1: AssetPrice
   let royaltyAttributes: RoyaltyAttributes
@@ -52,7 +51,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   const subscriptionDuration = 1000 // in blocks
 
   let initialBalances: any
-  let scale: BigNumber
+  let scale: bigint
 
   // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
@@ -84,10 +83,10 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     // components
     ;({ token } = nevermined.keeper)
 
-    scale = BigNumber.from(10).pow(await token.decimals())
+    scale = 10n ** BigInt(await token.decimals())
 
-    subscriptionPrice = subscriptionPrice.mul(scale)
-    amounts = amounts.map((v) => v.mul(scale))
+    subscriptionPrice = subscriptionPrice * scale
+    amounts = amounts.map((v) => v * scale)
     receivers = [editor.getId(), reseller.getId()]
     assetPrice1 = new AssetPrice(
       new Map([
@@ -102,7 +101,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       editor: await token.balanceOf(editor.getId()),
       subscriber: await token.balanceOf(subscriber.getId()),
       reseller: await token.balanceOf(reseller.getId()),
-      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.getAddress())),
+      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
     }
   })
 
@@ -117,7 +116,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
         editor.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription NFT',
         '',
         '',
@@ -128,7 +127,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
       await subscriptionNFT.grantOperatorRole(transferNft721Condition.address, editor)
 
-      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(editor.getId())))
+      assert.equal(await subscriptionNFT.balanceOf(editor.getId()), 0n)
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
@@ -143,8 +142,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, editor)
 
-      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(editor.getId())))
-
+      assert.equal(await subscriptionNFT.balanceOf(editor.getId()), 0n)
       assert.isDefined(subscriptionDDO)
     })
 
@@ -180,10 +178,10 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice.div(scale))
+      await subscriber.requestTokens(subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
-      assert.isTrue(subscriberBalanceBefore.eq(initialBalances.subscriber.add(subscriptionPrice)))
+      assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
 
       agreementId = await nevermined.nfts721.order(subscriptionDDO.id, subscriber)
 
@@ -191,13 +189,13 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
       const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
 
-      assert.isTrue(subscriberBalanceAfter.sub(initialBalances.subscriber).eq(0))
+      assert.equal(subscriberBalanceAfter, initialBalances.subscriber)
     })
 
     it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
       // Let's use the Node to mint the subscription and release the payments
 
-      assert.isTrue(BigNumber.from(0).eq(await subscriptionNFT.balanceOf(subscriber.getId())))
+      assert.equal(await subscriptionNFT.balanceOf(subscriber.getId()), 0n)
 
       const receipt = await nevermined.nfts721.claim(
         agreementId,
@@ -215,16 +213,15 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       const minted = await subscriptionNFT.getContract.getMintedEntries(subscriber.getId())
       console.log(`Minted: ${JSON.stringify(minted)}`)
 
-      assert.isTrue(BigNumber.from(1).eq(await subscriptionNFT.balanceOf(subscriber.getId())))
+      assert.equal(await subscriptionNFT.balanceOf(subscriber.getId()), 1n)
     })
 
     it('the editor and reseller can receive their payment', async () => {
       const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
       const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
 
-      assert.isTrue(receiver0Balance.eq(initialBalances.editor.add(assetPrice1.getAmounts()[0])))
-
-      assert.isTrue(receiver1Balance.eq(initialBalances.reseller.add(assetPrice1.getAmounts()[1])))
+      assert.equal(receiver0Balance, initialBalances.editor + assetPrice1.getAmounts()[0])
+      assert.equal(receiver1Balance, initialBalances.reseller + assetPrice1.getAmounts()[1])
     })
 
     it('the subscription can be checked on chain', async () => {
@@ -260,14 +257,14 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.utils.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
     })
   })
 
   describe('As subscriber I want to get access to assets include as part of my subscription', () => {
     it('The Subscriber should have an NFT balance', async () => {
       const balance = await subscriptionNFT.balanceOf(subscriber.getId())
-      assert.equal(balance.toNumber(), 1)
+      assert.equal(balance, 1n)
     })
 
     it('The collector access the files', async () => {
@@ -293,7 +290,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
         editor.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription NFT',
         '',
         '',
@@ -304,7 +301,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(editor.getId(), BigNumber.from(0)),
+        price: new AssetPrice(editor.getId(), 0n),
         serviceTypes: ['nft-sales'],
         providers: [neverminedNodeAddress],
         duration: subscriptionDuration,

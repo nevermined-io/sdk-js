@@ -68,7 +68,7 @@ describe('Provenance', () => {
       intermediary.getId(),
       publisher.getId(),
       activitiesIds.intermediary,
-      ethers.utils.hexZeroPad('0x0', 32),
+      ethers.zeroPadValue('0x', 32),
       'FirstIntermediaryStuff',
       publisher,
     )
@@ -104,7 +104,7 @@ describe('Provenance', () => {
       ddo.shortId(),
       intermediary.getId(),
       activitiesIds.intermediary,
-      ethers.utils.hexZeroPad('0x0', 32),
+      ethers.zeroPadValue('0x', 32),
       'FirstIntermediaryStuff',
       intermediary,
     )

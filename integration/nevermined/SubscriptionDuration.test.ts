@@ -3,7 +3,6 @@ import { Account, AssetPrice, DDO, NFTAttributes, Nevermined, SubscriptionNFTApi
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { BigNumber } from 'ethers'
 
 describe('Subscription Durations', () => {
   let publisher: Account
@@ -32,7 +31,7 @@ describe('Subscription Durations', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',
@@ -48,7 +47,7 @@ describe('Subscription Durations', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+        price: new AssetPrice(publisher.getId(), 0n),
         serviceTypes: ['nft-sales'],
         providers: [config.neverminedNodeAddress],
         duration: 0,
@@ -89,7 +88,7 @@ describe('Subscription Durations', () => {
 
     it('The subscriber should have an nft balance', async () => {
       const balance = await subscriptionNFT.balanceOf(subscriber.getId())
-      assert.equal(balance.toNumber(), 1)
+      assert.equal(balance, 1n)
     })
 
     it('The subscriber should have access to the dataset', async () => {
@@ -117,7 +116,7 @@ describe('Subscription Durations', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',
@@ -133,7 +132,7 @@ describe('Subscription Durations', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+        price: new AssetPrice(publisher.getId(), 0n),
         serviceTypes: ['nft-sales'],
         providers: [config.neverminedNodeAddress],
         duration: 1000,
@@ -174,7 +173,7 @@ describe('Subscription Durations', () => {
 
     it('The subscriber should have an nft balance', async () => {
       const balance = await subscriptionNFT.balanceOf(subscriber.getId())
-      assert.equal(balance.toNumber(), 1)
+      assert.equal(balance, 1n)
     })
 
     it('The subscriber should have access to the dataset', async () => {
@@ -202,7 +201,7 @@ describe('Subscription Durations', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',
@@ -218,7 +217,7 @@ describe('Subscription Durations', () => {
 
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: getMetadata(),
-        price: new AssetPrice(publisher.getId(), BigNumber.from(0)),
+        price: new AssetPrice(publisher.getId(), 0n),
         serviceTypes: ['nft-sales'],
         providers: [config.neverminedNodeAddress],
         duration: 1,
@@ -259,7 +258,7 @@ describe('Subscription Durations', () => {
 
     it('The subscriber should NOT have an nft balance for subscribed subscription', async () => {
       const balance = await subscriptionNFT.balanceOf(subscriber.getId())
-      assert.equal(balance.toNumber(), 0)
+      assert.equal(balance, 0n)
     })
 
     it('The subscriber should NOT have access to the dataset of an expired subscription', async () => {

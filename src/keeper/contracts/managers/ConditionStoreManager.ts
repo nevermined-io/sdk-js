@@ -56,12 +56,12 @@ export class ConditionStoreManager extends ContractBase {
     const a: any = await this.call('getCondition', [zeroX(conditionId)])
     return {
       typeRef: a.typeRef,
-      state: +a.state,
-      timeLock: +a.timeLock,
-      timeOut: +a.timeOut,
-      blockNumber: +a.blockNumber,
+      state: Number(a.state),
+      timeLock: Number(a.timeLock),
+      timeOut: Number(a.timeOut),
+      blockNumber: Number(a.blockNumber),
       lastUpdatedBy: a.lastUpdatedBy,
-      blockNumberUpdated: +a.blockNumberUpdated,
+      blockNumberUpdated: Number(a.blockNumberUpdated),
     } as ConditionData
   }
 }

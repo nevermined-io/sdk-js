@@ -5,9 +5,8 @@ import { generateId } from '../../src/utils'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
-import { ContractReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt, ethers, EventLog } from 'ethers'
 import { TxParameters, Web3Provider } from '../../src/keeper'
-// import { NonceManager } from '@ethersproject/experimental'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -18,7 +17,7 @@ describe('DIDRegistry', () => {
     await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
     ;({ didRegistry } = nevermined.keeper)
-    checksum = ethers.utils.hexlify(ethers.utils.randomBytes(32))
+    checksum = ethers.hexlify(ethers.randomBytes(32))
   })
 
   describe('#registerAttribute()', () => {
@@ -26,7 +25,7 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'my nice provider, is nice'
-      const contractReceipt: ContractReceipt = await didRegistry.registerAttribute(
+      const contractReceipt: ContractTransactionReceipt = await didRegistry.registerAttribute(
         did,
         checksum,
         [],
@@ -34,7 +33,9 @@ describe('DIDRegistry', () => {
         ownerAccount.getId(),
       )
       assert.equal(contractReceipt.status, 1)
-      assert.isTrue(contractReceipt.events.some((e) => e.event === 'DIDAttributeRegistered'))
+      assert.isTrue(
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'DIDAttributeRegistered'),
+      )
     })
 
     it('should register an attribute in a new did modifying the nonce', async () => {
@@ -45,7 +46,7 @@ describe('DIDRegistry', () => {
       const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
       const txParams: TxParameters = { nonce: txCount }
 
-      const contractReceipt: ContractReceipt = await didRegistry.registerAttribute(
+      const contractReceipt: ContractTransactionReceipt = await didRegistry.registerAttribute(
         did,
         checksum,
         [],
@@ -54,7 +55,9 @@ describe('DIDRegistry', () => {
         txParams,
       )
       assert.equal(contractReceipt.status, 1)
-      assert.isTrue(contractReceipt.events.some((e) => e.event === 'DIDAttributeRegistered'))
+      assert.isTrue(
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'DIDAttributeRegistered'),
+      )
     })
   })
 
@@ -73,7 +76,7 @@ describe('DIDRegistry', () => {
 
     it('should get 0x0 for a not registered did', async () => {
       const owner = await didRegistry.getDIDOwner(generateId())
-      assert.equal(owner, ethers.constants.AddressZero)
+      assert.equal(owner, ethers.ZeroAddress)
     })
   })
 

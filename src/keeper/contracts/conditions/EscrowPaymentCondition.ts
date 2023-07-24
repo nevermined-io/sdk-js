@@ -8,7 +8,6 @@ import { didZeroX, findServiceConditionByName, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
-import { BigNumber } from '../../../utils'
 
 export interface EscrowPaymentConditionContext extends ConditionContext {
   consumerId: string
@@ -21,7 +20,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
 
   public params(
     did: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     returnAddress: string,
     sender: string,
@@ -50,7 +49,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
       rewards.getAmounts(),
       rewards.getReceivers(),
       consumerId,
-      this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+      this.nevermined.keeper.conditions.escrowPaymentCondition.address,
       escrow.parameters.find((p) => p.name === '_tokenAddress').value as string,
       lock.id,
       access.id,
@@ -60,7 +59,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
   public fulfill(
     agreementId: string,
     did: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     returnAddress: string,
     lockPaymentAddress: string,

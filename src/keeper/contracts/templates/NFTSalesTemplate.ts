@@ -10,12 +10,11 @@ import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstra
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
 import { EscrowPaymentCondition, LockPaymentCondition, TransferNFTCondition } from '../conditions'
-import { BigNumber } from '../../../utils'
 
 export interface NFTSalesTemplateParams {
   consumerId: string
   providerId: string
-  nftAmount: BigNumber
+  nftAmount: bigint
 }
 
 export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, ServiceNFTSales> {
@@ -36,7 +35,7 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
 
   public params(
     consumerId: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     providerId?: string,
   ): NFTSalesTemplateParams {
     return { consumerId, providerId, nftAmount }

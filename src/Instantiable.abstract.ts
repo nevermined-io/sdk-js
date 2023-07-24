@@ -7,7 +7,7 @@ import { ethers } from 'ethers'
 export interface InstantiableConfig {
   nevermined: Nevermined
   config?: NeverminedOptions
-  web3?: ethers.providers.JsonRpcProvider
+  web3?: ethers.JsonRpcProvider | ethers.BrowserProvider
   logger?: Logger
   artifactsFolder?: string
   circuitsFolder?: string

@@ -3,12 +3,11 @@ import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import { BigNumber } from '../../../../utils'
 import { ServiceCommon } from '../../../../ddo'
 
 export interface NFTHolderConditionContext extends ConditionContext {
   holderAddress: string
-  amount?: BigNumber
+  amount?: bigint
 }
 
 /**
@@ -28,12 +27,7 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
    * @param nftContractAddress - The address of the NFT token to use.
    * @returns hash of all the values
    */
-  public params(
-    did: string,
-    holderAddress: string,
-    amount: BigNumber,
-    nftContractAddress?: string,
-  ) {
+  public params(did: string, holderAddress: string, amount: bigint, nftContractAddress?: string) {
     return super.params(
       didZeroX(did),
       zeroX(holderAddress),
@@ -42,10 +36,10 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     )
   }
 
-  public amountFromService(service: ServiceCommon): BigNumber {
+  public amountFromService(service: ServiceCommon): bigint {
     const holder = findServiceConditionByName(service, 'nftHolder')
     if (!holder) throw new Error('Holder condition not found!')
-    return BigNumber.from(holder.parameters.find((p) => p.name === '_numberNfts').value)
+    return BigInt(holder.parameters.find((p) => p.name === '_numberNfts').value as string)
   }
 
   public nftContractFromService(service: ServiceCommon): string {
@@ -81,7 +75,7 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     agreementId: string,
     did: string,
     holderAddress: string,
-    amount: BigNumber,
+    amount: bigint,
     nftContractAddress: string,
     from?: Account,
     txParams?: TxParameters,

@@ -585,7 +585,6 @@ export abstract class RegistryBaseApi extends Instantiable {
         template.params(consumer),
         consumer,
         consumer,
-        undefined,
         params,
         (a) => observer.next(a),
       )
@@ -612,7 +611,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   }
 
   /**
-   * Initialities the default Nevermined service plugins and return that instance
+   * Initializes the default Nevermined service plugins and return that instance
    * @param config Nevermined config
    * @returns The Nevermined Service Plugin instance
    */

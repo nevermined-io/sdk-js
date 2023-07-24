@@ -1,5 +1,4 @@
 import { RoyaltyAttributes } from '../nevermined'
-import BigNumber from '../utils/BigNumber'
 import { AssetAttributes } from './AssetAttributes'
 import { ERCType, NeverminedNFTType, NeverminedNFT1155Type, NeverminedNFT721Type } from './'
 
@@ -26,7 +25,7 @@ export class NFTAttributes extends AssetAttributes {
   /**
    * Max number of nfts that can be minted, 0 means uncapped
    */
-  cap?: BigNumber
+  cap?: bigint
 
   /**
    * If the asset is pre-minted
@@ -56,7 +55,7 @@ export class NFTAttributes extends AssetAttributes {
   /**
    * Number of editions
    */
-  amount?: BigNumber
+  amount?: bigint
 
   /**
    * Attributes describing the royalties attached to the NFT in the secondary market
@@ -65,13 +64,13 @@ export class NFTAttributes extends AssetAttributes {
 
   static defaultValues = {
     ...AssetAttributes.defaultValues,
-    cap: BigNumber.from(0), // Cap equals to 0 means the NFT is uncapped
+    cap: 0n, // Cap equals to 0 means the NFT is uncapped
     preMint: true, // It means the NFT will mint all the editions defined in the `amount` attributed during the registration
     nftMetadataUrl: '', // Url to the metadata describing the NFT OpenSea style
     nftTransfer: true, // The NFT will use transfers
     isSubscription: false, // By default the asset doesn't represent a subscription
     duration: 0, // Because it's not a subscription it doesn't have a duration
-    amount: BigNumber.from(1), // By default just one edition
+    amount: 1n, // By default just one edition
     royaltyAttributes: undefined, // No royalty attributes by default what means no royalties
   }
 

@@ -1,7 +1,6 @@
 import { assert } from 'chai'
-import { Account } from '../../src'
+import { Account, parseUnits } from '../../src'
 import { Nevermined } from '../../src/nevermined'
-import { BigNumber } from '../../src/utils'
 import config from '../config'
 import TestContractHandler from '../keeper/TestContractHandler'
 
@@ -19,21 +18,21 @@ describe('Account', () => {
     it('should get initial nevermined balance', async () => {
       const balance = await accounts[8].getNeverminedBalance()
 
-      assert.equal(0, balance.toNumber(), `Expected 0 got ${balance}`)
+      assert.equal(0n, balance, `Expected 0 got ${balance}`)
     })
 
     it('should get the correct balance', async () => {
-      const amount = BigNumber.from(100)
+      const amount = 100n
       const [account] = accounts
       const initialBalance = await account.getNeverminedBalance()
       await account.requestTokens(amount)
       const balance = await account.getNeverminedBalance()
 
-      const balancePlusAmount = BigNumber.from(BigNumber.parseUnits('100').toString())
+      const balancePlusAmount = parseUnits('100')
       console.log(`Initial Balance :    ${initialBalance.toString()}`)
       console.log(`Balance         :    ${balance.toString()}`)
       console.log(`Balance + Amount:    ${balancePlusAmount.toString()}`)
-      assert.isTrue(balance.gte(initialBalance.add(balancePlusAmount)))
+      assert.isTrue(balance >= initialBalance + balancePlusAmount)
     })
   })
 
@@ -43,12 +42,8 @@ describe('Account', () => {
       const account: Account = accounts[9]
       const balanceEth = await account.getEtherBalance()
 
-      console.log(
-        `Balance ${balanceEth} should be ${BigNumber.from(
-          BigNumber.parseUnits('1000').toString(),
-        )}`,
-      )
-      assert.isTrue(balanceEth.eq(BigNumber.parseUnits('1000').toString()))
+      console.log(`Balance ${balanceEth} should be ${parseUnits('1000')}`)
+      assert.equal(balanceEth, parseUnits('1000'))
     })
   })
 
@@ -58,8 +53,8 @@ describe('Account', () => {
       const account: Account = accounts[9]
       const balance = await account.getBalance()
 
-      assert.isTrue(balance.eth.eq(BigNumber.parseUnits('1000')))
-      assert.isTrue(balance.nevermined.isZero())
+      assert.equal(balance.eth, parseUnits('1000'))
+      assert.equal(balance.nevermined, 0n)
     })
   })
 

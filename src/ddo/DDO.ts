@@ -13,7 +13,6 @@ import { didPrefixed, getAssetPriceFromService, zeroX } from '../utils'
 import { DIDRegistry } from '../keeper'
 import { ethers } from 'ethers'
 import { NFTAttributes } from '../models'
-import { BigNumber } from '../utils'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
 
 /**
@@ -160,9 +159,9 @@ export class DDO {
    * @param serviceType - Service type
    *
    * @throws {@link DDOPriceNotFoundError}
-   * @returns {@link BigNumber}
+   * @returns {@link bigint}
    */
-  public getPriceByService(serviceType: ServiceType = 'access'): BigNumber {
+  public getPriceByService(serviceType: ServiceType = 'access'): bigint {
     const service = this.findServiceByType(serviceType)
     const assetPrice = getAssetPriceFromService(service)
 
@@ -173,9 +172,7 @@ export class DDO {
   }
 
   public checksum(seed: string): string {
-    return ethers.utils
-      .keccak256(ethers.utils.toUtf8Bytes(seed))
-      .replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
+    return ethers.keccak256(ethers.toUtf8Bytes(seed)).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
   }
 
   /**

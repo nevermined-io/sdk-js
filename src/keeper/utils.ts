@@ -76,8 +76,9 @@ export interface JsonRpcResponse {
 }
 
 export class Web3ProviderWrapper {
-  provider: ethers.providers.JsonRpcProvider
-  constructor(provider: ethers.providers.JsonRpcProvider) {
+  provider: ethers.JsonRpcProvider | ethers.BrowserProvider
+
+  constructor(provider: ethers.JsonRpcProvider | ethers.BrowserProvider) {
     this.provider = provider
   }
   send(

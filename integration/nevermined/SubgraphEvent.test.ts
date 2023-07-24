@@ -41,7 +41,7 @@ describe('SubgraphEvent', () => {
     })
 
     const event = response[0]
-    assert.strictEqual(ethers.utils.getAddress(event.to), ethers.utils.getAddress(account.getId()))
+    assert.strictEqual(ethers.getAddress(event.to), ethers.getAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {

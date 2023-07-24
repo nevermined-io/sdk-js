@@ -47,7 +47,7 @@ export async function mineBlocks(nevermined: Nevermined, account: Account, block
       generateId(),
       account.getId(),
       account.getId(),
-      ethers.utils.hexZeroPad('0x0', 32),
+      ethers.zeroPadValue('0x', 32),
       'mining',
       account,
     )

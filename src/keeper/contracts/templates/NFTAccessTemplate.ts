@@ -10,11 +10,10 @@ import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstra
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
 import { NFTAccessCondition, NFTHolderCondition } from '../conditions'
-import { BigNumber } from '../../../utils'
 
 export interface NFTAccessTemplateParams {
   holderAddress: string
-  amount: BigNumber
+  amount: bigint
   grantee: string
 }
 
@@ -33,7 +32,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     return 'Access Agreement with NFT-1155 token'
   }
 
-  public params(holderAddress: string, amount?: BigNumber): NFTAccessTemplateParams {
+  public params(holderAddress: string, amount?: bigint): NFTAccessTemplateParams {
     return { holderAddress, amount, grantee: holderAddress }
   }
   public async paramsGen({ consumer_address }: ValidationParams): Promise<NFTAccessTemplateParams> {
@@ -92,6 +91,6 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
       contractAddress,
     )
     const balance = await nftContract.balance(params.consumer_address, params.did)
-    return balance.gte(limit)
+    return balance >= limit
   }
 }

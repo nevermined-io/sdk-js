@@ -18,7 +18,7 @@ import { Token } from '../../src/keeper'
 import { getMetadata } from '../utils'
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
-import { BigNumber } from '../../src/utils'
+import { EventLog } from 'ethers'
 
 describe('Register Escrow Compute Execution Template', () => {
   let nevermined: Nevermined
@@ -29,8 +29,8 @@ describe('Register Escrow Compute Execution Template', () => {
   const url = 'https://example.com/did/nevermined/test-attr-example.txt'
   const checksum = generateId()
 
-  const totalAmount = BigNumber.from(12)
-  const amounts = [BigNumber.from(10), BigNumber.from(2)]
+  const totalAmount = 12n
+  const amounts = [10n, 2n]
 
   let templateManagerOwner: Account
   let publisher: Account
@@ -63,7 +63,7 @@ describe('Register Escrow Compute Execution Template', () => {
   describe('Propose and approve template', () => {
     it('should propose the template', async () => {
       await keeper.templateStoreManager.proposeTemplate(
-        escrowComputeExecutionTemplate.getAddress(),
+        escrowComputeExecutionTemplate.address,
         consumer,
         true,
       )
@@ -73,7 +73,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
     it('should approve the template', async () => {
       await keeper.templateStoreManager.approveTemplate(
-        escrowComputeExecutionTemplate.getAddress(),
+        escrowComputeExecutionTemplate.address,
         templateManagerOwner,
         true,
       )
@@ -115,8 +115,8 @@ describe('Register Escrow Compute Execution Template', () => {
         agreementId,
         await lockPaymentCondition.hashValues(
           did,
-          escrowPaymentCondition.getAddress(),
-          token.getAddress(),
+          escrowPaymentCondition.address,
+          token.address,
           amounts,
           receivers,
         ),
@@ -128,8 +128,8 @@ describe('Register Escrow Compute Execution Template', () => {
           amounts,
           receivers,
           consumer.getId(),
-          escrowPaymentCondition.getAddress(),
-          token.getAddress(),
+          escrowPaymentCondition.address,
+          token.address,
           conditionIdLock[1],
           conditionIdCompute[1],
         ),
@@ -143,9 +143,9 @@ describe('Register Escrow Compute Execution Template', () => {
       assert.deepEqual(
         [...conditionTypes].sort(),
         [
-          computeExecutionCondition.getAddress(),
-          escrowPaymentCondition.getAddress(),
-          lockPaymentCondition.getAddress(),
+          computeExecutionCondition.address,
+          escrowPaymentCondition.address,
+          lockPaymentCondition.address,
         ].sort(),
         "The conditions doesn't match",
       )
@@ -199,20 +199,20 @@ describe('Register Escrow Compute Execution Template', () => {
         Logger.error(error)
       }
 
-      await keeper.token.approve(lockPaymentCondition.getAddress(), totalAmount, consumer)
+      await keeper.token.approve(lockPaymentCondition.address, totalAmount, consumer)
 
       const contractReceipt = await lockPaymentCondition.fulfill(
         agreementId,
         did,
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         amounts,
         receivers,
         consumer,
       )
 
       assert.isTrue(
-        contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -226,7 +226,7 @@ describe('Register Escrow Compute Execution Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -238,15 +238,15 @@ describe('Register Escrow Compute Execution Template', () => {
         amounts,
         receivers,
         consumer.getId(),
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         conditionIdLock[1],
         conditionIdCompute[1],
         consumer,
       )
 
       assert.isTrue(
-        contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -321,7 +321,7 @@ describe('Register Escrow Compute Execution Template', () => {
         ddo.shortId(),
         amounts,
         receivers,
-        token.getAddress(),
+        token.address,
         consumer,
       )
     })
@@ -340,7 +340,7 @@ describe('Register Escrow Compute Execution Template', () => {
         receivers,
         consumer.getId(),
         ddo.shortId(),
-        token.getAddress(),
+        token.address,
         publisher,
       )
     })

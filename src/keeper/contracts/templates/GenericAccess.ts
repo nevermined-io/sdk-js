@@ -9,7 +9,6 @@ export interface GenericAccess {
     parameters: any,
     consumer: Account,
     from: Account,
-    timeOuts?: number[],
     txParams?: TxParameters,
     observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string>

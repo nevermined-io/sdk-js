@@ -1,8 +1,8 @@
 import { assert } from 'chai'
-import { FormatTypes, Interface } from 'ethers/lib/utils'
 import { ContractHandler } from '../../src/keeper'
 import { Nevermined } from '../../src/nevermined'
 import config from '../config'
+import { ethers } from 'ethers'
 
 describe('ContractHandler', () => {
   let contractHandler: ContractHandler
@@ -22,8 +22,8 @@ describe('ContractHandler', () => {
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
-      const iface = new Interface(solidityABI.abi)
-      const output = iface.format(FormatTypes.full)
+      const iface = new ethers.Interface(solidityABI.abi)
+      const output = iface.format()
       assert(output)
     })
 
@@ -33,8 +33,8 @@ describe('ContractHandler', () => {
         './artifacts/',
         networkName,
       )
-      const iface = new Interface(solidityABI.abi)
-      const output = iface.format(FormatTypes.full)
+      const iface = new ethers.Interface(solidityABI.abi)
+      const output = iface.format()
       assert(output)
     })
   })

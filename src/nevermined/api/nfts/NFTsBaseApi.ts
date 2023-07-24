@@ -13,7 +13,7 @@ import { Account } from '../../Account'
 import { Token, TxParameters } from '../../../keeper'
 import { ServiceSecondary } from '../../../ddo'
 import { NFTError } from '../../../errors'
-import { BigNumber, generateId } from '../../../utils'
+import { generateId } from '../../../utils'
 import { RegistryBaseApi } from '../RegistryBaseApi'
 
 /**
@@ -56,7 +56,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     agreementId: string,
     nftHolder: string,
     nftReceiver: string,
-    numberEditions: BigNumber = BigNumber.from(1),
+    numberEditions = 1n,
     ercType: ERCType = 1155,
     did?: string,
   ): Promise<boolean> {
@@ -145,8 +145,8 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     }
 
     const nftInfo = await this.nevermined.keeper.didRegistry.getNFTInfo(did)
-    let nftSupply = BigNumber.from(0)
-    let mintCap = BigNumber.from(0)
+    let nftSupply = 0n
+    let mintCap = 0n
     let nftURI = ''
 
     if (nftInfo[1]) {
@@ -235,7 +235,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
   public async listOnSecondaryMarkets(
     ddo: DDO,
     assetPrice: AssetPrice,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     provider: string,
     token: Token,
     owner: string,
@@ -252,7 +252,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       nftSalesTemplateConditions,
       ddo,
       assetPrice,
-      token.getAddress(),
+      token.address,
       undefined,
       provider || owner,
       nftAmount,
@@ -263,7 +263,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       type: serviceType,
       index: 6,
       serviceEndpoint: this.nevermined.services.node.getNftEndpoint(),
-      templateId: nftSalesTemplate.getAddress(),
+      templateId: nftSalesTemplate.address,
       did: ddo.id,
       attributes: {
         main: {
@@ -298,7 +298,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * ```ts
    * const result = await nevermined.nfts1155.buySecondaryMarketNft(
    *               collector,
-   *               BigNumber.from(1),
+   *               1n,
    *               agreementId
    *           )
    * ```
@@ -314,7 +314,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    */
   public async buySecondaryMarketNft(
     consumer: Account,
-    nftAmount: BigNumber = BigNumber.from(1),
+    nftAmount = 1n,
     agreementIdSeed: string,
     conditionsTimeout: number[] = [86400, 86400, 86400],
     txParams?: TxParameters,

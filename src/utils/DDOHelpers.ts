@@ -9,7 +9,6 @@ import {
   ServiceNFTSales,
 } from '../ddo'
 import { AssetPrice } from '../models'
-import { BigNumber } from './BigNumber'
 
 // DDO Services including a sales process
 const SALES_SERVICES = ['access', 'compute', 'nft-sales']
@@ -23,7 +22,7 @@ function fillParameterWithDDO(
   erc20TokenContract?: string,
   nftTokenContract?: string,
   nftHolder?: string,
-  nftAmount: BigNumber = BigNumber.from(1),
+  nftAmount = 1n,
   nftTransfer = false,
   duration = 0,
 ): ServiceAgreementTemplateParameter {
@@ -85,7 +84,7 @@ export function fillConditionsWithDDO(
   erc20TokenContract?: string,
   nftTokenContract?: string,
   nftHolder?: string,
-  nftAmount?: BigNumber,
+  nftAmount?: bigint,
   nftTransfer = false,
   duration = 0,
   fulfillAccessTimeout = 0,
@@ -174,9 +173,9 @@ export function getAssetPriceFromService(service: Service): AssetPrice {
   const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
     .value as string[]
 
-  const rewardsMap = new Map<string, BigNumber>()
+  const rewardsMap = new Map<string, bigint>()
 
-  for (let i = 0; i < amounts.length; i++) rewardsMap.set(receivers[i], BigNumber.from(amounts[i]))
+  for (let i = 0; i < amounts.length; i++) rewardsMap.set(receivers[i], BigInt(amounts[i]))
 
   return new AssetPrice(rewardsMap)
 }
@@ -192,9 +191,11 @@ export function getNftHolderFromService(service: Service): string {
   return nftTransferCondition.parameters.find((p) => p.name === '_nftHolder').value as string
 }
 
-export function getNftAmountFromService(service: Service): BigNumber {
+export function getNftAmountFromService(service: Service): bigint {
   const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-  return BigNumber.from(nftTransferCondition.parameters.find((p) => p.name === '_numberNfts').value)
+  return BigInt(
+    nftTransferCondition.parameters.find((p) => p.name === '_numberNfts').value as string,
+  )
 }
 
 export function getNftContractAddressFromService(

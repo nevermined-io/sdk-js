@@ -56,7 +56,7 @@ export class ServiceAgreement extends Instantiable {
     )
 
     const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
-      ethers.utils.arrayify(serviceAgreementHash),
+      ethers.getBytes(serviceAgreementHash),
       consumer.getId(),
     )
 
@@ -77,7 +77,7 @@ export class ServiceAgreement extends Instantiable {
       { type: 'uint256[]', value: timeouts },
       { type: 'bytes32', value: zeroX(serviceAgreementId) },
     ]
-    return ethers.utils.solidityKeccak256(
+    return ethers.solidityPackedKeccak256(
       args.map((arg: { type: string }) => arg.type),
       args.map((arg: { value: any }) => arg.value),
     )

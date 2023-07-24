@@ -19,7 +19,6 @@ import { AssetPrice, BabyjubPublicKey } from '../../../models'
 import { Account, OrderProgressStep } from '../../../nevermined'
 import { CustomToken } from '../CustomToken'
 import { Token } from '../Token'
-import { BigNumber } from '../../../utils'
 
 export interface AgreementConditionsStatus {
   [condition: string]: {
@@ -50,7 +49,7 @@ export interface AgreementInstance<Params> {
 export interface PaymentData {
   rewardAddress: string
   tokenAddress: string
-  amounts: BigNumber[]
+  amounts: bigint[]
   receivers: string[]
 }
 
@@ -82,12 +81,12 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return 1
   }
 
-  public paymentData(service: Service): PaymentData {
+  public async paymentData(service: Service): Promise<PaymentData> {
     const assetPrice = getAssetPriceFromService(service)
     const payment = findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     return {
-      rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+      rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.address,
       tokenAddress: payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
       amounts: assetPrice.getAmounts(),
       receivers: assetPrice.getReceivers(),
@@ -129,7 +128,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     condIdx: number,
     rewardAddress: string,
     tokenAddress: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     from?: Account,
     txParams?: TxParameters,
@@ -254,11 +253,9 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     parameters: Params,
     consumer: Account,
     from: Account,
-    timeOuts?: number[],
     txParams?: TxParameters,
-    observer?: (OrderProgressStep) => void,
+    observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     observer = observer ? observer : (_) => ({})
 
     const { instances, agreementId } = await this.instanceFromDDO(
@@ -272,7 +269,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const assetPrice = getAssetPriceFromService(service)
     const payment = findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
-    const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress()
+    const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.address
     const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
@@ -359,15 +356,15 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       {},
     )
 
-    const statesPromises = Object.keys(dependencies).map(async (ref) => {
+    const states: { ref: string; contractName: string; state: ConditionState }[] = []
+    for (const ref in dependencies) {
       const { contractName } = await this.getServiceAgreementTemplateConditionByRef(ref)
-      return {
+      states.push({
         ref,
         contractName,
         state: (await conditionStore.getCondition(conditionIdByCondition[contractName])).state,
-      }
-    })
-    const states = await Promise.all(statesPromises)
+      })
+    }
 
     return states.reduce((acc, { contractName, ref, state }) => {
       const blockers = dependencies[ref]
@@ -414,7 +411,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     if (token) {
       this.logger.debug('Approving tokens', totalAmount)
-      await token.approve(lockPaymentCondition.getAddress(), totalAmount, from, txParams)
+      await token.approve(lockPaymentCondition.address, totalAmount, from, txParams)
     }
   }
 
