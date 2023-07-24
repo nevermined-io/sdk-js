@@ -115,12 +115,15 @@ describe('NFTs721 Api End-to-End', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
+            nft: { nftTransfer: true },
           },
           {
             serviceType: 'nft-access',
+            nft: { nftTransfer: true },
           },
         ],
         nftContractAddress: nftContract.address,
+        preMint: true,
       })
       ddo = await nevermined.nfts721.create(nftAttributes, artist)
 
