@@ -127,49 +127,26 @@ describe('Claim aborted agreements End-to-End', () => {
       assert.isDefined(ddo)
 
       console.log(ddo.id)
+
       // Timeout & Timelock should only be set for the access condition
+      const nftSalesService = ddo.findServiceByType('nft-sales')
+      assert.equal(nftSalesService.attributes.serviceAgreementTemplate?.conditions[0].timeout, 0)
       assert.equal(
-        ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[0]
-          .timeout,
-        0,
-      )
-      assert.equal(
-        ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[1]
-          .timeout,
+        nftSalesService.attributes.serviceAgreementTemplate?.conditions[1].timeout,
         accessTimeout,
       )
+      assert.equal(nftSalesService.attributes.serviceAgreementTemplate?.conditions[0].timeout, 0)
       assert.equal(
-        ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[0]
-          .timeout,
-        0,
-      )
-      assert.equal(
-        ddo.findServiceByType('nft-sales').attributes.serviceAgreementTemplate?.conditions[1]
-          .timelock,
+        nftSalesService.attributes.serviceAgreementTemplate?.conditions[1].timelock,
         accessTimelock,
       )
 
       // Timeout & Timelock should not affect access services
-      assert.equal(
-        ddo.findServiceByType('nft-access').attributes.serviceAgreementTemplate?.conditions[0]
-          .timeout,
-        0,
-      )
-      assert.equal(
-        ddo.findServiceByType('nft-access').attributes.serviceAgreementTemplate?.conditions[1]
-          .timeout,
-        0,
-      )
-      assert.equal(
-        ddo.findServiceByType('nft-access').attributes.serviceAgreementTemplate?.conditions[0]
-          .timeout,
-        0,
-      )
-      assert.equal(
-        ddo.findServiceByType('nft-access').attributes.serviceAgreementTemplate?.conditions[1]
-          .timelock,
-        0,
-      )
+      const nftAccessService = ddo.findServiceByType('nft-access')
+      assert.equal(nftAccessService.attributes.serviceAgreementTemplate?.conditions[0].timeout, 0)
+      assert.equal(nftAccessService.attributes.serviceAgreementTemplate?.conditions[1].timeout, 0)
+      assert.equal(nftAccessService.attributes.serviceAgreementTemplate?.conditions[0].timeout, 0)
+      assert.equal(nftAccessService.attributes.serviceAgreementTemplate?.conditions[1].timelock, 0)
     })
   })
 
@@ -286,21 +263,32 @@ describe('Claim aborted agreements End-to-End', () => {
 
       await mineBlocks(nevermined, collector1, accessTimeout + 1)
 
+      assert.isTrue(
+        await nevermined.keeper.conditionStoreManager.isConditionTimedOut(
+          agreement.conditionIds[1],
+        ),
+      )
+
       try {
-        assert.isTrue(
-          !(await nevermined.nfts721.claim(agreementId, publisher.getId(), collector1.getId())),
+        assert.isFalse(
+          await nevermined.nfts721.claim(agreementId, publisher.getId(), collector1.getId()),
         )
       } catch (error) {
-        console.debug(`Unable to fullfill condition because timeout`)
+        console.debug(`Unable to fullfill condition because timeout: ${error.message}`)
       }
 
-      // Condition is timed out so the collector aborts it and gets the escrowed amount
-      await nevermined.keeper.conditions.transferNft721Condition.abortByTimeOut(
-        agreement.conditionIds[1],
-        collector1,
-      )
-      const agreementStatusAfter =
+      let agreementStatusAfter =
         await nevermined.keeper.templates.nftSalesTemplate.getAgreementStatus(agreementId)
+
+      if (agreementStatusAfter['transferNFT'].state !== ConditionState.Aborted) {
+        // Condition is timed out so the collector aborts it and gets the escrowed amount
+        await nevermined.keeper.conditions.transferNft721Condition.abortByTimeOut(
+          agreement.conditionIds[1],
+          collector1,
+        )
+        agreementStatusAfter =
+          await nevermined.keeper.templates.nftSalesTemplate.getAgreementStatus(agreementId)
+      }
 
       assert.equal(agreementStatusAfter['lockPayment'].state, ConditionState.Fulfilled)
       assert.equal(agreementStatusAfter['transferNFT'].state, ConditionState.Aborted)
@@ -319,20 +307,4 @@ describe('Claim aborted agreements End-to-End', () => {
       assert.isTrue(collector1BalanceBeforeOrder.eq(collector1BalanceReleased))
     })
   })
-
-  /**
- * 
-    it.skip('Because the conditions timedout I want my money back', async () => {
-      // TODO: wait for timeout
-
-      const collector1BalanceBefore = await token.balanceOf(collector1.getId())      
-
-      // TODO: Abort the Condition
-      // TODO: Call the EscrowPayment condition
-
-
-      const collector1BalanceAfter = await token.balanceOf(collector1.getId())
-      assert.isTrue(collector1BalanceBefore.add(nftPrice).eq(collector1BalanceAfter))
-    })
- */
 })

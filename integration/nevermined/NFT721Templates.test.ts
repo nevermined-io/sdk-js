@@ -27,6 +27,7 @@ import { NFT721Api } from '../../src'
 import { getMetadata } from '../utils'
 import { BigNumber } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+import { repeat } from '../utils/utils'
 
 describe('NFT721Templates E2E', () => {
   let nftContractOwner: Account
@@ -650,6 +651,7 @@ describe('NFT721Templates E2E', () => {
             {
               serviceType: 'nft-sales',
               price: assetPrice1,
+              nft: { nftTransfer: true },
             },
             {
               serviceType: 'nft-access',
@@ -713,6 +715,15 @@ describe('NFT721Templates E2E', () => {
         assert.isTrue(receipt)
 
         const ownerAfter = await nft.ownerOf(ddo.shortId())
+
+        const status = await repeat(3, nevermined.agreements.status(agreementId))
+
+        assert.deepEqual(status, {
+          lockPayment: ConditionState.Fulfilled,
+          transferNFT: ConditionState.Fulfilled,
+          escrowPayment: ConditionState.Unfulfilled,
+        })
+
         assert.equal(ownerAfter, collector1.getId())
       })
 

@@ -43,6 +43,8 @@ export function getConditionsByParams(
   fulfillAccessTimeout = 0,
   fulfillAccessTimelock = 0,
 ): ServiceAgreementTemplateCondition[] {
+  console.log(`FulfillAccessTimeout: ${fulfillAccessTimeout}`)
+  console.log(`FulfillAccessTimelock: ${fulfillAccessTimelock}`)
   return conditions
     .map((condition) => {
       if (

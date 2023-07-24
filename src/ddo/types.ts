@@ -1,7 +1,14 @@
 import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
 import { Account } from '../sdk'
 import { BigNumber } from 'ethers'
-import { ERCType, NeverminedNFTType, AssetPrice, Babysig, NFTAttributes, NFTServiceAttributes } from '../models'
+import {
+  ERCType,
+  NeverminedNFTType,
+  AssetPrice,
+  Babysig,
+  NFTAttributes,
+  NFTServiceAttributes,
+} from '../models'
 
 export interface Authentication {
   type: string

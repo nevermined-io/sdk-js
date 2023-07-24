@@ -100,7 +100,7 @@ export abstract class RegistryBaseApi extends Instantiable {
           const pricedData = serviceAttributes.price
             ? await this.getPriced(serviceAttributes.price)
             : undefined
-            
+
           const serviceCreated = plugin.createService(
             publisher,
             assetAttributes.metadata,
@@ -162,7 +162,6 @@ export abstract class RegistryBaseApi extends Instantiable {
       }
 
       let serviceEndpoint = this.nevermined.services.metadata.getServiceEndpoint(DID.parse(ddo.id))
-
 
       ddo.updateService({
         type: 'metadata',
@@ -255,7 +254,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             txParams,
           )
         }
-        
+
         if (nftAttributes.royaltyAttributes != undefined) {
           this.logger.log(`Setting up royalties`)
 

@@ -64,7 +64,7 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     ddo: DDO,
     creator: string,
     parameters: NFTSalesTemplateParams,
-    serviceReference?: number
+    serviceReference?: number,
   ): Promise<AgreementInstance<NFTSalesTemplateParams>> {
     const { transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
       this.nevermined.keeper.conditions

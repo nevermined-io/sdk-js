@@ -4,9 +4,7 @@ import { AssetAttributes } from './AssetAttributes'
 import { ERCType, NeverminedNFTType, NeverminedNFT1155Type, NeverminedNFT721Type } from './'
 import { ServiceType } from '../ddo/types'
 
-
 export class NFTServiceAttributes {
-
   /**
    * The asset is transferred (true) or minted (false) with Nevermined contracts
    */
@@ -40,7 +38,6 @@ export class NFTServiceAttributes {
       ...NFTServiceAttributes.defaultValues,
     }
   }
-
 }
 
 export class NFTAttributes extends AssetAttributes {
@@ -82,7 +79,6 @@ export class NFTAttributes extends AssetAttributes {
    * Max number of nfts that can be minted, 0 means uncapped
    */
   cap?: BigNumber
-
 
   static defaultValues = {
     ...AssetAttributes.defaultValues,
@@ -132,7 +128,9 @@ export class NFTAttributes extends AssetAttributes {
       ...NFTAttributes.defaultValues,
       ...nftAttributes,
     }
-    _instance.services.forEach((service) => { service.nft.isSubscription = true})
+    _instance.services.forEach((service) => {
+      service.nft.isSubscription = true
+    })
     return _instance
   }
 
@@ -146,7 +144,6 @@ export class NFTAttributes extends AssetAttributes {
       ...NFTAttributes.defaultValues,
       ...nftAttributes,
     }
-    _instance.services.forEach((service) => { service.nft.isSubscription = false })
     return _instance
   }
 
@@ -160,7 +157,6 @@ export class NFTAttributes extends AssetAttributes {
       ...NFTAttributes.defaultValues,
       ...nftAttributes,
     }
-    _instance.services.forEach((service) => { service.nft.isSubscription = false })
     return _instance
   }
 }
