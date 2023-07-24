@@ -15,7 +15,7 @@ jobs:
         with:
           repository: nevermined-io/node
           path: node
-          # replace this with develop once https://github.com/nevermined-io/node/pull/212 is merged
+          # TODO: replace this with develop once https://github.com/nevermined-io/node/pull/212 is merged
           ref: feat/sdk-2.0.0-rc0
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: nevermined-io/nvm-tools-actions@v0.12.0
