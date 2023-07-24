@@ -21,9 +21,9 @@ import {
   NFTSalesTemplate,
   Token,
 } from '../../src/keeper'
+import { formatUnits, parseUnits } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { BigNumber, getConditionsByParams } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
@@ -47,7 +47,7 @@ describe('Secondary Markets', () => {
   let ddo: DDO
 
   const royalties = 10 // 10% of royalties in the secondary market
-  const cappedAmount = BigNumber.from(5)
+  const cappedAmount = 5n
   let royaltyAttributes: RoyaltyAttributes
   let agreementId: string
   let agreementId2: string
@@ -62,17 +62,17 @@ describe('Secondary Markets', () => {
 
   // Configuration of First Sale:
   // Artist -> Collector1, the gallery get a cut (25%)
-  const numberNFTs = BigNumber.from(1)
-  let nftPrice = BigNumber.from(20)
-  let amounts = [BigNumber.from(15), BigNumber.from(5)]
+  const numberNFTs = 1n
+  let nftPrice = 20n
+  let amounts = [15n, 5n]
   let receivers: string[]
   let assetPrice1: AssetPrice
 
   // Configuration of Sale in secondary market:
   // Collector1 -> Collector2, the artist get 10% royalties
-  const numberNFTs2 = BigNumber.from(1)
-  let nftPrice2 = BigNumber.from(100)
-  let amounts2 = [BigNumber.from(90), BigNumber.from(10)]
+  const numberNFTs2 = 1n
+  let nftPrice2 = 100n
+  let amounts2 = [90n, 10n]
   let receivers2: string[]
   let receivers3: string[]
   let assetPrice2: AssetPrice
@@ -81,8 +81,8 @@ describe('Secondary Markets', () => {
   let initialBalances: any
   let decimals: number
 
-  let nftBalanceCollector1Before: BigNumber
-  let nftBalanceCollector2Before: BigNumber
+  let nftBalanceCollector1Before: bigint
+  let nftBalanceCollector2Before: bigint
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
@@ -104,31 +104,31 @@ describe('Secondary Markets', () => {
 
     decimals = await token.decimals()
 
-    nftPrice = BigNumber.parseUnits(nftPrice.toString(), decimals)
-    amounts = amounts.map((v) => BigNumber.parseUnits(v.toString(), decimals))
-    nftPrice2 = BigNumber.parseUnits(nftPrice2.toString(), decimals)
-    amounts2 = amounts2.map((v) => BigNumber.parseUnits(v.toString(), decimals))
+    nftPrice = parseUnits(nftPrice.toString(), decimals)
+    amounts = amounts.map((v) => parseUnits(v.toString(), decimals))
+    nftPrice2 = parseUnits(nftPrice2.toString(), decimals)
+    amounts2 = amounts2.map((v) => parseUnits(v.toString(), decimals))
 
     assetPrice1 = new AssetPrice(
       new Map([
         [receivers[0], amounts[0]],
         [receivers[1], amounts[1]],
       ]),
-    ).setTokenAddress(token.getAddress())
+    ).setTokenAddress(token.address)
 
     assetPrice2 = new AssetPrice(
       new Map([
         [receivers2[0], amounts2[0]],
         [receivers2[1], amounts2[1]],
       ]),
-    ).setTokenAddress(token.getAddress())
+    ).setTokenAddress(token.address)
 
     assetPrice3 = new AssetPrice(
       new Map([
         [receivers3[0], amounts2[0]],
         [receivers3[1], amounts2[1]],
       ]),
-    ).setTokenAddress(token.getAddress())
+    ).setTokenAddress(token.address)
   })
 
   describe('Collector1 initiates the sales agreement', () => {
@@ -139,7 +139,7 @@ describe('Secondary Markets', () => {
         collector1: await token.balanceOf(collector1.getId()),
         collector2: await token.balanceOf(collector2.getId()),
         gallery: await token.balanceOf(gallery.getId()),
-        escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.getAddress()),
+        escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.address),
       }
       agreementIdSeed = generateId()
       agreementId2Seed = generateId()
@@ -198,10 +198,10 @@ describe('Secondary Markets', () => {
 
     describe('As an artist I want to register a new artwork', () => {
       it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-        await nftUpgradeable.setApprovalForAll(transferNftCondition.getAddress(), true, artist)
+        await nftUpgradeable.setApprovalForAll(transferNftCondition.address, true, artist)
 
         const balance = await nftUpgradeable.balance(artist.getId(), ddo.id)
-        assert.deepEqual(balance, BigNumber.from(5))
+        assert.equal(balance, 5n)
       })
     })
 
@@ -223,28 +223,27 @@ describe('Secondary Markets', () => {
       })
 
       it('I am locking the payment', async () => {
-        await collector1.requestTokens(BigNumber.formatUnits(nftPrice, decimals))
+        await collector1.requestTokens(formatUnits(nftPrice, decimals))
 
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
-        assert.isTrue(collector1BalanceBefore.eq(initialBalances.collector1.add(nftPrice)))
+        assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
 
         const receipt = await nevermined.agreements.conditions.lockPayment(
           agreementId,
           ddo.id,
           assetPrice1.getAmounts(),
           assetPrice1.getReceivers(),
-          token.getAddress(),
+          token.address,
           collector1,
         )
         assert.isTrue(receipt)
 
         const collector1BalanceAfter = await token.balanceOf(collector1.getId())
-        const escrowPaymentConditionBalance = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
-        )
-        assert.equal(collector1BalanceAfter.sub(initialBalances.collector1).toNumber(), 0)
-        assert.isTrue(
-          escrowPaymentConditionBalance.sub(initialBalances.escrowPaymentCondition).eq(nftPrice),
+        const escrowPaymentConditionBalance = await token.balanceOf(escrowPaymentCondition.address)
+        assert.equal(collector1BalanceAfter, initialBalances.collector1)
+        assert.equal(
+          escrowPaymentConditionBalance - initialBalances.escrowPaymentCondition,
+          nftPrice,
         )
       })
 
@@ -263,14 +262,8 @@ describe('Secondary Markets', () => {
         const nftBalanceArtistAfter = await nftUpgradeable.balance(artist.getId(), ddo.id)
         const nftBalanceCollectorAfter = await nftUpgradeable.balance(collector1.getId(), ddo.id)
 
-        assert.equal(
-          Number(nftBalanceArtistAfter),
-          Number(nftBalanceArtistBefore) - Number(numberNFTs),
-        )
-        assert.equal(
-          Number(nftBalanceCollectorAfter),
-          Number(nftBalanceCollectorBefore) + Number(numberNFTs),
-        )
+        assert.equal(nftBalanceArtistAfter, nftBalanceArtistBefore - numberNFTs)
+        assert.equal(nftBalanceCollectorAfter, nftBalanceCollectorBefore + numberNFTs)
       })
 
       it('the artist asks and receives the payment', async () => {
@@ -283,20 +276,15 @@ describe('Secondary Markets', () => {
         )
         assert.isTrue(receipt)
 
-        const escrowPaymentConditionBalance = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
-        )
+        const escrowPaymentConditionBalance = await token.balanceOf(escrowPaymentCondition.address)
         const receiver0Balance = await token.balanceOf(receivers[0])
         const receiver1Balance = await token.balanceOf(receivers[1])
         const collectorBalance = await token.balanceOf(collector1.getId())
 
-        assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(amounts[0])))
-        assert.isTrue(receiver1Balance.eq(initialBalances.gallery.add(amounts[1])))
-        assert.equal(collectorBalance.sub(initialBalances.collector1).toNumber(), 0)
-        assert.equal(
-          escrowPaymentConditionBalance.sub(initialBalances.escrowPaymentCondition).toNumber(),
-          0,
-        )
+        assert.equal(receiver0Balance, initialBalances.artist + amounts[0])
+        assert.equal(receiver1Balance, initialBalances.gallery + amounts[1])
+        assert.equal(collectorBalance, initialBalances.collector1)
+        assert.equal(escrowPaymentConditionBalance, initialBalances.escrowPaymentCondition)
       })
     })
 
@@ -350,8 +338,8 @@ describe('Secondary Markets', () => {
           collector2: await token.balanceOf(collector2.getId()),
           gallery: await token.balanceOf(gallery.getId()),
           owner: await token.balanceOf(owner.getId()),
-          lockPaymentCondition: await token.balanceOf(lockPaymentCondition.getAddress()),
-          escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.getAddress()),
+          lockPaymentCondition: await token.balanceOf(lockPaymentCondition.address),
+          escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.address),
         }
         ddo.setNFTRewardsFromService('nft-sales', assetPrice2, collector1.getId())
       })
@@ -366,7 +354,7 @@ describe('Secondary Markets', () => {
           collector1.getId(),
           assetPrice2,
           ddo.id,
-          token.getAddress(),
+          token.address,
           undefined,
           collector1.getId(),
           numberNFTs2,
@@ -376,7 +364,7 @@ describe('Secondary Markets', () => {
           type: 'nft-sales',
           index: 6,
           serviceEndpoint: nevermined.services.node.getNftEndpoint(),
-          templateId: nftSalesTemplate.getAddress(),
+          templateId: nftSalesTemplate.address,
           attributes: {
             main: {
               name: 'nftSalesAgreement',
@@ -413,10 +401,10 @@ describe('Secondary Markets', () => {
       it('As collector2 I am locking the payment', async () => {
         // Collector2 gets the price from some marketplace
         // (query the service agreements from the metadata)
-        await collector2.requestTokens(BigNumber.formatUnits(nftPrice2, decimals))
+        await collector2.requestTokens(formatUnits(nftPrice2, decimals))
 
         const collector2BalanceBefore = await token.balanceOf(collector2.getId())
-        assert.isTrue(collector2BalanceBefore.eq(initialBalances.collector2.add(nftPrice2)))
+        assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)
 
         // After fetching the previously created sales agreement
         const assetPriceFromServiceAgreement =
@@ -434,12 +422,12 @@ describe('Secondary Markets', () => {
         assert.isTrue(receipt)
 
         const collector2BalanceAfter = await token.balanceOf(collector2.getId())
-        const escrowPaymentConditionBalance = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
-        )
-        assert.isTrue(collector2BalanceAfter.sub(initialBalances.collector2).isZero())
-        assert.isTrue(
-          escrowPaymentConditionBalance.sub(initialBalances.escrowPaymentCondition).eq(nftPrice2),
+        const escrowPaymentConditionBalance = await token.balanceOf(escrowPaymentCondition.address)
+
+        assert.equal(collector2BalanceAfter, initialBalances.collector2)
+        assert.equal(
+          escrowPaymentConditionBalance - initialBalances.escrowPaymentCondition,
+          nftPrice2,
         )
       })
 
@@ -475,7 +463,7 @@ describe('Secondary Markets', () => {
           DDO.getAssetPriceFromService(nftSalesServiceAgreement)
 
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
         )
 
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
@@ -488,20 +476,19 @@ describe('Secondary Markets', () => {
         assert.isTrue(receipt)
 
         const escrowPaymentConditionBalanceAfter = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
         )
         const receiver0Balance = await token.balanceOf(receivers2[0])
         const receiver1Balance = await token.balanceOf(receivers2[1])
         const collectorBalance = await token.balanceOf(collector2.getId())
 
-        assert.isTrue(receiver0Balance.eq(initialBalances.collector1.add(amounts2[0])))
-        assert.isTrue(receiver1Balance.eq(initialBalances.artist.add(amounts2[1])))
-        assert.isTrue(collectorBalance.sub(initialBalances.collector2).toNumber() === 0)
+        assert.equal(receiver0Balance, initialBalances.collector1 + amounts2[0])
+        assert.equal(receiver1Balance, initialBalances.artist + amounts2[1])
+        assert.equal(collectorBalance, initialBalances.collector2)
 
-        assert.isTrue(
-          escrowPaymentConditionBalanceBefore
-            .sub(assetPriceFromServiceAgreement.getTotalPrice())
-            .eq(escrowPaymentConditionBalanceAfter),
+        assert.equal(
+          escrowPaymentConditionBalanceBefore - assetPriceFromServiceAgreement.getTotalPrice(),
+          escrowPaymentConditionBalanceAfter,
         )
       })
     })
@@ -581,23 +568,19 @@ describe('Secondary Markets', () => {
       })
 
       it('As collector1 I buy the secondary market NFT', async () => {
-        await collector1.requestTokens(BigNumber.formatUnits(nftPrice2, decimals))
+        await collector1.requestTokens(formatUnits(nftPrice2, decimals))
 
         nftBalanceCollector1Before = await nftUpgradeable.balance(collector1.getId(), ddo.id)
         nftBalanceCollector2Before = await nftUpgradeable.balance(collector2.getId(), ddo.id)
 
-        const result = await nevermined.nfts1155.buySecondaryMarketNft(
-          collector1,
-          BigNumber.from(1),
-          agreementId3,
-        )
+        const result = await nevermined.nfts1155.buySecondaryMarketNft(collector1, 1n, agreementId3)
 
         assert.isTrue(result)
       })
 
       it('As collector2 I see the bid locked and trigger the reward release', async () => {
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
         )
 
         const result = await nevermined.nfts1155.releaseSecondaryMarketRewards(
@@ -610,30 +593,23 @@ describe('Secondary Markets', () => {
         const nftBalanceCollector1After = await nftUpgradeable.balance(collector1.getId(), ddo.id)
         const nftBalanceCollector2After = await nftUpgradeable.balance(collector2.getId(), ddo.id)
 
-        assert.equal(
-          Number(nftBalanceCollector1After),
-          Number(nftBalanceCollector1Before) + Number(numberNFTs2),
-        )
-        assert.equal(
-          Number(nftBalanceCollector2After),
-          Number(nftBalanceCollector2Before) - Number(numberNFTs2),
-        )
+        assert.equal(nftBalanceCollector1After, nftBalanceCollector1Before + numberNFTs2)
+        assert.equal(nftBalanceCollector2After, nftBalanceCollector2Before - numberNFTs2)
 
         const escrowPaymentConditionBalanceAfter = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
         )
         const receiver0Balance = await token.balanceOf(receivers3[0])
         const receiver1Balance = await token.balanceOf(receivers3[1])
         const artistBalance = await token.balanceOf(artist.getId())
         const collector1Balance = await token.balanceOf(collector1.getId())
 
-        assert.isTrue(receiver0Balance.eq(initialBalances.collector2.add(amounts2[0])))
-        assert.isTrue(receiver1Balance.eq(artistBalance))
-        assert.isTrue(collector1Balance.gte(BigNumber.from(nftPrice2)))
-        assert.isTrue(
-          escrowPaymentConditionBalanceBefore
-            .sub(AssetPrice.sumAmounts(amounts2))
-            .eq(escrowPaymentConditionBalanceAfter),
+        assert.equal(receiver0Balance, initialBalances.collector2 + amounts2[0])
+        assert.equal(receiver1Balance, artistBalance)
+        assert.isTrue(collector1Balance >= nftPrice2)
+        assert.equal(
+          escrowPaymentConditionBalanceBefore - AssetPrice.sumAmounts(amounts2),
+          escrowPaymentConditionBalanceAfter,
         )
       })
     })

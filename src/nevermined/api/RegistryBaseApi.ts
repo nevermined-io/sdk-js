@@ -10,7 +10,7 @@ import {
 import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
 import { Account, CreateProgressStep, DID } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import { SubscribablePromise, zeroX, generateId, ZeroAddress, BigNumber } from '../../utils'
+import { SubscribablePromise, zeroX, generateId, ZeroAddress, formatUnits } from '../../utils'
 import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
@@ -570,7 +570,6 @@ export abstract class RegistryBaseApi extends Instantiable {
         template.params(consumer),
         consumer,
         consumer,
-        undefined,
         params,
         (a) => observer.next(a),
       )
@@ -597,7 +596,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   }
 
   /**
-   * Initialities the default Nevermined service plugins and return that instance
+   * Initializes the default Nevermined service plugins and return that instance
    * @param config Nevermined config
    * @returns The Nevermined Service Plugin instance
    */
@@ -637,7 +636,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     }
 
     const price = assetPrice.getTotalPrice().toString()
-    const priceHighestDenomination = +BigNumber.formatUnits(assetPrice.getTotalPrice(), decimals)
+    const priceHighestDenomination = +formatUnits(assetPrice.getTotalPrice(), decimals)
     return {
       attributes: {
         main: {

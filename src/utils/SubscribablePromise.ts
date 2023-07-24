@@ -13,7 +13,7 @@ export class SubscribablePromise<T, P> {
   )
 
   constructor(executor: (observer: SubscribableObserver<T, P>) => void | Promise<P>) {
-    // Defear
+    // Defer
     setTimeout(() => this.init(executor), 1)
   }
 

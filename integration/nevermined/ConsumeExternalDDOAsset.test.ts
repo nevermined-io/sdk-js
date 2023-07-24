@@ -14,7 +14,6 @@ import {
 } from '../../src'
 import { getMetadata } from '../utils'
 import { repeat, sleep } from '../utils/utils'
-import { BigNumber } from '../../src/utils'
 import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 
 describe('Consume Asset (Documentation example)', () => {
@@ -43,7 +42,7 @@ describe('Consume Asset (Documentation example)', () => {
 
     metadata = getMetadata()
     metadata.userId = payload.sub
-    assetPrice = new AssetPrice(publisher.getId(), BigNumber.from('0'))
+    assetPrice = new AssetPrice(publisher.getId(), 0n)
   })
 
   it('should register an asset', async () => {
@@ -68,7 +67,7 @@ describe('Consume Asset (Documentation example)', () => {
 
   it('should be able to request tokens for consumer', async () => {
     const initialBalance = (await consumer.getBalance()).nevermined
-    const claimedTokens = BigNumber.from(1)
+    const claimedTokens = 1n
 
     try {
       await consumer.requestTokens(claimedTokens)
@@ -77,7 +76,7 @@ describe('Consume Asset (Documentation example)', () => {
     }
 
     const balanceAfter = (await consumer.getBalance()).nevermined
-    assert.isTrue(balanceAfter.gt(initialBalance))
+    assert.isTrue(balanceAfter > initialBalance)
   })
 
   it('should sign the service agreement', async () => {

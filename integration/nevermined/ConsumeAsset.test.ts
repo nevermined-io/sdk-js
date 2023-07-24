@@ -17,7 +17,6 @@ import {
   AssetAttributes,
 } from '../../src'
 import { AgreementPrepareResult } from '../../src/nevermined'
-import { BigNumber } from '../../src/utils'
 
 describe('Consume Asset', () => {
   let nevermined: Nevermined
@@ -71,7 +70,7 @@ describe('Consume Asset', () => {
 
   it('should be able to request tokens for consumer', async () => {
     const initialBalance = (await consumer.getBalance()).nevermined
-    const claimedTokens = BigNumber.from(100)
+    const claimedTokens = 100n
 
     try {
       await consumer.requestTokens(claimedTokens)
@@ -80,7 +79,7 @@ describe('Consume Asset', () => {
     }
 
     const balanceAfter = (await consumer.getBalance()).nevermined
-    assert.isTrue(balanceAfter.gt(initialBalance))
+    assert.isTrue(balanceAfter > initialBalance)
   })
 
   it('should sign the service agreement', async () => {

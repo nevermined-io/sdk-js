@@ -18,7 +18,6 @@ import { didPrefixed, zeroX } from '../utils'
 import { DIDRegistry } from '../keeper'
 import { ethers } from 'ethers'
 import { AssetPrice, NFTAttributes } from '../models'
-import { BigNumber } from '../utils'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
 import { DDOConditionNotFoundError, DDOParamNotFoundError } from '../errors/DDOError'
 
@@ -216,9 +215,9 @@ export class DDO {
    * @param serviceType - Service type
    *
    * @throws {@link DDOPriceNotFoundError}
-   * @returns {@link BigNumber}
+   * @returns {@link bigint}
    */
-  public getPriceByService(serviceType: ServiceType = 'access'): BigNumber {
+  public getPriceByService(serviceType: ServiceType = 'access'): bigint {
     const service = this.findServiceByType(serviceType)
     const assetPrice = DDO.getAssetPriceFromService(service)
 
@@ -229,9 +228,7 @@ export class DDO {
   }
 
   public checksum(seed: string): string {
-    return ethers.utils
-      .keccak256(ethers.utils.toUtf8Bytes(seed))
-      .replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
+    return ethers.keccak256(ethers.toUtf8Bytes(seed)).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
   }
 
   /**
@@ -380,8 +377,8 @@ export class DDO {
    * @param service the service to search in
    * @returns the number of NFTs
    */
-  public static getNftAmountFromService(service: Service): BigNumber {
-    return BigNumber.from(DDO.getParameterFromCondition(service, 'transferNFT', '_numberNfts'))
+  public static getNftAmountFromService(service: Service): bigint {
+    return BigInt(DDO.getParameterFromCondition(service, 'transferNFT', '_numberNfts').toString())
   }
 
   /**
@@ -434,10 +431,9 @@ export class DDO {
     const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
       .value as string[]
 
-    const rewardsMap = new Map<string, BigNumber>()
+    const rewardsMap = new Map<string, bigint>()
 
-    for (let i = 0; i < amounts.length; i++)
-      rewardsMap.set(receivers[i], BigNumber.from(amounts[i]))
+    for (let i = 0; i < amounts.length; i++) rewardsMap.set(receivers[i], BigInt(amounts[i]))
 
     return new AssetPrice(rewardsMap)
   }

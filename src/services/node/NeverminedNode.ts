@@ -4,7 +4,6 @@ import { noZeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
 import { NeverminedNodeError, HttpError } from '../../errors'
-import { BigNumber } from '../../utils'
 import { ERCType, Babysig } from '../../models'
 import { PublishMetadata } from '../../nevermined'
 
@@ -376,7 +375,7 @@ export class NeverminedNode extends Instantiable {
     agreementId: string,
     nftHolder: string,
     nftReceiver: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     ercType: ERCType = 1155,
     did?: string,
   ): Promise<boolean> {

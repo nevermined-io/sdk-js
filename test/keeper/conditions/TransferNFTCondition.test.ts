@@ -1,6 +1,5 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { ContractReceipt, Event } from 'ethers'
 import {
   Account,
   ConditionState,
@@ -17,9 +16,10 @@ import {
   TransferNFTCondition,
   ConditionStoreManager,
 } from '../../../src/keeper'
-import { didZeroX, ZeroAddress, zeroX, generateId, BigNumber } from '../../../src/utils'
+import { didZeroX, ZeroAddress, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -44,8 +44,8 @@ describe('TransferNFTCondition', () => {
 
   const activityId = generateId()
   const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
-  const nftAmount = BigNumber.from(2)
-  const amounts = [BigNumber.from(10)]
+  const nftAmount = 2n
+  const amounts = [10n]
 
   before(async () => {
     await TestContractHandler.prepareContracts()
@@ -103,8 +103,8 @@ describe('TransferNFTCondition', () => {
       const did = await didRegistry.hashDID(didSeed, owner.getId())
       const hashValuesPayment = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         amounts,
         receivers,
       )
@@ -125,7 +125,7 @@ describe('TransferNFTCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
+        cap: 100n,
         services: [
           {
             serviceType: 'nft-sales',
@@ -153,17 +153,13 @@ describe('TransferNFTCondition', () => {
       await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
       await nftReceiver.requestTokens(10)
-      await nevermined.keeper.token.approve(
-        lockPaymentCondition.getAddress(),
-        BigNumber.from(10),
-        nftReceiver,
-      )
+      await nevermined.keeper.token.approve(lockPaymentCondition.address, 10n, nftReceiver)
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
         escrowPaymentCondition.address,
-        token.getAddress(),
+        token.address,
         amounts,
         receivers,
         nftReceiver,
@@ -183,7 +179,7 @@ describe('TransferNFTCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, transferNftCondition.address, owner)
 
-      const contractReceipt: ContractReceipt = await transferNftCondition.fulfill(
+      const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfill(
         agreementId,
         did,
         nftReceiver.getId(),
@@ -194,14 +190,16 @@ describe('TransferNFTCondition', () => {
       ;({ state } = await conditionStoreManager.getCondition(conditionId))
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'Fulfilled')
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'Fulfilled',
+      ) as EventLog
       const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
       assert.equal(_conditionId, conditionId)
       assert.equal(_receiver, nftReceiver.getId())
-      assert.equal(Number(_amount), Number(nftAmount))
+      assert.equal(BigInt(_amount), nftAmount)
     })
   })
 
@@ -210,7 +208,7 @@ describe('TransferNFTCondition', () => {
       const did = await didRegistry.hashDID(didSeed, owner.getId())
       const hashValuesPayment = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
         ZeroAddress,
         amounts,
         receivers,
@@ -231,7 +229,7 @@ describe('TransferNFTCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(0),
+        cap: 0n,
         services: [
           {
             serviceType: 'nft-sales',
@@ -284,7 +282,7 @@ describe('TransferNFTCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, transferNftCondition.address, owner)
 
-      const contractReceipt: ContractReceipt = await transferNftCondition.fulfill(
+      const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfill(
         agreementId,
         did,
         nftReceiver.getId(),
@@ -295,7 +293,9 @@ describe('TransferNFTCondition', () => {
       ;({ state } = await conditionStoreManager.getCondition(conditionId))
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'Fulfilled')
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'Fulfilled',
+      ) as EventLog
       const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
@@ -312,7 +312,7 @@ describe('TransferNFTCondition', () => {
       const hashValuesPayment = await lockPaymentCondition.hashValues(
         did,
         lockPaymentCondition.address,
-        token.getAddress(),
+        token.address,
         amounts,
         receivers,
       )
@@ -332,7 +332,7 @@ describe('TransferNFTCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(0),
+        cap: 0n,
         services: [
           {
             serviceType: 'nft-sales',
@@ -360,17 +360,13 @@ describe('TransferNFTCondition', () => {
       await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
       await nftReceiver.requestTokens(10)
-      await nevermined.keeper.token.approve(
-        lockPaymentCondition.getAddress(),
-        BigNumber.from(10),
-        nftReceiver,
-      )
+      await nevermined.keeper.token.approve(lockPaymentCondition.address, 10n, nftReceiver)
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
         lockPaymentCondition.address,
-        token.getAddress(),
+        token.address,
         amounts,
         receivers,
         nftReceiver,

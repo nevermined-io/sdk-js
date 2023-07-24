@@ -2,7 +2,6 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
 import { TxParameters } from './ContractBase'
-import { BigNumber } from '../../utils'
 import { ethers } from 'ethers'
 import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '../ContractHandler'
@@ -26,6 +25,7 @@ export class Nft1155Contract extends NFTContractsBase {
       const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
       await new ContractHandler(config).checkExists(address)
       nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+      nft.address = await nft.contract.getAddress()
     }
 
     return nft
@@ -88,7 +88,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param did - The NFT id
    * @returns
    */
-  public async balance(address: string, did: string): Promise<BigNumber> {
+  public async balance(address: string, did: string): Promise<bigint> {
     return this.call('balanceOf', [zeroX(address), didZeroX(did)])
   }
 
@@ -105,7 +105,7 @@ export class Nft1155Contract extends NFTContractsBase {
   public async transferNft(
     did: string,
     to: string,
-    amount: BigNumber,
+    amount: bigint,
     from: string,
     txParams?: TxParameters,
   ) {
@@ -126,7 +126,7 @@ export class Nft1155Contract extends NFTContractsBase {
   public async mint(
     to: string,
     did: string,
-    amount: BigNumber,
+    amount: bigint,
     from: string,
     data?: string,
     txParams?: TxParameters,
@@ -143,7 +143,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(from: string, did: string, amount: BigNumber, txParams?: TxParameters) {
+  public async burn(from: string, did: string, amount: bigint, txParams?: TxParameters) {
     return this.send('burn', from, [from, didZeroX(did), amount], txParams)
   }
 

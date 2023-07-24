@@ -3,7 +3,6 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../utils'
 import { ContractEvent, EventHandler } from '../../events'
 import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '../ContractHandler'
@@ -27,6 +26,7 @@ export class Nft721Contract extends NFTContractsBase {
 
     await new ContractHandler(config).checkExists(address)
     nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+    nft.address = await nft.contract.getAddress()
 
     return nft
   }
@@ -46,6 +46,7 @@ export class Nft721Contract extends NFTContractsBase {
 
     await new ContractHandler(config).checkExists(address)
     nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+    nft.address = await nft.contract.getAddress()
 
     return nft
   }
@@ -65,7 +66,7 @@ export class Nft721Contract extends NFTContractsBase {
     name: string,
     symbol: string,
     uri: string,
-    cap: BigNumber,
+    cap: bigint,
     operators: string[] = [],
     from?: Account,
     txParams?: TxParameters,
@@ -112,7 +113,7 @@ export class Nft721Contract extends NFTContractsBase {
     return this.call('isApprovedForAll', [didZeroX(accountAddress), didZeroX(operatorAddress)])
   }
 
-  public async balanceOf(owner: string): Promise<BigNumber> {
+  public async balanceOf(owner: string): Promise<bigint> {
     return this.call('balanceOf', [owner])
   }
 
@@ -130,9 +131,9 @@ export class Nft721Contract extends NFTContractsBase {
     const entries: MintedEntry[] = []
     for (let i = 0; i < minted.length; i++) {
       entries.push({
-        tokenId: BigNumber.from(minted[i][0]),
-        expirationBlock: BigNumber.from(minted[i][1]),
-        mintBlock: BigNumber.from(minted[i][2]),
+        tokenId: BigInt(minted[i][0]),
+        expirationBlock: BigInt(minted[i][1]),
+        mintBlock: BigInt(minted[i][2]),
       })
     }
     return entries
@@ -140,7 +141,7 @@ export class Nft721Contract extends NFTContractsBase {
 }
 
 export interface MintedEntry {
-  tokenId: BigNumber
-  expirationBlock: BigNumber
-  mintBlock: BigNumber
+  tokenId: bigint
+  expirationBlock: bigint
+  mintBlock: bigint
 }

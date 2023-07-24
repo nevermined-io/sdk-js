@@ -3,8 +3,7 @@ import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
-import { BigNumber } from '../../../utils'
-import { DDO } from '../../../ddo/DDO'
+import { DDO } from '../../../ddo'
 
 export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
   public static async getInstance(config: InstantiableConfig): Promise<LockPaymentCondition> {
@@ -15,7 +14,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     did: string,
     rewardAddress: string,
     tokenAddress: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
   ) {
     const amountsString = amounts.map((v) => v.toString())
@@ -33,7 +32,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     return this.params(
       ddo.shortId(),
-      this.nevermined.keeper.conditions.escrowPaymentCondition.getAddress(),
+      this.nevermined.keeper.conditions.escrowPaymentCondition.address,
       payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
       rewards.getAmounts(),
       rewards.getReceivers(),
@@ -45,7 +44,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     did: string,
     rewardAddress: string,
     tokenAddress: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     from?: Account,
     txParams?: TxParameters,

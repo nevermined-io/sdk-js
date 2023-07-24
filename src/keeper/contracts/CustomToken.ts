@@ -14,6 +14,7 @@ export class CustomToken extends Token {
     await new ContractHandler(config).checkExists(address)
 
     token.contract = new ethers.Contract(address, Token.ERC20_ABI, token.web3)
+    token.address = await token.contract.getAddress()
 
     return token
   }

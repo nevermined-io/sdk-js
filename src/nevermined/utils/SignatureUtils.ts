@@ -1,5 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { Bytes, ethers } from 'ethers'
+import { ethers } from 'ethers'
 
 export class SignatureUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -7,7 +7,7 @@ export class SignatureUtils extends Instantiable {
     this.setInstanceConfig(config)
   }
 
-  public async signText(text: string | Bytes, address: string): Promise<string> {
+  public async signText(text: string | Uint8Array, address: string): Promise<string> {
     const signer = await this.nevermined.accounts.findSigner(address)
     try {
       return await signer.signMessage(text)
@@ -20,12 +20,10 @@ export class SignatureUtils extends Instantiable {
   }
 
   public async verifyText(text: string, signature: string): Promise<string> {
-    return ethers.utils.verifyMessage(text, signature)
+    return ethers.verifyMessage(text, signature)
   }
 
   static hash(seed: string): string {
-    return ethers.utils
-      .keccak256(ethers.utils.toUtf8Bytes(seed))
-      .replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
+    return ethers.keccak256(ethers.toUtf8Bytes(seed)).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
   }
 }

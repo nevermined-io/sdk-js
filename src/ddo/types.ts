@@ -1,13 +1,12 @@
 import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
 import { Account } from '../sdk'
-import { BigNumber } from 'ethers'
 import {
   ERCType,
   NeverminedNFTType,
   AssetPrice,
   Babysig,
-  NFTAttributes,
   NFTServiceAttributes,
+  NFTAttributes,
 } from '../models'
 
 export interface Authentication {
@@ -726,7 +725,7 @@ export interface ValidationParams {
   consumer_address?: string
   buyer?: string
   babysig?: Babysig
-  nft_amount?: BigNumber
+  nft_amount?: bigint
   nft_holder?: string
   expiration?: number
 }
@@ -737,7 +736,6 @@ export interface ServicePlugin<T extends Service> {
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes: NFTAttributes,
-    // assetPrice?: AssetPrice,
     pricedData?: PricedMetadataInformation,
   ): T
   // Process agreement for provider

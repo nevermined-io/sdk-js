@@ -12,8 +12,7 @@ import {
 import { Account, Condition, MetaData, NFTAttributes } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
-import { BigNumber } from 'ethers'
-import { isAddress } from 'ethers/lib/utils'
+import { isAddress } from 'ethers'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>
@@ -38,7 +37,6 @@ export abstract class BaseTemplate<Params, S extends Service>
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
-    // assetPrice?: AssetPrice,
     priceData?: PricedMetadataInformation,
   ): S {
     const assetPrice = serviceAttributes.price
@@ -57,7 +55,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       tokenAddress,
       nftAttributes?.nftContractAddress,
       publisher.getId(),
-      assetPrice ? assetPrice.getTotalPrice() : BigNumber.from('0'),
+      assetPrice ? assetPrice.getTotalPrice() : 0n,
       serviceAttributes?.nft?.nftTransfer,
       serviceAttributes?.nft?.duration,
       nftAttributes?.fulfillAccessTimeout,
@@ -69,7 +67,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       type: this.service(),
       index: serviceIndex[this.service()],
       serviceEndpoint: this.nevermined.services.node.getServiceEndpoint(this.serviceEndpoint()),
-      templateId: this.getAddress(),
+      templateId: this.address,
       attributes: {
         main: {
           creator: publisher.getId(),

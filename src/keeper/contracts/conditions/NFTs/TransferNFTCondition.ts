@@ -9,13 +9,12 @@ import {
 } from '../Condition.abstract'
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import { BigNumber } from '../../../../utils'
 import { DDO, ServiceCommon } from '../../../..'
 
 export interface TransferNFTConditionContext extends ConditionContext {
   providerId: string
   consumerId: string
-  nftAmount: BigNumber
+  nftAmount: bigint
 }
 
 /**
@@ -42,7 +41,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     did: string,
     nftHolder: string,
     nftReceiver: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     lockCondition: string,
     nftContractAddress?: string,
     willBeTransferred = true,
@@ -127,7 +126,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     agreementId: string,
     did: string,
     nftReceiver: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     nftContractAddress: string,
     lockPaymentCondition: string,
     transfer = true,
@@ -170,7 +169,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     did: string,
     nftHolder: string,
     nftReceiver: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     lockPaymentCondition: string,
     nftAddress: string,
     transferAsset = true,

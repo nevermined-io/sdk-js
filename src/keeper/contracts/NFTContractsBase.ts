@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
-import { BigNumber, ContractReceipt } from 'ethers'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export class NFTContractsBase extends ContractBase {
@@ -29,19 +29,21 @@ export class NFTContractsBase extends ContractBase {
     name: string,
     symbol: string,
     uri: string,
-    cap: BigNumber | undefined,
+    cap: bigint | undefined,
     operators: string[] = [],
     from?: Account,
     txParams?: TxParameters,
   ) {
     try {
-      const contractReceipt: ContractReceipt = await this.sendFrom(
+      const contractReceipt: ContractTransactionReceipt = await this.sendFrom(
         'createClone',
         cap ? [name, symbol, uri, String(cap), operators] : [name, symbol, uri, operators],
         from,
         txParams,
       )
-      const event = contractReceipt.events.find((e) => e.event === 'NFTCloned')
+      const event = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'NFTCloned',
+      ) as EventLog
       return event.args._newAddress
     } catch (error) {
       throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)
@@ -70,8 +72,8 @@ export class NFTContractsBase extends ContractBase {
 
   public async getNFTAttributes(did: string): Promise<{
     nftInitialized: boolean
-    nftSupply: BigNumber
-    mintCap: BigNumber
+    nftSupply: bigint
+    mintCap: bigint
     nftURI: string
   }> {
     const registeredValues = await this.call('getNFTAttributes', [didZeroX(did)])
@@ -80,16 +82,16 @@ export class NFTContractsBase extends ContractBase {
       // It could be also a ERC-721 NFT
       return {
         nftInitialized: false,
-        nftSupply: BigNumber.from(0),
-        mintCap: BigNumber.from(0),
+        nftSupply: 0n,
+        mintCap: 0n,
         nftURI: '',
       }
     }
 
     return {
       nftInitialized: registeredValues[0],
-      nftSupply: BigNumber.from(registeredValues[1]),
-      mintCap: BigNumber.from(registeredValues[2]),
+      nftSupply: BigInt(registeredValues[1]),
+      mintCap: BigInt(registeredValues[2]),
       nftURI: registeredValues[3],
     }
   }

@@ -23,9 +23,9 @@ import {
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { ZeroAddress } from '../../src/utils'
-import { BigNumber } from '../../src/utils'
+import { ZeroAddress, parseEther } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+import { EventLog } from 'ethers'
 
 describe('NFTTemplates With Ether E2E', async () => {
   let artist: Account
@@ -54,7 +54,7 @@ describe('NFTTemplates With Ether E2E', async () => {
   let ddo: DDO
 
   const royalties = 10 // 10% of royalties in the secondary market
-  const cappedAmount = BigNumber.from(5)
+  const cappedAmount = 5n
 
   let agreementId: string
   let agreementAccessId: string
@@ -64,12 +64,8 @@ describe('NFTTemplates With Ether E2E', async () => {
   const networkFee = 200000
   // Configuration of First Sale:
   // Artist -> Collector1, the gallery get a cut (25%)
-  const numberNFTs = BigNumber.from(1)
-  const amounts = [
-    BigNumber.parseEther('0.3'),
-    BigNumber.parseEther('0.1'),
-    BigNumber.parseEther('0.1'),
-  ]
+  const numberNFTs = 1n
+  const amounts = [parseEther('0.3'), parseEther('0.1'), parseEther('0.1')]
 
   let receivers: string[]
   let assetPrice: AssetPrice
@@ -138,7 +134,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         gallery: await gallery.getEtherBalance(),
         governor: await governor.getEtherBalance(),
         escrowPaymentCondition: await nevermined.accounts
-          .getAccount(escrowPaymentCondition.getAddress())
+          .getAccount(escrowPaymentCondition.address)
           .getEtherBalance(),
       }
 
@@ -188,10 +184,10 @@ describe('NFTTemplates With Ether E2E', async () => {
 
     describe('As an artist I want to register a new artwork', async () => {
       it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
-        await nftUpgradeable.setApprovalForAll(transferNftCondition.getAddress(), true, artist)
+        await nftUpgradeable.setApprovalForAll(transferNftCondition.address, true, artist)
 
         const balance = await nftUpgradeable.balance(artist.getId(), ddo.shortId())
-        assert.deepEqual(balance, BigNumber.from(5))
+        assert.deepEqual(balance, 5n)
       })
     })
 
@@ -226,7 +222,7 @@ describe('NFTTemplates With Ether E2E', async () => {
             assetPrice.getAmounts(),
             assetPrice.getReceivers(),
             collector1.getId(),
-            escrowPaymentCondition.getAddress(),
+            escrowPaymentCondition.address,
             ZeroAddress,
             conditionIdLockPayment[1],
             conditionIdTransferNFT[1],
@@ -244,7 +240,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         )
 
         assert.equal(result.status, 1)
-        assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment[1])).state,
@@ -264,7 +260,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         await lockPaymentCondition.fulfill(
           agreementId,
           ddo.shortId(),
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
           ZeroAddress,
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
@@ -303,14 +299,8 @@ describe('NFTTemplates With Ether E2E', async () => {
           ddo.shortId(),
         )
 
-        assert.equal(
-          Number(nftBalanceArtistAfter),
-          Number(nftBalanceArtistBefore) - Number(numberNFTs),
-        )
-        assert.equal(
-          Number(nftBalanceCollectorAfter),
-          Number(nftBalanceCollectorBefore) + Number(numberNFTs),
-        )
+        assert.equal(nftBalanceArtistAfter, nftBalanceArtistBefore - numberNFTs)
+        assert.equal(nftBalanceCollectorAfter, nftBalanceCollectorBefore + numberNFTs)
       })
 
       it('the artist asks and receives the payment', async function () {
@@ -320,7 +310,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
           collector1.getId(),
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
           ZeroAddress,
           conditionIdLockPayment[1],
           conditionIdTransferNFT[1],
@@ -331,7 +321,7 @@ describe('NFTTemplates With Ether E2E', async () => {
         assert.equal(state, ConditionState.Fulfilled)
 
         const escrowPaymentConditionBalance = await nevermined.accounts
-          .getAccount(escrowPaymentCondition.getAddress())
+          .getAccount(escrowPaymentCondition.address)
           .getEtherBalance()
         const receiver0Balance = await nevermined.accounts
           .getAccount(receivers[0])
@@ -345,14 +335,12 @@ describe('NFTTemplates With Ether E2E', async () => {
 
         // for this assert we use a delta to account for the transaction fees
         // of all the transactions from the artist
-        const delta = BigNumber.from(10).pow(16)
-        assert.isTrue(receiver0Balance.gte(initialBalances.artist.add(amounts[0]).sub(delta)))
+        const delta = 10n ** 16n
+        assert.isTrue(receiver0Balance >= initialBalances.artist + amounts[0] - delta)
 
-        assert.isTrue(receiver1Balance.eq(initialBalances.gallery.add(amounts[1])))
-        assert.isTrue(receiver2Balance.eq(initialBalances.governor.add(amounts[2])))
-        assert.isTrue(
-          escrowPaymentConditionBalance.sub(initialBalances.escrowPaymentCondition).isZero(),
-        )
+        assert.equal(receiver1Balance, initialBalances.gallery + amounts[1])
+        assert.equal(receiver2Balance, initialBalances.governor + amounts[2])
+        assert.equal(escrowPaymentConditionBalance, initialBalances.escrowPaymentCondition)
       })
     })
 
@@ -377,7 +365,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           [collector1.getId()],
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.events.some((e) => e.event === 'AgreementCreated'))
+        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,

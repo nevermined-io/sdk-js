@@ -1,5 +1,4 @@
 import { RoyaltyAttributes } from '../nevermined'
-import BigNumber from '../utils/BigNumber'
 import { AssetAttributes } from './AssetAttributes'
 import { ERCType, NeverminedNFTType, NeverminedNFT1155Type, NeverminedNFT721Type } from './'
 import { ServiceType } from '../ddo/types'
@@ -23,14 +22,14 @@ export class NFTServiceAttributes {
   /**
    * Number of editions
    */
-  amount?: BigNumber
+  amount?: bigint
 
   static defaultValues = {
     serviceType: 'nft-access' as ServiceType,
     nftTransfer: true, // The NFT will use transfers
     isSubscription: false, // By default the asset doesn't represent a subscription
     duration: 0, // Because it's not a subscription it doesn't have a duration
-    amount: BigNumber.from(1), // By default just one edition
+    amount: 1n, // By default just one edition
   }
 
   public static getDefaultNFTServiceAttributes(): NFTServiceAttributes {
@@ -78,15 +77,14 @@ export class NFTAttributes extends AssetAttributes {
   /**
    * Max number of nfts that can be minted, 0 means uncapped
    */
-  cap?: BigNumber
+  cap?: bigint
 
   static defaultValues = {
     ...AssetAttributes.defaultValues,
     royaltyAttributes: undefined,
     preMint: true, // It means the NFT will mint all the editions defined in the `amount` attributed during the registration
     nftMetadataUrl: '', // Url to the metadata describing the NFT OpenSea style
-    cap: BigNumber.from(0), // Cap equals to 0 means the NFT is uncapped
-    // services: [NFTServiceAttributes.getDefaultNFTServiceAttributes()]
+    cap: 0n, // Cap equals to 0 means the NFT is uncapped
   }
 
   static getInstance(nftAttributes: NFTAttributes): Required<NFTAttributes> {
@@ -138,7 +136,6 @@ export class NFTAttributes extends AssetAttributes {
     const _instance = {
       ercType: 721,
       nftType: NeverminedNFT721Type.nft721POAP,
-      // isSubscription: false,
       nftContractAddress: nftAttributes.nftContractAddress,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
@@ -151,7 +148,6 @@ export class NFTAttributes extends AssetAttributes {
     const _instance = {
       ercType: 721,
       nftType: NeverminedNFT721Type.nft721SoulBound,
-      // isSubscription: false,
       nftContractAddress: nftAttributes.nftContractAddress,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
