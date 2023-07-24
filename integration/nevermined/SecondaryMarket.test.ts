@@ -21,7 +21,7 @@ import {
   NFTSalesTemplate,
   Token,
 } from '../../src/keeper'
-import { formatUnits, parseUnits } from '../../src/utils'
+import { formatUnits, getConditionsByParams, parseUnits } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'

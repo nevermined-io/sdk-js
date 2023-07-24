@@ -27,6 +27,7 @@ import { NFT721Api } from '../../src'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { EventLog } from 'ethers'
+import { repeat } from '../utils/utils'
 
 describe('NFT721Templates E2E', () => {
   let nftContractOwner: Account

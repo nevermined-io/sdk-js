@@ -14,7 +14,6 @@ import {
   NFTAttributes,
   ConditionState,
 } from '../../src'
-import { BigNumber } from '../../src/utils'
 import { ethers } from 'ethers'
 import { repeat } from '../utils/utils'
 
@@ -30,7 +29,7 @@ let token: Token
 let service
 let agreementId
 let neverminedNodeAddress
-let nft: ethers.Contract
+let nft: ethers.BaseContract
 let nftContract: Nft721Contract
 let salesServices
 const totalAmount1 = '100'
@@ -63,7 +62,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      nft.address,
+      await nft.getAddress(),
     )
 
     await nevermined.contracts.loadNft721(nftContract.address)
@@ -80,11 +79,11 @@ describe('E2E Flow for NFTs with multiple services', () => {
     await nevermined.services.marketplace.login(clientAssertion)
 
     payload = decodeJwt(config.marketplaceAuthToken)
-    assetPrice1 = new AssetPrice(publisher.getId(), BigNumber.from(totalAmount1))
-    assetPrice2 = new AssetPrice(publisher.getId(), BigNumber.from(totalAmount2))
+    assetPrice1 = new AssetPrice(publisher.getId(), BigInt(totalAmount1))
+    assetPrice2 = new AssetPrice(publisher.getId(), BigInt(totalAmount2))
 
     try {
-      await collector1.requestTokens(BigNumber.from(totalAmount1).mul(10))
+      await collector1.requestTokens(BigInt(totalAmount1) * 10n)
     } catch (error) {
       console.error(error)
     }
@@ -152,7 +151,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
 
       const price = DDO.getAssetPriceFromService(service)
-      assert.isTrue(collector1BalanceBefore.sub(price.getTotalPrice()).eq(collector1BalanceAfter))
+      assert.isTrue(collector1BalanceBefore - price.getTotalPrice() === collector1BalanceAfter)
 
       const status = await repeat(3, nevermined.agreements.status(agreementId))
 
@@ -215,7 +214,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
       const collector1BalanceAfter = await token.balanceOf(collector1.getId())
 
       const price = DDO.getAssetPriceFromService(service)
-      assert.isTrue(collector1BalanceBefore.sub(price.getTotalPrice()).eq(collector1BalanceAfter))
+      assert.isTrue(collector1BalanceBefore - price.getTotalPrice() === collector1BalanceAfter)
 
       let status = await repeat(3, nevermined.agreements.status(agreementId))
 

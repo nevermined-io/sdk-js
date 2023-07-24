@@ -12,7 +12,6 @@ import {
   ConditionState,
   Token,
 } from '../../src'
-import { BigNumber } from '../../src/utils'
 import { repeat, sleep } from '../utils/utils'
 
 let nevermined: Nevermined
@@ -25,8 +24,8 @@ let assetPrice2: AssetPrice
 let payload: JWTPayload
 let ddo: DDO
 let token: Token
-let balanceBefore: BigNumber
-let balanceAfter: BigNumber
+let balanceBefore: bigint
+let balanceAfter: bigint
 let service
 let agreementId
 let neverminedNodeAddress
@@ -47,11 +46,11 @@ describe('Assets with multiple services', () => {
     await nevermined.services.marketplace.login(clientAssertion)
 
     payload = decodeJwt(config.marketplaceAuthToken)
-    assetPrice1 = new AssetPrice(publisher.getId(), BigNumber.from(totalAmount1))
-    assetPrice2 = new AssetPrice(publisher.getId(), BigNumber.from(totalAmount2))
+    assetPrice1 = new AssetPrice(publisher.getId(), BigInt(totalAmount1))
+    assetPrice2 = new AssetPrice(publisher.getId(), BigInt(totalAmount2))
 
     try {
-      await consumer.requestTokens(BigNumber.from(totalAmount1).mul(10))
+      await consumer.requestTokens(BigInt(totalAmount1) * 10n)
     } catch (error) {
       console.error(error)
     }
@@ -125,7 +124,7 @@ describe('Assets with multiple services', () => {
       console.log(`Balance Before: ${balanceBefore.toString()}`)
       console.log(`Balance After : ${balanceAfter.toString()}`)
 
-      assert.isTrue(balanceBefore.sub(BigNumber.from(price)).eq(balanceAfter))
+      assert.isTrue(balanceBefore - BigInt(price) === balanceAfter)
     })
 
     it('Download assets through the Node', async () => {
