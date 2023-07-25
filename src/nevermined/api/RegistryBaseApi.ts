@@ -163,7 +163,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       let serviceEndpoint = this.nevermined.services.metadata.getServiceEndpoint(DID.parse(ddo.id))
 
-      ddo.updateService({
+      ddo.updateMetadataService({
         type: 'metadata',
         index: 0,
         serviceEndpoint,
@@ -547,12 +547,6 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       const { keeper } = this.nevermined
 
-      // let service
-      // if (typeof serviceReference === 'number') {
-      //   service = ddo.findServiceById(serviceReference)
-      // } else {
-      //   service = ddo.findServiceByType(serviceReference)
-      // }
       const service = ddo.findServiceByReference(serviceReference)
 
       const templateName = service.attributes.serviceAgreementTemplate.contractName

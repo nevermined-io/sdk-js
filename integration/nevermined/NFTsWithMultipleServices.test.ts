@@ -67,8 +67,6 @@ describe('E2E Flow for NFTs with multiple services', () => {
 
     await nevermined.contracts.loadNft721(nftContract.address)
 
-    // nftContractOwner = new Account((await nftContract.owner()) as string)
-
     await nftContract.grantOperatorRole(
       nevermined.keeper.conditions.transferNft721Condition.address,
       publisher,
@@ -128,11 +126,11 @@ describe('E2E Flow for NFTs with multiple services', () => {
 
       assert.equal(
         salesServices[0].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
-        totalAmount2,
+        totalAmount1,
       )
       assert.equal(
         salesServices[1].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
-        totalAmount1,
+        totalAmount2,
       )
 
       assert.isDefined(ddo.findServiceByType('metadata'))

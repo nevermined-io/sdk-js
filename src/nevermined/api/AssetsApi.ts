@@ -214,19 +214,12 @@ export class AssetsApi extends RegistryBaseApi {
     const { attributes } = ddo.findServiceByType('metadata')
     let service
     if (typeof serviceReference === 'number') {
-      service = ddo.findServiceById(serviceReference)
+      service = ddo.findServiceByIndex(serviceReference)
     } else {
       service = ddo.findServiceByType(serviceReference)
     }
     const { files } = attributes.main
 
-    // const serviceEndpoint = this.nevermined.services.node.getAccessEndpoint()
-    // let serviceEndpoint
-    // if (service.serviceEndpoint) {
-    //   serviceEndpoint = service.serviceEndpoint
-    // } else {
-    //   serviceEndpoint = this.nevermined.services.node.getAccessEndpoint()
-    // }
     const serviceEndpoint = service.serviceEndpoint
       ? service.serviceEndpoint
       : this.nevermined.services.node.getAccessEndpoint()

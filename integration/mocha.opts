@@ -3,4 +3,4 @@
 --require mock-local-storage
 --full-trace
 --exit
---timeout 500000
+--timeout 300000

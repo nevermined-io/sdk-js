@@ -20,6 +20,12 @@ export class DDOServiceNotFoundError extends DDOError {
   }
 }
 
+export class DDOServiceAlreadyExists extends DDOError {
+  constructor(serviceType: ServiceType, index: number) {
+    super(`Service with type "${serviceType}" and index ${index} already exists`)
+  }
+}
+
 export class DDOConditionNotFoundError extends DDOError {
   constructor(conditionName: string) {
     super(`Condition with name "${conditionName}" not found`)

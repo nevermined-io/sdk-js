@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "2.0.0-rc0",
+  "version": "2.0.0-rc1",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -15,7 +15,7 @@
     "test": "mocha --opts test/mocha.opts ./test/**/*.test.ts",
     "test:watch": "mocha -w --watch-extensions js,ts,json",
     "test:cover": "nyc --report-dir coverage/unit mocha --opts test/mocha.opts ./test/**/*.test.ts",
-    "integration": "mocha --opts integration/mocha.opts ./integration/nevermined/*.test.ts",
+    "integration": "mocha --opts integration/mocha.opts ",
     "integration:subgraph": "mocha --opts integration/mocha.opts ./integration/**/*.test.subgraph.ts",
     "integration:production": "export NETWORK_NAME=production; yarn integration",
     "integration:staging": "export NETWORK_NAME=staging; yarn integration",

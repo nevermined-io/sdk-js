@@ -20,7 +20,7 @@ export interface ConditionContext {
   service: Service
   price: AssetPrice
   creator: string
-  serviceReference?: number
+  // serviceReference?: number
 }
 
 export interface ConditionParameters<Extra> {

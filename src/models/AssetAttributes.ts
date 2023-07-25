@@ -67,7 +67,6 @@ export class AssetAttributes {
   fulfillAccessTimelock?: number
 
   static defaultValues = {
-    // price: new AssetPrice().setTokenAddress(process.env.TOKEN_ADDRESS || ZeroAddress), // It means there is no payment required
     encryptionMethod: AssetAttributes.DEFAULT_ENCRYPTION_METHOD, // The default encryption method for the internal metadata attributes is PSK-RSA
     services: [
       {
@@ -75,7 +74,6 @@ export class AssetAttributes {
         price: new AssetPrice().setTokenAddress(process.env.TOKEN_ADDRESS || ZeroAddress), // It means there is no payment required
       },
     ], // By default it will be added an access service
-    // serviceTypes: ['access'] as ServiceType[], // By default it will be added an access service
     predefinedAssetServices: [] as Service[], // By default there in additional services to add to the asset
     providers: [], // By default there are no addresses registered as providers for the asset
     appId: '', // No appId by default

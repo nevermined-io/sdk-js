@@ -19,7 +19,11 @@ import { DIDRegistry } from '../keeper'
 import { ethers } from 'ethers'
 import { AssetPrice, NFTAttributes } from '../models'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
-import { DDOConditionNotFoundError, DDOParamNotFoundError } from '../errors/DDOError'
+import {
+  DDOConditionNotFoundError,
+  DDOParamNotFoundError,
+  DDOServiceAlreadyExists,
+} from '../errors/DDOError'
 
 // DDO Services including a sales process
 export const SALES_SERVICES = ['access', 'compute', 'nft-sales']
@@ -132,7 +136,7 @@ export class DDO {
    * @param index - index of the service in the DDO.
    * @returns Service.
    */
-  public findServiceById<T extends ServiceType>(index: number): Service<T> {
+  public findServiceByIndex<T extends ServiceType>(index: number): Service<T> {
     if (isNaN(index)) {
       throw new Error('index is not set')
     }
@@ -170,7 +174,7 @@ export class DDO {
     serviceReference: ServiceType | number,
   ): Service<T> {
     if (typeof serviceReference === 'number') {
-      return this.findServiceById(serviceReference)
+      return this.findServiceByIndex(serviceReference)
     } else {
       return this.findServiceByType(serviceReference) as Service<T>
     }
@@ -288,6 +292,13 @@ export class DDO {
    * @param service
    */
   public addService(service: ServiceCommon) {
+    const newIndex =
+      this.service.length > 0
+        ? this.service.reduce((a, b) => (a.index > b.index ? a : b)).index + 1
+        : 0
+    if (this.service.find((s) => s.index === newIndex))
+      throw new DDOServiceAlreadyExists(service.type, newIndex)
+    service.index = newIndex
     this.service.push(service)
   }
 
@@ -297,6 +308,8 @@ export class DDO {
    * @param service
    */
   public replaceService(index: number, service: any) {
+    if (!this.service.find((s) => s.index === service.index))
+      throw new DDOServiceNotFoundError(service.type)
     this.service[index] = service
   }
 
@@ -338,12 +351,26 @@ export class DDO {
   }
 
   /**
+   * @deprecated use the `updateMetadataService` or `replaceService` methods instead
    * Updates a service in the DDO
    * @param service the service to be updated
    * @param serviceIndex the position of the service in the DDO.services array
    */
   public updateService(service: any, serviceIndex = 0) {
     this.service[serviceIndex] = service
+  }
+
+  /**
+   * Updates a service in the DDO
+   * @param service the service to be updated
+   * @param serviceIndex the position of the service in the DDO.services array
+   */
+  public updateMetadataService(service: any) {
+    const arrayIndex = this.service.findIndex((s) => s.type === 'metadata')
+    if (arrayIndex < 0) {
+      throw new DDOServiceNotFoundError('metadata')
+    }
+    this.service[arrayIndex] = service
   }
 
   /**

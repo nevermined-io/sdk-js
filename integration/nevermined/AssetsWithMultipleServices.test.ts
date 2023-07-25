@@ -93,11 +93,11 @@ describe('Assets with multiple services', () => {
 
       assert.equal(
         accessServices[0].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
-        totalAmount2,
+        totalAmount1,
       )
       assert.equal(
         accessServices[1].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
-        totalAmount1,
+        totalAmount2,
       )
 
       const metadata = ddo.findServiceByType('metadata')
