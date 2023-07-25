@@ -104,7 +104,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice2,
-            nft: { nftTransfer: false, nftAmount: 2n },
+            nft: { nftTransfer: false, amount: 2n },
           },
           {
             serviceType: 'nft-access',

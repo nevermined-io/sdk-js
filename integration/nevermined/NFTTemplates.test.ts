@@ -173,11 +173,11 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { nftAmount: numberNFTs },
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount: numberNFTs },
+            nft: { amount: numberNFTs },
           },
         ],
       })
@@ -627,11 +627,11 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { nftAmount: numberNFTs },
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount: numberNFTs },
+            nft: { amount: numberNFTs },
           },
         ],
       })
@@ -938,7 +938,7 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { nftAmount: numberNFTs },
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',

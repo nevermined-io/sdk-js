@@ -110,11 +110,11 @@ describe('NFT1155 End-to-End', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice,
-            nft: { nftAmount: numberNFTs },
+            nft: { amount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount: numberNFTs },
+            nft: { amount: numberNFTs },
           },
         ],
       })

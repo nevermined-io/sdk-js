@@ -22,14 +22,14 @@ export class NFTServiceAttributes {
   /**
    * Number of editions
    */
-  nftAmount?: bigint
+  amount?: bigint
 
   static defaultValues = {
     serviceType: 'nft-access' as ServiceType,
     nftTransfer: true, // The NFT will use transfers
     isSubscription: false, // By default the asset doesn't represent a subscription
     duration: 0, // Because it's not a subscription it doesn't have a duration
-    nftAmount: 1n, // By default just one edition
+    amount: 1n, // By default just one edition
   }
 
   public static getDefaultNFTServiceAttributes(): Required<NFTServiceAttributes> {

@@ -129,11 +129,11 @@ describe('TransferNFTCondition', () => {
         services: [
           {
             serviceType: 'nft-sales',
-            nft: { nftAmount },
+            nft: { amount: nftAmount },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount },
+            nft: { amount: nftAmount },
           },
         ],
         preMint: false,
@@ -233,11 +233,11 @@ describe('TransferNFTCondition', () => {
         services: [
           {
             serviceType: 'nft-sales',
-            nft: { nftAmount },
+            nft: { amount: nftAmount },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount },
+            nft: { amount: nftAmount },
           },
         ],
         preMint: false,
@@ -336,11 +336,11 @@ describe('TransferNFTCondition', () => {
         services: [
           {
             serviceType: 'nft-sales',
-            nft: { nftAmount },
+            nft: { amount: nftAmount },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount },
+            nft: { amount: nftAmount },
           },
         ],
         preMint: false,

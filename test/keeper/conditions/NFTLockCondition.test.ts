@@ -81,11 +81,11 @@ describe('NFTLockCondition', () => {
         services: [
           {
             serviceType: 'nft-sales',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
         ],
         preMint: true,
@@ -147,11 +147,11 @@ describe('NFTLockCondition', () => {
         services: [
           {
             serviceType: 'nft-sales',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
         ],
         preMint: true,
@@ -188,11 +188,11 @@ describe('NFTLockCondition', () => {
         services: [
           {
             serviceType: 'nft-sales',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
         ],
         preMint: false,
@@ -234,11 +234,11 @@ describe('NFTLockCondition', () => {
         services: [
           {
             serviceType: 'nft-sales',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
           {
             serviceType: 'nft-access',
-            nft: { nftAmount: amount },
+            nft: { amount },
           },
         ],
         preMint: true,
