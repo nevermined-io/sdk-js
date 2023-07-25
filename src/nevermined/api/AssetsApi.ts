@@ -173,7 +173,7 @@ export class AssetsApi extends RegistryBaseApi {
    * If the access service to purchase is having associated some price, it will make the payment
    * for that service.
    * @param did - Unique identifier of the asset to order
-   * @param serviceReference - The service to order. By default is the access service, but it can be specified the service.index too
+   * @param serviceReference - The service to order. By default is the access service, but it can be specified the service.index to refer a different specific service
    * @param consumerAccount - The account of the user ordering the asset
    * @param txParams - Optional transaction parameters
    * @returns The agreement ID identifying the order
@@ -192,6 +192,7 @@ export class AssetsApi extends RegistryBaseApi {
    * This method allows to download the assets associated to that service.
    * @param agreementId  - The unique identifier of the order placed for a service
    * @param did - Unique identifier of the asset ordered
+   * @param serviceReference - The service to download. By default is the access service, but it can be specified the service.index to refer a different specific service
    * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
    * @param resultPath - Where the files will be downloaded
    * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
@@ -219,17 +220,16 @@ export class AssetsApi extends RegistryBaseApi {
     }
     const { files } = attributes.main
 
-    const serviceEndpoint = this.nevermined.services.node.getAccessEndpoint()
+    // const serviceEndpoint = this.nevermined.services.node.getAccessEndpoint()
     // let serviceEndpoint
     // if (service.serviceEndpoint) {
     //   serviceEndpoint = service.serviceEndpoint
     // } else {
     //   serviceEndpoint = this.nevermined.services.node.getAccessEndpoint()
-    //   //"http://node.nevermined.localnet/api/v1/node/services/access
-    //   // throw new AssetError(
-    //   //   'Consume asset failed, service definition is missing the `serviceEndpoint`.',
-    //   // )
     // }
+    const serviceEndpoint = service.serviceEndpoint
+      ? service.serviceEndpoint
+      : this.nevermined.services.node.getAccessEndpoint()
 
     this.logger.log('Consuming files')
 

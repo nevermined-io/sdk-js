@@ -251,9 +251,12 @@ describe('Secondary Markets', () => {
         const nftBalanceArtistBefore = await nftUpgradeable.balance(artist.getId(), ddo.id)
         const nftBalanceCollectorBefore = await nftUpgradeable.balance(collector1.getId(), ddo.id)
 
+        const service = ddo.findServiceByType('nft-sales')
+
         const receipt = await nevermined.agreements.conditions.transferNft(
           agreementId,
           ddo,
+          service.index,
           numberNFTs,
           artist,
         )
@@ -435,9 +438,12 @@ describe('Secondary Markets', () => {
         const nftBalanceCollector1Before = await nftUpgradeable.balance(collector1.getId(), ddo.id)
         const nftBalanceCollector2Before = await nftUpgradeable.balance(collector2.getId(), ddo.id)
 
+        const service = ddo.findServiceByType('nft-sales')
+
         const receipt = await nevermined.agreements.conditions.transferNft(
           agreementId2,
           ddo,
+          service.index,
           numberNFTs2,
           collector1,
         )

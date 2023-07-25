@@ -293,8 +293,8 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param did - The Decentralized identifier of the NFT asset.
    * @param nftAmount - The number of NFTs to transfer.
    * @param publisher - The current owner of the NFTs.
+   * @param serviceReference - The reference to identify wich service within the DDO to transfer
    * @param txParams - Optional transaction parameters.
-   *
    * @returns true if the transfer was successful.
    *
    * @throws {@link NFTError}
@@ -305,14 +305,17 @@ export class NFT1155Api extends NFTsBaseApi {
     did: string,
     nftAmount: bigint,
     publisher: Account,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
     const ddo = await this.nevermined.assets.resolve(did)
+    const service = ddo.findServiceByReference(serviceReference)
 
     const result = await agreements.conditions.transferNft(
       agreementId,
       ddo,
+      service.index,
       nftAmount,
       publisher,
       txParams,
@@ -343,6 +346,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @param agreementId - The NFT sales agreement id.
    * @param did - The Decentralized identifier of the NFT asset.
+   * @param serviceReference - The reference to identify wich service within the DDO to release rewards
    * @param nftAmount - The amount of NFTs to transfer.
    * @param publisher - The current owner of the NFTs.
    * @param txParams - Optional transaction parameters.
@@ -481,8 +485,10 @@ export class NFT1155Api extends NFTsBaseApi {
    * ```
    *
    * @param owner - The owner account.
-   * @param agreementId - the Id of the underlying service agreement.
-   *
+   * @param consumer - The consumer account.
+   * @param agreementIdSeed - the Id of the underlying service agreement seed.
+   * @param serviceReference - The reference to identify wich service within the DDO to release rewards
+   * @param txParams - Optional transaction parameters.
    * @returns  true if the transaction was successful.
    *
    * @throws {@link NFTError}
@@ -505,9 +511,12 @@ export class NFT1155Api extends NFTsBaseApi {
       consumer.getId(),
     )
 
+    const ddoService = ddo.findServiceByReference(serviceReference)
+
     let receipt = await this.nevermined.agreements.conditions.transferNft(
       agreementId,
       ddo,
+      ddoService.index,
       nftAmount,
       owner,
       txParams,

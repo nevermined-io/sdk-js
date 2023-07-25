@@ -129,7 +129,7 @@ export class DDO {
 
   /**
    * Finds a service of a DDO by index.
-   * @param index - index.
+   * @param index - index of the service in the DDO.
    * @returns Service.
    */
   public findServiceById<T extends ServiceType>(index: number): Service<T> {
@@ -147,7 +147,7 @@ export class DDO {
 
   /**
    * Finds the first service of a DDO by type.
-   * @param serviceType - Service type.
+   * @param serviceType - Service type used by find the service
    *
    * @throws {@link DDOServiceNotFoundError} If the service is not in the DDO.
    * @returns {@link Service}.
@@ -163,7 +163,7 @@ export class DDO {
 
   /**
    * Finds a service of a DDO by index.
-   * @param index - index.
+   * @param serviceReference - reference to the service (index or type).
    * @returns Service.
    */
   public findServiceByReference<T extends ServiceType>(
@@ -198,7 +198,7 @@ export class DDO {
 
   /**
    * Checks if a service index in the DDO.
-   * @param serviceIndex - Service .
+   * @param serviceIndex - Service index.
    *
    * @returns true if service exists.
    */
@@ -252,6 +252,10 @@ export class DDO {
     }
   }
 
+  /**
+   * Get the checksum of the proof.
+   * @returns string containing the checksum of the proof.
+   */
   public getProofChecksum(): string {
     return this.checksum(JSON.stringify(this.proof.checksum))
   }
@@ -259,7 +263,7 @@ export class DDO {
   /**
    * Generates and adds a proof using personal sign on the DDO.
    * @param publicKey - Public key to be used on personal sign.
-   * @returns Proof object.
+   * @returns void.
    */
   public async addProof(publicKey: string): Promise<void> {
     if (this.proof) {
@@ -268,6 +272,9 @@ export class DDO {
     this.proof = await this.generateProof(publicKey)
   }
 
+  /**
+   * It reorders the services of the DDO using the service index
+   */
   public reorderServices(): void {
     this.service.sort((a, b) => (a.index > b.index ? 1 : -1))
     for (let i = 0; i < this.service.length; i++) {
@@ -276,14 +283,29 @@ export class DDO {
     this.service.sort((a, b) => (a.index > b.index ? 1 : -1))
   }
 
+  /**
+   * Adds a service to the DDO.
+   * @param service
+   */
   public addService(service: ServiceCommon) {
     this.service.push(service)
   }
 
+  /**
+   * Replaces a service in the DDO.
+   * @param index
+   * @param service
+   */
   public replaceService(index: number, service: any) {
     this.service[index] = service
   }
 
+  /**
+   * Adds a default metadata service to the DDO.
+   * @param metadata metadata
+   * @param nftAttributes nft attributes
+   * @returns main metadata attributes
+   */
   public addDefaultMetadataService(
     metadata: MetaData,
     nftAttributes?: NFTAttributes,
@@ -315,10 +337,21 @@ export class DDO {
     return metadataService.attributes.main
   }
 
+  /**
+   * Updates a service in the DDO
+   * @param service the service to be updated
+   * @param serviceIndex the position of the service in the DDO.services array
+   */
   public updateService(service: any, serviceIndex = 0) {
     this.service[serviceIndex] = service
   }
 
+  /**
+   * Assign a DID to the DDO
+   * @param didSeed DID seed
+   * @param didRegistry DIDRegistry contract
+   * @param publisher account registering the DID
+   */
   public async assignDid(didSeed: string, didRegistry: DIDRegistry, publisher: Account) {
     const did = didPrefixed(await didRegistry.hashDID(didSeed, publisher.getId()))
     this.id = did
@@ -327,10 +360,20 @@ export class DDO {
     this.publicKey[0].id = did
   }
 
+  /**
+   * It generates a DID seed from a seed
+   * @param seed the seed
+   * @returns the string represeing the DID seed
+   */
   public async generateDidSeed(seed) {
     return zeroX(this.checksum(JSON.stringify(seed)))
   }
 
+  /**
+   * It adds a signature to the the proof object of the DDO
+   * @param nevermined nevermined object
+   * @param publicKey public key to sign the DDO
+   */
   public async addSignature(nevermined: Nevermined, publicKey: string) {
     this.proof.signatureValue = await nevermined.utils.signature.signText(this.shortId(), publicKey)
   }
@@ -341,7 +384,7 @@ export class DDO {
    * If fins a service condition by name
    * @param service the service to search in
    * @param name the name of the condition
-   * @returns the condition
+   * @returns ServiceAgreementTemplateCondition the condition
    */
   public static findServiceConditionByName(
     service: Service,
@@ -490,6 +533,13 @@ export class DDO {
     holder.value = holderAddress
   }
 
+  /**
+   * Finds an attribute in the DDO and replace it with the given value
+   * @param ddo the originial DDO
+   * @param paramName the param name to replace
+   * @param value the new value
+   * @returns the DDO with the replaced attribute
+   */
   public static findAndReplaceDDOAttribute(ddo: DDO, paramName: string, value: string): DDO {
     return DDO.deserialize(DDO.serialize(ddo).replaceAll(paramName, value))
   }

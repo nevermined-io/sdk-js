@@ -207,6 +207,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param agreementId - The NFT sales agreement id.
    * @param did - The Decentralized identifier of the NFT asset.
    * @param publisher - The current owner of the NFTs.
+   * @param serviceReference - The reference to identify wich service within the DDO to transfer
    * @param txParams - Optional transaction parameters.
    *
    * @returns true if the transfer was successful.
@@ -257,6 +258,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param agreementId - The NFT sales agreement id.
    * @param did - The Decentralized identifier of the NFT asset.
    * @param publisher - The current owner of the NFTs.
+   * @param serviceReference - The reference to identify wich service within the DDO to release rewards
    * @param txParams - Optional transaction parameters.
    *
    * @returns true if the funds release was successful.

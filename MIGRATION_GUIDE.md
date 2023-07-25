@@ -33,3 +33,17 @@ isEqual = value1.eq(value2)
 // Using BigInt in v2
 isEqual = value1 == value2
 ```
+
+### DDO Helper functions
+
+Most of them were migrated to the `DDO` class:
+
+- `findServiceConditionByName` -> `DDO.findServiceConditionByName`
+- `getAssetPriceFromDDOByService` -> `DDO.getAssetPriceFromDDOByServiceType`
+- `setNFTRewardsFromDDOByService` -> `DDO.setNFTRewardsFromDDOByService`
+- `setAssetPriceFromDDOByService` -> `DDO.setAssetPriceFromDDOByService`
+- `getAssetPriceFromService` -> `DDO.getAssetPriceFromService`
+- `getDIDFromService` -> `DDO.getDIDFromService`
+- `getNftHolderFromService` -> `DDO.getNftHolderFromService`
+- `getNftAmountFromService` -> `DDO.getNftAmountFromService`
+- `getNftContractAddressFromService` -> `DDO.getNftContractAddressFromService`

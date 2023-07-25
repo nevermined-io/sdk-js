@@ -1,12 +1,7 @@
 import {
-  DDO,
   ServiceAgreementTemplateCondition,
   ServiceAgreementTemplateParameter,
-  ConditionType,
-  Service,
   ServiceType,
-  ServiceNFTAccess,
-  ServiceNFTSales,
 } from '../ddo'
 import { AssetPrice } from '../models'
 
@@ -120,101 +115,4 @@ function getParameter(
   const value = getValue(parameter.name.replace(/^_/, ''))
 
   return { ...parameter, value }
-}
-
-// @deprecated Use `DDO.findServiceConditionByName` instead
-export function findServiceConditionByName(
-  service: Service,
-  name: ConditionType,
-): ServiceAgreementTemplateCondition {
-  return service.attributes.serviceAgreementTemplate.conditions.find((c) => c.name === name)
-}
-
-// @deprecated Use `DDO.getAssetPriceFromDDOByServiceType` instead
-export function getAssetPriceFromDDOByService(ddo: DDO, service: ServiceType): AssetPrice {
-  return getAssetPriceFromService(ddo.findServiceByType(service))
-}
-
-// @deprecated Use `DDO.setNFTRewardsFromDDOByService` instead
-export function setNFTRewardsFromDDOByService(
-  ddo: DDO,
-  serviceType: ServiceType,
-  rewards: AssetPrice,
-  holderAddress: string,
-) {
-  setAssetPriceFromDDOByService(ddo, serviceType, rewards)
-  const service = ddo.findServiceByType(serviceType)
-  const transferCondition = findServiceConditionByName(service, 'transferNFT')
-  if (!transferCondition) {
-    return
-  }
-  const holder = transferCondition.parameters.find((p) => p.name === '_nftHolder')
-  holder.value = holderAddress
-}
-
-// @deprecated Use `DDO.setAssetPriceFromDDOByService` instead
-export function setAssetPriceFromDDOByService(
-  ddo: DDO,
-  serviceType: ServiceType,
-  rewards: AssetPrice,
-) {
-  const service = ddo.findServiceByType(serviceType)
-  const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
-  if (!escrowPaymentCondition) {
-    return
-  }
-  const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
-  const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
-  amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
-  receivers.value = rewards.getReceivers()
-}
-
-// @deprecated Use `DDO.getAssetPriceFromService` instead
-export function getAssetPriceFromService(service: Service): AssetPrice {
-  const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
-  if (!escrowPaymentCondition) {
-    return
-  }
-
-  const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
-    .value as string[]
-  const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
-    .value as string[]
-
-  const rewardsMap = new Map<string, bigint>()
-
-  for (let i = 0; i < amounts.length; i++) rewardsMap.set(receivers[i], BigInt(amounts[i]))
-
-  return new AssetPrice(rewardsMap)
-}
-
-// @deprecated Use `DDO.getDIDFromService` instead
-export function getDIDFromService(service: Service): string {
-  const escrowPaymentCondition = findServiceConditionByName(service, 'escrowPayment')
-  return ('did:nv:' +
-    escrowPaymentCondition.parameters.find((p) => p.name === '_did').value) as string
-}
-
-// @deprecated Use `DDO.getNftHolderFromService` instead
-export function getNftHolderFromService(service: Service): string {
-  const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-  return nftTransferCondition.parameters.find((p) => p.name === '_nftHolder').value as string
-}
-
-// @deprecated Use `DDO.getNftAmountFromService` instead
-export function getNftAmountFromService(service: Service): bigint {
-  const nftTransferCondition = findServiceConditionByName(service, 'transferNFT')
-  return BigInt(
-    nftTransferCondition.parameters.find((p) => p.name === '_numberNfts').value as string,
-  )
-}
-
-// @deprecated Use `DDO.getNftContractAddressFromService` instead
-export function getNftContractAddressFromService(
-  service: ServiceNFTAccess | ServiceNFTSales,
-): string {
-  const paramName = '_contractAddress'
-  const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
-  const nftTransferCondition = findServiceConditionByName(service, conditionName)
-  return nftTransferCondition.parameters.find((p) => p.name === paramName).value as string
 }

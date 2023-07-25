@@ -410,6 +410,7 @@ export class ConditionsApi extends Instantiable {
    * Transfers a certain amount of nfts after payment as been made.
    * @param agreementId - The service agreement id of the nft transfer.
    * @param ddo - The decentralized identifier of the asset containing the nfts.
+   * @param serviceIndex - The index of the service containing the nfts to transfer
    * @param nftAmount - The amount of nfts to transfer.
    * @param from - Account.
    * @returns {@link true} if the transfer is successful
@@ -417,6 +418,7 @@ export class ConditionsApi extends Instantiable {
   public async transferNft(
     agreementId: string,
     ddo: DDO,
+    serviceIndex: number,
     nftAmount: bigint,
     from?: Account,
     txParams?: txParams,
@@ -432,6 +434,7 @@ export class ConditionsApi extends Instantiable {
       ddo,
       creator,
       template.params(accessConsumer, nftAmount),
+      serviceIndex,
     )
 
     const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfillInstance(
@@ -491,6 +494,7 @@ export class ConditionsApi extends Instantiable {
    * Transfers a certain amount of nfts after payment as been made.
    * @param agreementId - The service agreement id of the nft transfer.
    * @param ddo - The decentralized identifier of the asset containing the nfts.
+   * @param serviceIndex - The index of the service containing the nfts to transfer
    * @param publisher - Account.
    * @returns {@link true} if the transfer is successful
    */
