@@ -31,7 +31,7 @@ export function getConditionsByParams(
   erc20TokenContract?: string,
   nftTokenContract?: string,
   nftHolder?: string,
-  nftAmount?: bigint,
+  nftAmount = 1n,
   nftTransfer = false,
   duration = 0,
   fulfillAccessTimeout = 0,
@@ -96,7 +96,7 @@ function getParameter(
       case 'rewardAddress':
         return owner
       case 'numberNfts':
-        return String(nftAmount)
+        return nftAmount && nftAmount >= 1 ? String(nftAmount) : '1'
       case 'tokenAddress':
         return erc20TokenContract
       case 'contract':

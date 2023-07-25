@@ -22,17 +22,17 @@ export class NFTServiceAttributes {
   /**
    * Number of editions
    */
-  amount?: bigint
+  nftAmount?: bigint
 
   static defaultValues = {
     serviceType: 'nft-access' as ServiceType,
     nftTransfer: true, // The NFT will use transfers
     isSubscription: false, // By default the asset doesn't represent a subscription
     duration: 0, // Because it's not a subscription it doesn't have a duration
-    amount: 1n, // By default just one edition
+    nftAmount: 1n, // By default just one edition
   }
 
-  public static getDefaultNFTServiceAttributes(): NFTServiceAttributes {
+  public static getDefaultNFTServiceAttributes(): Required<NFTServiceAttributes> {
     return {
       ...NFTServiceAttributes.defaultValues,
     }
@@ -81,6 +81,7 @@ export class NFTAttributes extends AssetAttributes {
 
   static defaultValues = {
     ...AssetAttributes.defaultValues,
+    nft: NFTServiceAttributes.defaultValues,
     royaltyAttributes: undefined,
     preMint: true, // It means the NFT will mint all the editions defined in the `amount` attributed during the registration
     nftMetadataUrl: '', // Url to the metadata describing the NFT OpenSea style

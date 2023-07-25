@@ -165,11 +165,11 @@ describe('NFTTemplates With Ether E2E', async () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice,
-            nft: { amount: numberNFTs },
+            nft: { nftAmount: numberNFTs },
           },
           {
             serviceType: 'nft-access',
-            nft: { amount: numberNFTs },
+            nft: { nftAmount: numberNFTs },
           },
         ],
       })

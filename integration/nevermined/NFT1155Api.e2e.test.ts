@@ -156,11 +156,11 @@ function makeTest(isCustom) {
             {
               serviceType: 'nft-sales',
               price: assetPrice1,
-              nft: { amount: numberEditions },
+              nft: { nftAmount: numberEditions },
             },
             {
               serviceType: 'nft-access',
-              nft: { amount: numberEditions },
+              nft: { nftAmount: numberEditions },
             },
           ],
           providers: [config.neverminedNodeAddress],

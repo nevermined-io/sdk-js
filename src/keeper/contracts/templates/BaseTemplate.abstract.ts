@@ -55,7 +55,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       tokenAddress,
       nftAttributes?.nftContractAddress,
       publisher.getId(),
-      assetPrice ? assetPrice.getTotalPrice() : 0n,
+      serviceAttributes?.nft?.nftAmount,
       serviceAttributes?.nft?.nftTransfer,
       serviceAttributes?.nft?.duration,
       nftAttributes?.fulfillAccessTimeout,

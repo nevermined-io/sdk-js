@@ -13,6 +13,7 @@ import {
   Nft721Contract,
   NFTAttributes,
   ConditionState,
+  NFTServiceAttributes,
 } from '../../src'
 import { ethers } from 'ethers'
 import { repeat } from '../utils/utils'
@@ -98,12 +99,12 @@ describe('E2E Flow for NFTs with multiple services', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { nftTransfer: true },
+            nft: { ...NFTServiceAttributes.defaultValues, nftTransfer: true },
           },
           {
             serviceType: 'nft-sales',
             price: assetPrice2,
-            nft: { nftTransfer: false },
+            nft: { nftTransfer: false, nftAmount: 2n },
           },
           {
             serviceType: 'nft-access',
@@ -129,8 +130,19 @@ describe('E2E Flow for NFTs with multiple services', () => {
         totalAmount1,
       )
       assert.equal(
+        salesServices[0].attributes.serviceAgreementTemplate.conditions[1].parameters[2]
+          .value as string,
+        '1',
+      )
+
+      assert.equal(
         salesServices[1].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
         totalAmount2,
+      )
+      assert.equal(
+        salesServices[1].attributes.serviceAgreementTemplate.conditions[1].parameters[2]
+          .value as string,
+        '2',
       )
 
       assert.isDefined(ddo.findServiceByType('metadata'))

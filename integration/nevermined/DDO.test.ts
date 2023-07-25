@@ -149,11 +149,11 @@ describe('DDO Tests', () => {
         {
           serviceType: 'nft-sales',
           price,
-          nft: { amount: 1n },
+          nft: { nftAmount: 1n },
         },
         {
           serviceType: 'nft-access',
-          nft: { amount: 1n },
+          nft: { nftAmount: 1n },
         },
       ],
       providers: [config.neverminedNodeAddress],
