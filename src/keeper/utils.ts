@@ -4,23 +4,23 @@ import { KeeperError } from '../errors'
 export async function getNetworkName(networkId: number): Promise<string> {
   switch (networkId) {
     case 1:
-      return 'Mainnet'
+      return 'mainnet'
     case 2:
-      return 'Morden'
+      return 'morden'
     case 3:
-      return 'Ropsten'
+      return 'ropsten'
     case 4:
-      return 'Rinkeby'
+      return 'rinkeby'
     case 5:
-      return 'Goerli'
+      return 'goerli'
     case 77:
-      return 'POA_Sokol'
+      return 'poa_sokol'
     case 99:
-      return 'POA_Core'
+      return 'poa_core'
     case 42:
-      return 'Kovan'
+      return 'kovan'
     case 100:
-      return 'Gnosis'
+      return 'gnosis'
     case 137:
       return 'matic'
     case 1337:

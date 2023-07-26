@@ -20,7 +20,7 @@ export class Nft1155Contract extends NFTContractsBase {
     await nft.init(config)
 
     if (address) {
-      const networkName = (await nft.nevermined.keeper.getNetworkName()).toLowerCase()
+      const networkName = await nft.nevermined.keeper.getNetworkName()
 
       const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
       await new ContractHandler(config).checkExists(address)

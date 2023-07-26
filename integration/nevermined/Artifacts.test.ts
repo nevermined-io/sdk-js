@@ -48,7 +48,7 @@ describe('Artifacts', () => {
       assert.isDefined(nvm)
       assert.isDefined(nvm.keeper)
       assert.isDefined(nvm.keeper.didRegistry)
-      assert.oneOf((await nvm.keeper.getNetworkName()).toLowerCase(), networkName)
+      assert.oneOf(await nvm.keeper.getNetworkName(), networkName)
       assert.oneOf(await nvm.keeper.getNetworkId(), networkId)
     })
   }
