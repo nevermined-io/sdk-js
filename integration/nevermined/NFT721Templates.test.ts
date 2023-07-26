@@ -90,7 +90,7 @@ describe('NFT721Templates E2E', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[owner, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
 
-    const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    const networkName = nevermined.keeper.network.name
     const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,
@@ -609,7 +609,7 @@ describe('NFT721Templates E2E', () => {
         collector2.getId(),
       )
 
-      const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+      const networkName = nevermined.keeper.network.name
       const erc721ABI = await ContractHandler.getABI(
         'NFT721Upgradeable',
         config.artifactsFolder,

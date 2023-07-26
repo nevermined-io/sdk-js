@@ -2,6 +2,22 @@
 
 ## Breaking changes
 
+### Keeper Network info
+
+`Keeper.version`, `Keeper.getNetworkId()`, `Keeper.getNetworkName()` are removed and instead the network information is static and set during Keeper initialization:
+
+```ts
+// v1
+const chainId = await nevermined.keeper.getNetworkId()
+const networkName = await nevermined.keeper.getNetworkName()
+const version = nevermined.keeper.version
+
+// v2
+const chainId = nevermined.network.chainId
+const networkName = nevermined.keeper.network.name
+const version = nevermined.keeper.network.version
+```
+
 ### Defining Asset Price
 
 The assetPrice is not part of AssetAttributes anymore and is part of each individual service added to the DDO when registering a service. So for services having a price, this must be added as part of the services array of the AssetAttributes.

@@ -29,7 +29,7 @@ describe('Nfts721 operations', async () => {
     // Accounts
     ;[deployer, artist, collector] = await nevermined.accounts.list()
 
-    const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    const networkName = nevermined.keeper.network.name
     const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,

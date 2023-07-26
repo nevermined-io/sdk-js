@@ -150,7 +150,7 @@ export class Keeper extends Instantiable {
     } catch (err) {
       this.connected = false
       throw new KeeperError(
-        `Keeper could not connect to ${await this.getNetworkName()} - ${err.message} ${err.stack}`,
+        `Keeper could not connect to ${this.network.name} - ${err.message} ${err.stack}`,
       )
     }
 
@@ -226,7 +226,13 @@ export class Keeper extends Instantiable {
       eventHandler: new EventHandler(),
     }
     // version
-    this.version = this.didRegistry.version.replace('v', '')
+    const chainId = Number((await this.web3.getNetwork()).chainId)
+    this.network = {
+      chainId,
+      version: this.didRegistry.version.replace('v', ''),
+      name: await KeeperUtils.getNetworkName(chainId),
+      loading: false,
+    }
   }
 
   /**
@@ -329,15 +335,24 @@ export class Keeper extends Instantiable {
   }
 
   /**
-   * Version of the artifacts in use
-   */
-  public version: string
-
-  /**
    * Network id loaded from web3
    */
-  protected network: {
-    id?: number
+  public network: {
+    /**
+     * chainId of the network
+     */
+    chainId?: number
+    /**
+     * Name of the network
+     */
+    name?: string
+    /**
+     * Version of the artifacts in use
+     */
+    version?: string
+    /**
+     * True if keeper is still connecting
+     */
     loading: boolean
   } = {
     loading: true,
@@ -379,31 +394,6 @@ export class Keeper extends Instantiable {
    */
   public getTemplateByAddress(address: string) {
     return Object.values(this.templates).find((template) => template.address === address)
-  }
-
-  /**
-   * Returns the network by name.
-   * @returns Network name.
-   */
-  public async getNetworkName(): Promise<string> {
-    return KeeperUtils.getNetworkName(await this.getNetworkId())
-  }
-
-  /**
-   * Returns the id of the network.
-   * @returns Network ID.
-   */
-  public async getNetworkId(): Promise<number> {
-    if (this.network.loading) {
-      this.network.loading = false
-      this.network.id = Number((await this.web3.getNetwork()).chainId)
-    }
-
-    while (!this.network.id) {
-      await new Promise((resolve) => setTimeout(resolve, 1))
-    }
-
-    return this.network.id
   }
 
   public getAllInstances() {

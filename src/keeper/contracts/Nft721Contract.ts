@@ -16,7 +16,7 @@ export class Nft721Contract extends NFTContractsBase {
   ): Promise<Nft721Contract> {
     const nft: Nft721Contract = new Nft721Contract(contractName)
     nft.setInstanceConfig(config)
-    const networkName = (await nft.nevermined.keeper.getNetworkName()).toLowerCase()
+    const networkName = nft.nevermined.keeper.network.name
 
     // We don't have a subgraph for NFT721 so we can only use ContractEvent
     const eventEmitter = new EventHandler()

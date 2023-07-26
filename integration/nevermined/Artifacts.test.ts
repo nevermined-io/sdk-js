@@ -44,12 +44,12 @@ describe('Artifacts', () => {
         artifactsFolder: tempDir,
       } as NeverminedOptions)
 
-      assert.equal(networkId[0], await nvm.keeper.getNetworkId())
+      assert.equal(networkId[0], nvm.keeper.network.chainId)
       assert.isDefined(nvm)
       assert.isDefined(nvm.keeper)
       assert.isDefined(nvm.keeper.didRegistry)
-      assert.oneOf((await nvm.keeper.getNetworkName()).toLowerCase(), networkName)
-      assert.oneOf(await nvm.keeper.getNetworkId(), networkId)
+      assert.oneOf(nvm.keeper.network.name, networkName)
+      assert.oneOf(nvm.keeper.network.chainId, networkId)
     })
   }
 })

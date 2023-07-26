@@ -50,7 +50,7 @@ describe('Claim aborted agreements End-to-End', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[, publisher, collector1, , other] = await nevermined.accounts.list()
 
-    const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    const networkName = nevermined.keeper.network.name
     const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,

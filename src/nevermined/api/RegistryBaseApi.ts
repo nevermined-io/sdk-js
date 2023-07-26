@@ -203,7 +203,7 @@ export abstract class RegistryBaseApi extends Instantiable {
         immutableUrl: '',
       }
       ddo._nvm.versions.push(ddoVersion)
-      const networkId = await this.nevermined.keeper.getNetworkId()
+      const networkId = this.nevermined.keeper.network.chainId
       ddo._nvm.networks = { [networkId]: true }
 
       if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {

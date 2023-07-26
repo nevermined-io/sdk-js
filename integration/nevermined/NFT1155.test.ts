@@ -68,7 +68,7 @@ describe('NFT1155 End-to-End', () => {
 
   describe('As user I can deploy Nevermined ERC-1155 NFT contract instances', () => {
     it('Using the ABI', async () => {
-      const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+      const networkName = nevermined.keeper.network.name
       const erc1155ABI = await ContractHandler.getABI(
         'NFT1155Upgradeable',
         config.artifactsFolder,

@@ -13,7 +13,7 @@ describe('ContractHandler', () => {
     nevermined = await Nevermined.getInstance(config)
     const { instanceConfig } = nevermined as any
     contractHandler = new ContractHandler(instanceConfig)
-    networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    networkName = nevermined.keeper.network.name
   })
 
   describe('ABIs parsing', () => {

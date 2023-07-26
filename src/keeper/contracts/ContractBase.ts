@@ -67,7 +67,7 @@ export abstract class ContractBase extends Instantiable {
         this,
         eventEmitter,
         this.config.graphHttpUri,
-        await this.nevermined.keeper.getNetworkName(),
+        this.nevermined.keeper.network.name,
       )
     } else {
       this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.web3)

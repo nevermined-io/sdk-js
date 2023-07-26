@@ -35,7 +35,7 @@ describe('NFT721LockCondition', () => {
     ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
     ;[owner, lockAddress] = await nevermined.accounts.list()
 
-    const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    const networkName = nevermined.keeper.network.name
 
     const erc721ABI = await TestContractHandler.getABI(
       'NFT721Upgradeable',
