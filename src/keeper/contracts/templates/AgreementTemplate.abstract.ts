@@ -7,13 +7,7 @@ import {
   conditionStateNames,
 } from '../conditions'
 import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../ddo'
-import {
-  didZeroX,
-  findServiceConditionByName,
-  getAssetPriceFromService,
-  ZeroAddress,
-  zeroX,
-} from '../../../utils'
+import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetPrice, BabyjubPublicKey } from '../../../models'
 import { Account, OrderProgressStep } from '../../../nevermined'
@@ -82,8 +76,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   }
 
   public async paymentData(service: Service): Promise<PaymentData> {
-    const assetPrice = getAssetPriceFromService(service)
-    const payment = findServiceConditionByName(service, 'lockPayment')
+    const assetPrice = DDO.getAssetPriceFromService(service)
+    const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     return {
       rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.address,
@@ -198,13 +192,21 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     ddo: DDO,
     creator: string,
     parameters: Params,
+    serviceIndex?: number,
   ): Promise<AgreementInstance<Params>>
 
   public abstract service(): ServiceType
 
-  public standardContext(ddo: DDO, creator: string): ConditionContext {
-    const service = ddo.findServiceByType(this.service())
-    const rewards = getAssetPriceFromService(service)
+  public standardContext(ddo: DDO, creator: string, serviceIndex?: number): ConditionContext {
+    const service = serviceIndex
+      ? ddo.findServiceByIndex(serviceIndex)
+      : ddo.findServiceByType(this.service())
+    let rewards
+    try {
+      rewards = DDO.getAssetPriceFromService(service)
+    } catch (_e) {
+      rewards = undefined
+    }
     return { ddo, service, price: rewards, creator }
   }
 
@@ -250,6 +252,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async createAgreementWithPaymentFromDDO(
     agreementIdSeed: string,
     ddo: DDO,
+    serviceReference: ServiceType | number,
     parameters: Params,
     consumer: Account,
     from: Account,
@@ -258,16 +261,18 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   ): Promise<string> {
     observer = observer ? observer : (_) => ({})
 
+    const service = ddo.findServiceByReference(serviceReference)
+
     const { instances, agreementId } = await this.instanceFromDDO(
       agreementIdSeed,
       ddo,
       from.getId(),
       parameters,
+      service.index,
     )
 
-    const service = ddo.findServiceByType(this.service())
-    const assetPrice = getAssetPriceFromService(service)
-    const payment = findServiceConditionByName(service, 'lockPayment')
+    const assetPrice = DDO.getAssetPriceFromService(service)
+    const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.address
     const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
@@ -312,22 +317,22 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return agreementId
   }
 
-  public abstract getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate>
+  public abstract getServiceAgreementTemplate(): ServiceAgreementTemplate
 
-  public async getServiceAgreementTemplateConditions() {
-    const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
+  public getServiceAgreementTemplateConditions() {
+    const serviceAgreementTemplate = this.getServiceAgreementTemplate()
     return serviceAgreementTemplate.conditions
   }
 
   public async getServiceAgreementTemplateConditionByRef(ref: string) {
-    const name = (await this.getServiceAgreementTemplateConditions()).find(
+    const name = this.getServiceAgreementTemplateConditions().find(
       ({ name: conditionRef }) => conditionRef === ref,
     ).contractName
     return (await this.getConditions()).find((condition) => condition.contractName === name)
   }
 
   public async getServiceAgreementTemplateDependencies() {
-    const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
+    const serviceAgreementTemplate = this.getServiceAgreementTemplate()
     return serviceAgreementTemplate.conditionDependency
   }
 

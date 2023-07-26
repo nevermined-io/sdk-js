@@ -55,7 +55,7 @@ describe('Agreement Store Manager', () => {
     await account2.requestTokens(
       ddo.getPriceByService() * 10n ** BigInt(await nevermined.keeper.token.decimals()),
     )
-    agreementId = await nevermined.assets.order(ddo.id, account2)
+    agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 
     // wait for the graph to pickup the event
     await sleep(3000)

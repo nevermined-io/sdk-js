@@ -106,14 +106,22 @@ describe('NFT1155 End-to-End', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+            nft: { amount: numberNFTs },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
+          },
+        ],
       })
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
         preMint,
       })

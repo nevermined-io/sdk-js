@@ -73,7 +73,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -103,6 +108,14 @@ describe('DDO Tests', () => {
         'templateId',
       ] as any,
     )
+
+    assert.isTrue(ddo.serviceExists('metadata'))
+    assert.isTrue(ddo.serviceExists('access'))
+    assert.isFalse(ddo.serviceExists('compute'))
+
+    assert.isTrue(ddo.serviceIndexExists(0)) // metadata
+    assert.isTrue(ddo.serviceIndexExists(2)) // access
+    assert.isFalse(ddo.serviceIndexExists(99))
   })
 
   it('should create correct nft DDO', async () => {
@@ -132,8 +145,17 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
-      serviceTypes: ['nft-sales', 'nft-access'],
+      services: [
+        {
+          serviceType: 'nft-sales',
+          price,
+          nft: { amount: 1n },
+        },
+        {
+          serviceType: 'nft-access',
+          nft: { amount: 1n },
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
     const royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 100000)
@@ -142,7 +164,6 @@ describe('DDO Tests', () => {
       ...assetAttributes,
       nftContractAddress: nevermined.nfts1155.nftContract.address,
       cap: 10n,
-      amount: 1n,
       royaltyAttributes,
       preMint: true,
     })
@@ -209,7 +230,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -295,7 +321,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -353,8 +384,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
-      serviceTypes: ['compute'],
+      services: [
+        {
+          serviceType: 'compute',
+          price: price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 

@@ -6,6 +6,8 @@ import {
   ValidationParams,
   MetaData,
   MetaDataMain,
+  PricedMetadataInformation,
+  ServiceAttributes,
 } from '../ddo'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import {
@@ -17,7 +19,7 @@ import {
   NFTSalesTemplate,
 } from '../keeper'
 import { Account } from './Account'
-import { AssetPrice } from '../models'
+import { NFTAttributes } from '../models'
 
 export interface AccessProofTemplateParams {
   type: 'access-proof'
@@ -34,14 +36,22 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
     this.normal = normal
   }
 
-  public async createService(
+  public createService(
     publisher: Account,
     metadata: MetaData,
-    assetPrice: AssetPrice,
-    erc20TokenAddress: string,
-  ): Promise<ServiceAccess> {
-    return this.normal.createService(publisher, metadata, assetPrice, erc20TokenAddress, true)
+    serviceAttributes: ServiceAttributes,
+    nftAttributes?: NFTAttributes,
+    pricedData?: PricedMetadataInformation,
+  ): ServiceAccess {
+    return this.normal.createService(
+      publisher,
+      metadata,
+      serviceAttributes,
+      nftAttributes,
+      pricedData,
+    )
   }
+
   public async process(
     params: ValidationParams,
     from: Account,
@@ -65,17 +75,19 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
     this.normal721 = config.nevermined.keeper.templates.nft721AccessTemplate
   }
 
-  public async createService(
+  public createService(
     publisher: Account,
     metadata: MetaData,
-    assetPrice: AssetPrice,
-    erc20TokenAddress: string,
-  ): Promise<ServiceNFTAccess> {
+    serviceAttributes: ServiceAttributes,
+    nftAttributes?: NFTAttributes,
+    pricedData?: PricedMetadataInformation,
+  ): ServiceNFTAccess {
     return this.select(metadata.main).createService(
       publisher,
       metadata,
-      assetPrice,
-      erc20TokenAddress,
+      serviceAttributes,
+      nftAttributes,
+      pricedData,
     )
   }
 
@@ -111,18 +123,19 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
     this.normal721 = config.nevermined.keeper.templates.nft721SalesTemplate
   }
 
-  public async createService(
+  public createService(
     publisher: Account,
     metadata: MetaData,
-    assetPrice: AssetPrice,
-    erc20TokenAddress: string,
-  ): Promise<ServiceNFTSales> {
+    serviceAttributes: ServiceAttributes,
+    nftAttributes?: NFTAttributes,
+    pricedData?: PricedMetadataInformation,
+  ): ServiceNFTSales {
     return this.select(metadata.main).createService(
       publisher,
       metadata,
-      assetPrice,
-      erc20TokenAddress,
-      true,
+      serviceAttributes,
+      nftAttributes,
+      pricedData,
     )
   }
 

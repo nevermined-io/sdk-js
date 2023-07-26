@@ -23,7 +23,12 @@ describe.skip('Get DDO status', () => {
   it('should get the external status of an asset', async () => {
     const assetAttributes = AssetAttributes.getInstance({
       metadata: getMetadata(),
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
     })
     const ddo = await nevermined.assets.create(assetAttributes, publisher)
 

@@ -8,7 +8,6 @@ import {
   EventOptions,
   NeverminedNFT721Type,
   SearchQuery,
-  getNftContractAddressFromService,
 } from '../../sdk'
 
 const EMPTY_RESULT: QueryResult = {
@@ -497,7 +496,7 @@ export class SearchApi extends Instantiable {
       return EMPTY_RESULT
     }
 
-    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+    const nftContractAddress = DDO.getNftContractAddressFromService(nftSalesService)
 
     return this.servicesByNftContract(
       nftContractAddress,
@@ -627,7 +626,7 @@ export class SearchApi extends Instantiable {
       return EMPTY_RESULT
     }
 
-    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+    const nftContractAddress = DDO.getNftContractAddressFromService(nftSalesService)
 
     return this.datasetsByNftContract(
       nftContractAddress,

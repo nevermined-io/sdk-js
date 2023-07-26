@@ -1,12 +1,5 @@
 import { DDO, ServiceType } from '../../../ddo'
-import {
-  fillConditionsWithDDO,
-  findServiceConditionByName,
-  getAssetPriceFromService,
-  getDIDFromService,
-  getNftHolderFromService,
-  zeroX,
-} from '../../../utils'
+import { getConditionsByParams, zeroX } from '../../../utils'
 import { AssetPrice, Babysig, ERCType } from '../../../models'
 import { RoyaltyKind } from '../AssetsApi'
 import { Account } from '../../Account'
@@ -238,23 +231,22 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     nftAmount: bigint,
     provider: string,
     token: Token,
-    owner: string,
+    owner: Account,
   ): Promise<string> {
     const serviceType: ServiceType = 'nft-sales'
     const { nftSalesTemplate } = this.nevermined.keeper.templates
     const agreementIdSeed = zeroX(generateId())
-    const nftSalesServiceAgreementTemplate = await nftSalesTemplate.getServiceAgreementTemplate()
-    const nftSalesTemplateConditions =
-      await nftSalesTemplate.getServiceAgreementTemplateConditions()
+    const nftSalesServiceAgreementTemplate = nftSalesTemplate.getServiceAgreementTemplate()
 
-    nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+    nftSalesServiceAgreementTemplate.conditions = getConditionsByParams(
       serviceType,
-      nftSalesTemplateConditions,
-      ddo,
+      nftSalesServiceAgreementTemplate.conditions,
+      owner.getId(),
       assetPrice,
+      ddo.id,
       token.address,
       undefined,
-      provider || owner,
+      provider || owner.getId(),
       nftAmount,
     )
 
@@ -268,7 +260,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       attributes: {
         main: {
           name: 'nftSalesAgreement',
-          creator: owner,
+          creator: owner.getId(),
           datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
           timeout: 86400,
         },
@@ -321,12 +313,24 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
   ): Promise<boolean> {
     const { nftSalesTemplate } = this.nevermined.keeper.templates
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-    const assetPrice = getAssetPriceFromService(service)
+
+    let assetPrice
+    try {
+      assetPrice = DDO.getAssetPriceFromService(service)
+    } catch (_e) {
+      assetPrice = undefined
+    }
     // has no privkeys, so we can't sign
-    const currentNftHolder = new Account(getNftHolderFromService(service))
-    const did = getDIDFromService(service)
+    let currentNftHolder
+    try {
+      currentNftHolder = new Account(DDO.getNftHolderFromService(service))
+    } catch (_e) {
+      currentNftHolder = undefined
+    }
+
+    const did = DDO.getDIDFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
-    ddo.updateService(this.nevermined, service)
+    ddo.updateMetadataService(service)
 
     const agreementId = await nftSalesTemplate.createAgreementFromDDO(
       agreementIdSeed,
@@ -340,7 +344,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
 
     if (!agreementId) throw new Error('Creating buy agreement failed')
 
-    const payment = findServiceConditionByName(service, 'lockPayment')
+    const payment = DDO.findServiceConditionByName(service, 'lockPayment')
 
     const receipt = await this.nevermined.agreements.conditions.lockPayment(
       agreementId,

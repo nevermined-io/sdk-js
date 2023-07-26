@@ -71,8 +71,17 @@ describe('Nfts721 operations', async () => {
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { nftTransfer: true },
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: await nft.getAddress(),
+        preMint: true,
       })
       assert.equal(nftAttributes.fulfillAccessTimelock, 0)
       ddo = await nevermined.nfts721.create(nftAttributes, artist)
@@ -120,8 +129,16 @@ describe('Nfts721 operations', async () => {
       // artist creates the nft
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        price: new AssetPrice().setTokenAddress(await token.getAddress()),
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: new AssetPrice().setTokenAddress(token.getAddress()),
+            nft: { nftTransfer: true },
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: await nft.getAddress(),
         preMint: false,
       })
@@ -161,8 +178,16 @@ describe('Nfts721 operations', async () => {
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+            nft: { nftTransfer: true },
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
         nftContractAddress: await nft.getAddress(),
         preMint: false,
       })

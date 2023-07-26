@@ -78,7 +78,16 @@ describe('NFTLockCondition', () => {
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
         cap: 100n,
-        amount,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: true,
       })
 
@@ -135,7 +144,16 @@ describe('NFTLockCondition', () => {
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
         cap: 100n,
-        amount,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: true,
       })
 
@@ -167,7 +185,16 @@ describe('NFTLockCondition', () => {
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
         cap: 100n,
-        amount,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: false,
       })
 
@@ -204,7 +231,16 @@ describe('NFTLockCondition', () => {
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
         cap: 100n,
-        amount,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: true,
       })
 

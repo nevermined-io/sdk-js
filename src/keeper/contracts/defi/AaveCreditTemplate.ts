@@ -89,7 +89,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     }
   }
 
-  public async getServiceAgreementTemplate() {
+  public getServiceAgreementTemplate() {
     return aaveCreditTemplateServiceAgreementTemplate
   }
 

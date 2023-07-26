@@ -66,12 +66,6 @@ export class AssetPrice {
     return this.tokenAddress
   }
 
-  public getAmountsString(): string {
-    return this.rewards.size
-      ? JSON.stringify(Array.from(this.rewards.values()).map((value) => value.toString()))
-      : '[]'
-  }
-
   /**
    * It adds network fees on top of the already configured asset rewards
    * @param feeReceiver - the address receiving the fees
@@ -106,8 +100,18 @@ export class AssetPrice {
     return this
   }
 
+  public getAmountsString(): string {
+    return this.rewards.size
+      ? JSON.stringify(Array.from(this.rewards.values()).map((value) => value.toString()))
+      : '[]'
+  }
+
   public getReceiversString(): string {
     if (this.rewards.size == 0) return '[]'
     return '["' + Array.from(this.rewards.keys()).join('","') + '"]'
+  }
+
+  public toString(): string {
+    return this.getAmountsString() + this.getReceiversString()
   }
 }

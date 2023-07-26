@@ -1,5 +1,5 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { didZeroX, zeroX } from '../../../../utils'
 import {
   Condition,
   ConditionContext,
@@ -9,7 +9,7 @@ import {
 } from '../Condition.abstract'
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../..'
+import { DDO, ServiceCommon } from '../../../..'
 
 export interface TransferNFTConditionContext extends ConditionContext {
   providerId: string
@@ -82,7 +82,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
   }
 
   public nftContractFromService(service: ServiceCommon): string {
-    const holder = findServiceConditionByName(service, 'transferNFT')
+    const holder = DDO.findServiceConditionByName(service, 'transferNFT')
     if (!holder) throw new Error('TransferNFT condition not found!')
     const res = holder.parameters.find((p) => p.name === '_contractAddress')?.value as string
     return res || this.nevermined.keeper.nftUpgradeable.address
@@ -92,7 +92,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     { ddo, service, providerId, consumerId, nftAmount }: TransferNFTConditionContext,
     lockCondition,
   ) {
-    const transfer = findServiceConditionByName(service, 'transferNFT')
+    const transfer = DDO.findServiceConditionByName(service, 'transferNFT')
     if (!transfer) throw new Error('TransferNFT condition not found!')
     const nftHolder =
       providerId || (transfer.parameters.find((p) => p.name === '_nftHolder').value as string)

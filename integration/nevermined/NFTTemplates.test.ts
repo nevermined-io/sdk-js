@@ -23,7 +23,6 @@ import {
   Token,
 } from '../../src/keeper'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
-import { setNFTRewardsFromDDOByService } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { EventLog } from 'ethers'
@@ -170,14 +169,22 @@ describe('NFTTemplates E2E', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice1,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice1,
+            nft: { amount: numberNFTs },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
+          },
+        ],
       })
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -616,14 +623,22 @@ describe('NFTTemplates E2E', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice1,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice1,
+            nft: { amount: numberNFTs },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
+          },
+        ],
       })
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -649,6 +664,7 @@ describe('NFTTemplates E2E', () => {
         const result = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
           agreementIdSeed,
           ddo,
+          'nft-sales',
           nftSalesTemplate.params(collector1.getId(), numberNFTs),
           collector1,
           collector1,
@@ -670,9 +686,11 @@ describe('NFTTemplates E2E', () => {
         const nftBalanceArtistBefore = await nftUpgradeable.balance(artist.getId(), ddo.id)
         const nftBalanceCollectorBefore = await nftUpgradeable.balance(collector1.getId(), ddo.id)
 
+        const service = ddo.findServiceByType('nft-sales')
         const receipt = await nevermined.agreements.conditions.transferNft(
           agreementId,
           ddo,
+          service.index,
           numberNFTs,
           artist,
         )
@@ -698,6 +716,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           artist,
         )
@@ -773,7 +792,7 @@ describe('NFTTemplates E2E', () => {
           lockPaymentCondition: Number(await token.balanceOf(lockPaymentCondition.address)),
           escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
         }
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice2, collector1.getId())
+        ddo.setNFTRewardsFromService('nft-sales', assetPrice2, collector1.getId())
       })
 
       it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
@@ -827,9 +846,12 @@ describe('NFTTemplates E2E', () => {
         const nftBalanceCollector1Before = await nftUpgradeable.balance(collector1.getId(), ddo.id)
         const nftBalanceCollector2Before = await nftUpgradeable.balance(collector2.getId(), ddo.id)
 
+        const service = ddo.findServiceByType('nft-sales')
+
         const receipt = await nevermined.agreements.conditions.transferNft(
           agreementId2,
           ddo,
+          service.index,
           numberNFTs2,
           collector1,
         )
@@ -856,6 +878,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId2,
           ddo,
+          'nft-sales',
           numberNFTs2,
           collector1,
         )
@@ -911,14 +934,21 @@ describe('NFTTemplates E2E', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice1,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice1,
+            nft: { amount: numberNFTs },
+          },
+          {
+            serviceType: 'nft-access',
+          },
+        ],
       })
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -988,6 +1018,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.transferNftForDelegate(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           gallery,
         )
@@ -1013,6 +1044,7 @@ describe('NFTTemplates E2E', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           artist,
           gallery,

@@ -1,7 +1,7 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../ddo'
+import { DDO, ServiceType } from '../../../ddo'
 import { NFTAttributes, AssetAttributes } from '../../../models'
-import { generateId, getDIDFromService, SubscribablePromise, zeroX } from '../../../utils'
+import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import { Account } from '../../Account'
 import { Nft721Contract, TxParameters } from '../../../keeper'
 import { PublishMetadata } from '../AssetsApi'
@@ -120,6 +120,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param consumer - The account of the NFT buyer.
+   * @param serviceReference - The reference to identify wich service within the DDO to order
    * @param txParams - Optional transaction parameters.
    *
    * @returns The agreement ID.
@@ -127,6 +128,7 @@ export class NFT721Api extends NFTsBaseApi {
   public order(
     did: string,
     consumer: Account,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
@@ -139,6 +141,7 @@ export class NFT721Api extends NFTsBaseApi {
       const agreementId = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
+        serviceReference,
         nft721SalesTemplate.params(consumer.getId()),
         consumer,
         consumer,
@@ -204,6 +207,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param agreementId - The NFT sales agreement id.
    * @param did - The Decentralized identifier of the NFT asset.
    * @param publisher - The current owner of the NFTs.
+   * @param serviceReference - The reference to identify wich service within the DDO to transfer
    * @param txParams - Optional transaction parameters.
    *
    * @returns true if the transfer was successful.
@@ -215,13 +219,20 @@ export class NFT721Api extends NFTsBaseApi {
     agreementId: string,
     did: string,
     publisher: Account,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
 
     const ddo = await this.nevermined.assets.resolve(did)
-
-    const result = await agreements.conditions.transferNft721(agreementId, ddo, publisher, txParams)
+    const service = ddo.findServiceByReference(serviceReference)
+    const result = await agreements.conditions.transferNft721(
+      agreementId,
+      ddo,
+      service.index,
+      publisher,
+      txParams,
+    )
     if (!result) {
       throw new NFTError('Error transferring nft721.')
     }
@@ -247,6 +258,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param agreementId - The NFT sales agreement id.
    * @param did - The Decentralized identifier of the NFT asset.
    * @param publisher - The current owner of the NFTs.
+   * @param serviceReference - The reference to identify wich service within the DDO to release rewards
    * @param txParams - Optional transaction parameters.
    *
    * @returns true if the funds release was successful.
@@ -258,15 +270,18 @@ export class NFT721Api extends NFTsBaseApi {
     agreementId: string,
     did: string,
     publisher: Account,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
 
     const ddo = await this.nevermined.assets.resolve(did)
+    const service = ddo.findServiceByReference(serviceReference)
 
     const result = await agreements.conditions.releaseNft721Reward(
       agreementId,
       ddo,
+      service.index,
       publisher,
       undefined,
       txParams,
@@ -510,9 +525,9 @@ export class NFT721Api extends NFTsBaseApi {
     txParams?: TxParameters,
   ): Promise<boolean> {
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-    const did = getDIDFromService(service)
+    const did = DDO.getDIDFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
-    ddo.updateService(this.nevermined, service)
+    ddo.updateMetadataService(service)
     const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
       agreementIdSeed,
       account.getId(),
@@ -521,6 +536,7 @@ export class NFT721Api extends NFTsBaseApi {
     let receipt = await this.nevermined.agreements.conditions.transferNft721(
       agreementId,
       ddo,
+      service.index,
       owner,
       txParams,
     )
@@ -530,6 +546,7 @@ export class NFT721Api extends NFTsBaseApi {
     receipt = await this.nevermined.agreements.conditions.releaseNft721Reward(
       agreementId,
       ddo,
+      service.index,
       owner,
       undefined,
       txParams,

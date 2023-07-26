@@ -66,7 +66,12 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
     ddo = await nevermined.assets
@@ -82,8 +87,9 @@ describe('Consume Asset (Nevermined Node)', () => {
 
   it('should order the asset', async () => {
     const steps = []
-    const subscribablePromise = nevermined.assets.order(ddo.id, consumer)
-    agreementId = await subscribablePromise.next((step) => steps.push(step))
+    agreementId = await nevermined.assets
+      .order(ddo.id, 'access', consumer)
+      .next((step) => steps.push(step))
 
     assert.isDefined(agreementId)
     assert.deepEqual(steps, [2, 3, 4, 5])
@@ -119,6 +125,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     const path = (await nevermined.assets.access(
       agreementId,
       ddo.id,
+      'access',
       consumer,
       folder,
       -1,

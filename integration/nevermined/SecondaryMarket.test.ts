@@ -21,14 +21,7 @@ import {
   NFTSalesTemplate,
   Token,
 } from '../../src/keeper'
-import {
-  fillConditionsWithDDO,
-  findServiceConditionByName,
-  formatUnits,
-  getAssetPriceFromService,
-  parseUnits,
-  setNFTRewardsFromDDOByService,
-} from '../../src/utils'
+import { formatUnits, getConditionsByParams, parseUnits } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
@@ -182,14 +175,22 @@ describe('Secondary Markets', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice1,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice1,
+            nft: { amount: numberNFTs },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
+          },
+        ],
       })
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -250,9 +251,12 @@ describe('Secondary Markets', () => {
         const nftBalanceArtistBefore = await nftUpgradeable.balance(artist.getId(), ddo.id)
         const nftBalanceCollectorBefore = await nftUpgradeable.balance(collector1.getId(), ddo.id)
 
+        const service = ddo.findServiceByType('nft-sales')
+
         const receipt = await nevermined.agreements.conditions.transferNft(
           agreementId,
           ddo,
+          service.index,
           numberNFTs,
           artist,
         )
@@ -269,6 +273,7 @@ describe('Secondary Markets', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId,
           ddo,
+          'nft-sales',
           numberNFTs,
           artist,
         )
@@ -339,20 +344,19 @@ describe('Secondary Markets', () => {
           lockPaymentCondition: await token.balanceOf(lockPaymentCondition.address),
           escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.address),
         }
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice2, collector1.getId())
+        ddo.setNFTRewardsFromService('nft-sales', assetPrice2, collector1.getId())
       })
 
       it('As collector1 I create and store an off-chain service agreement', async () => {
-        const nftSalesServiceAgreementTemplate =
-          await nftSalesTemplate.getServiceAgreementTemplate()
-        const nftSalesTemplateConditions =
-          await nftSalesTemplate.getServiceAgreementTemplateConditions()
+        const nftSalesServiceAgreementTemplate = nftSalesTemplate.getServiceAgreementTemplate()
+        const nftSalesTemplateConditions = nftSalesTemplate.getServiceAgreementTemplateConditions()
 
-        nftSalesServiceAgreementTemplate.conditions = fillConditionsWithDDO(
+        nftSalesServiceAgreementTemplate.conditions = getConditionsByParams(
           'nft-sales',
           nftSalesTemplateConditions,
-          ddo,
+          collector1.getId(),
           assetPrice2,
+          ddo.id,
           token.address,
           undefined,
           collector1.getId(),
@@ -406,8 +410,9 @@ describe('Secondary Markets', () => {
         assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)
 
         // After fetching the previously created sales agreement
-        const assetPriceFromServiceAgreement = getAssetPriceFromService(nftSalesServiceAgreement)
-        const payment = findServiceConditionByName(nftSalesServiceAgreement, 'lockPayment')
+        const assetPriceFromServiceAgreement =
+          DDO.getAssetPriceFromService(nftSalesServiceAgreement)
+        const payment = DDO.findServiceConditionByName(nftSalesServiceAgreement, 'lockPayment')
 
         const receipt = await nevermined.agreements.conditions.lockPayment(
           agreementId2,
@@ -433,9 +438,12 @@ describe('Secondary Markets', () => {
         const nftBalanceCollector1Before = await nftUpgradeable.balance(collector1.getId(), ddo.id)
         const nftBalanceCollector2Before = await nftUpgradeable.balance(collector2.getId(), ddo.id)
 
+        const service = ddo.findServiceByType('nft-sales')
+
         const receipt = await nevermined.agreements.conditions.transferNft(
           agreementId2,
           ddo,
+          service.index,
           numberNFTs2,
           collector1,
         )
@@ -457,7 +465,8 @@ describe('Secondary Markets', () => {
 
       it('Collector1 and Artist get the payment', async () => {
         // After fetching the previously created sales agreement
-        const assetPriceFromServiceAgreement = getAssetPriceFromService(nftSalesServiceAgreement)
+        const assetPriceFromServiceAgreement =
+          DDO.getAssetPriceFromService(nftSalesServiceAgreement)
 
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
           escrowPaymentCondition.address,
@@ -466,6 +475,7 @@ describe('Secondary Markets', () => {
         const receipt = await nevermined.agreements.conditions.releaseNftReward(
           agreementId2,
           ddo,
+          'nft-sales',
           numberNFTs2,
           collector1,
         )
@@ -492,7 +502,7 @@ describe('Secondary Markets', () => {
     describe('As collector1 I want to give exclusive access to the collectors owning a specific NFT', () => {
       before(async () => {
         const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(collector2)
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice3, collector2.getId())
+        ddo.setNFTRewardsFromService('nft-sales', assetPrice3, collector2.getId())
 
         await nevermined.services.marketplace.login(clientAssertion)
       })
@@ -555,7 +565,7 @@ describe('Secondary Markets', () => {
           numberNFTs2,
           collector2.getId(),
           token,
-          collector2.getId(),
+          collector2,
         )
         assert.isNotNull(agreementId3)
 

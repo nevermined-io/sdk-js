@@ -1,10 +1,10 @@
 import { DDO, MetaData, ServiceNFTAccess, ServiceNFTSales, ServiceType } from '../../ddo'
 import { Account } from '../Account'
-import { SubscribablePromise, didZeroX, getNftContractAddressFromService } from '../../utils'
+import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
 import { AssetError, DDOError } from '../../errors'
-import { Nevermined } from '../../sdk'
+import { Nevermined, apiPath } from '../../sdk'
 import { ContractTransactionReceipt } from 'ethers'
 import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
@@ -173,16 +173,18 @@ export class AssetsApi extends RegistryBaseApi {
    * If the access service to purchase is having associated some price, it will make the payment
    * for that service.
    * @param did - Unique identifier of the asset to order
+   * @param serviceReference - The service to order. By default is the access service, but it can be specified the service.index to refer a different specific service
    * @param consumerAccount - The account of the user ordering the asset
    * @param txParams - Optional transaction parameters
    * @returns The agreement ID identifying the order
    */
   public order(
     did: string,
+    serviceReference: ServiceType | number = 'access',
     consumerAccount: Account,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
-    return this.orderAsset(did, 'access', consumerAccount, txParams)
+    return this.orderAsset(did, serviceReference, consumerAccount, txParams)
   }
 
   /**
@@ -190,6 +192,7 @@ export class AssetsApi extends RegistryBaseApi {
    * This method allows to download the assets associated to that service.
    * @param agreementId  - The unique identifier of the order placed for a service
    * @param did - Unique identifier of the asset ordered
+   * @param serviceReference - The service to download. By default is the access service, but it can be specified the service.index to refer a different specific service
    * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
    * @param resultPath - Where the files will be downloaded
    * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
@@ -200,6 +203,7 @@ export class AssetsApi extends RegistryBaseApi {
   public async access(
     agreementId: string,
     did: string,
+    serviceReference: ServiceType | number,
     consumerAccount: Account,
     resultPath?: string,
     fileIndex = -1,
@@ -208,18 +212,23 @@ export class AssetsApi extends RegistryBaseApi {
   ): Promise<string | true> {
     const ddo = await this.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
-    const { serviceEndpoint, index } = ddo.findServiceByType('access')
+    let service
+    if (typeof serviceReference === 'number') {
+      service = ddo.findServiceByIndex(serviceReference)
+    } else {
+      service = ddo.findServiceByType(serviceReference)
+    }
     const { files } = attributes.main
 
-    if (!serviceEndpoint) {
-      throw new AssetError(
-        'Consume asset failed, service definition is missing the `serviceEndpoint`.',
-      )
-    }
+    const serviceEndpoint = service.serviceEndpoint
+      ? service.serviceEndpoint
+      : this.nevermined.services.node.getAccessEndpoint()
 
     this.logger.log('Consuming files')
 
-    resultPath = resultPath ? `${resultPath}/datafile.${ddo.shortId()}.${index}/` : undefined
+    resultPath = resultPath
+      ? `${resultPath}/datafile.${ddo.shortId()}.${service.index}/`
+      : undefined
 
     await this.nevermined.services.node.consumeService(
       did,
@@ -346,7 +355,15 @@ export class AssetsApi extends RegistryBaseApi {
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
 
-    const { serviceEndpoint, index } = ddo.findServiceByType(serviceType)
+    let serviceEndpoint, index
+    if (ddo.serviceExists(serviceType)) {
+      const service = ddo.findServiceByType(serviceType)
+      serviceEndpoint = service.serviceEndpoint
+      index = service.index
+    } else {
+      serviceEndpoint = `${this.config.marketplaceUri}/${apiPath}/${did}`
+      index = 0
+    }
 
     if (!serviceEndpoint) {
       throw new AssetError(
@@ -441,9 +458,9 @@ export class AssetsApi extends RegistryBaseApi {
   public getNftContractAddress(ddo: DDO, serviceType: ServiceType = 'nft-access') {
     const service = ddo.findServiceByType(serviceType)
     if (service.type === 'nft-access')
-      return getNftContractAddressFromService(service as ServiceNFTAccess)
+      return DDO.getNftContractAddressFromService(service as ServiceNFTAccess)
     else if (service.type === 'nft-sales')
-      return getNftContractAddressFromService(service as ServiceNFTSales)
+      return DDO.getNftContractAddressFromService(service as ServiceNFTSales)
     throw new DDOError(`Unable to find NFT contract address in service ${serviceType}`)
   }
 }

@@ -50,7 +50,15 @@ describe('Consume Asset', () => {
 
   it('should register an asset', async () => {
     ddo = await nevermined.assets.create(
-      AssetAttributes.getInstance({ metadata, price: assetPrice }),
+      AssetAttributes.getInstance({
+        metadata,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
+      }),
       publisher,
     )
 
@@ -171,7 +179,13 @@ describe('Consume Asset', () => {
 
   it('should consume and store the assets', async () => {
     const folder = '/tmp/nevermined/sdk-js-1'
-    const path = (await nevermined.assets.access(agreementId, ddo.id, consumer, folder)) as string
+    const path = (await nevermined.assets.access(
+      agreementId,
+      ddo.id,
+      'access',
+      consumer,
+      folder,
+    )) as string
 
     assert.include(path, folder, 'The storage path is not correct.')
 
@@ -189,6 +203,7 @@ describe('Consume Asset', () => {
     const path = (await nevermined.assets.access(
       agreementId,
       ddo.id,
+      'access',
       consumer,
       folder,
       1,

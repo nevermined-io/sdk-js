@@ -34,7 +34,12 @@ describe('Assets', () => {
     metadata.userId = payload.sub
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
     })
     ddoBefore = await nevermined.assets.create(assetAttributes, publisher)
   })
@@ -49,7 +54,12 @@ describe('Assets', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata: createdMetadata,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
       })
       ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMetadata.IPFS)
 
@@ -240,7 +250,12 @@ describe('Assets', () => {
       // Create 1 asset with appId-test1
       const assetAttributes = AssetAttributes.getInstance({
         metadata: metadata1,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId1,
       })
       ddoBefore = await neverminedApp1.assets.create(assetAttributes, publisher)
@@ -249,7 +264,12 @@ describe('Assets', () => {
       // Create 2 assets with appId-test2
       const assetAttributes2 = AssetAttributes.getInstance({
         metadata: metadata2,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes2, publisher)
@@ -257,7 +277,12 @@ describe('Assets', () => {
 
       const assetAttributes22 = AssetAttributes.getInstance({
         metadata: metadata22,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes22, publisher)

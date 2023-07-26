@@ -46,8 +46,12 @@ export class ComputeApi extends RegistryBaseApi {
     publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
-    if (!assetAttributes.serviceTypes.includes('compute'))
-      assetAttributes.serviceTypes = [...assetAttributes.serviceTypes, 'compute']
+    const computeService = assetAttributes.services.find((service) => {
+      service.serviceType = 'compute'
+    })
+    if (!computeService) {
+      assetAttributes.services = [...assetAttributes.services, { serviceType: 'compute' }]
+    }
     return this.registerNeverminedAsset(
       assetAttributes,
       publisherAccount,

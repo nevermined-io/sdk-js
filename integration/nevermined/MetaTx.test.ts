@@ -46,7 +46,7 @@ describe.skip('MetaTx test with nfts', () => {
 
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [{ serviceType: 'nft-sales' }, { serviceType: 'nft-access' }],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
         cap: 10n,
         royaltyAttributes,

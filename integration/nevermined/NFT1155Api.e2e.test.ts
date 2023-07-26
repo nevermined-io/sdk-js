@@ -152,15 +152,23 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata,
-          price: assetPrice1,
-          serviceTypes: ['nft-sales', 'nft-access'],
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+              nft: { amount: numberEditions },
+            },
+            {
+              serviceType: 'nft-access',
+              nft: { amount: numberEditions },
+            },
+          ],
           providers: [config.neverminedNodeAddress],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
           nftContractAddress: nevermined.nfts1155.nftContract.address,
           cap: cappedAmount,
-          amount: numberEditions,
           royaltyAttributes,
           preMint: true,
         })
@@ -262,10 +270,12 @@ function makeTest(isCustom) {
       it('the artist asks and receives the payment', async () => {
         await sleep(DELAY)
         const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
+        const service = ddo.findServiceByReference('nft-sales')
         await sleep(DELAY)
         const receipt = await nevermined.nfts1155.releaseRewards(
           agreementId,
           ddo.id,
+          service.index,
           numberEditions,
           artist,
         )
@@ -315,8 +325,15 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: newMetadata,
-          serviceTypes: ['nft-sales', 'nft-access'],
-          price: assetPrice1,
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
@@ -384,8 +401,15 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: newMetadata,
-          serviceTypes: ['nft-sales', 'nft-access'],
-          price: assetPrice1,
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
@@ -468,8 +492,12 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: getMetadata(),
-          serviceTypes: ['nft-sales'],
-          price: new AssetPrice(artist.getId(), 0n),
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: new AssetPrice(artist.getId(), 0n),
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,

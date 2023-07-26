@@ -1,7 +1,7 @@
 import { ServiceAgreementTemplate } from '../../../ddo'
 import { accessTemplate, escrowTemplate, lockPaymentTemplate } from './ConditionTemplates'
 
-export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
+export const accessTemplateServiceAgreementTemplate = (): ServiceAgreementTemplate => ({
   contractName: 'AccessTemplate',
   events: [
     {
@@ -21,4 +21,4 @@ export const accessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = 
     escrowPayment: ['lockPayment', 'access'],
   },
   conditions: [lockPaymentTemplate(), accessTemplate(), escrowTemplate()],
-}
+})

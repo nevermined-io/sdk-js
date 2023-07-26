@@ -1,9 +1,9 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { didZeroX, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../../ddo'
+import { DDO, ServiceCommon } from '../../../../ddo'
 
 export interface NFTHolderConditionContext extends ConditionContext {
   holderAddress: string
@@ -37,13 +37,13 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
   }
 
   public amountFromService(service: ServiceCommon): bigint {
-    const holder = findServiceConditionByName(service, 'nftHolder')
+    const holder = DDO.findServiceConditionByName(service, 'nftHolder')
     if (!holder) throw new Error('Holder condition not found!')
     return BigInt(holder.parameters.find((p) => p.name === '_numberNfts').value as string)
   }
 
   public nftContractFromService(service: ServiceCommon): string {
-    const holder = findServiceConditionByName(service, 'nftHolder')
+    const holder = DDO.findServiceConditionByName(service, 'nftHolder')
     if (!holder) throw new Error('Holder condition not found!')
     const res = holder.parameters.find((p) => p.name === '_contractAddress').value as string
     return res || this.nevermined.keeper.nftUpgradeable.address

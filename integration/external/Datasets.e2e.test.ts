@@ -176,13 +176,19 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+            nft: {
+              duration: subscriptionDuration,
+              nftTransfer,
+            },
+          },
+        ],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
@@ -196,11 +202,15 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: datasetMetadata,
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+            nft: { nftTransfer },
+          },
+        ],
         providers: [neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       datasetDDO = await nevermined.nfts721.create(nftAttributes, publisher)

@@ -40,7 +40,7 @@ describe('Consume Asset (Documentation example)', () => {
     await nevermined.services.marketplace.login(clientAssertion)
     const payload = decodeJwt(config.marketplaceAuthToken)
 
-    metadata = await getMetadata()
+    metadata = getMetadata()
     metadata.userId = payload.sub
     assetPrice = new AssetPrice(publisher.getId(), 0n)
   })
@@ -49,7 +49,12 @@ describe('Consume Asset (Documentation example)', () => {
     ddo = await nevermined.assets.create(
       AssetAttributes.getInstance({
         metadata,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
       }),
       publisher,
     )
@@ -164,7 +169,13 @@ describe('Consume Asset (Documentation example)', () => {
 
   it('should consume and store the assets', async () => {
     const folder = '/tmp/nevermined/sdk-js-1'
-    const path = (await nevermined.assets.access(agreementId, ddo.id, consumer, folder)) as string
+    const path = (await nevermined.assets.access(
+      agreementId,
+      ddo.id,
+      'access',
+      consumer,
+      folder,
+    )) as string
 
     assert.include(path, folder, 'The storage path is not correct.')
 
@@ -182,6 +193,7 @@ describe('Consume Asset (Documentation example)', () => {
     const path = (await nevermined.assets.access(
       agreementId,
       ddo.id,
+      'access',
       consumer,
       folder,
       0,

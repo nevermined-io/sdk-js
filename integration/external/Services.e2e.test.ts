@@ -236,13 +236,19 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       subscriptionMetadata.main.type = 'subscription'
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+            nft: {
+              duration: subscriptionDuration,
+              nftTransfer,
+            },
+          },
+        ],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
@@ -265,13 +271,21 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       ) as MetaData
       serviceMetadata.userId = payload.sub
 
+      console.log(`Registering service with metadata: ${JSON.stringify(serviceMetadata)}`)
+
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: serviceMetadata,
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+            nft: {
+              nftTransfer,
+            },
+          },
+        ],
         providers: [neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       serviceDDO = await nevermined.nfts721.create(nftAttributes, publisher)

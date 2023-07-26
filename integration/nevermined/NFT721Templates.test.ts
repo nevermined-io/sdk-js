@@ -25,9 +25,9 @@ import {
 import { config } from '../config'
 import { NFT721Api } from '../../src'
 import { getMetadata } from '../utils'
-import { setNFTRewardsFromDDOByService } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { EventLog } from 'ethers'
+import { repeat } from '../utils/utils'
 
 describe('NFT721Templates E2E', () => {
   let nftContractOwner: Account
@@ -195,13 +195,20 @@ describe('NFT721Templates E2E', () => {
 
         const nftAttributes = NFTAttributes.getInstance({
           metadata,
-          price: assetPrice1,
-          serviceTypes: ['nft-sales', 'nft-access'],
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+              nft: { nftTransfer: false },
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
           ercType: 721,
           nftType: NeverminedNFT721Type.nft721,
           nftContractAddress: nft.address,
           preMint: true,
-          nftTransfer: false,
           royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 10000),
         })
         ddo = await nevermined.nfts721.create(nftAttributes, artist)
@@ -633,8 +640,16 @@ describe('NFT721Templates E2E', () => {
 
         const nftAttributes = NFTAttributes.getInstance({
           metadata,
-          price: assetPrice1,
-          serviceTypes: ['nft-sales', 'nft-access'],
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+              nft: { nftTransfer: true },
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
           ercType: 721,
           nftType: NeverminedNFT721Type.nft721,
           nftContractAddress: nft.address,
@@ -655,6 +670,7 @@ describe('NFT721Templates E2E', () => {
         const result = await nft721SalesTemplate.createAgreementWithPaymentFromDDO(
           agreementIdSeed,
           ddo,
+          'nft-sales',
           nft721SalesTemplate.params(collector1.getId()),
           collector1,
           collector1,
@@ -681,14 +697,25 @@ describe('NFT721Templates E2E', () => {
         const ownerBefore = await nft.ownerOf(ddo.shortId())
         assert.equal(ownerBefore, artist.getId())
 
+        const service = ddo.findServiceByType('nft-sales')
         const receipt = await nevermined.agreements.conditions.transferNft721(
           agreementId,
           ddo,
+          service.index,
           artist,
         )
         assert.isTrue(receipt)
 
         const ownerAfter = await nft.ownerOf(ddo.shortId())
+
+        const status = await repeat(3, nevermined.agreements.status(agreementId))
+
+        assert.deepEqual(status, {
+          lockPayment: ConditionState.Fulfilled,
+          transferNFT: ConditionState.Fulfilled,
+          escrowPayment: ConditionState.Unfulfilled,
+        })
+
         assert.equal(ownerAfter, collector1.getId())
       })
 
@@ -696,9 +723,11 @@ describe('NFT721Templates E2E', () => {
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
           escrowPaymentCondition.address,
         )
+
         const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
           agreementId,
           ddo,
+          'nft-sales',
           artist,
         )
         assert.isTrue(receipt)
@@ -773,7 +802,7 @@ describe('NFT721Templates E2E', () => {
           lockPaymentCondition: Number(await token.balanceOf(lockPaymentCondition.address)),
           escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
         }
-        setNFTRewardsFromDDOByService(ddo, 'nft-sales', assetPrice2, collector1.getId())
+        ddo.setNFTRewardsFromService('nft-sales', assetPrice2, collector1.getId())
       })
       it('As collector2 I setup an agreement for buying an NFT from collector1', async () => {
         const result = await nft721SalesTemplate.createAgreementFromDDO(
@@ -826,9 +855,12 @@ describe('NFT721Templates E2E', () => {
         const ownerBefore = await nft.ownerOf(ddo.shortId())
         assert.equal(ownerBefore, collector1.getId())
 
+        const service = ddo.findServiceByType('nft-sales')
+
         const receipt = await nevermined.agreements.conditions.transferNft721(
           agreementId2,
           ddo,
+          service.index,
           collector1,
         )
         assert.isTrue(receipt)
@@ -841,9 +873,11 @@ describe('NFT721Templates E2E', () => {
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
           escrowPaymentCondition.address,
         )
+
         const receipt = await nevermined.agreements.conditions.releaseNft721Reward(
           agreementId2,
           ddo,
+          'nft-sales',
           collector1,
         )
         assert.isTrue(receipt)

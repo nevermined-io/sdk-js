@@ -66,12 +66,19 @@ describe('POAPs with Assets', () => {
   it('editor should be able to register poap', async () => {
     const nftAttributes = NFTAttributes.getPOAPInstance({
       metadata,
-      price: new AssetPrice(editor.getId(), 0n, nevermined.utils.token.getAddress()),
-      serviceTypes: ['nft-sales', 'nft-access'],
+      services: [
+        {
+          serviceType: 'nft-sales',
+          price: new AssetPrice(editor.getId(), 0n, nevermined.utils.token.getAddress()),
+          nft: { nftTransfer: false },
+        },
+        {
+          serviceType: 'nft-access',
+        },
+      ],
       providers: [gatewayAddress],
       nftContractAddress: await poapContract.getAddress(),
       preMint: false,
-      nftTransfer: false,
       royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0),
     })
     poapDDO = await nevermined.nfts721.create(nftAttributes, editor)

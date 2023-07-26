@@ -161,14 +161,22 @@ describe('NFTTemplates With Ether E2E', async () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+            nft: { amount: numberNFTs },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount: numberNFTs },
+          },
+        ],
       })
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
-        amount: numberNFTs,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)

@@ -75,8 +75,8 @@ export class NFT721AccessTemplate extends BaseTemplate<
     }
   }
 
-  public async getServiceAgreementTemplate(): Promise<ServiceAgreementTemplate> {
-    return nft721AccessTemplateServiceAgreementTemplate
+  public getServiceAgreementTemplate(): ServiceAgreementTemplate {
+    return { ...nft721AccessTemplateServiceAgreementTemplate() }
   }
 
   public async accept(params: ValidationParams): Promise<boolean> {

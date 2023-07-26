@@ -1,16 +1,18 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { ZeroAddress, formatUnits, zeroX } from '../../../utils'
+import { getConditionsByParams, zeroX } from '../../../utils'
 import {
-  Priced,
+  PricedMetadataInformation,
   Service,
+  ServiceAttributes,
   serviceIndex,
   ServicePlugin,
   ServiceType,
   ValidationParams,
 } from '../../../ddo'
-import { Account, Condition, MetaData, AssetPrice } from '../../../sdk'
+import { Account, Condition, MetaData, NFTAttributes } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
+import { isAddress } from 'ethers'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>
@@ -30,43 +32,36 @@ export abstract class BaseTemplate<Params, S extends Service>
     return this.service()
   }
 
-  private async getPriced(assetPrice: AssetPrice, erc20TokenAddress: string): Promise<Priced> {
-    let decimals: number
-
-    if (erc20TokenAddress === ZeroAddress) {
-      decimals = 18
-    } else {
-      const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
-      decimals = await token.decimals()
-    }
-
-    const price = assetPrice.getTotalPrice().toString()
-    const priceHighestDenomination = +formatUnits(assetPrice.getTotalPrice(), decimals)
-    return {
-      attributes: {
-        main: {
-          price,
-        },
-        additionalInformation: {
-          priceHighestDenomination,
-        },
-      },
-    }
-  }
-
-  public async createService(
+  public createService(
     publisher: Account,
     metadata: MetaData,
-    assetPrice?: AssetPrice,
-    erc20TokenAddress?: string,
-    priced = false,
-  ): Promise<S> {
-    const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
-    let priceData: Priced
+    serviceAttributes: ServiceAttributes,
+    nftAttributes?: NFTAttributes,
+    priceData?: PricedMetadataInformation,
+  ): S {
+    const assetPrice = serviceAttributes.price
+    let tokenAddress
+    if (assetPrice === undefined || !isAddress(assetPrice.getTokenAddress()))
+      tokenAddress = this.nevermined.utils.token.getAddress()
+    else tokenAddress = assetPrice.getTokenAddress()
 
-    if (priced) {
-      priceData = await this.getPriced(assetPrice, erc20TokenAddress)
-    }
+    const serviceAgreementTemplate = this.getServiceAgreementTemplate()
+    const _conds = getConditionsByParams(
+      this.service(),
+      serviceAgreementTemplate.conditions,
+      publisher.getId(),
+      assetPrice,
+      undefined, // we don't know the DID yet
+      tokenAddress,
+      nftAttributes?.nftContractAddress,
+      publisher.getId(),
+      serviceAttributes?.nft?.amount,
+      serviceAttributes?.nft?.nftTransfer,
+      serviceAttributes?.nft?.duration,
+      nftAttributes?.fulfillAccessTimeout,
+      nftAttributes?.fulfillAccessTimelock,
+    )
+    serviceAgreementTemplate.conditions = _conds
 
     return {
       type: this.service(),
