@@ -22,21 +22,10 @@ export class Web3Provider {
 
     // Adding the static network prevents ethers from calling eth_chainId with every call
     const network = await provider.getNetwork()
-    console.log('network', network.chainId, network.name)
     provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
       cacheTimeout: -1,
       staticNetwork: network,
     })
-
-    // provider.addListener('debug', (event) => {
-    //   if (event.payload) {
-    //     if (Array.isArray(event.payload)) {
-    //       console.log(event.payload.map((e) => e.method))
-    //     } else {
-    //       console.log(event.payload.method)
-    //     }
-    //   }
-    // })
 
     return provider
   }
