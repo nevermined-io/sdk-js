@@ -10,7 +10,7 @@ import { NeverminedOptions } from '../../src'
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
-    TestContractHandler.setConfig(config)
+    await TestContractHandler.setConfig(config)
 
     const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
     TestContractHandler.networkId = Number((await TestContractHandler.web3.getNetwork()).chainId)
@@ -24,11 +24,11 @@ export default abstract class TestContractHandler extends ContractHandler {
   private static networkId: number
   private static minter: string
   private static config = config
-  private static web3 = Web3Provider.getWeb3(config)
+  private static web3: ethers.JsonRpcProvider | ethers.BrowserProvider
 
-  public static setConfig(config) {
+  public static async setConfig(config) {
     TestContractHandler.config = config
-    TestContractHandler.web3 = Web3Provider.getWeb3(TestContractHandler.config)
+    TestContractHandler.web3 = await Web3Provider.getWeb3(TestContractHandler.config)
   }
 
   private static async deployContracts(deployerAddress: string) {

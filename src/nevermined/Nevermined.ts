@@ -35,7 +35,7 @@ export class Nevermined extends Instantiable {
     const instance = new Nevermined()
 
     const instanceConfig = {
-      ...generateIntantiableConfigFromConfig(config),
+      ...(await generateIntantiableConfigFromConfig(config)),
       nevermined: instance,
     }
     instance.setInstanceConfig(instanceConfig)
