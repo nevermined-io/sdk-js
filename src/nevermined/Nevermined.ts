@@ -22,7 +22,7 @@ export class Nevermined extends Instantiable {
    *
    * @example
    * ```ts
-   * import { Nevermined, Config } from '@nevermined-io/nevermied-sdk-js'
+   * import { Nevermined, Config } from '@nevermined-io/sdk'
    *
    * const config: Config = {...}
    * const nevermined = await Nevermined.getInstance(config)

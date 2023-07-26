@@ -70,7 +70,7 @@ describe('Assets', () => {
       assert.equal(ddo._nvm.versions[0].immutableBackend, 'ipfs')
 
       assert.equal(Object.keys(ddo._nvm.networks).length, 1)
-      assert.equal(ddo._nvm.networks[nevermined.keeper.network.chainId], true)
+      assert.equal(ddo._nvm.networks[await nevermined.keeper.getNetworkId()], true)
 
       const metadata = ddo.findServiceByType('metadata')
       assert.equal(metadata.attributes.main.ercType, 721)

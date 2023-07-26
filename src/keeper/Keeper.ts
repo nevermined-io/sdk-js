@@ -150,7 +150,7 @@ export class Keeper extends Instantiable {
     } catch (err) {
       this.connected = false
       throw new KeeperError(
-        `Keeper could not connect to ${this.network.name} - ${err.message} ${err.stack}`,
+        `Keeper could not connect to ${await this.getNetworkName()} - ${err.message} ${err.stack}`,
       )
     }
 
@@ -337,7 +337,7 @@ export class Keeper extends Instantiable {
   /**
    * Network id loaded from web3
    */
-  public network: {
+  protected network: {
     /**
      * chainId of the network
      */
@@ -376,6 +376,45 @@ export class Keeper extends Instantiable {
    */
   public getTemplateByName(name: string) {
     return Object.values(this.templates).find((template) => template.contractName === name)
+  }
+
+  /**
+   * Returns the network by name.
+   * @returns Network name.
+   */
+  public async getNetworkName(): Promise<string> {
+    if (!this.network.name) {
+      this.network.name = await KeeperUtils.getNetworkName(await this.getNetworkId())
+    }
+    return this.network.name
+  }
+
+  /**
+   * Returns the id of the network.
+   * @returns Network ID.
+   */
+  public async getNetworkId(): Promise<number> {
+    if (!this.network.chainId) {
+      this.network.loading = false
+      this.network.chainId = Number((await this.web3.getNetwork()).chainId)
+    }
+
+    while (!this.network.chainId) {
+      await new Promise((resolve) => setTimeout(resolve, 1))
+    }
+
+    return this.network.chainId
+  }
+
+  /**
+   * Returns the network version.
+   * @returns Network version.
+   */
+  public getNetworkVersion(): string {
+    if (!this.network.version) {
+      this.network.version = this.didRegistry.version.replace('v', '')
+    }
+    return this.network.version
   }
 
   /**

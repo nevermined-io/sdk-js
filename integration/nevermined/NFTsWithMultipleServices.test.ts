@@ -45,7 +45,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
 
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
-    const networkName = nevermined.keeper.network.name
+    const networkName = await nevermined.keeper.getNetworkName()
     const erc721ABI = await ContractHandler.getABI(
       'NFT721Upgradeable',
       config.artifactsFolder,

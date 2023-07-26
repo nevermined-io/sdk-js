@@ -55,8 +55,8 @@ export class ContractHandler extends Instantiable {
     artifactsFolder: string,
     address?: string,
   ): Promise<ethers.BaseContract> {
-    const chainId = this.nevermined.keeper.network.chainId
-    const where = this.nevermined.keeper.network.name
+    const chainId = await this.nevermined.keeper.getNetworkId()
+    const where = await this.nevermined.keeper.getNetworkName()
     try {
       this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
       return (
@@ -98,7 +98,7 @@ export class ContractHandler extends Instantiable {
   }
 
   public async getVersion(contractName: string, artifactsFolder: string): Promise<string> {
-    const where = this.nevermined.keeper.network.name
+    const where = await this.nevermined.keeper.getNetworkName()
     let artifact
     this.logger.debug(
       `ContractHandler :: getVersion :: Trying to read ${artifactsFolder}/${contractName}.${where}.json`,
@@ -257,7 +257,7 @@ export class ContractHandler extends Instantiable {
 
   public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
     // Custom gas fee for polygon networks
-    const chainId = this.nevermined.keeper.network.chainId
+    const chainId = await this.nevermined.keeper.getNetworkId()
     if (chainId === 137 || chainId === 80001) {
       return this.getFeeDataPolygon(chainId)
     }

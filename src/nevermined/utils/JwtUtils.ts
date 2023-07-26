@@ -145,7 +145,7 @@ export class JwtUtils extends Instantiable {
     if (message) {
       eip712Data = {
         message,
-        chainId: this.nevermined.keeper.network.chainId,
+        chainId: await this.nevermined.keeper.getNetworkId(),
       }
     }
     return new EthSignJWT({
