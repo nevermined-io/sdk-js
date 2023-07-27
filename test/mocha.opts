@@ -1,8 +1,0 @@
---require ts-node/register
---require source-map-support/register
---require mock-local-storage
---full-trace
---exit
---timeout 60000
-test/config.ts 
-test/**/*.test.ts
