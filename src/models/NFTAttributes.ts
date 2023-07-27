@@ -106,6 +106,24 @@ export class NFTAttributes extends AssetAttributes {
     }
   }
 
+  static getCreditsSubscriptionInstance(
+    nftAttributes: Partial<NFTAttributes>,
+  ): Required<NFTAttributes> {
+    const _instance = {
+      ercType: 1155,
+      nftType: NeverminedNFT1155Type.nft1155Credit,
+      // isSubscription: true,
+      nftContractAddress: nftAttributes.nftContractAddress,
+      metadata: nftAttributes.metadata,
+      ...NFTAttributes.defaultValues,
+      ...nftAttributes,
+    }
+    _instance.services.forEach((service) => {
+      service.nft.isSubscription = true
+    })
+    return _instance
+  }
+
   static getNFT721Instance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
     return {
       ercType: 721,
