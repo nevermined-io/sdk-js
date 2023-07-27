@@ -42,7 +42,7 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'hola hola'
-      const provider = Web3Provider.getWeb3(config)
+      const provider = await Web3Provider.getWeb3(config)
       const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
       const txParams: TxParameters = { nonce: txCount }
 
