@@ -21,7 +21,7 @@ export class Nft1155Contract extends NFTContractsBase {
     await nft.init(config)
 
     if (address) {
-      const networkName = (await nft.nevermined.keeper.getNetworkName()).toLowerCase()
+      const networkName = await nft.nevermined.keeper.getNetworkName()
 
       // We don't have a subgraph for NFT1155 so we can only use ContractEvent
       const eventEmitter = new EventHandler()

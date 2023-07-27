@@ -31,7 +31,7 @@ describe('Keeper', () => {
 
   describe('#getNetworkName()', () => {
     it('should get localnet as default', async () => {
-      const networkName: string = (await keeper.getNetworkName()).toLowerCase()
+      const networkName: string = await keeper.getNetworkName()
       assert(
         networkName === 'geth-localnet' ||
           networkName === 'polygon-localnet' ||
