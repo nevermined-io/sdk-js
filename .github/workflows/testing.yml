@@ -40,12 +40,6 @@ jobs:
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
         run: yarn run integration:cover
 
-  cpu-info:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cpu info
-        run: cat /proc/cpuinfo
-
   unit-tests:
     runs-on: ubuntu-latest
 
