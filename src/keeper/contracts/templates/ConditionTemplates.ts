@@ -449,6 +449,16 @@ export const transferNftTemplate = () => ({
       type: 'bytes32',
       value: '',
     },
+    {
+      name: '_nftTransfer',
+      type: 'boolean',
+      value: '',
+    },
+    {
+      name: '_duration',
+      type: 'uint256',
+      value: '0',
+    },
   ],
   events: [
     {

@@ -41,6 +41,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
    * @param ercType  - The Type of the NFT ERC (1155 or 721).
    * @param did - The DID of the asset.
+   * @param serviceIndex - The index of the service in the DDO that will be claimed
    *
    * @throws {@link NFTError} if Nevermined is not an operator for this NFT
    * @returns true if the transfer was successful.
@@ -52,6 +53,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     numberEditions = 1n,
     ercType: ERCType = 1155,
     did?: string,
+    serviceIndex?: number,
   ): Promise<boolean> {
     if (did) {
       // check if transferNFT condition has the operator role
@@ -65,7 +67,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         throw new NFTError('Nevermined does not have operator role')
       }
     }
-
+    console.log(`REMOVE: Just before node.claimNFT`)
     return await this.nevermined.services.node.claimNFT(
       agreementId,
       nftHolder,
@@ -73,6 +75,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       numberEditions,
       ercType,
       did,
+      serviceIndex,
     )
   }
 
@@ -183,14 +186,17 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * ```
    *
    * @param ddo - The DDO of the asset.
-   * @param serviceType - The service type to look for the contract address
+   * @param serviceReference - The service type to look for the contract address
    *
    * @returns The NFT contract address.
    */
-  public static getNFTContractAddress(ddo: DDO, serviceType: ServiceType = 'nft-access') {
-    const service = ddo.findServiceByType(serviceType)
+  public static getNFTContractAddress(
+    ddo: DDO,
+    serviceReference: number | ServiceType = 'nft-access',
+  ) {
+    const service = ddo.findServiceByReference(serviceReference)
     if (service) {
-      const conditionName = serviceType == 'nft-access' ? 'nftHolder' : 'transferNFT'
+      const conditionName = serviceReference == 'nft-access' ? 'nftHolder' : 'transferNFT'
       const cond = service.attributes.serviceAgreementTemplate.conditions.find(
         (c) => c.name === conditionName,
       )

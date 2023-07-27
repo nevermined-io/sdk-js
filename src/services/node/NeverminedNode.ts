@@ -378,19 +378,23 @@ export class NeverminedNode extends Instantiable {
     nftAmount: bigint,
     ercType: ERCType = 1155,
     did?: string,
+    serviceIndex?: number,
   ): Promise<boolean> {
     try {
-      const response = await this.nevermined.utils.fetch.post(
-        this.getClaimNftEndpoint(),
-        JSON.stringify({
-          agreementId,
-          did,
-          nftHolder,
-          nftReceiver,
-          nftAmount: nftAmount.toString(),
-          nftType: ercType,
-        }),
-      )
+      console.log(`REMOVE: Just before fetch.post`)
+      const claimBody = JSON.stringify({
+        agreementId,
+        did,
+        nftHolder,
+        nftReceiver,
+        nftAmount: nftAmount.toString(),
+        nftType: ercType,
+        serviceIndex: serviceIndex && serviceIndex >= 0 ? serviceIndex : -1,
+      })
+      console.log(`REMOVE: Claim body: ${claimBody}`)
+
+      const response = await this.nevermined.utils.fetch.post(this.getClaimNftEndpoint(), claimBody)
+      console.log(`REMOVE: we claimed`)
       if (!response.ok) {
         throw new HttpError(`${response.statusText} ${response.url}`, response.status)
       }

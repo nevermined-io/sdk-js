@@ -180,6 +180,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param nftHolder - The address of the current owner of the NFT.
    * @param nftReceiver - The address where the NFT should be transferred.
    * @param did - The Decentralized Identifier of the asset.
+   * @param serviceIndex - The index of the service in the DDO that will be claimed
    *
    * @returns true if the transfer was successful.
    */
@@ -188,8 +189,9 @@ export class NFT721Api extends NFTsBaseApi {
     nftHolder: string,
     nftReceiver: string,
     did?: string,
+    serviceIndex?,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, 1n, 721, did)
+    return await this.claimNFT(agreementId, nftHolder, nftReceiver, 1n, 721, did, serviceIndex)
   }
 
   /**

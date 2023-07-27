@@ -44,6 +44,7 @@ describe('Subscriptions using NFT ERC-1155 End-to-End', () => {
 
   let subscriptionMetadata: MetaData
   let assetMetadata: MetaData
+  let subsSalesService
 
   const preMint = false
   const royalties = 0
@@ -140,7 +141,7 @@ describe('Subscriptions using NFT ERC-1155 End-to-End', () => {
 
       await subscriptionNFT.grantOperatorRole(transferNftCondition.address, editor)
 
-      const nftAttributes = NFTAttributes.getSubscriptionInstance({
+      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: subscriptionMetadata,
         services: [
           {
@@ -171,7 +172,7 @@ describe('Subscriptions using NFT ERC-1155 End-to-End', () => {
     })
 
     it('I want to register a new asset and tokenize (via NFT)', async () => {
-      const nftAttributes = NFTAttributes.getSubscriptionInstance({
+      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: assetMetadata,
         services: [
           {
@@ -202,10 +203,12 @@ describe('Subscriptions using NFT ERC-1155 End-to-End', () => {
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
 
+      subsSalesService = subscriptionDDO.findServiceByType('nft-sales')
       agreementId = await nevermined.nfts1155.order(
         subscriptionDDO.id,
         subscriptionCredits,
         subscriber,
+        subsSalesService.index,
       )
 
       assert.isDefined(agreementId)
@@ -215,21 +218,30 @@ describe('Subscriptions using NFT ERC-1155 End-to-End', () => {
       assert.equal(subscriberBalanceAfter, initialBalances.subscriber)
     })
 
-    it('The seller can check the payment and transfer the NFT to the subscriber', async () => {
+    it('The credits seller can check the payment and transfer the NFT to the subscriber', async () => {
       // Let's use the Node to mint the subscription and release the payments
 
       const balanceBefore = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
       console.log(`Balance Before: ${balanceBefore}`)
+      console.log(`Balance Before (JSON): ${JSON.stringify(balanceBefore.toString())}`)
       assert.equal(balanceBefore, 0n)
 
-      const receipt = await nevermined.nfts1155.claim(
-        agreementId,
-        editor.getId(),
-        subscriber.getId(),
-        subscriptionCredits,
-        subscriptionDDO.id,
-      )
-      assert.isTrue(receipt)
+      try {
+        const receipt = await nevermined.nfts1155.claim(
+          agreementId,
+          editor.getId(),
+          subscriber.getId(),
+          subscriptionCredits,
+          subscriptionDDO.id,
+          subsSalesService.index,
+        )
+        assert.isTrue(receipt)
+      } catch (e) {
+        console.error(e.message)
+        assert.fail(e.message)
+      }
+
+      console.log(`Got the receipt`)
 
       const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
       console.log(`Balance After: ${balanceAfter}`)
@@ -239,7 +251,7 @@ describe('Subscriptions using NFT ERC-1155 End-to-End', () => {
         subscriber.getId(),
         subscriptionDDO.shortId(),
       )
-      console.log(`Minted: ${JSON.stringify(minted)}`)
+      console.log(`Minted: ${minted.length}`)
     })
 
     it('the editor and reseller can receive their payment', async () => {

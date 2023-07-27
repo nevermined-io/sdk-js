@@ -259,6 +259,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param nftReceiver - The address where the NFT should be transferred.
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
    * @param did - The Decentralized Identifier of the asset.
+   * @param serviceIndex - The index of the service in the DDO that will be claimed
    *
    * @returns true if the transfer was successful.
    */
@@ -268,8 +269,17 @@ export class NFT1155Api extends NFTsBaseApi {
     nftReceiver: string,
     numberEditions = 1n,
     did?: string,
+    serviceIndex?: number,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, numberEditions, 1155, did)
+    return await this.claimNFT(
+      agreementId,
+      nftHolder,
+      nftReceiver,
+      numberEditions,
+      1155,
+      did,
+      serviceIndex,
+    )
   }
 
   /**
