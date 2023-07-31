@@ -184,6 +184,14 @@
                   "name": "_conditionId",
                   "type": "bytes32",
                   "value": ""
+                },
+                {
+                  "name": "_nftTransfer",
+                  "type": "boolean"
+                },
+                {
+                  "name": "_duration",
+                  "type": "uint256"
                 }
               ],
               "events": [

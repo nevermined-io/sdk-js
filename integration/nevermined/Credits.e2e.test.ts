@@ -224,7 +224,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       const balanceBefore = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
       console.log(`Balance Before: ${balanceBefore}`)
       console.log(`Balance Before (JSON): ${JSON.stringify(balanceBefore.toString())}`)
-      assert.equal(balanceBefore, 0n)
+      assert.isTrue(balanceBefore === 0n)
 
       try {
         const receipt = await nevermined.nfts1155.claim(
@@ -245,7 +245,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
 
       const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
       console.log(`Balance After: ${balanceAfter}`)
-      assert.equal(balanceAfter, subscriptionCredits)
+      assert.isTrue(balanceAfter === subscriptionCredits)
 
       const minted = await subscriptionNFT.getContract.getMintedEntries(
         subscriber.getId(),
@@ -258,8 +258,8 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
       const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
 
-      assert.equal(receiver0Balance, initialBalances.editor + assetPrice1.getAmounts()[0])
-      assert.equal(receiver1Balance, initialBalances.reseller + assetPrice1.getAmounts()[1])
+      assert.isTrue(receiver0Balance === initialBalances.editor + assetPrice1.getAmounts()[0])
+      assert.isTrue(receiver1Balance === initialBalances.reseller + assetPrice1.getAmounts()[1])
     })
 
     it('the subscription can be checked on chain', async () => {
@@ -300,9 +300,9 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
 
   describe('As subscriber I want to get access to assets include as part of my subscription', () => {
     it('The Subscriber should have an NFT balance', async () => {
-      assert.equal(
-        await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId()),
-        subscriptionCredits,
+      assert.isTrue(
+        (await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())) ===
+          subscriptionCredits,
       )
     })
 
@@ -318,9 +318,9 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
     })
 
     it('The balance of the subscriber should be lower because credits got used', async () => {
-      assert.equal(
-        await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId()),
-        subscriptionCredits - accessCostInCredits,
+      assert.isTrue(
+        (await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())) ===
+          subscriptionCredits - accessCostInCredits,
       )
     })
   })
