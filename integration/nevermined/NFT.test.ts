@@ -35,10 +35,14 @@ describe('Nfts operations', () => {
 
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
-        services: [{ serviceType: 'nft-sales' }, { serviceType: 'nft-access' }],
+        services: [
+          { serviceType: 'nft-sales', nft: { amount: 2n, nftTransfer: true } },
+          { serviceType: 'nft-access' },
+        ],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
         cap: 10n,
         royaltyAttributes,
+        preMint: true,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
     })
@@ -50,16 +54,19 @@ describe('Nfts operations', () => {
       )
     })
 
-    it('should mint 10 nft tokens', async () => {
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 10n)
+    it('artist should have balance because are pre-minted', async () => {
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, artist)) === 10n)
     })
 
     it('should transfer 2 nft tokens with default token', async () => {
       const agreementId = await nevermined.nfts1155.order(ddo.id, 2n, collector)
+
       await nevermined.nfts1155.transfer(agreementId, ddo.id, 2n, artist)
 
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 8n)
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, collector), 2n)
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, artist)) === 8n)
+      console.log(`After Assert Balance`)
+
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, collector)) === 2n)
     })
 
     it('should the operation be approved', async () => {
@@ -73,7 +80,7 @@ describe('Nfts operations', () => {
 
     it('should burn nft tokens', async () => {
       await nevermined.nfts1155.burn(ddo.id, 6n, artist)
-      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 2n)
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, artist)) === 2n)
     })
   })
 
@@ -84,16 +91,20 @@ describe('Nfts operations', () => {
 
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
-        services: [{ serviceType: 'nft-sales' }, { serviceType: 'nft-access' }],
+        services: [
+          { serviceType: 'nft-sales', nft: { nftTransfer: true } },
+          { serviceType: 'nft-access' },
+        ],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
         cap: 10n,
+        preMint: true,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
     })
 
     it('should mint 10 nft tokens', async () => {
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 10n)
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, artist)) === 10n)
     })
 
     it('should transfer 2 nft tokens with custom token', async () => {
@@ -121,6 +132,7 @@ describe('Nfts operations', () => {
           {
             serviceType: 'nft-sales',
             price: new AssetPrice(artist.getId(), parseEther('0.1')).setTokenAddress(ZeroAddress),
+            nft: { nftTransfer: true },
           },
           {
             serviceType: 'nft-access',
@@ -141,14 +153,14 @@ describe('Nfts operations', () => {
       const agreementId = await nevermined.nfts1155.order(ddo.id, 2n, collector)
       await nevermined.nfts1155.transfer(agreementId, ddo.id, 2n, artist)
 
-      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 8n)
-      assert.equal(await nevermined.nfts1155.balance(ddo.id, collector), 2n)
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, artist)) === 8n)
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, collector)) === 2n)
     })
 
     it('should burn nft tokens', async () => {
       await nevermined.nfts1155.burn(ddo.id, 6n, artist)
 
-      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 2n)
+      assert.isTrue((await nevermined.nfts1155.balance(ddo.id, artist)) === 2n)
     })
   })
 })

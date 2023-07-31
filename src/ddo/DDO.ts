@@ -452,6 +452,26 @@ export class DDO {
   }
 
   /**
+   * Gets the nftTransfer parameter in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns if condition will do a nft transfer or a mint
+   */
+  public static getNFTTransferFromService(service: Service): boolean {
+    return (
+      DDO.getParameterFromCondition(service, 'transferNFT', '_nftTransfer').toString() === 'true'
+    )
+  }
+
+  /**
+   * Gets the duration parameter in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns the duration of the subscription
+   */
+  public static getDurationFromService(service: Service): number {
+    return Number(DDO.getParameterFromCondition(service, 'transferNFT', '_duration').toString())
+  }
+
+  /**
    * Given a service, condition and param name it returns the value
    * @param service The service where the condition is
    * @param conditionType the condition type

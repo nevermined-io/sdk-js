@@ -27,3 +27,8 @@ export const getCircularReplacer = () => {
     return value
   }
 }
+
+export const jsonReplacer = (key, value) => {
+  // Modify the value or return undefined to exclude the property
+  return typeof value === 'bigint' ? value.toString() : value
+}

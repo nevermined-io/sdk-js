@@ -189,8 +189,6 @@ export abstract class RegistryBaseApi extends Instantiable {
         },
       } as Service)
 
-      // console.log(`--- DDO After: \n${JSON.stringify(ddo)}`)
-
       this.logger.log('Files encrypted')
       observer.next(CreateProgressStep.FilesEncrypted)
 

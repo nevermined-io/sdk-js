@@ -20,7 +20,7 @@ import {
 
 chai.use(chaiAsPromised)
 
-describe('Subscriptions using NFT ERC-1155 End-to-End', () => {
+describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
   let editor: Account
   let subscriber: Account
   let reseller: Account

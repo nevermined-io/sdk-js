@@ -16,6 +16,7 @@ export interface NFTSalesTemplateParams {
   providerId: string
   nftAmount: bigint
   expiration: number
+  nftTransfer: boolean
 }
 
 export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, ServiceNFTSales> {
@@ -39,8 +40,9 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     nftAmount: bigint,
     expiration?: number,
     providerId?: string,
+    nftTransfer?: boolean,
   ): NFTSalesTemplateParams {
-    return { consumerId, providerId, nftAmount, expiration }
+    return { consumerId, providerId, nftAmount, expiration, nftTransfer }
   }
 
   public async paramsGen({
@@ -66,14 +68,14 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     ddo: DDO,
     creator: string,
     parameters: NFTSalesTemplateParams,
-    serviceReference?: number,
+    serviceIndex?: number,
   ): Promise<AgreementInstance<NFTSalesTemplateParams>> {
     const { transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
       this.nevermined.keeper.conditions
 
     const agreementId = await this.agreementId(agreementIdSeed, creator)
     const ctx = {
-      ...this.standardContext(ddo, creator, serviceReference),
+      ...this.standardContext(ddo, creator, serviceIndex),
       ...parameters,
     }
 

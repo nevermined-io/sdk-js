@@ -627,7 +627,7 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { amount: numberNFTs },
+            nft: { amount: numberNFTs, nftTransfer: true },
           },
           {
             serviceType: 'nft-access',
@@ -938,7 +938,7 @@ describe('NFTTemplates E2E', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { amount: numberNFTs },
+            nft: { amount: numberNFTs, nftTransfer: true },
           },
           {
             serviceType: 'nft-access',

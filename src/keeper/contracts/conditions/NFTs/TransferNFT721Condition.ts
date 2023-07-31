@@ -31,7 +31,6 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
    * @param nftHolder - The address of the Holder of the NFT.
    * @param lockCondition - Lock condition identifier.
    * @param nftTokenAddress - The address of the NFT token to use.
-   * @param nftAmount - The number of nft editions/tokens to transfer
    * @param willBeTransferred - Indicates if the asset will be transferred or minted
    * @param expiration - The expiration time of the condition
    * @returns Hash of all the values
@@ -42,7 +41,6 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     nftReceiver: string,
     lockCondition: string,
     nftTokenAddress: string,
-    nftAmount = 1n,
     willBeTransferred = true,
     expiration = 0,
   ): ConditionParameters<Record<string, unknown>> {
@@ -61,7 +59,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
           return [
             didZeroX(did),
             zeroX(nftReceiver),
-            nftAmount.toString(),
+            String(1),
             lockCondition,
             nftTokenAddress,
             willBeTransferred,
@@ -71,7 +69,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
             didZeroX(did),
             zeroX(nftHolder),
             zeroX(nftReceiver),
-            nftAmount.toString(),
+            String(1),
             lockCondition,
             willBeTransferred,
             nftTokenAddress,
@@ -89,8 +87,6 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     const transfer = DDO.findServiceConditionByName(service, 'transferNFT')
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
-    const nftAmount = DDO.getNftAmountFromService(service) || 1n
-
     const nftAddress = transfer.parameters.find((p) => p.name === '_contractAddress')
       .value as string
     const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder').value as string
@@ -103,7 +99,6 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
       consumerId,
       lockCondition.id,
       nftAddress,
-      nftAmount,
       nftTransferString.toLowerCase() === 'true',
       expiration,
     )
@@ -116,8 +111,6 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     const transfer = DDO.findServiceConditionByName(service, 'transferNFT')
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
-    const nftAmount = DDO.getNftAmountFromService(service) || 1n
-
     const nftAddress = transfer.parameters.find((p) => p.name === '_contractAddress')
       .value as string
     const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder').value as string
@@ -130,7 +123,6 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
       consumerId,
       lockCondition.id,
       nftAddress,
-      nftAmount,
       nftTransferString.toLowerCase() === 'true',
       expiration,
     )
@@ -163,7 +155,14 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
   ) {
     return super.fulfillPlain(
       agreementId,
-      [didZeroX(did), zeroX(nftReceiver), lockPaymentCondition, nftTokenAddress, willBeTransferred],
+      [
+        didZeroX(did),
+        zeroX(nftReceiver),
+        String(1),
+        lockPaymentCondition,
+        nftTokenAddress,
+        willBeTransferred,
+      ],
       from,
       txParams,
     )

@@ -154,6 +154,8 @@ export abstract class Condition<
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
+    const _params = await cond.params(method, additionalParams)
+
     return this.sendFrom(
       method,
       [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],

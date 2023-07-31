@@ -96,7 +96,7 @@ function getParameter(
       case 'rewardAddress':
         return owner
       case 'numberNfts':
-        return nftAmount && nftAmount >= 1 ? String(nftAmount) : '1'
+        return nftAmount && nftAmount >= 1 ? nftAmount.toString() : '1'
       case 'tokenAddress':
         return erc20TokenContract
       case 'contract':

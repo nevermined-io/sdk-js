@@ -71,6 +71,7 @@ describe('Secondary Markets', () => {
   // Configuration of Sale in secondary market:
   // Collector1 -> Collector2, the artist get 10% royalties
   const numberNFTs2 = 1n
+  const nftTransfer = true
   let nftPrice2 = 100n
   let amounts2 = [90n, 10n]
   let receivers2: string[]
@@ -179,7 +180,7 @@ describe('Secondary Markets', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { amount: numberNFTs },
+            nft: { amount: numberNFTs, nftTransfer },
           },
           {
             serviceType: 'nft-access',
@@ -361,6 +362,7 @@ describe('Secondary Markets', () => {
           undefined,
           collector1.getId(),
           numberNFTs2,
+          true,
         )
 
         nftSalesServiceAgreement = {
@@ -382,6 +384,7 @@ describe('Secondary Markets', () => {
           },
         }
 
+        console.log('nftSalesServiceAgreement', JSON.stringify(nftSalesServiceAgreement))
         // This Service agreement is stored on elasticsearch through the metadata api
       })
 
@@ -563,6 +566,7 @@ describe('Secondary Markets', () => {
           ddo,
           assetPrice3,
           numberNFTs2,
+          nftTransfer,
           collector2.getId(),
           token,
           collector2,

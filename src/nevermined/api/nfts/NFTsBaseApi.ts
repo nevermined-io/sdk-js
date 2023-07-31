@@ -235,6 +235,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     ddo: DDO,
     assetPrice: AssetPrice,
     nftAmount: bigint,
+    nftTransfer: boolean,
     provider: string,
     token: Token,
     owner: Account,
@@ -254,6 +255,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       undefined,
       provider || owner.getId(),
       nftAmount,
+      nftTransfer,
     )
 
     const nftSalesServiceAgreement: ServiceSecondary = {
