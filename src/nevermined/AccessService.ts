@@ -62,6 +62,9 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
   public async accept(params: ValidationParams): Promise<boolean> {
     return this.normal.accept(params)
   }
+  public async track(params: ValidationParams): Promise<boolean> {
+    return this.normal.track(params)
+  }
 }
 
 export class NFTAccessService extends Instantiable implements ServicePlugin<ServiceNFTAccess> {
@@ -110,6 +113,11 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
     const metadata = ddo.findServiceByType('metadata').attributes.main
     return this.select(metadata).accept(params)
   }
+  public async track(params: ValidationParams): Promise<boolean> {
+    const ddo = await this.nevermined.assets.resolve(params.did)
+    const metadata = ddo.findServiceByType('metadata').attributes.main
+    return this.select(metadata).track(params)
+  }
 }
 
 export class NFTSalesService extends Instantiable implements ServicePlugin<ServiceNFTSales> {
@@ -157,5 +165,10 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
     const ddo = await this.nevermined.assets.resolve(params.did)
     const metadata = ddo.findServiceByType('metadata').attributes.main
     return this.select(metadata).accept(params)
+  }
+  public async track(params: ValidationParams): Promise<boolean> {
+    const ddo = await this.nevermined.assets.resolve(params.did)
+    const metadata = ddo.findServiceByType('metadata').attributes.main
+    return this.select(metadata).track(params)
   }
 }

@@ -443,6 +443,15 @@ export class DDO {
   }
 
   /**
+   * Gets the NFT TokenId in the nftHolder condition of the service
+   * @param service the service to search in
+   * @returns the NFT Token Id
+   */
+  public static getTokenIdFromService(service: Service): string {
+    return DDO.getParameterFromCondition(service, 'nftHolder', '_tokenId') as string
+  }
+
+  /**
    * Gets the number of NFTs in the transferNFT condition of the service
    * @param service the service to search in
    * @returns the number of NFTs

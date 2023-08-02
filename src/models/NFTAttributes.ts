@@ -24,12 +24,19 @@ export class NFTServiceAttributes {
    */
   amount?: bigint
 
+  /**
+   * The tokenId of the NFT related with the Service.
+   * For example if is a NFT Access service requiring holding a NFT, this is the tokenId of the NFT
+   */
+  tokenId?: string
+
   static defaultValues = {
     serviceType: 'nft-access' as ServiceType,
     nftTransfer: true, // The NFT will use transfers
     isSubscription: false, // By default the asset doesn't represent a subscription
     duration: 0, // Because it's not a subscription it doesn't have a duration
     amount: 1n, // By default just one edition
+    tokenId: '', // By default no tokenId
   }
 
   public static getDefaultNFTServiceAttributes(): Required<NFTServiceAttributes> {

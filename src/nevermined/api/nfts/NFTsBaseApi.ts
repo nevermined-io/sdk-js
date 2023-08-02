@@ -67,7 +67,6 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         throw new NFTError('Nevermined does not have operator role')
       }
     }
-    console.log(`REMOVE: Just before node.claimNFT`)
     return await this.nevermined.services.node.claimNFT(
       agreementId,
       nftHolder,
@@ -383,28 +382,33 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param consumer - The NFT holder account.
    * @param destination - The download destination for the files.
-   * @param index - The index of the file. If unset will download all the files in the asset.
+   * @param fileIndex - The index of the file. If unset will download all the files in the asset.
    * @param agreementId - The NFT sales agreement id.
    * @param buyer - Key which represent the buyer
    * @param babySig - An elliptic curve signature
+   * @param serviceReference - The service reference to use. By default is nft-access.
    * @returns true if the access was successful or file if isToDownload is false.
    */
   public async access(
     did: string,
     consumer: Account,
     destination?: string,
-    index?: number,
+    fileIndex?: number,
     agreementId = '0x',
     buyer?: string,
     babysig?: Babysig,
+    serviceReference: number | ServiceType = 'nft-access',
   ) {
     const ddo = await this.nevermined.assets.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
 
+    const accessService = ddo.findServiceByReference(serviceReference)
+
     const accessToken = await this.nevermined.utils.jwt.getNftAccessGrantToken(
       agreementId,
       ddo.id,
+      accessService.index,
       consumer,
       buyer,
       babysig,
@@ -418,7 +422,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     const result = await this.nevermined.services.node.downloadService(
       files,
       destination,
-      index,
+      fileIndex,
       headers,
     )
 

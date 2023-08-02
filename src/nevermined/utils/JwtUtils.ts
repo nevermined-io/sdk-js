@@ -293,6 +293,7 @@ export class JwtUtils extends Instantiable {
   public async generateNftAccessGrantToken(
     agreementId: string,
     did: string,
+    serviceIndex: number,
     account: Account,
     buyer?: string,
     babysig?: Babysig,
@@ -308,6 +309,7 @@ export class JwtUtils extends Instantiable {
       eths: 'personal',
       buyer,
       babysig,
+      service_index: serviceIndex,
     }
 
     return new EthSignJWT(params)
@@ -320,6 +322,7 @@ export class JwtUtils extends Instantiable {
   public async getNftAccessGrantToken(
     agreementId: string,
     did: string,
+    serviceIndex: number,
     account: Account,
     buyer?: string,
     babysig?: Babysig,
@@ -330,11 +333,12 @@ export class JwtUtils extends Instantiable {
       const grantToken = await this.generateNftAccessGrantToken(
         agreementId,
         did,
+        serviceIndex,
         account,
         buyer,
         babysig,
       )
-      const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
+      const accessToken = await this.nevermined.services.node.fetchToken(grantToken, 1)
       this.tokenCache.set(cacheKey, accessToken)
 
       return accessToken

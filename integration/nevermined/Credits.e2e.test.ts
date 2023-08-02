@@ -2,7 +2,15 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import {
+  Account,
+  DDO,
+  MetaData,
+  Nevermined,
+  AssetPrice,
+  NFTAttributes,
+  jsonReplacer,
+} from '../../src'
 import { EscrowPaymentCondition, Token, TransferNFTCondition } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -137,9 +145,13 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
         ],
       )
 
+      console.debug(`Deployed ERC-1155 Subscription NFT on address: ${subscriptionNFT.address}`)
+
       await nevermined.contracts.loadNft1155Api(subscriptionNFT)
 
       await subscriptionNFT.grantOperatorRole(transferNftCondition.address, editor)
+
+      assert.equal(nevermined.nfts1155.getContract.address, subscriptionNFT.address)
 
       const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: subscriptionMetadata,
@@ -177,7 +189,12 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
         services: [
           {
             serviceType: 'nft-access',
-            nft: { duration: subscriptionDuration, amount: accessCostInCredits, nftTransfer },
+            nft: {
+              tokenId: subscriptionDDO.shortId(),
+              duration: subscriptionDuration,
+              amount: accessCostInCredits,
+              nftTransfer,
+            },
           },
         ],
         providers: [neverminedNodeAddress],
@@ -188,6 +205,10 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       assetDDO = await nevermined.nfts1155.create(nftAttributes, editor)
       assert.isDefined(assetDDO)
       console.log(`Asset DID: ${assetDDO.id}`)
+
+      const accessService = assetDDO.findServiceByType('nft-access')
+      const tokenId = DDO.getTokenIdFromService(accessService)
+      assert.equal(tokenId, subscriptionDDO.shortId())
     })
   })
 
@@ -243,10 +264,6 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
 
       console.log(`Got the receipt`)
 
-      const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
-      console.log(`Balance After: ${balanceAfter}`)
-      assert.isTrue(balanceAfter === subscriptionCredits)
-
       const minted = await subscriptionNFT.getContract.getMintedEntries(
         subscriber.getId(),
         subscriptionDDO.shortId(),
@@ -290,22 +307,28 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       // subgraph event or json-rpc event?
       const eventValues = event.args || event
 
+      console.debug(`EVENTS: ${JSON.stringify(eventValues, jsonReplacer)}`)
+
       assert.equal(eventValues._agreementId, agreementId)
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
       assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
     })
+
+    it('the subscriber can check the balance with the new NFTs received', async () => {
+      console.log(
+        `Checking the balance of DID [${
+          subscriptionDDO.id
+        }] of the subscriber ${subscriber.getId()}`,
+      )
+      const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      console.log(`Balance After: ${balanceAfter}`)
+      assert.isTrue(balanceAfter === subscriptionCredits)
+    })
   })
 
   describe('As subscriber I want to get access to assets include as part of my subscription', () => {
-    it('The Subscriber should have an NFT balance', async () => {
-      assert.isTrue(
-        (await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())) ===
-          subscriptionCredits,
-      )
-    })
-
     it('The collector access the files', async () => {
       const result = await nevermined.nfts1155.access(
         assetDDO.id,

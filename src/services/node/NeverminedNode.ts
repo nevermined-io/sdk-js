@@ -381,7 +381,6 @@ export class NeverminedNode extends Instantiable {
     serviceIndex?: number,
   ): Promise<boolean> {
     try {
-      console.log(`REMOVE: Just before fetch.post`)
       const claimBody = JSON.stringify({
         agreementId,
         did,
@@ -394,7 +393,6 @@ export class NeverminedNode extends Instantiable {
       console.log(`REMOVE: Claim body: ${claimBody}`)
 
       const response = await this.nevermined.utils.fetch.post(this.getClaimNftEndpoint(), claimBody)
-      console.log(`REMOVE: we claimed`)
       if (!response.ok) {
         throw new HttpError(`${response.statusText} ${response.url}`, response.status)
       }
@@ -404,11 +402,11 @@ export class NeverminedNode extends Instantiable {
     }
   }
 
-  public async fetchToken(grantToken: string): Promise<string> {
+  public async fetchToken(grantToken: string, numberTries = 3): Promise<string> {
     const response = await this.nevermined.utils.fetch.fetchToken(
       this.getFetchTokenEndpoint(),
       grantToken,
-      5,
+      numberTries,
     )
 
     if (!response.ok) {

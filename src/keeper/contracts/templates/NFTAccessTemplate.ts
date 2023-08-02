@@ -5,7 +5,7 @@ import {
   ValidationParams,
 } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO, Nft1155Contract } from '../../../sdk'
+import { DDO, jsonReplacer, zeroX } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
@@ -73,6 +73,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
   }
 
   public async accept(params: ValidationParams): Promise<boolean> {
+    console.debug(`-- Calling accept with params: ${JSON.stringify(params, jsonReplacer)}`)
     if (
       await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
         params.consumer_address,
@@ -81,16 +82,28 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     ) {
       return true
     }
+
     const ddo = await this.nevermined.assets.resolve(params.did)
-    const service = ddo.findServiceByType(this.service())
+    const service =
+      params.service_index && params.service_index > 0
+        ? ddo.findServiceByIndex(params.service_index)
+        : ddo.findServiceByType(this.service())
+
+    const contractAddress = DDO.getNftContractAddressFromService(service as ServiceNFTAccess)
     const limit = this.nevermined.keeper.conditions.nftHolderCondition.amountFromService(service)
-    const contractAddress =
-      this.nevermined.keeper.conditions.nftHolderCondition.nftContractFromService(service)
-    const nftContract = await Nft1155Contract.getInstance(
-      (this.nevermined.keeper as any).instanceConfig,
-      contractAddress,
-    )
-    const balance = await nftContract.balance(params.consumer_address, params.did)
+
+    const serviceTokenId = DDO.getTokenIdFromService(service)
+    const tokenId = serviceTokenId && serviceTokenId.length > 0 ? zeroX(serviceTokenId) : params.did
+
+    const nftContract = await this.nevermined.contracts.loadNft1155(contractAddress)
+
+    const balance = await nftContract.balance(tokenId, params.consumer_address)
+
     return balance >= limit
+  }
+
+  public async track(_params: ValidationParams): Promise<boolean> {
+    console.debug(`-- Calling track( with params`)
+    return true
   }
 }

@@ -120,7 +120,10 @@ export class NFTContractsBase extends ContractBase {
    * @returns An array of `MintedEntry` objects
    */
   public async getMintedEntries(owner: string, did?: string): Promise<MintedEntry[]> {
-    const minted: string[][] = await this.call('getMintedEntries', did ? [owner, did] : [owner])
+    const minted: string[][] = await this.call(
+      'getMintedEntries',
+      did ? [owner, didZeroX(did)] : [owner],
+    )
 
     const entries: MintedEntry[] = []
     for (let i = 0; i < minted.length; i++) {

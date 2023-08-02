@@ -108,7 +108,6 @@ export abstract class RegistryBaseApi extends Instantiable {
             nftAttributes,
             pricedData,
           )
-
           ddo.addService(serviceCreated)
         }
       }

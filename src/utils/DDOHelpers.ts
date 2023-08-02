@@ -36,6 +36,7 @@ export function getConditionsByParams(
   duration = 0,
   fulfillAccessTimeout = 0,
   fulfillAccessTimelock = 0,
+  tokenId = '',
 ): ServiceAgreementTemplateCondition[] {
   return conditions
     .map((condition) => {
@@ -62,6 +63,7 @@ export function getConditionsByParams(
           nftAmount,
           nftTransfer,
           duration,
+          tokenId,
         ),
       })),
     }))
@@ -78,6 +80,7 @@ function getParameter(
   nftAmount = 1n,
   nftTransfer = false,
   duration = 0,
+  tokenId?: string,
 ): ServiceAgreementTemplateParameter {
   const getValue = (name) => {
     switch (name) {
@@ -108,6 +111,8 @@ function getParameter(
         return String(nftTransfer)
       case 'duration':
         return String(duration)
+      case 'tokenId':
+        return tokenId ? tokenId : ''
     }
 
     return ''
