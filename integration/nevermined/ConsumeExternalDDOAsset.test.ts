@@ -105,7 +105,7 @@ describe('Consume Asset (Documentation example)', () => {
   })
 
   it('should get the agreement conditions status not fulfilled', async () => {
-    // todo change this, a test should never dependent on the previous test because the order might change during runtime
+    // TODO: change this, a test should never dependent on the previous test because the order might change during runtime
     await sleep(3000)
     const status = await repeat(3, nevermined.agreements.status(agreementId))
 
@@ -156,7 +156,7 @@ describe('Consume Asset (Documentation example)', () => {
   })
 
   it('should get the agreement conditions status fulfilled', async () => {
-    // todo change this, a test should never dependent on the previous test because the order might change during runtime
+    // TODO: change this, a test should never dependent on the previous test because the order might change during runtime
     await sleep(500)
     const status = await nevermined.agreements.status(agreementId)
 

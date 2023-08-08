@@ -67,6 +67,7 @@ describe('ContractEvent', () => {
 
     await Promise.all([executeTransaction()])
 
+    // TODO: See if we can remove this sleep
     await sleep(2000)
     validResolve = true
 
@@ -101,6 +102,7 @@ describe('ContractEvent', () => {
 
     await executeTransaction()
 
+    // TODO: See if we can remove this sleep
     await sleep(2000)
     canBeRejected = true
 
@@ -118,6 +120,7 @@ describe('ContractEvent', () => {
       filterJsonRpc: { to },
     })
 
+    // TODO: See if we can remove this sleep
     await sleep(400)
 
     await executeTransaction()

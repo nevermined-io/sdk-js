@@ -58,6 +58,7 @@ describe('Agreement Store Manager', () => {
     agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 
     // wait for the graph to pickup the event
+    // TODO: See if we can remove this
     await sleep(3000)
 
     agreements = await nevermined.agreements.getAgreements(ddo.id)

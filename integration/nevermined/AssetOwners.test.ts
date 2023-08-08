@@ -108,6 +108,7 @@ describe('Asset Owners', () => {
     await mineBlocks(nevermined, account1, 1)
 
     // wait a bit for the subgraph to index the events
+    // TODO: See if we can remove this
     await sleep(5000)
 
     const result = await nevermined.assets.ownerAssets(account2.getId())

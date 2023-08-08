@@ -1,7 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
 import { Nevermined, Account, NewPermission, PermissionType } from '../../src'
-import { sleep } from '../utils/utils'
 
 describe('Permissions', () => {
   let nevermined: Nevermined
@@ -51,7 +50,6 @@ describe('Permissions', () => {
   })
 
   it('should get permissions by userId', async () => {
-    await sleep(2000)
     const response = await nevermined.services.permissions.findManyByUserId(newPermission.userId)
 
     /* eslint-disable @typescript-eslint/naming-convention */
@@ -64,7 +62,6 @@ describe('Permissions', () => {
   })
 
   it('should get permissions by userId and type', async () => {
-    await sleep(2000)
     const response = await nevermined.services.permissions.findManyByUserIdAndType(
       newPermission.userId,
       PermissionType.Read,
@@ -94,8 +91,6 @@ describe('Permissions', () => {
 
   it('should delete a permission by id', async () => {
     await nevermined.services.permissions.deleteOneById(id)
-
-    await sleep(2000)
 
     const response = await nevermined.services.permissions.findManyByUserId(newPermission.userId)
 

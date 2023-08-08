@@ -217,6 +217,7 @@ function makeTest(isCustom) {
         )
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
+        // TODO: See if we can remove this
         await sleep(DELAY)
         assert.isDefined(agreementId)
 
@@ -250,6 +251,8 @@ function makeTest(isCustom) {
           artist,
         )
         assert.isTrue(receipt)
+
+        // TODO: See if we can remove this
         await sleep(DELAY)
 
         console.debug(
@@ -268,9 +271,12 @@ function makeTest(isCustom) {
       })
 
       it('the artist asks and receives the payment', async () => {
+        // TODO: See if we can remove this
         await sleep(DELAY)
         const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
         const service = ddo.findServiceByReference('nft-sales')
+
+        // TODO: See if we can remove this
         await sleep(DELAY)
         const receipt = await nevermined.nfts1155.releaseRewards(
           agreementId,
@@ -279,6 +285,8 @@ function makeTest(isCustom) {
           numberEditions,
           artist,
         )
+
+        // TODO: See if we can remove this
         await sleep(DELAY)
         assert.isTrue(receipt)
 
