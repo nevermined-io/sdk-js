@@ -744,7 +744,7 @@ export interface ServicePlugin<T extends Service> {
   // Check if service can be granted without agreement
   accept(params: ValidationParams): Promise<boolean>
   // It registers the usage of a service
-  track(params: ValidationParams): Promise<boolean>
+  track(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<boolean>
 }
 
 export interface ServiceAgreementTemplateParameter {

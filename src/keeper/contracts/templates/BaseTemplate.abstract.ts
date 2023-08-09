@@ -9,7 +9,7 @@ import {
   ServiceType,
   ValidationParams,
 } from '../../../ddo'
-import { Account, Condition, MetaData, NFTAttributes, jsonReplacer } from '../../../sdk'
+import { Account, Condition, MetaData, NFTAttributes } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
 import { isAddress } from 'ethers'
@@ -99,9 +99,12 @@ export abstract class BaseTemplate<Params, S extends Service>
     return false
   }
 
-  public async track(params: ValidationParams): Promise<boolean> {
-    console.debug(`*** Register Usage: ${JSON.stringify(params, jsonReplacer)}`)
-    return true
+  public async track(
+    _params: ValidationParams,
+    _from: Account,
+    _txparams?: TxParameters,
+  ): Promise<boolean> {
+    return false
   }
 
   public async process(

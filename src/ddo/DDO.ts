@@ -448,7 +448,10 @@ export class DDO {
    * @returns the NFT Token Id
    */
   public static getTokenIdFromService(service: Service): string {
-    return DDO.getParameterFromCondition(service, 'nftHolder', '_tokenId') as string
+    const paramName = '_tokenId'
+    const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+    const nftCondition = DDO.findServiceConditionByName(service, conditionName)
+    return nftCondition.parameters.find((p) => p.name === paramName).value as string
   }
 
   /**
@@ -457,7 +460,10 @@ export class DDO {
    * @returns the number of NFTs
    */
   public static getNftAmountFromService(service: Service): bigint {
-    return BigInt(DDO.getParameterFromCondition(service, 'transferNFT', '_numberNfts').toString())
+    const paramName = '_numberNfts'
+    const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+    const nftCondition = DDO.findServiceConditionByName(service, conditionName)
+    return BigInt(nftCondition.parameters.find((p) => p.name === paramName).value as string)
   }
 
   /**

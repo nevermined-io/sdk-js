@@ -163,13 +163,33 @@ export class Nft1155Contract extends NFTContractsBase {
    * It burns some editions of a NFT (ERC-1155)
    *
    * @param from - Account address burning the NFT editions
-   * @param did - The NFT id to burn
+   * @param tokenId - The NFT id to burn
    * @param amount - Number of editions to burn
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(from: string, did: string, amount: bigint, txParams?: TxParameters) {
-    return this.send('burn', from, [from, didZeroX(did), amount], txParams)
+  public async burn(from: string, tokenId: string, amount: bigint, txParams?: TxParameters) {
+    return this.send('burn', from, [from, didZeroX(tokenId), amount], txParams)
+  }
+
+  /**
+   * It burns some editions of a NFT (ERC-1155)
+   *
+   * @param holder - Address of the account holding the NFT editions that are going to be burned
+   * @param tokenId - The NFT id to burn
+   * @param amount - Number of editions to burn
+   * @param from - Account address burning the NFT editions
+   * @param txParams - Transaction additional parameters
+   * @returns Contract Receipt
+   */
+  public async burnFromHolder(
+    holder: string,
+    tokenId: string,
+    amount: bigint,
+    from: string,
+    txParams?: TxParameters,
+  ) {
+    return this.send('burn', from, [holder, didZeroX(tokenId), amount], txParams)
   }
 
   /**

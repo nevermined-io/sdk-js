@@ -8,7 +8,7 @@ import {
   FunctionFragment,
   ethers,
 } from 'ethers'
-import { parseUnits } from '../../sdk'
+import { jsonReplacer, parseUnits } from '../../sdk'
 export interface TxParameters {
   value?: string
   gasLimit?: bigint
@@ -234,7 +234,7 @@ export abstract class ContractBase extends Instantiable {
       } failed.\n
                 Error: ${err.info.error.message}\n
                 From: ${from}\n
-                Parameters: ${JSON.stringify(mappedArgs, null, 2)}\n
+                Parameters: ${JSON.stringify(mappedArgs, jsonReplacer, 2)}\n
                 ${'-'.repeat(40)}
             `)
     }

@@ -100,8 +100,4 @@ export class NFT721AccessTemplate extends BaseTemplate<
     const nftContract = await this.nevermined.contracts.loadNft721(contractAddress)
     return (await nftContract.balanceOf(new Account(params.consumer_address))) > 0n
   }
-
-  public async track(_params: ValidationParams): Promise<boolean> {
-    return true
-  }
 }

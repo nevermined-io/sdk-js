@@ -101,7 +101,4 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
       params.did,
     )
   }
-  public async track(_params: ValidationParams): Promise<boolean> {
-    return true
-  }
 }

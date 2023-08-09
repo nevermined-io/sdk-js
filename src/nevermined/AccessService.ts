@@ -62,8 +62,12 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
   public async accept(params: ValidationParams): Promise<boolean> {
     return this.normal.accept(params)
   }
-  public async track(params: ValidationParams): Promise<boolean> {
-    return this.normal.track(params)
+  public async track(
+    params: ValidationParams,
+    from: Account,
+    txparams?: TxParameters,
+  ): Promise<boolean> {
+    return this.normal.track(params, from, txparams)
   }
 }
 
@@ -113,10 +117,14 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
     const metadata = ddo.findServiceByType('metadata').attributes.main
     return this.select(metadata).accept(params)
   }
-  public async track(params: ValidationParams): Promise<boolean> {
+  public async track(
+    params: ValidationParams,
+    from: Account,
+    txparams?: TxParameters,
+  ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)
     const metadata = ddo.findServiceByType('metadata').attributes.main
-    return this.select(metadata).track(params)
+    return this.select(metadata).track(params, from, txparams)
   }
 }
 
@@ -166,9 +174,13 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
     const metadata = ddo.findServiceByType('metadata').attributes.main
     return this.select(metadata).accept(params)
   }
-  public async track(params: ValidationParams): Promise<boolean> {
+  public async track(
+    params: ValidationParams,
+    from: Account,
+    txparams?: TxParameters,
+  ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)
     const metadata = ddo.findServiceByType('metadata').attributes.main
-    return this.select(metadata).track(params)
+    return this.select(metadata).track(params, from, txparams)
   }
 }

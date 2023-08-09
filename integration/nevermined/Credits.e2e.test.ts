@@ -150,6 +150,8 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       await nevermined.contracts.loadNft1155Api(subscriptionNFT)
 
       await subscriptionNFT.grantOperatorRole(transferNftCondition.address, editor)
+      console.debug(`Granting operator role to Nevermined Node Address: ${neverminedNodeAddress}`)
+      await subscriptionNFT.grantOperatorRole(neverminedNodeAddress, editor)
 
       assert.equal(nevermined.nfts1155.getContract.address, subscriptionNFT.address)
 
@@ -323,7 +325,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
         }] of the subscriber ${subscriber.getId()}`,
       )
       const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
-      console.log(`Balance After: ${balanceAfter}`)
+      console.log(`Balance After Purchase is completed: ${balanceAfter}`)
       assert.isTrue(balanceAfter === subscriptionCredits)
     })
   })
@@ -341,10 +343,9 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
     })
 
     it('The balance of the subscriber should be lower because credits got used', async () => {
-      assert.isTrue(
-        (await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())) ===
-          subscriptionCredits - accessCostInCredits,
-      )
+      const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      console.log(`Balance After Burn: ${balanceAfter}`)
+      assert.isTrue(balanceAfter === subscriptionCredits - accessCostInCredits)
     })
   })
 })
