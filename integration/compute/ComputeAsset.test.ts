@@ -5,6 +5,7 @@ import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
 import { Nevermined, DDO, Account, AssetPrice, AssetAttributes } from '../../src'
+import { sleep } from '../utils/utils'
 
 describe('Compute Asset', () => {
   let nevermined: Nevermined
@@ -112,7 +113,7 @@ describe('Compute Asset', () => {
       console.log('Fetching compute status...')
       attemp++
 
-      await new Promise((f) => setTimeout(f, wait))
+      await sleep(wait)
 
       statusObject = await nvm.compute.status(agreementID, argoWorkflowId, account)
       console.log(statusResponse)

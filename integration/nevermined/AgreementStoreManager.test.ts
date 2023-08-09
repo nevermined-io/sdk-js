@@ -13,7 +13,6 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
-import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
@@ -56,10 +55,6 @@ describe('Agreement Store Manager', () => {
       ddo.getPriceByService() * 10n ** BigInt(await nevermined.keeper.token.decimals()),
     )
     agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
-
-    // wait for the graph to pickup the event
-    // TODO: See if we can remove this
-    await sleep(3000)
 
     agreements = await nevermined.agreements.getAgreements(ddo.id)
 

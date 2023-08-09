@@ -12,7 +12,7 @@ import {
   ConditionState,
   Token,
 } from '../../src'
-import { repeat, sleep } from '../utils/utils'
+import { repeat } from '../utils/utils'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -111,8 +111,6 @@ describe('Assets with multiple services', () => {
       const price = service.attributes.main.price
       agreementId = await nevermined.assets.order(ddo.id, service.index, consumer)
 
-      // TODO: See if we can remove this
-      await sleep(3000)
       const status = await repeat(3, nevermined.agreements.status(agreementId))
 
       assert.deepEqual(status, {

@@ -4,7 +4,7 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
-import { repeat, sleep } from '../utils/utils'
+import { repeat } from '../utils/utils'
 
 import {
   Nevermined,
@@ -108,8 +108,6 @@ describe('Consume Asset', () => {
   })
 
   it('should get the agreement conditions status not fulfilled', async () => {
-    // TODO: change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(3000)
     const status = await repeat(3, nevermined.agreements.status(agreementId))
 
     assert.deepEqual(status, {
@@ -166,8 +164,6 @@ describe('Consume Asset', () => {
   })
 
   it('should get the agreement conditions status fulfilled', async () => {
-    // TODO: change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(2000)
     const status = await nevermined.agreements.status(agreementId)
 
     assert.deepEqual(status, {

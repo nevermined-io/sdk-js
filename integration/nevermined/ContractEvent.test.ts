@@ -3,7 +3,7 @@ import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractEvent } from '../../src/events'
-import { sleep, mineBlocks, awaitTimeout } from '../utils/utils'
+import { mineBlocks, awaitTimeout } from '../utils/utils'
 import { ethers } from 'ethers'
 
 chai.use(chaiAsPromised)
@@ -67,8 +67,6 @@ describe('ContractEvent', () => {
 
     await Promise.all([executeTransaction()])
 
-    // TODO: See if we can remove this sleep
-    await sleep(2000)
     validResolve = true
 
     await Promise.all([executeTransaction()])
@@ -101,9 +99,6 @@ describe('ContractEvent', () => {
     })
 
     await executeTransaction()
-
-    // TODO: See if we can remove this sleep
-    await sleep(2000)
     canBeRejected = true
 
     await executeTransaction()
@@ -119,10 +114,6 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
       filterJsonRpc: { to },
     })
-
-    // TODO: See if we can remove this sleep
-    await sleep(400)
-
     await executeTransaction()
 
     await waitUntilEvent

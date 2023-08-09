@@ -13,7 +13,7 @@ import {
   AssetAttributes,
 } from '../../src'
 import { getMetadata } from '../utils'
-import { repeat, sleep } from '../utils/utils'
+import { repeat } from '../utils/utils'
 import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 
 describe('Consume Asset (Documentation example)', () => {
@@ -105,8 +105,6 @@ describe('Consume Asset (Documentation example)', () => {
   })
 
   it('should get the agreement conditions status not fulfilled', async () => {
-    // TODO: change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(3000)
     const status = await repeat(3, nevermined.agreements.status(agreementId))
 
     assert.deepEqual(status, {
@@ -156,8 +154,6 @@ describe('Consume Asset (Documentation example)', () => {
   })
 
   it('should get the agreement conditions status fulfilled', async () => {
-    // TODO: change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(500)
     const status = await nevermined.agreements.status(agreementId)
 
     assert.deepEqual(status, {
