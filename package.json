@@ -12,7 +12,7 @@
     "build:dist": "cross-env NODE_ENV=production webpack",
     "build:watch": "tsc -w",
     "test": "mocha --config test/.mocharc.json ",
-    "test:all": "test ./test/**/*.test.ts",
+    "test:all": "mocha --config test/.mocharc.json ./test/**/*.test.ts",
     "integration": "mocha --config integration/.mocharc.json  ",
     "integration:all": "mocha --config integration/.mocharc.json  ./integration/nevermined/*.test.ts",
     "integration:subgraph": "mocha --config integration/.mocharc.json ./integration/**/*.test.subgraph.ts",
