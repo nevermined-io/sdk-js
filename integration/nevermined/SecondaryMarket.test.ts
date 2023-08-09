@@ -309,9 +309,6 @@ describe('Secondary Markets', () => {
       })
 
       it('The collector demonstrates it owns the NFT', async function () {
-        // TODO: Not sure why we need to wait here but without this the
-        // the fulfillment will fail
-        await new Promise((r) => setTimeout(r, 10000))
         const result = await nevermined.agreements.conditions.holderNft(
           agreementAccessId,
           ddo.id,
@@ -524,9 +521,6 @@ describe('Secondary Markets', () => {
       })
 
       it('The collector2 demonstrates it owns the NFT', async function () {
-        // TODO: Not sure why we need to wait here but without this the
-        // the fulfillment will fail
-        await new Promise((r) => setTimeout(r, 10000))
         const result = await nevermined.agreements.conditions.holderNft(
           agreementAccessId2,
           ddo.id,

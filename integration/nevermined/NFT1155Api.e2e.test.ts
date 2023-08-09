@@ -21,11 +21,8 @@ import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
-import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
-
-const DELAY = 20000
 
 function makeTest(isCustom) {
   describe(`NFTs 1155 Api End-to-End (${isCustom ? 'custom' : 'builtin'} token)`, () => {
@@ -217,7 +214,6 @@ function makeTest(isCustom) {
         )
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
-        await sleep(DELAY)
         assert.isDefined(agreementId)
 
         const collector1BalanceAfter = await token.balanceOf(collector1.getId())
@@ -250,7 +246,6 @@ function makeTest(isCustom) {
           artist,
         )
         assert.isTrue(receipt)
-        await sleep(DELAY)
 
         console.debug(
           `Contract balance (after) ${await token.balanceOf(escrowPaymentCondition.address)}`,
@@ -268,10 +263,9 @@ function makeTest(isCustom) {
       })
 
       it('the artist asks and receives the payment', async () => {
-        await sleep(DELAY)
         const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
         const service = ddo.findServiceByReference('nft-sales')
-        await sleep(DELAY)
+
         const receipt = await nevermined.nfts1155.releaseRewards(
           agreementId,
           ddo.id,
@@ -279,7 +273,7 @@ function makeTest(isCustom) {
           numberEditions,
           artist,
         )
-        await sleep(DELAY)
+
         assert.isTrue(receipt)
 
         const escrowPaymentConditionBalanceAfter = await token.balanceOf(

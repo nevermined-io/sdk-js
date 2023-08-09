@@ -13,7 +13,6 @@ import {
 } from '../../src/keeper'
 import { getMetadata } from '../utils'
 import { generateId } from '../../src/utils'
-import { sleep } from '../utils/utils'
 import { EventLog } from 'ethers'
 
 describe('Register Escrow Access Template', () => {
@@ -56,8 +55,6 @@ describe('Register Escrow Access Template', () => {
   describe('Propose and approve template', () => {
     it('should propose the template', async () => {
       await keeper.templateStoreManager.proposeTemplate(accessTemplate.address, consumer, true)
-      // TODO: Use a event to detect template mined
-      await sleep(2000)
     })
 
     it('should approve the template', async () => {
@@ -66,8 +63,6 @@ describe('Register Escrow Access Template', () => {
         templateManagerOwner,
         true,
       )
-      // TODO: Use a event to detect template mined
-      await sleep(2000)
     })
   })
 

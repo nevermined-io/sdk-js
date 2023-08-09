@@ -378,9 +378,6 @@ describe('NFTTemplates With Ether E2E', async () => {
       })
 
       it('The collector demonstrates it owns the NFT', async function () {
-        // TODO: Not sure why we need to wait here but without this the
-        // the fulfillment will fail
-        await new Promise((r) => setTimeout(r, 10000))
         await nftHolderCondition.fulfill(
           agreementAccessId,
           ddo.shortId(),
