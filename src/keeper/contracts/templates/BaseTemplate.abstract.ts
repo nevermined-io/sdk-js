@@ -92,7 +92,7 @@ export abstract class BaseTemplate<Params, S extends Service>
   public abstract paramsGen(params: ValidationParams): Promise<Params>
 
   public async extraGen(_params: ValidationParams): Promise<any> {
-    return {}
+    return { service_index: _params.service_index }
   }
 
   public async accept(_params: ValidationParams): Promise<boolean> {
@@ -132,11 +132,15 @@ export abstract class BaseTemplate<Params, S extends Service>
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(did)
     const agreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreement_id)
+
+    console.debug(`Using Service Index ${extra.service_index}`)
+
     const agreementData = await this.instanceFromDDO(
       agreement.agreementIdSeed,
       ddo,
       agreement.creator,
       params,
+      extra.service_index,
     )
     if (agreementData.agreementId !== agreement_id) {
       throw new Error(

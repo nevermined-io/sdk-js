@@ -390,7 +390,7 @@ export class NeverminedNode extends Instantiable {
         nftType: ercType,
         serviceIndex: serviceIndex && serviceIndex >= 0 ? serviceIndex : -1,
       })
-      console.log(`REMOVE: Claim body: ${claimBody}`)
+      console.debug(`REMOVE: Claim body: ${claimBody}`)
 
       const response = await this.nevermined.utils.fetch.post(this.getClaimNftEndpoint(), claimBody)
       if (!response.ok) {

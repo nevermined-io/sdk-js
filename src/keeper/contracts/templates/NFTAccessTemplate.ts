@@ -73,16 +73,25 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
   }
 
   public async accept(params: ValidationParams): Promise<boolean> {
-    if (
-      await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
-        params.consumer_address,
-        params.did,
+    const ddo = await this.nevermined.assets.resolve(params.did)
+
+    const metadataService = ddo.findServiceByType('metadata')
+    const isNft1155Credit =
+      metadataService.attributes.main.nftType.toString() ===
+      NeverminedNFT1155Type.nft1155Credit.toString()
+
+    console.debug('isNft1155Credit', isNft1155Credit)
+    // If is not a NFT Credit and have permissions, access is granted
+    if (!isNft1155Credit) {
+      if (
+        await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
+          params.consumer_address,
+          params.did,
+        )
       )
-    ) {
-      return true
+        return true
     }
 
-    const ddo = await this.nevermined.assets.resolve(params.did)
     const service =
       params.service_index && params.service_index > 0
         ? ddo.findServiceByIndex(params.service_index)

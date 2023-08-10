@@ -287,6 +287,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     })
 
     observer(OrderProgressStep.ApprovingPayment)
+    console.debug(`Locking tokens ${amounts} from ${from.getId()}`)
     await this.lockTokens(tokenAddress, amounts, from, txParams)
     observer(OrderProgressStep.ApprovedPayment)
 

@@ -339,7 +339,8 @@ export class JwtUtils extends Instantiable {
         babysig,
       )
       const accessToken = await this.nevermined.services.node.fetchToken(grantToken, 1)
-      this.tokenCache.set(cacheKey, accessToken)
+      // TODO: enable the cache back when this issue is fixed in the Node: https://github.com/nevermined-io/node/issues/225
+      // this.tokenCache.set(cacheKey, accessToken)
 
       return accessToken
     } else {

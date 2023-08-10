@@ -42,6 +42,7 @@ export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
 
 export async function mineBlocks(nevermined: Nevermined, account: Account, blocksToWait: number) {
   for (let index = 0; index < blocksToWait; index++) {
+    console.debug(`Mining block ${index}`)
     await nevermined.provenance.used(
       generateId(),
       generateId(),
@@ -51,5 +52,6 @@ export async function mineBlocks(nevermined: Nevermined, account: Account, block
       'mining',
       account,
     )
+    await sleep(500)
   }
 }
