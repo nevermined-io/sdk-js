@@ -333,6 +333,11 @@
                   "name": "_contractAddress",
                   "type": "address",
                   "value": "0xe6A3980DaF4060e4b7e98Fa0AEf156B5cd6cD99E"
+                },
+                {
+                  "name": "_tokenId",
+                  "type": "bytes32",
+                  "value": ""
                 }
               ],
               "events": [
