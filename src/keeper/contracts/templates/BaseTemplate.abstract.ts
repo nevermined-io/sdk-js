@@ -133,8 +133,6 @@ export abstract class BaseTemplate<Params, S extends Service>
     const ddo = await this.nevermined.assets.resolve(did)
     const agreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreement_id)
 
-    console.debug(`Using Service Index ${extra.service_index}`)
-
     const agreementData = await this.instanceFromDDO(
       agreement.agreementIdSeed,
       ddo,
@@ -152,14 +150,11 @@ export abstract class BaseTemplate<Params, S extends Service>
       const condInstance = agreementData.instances.find(
         (c) => c.condition === a.contractName,
       ) as ConditionInstance<any>
-      // console.debug(`Fulfilling with Node ${JSON.stringify(condInstance, jsonReplacer)}`)
 
       await a.fulfillWithNode(condInstance, extra, from, txparams)
       const lock_state = await this.nevermined.keeper.conditionStoreManager.getCondition(
         condInstance.id,
       )
-
-      // console.debug(`LockState === ${JSON.stringify(lock_state, jsonReplacer)}`)
 
       if (lock_state.state !== ConditionState.Fulfilled) {
         throw new Error(
