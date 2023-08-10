@@ -64,7 +64,6 @@ describe('Nfts operations', () => {
       await nevermined.nfts1155.transfer(agreementId, ddo.id, 2n, artist)
 
       assert.isTrue((await nevermined.nfts1155.balance(ddo.id, artist)) === 8n)
-      console.log(`After Assert Balance`)
 
       assert.isTrue((await nevermined.nfts1155.balance(ddo.id, collector)) === 2n)
     })

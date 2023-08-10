@@ -119,7 +119,6 @@ export class NFTAttributes extends AssetAttributes {
     const _instance = {
       ercType: 1155,
       nftType: NeverminedNFT1155Type.nft1155Credit,
-      // isSubscription: true,
       nftContractAddress: nftAttributes.nftContractAddress,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,

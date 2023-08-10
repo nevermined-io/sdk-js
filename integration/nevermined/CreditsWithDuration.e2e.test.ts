@@ -34,8 +34,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
   const subscriptionDuration1 = 5 // in blocks
   const subscriptionDuration2 = 20 // in blocks
-  // Configuration of First Sale:
-  // Editor -> Subscriber, the Reseller get a cut (25%)
+
   const subscriptionPrice1 = 20n
   const subscriptionPrice2 = 40n
 
@@ -65,9 +64,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
   let salesServices
   let accessServices
   let initialBalances: any
-  // let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT1155Api
   let neverminedNodeAddress
 
@@ -97,20 +94,14 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     // components
     ;({ token } = nevermined.keeper)
 
-    // scale = 10n ** BigInt(await token.decimals())
     receivers = [editor.getId(), reseller.getId()]
 
-    // subscriptionPrice1 = subscriptionPrice1 * scale
-    // amounts1 = amounts1.map((v) => v * scale)
     assetPrice1 = new AssetPrice(
       new Map([
         [receivers[0], amounts1[0]],
         [receivers[1], amounts1[1]],
       ]),
     ).setTokenAddress(token.address)
-
-    // subscriptionPrice2 = subscriptionPrice2 * scale
-    // amounts2 = amounts2.map((v) => v * scale)
 
     assetPrice2 = new AssetPrice(
       new Map([
@@ -248,9 +239,6 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     it('I am ordering the subscription NFT', async () => {
       await subscriber.requestTokens(subscriptionPrice1)
 
-      // const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
-      // assert.equal(subscriberBalanceBefore.toString(), (initialBalances.subscriber + subscriptionPrice1).toString())
-
       subsSalesService = accessServices[0]
       console.debug(`Ordering with index ${subsSalesService.index}`)
       agreementId = await nevermined.nfts1155.order(
@@ -262,10 +250,6 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
       console.log(`Agreement Id: ${agreementId}`)
       assert.isDefined(agreementId)
-
-      // const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
-
-      // assert.equal(subscriberBalanceAfter, initialBalances.subscriber)
     })
 
     it('The credits seller can check the payment and transfer the NFT to the subscriber', async () => {
