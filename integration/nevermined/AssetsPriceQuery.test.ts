@@ -6,7 +6,6 @@ import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { generateId, parseUnits } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { sleep } from '../utils/utils'
 
 describe('Assets Query by Price', () => {
   let nevermined: Nevermined
@@ -84,9 +83,6 @@ describe('Assets Query by Price', () => {
       royaltyAttributes,
     })
     ddoNftSales = await nevermined.nfts1155.create(nftAttributes, account)
-
-    // wait for elasticsearch
-    await sleep(10000)
   })
 
   it('Should query all services by default', async () => {

@@ -17,7 +17,6 @@ import {
 import { Token } from '../../src/keeper'
 import { getMetadata } from '../utils'
 import { generateId } from '../../src/utils'
-import { sleep } from '../utils/utils'
 import { EventLog } from 'ethers'
 
 describe('Register Escrow Compute Execution Template', () => {
@@ -67,8 +66,6 @@ describe('Register Escrow Compute Execution Template', () => {
         consumer,
         true,
       )
-      // TODO: Use a event to detect template mined
-      await sleep(2000)
     })
 
     it('should approve the template', async () => {
@@ -77,8 +74,6 @@ describe('Register Escrow Compute Execution Template', () => {
         templateManagerOwner,
         true,
       )
-      // TODO: Use a event to detect template mined
-      await sleep(2000)
     })
   })
 

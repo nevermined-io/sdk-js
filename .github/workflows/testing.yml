@@ -11,12 +11,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.12.0
+      - uses: nevermined-io/nvm-tools-actions@v0.14.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
-          contracts-version: 'v3.2.1'
+          node-version: 'develop'
 
       - name: Install dependencies
         run: |
@@ -38,7 +38,7 @@ jobs:
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
-        run: yarn run integration:cover
+        run: yarn integration:all
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -82,4 +82,4 @@ jobs:
           ETH_PORT: 18545
           SEED_WORDS: ${{ secrets.seedWords }}
         run: |
-          yarn run test:cover
+          yarn test:all

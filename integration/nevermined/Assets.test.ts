@@ -5,7 +5,6 @@ import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from '../../src'
 import { generateId } from '../../src/utils'
-import { sleep } from '../utils/utils'
 import { PublishMetadata, DIDResolvePolicy } from '../../src/nevermined'
 
 let nevermined: Nevermined
@@ -123,9 +122,6 @@ describe('Assets', () => {
         PublishMetadata.IPFS,
       )
 
-      // Waiting to metadata to be updated and propagated
-      await sleep(3000)
-
       const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
       assert.isDefined(resolvedDDO)
 
@@ -146,8 +142,7 @@ describe('Assets', () => {
     it('unlist and list an asset', async () => {
       // Unlisting Asset
       await nevermined.assets.list(ddo.shortId(), false, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(3000)
+
       let resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.MetadataAPIFirst)
       assert.isDefined(resolvedDDO)
       let metadata = resolvedDDO.findServiceByType('metadata')
@@ -155,8 +150,7 @@ describe('Assets', () => {
 
       // Listing Asset back
       await nevermined.assets.list(ddo.shortId(), true, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(3000)
+
       resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.MetadataAPIFirst)
       assert.isDefined(resolvedDDO)
       metadata = resolvedDDO.findServiceByType('metadata')
@@ -166,8 +160,7 @@ describe('Assets', () => {
     it('add a vote', async () => {
       // Adding some votes
       await nevermined.assets.addRating(ddo.shortId(), 0.5, 1, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(5000)
+
       let resolvedDDO = await nevermined.assets.resolve(ddo.id)
       assert.isDefined(resolvedDDO)
       let metadata = resolvedDDO.findServiceByType('metadata')
@@ -177,8 +170,7 @@ describe('Assets', () => {
 
       // More votes
       await nevermined.assets.addRating(ddo.shortId(), 0.4, 2, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(5000)
+
       resolvedDDO = await nevermined.assets.resolve(ddo.id)
       assert.isDefined(resolvedDDO)
       metadata = resolvedDDO.findServiceByType('metadata')
@@ -230,7 +222,6 @@ describe('Assets', () => {
   describe('#retire()', () => {
     it('retire an existing asset', async () => {
       const deleted = await nevermined.assets.retire(ddo.id)
-      await sleep(3000)
       assert.strictEqual(deleted.status, 200)
     })
   })
@@ -268,7 +259,6 @@ describe('Assets', () => {
         appId: appId1,
       })
       ddoBefore = await neverminedApp1.assets.create(assetAttributes, publisher)
-      await sleep(2000)
 
       // Create 2 assets with appId-test2
       const assetAttributes2 = AssetAttributes.getInstance({
@@ -282,7 +272,6 @@ describe('Assets', () => {
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes2, publisher)
-      await sleep(2000)
 
       const assetAttributes22 = AssetAttributes.getInstance({
         metadata: metadata22,
@@ -295,9 +284,6 @@ describe('Assets', () => {
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes22, publisher)
-
-      // wait for elasticsearch
-      await sleep(4000)
     })
 
     it('should query by appId1', async () => {

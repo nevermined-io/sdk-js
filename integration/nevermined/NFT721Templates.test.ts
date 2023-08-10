@@ -403,9 +403,6 @@ describe('NFT721Templates E2E', () => {
       })
 
       it('The collector demonstrates it owns the NFT', async function () {
-        // TODO: Not sure why we need to wait here but without this the
-        // the fulfillment will fail
-        await new Promise((r) => setTimeout(r, 10000))
         await nft721HolderCondition.fulfill(
           agreementAccessId,
           ddo.shortId(),
@@ -777,9 +774,6 @@ describe('NFT721Templates E2E', () => {
       })
 
       it('The collector demonstrates it owns the NFT', async function () {
-        // TODO: Not sure why we need to wait here but without this the
-        // the fulfillment will fail
-        await new Promise((r) => setTimeout(r, 10000))
         const result = await nevermined.agreements.conditions.holderNft721(
           agreementAccessId,
           ddo,

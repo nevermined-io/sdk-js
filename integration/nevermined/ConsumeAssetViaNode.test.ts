@@ -15,7 +15,7 @@ import {
   AssetPrice,
   AssetAttributes,
 } from '../../src'
-import { repeat, sleep } from '../utils/utils'
+import { repeat } from '../utils/utils'
 import { ethers } from 'ethers'
 
 describe('Consume Asset (Nevermined Node)', () => {
@@ -96,8 +96,6 @@ describe('Consume Asset (Nevermined Node)', () => {
   })
 
   it('should get the lockPayment condition fulfilled', async () => {
-    // todo change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(3000)
     const status = await repeat(3, nevermined.agreements.status(agreementId))
 
     assert.deepEqual(status, {

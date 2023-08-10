@@ -18,7 +18,7 @@ jobs:
           # TODO: remove this when Node integrated with SDKv2 is integraged
           ref: develop
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.12.0
+      - uses: nevermined-io/nvm-tools-actions@v0.14.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
@@ -59,7 +59,7 @@ jobs:
           NEVERMINED_NODE_URI: http://localhost:8030
         run: |
           nvm-tools copy-artifacts ./artifacts
-          yarn run integration:cover
+          yarn integration:all
 
       - name: Upload node logs
         uses: actions/upload-artifact@v2

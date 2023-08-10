@@ -26,7 +26,6 @@ import {
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
-import { sleep } from '../utils/utils'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   let publisher: Account
@@ -417,11 +416,6 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As a subscriber I want to get an access token for the web service', () => {
-    before(async () => {
-      // wait for elasticsearch
-      await sleep(5000)
-    })
-
     it('Nevermined One issues an access token', async () => {
       const response = await nevermined.nfts721.getSubscriptionToken(serviceDDO.id, subscriber)
       accessToken = response.accessToken
