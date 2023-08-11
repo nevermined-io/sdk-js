@@ -108,7 +108,6 @@ export abstract class RegistryBaseApi extends Instantiable {
             nftAttributes,
             pricedData,
           )
-
           ddo.addService(serviceCreated)
         }
       }
@@ -188,8 +187,6 @@ export abstract class RegistryBaseApi extends Instantiable {
           } as any,
         },
       } as Service)
-
-      // console.log(`--- DDO After: \n${JSON.stringify(ddo)}`)
 
       this.logger.log('Files encrypted')
       observer.next(CreateProgressStep.FilesEncrypted)

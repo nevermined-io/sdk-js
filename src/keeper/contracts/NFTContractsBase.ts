@@ -4,6 +4,12 @@ import { Account } from '../../nevermined'
 import { ContractTransactionReceipt, EventLog } from 'ethers'
 import { KeeperError } from '../../errors'
 
+export interface MintedEntry {
+  tokenId: bigint
+  expirationBlock: bigint
+  mintBlock: bigint
+}
+
 export class NFTContractsBase extends ContractBase {
   /**
    * Gets the contract owner
@@ -105,5 +111,28 @@ export class NFTContractsBase extends ContractBase {
    */
   public revokeOperatorRole(operatorAddress: string, from?: Account, txParams?: TxParameters) {
     return this.sendFrom('revokeOperatorRole', [zeroX(operatorAddress)], from, txParams)
+  }
+
+  /**
+   * It gets all the `MintedEntries` events from the NFT Contract
+   * @param owner the user owning the NFT
+   * @param did the tokenId of the NFT
+   * @returns An array of `MintedEntry` objects
+   */
+  public async getMintedEntries(owner: string, did?: string): Promise<MintedEntry[]> {
+    const minted: string[][] = await this.call(
+      'getMintedEntries',
+      did ? [owner, didZeroX(did)] : [owner],
+    )
+
+    const entries: MintedEntry[] = []
+    for (let i = 0; i < minted.length; i++) {
+      entries.push({
+        tokenId: BigInt(minted[i][0]),
+        expirationBlock: BigInt(minted[i][1]),
+        mintBlock: BigInt(minted[i][2]),
+      })
+    }
+    return entries
   }
 }

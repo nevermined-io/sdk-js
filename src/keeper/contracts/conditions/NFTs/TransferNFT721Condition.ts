@@ -32,6 +32,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
    * @param lockCondition - Lock condition identifier.
    * @param nftTokenAddress - The address of the NFT token to use.
    * @param willBeTransferred - Indicates if the asset will be transferred or minted
+   * @param expiration - The expiration time of the condition
    * @returns Hash of all the values
    */
   public params(

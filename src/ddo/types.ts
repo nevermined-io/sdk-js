@@ -722,6 +722,7 @@ export type Service<T extends ServiceType | 'default' = 'default'> = T extends '
 export interface ValidationParams {
   agreement_id: string
   did: string
+  service_index?: number
   consumer_address?: string
   buyer?: string
   babysig?: Babysig
@@ -742,6 +743,8 @@ export interface ServicePlugin<T extends Service> {
   process(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<void>
   // Check if service can be granted without agreement
   accept(params: ValidationParams): Promise<boolean>
+  // It registers the usage of a service
+  track(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<boolean>
 }
 
 export interface ServiceAgreementTemplateParameter {

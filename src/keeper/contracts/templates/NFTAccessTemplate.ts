@@ -5,7 +5,7 @@ import {
   ValidationParams,
 } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO, Nft1155Contract } from '../../../sdk'
+import { Account, DDO, NeverminedNFT1155Type, TxParameters } from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
@@ -73,24 +73,74 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
   }
 
   public async accept(params: ValidationParams): Promise<boolean> {
-    if (
-      await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
-        params.consumer_address,
-        params.did,
-      )
-    ) {
-      return true
-    }
     const ddo = await this.nevermined.assets.resolve(params.did)
-    const service = ddo.findServiceByType(this.service())
+
+    const metadataService = ddo.findServiceByType('metadata')
+    const isNft1155Credit =
+      metadataService.attributes.main.nftType.toString() ===
+      NeverminedNFT1155Type.nft1155Credit.toString()
+
+    console.debug('isNft1155Credit', isNft1155Credit)
+    // If is not a NFT Credit and have permissions, access is granted
+    if (!isNft1155Credit) {
+      if (
+        await this.nevermined.keeper.conditions.nftAccessCondition.checkPermissions(
+          params.consumer_address,
+          params.did,
+        )
+      )
+        return true
+    }
+
+    const service =
+      params.service_index && params.service_index > 0
+        ? ddo.findServiceByIndex(params.service_index)
+        : ddo.findServiceByType(this.service())
+
+    const contractAddress = DDO.getNftContractAddressFromService(service as ServiceNFTAccess)
     const limit = this.nevermined.keeper.conditions.nftHolderCondition.amountFromService(service)
-    const contractAddress =
-      this.nevermined.keeper.conditions.nftHolderCondition.nftContractFromService(service)
-    const nftContract = await Nft1155Contract.getInstance(
-      (this.nevermined.keeper as any).instanceConfig,
-      contractAddress,
-    )
-    const balance = await nftContract.balance(params.consumer_address, params.did)
+
+    const tokenId = DDO.getTokenIdFromService(service) || ddo.id
+
+    const nftContract = await this.nevermined.contracts.loadNft1155(contractAddress)
+
+    const balance = await nftContract.balance(tokenId, params.consumer_address)
+
     return balance >= limit
+  }
+
+  public async track(
+    params: ValidationParams,
+    from: Account,
+    txparams?: TxParameters,
+  ): Promise<boolean> {
+    const ddo = await this.nevermined.assets.resolve(params.did)
+    const metadataService = ddo.findServiceByType('metadata')
+
+    const isNft1155Credit =
+      metadataService.attributes.main.nftType.toString() ===
+      NeverminedNFT1155Type.nft1155Credit.toString()
+    if (!isNft1155Credit) {
+      // Service is not NFT1155Credit, skipping track()
+      return false
+    }
+
+    const nftAccessService =
+      params.service_index && params.service_index > 0
+        ? ddo.findServiceByIndex(params.service_index)
+        : ddo.findServiceByType(this.service())
+
+    const contractAddress = DDO.getNftContractAddressFromService(
+      nftAccessService as ServiceNFTAccess,
+    )
+
+    const amount = DDO.getNftAmountFromService(nftAccessService)
+    const tokenId = DDO.getTokenIdFromService(nftAccessService) || ddo.id
+
+    const nftContract = await this.nevermined.contracts.loadNft1155(contractAddress)
+
+    await nftContract.burnFromHolder(params.consumer_address, tokenId, amount, from, txparams)
+
+    return true
   }
 }

@@ -13,7 +13,6 @@ import {
   Nft721Contract,
   NFTAttributes,
   ConditionState,
-  NFTServiceAttributes,
 } from '../../src'
 import { ethers } from 'ethers'
 import { repeat } from '../utils/utils'
@@ -99,12 +98,12 @@ describe('E2E Flow for NFTs with multiple services', () => {
           {
             serviceType: 'nft-sales',
             price: assetPrice1,
-            nft: { ...NFTServiceAttributes.defaultValues, nftTransfer: true },
+            nft: { nftTransfer: true },
           },
           {
             serviceType: 'nft-sales',
             price: assetPrice2,
-            nft: { nftTransfer: false, amount: 2n },
+            nft: { nftTransfer: false },
           },
           {
             serviceType: 'nft-access',
@@ -126,23 +125,22 @@ describe('E2E Flow for NFTs with multiple services', () => {
       assert.equal(accessServices.length, 1)
 
       assert.equal(
-        salesServices[0].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
+        DDO.getParameterFromCondition(salesServices[0], 'lockPayment', '_amounts')[0],
         totalAmount1,
-      )
-      assert.equal(
-        salesServices[0].attributes.serviceAgreementTemplate.conditions[1].parameters[2]
-          .value as string,
-        '1',
       )
 
       assert.equal(
-        salesServices[1].attributes.serviceAgreementTemplate.conditions[0].parameters[3].value[0],
+        DDO.getParameterFromCondition(salesServices[0], 'transferNFT', '_nftTransfer'),
+        'true',
+      )
+
+      assert.equal(
+        DDO.getParameterFromCondition(salesServices[1], 'lockPayment', '_amounts')[0],
         totalAmount2,
       )
       assert.equal(
-        salesServices[1].attributes.serviceAgreementTemplate.conditions[1].parameters[2]
-          .value as string,
-        '2',
+        DDO.getParameterFromCondition(salesServices[1], 'transferNFT', '_nftTransfer'),
+        'false',
       )
 
       assert.isDefined(ddo.findServiceByType('metadata'))

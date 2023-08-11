@@ -41,6 +41,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
    * @param ercType  - The Type of the NFT ERC (1155 or 721).
    * @param did - The DID of the asset.
+   * @param serviceIndex - The index of the service in the DDO that will be claimed
    *
    * @throws {@link NFTError} if Nevermined is not an operator for this NFT
    * @returns true if the transfer was successful.
@@ -52,6 +53,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     numberEditions = 1n,
     ercType: ERCType = 1155,
     did?: string,
+    serviceIndex?: number,
   ): Promise<boolean> {
     if (did) {
       // check if transferNFT condition has the operator role
@@ -65,7 +67,6 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         throw new NFTError('Nevermined does not have operator role')
       }
     }
-
     return await this.nevermined.services.node.claimNFT(
       agreementId,
       nftHolder,
@@ -73,6 +74,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       numberEditions,
       ercType,
       did,
+      serviceIndex,
     )
   }
 
@@ -183,14 +185,17 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * ```
    *
    * @param ddo - The DDO of the asset.
-   * @param serviceType - The service type to look for the contract address
+   * @param serviceReference - The service type to look for the contract address
    *
    * @returns The NFT contract address.
    */
-  public static getNFTContractAddress(ddo: DDO, serviceType: ServiceType = 'nft-access') {
-    const service = ddo.findServiceByType(serviceType)
+  public static getNFTContractAddress(
+    ddo: DDO,
+    serviceReference: number | ServiceType = 'nft-access',
+  ) {
+    const service = ddo.findServiceByReference(serviceReference)
     if (service) {
-      const conditionName = serviceType == 'nft-access' ? 'nftHolder' : 'transferNFT'
+      const conditionName = serviceReference == 'nft-access' ? 'nftHolder' : 'transferNFT'
       const cond = service.attributes.serviceAgreementTemplate.conditions.find(
         (c) => c.name === conditionName,
       )
@@ -229,6 +234,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     ddo: DDO,
     assetPrice: AssetPrice,
     nftAmount: bigint,
+    nftTransfer: boolean,
     provider: string,
     token: Token,
     owner: Account,
@@ -248,6 +254,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       undefined,
       provider || owner.getId(),
       nftAmount,
+      nftTransfer,
     )
 
     const nftSalesServiceAgreement: ServiceSecondary = {
@@ -375,28 +382,33 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param consumer - The NFT holder account.
    * @param destination - The download destination for the files.
-   * @param index - The index of the file. If unset will download all the files in the asset.
+   * @param fileIndex - The index of the file. If unset will download all the files in the asset.
    * @param agreementId - The NFT sales agreement id.
    * @param buyer - Key which represent the buyer
    * @param babySig - An elliptic curve signature
+   * @param serviceReference - The service reference to use. By default is nft-access.
    * @returns true if the access was successful or file if isToDownload is false.
    */
   public async access(
     did: string,
     consumer: Account,
     destination?: string,
-    index?: number,
+    fileIndex?: number,
     agreementId = '0x',
     buyer?: string,
     babysig?: Babysig,
+    serviceReference: number | ServiceType = 'nft-access',
   ) {
     const ddo = await this.nevermined.assets.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
 
+    const accessService = ddo.findServiceByReference(serviceReference)
+
     const accessToken = await this.nevermined.utils.jwt.getNftAccessGrantToken(
       agreementId,
       ddo.id,
+      accessService.index,
       consumer,
       buyer,
       babysig,
@@ -410,7 +422,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     const result = await this.nevermined.services.node.downloadService(
       files,
       destination,
-      index,
+      fileIndex,
       headers,
     )
 

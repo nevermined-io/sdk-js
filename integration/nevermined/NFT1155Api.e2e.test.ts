@@ -153,7 +153,7 @@ function makeTest(isCustom) {
             {
               serviceType: 'nft-sales',
               price: assetPrice1,
-              nft: { amount: numberEditions },
+              nft: { amount: numberEditions, nftTransfer: true },
             },
             {
               serviceType: 'nft-access',
@@ -174,7 +174,7 @@ function makeTest(isCustom) {
         assert.isDefined(ddo)
 
         const balance = await nevermined.nfts1155.balance(ddo.id, artist.getId())
-        assert.deepEqual(balance, 5n)
+        assert.isTrue(balance === 5n)
       })
 
       it('should give Nevermined the operator role', async () => {
@@ -201,7 +201,7 @@ function makeTest(isCustom) {
         assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
         assert.equal(details.royalties, 100000)
         assert.equal(details.owner, artist.getId())
-        assert.equal(details.mintCap, 5n)
+        assert.isTrue(details.mintCap === 5n)
         assert.equal(details.nftSupply, 5n)
       })
 
@@ -323,6 +323,7 @@ function makeTest(isCustom) {
             {
               serviceType: 'nft-sales',
               price: assetPrice1,
+              nft: { nftTransfer: true },
             },
             {
               serviceType: 'nft-access',
@@ -334,13 +335,14 @@ function makeTest(isCustom) {
           nftContractAddress: nevermined.nfts1155.nftContract.address,
           cap: cappedAmount,
           royaltyAttributes,
+          preMint: true,
         })
         ddo = await nevermined.nfts1155.create(nftAttributes, artist)
 
         assert.isDefined(ddo)
 
         const balance = await nevermined.nfts1155.balance(ddo.id, artist)
-        assert.equal(balance, 5n)
+        assert.isTrue(balance === 5n)
 
         await nevermined.nfts1155.setApprovalForAll(config.neverminedNodeAddress, true, artist)
       })
@@ -399,6 +401,7 @@ function makeTest(isCustom) {
             {
               serviceType: 'nft-sales',
               price: assetPrice1,
+              nft: { nftTransfer: true },
             },
             {
               serviceType: 'nft-access',

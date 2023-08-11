@@ -89,7 +89,11 @@ export class NFT721AccessTemplate extends BaseTemplate<
       return true
     }
     const ddo = await this.nevermined.assets.resolve(params.did)
-    const service = ddo.findServiceByType(this.service())
+    const service =
+      params.service_index && params.service_index > 0
+        ? ddo.findServiceByIndex(params.service_index)
+        : ddo.findServiceByType(this.service())
+
     const contractAddress =
       this.nevermined.keeper.conditions.nft721HolderCondition.nftContractFromService(service)
 

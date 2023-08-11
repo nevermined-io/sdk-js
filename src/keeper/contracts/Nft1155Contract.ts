@@ -5,6 +5,7 @@ import { TxParameters } from './ContractBase'
 import { ethers } from 'ethers'
 import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '../ContractHandler'
+import { ContractEvent, EventHandler } from '../../events'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs
@@ -22,11 +23,35 @@ export class Nft1155Contract extends NFTContractsBase {
     if (address) {
       const networkName = await nft.nevermined.keeper.getNetworkName()
 
+      // We don't have a subgraph for NFT1155 so we can only use ContractEvent
+      const eventEmitter = new EventHandler()
+      nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
+
       const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
       await new ContractHandler(config).checkExists(address)
       nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
       nft.address = await nft.contract.getAddress()
     }
+
+    return nft
+  }
+
+  public static async getInstanceUsingABI(
+    config: InstantiableConfig,
+    address: string,
+    solidityABI: any,
+  ): Promise<Nft1155Contract> {
+    const contractName = solidityABI.contractName
+    const nft: Nft1155Contract = new Nft1155Contract(contractName)
+    nft.setInstanceConfig(config)
+
+    // We don't have a subgraph for NFT1155 so we can only use ContractEvent
+    const eventEmitter = new EventHandler()
+    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
+
+    await new ContractHandler(config).checkExists(address)
+    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+    nft.address = await nft.contract.getAddress()
 
     return nft
   }
@@ -138,13 +163,33 @@ export class Nft1155Contract extends NFTContractsBase {
    * It burns some editions of a NFT (ERC-1155)
    *
    * @param from - Account address burning the NFT editions
-   * @param did - The NFT id to burn
+   * @param tokenId - The NFT id to burn
    * @param amount - Number of editions to burn
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(from: string, did: string, amount: bigint, txParams?: TxParameters) {
-    return this.send('burn', from, [from, didZeroX(did), amount], txParams)
+  public async burn(from: string, tokenId: string, amount: bigint, txParams?: TxParameters) {
+    return this.send('burn', from, [from, didZeroX(tokenId), amount], txParams)
+  }
+
+  /**
+   * It burns some editions of a NFT (ERC-1155)
+   *
+   * @param holder - Address of the account holding the NFT editions that are going to be burned
+   * @param tokenId - The NFT id to burn
+   * @param amount - Number of editions to burn
+   * @param from - Account address burning the NFT editions
+   * @param txParams - Transaction additional parameters
+   * @returns Contract Receipt
+   */
+  public async burnFromHolder(
+    holder: string,
+    tokenId: string,
+    amount: bigint,
+    from: string,
+    txParams?: TxParameters,
+  ) {
+    return this.send('burn', from, [holder, didZeroX(tokenId), amount], txParams)
   }
 
   /**

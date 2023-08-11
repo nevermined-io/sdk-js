@@ -8,7 +8,7 @@ import {
   FunctionFragment,
   ethers,
 } from 'ethers'
-import { parseUnits } from '../../sdk'
+import { jsonReplacer, parseUnits } from '../../sdk'
 export interface TxParameters {
   value?: string
   gasLimit?: bigint
@@ -105,7 +105,8 @@ export abstract class ContractBase extends Instantiable {
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
     // Uncomment to debug contract calls
-    //console.debug(`Making contract call ....: ${name} - ${from} - ${JSON.stringify(args)}`)
+    // console.debug(`Making contract call ....: ${name} - ${from}`)
+    // console.debug(`With args - ${JSON.stringify(args)}`)
     const methodSignature = this.getSignatureOfMethod(name, args)
     const { gasLimit, value } = txparams
     // make the call
@@ -141,6 +142,7 @@ export abstract class ContractBase extends Instantiable {
     }
 
     const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
+
     if (progress) {
       progress({
         stage: 'receipt',
@@ -232,7 +234,7 @@ export abstract class ContractBase extends Instantiable {
       } failed.\n
                 Error: ${err.info.error.message}\n
                 From: ${from}\n
-                Parameters: ${JSON.stringify(mappedArgs, null, 2)}\n
+                Parameters: ${JSON.stringify(mappedArgs, jsonReplacer, 2)}\n
                 ${'-'.repeat(40)}
             `)
     }

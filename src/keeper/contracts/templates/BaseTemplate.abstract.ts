@@ -60,6 +60,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       serviceAttributes?.nft?.duration,
       nftAttributes?.fulfillAccessTimeout,
       nftAttributes?.fulfillAccessTimelock,
+      serviceAttributes?.nft?.tokenId,
     )
     serviceAgreementTemplate.conditions = _conds
 
@@ -91,10 +92,18 @@ export abstract class BaseTemplate<Params, S extends Service>
   public abstract paramsGen(params: ValidationParams): Promise<Params>
 
   public async extraGen(_params: ValidationParams): Promise<any> {
-    return {}
+    return { service_index: _params.service_index }
   }
 
   public async accept(_params: ValidationParams): Promise<boolean> {
+    return false
+  }
+
+  public async track(
+    _params: ValidationParams,
+    _from: Account,
+    _txparams?: TxParameters,
+  ): Promise<boolean> {
     return false
   }
 
@@ -123,28 +132,38 @@ export abstract class BaseTemplate<Params, S extends Service>
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(did)
     const agreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreement_id)
+
+    console.debug(`Using Service Index ${extra.service_index}`)
+
     const agreementData = await this.instanceFromDDO(
       agreement.agreementIdSeed,
       ddo,
       agreement.creator,
       params,
+      extra.service_index,
     )
     if (agreementData.agreementId !== agreement_id) {
       throw new Error(
         `Agreement doesn't match ${agreement_id} should be ${agreementData.agreementId}`,
       )
     }
+
     for (const a of this.conditions()) {
       const condInstance = agreementData.instances.find(
         (c) => c.condition === a.contractName,
       ) as ConditionInstance<any>
+      // console.debug(`Fulfilling with Node ${JSON.stringify(condInstance, jsonReplacer)}`)
+
       await a.fulfillWithNode(condInstance, extra, from, txparams)
       const lock_state = await this.nevermined.keeper.conditionStoreManager.getCondition(
         condInstance.id,
       )
+
+      // console.debug(`LockState === ${JSON.stringify(lock_state, jsonReplacer)}`)
+
       if (lock_state.state !== ConditionState.Fulfilled) {
         throw new Error(
-          `In agreement ${agreement_id}, condition ${condInstance.id} is not fulfilled`,
+          `In agreement ${agreement_id}, condition [${a.contractName}] ${condInstance.id} is not fulfilled`,
         )
       }
     }

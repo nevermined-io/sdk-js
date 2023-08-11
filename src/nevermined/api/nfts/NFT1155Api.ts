@@ -168,15 +168,56 @@ export class NFT1155Api extends NFTsBaseApi {
    * )
    * ```
    *
-   * @param did - The Decentralized Identifier of the NFT asset.
+   * @param tokenId - The Decentralized Identifier of the NFT asset.
    * @param nftAmount - The amount of NFTs to burn.
    * @param account - The account of the publisher of the NFT.
    * @param txParams - Optional transaction parameters.
    *
    * @returns The {@link ethers.ContractTransactionReceipt}
    */
-  public async burn(did: string, nftAmount: bigint, account: Account, txParams?: TxParameters) {
-    return await this.nftContract.burn(account.getId(), did, nftAmount, txParams)
+  public async burn(tokenId: string, nftAmount: bigint, account: Account, txParams?: TxParameters) {
+    return await this.nftContract.burn(account.getId(), tokenId, nftAmount, txParams)
+  }
+
+  /**
+   * Burn NFTs associated with an asset of a specific account.
+   *
+   * @remarks
+   * The publisher can only burn NFTs of an account if is an operator. NFTs that were already transferred cannot be burned by the publisher.
+   *
+   * @example
+   * ```ts
+   * await nevermined.nfts1155.burnTo(
+   *           holder,
+   *           tokenId,
+   *           2n,
+   *           artist
+   * )
+   * ```
+   *
+   * @param holder - The address of the account that holds the NFTs.
+   * @param tokenId - The TokenId of the NFT
+   * @param nftAmount - The amount of NFTs to burn.
+   * @param account - The account of the publisher of the NFT.
+   * @param txParams - Optional transaction parameters.
+   *
+   * @returns The {@link ethers.ContractTransactionReceipt}
+   */
+  public async burnFromHolder(
+    holder: string,
+    tokenId: string,
+    nftAmount: bigint,
+    account: Account | string,
+    txParams?: TxParameters,
+  ) {
+    const _senderAddress = account instanceof Account ? account.getId() : account
+    return await this.nftContract.burnFromHolder(
+      holder,
+      tokenId,
+      nftAmount,
+      _senderAddress,
+      txParams,
+    )
   }
 
   // TODO: We need to improve this to allow for secondary market sales
@@ -259,6 +300,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param nftReceiver - The address where the NFT should be transferred.
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
    * @param did - The Decentralized Identifier of the asset.
+   * @param serviceIndex - The index of the service in the DDO that will be claimed
    *
    * @returns true if the transfer was successful.
    */
@@ -268,8 +310,17 @@ export class NFT1155Api extends NFTsBaseApi {
     nftReceiver: string,
     numberEditions = 1n,
     did?: string,
+    serviceIndex?: number,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, numberEditions, 1155, did)
+    return await this.claimNFT(
+      agreementId,
+      nftHolder,
+      nftReceiver,
+      numberEditions,
+      1155,
+      did,
+      serviceIndex,
+    )
   }
 
   /**

@@ -429,11 +429,17 @@ export class ConditionsApi extends Instantiable {
     const { accessConsumer } = await template.getAgreementData(agreementId)
     const { agreementIdSeed, creator } =
       await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
+    const service = ddo.findServiceByIndex(serviceIndex)
+
+    const nftTranfer = DDO.getNFTTransferFromService(service)
+    const duration = DDO.getDurationFromService(service)
+    const params = template.params(accessConsumer, nftAmount, duration, undefined, nftTranfer)
+
     const instance = await template.instanceFromDDO(
       agreementIdSeed,
       ddo,
       creator,
-      template.params(accessConsumer, nftAmount),
+      params,
       serviceIndex,
     )
 

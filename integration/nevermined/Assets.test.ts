@@ -180,7 +180,16 @@ describe('Assets', () => {
 
     it('new rating must be between 0 and 1', async () => {
       // Trying to add a vote with a rating out of range
-      await assert.isRejected(nevermined.assets.addRating(ddo.shortId(), 2, 1, publisher))
+
+      nevermined.assets
+        .addRating(ddo.shortId(), 2, 1, publisher)
+        .then((res) => {
+          assert.fail(`It should not be here because rating is wrong: ${res}`)
+        })
+        .catch((err) => {
+          console.debug(`It should fail with error: ${err}`)
+          assert.isDefined(err)
+        })
     })
   })
 

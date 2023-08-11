@@ -303,6 +303,16 @@ describe('NFT721Templates E2E', () => {
       it('The artist can check the payment and transfer the NFT to the collector', async () => {
         await nft.setApprovalForAll(transferNft721Condition.address, true, artist)
 
+        const params = {
+          agreementId,
+          did: ddo.shortId(),
+          nftReceiver: collector1.getId(),
+          lockPaymentCondition: conditionIdLockPayment[1],
+          nftTokenAddress: nft.address,
+          willBeTransferred: true,
+        }
+        console.log(JSON.stringify(params))
+
         await transferNft721Condition.fulfill(
           agreementId,
           ddo.shortId(),

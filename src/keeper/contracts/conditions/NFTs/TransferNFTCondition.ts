@@ -15,6 +15,7 @@ export interface TransferNFTConditionContext extends ConditionContext {
   providerId: string
   consumerId: string
   nftAmount: bigint
+  expiration: number
 }
 
 /**
@@ -45,13 +46,14 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     lockCondition: string,
     nftContractAddress?: string,
     willBeTransferred = true,
+    _expiration = 0,
   ): ConditionParameters<Record<string, unknown>> {
     return {
       list: [
         didZeroX(did),
         zeroX(nftHolder),
         zeroX(nftReceiver),
-        String(nftAmount),
+        nftAmount.toString(),
         lockCondition,
         zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
         willBeTransferred,
@@ -62,7 +64,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
             didZeroX(did),
             zeroX(nftHolder),
             zeroX(nftReceiver),
-            String(nftAmount),
+            nftAmount.toString(),
             lockCondition,
             zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
             willBeTransferred,
@@ -71,7 +73,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
           return [
             didZeroX(did),
             zeroX(nftReceiver),
-            String(nftAmount),
+            nftAmount.toString(),
             lockCondition,
             zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
             willBeTransferred,
@@ -89,13 +91,17 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
   }
 
   public async paramsFromDDO(
-    { ddo, service, providerId, consumerId, nftAmount }: TransferNFTConditionContext,
+    { ddo, service, providerId, consumerId, nftAmount, expiration }: TransferNFTConditionContext,
     lockCondition,
   ) {
     const transfer = DDO.findServiceConditionByName(service, 'transferNFT')
     if (!transfer) throw new Error('TransferNFT condition not found!')
+
     const nftHolder =
       providerId || (transfer.parameters.find((p) => p.name === '_nftHolder').value as string)
+
+    const nftTransferString = transfer.parameters.find((p) => p.name === '_nftTransfer')
+      .value as string
     return this.params(
       ddo.shortId(),
       nftHolder,
@@ -103,7 +109,8 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
       nftAmount,
       lockCondition.id,
       this.nftContractFromService(service),
-      true,
+      nftTransferString.toLowerCase() === 'true',
+      expiration,
     )
   }
 
@@ -119,6 +126,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
    * @param nftAmount - amount of NFTs to transfer.
    * @param nftContractAddress - Address of the nft contract
    * @param lockPaymentCondition - lock payment condition identifier.
+   * @param willBeTransferred - Indicates if the asset will be transferred or minted
    * @param from -
    * @returns Condition state.
    */
@@ -129,7 +137,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     nftAmount: bigint,
     nftContractAddress: string,
     lockPaymentCondition: string,
-    transfer = true,
+    willBeTransferred = true,
     from?: Account,
     txParams?: TxParameters,
   ) {
@@ -138,10 +146,10 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
       [
         didZeroX(did),
         zeroX(nftReceiver),
-        String(nftAmount),
+        nftAmount.toString(),
         lockPaymentCondition,
         zeroX(nftContractAddress),
-        transfer,
+        willBeTransferred,
       ],
       from,
       txParams,
@@ -160,6 +168,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
    * @param nftReceiver - The address of the account to receive the NFT.
    * @param nftAmount - The amount of NFTs to transfer.
    * @param lockPaymentCondition - The lock payment condition identifier.
+   * @param willBeTransferred - Indicates if the asset will be transferred or minted
    * @param from - Account sending the transaction
    * @param txParams - Transaction parameters
    * @returns Condition state.
@@ -172,7 +181,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     nftAmount: bigint,
     lockPaymentCondition: string,
     nftAddress: string,
-    transferAsset = true,
+    willBeTransferred = true,
     from?: Account,
     txParams?: TxParameters,
   ) {
@@ -182,10 +191,10 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         didZeroX(did),
         zeroX(nftHolder),
         zeroX(nftReceiver),
-        String(nftAmount),
+        nftAmount.toString(),
         lockPaymentCondition,
         zeroX(nftAddress),
-        transferAsset,
+        willBeTransferred,
       ],
       from,
       txParams,

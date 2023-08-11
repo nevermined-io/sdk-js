@@ -443,12 +443,47 @@ export class DDO {
   }
 
   /**
+   * Gets the NFT TokenId in the nftHolder condition of the service
+   * @param service the service to search in
+   * @returns the NFT Token Id
+   */
+  public static getTokenIdFromService(service: Service): string {
+    const paramName = '_tokenId'
+    const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+    const nftCondition = DDO.findServiceConditionByName(service, conditionName)
+    return nftCondition.parameters.find((p) => p.name === paramName).value as string
+  }
+
+  /**
    * Gets the number of NFTs in the transferNFT condition of the service
    * @param service the service to search in
    * @returns the number of NFTs
    */
   public static getNftAmountFromService(service: Service): bigint {
-    return BigInt(DDO.getParameterFromCondition(service, 'transferNFT', '_numberNfts').toString())
+    const paramName = '_numberNfts'
+    const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+    const nftCondition = DDO.findServiceConditionByName(service, conditionName)
+    return BigInt(nftCondition.parameters.find((p) => p.name === paramName).value as string)
+  }
+
+  /**
+   * Gets the nftTransfer parameter in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns if condition will do a nft transfer or a mint
+   */
+  public static getNFTTransferFromService(service: Service): boolean {
+    return (
+      DDO.getParameterFromCondition(service, 'transferNFT', '_nftTransfer').toString() === 'true'
+    )
+  }
+
+  /**
+   * Gets the duration parameter in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns the duration of the subscription
+   */
+  public static getDurationFromService(service: Service): number {
+    return Number(DDO.getParameterFromCondition(service, 'transferNFT', '_duration').toString())
   }
 
   /**
