@@ -3,7 +3,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO, ServiceAccess, ServiceType, ValidationParams } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import { Account } from '../../../sdk'
+import { Account, TxParameters } from '../../../sdk'
 import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '../conditions'
 
 export interface AccessTemplateParams {
@@ -100,5 +100,13 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
       params.consumer_address,
       params.did,
     )
+  }
+
+  public async track(
+    params: ValidationParams,
+    from: Account,
+    txparams?: TxParameters,
+  ): Promise<boolean> {
+    return super.track(params, from, txparams)
   }
 }
