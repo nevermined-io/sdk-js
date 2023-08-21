@@ -17,7 +17,7 @@ jobs:
           opengsn: 'true'
           estuary: 'true'
           # TODO: remove this when the Node is updated
-          node-version: 'v2.0.0-rc3'
+          node-version: 'develop'
           contracts-version: 'latest'
 
       - name: Install dependencies
