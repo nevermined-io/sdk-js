@@ -15,6 +15,7 @@ export interface NFTSalesTemplateParams {
   consumerId: string
   providerId: string
   nftAmount: bigint
+  duration: number
   expiration: number
   nftTransfer: boolean
 }
@@ -38,19 +39,39 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
   public params(
     consumerId: string,
     nftAmount: bigint,
+    duration?: number,
     expiration?: number,
     providerId?: string,
     nftTransfer?: boolean,
   ): NFTSalesTemplateParams {
-    return { consumerId, providerId, nftAmount, expiration, nftTransfer }
+    return { consumerId, providerId, nftAmount, duration, expiration, nftTransfer }
+  }
+
+  public async getParamsFromService(
+    consumerId: string,
+    nftAmount: bigint,
+    service: ServiceNFTSales,
+  ): Promise<NFTSalesTemplateParams> {
+    const duration = DDO.getDurationFromService(service) || 0
+    const expiration = duration > 0 ? (await this.nevermined.web3.getBlockNumber()) + duration : 0
+    const nftTransfer = DDO.getNFTTransferFromService(service)
+    return {
+      consumerId,
+      nftAmount,
+      duration,
+      expiration,
+      nftTransfer,
+      providerId: undefined,
+    }
   }
 
   public async paramsGen({
     consumer_address,
     nft_amount,
+    duration = 0,
     expiration = 0,
   }: ValidationParams): Promise<NFTSalesTemplateParams> {
-    return this.params(consumer_address, nft_amount, expiration)
+    return this.params(consumer_address, nft_amount, duration, expiration)
   }
 
   public lockConditionIndex(): number {
@@ -83,11 +104,13 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
       agreementId,
       ctx,
     )
+
     const transferConditionInstance = await transferNftCondition.instanceFromDDO(
       agreementId,
       ctx,
       lockPaymentConditionInstance,
     )
+
     const escrowPaymentConditionInstance = await escrowPaymentCondition.instanceFromDDO(
       agreementId,
       ctx,

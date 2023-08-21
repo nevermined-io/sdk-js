@@ -5,7 +5,7 @@ import { ContractTransactionReceipt, EventLog } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export interface MintedEntry {
-  tokenId: bigint
+  amountMinted: bigint
   expirationBlock: bigint
   mintBlock: bigint
 }
@@ -128,7 +128,7 @@ export class NFTContractsBase extends ContractBase {
     const entries: MintedEntry[] = []
     for (let i = 0; i < minted.length; i++) {
       entries.push({
-        tokenId: BigInt(minted[i][0]),
+        amountMinted: BigInt(minted[i][0]),
         expirationBlock: BigInt(minted[i][1]),
         mintBlock: BigInt(minted[i][2]),
       })

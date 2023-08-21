@@ -433,7 +433,18 @@ export class ConditionsApi extends Instantiable {
 
     const nftTranfer = DDO.getNFTTransferFromService(service)
     const duration = DDO.getDurationFromService(service)
-    const params = template.params(accessConsumer, nftAmount, duration, undefined, nftTranfer)
+    const expirationBlock =
+      duration > 0 ? (await this.nevermined.keeper.web3.getBlockNumber()) + duration : 0
+    console.log(`ConditionsApi :: transferNft with expiration block = ${expirationBlock}`)
+
+    const params = template.params(
+      accessConsumer,
+      nftAmount,
+      duration,
+      expirationBlock,
+      undefined,
+      nftTranfer,
+    )
 
     const instance = await template.instanceFromDDO(
       agreementIdSeed,
@@ -467,7 +478,7 @@ export class ConditionsApi extends Instantiable {
     serviceReference: number | ServiceType = 'nft-sales',
     nftAmount: bigint,
     from?: Account,
-    params?: txParams,
+    txParams?: txParams,
   ) {
     const { transferNftCondition } = this.nevermined.keeper.conditions
     const template = this.nevermined.keeper.templates.nftSalesTemplate
@@ -475,21 +486,47 @@ export class ConditionsApi extends Instantiable {
     const { accessConsumer } = await template.getAgreementData(agreementId)
     const { agreementIdSeed, creator } =
       await this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
-    const serviceIndex = ddo.findServiceByReference(serviceReference).index
+    const service = ddo.findServiceByReference(serviceReference)
+
+    const nftTranfer = DDO.getNFTTransferFromService(service)
+    const duration = DDO.getDurationFromService(service) || 0
+    const expirationBlock =
+      duration > 0 ? (await this.nevermined.keeper.web3.getBlockNumber()) + duration : 0
+    console.log(
+      `ConditionsApi :: transferNftForDelegate with expiration block = ${expirationBlock}`,
+    )
+
+    const params = template.params(
+      accessConsumer,
+      nftAmount,
+      duration,
+      expirationBlock,
+      undefined,
+      nftTranfer,
+    )
+
     const instance = await template.instanceFromDDO(
       agreementIdSeed,
       ddo,
       creator,
-      template.params(accessConsumer, nftAmount),
-      serviceIndex,
+      params,
+      service.index,
     )
     const [did, nftHolder, nftReceiver, _nftAmount, lockPaymentCondition, , transferAsset] =
       instance.instances[1].list
     const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfillPlain(
       agreementId,
-      [did, nftHolder, nftReceiver, _nftAmount, lockPaymentCondition, transferAsset],
+      [
+        did,
+        nftHolder,
+        nftReceiver,
+        _nftAmount,
+        lockPaymentCondition,
+        transferAsset,
+        expirationBlock,
+      ],
       from,
-      params,
+      txParams,
       'fulfillForDelegate',
     )
 

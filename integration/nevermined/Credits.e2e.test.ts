@@ -228,6 +228,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
 
       subsSalesService = subscriptionDDO.findServiceByType('nft-sales')
+      console.debug(`Ordering service with index ${subsSalesService.index}`)
       agreementId = await nevermined.nfts1155.order(
         subscriptionDDO.id,
         subscriptionCredits,
@@ -236,7 +237,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       )
 
       assert.isDefined(agreementId)
-
+      console.debug(`Agreement ID: ${agreementId}`)
       const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
 
       assert.equal(subscriberBalanceAfter, initialBalances.subscriber)
