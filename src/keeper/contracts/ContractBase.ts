@@ -234,7 +234,7 @@ export abstract class ContractBase extends Instantiable {
                 Sending transaction "${name}" on contract "${this.contractName}" at ${
         this.address
       } failed.\n
-                Error: ${err.info.error.message}\n
+                Error: ${err}\n
                 From: ${from}\n
                 Parameters: ${JSON.stringify(mappedArgs, jsonReplacer, 2)}\n
                 ${'-'.repeat(40)}

@@ -198,7 +198,6 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     txParams?: TxParameters,
   ) {
     const args = [
-      zeroX(agreementId),
       didZeroX(did),
       zeroX(nftHolder),
       zeroX(nftReceiver),

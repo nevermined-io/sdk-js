@@ -1,6 +1,6 @@
 import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { DDO, ServiceType } from '../../ddo'
+import { DDO, ServiceNFTSales, ServiceType } from '../../ddo'
 import { ZeroAddress } from '../../utils'
 import { Token, CustomToken, TxParameters as txParams } from '../../keeper'
 import { AssetPrice } from '../../models'
@@ -489,6 +489,7 @@ export class ConditionsApi extends Instantiable {
     const service = ddo.findServiceByReference(serviceReference)
 
     const nftTranfer = DDO.getNFTTransferFromService(service)
+    const nftAddress = DDO.getNftContractAddressFromService(service as ServiceNFTSales)
     const duration = DDO.getDurationFromService(service) || 0
     const expirationBlock =
       duration > 0 ? (await this.nevermined.keeper.web3.getBlockNumber()) + duration : 0
@@ -514,21 +515,20 @@ export class ConditionsApi extends Instantiable {
     )
     const [did, nftHolder, nftReceiver, _nftAmount, lockPaymentCondition, , transferAsset] =
       instance.instances[1].list
-    const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfillPlain(
-      agreementId,
-      [
+    const contractReceipt: ContractTransactionReceipt =
+      await transferNftCondition.fulfillForDelegate(
+        agreementId,
         did,
         nftHolder,
         nftReceiver,
         _nftAmount,
         lockPaymentCondition,
+        nftAddress,
         transferAsset,
-        expirationBlock,
-      ],
-      from,
-      txParams,
-      'fulfillForDelegate',
-    )
+        BigInt(expirationBlock),
+        from,
+        txParams,
+      )
 
     return this.isFulfilled(contractReceipt)
   }
