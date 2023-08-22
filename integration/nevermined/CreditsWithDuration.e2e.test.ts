@@ -12,7 +12,6 @@ import {
   RoyaltyAttributes,
   RoyaltyKind,
   SubscriptionCreditsNFTApi,
-  NFT1155Api,
 } from '../../src/nevermined'
 import { mineBlocks } from '../utils/utils'
 
@@ -32,7 +31,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
   let agreementId: string
 
-  const subscriptionDuration1 = 5 // in blocks
+  const subscriptionDuration1 = 10 // in blocks
   const subscriptionDuration2 = 20 // in blocks
   // Configuration of First Sale:
   // Editor -> Subscriber, the Reseller get a cut (25%)
@@ -68,7 +67,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
   // let scale: bigint
 
   // let nft: ethers.Contract
-  let subscriptionNFT: NFT1155Api
+  let subscriptionNFT: SubscriptionCreditsNFTApi
   let neverminedNodeAddress
 
   let payload: JWTPayload
@@ -208,7 +207,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
       )
     })
 
-    it('I want to register a new asset with multiple access services', async () => {
+    it('I want to register a new asset where access is granted to subscription holders', async () => {
       const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: assetMetadata,
         services: [
@@ -248,9 +247,6 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     it('I am ordering the subscription NFT', async () => {
       await subscriber.requestTokens(subscriptionPrice1)
 
-      // const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
-      // assert.equal(subscriberBalanceBefore.toString(), (initialBalances.subscriber + subscriptionPrice1).toString())
-
       subsSalesService = accessServices[0]
       console.debug(`Ordering with index ${subsSalesService.index}`)
       agreementId = await nevermined.nfts1155.order(
@@ -260,12 +256,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
         subsSalesService.index,
       )
 
-      console.log(`Agreement Id: ${agreementId}`)
       assert.isDefined(agreementId)
-
-      // const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
-
-      // assert.equal(subscriberBalanceAfter, initialBalances.subscriber)
     })
 
     it('The credits seller can check the payment and transfer the NFT to the subscriber', async () => {
@@ -298,9 +289,15 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
         subscriptionDDO.shortId(),
       )
       console.log(`Minted: ${minted.length}`)
+      minted.map((m) =>
+        console.log(
+          `Minted ${m.amountMinted} tokens and expiration ${m.expirationBlock} minted on block ${m.mintBlock}`,
+        ),
+      )
+      // getMintedEntries
     })
 
-    it('the editor and reseller can receive their payment', async () => {
+    it('The editor and reseller can receive their payment', async () => {
       const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
       const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
 
@@ -308,13 +305,20 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
       assert.isTrue(receiver1Balance === initialBalances.reseller + assetPrice1.getAmounts()[1])
     })
 
-    it('the subscriber can check the balance with the new NFTs received', async () => {
+    it('The subscriber can check the balance with the new NFTs received', async () => {
       console.log(
         `Checking the balance of DID [${
           subscriptionDDO.id
         }] of the subscriber ${subscriber.getId()}`,
       )
-      const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+
+      const blockNumber = await nevermined.web3.getBlockNumber()
+      console.log(`Block Number: ${blockNumber}`)
+      const balanceAfter = await subscriptionNFT.getContract.balance(
+        subscriber.getId(),
+        subscriptionDDO.shortId(),
+      )
+
       console.log(`Balance After Purchase is completed: ${balanceAfter}`)
       assert.isTrue(balanceAfter === subscriptionCredits1)
     })
@@ -337,7 +341,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     })
 
     // TODO: Enable this test when the TransferNFTCondition allow minting NFT-1155 with duration
-    it.skip('After the credits expire the user can not get access', async () => {
+    it('After the credits expire the user can not get access', async () => {
       await mineBlocks(nevermined, subscriber, subscriptionDuration1 + 1)
 
       const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
@@ -364,7 +368,6 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
         )
 
         assert.isDefined(agreementId)
-        console.log(`Agreement Id: ${agreementId}`)
 
         const receipt = await nevermined.nfts1155.claim(
           agreementId,

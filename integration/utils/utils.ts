@@ -52,6 +52,6 @@ export async function mineBlocks(nevermined: Nevermined, account: Account, block
       'mining',
       account,
     )
-    await sleep(500)
+    await sleep(100)
   }
 }

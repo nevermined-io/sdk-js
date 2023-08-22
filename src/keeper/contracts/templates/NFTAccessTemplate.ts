@@ -80,7 +80,6 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
       metadataService.attributes.main.nftType.toString() ===
       NeverminedNFT1155Type.nft1155Credit.toString()
 
-    console.debug('isNft1155Credit', isNft1155Credit)
     // If is not a NFT Credit and have permissions, access is granted
     if (!isNft1155Credit) {
       if (

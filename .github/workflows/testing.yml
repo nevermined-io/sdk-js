@@ -16,7 +16,9 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
+          # TODO: remove this when the Node is updated
           node-version: 'develop'
+          contracts-version: 'latest'
 
       - name: Install dependencies
         run: |

@@ -272,6 +272,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     )
 
     const assetPrice = DDO.getAssetPriceFromService(service)
+
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.address
@@ -287,7 +288,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     })
 
     observer(OrderProgressStep.ApprovingPayment)
-    console.debug(`Locking tokens ${amounts} from ${from.getId()}`)
+
     await this.lockTokens(tokenAddress, amounts, from, txParams)
     observer(OrderProgressStep.ApprovedPayment)
 

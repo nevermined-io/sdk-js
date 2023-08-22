@@ -287,6 +287,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment[1],
           true,
+          TransferNFTCondition.NO_EXPIRY,
           artist,
         )
 

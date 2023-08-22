@@ -728,6 +728,7 @@ export interface ValidationParams {
   babysig?: Babysig
   nft_amount?: bigint
   nft_holder?: string
+  duration?: number
   expiration?: number
 }
 

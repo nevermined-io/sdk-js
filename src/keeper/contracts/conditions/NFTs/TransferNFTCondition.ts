@@ -15,6 +15,7 @@ export interface TransferNFTConditionContext extends ConditionContext {
   providerId: string
   consumerId: string
   nftAmount: bigint
+  duration: number
   expiration: number
 }
 
@@ -22,6 +23,8 @@ export interface TransferNFTConditionContext extends ConditionContext {
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
 export class TransferNFTCondition extends ProviderCondition<TransferNFTConditionContext> {
+  public static readonly NO_EXPIRY = 0
+
   public static async getInstance(config: InstantiableConfig): Promise<TransferNFTCondition> {
     return Condition.getInstance(config, 'TransferNFTCondition', TransferNFTCondition)
   }
@@ -46,7 +49,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     lockCondition: string,
     nftContractAddress?: string,
     willBeTransferred = true,
-    _expiration = 0,
+    expiration = 0,
   ): ConditionParameters<Record<string, unknown>> {
     return {
       list: [
@@ -57,6 +60,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         lockCondition,
         zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
         willBeTransferred,
+        // expiration.toString()
       ],
       params: async (method) => {
         if (method === 'fulfillForDelegate') {
@@ -68,6 +72,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
             lockCondition,
             zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
             willBeTransferred,
+            expiration.toString(),
           ]
         } else if (method === 'fulfill') {
           return [
@@ -77,6 +82,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
             lockCondition,
             zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
             willBeTransferred,
+            expiration.toString(),
           ]
         }
       },
@@ -102,7 +108,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
 
     const nftTransferString = transfer.parameters.find((p) => p.name === '_nftTransfer')
       .value as string
-    return this.params(
+    const params = this.params(
       ddo.shortId(),
       nftHolder,
       consumerId,
@@ -112,6 +118,8 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
       nftTransferString.toLowerCase() === 'true',
       expiration,
     )
+
+    return params
   }
 
   /**
@@ -138,6 +146,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     nftContractAddress: string,
     lockPaymentCondition: string,
     willBeTransferred = true,
+    expiration = 0,
     from?: Account,
     txParams?: TxParameters,
   ) {
@@ -150,6 +159,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         lockPaymentCondition,
         zeroX(nftContractAddress),
         willBeTransferred,
+        expiration.toString(),
       ],
       from,
       txParams,
@@ -169,6 +179,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
    * @param nftAmount - The amount of NFTs to transfer.
    * @param lockPaymentCondition - The lock payment condition identifier.
    * @param willBeTransferred - Indicates if the asset will be transferred or minted
+   * @param expiration - Block in which the token expires. If zero means no expiration
    * @param from - Account sending the transaction
    * @param txParams - Transaction parameters
    * @returns Condition state.
@@ -182,24 +193,21 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     lockPaymentCondition: string,
     nftAddress: string,
     willBeTransferred = true,
+    expiration = 0n,
     from?: Account,
     txParams?: TxParameters,
   ) {
-    return super.fulfillPlain(
-      agreementId,
-      [
-        didZeroX(did),
-        zeroX(nftHolder),
-        zeroX(nftReceiver),
-        nftAmount.toString(),
-        lockPaymentCondition,
-        zeroX(nftAddress),
-        willBeTransferred,
-      ],
-      from,
-      txParams,
-      'fulfillForDelegate',
-    )
+    const args = [
+      didZeroX(did),
+      zeroX(nftHolder),
+      zeroX(nftReceiver),
+      nftAmount.toString(),
+      lockPaymentCondition,
+      zeroX(nftAddress),
+      willBeTransferred,
+      expiration.toString(),
+    ]
+    return super.fulfillPlain(agreementId, args, from, txParams, 'fulfillForDelegate')
   }
 
   public nodeMethod(): ConditionMethod {

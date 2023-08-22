@@ -301,6 +301,7 @@ describe('NFTTemplates E2E', () => {
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment[1],
           true,
+          TransferNFTCondition.NO_EXPIRY,
           artist,
         )
 
@@ -531,6 +532,7 @@ describe('NFTTemplates E2E', () => {
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment2[1],
           true,
+          TransferNFTCondition.NO_EXPIRY,
           collector1,
         )
 

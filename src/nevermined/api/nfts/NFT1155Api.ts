@@ -4,7 +4,7 @@ import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import { PublishMetadata } from '../AssetsApi'
 import { Account } from '../../Account'
 import { TxParameters, Nft1155Contract } from '../../../keeper'
-import { DDO, ServiceType } from '../../../ddo'
+import { DDO, ServiceNFTSales, ServiceType } from '../../../ddo'
 import { NFTError } from '../../../errors'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { ContractTransactionReceipt } from 'ethers'
@@ -255,12 +255,19 @@ export class NFT1155Api extends NFTsBaseApi {
       const agreementIdSeed = zeroX(generateId())
       const ddo = await this.nevermined.assets.resolve(did)
 
+      const service = ddo.findServiceByReference(serviceReference) as ServiceNFTSales
+      const params = await nftSalesTemplate.getParamsFromService(
+        consumer.getId(),
+        numberEditions,
+        service,
+      )
+
       this.logger.log('Creating nft-sales agreement and paying')
       const agreementId = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
         serviceReference,
-        nftSalesTemplate.params(consumer.getId(), numberEditions),
+        params,
         consumer,
         consumer,
         txParams,
