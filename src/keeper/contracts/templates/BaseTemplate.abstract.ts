@@ -1,17 +1,18 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { ZeroAddress, zeroX } from '../../../utils'
+import { getConditionsByParams, zeroX } from '../../../utils'
 import {
-  Priced,
+  PricedMetadataInformation,
   Service,
+  ServiceAttributes,
   serviceIndex,
   ServicePlugin,
   ServiceType,
   ValidationParams,
 } from '../../../ddo'
-import { Account, Condition, MetaData, AssetPrice } from '../../../sdk'
+import { Account, Condition, MetaData, NFTAttributes } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
-import { BigNumber } from '../../../utils'
+import { isAddress } from 'ethers'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>
@@ -31,49 +32,43 @@ export abstract class BaseTemplate<Params, S extends Service>
     return this.service()
   }
 
-  private async getPriced(assetPrice: AssetPrice, erc20TokenAddress: string): Promise<Priced> {
-    let decimals: number
-
-    if (erc20TokenAddress === ZeroAddress) {
-      decimals = 18
-    } else {
-      const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
-      decimals = await token.decimals()
-    }
-
-    const price = assetPrice.getTotalPrice().toString()
-    const priceHighestDenomination = +BigNumber.formatUnits(assetPrice.getTotalPrice(), decimals)
-    return {
-      attributes: {
-        main: {
-          price,
-        },
-        additionalInformation: {
-          priceHighestDenomination,
-        },
-      },
-    }
-  }
-
-  public async createService(
+  public createService(
     publisher: Account,
     metadata: MetaData,
-    assetPrice?: AssetPrice,
-    erc20TokenAddress?: string,
-    priced = false,
-  ): Promise<S> {
-    const serviceAgreementTemplate = await this.getServiceAgreementTemplate()
-    let priceData: Priced
+    serviceAttributes: ServiceAttributes,
+    nftAttributes?: NFTAttributes,
+    priceData?: PricedMetadataInformation,
+  ): S {
+    const assetPrice = serviceAttributes.price
+    let tokenAddress
+    if (assetPrice === undefined || !isAddress(assetPrice.getTokenAddress()))
+      tokenAddress = this.nevermined.utils.token.getAddress()
+    else tokenAddress = assetPrice.getTokenAddress()
 
-    if (priced) {
-      priceData = await this.getPriced(assetPrice, erc20TokenAddress)
-    }
+    const serviceAgreementTemplate = this.getServiceAgreementTemplate()
+    const _conds = getConditionsByParams(
+      this.service(),
+      serviceAgreementTemplate.conditions,
+      publisher.getId(),
+      assetPrice,
+      undefined, // we don't know the DID yet
+      tokenAddress,
+      nftAttributes?.nftContractAddress,
+      publisher.getId(),
+      serviceAttributes?.nft?.amount,
+      serviceAttributes?.nft?.nftTransfer,
+      serviceAttributes?.nft?.duration,
+      nftAttributes?.fulfillAccessTimeout,
+      nftAttributes?.fulfillAccessTimelock,
+      serviceAttributes?.nft?.tokenId,
+    )
+    serviceAgreementTemplate.conditions = _conds
 
     return {
       type: this.service(),
       index: serviceIndex[this.service()],
       serviceEndpoint: this.nevermined.services.node.getServiceEndpoint(this.serviceEndpoint()),
-      templateId: this.getAddress(),
+      templateId: this.address,
       attributes: {
         main: {
           creator: publisher.getId(),
@@ -97,10 +92,18 @@ export abstract class BaseTemplate<Params, S extends Service>
   public abstract paramsGen(params: ValidationParams): Promise<Params>
 
   public async extraGen(_params: ValidationParams): Promise<any> {
-    return {}
+    return { service_index: _params.service_index }
   }
 
   public async accept(_params: ValidationParams): Promise<boolean> {
+    return false
+  }
+
+  public async track(
+    _params: ValidationParams,
+    _from: Account,
+    _txparams?: TxParameters,
+  ): Promise<boolean> {
     return false
   }
 
@@ -129,28 +132,33 @@ export abstract class BaseTemplate<Params, S extends Service>
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(did)
     const agreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreement_id)
+
     const agreementData = await this.instanceFromDDO(
       agreement.agreementIdSeed,
       ddo,
       agreement.creator,
       params,
+      extra.service_index,
     )
     if (agreementData.agreementId !== agreement_id) {
       throw new Error(
         `Agreement doesn't match ${agreement_id} should be ${agreementData.agreementId}`,
       )
     }
+
     for (const a of this.conditions()) {
       const condInstance = agreementData.instances.find(
         (c) => c.condition === a.contractName,
       ) as ConditionInstance<any>
+
       await a.fulfillWithNode(condInstance, extra, from, txparams)
       const lock_state = await this.nevermined.keeper.conditionStoreManager.getCondition(
         condInstance.id,
       )
+
       if (lock_state.state !== ConditionState.Fulfilled) {
         throw new Error(
-          `In agreement ${agreement_id}, condition ${condInstance.id} is not fulfilled`,
+          `In agreement ${agreement_id}, condition [${a.contractName}] ${condInstance.id} is not fulfilled`,
         )
       }
     }

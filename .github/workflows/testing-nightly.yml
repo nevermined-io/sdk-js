@@ -46,7 +46,7 @@ jobs:
         env:
           ETH_PORT: 18545
         run: |
-          yarn run test:cover
+          yarn test:all
 
   subgraph-integration:
     runs-on: ubuntu-latest
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.12.0
+      - uses: nevermined-io/nvm-tools-actions@v0.14.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
@@ -156,7 +156,7 @@ jobs:
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
-        run: yarn run integration:cover
+        run: yarn integration:all
 
   mumbai-integration:
     runs-on: ubuntu-latest

@@ -1,7 +1,13 @@
 import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
 import { Account } from '../sdk'
-import { BigNumber } from 'ethers'
-import { ERCType, NeverminedNFTType, AssetPrice, Babysig } from '../models'
+import {
+  ERCType,
+  NeverminedNFTType,
+  AssetPrice,
+  Babysig,
+  NFTServiceAttributes,
+  NFTAttributes,
+} from '../models'
 
 export interface Authentication {
   type: string
@@ -576,7 +582,7 @@ export interface ServiceCommon {
   }
 }
 
-export type Priced = {
+export type PricedMetadataInformation = {
   attributes: {
     main: {
       price: string
@@ -595,6 +601,13 @@ export interface Proof {
   checksum: any
 }
 
+export interface ServiceAttributes {
+  serviceType: ServiceType
+  serviceIndex?: number
+  price?: AssetPrice
+  nft?: NFTServiceAttributes
+}
+
 export interface ServiceAuthorization extends ServiceCommon {
   type: 'authorization'
   service: 'None' | 'RSAES-OAEP'
@@ -605,7 +618,7 @@ export interface ServiceMetadata extends ServiceCommon {
   attributes: MetaData
 }
 
-export interface ServiceAccess extends ServiceCommon, Priced {
+export interface ServiceAccess extends ServiceCommon, PricedMetadataInformation {
   type: 'access'
   templateId?: string
   attributes: {
@@ -624,7 +637,7 @@ export interface ServiceAccess extends ServiceCommon, Priced {
   }
 }
 
-export interface ServiceCompute extends ServiceCommon, Priced {
+export interface ServiceCompute extends ServiceCommon, PricedMetadataInformation {
   type: 'compute'
   templateId?: string
   attributes: {
@@ -662,7 +675,7 @@ export interface ServiceNFTAccess extends ServiceCommon {
   }
 }
 
-export interface ServiceNFTSales extends ServiceCommon, Priced {
+export interface ServiceNFTSales extends ServiceCommon, PricedMetadataInformation {
   type: 'nft-sales'
   templateId?: string
   attributes: {
@@ -709,11 +722,13 @@ export type Service<T extends ServiceType | 'default' = 'default'> = T extends '
 export interface ValidationParams {
   agreement_id: string
   did: string
+  service_index?: number
   consumer_address?: string
   buyer?: string
   babysig?: Babysig
-  nft_amount?: BigNumber
+  nft_amount?: bigint
   nft_holder?: string
+  duration?: number
   expiration?: number
 }
 
@@ -721,14 +736,16 @@ export interface ServicePlugin<T extends Service> {
   createService(
     publisher: Account,
     metadata: MetaData,
-    assetPrice?: AssetPrice,
-    erc20TokenAddress?: string,
-    priced?: boolean,
-  ): Promise<T>
+    serviceAttributes: ServiceAttributes,
+    nftAttributes: NFTAttributes,
+    pricedData?: PricedMetadataInformation,
+  ): T
   // Process agreement for provider
   process(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<void>
   // Check if service can be granted without agreement
   accept(params: ValidationParams): Promise<boolean>
+  // It registers the usage of a service
+  track(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<boolean>
 }
 
 export interface ServiceAgreementTemplateParameter {

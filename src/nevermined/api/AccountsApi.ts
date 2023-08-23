@@ -88,13 +88,6 @@ export class AccountsApi extends Instantiable {
   }
 
   public async addresses(): Promise<string[]> {
-    let ethAccounts: string[] = []
-    try {
-      ethAccounts = await this.web3.listAccounts()
-    } catch (e) {
-      // ignore
-    }
-    const addresses = await Promise.all((this.config.accounts || []).map((a) => a.getAddress()))
-    return addresses.concat(ethAccounts)
+    return await Promise.all((this.config.accounts || []).map((a) => a.getAddress()))
   }
 }

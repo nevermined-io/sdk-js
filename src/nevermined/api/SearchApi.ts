@@ -8,7 +8,6 @@ import {
   EventOptions,
   NeverminedNFT721Type,
   SearchQuery,
-  getNftContractAddressFromService,
 } from '../../sdk'
 
 const EMPTY_RESULT: QueryResult = {
@@ -314,7 +313,6 @@ export class SearchApi extends Instantiable {
   ): Promise<QueryResult> {
     // get on chain dids for nft-721 bought
     const eventOptions: EventOptions = {
-      methodName: 'getFulfilleds',
       eventName: 'Fulfilled',
       filterSubgraph: {
         where: {
@@ -483,7 +481,7 @@ export class SearchApi extends Instantiable {
     sort = 'desc',
     appId?: string,
   ): Promise<QueryResult> {
-    const subscriptionDDO = await this.nevermined.assets.resolve(subscriptionDid)
+    const subscriptionDDO = await this.byDID(subscriptionDid)
 
     // return empty result
     if (!subscriptionDDO) {
@@ -498,7 +496,7 @@ export class SearchApi extends Instantiable {
       return EMPTY_RESULT
     }
 
-    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+    const nftContractAddress = DDO.getNftContractAddressFromService(nftSalesService)
 
     return this.servicesByNftContract(
       nftContractAddress,
@@ -628,7 +626,7 @@ export class SearchApi extends Instantiable {
       return EMPTY_RESULT
     }
 
-    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+    const nftContractAddress = DDO.getNftContractAddressFromService(nftSalesService)
 
     return this.datasetsByNftContract(
       nftContractAddress,

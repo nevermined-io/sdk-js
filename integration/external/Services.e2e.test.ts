@@ -1,12 +1,19 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import {
+  Account,
+  DDO,
+  MetaData,
+  Nevermined,
+  AssetPrice,
+  NFTAttributes,
+  ResourceAuthentication,
+} from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
 import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -19,7 +26,6 @@ import {
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
-import { sleep } from '../utils/utils'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   let publisher: Account
@@ -37,8 +43,8 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   // Configuration of First Sale:
   // Editor -> Subscriber, the Reseller get a cut (25%)
-  let subscriptionPrice = BigNumber.from(20)
-  let amounts = [BigNumber.from(15), BigNumber.from(5)]
+  let subscriptionPrice = 20n
+  let amounts = [15n, 5n]
   let receivers: string[]
   let assetPrice: AssetPrice
   let royaltyAttributes: RoyaltyAttributes
@@ -57,11 +63,24 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   // The path of the SERVICE_ENDPOINT open that can be accessed via Proxy without authentication
   const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
 
+  const SKIP_OPEN_ENDPOINT = process.env.SKIP_OPEN_ENDPOINT === 'true'
+
   // The URL of the OPEN API endpoint that can be accessed via Proxy without authentication
   const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
 
-  // The OAuth token required by the service
+  // We separate how the authorization of the service is done.
+  // If oauth we will use the AUTHORIZATION_TOKEN env
+  // If basic we will use the AUTHORIZATION_USER and AUTHORIZATION_PASSWORD envs
+  const AUTHORIZATION_TYPE = (process.env.AUTHORIZATION_TYPE ||
+    'oauth') as ResourceAuthentication['type']
+
+  // The http authorization bearer token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
+
+  // If the Authe
+  const AUTHORIZATION_USER = process.env.AUTHORIZATION_USER || 'user'
+
+  const AUTHORIZATION_PASSWORD = process.env.AUTHORIZATION_PASSWORD || 'password'
 
   // The NVM proxy that will be used to authorize the service requests
   const PROXY_URL = process.env.PROXY_URL || 'http://127.0.0.1:3128'
@@ -73,7 +92,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   const opts: RequestInit = {}
 
   let initialBalances: any
-  let scale: BigNumber
+  let scale: bigint
 
   // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
@@ -142,10 +161,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     // components
     ;({ token } = nevermined.keeper)
 
-    scale = BigNumber.from(10).pow(await token.decimals())
+    scale = 10n ** BigInt(await token.decimals())
 
-    subscriptionPrice = subscriptionPrice.mul(scale)
-    amounts = amounts.map((v) => v.mul(scale))
+    subscriptionPrice = subscriptionPrice * scale
+    amounts = amounts.map((v) => v * scale)
     receivers = [publisher.getId(), reseller.getId()]
     assetPrice = new AssetPrice(
       new Map([
@@ -160,14 +179,19 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       editor: await token.balanceOf(publisher.getId()),
       subscriber: await token.balanceOf(subscriber.getId()),
       reseller: await token.balanceOf(reseller.getId()),
-      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.getAddress())),
+      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
     }
 
     console.log(`USING CONFIG:`)
     console.log(`  PROXY_URL=${PROXY_URL}`)
     console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
     console.log(`  OPEN_ENDPOINT=${OPEN_ENDPOINT}`)
-    console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
+    console.log(`  AUTHORIZATION_TYPE=${AUTHORIZATION_TYPE}`)
+    if (AUTHORIZATION_TYPE === 'oauth') console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
+    else {
+      console.log(`  AUTHORIZATION_USER=${AUTHORIZATION_USER}`)
+      console.log(`  AUTHORIZATION_PASSWORD=${AUTHORIZATION_PASSWORD}`)
+    }
     console.log(`  REQUEST_DATA=${process.env.REQUEST_DATA}`)
   })
 
@@ -191,7 +215,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',
@@ -211,13 +235,19 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       subscriptionMetadata.main.type = 'subscription'
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+            nft: {
+              duration: subscriptionDuration,
+              nftTransfer,
+            },
+          },
+        ],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
@@ -233,17 +263,28 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
         // Example of regex: `https://api.openai.com/v1/(.*)`,
         `${SERVICE_ENDPOINT}(.*)`,
         [OPEN_ENDPOINT],
+        AUTHORIZATION_TYPE,
         AUTHORIZATION_TOKEN,
+        AUTHORIZATION_USER,
+        AUTHORIZATION_PASSWORD,
       ) as MetaData
       serviceMetadata.userId = payload.sub
 
+      console.log(`Registering service with metadata: ${JSON.stringify(serviceMetadata)}`)
+
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: serviceMetadata,
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+            nft: {
+              nftTransfer,
+            },
+          },
+        ],
         providers: [neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       serviceDDO = await nevermined.nfts721.create(nftAttributes, publisher)
@@ -254,7 +295,11 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   })
 
   describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
-    it('The user can access the open service endpoints directly', async () => {
+    it('The user can access the open service endpoints directly', async function () {
+      if (SKIP_OPEN_ENDPOINT) {
+        console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
+        this.skip()
+      }
       console.log(`Using Open Endpoint: ${OPEN_ENDPOINT}`)
 
       const result = await fetch(OPEN_ENDPOINT, opts)
@@ -263,7 +308,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       assert.isTrue(result.status === 200)
     })
 
-    it('The subscriber can access the open service endpoints through the proxy', async () => {
+    it('The subscriber can access the open service endpoints through the proxy', async function () {
+      if (SKIP_OPEN_ENDPOINT) {
+        console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
+        this.skip()
+      }
+
       const proxyUrl = new URL(PROXY_URL)
       const serviceDID = DID.parse(serviceDDO.id)
       const subdomain = serviceDID.getEncoded()
@@ -290,10 +340,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice.div(scale))
+      await subscriber.requestTokens(subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
-      assert.isTrue(subscriberBalanceBefore.eq(initialBalances.subscriber.add(subscriptionPrice)))
+      assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
 
       agreementId = await nevermined.nfts721.order(subscriptionDDO.id, subscriber)
 
@@ -301,7 +351,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
       const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
 
-      assert.isTrue(subscriberBalanceAfter.sub(initialBalances.subscriber).eq(0))
+      assert.equal(subscriberBalanceAfter, subscriberBalanceAfter - initialBalances.subscriber)
     })
 
     it('The Publisher can check the payment and transfer the NFT to the Subscriber', async () => {
@@ -324,14 +374,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       const receiver0Balance = await token.balanceOf(assetPrice.getReceivers()[0])
       const receiver1Balance = await token.balanceOf(assetPrice.getReceivers()[1])
 
-      assert.isTrue(receiver0Balance.eq(initialBalances.editor.add(assetPrice.getAmounts()[0])))
-
-      assert.isTrue(receiver1Balance.eq(initialBalances.reseller.add(assetPrice.getAmounts()[1])))
+      assert.equal(receiver0Balance, initialBalances.editor + assetPrice.getAmounts()[0])
+      assert.equal(receiver1Balance, initialBalances.reseller + assetPrice.getAmounts()[1])
     })
 
     it('the subscription can be checked on chain', async () => {
       const eventOptions: EventOptions = {
-        methodName: 'getFulfilleds',
         eventName: 'Fulfilled',
         filterSubgraph: {
           where: {
@@ -363,16 +411,11 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.utils.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
     })
   })
 
   describe('As a subscriber I want to get an access token for the web service', () => {
-    before(async () => {
-      // wait for elasticsearch
-      await sleep(5000)
-    })
-
     it('Nevermined One issues an access token', async () => {
       const response = await nevermined.nfts721.getSubscriptionToken(serviceDDO.id, subscriber)
       accessToken = response.accessToken

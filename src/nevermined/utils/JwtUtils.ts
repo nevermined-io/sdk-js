@@ -1,8 +1,13 @@
 import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../Account'
-import { Bytes, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { Babysig } from '../../models'
+
+export interface Eip712Data {
+  message: string
+  chainId: number
+}
 
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters
@@ -12,17 +17,50 @@ export class EthSignJWT extends SignJWT {
     return this
   }
 
-  public async ethSign(signer: ethers.Signer): Promise<string> {
+  public async ethSign(signer: ethers.Signer, eip712Data?: Eip712Data): Promise<string> {
     const encoder = new TextEncoder()
     const decoder = new TextDecoder()
 
-    const encodedPayload = encoder.encode(this.base64url(JSON.stringify(this._payload)))
+    let payload = this._payload
+    if (eip712Data) {
+      payload = {
+        ...payload,
+        eip712Data,
+      }
+    }
+
+    const encodedPayload = encoder.encode(this.base64url(JSON.stringify(payload)))
     const encodedHeader = encoder.encode(this.base64url(JSON.stringify(this.protectedHeader)))
     const data = this.concat(encodedHeader, encoder.encode('.'), encodedPayload)
 
-    const sign = await EthSignJWT.signText(decoder.decode(data), signer)
+    // EIP-712 signature
+    let sign: string
+    if (eip712Data) {
+      const domain = {
+        name: 'Nevermined',
+        version: '1',
+        chainId: eip712Data.chainId,
+      }
 
-    const input = ethers.utils.arrayify(sign)
+      const types = {
+        Nevermined: [
+          { name: 'from', type: 'address' },
+          { name: 'message', type: 'string' },
+          { name: 'token', type: 'string' },
+        ],
+      }
+
+      const value = {
+        from: await signer.getAddress(),
+        message: eip712Data.message,
+        token: decoder.decode(data),
+      }
+      sign = await (signer as any)._signTypedData(domain, types, value)
+    } else {
+      sign = await EthSignJWT.signText(decoder.decode(data), signer)
+    }
+
+    const input = ethers.getBytes(sign)
 
     const signed = this.base64url(input)
     const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
@@ -32,7 +70,7 @@ export class EthSignJWT extends SignJWT {
     return grantToken
   }
 
-  public static async signText(text: string | Bytes, signer: ethers.Signer): Promise<string> {
+  public static async signText(text: string | Uint8Array, signer: ethers.Signer): Promise<string> {
     try {
       return await signer.signMessage(text)
     } catch (e) {
@@ -99,16 +137,24 @@ export class JwtUtils extends Instantiable {
     })
   }
 
-  public async generateClientAssertion(account: Account) {
-    const address = ethers.utils.getAddress(account.getId())
+  public async generateClientAssertion(account: Account, message?: string) {
+    const address = ethers.getAddress(account.getId())
     const signer = await this.nevermined.accounts.findSigner(address)
+
+    let eip712Data: Eip712Data
+    if (message) {
+      eip712Data = {
+        message,
+        chainId: await this.nevermined.keeper.getNetworkId(),
+      }
+    }
     return new EthSignJWT({
       iss: address,
     })
       .setProtectedHeader({ alg: 'ES256K' })
       .setIssuedAt()
       .setExpirationTime('1h')
-      .ethSign(signer)
+      .ethSign(signer, eip712Data)
   }
 
   public async generateAccessGrantToken(
@@ -118,7 +164,7 @@ export class JwtUtils extends Instantiable {
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
-    const address = ethers.utils.getAddress(account.getId())
+    const address = ethers.getAddress(account.getId())
     const signer = await this.nevermined.accounts.findSigner(address)
 
     return new EthSignJWT({
@@ -143,7 +189,7 @@ export class JwtUtils extends Instantiable {
     aud: string,
     obj: any,
   ): Promise<string> {
-    const address = ethers.utils.getAddress(account.getId())
+    const address = ethers.getAddress(account.getId())
     const signer = await this.nevermined.accounts.findSigner(address)
 
     return new EthSignJWT({
@@ -166,7 +212,7 @@ export class JwtUtils extends Instantiable {
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
-    const address = ethers.utils.getAddress(account.getId())
+    const address = ethers.getAddress(account.getId())
     const signer = await this.nevermined.accounts.findSigner(address)
 
     return new EthSignJWT({
@@ -207,7 +253,7 @@ export class JwtUtils extends Instantiable {
     serviceAgreementId: string,
     workflowId: string,
   ): Promise<string> {
-    const address = ethers.utils.getAddress(account.getId())
+    const address = ethers.getAddress(account.getId())
     const signer = await this.nevermined.accounts.findSigner(address)
 
     return new EthSignJWT({
@@ -228,7 +274,7 @@ export class JwtUtils extends Instantiable {
     serviceAgreementId: string,
     executionId: string,
   ): Promise<string> {
-    const address = ethers.utils.getAddress(account.getId())
+    const address = ethers.getAddress(account.getId())
     const signer = await this.nevermined.accounts.findSigner(address)
 
     return new EthSignJWT({
@@ -247,11 +293,12 @@ export class JwtUtils extends Instantiable {
   public async generateNftAccessGrantToken(
     agreementId: string,
     did: string,
+    serviceIndex: number,
     account: Account,
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
-    const address = ethers.utils.getAddress(account.getId())
+    const address = ethers.getAddress(account.getId())
     const signer = await this.nevermined.accounts.findSigner(address)
 
     const params = {
@@ -262,6 +309,7 @@ export class JwtUtils extends Instantiable {
       eths: 'personal',
       buyer,
       babysig,
+      service_index: serviceIndex,
     }
 
     return new EthSignJWT(params)
@@ -274,6 +322,7 @@ export class JwtUtils extends Instantiable {
   public async getNftAccessGrantToken(
     agreementId: string,
     did: string,
+    serviceIndex: number,
     account: Account,
     buyer?: string,
     babysig?: Babysig,
@@ -284,12 +333,14 @@ export class JwtUtils extends Instantiable {
       const grantToken = await this.generateNftAccessGrantToken(
         agreementId,
         did,
+        serviceIndex,
         account,
         buyer,
         babysig,
       )
-      const accessToken = await this.nevermined.services.node.fetchToken(grantToken)
-      this.tokenCache.set(cacheKey, accessToken)
+      const accessToken = await this.nevermined.services.node.fetchToken(grantToken, 1)
+      // TODO: enable the cache back when this issue is fixed in the Node: https://github.com/nevermined-io/node/issues/225
+      // this.tokenCache.set(cacheKey, accessToken)
 
       return accessToken
     } else {

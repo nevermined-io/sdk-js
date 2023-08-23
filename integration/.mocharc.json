@@ -1,0 +1,8 @@
+{
+  "require": ["ts-node/register", "source-map-support/register", "mock-local-storage"],
+  "diff": true,
+  "full-trace": true,
+  "exit": true,
+  "allow-uncaught": true,
+  "timeout": "300000"
+}

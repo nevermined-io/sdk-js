@@ -57,20 +57,26 @@ describe.skip('Consume Asset (Large size)', () => {
   it('should order the asset', async () => {
     try {
       await consumer.requestTokens(
-        +ddo.getPriceByService() * 10 ** -(await nevermined.keeper.token.decimals()),
+        ddo.getPriceByService() * 10n ** -BigInt(await nevermined.keeper.token.decimals()),
       )
     } catch (error) {
       Logger.error(error)
     }
 
-    agreementId = await nevermined.assets.order(ddo.id, consumer)
+    agreementId = await nevermined.assets.order(ddo.id, 'access', consumer)
 
     assert.isDefined(agreementId)
   })
 
   it('should consume and store the assets', async () => {
     const folder = '/tmp/nevermined/sdk-js'
-    const path = (await nevermined.assets.access(agreementId, ddo.id, consumer, folder)) as string
+    const path = (await nevermined.assets.access(
+      agreementId,
+      ddo.id,
+      'access',
+      consumer,
+      folder,
+    )) as string
 
     assert.include(path, folder, 'The storage path is not correct.')
 

@@ -51,7 +51,7 @@
     },
     {
       "type": "authorization",
-      "index": 2,
+      "index": 1,
       "serviceEndpoint": "http://node.nevermined.localnet",
       "attributes": {
         "main": {
@@ -63,17 +63,19 @@
     },
     {
       "type": "compute",
-      "index": 4,
+      "index": 2,
       "serviceEndpoint": "http://node.nevermined.localnet/api/v1/node/services/compute",
       "templateId": "0x9F204302bEB97Bd34148EC620F5cc44635f0b05c",
       "attributes": {
         "main": {
           "creator": "0xe2DD09d719Da89e5a3D0F2549c7E24566e947260",
           "datePublished": "2023-01-01T00:00:00Z",
-          "name": "EscrowComputeExecutionAgreement"
+          "name": "EscrowComputeExecutionAgreement",
+          "price": "1"
         },
         "additionalInformation": {
-          "description": "Compute execution agreement"
+          "description": "Compute execution agreement",
+          "priceHighestDenomination": 1e-18
         },
         "serviceAgreementTemplate": {
           "contractName": "EscrowComputeExecutionTemplate",

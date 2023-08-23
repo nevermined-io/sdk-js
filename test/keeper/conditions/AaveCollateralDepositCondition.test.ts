@@ -7,7 +7,6 @@ import { didZeroX } from '../../../src/utils'
 import { Account } from '../../../src/nevermined'
 import * as utils from '../../../src/utils'
 import { DIDRegistry } from '../../../src/keeper'
-import { BigNumber } from '../../../src/utils'
 
 let condition: AaveCollateralDepositCondition
 
@@ -17,8 +16,8 @@ describe('AaveCollateralDepositCondition', () => {
   const vaultAddress = `0x${'a'.repeat(40)}`
   const assetToDeposit = `0x${'b'.repeat(40)}`
   const assetToBorrow = `0x${'a'.repeat(40)}`
-  const depositAmount = BigNumber.from('7000000000000000000')
-  const borrowAmount = BigNumber.from('11000000000000000000')
+  const depositAmount = 7000000000000000000n
+  const borrowAmount = 11000000000000000000n
   const interestRateMode = 1
   let user: Account
   let nevermined: Nevermined

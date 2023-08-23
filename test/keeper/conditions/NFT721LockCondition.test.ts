@@ -8,8 +8,7 @@ import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { NFT721Api } from '../../../src'
 import { DIDRegistry } from '../../../src/keeper'
-import { Contract, ContractReceipt, Event } from 'ethers'
-import { BigNumber } from '../../../src/utils'
+import { ContractTransactionReceipt, EventLog, BaseContract } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -19,7 +18,7 @@ describe('NFT721LockCondition', () => {
   let conditionStoreManager: ConditionStoreManager
   let didRegistry: DIDRegistry
   let nftContractAddress: string
-  let _nftContract: Contract
+  let _nftContract: BaseContract
   let nft721Wrapper: NFT721Api
   let lockAddress: Account
   let owner: Account
@@ -36,7 +35,7 @@ describe('NFT721LockCondition', () => {
     ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
     ;[owner, lockAddress] = await nevermined.accounts.list()
 
-    const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
+    const networkName = await nevermined.keeper.getNetworkName()
 
     const erc721ABI = await TestContractHandler.getABI(
       'NFT721Upgradeable',
@@ -52,7 +51,7 @@ describe('NFT721LockCondition', () => {
       '',
       0,
     ])
-    nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
+    nft721Wrapper = await nevermined.contracts.loadNft721(await _nftContract.getAddress())
     nftContractAddress = nft721Wrapper.address
     await nft721Wrapper.nftContract.grantOperatorRole(nft721LockCondition.address)
   })
@@ -63,7 +62,7 @@ describe('NFT721LockCondition', () => {
     did = await didRegistry.hashDID(didSeed, owner.getId())
 
     await nft721Wrapper.mint(didZeroX(did), owner)
-    await nft721Wrapper.setApprovalForAll(nft721LockCondition.getAddress(), true, owner)
+    await nft721Wrapper.setApprovalForAll(nft721LockCondition.address, true, owner)
   })
 
   describe('#hashValues()', () => {
@@ -91,7 +90,7 @@ describe('NFT721LockCondition', () => {
       )
       const conditionId = await nft721LockCondition.generateId(agreementId, hashValues)
       await conditionStoreManager.createCondition(conditionId, nft721LockCondition.address, owner)
-      const contractReceipt: ContractReceipt = await nft721LockCondition.fulfill(
+      const contractReceipt: ContractTransactionReceipt = await nft721LockCondition.fulfill(
         agreementId,
         did,
         lockAddress.getId(),
@@ -102,9 +101,11 @@ describe('NFT721LockCondition', () => {
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
       const nftBalance = await nft721Wrapper.balanceOf(lockAddress)
-      assert.deepEqual(nftBalance, BigNumber.from(1))
+      assert.equal(nftBalance, 1n)
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'Fulfilled')
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'Fulfilled',
+      ) as EventLog
       const { _agreementId, _did, _lockAddress, _conditionId, _amount, _nftContractAddress } =
         event.args
 

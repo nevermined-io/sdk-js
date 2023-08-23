@@ -1,17 +1,12 @@
 import { assert } from 'chai'
 import { AssetPrice } from '../../src'
-import { BigNumber } from '../../src/utils'
 
 describe('AssetPrice', () => {
   describe('Initialize asset rewards', () => {
     it('it initialize with an empty constructor', async () => {
       const assetPrice = new AssetPrice()
 
-      assert.equal(
-        0,
-        assetPrice.getTotalPrice().toNumber(),
-        `Expected 0 got ${assetPrice.getTotalPrice()}`,
-      )
+      assert.equal(0n, assetPrice.getTotalPrice(), `Expected 0 got ${assetPrice.getTotalPrice()}`)
       assert.equal(
         0,
         assetPrice.getRewards().size,
@@ -22,68 +17,48 @@ describe('AssetPrice', () => {
     })
 
     it('it initialize with an address and amount', async () => {
-      const assetPrice = new AssetPrice('0x123', BigNumber.from(7))
+      const assetPrice = new AssetPrice('0x123', 7n)
 
-      assert.equal(
-        7,
-        assetPrice.getTotalPrice().toNumber(),
-        `Expected 7 got ${assetPrice.getTotalPrice()}`,
-      )
+      assert.equal(7n, assetPrice.getTotalPrice(), `Expected 7 got ${assetPrice.getTotalPrice()}`)
       assert.equal(
         1,
         assetPrice.getRewards().size,
         `Expected 1 size, got ${assetPrice.getRewards().size}`,
       )
-      assert.equal(
-        7,
-        assetPrice.getRewards().get('0x123').toNumber(),
-        `Expected 7 for address 0x123`,
-      )
+      assert.equal(7n, assetPrice.getRewards().get('0x123'), `Expected 7 for address 0x123`)
       assert.equal('["7"]', assetPrice.getAmountsString())
       assert.equal('["0x123"]', assetPrice.getReceiversString())
     })
 
     it('it initialize with a map', async () => {
       const rewardsMap = new Map([
-        ['0x123', BigNumber.from(10)],
-        ['0x456', BigNumber.from(2)],
+        ['0x123', 10n],
+        ['0x456', 2n],
       ])
 
       const assetPrice = new AssetPrice(rewardsMap)
 
-      assert.equal(
-        12,
-        assetPrice.getTotalPrice().toNumber(),
-        `Expected 12 got ${assetPrice.getTotalPrice()}`,
-      )
+      assert.equal(12n, assetPrice.getTotalPrice(), `Expected 12 got ${assetPrice.getTotalPrice()}`)
       assert.equal(
         2,
         assetPrice.getRewards().size,
         `Expected 2 size, got ${assetPrice.getRewards().size}`,
       )
-      assert.equal(
-        10,
-        assetPrice.getRewards().get('0x123').toNumber(),
-        `Expected 10 for address 0x123`,
-      )
-      assert.equal(
-        2,
-        assetPrice.getRewards().get('0x456').toNumber(),
-        `Expected 2 for address 0x456`,
-      )
+      assert.equal(10n, assetPrice.getRewards().get('0x123'), `Expected 10 for address 0x123`)
+      assert.equal(2n, assetPrice.getRewards().get('0x456'), `Expected 2 for address 0x456`)
       assert.equal('["10","2"]', assetPrice.getAmountsString())
       assert.equal('["0x123","0x456"]', assetPrice.getReceiversString())
     })
   })
 
   it('it uses a big number', async () => {
-    const rewardsMap = new Map([['0x123', BigNumber.from(1000000000000000)]])
+    const rewardsMap = new Map([['0x123', 1000000000000000n]])
 
     const assetPrice = new AssetPrice(rewardsMap)
 
     assert.equal(
-      1000000000000000,
-      assetPrice.getTotalPrice().toNumber(),
+      1000000000000000n,
+      assetPrice.getTotalPrice(),
       `Expected 1000000000000000 got ${assetPrice.getTotalPrice()}`,
     )
     assert.equal(
@@ -92,8 +67,8 @@ describe('AssetPrice', () => {
       `Expected 1 size, got ${assetPrice.getRewards().size}`,
     )
     assert.equal(
-      1000000000000000,
-      assetPrice.getRewards().get('0x123').toNumber(),
+      1000000000000000n,
+      assetPrice.getRewards().get('0x123'),
       `Expected 1000000000000000 for address 0x123`,
     )
     assert.equal('["1000000000000000"]', assetPrice.getAmountsString())
@@ -101,112 +76,77 @@ describe('AssetPrice', () => {
   })
 
   it('it can add a receiver', async () => {
-    const rewardsMap = new Map([['0x123', BigNumber.from(500)]])
+    const rewardsMap = new Map([['0x123', 500n]])
 
     const assetPrice = new AssetPrice(rewardsMap)
-    assetPrice.setReceiver('0x456', BigNumber.from(100))
+    assetPrice.setReceiver('0x456', 100n)
 
-    assert.equal(
-      600,
-      assetPrice.getTotalPrice().toNumber(),
-      `Expected 600 got ${assetPrice.getTotalPrice()}`,
-    )
+    assert.equal(600n, assetPrice.getTotalPrice(), `Expected 600 got ${assetPrice.getTotalPrice()}`)
     assert.equal(
       2,
       assetPrice.getRewards().size,
       `Expected 2 size, got ${assetPrice.getRewards().size}`,
     )
-    assert.equal(
-      500,
-      assetPrice.getRewards().get('0x123').toNumber(),
-      `Expected 500 for address 0x123`,
-    )
-    assert.equal(
-      100,
-      assetPrice.getRewards().get('0x456').toNumber(),
-      `Expected 100 for address 0x456`,
-    )
+    assert.equal(500n, assetPrice.getRewards().get('0x123'), `Expected 500 for address 0x123`)
+    assert.equal(100n, assetPrice.getRewards().get('0x456'), `Expected 100 for address 0x456`)
     assert.equal('["500","100"]', assetPrice.getAmountsString())
     assert.equal('["0x123","0x456"]', assetPrice.getReceiversString())
   })
 
   it('it can add rewards to an existing receiver', async () => {
     const rewardsMap = new Map([
-      ['0x123', BigNumber.from(500)],
-      ['0x789', BigNumber.from(500)],
+      ['0x123', 500n],
+      ['0x789', 500n],
     ])
 
     const firstRewards = new AssetPrice(rewardsMap)
-    const assetPrice = firstRewards.setReceiver('0x123', BigNumber.from(100))
+    const assetPrice = firstRewards.setReceiver('0x123', 100n)
 
-    assert.equal(
-      600,
-      assetPrice.getTotalPrice().toNumber(),
-      `Expected 600 got ${assetPrice.getTotalPrice()}`,
-    )
+    assert.equal(600n, assetPrice.getTotalPrice(), `Expected 600 got ${assetPrice.getTotalPrice()}`)
     assert.equal(
       2,
       assetPrice.getRewards().size,
       `Expected 2 size, got ${assetPrice.getRewards().size}`,
     )
-    assert.equal(
-      100,
-      assetPrice.getRewards().get('0x123').toNumber(),
-      `Expected 600 for address 0x123`,
-    )
+    assert.equal(100n, assetPrice.getRewards().get('0x123'), `Expected 600 for address 0x123`)
     assert.equal('["100","500"]', assetPrice.getAmountsString())
     assert.equal('["0x123","0x789"]', assetPrice.getReceiversString())
   })
 
   it('it can add network fees', async () => {
     const rewardsMap = new Map([
-      ['0x123', BigNumber.from(50)],
-      ['0x789', BigNumber.from(50)],
+      ['0x123', 50n],
+      ['0x789', 50n],
     ])
 
-    const assetPrice = new AssetPrice(rewardsMap).addNetworkFees('0xfff', BigNumber.from(20000))
+    const assetPrice = new AssetPrice(rewardsMap).addNetworkFees('0xfff', 20000n)
 
-    assert.equal(
-      102,
-      assetPrice.getTotalPrice().toNumber(),
-      `Expected 102 got ${assetPrice.getTotalPrice()}`,
-    )
+    assert.equal(102n, assetPrice.getTotalPrice(), `Expected 102 got ${assetPrice.getTotalPrice()}`)
     assert.equal(
       3,
       assetPrice.getRewards().size,
       `Expected 3 size, got ${assetPrice.getRewards().size}`,
     )
-    assert.equal(2, assetPrice.getRewards().get('0xfff').toNumber(), `Expected 2 for address 0xfff`)
+    assert.equal(2n, assetPrice.getRewards().get('0xfff'), `Expected 2 for address 0xfff`)
     assert.equal('["50","50","2"]', assetPrice.getAmountsString())
     assert.equal('["0x123","0x789","0xfff"]', assetPrice.getReceiversString())
   })
 
   it('it includes fees', async () => {
     const rewardsMap = new Map([
-      ['0x123', BigNumber.from(70)],
-      ['0x789', BigNumber.from(30)],
+      ['0x123', 70n],
+      ['0x789', 30n],
     ])
 
-    const assetPrice = new AssetPrice(rewardsMap).adjustToIncludeNetworkFees(
-      '0xfff',
-      BigNumber.from(100000),
-    )
+    const assetPrice = new AssetPrice(rewardsMap).adjustToIncludeNetworkFees('0xfff', 100000n)
 
-    assert.equal(
-      100,
-      assetPrice.getTotalPrice().toNumber(),
-      `Expected 100 got ${assetPrice.getTotalPrice()}`,
-    )
+    assert.equal(100n, assetPrice.getTotalPrice(), `Expected 100 got ${assetPrice.getTotalPrice()}`)
     assert.equal(
       3,
       assetPrice.getRewards().size,
       `Expected 3 size, got ${assetPrice.getRewards().size}`,
     )
-    assert.equal(
-      10,
-      assetPrice.getRewards().get('0xfff').toNumber(),
-      `Expected 10 for address 0xfff`,
-    )
+    assert.equal(10n, assetPrice.getRewards().get('0xfff'), `Expected 10 for address 0xfff`)
     assert.equal('["63","27","10"]', assetPrice.getAmountsString())
     assert.equal('["0x123","0x789","0xfff"]', assetPrice.getReceiversString())
   })
