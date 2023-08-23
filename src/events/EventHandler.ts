@@ -34,7 +34,7 @@ export class EventHandler {
     }
   }
 
-  private async checkBlock(isInterval?: boolean, n = 0) {
+  private async checkBlock(isInterval?: boolean) {
     const blockNumber = await this.getBlockNumber()
 
     if ((this.polling && !isInterval) || !this.count) {
@@ -50,6 +50,6 @@ export class EventHandler {
       this.events.forEach((fn) => fn(this.lastBlock + 1))
       this.lastBlock = blockNumber
     }
-    this.lastTimeout = global.setTimeout(() => this.checkBlock(true, n++), this.interval)
+    this.lastTimeout = global.setTimeout(() => this.checkBlock(true), this.interval)
   }
 }

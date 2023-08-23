@@ -226,7 +226,13 @@ export class Keeper extends Instantiable {
       eventHandler: new EventHandler(),
     }
     // version
-    this.version = this.didRegistry.version.replace('v', '')
+    const chainId = Number((await this.web3.getNetwork()).chainId)
+    this.network = {
+      chainId,
+      version: this.didRegistry.version.replace('v', ''),
+      name: await KeeperUtils.getNetworkName(chainId),
+      loading: false,
+    }
   }
 
   /**
@@ -329,15 +335,24 @@ export class Keeper extends Instantiable {
   }
 
   /**
-   * Version of the artifacts in use
-   */
-  public version: string
-
-  /**
    * Network id loaded from web3
    */
   protected network: {
-    id?: number
+    /**
+     * chainId of the network
+     */
+    chainId?: number
+    /**
+     * Name of the network
+     */
+    name?: string
+    /**
+     * Version of the artifacts in use
+     */
+    version?: string
+    /**
+     * True if keeper is still connecting
+     */
     loading: boolean
   } = {
     loading: true,
@@ -351,7 +366,7 @@ export class Keeper extends Instantiable {
    * @returns Condition instance.
    */
   public getConditionByAddress(address: string): ConditionSmall {
-    return this.conditionsList.find((condition) => condition.getAddress() === address)
+    return this.conditionsList.find((condition) => condition.address === address)
   }
 
   /**
@@ -361,6 +376,45 @@ export class Keeper extends Instantiable {
    */
   public getTemplateByName(name: string) {
     return Object.values(this.templates).find((template) => template.contractName === name)
+  }
+
+  /**
+   * Returns the network by name.
+   * @returns Network name.
+   */
+  public async getNetworkName(): Promise<string> {
+    if (!this.network.name) {
+      this.network.name = await KeeperUtils.getNetworkName(await this.getNetworkId())
+    }
+    return this.network.name
+  }
+
+  /**
+   * Returns the id of the network.
+   * @returns Network ID.
+   */
+  public async getNetworkId(): Promise<number> {
+    if (!this.network.chainId) {
+      this.network.loading = false
+      this.network.chainId = Number((await this.web3.getNetwork()).chainId)
+    }
+
+    while (!this.network.chainId) {
+      await new Promise((resolve) => setTimeout(resolve, 1))
+    }
+
+    return this.network.chainId
+  }
+
+  /**
+   * Returns the network version.
+   * @returns Network version.
+   */
+  public getNetworkVersion(): string {
+    if (!this.network.version) {
+      this.network.version = this.didRegistry.version.replace('v', '')
+    }
+    return this.network.version
   }
 
   /**
@@ -378,32 +432,7 @@ export class Keeper extends Instantiable {
    * @returns Agreement template instance.
    */
   public getTemplateByAddress(address: string) {
-    return Object.values(this.templates).find((template) => template.getAddress() === address)
-  }
-
-  /**
-   * Returns the network by name.
-   * @returns Network name.
-   */
-  public async getNetworkName(): Promise<string> {
-    return KeeperUtils.getNetworkName(await this.getNetworkId())
-  }
-
-  /**
-   * Returns the id of the network.
-   * @returns Network ID.
-   */
-  public async getNetworkId(): Promise<number> {
-    if (this.network.loading) {
-      this.network.loading = false
-      this.network.id = (await this.web3.getNetwork()).chainId
-    }
-
-    while (!this.network.id) {
-      await new Promise((resolve) => setTimeout(resolve, 1))
-    }
-
-    return this.network.id
+    return Object.values(this.templates).find((template) => template.address === address)
   }
 
   public getAllInstances() {

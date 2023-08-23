@@ -1,7 +1,50 @@
 import { RoyaltyAttributes } from '../nevermined'
-import BigNumber from '../utils/BigNumber'
 import { AssetAttributes } from './AssetAttributes'
 import { ERCType, NeverminedNFTType, NeverminedNFT1155Type, NeverminedNFT721Type } from './'
+import { ServiceType } from '../ddo/types'
+
+export class NFTServiceAttributes {
+  /**
+   * The asset is transferred (true) or minted (false) with Nevermined contracts
+   */
+  nftTransfer?: boolean
+
+  /**
+   * If true means the NFT works as a subscription
+   */
+  isSubscription?: boolean
+
+  /**
+   * If is a subscription this means the number of blocks the subscription last. If 0 means unlimited
+   */
+  duration?: number
+
+  /**
+   * Number of editions
+   */
+  amount?: bigint
+
+  /**
+   * The tokenId of the NFT related with the Service.
+   * For example if is a NFT Access service requiring holding a NFT, this is the tokenId of the NFT
+   */
+  tokenId?: string
+
+  static defaultValues = {
+    serviceType: 'nft-access' as ServiceType,
+    nftTransfer: true, // The NFT will use transfers
+    isSubscription: false, // By default the asset doesn't represent a subscription
+    duration: 0, // Because it's not a subscription it doesn't have a duration
+    amount: 1n, // By default just one edition
+    tokenId: '', // By default no tokenId
+  }
+
+  public static getDefaultNFTServiceAttributes(): Required<NFTServiceAttributes> {
+    return {
+      ...NFTServiceAttributes.defaultValues,
+    }
+  }
+}
 
 export class NFTAttributes extends AssetAttributes {
   /**
@@ -24,9 +67,9 @@ export class NFTAttributes extends AssetAttributes {
   nftContractAddress: string
 
   /**
-   * Max number of nfts that can be minted, 0 means uncapped
+   * Attributes describing the royalties attached to the NFT in the secondary market
    */
-  cap?: BigNumber
+  royaltyAttributes?: RoyaltyAttributes
 
   /**
    * If the asset is pre-minted
@@ -39,40 +82,17 @@ export class NFTAttributes extends AssetAttributes {
   nftMetadataUrl?: string
 
   /**
-   * The asset is transferred (true) or minted (false) with Nevermined contracts
+   * Max number of nfts that can be minted, 0 means uncapped
    */
-  nftTransfer?: boolean
-
-  /**
-   * If true means the NFT works as a subscription
-   */
-  isSubscription?: boolean
-
-  /**
-   * If is a subscription this means the number of blocks the subscription last. If 0 means unlimited
-   */
-  duration?: number
-
-  /**
-   * Number of editions
-   */
-  amount?: BigNumber
-
-  /**
-   * Attributes describing the royalties attached to the NFT in the secondary market
-   */
-  royaltyAttributes?: RoyaltyAttributes
+  cap?: bigint
 
   static defaultValues = {
     ...AssetAttributes.defaultValues,
-    cap: BigNumber.from(0), // Cap equals to 0 means the NFT is uncapped
+    nft: NFTServiceAttributes.defaultValues,
+    royaltyAttributes: undefined,
     preMint: true, // It means the NFT will mint all the editions defined in the `amount` attributed during the registration
     nftMetadataUrl: '', // Url to the metadata describing the NFT OpenSea style
-    nftTransfer: true, // The NFT will use transfers
-    isSubscription: false, // By default the asset doesn't represent a subscription
-    duration: 0, // Because it's not a subscription it doesn't have a duration
-    amount: BigNumber.from(1), // By default just one edition
-    royaltyAttributes: undefined, // No royalty attributes by default what means no royalties
+    cap: 0n, // Cap equals to 0 means the NFT is uncapped
   }
 
   static getInstance(nftAttributes: NFTAttributes): Required<NFTAttributes> {
@@ -93,6 +113,24 @@ export class NFTAttributes extends AssetAttributes {
     }
   }
 
+  static getCreditsSubscriptionInstance(
+    nftAttributes: Partial<NFTAttributes>,
+  ): Required<NFTAttributes> {
+    const _instance = {
+      ercType: 1155,
+      nftType: NeverminedNFT1155Type.nft1155Credit,
+      // isSubscription: true,
+      nftContractAddress: nftAttributes.nftContractAddress,
+      metadata: nftAttributes.metadata,
+      ...NFTAttributes.defaultValues,
+      ...nftAttributes,
+    }
+    _instance.services.forEach((service) => {
+      service.nft.isSubscription = true
+    })
+    return _instance
+  }
+
   static getNFT721Instance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
     return {
       ercType: 721,
@@ -105,38 +143,42 @@ export class NFTAttributes extends AssetAttributes {
   }
 
   static getSubscriptionInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
-    return {
+    const _instance = {
       ercType: 721,
       nftType: NeverminedNFT721Type.nft721Subscription,
-      isSubscription: true,
+      // isSubscription: true,
       nftContractAddress: nftAttributes.nftContractAddress,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
       ...nftAttributes,
     }
+    _instance.services.forEach((service) => {
+      service.nft.isSubscription = true
+    })
+    return _instance
   }
 
   static getPOAPInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
-    return {
+    const _instance = {
       ercType: 721,
       nftType: NeverminedNFT721Type.nft721POAP,
-      isSubscription: false,
       nftContractAddress: nftAttributes.nftContractAddress,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
       ...nftAttributes,
     }
+    return _instance
   }
 
   static getSoulBoundInstance(nftAttributes: Partial<NFTAttributes>): Required<NFTAttributes> {
-    return {
+    const _instance = {
       ercType: 721,
       nftType: NeverminedNFT721Type.nft721SoulBound,
-      isSubscription: false,
       nftContractAddress: nftAttributes.nftContractAddress,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
       ...nftAttributes,
     }
+    return _instance
   }
 }

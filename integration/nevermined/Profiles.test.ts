@@ -2,7 +2,6 @@ import { assert } from 'chai'
 import { config } from '../config'
 import { Nevermined, Account, Logger, NewProfile, State } from '../../src'
 import { faker } from '@faker-js/faker'
-import { sleep } from '../utils/utils'
 
 describe('User Profiles', () => {
   let nevermined: Nevermined
@@ -60,7 +59,6 @@ describe('User Profiles', () => {
   })
 
   it('should get a profile by address', async () => {
-    await sleep(2000)
     const response = await nevermined.services.profiles.findOneByAddress(account3.getId())
 
     assert.deepEqual(response, {

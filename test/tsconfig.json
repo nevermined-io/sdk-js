@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "moduleResolution": "NodeNext",
+    "target": "ES2020",
     "noEmit": true,
     "resolveJsonModule": true,
-    "lib": ["ES6", "ES7"],
+    "lib": ["ES2020"],
     "noUnusedLocals": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true

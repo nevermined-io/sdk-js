@@ -3,8 +3,12 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
 import { Account } from '../nevermined'
-import { ContractReceipt, ethers } from 'ethers'
-import { TransactionResponse } from '@ethersproject/abstract-provider'
+import {
+  ContractTransactionReceipt,
+  ContractTransactionResponse,
+  FunctionFragment,
+  ethers,
+} from 'ethers'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -21,7 +25,7 @@ export class ContractHandler extends Instantiable {
   protected static setContract(
     what: string,
     networkId: number,
-    contractInstance: ethers.Contract,
+    contractInstance: ethers.BaseContract,
     address?: string,
   ) {
     ContractHandler.contracts.set(this.getHash(what, networkId, address), contractInstance)
@@ -31,7 +35,10 @@ export class ContractHandler extends Instantiable {
     return ContractHandler.contracts.has(this.getHash(what, networkId, address))
   }
 
-  private static contracts: Map<string, ethers.Contract> = new Map<string, ethers.Contract>()
+  private static contracts: Map<string, ethers.BaseContract> = new Map<
+    string,
+    ethers.BaseContract
+  >()
 
   private static getHash(what: string, networkId: number, address?: string): string {
     return address ? `${what}/#${networkId}/#${address}` : `${what}/#${networkId}`
@@ -47,14 +54,14 @@ export class ContractHandler extends Instantiable {
     optional = false,
     artifactsFolder: string,
     address?: string,
-  ): Promise<ethers.Contract> {
-    const networkId = await this.nevermined.keeper.getNetworkId()
-    const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
+  ): Promise<ethers.BaseContract> {
+    const chainId = await this.nevermined.keeper.getNetworkId()
+    const where = await this.nevermined.keeper.getNetworkName()
     try {
       this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
       return (
-        ContractHandler.getContract(what, networkId, address) ||
-        (await this.load(what, where, networkId, artifactsFolder, address))
+        ContractHandler.getContract(what, chainId, address) ||
+        (await this.load(what, where, chainId, artifactsFolder, address))
       )
     } catch (err) {
       if (!optional) {
@@ -91,7 +98,7 @@ export class ContractHandler extends Instantiable {
   }
 
   public async getVersion(contractName: string, artifactsFolder: string): Promise<string> {
-    const where = (await this.nevermined.keeper.getNetworkName()).toLowerCase()
+    const where = await this.nevermined.keeper.getNetworkName()
     let artifact
     this.logger.debug(
       `ContractHandler :: getVersion :: Trying to read ${artifactsFolder}/${contractName}.${where}.json`,
@@ -107,40 +114,59 @@ export class ContractHandler extends Instantiable {
   }
 
   public async deployAbi(
-    artifact: any,
+    artifact: { name?: string; abi: ethers.InterfaceAbi; bytecode: string },
     from: Account,
     args: string[] = [],
-  ): Promise<ethers.Contract> {
-    console.log(`Using Account: ${from.getId()}`)
+  ): Promise<ethers.BaseContract> {
+    this.logger.debug(`Deploying abi using account: ${from.getId()}`)
 
     const signer = await this.nevermined.accounts.findSigner(from.getId())
     const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer)
-    const isZos = contract.interface.fragments.some((f) => f.name === 'initialize')
+    const isZos = contract.interface.hasFunction('initialize')
 
     const argument = isZos ? [] : args
-    let contractInstance: ethers.Contract
+    let baseContract: ethers.BaseContract
+
     try {
-      contractInstance = await contract.deploy(...argument)
-      await contractInstance.deployTransaction.wait()
+      const feeData = await this.getFeeData()
+      const extraParams = {
+        ...feeData,
+        gasLimit: 10000000n,
+      }
+
+      baseContract = await contract.deploy(...argument, extraParams)
+      await baseContract.waitForDeployment()
     } catch (error) {
       console.error(JSON.stringify(error))
       throw new Error(error.message)
     }
 
     if (isZos) {
-      const methodSignature = ContractHandler.getSignatureOfMethod(
-        contractInstance,
-        'initialize',
-        args,
-      )
-      const contract = contractInstance.connect(signer)
-      const transactionResponse: TransactionResponse = await contract[methodSignature](...args)
-      const contractReceipt: ContractReceipt = await transactionResponse.wait()
-      if (contractReceipt.status !== 1) {
+      const methodSignature = ContractHandler.getSignatureOfMethod(baseContract, 'initialize', args)
+
+      const contract = baseContract.connect(signer)
+
+      // estimate gas
+      const gasLimit = await contract[methodSignature].estimateGas(...args, {
+        from: from.getId(),
+      })
+      const feeData = await this.getFeeData()
+      const extraParams = {
+        ...feeData,
+        gasLimit,
+      }
+
+      const contractTransactionResponse: ContractTransactionResponse = await contract[
+        methodSignature
+      ](...args, extraParams)
+
+      const transactionReceipt: ContractTransactionReceipt =
+        await contractTransactionResponse.wait()
+      if (transactionReceipt.status !== 1) {
         throw new Error(`Error deploying contract ${artifact.name}`)
       }
     }
-    return contractInstance
+    return baseContract
   }
 
   private async load(
@@ -149,7 +175,7 @@ export class ContractHandler extends Instantiable {
     networkId: number,
     artifactsFolder: string,
     address?: string,
-  ): Promise<ethers.Contract> {
+  ): Promise<ethers.BaseContract> {
     this.logger.debug(`Loading ${what} from ${where} and folder ${artifactsFolder}`)
     let artifact
     if (artifactsFolder.startsWith('http'))
@@ -180,7 +206,7 @@ export class ContractHandler extends Instantiable {
    * @returns {@link true} if the contract exists.
    */
   public async checkExists(address: string): Promise<boolean> {
-    const storage = await this.web3.getStorageAt(address, 0)
+    const storage = await this.web3.getStorage(address, 0)
     // check if storage is 0x0 at position 0, this is the case most of the cases
     if (storage === '0x0000000000000000000000000000000000000000000000000000000000000000') {
       // if the storage is empty, check if there is no code for this contract,
@@ -196,11 +222,13 @@ export class ContractHandler extends Instantiable {
   }
 
   public static getSignatureOfMethod(
-    contractInstance: ethers.Contract,
+    baseContract: ethers.BaseContract,
     methodName: string,
     args: any[],
   ): string {
-    const methods = contractInstance.interface.fragments.filter((f) => f.name === methodName)
+    const methods = baseContract.interface.fragments.filter(
+      (f: FunctionFragment) => f.name === methodName,
+    )
     const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
     if (!foundMethod) {
       throw new Error(`Method "${methodName}" not found in contract`)
@@ -224,6 +252,65 @@ export class ContractHandler extends Instantiable {
       throw new ApiError(`Error to fetch json file from url ${path}`)
     } catch (error) {
       throw new KeeperError(error)
+    }
+  }
+
+  public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
+    // Custom gas fee for polygon networks
+    const chainId = await this.nevermined.keeper.getNetworkId()
+    if (chainId === 137 || chainId === 80001) {
+      return this.getFeeDataPolygon(chainId)
+    }
+
+    const feeData = await this.web3.getFeeData()
+
+    // EIP-1559 fee parameters
+    if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
+      return {
+        maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
+        maxPriorityFeePerGas: maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
+        type: 2,
+      }
+    }
+
+    // Non EIP-1559 fee parameters
+    return {
+      gasPrice: gasPrice || feeData.gasPrice,
+    }
+  }
+
+  private async getFeeDataPolygon(networkId: number) {
+    // Calculating the right fees in polygon networks has always been a problem
+    // This workaround is based on https://github.com/ethers-io/ethers.js/issues/2828#issuecomment-1073423774
+    let gasStationUri = this.config.gasStationUri
+    if (!gasStationUri) {
+      if (networkId === 137) {
+        gasStationUri = 'https://gasstation.polygon.technology/v2'
+      } else if (networkId === 80001) {
+        gasStationUri = 'https://gasstation-testnet.polygon.technology/v2'
+      } else {
+        throw new KeeperError(
+          'Using polygon gas station is only available in networks with id `137` and `80001`',
+        )
+      }
+    }
+
+    // get max fees from gas station
+    let maxFeePerGas = 40000000000n // fallback to 40 gwei
+    let maxPriorityFeePerGas = 40000000000n // fallback to 40 gwei
+    try {
+      const response = await this.nevermined.utils.fetch.get(gasStationUri)
+      const data = await response.json()
+      maxFeePerGas = ethers.parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
+      maxPriorityFeePerGas = ethers.parseUnits(Math.ceil(data.fast.maxPriorityFee) + '', 'gwei')
+    } catch (error) {
+      this.logger.warn(`Failed to ges gas price from gas station ${gasStationUri}: ${error}`)
+    }
+
+    return {
+      maxFeePerGas: maxFeePerGas,
+      maxPriorityFeePerGas: maxPriorityFeePerGas,
+      type: 2,
     }
   }
 }

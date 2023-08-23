@@ -1,5 +1,6 @@
-import { Service, ServiceType, MetaData } from '../ddo'
+import { Service, MetaData, ServiceAttributes, ServiceType } from '../ddo'
 import { EncryptionMethod } from '../services'
+import { ZeroAddress } from '../utils'
 import { AssetPrice } from './AssetPrice'
 
 export class AssetAttributes {
@@ -12,12 +13,6 @@ export class AssetAttributes {
   metadata: MetaData
 
   /**
-   * It allows to specify the price of an asset
-   * @see {@link AssetPrice}
-   */
-  price?: AssetPrice
-
-  /**
    * When an asset is published in a Nevermined network, some internal Metadata attributes are encrypted so they can't be accessed.
    * This method allows to specify the encryption method to be used.
    * @see {@link EncryptionMethod}
@@ -25,10 +20,10 @@ export class AssetAttributes {
   encryptionMethod?: EncryptionMethod
 
   /**
-   * List of services offered by an asset.
-   * @see {@link ServiceType}
+   * List of services and their attributes offered by an asset.
+   * @see {@link ServiceAttributes}
    */
-  serviceTypes?: ServiceType[]
+  services?: ServiceAttributes[]
 
   /**
    * List of additional asset services to be included as part of an asset
@@ -72,9 +67,13 @@ export class AssetAttributes {
   fulfillAccessTimelock?: number
 
   static defaultValues = {
-    price: new AssetPrice(), // It means there is no payment required
     encryptionMethod: AssetAttributes.DEFAULT_ENCRYPTION_METHOD, // The default encryption method for the internal metadata attributes is PSK-RSA
-    serviceTypes: ['access'] as ServiceType[], // By default it will be added an access service
+    services: [
+      {
+        serviceType: 'access' as ServiceType,
+        price: new AssetPrice().setTokenAddress(process.env.TOKEN_ADDRESS || ZeroAddress), // It means there is no payment required
+      },
+    ], // By default it will be added an access service
     predefinedAssetServices: [] as Service[], // By default there in additional services to add to the asset
     providers: [], // By default there are no addresses registered as providers for the asset
     appId: '', // No appId by default

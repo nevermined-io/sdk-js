@@ -1,7 +1,6 @@
 import { assert } from 'chai'
 import { EscrowPaymentCondition, Token } from '../../../src/keeper'
 import { Nevermined } from '../../../src/nevermined'
-import { BigNumber } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
@@ -11,7 +10,7 @@ let token: Token
 describe('EscrowPaymentCondition', () => {
   const agreementId = `0x${'a'.repeat(64)}`
   const did = `0x${'a'.repeat(64)}`
-  const amounts = [BigNumber.from(15), BigNumber.from(3)]
+  const amounts = [15n, 3n]
   const publisher = `0x${'a'.repeat(40)}`
   const consumer = `0x${'b'.repeat(40)}`
   const provider = `0x${'b'.repeat(40)}`
@@ -27,14 +26,7 @@ describe('EscrowPaymentCondition', () => {
     ;({ token } = keeper)
 
     lockCondition = await keeper.conditions.lockPaymentCondition
-      .generateIdHash(
-        agreementId,
-        did,
-        condition.getAddress(),
-        token.getAddress(),
-        amounts,
-        receivers,
-      )
+      .generateIdHash(agreementId, did, condition.address, token.address, amounts, receivers)
       .catch((e) => {
         console.log(e)
         throw e
@@ -57,7 +49,7 @@ describe('EscrowPaymentCondition', () => {
         receivers,
         consumer,
         publisher,
-        token.getAddress(),
+        token.address,
         lockCondition,
         releaseCondition,
       )
@@ -74,7 +66,7 @@ describe('EscrowPaymentCondition', () => {
         receivers,
         consumer,
         publisher,
-        token.getAddress(),
+        token.address,
         lockCondition,
         releaseCondition,
       )

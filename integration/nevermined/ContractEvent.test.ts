@@ -1,9 +1,12 @@
-import { Account, Nevermined } from '../../src'
+import { Account, Nevermined, generateId } from '../../src'
 import { config } from '../config'
-import { assert } from 'chai'
+import chai, { assert } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
 import { ContractEvent } from '../../src/events'
-import { sleep } from '../utils/utils'
+import { mineBlocks, awaitTimeout } from '../utils/utils'
 import { ethers } from 'ethers'
+
+chai.use(chaiAsPromised)
 
 describe('ContractEvent', () => {
   let account: Account
@@ -35,8 +38,8 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
     })
     assert.strictEqual(
-      ethers.utils.getAddress(response.pop().args.to),
-      ethers.utils.getAddress(account.getId()),
+      ethers.getAddress(response.pop().args.to),
+      ethers.getAddress(account.getId()),
     )
   })
 
@@ -64,7 +67,6 @@ describe('ContractEvent', () => {
 
     await Promise.all([executeTransaction()])
 
-    await sleep(2000)
     validResolve = true
 
     await Promise.all([executeTransaction()])
@@ -97,8 +99,6 @@ describe('ContractEvent', () => {
     })
 
     await executeTransaction()
-
-    await sleep(2000)
     canBeRejected = true
 
     await executeTransaction()
@@ -114,11 +114,21 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
       filterJsonRpc: { to },
     })
-
-    await sleep(400)
-
     await executeTransaction()
 
     await waitUntilEvent
+  })
+
+  it('once should not return unless there is an event', async () => {
+    // non-existent provId
+    const provId = `0x${generateId()}`
+
+    const resultPromise = nevermined.keeper.didRegistry.events.once((e) => e, {
+      eventName: 'ProvenanceAttributeRegistered',
+      filterJsonRpc: { provId },
+    })
+
+    await mineBlocks(nevermined, account, 1)
+    await assert.isRejected(Promise.race([resultPromise, awaitTimeout(2000)]), /Timeout/)
   })
 })

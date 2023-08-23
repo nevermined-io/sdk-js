@@ -4,7 +4,7 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { AssetPrice } from '../../../models'
 import { Service, DDO } from '../../../ddo'
-import { ContractReceipt } from 'ethers'
+import { ContractTransactionReceipt } from 'ethers'
 
 export enum ConditionState {
   Uninitialized = 0,
@@ -92,7 +92,6 @@ export abstract class ConditionSmall extends ContractBase {
   public getConditionFulfilledEvent(agreementId: string) {
     return this.events.getEventData({
       eventName: 'Fulfilled',
-      methodName: 'getFulfilleds',
       filterJsonRpc: { agreementId: zeroX(agreementId) },
       filterSubgraph: { where: { _agreementId: zeroX(agreementId) } },
       result: {
@@ -155,6 +154,8 @@ export abstract class Condition<
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
+    const _params = await cond.params(method, additionalParams)
+
     return this.sendFrom(
       method,
       [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],
@@ -168,7 +169,7 @@ export abstract class Condition<
     additionalParams: Extra,
     from?: Account,
     txParams?: TxParameters,
-  ): Promise<ContractReceipt | void>
+  ): Promise<ContractTransactionReceipt | void>
 
   public async instance(
     agreementId: string,

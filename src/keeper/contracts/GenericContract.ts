@@ -1,7 +1,6 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { ContractHandler } from '../ContractHandler'
-import { ContractReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt, ethers } from 'ethers'
 
 export class GenericContract extends ContractBase {
   protected fixedAddress: string
@@ -24,8 +23,7 @@ export class GenericContract extends ContractBase {
   protected async init(config: InstantiableConfig, optional = false) {
     this.setInstanceConfig(config)
 
-    const contractHandler = new ContractHandler(config)
-    this.contract = await contractHandler.get(
+    this.contract = await this.nevermined.utils.contractHandler.get(
       this.contractName,
       optional,
       config.artifactsFolder,
@@ -42,11 +40,11 @@ export class GenericContract extends ContractBase {
     from: string,
     args: any[],
     params: TxParameters = {},
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     return super.send(name, from, args, params)
   }
 
-  public getContract(): ethers.Contract {
+  public getContract(): ethers.BaseContract {
     return this.contract
   }
 }

@@ -1,7 +1,7 @@
-import { Account, Nevermined } from '../../src'
+import { Account, Nevermined, generateId } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
-import { sleep } from '../utils/utils'
+import { awaitTimeout, mineBlocks, sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 
 describe('SubgraphEvent', () => {
@@ -10,11 +10,9 @@ describe('SubgraphEvent', () => {
   let executeTransaction: () => Promise<any>
 
   before(async function () {
-    if (process.env['GRAPH_HTTP_URI'] === '') {
+    if (!config.graphHttpUri) {
       this.skip()
     }
-    config.graphHttpUri =
-      config.graphHttpUri || 'http://localhost:9000/subgraphs/name/nevermined-io/development'
     nevermined = await Nevermined.getInstance(config)
     ;[account] = await nevermined.accounts.list()
 
@@ -25,21 +23,25 @@ describe('SubgraphEvent', () => {
 
   it('should query for the event', async () => {
     const response = await nevermined.keeper.token.events.getEventData({
-      methodName: 'getTransfers',
+      eventName: 'Transfer',
       filterSubgraph: {
         where: {
           to: account.getId(),
         },
+        orderBy: 'blockNumber',
+        orderDirection: 'desc',
       },
       result: {
         to: true,
         value: true,
+        blockNumber: true,
+        blockTimestamp: true,
+        transactionHash: true,
       },
     })
-    assert.strictEqual(
-      ethers.utils.getAddress(response.pop().to),
-      ethers.utils.getAddress(account.getId()),
-    )
+
+    const event = response[0]
+    assert.strictEqual(ethers.getAddress(event.to), ethers.getAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {
@@ -56,7 +58,7 @@ describe('SubgraphEvent', () => {
           }
         },
         {
-          methodName: 'getTransfers',
+          eventName: 'Transfer',
           filterSubgraph: {
             where: {
               to: account.getId(),
@@ -72,6 +74,7 @@ describe('SubgraphEvent', () => {
 
     await Promise.all([executeTransaction()])
 
+    // TODO: See if we can remove this
     await sleep(2000)
     validResolve = true
 
@@ -96,7 +99,7 @@ describe('SubgraphEvent', () => {
           setTimeout(resolve, 600)
         },
         {
-          methodName: 'getTransfers',
+          eventName: 'Transfer',
           filterSubgraph: {
             where: {
               to: account.getId(),
@@ -111,9 +114,13 @@ describe('SubgraphEvent', () => {
     })
 
     await executeTransaction()
+
+    // TODO: See if we can remove this
     await sleep(2000)
     await executeTransaction()
     await waitUntilEvent
+
+    // TODO: See if we can remove this
     await sleep(2000)
   })
 
@@ -121,7 +128,7 @@ describe('SubgraphEvent', () => {
     const event = nevermined.keeper.token.events
 
     const waitUntilEvent = event.once((events) => events, {
-      methodName: 'getTransfers',
+      eventName: 'Transfer',
       filterSubgraph: {
         where: {
           to: account.getId(),
@@ -133,10 +140,36 @@ describe('SubgraphEvent', () => {
       },
     })
 
+    // TODO: See if we can remove this
     await sleep(400)
 
     await executeTransaction()
 
     await waitUntilEvent
+  })
+
+  it('once should not return unless there is an event', async () => {
+    // non-existent provId
+    const provId = `0x${generateId()}`
+
+    const resultPromise = nevermined.keeper.didRegistry.events.once((e) => e, {
+      eventName: 'ProvenanceAttributeRegistered',
+      filterSubgraph: { where: { provId: provId } },
+      result: {
+        id: true,
+        provId: true,
+        _did: true,
+        _agentId: true,
+        _activityId: true,
+        _relatedDid: true,
+        _agentInvolvedId: true,
+        _method: true,
+        _attributes: true,
+        _blockNumberUpdated: true,
+      },
+    })
+
+    await mineBlocks(nevermined, account, 1)
+    await assert.isRejected(Promise.race([resultPromise, awaitTimeout(2000)]), /Timeout/)
   })
 })

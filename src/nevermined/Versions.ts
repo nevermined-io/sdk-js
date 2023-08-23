@@ -57,9 +57,9 @@ export class Versions extends Instantiable {
       version: metadata.version,
       commit: metadata.commit,
       status: PlatformTechStatus.Working,
-      network: (await this.nevermined.keeper.getNetworkName()).toLowerCase(),
-      keeperVersion: this.nevermined.keeper.version,
-      contracts: Object.values(await this.nevermined.keeper.getAllInstances())
+      network: await this.nevermined.keeper.getNetworkName(),
+      keeperVersion: this.nevermined.keeper.getNetworkVersion(),
+      contracts: Object.values(this.nevermined.keeper.getAllInstances())
         .filter((_) => !!_)
         .reduce(
           (acc, { contractName, address }) => ({

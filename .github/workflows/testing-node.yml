@@ -15,22 +15,16 @@ jobs:
         with:
           repository: nevermined-io/node
           path: node
+          # TODO: remove this when Node integrated with SDKv2 is integraged
+          ref: develop
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: actions/checkout@v3
-        with:
-          repository: nevermined-io/sdk-dtp
-          path: sdk-dtp
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.11.0
+      - uses: nevermined-io/nvm-tools-actions@v0.14.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
-          contracts-version: 'v3.2.1'
+          contracts-version: 'latest'
           node: 'false'
-
-      - name: Install sponge
-        run: sudo apt-get install -y moreutils
 
       - name: Install dependencies
         run: yarn
@@ -38,20 +32,9 @@ jobs:
       - name: Build SDK-JS package and node
         run: |
           yarn build
-          yarn pack
-          cp *.tgz sdk-dtp/sdk.tgz
-          cp *.tgz node/sdk.tgz
-          cd sdk-dtp
-          cat package.json | jq '.dependencies."@nevermined-io/sdk"="./sdk.tgz"' | sponge package.json
-          yarn
-          yarn build
-          yarn pack
-          cp *dtp*.tgz ../node/dtp.tgz
 
-          cd ../node
-          cat package.json | jq '.dependencies."@nevermined-io/sdk"="./sdk.tgz"' | sponge package.json
-          cat package.json | jq '.dependencies."@nevermined-io/sdk-dtp"="./dtp.tgz"' | sponge package.json
-          yarn
+          cd node/
+          yarn add ../
           yarn run setup:dev
           yarn build
 
@@ -61,7 +44,6 @@ jobs:
           # estuary token for local development
           ESTUARY_TOKEN: ESTaa43688b-4ccf-4dad-8a16-410e488706ffARY
           ESTUARY_ENDPOINT: http://estuary.nevermined.localnet
-          GRAPH_HTTP_URI: ''
         run: |
           cd node
           nvm-tools copy-artifacts ./artifacts
@@ -75,10 +57,9 @@ jobs:
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           NEVERMINED_NODE_URI: http://localhost:8030
-          GRAPH_HTTP_URI: ''
         run: |
           nvm-tools copy-artifacts ./artifacts
-          yarn run integration:cover
+          yarn integration:all
 
       - name: Upload node logs
         uses: actions/upload-artifact@v2

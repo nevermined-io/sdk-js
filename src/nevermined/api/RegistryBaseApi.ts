@@ -3,20 +3,14 @@ import {
   ServicePlugin,
   ServiceType,
   NvmConfigVersions,
-  ServiceAgreementTemplate,
   DDO,
   MetaData,
+  PricedMetadataInformation,
 } from '../../ddo'
-import { AssetAttributes, NFTAttributes } from '../../models'
+import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
 import { Account, CreateProgressStep, DID } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import {
-  SubscribablePromise,
-  zeroX,
-  generateId,
-  fillConditionsWithDDO,
-  ZeroAddress,
-} from '../../utils'
+import { SubscribablePromise, zeroX, generateId, ZeroAddress, formatUnits } from '../../utils'
 import { PublishMetadata } from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
@@ -65,11 +59,9 @@ export abstract class RegistryBaseApi extends Instantiable {
     return new SubscribablePromise(async (observer) => {
       const { neverminedNodeUri } = this.config
       const { didRegistry } = this.nevermined.keeper
-      const tokenAddress =
-        assetAttributes.price.getTokenAddress() || this.nevermined.utils.token.getAddress()
 
       // create ddo itself
-      const ddo = DDO.getInstance(
+      let ddo = DDO.getInstance(
         assetAttributes.metadata.userId,
         publisher.getId(),
         assetAttributes.appId,
@@ -87,7 +79,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       }
 
       this.logger.debug('Adding Authorization Service')
-      await ddo.addService(
+      ddo.addService(
         DDO.createAuthorizationService(
           neverminedNodeUri,
           publicKey,
@@ -96,29 +88,34 @@ export abstract class RegistryBaseApi extends Instantiable {
       )
 
       this.logger.debug('Adding Metadata Service')
-      assetAttributes.metadata.main = await ddo.addDefaultMetadataService(
+      assetAttributes.metadata.main = ddo.addDefaultMetadataService(
         assetAttributes.metadata,
         nftAttributes,
       )
 
-      for (const name of assetAttributes.serviceTypes) {
-        const plugin = this.servicePlugin[name]
+      for (const serviceAttributes of assetAttributes.services) {
+        const plugin = this.servicePlugin[serviceAttributes.serviceType]
+
         if (plugin) {
-          await ddo.addService(
-            await plugin.createService(
-              publisher,
-              assetAttributes.metadata,
-              assetAttributes.price,
-              tokenAddress,
-            ),
+          const pricedData = serviceAttributes.price
+            ? await this.getPriced(serviceAttributes.price)
+            : undefined
+
+          const serviceCreated = plugin.createService(
+            publisher,
+            assetAttributes.metadata,
+            serviceAttributes,
+            nftAttributes,
+            pricedData,
           )
+          ddo.addService(serviceCreated)
         }
       }
 
+      ddo.reorderServices()
+
       this.logger.log('Services Added')
       observer.next(CreateProgressStep.ServicesAdded)
-
-      ddo.service.sort((a, b) => (a.index > b.index ? 1 : -1))
 
       this.logger.log('Generating proof')
       observer.next(CreateProgressStep.GeneratingProof)
@@ -127,6 +124,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
       await ddo.assignDid(didSeed, didRegistry, publisher)
+      ddo = DDO.findAndReplaceDDOAttribute(ddo, '{DID}', ddo.shortId())
 
       // TODO: Evaluate if we need to add the signature to the DDO
       // Removing it would save a wallet interaction during asset creation
@@ -134,34 +132,6 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       this.logger.log('Proof generated')
       observer.next(CreateProgressStep.ProofGenerated)
-
-      for (const name of assetAttributes.serviceTypes) {
-        const service = ddo.findServiceByType(name)
-        const {
-          nftContractAddress,
-          amount,
-          nftTransfer,
-          duration,
-          fulfillAccessTimeout,
-          fulfillAccessTimelock,
-        } = nftAttributes || {}
-        const sat: ServiceAgreementTemplate = service.attributes.serviceAgreementTemplate
-
-        sat.conditions = fillConditionsWithDDO(
-          name,
-          sat.conditions,
-          ddo,
-          assetAttributes.price,
-          tokenAddress,
-          nftContractAddress,
-          publisher.getId(),
-          amount,
-          nftTransfer,
-          duration,
-          fulfillAccessTimeout,
-          fulfillAccessTimelock,
-        )
-      }
 
       this.logger.log('Conditions filled')
       observer.next(CreateProgressStep.ConditionsFilled)
@@ -192,7 +162,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       let serviceEndpoint = this.nevermined.services.metadata.getServiceEndpoint(DID.parse(ddo.id))
 
-      await ddo.updateService(this.nevermined, {
+      ddo.updateMetadataService({
         type: 'metadata',
         index: 0,
         serviceEndpoint,
@@ -230,6 +200,8 @@ export abstract class RegistryBaseApi extends Instantiable {
         immutableUrl: '',
       }
       ddo._nvm.versions.push(ddoVersion)
+      const networkId = await this.nevermined.keeper.getNetworkId()
+      ddo._nvm.networks = { [networkId]: true }
 
       if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {
         observer.next(CreateProgressStep.DdoStoredImmutable)
@@ -556,13 +528,13 @@ export abstract class RegistryBaseApi extends Instantiable {
    * Start the purchase/order of an asset's service. Starts by signing the service agreement
    * then sends the request to the publisher via the service endpoint (Node http service).
    * @param did - Decentralized ID.
-   * @param serviceType - Service.
+   * @param serviceReference - Service.
    * @param consumer - Consumer account.
    * @returns The agreement ID.
    */
   public orderAsset(
     did: string,
-    serviceType: ServiceType,
+    serviceReference: ServiceType | number,
     consumer: Account,
     params?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
@@ -571,25 +543,30 @@ export abstract class RegistryBaseApi extends Instantiable {
       const ddo = await this.resolveAsset(did)
 
       const { keeper } = this.nevermined
-      const service = ddo.findServiceByType(serviceType)
+
+      const service = ddo.findServiceByReference(serviceReference)
+
       const templateName = service.attributes.serviceAgreementTemplate.contractName
+      console.log(
+        `Ordering Asset with reference ${serviceReference}, template ${templateName} and price ${service.attributes.main.price}`,
+      )
 
       const template = keeper.getAccessTemplateByName(templateName)
 
-      this.logger.log(`Creating ${serviceType} agreement and paying`)
+      this.logger.log(`Creating ${serviceReference} agreement and paying`)
       const agreementId = await template.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
+        serviceReference,
         template.params(consumer),
         consumer,
         consumer,
-        undefined,
         params,
         (a) => observer.next(a),
       )
 
       if (!agreementId) {
-        throw new AssetError(`Error creating ${serviceType} agreement`)
+        throw new AssetError(`Error creating ${serviceReference} agreement`)
       }
 
       // Checking the agreementId was created on-chain with the correct DID associated to it
@@ -610,7 +587,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   }
 
   /**
-   * Initialities the default Nevermined service plugins and return that instance
+   * Initializes the default Nevermined service plugins and return that instance
    * @param config Nevermined config
    * @returns The Nevermined Service Plugin instance
    */
@@ -622,6 +599,44 @@ export abstract class RegistryBaseApi extends Instantiable {
       'nft-access': new NFTAccessService(config),
       'aave-credit': config.nevermined.keeper.templates
         .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>,
+    }
+  }
+
+  private async getPriced(assetPrice: AssetPrice | undefined): Promise<PricedMetadataInformation> {
+    if (assetPrice === undefined) {
+      return {
+        attributes: {
+          main: {
+            price: '0',
+          },
+          additionalInformation: {
+            priceHighestDenomination: 0,
+          },
+        },
+      }
+    }
+
+    const erc20TokenAddress =
+      assetPrice?.getTokenAddress() || this.nevermined.utils.token.getAddress()
+    let decimals: number
+    if (erc20TokenAddress === ZeroAddress) {
+      decimals = 18
+    } else {
+      const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
+      decimals = await token.decimals()
+    }
+
+    const price = assetPrice.getTotalPrice().toString()
+    const priceHighestDenomination = +formatUnits(assetPrice.getTotalPrice(), decimals)
+    return {
+      attributes: {
+        main: {
+          price,
+        },
+        additionalInformation: {
+          priceHighestDenomination,
+        },
+      },
     }
   }
 }

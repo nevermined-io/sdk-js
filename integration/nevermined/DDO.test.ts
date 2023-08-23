@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { decodeJwt } from 'jose'
 import { Account, DDO, MetaData, Nevermined } from '../../src'
 import { AssetAttributes, AssetPrice } from '../../src/models/'
@@ -39,7 +38,7 @@ describe('DDO Tests', () => {
     const payload = decodeJwt(config.marketplaceAuthToken)
 
     userId = payload.sub
-    price = new AssetPrice(publisher.getId(), BigNumber.from(1))
+    price = new AssetPrice(publisher.getId(), 1n)
   })
 
   it('should create correct dataset DDO', async () => {
@@ -74,7 +73,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -104,6 +108,14 @@ describe('DDO Tests', () => {
         'templateId',
       ] as any,
     )
+
+    assert.isTrue(ddo.serviceExists('metadata'))
+    assert.isTrue(ddo.serviceExists('access'))
+    assert.isFalse(ddo.serviceExists('compute'))
+
+    assert.isTrue(ddo.serviceIndexExists(0)) // metadata
+    assert.isTrue(ddo.serviceIndexExists(2)) // access
+    assert.isFalse(ddo.serviceIndexExists(99))
   })
 
   it('should create correct nft DDO', async () => {
@@ -133,8 +145,17 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
-      serviceTypes: ['nft-sales', 'nft-access'],
+      services: [
+        {
+          serviceType: 'nft-sales',
+          price,
+          nft: { amount: 1n },
+        },
+        {
+          serviceType: 'nft-access',
+          nft: { amount: 1n },
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
     const royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 100000)
@@ -142,8 +163,7 @@ describe('DDO Tests', () => {
     const nftAttributes = NFTAttributes.getNFT1155Instance({
       ...assetAttributes,
       nftContractAddress: nevermined.nfts1155.nftContract.address,
-      cap: BigNumber.from(10),
-      amount: BigNumber.from(1),
+      cap: 10n,
       royaltyAttributes,
       preMint: true,
     })
@@ -210,7 +230,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -296,7 +321,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
+      services: [
+        {
+          serviceType: 'access',
+          price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 
@@ -354,8 +384,12 @@ describe('DDO Tests', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price,
-      serviceTypes: ['compute'],
+      services: [
+        {
+          serviceType: 'compute',
+          price: price,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
 

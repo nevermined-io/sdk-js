@@ -1,8 +1,6 @@
-import { base64url } from 'jose'
 import { generateId } from '../utils'
 
 const prefix = 'did:nv:'
-
 /**
  * Decentralized ID.
  */
@@ -46,16 +44,39 @@ export class DID {
     return new DID(generateId())
   }
 
-  /**
-   * Returns a new DID.
-   * @returns {@link DID}
-   */
-  public static fromEncoded(encoded: string): DID {
-    return new DID(Buffer.from(base64url.decode(encoded)).toString('hex'))
+  public static parseBigInt(value, radix = 36) {
+    // value: string
+    const size = 10
+    const factor = BigInt(radix ** size)
+    let i = value.length % size || size
+    const parts = [value.slice(0, i)]
+
+    while (i < value.length) parts.push(value.slice(i, (i += size)))
+
+    return parts.reduce((r, v) => r * factor + BigInt(parseInt(v, radix)), BigInt(0))
   }
 
   /**
-   * ID.
+   * Returns a new DID from a base36 encoded string.
+   * @param encoded - Base36 encoded string.
+   * @returns {@link DID}
+   */
+  public static fromEncoded(encoded: string): DID {
+    const decoded = this.parseBigInt(encoded).toString(16)
+    if (decoded.length !== 64) return new DID(`0${decoded}`)
+    else return new DID(decoded)
+  }
+
+  /**
+   * Generates an encoded string in base 36 from a DID.
+   * @returns A base36 encoded string.
+   */
+  public getEncoded(): string {
+    return BigInt(`0x${this.id}`).toString(36)
+  }
+
+  /**
+   * Short ID.
    */
   private id: string
 
@@ -64,7 +85,7 @@ export class DID {
   }
 
   /**
-   * Returns the DID.
+   * Returns the DID (i.e did:nv:...)
    * @returns A string with the prefixed id.
    */
   public getDid(): string {
@@ -72,14 +93,10 @@ export class DID {
   }
 
   /**
-   * Returns the ID.
+   * Returns the Short ID.
    * @returns A string of the _id_ without the prefix.
    */
   public getId(): string {
     return this.id
-  }
-
-  public getEncoded(): string {
-    return base64url.encode(Buffer.from(this.id, 'hex'))
   }
 }

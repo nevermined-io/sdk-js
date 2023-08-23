@@ -3,9 +3,8 @@ import { DID } from '../../nevermined'
 import { MarketplaceApi } from './MarketplaceAPI'
 import { ApiError, HttpError } from '../../errors'
 import { SearchQuery } from '../../common/interfaces'
-
-const apiPath = '/api/v1/metadata/assets/ddo'
-const servicePath = '/api/v1/metadata/assets/service'
+export const apiPath = '/api/v1/metadata/assets/ddo'
+export const servicePath = '/api/v1/metadata/assets/service'
 
 export interface QueryResult {
   results: DDO[]
@@ -240,7 +239,13 @@ export class MetadataService extends MarketplaceApi {
 
   public async delete(did: DID | string) {
     did = did && DID.parse(did)
-    const result = await this.nevermined.utils.fetch.delete(`${this.url}${apiPath}/${did.getDid()}`)
+    const result = await this.nevermined.utils.fetch.delete(
+      `${this.url}${apiPath}/${did.getDid()}`,
+      undefined,
+      {
+        Authorization: `Bearer ${this.config.marketplaceAuthToken}`,
+      },
+    )
     return result
   }
 
@@ -322,8 +327,10 @@ export class MetadataService extends MarketplaceApi {
   ): Promise<ServiceSecondary> {
     const fullUrl = `${this.url}${servicePath}`
     agreement['agreementId'] = agreementId
+    const agreementStore = JSON.stringify(agreement)
+
     const result: ServiceSecondary = await this.nevermined.utils.fetch
-      .post(fullUrl, JSON.stringify(agreement), {
+      .post(fullUrl, agreementStore, {
         Authorization: `Bearer ${this.config.marketplaceAuthToken}`,
       })
       .then((response: any) => {
@@ -342,6 +349,7 @@ export class MetadataService extends MarketplaceApi {
       .catch((error) => {
         throw new ApiError(error)
       })
+
     return result
   }
 

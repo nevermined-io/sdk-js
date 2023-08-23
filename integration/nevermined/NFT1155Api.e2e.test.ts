@@ -7,6 +7,7 @@ import {
   TransferNFTCondition,
   Token,
   Nft1155Contract,
+  ContractHandler,
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -20,13 +21,8 @@ import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
-import { BigNumber } from '../../src/utils'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
-
-const DELAY = 20000
 
 function makeTest(isCustom) {
   describe(`NFTs 1155 Api End-to-End (${isCustom ? 'custom' : 'builtin'} token)`, () => {
@@ -44,20 +40,20 @@ function makeTest(isCustom) {
     const metadata = getMetadata()
     const royalties1 = 100000 // 10% of royalties in the secondary market
     const royalties = 10 // 10% of royalties in the secondary market
-    const cappedAmount = BigNumber.from(5)
+    const cappedAmount = 5n
     let agreementId: string
     let agreementId2: string
 
     // Configuration of First Sale:
     // Artist -> Collector1, the gallery get a cut (25%)
-    const numberEditions = BigNumber.from(1)
-    let nftPrice = BigNumber.from(100)
-    let amounts = [BigNumber.from(75), BigNumber.from(25)]
+    const numberEditions = 1n
+    let nftPrice = 100n
+    let amounts = [75n, 25n]
     let receivers: string[]
     let assetPrice1: AssetPrice
 
     let initialBalances: any
-    let scale: BigNumber
+    let scale: bigint
     let payload: JWTPayload
 
     before(async () => {
@@ -81,20 +77,20 @@ function makeTest(isCustom) {
       console.debug(`NETWORK FEE = ${fee}`)
 
       console.debug(
-        `Fee receiver: ${feeReceiver}, contract: ${escrowPaymentCondition.getAddress()}, artist: ${artist.getId()}, gallery: ${gallery.getId()}`,
+        `Fee receiver: ${feeReceiver}, contract: ${
+          escrowPaymentCondition.address
+        }, artist: ${artist.getId()}, gallery: ${gallery.getId()}`,
       )
 
       if (isCustom) {
-        TestContractHandler.setConfig(config)
-
-        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-        const erc1155ABI = await TestContractHandler.getABI(
+        const networkName = await nevermined.keeper.getNetworkName()
+        const erc1155ABI = await ContractHandler.getABI(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await TestContractHandler.deployArtifact(erc1155ABI, artist.getId(), [
+        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',
@@ -104,7 +100,7 @@ function makeTest(isCustom) {
 
         const nftContract = await Nft1155Contract.getInstance(
           (nevermined.keeper as any).instanceConfig,
-          nft.address,
+          await nft.getAddress(),
         )
 
         await nevermined.contracts.loadNft1155(nftContract.address)
@@ -117,33 +113,33 @@ function makeTest(isCustom) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;({ token } = nevermined.keeper)
 
-      scale = BigNumber.from(10).pow(await token.decimals())
+      scale = 10n ** BigInt(await token.decimals())
 
-      amounts = amounts.map((v) => v.mul(scale))
+      amounts = amounts.map((v) => v * scale)
       receivers = [artist.getId(), gallery.getId()]
-      const lst: [string, BigNumber][] = [
+      const lst: [string, bigint][] = [
         [receivers[0], amounts[0]],
         [receivers[1], amounts[1]],
       ]
       if (feeReceiver !== '0x0000000000000000000000000000000000000000') {
         receivers.push(feeReceiver)
-        const price = amounts.reduce((a, b) => a.add(b), BigNumber.from(0))
-        amounts.push(price.mul(fee).div(BigNumber.from(1000000).sub(fee)))
+        const price = amounts.reduce((a, b) => a + b, 0n)
+        amounts.push((price * fee) / 1000000n - fee)
         lst.push([receivers[2], amounts[2]])
       }
-      nftPrice = amounts.reduce((a, b) => a.add(b), BigNumber.from(0))
+      nftPrice = amounts.reduce((a, b) => a + b, 0n)
       assetPrice1 = new AssetPrice(new Map(lst))
-      await collector1.requestTokens(nftPrice.div(scale))
+      await collector1.requestTokens(nftPrice / scale)
 
       console.debug(
-        `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
+        `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.address)}`,
       )
       initialBalances = {
         artist: await token.balanceOf(artist.getId()),
         collector1: await token.balanceOf(collector1.getId()),
         collector2: await token.balanceOf(collector2.getId()),
         gallery: await token.balanceOf(gallery.getId()),
-        escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.getAddress()),
+        escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.address),
       }
     })
 
@@ -153,15 +149,23 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata,
-          price: assetPrice1,
-          serviceTypes: ['nft-sales', 'nft-access'],
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+              nft: { amount: numberEditions, nftTransfer: true },
+            },
+            {
+              serviceType: 'nft-access',
+              nft: { amount: numberEditions },
+            },
+          ],
           providers: [config.neverminedNodeAddress],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
           nftContractAddress: nevermined.nfts1155.nftContract.address,
           cap: cappedAmount,
-          amount: numberEditions,
           royaltyAttributes,
           preMint: true,
         })
@@ -170,7 +174,7 @@ function makeTest(isCustom) {
         assert.isDefined(ddo)
 
         const balance = await nevermined.nfts1155.balance(ddo.id, artist.getId())
-        assert.deepEqual(balance, BigNumber.from(5))
+        assert.isTrue(balance === 5n)
       })
 
       it('should give Nevermined the operator role', async () => {
@@ -184,7 +188,7 @@ function makeTest(isCustom) {
 
       it('Should set the Node as a provider by default', async () => {
         const providers = await nevermined.assets.providers.list(ddo.id)
-        assert.deepEqual(providers, [ethers.utils.getAddress(config.neverminedNodeAddress)])
+        assert.deepEqual(providers, [ethers.getAddress(config.neverminedNodeAddress)])
       })
     })
 
@@ -192,30 +196,29 @@ function makeTest(isCustom) {
       it('I check the details of the NFT', async () => {
         await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
         const details = await nevermined.nfts1155.details(ddo.id)
-        assert.equal(details.mintCap.toNumber(), 5)
-        assert.equal(details.nftSupply.toNumber(), 5)
+        assert.equal(details.mintCap, 5n)
+        assert.equal(details.nftSupply, 5n)
         assert.equal(details.royaltyScheme, RoyaltyKind.Standard)
         assert.equal(details.royalties, 100000)
         assert.equal(details.owner, artist.getId())
-        assert.equal(details.mintCap.toNumber(), 5)
-        assert.equal(details.nftSupply.toNumber(), 5)
+        assert.isTrue(details.mintCap === 5n)
+        assert.equal(details.nftSupply, 5n)
       })
 
       it('I am ordering the NFT', async () => {
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
+        assert.isTrue(collector1BalanceBefore >= nftPrice)
 
-        assert.isTrue(collector1BalanceBefore.gte(nftPrice))
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
         )
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
-        await sleep(DELAY)
         assert.isDefined(agreementId)
 
         const collector1BalanceAfter = await token.balanceOf(collector1.getId())
         const escrowPaymentConditionBalanceAfter = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
         )
 
         console.debug(
@@ -223,9 +226,10 @@ function makeTest(isCustom) {
           `${escrowPaymentConditionBalanceBefore} + ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`,
         )
 
-        assert.isTrue(collector1BalanceBefore.sub(nftPrice).eq(collector1BalanceAfter))
-        assert.isTrue(
-          escrowPaymentConditionBalanceBefore.add(nftPrice).eq(escrowPaymentConditionBalanceAfter),
+        assert.equal(collector1BalanceBefore - nftPrice, collector1BalanceAfter)
+        assert.equal(
+          escrowPaymentConditionBalanceBefore + nftPrice,
+          escrowPaymentConditionBalanceAfter,
         )
       })
 
@@ -233,9 +237,7 @@ function makeTest(isCustom) {
         const nftBalanceArtistBefore = await nevermined.nfts1155.balance(ddo.id, artist)
         const nftBalanceCollectorBefore = await nevermined.nfts1155.balance(ddo.id, collector1)
 
-        console.debug(
-          `Contract balance ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
-        )
+        console.debug(`Contract balance ${await token.balanceOf(escrowPaymentCondition.address)}`)
 
         const receipt = await nevermined.nfts1155.transfer(
           agreementId,
@@ -244,10 +246,9 @@ function makeTest(isCustom) {
           artist,
         )
         assert.isTrue(receipt)
-        await sleep(DELAY)
 
         console.debug(
-          `Contract balance (after) ${await token.balanceOf(escrowPaymentCondition.getAddress())}`,
+          `Contract balance (after) ${await token.balanceOf(escrowPaymentCondition.address)}`,
         )
         const nftBalanceArtistAfter = await nevermined.nfts1155.balance(ddo.id, artist)
         const nftBalanceCollectorAfter = await nevermined.nfts1155.balance(ddo.id, collector1)
@@ -262,22 +263,21 @@ function makeTest(isCustom) {
       })
 
       it('the artist asks and receives the payment', async () => {
-        await sleep(DELAY)
-        const escrowPaymentConditionBefore = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
-        )
-        await sleep(DELAY)
+        const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
+        const service = ddo.findServiceByReference('nft-sales')
+
         const receipt = await nevermined.nfts1155.releaseRewards(
           agreementId,
           ddo.id,
+          service.index,
           numberEditions,
           artist,
         )
-        await sleep(DELAY)
+
         assert.isTrue(receipt)
 
         const escrowPaymentConditionBalanceAfter = await token.balanceOf(
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
         )
         const receiver0Balance = await token.balanceOf(assetPrice1.getReceivers()[0])
         const receiver1Balance = await token.balanceOf(assetPrice1.getReceivers()[1])
@@ -290,12 +290,10 @@ function makeTest(isCustom) {
           `${escrowPaymentConditionBefore} - ${nftPrice} == ${escrowPaymentConditionBalanceAfter}`,
         )
 
-        assert.isTrue(receiver0Balance.eq(initialBalances.artist.add(assetPrice1.getAmounts()[0])))
-        assert.isTrue(receiver1Balance.eq(initialBalances.gallery.add(assetPrice1.getAmounts()[1])))
-        assert.isTrue(initialBalances.collector1.sub(nftPrice).eq(collectorBalance))
-        assert.isTrue(
-          escrowPaymentConditionBefore.sub(nftPrice).eq(escrowPaymentConditionBalanceAfter),
-        )
+        assert.equal(receiver0Balance, initialBalances.artist + assetPrice1.getAmounts()[0])
+        assert.equal(receiver1Balance, initialBalances.gallery + assetPrice1.getAmounts()[1])
+        assert.equal(initialBalances.collector1 - nftPrice, collectorBalance)
+        assert.equal(escrowPaymentConditionBefore - nftPrice, escrowPaymentConditionBalanceAfter)
       })
     })
 
@@ -321,27 +319,36 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: newMetadata,
-          serviceTypes: ['nft-sales', 'nft-access'],
-          price: assetPrice1,
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+              nft: { nftTransfer: true },
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
           nftContractAddress: nevermined.nfts1155.nftContract.address,
           cap: cappedAmount,
           royaltyAttributes,
+          preMint: true,
         })
         ddo = await nevermined.nfts1155.create(nftAttributes, artist)
 
         assert.isDefined(ddo)
 
         const balance = await nevermined.nfts1155.balance(ddo.id, artist)
-        assert.deepEqual(balance, BigNumber.from(5))
+        assert.isTrue(balance === 5n)
 
         await nevermined.nfts1155.setApprovalForAll(config.neverminedNodeAddress, true, artist)
       })
 
       it('The collector orders the nft', async () => {
-        await collector1.requestTokens(nftPrice.div(scale))
+        await collector1.requestTokens(nftPrice / scale)
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
         assert.isDefined(agreementId)
@@ -373,7 +380,7 @@ function makeTest(isCustom) {
 
     describe('As a collector I should not be able to buy a sold out nft', () => {
       it('The artist gives the Node permissions to transfer his nfts', async () => {
-        const message = 'shold throw this error message'
+        const message = 'should throw this error message'
 
         try {
           await nevermined.nfts1155.setApprovalForAll(config.neverminedNodeAddress, true, artist)
@@ -390,13 +397,21 @@ function makeTest(isCustom) {
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: newMetadata,
-          serviceTypes: ['nft-sales', 'nft-access'],
-          price: assetPrice1,
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: assetPrice1,
+              nft: { nftTransfer: true },
+            },
+            {
+              serviceType: 'nft-access',
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
           nftContractAddress: nevermined.nfts1155.nftContract.address,
-          cap: BigNumber.from(1),
+          cap: 1n,
           royaltyAttributes,
         })
         ddo = await nevermined.nfts1155.create(nftAttributes, artist)
@@ -404,11 +419,11 @@ function makeTest(isCustom) {
         assert.isDefined(ddo)
 
         const balance = await nevermined.nfts1155.balance(ddo.id, artist)
-        assert.deepEqual(balance, BigNumber.from(1))
+        assert.deepEqual(balance, 1n)
       })
 
       it('Collector1 orders the nft', async () => {
-        await collector1.requestTokens(nftPrice.div(scale))
+        await collector1.requestTokens(nftPrice / scale)
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
         assert.isDefined(agreementId)
@@ -419,7 +434,7 @@ function makeTest(isCustom) {
           agreementId,
           artist.getId(),
           collector1.getId(),
-          BigNumber.from(1),
+          1n,
         )
         assert.isTrue(result)
       })
@@ -431,11 +446,11 @@ function makeTest(isCustom) {
 
       it('The artist nft balance should be zero', async () => {
         const balance = await nevermined.nfts1155.balance(ddo.id, artist)
-        assert.deepEqual(balance, BigNumber.from(0))
+        assert.equal(balance, 0n)
       })
 
       it('Collector 2 setups a service agreement to buy the nft', async () => {
-        await collector2.requestTokens(nftPrice.div(scale))
+        await collector2.requestTokens(nftPrice / scale)
 
         agreementId2 = await nevermined.nfts1155.order(ddo.id, numberEditions, collector2)
         assert.isDefined(agreementId2)
@@ -443,28 +458,21 @@ function makeTest(isCustom) {
 
       it('The Node should not be able to transfer the nft', async () => {
         await assert.isRejected(
-          nevermined.nfts1155.claim(
-            agreementId2,
-            artist.getId(),
-            collector2.getId(),
-            BigNumber.from(1),
-          ),
+          nevermined.nfts1155.claim(agreementId2, artist.getId(), collector2.getId(), 1n),
         )
       })
     })
 
     describe('Node should not be able to transfer the nft without the operator role', () => {
       it('should create the subscription NFT without granting Nevermined the operator role', async () => {
-        TestContractHandler.setConfig(config)
-
-        const networkName = (await nevermined.keeper.getNetworkName()).toLowerCase()
-        const erc1155ABI = await TestContractHandler.getABI(
+        const networkName = await nevermined.keeper.getNetworkName()
+        const erc1155ABI = await ContractHandler.getABI(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await TestContractHandler.deployArtifact(erc1155ABI, artist.getId(), [
+        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',
@@ -474,20 +482,24 @@ function makeTest(isCustom) {
 
         const nftContract = await Nft1155Contract.getInstance(
           (nevermined.keeper as any).instanceConfig,
-          nft.address,
+          await nft.getAddress(),
         )
 
         await nevermined.contracts.loadNft1155(nftContract.address)
 
         const assetAttributes = AssetAttributes.getInstance({
           metadata: getMetadata(),
-          serviceTypes: ['nft-sales'],
-          price: new AssetPrice(artist.getId(), BigNumber.from(0)),
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: new AssetPrice(artist.getId(), 0n),
+            },
+          ],
         })
         const nftAttributes = NFTAttributes.getNFT1155Instance({
           ...assetAttributes,
           nftContractAddress: nevermined.nfts1155.nftContract.address,
-          cap: BigNumber.from(1),
+          cap: 1n,
         })
         ddo = await nevermined.nfts1155.create(nftAttributes, artist)
 

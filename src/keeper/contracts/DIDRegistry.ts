@@ -1,8 +1,7 @@
 import ContractBase, { TxParameters as txParams } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { ContractReceipt, ethers } from 'ethers'
-import { BigNumber } from '../../utils'
+import { ContractTransactionReceipt, ethers } from 'ethers'
 import { NFTAttributes } from '../../models'
 import { AssetError } from '../../errors/AssetError'
 import {
@@ -118,7 +117,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        ethers.utils.hexZeroPad(zeroX(activityId), 32),
+        ethers.zeroPadValue(zeroX(activityId), 32),
         nftAttributes.nftMetadataUrl || '',
         immutableUrl,
       ],
@@ -165,7 +164,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        ethers.utils.hexZeroPad(zeroX(activityId), 32),
+        ethers.zeroPadValue(zeroX(activityId), 32),
         immutableUrl,
       ],
       txParams,
@@ -275,7 +274,6 @@ export class DIDRegistry extends ContractBase {
     return (
       await this.events.getPastEvents({
         eventName: 'DIDAttributeRegistered',
-        methodName: 'getDIDAttributeRegistereds',
         filterJsonRpc: { _owner: zeroX(owner) },
         filterSubgraph: { where: { _owner: zeroX(owner) } },
         result: {
@@ -303,7 +301,7 @@ export class DIDRegistry extends ContractBase {
     checksum: string
     owner: string
     providers: string[]
-    royalties: BigNumber
+    royalties: bigint
     immutableUrl: string
     nftInitialized: boolean
   }> {
@@ -317,9 +315,7 @@ export class DIDRegistry extends ContractBase {
       checksum: registeredValues[1],
       owner: registeredValues[0],
       providers: registeredValues[5],
-      // nftSupply: BigNumber.from(registeredValues[6]),
-      // mintCap: BigNumber.from(registeredValues[7]),
-      royalties: BigNumber.from(registeredValues[6]),
+      royalties: BigInt(registeredValues[6]),
       immutableUrl: registeredValues[7],
       nftInitialized: registeredValues[8],
     }
@@ -365,7 +361,7 @@ export class DIDRegistry extends ContractBase {
     newOwnerAddress: string,
     ownerAddress: string,
     params?: txParams,
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     return this.send(
       'transferDIDOwnership',
       ownerAddress,
@@ -379,7 +375,6 @@ export class DIDRegistry extends ContractBase {
     return (
       await this.events.getPastEvents({
         eventName: 'ProvenanceAttributeRegistered',
-        methodName: 'getProvenanceAttributeRegistereds',
         filterJsonRpc: { _did: didZeroX(did) },
         filterSubgraph: { where: { _did: didZeroX(did) } },
         result: {
@@ -399,9 +394,9 @@ export class DIDRegistry extends ContractBase {
       .map((event) => {
         if (event.args === undefined)
           return eventToObject(event) as ProvenanceAttributeRegisteredEvent
-        else return eventToObject(event.args) as ProvenanceAttributeRegisteredEvent
+        else return eventToObject(event.args.toObject()) as ProvenanceAttributeRegisteredEvent
       })
-      .map((event) => ({ ...event, method: +event.method }))
+      .map((event) => ({ ...event, method: Number(event.method) }))
       .sort(
         (
           firstEvent: ProvenanceAttributeRegisteredEvent,
@@ -416,36 +411,29 @@ export class DIDRegistry extends ContractBase {
     method: T,
   ): Promise<ProvenanceEvent<T>[]> {
     let filter: any = { _did: didZeroX(did) }
-    let methodName = ''
     let eventName = ''
     switch (method) {
       case ProvenanceMethod.ACTED_ON_BEHALF:
         filter = { _entityDid: didZeroX(did) }
         eventName = 'ActedOnBehalf'
-        methodName = 'getActedOnBehalfs'
         break
       case ProvenanceMethod.WAS_ASSOCIATED_WITH:
         eventName = 'WasAssociatedWith'
-        methodName = 'getWasAssociatedWiths'
         filter = { _entityDid: didZeroX(did) }
         break
       case ProvenanceMethod.WAS_DERIVED_FROM:
         eventName = 'WasDerivedFrom'
-        methodName = 'getWasDerivedFroms'
         filter = { _usedEntityDid: didZeroX(did) }
         break
       case ProvenanceMethod.USED:
         eventName = 'Used'
-        methodName = 'getUseds'
         break
       case ProvenanceMethod.WAS_GENERATED_BY:
         eventName = 'WasGeneratedBy'
-        methodName = 'getWasGeneratedBys'
         break
     }
     const eventOptions = {
       eventName,
-      methodName,
       filterJsonRpc: filter,
       filterSubgraph: { where: filter },
       result: {
@@ -605,11 +593,11 @@ export class DIDRegistry extends ContractBase {
     return this.call('getProvenanceOwner', [didZeroX(did)])
   }
 
-  public async mint(did: string, amount: BigNumber, from: string, params?: txParams) {
+  public async mint(did: string, amount: bigint, from: string, params?: txParams) {
     return this.send('mint', from, [didZeroX(did), String(amount)], params)
   }
 
-  public async burn(did: string, amount: BigNumber, from: string, params?: txParams) {
+  public async burn(did: string, amount: bigint, from: string, params?: txParams) {
     return this.send('burn', from, [didZeroX(did), String(amount)], params)
   }
 

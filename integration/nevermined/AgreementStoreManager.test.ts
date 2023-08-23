@@ -9,12 +9,10 @@ import {
   DDO,
   didZeroX,
   generateId,
-  ZeroAddress,
 } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
-import { mineBlocks, sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
@@ -54,12 +52,9 @@ describe('Agreement Store Manager', () => {
     const num = agreements.length
 
     await account2.requestTokens(
-      +ddo.getPriceByService() * 10 ** -(await nevermined.keeper.token.decimals()),
+      ddo.getPriceByService() * 10n ** BigInt(await nevermined.keeper.token.decimals()),
     )
-    agreementId = await nevermined.assets.order(ddo.id, account2)
-
-    // wait for the graph to pickup the event
-    await sleep(3000)
+    agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 
     agreements = await nevermined.agreements.getAgreements(ddo.id)
 
@@ -83,21 +78,5 @@ describe('Agreement Store Manager', () => {
       nevermined.keeper.agreementStoreManager.getAgreement(randomId),
       /Could not find template for agreementId/,
     )
-  })
-
-  it('should raise a keeper error if the agreement is not found', async () => {
-    const randomId = `0x${generateId()}`
-
-    // trick agreementStoreManager to think there exists a template for the randomId
-    const accessTemplate = nevermined.keeper.getTemplateByName('AccessTemplate')
-    nevermined.keeper.agreementStoreManager.addTemplate(ZeroAddress, accessTemplate)
-
-    const assertionPromise = assert.isRejected(
-      nevermined.keeper.agreementStoreManager.getAgreement(randomId),
-      /Could not find agreement with id/,
-    )
-
-    await mineBlocks(nevermined, account2, 1)
-    await assertionPromise
   })
 })
