@@ -502,6 +502,8 @@ export interface NvmConfig {
   networks?: {
     [key: string]: boolean
   }
+
+  lazyRegistrationSignature?: string
 }
 
 export enum ImmutableBackends {

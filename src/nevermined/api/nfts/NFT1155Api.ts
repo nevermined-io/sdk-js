@@ -1,7 +1,11 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetAttributes, NFTAttributes } from '../../../models'
 import { generateId, SubscribablePromise, zeroX } from '../../../utils'
-import { PublishMetadata } from '../AssetsApi'
+import {
+  AssetPublicationOptions,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+} from '../AssetsApi'
 import { Account } from '../../Account'
 import { TxParameters, Nft1155Contract } from '../../../keeper'
 import { DDO, ServiceNFTSales, ServiceType } from '../../../ddo'
@@ -91,7 +95,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
    * @param publisher - The account publishing the asset
-   * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+   * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
    * @param txParams - Optional transaction parameters
    *
    * @returns The newly registered {@link DDO}.
@@ -99,13 +103,16 @@ export class NFT1155Api extends NFTsBaseApi {
   public create(
     nftAttributes: NFTAttributes,
     publisher: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publicationOptions: AssetPublicationOptions = {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    },
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     return this.registerNeverminedAsset(
       nftAttributes as AssetAttributes,
       publisher,
-      publishMetadata,
+      publicationOptions,
       nftAttributes,
       txParams,
     )

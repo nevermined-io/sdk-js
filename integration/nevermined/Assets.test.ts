@@ -5,7 +5,7 @@ import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from '../../src'
 import { generateId } from '../../src/utils'
-import { PublishMetadata, DIDResolvePolicy } from '../../src/nevermined'
+import { PublishMetadataOptions, DIDResolvePolicy } from '../../src/nevermined'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -60,7 +60,9 @@ describe('Assets', () => {
           },
         ],
       })
-      ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMetadata.IPFS)
+      ddo = await nevermined.assets.create(assetAttributes, publisher, {
+        metadata: PublishMetadataOptions.IPFS,
+      })
 
       assert.isDefined(ddo)
       assert.equal(ddo._nvm.versions.length, 1)
@@ -119,7 +121,7 @@ describe('Assets', () => {
         ddo.shortId(),
         updatedMetadata,
         publisher,
-        PublishMetadata.IPFS,
+        PublishMetadataOptions.IPFS,
       )
 
       const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)

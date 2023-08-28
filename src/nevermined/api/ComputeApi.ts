@@ -5,7 +5,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper'
 import { SubscribablePromise } from '../../utils'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
-import { PublishMetadata } from './AssetsApi'
+import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions } from './AssetsApi'
 import { RegistryBaseApi } from './RegistryBaseApi'
 
 /**
@@ -33,7 +33,7 @@ export class ComputeApi extends RegistryBaseApi {
    * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
    *
    * @param assetAttributes - Attributes describing the asset
-   * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+   * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
    * @param publisherAccount - The account publishing the asset
    * @param txParams - Optional transaction parameters
    * @returns The metadata of the asset created (DDO)
@@ -43,7 +43,10 @@ export class ComputeApi extends RegistryBaseApi {
   public create(
     assetAttributes: AssetAttributes,
     publisherAccount: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publicationOptions: AssetPublicationOptions = {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    },
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     const computeService = assetAttributes.services.find((service) => {
@@ -55,7 +58,7 @@ export class ComputeApi extends RegistryBaseApi {
     return this.registerNeverminedAsset(
       assetAttributes,
       publisherAccount,
-      publishMetadata,
+      publicationOptions,
       undefined,
       txParams,
     )
@@ -85,7 +88,7 @@ export class ComputeApi extends RegistryBaseApi {
     did: string,
     metadata: MetaData,
     publisherAccount: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
     return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)

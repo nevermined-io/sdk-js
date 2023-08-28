@@ -6,7 +6,7 @@ import { TxParameters, RoyaltyScheme } from '../../keeper'
 import { AssetError, DDOError } from '../../errors'
 import { Nevermined, apiPath } from '../../sdk'
 import { ContractTransactionReceipt } from 'ethers'
-import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
+import { RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { Providers } from '../Provider'
 import { Babysig, AssetAttributes } from '../../models'
@@ -18,11 +18,38 @@ import { Babysig, AssetAttributes } from '../../models'
  * - Filecoin, The metadata will be stored in the Metadata/Marketplace API and Filecoin
  * - Arweave, The metadata will be stored in the Metadata/Marketplace API and Arweave
  */
-export enum PublishMetadata {
+export enum PublishMetadataOptions {
   OnlyMetadataAPI,
   IPFS,
   Filecoin,
   Arweave,
+}
+
+/**
+ * It specifies if the DID will be published on-chain initially or not.
+ */
+export enum PublishOnChainOptions {
+  DIDRegistry, // The DID and the reference to the DDO will be stored in the DIDRegistry contract
+  OnlyOffchain, // THE DID won't be stored on-chain and will be lazy-registered when needed
+}
+
+export class AssetPublicationOptions {
+  metadata?: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI
+  did?: PublishOnChainOptions = PublishOnChainOptions.DIDRegistry
+}
+
+/**
+ * It described the policy to be used when resolving an asset. It has the following options:
+ * * ImmutableFirst - It checks if there is a reference to an immutable data-store (IPFS, Filecoin, etc) on-chain. If that's the case uses the URL to resolve the Metadata. If not try to resolve the metadata using the URL of the Metadata/Marketplace API
+ * * MetadataAPIFirst - Try to resolve the metadata from the Marketplace/Metadata API, if it can't tries to resolve using the immutable url
+ * * OnlyImmutable - Try to resolve the metadata only from the immutable data store URL
+ * * OnlyMetadataAPI - Try to resolve the metadata only from the Marketplace/Metadata API
+ */
+export enum DIDResolvePolicy {
+  ImmutableFirst,
+  MetadataAPIFirst,
+  OnlyImmutable,
+  OnlyMetadataAPI,
 }
 
 /**
@@ -115,7 +142,7 @@ export class AssetsApi extends RegistryBaseApi {
    * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
    *
    * @param assetAttributes - Attributes describing the asset
-   * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+   * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
    * @param publisherAccount - The account publishing the asset
    * @param txParams - Optional transaction parameters
    * @returns The metadata of the asset created (DDO)
@@ -125,13 +152,16 @@ export class AssetsApi extends RegistryBaseApi {
   public create(
     assetAttributes: AssetAttributes,
     publisherAccount: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publicationOptions: AssetPublicationOptions = {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    },
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     return this.registerNeverminedAsset(
       assetAttributes,
       publisherAccount,
-      publishMetadata,
+      publicationOptions,
       undefined,
       txParams,
     )
@@ -161,7 +191,7 @@ export class AssetsApi extends RegistryBaseApi {
     did: string,
     metadata: MetaData,
     publisherAccount: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
     return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)
