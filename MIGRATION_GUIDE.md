@@ -2,6 +2,17 @@
 
 ## Breaking changes
 
+### Defining the asset registration options
+
+The `assets.create` function now receives an `AssetPublicationOptions` object instead of a `PublishMetadataOptions` parameter. This object allows to define the asset off-chain and on-chain registration options:
+
+```typescript
+await nevermined.assets.create(assetAttributes, publisher, {
+  metadata: PublishMetadataOptions.OnlyMetadataAPI,
+  did: PublishOnChainOptions.OnlyOffchain,
+})
+```
+
 ### Defining Asset Price
 
 The assetPrice is not part of AssetAttributes anymore and is part of each individual service added to the DDO when registering a service. So for services having a price, this must be added as part of the services array of the AssetAttributes.
@@ -73,3 +84,13 @@ Most of them were migrated to the `DDO` class:
 - `getNftHolderFromService` -> `DDO.getNftHolderFromService`
 - `getNftAmountFromService` -> `DDO.getNftAmountFromService`
 - `getNftContractAddressFromService` -> `DDO.getNftContractAddressFromService`
+
+## Not breaking changes
+
+### Assets resolution will be off-chain by default
+
+The `assets.resolve` function will now resolve the asset off-chain by default. This means that the DDO will be fetched from the metadata api and not retrieve the metadata url from the on-chain DIDRegistry. This behavior can be modified passing different `DIDResolvePolicy` options.
+
+### Assets can be registered only off-chain
+
+For assets not requiring the be registered on-chain, the `assets.create` function will now only register the asset off-chain. This behavior can be modified passing different `AssetPublicationOptions` options.

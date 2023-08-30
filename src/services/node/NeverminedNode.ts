@@ -5,7 +5,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
 import { NeverminedNodeError, HttpError } from '../../errors'
 import { ERCType, Babysig } from '../../models'
-import { PublishMetadata } from '../../nevermined'
+import { PublishMetadataOptions } from '../../nevermined'
 
 const apiPath = '/api/v1/node/services'
 
@@ -418,12 +418,12 @@ export class NeverminedNode extends Instantiable {
 
   public async publishImmutableContent(
     ddo: DDO,
-    publishMetadata: PublishMetadata = PublishMetadata.IPFS,
+    publishMetadata: PublishMetadataOptions = PublishMetadataOptions.IPFS,
   ): Promise<{ url: string; backend: ImmutableBackends }> {
     let url,
       backend = undefined
 
-    if (publishMetadata === PublishMetadata.Filecoin) {
+    if (publishMetadata === PublishMetadataOptions.Filecoin) {
       this.logger.log('Publishing metadata to Filecoin')
       ;({ url } = await this.nevermined.services.node.uploadContent(
         JSON.stringify(ddo),
@@ -431,7 +431,7 @@ export class NeverminedNode extends Instantiable {
         NodeUploadBackends.Filecoin,
       ))
       backend = 'filecoin'
-    } else if (publishMetadata === PublishMetadata.IPFS) {
+    } else if (publishMetadata === PublishMetadataOptions.IPFS) {
       this.logger.log('Publishing metadata to IPFS')
       ;({ url: url } = await this.nevermined.services.node.uploadContent(
         JSON.stringify(ddo),

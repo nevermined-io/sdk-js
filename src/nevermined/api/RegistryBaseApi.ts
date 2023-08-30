@@ -11,25 +11,16 @@ import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
 import { Account, CreateProgressStep, DID } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
 import { SubscribablePromise, zeroX, generateId, ZeroAddress, formatUnits } from '../../utils'
-import { PublishMetadata } from './AssetsApi'
+import {
+  AssetPublicationOptions,
+  DIDResolvePolicy,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+} from './AssetsApi'
 import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { AssetError } from '../../errors/AssetError'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { AccessService, NFTSalesService, NFTAccessService } from '../AccessService'
-
-/**
- * It described the policy to be used when resolving an asset. It has the following options:
- * * ImmutableFirst - It checks if there is a reference to an immutable data-store (IPFS, Filecoin, etc) on-chain. If that's the case uses the URL to resolve the Metadata. If not try to resolve the metadata using the URL of the Metadata/Marketplace API
- * * MetadataAPIFirst - Try to resolve the metadata from the Marketplace/Metadata API, if it can't tries to resolve using the immutable url
- * * OnlyImmutable - Try to resolve the metadata only from the immutable data store URL
- * * OnlyMetadataAPI - Try to resolve the metadata only from the Marketplace/Metadata API
- */
-export enum DIDResolvePolicy {
-  ImmutableFirst,
-  MetadataAPIFirst,
-  OnlyImmutable,
-  OnlyMetadataAPI,
-}
 
 /**
  * Abstract class proving common functionality related with Assets registration.
@@ -43,7 +34,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    *
    * @param assetAttributes - Attributes describing the asset
    * @param publisher - The account publishing the asset
-   * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+   * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
    * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
    * @param txParams - Optional transaction parameters
    * @returns The metadata of the asset created (DDO)
@@ -51,7 +42,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   protected registerNeverminedAsset(
     assetAttributes: AssetAttributes,
     publisher: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publicationOptions: AssetPublicationOptions,
     nftAttributes?: NFTAttributes,
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
@@ -203,12 +194,15 @@ export abstract class RegistryBaseApi extends Instantiable {
       const networkId = await this.nevermined.keeper.getNetworkId()
       ddo._nvm.networks = { [networkId]: true }
 
-      if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {
+      if (publicationOptions.metadata != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(CreateProgressStep.DdoStoredImmutable)
         try {
           // eslint-disable-next-line @typescript-eslint/no-extra-semi
           ;({ url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } =
-            await this.nevermined.services.node.publishImmutableContent(ddo, publishMetadata))
+            await this.nevermined.services.node.publishImmutableContent(
+              ddo,
+              publicationOptions.metadata,
+            ))
         } catch (error) {
           this.logger.log(`Unable to publish immutable content`)
         }
@@ -219,69 +213,71 @@ export abstract class RegistryBaseApi extends Instantiable {
       observer.next(CreateProgressStep.RegisteringDid)
 
       // On-chain asset registration
-      if (nftAttributes) {
-        this.logger.log('Registering Mintable Asset', ddo.id)
+      if (publicationOptions.did != PublishOnChainOptions.OnlyOffchain) {
+        if (nftAttributes) {
+          this.logger.log('Registering Mintable Asset', ddo.id)
 
-        const nftAttributesWithoutRoyalties = { ...nftAttributes, royaltyAttributes: undefined }
+          const nftAttributesWithoutRoyalties = { ...nftAttributes, royaltyAttributes: undefined }
 
-        if (nftAttributes.ercType === 721) {
-          await didRegistry.registerMintableDID721(
-            didSeed,
-            nftAttributes.nftContractAddress,
-            checksum,
-            assetAttributes.providers || [this.config.neverminedNodeAddress],
-            publisher.getId(),
-            nftAttributesWithoutRoyalties,
-            serviceEndpoint,
-            ddoVersion.immutableUrl,
-            DEFAULT_REGISTRATION_ACTIVITY_ID,
-            txParams,
-          )
+          if (nftAttributes.ercType === 721) {
+            await didRegistry.registerMintableDID721(
+              didSeed,
+              nftAttributes.nftContractAddress,
+              checksum,
+              assetAttributes.providers || [this.config.neverminedNodeAddress],
+              publisher.getId(),
+              nftAttributesWithoutRoyalties,
+              serviceEndpoint,
+              ddoVersion.immutableUrl,
+              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              txParams,
+            )
+          } else {
+            await didRegistry.registerMintableDID(
+              didSeed,
+              nftAttributes.nftContractAddress,
+              checksum,
+              assetAttributes.providers || [this.config.neverminedNodeAddress],
+              publisher.getId(),
+              nftAttributesWithoutRoyalties,
+              serviceEndpoint,
+              ddoVersion.immutableUrl,
+              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              txParams,
+            )
+          }
+
+          if (nftAttributes.royaltyAttributes != undefined) {
+            this.logger.log(`Setting up royalties`)
+
+            observer.next(CreateProgressStep.SettingRoyaltyScheme)
+            await didRegistry.setDIDRoyalties(
+              ddo.shortId(),
+              nftAttributes.royaltyAttributes.scheme.address,
+              publisher.getId(),
+              txParams,
+            )
+            observer.next(CreateProgressStep.SettingRoyalties)
+            await nftAttributes.royaltyAttributes.scheme.setRoyalty(
+              ddo.shortId(),
+              nftAttributes.royaltyAttributes.amount,
+              publisher,
+              txParams,
+            )
+          }
         } else {
-          await didRegistry.registerMintableDID(
+          this.logger.log('Registering Asset', ddo.id)
+          await didRegistry.registerDID(
             didSeed,
-            nftAttributes.nftContractAddress,
             checksum,
             assetAttributes.providers || [this.config.neverminedNodeAddress],
             publisher.getId(),
-            nftAttributesWithoutRoyalties,
             serviceEndpoint,
             ddoVersion.immutableUrl,
             DEFAULT_REGISTRATION_ACTIVITY_ID,
             txParams,
           )
         }
-
-        if (nftAttributes.royaltyAttributes != undefined) {
-          this.logger.log(`Setting up royalties`)
-
-          observer.next(CreateProgressStep.SettingRoyaltyScheme)
-          await didRegistry.setDIDRoyalties(
-            ddo.shortId(),
-            nftAttributes.royaltyAttributes.scheme.address,
-            publisher.getId(),
-            txParams,
-          )
-          observer.next(CreateProgressStep.SettingRoyalties)
-          await nftAttributes.royaltyAttributes.scheme.setRoyalty(
-            ddo.shortId(),
-            nftAttributes.royaltyAttributes.amount,
-            publisher,
-            txParams,
-          )
-        }
-      } else {
-        this.logger.log('Registering Asset', ddo.id)
-        await didRegistry.registerDID(
-          didSeed,
-          checksum,
-          assetAttributes.providers || [this.config.neverminedNodeAddress],
-          publisher.getId(),
-          serviceEndpoint,
-          ddoVersion.immutableUrl,
-          DEFAULT_REGISTRATION_ACTIVITY_ID,
-          txParams,
-        )
       }
 
       this.logger.log('Storing DDO', ddo.id)
@@ -312,6 +308,11 @@ export abstract class RegistryBaseApi extends Instantiable {
     did: string,
     policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
   ): Promise<DDO> {
+    // We compose the metadata api url using the SDK config, we don't retrieve any DID information from the DIDRegistry
+    if (policy === DIDResolvePolicy.NoRegistry) {
+      return await this.nevermined.services.metadata.retrieveDDO(did, undefined)
+    }
+
     const { serviceEndpoint, immutableUrl } =
       await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
 
@@ -342,7 +343,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
    * @param metadata - Metadata describing the asset
    * @param publisher - Account of the user updating the metadata
-   * @param publishMetadata - It allows to specify where to store the metadata
+   * @param publishMetadataOptions - It allows to specify where to store the metadata
    * @param txParams - Optional transaction parameters
    * @returns {@link DDO} The DDO updated
    */
@@ -350,7 +351,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     did: string,
     metadata: MetaData,
     publisher: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publishMetadataOptions: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
     this.logger.log('Updating Asset')
@@ -389,27 +390,30 @@ export abstract class RegistryBaseApi extends Instantiable {
       ddo._nvm.versions.push(ddoVersion)
       ddo.updated = ddoVersion.updated
 
-      if (publishMetadata != PublishMetadata.OnlyMetadataAPI) {
+      if (publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(UpdateProgressStep.StoringImmutableDDO)
         try {
           // eslint-disable-next-line @typescript-eslint/no-extra-semi
           ;({ url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } =
-            await this.nevermined.services.node.publishImmutableContent(ddo, publishMetadata))
+            await this.nevermined.services.node.publishImmutableContent(
+              ddo,
+              publishMetadataOptions,
+            ))
           if (ddoVersion.immutableBackend) ddo._nvm.versions[lastIndex + 1] = ddoVersion
         } catch (error) {
           this.logger.log(`Unable to publish immutable content`)
         }
-
-        observer.next(UpdateProgressStep.UpdatingAssetOnChain)
-        await this.nevermined.keeper.didRegistry.updateMetadataUrl(
-          ddo.id,
-          checksum,
-          publisher.getId(),
-          metadataService.serviceEndpoint,
-          ddoVersion.immutableUrl,
-          txParams,
-        )
       }
+
+      observer.next(UpdateProgressStep.UpdatingAssetOnChain)
+      await this.nevermined.keeper.didRegistry.updateMetadataUrl(
+        ddo.id,
+        checksum,
+        publisher.getId(),
+        metadataService.serviceEndpoint,
+        ddoVersion.immutableUrl,
+        txParams,
+      )
 
       observer.next(UpdateProgressStep.StoringDDOMarketplaceAPI)
       const storedDdo = await this.nevermined.services.metadata.updateDDO(ddo.id, ddo)
@@ -435,7 +439,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     did: string,
     list: boolean,
     publisher: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
     this.logger.log('Switching Asset Publication')
@@ -488,7 +492,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     newRating: number,
     numVotesAdded = 1,
     publisher: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
     this.logger.log('Adding votes to the asset')

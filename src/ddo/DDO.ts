@@ -430,7 +430,8 @@ export class DDO {
    * @returns the DID
    */
   public static getDIDFromService(service: Service): string {
-    return `did:nv:${DDO.getParameterFromCondition(service, 'escrowPayment', '_did') as string}`
+    const shortId = DDO.getParameterFromCondition(service, 'escrowPayment', '_did') as string
+    return shortId.startsWith('did:nv:') ? shortId : `did:nv:${shortId}`
   }
 
   /**
