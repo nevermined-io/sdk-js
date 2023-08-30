@@ -6,7 +6,6 @@ import { config } from '../config'
 import { generateMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -33,8 +32,8 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
   // Configuration of First Sale:
   // Editor -> Subscriber, the Reseller get a cut (25%)
-  let subscriptionPrice = BigNumber.from(20)
-  let amounts = [BigNumber.from(15), BigNumber.from(5)]
+  let subscriptionPrice = 20n
+  let amounts = [15n, 5n]
   let receivers: string[]
   let assetPrice: AssetPrice
   let royaltyAttributes: RoyaltyAttributes
@@ -54,7 +53,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
   let initialBalances: any
-  let scale: BigNumber
+  let scale: bigint
 
   // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
@@ -121,10 +120,10 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     // components
     ;({ token } = nevermined.keeper)
 
-    scale = BigNumber.from(10).pow(await token.decimals())
+    scale = 10n ** BigInt(await token.decimals())
 
-    subscriptionPrice = subscriptionPrice.mul(scale)
-    amounts = amounts.map((v) => v.mul(scale))
+    subscriptionPrice = subscriptionPrice * scale
+    amounts = amounts.map((v) => v * scale)
     receivers = [publisher.getId(), reseller.getId()]
     assetPrice = new AssetPrice(
       new Map([
@@ -139,7 +138,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       editor: await token.balanceOf(publisher.getId()),
       subscriber: await token.balanceOf(subscriber.getId()),
       reseller: await token.balanceOf(reseller.getId()),
-      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.getAddress())),
+      escrowPaymentCondition: Number(await token.balanceOf(escrowPaymentCondition.address)),
     }
 
     console.log(`USING CONFIG:`)
@@ -158,7 +157,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
-        nevermined.keeper.didRegistry.getAddress(),
+        nevermined.keeper.didRegistry.address,
         'Subscription Service NFT',
         '',
         '',
@@ -177,13 +176,19 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
-        price: assetPrice,
-        serviceTypes: ['nft-sales'],
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: assetPrice,
+            nft: {
+              duration: subscriptionDuration,
+              nftTransfer,
+            },
+          },
+        ],
         providers: [neverminedNodeAddress],
-        duration: subscriptionDuration,
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts721.create(nftAttributes, publisher)
@@ -197,11 +202,15 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
         metadata: datasetMetadata,
-        serviceTypes: ['nft-access'],
+        services: [
+          {
+            serviceType: 'nft-access',
+            nft: { nftTransfer },
+          },
+        ],
         providers: [neverminedNodeAddress],
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        nftTransfer,
         royaltyAttributes: royaltyAttributes,
       })
       datasetDDO = await nevermined.nfts721.create(nftAttributes, publisher)
@@ -218,10 +227,10 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice.div(scale))
+      await subscriber.requestTokens(subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
-      assert.isTrue(subscriberBalanceBefore.eq(initialBalances.subscriber.add(subscriptionPrice)))
+      assert.isTrue(subscriberBalanceBefore == initialBalances.subscriber + subscriptionPrice)
 
       agreementId = await nevermined.nfts721.order(subscriptionDDO.id, subscriber)
 
@@ -229,7 +238,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
       const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
 
-      assert.isTrue(subscriberBalanceAfter.sub(initialBalances.subscriber).eq(0))
+      assert.equal(subscriberBalanceAfter - initialBalances.subscriber, 0n)
     })
 
     it('The Publisher can check the payment and transfer the NFT to the Subscriber', async () => {
@@ -252,9 +261,9 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       const receiver0Balance = await token.balanceOf(assetPrice.getReceivers()[0])
       const receiver1Balance = await token.balanceOf(assetPrice.getReceivers()[1])
 
-      assert.isTrue(receiver0Balance.eq(initialBalances.editor.add(assetPrice.getAmounts()[0])))
+      assert.equal(receiver0Balance, initialBalances.editor + assetPrice.getAmounts()[0])
 
-      assert.isTrue(receiver1Balance.eq(initialBalances.reseller.add(assetPrice.getAmounts()[1])))
+      assert.equal(receiver1Balance, initialBalances.reseller + assetPrice.getAmounts()[1])
     })
 
     it('the subscription can be checked on chain', async () => {
@@ -290,12 +299,12 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.utils.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
     })
 
     it('The Subscriber should have an NFT balance', async () => {
       const balance = await subscriptionNFT.balanceOf(subscriber.getId())
-      assert.equal(balance.toNumber(), 1)
+      assert.equal(balance, 1n)
     })
 
     it('The Subscriber should have access to the dataset', async () => {

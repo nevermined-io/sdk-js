@@ -42,14 +42,16 @@ export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
 
 export async function mineBlocks(nevermined: Nevermined, account: Account, blocksToWait: number) {
   for (let index = 0; index < blocksToWait; index++) {
+    console.debug(`Mining block ${index}`)
     await nevermined.provenance.used(
       generateId(),
       generateId(),
       account.getId(),
       account.getId(),
-      ethers.utils.hexZeroPad('0x0', 32),
+      ethers.zeroPadValue('0x', 32),
       'mining',
       account,
     )
+    await sleep(100)
   }
 }

@@ -1,6 +1,5 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { ContractReceipt, Event } from 'ethers'
 import {
   Account,
   ConditionState,
@@ -15,9 +14,9 @@ import {
   ConditionStoreManager,
 } from '../../../src/keeper'
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
-import { BigNumber } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -35,7 +34,7 @@ describe('NFTLockCondition', () => {
   let didSeed: string
   const activityId = generateId()
   const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
-  const amount = BigNumber.from(10)
+  const amount = 10n
 
   before(async () => {
     await TestContractHandler.prepareContracts()
@@ -78,8 +77,17 @@ describe('NFTLockCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
-        amount,
+        cap: 100n,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: true,
       })
 
@@ -101,25 +109,29 @@ describe('NFTLockCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, nftLockCondition.address, owner)
 
-      const contractReceipt: ContractReceipt = await nftLockCondition.fulfill(
+      const contractReceipt: ContractTransactionReceipt = await nftLockCondition.fulfill(
         agreementId,
         did,
         rewardAddress.getId(),
         amount,
       )
+
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
-      const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
-      assert.deepEqual(BigNumber.from(nftBalance), BigNumber.from(amount))
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'Fulfilled')
+      const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
+      assert.equal(nftBalance, amount)
+
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'Fulfilled',
+      ) as EventLog
       const { _agreementId, _did, _lockAddress, _conditionId, _amount } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
       assert.equal(_conditionId, conditionId)
       assert.equal(_lockAddress, rewardAddress.getId())
-      assert.equal(Number(_amount), Number(amount))
+      assert.equal(BigInt(_amount), amount)
     })
   })
 
@@ -131,8 +143,17 @@ describe('NFTLockCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
-        amount,
+        cap: 100n,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: true,
       })
 
@@ -163,8 +184,17 @@ describe('NFTLockCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
-        amount,
+        cap: 100n,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: false,
       })
 
@@ -180,7 +210,7 @@ describe('NFTLockCondition', () => {
         activityId,
       )
       const did = await didRegistry.hashDID(didSeed, owner.getId())
-      await nftUpgradeable.mint(owner.getId(), did, BigNumber.from(1), owner.getId())
+      await nftUpgradeable.mint(owner.getId(), did, 1n, owner.getId())
 
       const hashValues = await nftLockCondition.hashValues(did, rewardAddress.getId(), amount)
       const conditionId = await nftLockCondition.generateId(agreementId, hashValues)
@@ -188,7 +218,7 @@ describe('NFTLockCondition', () => {
       await conditionStoreManager.createCondition(conditionId, nftLockCondition.address, owner)
 
       await assert.isRejected(
-        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount.add(1)),
+        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount + 1n),
         /insufficient balance/,
       )
     })
@@ -200,8 +230,17 @@ describe('NFTLockCondition', () => {
         ercType: 1155,
         nftType: NeverminedNFT1155Type.nft1155,
         nftContractAddress: nftUpgradeable.address,
-        cap: BigNumber.from(100),
-        amount,
+        cap: 100n,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            nft: { amount },
+          },
+          {
+            serviceType: 'nft-access',
+            nft: { amount },
+          },
+        ],
         preMint: true,
       })
 

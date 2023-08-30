@@ -31,6 +31,10 @@ export class SubscriptionNFTApi extends NFT721Api {
     const { instanceConfig } = (await Nevermined.getInstance(config)) as any
     const contractHandler = new ContractHandler(instanceConfig)
     const nftContract = await contractHandler.deployAbi(contractABI, from, args)
-    return SubscriptionNFTApi.getInstanceUsingABI(instanceConfig, nftContract.address, contractABI)
+    return SubscriptionNFTApi.getInstanceUsingABI(
+      instanceConfig,
+      await nftContract.getAddress(),
+      contractABI,
+    )
   }
 }

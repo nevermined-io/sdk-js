@@ -30,12 +30,20 @@ describe('Publisher Download Asset', () => {
   })
 
   it('should register an asset', async () => {
-    ddo = await nevermined.assets.create(AssetAttributes.getInstance({ metadata }), publisher)
+    ddo = await nevermined.assets.create(
+      AssetAttributes.getInstance({ metadata, services: [] }),
+      publisher,
+    )
 
     assert.isDefined(ddo, 'Register has not returned a DDO')
     assert.match(ddo.id, /^did:nv:[a-f0-9]{64}$/, 'DDO id is not valid')
     assert.isAtLeast(ddo.authentication.length, 1, 'Default authentication not added')
-    assert.isDefined(ddo.findServiceByType('access'), "DDO access service doesn't exist")
+    let accessService
+    try {
+      accessService = ddo.findServiceByType('access')
+      // eslint-disable-next-line no-empty
+    } catch {}
+    assert.isUndefined(accessService, "DDO access service doesn't exist")
   })
 
   it('should consume and store the assets', async () => {

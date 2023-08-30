@@ -10,7 +10,7 @@ import {
   MetaData,
 } from '../../src'
 import { decodeJwt } from 'jose'
-import { mineBlocks, sleep } from '../utils/utils'
+import { mineBlocks } from '../utils/utils'
 
 describe('Asset Owners', () => {
   let nevermined: Nevermined
@@ -106,9 +106,6 @@ describe('Asset Owners', () => {
     )
 
     await mineBlocks(nevermined, account1, 1)
-
-    // wait a bit for the subgraph to index the events
-    await sleep(5000)
 
     const result = await nevermined.assets.ownerAssets(account2.getId())
     assert.includeMembers(result, [ddo.id])

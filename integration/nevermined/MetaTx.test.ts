@@ -3,9 +3,8 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, NFTAttributes } from '../../src'
-import { BigNumber, makeAccounts } from '../../src/utils'
+import { makeAccounts } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
-import { ethers } from 'ethers'
 import fs from 'fs'
 import { RelayProvider } from '@opengsn/provider'
 import { Web3ProviderWrapper } from '../../src/keeper'
@@ -47,25 +46,25 @@ describe.skip('MetaTx test with nfts', () => {
 
       const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
-        serviceTypes: ['nft-sales', 'nft-access'],
+        services: [{ serviceType: 'nft-sales' }, { serviceType: 'nft-access' }],
         nftContractAddress: nevermined.nfts1155.nftContract.address,
-        cap: BigNumber.from(10),
+        cap: 10n,
         royaltyAttributes,
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
     })
 
     it('should mint 10 nft tokens', async () => {
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(10))
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 10n)
     })
 
     it('should transfer 2 nft tokens with default token', async () => {
-      const agreementId = await nevermined.nfts1155.order(ddo.id, BigNumber.from(2), collector)
+      const agreementId = await nevermined.nfts1155.order(ddo.id, 2n, collector)
 
-      await nevermined.nfts1155.transfer(agreementId, ddo.id, BigNumber.from(2), artist)
+      await nevermined.nfts1155.transfer(agreementId, ddo.id, 2n, artist)
 
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(8))
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, collector), BigNumber.from(2))
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), 8n)
+      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, collector), 2n)
     })
 
     it('metatransactions should work', async () => {
@@ -74,41 +73,32 @@ describe.skip('MetaTx test with nfts', () => {
       await nevermined.keeper.nftUpgradeable.transferNft(
         ddo.id,
         await wallet.getAddress(),
-        BigNumber.from(2),
+        2n,
         artist.getId(),
       )
 
-      assert.deepEqual(
-        BigNumber.from(
-          await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id),
-        ),
-        BigNumber.from(4),
+      assert.equal(
+        await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id),
+        4n,
       )
 
-      const config = await {
+      const config = {
         paymasterAddress: paymasterAddress,
         auditorsCount: 0,
         preferredRelays: ['http://opengsn.nevermined.localnet'],
       }
-      const gsnProvider = RelayProvider.newProvider({
+      const { gsnSigner } = await RelayProvider.newEthersV6Provider({
         provider: new Web3ProviderWrapper(nevermined.web3),
         config,
       })
 
-      await gsnProvider.init()
-      gsnProvider.addAccount(wallet.privateKey)
-      const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
-      const signer = etherProvider.getSigner(wallet.address)
+      const signerAccount = new Account(await gsnSigner.getAddress())
 
-      const signerAccount = new Account(await signer.getAddress())
-
-      await nevermined.nfts1155.burn(ddo.id, BigNumber.from(2), signerAccount)
-      assert.deepEqual(await nevermined.nfts1155.balance(ddo.id, artist), BigNumber.from(6))
-      assert.deepEqual(
-        BigNumber.from(
-          await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id),
-        ),
-        BigNumber.from(2),
+      await nevermined.nfts1155.burn(ddo.id, 2n, signerAccount)
+      assert.equal(await nevermined.nfts1155.balance(ddo.id, artist), 6n)
+      assert.equal(
+        await nevermined.keeper.nftUpgradeable.balance(await wallet.getAddress(), ddo.id),
+        2n,
       )
     })
   })

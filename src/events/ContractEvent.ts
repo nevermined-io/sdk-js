@@ -9,7 +9,7 @@ export class ContractEvent extends NeverminedEvent {
     contract: ContractBase,
     eventEmitter: EventEmitter,
     nevermined: Nevermined,
-    web3: ethers.providers.JsonRpcProvider,
+    web3: ethers.JsonRpcProvider | ethers.BrowserProvider,
   ): ContractEvent {
     const instance = new ContractEvent(contract, eventEmitter)
     instance.setInstanceConfig({
@@ -27,9 +27,7 @@ export class ContractEvent extends NeverminedEvent {
       )
     }
     const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
-    const eventFilter: ethers.EventFilter = this.contract.contract.filters[options.eventName](
-      ...args,
-    )
+    const eventFilter = this.contract.contract.filters[options.eventName](...args)
 
     return this.contract.contract.queryFilter(eventFilter, options.fromBlock, options.toBlock)
   }
@@ -41,7 +39,7 @@ export class ContractEvent extends NeverminedEvent {
       options.toBlock = 'latest'
 
       // Temporary workaround to work with mumbai
-      // Infura as a 1000 blokcs limit on their api
+      // Infura as a 1000 blocks limit on their api
       if (chainId === 80001 || chainId === 42) {
         const latestBlock = await this.web3.getBlockNumber()
         options.fromBlock = latestBlock - 99
