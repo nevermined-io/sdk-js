@@ -43,13 +43,15 @@ export class AssetPublicationOptions {
  * * ImmutableFirst - It checks if there is a reference to an immutable data-store (IPFS, Filecoin, etc) on-chain. If that's the case uses the URL to resolve the Metadata. If not try to resolve the metadata using the URL of the Metadata/Marketplace API
  * * MetadataAPIFirst - Try to resolve the metadata from the Marketplace/Metadata API, if it can't tries to resolve using the immutable url
  * * OnlyImmutable - Try to resolve the metadata only from the immutable data store URL
- * * OnlyMetadataAPI - Try to resolve the metadata only from the Marketplace/Metadata API
+ * * OnlyMetadataAPI - Try to resolve the metadata only from the Metadata API. It gets the metadata api url from the DIDRegistry
+ * * NoRegisry - Gets the metadata from the Metadata API using as endpoint the metadata api url from the SDK config. This method don't gets any on-chain information because assumes the DID is not registered on-chain
  */
 export enum DIDResolvePolicy {
   ImmutableFirst,
   MetadataAPIFirst,
   OnlyImmutable,
   OnlyMetadataAPI,
+  NoRegistry,
 }
 
 /**
@@ -131,7 +133,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public async resolve(
     did: string,
-    policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
+    policy: DIDResolvePolicy = DIDResolvePolicy.NoRegistry,
   ): Promise<DDO> {
     return this.resolveAsset(did, policy)
   }

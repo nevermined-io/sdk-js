@@ -219,69 +219,71 @@ export abstract class RegistryBaseApi extends Instantiable {
       observer.next(CreateProgressStep.RegisteringDid)
 
       // On-chain asset registration
-      if (nftAttributes) {
-        this.logger.log('Registering Mintable Asset', ddo.id)
+      if (publicationOptions.did != PublishOnChainOptions.OnlyOffchain) {
+        if (nftAttributes) {
+          this.logger.log('Registering Mintable Asset', ddo.id)
 
-        const nftAttributesWithoutRoyalties = { ...nftAttributes, royaltyAttributes: undefined }
+          const nftAttributesWithoutRoyalties = { ...nftAttributes, royaltyAttributes: undefined }
 
-        if (nftAttributes.ercType === 721) {
-          await didRegistry.registerMintableDID721(
-            didSeed,
-            nftAttributes.nftContractAddress,
-            checksum,
-            assetAttributes.providers || [this.config.neverminedNodeAddress],
-            publisher.getId(),
-            nftAttributesWithoutRoyalties,
-            serviceEndpoint,
-            ddoVersion.immutableUrl,
-            DEFAULT_REGISTRATION_ACTIVITY_ID,
-            txParams,
-          )
+          if (nftAttributes.ercType === 721) {
+            await didRegistry.registerMintableDID721(
+              didSeed,
+              nftAttributes.nftContractAddress,
+              checksum,
+              assetAttributes.providers || [this.config.neverminedNodeAddress],
+              publisher.getId(),
+              nftAttributesWithoutRoyalties,
+              serviceEndpoint,
+              ddoVersion.immutableUrl,
+              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              txParams,
+            )
+          } else {
+            await didRegistry.registerMintableDID(
+              didSeed,
+              nftAttributes.nftContractAddress,
+              checksum,
+              assetAttributes.providers || [this.config.neverminedNodeAddress],
+              publisher.getId(),
+              nftAttributesWithoutRoyalties,
+              serviceEndpoint,
+              ddoVersion.immutableUrl,
+              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              txParams,
+            )
+          }
+
+          if (nftAttributes.royaltyAttributes != undefined) {
+            this.logger.log(`Setting up royalties`)
+
+            observer.next(CreateProgressStep.SettingRoyaltyScheme)
+            await didRegistry.setDIDRoyalties(
+              ddo.shortId(),
+              nftAttributes.royaltyAttributes.scheme.address,
+              publisher.getId(),
+              txParams,
+            )
+            observer.next(CreateProgressStep.SettingRoyalties)
+            await nftAttributes.royaltyAttributes.scheme.setRoyalty(
+              ddo.shortId(),
+              nftAttributes.royaltyAttributes.amount,
+              publisher,
+              txParams,
+            )
+          }
         } else {
-          await didRegistry.registerMintableDID(
+          this.logger.log('Registering Asset', ddo.id)
+          await didRegistry.registerDID(
             didSeed,
-            nftAttributes.nftContractAddress,
             checksum,
             assetAttributes.providers || [this.config.neverminedNodeAddress],
             publisher.getId(),
-            nftAttributesWithoutRoyalties,
             serviceEndpoint,
             ddoVersion.immutableUrl,
             DEFAULT_REGISTRATION_ACTIVITY_ID,
             txParams,
           )
         }
-
-        if (nftAttributes.royaltyAttributes != undefined) {
-          this.logger.log(`Setting up royalties`)
-
-          observer.next(CreateProgressStep.SettingRoyaltyScheme)
-          await didRegistry.setDIDRoyalties(
-            ddo.shortId(),
-            nftAttributes.royaltyAttributes.scheme.address,
-            publisher.getId(),
-            txParams,
-          )
-          observer.next(CreateProgressStep.SettingRoyalties)
-          await nftAttributes.royaltyAttributes.scheme.setRoyalty(
-            ddo.shortId(),
-            nftAttributes.royaltyAttributes.amount,
-            publisher,
-            txParams,
-          )
-        }
-      } else {
-        this.logger.log('Registering Asset', ddo.id)
-        await didRegistry.registerDID(
-          didSeed,
-          checksum,
-          assetAttributes.providers || [this.config.neverminedNodeAddress],
-          publisher.getId(),
-          serviceEndpoint,
-          ddoVersion.immutableUrl,
-          DEFAULT_REGISTRATION_ACTIVITY_ID,
-          txParams,
-        )
       }
 
       this.logger.log('Storing DDO', ddo.id)
@@ -312,6 +314,11 @@ export abstract class RegistryBaseApi extends Instantiable {
     did: string,
     policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
   ): Promise<DDO> {
+    // We compose the metadata api url using the SDK config, we don't retrieve any DID information from the DIDRegistry
+    if (policy === DIDResolvePolicy.NoRegistry) {
+      return await this.nevermined.services.metadata.retrieveDDO(did, undefined)
+    }
+
     const { serviceEndpoint, immutableUrl } =
       await this.nevermined.keeper.didRegistry.getAttributesByDid(did)
 

@@ -5,7 +5,12 @@ import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from '../../src'
 import { generateId } from '../../src/utils'
-import { PublishMetadataOptions, DIDResolvePolicy } from '../../src/nevermined'
+import {
+  PublishMetadataOptions,
+  DIDResolvePolicy,
+  PublishOnChainOptions,
+} from '../../src/nevermined'
+import { rejects } from 'assert'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -423,6 +428,50 @@ describe('Assets', () => {
       const assets = await nevermined.search.query(query)
 
       assert.equal(assets.totalResults.value, 0)
+    })
+  })
+
+  describe('#register() and #resolve() totally off-chain', () => {
+    let offchainDID
+
+    it('register an asset but just off-chain', async () => {
+      const nonce = Math.random()
+      createdMetadata = getMetadata(nonce, `Off-Chain Test ${nonce}`)
+
+      createdMetadata.main.ercType = 721
+      createdMetadata.additionalInformation.tags = ['offchain']
+
+      const assetAttributes = AssetAttributes.getInstance({
+        metadata: createdMetadata,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
+      })
+      const offchainDDO = await nevermined.assets.create(assetAttributes, publisher, {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        did: PublishOnChainOptions.OnlyOffchain,
+      })
+
+      assert.isDefined(offchainDDO)
+      assert.equal(offchainDDO._nvm.versions.length, 1)
+
+      const metadata = offchainDDO.findServiceByType('metadata')
+      assert.equal(metadata.attributes.main.ercType, 721)
+      assert.equal(metadata.attributes.additionalInformation.tags[0], 'offchain')
+      offchainDID = offchainDDO.id
+    })
+
+    it('resolve from the metadata api', async () => {
+      const resolvedDDO = await nevermined.assets.resolve(offchainDID, DIDResolvePolicy.NoRegistry)
+      assert.isDefined(resolvedDDO)
+      assert.equal(resolvedDDO._nvm.versions.length, 1)
+    })
+
+    it('dont resolve from the DIDRegistry', async () => {
+      rejects(nevermined.assets.resolve(offchainDID, DIDResolvePolicy.MetadataAPIFirst))
     })
   })
 })

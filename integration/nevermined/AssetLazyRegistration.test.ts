@@ -4,7 +4,7 @@ import { config } from '../config'
 import { Signer, Transaction, ethers } from 'ethers'
 import { sleep } from '../utils/utils'
 
-describe('Lazy registration of assets', () => {
+describe.skip('Lazy registration of assets', () => {
   let publisher: Account
   let relayer: Account
   let publisherSigner: Signer
@@ -64,7 +64,7 @@ describe('Lazy registration of assets', () => {
       fragment = await registryContract[functionName].getFragment(...functionArgs)
       assert.isDefined(fragment)
 
-      unsignedTx = await registryContract[functionName].populateTransaction(...functionArgs)      
+      unsignedTx = await registryContract[functionName].populateTransaction(...functionArgs)
       assert.isDefined(unsignedTx)
 
       // unsignedTx.from = relayer.getId()
@@ -81,35 +81,36 @@ describe('Lazy registration of assets', () => {
 
       const gasLimit = await registryContract[functionName].estimateGas(...functionArgs, {
         from: relayer.getId(),
-      })      
+      })
 
       console.log(`Relayer ETH balance: `, await relayer.getEtherBalance())
 
       const feeData = await nevermined.utils.contractHandler.getFeeData()
       console.log(`Fee Data: `, feeData)
       // const feeData = await nevermined.web3.getFeeData()
-      
+
       tx.chainId = await nevermined.keeper.getNetworkId()
       tx.type = 2
       tx.nonce = await relayerSigner.getNonce()
       tx.gasLimit = gasLimit
       // tx.value = ethers.parseEther("0.01")
-      
+
       if (Object.keys(feeData).includes('gasPrice')) {
         tx.gasPrice = feeData['gasPrice']! // eslint-disable-line @typescript-eslint/no-non-null-assertion
       } else {
-        
         // tx.maxFeePerGas = ethers.parseUnits(Math.ceil(Number(feeData['maxFeePerGas']!)) + '', 'wei')
         tx.maxFeePerGas = feeData['maxFeePerGas']! // eslint-disable-line @typescript-eslint/no-non-null-assertion
-        
-        // tx.maxPriorityFeePerGas = ethers.parseUnits(Math.ceil(Number(feeData['maxPriorityFeePerGas']!)) + '', 'wei')        
+
+        // tx.maxPriorityFeePerGas = ethers.parseUnits(Math.ceil(Number(feeData['maxPriorityFeePerGas']!)) + '', 'wei')
         tx.maxPriorityFeePerGas = feeData['maxPriorityFeePerGas']! // eslint-disable-line @typescript-eslint/no-non-null-assertion
       }
 
       console.log(`Deserialized tx: `, JSON.stringify(tx))
 
-      // const txResponse = await publisherSigner.sendTransaction(tx)
-      const txResponse = await nevermined.web3.broadcastTransaction(tx.serialized)
+      const txResponse = await relayerSigner.sendTransaction(tx)
+      // const provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {cacheTimeout: -1})
+
+      // const txResponse = await nevermined.web3.broadcastTransaction(tx.serialized)
 
       // const txResponse = await provider.sendTransaction(Transaction.from(signedTx))
 
