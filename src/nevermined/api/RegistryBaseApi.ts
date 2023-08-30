@@ -194,12 +194,6 @@ export abstract class RegistryBaseApi extends Instantiable {
       const networkId = await this.nevermined.keeper.getNetworkId()
       ddo._nvm.networks = { [networkId]: true }
 
-      if (publicationOptions.did === PublishOnChainOptions.OnlyOffchain) {
-        // This is a lazy-registration, so here we generate the DIDRegistry signature we are gonna use later for register on-chain
-
-        ddo._nvm.lazyRegistrationSignature = ''
-      }
-
       if (publicationOptions.metadata != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(CreateProgressStep.DdoStoredImmutable)
         try {
@@ -409,17 +403,17 @@ export abstract class RegistryBaseApi extends Instantiable {
         } catch (error) {
           this.logger.log(`Unable to publish immutable content`)
         }
-
-        observer.next(UpdateProgressStep.UpdatingAssetOnChain)
-        await this.nevermined.keeper.didRegistry.updateMetadataUrl(
-          ddo.id,
-          checksum,
-          publisher.getId(),
-          metadataService.serviceEndpoint,
-          ddoVersion.immutableUrl,
-          txParams,
-        )
       }
+
+      observer.next(UpdateProgressStep.UpdatingAssetOnChain)
+      await this.nevermined.keeper.didRegistry.updateMetadataUrl(
+        ddo.id,
+        checksum,
+        publisher.getId(),
+        metadataService.serviceEndpoint,
+        ddoVersion.immutableUrl,
+        txParams,
+      )
 
       observer.next(UpdateProgressStep.StoringDDOMarketplaceAPI)
       const storedDdo = await this.nevermined.services.metadata.updateDDO(ddo.id, ddo)

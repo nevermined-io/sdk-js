@@ -3,7 +3,15 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
-import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from '../../src'
+import {
+  Nevermined,
+  Account,
+  MetaData,
+  DDO,
+  AssetPrice,
+  AssetAttributes,
+  ProvenanceMethod,
+} from '../../src'
 import { generateId } from '../../src/utils'
 import {
   PublishMetadataOptions,
@@ -144,6 +152,21 @@ describe('Assets', () => {
         updatedMetadata.main.name,
         metaApiDDO.findServiceByType('metadata').attributes.main.name,
       )
+      assert.equal(metaApiDDO._nvm.versions.length, 2)
+    })
+
+    it('the checksum was updated on-chain', async () => {
+      const { checksum } = await nevermined.keeper.didRegistry.getAttributesByDid(ddo.id)
+      const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.OnlyMetadataAPI)
+
+      const _version = resolvedDDO._nvm.versions.at(-1)
+      assert.equal(_version.checksum, checksum)
+    })
+
+    it('an update provenance event was created', async () => {
+      const events = await nevermined.provenance.getDIDProvenanceEvents(ddo.shortId())
+      const lastEvent = events.at(-1)
+      assert.equal(lastEvent.method, ProvenanceMethod.USED)
     })
 
     it('unlist and list an asset', async () => {
