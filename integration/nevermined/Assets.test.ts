@@ -19,6 +19,7 @@ import {
   PublishOnChainOptions,
 } from '../../src/nevermined'
 import { rejects } from 'assert'
+import * as fs from 'fs'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -167,6 +168,56 @@ describe('Assets', () => {
       const events = await nevermined.provenance.getDIDProvenanceEvents(ddo.shortId())
       const lastEvent = events.at(-1)
       assert.equal(lastEvent.method, ProvenanceMethod.USED)
+    })
+
+    it('update the asset files', async () => {
+      const nonce = Math.random()
+      const name = `Updated Files Test ${nonce}`
+      const updatedMetadata = {
+        ...createdMetadata,
+        name,
+      }
+      updatedMetadata.main.files = [
+        {
+          index: 0,
+          contentType: 'text/plain',
+          url: 'https://raw.githubusercontent.com/nevermined-io/sdk-js/main/LICENSE',
+        },
+      ]
+
+      await nevermined.assets.update(ddo.shortId(), updatedMetadata, publisher)
+
+      const resolvedDDO = await nevermined.assets.resolve(ddo.id)
+      assert.isDefined(resolvedDDO)
+
+      const previousMetadata = ddo.findServiceByType('metadata')
+      const metadata = resolvedDDO.findServiceByType('metadata')
+
+      assert.equal(updatedMetadata.main.name, metadata.attributes.main.name)
+
+      assert.equal(metadata.attributes.main.files.length, 1)
+      assert.notEqual(
+        previousMetadata.attributes.main.files.length,
+        metadata.attributes.main.files.length,
+      )
+      assert.notEqual(
+        previousMetadata.attributes.encryptedFiles,
+        metadata.attributes.encryptedFiles,
+      )
+    })
+
+    it('should be able to download the updated files', async () => {
+      const folder = fs.mkdirSync('/tmp/sdk-js/updated-files', { recursive: true })
+
+      const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
+      assert.include(path, folder, 'The storage path is not correct.')
+      const files = await new Promise<string[]>((resolve) => {
+        fs.readdir(path, (e, fileList) => {
+          resolve(fileList)
+        })
+      })
+
+      assert.deepEqual(files, ['LICENSE'], 'Stored files are not correct.')
     })
 
     it('unlist and list an asset', async () => {

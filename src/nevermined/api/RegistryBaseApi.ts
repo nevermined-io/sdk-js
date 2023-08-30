@@ -357,6 +357,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     this.logger.log('Updating Asset')
     return new SubscribablePromise(async (observer) => {
       observer.next(UpdateProgressStep.ResolveAsset)
+
       const ddo = await this.resolveAsset(did)
 
       observer.next(UpdateProgressStep.UpdateMetadataInDDO)
@@ -370,6 +371,26 @@ export abstract class RegistryBaseApi extends Instantiable {
           additionalInformation: metadata.additionalInformation,
           curation: metadata.curation,
         },
+      }
+
+      if (!['workflow'].includes(metadataService.attributes.main.type)) {
+        const encryptedFilesResponse = await this.nevermined.services.node.encrypt(
+          ddo.id,
+          JSON.stringify(metadataService.attributes.main.files),
+          new String(AssetAttributes.DEFAULT_ENCRYPTION_METHOD),
+        )
+        metadataService.attributes.encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
+
+        if (metadataService.attributes.main.type === 'service') {
+          const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
+            ddo.id,
+            JSON.stringify(metadataService.attributes.main.webService.internalAttributes),
+            new String(AssetAttributes.DEFAULT_ENCRYPTION_METHOD),
+          )
+          const encryptedAttributes = JSON.parse(encryptedServiceAttributesResponse)['hash']
+          metadataService.attributes.main.webService.encryptedAttributes = encryptedAttributes
+          metadataService.attributes.main.webService.internalAttributes = undefined
+        }
       }
 
       await ddo.replaceService(metadataService.index, metadataService)
