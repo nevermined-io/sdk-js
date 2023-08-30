@@ -10,7 +10,6 @@ import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { Account, AssetPrice } from '../../../src'
 import { generateId, ZeroAddress } from '../../../src/utils'
-import { BigNumber } from '../../../src/utils'
 
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition
@@ -23,7 +22,7 @@ let buyer: Account
 let seller: Account
 
 describe('LockPaymentCondition', () => {
-  const amount = BigNumber.from(15)
+  const amount = 15n
   let agreementId
   let did
 
@@ -49,7 +48,7 @@ describe('LockPaymentCondition', () => {
       const hash = await lockPaymentCondition.hashValues(
         did,
         seller.getId(),
-        token.getAddress(),
+        token.address,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
       )
@@ -63,7 +62,7 @@ describe('LockPaymentCondition', () => {
       const hash = await lockPaymentCondition.hashValues(
         did,
         seller.getId(),
-        token.getAddress(),
+        token.address,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
       )
@@ -77,28 +76,24 @@ describe('LockPaymentCondition', () => {
     it('should fulfill with token', async () => {
       const hash = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
       )
       const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
-      await conditionStoreManager.createCondition(
-        conditionId,
-        lockPaymentCondition.getAddress(),
-        owner,
-      )
+      await conditionStoreManager.createCondition(conditionId, lockPaymentCondition.address, owner)
 
       await buyer.requestTokens(assetPrice.getTotalPrice())
 
-      await token.approve(lockPaymentCondition.getAddress(), assetPrice.getTotalPrice(), buyer)
+      await token.approve(lockPaymentCondition.address, assetPrice.getTotalPrice(), buyer)
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
         buyer,
@@ -110,23 +105,19 @@ describe('LockPaymentCondition', () => {
     it('should fulfill with ether', async () => {
       const hash = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
         ZeroAddress,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
       )
       const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
-      await conditionStoreManager.createCondition(
-        conditionId,
-        lockPaymentCondition.getAddress(),
-        owner,
-      )
+      await conditionStoreManager.createCondition(conditionId, lockPaymentCondition.address, owner)
 
       await lockPaymentCondition.fulfill(
         agreementId,
         did,
-        escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
         ZeroAddress,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
@@ -140,24 +131,20 @@ describe('LockPaymentCondition', () => {
     it('should fail to fulfill without ether', async () => {
       const hash = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
         ZeroAddress,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
       )
       const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
-      await conditionStoreManager.createCondition(
-        conditionId,
-        lockPaymentCondition.getAddress(),
-        owner,
-      )
+      await conditionStoreManager.createCondition(conditionId, lockPaymentCondition.address, owner)
 
       await assert.isRejected(
         lockPaymentCondition.fulfill(
           agreementId,
           did,
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
           ZeroAddress,
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
@@ -170,29 +157,25 @@ describe('LockPaymentCondition', () => {
     it('should fail to fulfill with too few ether', async () => {
       const hash = await lockPaymentCondition.hashValues(
         did,
-        escrowPaymentCondition.getAddress(),
+        escrowPaymentCondition.address,
         ZeroAddress,
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
       )
       const conditionId = await lockPaymentCondition.generateId(agreementId, hash)
 
-      await conditionStoreManager.createCondition(
-        conditionId,
-        lockPaymentCondition.getAddress(),
-        owner,
-      )
+      await conditionStoreManager.createCondition(conditionId, lockPaymentCondition.address, owner)
 
       await assert.isRejected(
         lockPaymentCondition.fulfill(
           agreementId,
           did,
-          escrowPaymentCondition.getAddress(),
+          escrowPaymentCondition.address,
           ZeroAddress,
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
           buyer,
-          { value: String(assetPrice.getTotalPrice().sub(1)) },
+          { value: String(assetPrice.getTotalPrice() - 1n) },
         ),
         /Transaction value does not match amount/,
       )

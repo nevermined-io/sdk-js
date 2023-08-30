@@ -2,7 +2,6 @@ import ContractBase, { TxParameters as txParams } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { didZeroX, zeroX } from '../../../utils'
-import { BigNumber } from '../../../utils'
 
 export class RewardsDistributor extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<RewardsDistributor> {
@@ -20,7 +19,7 @@ export class RewardsDistributor extends ContractBase {
   public claimReward(
     agreementId: string,
     did: string,
-    amounts: BigNumber[],
+    amounts: bigint[],
     receivers: string[],
     returnAddress: string,
     lockPaymentAddress: string,

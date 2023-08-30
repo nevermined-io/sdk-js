@@ -26,7 +26,12 @@ describe('Get DDO status', () => {
     const ddo = await nevermined.assets.create(
       AssetAttributes.getInstance({
         metadata,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
       }),
       publisher,
     )

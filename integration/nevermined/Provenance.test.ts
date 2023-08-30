@@ -3,7 +3,6 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, zeroX, generateId, AssetAttributes } from '../../src'
-import { sleep } from '../utils/utils'
 import { ethers } from 'ethers'
 import { ProvenanceMethod } from '../../src/keeper'
 
@@ -35,7 +34,7 @@ describe('Provenance', () => {
     metadata.userId = payload.sub
 
     ddo = await nevermined.assets.create(AssetAttributes.getInstance({ metadata }), publisher)
-    await sleep(2000)
+
     const provenance = await nevermined.provenance.getProvenanceEntry(ddo.shortId())
 
     assert.equal(zeroX(provenance.did), zeroX(ddo.shortId()))
@@ -68,7 +67,7 @@ describe('Provenance', () => {
       intermediary.getId(),
       publisher.getId(),
       activitiesIds.intermediary,
-      ethers.utils.hexZeroPad('0x0', 32),
+      ethers.zeroPadValue('0x', 32),
       'FirstIntermediaryStuff',
       publisher,
     )
@@ -104,7 +103,7 @@ describe('Provenance', () => {
       ddo.shortId(),
       intermediary.getId(),
       activitiesIds.intermediary,
-      ethers.utils.hexZeroPad('0x0', 32),
+      ethers.zeroPadValue('0x', 32),
       'FirstIntermediaryStuff',
       intermediary,
     )
@@ -117,10 +116,6 @@ describe('Provenance', () => {
 
   it('should return the events associated to DID', async () => {
     const pm = ProvenanceMethod
-
-    // wait for the graph to pickup the event
-    await sleep(3000)
-
     const events = await nevermined.provenance.getDIDProvenanceEvents(ddo.shortId())
 
     assert.deepEqual(
@@ -136,7 +131,6 @@ describe('Provenance', () => {
   })
 
   it('should return the events of an specific method by DID', async () => {
-    await sleep(2000)
     const events = await Promise.all(
       [
         'WAS_GENERATED_BY',

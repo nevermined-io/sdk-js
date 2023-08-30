@@ -1,12 +1,12 @@
 import { DDO, MetaData, ServiceNFTAccess, ServiceNFTSales, ServiceType } from '../../ddo'
 import { Account } from '../Account'
-import { SubscribablePromise, didZeroX, getNftContractAddressFromService } from '../../utils'
+import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
 import { AssetError, DDOError } from '../../errors'
-import { Nevermined } from '../../sdk'
-import { ContractReceipt } from 'ethers'
-import { DIDResolvePolicy, RegistryBaseApi } from './RegistryBaseApi'
+import { Nevermined, apiPath } from '../../sdk'
+import { ContractTransactionReceipt } from 'ethers'
+import { RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { Providers } from '../Provider'
 import { Babysig, AssetAttributes } from '../../models'
@@ -18,11 +18,40 @@ import { Babysig, AssetAttributes } from '../../models'
  * - Filecoin, The metadata will be stored in the Metadata/Marketplace API and Filecoin
  * - Arweave, The metadata will be stored in the Metadata/Marketplace API and Arweave
  */
-export enum PublishMetadata {
+export enum PublishMetadataOptions {
   OnlyMetadataAPI,
   IPFS,
   Filecoin,
   Arweave,
+}
+
+/**
+ * It specifies if the DID will be published on-chain initially or not.
+ */
+export enum PublishOnChainOptions {
+  DIDRegistry, // The DID and the reference to the DDO will be stored in the DIDRegistry contract
+  OnlyOffchain, // THE DID won't be stored on-chain and will be lazy-registered when needed
+}
+
+export class AssetPublicationOptions {
+  metadata?: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI
+  did?: PublishOnChainOptions = PublishOnChainOptions.DIDRegistry
+}
+
+/**
+ * It described the policy to be used when resolving an asset. It has the following options:
+ * * ImmutableFirst - It checks if there is a reference to an immutable data-store (IPFS, Filecoin, etc) on-chain. If that's the case uses the URL to resolve the Metadata. If not try to resolve the metadata using the URL of the Metadata/Marketplace API
+ * * MetadataAPIFirst - Try to resolve the metadata from the Marketplace/Metadata API, if it can't tries to resolve using the immutable url
+ * * OnlyImmutable - Try to resolve the metadata only from the immutable data store URL
+ * * OnlyMetadataAPI - Try to resolve the metadata only from the Metadata API. It gets the metadata api url from the DIDRegistry
+ * * NoRegisry - Gets the metadata from the Metadata API using as endpoint the metadata api url from the SDK config. This method don't gets any on-chain information because assumes the DID is not registered on-chain
+ */
+export enum DIDResolvePolicy {
+  ImmutableFirst,
+  MetadataAPIFirst,
+  OnlyImmutable,
+  OnlyMetadataAPI,
+  NoRegistry,
 }
 
 /**
@@ -104,7 +133,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public async resolve(
     did: string,
-    policy: DIDResolvePolicy = DIDResolvePolicy.MetadataAPIFirst,
+    policy: DIDResolvePolicy = DIDResolvePolicy.NoRegistry,
   ): Promise<DDO> {
     return this.resolveAsset(did, policy)
   }
@@ -115,7 +144,7 @@ export class AssetsApi extends RegistryBaseApi {
    * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
    *
    * @param assetAttributes - Attributes describing the asset
-   * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+   * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
    * @param publisherAccount - The account publishing the asset
    * @param txParams - Optional transaction parameters
    * @returns The metadata of the asset created (DDO)
@@ -125,13 +154,16 @@ export class AssetsApi extends RegistryBaseApi {
   public create(
     assetAttributes: AssetAttributes,
     publisherAccount: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publicationOptions: AssetPublicationOptions = {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    },
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     return this.registerNeverminedAsset(
       assetAttributes,
       publisherAccount,
-      publishMetadata,
+      publicationOptions,
       undefined,
       txParams,
     )
@@ -161,7 +193,7 @@ export class AssetsApi extends RegistryBaseApi {
     did: string,
     metadata: MetaData,
     publisherAccount: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
     return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)
@@ -173,16 +205,18 @@ export class AssetsApi extends RegistryBaseApi {
    * If the access service to purchase is having associated some price, it will make the payment
    * for that service.
    * @param did - Unique identifier of the asset to order
+   * @param serviceReference - The service to order. By default is the access service, but it can be specified the service.index to refer a different specific service
    * @param consumerAccount - The account of the user ordering the asset
    * @param txParams - Optional transaction parameters
    * @returns The agreement ID identifying the order
    */
   public order(
     did: string,
+    serviceReference: ServiceType | number = 'access',
     consumerAccount: Account,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
-    return this.orderAsset(did, 'access', consumerAccount, txParams)
+    return this.orderAsset(did, serviceReference, consumerAccount, txParams)
   }
 
   /**
@@ -190,6 +224,7 @@ export class AssetsApi extends RegistryBaseApi {
    * This method allows to download the assets associated to that service.
    * @param agreementId  - The unique identifier of the order placed for a service
    * @param did - Unique identifier of the asset ordered
+   * @param serviceReference - The service to download. By default is the access service, but it can be specified the service.index to refer a different specific service
    * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
    * @param resultPath - Where the files will be downloaded
    * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
@@ -200,6 +235,7 @@ export class AssetsApi extends RegistryBaseApi {
   public async access(
     agreementId: string,
     did: string,
+    serviceReference: ServiceType | number,
     consumerAccount: Account,
     resultPath?: string,
     fileIndex = -1,
@@ -208,18 +244,23 @@ export class AssetsApi extends RegistryBaseApi {
   ): Promise<string | true> {
     const ddo = await this.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
-    const { serviceEndpoint, index } = ddo.findServiceByType('access')
+    let service
+    if (typeof serviceReference === 'number') {
+      service = ddo.findServiceByIndex(serviceReference)
+    } else {
+      service = ddo.findServiceByType(serviceReference)
+    }
     const { files } = attributes.main
 
-    if (!serviceEndpoint) {
-      throw new AssetError(
-        'Consume asset failed, service definition is missing the `serviceEndpoint`.',
-      )
-    }
+    const serviceEndpoint = service.serviceEndpoint
+      ? service.serviceEndpoint
+      : this.nevermined.services.node.getAccessEndpoint()
 
     this.logger.log('Consuming files')
 
-    resultPath = resultPath ? `${resultPath}/datafile.${ddo.shortId()}.${index}/` : undefined
+    resultPath = resultPath
+      ? `${resultPath}/datafile.${ddo.shortId()}.${service.index}/`
+      : undefined
 
     await this.nevermined.services.node.consumeService(
       did,
@@ -292,7 +333,7 @@ export class AssetsApi extends RegistryBaseApi {
     newOwner: string,
     owner: string | Account,
     txParams?: TxParameters,
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     // const owner = await this.nevermined.assets.owner(did)
     const ownerAddress = owner instanceof Account ? owner.getId() : owner
     return this.nevermined.keeper.didRegistry.transferDIDOwnership(
@@ -346,7 +387,15 @@ export class AssetsApi extends RegistryBaseApi {
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
 
-    const { serviceEndpoint, index } = ddo.findServiceByType(serviceType)
+    let serviceEndpoint, index
+    if (ddo.serviceExists(serviceType)) {
+      const service = ddo.findServiceByType(serviceType)
+      serviceEndpoint = service.serviceEndpoint
+      index = service.index
+    } else {
+      serviceEndpoint = `${this.config.marketplaceUri}/${apiPath}/${did}`
+      index = 0
+    }
 
     if (!serviceEndpoint) {
       throw new AssetError(
@@ -441,9 +490,9 @@ export class AssetsApi extends RegistryBaseApi {
   public getNftContractAddress(ddo: DDO, serviceType: ServiceType = 'nft-access') {
     const service = ddo.findServiceByType(serviceType)
     if (service.type === 'nft-access')
-      return getNftContractAddressFromService(service as ServiceNFTAccess)
+      return DDO.getNftContractAddressFromService(service as ServiceNFTAccess)
     else if (service.type === 'nft-sales')
-      return getNftContractAddressFromService(service as ServiceNFTSales)
+      return DDO.getNftContractAddressFromService(service as ServiceNFTSales)
     throw new DDOError(`Unable to find NFT contract address in service ${serviceType}`)
   }
 }

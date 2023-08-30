@@ -11,9 +11,8 @@ import {
   AgreementInstance,
 } from '../../keeper'
 import { AaveConfig } from '../../models'
-import { didZeroX, generateId, zeroX } from '../../utils'
-import { ContractReceipt, ethers } from 'ethers'
-import { BigNumber } from '../../utils'
+import { didZeroX, formatEther, generateId, parseEther, zeroX } from '../../utils'
+import { ContractTransactionReceipt } from 'ethers'
 
 /**
  * AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral
@@ -140,7 +139,7 @@ export class AaveCredit extends Instantiable {
         return false
       }
     }
-    const contractReceipt: ContractReceipt = await lockCond.fulfill(
+    const contractReceipt: ContractTransactionReceipt = await lockCond.fulfill(
       agreementId,
       did,
       vaultAddress,
@@ -175,8 +174,8 @@ export class AaveCredit extends Instantiable {
     if (!did) {
       did = agreementData.did
     }
-    const _collateralAmount = ethers.utils.parseEther(collateralAmount.toString()).toString()
-    const _delegatedAmount = ethers.utils.parseEther(delegatedAmount.toString()).toString()
+    const _collateralAmount = parseEther(collateralAmount.toString()).toString()
+    const _delegatedAmount = parseEther(delegatedAmount.toString()).toString()
     const _value = useWethGateway ? _collateralAmount.toString() : '0'
     if (!useWethGateway) {
       this.logger.log(
@@ -188,12 +187,12 @@ export class AaveCredit extends Instantiable {
       )
       await erc20Token.approve(
         this.nevermined.keeper.conditions.aaveCollateralDepositCondition.address,
-        BigNumber.parseEther(collateralAmount.toString()),
+        parseEther(collateralAmount.toString()),
         from,
       )
     }
 
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveCollateralDepositCondition.fulfill(
         agreementId,
         did,
@@ -234,9 +233,9 @@ export class AaveCredit extends Instantiable {
     if (!did) {
       did = agreementData.did
     }
-    const amount = BigNumber.parseEther(delegatedAmount.toString()).toString()
+    const amount = parseEther(delegatedAmount.toString()).toString()
 
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveBorrowCondition.fulfill(
         agreementId,
         did,
@@ -277,11 +276,11 @@ export class AaveCredit extends Instantiable {
     const erc20Token = await CustomToken.getInstanceByAddress(this.instanceConfig, delegatedAsset)
     const totalDebt = await this.getTotalActualDebt(agreementId, from, vaultAddress)
     const allowanceAmount = totalDebt + (totalDebt / 10000) * 10
-    const weiAllowanceAmount = BigNumber.parseEther(allowanceAmount.toString())
+    const weiAllowanceAmount = parseEther(allowanceAmount.toString())
 
     // Verify that the borrower has sufficient balance for the repayment
     const weiBalance = await erc20Token.balanceOf(from.getId())
-    if (weiBalance.lt(weiAllowanceAmount)) {
+    if (weiBalance < weiAllowanceAmount) {
       this.logger.warn(
         `borrower does not have enough balance to repay the debt:
                 token=${delegatedAsset}, weiBalance=${weiBalance}, totalDebt(wei)=${weiAllowanceAmount}`,
@@ -295,9 +294,9 @@ export class AaveCredit extends Instantiable {
       from,
     )
 
-    const weiAmount = BigNumber.parseEther(delegatedAmount.toString()).toString()
+    const weiAmount = parseEther(delegatedAmount.toString()).toString()
     // use the aaveRepayCondition to apply the repayment
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveRepayCondition.fulfill(
         agreementId,
         did,
@@ -335,7 +334,7 @@ export class AaveCredit extends Instantiable {
       vaultAddress = (await this.getVaultContract(agreementId, from.getId(), vaultAddress)).address
     }
 
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.aaveCollateralWithdrawCondition.fulfill(
         agreementId,
         did,
@@ -370,7 +369,7 @@ export class AaveCredit extends Instantiable {
     vaultAddress = vaultContract.address
 
     // use the distributeNftCollateralCondition to withdraw the lender's collateral
-    const contractReceipt: ContractReceipt =
+    const contractReceipt: ContractTransactionReceipt =
       await this.nevermined.keeper.conditions.distributeNftCollateralCondition.fulfill(
         agreementId,
         did,
@@ -415,8 +414,8 @@ export class AaveCredit extends Instantiable {
       from.getId(),
       vaultAddress,
     )
-    const totalDebt: BigNumber = await vault.call('getTotalActualDebt', [], from.getId())
-    return Number(BigNumber.formatEther(totalDebt))
+    const totalDebt: bigint = await vault.call('getTotalActualDebt', [], from.getId())
+    return Number(formatEther(totalDebt))
   }
 
   /**
@@ -435,7 +434,7 @@ export class AaveCredit extends Instantiable {
       from.getId(),
       vaultAddress,
     )
-    return Number(BigNumber.formatEther(await vault.call('getActualCreditDebt', [], from.getId())))
+    return Number(formatEther(await vault.call('getActualCreditDebt', [], from.getId())))
   }
 
   /**
@@ -454,7 +453,7 @@ export class AaveCredit extends Instantiable {
       from.getId(),
       vaultAddress,
     )
-    return Number(BigNumber.formatEther(await vault.call('getCreditAssetDebt', [], from.getId())))
+    return Number(formatEther(await vault.call('getCreditAssetDebt', [], from.getId())))
   }
 
   public async getAssetPrice(
@@ -487,7 +486,7 @@ export class AaveCredit extends Instantiable {
       from.getId(),
       vaultAddress,
     )
-    return Number(BigNumber.formatEther(await vault.call('getBorrowedAmount', [], from.getId())))
+    return Number(formatEther(await vault.call('getBorrowedAmount', [], from.getId())))
   }
 
   /**
@@ -510,7 +509,7 @@ export class AaveCredit extends Instantiable {
       vaultAddress,
     )
     return Number(
-      BigNumber.formatEther(
+      formatEther(
         await vault.call(
           'delegatedAmount',
           [borrower, delegatedToken, interestRateMode],

@@ -1,15 +1,14 @@
 import { AgreementInstance, AgreementTemplate } from '../templates'
 import { BaseTemplate } from '../templates'
 import { DDO } from '../../../ddo'
-import { didZeroX } from '../../../utils'
+import { didZeroX, parseEther } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
 import { AaveConfig } from '../../../models'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
 import { ServiceType, ValidationParams } from '../../../ddo'
-import { ContractReceipt } from 'ethers'
-import { BigNumber } from '../../../utils'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 import {
   AaveBorrowCondition,
   AaveCollateralDepositCondition,
@@ -90,7 +89,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     }
   }
 
-  public async getServiceAgreementTemplate() {
+  public getServiceAgreementTemplate() {
     return aaveCreditTemplateServiceAgreementTemplate
   }
 
@@ -109,10 +108,10 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     timeOuts: number[],
     txParams?: TxParameters,
     from?: Account,
-  ): Promise<[ContractReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
-    const _collateralAmount = BigNumber.parseEther(collateralAmount.toString())
+  ): Promise<[ContractTransactionReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
+    const _collateralAmount = parseEther(collateralAmount.toString())
 
-    const _delegatedAmount = BigNumber.parseEther(delegatedAmount.toString())
+    const _delegatedAmount = parseEther(delegatedAmount.toString())
 
     const data = await this.instanceFromDDO(
       agreementIdSeed,
@@ -163,7 +162,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     timeOuts: number[],
     txParams?: TxParameters,
     from?: Account,
-  ): Promise<[ContractReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
+  ): Promise<[ContractTransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
     const vaultAddress = await this.deployVault(
       this.aaveConfig.lendingPoolAddress,
       this.aaveConfig.dataProviderAddress,
@@ -209,7 +208,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     lender: string,
     from: string,
   ): Promise<string> {
-    const contractReceipt: ContractReceipt = await this.send('deployVault', from, [
+    const contractReceipt: ContractTransactionReceipt = await this.send('deployVault', from, [
       lendingPool,
       dataProvider,
       weth,
@@ -218,7 +217,9 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
       borrower,
       lender,
     ])
-    const vaultCreatedEvent = contractReceipt.events.find((e) => e.event === 'VaultCreated')
+    const vaultCreatedEvent = contractReceipt.logs.find(
+      (e: EventLog) => e.eventName === 'VaultCreated',
+    ) as EventLog
     const { _vaultAddress } = vaultCreatedEvent.args
     return _vaultAddress
   }

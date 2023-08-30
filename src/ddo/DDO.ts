@@ -8,13 +8,27 @@ import {
   MetaDataMain,
   NvmConfig,
   Proof,
+  ServiceNFTAccess,
+  ServiceNFTSales,
+  ConditionType,
+  ServiceAgreementTemplateCondition,
+  ServiceCommon,
 } from './types'
-import { didPrefixed, getAssetPriceFromService, zeroX } from '../utils'
+import { didPrefixed, zeroX } from '../utils'
 import { DIDRegistry } from '../keeper'
 import { ethers } from 'ethers'
-import { NFTAttributes } from '../models'
-import { BigNumber } from '../utils'
+import { AssetPrice, NFTAttributes } from '../models'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
+import {
+  DDOConditionNotFoundError,
+  DDOParamNotFoundError,
+  DDOServiceAlreadyExists,
+} from '../errors/DDOError'
+
+// DDO Services including a sales process
+export const SALES_SERVICES = ['access', 'compute', 'nft-sales']
+// Condition Names that are the final dependency for releasing the payment in a service agreement
+export const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'transferNFT']
 
 /**
  * DID Descriptor Object.
@@ -119,10 +133,10 @@ export class DDO {
 
   /**
    * Finds a service of a DDO by index.
-   * @param index - index.
+   * @param index - index of the service in the DDO.
    * @returns Service.
    */
-  public findServiceById<T extends ServiceType>(index: number): Service<T> {
+  public findServiceByIndex<T extends ServiceType>(index: number): Service<T> {
     if (isNaN(index)) {
       throw new Error('index is not set')
     }
@@ -136,8 +150,8 @@ export class DDO {
   }
 
   /**
-   * Finds a service of a DDO by type.
-   * @param serviceType - Service type.
+   * Finds the first service of a DDO by type.
+   * @param serviceType - Service type used by find the service
    *
    * @throws {@link DDOServiceNotFoundError} If the service is not in the DDO.
    * @returns {@link Service}.
@@ -152,6 +166,51 @@ export class DDO {
   }
 
   /**
+   * Finds a service of a DDO by index.
+   * @param serviceReference - reference to the service (index or type).
+   * @returns Service.
+   */
+  public findServiceByReference<T extends ServiceType>(
+    serviceReference: ServiceType | number,
+  ): Service<T> {
+    if (typeof serviceReference === 'number') {
+      return this.findServiceByIndex(serviceReference)
+    } else {
+      return this.findServiceByType(serviceReference) as Service<T>
+    }
+  }
+
+  /**
+   * Gets all the services of a DDO with a specific type.
+   * @param serviceType - Service type.
+   *
+   * @returns {@link Service}.
+   */
+  public getServicesByType<T extends ServiceType>(serviceType: T): Service<T>[] {
+    return this.service.filter((s) => s.type === serviceType).map((s) => s as Service<T>)
+  }
+
+  /**
+   * Checks if a service exists in the DDO.
+   * @param serviceType - Service type.
+   *
+   * @returns true if service exists.
+   */
+  public serviceExists<T extends ServiceType>(serviceType: T): boolean {
+    return this.service.some((s) => s.type === serviceType)
+  }
+
+  /**
+   * Checks if a service index in the DDO.
+   * @param serviceIndex - Service index.
+   *
+   * @returns true if service exists.
+   */
+  public serviceIndexExists(serviceIndex: number): boolean {
+    return this.service.some((s) => s.index === serviceIndex)
+  }
+
+  /**
    * Get the total price of a service.
    * @example
    * ```ts
@@ -160,11 +219,11 @@ export class DDO {
    * @param serviceType - Service type
    *
    * @throws {@link DDOPriceNotFoundError}
-   * @returns {@link BigNumber}
+   * @returns {@link bigint}
    */
-  public getPriceByService(serviceType: ServiceType = 'access'): BigNumber {
+  public getPriceByService(serviceType: ServiceType = 'access'): bigint {
     const service = this.findServiceByType(serviceType)
-    const assetPrice = getAssetPriceFromService(service)
+    const assetPrice = DDO.getAssetPriceFromService(service)
 
     if (assetPrice) {
       return assetPrice.getTotalPrice()
@@ -173,9 +232,7 @@ export class DDO {
   }
 
   public checksum(seed: string): string {
-    return ethers.utils
-      .keccak256(ethers.utils.toUtf8Bytes(seed))
-      .replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
+    return ethers.keccak256(ethers.toUtf8Bytes(seed)).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
   }
 
   /**
@@ -199,6 +256,10 @@ export class DDO {
     }
   }
 
+  /**
+   * Get the checksum of the proof.
+   * @returns string containing the checksum of the proof.
+   */
   public getProofChecksum(): string {
     return this.checksum(JSON.stringify(this.proof.checksum))
   }
@@ -206,7 +267,7 @@ export class DDO {
   /**
    * Generates and adds a proof using personal sign on the DDO.
    * @param publicKey - Public key to be used on personal sign.
-   * @returns Proof object.
+   * @returns void.
    */
   public async addProof(publicKey: string): Promise<void> {
     if (this.proof) {
@@ -215,18 +276,53 @@ export class DDO {
     this.proof = await this.generateProof(publicKey)
   }
 
-  public async addService(service: any): Promise<void> {
+  /**
+   * It reorders the services of the DDO using the service index
+   */
+  public reorderServices(): void {
+    this.service.sort((a, b) => (a.index > b.index ? 1 : -1))
+    for (let i = 0; i < this.service.length; i++) {
+      this.service[i].index = i
+    }
+    this.service.sort((a, b) => (a.index > b.index ? 1 : -1))
+  }
+
+  /**
+   * Adds a service to the DDO.
+   * @param service
+   */
+  public addService(service: ServiceCommon) {
+    const newIndex =
+      this.service.length > 0
+        ? this.service.reduce((a, b) => (a.index > b.index ? a : b)).index + 1
+        : 0
+    if (this.service.find((s) => s.index === newIndex))
+      throw new DDOServiceAlreadyExists(service.type, newIndex)
+    service.index = newIndex
     this.service.push(service)
   }
 
-  public async replaceService(index: number, service: any): Promise<void> {
+  /**
+   * Replaces a service in the DDO.
+   * @param index
+   * @param service
+   */
+  public replaceService(index: number, service: any) {
+    if (!this.service.find((s) => s.index === service.index))
+      throw new DDOServiceNotFoundError(service.type)
     this.service[index] = service
   }
 
-  public async addDefaultMetadataService(
+  /**
+   * Adds a default metadata service to the DDO.
+   * @param metadata metadata
+   * @param nftAttributes nft attributes
+   * @returns main metadata attributes
+   */
+  public addDefaultMetadataService(
     metadata: MetaData,
     nftAttributes?: NFTAttributes,
-  ): Promise<MetaDataMain> {
+  ): MetaDataMain {
     const metadataService = {
       type: 'metadata',
       index: 0,
@@ -254,10 +350,35 @@ export class DDO {
     return metadataService.attributes.main
   }
 
-  public async updateService(nevermined: Nevermined, service: any): Promise<void> {
-    this.service[0] = service
+  /**
+   * @deprecated use the `updateMetadataService` or `replaceService` methods instead
+   * Updates a service in the DDO
+   * @param service the service to be updated
+   * @param serviceIndex the position of the service in the DDO.services array
+   */
+  public updateService(service: any, serviceIndex = 0) {
+    this.service[serviceIndex] = service
   }
 
+  /**
+   * Updates a service in the DDO
+   * @param service the service to be updated
+   * @param serviceIndex the position of the service in the DDO.services array
+   */
+  public updateMetadataService(service: any) {
+    const arrayIndex = this.service.findIndex((s) => s.type === 'metadata')
+    if (arrayIndex < 0) {
+      throw new DDOServiceNotFoundError('metadata')
+    }
+    this.service[arrayIndex] = service
+  }
+
+  /**
+   * Assign a DID to the DDO
+   * @param didSeed DID seed
+   * @param didRegistry DIDRegistry contract
+   * @param publisher account registering the DID
+   */
   public async assignDid(didSeed: string, didRegistry: DIDRegistry, publisher: Account) {
     const did = didPrefixed(await didRegistry.hashDID(didSeed, publisher.getId()))
     this.id = did
@@ -266,11 +387,223 @@ export class DDO {
     this.publicKey[0].id = did
   }
 
+  /**
+   * It generates a DID seed from a seed
+   * @param seed the seed
+   * @returns the string represeing the DID seed
+   */
   public async generateDidSeed(seed) {
     return zeroX(this.checksum(JSON.stringify(seed)))
   }
 
+  /**
+   * It adds a signature to the the proof object of the DDO
+   * @param nevermined nevermined object
+   * @param publicKey public key to sign the DDO
+   */
   public async addSignature(nevermined: Nevermined, publicKey: string) {
     this.proof.signatureValue = await nevermined.utils.signature.signText(this.shortId(), publicKey)
+  }
+
+  // DDO Utility functions
+
+  /**
+   * If fins a service condition by name
+   * @param service the service to search in
+   * @param name the name of the condition
+   * @returns ServiceAgreementTemplateCondition the condition
+   */
+  public static findServiceConditionByName(
+    service: Service,
+    name: ConditionType,
+  ): ServiceAgreementTemplateCondition {
+    const condition = service.attributes?.serviceAgreementTemplate?.conditions?.find(
+      (c) => c.name === name,
+    )
+    if (!service) throw new DDOConditionNotFoundError(name)
+    return condition
+  }
+
+  /**
+   * Gets the DID in the escrowPayment condition of the service
+   * @param service the service to search in
+   * @returns the DID
+   */
+  public static getDIDFromService(service: Service): string {
+    const shortId = DDO.getParameterFromCondition(service, 'escrowPayment', '_did') as string
+    return shortId.startsWith('did:nv:') ? shortId : `did:nv:${shortId}`
+  }
+
+  /**
+   * Gets the NFT Holder in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns the NFT Holder address
+   */
+  public static getNftHolderFromService(service: Service): string {
+    return DDO.getParameterFromCondition(service, 'transferNFT', '_nftHolder') as string
+  }
+
+  /**
+   * Gets the NFT TokenId in the nftHolder condition of the service
+   * @param service the service to search in
+   * @returns the NFT Token Id
+   */
+  public static getTokenIdFromService(service: Service): string {
+    const paramName = '_tokenId'
+    const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+    const nftCondition = DDO.findServiceConditionByName(service, conditionName)
+    return nftCondition.parameters.find((p) => p.name === paramName).value as string
+  }
+
+  /**
+   * Gets the number of NFTs in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns the number of NFTs
+   */
+  public static getNftAmountFromService(service: Service): bigint {
+    const paramName = '_numberNfts'
+    const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+    const nftCondition = DDO.findServiceConditionByName(service, conditionName)
+    return BigInt(nftCondition.parameters.find((p) => p.name === paramName).value as string)
+  }
+
+  /**
+   * Gets the nftTransfer parameter in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns if condition will do a nft transfer or a mint
+   */
+  public static getNFTTransferFromService(service: Service): boolean {
+    return (
+      DDO.getParameterFromCondition(service, 'transferNFT', '_nftTransfer').toString() === 'true'
+    )
+  }
+
+  /**
+   * Gets the duration parameter in the transferNFT condition of the service
+   * @param service the service to search in
+   * @returns the duration of the subscription
+   */
+  public static getDurationFromService(service: Service): number {
+    return Number(DDO.getParameterFromCondition(service, 'transferNFT', '_duration').toString())
+  }
+
+  /**
+   * Given a service, condition and param name it returns the value
+   * @param service The service where the condition is
+   * @param conditionType the condition type
+   * @param paramName the param name
+   * @returns the value
+   */
+  public static getParameterFromCondition(
+    service: Service,
+    conditionType: ConditionType,
+    paramName: string,
+  ): string | number | string[] {
+    try {
+      const nftTransferCondition = DDO.findServiceConditionByName(service, conditionType)
+      return nftTransferCondition.parameters?.find((p) => p.name === paramName).value
+    } catch (_e) {
+      throw new DDOParamNotFoundError(conditionType, paramName)
+    }
+  }
+
+  /**
+   * Gets the NFT Contract address used in the NFT Access or NFT Sales service
+   * @param service the service to search in
+   * @returns the NFT contract address
+   */
+  public static getNftContractAddressFromService(
+    service: ServiceNFTAccess | ServiceNFTSales,
+  ): string {
+    const paramName = '_contractAddress'
+    const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
+    const nftTransferCondition = DDO.findServiceConditionByName(service, conditionName)
+    return nftTransferCondition.parameters.find((p) => p.name === paramName).value as string
+  }
+
+  /**
+   * It gets the AssetPrice from a service with escrowPayment condition
+   * @param service the service to search in
+   * @returns the AssetPrice object
+   */
+  public static getAssetPriceFromService(service: Service): AssetPrice {
+    const escrowPaymentCondition = DDO.findServiceConditionByName(service, 'escrowPayment')
+    if (!escrowPaymentCondition) {
+      throw new DDOConditionNotFoundError('escrowPayment')
+    }
+
+    const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
+      .value as string[]
+    const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
+      .value as string[]
+
+    const rewardsMap = new Map<string, bigint>()
+
+    for (let i = 0; i < amounts.length; i++) rewardsMap.set(receivers[i], BigInt(amounts[i]))
+
+    return new AssetPrice(rewardsMap)
+  }
+
+  /**
+   * It gets the AssetPrice from a service given the serviceType
+   * @param service the service to search in
+   * @returns the AssetPrice object
+   */
+  public getAssetPriceFromDDOByServiceType(service: ServiceType): AssetPrice {
+    return DDO.getAssetPriceFromService(this.findServiceByType(service))
+  }
+
+  /**
+   * Given a service type, it sets the AssetPrice in the escrowPayment condition
+   * @param serviceType the service to search in
+   * @param rewards the AssetPrice object to set
+   * @returns
+   */
+  public setAssetPriceFromDDOByService(serviceType: ServiceType, rewards: AssetPrice) {
+    const service = this.findServiceByType(serviceType)
+    const escrowPaymentCondition = DDO.findServiceConditionByName(service, 'escrowPayment')
+    if (!escrowPaymentCondition) {
+      throw new DDOConditionNotFoundError('escrowPayment')
+    }
+    try {
+      const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
+      const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
+      amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
+      receivers.value = rewards.getReceivers()
+    } catch (e) {
+      throw new Error('Error setting the AssetPrice in the DDO')
+    }
+  }
+
+  /**
+   * Given the service type it sets the AssetPrice and NFT holder
+   * @param serviceType the service type to search in
+   * @param rewards the AssetPrice object to set
+   * @param holderAddress the NFT Holder address to set
+   * @returns
+   */
+  public setNFTRewardsFromService(
+    serviceType: ServiceType,
+    rewards: AssetPrice,
+    holderAddress: string,
+  ) {
+    this.setAssetPriceFromDDOByService(serviceType, rewards)
+    const service = this.findServiceByType(serviceType)
+    const transferCondition = DDO.findServiceConditionByName(service, 'transferNFT')
+    if (!transferCondition) return new DDOConditionNotFoundError('transferNFT')
+
+    const holder = transferCondition.parameters.find((p) => p.name === '_nftHolder')
+    holder.value = holderAddress
+  }
+
+  /**
+   * Finds an attribute in the DDO and replace it with the given value
+   * @param ddo the originial DDO
+   * @param paramName the param name to replace
+   * @param value the new value
+   * @returns the DDO with the replaced attribute
+   */
+  public static findAndReplaceDDOAttribute(ddo: DDO, paramName: string, value: string): DDO {
+    return DDO.deserialize(DDO.serialize(ddo).replaceAll(paramName, value))
   }
 }

@@ -4,9 +4,8 @@ import { noZeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
 import { NeverminedNodeError, HttpError } from '../../errors'
-import { BigNumber } from '../../utils'
 import { ERCType, Babysig } from '../../models'
-import { PublishMetadata } from '../../nevermined'
+import { PublishMetadataOptions } from '../../nevermined'
 
 const apiPath = '/api/v1/node/services'
 
@@ -376,22 +375,23 @@ export class NeverminedNode extends Instantiable {
     agreementId: string,
     nftHolder: string,
     nftReceiver: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     ercType: ERCType = 1155,
     did?: string,
+    serviceIndex?: number,
   ): Promise<boolean> {
     try {
-      const response = await this.nevermined.utils.fetch.post(
-        this.getClaimNftEndpoint(),
-        JSON.stringify({
-          agreementId,
-          did,
-          nftHolder,
-          nftReceiver,
-          nftAmount: nftAmount.toString(),
-          nftType: ercType,
-        }),
-      )
+      const claimBody = JSON.stringify({
+        agreementId,
+        did,
+        nftHolder,
+        nftReceiver,
+        nftAmount: nftAmount.toString(),
+        nftType: ercType,
+        serviceIndex: serviceIndex && serviceIndex >= 0 ? serviceIndex : -1,
+      })
+
+      const response = await this.nevermined.utils.fetch.post(this.getClaimNftEndpoint(), claimBody)
       if (!response.ok) {
         throw new HttpError(`${response.statusText} ${response.url}`, response.status)
       }
@@ -401,11 +401,11 @@ export class NeverminedNode extends Instantiable {
     }
   }
 
-  public async fetchToken(grantToken: string): Promise<string> {
+  public async fetchToken(grantToken: string, numberTries = 3): Promise<string> {
     const response = await this.nevermined.utils.fetch.fetchToken(
       this.getFetchTokenEndpoint(),
       grantToken,
-      5,
+      numberTries,
     )
 
     if (!response.ok) {
@@ -418,12 +418,12 @@ export class NeverminedNode extends Instantiable {
 
   public async publishImmutableContent(
     ddo: DDO,
-    publishMetadata: PublishMetadata = PublishMetadata.IPFS,
+    publishMetadata: PublishMetadataOptions = PublishMetadataOptions.IPFS,
   ): Promise<{ url: string; backend: ImmutableBackends }> {
     let url,
       backend = undefined
 
-    if (publishMetadata === PublishMetadata.Filecoin) {
+    if (publishMetadata === PublishMetadataOptions.Filecoin) {
       this.logger.log('Publishing metadata to Filecoin')
       ;({ url } = await this.nevermined.services.node.uploadContent(
         JSON.stringify(ddo),
@@ -431,7 +431,7 @@ export class NeverminedNode extends Instantiable {
         NodeUploadBackends.Filecoin,
       ))
       backend = 'filecoin'
-    } else if (publishMetadata === PublishMetadata.IPFS) {
+    } else if (publishMetadata === PublishMetadataOptions.IPFS) {
       this.logger.log('Publishing metadata to IPFS')
       ;({ url: url } = await this.nevermined.services.node.uploadContent(
         JSON.stringify(ddo),

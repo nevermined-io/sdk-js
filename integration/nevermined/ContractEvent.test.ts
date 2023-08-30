@@ -3,7 +3,7 @@ import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractEvent } from '../../src/events'
-import { sleep, mineBlocks, awaitTimeout } from '../utils/utils'
+import { mineBlocks, awaitTimeout } from '../utils/utils'
 import { ethers } from 'ethers'
 
 chai.use(chaiAsPromised)
@@ -38,8 +38,8 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
     })
     assert.strictEqual(
-      ethers.utils.getAddress(response.pop().args.to),
-      ethers.utils.getAddress(account.getId()),
+      ethers.getAddress(response.pop().args.to),
+      ethers.getAddress(account.getId()),
     )
   })
 
@@ -67,7 +67,6 @@ describe('ContractEvent', () => {
 
     await Promise.all([executeTransaction()])
 
-    await sleep(2000)
     validResolve = true
 
     await Promise.all([executeTransaction()])
@@ -100,8 +99,6 @@ describe('ContractEvent', () => {
     })
 
     await executeTransaction()
-
-    await sleep(2000)
     canBeRejected = true
 
     await executeTransaction()
@@ -117,9 +114,6 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
       filterJsonRpc: { to },
     })
-
-    await sleep(400)
-
     await executeTransaction()
 
     await waitUntilEvent

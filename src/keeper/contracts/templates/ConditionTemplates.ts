@@ -247,6 +247,11 @@ export const nft721HolderTemplate = () => ({
       type: 'address',
       value: '',
     },
+    {
+      name: '_tokenId',
+      type: 'bytes32',
+      value: '',
+    },
   ],
   events: [
     {
@@ -326,6 +331,11 @@ export const nftHolderTemplate = () => ({
     {
       name: '_contractAddress',
       type: 'address',
+      value: '',
+    },
+    {
+      name: '_tokenId',
+      type: 'bytes32',
       value: '',
     },
   ],
@@ -448,6 +458,16 @@ export const transferNftTemplate = () => ({
       name: '_conditionId',
       type: 'bytes32',
       value: '',
+    },
+    {
+      name: '_nftTransfer',
+      type: 'boolean',
+      value: '',
+    },
+    {
+      name: '_duration',
+      type: 'uint256',
+      value: '0',
     },
   ],
   events: [

@@ -1,7 +1,6 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { Account } from '../../../nevermined'
-import { BigNumber } from '../../../utils'
 
 export default class NeverminedConfig extends ContractBase {
   templates: any
@@ -16,7 +15,7 @@ export default class NeverminedConfig extends ContractBase {
     return this.call('owner', [])
   }
 
-  public async getNetworkFee(): Promise<BigNumber> {
+  public async getNetworkFee(): Promise<bigint> {
     return this.call('getMarketplaceFee', [])
   }
 

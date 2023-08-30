@@ -1,6 +1,5 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { ContractReceipt, Event } from 'ethers'
 import { Nevermined, Account, ConditionState } from '../../../src'
 import {
   DIDRegistry,
@@ -12,6 +11,7 @@ import {
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -44,10 +44,7 @@ describe('NFTSalesTemplate', () => {
     timeLocks = [0, 0, 0]
     timeOuts = [0, 0, 0]
 
-    await conditionStoreManager.delegateCreateRole(
-      agreementStoreManager.getAddress(),
-      sender.getId(),
-    )
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, sender.getId())
   })
 
   beforeEach(async () => {
@@ -91,8 +88,8 @@ describe('NFTSalesTemplate', () => {
 
     it('should fail if DID is not registered', async () => {
       // propose and approve template
-      await templateStoreManager.proposeTemplate(nftSalesTemplate.getAddress())
-      await templateStoreManager.approveTemplate(nftSalesTemplate.getAddress())
+      await templateStoreManager.proposeTemplate(nftSalesTemplate.address)
+      await templateStoreManager.approveTemplate(nftSalesTemplate.address)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
       await assert.isRejected(
@@ -113,7 +110,7 @@ describe('NFTSalesTemplate', () => {
       await didRegistry.registerAttribute(didSeed, checksum, [], url, sender.getId())
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-      const contractReceipt: ContractReceipt = await nftSalesTemplate.createAgreement(
+      const contractReceipt: ContractTransactionReceipt = await nftSalesTemplate.createAgreement(
         agreementIdSeed,
         didZeroX(did),
         conditionIdSeeds,
@@ -123,9 +120,11 @@ describe('NFTSalesTemplate', () => {
         sender,
       )
       assert.equal(contractReceipt.status, 1)
-      assert.isTrue(contractReceipt.events.some((e) => e.event === 'AgreementCreated'))
+      assert.isTrue(contractReceipt.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'AgreementCreated')
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'AgreementCreated',
+      ) as EventLog
       const { _agreementId, _did } = event.args
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))

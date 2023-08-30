@@ -3,7 +3,6 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
-import { sleep } from '../utils/utils'
 import { generateId } from '../../src/utils'
 
 describe('Search Asset', () => {
@@ -40,9 +39,6 @@ describe('Search Asset', () => {
     metadata = getMetadata(undefined, 'Test3')
     metadata.userId = userId
     await nevermined.assets.create(AssetAttributes.getInstance({ metadata, appId }), account)
-
-    // wait for elasticsearch
-    await sleep(4000)
   })
 
   it('should search by text', async () => {

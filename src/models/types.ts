@@ -1,5 +1,3 @@
-import { BigNumber } from '../utils'
-
 export interface AaveConfig {
   lendingPoolAddress: string
   dataProviderAddress: string
@@ -83,7 +81,6 @@ export interface Babysig {
 }
 
 export interface Balance {
-  eth: BigNumber
-
-  nevermined: BigNumber
+  eth: bigint
+  nevermined: bigint
 }

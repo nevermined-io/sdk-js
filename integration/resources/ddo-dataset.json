@@ -51,7 +51,7 @@
     },
     {
       "type": "authorization",
-      "index": 2,
+      "index": 1,
       "serviceEndpoint": "http://node.nevermined.localnet",
       "attributes": {
         "main": {
@@ -63,7 +63,7 @@
     },
     {
       "type": "access",
-      "index": 3,
+      "index": 2,
       "serviceEndpoint": "http://node.nevermined.localnet/api/v1/node/services/access",
       "templateId": "0xb761bE571673A8f93DADe4D9D64618e3Eb989477",
       "attributes": {
