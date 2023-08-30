@@ -12,15 +12,15 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import {
+  DIDResolvePolicy,
   getRoyaltyAttributes,
-  PublishMetadata,
+  PublishMetadataOptions,
   RoyaltyKind,
 } from '../../src/nevermined/api/AssetsApi'
 import { ethers } from 'ethers'
 import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
-import { DIDResolvePolicy } from '../../src/nevermined/api/RegistryBaseApi'
 
 chai.use(chaiAsPromised)
 
@@ -169,7 +169,9 @@ function makeTest(isCustom) {
           royaltyAttributes,
           preMint: true,
         })
-        ddo = await nevermined.nfts1155.create(nftAttributes, artist, PublishMetadata.IPFS)
+        ddo = await nevermined.nfts1155.create(nftAttributes, artist, {
+          metadata: PublishMetadataOptions.IPFS,
+        })
 
         assert.isDefined(ddo)
 
