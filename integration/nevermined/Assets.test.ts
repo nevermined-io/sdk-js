@@ -207,7 +207,7 @@ describe('Assets', () => {
     })
 
     it('should be able to download the updated files', async () => {
-      const folder = fs.mkdtempSync('/tmp/nevermined/sdk-js/updated-files_')
+      const folder = fs.mkdirSync('/tmp/sdk-js/updated-files', { recursive: true })
 
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       assert.include(path, folder, 'The storage path is not correct.')
