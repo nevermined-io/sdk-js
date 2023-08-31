@@ -81,6 +81,7 @@ describe('AaveCredit', () => {
     // await TestContractHandler.prepareContracts()
 
     nevermined = await Nevermined.getInstance(config)
+    await nevermined.keeper.loadAaveInstances()
     ;({ agreementFee } = config.aaveConfig)
     ;({ aaveCreditTemplate } = nevermined.keeper.templates)
     ;({ conditionStoreManager, didRegistry, agreementStoreManager } = nevermined.keeper)

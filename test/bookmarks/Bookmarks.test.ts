@@ -5,6 +5,7 @@ import { Nevermined } from '../../src'
 import { MarketplaceResults } from '../../src/common/interfaces'
 import config from '../config'
 import { Bookmark, Bookmarks, NewBookmark } from '../../src/services'
+import TestContractHandler from '../keeper/TestContractHandler'
 
 use(spies)
 
@@ -20,8 +21,12 @@ describe('Bookmarks', () => {
   let bookmark: Bookmark
   let bookmarksResults: MarketplaceResults<Bookmark>
 
-  beforeEach(async () => {
+  before(async () => {
+    await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
+  })
+
+  beforeEach(async () => {    
     bookmarks = nevermined.services.bookmarks // eslint-disable-line prefer-destructuring
 
     newBookmark = {
