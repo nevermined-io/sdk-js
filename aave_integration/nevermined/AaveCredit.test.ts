@@ -81,6 +81,7 @@ describe('AaveCredit', () => {
 
     nevermined = await Nevermined.getInstance(config)
     ;({ agreementFee } = config.aaveConfig as AaveConfig)
+    await nevermined.keeper.loadAaveInstances()
     ;({ aaveCreditTemplate } = nevermined.keeper.templates)
     ;({ conditionStoreManager, didRegistry, agreementStoreManager } = nevermined.keeper)
     ;({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)

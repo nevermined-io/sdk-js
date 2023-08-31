@@ -26,7 +26,8 @@ describe('AaveBorrowCondition', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[user] = await nevermined.accounts.list()
     ;({ didRegistry } = nevermined.keeper)
-    condition = (await Nevermined.getInstance(config)).keeper.conditions.aaveBorrowCondition
+    condition = (await (await Nevermined.getInstance(config)).keeper.loadAaveInstances()).conditions
+      .aaveBorrowCondition
   })
 
   beforeEach(async () => {
@@ -48,16 +49,6 @@ describe('AaveBorrowCondition', () => {
 
       const id = await condition.generateId(agreementId, hash)
       assert.match(id, /^0x[a-f0-9]{64}$/i)
-
-      // const txReceipt: TransactionReceipt = await condition.fulfill(
-      //     agreementId,
-      //     did,
-      //     vaultAddress,
-      //     assetToBorrow,
-      //     amount,
-      //     interestRateMode,
-      //     user
-      // )
     })
   })
 })

@@ -27,6 +27,14 @@ describe('Keeper', () => {
     it('should have token', () => {
       assert(keeper.token !== null)
     })
+
+    it('should not have curve royalties', () => {
+      assert(keeper.royalties.curve === undefined, 'should not have curve royalties')
+    })
+
+    it('should not have Aave contracts', () => {
+      assert(keeper.templates!.aaveCreditTemplate! === undefined, 'should not have aave templates')
+    })
   })
 
   describe('#getNetworkName()', () => {

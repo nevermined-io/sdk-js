@@ -3,16 +3,15 @@ import { mkdtempSync, writeFileSync } from 'fs'
 import { NeverminedOptions, Nevermined } from '../../src'
 import fetch from 'node-fetch'
 import { x } from 'tar'
-import { infuraToken } from '../config'
 
 describe('Artifacts', () => {
   const artifactsRepo = 'https://artifacts.nevermined.network/'
   const tests = [
     {
-      web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
-      networkName: ['mumbai'],
-      networkId: [80001],
-      versions: ['v3.2.1'],
+      web3ProviderUri: 'https://goerli-rollup.arbitrum.io/rpc',
+      networkName: ['arbitrum-goerli'],
+      networkId: [421613],
+      versions: ['v3.2.2'],
       tag: 'public',
     },
   ]
