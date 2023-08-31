@@ -29,8 +29,11 @@ describe('AaveCollateralDepositCondition', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[user] = await nevermined.accounts.list()
     ;({ didRegistry } = nevermined.keeper)
-    condition = (await Nevermined.getInstance(config)).keeper.conditions
-      .aaveCollateralDepositCondition
+    condition = 
+    (await (
+      await Nevermined.getInstance(config))
+      .keeper.loadAaveInstances())
+      .conditions.aaveCollateralDepositCondition
   })
 
   beforeEach(async () => {

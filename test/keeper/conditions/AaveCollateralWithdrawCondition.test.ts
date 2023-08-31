@@ -24,8 +24,11 @@ describe('AaveCollateralWithdrawCondition', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[user] = await nevermined.accounts.list()
     ;({ didRegistry } = nevermined.keeper)
-    condition = (await Nevermined.getInstance(config)).keeper.conditions
-      .aaveCollateralWithdrawCondition
+    condition = 
+    (await (
+      await Nevermined.getInstance(config))
+      .keeper.loadAaveInstances())
+      .conditions.aaveCollateralWithdrawCondition
   })
 
   beforeEach(async () => {

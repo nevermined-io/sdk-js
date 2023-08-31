@@ -27,7 +27,11 @@ describe('AaveRepayCondition', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[user] = await nevermined.accounts.list()
     ;({ didRegistry } = nevermined.keeper)
-    condition = (await Nevermined.getInstance(config)).keeper.conditions.aaveRepayCondition
+    condition = 
+    (await (
+      await Nevermined.getInstance(config))
+      .keeper.loadAaveInstances())
+      .conditions.aaveRepayCondition
   })
 
   beforeEach(async () => {
