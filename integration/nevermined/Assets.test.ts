@@ -7,6 +7,7 @@ import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from 
 import { generateId } from '../../src/utils'
 import { sleep } from '../utils/utils'
 import { PublishMetadata, DIDResolvePolicy } from '../../src/nevermined'
+import * as fs from 'fs'
 
 let nevermined: Nevermined
 let publisher: Account
@@ -133,6 +134,57 @@ describe('Assets', () => {
       )
     })
 
+    it('update the asset files', async () => {
+      const nonce = Math.random()
+      const name = `Updated Files Test ${nonce}`
+      const updatedMetadata = {
+        ...createdMetadata,
+        name,
+      }
+      updatedMetadata.main.files = [
+        {
+          index: 0,
+          contentType: 'text/plain',
+          url: 'https://raw.githubusercontent.com/nevermined-io/sdk-js/main/LICENSE',
+        },
+      ]
+
+      await nevermined.assets.update(ddo.shortId(), updatedMetadata, publisher)
+
+      const resolvedDDO = await nevermined.assets.resolve(ddo.id)
+      assert.isDefined(resolvedDDO)
+
+      const previousMetadata = ddo.findServiceByType('metadata')
+      const metadata = resolvedDDO.findServiceByType('metadata')
+
+      assert.equal(updatedMetadata.main.name, metadata.attributes.main.name)
+
+      assert.equal(metadata.attributes.main.files.length, 1)
+      assert.notEqual(
+        previousMetadata.attributes.main.files.length,
+        metadata.attributes.main.files.length,
+      )
+      assert.notEqual(
+        previousMetadata.attributes.encryptedFiles,
+        metadata.attributes.encryptedFiles,
+      )
+    })
+
+    it('should be able to download the updated files', async () => {
+      const folder = '/tmp/sdk-js/updated-files'
+      if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true})
+
+      const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
+      assert.include(path, folder, 'The storage path is not correct.')
+      const files = await new Promise<string[]>((resolve) => {
+        fs.readdir(path, (e, fileList) => {
+          resolve(fileList)
+        })
+      })
+
+      assert.deepEqual(files, ['LICENSE'], 'Stored files are not correct.')
+    })
+
     it('unlist and list an asset', async () => {
       // Unlisting Asset
       await nevermined.assets.list(ddo.shortId(), false, publisher)
@@ -177,7 +229,7 @@ describe('Assets', () => {
     })
 
     it('new rating must be between 0 and 1', async () => {
-      // Trying to add a vote with a rating out of range
+      // Trying to add a vote with a rating out of range      
       await assert.isRejected(nevermined.assets.addRating(ddo.shortId(), 2, 1, publisher))
     })
   })
