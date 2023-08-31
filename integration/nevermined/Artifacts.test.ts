@@ -8,10 +8,10 @@ describe('Artifacts', () => {
   const artifactsRepo = 'https://artifacts.nevermined.network/'
   const tests = [
     {
-      web3ProviderUri: 'https://matic-mumbai.chainstacklabs.com',
-      networkName: ['mumbai'],
-      networkId: [80001],
-      versions: ['v3.2.1'],
+      web3ProviderUri: 'https://goerli-rollup.arbitrum.io/rpc',
+      networkName: ['arbitrum-goerli'],
+      networkId: [421613],
+      versions: ['v3.2.2'],
       tag: 'public',
     },
   ]
