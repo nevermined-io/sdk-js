@@ -176,7 +176,7 @@ jobs:
       - name: Download artifacts
         run: |
           mkdir -p node_modules/@nevermined-io/contracts/artifacts
-          yarn artifacts:download v3.2.2 mumbai public
+          yarn artifacts:download v3.2.1 mumbai public
           ls -l node_modules/@nevermined-io/contracts/artifacts
 
       - name: Run nightly tests
