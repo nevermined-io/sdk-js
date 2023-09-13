@@ -28,6 +28,7 @@ jobs:
           estuary: 'true'
           contracts-version: 'v3.2.1'
           node: 'false'
+          marketplace-version: 'v0.6.5'
 
       - name: Install sponge
         run: sudo apt-get install -y moreutils

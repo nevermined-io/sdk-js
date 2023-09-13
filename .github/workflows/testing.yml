@@ -17,6 +17,7 @@ jobs:
           opengsn: 'true'
           estuary: 'true'
           contracts-version: 'v3.2.1'
+          marketplace-version: 'v0.6.5'
 
       - name: Install dependencies
         run: |
