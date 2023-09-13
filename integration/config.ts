@@ -35,15 +35,6 @@ if (process.env.NETWORK_NAME === 'testing') {
   } as NeverminedOptions)
 }
 
-if (process.env.NETWORK_NAME === 'arbitrum-goerli') {
-  Object.assign(configBase, {
-    marketplaceUri: 'https://marketplace-api.goerli.nevermined.one',
-    neverminedNodeUri: 'https://node.goerli.nevermined.one',
-    web3ProviderUri: `https://arbitrum-goerli.infura.io/v3/${infuraToken}`,
-    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
-  } as NeverminedOptions)
-}
-
 if (process.env.NETWORK_NAME === 'mumbai') {
   Object.assign(configBase, {
     marketplaceUri: 'https://marketplace-api.mumbai.nevermined.app',
@@ -74,11 +65,11 @@ if (process.env.NETWORK_NAME === 'gnosis') {
   } as NeverminedOptions)
 }
 
-if (process.env.NETWORK_NAME === 'nvm-one') {
+if (process.env.NETWORK_NAME === 'one-staging') {
   Object.assign(configBase, {
-    marketplaceUri: 'https://marketplace-api.mumbai.nevermined.one',
-    neverminedNodeUri: 'https://node.mumbai.nevermined.one',
-    web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
+    marketplaceUri: 'https://marketplace-api.goerli.nevermined.one',
+    neverminedNodeUri: 'https://node.goerli.nevermined.one',
+    web3ProviderUri: `https://arbitrum-goerli.infura.io/v3/${infuraToken}`,
     neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
     graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
   } as NeverminedOptions)
