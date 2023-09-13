@@ -8,13 +8,7 @@ jobs:
 
     steps:
       - name: Reclaim some disk space
-        run: |
-          df -h
-          docker images
-          docker system df
-          docker system prune --all --volumes -f
-          docker system df
-          df -h
+        run: docker system prune --all --volumes -f
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
@@ -36,7 +30,6 @@ jobs:
           estuary: 'true'
           contracts-version: 'v3.2.1'
           node: 'false'
-          marketplace-version: 'v0.6.5'
 
       - name: Install sponge
         run: sudo apt-get install -y moreutils
