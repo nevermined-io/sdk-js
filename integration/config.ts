@@ -35,12 +35,12 @@ if (process.env.NETWORK_NAME === 'testing') {
   } as NeverminedOptions)
 }
 
-if (process.env.NETWORK_NAME === 'goerli') {
+if (process.env.NETWORK_NAME === 'arbitrum-goerli') {
   Object.assign(configBase, {
-    marketplaceUri: 'https://metadata.goerli.nevermined.network',
-    neverminedNodeUri: 'https://node.goerli.nevermined.network',
-    web3ProviderUri: `https://goerli.infura.io/v3/${infuraToken}`,
-    neverminedNodeAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0',
+    marketplaceUri: 'https://marketplace-api.goerli.nevermined.one',
+    neverminedNodeUri: 'https://node.goerli.nevermined.one',
+    web3ProviderUri: `https://arbitrum-goerli.infura.io/v3/${infuraToken}`,
+    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
   } as NeverminedOptions)
 }
 

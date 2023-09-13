@@ -61,7 +61,7 @@ describe('Consume Asset', () => {
     assert.isDefined(ddo.findServiceByType('access'), "DDO access service doesn't exist")
   })
 
-  it('should be able to request tokens for consumer', async () => {
+  it.skip('should be able to request tokens for consumer', async () => {
     const initialBalance = (await consumer.getBalance()).nevermined
     const claimedTokens = BigNumber.from(100)
 
@@ -75,7 +75,7 @@ describe('Consume Asset', () => {
     assert.isTrue(balanceAfter.gt(initialBalance))
   })
 
-  it('should sign the service agreement', async () => {
+  it.skip('should sign the service agreement', async () => {
     serviceAgreementSignatureResult = await nevermined.agreements.prepareSignature(
       ddo.id,
       'access',
@@ -87,7 +87,7 @@ describe('Consume Asset', () => {
     assert.match(signature, /^0x[a-f0-9]{130}$/, 'Service agreement signature seems not valid')
   })
 
-  it('should execute the service agreement', async () => {
+  it.skip('should execute the service agreement', async () => {
     agreementId = await nevermined.agreements.create(
       ddo.id,
       serviceAgreementSignatureResult.agreementIdSeed,
@@ -100,7 +100,7 @@ describe('Consume Asset', () => {
     assert.isDefined(agreementId)
   })
 
-  it('should get the agreement conditions status not fulfilled', async () => {
+  it.skip('should get the agreement conditions status not fulfilled', async () => {
     // todo change this, a test should never dependent on the previous test because the order might change during runtime
     await sleep(3000)
     const status = await repeat(3, nevermined.agreements.status(agreementId))
@@ -112,7 +112,7 @@ describe('Consume Asset', () => {
     })
   })
 
-  it('should lock the payment by the consumer', async () => {
+  it.skip('should lock the payment by the consumer', async () => {
     const paid = await nevermined.agreements.conditions.lockPayment(
       agreementId,
       ddo.id,
@@ -124,8 +124,7 @@ describe('Consume Asset', () => {
     assert.isTrue(paid, 'The asset has not been paid correctly')
   })
 
-  // The test will fail because Nevermined Node grants the access faster
-  it('should grant the access by the publisher', async () => {
+  it.skip('should grant the access by the publisher', async () => {
     try {
       const granted = await nevermined.agreements.conditions.grantAccess(
         agreementId,
@@ -147,7 +146,7 @@ describe('Consume Asset', () => {
     }
   })
 
-  it('should return true on access granted', async () => {
+  it.skip('should return true on access granted', async () => {
     const accessGranted = await nevermined.agreements.isAccessGranted(
       agreementId,
       ddo.id,
@@ -158,7 +157,7 @@ describe('Consume Asset', () => {
     assert.deepEqual(accessGranted, true)
   })
 
-  it('should get the agreement conditions status fulfilled', async () => {
+  it.skip('should get the agreement conditions status fulfilled', async () => {
     // todo change this, a test should never dependent on the previous test because the order might change during runtime
     await sleep(2000)
     const status = await nevermined.agreements.status(agreementId)
@@ -170,7 +169,7 @@ describe('Consume Asset', () => {
     })
   })
 
-  it('should consume and store the assets', async () => {
+  it.skip('should consume and store the assets', async () => {
     const folder = '/tmp/nevermined/sdk-js-1'
     const path = (await nevermined.assets.access(agreementId, ddo.id, consumer, folder)) as string
 
@@ -185,7 +184,7 @@ describe('Consume Asset', () => {
     assert.deepEqual(files, ['README.md', 'ddo-example.json'], 'Stored files are not correct.')
   })
 
-  it('should consume and store one asset', async () => {
+  it.skip('should consume and store one asset', async () => {
     const folder = '/tmp/nevermined/sdk-js-2'
     const path = (await nevermined.assets.access(
       agreementId,

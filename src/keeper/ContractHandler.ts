@@ -262,6 +262,7 @@ export class ContractHandler extends Instantiable {
     }
 
     const feeData = await this.web3.getFeeData()
+    console.log('feeData', feeData)
 
     // EIP-1559 fee parameters
     if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
