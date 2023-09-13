@@ -7,6 +7,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Reclaim some disk space
+        run: |
+          df -h
+          docker images
+          docker system df
+          docker system prune --all --volumes -f
+          docker system df
+          df -h
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
