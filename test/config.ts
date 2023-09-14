@@ -3,7 +3,7 @@ import { LoggerInstance } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
-export default {  
+export default {
   marketplaceUri: 'http://localhost:3100',
   neverminedNodeUri: 'http://localhost:8030',
   neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',

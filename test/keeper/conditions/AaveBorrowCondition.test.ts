@@ -27,12 +27,8 @@ describe('AaveBorrowCondition', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[user] = await nevermined.accounts.list()
     ;({ didRegistry } = nevermined.keeper)
-    condition = 
-      (await (
-        await Nevermined.getInstance(config))
-        .keeper.loadAaveInstances())
-        .conditions.aaveBorrowCondition    
-    
+    condition = (await (await Nevermined.getInstance(config)).keeper.loadAaveInstances()).conditions
+      .aaveBorrowCondition
   })
 
   beforeEach(async () => {

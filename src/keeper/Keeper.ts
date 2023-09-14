@@ -72,7 +72,7 @@ export class Keeper extends Instantiable {
         // Main contracts
         dispenser: undefined, // Optional
         token: undefined, // Optional
-        curveRoyalties: undefined, // Optional        
+        curveRoyalties: undefined, // Optional
         nvmConfig: NeverminedConfig.getInstance(this.instanceConfig),
         didRegistry: DIDRegistry.getInstance(this.instanceConfig),
         // Managers
@@ -100,8 +100,6 @@ export class Keeper extends Instantiable {
         aaveCollateralWithdrawCondition: undefined,
         aaveRepayCondition: undefined,
         aaveCreditTemplate: undefined,
-
-
 
         nft721LockCondition: NFT721LockCondition.getInstance(this.instanceConfig),
         distributeNftCollateralCondition: DistributeNFTCollateralCondition.getInstance(
@@ -207,7 +205,7 @@ export class Keeper extends Instantiable {
       nft721AccessTemplate: this.instances.nft721AccessTemplate,
       nftSalesTemplate: this.instances.nftSalesTemplate,
       nft721SalesTemplate: this.instances.nft721SalesTemplate,
-      aaveCreditTemplate: undefined
+      aaveCreditTemplate: undefined,
     }
     this.templateList = [
       this.instances.accessTemplate,
@@ -409,12 +407,10 @@ export class Keeper extends Instantiable {
 
     this.logger.debug('Loading Aave contracts')
     this.instances.aaveBorrowCondition = await AaveBorrowCondition.getInstance(this.instanceConfig)
-    this.instances.aaveCollateralDepositCondition = await AaveCollateralDepositCondition.getInstance(
-      this.instanceConfig,
-    )
-    this.instances.aaveCollateralWithdrawCondition = await AaveCollateralWithdrawCondition.getInstance(
-      this.instanceConfig,
-    )
+    this.instances.aaveCollateralDepositCondition =
+      await AaveCollateralDepositCondition.getInstance(this.instanceConfig)
+    this.instances.aaveCollateralWithdrawCondition =
+      await AaveCollateralWithdrawCondition.getInstance(this.instanceConfig)
     this.instances.aaveRepayCondition = await AaveRepayCondition.getInstance(this.instanceConfig)
 
     this.conditions.aaveBorrowCondition = this.instances.aaveBorrowCondition

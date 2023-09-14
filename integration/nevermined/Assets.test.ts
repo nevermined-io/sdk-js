@@ -172,7 +172,7 @@ describe('Assets', () => {
 
     it('should be able to download the updated files', async () => {
       const folder = '/tmp/sdk-js/updated-files'
-      if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true})
+      if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true })
 
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       assert.include(path, folder, 'The storage path is not correct.')
@@ -229,7 +229,7 @@ describe('Assets', () => {
     })
 
     it('new rating must be between 0 and 1', async () => {
-      // Trying to add a vote with a rating out of range      
+      // Trying to add a vote with a rating out of range
       await assert.isRejected(nevermined.assets.addRating(ddo.shortId(), 2, 1, publisher))
     })
   })

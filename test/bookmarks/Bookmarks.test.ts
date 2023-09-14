@@ -26,7 +26,7 @@ describe('Bookmarks', () => {
     nevermined = await Nevermined.getInstance(config)
   })
 
-  beforeEach(async () => {    
+  beforeEach(async () => {
     bookmarks = nevermined.services.bookmarks // eslint-disable-line prefer-destructuring
 
     newBookmark = {
