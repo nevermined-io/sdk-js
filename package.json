@@ -52,6 +52,7 @@
   "homepage": "https://github.com/nevermined-io/sdk-js#readme",
   "dependencies": {
     "@apollo/client": "^3.7.16",
+    "@zerodev/sdk": "^4.0.17",
     "assert": "^2.0.0",
     "cross-fetch": "^4.0.0",
     "crypto-browserify": "^3.12.0",

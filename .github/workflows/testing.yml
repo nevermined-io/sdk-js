@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - uses: nevermined-io/nvm-tools-actions@v0.14.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
@@ -55,7 +55,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Deploy contracts
         run: |

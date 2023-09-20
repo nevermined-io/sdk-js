@@ -3,6 +3,7 @@ import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import {
+  Contract,
   ContractTransactionReceipt,
   ContractTransactionResponse,
   FunctionFragment,
@@ -143,13 +144,13 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
+    // const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
 
     if (progress) {
       progress({
         stage: 'receipt',
         args: this.searchMethodInputs(name, args),
-        transactionReceipt,
+        // transactionReceipt,
         method: name,
         from,
         value,
@@ -159,7 +160,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    return transactionReceipt
+    return transactionResponse as any
   }
 
   public async send(
@@ -168,6 +169,12 @@ export abstract class ContractBase extends Instantiable {
     args: any[],
     params: TxParameters = {},
   ): Promise<ContractTransactionReceipt> {
+    if (this.config.zerodevProvider) {
+      const signer = this.config.zerodevProvider.getAccountSigner()
+      const contract = new Contract(this.address, this.contract.interface, signer as any)
+      return await this.internalSend(name, from, args, params, contract, params.progress)
+    }
+
     if (params.signer) {
       const paramsFixed = { ...params, signer: undefined }
       const contract = this.contract.connect(params.signer)

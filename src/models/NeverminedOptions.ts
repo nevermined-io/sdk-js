@@ -1,6 +1,7 @@
 import { ethers } from 'ethers'
 import { LogLevel } from '../utils'
 import { AaveConfig } from './'
+import { ZeroDevEthersProvider } from '@zerodev/sdk'
 
 export class NeverminedOptions {
   /**
@@ -83,4 +84,6 @@ export class NeverminedOptions {
    * Use a gas station to calculate transaction fees
    */
   public gasStationUri?: string
+
+  public zerodevProvider?: ZeroDevEthersProvider<'ECDSA'>
 }
