@@ -27,6 +27,10 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     return 'nft-sales'
   }
 
+  public serviceEndpoint(): ServiceType | string {
+    return 'nft-transfer'
+  }
+
   public name(): string {
     return 'nft1155SalesAgreement'
   }
