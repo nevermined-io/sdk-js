@@ -255,11 +255,17 @@ export class ContractHandler extends Instantiable {
     }
   }
 
+
   public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
     // Custom gas fee for polygon networks
     const chainId = await this.nevermined.keeper.getNetworkId()
     if (chainId === 137 || chainId === 80001) {
       return this.getFeeDataPolygon(chainId)
+    }
+
+    // arbitrum
+    if (networkId === 42161 || networkId === 421613) {
+      return this.getFeeDataArbitrum()
     }
 
     const feeData = await this.web3.getFeeData()
@@ -311,6 +317,21 @@ export class ContractHandler extends Instantiable {
       maxFeePerGas: maxFeePerGas,
       maxPriorityFeePerGas: maxPriorityFeePerGas,
       type: 2,
+    }
+  }
+
+  private async getFeeDataArbitrum() {
+    /**
+     * See https://docs.arbitrum.io/arbos/gas
+     *
+     * The sequencer prioritizes transactions on a first-come first-served basis.
+     * Because tips do not make sense in this model, they are ignored.
+     * Arbitrum users always just pay the basefee regardless of the tip they choose.
+     */
+    const feeData = await this.web3.getFeeData()
+
+    return {
+      gasPrice: feeData.gasPrice,
     }
   }
 }

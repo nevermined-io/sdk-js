@@ -28,8 +28,8 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
   public service(): ServiceType {
     return 'nft-sales'
   }
-  public serviceEndpoint(): ServiceType {
-    return 'nft-sales'
+  public serviceEndpoint(): ServiceType | string {
+    return 'nft-transfer'
   }
 
   public name(): string {
