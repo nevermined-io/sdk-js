@@ -255,7 +255,6 @@ export class ContractHandler extends Instantiable {
     }
   }
 
-
   public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
     // Custom gas fee for polygon networks
     const chainId = await this.nevermined.keeper.getNetworkId()
@@ -264,7 +263,7 @@ export class ContractHandler extends Instantiable {
     }
 
     // arbitrum
-    if (networkId === 42161 || networkId === 421613) {
+    if (chainId === 42161 || chainId === 421613) {
       return this.getFeeDataArbitrum()
     }
 
