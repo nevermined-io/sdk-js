@@ -61,7 +61,7 @@ export class NeverminedNode extends Instantiable {
     return `${this.url}${apiPath}/access-proof`
   }
 
-  public getServiceEndpoint(service: ServiceType) {
+  public getServiceEndpoint(service: ServiceType | string) {
     return `${this.url}${apiPath}/${service}`
   }
 
@@ -380,9 +380,23 @@ export class NeverminedNode extends Instantiable {
     ercType: ERCType = 1155,
     did?: string,
   ): Promise<boolean> {
+    let claimNFTEndpoint = this.getClaimNftEndpoint()
     try {
+      if (did) {
+        // Getting Node endpoint from DDO
+        const ddo = await this.nevermined.assets.resolve(did)
+        const salesService = ddo.findServiceByType('nft-sales')
+        const endpointURL = new URL(salesService.serviceEndpoint)
+        claimNFTEndpoint = `${endpointURL.protocol}//${endpointURL.host}${apiPath}/nft-transfer`
+      }
+    } catch (e) {
+      this.logger.log(`Unable to get endpoint from DDO: ${did}`)
+    }
+
+    try {
+      this.logger.log(`Claiming NFT using endpoint: ${claimNFTEndpoint}`)
       const response = await this.nevermined.utils.fetch.post(
-        this.getClaimNftEndpoint(),
+        claimNFTEndpoint,
         JSON.stringify({
           agreementId,
           did,

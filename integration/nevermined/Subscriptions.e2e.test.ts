@@ -27,6 +27,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   let reseller: Account
 
   let nevermined: Nevermined
+
   let token: Token
   let escrowPaymentCondition: EscrowPaymentCondition
   let transferNft721Condition: TransferNFT721Condition
