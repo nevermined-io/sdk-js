@@ -3,7 +3,6 @@ import { LoggerInstance } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
-
 const config = {
   marketplaceUri: 'http://localhost:3100',
   neverminedNodeUri: 'http://localhost:8030',

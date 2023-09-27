@@ -403,10 +403,10 @@ export class NeverminedNode extends Instantiable {
         nftType: ercType,
         serviceIndex: serviceIndex && serviceIndex >= 0 ? serviceIndex : -1,
       })
-      
+
       this.logger.log(`Claiming NFT using endpoint: ${claimNFTEndpoint}`)
       const response = await this.nevermined.utils.fetch.post(claimNFTEndpoint, claimBody)
-      
+
       if (!response.ok) {
         throw new HttpError(`${response.statusText} ${response.url}`, response.status)
       }
