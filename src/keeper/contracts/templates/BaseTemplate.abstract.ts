@@ -28,7 +28,7 @@ export abstract class BaseTemplate<Params, S extends Service>
   public abstract description(): string
   public abstract conditions(): Condition<any, any>[]
 
-  public serviceEndpoint(): ServiceType {
+  public serviceEndpoint(): ServiceType | string {
     return this.service()
   }
 

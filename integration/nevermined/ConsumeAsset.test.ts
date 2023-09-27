@@ -129,7 +129,6 @@ describe('Consume Asset', () => {
     assert.isTrue(paid, 'The asset has not been paid correctly')
   })
 
-  // The test will fail because Nevermined Node grants the access faster
   it('should grant the access by the publisher', async () => {
     try {
       const granted = await nevermined.agreements.conditions.grantAccess(
