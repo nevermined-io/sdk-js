@@ -17,7 +17,7 @@ import {
   PublishMetadataOptions,
   RoyaltyKind,
 } from '../../src/nevermined/api/AssetsApi'
-import { ethers } from 'ethers'
+import { ethers, ZeroAddress } from 'ethers'
 import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
@@ -481,7 +481,7 @@ function makeTest(isCustom) {
           'NFT1155',
           'NVM',
           '',
-          nevermined.keeper.nvmConfig.address,
+          ZeroAddress,
         ])
 
         const nftContract = await Nft1155Contract.getInstance(
