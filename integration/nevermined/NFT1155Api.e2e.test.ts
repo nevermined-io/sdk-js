@@ -96,6 +96,7 @@ function makeTest(isCustom) {
           'NFT1155',
           'NVM',
           '',
+          nevermined.keeper.nvmConfig.address,
         ])
 
         const nftContract = await Nft1155Contract.getInstance(
@@ -480,6 +481,7 @@ function makeTest(isCustom) {
           'NFT1155',
           'NVM',
           '',
+          nevermined.keeper.nvmConfig.address,
         ])
 
         const nftContract = await Nft1155Contract.getInstance(
