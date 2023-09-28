@@ -322,7 +322,6 @@ describe('Assets', () => {
           console.debug(`It should fail with error: ${err}`)
           assert.isDefined(err)
         })
-
     })
   })
 
