@@ -122,6 +122,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         '',
         '',
         0,
+        nevermined.keeper.nvmConfig.address,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)
