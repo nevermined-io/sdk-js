@@ -752,6 +752,11 @@
           "internalType": "string",
           "name": "uri_",
           "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "nvmConfig",
+          "type": "address"
         }
       ],
       "name": "initialize",
