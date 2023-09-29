@@ -152,7 +152,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
 
     it('should grant Nevermined the operator role', async () => {
       assert.isTrue(
-        await nevermined.nfts721.isOperatorOfDID(
+        await nevermined.nfts721.isOperator(
           subscriptionDDO.id,
           nevermined.keeper.conditions.transferNft721Condition.address,
         ),

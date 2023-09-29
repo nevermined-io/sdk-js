@@ -120,8 +120,8 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       TestContractHandler.setConfig(config)
 
       const contractABI = await TestContractHandler.getABI(
-        'NFT1155SubscriptionUpgradeable',
-        './test/resources/artifacts/',
+        `NFT1155SubscriptionUpgradeable.${await nevermined.keeper.getNetworkName()}`,
+        './artifacts/',
       )
       subscriptionNFT = await SubscriptionCreditsNFTApi.deployInstance(
         config,
@@ -133,6 +133,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
           'App Subscription NFT',
           'CRED',
           '',
+          nevermined.keeper.nvmConfig.address,
         ],
       )
 
