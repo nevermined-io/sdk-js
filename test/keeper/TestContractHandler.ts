@@ -84,7 +84,14 @@ export default abstract class TestContractHandler extends ContractHandler {
     const erc1155 = await TestContractHandler.deployContract(
       'NFT1155Upgradeable',
       deployerAddress,
-      [deployerAddress, await didRegistry.getAddress(), 'Nevermined NFT1155', 'NVM', ''],
+      [
+        deployerAddress,
+        await didRegistry.getAddress(),
+        'Nevermined NFT1155',
+        'NVM',
+        '',
+        await nvmConfig.getAddress(),
+      ],
     )
 
     const erc721 = await TestContractHandler.deployContract('NFT721Upgradeable', deployerAddress, [
@@ -94,6 +101,7 @@ export default abstract class TestContractHandler extends ContractHandler {
       'NVM',
       '',
       0,
+      await nvmConfig.getAddress(),
     ])
 
     transactionResponse = await didRegistry.connect(signer).getFunction('setNFT1155')(

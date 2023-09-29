@@ -58,6 +58,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
 
     nftContract = await Nft721Contract.getInstance(

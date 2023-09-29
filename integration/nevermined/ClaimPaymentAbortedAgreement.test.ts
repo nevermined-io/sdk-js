@@ -64,6 +64,7 @@ describe('Claim aborted agreements End-to-End', () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
 
     nftContract = await Nft721Contract.getInstance(

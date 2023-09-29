@@ -148,6 +148,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
           'Credits Subscription NFT',
           'CRED',
           '',
+          nevermined.keeper.nvmConfig.address,
         ],
       )
 
