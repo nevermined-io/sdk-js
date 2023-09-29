@@ -42,6 +42,7 @@ describe('POAPs with Assets', () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
     assert.isDefined(poapContract)
 

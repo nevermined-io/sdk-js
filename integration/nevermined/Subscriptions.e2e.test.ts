@@ -7,7 +7,7 @@ import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../sr
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers } from 'ethers'
+import { ethers, ZeroAddress } from 'ethers'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -122,6 +122,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         '',
         '',
         0,
+        nevermined.keeper.nvmConfig.address,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)
@@ -302,6 +303,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         '',
         '',
         0,
+        ZeroAddress,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)

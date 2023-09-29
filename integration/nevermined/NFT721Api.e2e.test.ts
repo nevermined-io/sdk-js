@@ -61,6 +61,7 @@ describe('NFTs721 Api End-to-End', () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
 
     nftContract = await Nft721Contract.getInstance(

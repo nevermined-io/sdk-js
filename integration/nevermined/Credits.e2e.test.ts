@@ -143,6 +143,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
           'Credits Subscription NFT',
           'CRED',
           '',
+          nevermined.keeper.nvmConfig.address,
         ],
       )
 

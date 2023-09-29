@@ -36,6 +36,7 @@ describe('Subscription Durations', () => {
         '',
         '',
         0,
+        nevermined.keeper.nvmConfig.address,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)
@@ -129,6 +130,7 @@ describe('Subscription Durations', () => {
         '',
         '',
         0,
+        nevermined.keeper.nvmConfig.address,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)
@@ -221,6 +223,7 @@ describe('Subscription Durations', () => {
         '',
         '',
         0,
+        nevermined.keeper.nvmConfig.address,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)
