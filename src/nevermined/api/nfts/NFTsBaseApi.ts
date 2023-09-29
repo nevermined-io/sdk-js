@@ -118,7 +118,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     ercType: ERCType = 1155,
   ): Promise<boolean> {
     const nftContract =
-      ercType == 1155
+      ercType === 1155
         ? await this.nevermined.contracts.loadNft1155Contract(nftContractAddress)
         : await this.nevermined.contracts.loadNft721Contract(nftContractAddress)
 
