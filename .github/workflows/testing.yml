@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - uses: nevermined-io/nvm-tools-actions@v0.14.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
@@ -48,6 +48,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Reclaim some disk space
+        run: docker system prune --all --volumes -f
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
@@ -57,7 +59,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Deploy contracts
         run: |
@@ -79,7 +81,7 @@ jobs:
       - name: Start ganache
         env:
           SEED_WORDS: ${{ secrets.seedWords }}
-        run: yarn ganache --port 18545 --chain.chainId 8998 --wallet.mnemonic "$SEED_WORDS" --detach
+        run: yarn ganache --server.port 18545 --chain.chainId 8998 --wallet.mnemonic "$SEED_WORDS" --detach
 
       - name: Run unit tests
         env:
