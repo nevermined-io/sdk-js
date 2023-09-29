@@ -200,7 +200,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
     it('should grant Nevermined the operator role', async () => {
       assert.isTrue(
-        await nevermined.nfts1155.isOperator(
+        await nevermined.nfts1155.isOperatorOfDID(
           subscriptionDDO.id,
           nevermined.keeper.conditions.transferNftCondition.address,
         ),
@@ -340,7 +340,6 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
       assert.isTrue(balanceAfter === subscriptionCredits1 - accessCostInCredits1)
     })
 
-    // TODO: Enable this test when the TransferNFTCondition allow minting NFT-1155 with duration
     it('After the credits expire the user can not get access', async () => {
       await mineBlocks(nevermined, subscriber, subscriptionDuration1 + 1)
 
