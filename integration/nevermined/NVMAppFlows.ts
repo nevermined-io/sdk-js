@@ -16,6 +16,7 @@ import {
   SubscriptionCreditsNFTApi,
 } from '../../src/nevermined'
 import { mineBlocks } from '../utils/utils'
+import { sleep } from '@opengsn/provider'
 
 chai.use(chaiAsPromised)
 
@@ -27,7 +28,8 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   let nevermined: Nevermined
   let token: Token
   let transferNftCondition: TransferNFTCondition
-  let subscriptionDDO: DDO
+  let creditSubscriptionDDO: DDO
+  let timeSubscriptionDDO: DDO
   let datasetDDO: DDO
 
   let agreementId: string
@@ -35,24 +37,29 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   const amounts1 = [15n, 5n]
   const amounts2 = [30n, 10n]
   let receivers: string[]
+  let subsBronzePrice: AssetPrice
   let subsSilverPrice: AssetPrice
   let subsGoldPrice: AssetPrice
   let royaltyAttributes: RoyaltyAttributes
 
   let subscriptionMetadata: MetaData
+  let timeSubscriptionMetadata: MetaData
   let datasetMetadata: MetaData
 
   const preMint = false
   const royalties = 0
   const nftTransfer = false
 
+  const subscriptionBronzeDuration = 9 // in blocks
   const subscriptionSilverDuration = 10 // in blocks
   const subscriptionGoldDuration = 20 // in blocks
 
+  const subscriptionBronzePrice = 15n
   const subscriptionSilverPrice = 20n
   const subscriptionGoldPrice = 40n
   // This is the number of credits that the subscriber will get when purchase the subscription
   // In the DDO this will be added in the `_numberNFTs` value of the `nft-sales` service of the subscription
+  const subscriptionBronzeCredits = 1n
   const subscriptionSilverCredits = 15n
   const subscriptionGoldCredits = 50n
   // This is the number of credits that cost get access to the service attached to the subscription
@@ -81,6 +88,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     payload = decodeJwt(config.marketplaceAuthToken)
 
     datasetMetadata = getMetadata()
+    timeSubscriptionMetadata = getMetadata(undefined, 'NVM App Time only Subscription')
     subscriptionMetadata = getMetadata(undefined, 'NVM App Credits Subscription')
     subscriptionMetadata.main.type = 'subscription'
 
@@ -95,6 +103,13 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
 
     // scale = 10n ** BigInt(await token.decimals())
     receivers = [publisher.getId(), reseller.getId()]
+
+    subsBronzePrice = new AssetPrice(
+      new Map([
+        [receivers[0], amounts1[0]],
+        [receivers[1], amounts1[1]],
+      ]),
+    ).setTokenAddress(token.address)
 
     subsSilverPrice = new AssetPrice(
       new Map([
@@ -159,7 +174,173 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     })
   })
 
-  describe('As publisher I can register a time based Smart Subscription', () => {
+  describe('As publisher I can register a TIME ONLY Smart Subscription', () => {
+    it('As publisher I can register a time based Smart Subscription as part of the NFT1155', async () => {
+      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+        metadata: timeSubscriptionMetadata,
+        services: [
+          {
+            serviceType: 'nft-sales',
+            price: subsBronzePrice,
+            nft: {
+              duration: subscriptionBronzeDuration,
+              amount: subscriptionBronzeCredits,
+              nftTransfer,
+            },
+          },
+        ],
+        providers: [neverminedNodeAddress],
+        nftContractAddress: subscriptionNFT.address,
+        preMint,
+        royaltyAttributes: royaltyAttributes,
+      })
+      timeSubscriptionDDO = await nevermined.nfts1155.create(nftAttributes, publisher)
+
+      assert.equal(await subscriptionNFT.balance(timeSubscriptionDDO.id, publisher.getId()), 0n)
+      assert.isDefined(timeSubscriptionDDO)
+      console.log(`Subscription DID: ${timeSubscriptionDDO.id}`)
+
+      salesServices = timeSubscriptionDDO.getServicesByType('nft-sales')
+      assert.equal(salesServices.length, 1)
+    })
+
+    it('As publisher I can register an off-chain dataset associated to a TIME ONLY subscription', async () => {
+      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+        metadata: getMetadata(),
+        services: [
+          {
+            serviceType: 'nft-access',
+            nft: {
+              tokenId: timeSubscriptionDDO.shortId(),
+              // TODO: Review
+              duration: subscriptionBronzeDuration,
+              amount: 0n,
+              nftTransfer,
+            },
+          },
+        ],
+        providers: [neverminedNodeAddress],
+        nftContractAddress: subscriptionNFT.address,
+        preMint,
+        royaltyAttributes: royaltyAttributes,
+      })
+      datasetDDO = await nevermined.nfts1155.create(nftAttributes, publisher, {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        did: PublishOnChainOptions.OnlyOffchain,
+      })
+      assert.isDefined(datasetDDO)
+      console.log(`Asset DID: ${datasetDDO.id}`)
+
+      accessServices = datasetDDO.getServicesByType('nft-access')
+      assert.equal(accessServices.length, 1)
+
+      const tokenId = DDO.getTokenIdFromService(accessServices[0])
+      assert.equal(tokenId, timeSubscriptionDDO.shortId())
+
+      const amount = DDO.getNftAmountFromService(accessServices[0])
+      assert.equal(amount, 0n)
+    })
+  })
+
+  describe('As a subscriber I can purchase a TIME based Smart Subscription based on NFT1155', () => {
+    let agreementId: string
+
+    it('I can order and claim the subscription', async () => {
+      await subscriber.requestTokens(subscriptionBronzePrice)
+
+      const bronzeSalesService = timeSubscriptionDDO.getServicesByType('nft-sales')[0]
+      console.log(
+        `Bronze Sales Service with index ${bronzeSalesService.index} and Price ${bronzeSalesService.attributes.main.price}`,
+      )
+      agreementId = await nevermined.nfts1155.order(
+        timeSubscriptionDDO.id,
+        subscriptionBronzeCredits,
+        subscriber,
+        bronzeSalesService.index,
+      )
+      assert.isDefined(agreementId)
+
+      try {
+        const receipt = await nevermined.nfts1155.claim(
+          agreementId,
+          publisher.getId(),
+          subscriber.getId(),
+          subscriptionBronzeCredits,
+          timeSubscriptionDDO.id,
+          bronzeSalesService.index,
+        )
+        assert.isTrue(receipt)
+      } catch (e) {
+        console.error(e.message)
+        assert.fail(e.message)
+      }
+    })
+
+    it('I can download a dataset using my subscription', async () => {
+      const balanceBefore = await subscriptionNFT.balance(
+        timeSubscriptionDDO.id,
+        subscriber.getId(),
+      )
+      console.log(`Balance Before: ${balanceBefore}`)
+
+      console.log(`Time based AgreementId: ${agreementId}`)
+      for (let i = 0; i < 3; i++) {
+        const result = await nevermined.nfts1155.access(
+          datasetDDO.id,
+          subscriber,
+          '/tmp/.nevermined/downloads/0/',
+          undefined,
+          agreementId,
+        )
+        await sleep(1000)
+        assert.isTrue(result)
+        console.log(`Asset downloaded ${i} time/s`)
+      }
+
+      const minted = await subscriptionNFT.getContract.getMintedEntries(
+        subscriber.getId(),
+        timeSubscriptionDDO.shortId(),
+      )
+      console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
+      console.log(`Minted entries: ${minted.length}`)
+      minted.map((m) =>
+        console.log(
+          `Minted ${m.amountMinted} tokens on block ${m.mintBlock} and expiring on ${m.expirationBlock} block`,
+        ),
+      )
+
+      const balanceAfter = await subscriptionNFT.balance(timeSubscriptionDDO.id, subscriber.getId())
+      console.log(`Balance After: ${balanceAfter}`)
+
+      assert.equal(balanceBefore, balanceAfter)
+    })
+  })
+
+  describe('Subscriptions expires', () => {
+    it('When subscription expires my balance is back to 0', async () => {
+      await mineBlocks(nevermined, subscriber, subscriptionBronzeDuration + 1)
+      const balanceAfter = await subscriptionNFT.balance(timeSubscriptionDDO.id, subscriber.getId())
+      console.log(`Balance After Expiring duration: ${balanceAfter}`)
+      assert.isTrue(balanceAfter === 0n)
+    })
+
+    it('As a subscriber I can not access to the dataset using my expired subscription', async () => {
+      try {
+        await nevermined.nfts1155.access(
+          datasetDDO.id,
+          subscriber,
+          '/tmp/.nevermined/downloads/0/',
+          undefined,
+          agreementId,
+        )
+        assert.fail('Should not be able to access the dataset')
+      } catch (e) {
+        assert.isTrue(true)
+      }
+    })
+  })
+
+  describe('As publisher I can register a TIME & CREDITS based Smart Subscription', () => {
     it('As publisher I can register a time based Smart Subscription as part of the NFT1155', async () => {
       const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: subscriptionMetadata,
@@ -188,13 +369,13 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         preMint,
         royaltyAttributes: royaltyAttributes,
       })
-      subscriptionDDO = await nevermined.nfts1155.create(nftAttributes, publisher)
+      creditSubscriptionDDO = await nevermined.nfts1155.create(nftAttributes, publisher)
 
-      assert.equal(await subscriptionNFT.balance(subscriptionDDO.id, publisher.getId()), 0n)
-      assert.isDefined(subscriptionDDO)
-      console.log(`Subscription DID: ${subscriptionDDO.id}`)
+      assert.equal(await subscriptionNFT.balance(creditSubscriptionDDO.id, publisher.getId()), 0n)
+      assert.isDefined(creditSubscriptionDDO)
+      console.log(`Subscription DID: ${creditSubscriptionDDO.id}`)
 
-      salesServices = subscriptionDDO.getServicesByType('nft-sales')
+      salesServices = creditSubscriptionDDO.getServicesByType('nft-sales')
       assert.equal(salesServices.length, 2)
       assert.equal(
         salesServices[0].attributes.main.price.toString(),
@@ -206,14 +387,14 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       )
     })
 
-    it('As publisher I can register an off-chain dataset associated to a time subscription', async () => {
+    it('As publisher I can register an off-chain dataset associated to a time and credits subscription', async () => {
       const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: datasetMetadata,
         services: [
           {
             serviceType: 'nft-access',
             nft: {
-              tokenId: subscriptionDDO.shortId(),
+              tokenId: creditSubscriptionDDO.shortId(),
               // TODO: Review
               duration: subscriptionSilverDuration,
               amount: accessCostInCreditsDataset,
@@ -237,24 +418,24 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       assert.equal(accessServices.length, 1)
 
       const tokenId = DDO.getTokenIdFromService(accessServices[0])
-      assert.equal(tokenId, subscriptionDDO.shortId())
+      assert.equal(tokenId, creditSubscriptionDDO.shortId())
     })
 
     it.skip('As a publisher I can register an off-chain webservice associated to a time subscription', async () => {})
   })
 
-  describe('As a subscriber I can purchase a time based Smart Subscription based on NFT1155', () => {
+  describe('As a subscriber I can purchase a time and credits based Smart Subscription based on NFT1155', () => {
     let agreementId: string
 
     it('I can order and claim the subscription', async () => {
       await subscriber.requestTokens(subscriptionSilverPrice)
 
-      const silverSalesService = subscriptionDDO.getServicesByType('nft-sales')[0]
+      const silverSalesService = creditSubscriptionDDO.getServicesByType('nft-sales')[0]
       console.log(
         `Silver Sales Service with index ${silverSalesService.index} and Price ${silverSalesService.attributes.main.price}`,
       )
       agreementId = await nevermined.nfts1155.order(
-        subscriptionDDO.id,
+        creditSubscriptionDDO.id,
         subscriptionSilverCredits,
         subscriber,
         silverSalesService.index,
@@ -267,7 +448,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
           publisher.getId(),
           subscriber.getId(),
           subscriptionSilverCredits,
-          subscriptionDDO.id,
+          creditSubscriptionDDO.id,
           silverSalesService.index,
         )
         assert.isTrue(receipt)
@@ -278,7 +459,10 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     })
 
     it('I can download a dataset using my subscription', async () => {
-      const balanceBefore = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      const balanceBefore = await subscriptionNFT.balance(
+        creditSubscriptionDDO.id,
+        subscriber.getId(),
+      )
       console.log(`Balance Before: ${balanceBefore}`)
 
       console.log(`First AgreementId: ${agreementId}`)
@@ -291,7 +475,10 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       )
       assert.isTrue(result)
 
-      const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      const balanceAfter = await subscriptionNFT.balance(
+        creditSubscriptionDDO.id,
+        subscriber.getId(),
+      )
       console.log(`Balance After: ${balanceAfter}`)
 
       assert.equal(balanceBefore - accessCostInCreditsDataset, balanceAfter)
@@ -303,7 +490,10 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   describe('Subscriptions expires', () => {
     it('When subscription expires my balance is back to 0', async () => {
       await mineBlocks(nevermined, subscriber, subscriptionSilverDuration + 1)
-      const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      const balanceAfter = await subscriptionNFT.balance(
+        creditSubscriptionDDO.id,
+        subscriber.getId(),
+      )
       console.log(`Balance After Expiring duration: ${balanceAfter}`)
       assert.isTrue(balanceAfter === 0n)
     })
@@ -328,13 +518,13 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
 
   describe('As a subscriber I want to topup my subscription purchasing a GOLD plan', () => {
     it('I check the details of the subscription NFT', async () => {
-      const details = await nevermined.nfts1155.details(subscriptionDDO.id)
+      const details = await nevermined.nfts1155.details(creditSubscriptionDDO.id)
       assert.equal(details.owner, publisher.getId())
     })
 
     it('I am ordering the GOLD plan associated to the subscription NFT', async () => {
       const balanceBeforeTopup = await subscriptionNFT.balance(
-        subscriptionDDO.id,
+        creditSubscriptionDDO.id,
         subscriber.getId(),
       )
 
@@ -342,12 +532,12 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
 
       await subscriber.requestTokens(subscriptionGoldPrice)
 
-      const goldSalesService = subscriptionDDO.getServicesByType('nft-sales')[1]
+      const goldSalesService = creditSubscriptionDDO.getServicesByType('nft-sales')[1]
       console.log(
         `Gold Sales Service with index ${goldSalesService.index} and Price ${goldSalesService.attributes.main.price}`,
       )
       agreementId = await nevermined.nfts1155.order(
-        subscriptionDDO.id,
+        creditSubscriptionDDO.id,
         subscriptionGoldCredits,
         subscriber,
         goldSalesService.index,
@@ -361,7 +551,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
           publisher.getId(),
           subscriber.getId(),
           subscriptionGoldCredits,
-          subscriptionDDO.id,
+          creditSubscriptionDDO.id,
           goldSalesService.index,
         )
         assert.isTrue(receipt)
@@ -371,14 +561,14 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       }
 
       const balanceAfterTopup = await subscriptionNFT.balance(
-        subscriptionDDO.id,
+        creditSubscriptionDDO.id,
         subscriber.getId(),
       )
       console.log(`Balance After Topup: ${balanceAfterTopup}`)
 
       const minted = await subscriptionNFT.getContract.getMintedEntries(
         subscriber.getId(),
-        subscriptionDDO.shortId(),
+        creditSubscriptionDDO.shortId(),
       )
       console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)
@@ -392,7 +582,10 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     })
 
     it('I can download again using my toped up subscription', async () => {
-      const balanceBefore = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      const balanceBefore = await subscriptionNFT.balance(
+        creditSubscriptionDDO.id,
+        subscriber.getId(),
+      )
       console.log(`Balance Before: ${balanceBefore}`)
 
       console.log(`Using Agreement Id ${agreementId}`)
@@ -403,20 +596,18 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         undefined,
         agreementId,
       )
-      // for (let i = 0; i < 5; i++) {
-      //   await nevermined.nfts1155.access(datasetDDO.id, subscriber, '/tmp/', undefined, agreementId)
-      //   await sleep(1000)
-      //   console.log(`Balance After Access: ${await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())}`)
-      // }
 
       assert.isTrue(result)
 
-      const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      const balanceAfter = await subscriptionNFT.balance(
+        creditSubscriptionDDO.id,
+        subscriber.getId(),
+      )
       console.log(`Balance After: ${balanceAfter}`)
 
       const minted = await subscriptionNFT.getContract.getMintedEntries(
         subscriber.getId(),
-        subscriptionDDO.shortId(),
+        creditSubscriptionDDO.shortId(),
       )
       console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)

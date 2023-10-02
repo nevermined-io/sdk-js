@@ -72,6 +72,38 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     return { ...nftAccessTemplateServiceAgreementTemplate() }
   }
 
+  public async process(
+    params: ValidationParams,
+    from: Account,
+    txparams?: TxParameters,
+  ): Promise<void> {
+    await this.validateAgreement(
+      params.agreement_id,
+      params.did,
+      await this.paramsGen(params),
+      from,
+      await this.extraGen(params),
+      txparams,
+    )
+  }
+
+  public async validateAgreement(
+    agreement_id: string,
+    did: string,
+    params: NFTAccessTemplateParams,
+    from: Account,
+    extra: any = {},
+    txparams?: TxParameters,
+  ): Promise<void> {
+    const ddo = await this.nevermined.assets.resolve(did)
+    const metadataService = ddo.findServiceByType('metadata')
+    const isNft1155Credit =
+      metadataService.attributes.main.nftType.toString() ===
+      NeverminedNFT1155Type.nft1155Credit.toString()
+    if (isNft1155Credit) return
+    return this.validateAgreement(agreement_id, did, params, from, extra, txparams)
+  }
+
   public async accept(params: ValidationParams): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)
 
@@ -129,11 +161,13 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
         ? ddo.findServiceByIndex(params.service_index)
         : ddo.findServiceByType(this.service())
 
+    const amount = DDO.getNftAmountFromService(nftAccessService)
+    if (amount <= 0n) return true
+
     const contractAddress = DDO.getNftContractAddressFromService(
       nftAccessService as ServiceNFTAccess,
     )
 
-    const amount = DDO.getNftAmountFromService(nftAccessService)
     const tokenId = DDO.getTokenIdFromService(nftAccessService) || ddo.id
 
     const nftContract = await this.nevermined.contracts.loadNft1155(contractAddress)
