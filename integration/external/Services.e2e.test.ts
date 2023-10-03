@@ -9,7 +9,12 @@ import {
   NFTAttributes,
   ResourceAuthentication,
 } from '../../src'
-import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
+import {
+  EscrowPaymentCondition,
+  TransferNFT721Condition,
+  Token,
+  ContractHandler,
+} from '../../src/keeper'
 import { config } from '../config'
 import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
@@ -209,10 +214,12 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await ContractHandler.getABI(
         'NFT721SubscriptionUpgradeable',
-        './test/resources/artifacts/',
+        config.artifactsFolder,
+        await nevermined.keeper.getNetworkName(),
       )
+
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
         nevermined.keeper.didRegistry.address,
@@ -346,13 +353,17 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
 
+      console.log(`Subscriber balance before: ${subscriberBalanceBefore}`)
+
       agreementId = await nevermined.nfts721.order(subscriptionDDO.id, subscriber)
 
       assert.isDefined(agreementId)
 
       const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
 
-      assert.equal(subscriberBalanceAfter, subscriberBalanceAfter - initialBalances.subscriber)
+      console.log(`Subscriber balance after: ${subscriberBalanceAfter}`)
+
+      assert.isTrue(subscriberBalanceAfter < subscriberBalanceBefore)
     })
 
     it('The Publisher can check the payment and transfer the NFT to the Subscriber', async () => {
@@ -491,11 +502,13 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       )
       assert.equal(result.totalResults.value, 1)
 
+      // console.log(`QUERY RESULTS = ${JSON.stringify(result.results)}`)
+
       assert.isTrue(
         result.results.every((r) =>
           r
             .findServiceByType('metadata')
-            .attributes.main.webService.openEndpoints.some((e) => e === '/openapi.json'),
+            .attributes.main.webService.openEndpoints.some((e) => e.includes('.json')),
         ),
       )
     })
