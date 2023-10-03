@@ -182,7 +182,7 @@ function makeTest(isCustom) {
 
       it('should give Nevermined the operator role', async () => {
         assert.isTrue(
-          await nevermined.nfts1155.isOperator(
+          await nevermined.nfts1155.isOperatorOfDID(
             ddo.id,
             nevermined.keeper.conditions.transferNftCondition.address,
           ),

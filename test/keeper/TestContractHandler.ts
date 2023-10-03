@@ -205,6 +205,7 @@ export default abstract class TestContractHandler extends ContractHandler {
         ZeroAddress,
       ],
     )
+
     transactionResponse = await erc1155.connect(signer).getFunction('grantOperatorRole')(
       await transferNftCondition.getAddress(),
     )

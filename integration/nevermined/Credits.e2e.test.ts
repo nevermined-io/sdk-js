@@ -180,7 +180,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
 
     it('should grant Nevermined the operator role', async () => {
       assert.isTrue(
-        await nevermined.nfts1155.isOperator(
+        await nevermined.nfts1155.isOperatorOfDID(
           subscriptionDDO.id,
           nevermined.keeper.conditions.transferNftCondition.address,
         ),
