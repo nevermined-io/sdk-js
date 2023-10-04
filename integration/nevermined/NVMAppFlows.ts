@@ -212,7 +212,6 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
             serviceType: 'nft-access',
             nft: {
               tokenId: timeSubscriptionDDO.shortId(),
-              // TODO: Review
               duration: subscriptionBronzeDuration,
               amount: 0n,
               nftTransfer,

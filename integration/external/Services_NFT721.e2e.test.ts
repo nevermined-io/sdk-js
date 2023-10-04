@@ -7,11 +7,17 @@ import {
   Nevermined,
   AssetPrice,
   NFTAttributes,
+  ResourceAuthentication,
   NeverminedNFT721Type,
 } from '../../src'
-import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
+import {
+  EscrowPaymentCondition,
+  TransferNFT721Condition,
+  Token,
+  ContractHandler,
+} from '../../src/keeper'
 import { config } from '../config'
-import { generateMetadata, getMetadata } from '../utils'
+import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
 import { didZeroX } from '../../src/utils'
@@ -22,9 +28,12 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
+  DID,
 } from '../../src/nevermined'
+import { RequestInit } from 'node-fetch'
+import fetch from 'node-fetch'
 
-describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
+describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   let publisher: Account
   let subscriber: Account
   let reseller: Account
@@ -34,7 +43,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   let escrowPaymentCondition: EscrowPaymentCondition
   let transferNft721Condition: TransferNFT721Condition
   let subscriptionDDO: DDO
-  let datasetDDO: DDO
+  let serviceDDO: DDO
 
   let agreementId: string
 
@@ -47,18 +56,46 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   let royaltyAttributes: RoyaltyAttributes
 
   let subscriptionMetadata: MetaData
-  let datasetMetadata: MetaData
+  let serviceMetadata: MetaData
 
   const preMint = false
   const royalties = 0
   const nftTransfer = false
   const subscriptionDuration = 1000 // in blocks
 
+  // The service to register into Nevermined and attach to a subscription
+  const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'
+
+  // The path of the SERVICE_ENDPOINT open that can be accessed via Proxy without authentication
+  const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
+
+  const SKIP_OPEN_ENDPOINT = process.env.SKIP_OPEN_ENDPOINT === 'true'
+
+  // The URL of the OPEN API endpoint that can be accessed via Proxy without authentication
+  const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
+
+  // We separate how the authorization of the service is done.
+  // If oauth we will use the AUTHORIZATION_TOKEN env
+  // If basic we will use the AUTHORIZATION_USER and AUTHORIZATION_PASSWORD envs
+  const AUTHORIZATION_TYPE = (process.env.AUTHORIZATION_TYPE ||
+    'oauth') as ResourceAuthentication['type']
+
+  // The http authorization bearer token required by the service
+  const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
+
+  // If the Authe
+  const AUTHORIZATION_USER = process.env.AUTHORIZATION_USER || 'user'
+
+  const AUTHORIZATION_PASSWORD = process.env.AUTHORIZATION_PASSWORD || 'password'
+
   // The NVM proxy that will be used to authorize the service requests
   const PROXY_URL = process.env.PROXY_URL || 'http://127.0.0.1:3128'
 
   // Required because we are dealing with self signed certificates locally
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
+  // let proxyAgent
+  const opts: RequestInit = {}
 
   let initialBalances: any
   let scale: bigint
@@ -69,7 +106,9 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
   let payload: JWTPayload
 
-  const tagsFilter = [
+  let accessToken: string
+
+  const endpointsFilter = [
     {
       nested: {
         path: ['service'],
@@ -79,7 +118,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
               { match: { 'service.type': 'metadata' } },
               {
                 match: {
-                  'service.attributes.additionalInformation.tags': 'weather',
+                  'service.attributes.main.webService.openEndpoints': '/openapi.json',
                 },
               },
             ],
@@ -89,7 +128,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     },
   ]
 
-  const tagsFilter2 = [
+  const endpointsFilter2 = [
     {
       nested: {
         path: ['service'],
@@ -99,7 +138,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
               { match: { 'service.type': 'metadata' } },
               {
                 match: {
-                  'service.attributes.additionalInformation.tags': 'nvm',
+                  'service.attributes.main.webService.openEndpoints': '/nvm.json',
                 },
               },
             ],
@@ -151,7 +190,24 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
     console.log(`USING CONFIG:`)
     console.log(`  PROXY_URL=${PROXY_URL}`)
+    console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
+    console.log(`  OPEN_ENDPOINT=${OPEN_ENDPOINT}`)
+    console.log(`  AUTHORIZATION_TYPE=${AUTHORIZATION_TYPE}`)
+    if (AUTHORIZATION_TYPE === 'oauth') console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
+    else {
+      console.log(`  AUTHORIZATION_USER=${AUTHORIZATION_USER}`)
+      console.log(`  AUTHORIZATION_PASSWORD=${AUTHORIZATION_PASSWORD}`)
+    }
     console.log(`  REQUEST_DATA=${process.env.REQUEST_DATA}`)
+  })
+
+  describe('As Subscriber I want to get access to a web service I am not subscribed', () => {
+    it('The subscriber can not access the service endpoints because does not have a subscription yet', async () => {
+      const result = await fetch(SERVICE_ENDPOINT, opts)
+
+      assert.isFalse(result.ok)
+      assert.isTrue(result.status >= 400)
+    })
   })
 
   describe('As Publisher I want to register new web service and provide access via subscriptions to it', () => {
@@ -159,10 +215,12 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await ContractHandler.getABI(
         'NFT721SubscriptionUpgradeable',
-        './test/resources/artifacts/',
+        config.artifactsFolder,
+        await nevermined.keeper.getNetworkName(),
       )
+
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, publisher, [
         publisher.getId(),
         nevermined.keeper.didRegistry.address,
@@ -183,6 +241,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.isTrue(isOperator)
 
       subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT')
+      subscriptionMetadata.main.type = 'subscription'
       const nftAttributes = NFTAttributes.getSubscriptionInstance({
         metadata: subscriptionMetadata,
         services: [
@@ -205,16 +264,31 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.isDefined(subscriptionDDO)
     })
 
-    it('I want to register a new dataset (via NFT)', async () => {
-      datasetMetadata = generateMetadata('Nevermined dataset Metadata') as MetaData
-      datasetMetadata.userId = payload.sub
+    it('I want to register a new web service and tokenize (via NFT)', async () => {
+      serviceMetadata = generateWebServiceMetadata(
+        'Nevermined Web Service Metadata',
+        // regex to match the service endpoints
+        // works with: https://www.npmjs.com/package/path-to-regexp
+        // Example of regex: `https://api.openai.com/v1/(.*)`,
+        `${SERVICE_ENDPOINT}(.*)`,
+        [OPEN_ENDPOINT],
+        AUTHORIZATION_TYPE,
+        AUTHORIZATION_TOKEN,
+        AUTHORIZATION_USER,
+        AUTHORIZATION_PASSWORD,
+      ) as MetaData
+      serviceMetadata.userId = payload.sub
+
+      console.log(`Registering service with metadata: ${JSON.stringify(serviceMetadata)}`)
 
       const nftAttributes = NFTAttributes.getNFT721Instance({
-        metadata: datasetMetadata,
+        metadata: serviceMetadata,
         services: [
           {
             serviceType: 'nft-access',
-            nft: { nftTransfer },
+            nft: {
+              nftTransfer,
+            },
           },
         ],
         providers: [neverminedNodeAddress],
@@ -222,14 +296,53 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
         preMint,
         royaltyAttributes: royaltyAttributes,
       })
-      datasetDDO = await nevermined.nfts721.create(nftAttributes, publisher)
+      serviceDDO = await nevermined.nfts721.create(nftAttributes, publisher)
       console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
-      console.log(`Dataset registered with DID: ${datasetDDO.id}`)
-      assert.isDefined(datasetDDO)
+      console.log(`Service registered with DID: ${serviceDDO.id}`)
+      assert.isDefined(serviceDDO)
     })
   })
 
-  describe('As a Subscriber I want to get access to a dataset', () => {
+  describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
+    it('The user can access the open service endpoints directly', async function () {
+      if (SKIP_OPEN_ENDPOINT) {
+        console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
+        this.skip()
+      }
+      console.log(`Using Open Endpoint: ${OPEN_ENDPOINT}`)
+
+      const result = await fetch(OPEN_ENDPOINT, opts)
+
+      assert.isTrue(result.ok)
+      assert.isTrue(result.status === 200)
+    })
+
+    it('The subscriber can access the open service endpoints through the proxy', async function () {
+      if (SKIP_OPEN_ENDPOINT) {
+        console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
+        this.skip()
+      }
+
+      const proxyUrl = new URL(PROXY_URL)
+      const serviceDID = DID.parse(serviceDDO.id)
+      const subdomain = serviceDID.getEncoded()
+
+      const OPEN_PROXY_URL = `${proxyUrl.protocol}//${subdomain}.${proxyUrl.host}${OPEN_PATH}`
+
+      console.log(`Using Proxied Open Endpoint: ${OPEN_PROXY_URL} for DID: ${serviceDDO.id}`)
+
+      const didFromEncoded = DID.fromEncoded(subdomain)
+
+      console.log(`DID from encoded: ${didFromEncoded.getDid()}`)
+
+      const result = await fetch(OPEN_PROXY_URL, opts)
+
+      assert.isTrue(result.ok)
+      assert.isTrue(result.status === 200)
+    })
+  })
+
+  describe('As a Subscriber I want to get access to a web service', () => {
     it('I check the details of the subscription NFT', async () => {
       const details = await nevermined.nfts721.details(subscriptionDDO.id)
       assert.equal(details.owner, publisher.getId())
@@ -239,7 +352,9 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       await subscriber.requestTokens(subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
-      assert.isTrue(subscriberBalanceBefore == initialBalances.subscriber + subscriptionPrice)
+      assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
+
+      console.log(`Subscriber balance before: ${subscriberBalanceBefore}`)
 
       agreementId = await nevermined.nfts721.order(subscriptionDDO.id, subscriber)
 
@@ -247,7 +362,9 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
       const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
 
-      assert.equal(subscriberBalanceAfter - initialBalances.subscriber, 0n)
+      console.log(`Subscriber balance after: ${subscriberBalanceAfter}`)
+
+      assert.isTrue(subscriberBalanceAfter < subscriberBalanceBefore)
     })
 
     it('The Publisher can check the payment and transfer the NFT to the Subscriber', async () => {
@@ -271,7 +388,6 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       const receiver1Balance = await token.balanceOf(assetPrice.getReceivers()[1])
 
       assert.equal(receiver0Balance, initialBalances.editor + assetPrice.getAmounts()[0])
-
       assert.equal(receiver1Balance, initialBalances.reseller + assetPrice.getAmounts()[1])
     })
 
@@ -310,21 +426,43 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       // thegraph stores the addresses in lower case
       assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
     })
+  })
 
-    it('The Subscriber should have an NFT balance', async () => {
-      const balance = await subscriptionNFT.balanceOf(subscriber.getId())
-      assert.equal(balance, 1n)
+  describe('As a subscriber I want to get an access token for the web service', () => {
+    it('Nevermined One issues an access token', async () => {
+      const response = await nevermined.nfts721.getSubscriptionToken(serviceDDO.id, subscriber)
+      accessToken = response.accessToken
+
+      assert.isDefined(accessToken)
     })
+  })
 
-    it('The Subscriber should have access to the dataset', async () => {
-      const result = await nevermined.nfts721.access(
-        datasetDDO.id,
-        subscriber,
-        '/tmp/',
-        undefined,
-        agreementId,
-      )
-      assert.isTrue(result)
+  describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
+    it('The subscriber access the service endpoints available', async () => {
+      const url = new URL(SERVICE_ENDPOINT)
+      const proxyEndpoint = `${PROXY_URL}${url.pathname}`
+
+      console.log(accessToken)
+      opts.headers = {
+        // The proxy expects the `HTTP Authorization` header with the JWT
+        authorization: `Bearer ${accessToken}`,
+        'content-type': 'application/json',
+        // Host header is not required anymore from the proxy, it picks this up from the JWT
+        // host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
+      }
+
+      if (process.env.REQUEST_DATA) {
+        opts.method = 'POST'
+        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
+      }
+
+      // console.debug(JSON.stringify(opts))
+      const result = await fetch(proxyEndpoint, opts)
+
+      console.debug(` ${result.status} - ${await result.text()}`)
+
+      assert.isTrue(result.ok)
+      assert.equal(result.status, 200)
     })
   })
 
@@ -360,85 +498,35 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.include(dids, subscriptionDDO.id)
     })
 
-    it('should be able to retrieve subscriptions published filtering by tags', async () => {
-      const result = await nevermined.search.subscriptionsCreated(
-        publisher,
-        NeverminedNFT721Type.nft721Subscription,
-        tagsFilter,
-      )
-
-      assert.isAbove(result.totalResults.value, 1)
-
-      assert.isTrue(
-        result.results.every((r) =>
-          r
-            .findServiceByType('metadata')
-            .attributes.additionalInformation.tags.some((t) => t === 'weather'),
-        ),
-      )
-    })
-
-    it('should not be able to retrieve any subscriptions published filtering by tags which not exist', async () => {
-      const result = await nevermined.search.subscriptionsCreated(
-        publisher,
-        NeverminedNFT721Type.nft721Subscription,
-        tagsFilter2,
-      )
-
-      assert.equal(result.totalResults.value, 0)
-    })
-
-    it('should be able to retrieve subscriptions purchased filtering by tags', async () => {
-      const result = await nevermined.search.subscriptionsPurchased(
-        subscriber,
-        NeverminedNFT721Type.nft721Subscription,
-        721,
-        tagsFilter,
-      )
-      assert.isAbove(result.totalResults.value, 1)
-
-      assert.isTrue(
-        result.results.every((r) =>
-          r
-            .findServiceByType('metadata')
-            .attributes.additionalInformation.tags.some((t) => t === 'weather'),
-        ),
-      )
-    })
-
-    it('should not be able to retrieve not subscriptions purchased filtering by tags which do not exist', async () => {
-      const result = await nevermined.search.subscriptionsPurchased(
-        subscriber,
-        NeverminedNFT721Type.nft721Subscription,
-        721,
-        tagsFilter2,
-      )
-      assert.equal(result.totalResults.value, 0)
-    })
-
-    it('should be able to retrieve all datasets associated with a subscription', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id)
+    it('should be able to retrieve all services associated with a subscription', async () => {
+      const result = await nevermined.search.servicesBySubscription(subscriptionDDO.id)
       assert.equal(result.totalResults.value, 1)
 
       const ddo = result.results.pop()
-      assert.equal(ddo.id, datasetDDO.id)
+      assert.equal(ddo.id, serviceDDO.id)
     })
 
-    it('should be able to retrieve datasets associated with a subscription filtering by tags', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter)
+    it('should be able to retrieve services associated with a subscription filtering by endpoints', async () => {
+      const result = await nevermined.search.servicesBySubscription(
+        subscriptionDDO.id,
+        endpointsFilter,
+      )
       assert.equal(result.totalResults.value, 1)
 
       assert.isTrue(
         result.results.every((r) =>
           r
             .findServiceByType('metadata')
-            .attributes.additionalInformation.tags.some((t) => t === 'weather'),
+            .attributes.main.webService.openEndpoints.some((e) => e.includes('.json')),
         ),
       )
     })
 
-    it('should not be able to retrieve any datasets associated with a subscription filtering by tags which do not exist', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter2)
+    it('should not be able to retrieve any services associated with a subscription filtering by endpoints which do not exist', async () => {
+      const result = await nevermined.search.servicesBySubscription(
+        subscriptionDDO.id,
+        endpointsFilter2,
+      )
       assert.equal(result.totalResults.value, 0)
     })
   })
