@@ -55,7 +55,7 @@ export class EthSignJWT extends SignJWT {
         message: eip712Data.message,
         token: decoder.decode(data),
       }
-      sign = await (signer as any)._signTypedData(domain, types, value)
+      sign = await signer.signTypedData(domain, types, value)
     } else {
       sign = await EthSignJWT.signText(decoder.decode(data), signer)
     }

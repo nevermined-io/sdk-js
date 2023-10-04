@@ -61,6 +61,7 @@ describe('NFTs721 Api End-to-End', () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
 
     nftContract = await Nft721Contract.getInstance(
@@ -134,7 +135,7 @@ describe('NFTs721 Api End-to-End', () => {
 
     it('should give operator role to Nevermined', async () => {
       assert.isTrue(
-        await nevermined.nfts721.isOperator(
+        await nevermined.nfts721.isOperatorOfDID(
           ddo.id,
           nevermined.keeper.conditions.transferNft721Condition.address,
         ),

@@ -49,7 +49,7 @@ export async function mineBlocks(nevermined: Nevermined, account: Account, block
       account.getId(),
       account.getId(),
       ethers.zeroPadValue('0x', 32),
-      'mining',
+      `miningBlock${index}`,
       account,
     )
     await sleep(100)

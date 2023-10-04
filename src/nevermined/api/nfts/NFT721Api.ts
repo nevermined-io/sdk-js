@@ -13,7 +13,6 @@ import { NFTError } from '../../../errors/NFTError'
 import { ContractTransactionReceipt, ethers } from 'ethers'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
-import { SubscriptionToken } from '../../../services'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.
@@ -641,27 +640,7 @@ export class NFT721Api extends NFTsBaseApi {
     return this._details(did, 721)
   }
 
-  /**
-   * Get a JWT token for an asset associated with a webService
-   *
-   * @example
-   * ```ts
-   * const response = await nevermined.nfts721.getSubscriptionToken(serviceDDO.id, subscriber)
-   *
-   * assert.isDefined(response.accessToken)
-   * assert.isDefined(response.neverminedProxyUri)
-   * ```
-   *
-   * @param did - The did of the asset with a webService resource and an associated subscription
-   * @param account - Account of the user requesting the token
-   *
-   * @returns {@link SubscriptionToken}
-   */
-  public getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
-    return this.nevermined.services.node.getSubscriptionToken(did, account)
-  }
-
-  public isOperator(did: string, address: string): Promise<boolean> {
-    return super.isOperator(did, address, 721)
+  public isOperatorOfDID(did: string, address: string): Promise<boolean> {
+    return super.isOperatorOfDID(did, address, 721)
   }
 }
