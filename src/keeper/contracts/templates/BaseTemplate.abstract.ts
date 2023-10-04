@@ -89,18 +89,22 @@ export abstract class BaseTemplate<Params, S extends Service>
    * Specialize params
    * @param params - Generic parameters
    */
-  public abstract paramsGen(params: ValidationParams): Promise<Params>
+  public abstract paramsGen(params: ValidationParams): Params
 
   public extraGen(_params: ValidationParams): Pick<ValidationParams, 'service_index'> {
     return { service_index: _params.service_index }
   }
 
-  public accept(_params: ValidationParams): boolean {
-    return false
+  public accept(_params: ValidationParams): Promise<boolean> {
+    return new Promise(() => false)
   }
 
-  public track(_params: ValidationParams, _from: Account, _txparams?: TxParameters): boolean {
-    return false
+  public track(
+    _params: ValidationParams,
+    _from: Account,
+    _txparams?: TxParameters,
+  ): Promise<boolean> {
+    return new Promise(() => false)
   }
 
   public async process(

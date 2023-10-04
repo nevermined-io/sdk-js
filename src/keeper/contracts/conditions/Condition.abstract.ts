@@ -137,14 +137,14 @@ export abstract class Condition<
   public abstract paramsFromDDO(
     ctx: Ctx,
     ...args: ConditionInstanceSmall[]
-  ): Promise<ConditionParameters<Extra>>
+  ): ConditionParameters<Extra>
 
-  public async instanceFromDDO(
+  public instanceFromDDO(
     agreementId: string,
     ctx: Ctx,
     ...args: ConditionInstanceSmall[]
   ): Promise<ConditionInstance<Extra>> {
-    return this.instance(agreementId, await this.paramsFromDDO(ctx, ...args))
+    return this.instance(agreementId, this.paramsFromDDO(ctx, ...args))
   }
 
   public async fulfillInstance(
@@ -169,7 +169,7 @@ export abstract class Condition<
     additionalParams: Extra,
     from?: Account,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt | void>
+  ): Promise<ContractTransactionReceipt> | void
 
   public async instance(
     agreementId: string,
