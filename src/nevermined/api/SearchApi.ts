@@ -156,12 +156,14 @@ export class SearchApi extends Instantiable {
    * @param customNestedQueries - Custom nested queries to add to the search
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async bySubscriptionContractAddress(
     contractAddress: string,
+    nftType: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -178,7 +180,7 @@ export class SearchApi extends Instantiable {
                 { match: { 'service.type': 'metadata' } },
                 {
                   match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                    'service.attributes.main.nftType': nftType,
                   },
                 },
               ],
@@ -234,12 +236,14 @@ export class SearchApi extends Instantiable {
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsCreated(
     account: Account,
+    nftType: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -256,7 +260,12 @@ export class SearchApi extends Instantiable {
                 { match: { 'service.type': 'metadata' } },
                 {
                   match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                    'service.attributes.main.nftType': nftType,
+                  },
+                },
+                {
+                  match: {
+                    'service.attributes.main.type': 'subscription',
                   },
                 },
               ],
@@ -299,12 +308,14 @@ export class SearchApi extends Instantiable {
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsPurchased(
     account: Account,
+    nftType: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -343,7 +354,12 @@ export class SearchApi extends Instantiable {
                 { match: { 'service.type': 'metadata' } },
                 {
                   match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                    'service.attributes.main.nftType': nftType,
+                  },
+                },
+                {
+                  match: {
+                    'service.attributes.main.type': 'subscription',
                   },
                 },
               ],
