@@ -179,28 +179,30 @@ export class SearchApi extends Instantiable {
             bool: {
               filter: [
                 { match: { 'service.type': 'metadata' } },
-                nftType && {
-                  match: {
-                    'service.attributes.main.nftType': nftType,
-                  },
-                },
-                !nftType && {
-                  bool: {
-                    should: [
-                      {
-                        match: {
-                          'service.attributes.main.nftType':
-                            NeverminedNFT721Type.nft721Subscription,
-                        },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
                       },
-                      {
-                        match: {
-                          'service.attributes.main.nftType': NeverminedNFT1155Type.nft1155Credit,
-                        },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
                       },
-                    ],
-                  },
-                },
+                    },
               ],
             },
           },
@@ -282,28 +284,30 @@ export class SearchApi extends Instantiable {
                   },
                 },
 
-                nftType && {
-                  match: {
-                    'service.attributes.main.nftType': nftType,
-                  },
-                },
-                !nftType && {
-                  bool: {
-                    should: [
-                      {
-                        match: {
-                          'service.attributes.main.nftType':
-                            NeverminedNFT721Type.nft721Subscription,
-                        },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
                       },
-                      {
-                        match: {
-                          'service.attributes.main.nftType': NeverminedNFT1155Type.nft1155Credit,
-                        },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
                       },
-                    ],
-                  },
-                },
+                    },
               ],
             },
           },
@@ -394,33 +398,35 @@ export class SearchApi extends Instantiable {
             bool: {
               filter: [
                 { match: { 'service.type': 'metadata' } },
-                nftType && {
-                  match: {
-                    'service.attributes.main.nftType': nftType,
-                  },
-                },
                 {
                   match: {
                     'service.attributes.main.type': 'subscription',
                   },
                 },
-                !nftType && {
-                  bool: {
-                    should: [
-                      {
-                        match: {
-                          'service.attributes.main.nftType':
-                            NeverminedNFT721Type.nft721Subscription,
-                        },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
                       },
-                      {
-                        match: {
-                          'service.attributes.main.nftType': NeverminedNFT1155Type.nft1155Credit,
-                        },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
                       },
-                    ],
-                  },
-                },
+                    },
               ],
             },
           },
