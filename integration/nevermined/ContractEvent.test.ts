@@ -22,7 +22,7 @@ describe('ContractEvent', () => {
     executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account.getId())
   })
 
-  it('should get a ContractEvent instance', async () => {
+  it('should get a ContractEvent instance', () => {
     assert.instanceOf(nevermined.keeper.token.events, ContractEvent)
   })
 

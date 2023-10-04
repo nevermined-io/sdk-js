@@ -74,11 +74,11 @@ export class Nft721Contract extends NFTContractsBase {
     return this._createClone(name, symbol, uri, cap, operators, from, txParams)
   }
 
-  public async mint(did: string, from: string, txParams?: TxParameters) {
+  public mint(did: string, from: string, txParams?: TxParameters) {
     return this.send('mint', from, [didZeroX(did)], txParams)
   }
 
-  public async mintWithURL(
+  public mintWithURL(
     to: string,
     did: string,
     url: string,
@@ -96,16 +96,11 @@ export class Nft721Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(tokenId: string, from?: Account, txParams?: TxParameters) {
+  public burn(tokenId: string, from?: Account, txParams?: TxParameters) {
     return this.sendFrom('burn', [zeroX(tokenId)], from, txParams)
   }
 
-  public async setApprovalForAll(
-    target: string,
-    state: boolean,
-    from: string,
-    txParams?: TxParameters,
-  ) {
+  public setApprovalForAll(target: string, state: boolean, from: string, txParams?: TxParameters) {
     return this.send('setApprovalForAll', from, [target, state], txParams)
   }
 
@@ -113,15 +108,15 @@ export class Nft721Contract extends NFTContractsBase {
     return this.call('isApprovedForAll', [didZeroX(accountAddress), didZeroX(operatorAddress)])
   }
 
-  public async balanceOf(owner: string): Promise<bigint> {
+  public balanceOf(owner: string): Promise<bigint> {
     return this.call('balanceOf', [owner])
   }
 
-  public async ownerOf(did: string): Promise<string> {
+  public ownerOf(did: string): Promise<string> {
     return this.call('ownerOf', [didZeroX(did)])
   }
 
-  public async tokenURI(did: string): Promise<string> {
+  public tokenURI(did: string): Promise<string> {
     return this.call('tokenURI', [didZeroX(did)])
   }
 }

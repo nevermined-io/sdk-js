@@ -27,7 +27,7 @@ import { ZeroAddress, parseEther } from '../../src/utils'
 import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
 import { EventLog } from 'ethers'
 
-describe('NFTTemplates With Ether E2E', async () => {
+describe('NFTTemplates With Ether E2E', () => {
   let artist: Account
   let collector1: Account
   let collector2: Account
@@ -124,7 +124,7 @@ describe('NFTTemplates With Ether E2E', async () => {
     console.debug(`NETWORK FEE = ${fee}`)
   })
 
-  describe('Full flow', async () => {
+  describe('Full flow', () => {
     before(async () => {
       // initial balances
       initialBalances = {
@@ -182,7 +182,7 @@ describe('NFTTemplates With Ether E2E', async () => {
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
     })
 
-    describe('As an artist I want to register a new artwork', async () => {
+    describe('As an artist I want to register a new artwork', () => {
       it('I want to register a new artwork and tokenize (via NFT). I want to get 10% royalties', async () => {
         await nftUpgradeable.setApprovalForAll(transferNftCondition.address, true, artist)
 
@@ -191,7 +191,7 @@ describe('NFTTemplates With Ether E2E', async () => {
       })
     })
 
-    describe('As a collector I want to buy some art', async () => {
+    describe('As a collector I want to buy some art', () => {
       it('I am setting an agreement for buying a NFT', async () => {
         conditionIdLockPayment = await lockPaymentCondition.generateIdWithSeed(
           agreementId,
@@ -345,7 +345,7 @@ describe('NFTTemplates With Ether E2E', async () => {
       })
     })
 
-    describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', async () => {
+    describe('As an artist I want to give exclusive access to the collectors owning a specific NFT', () => {
       it('The collector sets up the NFT access agreement', async () => {
         // Collector1: Create NFT access agreement
         conditionIdNFTHolder = await nftHolderCondition.generateIdWithSeed(

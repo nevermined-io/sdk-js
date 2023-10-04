@@ -20,7 +20,7 @@ describe('EventHandler', () => {
   })
 
   describe('#subscribe()', () => {
-    it('should subscribe to an event', async () => {
+    it('should subscribe to an event', () => {
       const countBefore = eventHandler.count
 
       const subscription = eventHandler.subscribe(
@@ -35,7 +35,7 @@ describe('EventHandler', () => {
       subscription.unsubscribe()
     })
 
-    it('should unsubscribe using the subscription', async () => {
+    it('should unsubscribe using the subscription', () => {
       const countBefore = eventHandler.count
 
       const subscription = eventHandler.subscribe(
@@ -52,7 +52,7 @@ describe('EventHandler', () => {
   })
 
   describe('#unsubscribe()', () => {
-    it('should unsubscribe from an event', async () => {
+    it('should unsubscribe from an event', () => {
       const countBefore = eventHandler.count
       const callback = () => null
 

@@ -1,6 +1,6 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO, ServiceType } from '../../../ddo'
-import { NFTAttributes, AssetAttributes } from '../../../models'
+import { NFTAttributes, AssetAttributes, NFTDetails } from '../../../models'
 import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import { Account } from '../../Account'
 import { Nft721Contract, TxParameters } from '../../../keeper'
@@ -431,7 +431,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The address of the NFT owner.
    */
-  public async ownerOfTokenId(tokenId: string) {
+  public ownerOfTokenId(tokenId: string): Promise<string> {
     return this.nftContract.ownerOf(tokenId)
   }
 
@@ -448,7 +448,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The address of the NFT owner.
    */
-  public async ownerOfAsset(did: string) {
+  public ownerOfAsset(did: string): Promise<string> {
     return this.ownerOfTokenId(did)
   }
 
@@ -466,7 +466,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The address of the NFT owner.
    */
-  public async ownerOfAssetByAgreement(did: string, agreementId: string) {
+  public ownerOfAssetByAgreement(did: string, agreementId: string): Promise<string> {
     const abiCoder = ethers.AbiCoder.defaultAbiCoder()
     const tokenId = ethers.keccak256(
       abiCoder.encode(['bytes32', 'bytes32'], [zeroX(did), zeroX(agreementId)]),
@@ -583,7 +583,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The {@link ethers.ContractTransactionReceipt}
    */
-  public async grantOperatorRole(
+  public grantOperatorRole(
     operatorAddress: string,
     from?: Account,
     txParams?: TxParameters,
@@ -609,7 +609,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The {@link ethers.ContractTransactionReceipt}
    */
-  public async revokeOperatorRole(
+  public revokeOperatorRole(
     operatorAddress: string,
     from?: Account,
     txParams?: TxParameters,
@@ -637,7 +637,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The details of the NFT.
    */
-  public async details(did: string) {
+  public details(did: string): Promise<NFTDetails> {
     return this._details(did, 721)
   }
 
@@ -657,11 +657,11 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns {@link SubscriptionToken}
    */
-  public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
+  public getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
     return this.nevermined.services.node.getSubscriptionToken(did, account)
   }
 
-  public async isOperator(did: string, address: string): Promise<boolean> {
+  public isOperator(did: string, address: string): Promise<boolean> {
     return super.isOperator(did, address, 721)
   }
 }

@@ -21,7 +21,7 @@ export interface NFT721SalesTemplateParams {
 }
 
 export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams, ServiceNFTSales> {
-  public static async getInstance(config: InstantiableConfig): Promise<NFT721SalesTemplate> {
+  public static getInstance(config: InstantiableConfig): Promise<NFT721SalesTemplate> {
     return AgreementTemplate.getInstance(config, 'NFT721SalesTemplate', NFT721SalesTemplate, true)
   }
 
@@ -42,10 +42,10 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
   public params(consumerId: string, expiration = 0): NFT721SalesTemplateParams {
     return { consumerId, expiration }
   }
-  public async paramsGen({
+  public paramsGen({
     consumer_address,
     expiration = 0,
-  }: ValidationParams): Promise<NFT721SalesTemplateParams> {
+  }: ValidationParams): NFT721SalesTemplateParams {
     return this.params(consumer_address, expiration)
   }
 

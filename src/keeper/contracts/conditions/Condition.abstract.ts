@@ -24,7 +24,7 @@ export interface ConditionContext {
 
 export interface ConditionParameters<Extra> {
   list: any[]
-  params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
+  params: (method: ConditionMethod, arg: Extra) => any[] // for fullfill
 }
 
 export interface ConditionInstanceSmall {
@@ -36,7 +36,7 @@ export interface ConditionInstanceSmall {
 }
 
 export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
-  params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
+  params: (method: ConditionMethod, arg: Extra) => any[] // for fullfill
 }
 
 export const conditionStateNames = ['Uninitialized', 'Unfulfilled', 'Fulfilled', 'Aborted']
@@ -122,7 +122,7 @@ export abstract class Condition<
   public params(...args: any[]): ConditionParameters<Extra> {
     return {
       list: args,
-      params: async () => args,
+      params: () => args,
     }
   }
 
@@ -191,7 +191,7 @@ export abstract class ProviderCondition<
   Ctx extends ConditionContext,
   Extra = Record<string, unknown>,
 > extends Condition<Ctx, Extra> {
-  public async fulfillWithNode(
+  public fulfillWithNode(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
     from?: Account,
@@ -199,7 +199,7 @@ export abstract class ProviderCondition<
   ) {
     return this.sendFrom(
       this.nodeMethod(),
-      [zeroX(cond.agreementId), ...(await cond.params(this.nodeMethod(), additionalParams))],
+      [zeroX(cond.agreementId), ...cond.params(this.nodeMethod(), additionalParams)],
       from,
       txParams,
     )
@@ -214,7 +214,7 @@ export abstract class ConsumerCondition<
   Ctx extends ConditionContext,
   Extra = Record<string, unknown>,
 > extends Condition<Ctx, Extra> {
-  public async fulfillWithNode(
+  public fulfillWithNode(
     _cond: ConditionInstance<Extra>,
     _additionalParams: Extra,
     _from?: Account,

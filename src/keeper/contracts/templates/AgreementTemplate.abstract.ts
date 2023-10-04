@@ -75,7 +75,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return 1
   }
 
-  public async paymentData(service: Service): Promise<PaymentData> {
+  public paymentData(service: Service): PaymentData {
     const assetPrice = DDO.getAssetPriceFromService(service)
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
@@ -333,7 +333,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return (await this.getConditions()).find((condition) => condition.contractName === name)
   }
 
-  public async getServiceAgreementTemplateDependencies() {
+  public getServiceAgreementTemplateDependencies() {
     const serviceAgreementTemplate = this.getServiceAgreementTemplate()
     return serviceAgreementTemplate.conditionDependency
   }

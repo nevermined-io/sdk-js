@@ -59,7 +59,7 @@ describe('TransferNFTCondition', () => {
     await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     agreementId = generateId()
     checksum = generateId()
     didSeed = `did:nv:${generateId()}`
@@ -395,6 +395,7 @@ describe('TransferNFTCondition', () => {
           nftUpgradeable.address,
           conditionIdPayment,
           true,
+          0,
           other,
         ),
       )

@@ -36,7 +36,7 @@ export interface AaveCreditTemplateParams {
 }
 
 export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, ServiceAaveCredit> {
-  public async paramsGen(_params: ValidationParams): Promise<AaveCreditTemplateParams> {
+  public paramsGen(_params: ValidationParams): Promise<AaveCreditTemplateParams> {
     throw new Error('Method not implemented.')
   }
   public name(): string {
@@ -298,7 +298,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     ]
   }
 
-  public async getAgreementVaultAddress(agreementId: string, from: string): Promise<string> {
+  public getAgreementVaultAddress(agreementId: string, from: string): Promise<string> {
     return this.call('getVaultForAgreement', [agreementId], from)
   }
 

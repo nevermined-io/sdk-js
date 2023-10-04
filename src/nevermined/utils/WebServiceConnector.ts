@@ -137,7 +137,7 @@ export class WebServiceConnector extends Instantiable {
     return await response.text()
   }
 
-  public async uploadMessage(url: string, data: string, encrypt?: boolean): Promise<any> {
+  public uploadMessage(url: string, data: string, encrypt?: boolean): Promise<Response> {
     const form = new FormData()
     form.append('message', data)
     if (encrypt) {
@@ -146,7 +146,7 @@ export class WebServiceConnector extends Instantiable {
     return this.fetch(url, { method: 'POST', body: form })
   }
 
-  public async uploadFile(url: string, data: ReadStream, encrypt?: boolean): Promise<any> {
+  public uploadFile(url: string, data: ReadStream, encrypt?: boolean) {
     console.log(`Trying to upload file`)
     const form = new FormData()
     form.append('file', data)
@@ -172,7 +172,7 @@ export class WebServiceConnector extends Instantiable {
     )
   }
 
-  public async fetchCID(cid: string): Promise<string> {
+  public fetchCID(cid: string): string {
     const url = `${this.config.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
     const authToken = WebServiceConnector.getIPFSAuthToken()
     const options = {

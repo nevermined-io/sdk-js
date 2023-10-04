@@ -59,7 +59,7 @@ export class Keeper extends Instantiable {
    * Returns Keeper instance.
    * @returns {@link Keeper}
    */
-  public static async getInstance(config: InstantiableConfig): Promise<Keeper> {
+  public static getInstance(config: InstantiableConfig): Keeper {
     const keeper = new Keeper()
     keeper.setInstanceConfig(config)
     return keeper

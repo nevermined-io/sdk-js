@@ -1,6 +1,12 @@
 import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters, ProvenanceMethod } from '../../keeper'
+import {
+  TxParameters,
+  ProvenanceMethod,
+  ProvenanceRegistry,
+  ProvenanceAttributeRegisteredEvent,
+  ProvenanceEvent,
+} from '../../keeper'
 import { ethers } from 'ethers'
 import { zeroX } from '../../utils'
 
@@ -25,7 +31,7 @@ export class ProvenanceApi extends Instantiable {
    * @param provenanceId Unique identifier of a provenance entry
    * @returns
    */
-  public async getProvenanceEntry(provenanceId: string) {
+  public getProvenanceEntry(provenanceId: string): Promise<ProvenanceRegistry> {
     return this.nevermined.keeper.didRegistry.getProvenanceEntry(provenanceId)
   }
 
@@ -220,7 +226,8 @@ export class ProvenanceApi extends Instantiable {
    * @param did - Identifier of the entity created
    * @param delegated - Delegate Address
    */
-  public async isProvenanceDelegate(did: string, delegated: string) {
+  public isProvenanceDelegate(did: string, delegated: string) {
+    // TODO: Check return type
     return this.nevermined.keeper.didRegistry.isProvenanceDelegate(did, delegated)
   }
 
@@ -228,7 +235,8 @@ export class ProvenanceApi extends Instantiable {
    * Retrieve the owner of the provenance record.
    * @param did - Identifier of the entity created
    */
-  public async getProvenanceOwner(did: string) {
+  public getProvenanceOwner(did: string) {
+    // TODO: check return type
     return this.nevermined.keeper.didRegistry.getProvenanceOwner(did)
   }
 
@@ -237,7 +245,7 @@ export class ProvenanceApi extends Instantiable {
    * @param did - identifier of the entity created
    * @returns A list of provenance events.
    */
-  public async getDIDProvenanceEvents(did: string) {
+  public getDIDProvenanceEvents(did: string): Promise<ProvenanceAttributeRegisteredEvent[]> {
     return this.nevermined.keeper.didRegistry.getDIDProvenanceEvents(did)
   }
 
@@ -247,7 +255,10 @@ export class ProvenanceApi extends Instantiable {
    * @param did - Identifier of the entity created
    * @returns A list of provenance method events.
    */
-  public async getProvenanceMethodEvents<T extends ProvenanceMethod>(method: T, did: string) {
+  public getProvenanceMethodEvents<T extends ProvenanceMethod>(
+    method: T,
+    did: string,
+  ): Promise<ProvenanceEvent<T>[]> {
     return this.nevermined.keeper.didRegistry.getDIDProvenanceMethodEvents<T>(did, method)
   }
 }

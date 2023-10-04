@@ -12,7 +12,7 @@ export interface AaveRepayConditionContext extends ConditionContext {
 }
 
 export class AaveRepayCondition extends ProviderCondition<AaveRepayConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<AaveRepayCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<AaveRepayCondition> {
     return Condition.getInstance(config, 'AaveRepayCondition', AaveRepayCondition, true)
   }
 
@@ -31,7 +31,7 @@ export class AaveRepayCondition extends ProviderCondition<AaveRepayConditionCont
     )
   }
 
-  public async paramsFromDDO({
+  public paramsFromDDO({
     ddo,
     vaultAddress,
     assetToRepay,

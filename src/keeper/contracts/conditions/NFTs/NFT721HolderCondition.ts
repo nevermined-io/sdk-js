@@ -13,7 +13,7 @@ export interface NFT721HolderConditionContext extends ConditionContext {
  * Allows to fulfill a condition to users holding some amount of NFTs for a specific DID.
  */
 export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<NFT721HolderCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<NFT721HolderCondition> {
     return Condition.getInstance(config, 'NFT721HolderCondition', NFT721HolderCondition, true)
   }
 
@@ -35,7 +35,7 @@ export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditi
     return holder.parameters.find((p) => p.name === '_contractAddress').value as string
   }
 
-  public async paramsFromDDO({ ddo, service, holderAddress }: NFT721HolderConditionContext) {
+  public paramsFromDDO({ ddo, service, holderAddress }: NFT721HolderConditionContext) {
     return this.params(ddo.shortId(), holderAddress, this.nftContractFromService(service))
   }
   /**

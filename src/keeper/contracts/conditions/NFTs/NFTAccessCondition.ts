@@ -9,7 +9,7 @@ export interface NFTAccessConditionContext extends ConditionContext {
 }
 
 export class NFTAccessCondition extends ProviderCondition<NFTAccessConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<NFTAccessCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<NFTAccessCondition> {
     return Condition.getInstance(config, 'NFTAccessCondition', NFTAccessCondition)
   }
 
@@ -17,7 +17,7 @@ export class NFTAccessCondition extends ProviderCondition<NFTAccessConditionCont
     return super.params(didZeroX(did), zeroX(grantee))
   }
 
-  public async paramsFromDDO({ ddo, grantee }: NFTAccessConditionContext) {
+  public paramsFromDDO({ ddo, grantee }: NFTAccessConditionContext) {
     return this.params(ddo.shortId(), grantee)
   }
 

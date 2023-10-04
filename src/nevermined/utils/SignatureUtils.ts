@@ -19,7 +19,7 @@ export class SignatureUtils extends Instantiable {
     }
   }
 
-  public async verifyText(text: string, signature: string): Promise<string> {
+  public verifyText(text: string, signature: string): string {
     return ethers.verifyMessage(text, signature)
   }
 

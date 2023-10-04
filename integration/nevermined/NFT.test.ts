@@ -27,7 +27,7 @@ describe('Nfts operations', () => {
     payload = decodeJwt(config.marketplaceAuthToken)
   })
 
-  describe('with default token', async () => {
+  describe('with default token', () => {
     before(async () => {
       const metadata = getMetadata()
       metadata.userId = payload.sub
@@ -47,7 +47,7 @@ describe('Nfts operations', () => {
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
     })
 
-    it('nft contract address is correct', async () => {
+    it('nft contract address is correct', () => {
       assert.equal(
         nevermined.assets.getNftContractAddress(ddo),
         nevermined.keeper.nftUpgradeable.address,
@@ -84,7 +84,7 @@ describe('Nfts operations', () => {
     })
   })
 
-  describe('with custom token', async () => {
+  describe('with custom token', () => {
     before(async () => {
       const metadata = getMetadata()
       metadata.userId = payload.sub
@@ -121,7 +121,7 @@ describe('Nfts operations', () => {
     })
   })
 
-  describe('with ether', async () => {
+  describe('with ether', () => {
     before(async () => {
       const metadata = getMetadata()
       metadata.userId = payload.sub

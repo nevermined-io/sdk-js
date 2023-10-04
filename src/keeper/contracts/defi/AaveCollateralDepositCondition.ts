@@ -14,9 +14,7 @@ export interface AaveCollateralDepositConditionContext extends ConditionContext 
 }
 
 export class AaveCollateralDepositCondition extends ProviderCondition<AaveCollateralDepositConditionContext> {
-  public static async getInstance(
-    config: InstantiableConfig,
-  ): Promise<AaveCollateralDepositCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<AaveCollateralDepositCondition> {
     return Condition.getInstance(
       config,
       'AaveCollateralDepositCondition',
@@ -44,7 +42,7 @@ export class AaveCollateralDepositCondition extends ProviderCondition<AaveCollat
     )
   }
 
-  public async paramsFromDDO({
+  public paramsFromDDO({
     ddo,
     vaultAddress,
     collateralAsset,

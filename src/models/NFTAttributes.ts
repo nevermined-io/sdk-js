@@ -1,4 +1,4 @@
-import { RoyaltyAttributes } from '../nevermined'
+import { RoyaltyAttributes, RoyaltyKind } from '../nevermined'
 import { AssetAttributes } from './AssetAttributes'
 import { ERCType, NeverminedNFTType, NeverminedNFT1155Type, NeverminedNFT721Type } from './'
 import { ServiceType } from '../ddo/types'
@@ -181,4 +181,21 @@ export class NFTAttributes extends AssetAttributes {
     }
     return _instance
   }
+}
+
+// TODO: Double check all types and add docs
+export interface NFTDetails {
+  owner: string
+  lastChecksum: string
+  url: string
+  lastUpdatedBy: string
+  blockNumberUpdated: number
+  providers: any
+  nftSupply: bigint
+  mintCap: bigint
+  royalties: number
+  royaltyScheme: RoyaltyKind
+  nftContractAddress: string
+  nftInitialized: any
+  nftURI: string
 }

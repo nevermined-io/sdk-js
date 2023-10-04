@@ -6,14 +6,14 @@ import { SubscribablePromise } from '../../src/utils'
 use(spies)
 
 describe('SubscribablePromise', () => {
-  it('should work', async () => {
+  it('should work', () => {
     const subscribable = new SubscribablePromise(() => null)
 
     assert.isDefined(subscribable)
   })
 
   describe('#subscribe()', () => {
-    it('should return a subscription', async () => {
+    it('should return a subscription', () => {
       const subscribable = new SubscribablePromise(() => null)
       const subscription = subscribable.subscribe(() => null)
 

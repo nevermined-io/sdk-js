@@ -31,11 +31,11 @@ export class GenericContract extends ContractBase {
     )
   }
 
-  public async call<T>(name: string, args: any[], from?: string): Promise<T> {
+  public call<T>(name: string, args: any[], from?: string): Promise<T> {
     return super.call(name, args, from)
   }
 
-  public async send(
+  public send(
     name: string,
     from: string,
     args: any[],

@@ -9,11 +9,11 @@ export interface ComputeExecutionConditionContext extends ConditionContext {
 }
 
 export class ComputeExecutionCondition extends ProviderCondition<ComputeExecutionConditionContext> {
-  public async paramsFromDDO({ ddo, consumerId }: ComputeExecutionConditionContext) {
+  public paramsFromDDO({ ddo, consumerId }: ComputeExecutionConditionContext) {
     return this.params(ddo.shortId(), consumerId)
   }
 
-  public static async getInstance(config: InstantiableConfig): Promise<ComputeExecutionCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<ComputeExecutionCondition> {
     return Condition.getInstance(config, 'ComputeExecutionCondition', ComputeExecutionCondition)
   }
 

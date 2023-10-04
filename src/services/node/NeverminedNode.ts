@@ -116,7 +116,8 @@ export class NeverminedNode extends Instantiable {
     return `${this.url}${apiPath}/subscriptions/${did}`
   }
 
-  public async getNeverminedNodeInfo() {
+  public getNeverminedNodeInfo() {
+    // TODO: Check return type
     return this.nevermined.utils.fetch.get(`${this.url}`).then((res) => res.json())
   }
 
@@ -403,10 +404,10 @@ export class NeverminedNode extends Instantiable {
         nftType: ercType,
         serviceIndex: serviceIndex && serviceIndex >= 0 ? serviceIndex : -1,
       })
-      
+
       this.logger.log(`Claiming NFT using endpoint: ${claimNFTEndpoint}`)
       const response = await this.nevermined.utils.fetch.post(claimNFTEndpoint, claimBody)
-      
+
       if (!response.ok) {
         throw new HttpError(`${response.statusText} ${response.url}`, response.status)
       }

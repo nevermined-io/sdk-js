@@ -20,12 +20,10 @@ export class NFT721AccessTemplate extends BaseTemplate<
   NFT721AccessTemplateParams,
   ServiceNFTAccess
 > {
-  public async paramsGen({
-    consumer_address,
-  }: ValidationParams): Promise<NFT721AccessTemplateParams> {
+  public paramsGen({ consumer_address }: ValidationParams): NFT721AccessTemplateParams {
     return this.params(consumer_address)
   }
-  public static async getInstance(config: InstantiableConfig): Promise<NFT721AccessTemplate> {
+  public static getInstance(config: InstantiableConfig): Promise<NFT721AccessTemplate> {
     return AgreementTemplate.getInstance(config, 'NFT721AccessTemplate', NFT721AccessTemplate, true)
   }
   public name(): string {

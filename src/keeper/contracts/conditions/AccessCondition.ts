@@ -10,7 +10,7 @@ export interface AccessConditionContext extends ConditionContext {
 }
 
 export class AccessCondition extends ProviderCondition<AccessConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<AccessCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<AccessCondition> {
     return Condition.getInstance(config, 'AccessCondition', AccessCondition)
   }
 
@@ -18,7 +18,7 @@ export class AccessCondition extends ProviderCondition<AccessConditionContext> {
     return super.params(didZeroX(did), zeroX(grantee))
   }
 
-  public async paramsFromDDO({ ddo, creator }: AccessConditionContext) {
+  public paramsFromDDO({ ddo, creator }: AccessConditionContext) {
     return this.params(ddo.shortId(), creator)
   }
 

@@ -4,7 +4,7 @@ import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ConditionsApi } from './ConditionsApi'
 import { ServiceType } from '../../ddo'
-import { TxParameters } from '../../keeper'
+import { AgreementData, TxParameters } from '../../keeper'
 
 export interface AgreementPrepareResult {
   agreementIdSeed: string
@@ -145,7 +145,7 @@ export class AgreementsApi extends Instantiable {
    * @param agreementId The unique agreement id
    * @returns the details of the agreement
    */
-  public async getAgreement(agreementId: string) {
+  public getAgreement(agreementId: string): Promise<AgreementData> {
     return this.nevermined.keeper.agreementStoreManager.getAgreement(agreementId)
   }
 
@@ -154,7 +154,7 @@ export class AgreementsApi extends Instantiable {
    * @param did the unique identifier of the asset
    * @returns the list of agreements
    */
-  public async getAgreements(did: string) {
+  public getAgreements(did: string): Promise<AgreementData[]> {
     return this.nevermined.keeper.agreementStoreManager.getAgreements(did)
   }
 

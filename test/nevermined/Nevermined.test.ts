@@ -16,7 +16,7 @@ describe('Nevermined', () => {
     nevermined = await Nevermined.getInstance(config)
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     spy.on(nevermined.utils.signature, 'signText', () => `0x${'a'.repeat(130)}`)
   })
   afterEach(() => {

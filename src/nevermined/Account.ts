@@ -66,7 +66,7 @@ export class Account extends Instantiable {
    * Balance of Ether.
    * @returns
    */
-  public async getEtherBalance(): Promise<bigint> {
+  public getEtherBalance(): Promise<bigint> {
     return this.web3.getBalance(this.id)
   }
 

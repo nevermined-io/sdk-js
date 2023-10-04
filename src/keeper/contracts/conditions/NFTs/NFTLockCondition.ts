@@ -13,7 +13,7 @@ export interface NFTLockConditionContext extends ConditionContext {
  * Implementation of the NFT Lock Condition
  */
 export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<NFTLockCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<NFTLockCondition> {
     return Condition.getInstance(config, 'NFTLockCondition', NFTLockCondition)
   }
 
@@ -28,7 +28,7 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
     return super.params(didZeroX(did), zeroX(rewardAddress), String(amount))
   }
 
-  public async paramsFromDDO({ ddo, rewardAddress, amount }: NFTLockConditionContext) {
+  public paramsFromDDO({ ddo, rewardAddress, amount }: NFTLockConditionContext) {
     return this.params(ddo.shortId(), rewardAddress, amount)
   }
 

@@ -1,5 +1,5 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { AssetAttributes, NFTAttributes } from '../../../models'
+import { AssetAttributes, NFTAttributes, NFTDetails } from '../../../models'
 import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import {
   AssetPublicationOptions,
@@ -482,7 +482,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns Address of the contract owner
    */
-  public async owner(): Promise<string> {
+  public owner(): Promise<string> {
     return this.nftContract.owner()
   }
 
@@ -537,7 +537,8 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns Boolean saying if the `operatorAddress` is approved
    */
-  public async isApprovedForAll(operatorAddress: string, from: string) {
+  public isApprovedForAll(operatorAddress: string, from: string) {
+    // TODO: Check return type
     return this.nftContract.isApprovedForAll(from, operatorAddress)
   }
 
@@ -622,7 +623,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The {@link ethers.ContractTransactionReceipt}
    */
-  public async grantOperatorRole(
+  public grantOperatorRole(
     operatorAddress: string,
     from?: Account,
     txParams?: TxParameters,
@@ -648,7 +649,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The {@link ethers.ContractTransactionReceipt}
    */
-  public async revokeOperatorRole(
+  public revokeOperatorRole(
     operatorAddress: string,
     from?: Account,
     txParams?: TxParameters,
@@ -676,7 +677,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The details of the NFT.
    */
-  public async details(did: string) {
+  public details(did: string): Promise<NFTDetails> {
     return this._details(did, 1155)
   }
 }

@@ -10,7 +10,10 @@
          "argsIgnorePattern": "^_",
          "varsIgnorePattern": "^_",
          "caughtErrorsIgnorePattern": "^_"
-    }]
+    }],
+    "require-await":"error"
   },
   "ignorePatterns": ["test/resources/proxy-poc/*.js"]
 }
+
+// TODO: check https://dev.to/qpwo/most-useful-eslint-rules-for-networking-code-asyncawaitpromises-1mg4

@@ -3,7 +3,7 @@ import { AssetPrice } from '../../src'
 
 describe('AssetPrice', () => {
   describe('Initialize asset rewards', () => {
-    it('it initialize with an empty constructor', async () => {
+    it('it initialize with an empty constructor', () => {
       const assetPrice = new AssetPrice()
 
       assert.equal(0n, assetPrice.getTotalPrice(), `Expected 0 got ${assetPrice.getTotalPrice()}`)
@@ -16,7 +16,7 @@ describe('AssetPrice', () => {
       assert.equal('[]', assetPrice.getReceiversString())
     })
 
-    it('it initialize with an address and amount', async () => {
+    it('it initialize with an address and amount', () => {
       const assetPrice = new AssetPrice('0x123', 7n)
 
       assert.equal(7n, assetPrice.getTotalPrice(), `Expected 7 got ${assetPrice.getTotalPrice()}`)
@@ -30,7 +30,7 @@ describe('AssetPrice', () => {
       assert.equal('["0x123"]', assetPrice.getReceiversString())
     })
 
-    it('it initialize with a map', async () => {
+    it('it initialize with a map', () => {
       const rewardsMap = new Map([
         ['0x123', 10n],
         ['0x456', 2n],
@@ -51,7 +51,7 @@ describe('AssetPrice', () => {
     })
   })
 
-  it('it uses a big number', async () => {
+  it('it uses a big number', () => {
     const rewardsMap = new Map([['0x123', 1000000000000000n]])
 
     const assetPrice = new AssetPrice(rewardsMap)
@@ -75,7 +75,7 @@ describe('AssetPrice', () => {
     assert.equal('["0x123"]', assetPrice.getReceiversString())
   })
 
-  it('it can add a receiver', async () => {
+  it('it can add a receiver', () => {
     const rewardsMap = new Map([['0x123', 500n]])
 
     const assetPrice = new AssetPrice(rewardsMap)
@@ -93,7 +93,7 @@ describe('AssetPrice', () => {
     assert.equal('["0x123","0x456"]', assetPrice.getReceiversString())
   })
 
-  it('it can add rewards to an existing receiver', async () => {
+  it('it can add rewards to an existing receiver', () => {
     const rewardsMap = new Map([
       ['0x123', 500n],
       ['0x789', 500n],
@@ -113,7 +113,7 @@ describe('AssetPrice', () => {
     assert.equal('["0x123","0x789"]', assetPrice.getReceiversString())
   })
 
-  it('it can add network fees', async () => {
+  it('it can add network fees', () => {
     const rewardsMap = new Map([
       ['0x123', 50n],
       ['0x789', 50n],
@@ -132,7 +132,7 @@ describe('AssetPrice', () => {
     assert.equal('["0x123","0x789","0xfff"]', assetPrice.getReceiversString())
   })
 
-  it('it includes fees', async () => {
+  it('it includes fees', () => {
     const rewardsMap = new Map([
       ['0x123', 70n],
       ['0x789', 30n],

@@ -310,7 +310,7 @@ describe('Assets', () => {
       assert.equal(metadata.attributes.curation.numVotes, 1 + 2)
     })
 
-    it('new rating must be between 0 and 1', async () => {
+    it('new rating must be between 0 and 1', () => {
       // Trying to add a vote with a rating out of range
 
       nevermined.assets
@@ -322,7 +322,6 @@ describe('Assets', () => {
           console.debug(`It should fail with error: ${err}`)
           assert.isDefined(err)
         })
-
     })
   })
 
@@ -596,7 +595,7 @@ describe('Assets', () => {
       assert.equal(resolvedDDO._nvm.versions.length, 1)
     })
 
-    it('dont resolve from the DIDRegistry', async () => {
+    it('do not resolve from the DIDRegistry', () => {
       rejects(nevermined.assets.resolve(offchainDID, DIDResolvePolicy.MetadataAPIFirst))
     })
   })

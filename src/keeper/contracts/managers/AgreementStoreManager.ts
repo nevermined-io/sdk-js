@@ -77,7 +77,7 @@ export class AgreementStoreManager extends ContractBase {
     return await this.call('agreementId', [zeroX(agreementIdSeed), creator])
   }
 
-  public async createAgreement(
+  public createAgreement(
     agreementId: string,
     did: string,
     conditionTypes: string[],

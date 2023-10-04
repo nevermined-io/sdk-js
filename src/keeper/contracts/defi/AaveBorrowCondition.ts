@@ -12,7 +12,7 @@ export interface AaveBorrowConditionContext extends ConditionContext {
 }
 
 export class AaveBorrowCondition extends ProviderCondition<AaveBorrowConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<AaveBorrowCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<AaveBorrowCondition> {
     return Condition.getInstance(config, 'AaveBorrowCondition', AaveBorrowCondition, true)
   }
 
@@ -32,7 +32,7 @@ export class AaveBorrowCondition extends ProviderCondition<AaveBorrowConditionCo
     )
   }
 
-  public async paramsFromDDO({
+  public paramsFromDDO({
     ddo,
     vaultAddress,
     assetToBorrow,

@@ -39,7 +39,7 @@ export class SearchApi extends Instantiable {
    * @param metadataServiceEndpoint - Metadata service endpoint.
    * @returns DDO of the asset.
    */
-  public async byDID(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
+  public byDID(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
     return this.nevermined.services.metadata.retrieveDDO(did, metadataServiceEndpoint)
   }
 
@@ -53,7 +53,7 @@ export class SearchApi extends Instantiable {
    * @param query - Query to filter the assets.
    * @returns A list of {@link DDO}s matching the query
    */
-  public async query(query: SearchQuery) {
+  public query(query: SearchQuery): Promise<QueryResult> {
     if (query.appId) {
       query = {
         query: {
@@ -76,7 +76,13 @@ export class SearchApi extends Instantiable {
    * @param text - Text to filter the assets.
    * @returns A list of {@link DDO}s.
    */
-  public async byText(text: string, offset = 100, page = 1, sort = 'desc', appId?: string) {
+  public byText(
+    text: string,
+    offset = 100,
+    page = 1,
+    sort = 'desc',
+    appId?: string,
+  ): Promise<QueryResult> {
     const query: SearchQuery = {
       query: {
         simple_query_string: { query: `${text}*` },
@@ -108,7 +114,7 @@ export class SearchApi extends Instantiable {
    * @param appId -
    * @returns
    */
-  public async byPrice(
+  public byPrice(
     minPrice: number,
     maxPrice: number,
     serviceType?: ServiceType,
@@ -160,7 +166,7 @@ export class SearchApi extends Instantiable {
    *
    * @returns {@link Promise<QueryResult>}
    */
-  public async bySubscriptionContractAddress(
+  public bySubscriptionContractAddress(
     contractAddress: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
@@ -238,7 +244,7 @@ export class SearchApi extends Instantiable {
    *
    * @returns {@link Promise<QueryResult>}
    */
-  public async subscriptionsCreated(
+  public subscriptionsCreated(
     account: Account,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
@@ -390,14 +396,14 @@ export class SearchApi extends Instantiable {
    *
    * @returns {@link Promise<QueryResult>}
    */
-  public async servicesByNftContract(
+  public servicesByNftContract(
     nftContractAddress: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
     appId?: string,
-  ) {
+  ): Promise<QueryResult> {
     let search: SearchQuery['query'][] = [
       {
         nested: {
@@ -520,7 +526,7 @@ export class SearchApi extends Instantiable {
    *
    * @returns {@link Promise<QueryResult>}
    */
-  public async datasetsByNftContract(
+  public datasetsByNftContract(
     nftContractAddress: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,

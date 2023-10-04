@@ -8,7 +8,7 @@ import { TokenUtils } from '../../src/nevermined'
 import { ethers } from 'ethers'
 import { ContractHandler, Nft721Contract, TransferNFT721Condition } from '../../src/keeper'
 
-describe('Nfts721 operations', async () => {
+describe('Nfts721 operations', () => {
   let nevermined: Nevermined
   let transferNft721Condition: TransferNFT721Condition
 
@@ -64,7 +64,7 @@ describe('Nfts721 operations', async () => {
     ;({ token } = nevermined.utils)
   })
 
-  describe('with default token', async () => {
+  describe('with default token', () => {
     before(async () => {
       const metadata = getMetadata()
       metadata.userId = payload.sub
@@ -121,7 +121,7 @@ describe('Nfts721 operations', async () => {
     })
   })
 
-  describe('with custom token', async () => {
+  describe('with custom token', () => {
     before(async () => {
       const metadata = getMetadata()
       metadata.userId = payload.sub
@@ -166,7 +166,7 @@ describe('Nfts721 operations', async () => {
     })
   })
 
-  describe('with ether', async () => {
+  describe('with ether', () => {
     before(async () => {
       const metadata = getMetadata()
       metadata.userId = payload.sub

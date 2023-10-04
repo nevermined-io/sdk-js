@@ -20,7 +20,7 @@ export interface TransferNFT721ConditionContext extends ConditionContext {
  * Condition allowing to transfer an NFT between the original owner and a receiver
  */
 export class TransferNFT721Condition extends ProviderCondition<TransferNFT721ConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<TransferNFT721Condition> {
+  public static getInstance(config: InstantiableConfig): Promise<TransferNFT721Condition> {
     return Condition.getInstance(config, 'TransferNFT721Condition', TransferNFT721Condition, true)
   }
 
@@ -54,7 +54,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         nftTokenAddress,
         willBeTransferred,
       ],
-      params: async (method) => {
+      params: (method) => {
         if (method === 'fulfill') {
           return [
             didZeroX(did),
@@ -80,7 +80,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     }
   }
 
-  public async paramsFromDDO(
+  public paramsFromDDO(
     { ddo, service, consumerId, expiration }: TransferNFT721ConditionContext,
     lockCondition,
   ) {
@@ -104,7 +104,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     )
   }
 
-  public async paramsFromService(
+  public paramsFromService(
     { ddo, service, consumerId, expiration }: TransferNFT721ConditionContext,
     lockCondition,
   ) {

@@ -8,7 +8,7 @@ export class Dispenser extends ContractBase {
     return dispenser
   }
 
-  public async requestTokens(
+  public requestTokens(
     amount: number | string | bigint,
     receiverAddress: string,
     txParams?: TxParameters,

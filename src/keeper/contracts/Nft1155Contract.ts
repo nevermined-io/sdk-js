@@ -85,6 +85,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @returns Boolean
    */
   public isApprovedForAll(accountAddress: string, operatorAddress: string) {
+    // TODO: Check return type
     return this.call('isApprovedForAll', [zeroX(accountAddress), zeroX(operatorAddress)])
   }
 
@@ -113,7 +114,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param did - The NFT id
    * @returns
    */
-  public async balance(address: string, did: string): Promise<bigint> {
+  public balance(address: string, did: string): Promise<bigint> {
     return this.call('balanceOf', [zeroX(address), didZeroX(did)])
   }
 
@@ -127,7 +128,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async transferNft(
+  public transferNft(
     did: string,
     to: string,
     amount: bigint,
@@ -148,7 +149,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async mint(
+  public mint(
     to: string,
     did: string,
     amount: bigint,
@@ -168,7 +169,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(from: string, tokenId: string, amount: bigint, txParams?: TxParameters) {
+  public burn(from: string, tokenId: string, amount: bigint, txParams?: TxParameters) {
     return this.send('burn', from, [from, didZeroX(tokenId), amount], txParams)
   }
 
@@ -182,7 +183,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burnFromHolder(
+  public burnFromHolder(
     holder: string,
     tokenId: string,
     amount: bigint,
@@ -198,7 +199,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param did - The NFT id
    * @returns The NFT metadata url
    */
-  public async uri(did: string): Promise<string> {
+  public uri(did: string): Promise<string> {
     return this.call('uri', [didZeroX(did)])
   }
 }

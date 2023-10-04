@@ -226,12 +226,11 @@ export class MetadataService extends MarketplaceApi {
     return result
   }
 
-  public async retrieveDDOFromImmutableBackend(immutableUrl: string): Promise<DDO> {
+  public retrieveDDOFromImmutableBackend(immutableUrl: string): DDO {
     if (!(immutableUrl && immutableUrl.length > 10)) throw new Error(`Invalid immutable url`)
     if (immutableUrl.startsWith('cid://')) {
-      return await this.nevermined.utils.fetch.fetchCID(immutableUrl).then((response: string) => {
-        return DDO.deserialize(response)
-      })
+      const response = this.nevermined.utils.fetch.fetchCID(immutableUrl)
+      return DDO.deserialize(response)
     } else {
       throw new Error(`Invalid url`)
     }
@@ -249,7 +248,7 @@ export class MetadataService extends MarketplaceApi {
     return result
   }
 
-  public async retrieveDDOByUrl(metadataServiceEndpoint?: string) {
+  public retrieveDDOByUrl(metadataServiceEndpoint?: string) {
     return this.retrieveDDO(undefined, metadataServiceEndpoint)
   }
 

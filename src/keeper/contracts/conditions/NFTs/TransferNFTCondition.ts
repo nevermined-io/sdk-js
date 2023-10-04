@@ -25,7 +25,7 @@ export interface TransferNFTConditionContext extends ConditionContext {
 export class TransferNFTCondition extends ProviderCondition<TransferNFTConditionContext> {
   public static readonly NO_EXPIRY = 0
 
-  public static async getInstance(config: InstantiableConfig): Promise<TransferNFTCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<TransferNFTCondition> {
     return Condition.getInstance(config, 'TransferNFTCondition', TransferNFTCondition)
   }
 
@@ -62,7 +62,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
         willBeTransferred,
         // expiration.toString()
       ],
-      params: async (method) => {
+      params: (method) => {
         if (method === 'fulfillForDelegate') {
           return [
             didZeroX(did),
@@ -96,7 +96,7 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     return res || this.nevermined.keeper.nftUpgradeable.address
   }
 
-  public async paramsFromDDO(
+  public paramsFromDDO(
     { ddo, service, providerId, consumerId, nftAmount, expiration }: TransferNFTConditionContext,
     lockCondition,
   ) {

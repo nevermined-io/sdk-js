@@ -56,7 +56,7 @@ describe('TransferDIDOwnershipCondition', () => {
     )
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     agreementId = generateId()
     checksum = generateId()
     didSeed = `did:nv:${generateId()}`

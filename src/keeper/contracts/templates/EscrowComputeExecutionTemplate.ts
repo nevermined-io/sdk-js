@@ -19,14 +19,12 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
   EscrowComputeExecutionParams,
   ServiceCompute
 > {
-  public async paramsGen(params: ValidationParams): Promise<EscrowComputeExecutionParams> {
+  public paramsGen(params: ValidationParams): EscrowComputeExecutionParams {
     return {
       consumerId: params.consumer_address,
     }
   }
-  public static async getInstance(
-    config: InstantiableConfig,
-  ): Promise<EscrowComputeExecutionTemplate> {
+  public static getInstance(config: InstantiableConfig): Promise<EscrowComputeExecutionTemplate> {
     return AgreementTemplate.getInstance(
       config,
       'EscrowComputeExecutionTemplate',
@@ -40,7 +38,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
     return 'Compute execution agreement'
   }
 
-  public async providerConfig() {
+  public providerConfig() {
     return {
       type: 'Azure',
       description: '',

@@ -8,7 +8,7 @@ import { Permissions } from '../../src'
 
 use(spies)
 
-const reponsify = async (data) => ({
+const reponsify = (data) => ({
   ok: true,
   json: () => Promise.resolve(data),
 })

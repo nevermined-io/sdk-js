@@ -16,7 +16,7 @@ export class NFTContractsBase extends ContractBase {
    *
    * @returns Address of the contract owner
    */
-  public async owner(): Promise<string> {
+  public owner(): Promise<string> {
     return this.call('owner', [])
   }
 

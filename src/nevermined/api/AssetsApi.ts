@@ -131,7 +131,7 @@ export class AssetsApi extends RegistryBaseApi {
    * @param policy - It specifies the resolve policy to apply. It allows to select that priorities during the asset resolution via Metadata API or Immutable URLs (IPFS, Filecoin, etc)
    * @returns {@link DDO}
    */
-  public async resolve(
+  public resolve(
     did: string,
     policy: DIDResolvePolicy = DIDResolvePolicy.NoRegistry,
   ): Promise<DDO> {
@@ -287,7 +287,7 @@ export class AssetsApi extends RegistryBaseApi {
    * @param did - Decentralized ID.
    * @returns The address of the owner of the asset
    */
-  public async owner(did: string): Promise<string> {
+  public owner(did: string): Promise<string> {
     return this.nevermined.keeper.didRegistry.getDIDOwner(didZeroX(did))
   }
 
@@ -316,7 +316,7 @@ export class AssetsApi extends RegistryBaseApi {
    * @param owner - The address to check
    * @returns List of DIDs owned by the address
    */
-  public async ownerAssets(owner: string): Promise<string[]> {
+  public ownerAssets(owner: string): Promise<string[]> {
     return this.nevermined.keeper.didRegistry.getAttributesByOwner(owner)
   }
 
@@ -328,7 +328,7 @@ export class AssetsApi extends RegistryBaseApi {
    * @param txParams - Transaction parameters
    * @returns Returns ethers transaction receipt.
    */
-  public async transferOwnership(
+  public transferOwnership(
     did: string,
     newOwner: string,
     owner: string | Account,
@@ -357,7 +357,7 @@ export class AssetsApi extends RegistryBaseApi {
     ).map(({ did }) => did)
   }
 
-  public async retire(did: string) {
+  public retire(did: string) {
     return this.nevermined.services.metadata.delete(did)
   }
 

@@ -44,7 +44,7 @@ describe('NFTLockCondition', () => {
     ;[owner, rewardAddress] = await nevermined.accounts.list()
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     agreementId = generateId()
     checksum = generateId()
     didSeed = `did:nv:${generateId()}`

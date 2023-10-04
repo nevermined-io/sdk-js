@@ -15,7 +15,7 @@ export interface EscrowPaymentConditionContext extends ConditionContext {
 }
 
 export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<EscrowPaymentCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<EscrowPaymentCondition> {
     return Condition.getInstance(config, 'EscrowPaymentCondition', EscrowPaymentCondition)
   }
 
@@ -38,7 +38,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
     )
   }
 
-  public async paramsFromDDO(
+  public paramsFromDDO(
     { ddo, service, price: rewards, consumerId }: EscrowPaymentConditionContext,
     access: ConditionInstanceSmall,
     lock: ConditionInstanceSmall,

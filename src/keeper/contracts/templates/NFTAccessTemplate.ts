@@ -18,7 +18,7 @@ export interface NFTAccessTemplateParams {
 }
 
 export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, ServiceNFTAccess> {
-  public static async getInstance(config: InstantiableConfig): Promise<NFTAccessTemplate> {
+  public static getInstance(config: InstantiableConfig): Promise<NFTAccessTemplate> {
     return AgreementTemplate.getInstance(config, 'NFTAccessTemplate', NFTAccessTemplate)
   }
 
@@ -35,7 +35,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
   public params(holderAddress: string, amount?: bigint): NFTAccessTemplateParams {
     return { holderAddress, amount, grantee: holderAddress }
   }
-  public async paramsGen({ consumer_address }: ValidationParams): Promise<NFTAccessTemplateParams> {
+  public paramsGen({ consumer_address }: ValidationParams): NFTAccessTemplateParams {
     return this.params(consumer_address)
   }
 

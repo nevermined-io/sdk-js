@@ -30,7 +30,7 @@ export class DIDRegistry extends ContractBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async registerAttribute(
+  public registerAttribute(
     did: string,
     checksum: string,
     providers: string[],
@@ -59,7 +59,7 @@ export class DIDRegistry extends ContractBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async registerDID(
+  public registerDID(
     did: string,
     checksum: string,
     providers: string[],
@@ -91,7 +91,7 @@ export class DIDRegistry extends ContractBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async registerMintableDID(
+  public registerMintableDID(
     did: string,
     nftContractAddress: string,
     checksum: string,
@@ -139,7 +139,7 @@ export class DIDRegistry extends ContractBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async registerMintableDID721(
+  public registerMintableDID721(
     did: string,
     nftContractAddress: string,
     checksum: string,
@@ -182,7 +182,7 @@ export class DIDRegistry extends ContractBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async updateMetadataUrl(
+  public updateMetadataUrl(
     did: string,
     checksum: string,
     ownerAddress: string,
@@ -212,7 +212,7 @@ export class DIDRegistry extends ContractBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async enableAndMintDidNft(
+  public enableAndMintDidNft(
     did: string,
     cap: number,
     royalties: number,
@@ -242,7 +242,7 @@ export class DIDRegistry extends ContractBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async enableAndMintDidNft721(
+  public enableAndMintDidNft721(
     did: string,
     royalties: number,
     preMint: boolean,
@@ -258,7 +258,7 @@ export class DIDRegistry extends ContractBase {
     )
   }
 
-  public async getDIDOwner(did: string): Promise<string> {
+  public getDIDOwner(did: string): Promise<string> {
     return this.call('getDIDOwner', [didZeroX(did)])
   }
 
@@ -266,7 +266,7 @@ export class DIDRegistry extends ContractBase {
     return +(await this.call('getBlockNumberUpdated', [didZeroX(did)]))
   }
 
-  public async isDIDProvider(did: string, provider: string): Promise<string> {
+  public isDIDProvider(did: string, provider: string): Promise<string> {
     return this.call('isDIDProvider', [didZeroX(did), zeroX(provider)])
   }
 
@@ -321,42 +321,27 @@ export class DIDRegistry extends ContractBase {
     }
   }
 
-  public async grantPermission(
-    did: string,
-    grantee: string,
-    ownerAddress: string,
-    txParams?: txParams,
-  ) {
+  public grantPermission(did: string, grantee: string, ownerAddress: string, txParams?: txParams) {
     return this.send('grantPermission', ownerAddress, [didZeroX(did), zeroX(grantee)], txParams)
   }
 
-  public async revokePermission(
-    did: string,
-    grantee: string,
-    ownerAddress: string,
-    txParams?: txParams,
-  ) {
+  public revokePermission(did: string, grantee: string, ownerAddress: string, txParams?: txParams) {
     return this.send('revokePermission', ownerAddress, [didZeroX(did), zeroX(grantee)], txParams)
   }
 
-  public async setDIDRoyalties(
-    did: string,
-    scheme: string,
-    ownerAddress: string,
-    txParams?: txParams,
-  ) {
+  public setDIDRoyalties(did: string, scheme: string, ownerAddress: string, txParams?: txParams) {
     return this.send('setDIDRoyalties', ownerAddress, [didZeroX(did), zeroX(scheme)], txParams)
   }
 
-  public async getDIDRoyalties(did: string) {
+  public getDIDRoyalties(did: string) {
     return this.call('getDIDRoyaltyScheme', [didZeroX(did)])
   }
 
-  public async getPermission(did: string, grantee: string): Promise<boolean> {
+  public getPermission(did: string, grantee: string): Promise<boolean> {
     return this.call('getPermission', [didZeroX(did), zeroX(grantee)])
   }
 
-  public async transferDIDOwnership(
+  public transferDIDOwnership(
     did: string,
     newOwnerAddress: string,
     ownerAddress: string,
@@ -371,7 +356,7 @@ export class DIDRegistry extends ContractBase {
   }
 
   // Provenance
-  public async getDIDProvenanceEvents(did: string) {
+  public async getDIDProvenanceEvents(did: string): Promise<ProvenanceAttributeRegisteredEvent[]> {
     return (
       await this.events.getPastEvents({
         eventName: 'ProvenanceAttributeRegistered',
@@ -463,7 +448,7 @@ export class DIDRegistry extends ContractBase {
     return provenance
   }
 
-  public async used(
+  public used(
     provId: string,
     did: string,
     agentId: string,
@@ -488,7 +473,7 @@ export class DIDRegistry extends ContractBase {
     )
   }
 
-  public async wasDerivedFrom(
+  public wasDerivedFrom(
     provId: string,
     newEntityDid: string,
     usedEntityDid: string,
@@ -513,7 +498,7 @@ export class DIDRegistry extends ContractBase {
     )
   }
 
-  public async wasAssociatedWith(
+  public wasAssociatedWith(
     provId: string,
     did: string,
     agentId: string,
@@ -530,7 +515,7 @@ export class DIDRegistry extends ContractBase {
     )
   }
 
-  public async actedOnBehalf(
+  public actedOnBehalf(
     provId: string,
     did: string,
     delegateAgentId: string,
@@ -557,7 +542,7 @@ export class DIDRegistry extends ContractBase {
     )
   }
 
-  public async addDidProvenanceDelegate(
+  public addDidProvenanceDelegate(
     did: string,
     delegateAddress: string,
     ownerAddress: string,
@@ -571,7 +556,7 @@ export class DIDRegistry extends ContractBase {
     )
   }
 
-  public async removeDidProvenanceDelegate(
+  public removeDidProvenanceDelegate(
     did: string,
     delegateAddress: string,
     ownerAddress: string,
@@ -585,28 +570,28 @@ export class DIDRegistry extends ContractBase {
     )
   }
 
-  public async isProvenanceDelegate(did: string, delegateAddress: string) {
+  public isProvenanceDelegate(did: string, delegateAddress: string) {
     return this.call('isProvenanceDelegate', [didZeroX(did), zeroX(delegateAddress)])
   }
 
-  public async getProvenanceOwner(did: string) {
+  public getProvenanceOwner(did: string) {
     return this.call('getProvenanceOwner', [didZeroX(did)])
   }
 
-  public async mint(did: string, amount: bigint, from: string, params?: txParams) {
+  public mint(did: string, amount: bigint, from: string, params?: txParams) {
     return this.send('mint', from, [didZeroX(did), String(amount)], params)
   }
 
-  public async burn(did: string, amount: bigint, from: string, params?: txParams) {
+  public burn(did: string, amount: bigint, from: string, params?: txParams) {
     return this.send('burn', from, [didZeroX(did), String(amount)], params)
   }
 
-  public async addProvider(did: string, provider: string, from: string, params?: txParams) {
-    return await this.send('addDIDProvider', from, [didZeroX(did), zeroX(provider)], params)
+  public addProvider(did: string, provider: string, from: string, params?: txParams) {
+    return this.send('addDIDProvider', from, [didZeroX(did), zeroX(provider)], params)
   }
 
-  public async removeProvider(did: string, provider: string, from: string, params?: txParams) {
-    return await this.send('removeDIDProvider', from, [didZeroX(did), zeroX(provider)], params)
+  public removeProvider(did: string, provider: string, from: string, params?: txParams) {
+    return this.send('removeDIDProvider', from, [didZeroX(did), zeroX(provider)], params)
   }
 
   public async getProviders(did: string) {
@@ -614,19 +599,19 @@ export class DIDRegistry extends ContractBase {
     return registeredValues[5].filter((x: string) => x != ZeroAddress)
   }
 
-  public async getDIDRegister(did: string) {
+  public getDIDRegister(did: string) {
     return this.call('getDIDRegister', [didZeroX(did)])
   }
 
-  public async getNFTInfo(did: string) {
+  public getNFTInfo(did: string) {
     return this.call('getNFTInfo', [didZeroX(did)])
   }
 
-  public async hashDID(didSeed: string, creator: string): Promise<string> {
+  public hashDID(didSeed: string, creator: string): Promise<string> {
     return this.call('hashDID', [didZeroX(didSeed), zeroX(creator)])
   }
 
-  public async grantRegistryOperatorRole(manager: string, from: string, params?: txParams) {
-    return await this.send('grantRegistryOperatorRole', from, [zeroX(manager)], params)
+  public grantRegistryOperatorRole(manager: string, from: string, params?: txParams) {
+    return this.send('grantRegistryOperatorRole', from, [zeroX(manager)], params)
   }
 }

@@ -345,7 +345,7 @@ describe('Secondary Markets', () => {
         ddo.setNFTRewardsFromService('nft-sales', assetPrice2, collector1.getId())
       })
 
-      it('As collector1 I create and store an off-chain service agreement', async () => {
+      it('As collector1 I create and store an off-chain service agreement', () => {
         const nftSalesServiceAgreementTemplate = nftSalesTemplate.getServiceAgreementTemplate()
         const nftSalesTemplateConditions = nftSalesTemplate.getServiceAgreementTemplateConditions()
 

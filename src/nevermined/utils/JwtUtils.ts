@@ -1,4 +1,4 @@
-import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
+import { SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../Account'
 import { ethers } from 'ethers'
@@ -114,27 +114,6 @@ export class JwtUtils extends Instantiable {
 
   public generateCacheKey(...args: string[]): string {
     return args.join()
-  }
-
-  public async accountToJwk(account: Account): Promise<any> {
-    const address = account.getId().toLowerCase()
-
-    // Currently only works with HDWalletProvider
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const publicKey = this.web3.currentProvider.wallets[address].getPublicKey()
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const privateKey = this.web3.currentProvider.wallets[address].getPrivateKey()
-
-    return importJWK({
-      alg: 'ES256K',
-      crv: 'secp256k1',
-      kty: 'EC',
-      d: privateKey.toString('base64'),
-      x: publicKey.slice(0, 32).toString('base64'),
-      y: publicKey.slice(32, 64).toString('base64'),
-    })
   }
 
   public async generateClientAssertion(account: Account, message?: string) {

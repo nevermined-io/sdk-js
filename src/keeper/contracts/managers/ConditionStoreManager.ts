@@ -16,39 +16,34 @@ export interface ConditionData {
 
 export class ConditionStoreManager extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<ConditionStoreManager> {
-    const templateStoreManeger: ConditionStoreManager = new ConditionStoreManager(
+    const templateStoreManager: ConditionStoreManager = new ConditionStoreManager(
       'ConditionStoreManager',
     )
-    await templateStoreManeger.init(config)
-    return templateStoreManeger
+    await templateStoreManager.init(config)
+    return templateStoreManager
   }
 
-  public async createCondition(
-    id: string,
-    typeRef: string,
-    from?: Account,
-    txParams?: TxParameters,
-  ) {
+  public createCondition(id: string, typeRef: string, from?: Account, txParams?: TxParameters) {
     return this.send('createCondition', from && from.getId(), [zeroX(id), zeroX(typeRef)], txParams)
   }
 
-  public async delegateCreateRole(delegatee: string, owner: string, txParams?: TxParameters) {
+  public delegateCreateRole(delegatee: string, owner: string, txParams?: TxParameters) {
     return this.send('delegateCreateRole', zeroX(owner), [zeroX(delegatee)], txParams)
   }
 
-  public async getCreateRole() {
+  public getCreateRole() {
     return this.call('getCreateRole', [])
   }
 
-  public async isConditionTimeLocked(id: string) {
+  public isConditionTimeLocked(id: string) {
     return this.call('isConditionTimeLocked', [id])
   }
 
-  public async isConditionTimedOut(id: string) {
+  public isConditionTimedOut(id: string) {
     return this.call('isConditionTimedOut', [id])
   }
 
-  public async getOwner(): Promise<string> {
+  public getOwner(): Promise<string> {
     return this.call('owner', [])
   }
 

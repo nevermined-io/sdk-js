@@ -11,39 +11,39 @@ export default class NeverminedConfig extends ContractBase {
     return neverminedConfig
   }
 
-  public async getOwner(): Promise<string> {
+  public getOwner(): Promise<string> {
     return this.call('owner', [])
   }
 
-  public async getNetworkFee(): Promise<bigint> {
+  public getNetworkFee(): Promise<bigint> {
     return this.call('getMarketplaceFee', [])
   }
 
-  public async getFeeReceiver(): Promise<string> {
+  public getFeeReceiver(): Promise<string> {
     return this.call('getFeeReceiver', [])
   }
 
-  public async getIsProvenanceEnabled(): Promise<boolean> {
+  public getIsProvenanceEnabled(): Promise<boolean> {
     return this.call('getProvenanceStorage', [])
   }
 
-  public async isGovernor(address: string): Promise<boolean> {
+  public isGovernor(address: string): Promise<boolean> {
     return this.call('isGovernor', [address])
   }
 
-  public async setGovernor(address: string, from?: Account, txParams?: TxParameters) {
+  public setGovernor(address: string, from?: Account, txParams?: TxParameters) {
     return this.sendFrom('setGovernor', [address], from, txParams)
   }
 
-  public async setTrustedForwarder(address: string, from?: Account, txParams?: TxParameters) {
+  public setTrustedForwarder(address: string, from?: Account, txParams?: TxParameters) {
     return this.sendFrom('setTrustedForwarder', [address], from, txParams)
   }
 
-  public async getTrustedForwarder(): Promise<string> {
+  public getTrustedForwarder(): Promise<string> {
     return this.call('getTrustedForwarder', [])
   }
 
-  public async setNetworkFees(
+  public setNetworkFees(
     networkFee: number,
     feeReceiver: string,
     from?: Account,

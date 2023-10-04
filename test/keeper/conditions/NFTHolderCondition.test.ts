@@ -45,7 +45,7 @@ describe('NFTHolderCondition', () => {
     await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     agreementId = generateId()
     checksum = generateId()
     didSeed = `did:nv:${generateId()}`

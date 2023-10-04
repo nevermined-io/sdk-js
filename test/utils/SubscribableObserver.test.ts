@@ -7,7 +7,7 @@ use(spies)
 
 describe('SubscribableObserver', () => {
   describe('#subscribe()', () => {
-    it('should be able to add a subcription', async () => {
+    it('should be able to add a subscription', () => {
       const observer = new SubscribableObserver()
       const subscription = observer.subscribe()
 
@@ -15,7 +15,7 @@ describe('SubscribableObserver', () => {
       assert.typeOf(subscription.unsubscribe, 'function')
     })
 
-    it('should be able to unsubscribe', async () => {
+    it('should be able to unsubscribe', () => {
       const observer = new SubscribableObserver()
       const subscription = observer.subscribe()
 
@@ -24,7 +24,7 @@ describe('SubscribableObserver', () => {
   })
 
   describe('#next()', () => {
-    it('should be able to emit next value', async () => {
+    it('should be able to emit next value', () => {
       const onNextSpy = spy()
       const observer = new SubscribableObserver()
       observer.subscribe(onNextSpy)
@@ -38,7 +38,7 @@ describe('SubscribableObserver', () => {
   })
 
   describe('#complete()', () => {
-    it('should be able to complete', async () => {
+    it('should be able to complete', () => {
       const onCompleteSpy = spy()
       const observer = new SubscribableObserver()
       observer.subscribe(undefined, onCompleteSpy)
@@ -54,7 +54,7 @@ describe('SubscribableObserver', () => {
   })
 
   describe('#error()', () => {
-    it('should be able to emit a error', async () => {
+    it('should be able to emit a error', () => {
       const onErrorSpy = spy()
       const observer = new SubscribableObserver()
       observer.subscribe(undefined, undefined, onErrorSpy)

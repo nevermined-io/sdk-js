@@ -14,7 +14,7 @@ export interface AccessTemplateParams {
 }
 
 export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAccess> {
-  public async paramsGen({ consumer_address }: ValidationParams): Promise<AccessTemplateParams> {
+  public paramsGen({ consumer_address }: ValidationParams): AccessTemplateParams {
     return {
       consumerId: consumer_address,
       serviceType: 'access',
@@ -28,7 +28,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
   public description(): string {
     return 'Access Agreement'
   }
-  public static async getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
+  public static getInstance(config: InstantiableConfig): Promise<AccessTemplate> {
     return AgreementTemplate.getInstance(config, 'AccessTemplate', AccessTemplate)
   }
 
@@ -95,7 +95,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
   }
 
   // accept for asset owner
-  public async accept(params: ValidationParams): Promise<boolean> {
+  public accept(params: ValidationParams): Promise<boolean> {
     return this.nevermined.keeper.conditions.accessCondition.checkPermissions(
       params.consumer_address,
       params.did,

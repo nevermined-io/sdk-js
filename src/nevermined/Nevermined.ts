@@ -91,7 +91,7 @@ export class Nevermined extends Instantiable {
      * @param api - An instance of the `NFT721Api`
      * @returns An instance of {@link NFT721Api}
      */
-    loadNft721Api: async (api: NFT721Api): Promise<NFT721Api> => {
+    loadNft721Api: (api: NFT721Api): NFT721Api => {
       this.nfts721 = api
       return this.nfts721
     },
@@ -124,7 +124,7 @@ export class Nevermined extends Instantiable {
      * @param api - An instance of the `NFT1155Api`
      * @returns An instance of {@link NFT1155Api}
      */
-    loadNft1155Api: async (api: NFT1155Api): Promise<NFT1155Api> => {
+    loadNft1155Api: (api: NFT1155Api): NFT1155Api => {
       this.nfts1155 = api
       return this.nfts1155
     },

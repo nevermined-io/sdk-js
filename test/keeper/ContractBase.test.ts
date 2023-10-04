@@ -53,7 +53,7 @@ describe('ContractWrapperBase', () => {
   })
 
   describe('#getSignatureOfMethod()', () => {
-    it('should a signature of the function', async () => {
+    it('should a signature of the function', () => {
       const sig = wrappedContract.getSignatureOfMethod('name')
       assert(sig)
       assert(typeof sig === 'string')

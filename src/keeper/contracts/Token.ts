@@ -24,11 +24,11 @@ export class Token extends ContractBase {
     return token
   }
 
-  public async approve(to: string, price: bigint, from?: Account, txParams?: TxParameters) {
+  public approve(to: string, price: bigint, from?: Account, txParams?: TxParameters) {
     return this.sendFrom('approve', [to, price.toString()], from, txParams)
   }
 
-  public async decimals(): Promise<number> {
+  public decimals(): Promise<number> {
     return this.call('decimals', [])
   }
 
@@ -36,27 +36,27 @@ export class Token extends ContractBase {
     return BigInt(formatEther(await this.call('balanceOf', [address])))
   }
 
-  public async strBalanceOf(address: string): Promise<string> {
+  public strBalanceOf(address: string): Promise<string> {
     return this.call('balanceOf', [address])
   }
 
-  public async balanceOf(address: string): Promise<bigint> {
+  public balanceOf(address: string): Promise<bigint> {
     return this.call('balanceOf', [address])
   }
 
-  public async symbol(): Promise<string> {
+  public symbol(): Promise<string> {
     return this.call('symbol', [])
   }
 
-  public async name(): Promise<string> {
+  public name(): Promise<string> {
     return this.call('name', [])
   }
 
-  public async totalSupply(): Promise<bigint> {
+  public totalSupply(): Promise<bigint> {
     return this.call('totalSupply', [])
   }
 
-  public async transfer(to: string, amount: bigint, from: string, txParams?: TxParameters) {
+  public transfer(to: string, amount: bigint, from: string, txParams?: TxParameters) {
     return this.send('transfer', from, [to, amount.toString()], txParams)
   }
 }

@@ -14,9 +14,7 @@ export interface DistributeNFTCollateralConditionContext extends ConditionContex
  * depending on the loan status.
  */
 export class DistributeNFTCollateralCondition extends ProviderCondition<DistributeNFTCollateralConditionContext> {
-  public static async getInstance(
-    config: InstantiableConfig,
-  ): Promise<DistributeNFTCollateralCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<DistributeNFTCollateralCondition> {
     return Condition.getInstance(
       config,
       'DistributeNFTCollateralCondition',
@@ -36,7 +34,7 @@ export class DistributeNFTCollateralCondition extends ProviderCondition<Distribu
     return super.params(didZeroX(did), zeroX(vaultAddress), zeroX(nftContractAddress))
   }
 
-  public async paramsFromDDO({
+  public paramsFromDDO({
     ddo,
     vaultAddress,
     nftContractAddress,

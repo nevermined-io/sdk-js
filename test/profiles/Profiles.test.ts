@@ -7,7 +7,7 @@ import { Profiles } from '../../src/services'
 
 use(spies)
 
-const reponsify = async (data) => ({
+const reponsify = (data) => ({
   ok: true,
   json: () => Promise.resolve(data),
 })

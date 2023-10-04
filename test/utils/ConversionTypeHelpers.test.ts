@@ -3,21 +3,21 @@ import { zeroX, noZeroX, didPrefixed, noDidPrefixed } from '../../src/utils'
 
 describe('ConversionTypeHelpers', () => {
   describe('#zeroXTransformer()', () => {
-    it("should return the input if it's not hex value", async () => {
+    it("should return the input if it's not hex value", () => {
       const result1 = zeroX('Test 1')
       const result2 = noZeroX('Test 2')
       assert.equal(result1, 'Test 1')
       assert.equal(result2, 'Test 2')
     })
 
-    it('should return the value with 0x prefix', async () => {
+    it('should return the value with 0x prefix', () => {
       const result1 = zeroX('0x1234')
       const result2 = zeroX('1234')
       assert.equal(result1, '0x1234')
       assert.equal(result2, '0x1234')
     })
 
-    it('should return the value without 0x prefix', async () => {
+    it('should return the value without 0x prefix', () => {
       const result1 = noZeroX('0x1234')
       const result2 = noZeroX('1234')
       assert.equal(result1, '1234')
@@ -28,7 +28,7 @@ describe('ConversionTypeHelpers', () => {
   describe('#didTransformer()', () => {
     const did = 'a'.repeat(64)
 
-    it("should return the input if it's not valid", async () => {
+    it("should return the input if it's not valid", () => {
       const result1 = didPrefixed('Test 1')
       const result2 = noDidPrefixed('Test 2')
       const result3 = noDidPrefixed('Test 3')
@@ -37,7 +37,7 @@ describe('ConversionTypeHelpers', () => {
       assert.equal(result3, 'Test 3')
     })
 
-    it('should return the value with did:nv: prefix', async () => {
+    it('should return the value with did:nv: prefix', () => {
       const result1 = didPrefixed(`0x${did}`)
       const result2 = didPrefixed(did)
       const result3 = didPrefixed(`did:nv:${did}`)
@@ -46,7 +46,7 @@ describe('ConversionTypeHelpers', () => {
       assert.equal(result3, `did:nv:${did}`)
     })
 
-    it('should return the value without did:nv: prefix', async () => {
+    it('should return the value without did:nv: prefix', () => {
       const result1 = noDidPrefixed(`0x${did}`)
       const result2 = noDidPrefixed(did)
       const result3 = noDidPrefixed(`did:nv:${did}`)

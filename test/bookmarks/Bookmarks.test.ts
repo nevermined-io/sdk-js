@@ -9,7 +9,7 @@ import TestContractHandler from '../keeper/TestContractHandler'
 
 use(spies)
 
-const reponsify = async (data) => ({
+const reponsify = (data) => ({
   ok: true,
   json: () => Promise.resolve(data),
 })
@@ -26,7 +26,7 @@ describe('Bookmarks', () => {
     nevermined = await Nevermined.getInstance(config)
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     bookmarks = nevermined.services.bookmarks // eslint-disable-line prefer-destructuring
 
     newBookmark = {

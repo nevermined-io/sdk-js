@@ -15,7 +15,7 @@ export class TokenUtils extends Instantiable {
    * Returns the instance of Token.
    * @returns {@link Token}
    */
-  public static async getInstance(config: InstantiableConfig): Promise<TokenUtils> {
+  public static getInstance(config: InstantiableConfig): TokenUtils {
     const instance = new TokenUtils(config)
     return instance
   }
@@ -59,7 +59,7 @@ export class TokenUtils extends Instantiable {
     from: Account,
     txParams?: txParams,
   ): Promise<boolean> {
-    this.nevermined.keeper.token.transfer(to, amount, from.getId(), txParams)
+    await this.nevermined.keeper.token.transfer(to, amount, from.getId(), txParams)
     return true
   }
 

@@ -1,6 +1,6 @@
 import { DDO, ServiceType } from '../../../ddo'
 import { getConditionsByParams, zeroX } from '../../../utils'
-import { AssetPrice, Babysig, ERCType } from '../../../models'
+import { AssetPrice, Babysig, ERCType, NFTDetails } from '../../../models'
 import { RoyaltyKind } from '../AssetsApi'
 import { Account } from '../../Account'
 import { Token, TxParameters } from '../../../keeper'
@@ -120,7 +120,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    *
    * @returns The details of the NFT.
    */
-  protected async _details(did: string, ercType: ERCType) {
+  protected async _details(did: string, ercType: ERCType): Promise<NFTDetails> {
     const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
     const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
     let royalties = Number(details[8])

@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { KeeperError } from '../errors'
 
-export async function getNetworkName(networkId: number): Promise<string> {
+export const getNetworkName = (networkId: number): string => {
   switch (networkId) {
     case 1:
       return 'mainnet'

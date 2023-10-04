@@ -61,7 +61,7 @@ export class SubgraphEvent extends NeverminedEvent {
     }
   }
 
-  public async getPastEvents(options: EventOptions): EventResult {
+  public getPastEvents(options: EventOptions): EventResult {
     return this.getEventData(options)
   }
 

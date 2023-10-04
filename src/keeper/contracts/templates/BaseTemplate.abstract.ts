@@ -18,7 +18,7 @@ export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>
   implements ServicePlugin<S>
 {
-  public async getAgreementData(
+  public getAgreementData(
     agreementId: string,
   ): Promise<{ accessProvider: string; accessConsumer: string }> {
     return this.call<any>('getAgreementData', [zeroX(agreementId)])
@@ -91,19 +91,15 @@ export abstract class BaseTemplate<Params, S extends Service>
    */
   public abstract paramsGen(params: ValidationParams): Promise<Params>
 
-  public async extraGen(_params: ValidationParams): Promise<any> {
+  public extraGen(_params: ValidationParams): Pick<ValidationParams, 'service_index'> {
     return { service_index: _params.service_index }
   }
 
-  public async accept(_params: ValidationParams): Promise<boolean> {
+  public accept(_params: ValidationParams): boolean {
     return false
   }
 
-  public async track(
-    _params: ValidationParams,
-    _from: Account,
-    _txparams?: TxParameters,
-  ): Promise<boolean> {
+  public track(_params: ValidationParams, _from: Account, _txparams?: TxParameters): boolean {
     return false
   }
 

@@ -12,9 +12,7 @@ export interface AccessConditionContext extends ConditionContext {
  * Condition allowing to transfer the ownership between the original owner and a receiver.
  */
 export class TransferDIDOwnershipCondition extends ProviderCondition<AccessConditionContext> {
-  public static async getInstance(
-    config: InstantiableConfig,
-  ): Promise<TransferDIDOwnershipCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<TransferDIDOwnershipCondition> {
     return Condition.getInstance(
       config,
       'TransferDIDOwnershipCondition',
@@ -32,7 +30,7 @@ export class TransferDIDOwnershipCondition extends ProviderCondition<AccessCondi
     return super.params(didZeroX(did), zeroX(receiver))
   }
 
-  public async paramsFromDDO({ ddo, receiverId }: AccessConditionContext) {
+  public paramsFromDDO({ ddo, receiverId }: AccessConditionContext) {
     return this.params(ddo.shortId(), receiverId)
   }
 

@@ -138,7 +138,7 @@ describe('DDO', function () {
   })
 
   describe('#serialize()', () => {
-    it('should properly serialize', async () => {
+    it('should properly serialize', () => {
       const ddoString = DDO.serialize(testDDO)
       assert(ddoString)
       assert(ddoString.startsWith('{'))
@@ -146,7 +146,7 @@ describe('DDO', function () {
   })
 
   describe('#constructor()', () => {
-    it('should create an empty ddo', async () => {
+    it('should create an empty ddo', () => {
       const ddo = new DDO()
       assert(ddo)
 
@@ -155,7 +155,7 @@ describe('DDO', function () {
       assert(ddo.publicKey.length === 0)
     })
 
-    it('should create an predefined ddo', async () => {
+    it('should create an predefined ddo', () => {
       const service: Partial<Service> & any = {
         serviceEndpoint: 'http://',
         description: 'nice service',
@@ -175,7 +175,7 @@ describe('DDO', function () {
   })
 
   describe('#deserialize()', () => {
-    it('should properly deserialize from serialized object', async () => {
+    it('should properly deserialize from serialized object', () => {
       const ddoString = DDO.serialize(testDDO)
       assert.typeOf(ddoString, 'string')
 
@@ -186,7 +186,7 @@ describe('DDO', function () {
       assert.equal(ddo.publicKey[0].publicKeyPem, testDDO.publicKey[0].publicKeyPem)
     })
 
-    it('should properly deserialize from json file', async () => {
+    it('should properly deserialize from json file', () => {
       const ddo: DDO = DDO.deserialize(JSON.stringify(jsonDDO))
       assert(ddo)
 
@@ -196,7 +196,7 @@ describe('DDO', function () {
   })
 
   describe('#getChecksum()', () => {
-    it('should properly generate a the checksum DDO', async () => {
+    it('should properly generate a the checksum DDO', () => {
       const ddo = new DDO(testDDO)
       const checksum = {}
       for (const svc of ddo.service) {

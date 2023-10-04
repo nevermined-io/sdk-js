@@ -6,7 +6,7 @@ import { TxParameters } from '../ContractBase'
 import { DDO } from '../../../ddo'
 
 export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<LockPaymentCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<LockPaymentCondition> {
     return Condition.getInstance(config, 'LockPaymentCondition', LockPaymentCondition)
   }
 
@@ -28,7 +28,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     )
   }
 
-  public async paramsFromDDO({ ddo, service, price: rewards }: ConditionContext) {
+  public paramsFromDDO({ ddo, service, price: rewards }: ConditionContext) {
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     return this.params(
       ddo.shortId(),

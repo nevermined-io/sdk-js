@@ -13,7 +13,7 @@ export interface NFT721LockConditionContext extends ConditionContext {
  * Implementation of the NFT Lock Condition
  */
 export class NFT721LockCondition extends ProviderCondition<NFT721LockConditionContext> {
-  public static async getInstance(config: InstantiableConfig): Promise<NFT721LockCondition> {
+  public static getInstance(config: InstantiableConfig): Promise<NFT721LockCondition> {
     return Condition.getInstance(config, 'NFT721LockCondition', NFT721LockCondition, true)
   }
 
@@ -34,7 +34,7 @@ export class NFT721LockCondition extends ProviderCondition<NFT721LockConditionCo
     )
   }
 
-  public async paramsFromDDO({
+  public paramsFromDDO({
     ddo,
     lockAddress,
     nftAmount,

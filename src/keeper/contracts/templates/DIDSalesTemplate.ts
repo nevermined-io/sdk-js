@@ -16,7 +16,7 @@ export interface DIDSalesTemplateParams {
 }
 
 export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams, any> {
-  public async paramsGen(params: ValidationParams): Promise<DIDSalesTemplateParams> {
+  public paramsGen(params: ValidationParams): DIDSalesTemplateParams {
     return this.params(params.consumer_address)
   }
   public params(receiverId: string): DIDSalesTemplateParams {
@@ -83,7 +83,7 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams, any> 
   public service(): ServiceType {
     throw new Error('Method not implemented.')
   }
-  public static async getInstance(config: InstantiableConfig): Promise<DIDSalesTemplate> {
+  public static getInstance(config: InstantiableConfig): Promise<DIDSalesTemplate> {
     return AgreementTemplate.getInstance(config, 'DIDSalesTemplate', DIDSalesTemplate)
   }
 

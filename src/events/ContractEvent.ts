@@ -20,7 +20,7 @@ export class ContractEvent extends NeverminedEvent {
     return instance
   }
 
-  public async getEventData(options: EventOptions): EventResult {
+  public getEventData(options: EventOptions): EventResult {
     if (!this.eventExists(options.eventName)) {
       throw new KeeperError(
         `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`,
@@ -50,7 +50,7 @@ export class ContractEvent extends NeverminedEvent {
     }
   }
 
-  public async getBlockNumber(): Promise<number> {
+  public getBlockNumber(): Promise<number> {
     return this.web3.getBlockNumber()
   }
 

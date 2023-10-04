@@ -52,21 +52,13 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
     )
   }
 
-  public async process(
-    params: ValidationParams,
-    from: Account,
-    txparams?: TxParameters,
-  ): Promise<void> {
+  public process(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<void> {
     return this.normal.process(params, from, txparams)
   }
-  public async accept(params: ValidationParams): Promise<boolean> {
+  public accept(params: ValidationParams): Promise<boolean> {
     return this.normal.accept(params)
   }
-  public async track(
-    params: ValidationParams,
-    from: Account,
-    txparams?: TxParameters,
-  ): Promise<boolean> {
+  public track(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<boolean> {
     return this.normal.track(params, from, txparams)
   }
 }

@@ -21,7 +21,7 @@ export interface NFTSalesTemplateParams {
 }
 
 export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, ServiceNFTSales> {
-  public static async getInstance(config: InstantiableConfig): Promise<NFTSalesTemplate> {
+  public static getInstance(config: InstantiableConfig): Promise<NFTSalesTemplate> {
     return AgreementTemplate.getInstance(config, 'NFTSalesTemplate', NFTSalesTemplate)
   }
 
@@ -69,12 +69,12 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     }
   }
 
-  public async paramsGen({
+  public paramsGen({
     consumer_address,
     nft_amount,
     duration = 0,
     expiration = 0,
-  }: ValidationParams): Promise<NFTSalesTemplateParams> {
+  }: ValidationParams): NFTSalesTemplateParams {
     return this.params(consumer_address, nft_amount, duration, expiration)
   }
 

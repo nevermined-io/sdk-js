@@ -240,7 +240,7 @@ export class DDO {
    * @param publicKey - Public key to be used on personal sign.
    * @returns Proof object.
    */
-  public async generateProof(publicKey: string): Promise<Proof> {
+  public generateProof(publicKey: string): Proof {
     const checksum = {}
     this.service.forEach((svc) => {
       checksum[svc.index] = this.checksum(
@@ -392,7 +392,7 @@ export class DDO {
    * @param seed the seed
    * @returns the string represeing the DID seed
    */
-  public async generateDidSeed(seed) {
+  public generateDidSeed(seed): string {
     return zeroX(this.checksum(JSON.stringify(seed)))
   }
 
