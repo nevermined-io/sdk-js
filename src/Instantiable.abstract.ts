@@ -13,7 +13,7 @@ export interface InstantiableConfig {
   circuitsFolder?: string
 }
 
-export async function generateIntantiableConfigFromConfig(
+export async function generateInstantiableConfigFromConfig(
   config: NeverminedOptions,
 ): Promise<Partial<InstantiableConfig>> {
   const logLevel =
