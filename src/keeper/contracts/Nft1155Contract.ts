@@ -74,7 +74,7 @@ export class Nft1155Contract extends NFTContractsBase {
     from?: Account,
     txParams?: TxParameters,
   ) {
-    return this._createClone(name, symbol, uri, undefined, operators, from, txParams)
+    return this._createClone(1155, name, symbol, uri, undefined, operators, from, txParams)
   }
 
   /**

@@ -72,7 +72,7 @@ export class Nft721Contract extends NFTContractsBase {
     from?: Account,
     txParams?: TxParameters,
   ) {
-    return this._createClone(name, symbol, uri, cap, operators, from, txParams)
+    return this._createClone(721, name, symbol, uri, cap, operators, from, txParams)
   }
 
   public async mint(did: string, from: string, txParams?: TxParameters) {
