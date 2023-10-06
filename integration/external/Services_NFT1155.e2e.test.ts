@@ -8,6 +8,7 @@ import {
   AssetPrice,
   NFTAttributes,
   ResourceAuthentication,
+  NeverminedNFT1155Type,
 } from '../../src'
 import {
   EscrowPaymentCondition,
@@ -498,7 +499,10 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     ]
 
     it('should be able to retrieve the subscriptionDDO by contractAddress', async () => {
-      const result = await nevermined.search.bySubscriptionContractAddress(subscriptionNFT.address)
+      const result = await nevermined.search.bySubscriptionContractAddress(
+        subscriptionNFT.address,
+        NeverminedNFT1155Type.nft1155Credit,
+      )
       assert.equal(result.totalResults.value, 1)
     })
 
@@ -511,7 +515,11 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
 
     it('should be able to retrieve subscriptions purchased', async () => {
-      const result = await nevermined.search.subscriptionsPurchased(subscriber, 1155)
+      const result = await nevermined.search.subscriptionsPurchased(
+        subscriber,
+        NeverminedNFT1155Type.nft1155Credit,
+        1155,
+      )
       assert.isAbove(result.totalResults.value, 1)
 
       const dids = result.results.map((ddo) => ddo.id)
