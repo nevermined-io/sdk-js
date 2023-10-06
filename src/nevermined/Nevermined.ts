@@ -5,7 +5,7 @@ import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
 import { Keeper, CustomToken, Nft1155Contract, Nft721Contract } from '../keeper'
 import { NeverminedOptions } from '../models'
-import { Instantiable, generateIntantiableConfigFromConfig } from '../Instantiable.abstract'
+import { Instantiable, generateInstantiableConfigFromConfig } from '../Instantiable.abstract'
 import { NFT1155Api } from './api/nfts/NFT1155Api'
 import { NFT721Api } from './api/nfts/NFT721Api'
 import { SearchApi } from './api/SearchApi'
@@ -35,7 +35,7 @@ export class Nevermined extends Instantiable {
     const instance = new Nevermined()
 
     const instanceConfig = {
-      ...(await generateIntantiableConfigFromConfig(config)),
+      ...(await generateInstantiableConfigFromConfig(config)),
       nevermined: instance,
     }
     instance.setInstanceConfig(instanceConfig)

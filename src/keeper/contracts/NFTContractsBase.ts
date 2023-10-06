@@ -32,6 +32,7 @@ export class NFTContractsBase extends ContractBase {
    * @returns Contract Receipt
    */
   protected async _createClone(
+    ercType: 721 | 1155,
     name: string,
     symbol: string,
     uri: string,
@@ -43,7 +44,9 @@ export class NFTContractsBase extends ContractBase {
     try {
       const contractReceipt: ContractTransactionReceipt = await this.sendFrom(
         'createClone',
-        cap ? [name, symbol, uri, String(cap), operators] : [name, symbol, uri, operators],
+        ercType === 721
+          ? [name, symbol, uri, String(cap), operators]
+          : [name, symbol, uri, operators],
         from,
         txParams,
       )
