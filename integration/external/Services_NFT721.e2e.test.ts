@@ -8,6 +8,7 @@ import {
   AssetPrice,
   NFTAttributes,
   ResourceAuthentication,
+  NeverminedNFT721Type,
 } from '../../src'
 import {
   EscrowPaymentCondition,
@@ -467,12 +468,18 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
 
   describe('As a user I want to be able to search DDOs by subscriptions', () => {
     it('should be able to retrieve the subscriptionDDO by contractAddress', async () => {
-      const result = await nevermined.search.bySubscriptionContractAddress(subscriptionNFT.address)
+      const result = await nevermined.search.bySubscriptionContractAddress(
+        subscriptionNFT.address,
+        NeverminedNFT721Type.nft721Subscription,
+      )
       assert.equal(result.totalResults.value, 1)
     })
 
     it('should be able to retrieve subscriptions created', async () => {
-      const result = await nevermined.search.subscriptionsCreated(publisher)
+      const result = await nevermined.search.subscriptionsCreated(
+        publisher,
+        NeverminedNFT721Type.nft721Subscription,
+      )
       assert.isAbove(result.totalResults.value, 1)
 
       const dids = result.results.map((ddo) => ddo.id)
@@ -480,7 +487,11 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     })
 
     it('should be able to retrieve subscriptions purchased', async () => {
-      const result = await nevermined.search.subscriptionsPurchased(subscriber, 721)
+      const result = await nevermined.search.subscriptionsPurchased(
+        subscriber,
+        NeverminedNFT721Type.nft721Subscription,
+        721,
+      )
       assert.isAbove(result.totalResults.value, 1)
 
       const dids = result.results.map((ddo) => ddo.id)

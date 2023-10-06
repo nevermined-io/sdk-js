@@ -1,6 +1,14 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import {
+  Account,
+  DDO,
+  MetaData,
+  Nevermined,
+  AssetPrice,
+  NFTAttributes,
+  NeverminedNFT721Type,
+} from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
 import { generateMetadata, getMetadata } from '../utils'
@@ -322,12 +330,18 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
 
   describe('As a user I want to be able to search DDOs by subscriptions', () => {
     it('should be able to retrieve the subscriptionDDO by contractAddress', async () => {
-      const result = await nevermined.search.bySubscriptionContractAddress(subscriptionNFT.address)
+      const result = await nevermined.search.bySubscriptionContractAddress(
+        subscriptionNFT.address,
+        NeverminedNFT721Type.nft721Subscription,
+      )
       assert.equal(result.totalResults.value, 1)
     })
 
     it('should be able to retrieve subscriptions created', async () => {
-      const result = await nevermined.search.subscriptionsCreated(publisher)
+      const result = await nevermined.search.subscriptionsCreated(
+        publisher,
+        NeverminedNFT721Type.nft721Subscription,
+      )
       assert.isAbove(result.totalResults.value, 1)
 
       const dids = result.results.map((ddo) => ddo.id)
@@ -335,7 +349,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should be able to retrieve subscriptions purchased', async () => {
-      const result = await nevermined.search.subscriptionsPurchased(subscriber, 721)
+      const result = await nevermined.search.subscriptionsPurchased(
+        subscriber,
+        NeverminedNFT721Type.nft721Subscription,
+        721,
+      )
       assert.isAbove(result.totalResults.value, 1)
 
       const dids = result.results.map((ddo) => ddo.id)
@@ -343,7 +361,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should be able to retrieve subscriptions published filtering by tags', async () => {
-      const result = await nevermined.search.subscriptionsCreated(publisher, tagsFilter)
+      const result = await nevermined.search.subscriptionsCreated(
+        publisher,
+        NeverminedNFT721Type.nft721Subscription,
+        tagsFilter,
+      )
 
       assert.isAbove(result.totalResults.value, 1)
 
@@ -357,13 +379,22 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should not be able to retrieve any subscriptions published filtering by tags which not exist', async () => {
-      const result = await nevermined.search.subscriptionsCreated(publisher, tagsFilter2)
+      const result = await nevermined.search.subscriptionsCreated(
+        publisher,
+        NeverminedNFT721Type.nft721Subscription,
+        tagsFilter2,
+      )
 
       assert.equal(result.totalResults.value, 0)
     })
 
     it('should be able to retrieve subscriptions purchased filtering by tags', async () => {
-      const result = await nevermined.search.subscriptionsPurchased(subscriber, 721, tagsFilter)
+      const result = await nevermined.search.subscriptionsPurchased(
+        subscriber,
+        NeverminedNFT721Type.nft721Subscription,
+        721,
+        tagsFilter,
+      )
       assert.isAbove(result.totalResults.value, 1)
 
       assert.isTrue(
@@ -376,7 +407,12 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should not be able to retrieve not subscriptions purchased filtering by tags which do not exist', async () => {
-      const result = await nevermined.search.subscriptionsPurchased(subscriber, 721, tagsFilter2)
+      const result = await nevermined.search.subscriptionsPurchased(
+        subscriber,
+        NeverminedNFT721Type.nft721Subscription,
+        721,
+        tagsFilter2,
+      )
       assert.equal(result.totalResults.value, 0)
     })
 
