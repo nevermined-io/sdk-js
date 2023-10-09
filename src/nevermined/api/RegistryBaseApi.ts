@@ -132,12 +132,15 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       let encryptedFiles, encryptedAttributes
       if (!['workflow'].includes(assetAttributes.metadata.main.type)) {
-        const encryptedFilesResponse = await this.nevermined.services.node.encrypt(
-          ddo.id,
-          JSON.stringify(assetAttributes.metadata.main.files),
-          new String(assetAttributes.encryptionMethod),
-        )
-        encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
+        if (assetAttributes.metadata.main.files) {
+          // If we have files to encrypt we encrypt them
+          const encryptedFilesResponse = await this.nevermined.services.node.encrypt(
+            ddo.id,
+            JSON.stringify(assetAttributes.metadata.main.files),
+            new String(assetAttributes.encryptionMethod),
+          )
+          encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
+        }
 
         if (assetAttributes.metadata.main.type === 'service') {
           const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
