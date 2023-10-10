@@ -2,12 +2,20 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import {
+  Account,
+  DDO,
+  MetaData,
+  Nevermined,
+  AssetPrice,
+  NFTAttributes,
+  jsonReplacer,
+} from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers } from 'ethers'
+import { ethers, ZeroAddress } from 'ethers'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -26,6 +34,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   let reseller: Account
 
   let nevermined: Nevermined
+
   let token: Token
   let escrowPaymentCondition: EscrowPaymentCondition
   let transferNft721Condition: TransferNFT721Condition
@@ -111,8 +120,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       TestContractHandler.setConfig(config)
 
       const contractABI = await TestContractHandler.getABI(
-        'NFT721SubscriptionUpgradeable',
-        './test/resources/artifacts/',
+        // 'NFT721SubscriptionUpgradeable',
+        `NFT721SubscriptionUpgradeable.${await nevermined.keeper.getNetworkName()}`,
+        './artifacts/',
       )
       subscriptionNFT = await SubscriptionNFTApi.deployInstance(config, contractABI, editor, [
         editor.getId(),
@@ -121,6 +131,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         '',
         '',
         0,
+        nevermined.keeper.nvmConfig.address,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)
@@ -152,8 +163,9 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     it('should grant Nevermined the operator role', async () => {
       assert.isTrue(
         await nevermined.nfts721.isOperator(
-          subscriptionDDO.id,
+          subscriptionNFT.address,
           nevermined.keeper.conditions.transferNft721Condition.address,
+          721,
         ),
       )
     })
@@ -217,7 +229,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       )
 
       const minted = await subscriptionNFT.getContract.getMintedEntries(subscriber.getId())
-      console.log(`Minted: ${JSON.stringify(minted)}`)
+      console.log(`Minted: ${JSON.stringify(minted, jsonReplacer)}`)
 
       assert.equal(await subscriptionNFT.balanceOf(subscriber.getId()), 1n)
     })
@@ -301,6 +313,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
         '',
         '',
         0,
+        ZeroAddress,
       ])
 
       await nevermined.contracts.loadNft721Api(subscriptionNFT)

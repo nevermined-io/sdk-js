@@ -5,6 +5,7 @@ coverage/
 doc/
 test/**/*.js
 !test/resources/proxy-poc/*.js
+!test/resources/artifacts/*.json
 src/**/*.js
 package-lock.json
 yarn.lock

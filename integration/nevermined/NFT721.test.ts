@@ -44,6 +44,7 @@ describe('Nfts721 operations', async () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,

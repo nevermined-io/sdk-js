@@ -6,6 +6,7 @@ import {
   DID,
   didPrefixed,
   EventOptions,
+  NeverminedNFT1155Type,
   NeverminedNFT721Type,
   SearchQuery,
 } from '../../sdk'
@@ -151,17 +152,19 @@ export class SearchApi extends Instantiable {
   /**
    * Search for all subscription DDOs with `contractAddress`
    *
-   * @param contractAddress - The address of the NFT-721 subscription contract
+   * @param contractAddress - The address of the subscription contract
    * @param offset - The number of results to return
    * @param customNestedQueries - Custom nested queries to add to the search
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async bySubscriptionContractAddress(
     contractAddress: string,
+    nftType: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -176,11 +179,30 @@ export class SearchApi extends Instantiable {
             bool: {
               filter: [
                 { match: { 'service.type': 'metadata' } },
-                {
-                  match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
-                  },
-                },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
               ],
             },
           },
@@ -234,12 +256,14 @@ export class SearchApi extends Instantiable {
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsCreated(
     account: Account,
+    nftType?: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -256,9 +280,34 @@ export class SearchApi extends Instantiable {
                 { match: { 'service.type': 'metadata' } },
                 {
                   match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                    'service.attributes.main.type': 'subscription',
                   },
                 },
+
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
               ],
             },
           },
@@ -299,19 +348,22 @@ export class SearchApi extends Instantiable {
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsPurchased(
     account: Account,
+    nftType: string,
+    ercType: 721 | 1155,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
     appId?: string,
   ): Promise<QueryResult> {
-    // get on chain dids for nft-721 bought
+    // get on chain dids for nft bought
     const eventOptions: EventOptions = {
       eventName: 'Fulfilled',
       filterSubgraph: {
@@ -328,9 +380,14 @@ export class SearchApi extends Instantiable {
     }
 
     const events =
-      await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
-        eventOptions,
-      )
+      ercType === 721
+        ? await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+            eventOptions,
+          )
+        : await this.nevermined.keeper.conditions.transferNftCondition.events.getPastEvents(
+            eventOptions,
+          )
+
     const dids = events.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
 
     let search: SearchQuery['query'][] = [
@@ -343,9 +400,33 @@ export class SearchApi extends Instantiable {
                 { match: { 'service.type': 'metadata' } },
                 {
                   match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                    'service.attributes.main.type': 'subscription',
                   },
                 },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
               ],
             },
           },
@@ -407,8 +488,15 @@ export class SearchApi extends Instantiable {
               filter: [
                 { match: { 'service.type': 'metadata' } },
                 {
-                  match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
+                  bool: {
+                    should: [
+                      { match: { 'service.attributes.main.nftType': NeverminedNFT721Type.nft721 } },
+                      {
+                        match: {
+                          'service.attributes.main.nftType': NeverminedNFT1155Type.nft1155Credit,
+                        },
+                      },
+                    ],
                   },
                 },
                 {
@@ -537,8 +625,15 @@ export class SearchApi extends Instantiable {
               filter: [
                 { match: { 'service.type': 'metadata' } },
                 {
-                  match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
+                  bool: {
+                    should: [
+                      { match: { 'service.attributes.main.nftType': NeverminedNFT721Type.nft721 } },
+                      {
+                        match: {
+                          'service.attributes.main.nftType': NeverminedNFT1155Type.nft1155Credit,
+                        },
+                      },
+                    ],
                   },
                 },
                 {

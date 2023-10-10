@@ -116,7 +116,7 @@ export class Keeper extends Instantiable {
         nftSalesTemplate: NFTSalesTemplate.getInstance(this.instanceConfig),
         nft721SalesTemplate: NFT721SalesTemplate.getInstance(this.instanceConfig),
         standardRoyalties: StandardRoyalties.getInstance(this.instanceConfig), // optional
-        rewardsDistributor: RewardsDistributor.getInstance(this.instanceConfig),
+        rewardsDistributor: undefined, // RewardsDistributor.getInstance(this.instanceConfig), // optional
         nftUpgradeable: Nft1155Contract.getInstance(this.instanceConfig),
       })
 
@@ -125,7 +125,7 @@ export class Keeper extends Instantiable {
         curve: undefined,
       }
 
-      this.rewardsDistributor = this.instances.rewardsDistributor
+      this.rewardsDistributor = undefined // this.instances.rewardsDistributor
 
       const templates = [
         this.instances.accessTemplate,

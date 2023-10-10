@@ -8,6 +8,7 @@ import { ServiceSecondary } from '../../../ddo'
 import { NFTError } from '../../../errors'
 import { generateId } from '../../../utils'
 import { RegistryBaseApi } from '../RegistryBaseApi'
+import { SubscriptionToken } from '../../../services'
 
 /**
  * Abstract class providing common NFT methods for different ERC implementations.
@@ -62,7 +63,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
           ? this.nevermined.keeper.conditions.transferNftCondition.address
           : this.nevermined.keeper.conditions.transferNft721Condition.address
 
-      const isOperator = await this.isOperator(did, transferNftConditionAddress)
+      const isOperator = await this.isOperatorOfDID(did, transferNftConditionAddress)
       if (!isOperator) {
         throw new NFTError('Nevermined does not have operator role')
       }
@@ -87,7 +88,11 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    *
    * @returns operator status of address as a boolean
    */
-  public async isOperator(did: string, address: string, ercType: ERCType = 1155): Promise<boolean> {
+  public async isOperatorOfDID(
+    did: string,
+    address: string,
+    ercType: ERCType = 1155,
+  ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(did)
     const nftContractAddress = NFTsBaseApi.getNFTContractAddress(ddo, 'nft-sales')
 
@@ -97,6 +102,28 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
         : await this.nevermined.contracts.loadNft721Contract(nftContractAddress)
 
     return nftContract.isOperator(address)
+  }
+
+  /**
+   * Check if a particular address is the operator of given a NFT address.
+   *
+   * @param nftContractAddress - The DID of the NFT to check
+   * @param operatorAddress - The address to check if operator status
+   * @param ercType - The erc type of the NFT.
+   *
+   * @returns operator status of address as a boolean
+   */
+  public async isOperator(
+    nftContractAddress: string,
+    operatorAddress: string,
+    ercType: ERCType = 1155,
+  ): Promise<boolean> {
+    const nftContract =
+      ercType === 1155
+        ? await this.nevermined.contracts.loadNft1155Contract(nftContractAddress)
+        : await this.nevermined.contracts.loadNft721Contract(nftContractAddress)
+
+    return nftContract.isOperator(operatorAddress)
   }
 
   /**
@@ -430,5 +457,25 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       return true
     }
     return result
+  }
+
+  /**
+   * Get a JWT token for an asset associated with a webService
+   *
+   * @example
+   * ```ts
+   * const response = await nevermined.nfts721.getSubscriptionToken(serviceDDO.id, subscriber)
+   *
+   * assert.isDefined(response.accessToken)
+   * assert.isDefined(response.neverminedProxyUri)
+   * ```
+   *
+   * @param did - The did of the asset with a webService resource and an associated subscription
+   * @param account - Account of the user requesting the token
+   *
+   * @returns {@link SubscriptionToken}
+   */
+  public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
+    return this.nevermined.services.node.getSubscriptionToken(did, account)
   }
 }

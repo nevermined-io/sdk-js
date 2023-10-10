@@ -81,6 +81,7 @@ describe('NFT1155 End-to-End', () => {
         'NFT1155',
         'NVM',
         '',
+        nevermined.keeper.nvmConfig.address,
       ])
 
       assert.isDefined(nftContract)

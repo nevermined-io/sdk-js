@@ -24,6 +24,7 @@ export class Nft721Contract extends NFTContractsBase {
 
     const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
 
+    console.log(`Checking Address =${address}=`)
     await new ContractHandler(config).checkExists(address)
     nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
     nft.address = await nft.contract.getAddress()
@@ -71,7 +72,7 @@ export class Nft721Contract extends NFTContractsBase {
     from?: Account,
     txParams?: TxParameters,
   ) {
-    return this._createClone(name, symbol, uri, cap, operators, from, txParams)
+    return this._createClone(721, name, symbol, uri, cap, operators, from, txParams)
   }
 
   public async mint(did: string, from: string, txParams?: TxParameters) {

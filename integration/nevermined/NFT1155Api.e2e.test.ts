@@ -17,7 +17,7 @@ import {
   PublishMetadataOptions,
   RoyaltyKind,
 } from '../../src/nevermined/api/AssetsApi'
-import { ethers } from 'ethers'
+import { ethers, ZeroAddress } from 'ethers'
 import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
@@ -96,6 +96,7 @@ function makeTest(isCustom) {
           'NFT1155',
           'NVM',
           '',
+          nevermined.keeper.nvmConfig.address,
         ])
 
         const nftContract = await Nft1155Contract.getInstance(
@@ -181,7 +182,7 @@ function makeTest(isCustom) {
 
       it('should give Nevermined the operator role', async () => {
         assert.isTrue(
-          await nevermined.nfts1155.isOperator(
+          await nevermined.nfts1155.isOperatorOfDID(
             ddo.id,
             nevermined.keeper.conditions.transferNftCondition.address,
           ),
@@ -480,6 +481,7 @@ function makeTest(isCustom) {
           'NFT1155',
           'NVM',
           '',
+          ZeroAddress,
         ])
 
         const nftContract = await Nft1155Contract.getInstance(

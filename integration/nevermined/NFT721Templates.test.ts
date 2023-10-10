@@ -105,6 +105,7 @@ describe('NFT721Templates E2E', () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
@@ -630,6 +631,7 @@ describe('NFT721Templates E2E', () => {
         'NVM',
         '',
         '0',
+        nevermined.keeper.nvmConfig.address,
       ])
       nft = await nevermined.contracts.loadNft721(await nftContract.getAddress())
 
