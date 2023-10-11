@@ -112,7 +112,7 @@ function getParameter(
       case 'duration':
         return String(duration)
       case 'tokenId':
-        return tokenId ? tokenId : ''
+        return tokenId ? tokenId.replace('did:nv:', '') : ''
     }
 
     return ''
