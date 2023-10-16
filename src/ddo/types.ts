@@ -101,6 +101,15 @@ export interface ServiceMetadata {
   definition: ServiceDefinition
 }
 
+export enum ExternalResourceFileType {
+  Avatar = 'Avatar',
+  Private = 'Private',
+  CoverImage = 'CoverImage',
+  TermsAndConditions = 'TermsAndConditions',
+  SampleData = 'SampleData',
+  Other = 'Other',
+}
+
 export interface MetaDataExternalResource {
   /**
    * File name.
@@ -139,7 +148,13 @@ export interface MetaDataExternalResource {
   contentLength?: string
 
   /**
-   * Resource ID (depending on the source).
+   * The type of the external resource file
+   */
+  resourceType?: ExternalResourceFileType
+
+  /**
+   * Resource ID (depending on the source). It is used to reference the id of the file in an external source.
+   * For example the `ugcId`
    */
   resourceId?: string
 
