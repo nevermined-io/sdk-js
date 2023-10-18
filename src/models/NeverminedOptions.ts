@@ -1,7 +1,6 @@
 import { ethers } from 'ethers'
 import { LogLevel } from '../utils'
 import { AaveConfig } from './'
-import { ZeroDevAccountSigner, ZeroDevEthersProvider } from '@zerodev/sdk'
 
 export class NeverminedOptions {
   /**
@@ -69,8 +68,6 @@ export class NeverminedOptions {
 
   public accounts?: ethers.Signer[]
 
-  public zeroDevAccounts?: ZeroDevAccountSigner<'ECDSA'>[]
-
   /**
    * IPFS variables enable the resolution of DDOs (via `assets.resolve`) from CID urls
    * INFO: For performance purposes, it is recommended to setup a IPFS Infura endpoint to accelerate
@@ -86,6 +83,4 @@ export class NeverminedOptions {
    * Use a gas station to calculate transaction fees
    */
   public gasStationUri?: string
-
-  public zerodevProvider?: ZeroDevEthersProvider<'ECDSA'>
 }

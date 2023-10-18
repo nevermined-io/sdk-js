@@ -121,7 +121,7 @@ export class ContractHandler extends Instantiable {
     this.logger.debug(`Deploying abi using account: ${from.getId()}`)
 
     const signer = await this.nevermined.accounts.findSigner(from.getId())
-    const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer as any)
+    const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer)
     const isZos = contract.interface.hasFunction('initialize')
 
     const argument = isZos ? [] : args
@@ -144,7 +144,7 @@ export class ContractHandler extends Instantiable {
     if (isZos) {
       const methodSignature = ContractHandler.getSignatureOfMethod(baseContract, 'initialize', args)
 
-      const contract = baseContract.connect(signer as any)
+      const contract = baseContract.connect(signer)
 
       // estimate gas
       const gasLimit = await contract[methodSignature].estimateGas(...args, {

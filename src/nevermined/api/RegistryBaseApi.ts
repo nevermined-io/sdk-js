@@ -575,10 +575,6 @@ export abstract class RegistryBaseApi extends Instantiable {
       const service = ddo.findServiceByReference(serviceReference)
 
       const templateName = service.attributes.serviceAgreementTemplate.contractName
-      console.log(
-        `Ordering Asset with reference ${serviceReference}, template ${templateName} and price ${service.attributes.main.price}`,
-      )
-
       const template = keeper.getAccessTemplateByName(templateName)
 
       this.logger.log(`Creating ${serviceReference} agreement and paying`)

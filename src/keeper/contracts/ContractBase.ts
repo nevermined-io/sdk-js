@@ -3,7 +3,6 @@ import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import {
-  Contract,
   ContractTransactionReceipt,
   ContractTransactionResponse,
   FunctionFragment,
@@ -163,7 +162,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    return transactionResponse as any
+    return transactionReceipt
   }
 
   private async internalSendZeroDev(
@@ -230,7 +229,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    return transactionResponse as any
+    return transactionReceipt as ContractTransactionReceipt
   }
 
   public async send(
@@ -252,12 +251,6 @@ export abstract class ContractBase extends Instantiable {
       )
     }
 
-    if (this.config.zerodevProvider) {
-      const signer = this.config.zerodevProvider.getAccountSigner()
-      const contract = new Contract(this.address, this.contract.interface, signer as any)
-      return await this.internalSend(name, from, args, params, contract, params.progress)
-    }
-
     if (params.signer) {
       const paramsFixed = { ...params, signer: undefined }
       const contract = this.contract.connect(params.signer)
@@ -268,7 +261,7 @@ export abstract class ContractBase extends Instantiable {
 
     // get signer
     const signer = await this.nevermined.accounts.findSigner(from)
-    const contract = this.contract.connect(signer as any)
+    const contract = this.contract.connect(signer)
 
     // calculate gas cost
     let { gasLimit } = params
