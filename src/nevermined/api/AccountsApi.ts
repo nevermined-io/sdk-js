@@ -3,6 +3,7 @@ import { Account } from '../../nevermined'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters as txParams } from '../../keeper'
 import { ethers } from 'ethers'
+import { ZeroDevAccountSigner } from '@zerodev/sdk'
 
 /**
  * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
@@ -38,6 +39,17 @@ export class AccountsApi extends Instantiable {
     return new Account(address, this.instanceConfig)
   }
 
+  public async fromZeroDevSigner(signer: ZeroDevAccountSigner<'ECDSA'>): Promise<Account> {
+    if (!this.config.zeroDevAccounts) {
+      this.config.zeroDevAccounts = []
+    }
+    this.config.zeroDevAccounts.push(signer)
+    const address = await signer.getAddress()
+    const account = this.getAccount(address)
+    account.zeroDevSigner = signer
+    return account
+  }
+
   /**
    * Return account balance.
    * @param account - Account instance.
@@ -67,11 +79,18 @@ export class AccountsApi extends Instantiable {
     }
   }
 
-  public async findSigner(from: string): Promise<ethers.Signer> {
+  public async findSigner(from: string): Promise<ethers.Signer | ZeroDevAccountSigner<'ECDSA'>> {
     for (const acc of this.config.accounts || []) {
       const addr = await acc.getAddress()
       if (addr.toLowerCase() === from.toLowerCase()) {
         return acc.connect(this.web3)
+      }
+    }
+
+    for (const acc of this.config.zeroDevAccounts || []) {
+      const addr = await acc.getAddress()
+      if (addr === from) {
+        return acc
       }
     }
     return this.web3.getSigner(from)

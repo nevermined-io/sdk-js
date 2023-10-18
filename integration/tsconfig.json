@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "lib": ["es6", "es7", "dom", "ES2020"],
     "target": "ES2020",

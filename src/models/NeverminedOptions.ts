@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { LogLevel } from '../utils'
 import { AaveConfig } from './'
-import { ZeroDevEthersProvider } from '@zerodev/sdk'
+import { ZeroDevAccountSigner, ZeroDevEthersProvider } from '@zerodev/sdk'
 
 export class NeverminedOptions {
   /**
@@ -68,6 +68,8 @@ export class NeverminedOptions {
   public circuitsFolder?: string
 
   public accounts?: ethers.Signer[]
+
+  public zeroDevAccounts?: ZeroDevAccountSigner<'ECDSA'>[]
 
   /**
    * IPFS variables enable the resolution of DDOs (via `assets.resolve`) from CID urls

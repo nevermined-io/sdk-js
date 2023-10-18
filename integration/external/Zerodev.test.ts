@@ -1,90 +1,131 @@
-import { HDNodeWallet, Wallet } from 'ethers'
-import { assert } from 'chai'
-import { ZeroDevEthersProvider, convertEthersSignerToAccountSigner } from '@zerodev/sdk'
+import { ethers } from 'ethers'
+import { ZeroDevEthersProvider } from '@zerodev/sdk'
+import { verifyMessage } from '@ambire/signature-validator'
 import {
   Account,
   AssetAttributes,
   AssetPrice,
-  EthSignJWT,
   Nevermined,
-  NeverminedOptions,
+  convertEthersV6SignerToAccountSigner,
 } from '../../src'
+import { assert } from 'chai'
+import { decodeJwt } from 'jose'
+import { config } from '../config'
 import { getMetadata } from '../utils'
 
 describe('Nevermined sdk with zerodev', () => {
-  let projectId: string
-  let owner: HDNodeWallet
-  let config: NeverminedOptions
-  let nevermined: Nevermined
-  let account: Account
   let zerodevProvider: ZeroDevEthersProvider<'ECDSA'>
+  let nevermined: Nevermined
+  let clientAssertion: string
+  let userId: string
 
   before(async () => {
-    projectId = process.env.PROJECT_ID!
-    owner = Wallet.createRandom()
-    account = new Account(await owner.getAddress())
-    const infuraToken = process.env.INFURA_TOKEN!
+    const projectId = process.env.PROJECT_ID!
+    const owner = ethers.Wallet.createRandom()
 
-    config = {
-      marketplaceUri: 'https://marketplace-api.mumbai.nevermined.app',
-      neverminedNodeUri: 'https://node.mumbai.nevermined.app',
-      graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
-      neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
-      artifactsFolder: './artifacts',
-      web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
-    }
-  })
-
-  it('should instantiate nevermined sdk with a zerodev provider', async () => {
     zerodevProvider = await ZeroDevEthersProvider.init('ECDSA', {
       projectId,
-      owner: convertEthersSignerToAccountSigner(owner as any),
+      owner: convertEthersV6SignerToAccountSigner(owner),
+    })
+  })
+
+  it('should produce a valid EIP-6492 signature', async () => {
+    const signer = zerodevProvider.getAccountSigner()
+
+    const signature = await signer.signMessageWith6492('nevermined')
+    const isValidSignature = await verifyMessage({
+      signer: await signer.getAddress(),
+      message: 'nevermined',
+      signature: signature,
+      provider: zerodevProvider,
     })
 
-    nevermined = await Nevermined.getInstance({
-      ...config,
-      zerodevProvider: zerodevProvider,
+    assert.isTrue(isValidSignature)
+  })
+
+  it('should provide a valid EIP-6492 typed signature', async () => {
+    const domain = {
+      name: 'Nevermined',
+      version: '1',
+      chainId: 80001,
+    }
+    const types = {
+      Nevermined: [{ name: 'message', type: 'string' }],
+    }
+    const message = {
+      message: 'nevermined',
+    }
+
+    const signer = zerodevProvider.getAccountSigner()
+    const signature = await signer.signTypedDataWith6492({
+      domain,
+      types,
+      message,
+      primaryType: '',
     })
 
+    const isValidSignature = await verifyMessage({
+      signer: await signer.getAddress(),
+      signature: signature,
+      typedData: {
+        types,
+        domain,
+        message,
+      },
+      provider: zerodevProvider,
+    })
+
+    assert.isTrue(isValidSignature)
+  })
+
+  it('should initialize nevermined with zerodev provider', async () => {
+    nevermined = await Nevermined.getInstance(config)
     assert.isDefined(nevermined)
   })
 
+  it('should generate a client assertion with a zerodev signer', async () => {
+    const signer = zerodevProvider.getAccountSigner()
+    const account = await Account.fromZeroDevSigner(signer)
+
+    clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account, 'hello world')
+    assert.isDefined(clientAssertion)
+
+    const jwtPayload = decodeJwt(clientAssertion)
+    assert.equal(jwtPayload.iss, await signer.getAddress())
+  })
+
   it('should login to the marketplace api', async () => {
-    const accountSigner = zerodevProvider.getAccountSigner()
+    const accessToken = await nevermined.services.marketplace.login(clientAssertion)
+    assert.isDefined(accessToken)
 
-    const clientAssertion = await new EthSignJWT({
-      iss: account.getId(),
-    })
-      .setProtectedHeader({ alg: 'ES256K' })
-      .setIssuedAt()
-      .setExpirationTime('1h')
-      .ethSign(accountSigner as any)
+    const jwtPayload = decodeJwt(accessToken)
+    const signer = zerodevProvider.getAccountSigner()
+    assert.equal(jwtPayload.iss, await signer.getAddress())
+    assert.isDefined(jwtPayload.sub)
 
-    await nevermined.services.marketplace.login(clientAssertion)
+    userId = jwtPayload.sub
   })
 
-  it('should request some nevermined tokens', async () => {
-    const accountSigner = zerodevProvider.getAccountSigner()
-    const accountAddress = await accountSigner.getAddress()
-
-    console.log('requesting tokens for account', accountAddress)
-    const result = await nevermined.keeper.dispenser.requestTokens(10, accountAddress)
-    assert.isDefined(result)
-  })
-
-  it('should create a new asset with zerodev provider', async () => {
+  it('should register an asset with a zerodev account', async () => {
+    const metadata = getMetadata()
+    metadata.userId = userId
     const assetAttributes = AssetAttributes.getInstance({
-      metadata: getMetadata(),
+      metadata,
       services: [
         {
           serviceType: 'access',
-          price: new AssetPrice(await owner.getAddress(), 0n),
+          price: new AssetPrice(),
         },
       ],
       providers: [config.neverminedNodeAddress],
     })
 
-    const ddo = await nevermined.assets.create(assetAttributes, account)
+    const signer = zerodevProvider.getAccountSigner()
+    const account = await nevermined.accounts.fromZeroDevSigner(signer)
+    const ddo = await nevermined.assets.create(assetAttributes, account, undefined, {
+      zeroDevSigner: signer,
+    })
     assert.isDefined(ddo)
+    console.log(ddo)
   })
 })

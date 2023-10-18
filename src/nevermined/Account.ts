@@ -4,24 +4,40 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper'
 import { KeeperError } from '../errors'
 import { BigNumberish } from '../sdk'
+import { ZeroDevAccountSigner } from '@zerodev/sdk'
 
 /**
  * Account information.
  */
 export class Account extends Instantiable {
   private password?: string
-
-  private token?: string
-
   public babyX?: string
   public babyY?: string
   public babySecret?: string
+  public zeroDevSigner: ZeroDevAccountSigner<'ECDSA'>
 
   constructor(private id: string = '0x0', config?: InstantiableConfig) {
     super()
     if (config) {
       this.setInstanceConfig(config)
     }
+  }
+
+  /**
+   * Returns a nevermined Account from a zerodev signer
+   *
+   * @param signer - A zerodev account signer
+   * @returns The nevermined account
+   */
+  static async fromZeroDevSigner(signer: ZeroDevAccountSigner<'ECDSA'>): Promise<Account> {
+    const address = await signer.getAddress()
+    const account = new Account(address)
+    account.zeroDevSigner = signer
+    return account
+  }
+
+  public isZeroDev(): boolean {
+    return this.zeroDevSigner !== undefined
   }
 
   public getId() {

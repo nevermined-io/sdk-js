@@ -7,9 +7,11 @@ import {
   ContractTransactionReceipt,
   ContractTransactionResponse,
   FunctionFragment,
+  TransactionReceipt,
   ethers,
 } from 'ethers'
 import { jsonReplacer, parseUnits } from '../../sdk'
+import { ZeroDevAccountSigner } from '@zerodev/sdk'
 export interface TxParameters {
   value?: string
   gasLimit?: bigint
@@ -18,6 +20,7 @@ export interface TxParameters {
   maxPriorityFeePerGas?: string
   maxFeePerGas?: string
   signer?: ethers.Signer
+  zeroDevSigner?: ZeroDevAccountSigner<'ECDSA'>
   nonce?: number
   progress?: (data: any) => void
 }
@@ -144,13 +147,80 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    // const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
+    const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
 
     if (progress) {
       progress({
         stage: 'receipt',
         args: this.searchMethodInputs(name, args),
-        // transactionReceipt,
+        transactionReceipt,
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    return transactionResponse as any
+  }
+
+  private async internalSendZeroDev(
+    name: string,
+    from: string,
+    args: any[],
+    txparams: any,
+    contract: ethers.BaseContract,
+    progress: (data: any) => void,
+  ): Promise<ContractTransactionReceipt> {
+    const methodSignature = this.getSignatureOfMethod(name, args)
+    // Uncomment to debug contract calls
+    // console.debug(`Making contract call ....: ${name} - ${from}`)
+    // console.debug(`With args - ${JSON.stringify(args)}`)
+    // console.debug(`And signature - ${methodSignature}`)
+
+    const { gasLimit, value } = txparams
+    // make the call
+    if (progress) {
+      progress({
+        stage: 'sending',
+        args: this.searchMethodInputs(name, args),
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
+      ...args,
+      txparams,
+    )
+    if (progress) {
+      progress({
+        stage: 'sent',
+        args: this.searchMethodInputs(name, args),
+        transactionResponse,
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    const transactionReceipt: TransactionReceipt =
+      await transactionResponse.provider.waitForTransaction(transactionResponse.hash)
+
+    if (progress) {
+      progress({
+        stage: 'receipt',
+        args: this.searchMethodInputs(name, args),
+        transactionReceipt,
         method: name,
         from,
         value,
@@ -169,6 +239,19 @@ export abstract class ContractBase extends Instantiable {
     args: any[],
     params: TxParameters = {},
   ): Promise<ContractTransactionReceipt> {
+    if (params.zeroDevSigner) {
+      const paramsFixed = { ...params, signer: undefined }
+      const contract = this.contract.connect(params.zeroDevSigner as any)
+      return await this.internalSendZeroDev(
+        name,
+        from,
+        args,
+        paramsFixed,
+        contract,
+        params.progress,
+      )
+    }
+
     if (this.config.zerodevProvider) {
       const signer = this.config.zerodevProvider.getAccountSigner()
       const contract = new Contract(this.address, this.contract.interface, signer as any)
@@ -185,7 +268,7 @@ export abstract class ContractBase extends Instantiable {
 
     // get signer
     const signer = await this.nevermined.accounts.findSigner(from)
-    const contract = this.contract.connect(signer)
+    const contract = this.contract.connect(signer as any)
 
     // calculate gas cost
     let { gasLimit } = params
