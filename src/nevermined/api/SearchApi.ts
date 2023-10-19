@@ -263,7 +263,7 @@ export class SearchApi extends Instantiable {
    */
   public async subscriptionsCreated(
     account: Account,
-    nftType?: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -355,8 +355,8 @@ export class SearchApi extends Instantiable {
    */
   public async subscriptionsPurchased(
     account: Account,
-    nftType: string,
-    ercType: 721 | 1155,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
+    ercType?: 721 | 1155,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -473,7 +473,7 @@ export class SearchApi extends Instantiable {
    */
   public async servicesByNftContract(
     nftContractAddress: string,
-    nftType?: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     tokenId?: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
@@ -583,7 +583,7 @@ export class SearchApi extends Instantiable {
    */
   public async servicesBySubscription(
     subscriptionDid: string,
-    nftType?: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -633,7 +633,7 @@ export class SearchApi extends Instantiable {
    */
   public async datasetsByNftContract(
     nftContractAddress: string,
-    nftType?: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     tokenId?: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
@@ -743,7 +743,7 @@ export class SearchApi extends Instantiable {
    */
   public async datasetsBySubscription(
     subscriptionDid: string,
-    nftType?: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
