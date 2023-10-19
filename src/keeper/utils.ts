@@ -101,6 +101,7 @@ export const convertEthersV6SignerToAccountSigner = (
   signer: Signer | Wallet,
 ): SmartAccountSigner => {
   return {
+    signerType: '',
     getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
     signMessage: async (msg: Uint8Array | string) =>
       (await signer.signMessage(msg)) as `0x${string}`,
