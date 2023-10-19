@@ -6,9 +6,20 @@
 
 ### Properties
 
+- [coordinationType](Workflow.md#coordinationtype)
 - [stages](Workflow.md#stages)
 
 ## Properties
+
+### coordinationType
+
+• **coordinationType**: `"argo"` \| `"fl-coordinator"` \| `"bacalhau"`
+
+#### Defined in
+
+[src/ddo/types.ts:67](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L67)
+
+---
 
 ### stages
 
@@ -16,4 +27,4 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L36)
+[src/ddo/types.ts:68](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L68)

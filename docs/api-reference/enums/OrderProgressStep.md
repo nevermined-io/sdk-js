@@ -7,6 +7,8 @@
 ### Enumeration Members
 
 - [AgreementInitialized](OrderProgressStep.md#agreementinitialized)
+- [ApprovedPayment](OrderProgressStep.md#approvedpayment)
+- [ApprovingPayment](OrderProgressStep.md#approvingpayment)
 - [CreatingAgreement](OrderProgressStep.md#creatingagreement)
 - [LockedPayment](OrderProgressStep.md#lockedpayment)
 - [LockingPayment](OrderProgressStep.md#lockingpayment)
@@ -15,38 +17,58 @@
 
 ### AgreementInitialized
 
-• **AgreementInitialized** = `1`
+• **AgreementInitialized** = `5`
 
 #### Defined in
 
-[src/nevermined/Assets.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L51)
+[src/nevermined/ProgressSteps.ts:34](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L34)
+
+---
+
+### ApprovedPayment
+
+• **ApprovedPayment** = `3`
+
+#### Defined in
+
+[src/nevermined/ProgressSteps.ts:32](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L32)
+
+---
+
+### ApprovingPayment
+
+• **ApprovingPayment** = `2`
+
+#### Defined in
+
+[src/nevermined/ProgressSteps.ts:31](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L31)
 
 ---
 
 ### CreatingAgreement
 
-• **CreatingAgreement** = `0`
+• **CreatingAgreement** = `4`
 
 #### Defined in
 
-[src/nevermined/Assets.ts:50](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L50)
+[src/nevermined/ProgressSteps.ts:33](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L33)
 
 ---
 
 ### LockedPayment
 
-• **LockedPayment** = `3`
+• **LockedPayment** = `1`
 
 #### Defined in
 
-[src/nevermined/Assets.ts:53](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L53)
+[src/nevermined/ProgressSteps.ts:30](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L30)
 
 ---
 
 ### LockingPayment
 
-• **LockingPayment** = `2`
+• **LockingPayment** = `0`
 
 #### Defined in
 
-[src/nevermined/Assets.ts:52](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L52)
+[src/nevermined/ProgressSteps.ts:29](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L29)

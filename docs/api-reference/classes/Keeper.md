@@ -11,7 +11,7 @@ Nevermined Keeper implementation where we put the following modules together:
 
 ## Hierarchy
 
-- `Instantiable`
+- [`Instantiable`](Instantiable.md)
 
   ↳ **`Keeper`**
 
@@ -41,11 +41,11 @@ Nevermined Keeper implementation where we put the following modules together:
 - [templates](Keeper.md#templates)
 - [token](Keeper.md#token)
 - [utils](Keeper.md#utils)
-- [version](Keeper.md#version)
 
 ### Accessors
 
 - [artifactsFolder](Keeper.md#artifactsfolder)
+- [circuitsFolder](Keeper.md#circuitsfolder)
 - [config](Keeper.md#config)
 - [instanceConfig](Keeper.md#instanceconfig)
 - [instantiableConfig](Keeper.md#instantiableconfig)
@@ -55,20 +55,18 @@ Nevermined Keeper implementation where we put the following modules together:
 
 ### Methods
 
-- [addresses](Keeper.md#addresses)
-- [checkExists](Keeper.md#checkexists)
-- [findSigner](Keeper.md#findsigner)
 - [getAccessTemplateByName](Keeper.md#getaccesstemplatebyname)
 - [getAllInstances](Keeper.md#getallinstances)
 - [getConditionByAddress](Keeper.md#getconditionbyaddress)
 - [getNetworkId](Keeper.md#getnetworkid)
 - [getNetworkName](Keeper.md#getnetworkname)
+- [getNetworkVersion](Keeper.md#getnetworkversion)
 - [getTemplateByAddress](Keeper.md#gettemplatebyaddress)
 - [getTemplateByName](Keeper.md#gettemplatebyname)
 - [init](Keeper.md#init)
+- [loadAaveInstances](Keeper.md#loadaaveinstances)
+- [loadCurveRoyaltiesInstance](Keeper.md#loadcurveroyaltiesinstance)
 - [setInstanceConfig](Keeper.md#setinstanceconfig)
-- [addressesStatic](Keeper.md#addressesstatic)
-- [findSignerStatic](Keeper.md#findsignerstatic)
 - [getInstance](Keeper.md#getinstance)
 - [setInstanceConfig](Keeper.md#setinstanceconfig-1)
 
@@ -80,31 +78,31 @@ Nevermined Keeper implementation where we put the following modules together:
 
 #### Inherited from
 
-Instantiable.constructor
+[Instantiable](Instantiable.md).[constructor](Instantiable.md#constructor)
 
 ## Properties
 
 ### agreementStoreManager
 
-• **agreementStoreManager**: `AgreementStoreManager`
+• **agreementStoreManager**: [`AgreementStoreManager`](AgreementStoreManager.md)
 
 Template store manager smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:316](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L316)
+[src/keeper/Keeper.ts:268](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L268)
 
 ---
 
 ### conditionStoreManager
 
-• **conditionStoreManager**: `ConditionStoreManager`
+• **conditionStoreManager**: [`ConditionStoreManager`](ConditionStoreManager.md)
 
 Template store manager smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:321](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L321)
+[src/keeper/Keeper.ts:273](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L273)
 
 ---
 
@@ -116,39 +114,39 @@ Conditions instances.
 
 #### Type declaration
 
-| Name                               | Type                                                                                 |
-| :--------------------------------- | :----------------------------------------------------------------------------------- |
-| `aaveBorrowCondition`              | [`AaveBorrowCondition`](conditions.AaveBorrowCondition.md)                           |
-| `aaveCollateralDepositCondition`   | [`AaveCollateralDepositCondition`](conditions.AaveCollateralDepositCondition.md)     |
-| `aaveCollateralWithdrawCondition`  | [`AaveCollateralWithdrawCondition`](conditions.AaveCollateralWithdrawCondition.md)   |
-| `aaveRepayCondition`               | [`AaveRepayCondition`](conditions.AaveRepayCondition.md)                             |
-| `accessCondition`                  | [`AccessCondition`](conditions.AccessCondition.md)                                   |
-| `computeExecutionCondition`        | [`ComputeExecutionCondition`](conditions.ComputeExecutionCondition.md)               |
-| `distributeNftCollateralCondition` | [`DistributeNFTCollateralCondition`](conditions.DistributeNFTCollateralCondition.md) |
-| `escrowPaymentCondition`           | [`EscrowPaymentCondition`](conditions.EscrowPaymentCondition.md)                     |
-| `lockPaymentCondition`             | [`LockPaymentCondition`](conditions.LockPaymentCondition.md)                         |
-| `nft721HolderCondition`            | [`NFT721HolderCondition`](conditions.NFT721HolderCondition.md)                       |
-| `nft721LockCondition`              | [`NFT721LockCondition`](conditions.NFT721LockCondition.md)                           |
-| `nftAccessCondition`               | [`NFTAccessCondition`](conditions.NFTAccessCondition.md)                             |
-| `nftHolderCondition`               | [`NFTHolderCondition`](conditions.NFTHolderCondition.md)                             |
-| `nftLockCondition`                 | [`NFTLockCondition`](conditions.NFTLockCondition.md)                                 |
-| `transferDidOwnershipCondition`    | [`TransferDIDOwnershipCondition`](conditions.TransferDIDOwnershipCondition.md)       |
-| `transferNft721Condition`          | [`TransferNFT721Condition`](conditions.TransferNFT721Condition.md)                   |
-| `transferNftCondition`             | [`TransferNFTCondition`](conditions.TransferNFTCondition.md)                         |
+| Name                               | Type                                                                      |
+| :--------------------------------- | :------------------------------------------------------------------------ |
+| `aaveBorrowCondition`              | [`AaveBorrowCondition`](AaveBorrowCondition.md)                           |
+| `aaveCollateralDepositCondition`   | [`AaveCollateralDepositCondition`](AaveCollateralDepositCondition.md)     |
+| `aaveCollateralWithdrawCondition`  | [`AaveCollateralWithdrawCondition`](AaveCollateralWithdrawCondition.md)   |
+| `aaveRepayCondition`               | [`AaveRepayCondition`](AaveRepayCondition.md)                             |
+| `accessCondition`                  | [`AccessCondition`](AccessCondition.md)                                   |
+| `computeExecutionCondition`        | [`ComputeExecutionCondition`](ComputeExecutionCondition.md)               |
+| `distributeNftCollateralCondition` | [`DistributeNFTCollateralCondition`](DistributeNFTCollateralCondition.md) |
+| `escrowPaymentCondition`           | [`EscrowPaymentCondition`](EscrowPaymentCondition.md)                     |
+| `lockPaymentCondition`             | [`LockPaymentCondition`](LockPaymentCondition.md)                         |
+| `nft721HolderCondition`            | [`NFT721HolderCondition`](NFT721HolderCondition.md)                       |
+| `nft721LockCondition`              | [`NFT721LockCondition`](NFT721LockCondition.md)                           |
+| `nftAccessCondition`               | [`NFTAccessCondition`](NFTAccessCondition.md)                             |
+| `nftHolderCondition`               | [`NFTHolderCondition`](NFTHolderCondition.md)                             |
+| `nftLockCondition`                 | [`NFTLockCondition`](NFTLockCondition.md)                                 |
+| `transferDidOwnershipCondition`    | [`TransferDIDOwnershipCondition`](TransferDIDOwnershipCondition.md)       |
+| `transferNft721Condition`          | [`TransferNFT721Condition`](TransferNFT721Condition.md)                   |
+| `transferNftCondition`             | [`TransferNFTCondition`](TransferNFTCondition.md)                         |
 
 #### Defined in
 
-[src/keeper/Keeper.ts:326](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L326)
+[src/keeper/Keeper.ts:278](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L278)
 
 ---
 
 ### conditionsList
 
-• **conditionsList**: [`ConditionSmall`](conditions.ConditionSmall.md)[]
+• **conditionsList**: [`ConditionSmall`](ConditionSmall.md)[]
 
 #### Defined in
 
-[src/keeper/Keeper.ts:346](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L346)
+[src/keeper/Keeper.ts:298](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L298)
 
 ---
 
@@ -160,31 +158,31 @@ Is connected to the correct network or not.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:281](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L281)
+[src/keeper/Keeper.ts:233](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L233)
 
 ---
 
 ### didRegistry
 
-• **didRegistry**: `default`
+• **didRegistry**: [`DIDRegistry`](DIDRegistry.md)
 
 DID registry smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:301](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L301)
+[src/keeper/Keeper.ts:253](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L253)
 
 ---
 
 ### dispenser
 
-• **dispenser**: `default`
+• **dispenser**: [`Dispenser`](Dispenser.md)
 
 Market smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:291](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L291)
+[src/keeper/Keeper.ts:243](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L243)
 
 ---
 
@@ -194,11 +192,11 @@ Market smart contract instance.
 
 #### Index signature
 
-▪ [contractRef: `string`]: `ContractBase` & `any`
+▪ [contractRef: `string`]: [`ContractBase`](ContractBase.md) & `any`
 
 #### Defined in
 
-[src/keeper/Keeper.ts:392](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L392)
+[src/keeper/Keeper.ts:353](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L353)
 
 ---
 
@@ -210,26 +208,28 @@ Network id loaded from web3
 
 #### Type declaration
 
-| Name      | Type      |
-| :-------- | :-------- |
-| `id?`     | `number`  |
-| `loading` | `boolean` |
+| Name       | Type      | Description                        |
+| :--------- | :-------- | :--------------------------------- |
+| `chainId?` | `number`  | chainId of the network             |
+| `loading`  | `boolean` | True if keeper is still connecting |
+| `name?`    | `string`  | Name of the network                |
+| `version?` | `string`  | Version of the artifacts in use    |
 
 #### Defined in
 
-[src/keeper/Keeper.ts:385](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L385)
+[src/keeper/Keeper.ts:332](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L332)
 
 ---
 
 ### nftUpgradeable
 
-• **nftUpgradeable**: `NFT1155Upgradeable`
+• **nftUpgradeable**: [`Nft1155Contract`](Nft1155Contract.md)
 
 NFT upgradeable smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:306](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L306)
+[src/keeper/Keeper.ts:258](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L258)
 
 ---
 
@@ -241,17 +241,17 @@ Nevermined Config smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:296](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L296)
+[src/keeper/Keeper.ts:248](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L248)
 
 ---
 
 ### rewardsDistributor
 
-• **rewardsDistributor**: `RewardsDistributor`
+• **rewardsDistributor**: [`RewardsDistributor`](RewardsDistributor.md)
 
 #### Defined in
 
-[src/keeper/Keeper.ts:368](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L368)
+[src/keeper/Keeper.ts:320](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L320)
 
 ---
 
@@ -261,36 +261,36 @@ Nevermined Config smart contract instance.
 
 #### Type declaration
 
-| Name       | Type                |
-| :--------- | :------------------ |
-| `curve`    | `CurveRoyalties`    |
-| `standard` | `StandardRoyalties` |
+| Name       | Type                                        |
+| :--------- | :------------------------------------------ |
+| `curve`    | [`CurveRoyalties`](CurveRoyalties.md)       |
+| `standard` | [`StandardRoyalties`](StandardRoyalties.md) |
 
 #### Defined in
 
-[src/keeper/Keeper.ts:363](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L363)
+[src/keeper/Keeper.ts:315](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L315)
 
 ---
 
 ### templateList
 
-• **templateList**: `GenericAccess`[]
+• **templateList**: [`GenericAccess`](../interfaces/GenericAccess.md)[]
 
 #### Defined in
 
-[src/keeper/Keeper.ts:347](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L347)
+[src/keeper/Keeper.ts:299](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L299)
 
 ---
 
 ### templateStoreManager
 
-• **templateStoreManager**: `TemplateStoreManager`
+• **templateStoreManager**: [`TemplateStoreManager`](TemplateStoreManager.md)
 
 Template store manager smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:311](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L311)
+[src/keeper/Keeper.ts:263](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L263)
 
 ---
 
@@ -302,32 +302,32 @@ Templates instances.
 
 #### Type declaration
 
-| Name                             | Type                                                                            |
-| :------------------------------- | :------------------------------------------------------------------------------ |
-| `aaveCreditTemplate`             | [`AaveCreditTemplate`](templates.AaveCreditTemplate.md)                         |
-| `accessTemplate`                 | [`AccessTemplate`](templates.AccessTemplate.md)                                 |
-| `didSalesTemplate`               | [`DIDSalesTemplate`](templates.DIDSalesTemplate.md)                             |
-| `escrowComputeExecutionTemplate` | [`EscrowComputeExecutionTemplate`](templates.EscrowComputeExecutionTemplate.md) |
-| `nft721AccessTemplate`           | [`NFT721AccessTemplate`](templates.NFT721AccessTemplate.md)                     |
-| `nft721SalesTemplate`            | [`NFT721SalesTemplate`](templates.NFT721SalesTemplate.md)                       |
-| `nftAccessTemplate`              | [`NFTAccessTemplate`](templates.NFTAccessTemplate.md)                           |
-| `nftSalesTemplate`               | [`NFTSalesTemplate`](templates.NFTSalesTemplate.md)                             |
+| Name                             | Type                                                                  |
+| :------------------------------- | :-------------------------------------------------------------------- |
+| `aaveCreditTemplate`             | [`AaveCreditTemplate`](AaveCreditTemplate.md)                         |
+| `accessTemplate`                 | [`AccessTemplate`](AccessTemplate.md)                                 |
+| `didSalesTemplate`               | [`DIDSalesTemplate`](DIDSalesTemplate.md)                             |
+| `escrowComputeExecutionTemplate` | [`EscrowComputeExecutionTemplate`](EscrowComputeExecutionTemplate.md) |
+| `nft721AccessTemplate`           | [`NFT721AccessTemplate`](NFT721AccessTemplate.md)                     |
+| `nft721SalesTemplate`            | [`NFT721SalesTemplate`](NFT721SalesTemplate.md)                       |
+| `nftAccessTemplate`              | [`NFTAccessTemplate`](NFTAccessTemplate.md)                           |
+| `nftSalesTemplate`               | [`NFTSalesTemplate`](NFTSalesTemplate.md)                             |
 
 #### Defined in
 
-[src/keeper/Keeper.ts:352](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L352)
+[src/keeper/Keeper.ts:304](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L304)
 
 ---
 
 ### token
 
-• **token**: `default`
+• **token**: [`Token`](Token.md)
 
 Nevermined Token smart contract instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:286](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L286)
+[src/keeper/Keeper.ts:238](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L238)
 
 ---
 
@@ -339,25 +339,13 @@ Helpers for contracts.
 
 #### Type declaration
 
-| Name           | Type                                     |
-| :------------- | :--------------------------------------- |
-| `eventHandler` | [`EventHandler`](events.EventHandler.md) |
+| Name           | Type                              |
+| :------------- | :-------------------------------- |
+| `eventHandler` | [`EventHandler`](EventHandler.md) |
 
 #### Defined in
 
-[src/keeper/Keeper.ts:373](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L373)
-
----
-
-### version
-
-• **version**: `string`
-
-Version of the artifacts in use
-
-#### Defined in
-
-[src/keeper/Keeper.ts:380](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L380)
+[src/keeper/Keeper.ts:325](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L325)
 
 ## Accessors
 
@@ -375,17 +363,35 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L73)
+
+---
+
+### circuitsFolder
+
+• `Protected` `get` **circuitsFolder**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+Instantiable.circuitsFolder
+
+#### Defined in
+
+[src/Instantiable.abstract.ts:77](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L77)
 
 ---
 
 ### config
 
-• `Protected` `get` **config**(): [`Config`](Config.md)
+• `Protected` `get` **config**(): [`NeverminedOptions`](NeverminedOptions.md)
 
 #### Returns
 
-[`Config`](Config.md)
+[`NeverminedOptions`](NeverminedOptions.md)
 
 #### Inherited from
 
@@ -393,17 +399,17 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L57)
 
 ---
 
 ### instanceConfig
 
-• `Protected` `get` **instanceConfig**(): `InstantiableConfig`
+• `Protected` `get` **instanceConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -411,17 +417,17 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L81)
 
 ---
 
 ### instantiableConfig
 
-• `Protected` `get` **instantiableConfig**(): `InstantiableConfig`
+• `Protected` `get` **instantiableConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -429,17 +435,17 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L50)
 
 ---
 
 ### logger
 
-• `Protected` `get` **logger**(): [`Logger`](utils.Logger.md)
+• `Protected` `get` **logger**(): `Logger`
 
 #### Returns
 
-[`Logger`](utils.Logger.md)
+`Logger`
 
 #### Inherited from
 
@@ -447,7 +453,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:64](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L64)
 
 ---
 
@@ -465,17 +471,17 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L35)
 
 ---
 
 ### web3
 
-• `Protected` `get` **web3**(): `JsonRpcProvider`
+• `get` **web3**(): `JsonRpcProvider` \| `BrowserProvider`
 
 #### Returns
 
-`JsonRpcProvider`
+`JsonRpcProvider` \| `BrowserProvider`
 
 #### Inherited from
 
@@ -483,83 +489,13 @@ Instantiable.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:42](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L42)
 
 ## Methods
 
-### addresses
-
-▸ **addresses**(): `Promise`<`string`[]\>
-
-#### Returns
-
-`Promise`<`string`[]\>
-
-#### Inherited from
-
-Instantiable.addresses
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
-
----
-
-### checkExists
-
-▸ `Protected` **checkExists**(`address`): `Promise`<`boolean`\>
-
-Returns true of contract exists else it throws.
-
-#### Parameters
-
-| Name      | Type     |
-| :-------- | :------- |
-| `address` | `string` |
-
-#### Returns
-
-`Promise`<`boolean`\>
-
-true if the contract exists.
-
-#### Inherited from
-
-Instantiable.checkExists
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
-
----
-
-### findSigner
-
-▸ **findSigner**(`from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name   | Type     |
-| :----- | :------- |
-| `from` | `string` |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-Instantiable.findSigner
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
-
----
-
 ### getAccessTemplateByName
 
-▸ **getAccessTemplateByName**(`name`): `GenericAccess`
+▸ **getAccessTemplateByName**(`name`): [`GenericAccess`](../interfaces/GenericAccess.md)
 
 Returns a Access template by name.
 
@@ -571,13 +507,13 @@ Returns a Access template by name.
 
 #### Returns
 
-`GenericAccess`
+[`GenericAccess`](../interfaces/GenericAccess.md)
 
 Agreement template instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:419](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L419)
+[src/keeper/Keeper.ts:417](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L417)
 
 ---
 
@@ -591,13 +527,13 @@ Agreement template instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:459](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L459)
+[src/keeper/Keeper.ts:430](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L430)
 
 ---
 
 ### getConditionByAddress
 
-▸ **getConditionByAddress**(`address`): [`ConditionSmall`](conditions.ConditionSmall.md)
+▸ **getConditionByAddress**(`address`): [`ConditionSmall`](ConditionSmall.md)
 
 Returns a condition by address.
 
@@ -609,13 +545,13 @@ Returns a condition by address.
 
 #### Returns
 
-[`ConditionSmall`](conditions.ConditionSmall.md)
+[`ConditionSmall`](ConditionSmall.md)
 
 Condition instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:399](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L399)
+[src/keeper/Keeper.ts:360](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L360)
 
 ---
 
@@ -633,7 +569,7 @@ Network ID.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:446](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L446)
+[src/keeper/Keeper.ts:388](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L388)
 
 ---
 
@@ -651,13 +587,31 @@ Network name.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:438](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L438)
+[src/keeper/Keeper.ts:377](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L377)
+
+---
+
+### getNetworkVersion
+
+▸ **getNetworkVersion**(): `string`
+
+Returns the network version.
+
+#### Returns
+
+`string`
+
+Network version.
+
+#### Defined in
+
+[src/keeper/Keeper.ts:405](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L405)
 
 ---
 
 ### getTemplateByAddress
 
-▸ **getTemplateByAddress**(`address`): [`AccessTemplate`](templates.AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](templates.EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](templates.DIDSalesTemplate.md) \| [`NFTAccessTemplate`](templates.NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](templates.NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](templates.NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](templates.NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](templates.AaveCreditTemplate.md)
+▸ **getTemplateByAddress**(`address`): [`AccessTemplate`](AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](DIDSalesTemplate.md) \| [`NFTAccessTemplate`](NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](AaveCreditTemplate.md)
 
 Returns a template by address.
 
@@ -669,19 +623,19 @@ Returns a template by address.
 
 #### Returns
 
-[`AccessTemplate`](templates.AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](templates.EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](templates.DIDSalesTemplate.md) \| [`NFTAccessTemplate`](templates.NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](templates.NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](templates.NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](templates.NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](templates.AaveCreditTemplate.md)
+[`AccessTemplate`](AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](DIDSalesTemplate.md) \| [`NFTAccessTemplate`](NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](AaveCreditTemplate.md)
 
 Agreement template instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:428](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L428)
+[src/keeper/Keeper.ts:426](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L426)
 
 ---
 
 ### getTemplateByName
 
-▸ **getTemplateByName**(`name`): [`AccessTemplate`](templates.AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](templates.EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](templates.DIDSalesTemplate.md) \| [`NFTAccessTemplate`](templates.NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](templates.NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](templates.NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](templates.NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](templates.AaveCreditTemplate.md)
+▸ **getTemplateByName**(`name`): [`AccessTemplate`](AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](DIDSalesTemplate.md) \| [`NFTAccessTemplate`](NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](AaveCreditTemplate.md)
 
 Returns a template by name.
 
@@ -693,13 +647,13 @@ Returns a template by name.
 
 #### Returns
 
-[`AccessTemplate`](templates.AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](templates.EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](templates.DIDSalesTemplate.md) \| [`NFTAccessTemplate`](templates.NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](templates.NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](templates.NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](templates.NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](templates.AaveCreditTemplate.md)
+[`AccessTemplate`](AccessTemplate.md) \| [`EscrowComputeExecutionTemplate`](EscrowComputeExecutionTemplate.md) \| [`DIDSalesTemplate`](DIDSalesTemplate.md) \| [`NFTAccessTemplate`](NFTAccessTemplate.md) \| [`NFT721AccessTemplate`](NFT721AccessTemplate.md) \| [`NFTSalesTemplate`](NFTSalesTemplate.md) \| [`NFT721SalesTemplate`](NFT721SalesTemplate.md) \| [`AaveCreditTemplate`](AaveCreditTemplate.md)
 
 Agreement template instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:408](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L408)
+[src/keeper/Keeper.ts:369](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L369)
 
 ---
 
@@ -713,7 +667,35 @@ Agreement template instance.
 
 #### Defined in
 
-[src/keeper/Keeper.ts:74](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L74)
+[src/keeper/Keeper.ts:68](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L68)
+
+---
+
+### loadAaveInstances
+
+▸ **loadAaveInstances**(): `Promise`<[`Keeper`](Keeper.md)\>
+
+#### Returns
+
+`Promise`<[`Keeper`](Keeper.md)\>
+
+#### Defined in
+
+[src/keeper/Keeper.ts:434](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L434)
+
+---
+
+### loadCurveRoyaltiesInstance
+
+▸ **loadCurveRoyaltiesInstance**(): `Promise`<[`CurveRoyalties`](CurveRoyalties.md)\>
+
+#### Returns
+
+`Promise`<[`CurveRoyalties`](CurveRoyalties.md)\>
+
+#### Defined in
+
+[src/keeper/Keeper.ts:457](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L457)
 
 ---
 
@@ -723,9 +705,9 @@ Agreement template instance.
 
 #### Parameters
 
-| Name     | Type                 |
-| :------- | :------------------- |
-| `config` | `InstantiableConfig` |
+| Name     | Type                                                        |
+| :------- | :---------------------------------------------------------- |
+| `config` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -733,62 +715,11 @@ Agreement template instance.
 
 #### Inherited from
 
-Instantiable.setInstanceConfig
+[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
-
----
-
-### addressesStatic
-
-▸ `Static` **addressesStatic**(`config`, `web3`): `Promise`<`string`[]\>
-
-#### Parameters
-
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
-
-#### Returns
-
-`Promise`<`string`[]\>
-
-#### Inherited from
-
-Instantiable.addressesStatic
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
-
----
-
-### findSignerStatic
-
-▸ `Static` **findSignerStatic**(`config`, `web3`, `from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
-| `from`   | `string`              |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-Instantiable.findSignerStatic
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L99)
 
 ---
 
@@ -800,9 +731,9 @@ Returns Keeper instance.
 
 #### Parameters
 
-| Name     | Type                 |
-| :------- | :------------------- |
-| `config` | `InstantiableConfig` |
+| Name     | Type                                                        |
+| :------- | :---------------------------------------------------------- |
+| `config` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -812,11 +743,11 @@ Returns Keeper instance.
 
 #### Overrides
 
-Instantiable.getInstance
+[Instantiable](Instantiable.md).[getInstance](Instantiable.md#getinstance)
 
 #### Defined in
 
-[src/keeper/Keeper.ts:68](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/Keeper.ts#L68)
+[src/keeper/Keeper.ts:62](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/Keeper.ts#L62)
 
 ---
 
@@ -826,16 +757,16 @@ Instantiable.getInstance
 
 #### Type parameters
 
-| Name | Type                         |
-| :--- | :--------------------------- |
-| `T`  | extends `Instantiable`<`T`\> |
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `T`  | extends [`Instantiable`](Instantiable.md) |
 
 #### Parameters
 
-| Name                 | Type                 |
-| :------------------- | :------------------- |
-| `instance`           | `T`                  |
-| `instantiableConfig` | `InstantiableConfig` |
+| Name                 | Type                                                        |
+| :------------------- | :---------------------------------------------------------- |
+| `instance`           | `T`                                                         |
+| `instantiableConfig` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -843,8 +774,8 @@ Instantiable.getInstance
 
 #### Inherited from
 
-Instantiable.setInstanceConfig
+[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig-1)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L90)
