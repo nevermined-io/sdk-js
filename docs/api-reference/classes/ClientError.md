@@ -45,7 +45,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/ClientError.ts:2](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/errors/ClientError.ts#L2)
+[src/errors/ClientError.ts:2](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/errors/ClientError.ts#L2)
 
 ## Properties
 
@@ -59,7 +59,7 @@ Error.message
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1041
+node_modules/typescript/lib/lib.es5.d.ts:1068
 
 ---
 
@@ -73,7 +73,7 @@ Error.name
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1040
+node_modules/typescript/lib/lib.es5.d.ts:1067
 
 ---
 
@@ -87,9 +87,7 @@ Error.stack
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1042
-
-node_modules/@types/node/globals.d.ts:127
+node_modules/typescript/lib/lib.es5.d.ts:1069
 
 ---
 
@@ -103,10 +101,6 @@ node_modules/@types/node/globals.d.ts:127
 
 Optional override for formatting stack traces
 
-**`See`**
-
-https://github.com/v8/v8/wiki/Stack%20Trace%20API#customizing-stack-traces
-
 ##### Parameters
 
 | Name          | Type         |
@@ -118,13 +112,17 @@ https://github.com/v8/v8/wiki/Stack%20Trace%20API#customizing-stack-traces
 
 `any`
 
+**`See`**
+
+https://v8.dev/docs/stack-trace-api#customizing-stack-traces
+
 #### Inherited from
 
 Error.prepareStackTrace
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:140
+node_modules/@types/node/globals.d.ts:11
 
 ---
 
@@ -138,7 +136,7 @@ Error.stackTraceLimit
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:142
+node_modules/@types/node/globals.d.ts:13
 
 ## Methods
 
@@ -152,7 +150,7 @@ Create .stack property on a target object
 
 | Name              | Type       |
 | :---------------- | :--------- |
-| `targetObject`    | `Object`   |
+| `targetObject`    | `object`   |
 | `constructorOpt?` | `Function` |
 
 #### Returns
@@ -165,4 +163,4 @@ Error.captureStackTrace
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:133
+node_modules/@types/node/globals.d.ts:4

@@ -6,7 +6,7 @@ Account information.
 
 ## Hierarchy
 
-- `Instantiable`
+- [`Instantiable`](Instantiable.md)
 
   ↳ **`Account`**
 
@@ -23,11 +23,12 @@ Account information.
 - [babyY](Account.md#babyy)
 - [id](Account.md#id)
 - [password](Account.md#password)
-- [token](Account.md#token)
+- [zeroDevSigner](Account.md#zerodevsigner)
 
 ### Accessors
 
 - [artifactsFolder](Account.md#artifactsfolder)
+- [circuitsFolder](Account.md#circuitsfolder)
 - [config](Account.md#config)
 - [instanceConfig](Account.md#instanceconfig)
 - [instantiableConfig](Account.md#instantiableconfig)
@@ -37,25 +38,18 @@ Account information.
 
 ### Methods
 
-- [addresses](Account.md#addresses)
-- [authenticate](Account.md#authenticate)
-- [checkExists](Account.md#checkexists)
-- [findSigner](Account.md#findsigner)
 - [getBalance](Account.md#getbalance)
 - [getEtherBalance](Account.md#getetherbalance)
 - [getId](Account.md#getid)
 - [getNeverminedBalance](Account.md#getneverminedbalance)
 - [getPassword](Account.md#getpassword)
 - [getPublic](Account.md#getpublic)
-- [getToken](Account.md#gettoken)
-- [isTokenStored](Account.md#istokenstored)
+- [isZeroDev](Account.md#iszerodev)
 - [requestTokens](Account.md#requesttokens)
 - [setId](Account.md#setid)
 - [setInstanceConfig](Account.md#setinstanceconfig)
 - [setPassword](Account.md#setpassword)
-- [setToken](Account.md#settoken)
-- [addressesStatic](Account.md#addressesstatic)
-- [findSignerStatic](Account.md#findsignerstatic)
+- [fromZeroDevSigner](Account.md#fromzerodevsigner)
 - [getInstance](Account.md#getinstance)
 - [setInstanceConfig](Account.md#setinstanceconfig-1)
 
@@ -67,18 +61,18 @@ Account information.
 
 #### Parameters
 
-| Name      | Type                 | Default value |
-| :-------- | :------------------- | :------------ |
-| `id`      | `string`             | `'0x0'`       |
-| `config?` | `InstantiableConfig` | `undefined`   |
+| Name      | Type                                                        | Default value |
+| :-------- | :---------------------------------------------------------- | :------------ |
+| `id`      | `string`                                                    | `'0x0'`       |
+| `config?` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) | `undefined`   |
 
 #### Overrides
 
-Instantiable.constructor
+[Instantiable](Instantiable.md).[constructor](Instantiable.md#constructor)
 
 #### Defined in
 
-[src/nevermined.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L20)
+[src/nevermined/Account.ts:19](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L19)
 
 ## Properties
 
@@ -88,7 +82,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined.ts:18](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L18)
+[src/nevermined/Account.ts:16](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L16)
 
 ---
 
@@ -98,7 +92,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined.ts:16](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L16)
+[src/nevermined/Account.ts:14](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L14)
 
 ---
 
@@ -108,7 +102,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined.ts:17](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L17)
+[src/nevermined/Account.ts:15](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L15)
 
 ---
 
@@ -118,7 +112,7 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined.ts:20](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L20)
+[src/nevermined/Account.ts:19](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L19)
 
 ---
 
@@ -128,17 +122,17 @@ Instantiable.constructor
 
 #### Defined in
 
-[src/nevermined.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L12)
+[src/nevermined/Account.ts:13](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L13)
 
 ---
 
-### token
+### zeroDevSigner
 
-• `Private` `Optional` **token**: `string`
+• **zeroDevSigner**: `ZeroDevAccountSigner`<`"ECDSA"`\>
 
 #### Defined in
 
-[src/nevermined.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L14)
+[src/nevermined/Account.ts:17](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L17)
 
 ## Accessors
 
@@ -156,17 +150,35 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L73)
+
+---
+
+### circuitsFolder
+
+• `Protected` `get` **circuitsFolder**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+Instantiable.circuitsFolder
+
+#### Defined in
+
+[src/Instantiable.abstract.ts:77](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L77)
 
 ---
 
 ### config
 
-• `Protected` `get` **config**(): [`Config`](Config.md)
+• `Protected` `get` **config**(): [`NeverminedOptions`](NeverminedOptions.md)
 
 #### Returns
 
-[`Config`](Config.md)
+[`NeverminedOptions`](NeverminedOptions.md)
 
 #### Inherited from
 
@@ -174,17 +186,17 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L57)
 
 ---
 
 ### instanceConfig
 
-• `Protected` `get` **instanceConfig**(): `InstantiableConfig`
+• `Protected` `get` **instanceConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -192,17 +204,17 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L81)
 
 ---
 
 ### instantiableConfig
 
-• `Protected` `get` **instantiableConfig**(): `InstantiableConfig`
+• `Protected` `get` **instantiableConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -210,17 +222,17 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L50)
 
 ---
 
 ### logger
 
-• `Protected` `get` **logger**(): [`Logger`](utils.Logger.md)
+• `Protected` `get` **logger**(): `Logger`
 
 #### Returns
 
-[`Logger`](utils.Logger.md)
+`Logger`
 
 #### Inherited from
 
@@ -228,7 +240,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:64](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L64)
 
 ---
 
@@ -246,17 +258,17 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L35)
 
 ---
 
 ### web3
 
-• `Protected` `get` **web3**(): `JsonRpcProvider`
+• `get` **web3**(): `JsonRpcProvider` \| `BrowserProvider`
 
 #### Returns
 
-`JsonRpcProvider`
+`JsonRpcProvider` \| `BrowserProvider`
 
 #### Inherited from
 
@@ -264,125 +276,39 @@ Instantiable.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:42](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L42)
 
 ## Methods
 
-### addresses
-
-▸ **addresses**(): `Promise`<`string`[]\>
-
-#### Returns
-
-`Promise`<`string`[]\>
-
-#### Inherited from
-
-Instantiable.addresses
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
-
----
-
-### authenticate
-
-▸ **authenticate**(): `Promise`<`void`\>
-
-Authenticate the account.
-
-#### Returns
-
-`Promise`<`void`\>
-
-#### Defined in
-
-[src/nevermined.ts:82](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L82)
-
----
-
-### checkExists
-
-▸ `Protected` **checkExists**(`address`): `Promise`<`boolean`\>
-
-Returns true of contract exists else it throws.
-
-#### Parameters
-
-| Name      | Type     |
-| :-------- | :------- |
-| `address` | `string` |
-
-#### Returns
-
-`Promise`<`boolean`\>
-
-true if the contract exists.
-
-#### Inherited from
-
-Instantiable.checkExists
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
-
----
-
-### findSigner
-
-▸ **findSigner**(`from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name   | Type     |
-| :----- | :------- |
-| `from` | `string` |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-Instantiable.findSigner
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
-
----
-
 ### getBalance
 
-▸ **getBalance**(): `Promise`<`default`\>
+▸ **getBalance**(): `Promise`<[`Balance`](../interfaces/Balance.md)\>
 
 Balances of Ether and Nevermined Token.
 
 #### Returns
 
-`Promise`<`default`\>
+`Promise`<[`Balance`](../interfaces/Balance.md)\>
 
 #### Defined in
 
-[src/nevermined.ts:108](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L108)
+[src/nevermined/Account.ts:93](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L93)
 
 ---
 
 ### getEtherBalance
 
-▸ **getEtherBalance**(): `Promise`<`default`\>
+▸ **getEtherBalance**(): `Promise`<`bigint`\>
 
 Balance of Ether.
 
 #### Returns
 
-`Promise`<`default`\>
+`Promise`<`bigint`\>
 
 #### Defined in
 
-[src/nevermined.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L100)
+[src/nevermined/Account.ts:85](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L85)
 
 ---
 
@@ -396,23 +322,23 @@ Balance of Ether.
 
 #### Defined in
 
-[src/nevermined.ts:27](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L27)
+[src/nevermined/Account.ts:43](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L43)
 
 ---
 
 ### getNeverminedBalance
 
-▸ **getNeverminedBalance**(): `Promise`<`default`\>
+▸ **getNeverminedBalance**(): `Promise`<`bigint`\>
 
 Balance of Nevermined Token.
 
 #### Returns
 
-`Promise`<`default`\>
+`Promise`<`bigint`\>
 
 #### Defined in
 
-[src/nevermined.ts:90](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L90)
+[src/nevermined/Account.ts:75](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L75)
 
 ---
 
@@ -430,7 +356,7 @@ The account password.
 
 #### Defined in
 
-[src/nevermined.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L51)
+[src/nevermined/Account.ts:67](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L67)
 
 ---
 
@@ -444,58 +370,36 @@ The account password.
 
 #### Defined in
 
-[src/nevermined.ts:35](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L35)
+[src/nevermined/Account.ts:51](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L51)
 
 ---
 
-### getToken
+### isZeroDev
 
-▸ **getToken**(): `Promise`<`string`\>
-
-Returns account token.
+▸ **isZeroDev**(): `boolean`
 
 #### Returns
 
-`Promise`<`string`\>
-
-Account token.
+`boolean`
 
 #### Defined in
 
-[src/nevermined.ts:67](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L67)
-
----
-
-### isTokenStored
-
-▸ **isTokenStored**(): `Promise`<`boolean`\>
-
-Returns if account token is stored.
-
-#### Returns
-
-`Promise`<`boolean`\>
-
-true if the token is stored.
-
-#### Defined in
-
-[src/nevermined.ts:75](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L75)
+[src/nevermined/Account.ts:39](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L39)
 
 ---
 
 ### requestTokens
 
-▸ **requestTokens**(`amount`, `params?`): `Promise`<`string`\>
+▸ **requestTokens**(`amount`, `txParams?`): `Promise`<`string`\>
 
 Request Nevermined Tokens.
 
 #### Parameters
 
-| Name      | Type                              | Description             |
-| :-------- | :-------------------------------- | :---------------------- |
-| `amount`  | `string` \| `number` \| `default` | Tokens to be requested. |
-| `params?` | `TxParameters`                    | -                       |
+| Name        | Type                                                | Description             |
+| :---------- | :-------------------------------------------------- | :---------------------- |
+| `amount`    | [`BigNumberish`](../code-reference.md#bignumberish) | Tokens to be requested. |
+| `txParams?` | [`TxParameters`](../interfaces/TxParameters.md)     | Transaction parameters  |
 
 #### Returns
 
@@ -503,7 +407,7 @@ Request Nevermined Tokens.
 
 #### Defined in
 
-[src/nevermined.ts:120](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L120)
+[src/nevermined/Account.ts:106](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L106)
 
 ---
 
@@ -523,7 +427,7 @@ Request Nevermined Tokens.
 
 #### Defined in
 
-[src/nevermined.ts:31](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L31)
+[src/nevermined/Account.ts:47](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L47)
 
 ---
 
@@ -533,9 +437,9 @@ Request Nevermined Tokens.
 
 #### Parameters
 
-| Name     | Type                 |
-| :------- | :------------------- |
-| `config` | `InstantiableConfig` |
+| Name     | Type                                                        |
+| :------- | :---------------------------------------------------------- |
+| `config` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -543,11 +447,11 @@ Request Nevermined Tokens.
 
 #### Inherited from
 
-Instantiable.setInstanceConfig
+[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
+[src/Instantiable.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L99)
 
 ---
 
@@ -569,86 +473,37 @@ Set account password.
 
 #### Defined in
 
-[src/nevermined.ts:43](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L43)
+[src/nevermined/Account.ts:59](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L59)
 
 ---
 
-### setToken
+### fromZeroDevSigner
 
-▸ **setToken**(`token`): `void`
+▸ `Static` **fromZeroDevSigner**(`signer`): `Promise`<[`Account`](Account.md)\>
 
-Set account token.
-
-#### Parameters
-
-| Name    | Type     | Description        |
-| :------ | :------- | :----------------- |
-| `token` | `string` | Token for account. |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[src/nevermined.ts:59](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L59)
-
----
-
-### addressesStatic
-
-▸ `Static` **addressesStatic**(`config`, `web3`): `Promise`<`string`[]\>
+Returns a nevermined Account from a zerodev signer
 
 #### Parameters
 
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
+| Name     | Type                               | Description              |
+| :------- | :--------------------------------- | :----------------------- |
+| `signer` | `ZeroDevAccountSigner`<`"ECDSA"`\> | A zerodev account signer |
 
 #### Returns
 
-`Promise`<`string`[]\>
+`Promise`<[`Account`](Account.md)\>
 
-#### Inherited from
-
-Instantiable.addressesStatic
+The nevermined account
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
-
----
-
-### findSignerStatic
-
-▸ `Static` **findSignerStatic**(`config`, `web3`, `from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
-| `from`   | `string`              |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-Instantiable.findSignerStatic
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
+[src/nevermined/Account.ts:32](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Account.ts#L32)
 
 ---
 
 ### getInstance
 
-▸ `Static` **getInstance**(...`_args`): `any`
+▸ `Static` **getInstance**(`..._args`): `any`
 
 #### Parameters
 
@@ -662,11 +517,11 @@ Instantiable.findSignerStatic
 
 #### Inherited from
 
-Instantiable.getInstance
+[Instantiable](Instantiable.md).[getInstance](Instantiable.md#getinstance)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:86](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L86)
 
 ---
 
@@ -676,16 +531,16 @@ Instantiable.getInstance
 
 #### Type parameters
 
-| Name | Type                         |
-| :--- | :--------------------------- |
-| `T`  | extends `Instantiable`<`T`\> |
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `T`  | extends [`Instantiable`](Instantiable.md) |
 
 #### Parameters
 
-| Name                 | Type                 |
-| :------------------- | :------------------- |
-| `instance`           | `T`                  |
-| `instantiableConfig` | `InstantiableConfig` |
+| Name                 | Type                                                        |
+| :------------------- | :---------------------------------------------------------- |
+| `instance`           | `T`                                                         |
+| `instantiableConfig` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -693,8 +548,8 @@ Instantiable.getInstance
 
 #### Inherited from
 
-Instantiable.setInstanceConfig
+[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig-1)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L90)
