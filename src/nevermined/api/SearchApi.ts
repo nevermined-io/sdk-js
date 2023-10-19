@@ -473,6 +473,7 @@ export class SearchApi extends Instantiable {
    */
   public async servicesByNftContract(
     nftContractAddress: string,
+    tokenId: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -520,6 +521,12 @@ export class SearchApi extends Instantiable {
                   match: {
                     'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
                       nftContractAddress,
+                  },
+                },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      tokenId,
                   },
                 },
               ],
@@ -588,6 +595,7 @@ export class SearchApi extends Instantiable {
 
     return this.servicesByNftContract(
       nftContractAddress,
+      subscriptionDid,
       customNestedQueries,
       offset,
       page,
@@ -610,6 +618,7 @@ export class SearchApi extends Instantiable {
    */
   public async datasetsByNftContract(
     nftContractAddress: string,
+    tokenId: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -657,6 +666,12 @@ export class SearchApi extends Instantiable {
                   match: {
                     'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
                       nftContractAddress,
+                  },
+                },
+                {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      tokenId,
                   },
                 },
               ],
@@ -725,6 +740,7 @@ export class SearchApi extends Instantiable {
 
     return this.datasetsByNftContract(
       nftContractAddress,
+      subscriptionDid,
       customNestedQueries,
       offset,
       page,
