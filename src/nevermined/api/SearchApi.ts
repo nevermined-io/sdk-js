@@ -610,7 +610,7 @@ export class SearchApi extends Instantiable {
     return this.servicesByNftContract(
       nftContractAddress,
       nftType,
-      subscriptionDid,
+      subscriptionDid.replace('did:nv:', ''),
       customNestedQueries,
       offset,
       page,
@@ -770,7 +770,7 @@ export class SearchApi extends Instantiable {
     return this.datasetsByNftContract(
       nftContractAddress,
       nftType,
-      subscriptionDid,
+      subscriptionDid.replace('did:nv:', ''),
       customNestedQueries,
       offset,
       page,
