@@ -21,6 +21,7 @@
     "integration:e2e:mumbai": "export NETWORK_NAME=mumbai; yarn integration:e2e",
     "integration:compute": "mocha --config integration/.mocharc.json ./integration/compute/Compute*.test.ts",
     "integration:external": "mocha --config integration/.mocharc.json ./integration/external/*.test.ts",
+    "integration:external-services": "mocha --config integration/.mocharc.json integration/external/Services_NFT1155.e2e.test.ts",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
