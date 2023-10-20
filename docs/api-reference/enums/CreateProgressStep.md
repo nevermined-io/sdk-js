@@ -8,6 +8,7 @@
 
 - [ConditionsFilled](CreateProgressStep.md#conditionsfilled)
 - [DdoStored](CreateProgressStep.md#ddostored)
+- [DdoStoredImmutable](CreateProgressStep.md#ddostoredimmutable)
 - [DidRegistered](CreateProgressStep.md#didregistered)
 - [EncryptingFiles](CreateProgressStep.md#encryptingfiles)
 - [FilesEncrypted](CreateProgressStep.md#filesencrypted)
@@ -27,7 +28,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:38](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L38)
+[src/nevermined/ProgressSteps.ts:5](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L5)
 
 ---
 
@@ -37,17 +38,27 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:45](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L45)
+[src/nevermined/ProgressSteps.ts:12](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L12)
+
+---
+
+### DdoStoredImmutable
+
+• **DdoStoredImmutable** = `11`
+
+#### Defined in
+
+[src/nevermined/ProgressSteps.ts:13](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L13)
 
 ---
 
 ### DidRegistered
 
-• **DidRegistered** = `11`
+• **DidRegistered** = `12`
 
 #### Defined in
 
-[src/nevermined/Assets.ts:46](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L46)
+[src/nevermined/ProgressSteps.ts:14](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L14)
 
 ---
 
@@ -57,7 +68,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:39](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L39)
+[src/nevermined/ProgressSteps.ts:6](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L6)
 
 ---
 
@@ -67,7 +78,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:40](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L40)
+[src/nevermined/ProgressSteps.ts:7](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L7)
 
 ---
 
@@ -77,7 +88,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:36](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L36)
+[src/nevermined/ProgressSteps.ts:3](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L3)
 
 ---
 
@@ -87,7 +98,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:37](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L37)
+[src/nevermined/ProgressSteps.ts:4](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L4)
 
 ---
 
@@ -97,7 +108,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:41](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L41)
+[src/nevermined/ProgressSteps.ts:8](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L8)
 
 ---
 
@@ -107,7 +118,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:35](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L35)
+[src/nevermined/ProgressSteps.ts:2](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L2)
 
 ---
 
@@ -117,7 +128,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:43](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L43)
+[src/nevermined/ProgressSteps.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L10)
 
 ---
 
@@ -127,7 +138,7 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:42](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L42)
+[src/nevermined/ProgressSteps.ts:9](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L9)
 
 ---
 
@@ -137,4 +148,4 @@
 
 #### Defined in
 
-[src/nevermined/Assets.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined/Assets.ts#L44)
+[src/nevermined/ProgressSteps.ts:11](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/ProgressSteps.ts#L11)

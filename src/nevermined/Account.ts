@@ -3,25 +3,41 @@ import { Balance } from '../models'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper'
 import { KeeperError } from '../errors'
-import { BigNumber } from '../utils'
+import { BigNumberish } from '../sdk'
+import { ZeroDevAccountSigner } from '@zerodev/sdk'
 
 /**
  * Account information.
  */
 export class Account extends Instantiable {
   private password?: string
-
-  private token?: string
-
   public babyX?: string
   public babyY?: string
   public babySecret?: string
+  public zeroDevSigner: ZeroDevAccountSigner<'ECDSA'>
 
   constructor(private id: string = '0x0', config?: InstantiableConfig) {
     super()
     if (config) {
       this.setInstanceConfig(config)
     }
+  }
+
+  /**
+   * Returns a nevermined Account from a zerodev signer
+   *
+   * @param signer - A zerodev account signer
+   * @returns The nevermined account
+   */
+  static async fromZeroDevSigner(signer: ZeroDevAccountSigner<'ECDSA'>): Promise<Account> {
+    const address = await signer.getAddress()
+    const account = new Account(address)
+    account.zeroDevSigner = signer
+    return account
+  }
+
+  public isZeroDev(): boolean {
+    return this.zeroDevSigner !== undefined
   }
 
   public getId() {
@@ -56,17 +72,17 @@ export class Account extends Instantiable {
    * Balance of Nevermined Token.
    * @returns
    */
-  public async getNeverminedBalance(): Promise<BigNumber> {
+  public async getNeverminedBalance(): Promise<bigint> {
     const { token } = this.nevermined.keeper
-    if (!token) return BigNumber.from(0)
-    return (await token.balanceOf(this.id)).div(10).mul(await token.decimals())
+    if (!token) return 0n
+    return ((await token.balanceOf(this.id)) / 10n) * BigInt(await token.decimals())
   }
 
   /**
    * Balance of Ether.
    * @returns
    */
-  public async getEtherBalance(): Promise<BigNumber> {
+  public async getEtherBalance(): Promise<bigint> {
     return this.web3.getBalance(this.id)
   }
 
@@ -87,10 +103,7 @@ export class Account extends Instantiable {
    * @param txParams - Transaction parameters
    * @returns
    */
-  public async requestTokens(
-    amount: number | string | BigNumber,
-    txParams?: TxParameters,
-  ): Promise<string> {
+  public async requestTokens(amount: BigNumberish, txParams?: TxParameters): Promise<string> {
     if (!this.nevermined.keeper.dispenser) {
       throw new KeeperError('Dispenser not available on this network.')
     }

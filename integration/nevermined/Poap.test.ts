@@ -3,20 +3,21 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
 import POAPUpgradeable from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
 import { assert } from 'chai'
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+import { getRoyaltyAttributes, NFT721Api, RoyaltyKind } from '../../src/nevermined'
 import { decodeJwt } from 'jose'
 
 describe('POAPs with Assets', () => {
   let nevermined: Nevermined
-  let poapContract: ethers.Contract
+  let poapContract: ethers.BaseContract
   let editor: Account
   let user: Account
   let gatewayAddress: string
   let poapDDO: DDO
   let agreementId: string
   let metadata: MetaData
+  let nft721Api: NFT721Api
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
@@ -41,40 +42,44 @@ describe('POAPs with Assets', () => {
       'NVM',
       '',
       '0',
+      nevermined.keeper.nvmConfig.address,
     ])
     assert.isDefined(poapContract)
 
-    await nevermined.contracts.loadNft721(poapContract.address)
+    nft721Api = await nevermined.contracts.loadNft721(await poapContract.getAddress())
 
     // INFO: We allow transferNFT condition to mint NFTs
     // Typically this only needs to happen once per NFT contract
-    const tx = await poapContract.grantOperatorRole(
+    const response = await nft721Api.grantOperatorRole(
       nevermined.keeper.conditions.transferNft721Condition.address,
-      { from: editor.getId() },
+      editor,
     )
-    const response = await tx.wait()
     assert.equal(response.status, 1)
 
     // INFO: We allow the gateway to fulfill the transfer condition in behalf of the user
     // Typically this only needs to happen once per NFT contract
-    const transactionResponse = await poapContract.setApprovalForAll(gatewayAddress, true, {
-      from: editor.getId(),
-    })
-    await transactionResponse.wait()
+    await nft721Api.setApprovalForAll(gatewayAddress, true, editor)
 
-    const isApproved = await poapContract.isApprovedForAll(editor.getId(), gatewayAddress)
+    const isApproved = await nft721Api.isApprovedForAll(editor.getId(), gatewayAddress)
     assert.isTrue(isApproved)
   })
 
   it('editor should be able to register poap', async () => {
     const nftAttributes = NFTAttributes.getPOAPInstance({
       metadata,
-      price: new AssetPrice(editor.getId(), BigNumber.from(0), nevermined.utils.token.getAddress()),
-      serviceTypes: ['nft-sales', 'nft-access'],
+      services: [
+        {
+          serviceType: 'nft-sales',
+          price: new AssetPrice(editor.getId(), 0n, nevermined.utils.token.getAddress()),
+          nft: { nftTransfer: false },
+        },
+        {
+          serviceType: 'nft-access',
+        },
+      ],
       providers: [gatewayAddress],
-      nftContractAddress: poapContract.address,
+      nftContractAddress: await poapContract.getAddress(),
       preMint: false,
-      nftTransfer: false,
       royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0),
     })
     poapDDO = await nevermined.nfts721.create(nftAttributes, editor)
@@ -93,8 +98,8 @@ describe('POAPs with Assets', () => {
   })
 
   it('user should have a balance of 1 poap', async () => {
-    const balance = await poapContract.balanceOf(user.getId())
-    assert.equal(balance.toNumber(), 1)
+    const balance = await nft721Api.balanceOf(user)
+    assert.equal(balance, 1n)
   })
 
   it('user should have access', async () => {

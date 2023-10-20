@@ -53,7 +53,7 @@
     },
     {
       "type": "authorization",
-      "index": 2,
+      "index": 1,
       "serviceEndpoint": "http://localhost:8030",
       "attributes": {
         "main": {
@@ -65,7 +65,7 @@
     },
     {
       "type": "nft-sales",
-      "index": 6,
+      "index": 2,
       "serviceEndpoint": "http://localhost:8030/api/v1/node/services/nft-sales",
       "templateId": "0x91A362A6FC973647a6C7E54a5b8371228cD72661",
       "attributes": {
@@ -184,6 +184,14 @@
                   "name": "_conditionId",
                   "type": "bytes32",
                   "value": ""
+                },
+                {
+                  "name": "_nftTransfer",
+                  "type": "boolean"
+                },
+                {
+                  "name": "_duration",
+                  "type": "uint256"
                 }
               ],
               "events": [
@@ -268,7 +276,7 @@
     },
     {
       "type": "nft-access",
-      "index": 7,
+      "index": 3,
       "serviceEndpoint": "http://localhost:8030/api/v1/node/services/nft-access",
       "templateId": "0xF474fC9C472A6Df8D01bd06376c794B22C51ea93",
       "attributes": {
@@ -325,6 +333,11 @@
                   "name": "_contractAddress",
                   "type": "address",
                   "value": "0xe6A3980DaF4060e4b7e98Fa0AEf156B5cd6cD99E"
+                },
+                {
+                  "name": "_tokenId",
+                  "type": "bytes32",
+                  "value": ""
                 }
               ],
               "events": [

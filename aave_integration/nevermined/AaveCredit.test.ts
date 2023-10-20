@@ -1,6 +1,6 @@
 import { getMetadata } from '../../integration/utils/index'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Account, ConditionState, DDO, generateId } from '../../src/index'
+import { AaveConfig, Account, ConditionState, DDO, generateId } from '../../src/index'
 import ERC721 from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
 import { Nevermined } from '../../src/nevermined'
 import { didZeroX, zeroX } from '../../src/utils/index'
@@ -20,8 +20,7 @@ import config from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { decodeJwt } from 'jose'
-import { Contract } from 'ethers'
-import { BigNumber } from '../../src/utils'
+import { ethers } from 'ethers'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 chai.use(chaiAsPromised)
@@ -39,7 +38,7 @@ describe('AaveCredit', () => {
   let conditionIds: string[]
   let vaultAddress: string
   let nftContractAddress: string
-  let nftContract: Contract
+  let nftContract: ethers.BaseContract
   let nft721Wrapper: Nft721Contract
   let ddo: DDO
   let did: string
@@ -81,22 +80,15 @@ describe('AaveCredit', () => {
     // await TestContractHandler.prepareContracts()
 
     nevermined = await Nevermined.getInstance(config)
+    ;({ agreementFee } = config.aaveConfig as AaveConfig)
     await nevermined.keeper.loadAaveInstances()
-    ;({ agreementFee } = config.aaveConfig)
     ;({ aaveCreditTemplate } = nevermined.keeper.templates)
     ;({ conditionStoreManager, didRegistry, agreementStoreManager } = nevermined.keeper)
     ;({ nft721LockCondition, aaveRepayCondition } = nevermined.keeper.conditions)
     ;[deployer, lender, borrower, otherAccount] = await nevermined.accounts.list()
     timeLocks = [0, 0, 0, 0, 0, 0]
     timeOuts = [0, 0, 0, 0, 0, 0]
-    // await nevermined.keeper.conditionStoreManager.delegateCreateRole(
-    //     nevermined.keeper.agreementStoreManager.getAddress(),
-    //     deployer.getId()
-    // )
 
-    // agreementId = '0xf2f7338941f5469cb8bbf8b2e600ecb8d53e6755ec5d45658cf1a764e0d40f0e'
-    // did = 'did:nv:1af704df5b61eea09af8f327a0453480d5a218f4c4f8a7c6d4145c7b7b52d7b8'
-    // const nftAddress: string = '0xb17527F1D07cD919a3290e8faC330319aB92abdC'
     const nftAddress = ''
     // nft721Wrapper is instance of Nft721Contract -> ContractBase
     if (nftAddress.toString() !== '') {
@@ -150,7 +142,7 @@ describe('AaveCredit', () => {
     dai = await CustomToken.getInstanceByAddress(_config, delegatedAsset)
     weth = await CustomToken.getInstanceByAddress(_config, collateralAsset)
     isTemplateApproved = await nevermined.keeper.templateStoreManager.isApproved(
-      aaveCreditTemplate.getAddress(),
+      aaveCreditTemplate.address,
     )
   })
 
@@ -159,7 +151,7 @@ describe('AaveCredit', () => {
     it('should propose the AaveCreditTemplate', async () => {
       if (!isTemplateApproved) {
         await nevermined.keeper.templateStoreManager.proposeTemplate(
-          aaveCreditTemplate.getAddress(),
+          aaveCreditTemplate.address,
           otherAccount,
           true,
         )
@@ -169,7 +161,7 @@ describe('AaveCredit', () => {
     it('should approve the AaveCreditTemplate', async () => {
       if (!isTemplateApproved) {
         await nevermined.keeper.templateStoreManager.approveTemplate(
-          aaveCreditTemplate.getAddress(),
+          aaveCreditTemplate.address,
           deployer,
           true,
         )

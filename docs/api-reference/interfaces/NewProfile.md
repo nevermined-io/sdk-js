@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:14](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L14)
+[src/services/metadata/types.ts:44](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/services/metadata/types.ts#L44)
 
 ---
 
@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L10)
+[src/services/metadata/types.ts:40](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/services/metadata/types.ts#L40)
 
 ---
 
@@ -48,7 +48,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:13](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L13)
+[src/services/metadata/types.ts:43](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/services/metadata/types.ts#L43)
 
 ---
 
@@ -58,7 +58,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L8)
+[src/services/metadata/types.ts:38](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/services/metadata/types.ts#L38)
 
 ---
 
@@ -68,7 +68,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:12](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L12)
+[src/services/metadata/types.ts:42](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/services/metadata/types.ts#L42)
 
 ---
 
@@ -78,7 +78,7 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:11](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L11)
+[src/services/metadata/types.ts:41](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/services/metadata/types.ts#L41)
 
 ---
 
@@ -88,4 +88,4 @@
 
 #### Defined in
 
-[src/profiles/Profiles.interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/profiles/Profiles.interfaces.ts#L9)
+[src/services/metadata/types.ts:39](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/services/metadata/types.ts#L39)

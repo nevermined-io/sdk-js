@@ -41,7 +41,7 @@ describe('SubgraphEvent', () => {
     })
 
     const event = response[0]
-    assert.strictEqual(ethers.utils.getAddress(event.to), ethers.utils.getAddress(account.getId()))
+    assert.strictEqual(ethers.getAddress(event.to), ethers.getAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {
@@ -74,6 +74,7 @@ describe('SubgraphEvent', () => {
 
     await Promise.all([executeTransaction()])
 
+    // TODO: See if we can remove this
     await sleep(2000)
     validResolve = true
 
@@ -113,9 +114,13 @@ describe('SubgraphEvent', () => {
     })
 
     await executeTransaction()
+
+    // TODO: See if we can remove this
     await sleep(2000)
     await executeTransaction()
     await waitUntilEvent
+
+    // TODO: See if we can remove this
     await sleep(2000)
   })
 
@@ -135,6 +140,7 @@ describe('SubgraphEvent', () => {
       },
     })
 
+    // TODO: See if we can remove this
     await sleep(400)
 
     await executeTransaction()

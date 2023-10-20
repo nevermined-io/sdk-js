@@ -13,12 +13,12 @@ describe('ContractEvent', () => {
   let account2: Account
   let account3: Account
   let account4: Account
-  let web3: ethers.providers.JsonRpcProvider
+  let web3: ethers.JsonRpcProvider | ethers.BrowserProvider
 
-  beforeEach(async () => {
+  before(async () => {
     await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
-    web3 = Web3Provider.getWeb3(config)
+    web3 = await Web3Provider.getWeb3(config)
     ;[account1, account2, account3, account4] = await nevermined.accounts.list()
   })
 

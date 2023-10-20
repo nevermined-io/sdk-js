@@ -1,5 +1,4 @@
 import { MetaData, AssetPrice, ResourceAuthentication } from '../../src'
-import { BigNumber } from '../../src/utils'
 
 const metadata: Partial<MetaData> = {
   main: {
@@ -13,12 +12,12 @@ const metadata: Partial<MetaData> = {
       {
         index: 0,
         contentType: 'application/json',
-        url: 'https://github.com/nevermined-io/docs-legacy/raw/master/docs/architecture/specs/metadata/examples/ddo-example.json',
+        url: 'https://storage.googleapis.com/nvm-static-assets/files/ci/ddo-example.json',
       },
       {
         index: 1,
         contentType: 'text/plain',
-        url: 'https://github.com/nevermined-io/docs-legacy/raw/master/README.md',
+        url: 'https://storage.googleapis.com/nvm-static-assets/files/ci/README.md',
       },
     ],
   },
@@ -154,4 +153,4 @@ export const getMetadata = (nonce: string | number = Math.random(), name = 'Test
   generateMetadata(name, nonce) as MetaData
 
 export const getAssetPrice = (receiver: string) =>
-  new AssetPrice(receiver, BigNumber.from('21' + '0'.repeat(18)))
+  new AssetPrice(receiver, BigInt('21' + '0'.repeat(18)))

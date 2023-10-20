@@ -4,7 +4,7 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
-import { repeat, sleep } from '../utils/utils'
+import { repeat } from '../utils/utils'
 
 import {
   Nevermined,
@@ -17,7 +17,6 @@ import {
   AssetAttributes,
 } from '../../src'
 import { AgreementPrepareResult } from '../../src/nevermined'
-import { BigNumber } from '../../src/utils'
 
 describe('Consume Asset', () => {
   let nevermined: Nevermined
@@ -51,7 +50,15 @@ describe('Consume Asset', () => {
 
   it('should register an asset', async () => {
     ddo = await nevermined.assets.create(
-      AssetAttributes.getInstance({ metadata, price: assetPrice }),
+      AssetAttributes.getInstance({
+        metadata,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
+      }),
       publisher,
     )
 
@@ -63,7 +70,7 @@ describe('Consume Asset', () => {
 
   it('should be able to request tokens for consumer', async () => {
     const initialBalance = (await consumer.getBalance()).nevermined
-    const claimedTokens = BigNumber.from(100)
+    const claimedTokens = 100n
 
     try {
       await consumer.requestTokens(claimedTokens)
@@ -72,7 +79,7 @@ describe('Consume Asset', () => {
     }
 
     const balanceAfter = (await consumer.getBalance()).nevermined
-    assert.isTrue(balanceAfter.gt(initialBalance))
+    assert.isTrue(balanceAfter > initialBalance)
   })
 
   it('should sign the service agreement', async () => {
@@ -101,8 +108,6 @@ describe('Consume Asset', () => {
   })
 
   it('should get the agreement conditions status not fulfilled', async () => {
-    // todo change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(3000)
     const status = await repeat(3, nevermined.agreements.status(agreementId))
 
     assert.deepEqual(status, {
@@ -158,8 +163,6 @@ describe('Consume Asset', () => {
   })
 
   it('should get the agreement conditions status fulfilled', async () => {
-    // todo change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(2000)
     const status = await nevermined.agreements.status(agreementId)
 
     assert.deepEqual(status, {
@@ -171,7 +174,13 @@ describe('Consume Asset', () => {
 
   it('should consume and store the assets', async () => {
     const folder = '/tmp/nevermined/sdk-js-1'
-    const path = (await nevermined.assets.access(agreementId, ddo.id, consumer, folder)) as string
+    const path = (await nevermined.assets.access(
+      agreementId,
+      ddo.id,
+      'access',
+      consumer,
+      folder,
+    )) as string
 
     assert.include(path, folder, 'The storage path is not correct.')
 
@@ -189,6 +198,7 @@ describe('Consume Asset', () => {
     const path = (await nevermined.assets.access(
       agreementId,
       ddo.id,
+      'access',
       consumer,
       folder,
       1,

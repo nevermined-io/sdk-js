@@ -12,13 +12,15 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - uses: nevermined-io/nvm-tools-actions@v0.12.0
+          node-version: 18
+      - uses: nevermined-io/nvm-tools-actions@v0.15.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
-          contracts-version: 'v3.2.1'
+          # TODO: Update to tagged versions when everything is released and in main branches
+          node-version: 'develop'
+          contracts-version: 'latest'
 
       - name: Install dependencies
         run: |
@@ -40,12 +42,14 @@ jobs:
           IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
           IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
           LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
-        run: yarn run integration:cover
+        run: yarn integration:all
 
   unit-tests:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Reclaim some disk space
+        run: docker system prune --all --volumes -f
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
@@ -55,7 +59,7 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Deploy contracts
         run: |
@@ -73,14 +77,15 @@ jobs:
       - name: Install dependencies
         run: |
           yarn
-      - name: Run linters
-        run: yarn lint
 
       - name: Start ganache
-        run: yarn ganache --port 18545 --chain.chainId 8998 &
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+        run: yarn ganache --server.port 18545 --chain.chainId 8998 --wallet.mnemonic "$SEED_WORDS" --detach
 
       - name: Run unit tests
         env:
           ETH_PORT: 18545
+          SEED_WORDS: ${{ secrets.seedWords }}
         run: |
-          yarn run test:cover
+          yarn test:all

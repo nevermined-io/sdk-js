@@ -7,15 +7,15 @@ import { ethers } from 'ethers'
 export interface InstantiableConfig {
   nevermined: Nevermined
   config?: NeverminedOptions
-  web3?: ethers.providers.JsonRpcProvider
+  web3?: ethers.JsonRpcProvider | ethers.BrowserProvider
   logger?: Logger
   artifactsFolder?: string
   circuitsFolder?: string
 }
 
-export function generateIntantiableConfigFromConfig(
+export async function generateInstantiableConfigFromConfig(
   config: NeverminedOptions,
-): Partial<InstantiableConfig> {
+): Promise<Partial<InstantiableConfig>> {
   const logLevel =
     typeof config.verbose !== 'number'
       ? config.verbose
@@ -24,7 +24,7 @@ export function generateIntantiableConfigFromConfig(
       : (config.verbose as LogLevel)
   return {
     config,
-    web3: Web3Provider.getWeb3(config),
+    web3: await Web3Provider.getWeb3(config),
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
     circuitsFolder: config.circuitsFolder,
@@ -41,8 +41,8 @@ export abstract class Instantiable {
 
   public get web3() {
     if (!this._instantiableConfig?.web3) {
-      this.logger.warn('ethers.Provider instance is not defined. Using default instance.')
-      return Web3Provider.getWeb3()
+      this.logger.error('Web3 Provider not initialized')
+      throw new Error('Web3 Provider not initialized')
     }
     return this._instantiableConfig.web3
   }

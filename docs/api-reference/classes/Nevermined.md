@@ -6,7 +6,7 @@ Main interface for Nevermined Protocol.
 
 ## Hierarchy
 
-- `Instantiable`
+- [`Instantiable`](Instantiable.md)
 
   ↳ **`Nevermined`**
 
@@ -18,31 +18,24 @@ Main interface for Nevermined Protocol.
 
 ### Properties
 
-- [aaveCredit](Nevermined.md#aavecredit)
 - [accounts](Nevermined.md#accounts)
 - [agreements](Nevermined.md#agreements)
 - [assets](Nevermined.md#assets)
-- [auth](Nevermined.md#auth)
-- [bookmarks](Nevermined.md#bookmarks)
+- [compute](Nevermined.md#compute)
 - [contracts](Nevermined.md#contracts)
-- [faucet](Nevermined.md#faucet)
-- [files](Nevermined.md#files)
-- [gateway](Nevermined.md#gateway)
+- [isKeeperConnected](Nevermined.md#iskeeperconnected)
 - [keeper](Nevermined.md#keeper)
-- [marketplace](Nevermined.md#marketplace)
-- [metadata](Nevermined.md#metadata)
-- [nfts](Nevermined.md#nfts)
-- [permissions](Nevermined.md#permissions)
-- [profiles](Nevermined.md#profiles)
+- [nfts1155](Nevermined.md#nfts1155)
+- [nfts721](Nevermined.md#nfts721)
 - [provenance](Nevermined.md#provenance)
-- [provider](Nevermined.md#provider)
-- [token](Nevermined.md#token)
+- [search](Nevermined.md#search)
+- [services](Nevermined.md#services)
 - [utils](Nevermined.md#utils)
-- [versions](Nevermined.md#versions)
 
 ### Accessors
 
 - [artifactsFolder](Nevermined.md#artifactsfolder)
+- [circuitsFolder](Nevermined.md#circuitsfolder)
 - [config](Nevermined.md#config)
 - [instanceConfig](Nevermined.md#instanceconfig)
 - [instantiableConfig](Nevermined.md#instantiableconfig)
@@ -52,12 +45,7 @@ Main interface for Nevermined Protocol.
 
 ### Methods
 
-- [addresses](Nevermined.md#addresses)
-- [checkExists](Nevermined.md#checkexists)
-- [findSigner](Nevermined.md#findsigner)
 - [setInstanceConfig](Nevermined.md#setinstanceconfig)
-- [addressesStatic](Nevermined.md#addressesstatic)
-- [findSignerStatic](Nevermined.md#findsignerstatic)
 - [getInstance](Nevermined.md#getinstance)
 - [setInstanceConfig](Nevermined.md#setinstanceconfig-1)
 
@@ -69,83 +57,59 @@ Main interface for Nevermined Protocol.
 
 #### Overrides
 
-Instantiable.constructor
+[Instantiable](Instantiable.md).[constructor](Instantiable.md#constructor)
 
 #### Defined in
 
-[src/nevermined.ts:213](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L213)
+[src/nevermined/Nevermined.ts:211](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L211)
 
 ## Properties
 
-### aaveCredit
-
-• **aaveCredit**: `AaveCredit`
-
-AaveCredit allows taking loans from Aave protocol using NFT tokens as collateral.
-
-#### Defined in
-
-[src/nevermined.ts:196](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L196)
-
----
-
 ### accounts
 
-• **accounts**: [`Accounts`](Accounts.md)
+• **accounts**: [`AccountsApi`](AccountsApi.md)
 
 Accounts submodule
 
 #### Defined in
 
-[src/nevermined.ts:156](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L156)
+[src/nevermined/Nevermined.ts:159](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L159)
 
 ---
 
 ### agreements
 
-• **agreements**: `Agreements`
+• **agreements**: [`AgreementsApi`](AgreementsApi.md)
 
 Agreements submodule
 
 #### Defined in
 
-[src/nevermined.ts:181](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L181)
+[src/nevermined/Nevermined.ts:164](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L164)
 
 ---
 
 ### assets
 
-• **assets**: `Assets`
+• **assets**: [`AssetsApi`](AssetsApi.md)
 
-Assets submodule
+Assets API
 
 #### Defined in
 
-[src/nevermined.ts:166](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L166)
+[src/nevermined/Nevermined.ts:169](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L169)
 
 ---
 
-### auth
+### compute
 
-• **auth**: `Auth`
+• **compute**: [`ComputeApi`](ComputeApi.md)
 
-Auth submodule
-
-#### Defined in
-
-[src/nevermined.ts:161](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L161)
-
----
-
-### bookmarks
-
-• **bookmarks**: `Bookmarks`
-
-Bookmarks instance
+Compute API
 
 #### Defined in
 
-[src/nevermined.ts:141](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L141)
+[src/nevermined/Nevermined.ts:174](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L174)
 
 ---
 
@@ -153,54 +117,35 @@ Bookmarks instance
 
 • **contracts**: `Object`
 
-Nevermind very own contract reflector.
+Nevermined very own contract reflector.
 
 #### Type declaration
 
-| Name         | Type                                                       |
-| :----------- | :--------------------------------------------------------- |
-| `loadErc20`  | (`address`: `string`) => `Promise`<`default`\>             |
-| `loadNft721` | (`address`: `string`) => `Promise`<[`Nft721`](Nft721.md)\> |
+| Name                  | Type                                                                                |
+| :-------------------- | :---------------------------------------------------------------------------------- |
+| `loadErc20`           | (`address`: `string`) => `Promise`<[`CustomToken`](CustomToken.md)\>                |
+| `loadNft1155`         | (`address`: `string`) => `Promise`<[`NFT1155Api`](NFT1155Api.md)\>                  |
+| `loadNft1155Api`      | (`api`: [`NFT1155Api`](NFT1155Api.md)) => `Promise`<[`NFT1155Api`](NFT1155Api.md)\> |
+| `loadNft1155Contract` | (`address`: `string`) => `Promise`<[`Nft1155Contract`](Nft1155Contract.md)\>        |
+| `loadNft721`          | (`address`: `string`) => `Promise`<[`NFT721Api`](NFT721Api.md)\>                    |
+| `loadNft721Api`       | (`api`: [`NFT721Api`](NFT721Api.md)) => `Promise`<[`NFT721Api`](NFT721Api.md)\>     |
+| `loadNft721Contract`  | (`address`: `string`) => `Promise`<[`Nft721Contract`](Nft721Contract.md)\>          |
 
 #### Defined in
 
-[src/nevermined.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L97)
+[src/nevermined/Nevermined.ts:74](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L74)
 
 ---
 
-### faucet
+### isKeeperConnected
 
-• **faucet**: `Faucet`
+• **isKeeperConnected**: `boolean`
 
-Metadata instance.
-
-#### Defined in
-
-[src/nevermined.ts:151](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L151)
-
----
-
-### files
-
-• **files**: `Files`
-
-Files submodule
+If keeper is connected
 
 #### Defined in
 
-[src/nevermined.ts:176](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L176)
-
----
-
-### gateway
-
-• **gateway**: `Gateway`
-
-Gateway instance.
-
-#### Defined in
-
-[src/nevermined.ts:121](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L121)
+[src/nevermined/Nevermined.ts:209](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L209)
 
 ---
 
@@ -212,127 +157,79 @@ Keeper instance.
 
 #### Defined in
 
-[src/nevermined.ts:92](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L92)
+[src/nevermined/Nevermined.ts:154](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L154)
 
 ---
 
-### marketplace
+### nfts1155
 
-• **marketplace**: `MarketplaceApi`
+• **nfts1155**: [`NFT1155Api`](NFT1155Api.md)
 
-Marketplace instance.
+ERC-1155 Nfts API
 
 #### Defined in
 
-[src/nevermined.ts:131](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L131)
+[src/nevermined/Nevermined.ts:179](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L179)
 
 ---
 
-### metadata
+### nfts721
 
-• **metadata**: `Metadata`
+• **nfts721**: [`NFT721Api`](NFT721Api.md)
 
-Metadata instance.
-
-#### Defined in
-
-[src/nevermined.ts:126](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L126)
-
----
-
-### nfts
-
-• **nfts**: [`Nfts`](Nfts.md)
-
-Nfts submodule
+ERC-721 Nfts API
 
 #### Defined in
 
-[src/nevermined.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L171)
-
----
-
-### permissions
-
-• **permissions**: `Permissions`
-
-Permissions instance
-
-#### Defined in
-
-[src/nevermined.ts:146](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L146)
-
----
-
-### profiles
-
-• **profiles**: `Profiles`
-
-Profiles instance
-
-#### Defined in
-
-[src/nevermined.ts:136](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L136)
+[src/nevermined/Nevermined.ts:184](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L184)
 
 ---
 
 ### provenance
 
-• **provenance**: `Provenance`
+• **provenance**: [`ProvenanceApi`](ProvenanceApi.md)
 
 Provenance submodule
 
 #### Defined in
 
-[src/nevermined.ts:206](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L206)
+[src/nevermined/Nevermined.ts:189](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L189)
 
 ---
 
-### provider
+### search
 
-• **provider**: `Provider`
+• **search**: [`SearchApi`](SearchApi.md)
 
-Nevermined probiders submodule
+SearchApi API
 
 #### Defined in
 
-[src/nevermined.ts:186](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L186)
+[src/nevermined/Nevermined.ts:194](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L194)
 
 ---
 
-### token
+### services
 
-• **token**: `Token`
+• **services**: [`ServicesApi`](ServicesApi.md)
 
-Nevermined tokens submodule
+SearchApi API
 
 #### Defined in
 
-[src/nevermined.ts:191](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L191)
+[src/nevermined/Nevermined.ts:199](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L199)
 
 ---
 
 ### utils
 
-• **utils**: `Utils`
+• **utils**: [`UtilsApi`](UtilsApi.md)
 
 Utils submodule
 
 #### Defined in
 
-[src/nevermined.ts:211](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L211)
-
----
-
-### versions
-
-• **versions**: `Versions`
-
-Versions submodule
-
-#### Defined in
-
-[src/nevermined.ts:201](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L201)
+[src/nevermined/Nevermined.ts:204](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L204)
 
 ## Accessors
 
@@ -350,17 +247,35 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L73)
+
+---
+
+### circuitsFolder
+
+• `Protected` `get` **circuitsFolder**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+Instantiable.circuitsFolder
+
+#### Defined in
+
+[src/Instantiable.abstract.ts:77](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L77)
 
 ---
 
 ### config
 
-• `Protected` `get` **config**(): [`Config`](Config.md)
+• `Protected` `get` **config**(): [`NeverminedOptions`](NeverminedOptions.md)
 
 #### Returns
 
-[`Config`](Config.md)
+[`NeverminedOptions`](NeverminedOptions.md)
 
 #### Inherited from
 
@@ -368,17 +283,17 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L57)
 
 ---
 
 ### instanceConfig
 
-• `Protected` `get` **instanceConfig**(): `InstantiableConfig`
+• `Protected` `get` **instanceConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -386,17 +301,17 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L81)
 
 ---
 
 ### instantiableConfig
 
-• `Protected` `get` **instantiableConfig**(): `InstantiableConfig`
+• `Protected` `get` **instantiableConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -404,17 +319,17 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L50)
 
 ---
 
 ### logger
 
-• `Protected` `get` **logger**(): [`Logger`](utils.Logger.md)
+• `Protected` `get` **logger**(): `Logger`
 
 #### Returns
 
-[`Logger`](utils.Logger.md)
+`Logger`
 
 #### Inherited from
 
@@ -422,7 +337,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:64](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L64)
 
 ---
 
@@ -440,17 +355,17 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L35)
 
 ---
 
 ### web3
 
-• `Protected` `get` **web3**(): `JsonRpcProvider`
+• `get` **web3**(): `JsonRpcProvider` \| `BrowserProvider`
 
 #### Returns
 
-`JsonRpcProvider`
+`JsonRpcProvider` \| `BrowserProvider`
 
 #### Inherited from
 
@@ -458,79 +373,9 @@ Instantiable.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:42](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L42)
 
 ## Methods
-
-### addresses
-
-▸ **addresses**(): `Promise`<`string`[]\>
-
-#### Returns
-
-`Promise`<`string`[]\>
-
-#### Inherited from
-
-Instantiable.addresses
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
-
----
-
-### checkExists
-
-▸ `Protected` **checkExists**(`address`): `Promise`<`boolean`\>
-
-Returns true of contract exists else it throws.
-
-#### Parameters
-
-| Name      | Type     |
-| :-------- | :------- |
-| `address` | `string` |
-
-#### Returns
-
-`Promise`<`boolean`\>
-
-true if the contract exists.
-
-#### Inherited from
-
-Instantiable.checkExists
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
-
----
-
-### findSigner
-
-▸ **findSigner**(`from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name   | Type     |
-| :----- | :------- |
-| `from` | `string` |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-Instantiable.findSigner
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
-
----
 
 ### setInstanceConfig
 
@@ -538,9 +383,9 @@ Instantiable.findSigner
 
 #### Parameters
 
-| Name     | Type                 |
-| :------- | :------------------- |
-| `config` | `InstantiableConfig` |
+| Name     | Type                                                        |
+| :------- | :---------------------------------------------------------- |
+| `config` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -548,62 +393,11 @@ Instantiable.findSigner
 
 #### Inherited from
 
-Instantiable.setInstanceConfig
+[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
-
----
-
-### addressesStatic
-
-▸ `Static` **addressesStatic**(`config`, `web3`): `Promise`<`string`[]\>
-
-#### Parameters
-
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
-
-#### Returns
-
-`Promise`<`string`[]\>
-
-#### Inherited from
-
-Instantiable.addressesStatic
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
-
----
-
-### findSignerStatic
-
-▸ `Static` **findSignerStatic**(`config`, `web3`, `from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
-| `from`   | `string`              |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-Instantiable.findSignerStatic
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L99)
 
 ---
 
@@ -613,20 +407,11 @@ Instantiable.findSignerStatic
 
 Returns the instance of Nevermined.
 
-**`Example`**
-
-```ts
-import { Nevermined, Config } from '@nevermined-io/nevermied-sdk-js'
-
-const config: Config = {...}
-const nevermined = await Nevermined.getInstance(config)
-```
-
 #### Parameters
 
-| Name     | Type                  | Description                        |
-| :------- | :-------------------- | :--------------------------------- |
-| `config` | [`Config`](Config.md) | Nevermined instance configuration. |
+| Name     | Type                                        | Description                        |
+| :------- | :------------------------------------------ | :--------------------------------- |
+| `config` | [`NeverminedOptions`](NeverminedOptions.md) | Nevermined instance configuration. |
 
 #### Returns
 
@@ -634,13 +419,22 @@ const nevermined = await Nevermined.getInstance(config)
 
 A [Nevermined](Nevermined.md) instance
 
+**`Example`**
+
+```ts
+import { Nevermined, Config } from '@nevermined-io/sdk'
+
+const config: Config = {...}
+const nevermined = await Nevermined.getInstance(config)
+```
+
 #### Overrides
 
-Instantiable.getInstance
+[Instantiable](Instantiable.md).[getInstance](Instantiable.md#getinstance)
 
 #### Defined in
 
-[src/nevermined.ts:51](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/nevermined.ts#L51)
+[src/nevermined/Nevermined.ts:34](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/Nevermined.ts#L34)
 
 ---
 
@@ -650,16 +444,16 @@ Instantiable.getInstance
 
 #### Type parameters
 
-| Name | Type                         |
-| :--- | :--------------------------- |
-| `T`  | extends `Instantiable`<`T`\> |
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `T`  | extends [`Instantiable`](Instantiable.md) |
 
 #### Parameters
 
-| Name                 | Type                 |
-| :------------------- | :------------------- |
-| `instance`           | `T`                  |
-| `instantiableConfig` | `InstantiableConfig` |
+| Name                 | Type                                                        |
+| :------------------- | :---------------------------------------------------------- |
+| `instance`           | `T`                                                         |
+| `instantiableConfig` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -667,8 +461,8 @@ Instantiable.getInstance
 
 #### Inherited from
 
-Instantiable.setInstanceConfig
+[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig-1)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L90)

@@ -6,9 +6,9 @@ import {
   DID,
   didPrefixed,
   EventOptions,
+  NeverminedNFT1155Type,
   NeverminedNFT721Type,
   SearchQuery,
-  getNftContractAddressFromService,
 } from '../../sdk'
 
 const EMPTY_RESULT: QueryResult = {
@@ -152,17 +152,19 @@ export class SearchApi extends Instantiable {
   /**
    * Search for all subscription DDOs with `contractAddress`
    *
-   * @param contractAddress - The address of the NFT-721 subscription contract
+   * @param contractAddress - The address of the subscription contract
    * @param offset - The number of results to return
    * @param customNestedQueries - Custom nested queries to add to the search
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async bySubscriptionContractAddress(
     contractAddress: string,
+    nftType: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -177,11 +179,30 @@ export class SearchApi extends Instantiable {
             bool: {
               filter: [
                 { match: { 'service.type': 'metadata' } },
-                {
-                  match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
-                  },
-                },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
               ],
             },
           },
@@ -235,12 +256,14 @@ export class SearchApi extends Instantiable {
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsCreated(
     account: Account,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -257,9 +280,34 @@ export class SearchApi extends Instantiable {
                 { match: { 'service.type': 'metadata' } },
                 {
                   match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                    'service.attributes.main.type': 'subscription',
                   },
                 },
+
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
               ],
             },
           },
@@ -300,19 +348,22 @@ export class SearchApi extends Instantiable {
    * @param offset - The number of results to return
    * @param page
    * @param sort - The sort order
+   * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsPurchased(
     account: Account,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
+    ercType?: 721 | 1155,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
     sort = 'desc',
     appId?: string,
   ): Promise<QueryResult> {
-    // get on chain dids for nft-721 bought
+    // get on chain dids for nft bought
     const eventOptions: EventOptions = {
       eventName: 'Fulfilled',
       filterSubgraph: {
@@ -329,9 +380,14 @@ export class SearchApi extends Instantiable {
     }
 
     const events =
-      await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
-        eventOptions,
-      )
+      ercType === 721
+        ? await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+            eventOptions,
+          )
+        : await this.nevermined.keeper.conditions.transferNftCondition.events.getPastEvents(
+            eventOptions,
+          )
+
     const dids = events.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
 
     let search: SearchQuery['query'][] = [
@@ -344,9 +400,33 @@ export class SearchApi extends Instantiable {
                 { match: { 'service.type': 'metadata' } },
                 {
                   match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721Subscription,
+                    'service.attributes.main.type': 'subscription',
                   },
                 },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
               ],
             },
           },
@@ -393,6 +473,8 @@ export class SearchApi extends Instantiable {
    */
   public async servicesByNftContract(
     nftContractAddress: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
+    tokenId?: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -407,11 +489,30 @@ export class SearchApi extends Instantiable {
             bool: {
               filter: [
                 { match: { 'service.type': 'metadata' } },
-                {
-                  match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
-                  },
-                },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
                 {
                   exists: {
                     field: 'service.attributes.main.webService',
@@ -433,6 +534,12 @@ export class SearchApi extends Instantiable {
                   match: {
                     'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
                       nftContractAddress,
+                  },
+                },
+                tokenId && {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      tokenId,
                   },
                 },
               ],
@@ -476,6 +583,7 @@ export class SearchApi extends Instantiable {
    */
   public async servicesBySubscription(
     subscriptionDid: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -497,10 +605,12 @@ export class SearchApi extends Instantiable {
       return EMPTY_RESULT
     }
 
-    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+    const nftContractAddress = DDO.getNftContractAddressFromService(nftSalesService)
 
     return this.servicesByNftContract(
       nftContractAddress,
+      nftType,
+      subscriptionDid.replace('did:nv:', ''),
       customNestedQueries,
       offset,
       page,
@@ -523,6 +633,8 @@ export class SearchApi extends Instantiable {
    */
   public async datasetsByNftContract(
     nftContractAddress: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
+    tokenId?: string,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -537,11 +649,30 @@ export class SearchApi extends Instantiable {
             bool: {
               filter: [
                 { match: { 'service.type': 'metadata' } },
-                {
-                  match: {
-                    'service.attributes.main.nftType': NeverminedNFT721Type.nft721,
-                  },
-                },
+                nftType
+                  ? {
+                      match: {
+                        'service.attributes.main.nftType': nftType,
+                      },
+                    }
+                  : {
+                      bool: {
+                        should: [
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT721Type.nft721Subscription,
+                            },
+                          },
+                          {
+                            match: {
+                              'service.attributes.main.nftType':
+                                NeverminedNFT1155Type.nft1155Credit,
+                            },
+                          },
+                        ],
+                      },
+                    },
                 {
                   match: {
                     'service.attributes.main.type': 'dataset',
@@ -563,6 +694,12 @@ export class SearchApi extends Instantiable {
                   match: {
                     'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
                       nftContractAddress,
+                  },
+                },
+                tokenId && {
+                  match: {
+                    'service.attributes.serviceAgreementTemplate.conditions.parameters.value':
+                      tokenId,
                   },
                 },
               ],
@@ -606,6 +743,7 @@ export class SearchApi extends Instantiable {
    */
   public async datasetsBySubscription(
     subscriptionDid: string,
+    nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
     page = 1,
@@ -627,10 +765,12 @@ export class SearchApi extends Instantiable {
       return EMPTY_RESULT
     }
 
-    const nftContractAddress = getNftContractAddressFromService(nftSalesService)
+    const nftContractAddress = DDO.getNftContractAddressFromService(nftSalesService)
 
     return this.datasetsByNftContract(
       nftContractAddress,
+      nftType,
+      subscriptionDid.replace('did:nv:', ''),
       customNestedQueries,
       offset,
       page,

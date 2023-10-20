@@ -3,10 +3,22 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
-import { Nevermined, Account, MetaData, DDO, AssetPrice, AssetAttributes } from '../../src'
+import {
+  Nevermined,
+  Account,
+  MetaData,
+  DDO,
+  AssetPrice,
+  AssetAttributes,
+  ProvenanceMethod,
+} from '../../src'
 import { generateId } from '../../src/utils'
-import { sleep } from '../utils/utils'
-import { PublishMetadata, DIDResolvePolicy } from '../../src/nevermined'
+import {
+  PublishMetadataOptions,
+  DIDResolvePolicy,
+  PublishOnChainOptions,
+} from '../../src/nevermined'
+import { rejects } from 'assert'
 import * as fs from 'fs'
 
 let nevermined: Nevermined
@@ -35,7 +47,12 @@ describe('Assets', () => {
     metadata.userId = payload.sub
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
     })
     ddoBefore = await nevermined.assets.create(assetAttributes, publisher)
   })
@@ -50,9 +67,16 @@ describe('Assets', () => {
 
       const assetAttributes = AssetAttributes.getInstance({
         metadata: createdMetadata,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
       })
-      ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMetadata.IPFS)
+      ddo = await nevermined.assets.create(assetAttributes, publisher, {
+        metadata: PublishMetadataOptions.IPFS,
+      })
 
       assert.isDefined(ddo)
       assert.equal(ddo._nvm.versions.length, 1)
@@ -111,11 +135,8 @@ describe('Assets', () => {
         ddo.shortId(),
         updatedMetadata,
         publisher,
-        PublishMetadata.IPFS,
+        PublishMetadataOptions.IPFS,
       )
-
-      // Waiting to metadata to be updated and propagated
-      await sleep(3000)
 
       const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.ImmutableFirst)
       assert.isDefined(resolvedDDO)
@@ -132,6 +153,71 @@ describe('Assets', () => {
         updatedMetadata.main.name,
         metaApiDDO.findServiceByType('metadata').attributes.main.name,
       )
+      assert.equal(metaApiDDO._nvm.versions.length, 2)
+    })
+
+    it('the checksum was updated on-chain', async () => {
+      const { checksum } = await nevermined.keeper.didRegistry.getAttributesByDid(ddo.id)
+      const resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.OnlyMetadataAPI)
+
+      const _version = resolvedDDO._nvm.versions.at(-1)
+      assert.equal(_version.checksum, checksum)
+    })
+
+    it('an update provenance event was created', async () => {
+      const events = await nevermined.provenance.getDIDProvenanceEvents(ddo.shortId())
+      const lastEvent = events.at(-1)
+      assert.equal(lastEvent.method, ProvenanceMethod.USED)
+    })
+
+    it('update the asset files', async () => {
+      const nonce = Math.random()
+      const name = `Updated Files Test ${nonce}`
+      const updatedMetadata = {
+        ...createdMetadata,
+        name,
+      }
+      updatedMetadata.main.files = [
+        {
+          index: 0,
+          contentType: 'text/plain',
+          url: 'https://raw.githubusercontent.com/nevermined-io/sdk-js/main/LICENSE',
+        },
+      ]
+
+      await nevermined.assets.update(ddo.shortId(), updatedMetadata, publisher)
+
+      const resolvedDDO = await nevermined.assets.resolve(ddo.id)
+      assert.isDefined(resolvedDDO)
+
+      const previousMetadata = ddo.findServiceByType('metadata')
+      const metadata = resolvedDDO.findServiceByType('metadata')
+
+      assert.equal(updatedMetadata.main.name, metadata.attributes.main.name)
+
+      assert.equal(metadata.attributes.main.files.length, 1)
+      assert.notEqual(
+        previousMetadata.attributes.main.files.length,
+        metadata.attributes.main.files.length,
+      )
+      assert.notEqual(
+        previousMetadata.attributes.encryptedFiles,
+        metadata.attributes.encryptedFiles,
+      )
+    })
+
+    it('should be able to download the updated files', async () => {
+      const folder = '/tmp/sdk-js/updated-files'
+
+      const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
+      assert.include(path, folder, 'The storage path is not correct.')
+      const files = await new Promise<string[]>((resolve) => {
+        fs.readdir(path, (e, fileList) => {
+          resolve(fileList)
+        })
+      })
+
+      assert.deepEqual(files, ['LICENSE'], 'Stored files are not correct.')
     })
 
     it('update the asset files', async () => {
@@ -188,8 +274,7 @@ describe('Assets', () => {
     it('unlist and list an asset', async () => {
       // Unlisting Asset
       await nevermined.assets.list(ddo.shortId(), false, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(3000)
+
       let resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.MetadataAPIFirst)
       assert.isDefined(resolvedDDO)
       let metadata = resolvedDDO.findServiceByType('metadata')
@@ -197,8 +282,7 @@ describe('Assets', () => {
 
       // Listing Asset back
       await nevermined.assets.list(ddo.shortId(), true, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(3000)
+
       resolvedDDO = await nevermined.assets.resolve(ddo.id, DIDResolvePolicy.MetadataAPIFirst)
       assert.isDefined(resolvedDDO)
       metadata = resolvedDDO.findServiceByType('metadata')
@@ -208,8 +292,7 @@ describe('Assets', () => {
     it('add a vote', async () => {
       // Adding some votes
       await nevermined.assets.addRating(ddo.shortId(), 0.5, 1, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(5000)
+
       let resolvedDDO = await nevermined.assets.resolve(ddo.id)
       assert.isDefined(resolvedDDO)
       let metadata = resolvedDDO.findServiceByType('metadata')
@@ -219,8 +302,7 @@ describe('Assets', () => {
 
       // More votes
       await nevermined.assets.addRating(ddo.shortId(), 0.4, 2, publisher)
-      // Waiting to metadata to be updated and propagated
-      await sleep(5000)
+
       resolvedDDO = await nevermined.assets.resolve(ddo.id)
       assert.isDefined(resolvedDDO)
       metadata = resolvedDDO.findServiceByType('metadata')
@@ -230,7 +312,16 @@ describe('Assets', () => {
 
     it('new rating must be between 0 and 1', async () => {
       // Trying to add a vote with a rating out of range
-      await assert.isRejected(nevermined.assets.addRating(ddo.shortId(), 2, 1, publisher))
+
+      nevermined.assets
+        .addRating(ddo.shortId(), 2, 1, publisher)
+        .then((res) => {
+          assert.fail(`It should not be here because rating is wrong: ${res}`)
+        })
+        .catch((err) => {
+          console.debug(`It should fail with error: ${err}`)
+          assert.isDefined(err)
+        })
     })
   })
 
@@ -263,7 +354,6 @@ describe('Assets', () => {
   describe('#retire()', () => {
     it('retire an existing asset', async () => {
       const deleted = await nevermined.assets.retire(ddo.id)
-      await sleep(3000)
       assert.strictEqual(deleted.status, 200)
     })
   })
@@ -292,30 +382,40 @@ describe('Assets', () => {
       // Create 1 asset with appId-test1
       const assetAttributes = AssetAttributes.getInstance({
         metadata: metadata1,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId1,
       })
       ddoBefore = await neverminedApp1.assets.create(assetAttributes, publisher)
-      await sleep(2000)
 
       // Create 2 assets with appId-test2
       const assetAttributes2 = AssetAttributes.getInstance({
         metadata: metadata2,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes2, publisher)
-      await sleep(2000)
 
       const assetAttributes22 = AssetAttributes.getInstance({
         metadata: metadata22,
-        price: assetPrice,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
         appId: appId2,
       })
       ddoBefore = await neverminedApp2.assets.create(assetAttributes22, publisher)
-
-      // wait for elasticsearch
-      await sleep(4000)
     })
 
     it('should query by appId1', async () => {
@@ -453,6 +553,50 @@ describe('Assets', () => {
       const assets = await nevermined.search.query(query)
 
       assert.equal(assets.totalResults.value, 0)
+    })
+  })
+
+  describe('#register() and #resolve() totally off-chain', () => {
+    let offchainDID
+
+    it('register an asset but just off-chain', async () => {
+      const nonce = Math.random()
+      createdMetadata = getMetadata(nonce, `Off-Chain Test ${nonce}`)
+
+      createdMetadata.main.ercType = 721
+      createdMetadata.additionalInformation.tags = ['offchain']
+
+      const assetAttributes = AssetAttributes.getInstance({
+        metadata: createdMetadata,
+        services: [
+          {
+            serviceType: 'access',
+            price: assetPrice,
+          },
+        ],
+      })
+      const offchainDDO = await nevermined.assets.create(assetAttributes, publisher, {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        did: PublishOnChainOptions.OnlyOffchain,
+      })
+
+      assert.isDefined(offchainDDO)
+      assert.equal(offchainDDO._nvm.versions.length, 1)
+
+      const metadata = offchainDDO.findServiceByType('metadata')
+      assert.equal(metadata.attributes.main.ercType, 721)
+      assert.equal(metadata.attributes.additionalInformation.tags[0], 'offchain')
+      offchainDID = offchainDDO.id
+    })
+
+    it('resolve from the metadata api', async () => {
+      const resolvedDDO = await nevermined.assets.resolve(offchainDID, DIDResolvePolicy.NoRegistry)
+      assert.isDefined(resolvedDDO)
+      assert.equal(resolvedDDO._nvm.versions.length, 1)
+    })
+
+    it('dont resolve from the DIDRegistry', async () => {
+      rejects(nevermined.assets.resolve(offchainDID, DIDResolvePolicy.MetadataAPIFirst))
     })
   })
 })

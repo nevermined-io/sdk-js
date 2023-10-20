@@ -13,7 +13,7 @@ import { DIDRegistry } from '../../../src/keeper'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractReceipt, Event } from 'ethers'
+import { ContractTransactionReceipt, EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -43,10 +43,7 @@ describe('NFTAccessCondition', () => {
       nevermined.keeper)
     ;[owner, grantee, templateId, other] = await nevermined.accounts.list()
 
-    await conditionStoreManager.delegateCreateRole(
-      agreementStoreManager.getAddress(),
-      owner.getId(),
-    )
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, owner.getId())
 
     await templateStoreManager.proposeTemplate(templateId.getId())
     await templateStoreManager.approveTemplate(templateId.getId())
@@ -101,14 +98,14 @@ describe('NFTAccessCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [nftAccessCondition.getAddress()],
+        [nftAccessCondition.address],
         [hashValues],
         [0],
         [2],
         templateId,
       )
 
-      const contractReceipt: ContractReceipt = await nftAccessCondition.fulfill(
+      const contractReceipt: ContractTransactionReceipt = await nftAccessCondition.fulfill(
         agreementId,
         did,
         grantee.getId(),
@@ -117,7 +114,9 @@ describe('NFTAccessCondition', () => {
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: Event = contractReceipt.events.find((e) => e.event === 'Fulfilled')
+      const event: EventLog = contractReceipt.logs.find(
+        (e: EventLog) => e.eventName === 'Fulfilled',
+      ) as EventLog
       const { _agreementId, _documentId, _grantee, _conditionId } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
@@ -138,7 +137,7 @@ describe('NFTAccessCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [nftAccessCondition.getAddress()],
+        [nftAccessCondition.address],
         [hashValues],
         [0],
         [2],
@@ -161,7 +160,7 @@ describe('NFTAccessCondition', () => {
       await agreementStoreManager.createAgreement(
         agreementId,
         did,
-        [nftAccessCondition.getAddress()],
+        [nftAccessCondition.address],
         [hashValues],
         [0],
         [2],

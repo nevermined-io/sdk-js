@@ -15,9 +15,8 @@ import {
   AssetPrice,
   AssetAttributes,
 } from '../../src'
-import { repeat, sleep } from '../utils/utils'
+import { repeat } from '../utils/utils'
 import { ethers } from 'ethers'
-import { BigNumber } from '../../src/utils'
 
 describe('Consume Asset (Nevermined Node)', () => {
   let nevermined: Nevermined
@@ -42,7 +41,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     await nevermined.services.marketplace.login(clientAssertion)
     const payload = decodeJwt(config.marketplaceAuthToken)
 
-    assetPrice = new AssetPrice(publisher.getId(), BigNumber.from(0))
+    assetPrice = new AssetPrice(publisher.getId(), 0n)
 
     metadata = getMetadata()
     metadata.main.name = `${metadata.main.name} - ${Math.random()}`
@@ -67,7 +66,12 @@ describe('Consume Asset (Nevermined Node)', () => {
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
-      price: assetPrice,
+      services: [
+        {
+          serviceType: 'access',
+          price: assetPrice,
+        },
+      ],
       providers: [config.neverminedNodeAddress],
     })
     ddo = await nevermined.assets
@@ -78,20 +82,20 @@ describe('Consume Asset (Nevermined Node)', () => {
     assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])
 
     const assetProviders = await nevermined.assets.providers.list(ddo.id)
-    assert.deepEqual(assetProviders, [ethers.utils.getAddress(config.neverminedNodeAddress)])
+    assert.deepEqual(assetProviders, [ethers.getAddress(config.neverminedNodeAddress)])
   })
 
   it('should order the asset', async () => {
     const steps = []
-    agreementId = await nevermined.assets.order(ddo.id, consumer).next((step) => steps.push(step))
+    agreementId = await nevermined.assets
+      .order(ddo.id, 'access', consumer)
+      .next((step) => steps.push(step))
 
     assert.isDefined(agreementId)
     assert.deepEqual(steps, [2, 3, 4, 5])
   })
 
   it('should get the lockPayment condition fulfilled', async () => {
-    // todo change this, a test should never dependent on the previous test because the order might change during runtime
-    await sleep(3000)
     const status = await repeat(3, nevermined.agreements.status(agreementId))
 
     assert.deepEqual(status, {
@@ -119,6 +123,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     const path = (await nevermined.assets.access(
       agreementId,
       ddo.id,
+      'access',
       consumer,
       folder,
       -1,

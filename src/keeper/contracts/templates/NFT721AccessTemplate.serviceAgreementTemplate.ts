@@ -1,7 +1,7 @@
 import { ServiceAgreementTemplate } from '../../../ddo'
 import { nft721HolderTemplate, nftAccessCondition } from './ConditionTemplates'
 
-export const nft721AccessTemplateServiceAgreementTemplate: ServiceAgreementTemplate = {
+export const nft721AccessTemplateServiceAgreementTemplate = (): ServiceAgreementTemplate => ({
   contractName: 'NFT721AccessTemplate',
   events: [
     {
@@ -20,4 +20,4 @@ export const nft721AccessTemplateServiceAgreementTemplate: ServiceAgreementTempl
     nftAccess: [],
   },
   conditions: [nft721HolderTemplate(), nftAccessCondition()],
-}
+})

@@ -12,8 +12,8 @@ import {
   AccessTemplate,
 } from '../../src/keeper'
 import { getMetadata } from '../utils'
-import { generateId, BigNumber } from '../../src/utils'
-import { sleep } from '../utils/utils'
+import { generateId } from '../../src/utils'
+import { EventLog } from 'ethers'
 
 describe('Register Escrow Access Template', () => {
   let nevermined: Nevermined
@@ -23,8 +23,8 @@ describe('Register Escrow Access Template', () => {
 
   const url = 'https://example.com/did/nevermined/test-attr-example.txt'
   const checksum = generateId()
-  const totalAmount = BigNumber.from(12)
-  const amounts = [BigNumber.from(10), BigNumber.from(2)]
+  const totalAmount = 12n
+  const amounts = [10n, 2n]
 
   let templateManagerOwner: Account
   let publisher: Account
@@ -54,19 +54,15 @@ describe('Register Escrow Access Template', () => {
 
   describe('Propose and approve template', () => {
     it('should propose the template', async () => {
-      await keeper.templateStoreManager.proposeTemplate(accessTemplate.getAddress(), consumer, true)
-      // TODO: Use a event to detect template mined
-      await sleep(2000)
+      await keeper.templateStoreManager.proposeTemplate(accessTemplate.address, consumer, true)
     })
 
     it('should approve the template', async () => {
       await keeper.templateStoreManager.approveTemplate(
-        accessTemplate.getAddress(),
+        accessTemplate.address,
         templateManagerOwner,
         true,
       )
-      // TODO: Use a event to detect template mined
-      await sleep(2000)
     })
   })
 
@@ -103,8 +99,8 @@ describe('Register Escrow Access Template', () => {
         agreementId,
         await lockPaymentCondition.hashValues(
           did,
-          escrowPaymentCondition.getAddress(),
-          token.getAddress(),
+          escrowPaymentCondition.address,
+          token.address,
           amounts,
           receivers,
         ),
@@ -116,8 +112,8 @@ describe('Register Escrow Access Template', () => {
           amounts,
           receivers,
           consumer.getId(),
-          escrowPaymentCondition.getAddress(),
-          token.getAddress(),
+          escrowPaymentCondition.address,
+          token.address,
           conditionIdLock[1],
           conditionIdAccess[1],
         ),
@@ -131,15 +127,15 @@ describe('Register Escrow Access Template', () => {
       assert.deepEqual(
         [...conditionTypes].sort(),
         [
-          accessCondition.getAddress(),
-          escrowPaymentCondition.getAddress(),
-          lockPaymentCondition.getAddress(),
+          accessCondition.address,
+          escrowPaymentCondition.address,
+          lockPaymentCondition.address,
         ].sort(),
         "The conditions doesn't match",
       )
     })
 
-    it('should have condition instances asociated', async () => {
+    it('should have condition instances associated', async () => {
       const conditionInstances = await accessTemplate.getConditions()
 
       assert.equal(conditionInstances.length, 3, 'Expected 3 conditions.')
@@ -179,20 +175,20 @@ describe('Register Escrow Access Template', () => {
         Logger.error(error)
       }
 
-      await keeper.token.approve(lockPaymentCondition.getAddress(), totalAmount, consumer)
+      await keeper.token.approve(lockPaymentCondition.address, totalAmount, consumer)
 
       const contractReceipt = await lockPaymentCondition.fulfill(
         agreementId,
         did,
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         amounts,
         receivers,
         consumer,
       )
 
       assert.isTrue(
-        contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -206,7 +202,7 @@ describe('Register Escrow Access Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -218,15 +214,15 @@ describe('Register Escrow Access Template', () => {
         amounts,
         receivers,
         consumer.getId(),
-        escrowPaymentCondition.getAddress(),
-        token.getAddress(),
+        escrowPaymentCondition.address,
+        token.address,
         conditionIdLock[1],
         conditionIdAccess[1],
         consumer,
       )
 
       assert.isTrue(
-        contractReceipt.events.some((e) => e.event === 'Fulfilled'),
+        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -258,7 +254,15 @@ describe('Register Escrow Access Template', () => {
       )
 
       ddo = await nevermined.assets.create(
-        AssetAttributes.getInstance({ metadata, price: assetPrice }),
+        AssetAttributes.getInstance({
+          metadata,
+          services: [
+            {
+              serviceType: 'access',
+              price: assetPrice,
+            },
+          ],
+        }),
         publisher,
       )
     })
@@ -293,7 +297,7 @@ describe('Register Escrow Access Template', () => {
         ddo.shortId(),
         amounts,
         receivers,
-        token.getAddress(),
+        token.address,
         consumer,
       )
     })
@@ -311,7 +315,7 @@ describe('Register Escrow Access Template', () => {
         receivers,
         consumer.getId(),
         ddo.shortId(),
-        token.getAddress(),
+        token.address,
         publisher,
       )
     })

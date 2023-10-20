@@ -4,20 +4,20 @@
 
 ## Type parameters
 
-| Name    | Type                                                                       |
-| :------ | :------------------------------------------------------------------------- |
-| `Ctx`   | extends [`ConditionContext`](../interfaces/conditions.ConditionContext.md) |
-| `Extra` | `Record`<`string`, `unknown`\>                                             |
+| Name    | Type                                                            |
+| :------ | :-------------------------------------------------------------- |
+| `Ctx`   | extends [`ConditionContext`](../interfaces/ConditionContext.md) |
+| `Extra` | `Record`<`string`, `unknown`\>                                  |
 
 ## Hierarchy
 
-- [`ConditionSmall`](conditions.ConditionSmall.md)
+- [`ConditionSmall`](ConditionSmall.md)
 
   ↳ **`Condition`**
 
-  ↳↳ [`ProviderCondition`](conditions.ProviderCondition.md)
+  ↳↳ [`ProviderCondition`](ProviderCondition.md)
 
-  ↳↳ [`ConsumerCondition`](conditions.ConsumerCondition.md)
+  ↳↳ [`ConsumerCondition`](ConsumerCondition.md)
 
 ## Table of contents
 
@@ -27,6 +27,7 @@
 
 ### Properties
 
+- [address](Condition.md#address)
 - [contract](Condition.md#contract)
 - [contractName](Condition.md#contractname)
 - [events](Condition.md#events)
@@ -34,8 +35,8 @@
 
 ### Accessors
 
-- [address](Condition.md#address)
 - [artifactsFolder](Condition.md#artifactsfolder)
+- [circuitsFolder](Condition.md#circuitsfolder)
 - [config](Condition.md#config)
 - [instanceConfig](Condition.md#instanceconfig)
 - [instantiableConfig](Condition.md#instantiableconfig)
@@ -46,20 +47,15 @@
 ### Methods
 
 - [abortByTimeOut](Condition.md#abortbytimeout)
-- [addresses](Condition.md#addresses)
 - [call](Condition.md#call)
-- [checkExists](Condition.md#checkexists)
-- [findSigner](Condition.md#findsigner)
 - [fulfill](Condition.md#fulfill)
-- [fulfillGateway](Condition.md#fulfillgateway)
 - [fulfillInstance](Condition.md#fulfillinstance)
 - [fulfillPlain](Condition.md#fulfillplain)
+- [fulfillWithNode](Condition.md#fulfillwithnode)
 - [generateId](Condition.md#generateid)
 - [generateIdHash](Condition.md#generateidhash)
 - [generateIdWithSeed](Condition.md#generateidwithseed)
-- [getAddress](Condition.md#getaddress)
 - [getConditionFulfilledEvent](Condition.md#getconditionfulfilledevent)
-- [getContract](Condition.md#getcontract)
 - [getFromAddress](Condition.md#getfromaddress)
 - [getInputsOfMethod](Condition.md#getinputsofmethod)
 - [getSignatureOfMethod](Condition.md#getsignatureofmethod)
@@ -73,8 +69,6 @@
 - [send](Condition.md#send)
 - [sendFrom](Condition.md#sendfrom)
 - [setInstanceConfig](Condition.md#setinstanceconfig)
-- [addressesStatic](Condition.md#addressesstatic)
-- [findSignerStatic](Condition.md#findsignerstatic)
 - [getInstance](Condition.md#getinstance)
 - [setInstanceConfig](Condition.md#setinstanceconfig-1)
 
@@ -86,10 +80,10 @@
 
 #### Type parameters
 
-| Name    | Type                                                                       |
-| :------ | :------------------------------------------------------------------------- |
-| `Ctx`   | extends [`ConditionContext`](../interfaces/conditions.ConditionContext.md) |
-| `Extra` | `Record`<`string`, `unknown`\>                                             |
+| Name    | Type                                                            |
+| :------ | :-------------------------------------------------------------- |
+| `Ctx`   | extends [`ConditionContext`](../interfaces/ConditionContext.md) |
+| `Extra` | `Record`<`string`, `unknown`\>                                  |
 
 #### Parameters
 
@@ -99,53 +93,67 @@
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[constructor](conditions.ConditionSmall.md#constructor)
+[ConditionSmall](ConditionSmall.md).[constructor](ConditionSmall.md#constructor)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:32](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L32)
+[src/keeper/contracts/ContractBase.ts:34](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L34)
 
 ## Properties
 
-### contract
+### address
 
-• **contract**: `Contract` = `null`
+• **address**: `string`
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[contract](conditions.ConditionSmall.md#contract)
+[ConditionSmall](ConditionSmall.md).[address](ConditionSmall.md#address)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L24)
+[src/keeper/contracts/ContractBase.ts:32](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L32)
+
+---
+
+### contract
+
+• **contract**: `BaseContract` = `null`
+
+#### Inherited from
+
+[ConditionSmall](ConditionSmall.md).[contract](ConditionSmall.md#contract)
+
+#### Defined in
+
+[src/keeper/contracts/ContractBase.ts:29](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L29)
 
 ---
 
 ### contractName
 
-• **contractName**: `string`
+• `Readonly` **contractName**: `string`
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[contractName](conditions.ConditionSmall.md#contractname)
+[ConditionSmall](ConditionSmall.md).[contractName](ConditionSmall.md#contractname)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L23)
+[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L28)
 
 ---
 
 ### events
 
-• **events**: [`ContractEvent`](events.ContractEvent.md) \| [`SubgraphEvent`](events.SubgraphEvent.md) = `null`
+• **events**: [`ContractEvent`](ContractEvent.md) \| [`SubgraphEvent`](SubgraphEvent.md) = `null`
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[events](conditions.ConditionSmall.md#events)
+[ConditionSmall](ConditionSmall.md).[events](ConditionSmall.md#events)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:25](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L25)
+[src/keeper/contracts/ContractBase.ts:30](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L30)
 
 ---
 
@@ -155,31 +163,13 @@
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[version](conditions.ConditionSmall.md#version)
+[ConditionSmall](ConditionSmall.md).[version](ConditionSmall.md#version)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L26)
+[src/keeper/contracts/ContractBase.ts:31](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L31)
 
 ## Accessors
-
-### address
-
-• `get` **address**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-ConditionSmall.address
-
-#### Defined in
-
-[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L28)
-
----
 
 ### artifactsFolder
 
@@ -195,17 +185,35 @@ ConditionSmall.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L73)
+
+---
+
+### circuitsFolder
+
+• `Protected` `get` **circuitsFolder**(): `string`
+
+#### Returns
+
+`string`
+
+#### Inherited from
+
+ConditionSmall.circuitsFolder
+
+#### Defined in
+
+[src/Instantiable.abstract.ts:77](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L77)
 
 ---
 
 ### config
 
-• `Protected` `get` **config**(): [`Config`](Config.md)
+• `Protected` `get` **config**(): [`NeverminedOptions`](NeverminedOptions.md)
 
 #### Returns
 
-[`Config`](Config.md)
+[`NeverminedOptions`](NeverminedOptions.md)
 
 #### Inherited from
 
@@ -213,17 +221,17 @@ ConditionSmall.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L57)
 
 ---
 
 ### instanceConfig
 
-• `Protected` `get` **instanceConfig**(): `InstantiableConfig`
+• `Protected` `get` **instanceConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -231,17 +239,17 @@ ConditionSmall.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L81)
 
 ---
 
 ### instantiableConfig
 
-• `Protected` `get` **instantiableConfig**(): `InstantiableConfig`
+• `Protected` `get` **instantiableConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Returns
 
-`InstantiableConfig`
+[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Inherited from
 
@@ -249,17 +257,17 @@ ConditionSmall.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L73)
+[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L50)
 
 ---
 
 ### logger
 
-• `Protected` `get` **logger**(): [`Logger`](utils.Logger.md)
+• `Protected` `get` **logger**(): `Logger`
 
 #### Returns
 
-[`Logger`](utils.Logger.md)
+`Logger`
 
 #### Inherited from
 
@@ -267,7 +275,7 @@ ConditionSmall.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L87)
+[src/Instantiable.abstract.ts:64](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L64)
 
 ---
 
@@ -285,17 +293,17 @@ ConditionSmall.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L33)
+[src/Instantiable.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L35)
 
 ---
 
 ### web3
 
-• `Protected` `get` **web3**(): `JsonRpcProvider`
+• `get` **web3**(): `JsonRpcProvider` \| `BrowserProvider`
 
 #### Returns
 
-`JsonRpcProvider`
+`JsonRpcProvider` \| `BrowserProvider`
 
 #### Inherited from
 
@@ -303,51 +311,33 @@ ConditionSmall.web3
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L63)
+[src/Instantiable.abstract.ts:42](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L42)
 
 ## Methods
 
 ### abortByTimeOut
 
-▸ **abortByTimeOut**(`agreementId`, `from?`, `params?`): `Promise`<`ContractReceipt`\>
+▸ **abortByTimeOut**(`conditionId`, `from?`, `params?`): `Promise`<`ContractTransactionReceipt`\>
 
 #### Parameters
 
-| Name          | Type                    |
-| :------------ | :---------------------- |
-| `agreementId` | `string`                |
-| `from?`       | [`Account`](Account.md) |
-| `params?`     | `TxParameters`          |
+| Name          | Type                                            |
+| :------------ | :---------------------------------------------- |
+| `conditionId` | `string`                                        |
+| `from?`       | [`Account`](Account.md)                         |
+| `params?`     | [`TxParameters`](../interfaces/TxParameters.md) |
 
 #### Returns
 
-`Promise`<`ContractReceipt`\>
+`Promise`<`ContractTransactionReceipt`\>
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[abortByTimeOut](conditions.ConditionSmall.md#abortbytimeout)
+[ConditionSmall](ConditionSmall.md).[abortByTimeOut](ConditionSmall.md#abortbytimeout)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L97)
-
----
-
-### addresses
-
-▸ **addresses**(): `Promise`<`string`[]\>
-
-#### Returns
-
-`Promise`<`string`[]\>
-
-#### Inherited from
-
-[ConditionSmall](conditions.ConditionSmall.md).[addresses](conditions.ConditionSmall.md#addresses)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L129)
+[src/keeper/contracts/conditions/Condition.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L88)
 
 ---
 
@@ -375,69 +365,17 @@ ConditionSmall.web3
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[call](conditions.ConditionSmall.md#call)
+[ConditionSmall](ConditionSmall.md).[call](ConditionSmall.md#call)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:244](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L244)
-
----
-
-### checkExists
-
-▸ `Protected` **checkExists**(`address`): `Promise`<`boolean`\>
-
-Returns true of contract exists else it throws.
-
-#### Parameters
-
-| Name      | Type     |
-| :-------- | :------- |
-| `address` | `string` |
-
-#### Returns
-
-`Promise`<`boolean`\>
-
-true if the contract exists.
-
-#### Inherited from
-
-[ConditionSmall](conditions.ConditionSmall.md).[checkExists](conditions.ConditionSmall.md#checkexists)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:44](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L44)
-
----
-
-### findSigner
-
-▸ **findSigner**(`from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name   | Type     |
-| :----- | :------- |
-| `from` | `string` |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-[ConditionSmall](conditions.ConditionSmall.md).[findSigner](conditions.ConditionSmall.md#findsigner)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L105)
+[src/keeper/contracts/ContractBase.ts:328](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L328)
 
 ---
 
 ### fulfill
 
-▸ `Abstract` **fulfill**(`agreementId`, ...`args`): `any`
+▸ `Abstract` **fulfill**(`agreementId`, `...args`): `any`
 
 #### Parameters
 
@@ -452,86 +390,86 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[fulfill](conditions.ConditionSmall.md#fulfill)
+[ConditionSmall](ConditionSmall.md).[fulfill](ConditionSmall.md#fulfill)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:67](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L67)
-
----
-
-### fulfillGateway
-
-▸ `Abstract` **fulfillGateway**(`cond`, `additionalParams`, `from?`, `params?`): `Promise`<`void` \| `ContractReceipt`\>
-
-#### Parameters
-
-| Name               | Type                                                                           |
-| :----------------- | :----------------------------------------------------------------------------- |
-| `cond`             | [`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\> |
-| `additionalParams` | `Extra`                                                                        |
-| `from?`            | [`Account`](Account.md)                                                        |
-| `params?`          | `TxParameters`                                                                 |
-
-#### Returns
-
-`Promise`<`void` \| `ContractReceipt`\>
-
-#### Defined in
-
-[src/keeper/contracts/conditions/Condition.abstract.ts:177](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L177)
+[src/keeper/contracts/conditions/Condition.abstract.ts:61](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L61)
 
 ---
 
 ### fulfillInstance
 
-▸ **fulfillInstance**(`cond`, `additionalParams`, `from?`, `params?`, `method?`): `Promise`<`ContractReceipt`\>
+▸ **fulfillInstance**(`cond`, `additionalParams`, `from?`, `txParams?`, `method?`): `Promise`<`ContractTransactionReceipt`\>
 
 #### Parameters
 
-| Name               | Type                                                                           | Default value |
-| :----------------- | :----------------------------------------------------------------------------- | :------------ |
-| `cond`             | [`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\> | `undefined`   |
-| `additionalParams` | `Extra`                                                                        | `undefined`   |
-| `from?`            | [`Account`](Account.md)                                                        | `undefined`   |
-| `params?`          | `TxParameters`                                                                 | `undefined`   |
-| `method`           | [`ConditionMethod`](../modules/conditions.md#conditionmethod)                  | `'fulfill'`   |
+| Name               | Type                                                                | Default value |
+| :----------------- | :------------------------------------------------------------------ | :------------ |
+| `cond`             | [`ConditionInstance`](../interfaces/ConditionInstance.md)<`Extra`\> | `undefined`   |
+| `additionalParams` | `Extra`                                                             | `undefined`   |
+| `from?`            | [`Account`](Account.md)                                             | `undefined`   |
+| `txParams?`        | [`TxParameters`](../interfaces/TxParameters.md)                     | `undefined`   |
+| `method`           | [`ConditionMethod`](../code-reference.md#conditionmethod)           | `'fulfill'`   |
 
 #### Returns
 
-`Promise`<`ContractReceipt`\>
+`Promise`<`ContractTransactionReceipt`\>
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L162)
+[src/keeper/contracts/conditions/Condition.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L150)
 
 ---
 
 ### fulfillPlain
 
-▸ **fulfillPlain**(`agreementId`, `args`, `from?`, `params?`, `method?`): `Promise`<`ContractReceipt`\>
+▸ **fulfillPlain**(`agreementId`, `args`, `from?`, `txParams?`, `method?`): `Promise`<`ContractTransactionReceipt`\>
 
 #### Parameters
 
-| Name          | Type                                                          | Default value |
-| :------------ | :------------------------------------------------------------ | :------------ |
-| `agreementId` | `string`                                                      | `undefined`   |
-| `args`        | `any`[]                                                       | `undefined`   |
-| `from?`       | [`Account`](Account.md)                                       | `undefined`   |
-| `params?`     | `TxParameters`                                                | `undefined`   |
-| `method`      | [`ConditionMethod`](../modules/conditions.md#conditionmethod) | `'fulfill'`   |
+| Name          | Type                                                      | Default value |
+| :------------ | :-------------------------------------------------------- | :------------ |
+| `agreementId` | `string`                                                  | `undefined`   |
+| `args`        | `any`[]                                                   | `undefined`   |
+| `from?`       | [`Account`](Account.md)                                   | `undefined`   |
+| `txParams?`   | [`TxParameters`](../interfaces/TxParameters.md)           | `undefined`   |
+| `method`      | [`ConditionMethod`](../code-reference.md#conditionmethod) | `'fulfill'`   |
 
 #### Returns
 
-`Promise`<`ContractReceipt`\>
+`Promise`<`ContractTransactionReceipt`\>
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[fulfillPlain](conditions.ConditionSmall.md#fulfillplain)
+[ConditionSmall](ConditionSmall.md).[fulfillPlain](ConditionSmall.md#fulfillplain)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:69](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L69)
+[src/keeper/contracts/conditions/Condition.abstract.ts:63](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L63)
+
+---
+
+### fulfillWithNode
+
+▸ `Abstract` **fulfillWithNode**(`cond`, `additionalParams`, `from?`, `txParams?`): `Promise`<`void` \| `ContractTransactionReceipt`\>
+
+#### Parameters
+
+| Name               | Type                                                                |
+| :----------------- | :------------------------------------------------------------------ |
+| `cond`             | [`ConditionInstance`](../interfaces/ConditionInstance.md)<`Extra`\> |
+| `additionalParams` | `Extra`                                                             |
+| `from?`            | [`Account`](Account.md)                                             |
+| `txParams?`        | [`TxParameters`](../interfaces/TxParameters.md)                     |
+
+#### Returns
+
+`Promise`<`void` \| `ContractTransactionReceipt`\>
+
+#### Defined in
+
+[src/keeper/contracts/conditions/Condition.abstract.ts:167](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L167)
 
 ---
 
@@ -552,17 +490,17 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[generateId](conditions.ConditionSmall.md#generateid)
+[ConditionSmall](ConditionSmall.md).[generateId](ConditionSmall.md#generateid)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:83](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L83)
+[src/keeper/contracts/conditions/Condition.abstract.ts:77](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L77)
 
 ---
 
 ### generateIdHash
 
-▸ **generateIdHash**(`agreementId`, ...`values`): `Promise`<`string`\>
+▸ **generateIdHash**(`agreementId`, `...values`): `Promise`<`string`\>
 
 #### Parameters
 
@@ -577,11 +515,11 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[generateIdHash](conditions.ConditionSmall.md#generateidhash)
+[ConditionSmall](ConditionSmall.md).[generateIdHash](ConditionSmall.md#generateidhash)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
+[src/keeper/contracts/conditions/Condition.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L73)
 
 ---
 
@@ -602,35 +540,17 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[generateIdWithSeed](conditions.ConditionSmall.md#generateidwithseed)
+[ConditionSmall](ConditionSmall.md).[generateIdWithSeed](ConditionSmall.md#generateidwithseed)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:87](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L87)
-
----
-
-### getAddress
-
-▸ **getAddress**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-[ConditionSmall](conditions.ConditionSmall.md).[getAddress](conditions.ConditionSmall.md#getaddress)
-
-#### Defined in
-
-[src/keeper/contracts/ContractBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L41)
+[src/keeper/contracts/conditions/Condition.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L81)
 
 ---
 
 ### getConditionFulfilledEvent
 
-▸ **getConditionFulfilledEvent**(`agreementId`): [`EventResult`](../modules/events.md#eventresult)
+▸ **getConditionFulfilledEvent**(`agreementId`): [`EventResult`](../code-reference.md#eventresult)
 
 #### Parameters
 
@@ -640,33 +560,15 @@ true if the contract exists.
 
 #### Returns
 
-[`EventResult`](../modules/events.md#eventresult)
+[`EventResult`](../code-reference.md#eventresult)
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getConditionFulfilledEvent](conditions.ConditionSmall.md#getconditionfulfilledevent)
+[ConditionSmall](ConditionSmall.md).[getConditionFulfilledEvent](ConditionSmall.md#getconditionfulfilledevent)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:101](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L101)
-
----
-
-### getContract
-
-▸ **getContract**(): `Contract`
-
-#### Returns
-
-`Contract`
-
-#### Inherited from
-
-[ConditionSmall](conditions.ConditionSmall.md).[getContract](conditions.ConditionSmall.md#getcontract)
-
-#### Defined in
-
-[src/keeper/contracts/ContractBase.ts:37](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L37)
+[src/keeper/contracts/conditions/Condition.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L92)
 
 ---
 
@@ -686,17 +588,17 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getFromAddress](conditions.ConditionSmall.md#getfromaddress)
+[ConditionSmall](ConditionSmall.md).[getFromAddress](ConditionSmall.md#getfromaddress)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:90](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L90)
+[src/keeper/contracts/ContractBase.ts:80](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L80)
 
 ---
 
 ### getInputsOfMethod
 
-▸ **getInputsOfMethod**(`methodName`): `any`[]
+▸ **getInputsOfMethod**(`methodName`): readonly `ParamType`[]
 
 #### Parameters
 
@@ -706,15 +608,15 @@ true if the contract exists.
 
 #### Returns
 
-`any`[]
+readonly `ParamType`[]
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getInputsOfMethod](conditions.ConditionSmall.md#getinputsofmethod)
+[ConditionSmall](ConditionSmall.md).[getInputsOfMethod](ConditionSmall.md#getinputsofmethod)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:50](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L50)
+[src/keeper/contracts/ContractBase.ts:44](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L44)
 
 ---
 
@@ -735,17 +637,17 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[getSignatureOfMethod](conditions.ConditionSmall.md#getsignatureofmethod)
+[ConditionSmall](ConditionSmall.md).[getSignatureOfMethod](ConditionSmall.md#getsignatureofmethod)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:45](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L45)
+[src/keeper/contracts/ContractBase.ts:39](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L39)
 
 ---
 
 ### hashValues
 
-▸ **hashValues**(...`args`): `Promise`<`string`\>
+▸ **hashValues**(`...args`): `Promise`<`string`\>
 
 #### Parameters
 
@@ -759,17 +661,17 @@ true if the contract exists.
 
 #### Overrides
 
-[ConditionSmall](conditions.ConditionSmall.md).[hashValues](conditions.ConditionSmall.md#hashvalues)
+[ConditionSmall](ConditionSmall.md).[hashValues](ConditionSmall.md#hashvalues)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L141)
+[src/keeper/contracts/conditions/Condition.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L129)
 
 ---
 
 ### hashValuesPlain
 
-▸ **hashValuesPlain**(...`args`): `Promise`<`string`\>
+▸ **hashValuesPlain**(`...args`): `Promise`<`string`\>
 
 #### Parameters
 
@@ -783,7 +685,7 @@ true if the contract exists.
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L145)
+[src/keeper/contracts/conditions/Condition.abstract.ts:133](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L133)
 
 ---
 
@@ -793,10 +695,10 @@ true if the contract exists.
 
 #### Parameters
 
-| Name       | Type                 | Default value |
-| :--------- | :------------------- | :------------ |
-| `config`   | `InstantiableConfig` | `undefined`   |
-| `optional` | `boolean`            | `false`       |
+| Name       | Type                                                        | Default value |
+| :--------- | :---------------------------------------------------------- | :------------ |
+| `config`   | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) | `undefined`   |
+| `optional` | `boolean`                                                   | `false`       |
 
 #### Returns
 
@@ -804,60 +706,60 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[init](conditions.ConditionSmall.md#init)
+[ConditionSmall](ConditionSmall.md).[init](ConditionSmall.md#init)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:55](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L55)
+[src/keeper/contracts/ContractBase.ts:49](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L49)
 
 ---
 
 ### instance
 
-▸ **instance**(`agreementId`, `params`): `Promise`<[`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\>\>
+▸ **instance**(`agreementId`, `params`): `Promise`<[`ConditionInstance`](../interfaces/ConditionInstance.md)<`Extra`\>\>
 
 #### Parameters
 
-| Name          | Type                                                                               |
-| :------------ | :--------------------------------------------------------------------------------- |
-| `agreementId` | `string`                                                                           |
-| `params`      | [`ConditionParameters`](../interfaces/conditions.ConditionParameters.md)<`Extra`\> |
+| Name          | Type                                                                    |
+| :------------ | :---------------------------------------------------------------------- |
+| `agreementId` | `string`                                                                |
+| `params`      | [`ConditionParameters`](../interfaces/ConditionParameters.md)<`Extra`\> |
 
 #### Returns
 
-`Promise`<[`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\>\>
+`Promise`<[`ConditionInstance`](../interfaces/ConditionInstance.md)<`Extra`\>\>
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:184](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L184)
+[src/keeper/contracts/conditions/Condition.abstract.ts:174](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L174)
 
 ---
 
 ### instanceFromDDO
 
-▸ **instanceFromDDO**(`agreementId`, `ctx`, ...`args`): `Promise`<[`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\>\>
+▸ **instanceFromDDO**(`agreementId`, `ctx`, `...args`): `Promise`<[`ConditionInstance`](../interfaces/ConditionInstance.md)<`Extra`\>\>
 
 #### Parameters
 
-| Name          | Type                                                                             |
-| :------------ | :------------------------------------------------------------------------------- |
-| `agreementId` | `string`                                                                         |
-| `ctx`         | `Ctx`                                                                            |
-| `...args`     | [`ConditionInstanceSmall`](../interfaces/conditions.ConditionInstanceSmall.md)[] |
+| Name          | Type                                                                  |
+| :------------ | :-------------------------------------------------------------------- |
+| `agreementId` | `string`                                                              |
+| `ctx`         | `Ctx`                                                                 |
+| `...args`     | [`ConditionInstanceSmall`](../interfaces/ConditionInstanceSmall.md)[] |
 
 #### Returns
 
-`Promise`<[`ConditionInstance`](../interfaces/conditions.ConditionInstance.md)<`Extra`\>\>
+`Promise`<[`ConditionInstance`](../interfaces/ConditionInstance.md)<`Extra`\>\>
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L154)
+[src/keeper/contracts/conditions/Condition.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L142)
 
 ---
 
 ### params
 
-▸ **params**(...`args`): [`ConditionParameters`](../interfaces/conditions.ConditionParameters.md)<`Extra`\>
+▸ **params**(`...args`): [`ConditionParameters`](../interfaces/ConditionParameters.md)<`Extra`\>
 
 #### Parameters
 
@@ -867,86 +769,86 @@ true if the contract exists.
 
 #### Returns
 
-[`ConditionParameters`](../interfaces/conditions.ConditionParameters.md)<`Extra`\>
+[`ConditionParameters`](../interfaces/ConditionParameters.md)<`Extra`\>
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:134](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L134)
+[src/keeper/contracts/conditions/Condition.abstract.ts:122](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L122)
 
 ---
 
 ### paramsFromDDO
 
-▸ `Abstract` **paramsFromDDO**(`ctx`, ...`args`): `Promise`<[`ConditionParameters`](../interfaces/conditions.ConditionParameters.md)<`Extra`\>\>
+▸ `Abstract` **paramsFromDDO**(`ctx`, `...args`): `Promise`<[`ConditionParameters`](../interfaces/ConditionParameters.md)<`Extra`\>\>
 
 #### Parameters
 
-| Name      | Type                                                                             |
-| :-------- | :------------------------------------------------------------------------------- |
-| `ctx`     | `Ctx`                                                                            |
-| `...args` | [`ConditionInstanceSmall`](../interfaces/conditions.ConditionInstanceSmall.md)[] |
+| Name      | Type                                                                  |
+| :-------- | :-------------------------------------------------------------------- |
+| `ctx`     | `Ctx`                                                                 |
+| `...args` | [`ConditionInstanceSmall`](../interfaces/ConditionInstanceSmall.md)[] |
 
 #### Returns
 
-`Promise`<[`ConditionParameters`](../interfaces/conditions.ConditionParameters.md)<`Extra`\>\>
+`Promise`<[`ConditionParameters`](../interfaces/ConditionParameters.md)<`Extra`\>\>
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L149)
+[src/keeper/contracts/conditions/Condition.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L137)
 
 ---
 
 ### send
 
-▸ **send**(`name`, `from`, `args`, `params?`): `Promise`<`ContractReceipt`\>
+▸ **send**(`name`, `from`, `args`, `params?`): `Promise`<`ContractTransactionReceipt`\>
 
 #### Parameters
 
-| Name     | Type           |
-| :------- | :------------- |
-| `name`   | `string`       |
-| `from`   | `string`       |
-| `args`   | `any`[]        |
-| `params` | `TxParameters` |
+| Name     | Type                                            |
+| :------- | :---------------------------------------------- |
+| `name`   | `string`                                        |
+| `from`   | `string`                                        |
+| `args`   | `any`[]                                         |
+| `params` | [`TxParameters`](../interfaces/TxParameters.md) |
 
 #### Returns
 
-`Promise`<`ContractReceipt`\>
+`Promise`<`ContractTransactionReceipt`\>
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[send](conditions.ConditionSmall.md#send)
+[ConditionSmall](ConditionSmall.md).[send](ConditionSmall.md#send)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:117](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L117)
+[src/keeper/contracts/ContractBase.ts:235](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L235)
 
 ---
 
 ### sendFrom
 
-▸ **sendFrom**(`name`, `args`, `from?`, `value?`): `Promise`<`ContractReceipt`\>
+▸ **sendFrom**(`name`, `args`, `from?`, `value?`): `Promise`<`ContractTransactionReceipt`\>
 
 #### Parameters
 
-| Name     | Type                    |
-| :------- | :---------------------- |
-| `name`   | `string`                |
-| `args`   | `any`[]                 |
-| `from?`  | [`Account`](Account.md) |
-| `value?` | `TxParameters`          |
+| Name     | Type                                            |
+| :------- | :---------------------------------------------- |
+| `name`   | `string`                                        |
+| `args`   | `any`[]                                         |
+| `from?`  | [`Account`](Account.md)                         |
+| `value?` | [`TxParameters`](../interfaces/TxParameters.md) |
 
 #### Returns
 
-`Promise`<`ContractReceipt`\>
+`Promise`<`ContractTransactionReceipt`\>
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[sendFrom](conditions.ConditionSmall.md#sendfrom)
+[ConditionSmall](ConditionSmall.md).[sendFrom](ConditionSmall.md#sendfrom)
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/ContractBase.ts#L97)
+[src/keeper/contracts/ContractBase.ts:88](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L88)
 
 ---
 
@@ -956,9 +858,9 @@ true if the contract exists.
 
 #### Parameters
 
-| Name     | Type                 |
-| :------- | :------------------- |
-| `config` | `InstantiableConfig` |
+| Name     | Type                                                        |
+| :------- | :---------------------------------------------------------- |
+| `config` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -966,62 +868,11 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[setInstanceConfig](conditions.ConditionSmall.md#setinstanceconfig)
+[ConditionSmall](ConditionSmall.md).[setInstanceConfig](ConditionSmall.md#setinstanceconfig)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:171](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L171)
-
----
-
-### addressesStatic
-
-▸ `Static` **addressesStatic**(`config`, `web3`): `Promise`<`string`[]\>
-
-#### Parameters
-
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
-
-#### Returns
-
-`Promise`<`string`[]\>
-
-#### Inherited from
-
-[ConditionSmall](conditions.ConditionSmall.md).[addressesStatic](conditions.ConditionSmall.md#addressesstatic)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L142)
-
----
-
-### findSignerStatic
-
-▸ `Static` **findSignerStatic**(`config`, `web3`, `from`): `Promise`<`Signer`\>
-
-#### Parameters
-
-| Name     | Type                  |
-| :------- | :-------------------- |
-| `config` | [`Config`](Config.md) |
-| `web3`   | `JsonRpcProvider`     |
-| `from`   | `string`              |
-
-#### Returns
-
-`Promise`<`Signer`\>
-
-#### Inherited from
-
-[ConditionSmall](conditions.ConditionSmall.md).[findSignerStatic](conditions.ConditionSmall.md#findsignerstatic)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L99)
 
 ---
 
@@ -1031,19 +882,19 @@ true if the contract exists.
 
 #### Type parameters
 
-| Name    | Type                                                                       |
-| :------ | :------------------------------------------------------------------------- |
-| `Ctx`   | extends [`ConditionContext`](../interfaces/conditions.ConditionContext.md) |
-| `Extra` | `Extra`                                                                    |
+| Name    | Type                                                            |
+| :------ | :-------------------------------------------------------------- |
+| `Ctx`   | extends [`ConditionContext`](../interfaces/ConditionContext.md) |
+| `Extra` | `Extra`                                                         |
 
 #### Parameters
 
-| Name              | Type                 | Default value |
-| :---------------- | :------------------- | :------------ |
-| `config`          | `InstantiableConfig` | `undefined`   |
-| `conditionName`   | `string`             | `undefined`   |
-| `conditionsClass` | `any`                | `undefined`   |
-| `optional`        | `boolean`            | `false`       |
+| Name              | Type                                                        | Default value |
+| :---------------- | :---------------------------------------------------------- | :------------ |
+| `config`          | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) | `undefined`   |
+| `conditionName`   | `string`                                                    | `undefined`   |
+| `conditionsClass` | `any`                                                       | `undefined`   |
+| `optional`        | `boolean`                                                   | `false`       |
 
 #### Returns
 
@@ -1051,11 +902,11 @@ true if the contract exists.
 
 #### Overrides
 
-[ConditionSmall](conditions.ConditionSmall.md).[getInstance](conditions.ConditionSmall.md#getinstance)
+[ConditionSmall](ConditionSmall.md).[getInstance](ConditionSmall.md#getinstance)
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/keeper/contracts/conditions/Condition.abstract.ts#L121)
+[src/keeper/contracts/conditions/Condition.abstract.ts:111](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L111)
 
 ---
 
@@ -1065,16 +916,16 @@ true if the contract exists.
 
 #### Type parameters
 
-| Name | Type                         |
-| :--- | :--------------------------- |
-| `T`  | extends `Instantiable`<`T`\> |
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `T`  | extends [`Instantiable`](Instantiable.md) |
 
 #### Parameters
 
-| Name                 | Type                 |
-| :------------------- | :------------------- |
-| `instance`           | `T`                  |
-| `instantiableConfig` | `InstantiableConfig` |
+| Name                 | Type                                                        |
+| :------------------- | :---------------------------------------------------------- |
+| `instance`           | `T`                                                         |
+| `instantiableConfig` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
 #### Returns
 
@@ -1082,8 +933,8 @@ true if the contract exists.
 
 #### Inherited from
 
-[ConditionSmall](conditions.ConditionSmall.md).[setInstanceConfig](conditions.ConditionSmall.md#setinstanceconfig-1)
+[ConditionSmall](ConditionSmall.md).[setInstanceConfig](ConditionSmall.md#setinstanceconfig-1)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L90)

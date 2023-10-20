@@ -1,20 +1,17 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetAttributes, NFTAttributes } from '../../../models'
+import { generateId, SubscribablePromise, zeroX } from '../../../utils'
 import {
-  generateId,
-  getDIDFromService,
-  getNftAmountFromService,
-  SubscribablePromise,
-  zeroX,
-} from '../../../utils'
-import { PublishMetadata } from '../AssetsApi'
+  AssetPublicationOptions,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+} from '../AssetsApi'
 import { Account } from '../../Account'
 import { TxParameters, Nft1155Contract } from '../../../keeper'
-import { DDO } from '../../../ddo'
+import { DDO, ServiceNFTSales, ServiceType } from '../../../ddo'
 import { NFTError } from '../../../errors'
-import { BigNumber } from '../../../utils'
 import { NFTsBaseApi } from './NFTsBaseApi'
-import { ContractReceipt } from 'ethers'
+import { ContractTransactionReceipt } from 'ethers'
 import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
 
 /**
@@ -73,7 +70,7 @@ export class NFT1155Api extends NFTsBaseApi {
   }
 
   /**
-   * Creates a new Nevermined asset associted to a NFT (ERC-1155).
+   * Creates a new Nevermined asset associated to a NFT (ERC-1155).
    *
    * @example
    * ```ts
@@ -98,7 +95,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
    * @param publisher - The account publishing the asset
-   * @param publishMetadata - Allows to specify if the metadata should be stored in different backends
+   * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
    * @param txParams - Optional transaction parameters
    *
    * @returns The newly registered {@link DDO}.
@@ -106,13 +103,16 @@ export class NFT1155Api extends NFTsBaseApi {
   public create(
     nftAttributes: NFTAttributes,
     publisher: Account,
-    publishMetadata: PublishMetadata = PublishMetadata.OnlyMetadataAPI,
+    publicationOptions: AssetPublicationOptions = {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    },
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     return this.registerNeverminedAsset(
       nftAttributes as AssetAttributes,
       publisher,
-      publishMetadata,
+      publicationOptions,
       nftAttributes,
       txParams,
     )
@@ -128,7 +128,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * ```ts
    * await nevermined.nfts1155.mint(
    *           did,
-   *           BigNumber.from(10),
+   *           10n,
    *           artist
    * )
    * ```
@@ -140,11 +140,11 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param data - Data
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractReceipt}
+   * @returns The {@link ethers.ContractTransactionReceipt}
    */
   public async mint(
     did: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     receiver: string | undefined,
     account: Account,
     data?: string,
@@ -170,20 +170,61 @@ export class NFT1155Api extends NFTsBaseApi {
    * ```ts
    * await nevermined.nfts1155.burn(
    *           did,
-   *           BigNumber.from(2),
+   *           2n,
    *           artist
    * )
    * ```
    *
-   * @param did - The Decentralized Identifier of the NFT asset.
+   * @param tokenId - The Decentralized Identifier of the NFT asset.
    * @param nftAmount - The amount of NFTs to burn.
    * @param account - The account of the publisher of the NFT.
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractReceipt}
+   * @returns The {@link ethers.ContractTransactionReceipt}
    */
-  public async burn(did: string, nftAmount: BigNumber, account: Account, txParams?: TxParameters) {
-    return await this.nftContract.burn(account.getId(), did, nftAmount, txParams)
+  public async burn(tokenId: string, nftAmount: bigint, account: Account, txParams?: TxParameters) {
+    return await this.nftContract.burn(account.getId(), tokenId, nftAmount, txParams)
+  }
+
+  /**
+   * Burn NFTs associated with an asset of a specific account.
+   *
+   * @remarks
+   * The publisher can only burn NFTs of an account if is an operator. NFTs that were already transferred cannot be burned by the publisher.
+   *
+   * @example
+   * ```ts
+   * await nevermined.nfts1155.burnTo(
+   *           holder,
+   *           tokenId,
+   *           2n,
+   *           artist
+   * )
+   * ```
+   *
+   * @param holder - The address of the account that holds the NFTs.
+   * @param tokenId - The TokenId of the NFT
+   * @param nftAmount - The amount of NFTs to burn.
+   * @param account - The account of the publisher of the NFT.
+   * @param txParams - Optional transaction parameters.
+   *
+   * @returns The {@link ethers.ContractTransactionReceipt}
+   */
+  public async burnFromHolder(
+    holder: string,
+    tokenId: string,
+    nftAmount: bigint,
+    account: Account | string,
+    txParams?: TxParameters,
+  ) {
+    const _senderAddress = account instanceof Account ? account.getId() : account
+    return await this.nftContract.burnFromHolder(
+      holder,
+      tokenId,
+      nftAmount,
+      _senderAddress,
+      txParams,
+    )
   }
 
   // TODO: We need to improve this to allow for secondary market sales
@@ -203,14 +244,16 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param numberEditions - The amount of NFTs to buy.
    * @param consumer - The account of the NFT buyer.
+   * @param serviceReference - The reference to identify wich service within the DDO to order
    * @param txParams - Optional transaction parameters.
    *
    * @returns The agreement ID.
    */
   public order(
     did: string,
-    numberEditions: BigNumber,
+    numberEditions: bigint,
     consumer: Account,
+    serviceReference: ServiceType | number = 'nft-sales',
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise<OrderProgressStep, string>(async (observer) => {
@@ -219,14 +262,21 @@ export class NFT1155Api extends NFTsBaseApi {
       const agreementIdSeed = zeroX(generateId())
       const ddo = await this.nevermined.assets.resolve(did)
 
+      const service = ddo.findServiceByReference(serviceReference) as ServiceNFTSales
+      const params = await nftSalesTemplate.getParamsFromService(
+        consumer.getId(),
+        numberEditions,
+        service,
+      )
+
       this.logger.log('Creating nft-sales agreement and paying')
       const agreementId = await nftSalesTemplate.createAgreementWithPaymentFromDDO(
         agreementIdSeed,
         ddo,
-        nftSalesTemplate.params(consumer.getId(), numberEditions),
+        serviceReference,
+        params,
         consumer,
         consumer,
-        undefined,
         txParams,
         (a) => observer.next(a),
       )
@@ -255,7 +305,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *           agreementId,
    *           editor.getId(),
    *           subscriber.getId(),
-   *           BigNumber.from(1)
+   *           1n
    *       )
    * ```
    *
@@ -264,6 +314,7 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param nftReceiver - The address where the NFT should be transferred.
    * @param numberEditions - The number of NFT editions to transfer. If the NFT is ERC-721 it should be 1
    * @param did - The Decentralized Identifier of the asset.
+   * @param serviceIndex - The index of the service in the DDO that will be claimed
    *
    * @returns true if the transfer was successful.
    */
@@ -271,10 +322,19 @@ export class NFT1155Api extends NFTsBaseApi {
     agreementId: string,
     nftHolder: string,
     nftReceiver: string,
-    numberEditions: BigNumber = BigNumber.from(1),
+    numberEditions = 1n,
     did?: string,
+    serviceIndex?: number,
   ): Promise<boolean> {
-    return await this.claimNFT(agreementId, nftHolder, nftReceiver, numberEditions, 1155, did)
+    return await this.claimNFT(
+      agreementId,
+      nftHolder,
+      nftReceiver,
+      numberEditions,
+      1155,
+      did,
+      serviceIndex,
+    )
   }
 
   /**
@@ -298,8 +358,8 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param did - The Decentralized identifier of the NFT asset.
    * @param nftAmount - The number of NFTs to transfer.
    * @param publisher - The current owner of the NFTs.
+   * @param serviceReference - The reference to identify wich service within the DDO to transfer
    * @param txParams - Optional transaction parameters.
-   *
    * @returns true if the transfer was successful.
    *
    * @throws {@link NFTError}
@@ -308,16 +368,19 @@ export class NFT1155Api extends NFTsBaseApi {
   public async transfer(
     agreementId: string,
     did: string,
-    nftAmount: BigNumber,
+    nftAmount: bigint,
     publisher: Account,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
     const ddo = await this.nevermined.assets.resolve(did)
+    const service = ddo.findServiceByReference(serviceReference)
 
     const result = await agreements.conditions.transferNft(
       agreementId,
       ddo,
+      service.index,
       nftAmount,
       publisher,
       txParams,
@@ -348,6 +411,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @param agreementId - The NFT sales agreement id.
    * @param did - The Decentralized identifier of the NFT asset.
+   * @param serviceReference - The reference to identify wich service within the DDO to release rewards
    * @param nftAmount - The amount of NFTs to transfer.
    * @param publisher - The current owner of the NFTs.
    * @param txParams - Optional transaction parameters.
@@ -360,17 +424,19 @@ export class NFT1155Api extends NFTsBaseApi {
   public async releaseRewards(
     agreementId: string,
     did: string,
-    nftAmount: BigNumber,
+    serviceReference: number | ServiceType = 'nft-sales',
+    nftAmount: bigint,
     publisher: Account,
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
 
     const ddo = await this.nevermined.assets.resolve(did)
-
+    const service = ddo.findServiceByReference(serviceReference)
     const result = await agreements.conditions.releaseNftReward(
       agreementId,
       ddo,
+      service.index,
       nftAmount,
       publisher,
       undefined,
@@ -397,7 +463,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The number of editions of a NFT owned by the account/address.
    */
-  public async balance(did: string, account: Account | string): Promise<BigNumber> {
+  public async balance(did: string, account: Account | string): Promise<bigint> {
     return await this.nftContract.balance(
       account instanceof Account ? account.getId() : account,
       did,
@@ -439,14 +505,14 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param from - The account that wants to give transfer rights to the operator.
    * @param txParams - Transaction additional parameters
    *
-   * @returns The {@link ethers.ContractReceipt}
+   * @returns The {@link ethers.ContractTransactionReceiptnReceiptnReceipt}
    */
   public async setApprovalForAll(
     operatorAddress: string,
     approved: boolean,
     from: Account,
     txParams?: TxParameters,
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress)
 
     if (isApproved) {
@@ -484,8 +550,10 @@ export class NFT1155Api extends NFTsBaseApi {
    * ```
    *
    * @param owner - The owner account.
-   * @param agreementId - the Id of the underlying service agreement.
-   *
+   * @param consumer - The consumer account.
+   * @param agreementIdSeed - the Id of the underlying service agreement seed.
+   * @param serviceReference - The reference to identify wich service within the DDO to release rewards
+   * @param txParams - Optional transaction parameters.
    * @returns  true if the transaction was successful.
    *
    * @throws {@link NFTError}
@@ -495,21 +563,25 @@ export class NFT1155Api extends NFTsBaseApi {
     owner: Account,
     consumer: Account,
     agreementIdSeed: string,
+    serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
     const service = await this.nevermined.services.metadata.retrieveService(agreementIdSeed)
-    const did = getDIDFromService(service)
-    const nftAmount = getNftAmountFromService(service)
+    const did = DDO.getDIDFromService(service)
+    const nftAmount = DDO.getNftAmountFromService(service)
     const ddo = await this.nevermined.assets.resolve(did)
-    ddo.updateService(this.nevermined, service)
+    ddo.updateMetadataService(service)
     const agreementId = await this.nevermined.keeper.agreementStoreManager.agreementId(
       agreementIdSeed,
       consumer.getId(),
     )
 
+    const ddoService = ddo.findServiceByReference(serviceReference)
+
     let receipt = await this.nevermined.agreements.conditions.transferNft(
       agreementId,
       ddo,
+      ddoService.index,
       nftAmount,
       owner,
       txParams,
@@ -520,6 +592,7 @@ export class NFT1155Api extends NFTsBaseApi {
     receipt = await this.nevermined.agreements.conditions.releaseNftReward(
       agreementId,
       ddo,
+      serviceReference,
       nftAmount,
       owner,
       undefined,
@@ -547,13 +620,13 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param from - The account giving operator permissions
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractReceipt}
+   * @returns The {@link ethers.ContractTransactionReceipt}
    */
   public async grantOperatorRole(
     operatorAddress: string,
     from?: Account,
     txParams?: TxParameters,
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
   }
 
@@ -573,13 +646,13 @@ export class NFT1155Api extends NFTsBaseApi {
    * @param from - The account revoking operator permissions
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractReceipt}
+   * @returns The {@link ethers.ContractTransactionReceipt}
    */
   public async revokeOperatorRole(
     operatorAddress: string,
     from?: Account,
     txParams?: TxParameters,
-  ): Promise<ContractReceipt> {
+  ): Promise<ContractTransactionReceipt> {
     return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
   }
 

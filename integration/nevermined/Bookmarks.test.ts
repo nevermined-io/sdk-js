@@ -2,7 +2,6 @@ import { assert } from 'chai'
 import { config } from '../config'
 import { Nevermined, Account, NewBookmark } from '../../src'
 import { faker } from '@faker-js/faker'
-import { sleep } from '../utils/utils'
 
 describe('Bookmarks', () => {
   let nevermined: Nevermined
@@ -19,8 +18,6 @@ describe('Bookmarks', () => {
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account1)
 
     await nevermined.services.marketplace.login(clientAssertion)
-
-    await sleep(2000)
 
     const userProfile = await nevermined.services.profiles.findOneByAddress(account1.getId())
 
@@ -54,7 +51,6 @@ describe('Bookmarks', () => {
   })
 
   it('should get bookmarks by userId', async () => {
-    await sleep(1000)
     const response = await nevermined.services.bookmarks.findManyByUserId(newBookmark.userId)
 
     /* eslint-disable @typescript-eslint/naming-convention */
@@ -83,8 +79,6 @@ describe('Bookmarks', () => {
 
   it('should delete a bookmark by id', async () => {
     await nevermined.services.bookmarks.deleteOneById(id)
-
-    await sleep(4000)
 
     const response = await nevermined.services.bookmarks.findManyByUserId(newBookmark.userId)
 

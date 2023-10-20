@@ -9,7 +9,6 @@
 - [index](Stage.md#index)
 - [input](Stage.md#input)
 - [output](Stage.md#output)
-- [requirements](Stage.md#requirements)
 - [stageType](Stage.md#stagetype)
 - [transformation](Stage.md#transformation)
 
@@ -21,17 +20,17 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:27](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L27)
+[src/ddo/types.ts:59](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L59)
 
 ---
 
 ### input
 
-• **input**: [`StageInput`](StageInput.md)
+• **input**: [`StageInput`](StageInput.md)[]
 
 #### Defined in
 
-[src/ddo/MetaData.ts:30](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L30)
+[src/ddo/types.ts:61](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L61)
 
 ---
 
@@ -41,17 +40,7 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:32](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L32)
-
----
-
-### requirements
-
-• **requirements**: [`StageRequirements`](StageRequirements.md)
-
-#### Defined in
-
-[src/ddo/MetaData.ts:29](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L29)
+[src/ddo/types.ts:63](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L63)
 
 ---
 
@@ -61,7 +50,7 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:28](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L28)
+[src/ddo/types.ts:60](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L60)
 
 ---
 
@@ -71,4 +60,4 @@
 
 #### Defined in
 
-[src/ddo/MetaData.ts:31](https://github.com/nevermined-io/sdk-js/blob/55f88d2/src/ddo/MetaData.ts#L31)
+[src/ddo/types.ts:62](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L62)

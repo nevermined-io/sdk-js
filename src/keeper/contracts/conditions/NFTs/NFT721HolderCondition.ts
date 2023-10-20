@@ -1,9 +1,9 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, findServiceConditionByName, zeroX } from '../../../../utils'
+import { didZeroX, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
 import { Account } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
-import { ServiceCommon } from '../../../../ddo'
+import { DDO, ServiceCommon } from '../../../../ddo'
 
 export interface NFT721HolderConditionContext extends ConditionContext {
   holderAddress: string
@@ -30,7 +30,7 @@ export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditi
   }
 
   public nftContractFromService(service: ServiceCommon): string {
-    const holder = findServiceConditionByName(service, 'nftHolder')
+    const holder = DDO.findServiceConditionByName(service, 'nftHolder')
     if (!holder) throw new Error('Holder condition not found!')
     return holder.parameters.find((p) => p.name === '_contractAddress').value as string
   }

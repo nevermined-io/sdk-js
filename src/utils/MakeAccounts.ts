@@ -1,13 +1,22 @@
-import { ethers } from 'ethers'
-import { HDNode } from 'ethers/lib/utils'
+import { Mnemonic, ethers, getIndexedAccountPath } from 'ethers'
 
-export function makeAccounts(seedphrase: string): ethers.Wallet[] {
-  const node = HDNode.fromMnemonic(seedphrase)
+export function makeAccounts(seedphrase: string, numAccounts = 10): ethers.Wallet[] {
+  const mnemonic = Mnemonic.fromPhrase(seedphrase)
+  const node = ethers.HDNodeWallet.fromSeed(mnemonic.computeSeed())
   const accounts: ethers.Wallet[] = []
-  for (let i = 0; i < 10; i++) {
-    const acc = node.derivePath("m/44'/60'/0'/0/" + i)
+
+  for (let i = 0; i < numAccounts; i++) {
+    const acc = node.derivePath(getIndexedAccountPath(i))
     const wallet = new ethers.Wallet(acc.privateKey)
     accounts.push(wallet)
   }
   return accounts
+}
+
+export function makeAccount(seedphrase: string, accountIndex: number = 0): ethers.Wallet {
+  const mnemonic = Mnemonic.fromPhrase(seedphrase)
+  const node = ethers.HDNodeWallet.fromSeed(mnemonic.computeSeed())
+
+  const acc = node.derivePath(getIndexedAccountPath(accountIndex))
+  return new ethers.Wallet(acc.privateKey)
 }
