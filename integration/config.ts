@@ -24,7 +24,6 @@ const configBase: NeverminedOptions = {
   ipfsProjectId,
   ipfsProjectSecret,
   verbose: logLevel,
-  testNet: true,
 }
 
 if (process.env.NETWORK_NAME === 'testing') {
