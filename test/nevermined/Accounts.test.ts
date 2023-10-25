@@ -15,8 +15,6 @@ describe('Accounts', () => {
   before(async () => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
     nevermined = await Nevermined.getInstance(config)
-    nevermined.keeper.dispenser = await nevermined.keeper.loadDispenserInstance()
-    nevermined.keeper.token = await nevermined.keeper.loadTokenInstance()
     accounts = nevermined.accounts
   })
 

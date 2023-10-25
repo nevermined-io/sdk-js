@@ -83,4 +83,6 @@ export class NeverminedOptions {
    * Use a gas station to calculate transaction fees
    */
   public gasStationUri?: string
+
+  public testNet?: boolean
 }

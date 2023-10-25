@@ -152,18 +152,10 @@ export class Keeper extends Instantiable {
       )
     }
 
-    // Optionals
-    // try {
-    //   this.instances.dispenser = await Dispenser.getInstance(this.instantiableConfig)
-    // } catch {
-    //   this.logger.debug('Dispenser not available on this network.')
-    // }
-
-    // try {
-    //   this.instances.token = await Token.getInstance(this.instantiableConfig)
-    // } catch {
-    //   this.logger.debug('Token not available on this network.')
-    // }
+    if (this.config.testNet) {
+      this.instances.dispenser = await Dispenser.getInstance(this.instantiableConfig)
+      this.instances.token = await Token.getInstance(this.instantiableConfig)
+    }
 
     // Main contracts
     this.dispenser = this.instances.dispenser
@@ -463,28 +455,6 @@ export class Keeper extends Instantiable {
       this.logger.debug('CurveRoyalties not available on this network.')
     }
     return this.royalties.curve
-  }
-
-  public async loadDispenserInstance() {
-    if (this.instances.dispenser) return this.instances.dispenser
-    try {
-      this.instances.dispenser = await Dispenser.getInstance(this.instantiableConfig)
-      this.dispenser = await Dispenser.getInstance(this.instantiableConfig)
-    } catch {
-      this.logger.debug('Dispenser not available on this network.')
-    }
-    return this.instances.dispenser
-  }
-
-  public async loadTokenInstance() {
-    if (this.instances.token) return this.instances.token
-    try {
-      this.instances.token = await Token.getInstance(this.instantiableConfig)
-      this.token = await Token.getInstance(this.instantiableConfig)
-    } catch {
-      this.logger.debug('Token not available on this network.')
-    }
-    return this.instances.token
   }
 }
 

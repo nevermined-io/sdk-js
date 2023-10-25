@@ -18,8 +18,6 @@ describe('ContractEvent', () => {
   before(async () => {
     await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
-    nevermined.keeper.dispenser = await nevermined.keeper.loadDispenserInstance()
-    nevermined.keeper.token = await nevermined.keeper.loadTokenInstance()
     web3 = await Web3Provider.getWeb3(config)
     ;[account1, account2, account3, account4] = await nevermined.accounts.list()
   })
