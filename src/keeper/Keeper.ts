@@ -151,18 +151,11 @@ export class Keeper extends Instantiable {
         `Keeper could not connect to ${await this.getNetworkName()} - ${err.message} ${err.stack}`,
       )
     }
+    const chainId = Number((await this.web3.getNetwork()).chainId)
 
-    // Optionals
-    try {
+    if (KeeperUtils.isTestnet(chainId)) {
       this.instances.dispenser = await Dispenser.getInstance(this.instantiableConfig)
-    } catch {
-      this.logger.debug('Dispenser not available on this network.')
-    }
-
-    try {
       this.instances.token = await Token.getInstance(this.instantiableConfig)
-    } catch {
-      this.logger.debug('Token not available on this network.')
     }
 
     // Main contracts
@@ -218,7 +211,6 @@ export class Keeper extends Instantiable {
       eventHandler: new EventHandler(),
     }
     // version
-    const chainId = Number((await this.web3.getNetwork()).chainId)
     this.network = {
       chainId,
       version: this.didRegistry.version.replace('v', ''),

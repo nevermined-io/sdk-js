@@ -10,10 +10,12 @@ use(spies)
 
 describe('Accounts', () => {
   let accounts: AccountsApi
+  let nevermined: Nevermined
 
   before(async () => {
     // eslint-disable-next-line @typescript-eslint/no-extra-semi
-    ;({ accounts } = await Nevermined.getInstance(config))
+    nevermined = await Nevermined.getInstance(config)
+    accounts = nevermined.accounts
   })
 
   afterEach(() => {

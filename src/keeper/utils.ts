@@ -60,7 +60,64 @@ export async function getNetworkName(networkId: number): Promise<string> {
       throw new KeeperError(`Network with id ${networkId} not supported.`)
   }
 }
-
+export async function isTestnet(networkId: number): Promise<boolean> {
+  switch (networkId) {
+    case 1:
+      return false
+    case 2:
+      return true
+    case 3:
+      return true
+    case 4:
+      return true
+    case 5:
+      return true
+    case 77:
+      return false
+    case 99:
+      return false
+    case 42:
+      return true
+    case 100:
+      return false
+    case 137:
+      return false
+    case 1337:
+      return true
+    case 3141:
+      return true
+    case 10200:
+      return true
+    case 31337:
+      return true
+    case 8996:
+      return true
+    case 8997:
+      return true
+    case 8998:
+      return true
+    case 42220:
+      return false
+    case 44787:
+      return true
+    case 62320:
+      return true
+    case 80001:
+      return true
+    case 42161:
+      return false
+    case 421613:
+      return true
+    case 1313161554:
+      return false
+    case 1313161555:
+      return true
+    case 1313161556:
+      return true
+    default:
+      throw new KeeperError(`Network with id ${networkId} not supported.`)
+  }
+}
 // Wrapper for implementing web3 provider. Needed for OpenGSN
 export interface JsonRpcPayload {
   jsonrpc: string
