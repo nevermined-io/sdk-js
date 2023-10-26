@@ -33,6 +33,15 @@ describe('Marketplace api auth', () => {
     }
   })
 
+  it('should login using a message', async () => {
+    const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(
+      account1,
+      'Nevermined',
+    )
+    const accessToken = await nevermined.services.marketplace.login(clientAssertion)
+    assert.isDefined(accessToken)
+  })
+
   it('should add new address to the account', async () => {
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account2)
 
