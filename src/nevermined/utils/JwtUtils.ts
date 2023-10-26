@@ -122,7 +122,7 @@ export class EthSignJWT extends SignJWT {
         primaryType: '',
       })
     }
-    return EthSignJWT.signTypedMessage(domain, types, value, signer)
+    return signer.signTypedData(domain, types as any, value)
   }
 
   private base64url(input: Uint8Array | string): string {
