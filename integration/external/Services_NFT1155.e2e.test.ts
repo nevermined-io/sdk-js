@@ -163,6 +163,9 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       console.log(`  AUTHORIZATION_PASSWORD=${AUTHORIZATION_PASSWORD}`)
     }
     console.log(`  REQUEST_DATA=${process.env.REQUEST_DATA}`)
+    console.log(`  NODE_ADDRESS=${neverminedNodeAddress}`)
+    console.log(`  PUBLISHER_ADDRESS=${publisher.getId()}`)
+    console.log(`  SUBSCRIBER_ADDRESS=${subscriber.getId()}`)
   })
 
   describe('As Subscriber I want to get access to a web service I am not subscribed', () => {
@@ -202,6 +205,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       await nevermined.contracts.loadNft1155(subscriptionNFT.address)
 
       await subscriptionNFT.grantOperatorRole(transferNftCondition.address, publisher)
+      await subscriptionNFT.grantOperatorRole(neverminedNodeAddress, publisher)
 
       const isOperator = await subscriptionNFT.getContract.isOperator(transferNftCondition.address)
       assert.isTrue(isOperator)
