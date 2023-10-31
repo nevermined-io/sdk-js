@@ -148,10 +148,20 @@ export class Nevermined extends Instantiable {
     },
   }
 
-  /**
-   * Keeper instance.
-   */
-  public keeper: Keeper
+  private _keeper: Keeper
+
+  private async loadKeeper(): Promise<Keeper> {
+    return new Promise(function (resolve) {
+      setTimeout(function () {
+        resolve(Keeper.getInstance(this.instanceConfig))
+      }, 3000)
+    })
+  }
+
+  get keeper() {
+    if (!this._keeper) this.loadKeeper()
+    return this._keeper
+  }
 
   /**
    * Accounts submodule
