@@ -165,7 +165,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async getConditions(): Promise<ConditionSmall[]> {
     if (!this._conditions) {
       this._conditions = (await this.getConditionTypes()).map((address) =>
-        this.nevermined.keeper.getConditionByAddress(address),
+        this.nevermined.keeper.conditions.getConditionByAddress(address),
       )
     }
     return this._conditions

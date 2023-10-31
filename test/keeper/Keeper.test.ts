@@ -16,7 +16,8 @@ describe('Keeper', () => {
     deployerAddress = await TestContractHandler.prepareContracts()
     const nevermined = await Nevermined.getInstance(config)
     ;[owner] = await nevermined.accounts.list()
-    ;({ keeper } = nevermined)
+
+    keeper = nevermined.keeper
   })
 
   describe('public interface', () => {

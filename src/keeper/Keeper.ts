@@ -13,13 +13,8 @@ import {
   TransferDIDOwnershipCondition,
   TransferNFT721Condition,
   NFT721HolderCondition,
-  AaveBorrowCondition,
-  AaveCollateralDepositCondition,
-  AaveCollateralWithdrawCondition,
-  AaveRepayCondition,
   NFT721LockCondition,
   DistributeNFTCollateralCondition,
-  ConditionSmall,
   DIDRegistry,
   Dispenser,
   Token,
@@ -46,6 +41,7 @@ import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors'
+import { KeeperConditions } from './KeeperConditions'
 
 /**
  * Interface with Nevermined contracts.
@@ -55,6 +51,8 @@ import { KeeperError } from '../errors'
  * - Marketplace: the core marketplace where people can transact with each other with Nevermined tokens.
  */
 export class Keeper extends Instantiable {
+  conditions: KeeperConditions
+
   /**
    * Returns Keeper instance.
    * @returns {@link Keeper}
@@ -66,6 +64,8 @@ export class Keeper extends Instantiable {
   }
 
   public async init() {
+    this.conditions = await KeeperConditions.getInstance(this.instanceConfig)
+
     this.instances = {}
     try {
       this.instances = await objectPromiseAll({
@@ -169,26 +169,28 @@ export class Keeper extends Instantiable {
     this.agreementStoreManager = this.instances.agreementStoreManager
     this.conditionStoreManager = this.instances.conditionStoreManager
     // Conditions
-    this.conditions = {
-      lockPaymentCondition: this.instances.lockPaymentCondition,
-      escrowPaymentCondition: this.instances.escrowPaymentCondition,
-      accessCondition: this.instances.accessCondition,
-      computeExecutionCondition: this.instances.computeExecutionCondition,
-      nftHolderCondition: this.instances.nftHolderCondition,
-      nft721HolderCondition: this.instances.nft721HolderCondition,
-      nftLockCondition: this.instances.nftLockCondition,
-      nftAccessCondition: this.instances.nftAccessCondition,
-      transferNftCondition: this.instances.transferNftCondition,
-      transferNft721Condition: this.instances.transferNft721Condition,
-      transferDidOwnershipCondition: this.instances.transferDidOwnershipCondition,
-      aaveBorrowCondition: undefined,
-      aaveCollateralDepositCondition: undefined,
-      aaveCollateralWithdrawCondition: undefined,
-      aaveRepayCondition: undefined,
-      nft721LockCondition: this.instances.nft721LockCondition,
-      distributeNftCollateralCondition: this.instances.distributeNftCollateralCondition,
-    }
-    this.conditionsList = Object.values(this.conditions)
+    // TODO: cleanup
+    // this.conditions = {
+    //   lockPaymentCondition: this.instances.lockPaymentCondition,
+    //   escrowPaymentCondition: this.instances.escrowPaymentCondition,
+    //   accessCondition: this.instances.accessCondition,
+    //   computeExecutionCondition: this.instances.computeExecutionCondition,
+    //   nftHolderCondition: this.instances.nftHolderCondition,
+    //   nft721HolderCondition: this.instances.nft721HolderCondition,
+    //   nftLockCondition: this.instances.nftLockCondition,
+    //   nftAccessCondition: this.instances.nftAccessCondition,
+    //   transferNftCondition: this.instances.transferNftCondition,
+    //   transferNft721Condition: this.instances.transferNft721Condition,
+    //   transferDidOwnershipCondition: this.instances.transferDidOwnershipCondition,
+    //   aaveBorrowCondition: undefined,
+    //   aaveCollateralDepositCondition: undefined,
+    //   aaveCollateralWithdrawCondition: undefined,
+    //   aaveRepayCondition: undefined,
+    //   nft721LockCondition: this.instances.nft721LockCondition,
+    //   distributeNftCollateralCondition: this.instances.distributeNftCollateralCondition,
+    // }
+    // this.conditionsList = Object.values(this.conditions)
+
     // Templates
     this.templates = {
       accessTemplate: this.instances.accessTemplate,
@@ -267,27 +269,28 @@ export class Keeper extends Instantiable {
   /**
    * Conditions instances.
    */
-  public conditions: {
-    lockPaymentCondition: LockPaymentCondition
-    escrowPaymentCondition: EscrowPaymentCondition
-    accessCondition: AccessCondition
-    computeExecutionCondition: ComputeExecutionCondition
-    nftHolderCondition: NFTHolderCondition
-    nft721HolderCondition: NFT721HolderCondition
-    nftLockCondition: NFTLockCondition
-    nftAccessCondition: NFTAccessCondition
-    transferNftCondition: TransferNFTCondition
-    transferNft721Condition: TransferNFT721Condition
-    transferDidOwnershipCondition: TransferDIDOwnershipCondition
-    nft721LockCondition: NFT721LockCondition
-    aaveCollateralDepositCondition: AaveCollateralDepositCondition
-    aaveBorrowCondition: AaveBorrowCondition
-    aaveRepayCondition: AaveRepayCondition
-    aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition
-    distributeNftCollateralCondition: DistributeNFTCollateralCondition
-  }
+  // TODO: cleanup
+  // public conditions: {
+  //   lockPaymentCondition: LockPaymentCondition
+  //   escrowPaymentCondition: EscrowPaymentCondition
+  //   accessCondition: AccessCondition
+  //   computeExecutionCondition: ComputeExecutionCondition
+  //   nftHolderCondition: NFTHolderCondition
+  //   nft721HolderCondition: NFT721HolderCondition
+  //   nftLockCondition: NFTLockCondition
+  //   nftAccessCondition: NFTAccessCondition
+  //   transferNftCondition: TransferNFTCondition
+  //   transferNft721Condition: TransferNFT721Condition
+  //   transferDidOwnershipCondition: TransferDIDOwnershipCondition
+  //   nft721LockCondition: NFT721LockCondition
+  //   aaveCollateralDepositCondition: AaveCollateralDepositCondition
+  //   aaveBorrowCondition: AaveBorrowCondition
+  //   aaveRepayCondition: AaveRepayCondition
+  //   aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition
+  //   distributeNftCollateralCondition: DistributeNFTCollateralCondition
+  // }
 
-  public conditionsList: ConditionSmall[]
+  // public conditionsList: ConditionSmall[]
   public templateList: GenericAccess[]
 
   /**
@@ -344,14 +347,15 @@ export class Keeper extends Instantiable {
 
   private instances: { [contractRef: string]: ContractBase & any }
 
-  /**
-   * Returns a condition by address.
-   * @param address - Address of deployed condition.
-   * @returns Condition instance.
-   */
-  public getConditionByAddress(address: string): ConditionSmall {
-    return this.conditionsList.find((condition) => condition.address === address)
-  }
+  // TODO: Cleanup, this was moved to KeeperConditions
+  // /**
+  //  * Returns a condition by address.
+  //  * @param address - Address of deployed condition.
+  //  * @returns Condition instance.
+  //  */
+  // public getConditionByAddress(address: string): ConditionSmall {
+  //   return this.conditionsList.find((condition) => condition.address === address)
+  // }
 
   /**
    * Returns a template by name.
@@ -426,19 +430,20 @@ export class Keeper extends Instantiable {
   public async loadAaveInstances() {
     if (this.instances.aaveCreditTemplate) return this
 
-    this.logger.debug('Loading Aave contracts')
-    this.instances.aaveBorrowCondition = await AaveBorrowCondition.getInstance(this.instanceConfig)
-    this.instances.aaveCollateralDepositCondition =
-      await AaveCollateralDepositCondition.getInstance(this.instanceConfig)
-    this.instances.aaveCollateralWithdrawCondition =
-      await AaveCollateralWithdrawCondition.getInstance(this.instanceConfig)
-    this.instances.aaveRepayCondition = await AaveRepayCondition.getInstance(this.instanceConfig)
+    this.logger.debug('Loading Aave conditions')
+    this.conditions.loadAaveConditions()
+    // this.instances.aaveBorrowCondition = await AaveBorrowCondition.getInstance(this.instanceConfig)
+    // this.instances.aaveCollateralDepositCondition =
+    //   await AaveCollateralDepositCondition.getInstance(this.instanceConfig)
+    // this.instances.aaveCollateralWithdrawCondition =
+    //   await AaveCollateralWithdrawCondition.getInstance(this.instanceConfig)
+    // this.instances.aaveRepayCondition = await AaveRepayCondition.getInstance(this.instanceConfig)
 
-    this.conditions.aaveBorrowCondition = this.instances.aaveBorrowCondition
-    this.conditions.aaveCollateralDepositCondition = this.instances.aaveCollateralDepositCondition
-    this.conditions.aaveCollateralWithdrawCondition = this.instances.aaveCollateralWithdrawCondition
-    this.conditions.aaveRepayCondition = this.instances.aaveRepayCondition
-    this.conditionsList = Object.values(this.conditions)
+    // this.conditions.aaveBorrowCondition = this.instances.aaveBorrowCondition
+    // this.conditions.aaveCollateralDepositCondition = this.instances.aaveCollateralDepositCondition
+    // this.conditions.aaveCollateralWithdrawCondition = this.instances.aaveCollateralWithdrawCondition
+    // this.conditions.aaveRepayCondition = this.instances.aaveRepayCondition
+    // this.conditionsList = Object.values(this.conditions)
 
     this.instances.aaveCreditTemplate = await AaveCreditTemplate.getInstance(this.instanceConfig)
     this.templates.aaveCreditTemplate = this.instances.aaveCreditTemplate
