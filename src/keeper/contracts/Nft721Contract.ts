@@ -37,7 +37,7 @@ export class Nft721Contract extends NFTContractsBase {
     if (this.overrideAddress) {
       // We don't have a subgraph for NFT721 so we can only use ContractEvent
       const eventEmitter = new EventHandler()
-      this._events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
+      this.events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
     }
   }
 

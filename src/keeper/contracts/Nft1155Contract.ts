@@ -41,7 +41,7 @@ export class Nft1155Contract extends NFTContractsBase {
     if (this.overrideAddress) {
       // We don't have a subgraph for NFT1155 so we can only use ContractEvent
       const eventEmitter = new EventHandler()
-      this._events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
+      this.events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
     }
   }
 

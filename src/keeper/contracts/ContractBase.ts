@@ -24,47 +24,33 @@ export interface TxParameters {
   progress?: (data: any) => void
 }
 
+const lazyLoad = {
+  get(target: any, prop: any, receiver: any) {
+    if (!target.initialized) {
+      ;(async () => {
+        await target.init()
+        target.initialized = true
+      })()
+    }
+    return Reflect.get(target, prop, receiver)
+  },
+}
+
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
-  private _contract: ethers.BaseContract
-  public _events: ContractEvent | SubgraphEvent
-  public _version: string
-  private _address: string
+  public contract: ethers.BaseContract
+  public events: ContractEvent | SubgraphEvent
+  public version: string
+  public address: string
   public optional: boolean
+  private initialized = false
 
   constructor(contractName: string, config: InstantiableConfig, optional = false) {
     super()
     this.contractName = contractName
     this.setInstanceConfig(config)
     this.optional = optional
-  }
-
-  public get contract(): ethers.BaseContract {
-    if (!this._contract) {
-      ;(async () => await this.init())()
-    }
-    return this._contract
-  }
-
-  public get address(): string {
-    if (!this._address) {
-      ;(async () => (this._address = await this.contract.getAddress()))()
-    }
-    return this._address
-  }
-
-  public get version(): string {
-    if (!this._version) {
-      ;(async () => await this.init())()
-    }
-    return this._version
-  }
-
-  public get events(): ContractEvent | SubgraphEvent {
-    if (!this._events) {
-      ;(async () => await this.init())()
-    }
-    return this._events
+    return new Proxy(this, lazyLoad)
   }
 
   public getSignatureOfMethod(methodName: string, args: any[] = []): string {
@@ -84,16 +70,15 @@ export abstract class ContractBase extends Instantiable {
    * @param abi - Uses this abi instead of searching on the artifacts folder.
    */
   protected async init(address?: string, abi?: { abi: ethers.Interface | ethers.InterfaceAbi }) {
-    console.log(`calling init with address '${address}' and abi '${abi}' `)
     if (address) {
       await new ContractHandler(this.instanceConfig).checkExists(address)
     }
 
     // load the contract
     if (abi) {
-      this._contract = new ethers.Contract(address, abi.abi, this.web3)
+      this.contract = new ethers.Contract(address, abi.abi, this.web3)
     } else {
-      this._contract = await this.nevermined.utils.contractHandler.get(
+      this.contract = await this.nevermined.utils.contractHandler.get(
         this.contractName,
         this.optional,
         this.config.artifactsFolder,
@@ -102,7 +87,7 @@ export abstract class ContractBase extends Instantiable {
     }
 
     try {
-      this._version = await this.nevermined.utils.contractHandler.getVersion(
+      this.version = await this.nevermined.utils.contractHandler.getVersion(
         this.contractName,
         this.config.artifactsFolder,
       )
@@ -112,14 +97,14 @@ export abstract class ContractBase extends Instantiable {
 
     const eventEmitter = new EventHandler()
     if (this.config.graphHttpUri) {
-      this._events = SubgraphEvent.getInstance(
+      this.events = SubgraphEvent.getInstance(
         this,
         eventEmitter,
         this.config.graphHttpUri,
         await this.nevermined.keeper.getNetworkName(),
       )
     } else {
-      this._events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
+      this.events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
     }
   }
 
@@ -286,7 +271,6 @@ export abstract class ContractBase extends Instantiable {
   ): Promise<ContractTransactionReceipt> {
     if (params.zeroDevSigner) {
       const paramsFixed = { ...params, signer: undefined }
-      console.log('send', this.contract)
       const contract = this.contract.connect(params.zeroDevSigner as any)
       return await this.internalSendZeroDev(
         name,
@@ -384,7 +368,6 @@ export abstract class ContractBase extends Instantiable {
   }
 
   private searchMethod(methodName: string, args: any[] = []) {
-    console.log('contract', this.contract)
     const methods = this.contract.interface.fragments.filter(
       (f: FunctionFragment) => f.name === methodName,
     )
