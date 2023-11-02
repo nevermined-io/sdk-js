@@ -19,11 +19,11 @@ export interface TemplateMetadata {
 
 export class TemplateStoreManager extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<TemplateStoreManager> {
-    const templateStoreManeger: TemplateStoreManager = new TemplateStoreManager(
+    const templateStoreManager: TemplateStoreManager = new TemplateStoreManager(
       'TemplateStoreManager',
+      config,
     )
-    await templateStoreManeger.init(config)
-    return templateStoreManeger
+    return templateStoreManager
   }
 
   public getOwner(): Promise<string> {

@@ -9,7 +9,7 @@ import {
   TransactionReceipt,
   ethers,
 } from 'ethers'
-import { jsonReplacer, parseUnits } from '../../sdk'
+import { ContractHandler, jsonReplacer, parseUnits } from '../../sdk'
 import { ZeroDevAccountSigner } from '@zerodev/sdk'
 export interface TxParameters {
   value?: string
@@ -26,14 +26,45 @@ export interface TxParameters {
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
-  public contract: ethers.BaseContract = null
-  public events: ContractEvent | SubgraphEvent = null
-  public version: string
-  public address: string
+  private _contract: ethers.BaseContract
+  public _events: ContractEvent | SubgraphEvent
+  public _version: string
+  private _address: string
+  public optional: boolean
 
-  constructor(contractName: string) {
+  constructor(contractName: string, config: InstantiableConfig, optional = false) {
     super()
     this.contractName = contractName
+    this.setInstanceConfig(config)
+    this.optional = optional
+  }
+
+  public get contract(): ethers.BaseContract {
+    if (!this._contract) {
+      ;(async () => await this.init())()
+    }
+    return this._contract
+  }
+
+  public get address(): string {
+    if (!this._address) {
+      ;(async () => (this._address = await this.contract.getAddress()))()
+    }
+    return this._address
+  }
+
+  public get version(): string {
+    if (!this._version) {
+      ;(async () => await this.init())()
+    }
+    return this._version
+  }
+
+  public get events(): ContractEvent | SubgraphEvent {
+    if (!this._events) {
+      ;(async () => await this.init())()
+    }
+    return this._events
   }
 
   public getSignatureOfMethod(methodName: string, args: any[] = []): string {
@@ -46,19 +77,34 @@ export abstract class ContractBase extends Instantiable {
     return foundMethod.inputs
   }
 
-  protected async init(config: InstantiableConfig, optional = false) {
-    this.setInstanceConfig(config)
-    this.contract = await this.nevermined.utils.contractHandler.get(
-      this.contractName,
-      optional,
-      config.artifactsFolder,
-    )
-    this.address = await this.contract.getAddress()
+  /**
+   * Initialize a contract
+   *
+   * @param address - Overrides the address in the artifact
+   * @param abi - Uses this abi instead of searching on the artifacts folder.
+   */
+  protected async init(address?: string, abi?: { abi: ethers.Interface | ethers.InterfaceAbi }) {
+    console.log(`calling init with address '${address}' and abi '${abi}' `)
+    if (address) {
+      await new ContractHandler(this.instanceConfig).checkExists(address)
+    }
+
+    // load the contract
+    if (abi) {
+      this._contract = new ethers.Contract(address, abi.abi, this.web3)
+    } else {
+      this._contract = await this.nevermined.utils.contractHandler.get(
+        this.contractName,
+        this.optional,
+        this.config.artifactsFolder,
+        address,
+      )
+    }
 
     try {
-      this.version = await this.nevermined.utils.contractHandler.getVersion(
+      this._version = await this.nevermined.utils.contractHandler.getVersion(
         this.contractName,
-        config.artifactsFolder,
+        this.config.artifactsFolder,
       )
     } catch {
       throw new KeeperError(`${this.contractName} not available on this network.`)
@@ -66,14 +112,14 @@ export abstract class ContractBase extends Instantiable {
 
     const eventEmitter = new EventHandler()
     if (this.config.graphHttpUri) {
-      this.events = SubgraphEvent.getInstance(
+      this._events = SubgraphEvent.getInstance(
         this,
         eventEmitter,
         this.config.graphHttpUri,
         await this.nevermined.keeper.getNetworkName(),
       )
     } else {
-      this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.web3)
+      this._events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
     }
   }
 
@@ -240,6 +286,7 @@ export abstract class ContractBase extends Instantiable {
   ): Promise<ContractTransactionReceipt> {
     if (params.zeroDevSigner) {
       const paramsFixed = { ...params, signer: undefined }
+      console.log('send', this.contract)
       const contract = this.contract.connect(params.zeroDevSigner as any)
       return await this.internalSendZeroDev(
         name,
@@ -337,6 +384,7 @@ export abstract class ContractBase extends Instantiable {
   }
 
   private searchMethod(methodName: string, args: any[] = []) {
+    console.log('contract', this.contract)
     const methods = this.contract.interface.fragments.filter(
       (f: FunctionFragment) => f.name === methodName,
     )

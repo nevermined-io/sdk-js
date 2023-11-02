@@ -3,32 +3,20 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../utils'
 import { Account } from '../../nevermined'
 import { ethers } from 'ethers'
-import { ContractEvent, EventHandler } from '../../events'
 import { NFTContractsBase } from './NFTContractsBase'
-import { ContractHandler } from '../ContractHandler'
+import { ContractEvent, EventHandler } from '../../events'
 
 export class Nft721Contract extends NFTContractsBase {
+  private overrideAddress?: string
+  private overrideAbi?: { abi: ethers.Interface | ethers.InterfaceAbi }
+
   public static async getInstance(
     config: InstantiableConfig,
     address: string,
     contractName = 'NFT721Upgradeable',
-    artifactsFolder = config.artifactsFolder,
   ): Promise<Nft721Contract> {
-    const nft: Nft721Contract = new Nft721Contract(contractName)
-    nft.setInstanceConfig(config)
-    const networkName = await nft.nevermined.keeper.getNetworkName()
-
-    // We don't have a subgraph for NFT721 so we can only use ContractEvent
-    const eventEmitter = new EventHandler()
-    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
-
-    const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
-
-    console.log(`Checking Address =${address}=`)
-    await new ContractHandler(config).checkExists(address)
-    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
-    nft.address = await nft.contract.getAddress()
-
+    const nft: Nft721Contract = new Nft721Contract(contractName, config)
+    nft.overrideAddress = address
     return nft
   }
 
@@ -38,18 +26,19 @@ export class Nft721Contract extends NFTContractsBase {
     solidityABI: any,
   ): Promise<Nft721Contract> {
     const contractName = solidityABI.contractName
-    const nft: Nft721Contract = new Nft721Contract(contractName)
-    nft.setInstanceConfig(config)
-
-    // We don't have a subgraph for NFT721 so we can only use ContractEvent
-    const eventEmitter = new EventHandler()
-    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
-
-    await new ContractHandler(config).checkExists(address)
-    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
-    nft.address = await nft.contract.getAddress()
-
+    const nft: Nft721Contract = new Nft721Contract(contractName, config)
+    nft.overrideAddress = address
+    nft.overrideAbi = solidityABI
     return nft
+  }
+
+  protected async init() {
+    await super.init(this.overrideAddress, this.overrideAbi)
+    if (this.overrideAddress) {
+      // We don't have a subgraph for NFT721 so we can only use ContractEvent
+      const eventEmitter = new EventHandler()
+      this._events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
+    }
   }
 
   /**

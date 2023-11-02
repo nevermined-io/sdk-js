@@ -181,7 +181,7 @@ export class ConditionsApi extends Instantiable {
     try {
       const { escrowPaymentCondition } = this.nevermined.keeper.conditions
 
-      let token: CustomToken
+      let token: Token
 
       if (!erc20TokenAddress) {
         token = this.nevermined.keeper.token

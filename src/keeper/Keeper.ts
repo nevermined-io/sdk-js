@@ -210,6 +210,8 @@ export class Keeper extends Instantiable {
     this.utils = {
       eventHandler: new EventHandler(),
     }
+
+    console.log('version', this.didRegistry)
     // version
     this.network = {
       chainId,

@@ -3,8 +3,7 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { parseUnits } from '../../sdk'
 export class Dispenser extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<Dispenser> {
-    const dispenser: Dispenser = new Dispenser('Dispenser')
-    await dispenser.init(config, true)
+    const dispenser: Dispenser = new Dispenser('Dispenser', config, true)
     return dispenser
   }
 

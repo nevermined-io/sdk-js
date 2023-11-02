@@ -60,13 +60,10 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   ): Promise<AgreementTemplate<Params> & any> {
     const agreementTemplate: AgreementTemplate<Params> = new (templateClass as any)(
       templateContractName,
+      config,
+      optional,
     )
-    await agreementTemplate.init(config, optional)
     return agreementTemplate
-  }
-
-  protected constructor(contractName: string) {
-    super(contractName)
   }
 
   public abstract params(...args: any[]): Params

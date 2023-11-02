@@ -21,8 +21,8 @@ export class AgreementStoreManager extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<AgreementStoreManager> {
     const templateStoreManager: AgreementStoreManager = new AgreementStoreManager(
       'AgreementStoreManager',
+      config,
     )
-    await templateStoreManager.init(config)
     return templateStoreManager
   }
 

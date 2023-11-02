@@ -11,8 +11,7 @@ export abstract class RoyaltyScheme extends ContractBase {
     optional = true,
   ): Promise<RoyaltyScheme & any> {
     try {
-      const scheme: RoyaltyScheme = new (schemeClass as any)(schemeName)
-      await scheme.init(config, optional)
+      const scheme: RoyaltyScheme = new (schemeClass as any)(schemeName, config, optional)
       return scheme
     } catch (e) {
       config.logger.debug(`Cannot load optional contract ${schemeName}`)

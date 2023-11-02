@@ -49,8 +49,7 @@ export abstract class ConditionSmall extends ContractBase {
     conditionsClass: any,
     optional = false,
   ): Promise<ConditionSmall & any> {
-    const condition: ConditionSmall = new (conditionsClass as any)(conditionName)
-    await condition.init(config, optional)
+    const condition: ConditionSmall = new (conditionsClass as any)(conditionName, config, optional)
     return condition
   }
 
@@ -114,8 +113,11 @@ export abstract class Condition<
     conditionsClass: any,
     optional = false,
   ): Promise<Condition<Ctx, Extra> & any> {
-    const condition: Condition<Ctx, Extra> = new (conditionsClass as any)(conditionName)
-    await condition.init(config, optional)
+    const condition: Condition<Ctx, Extra> = new (conditionsClass as any)(
+      conditionName,
+      config,
+      optional,
+    )
     return condition
   }
 

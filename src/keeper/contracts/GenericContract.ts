@@ -3,32 +3,20 @@ import { InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractTransactionReceipt, ethers } from 'ethers'
 
 export class GenericContract extends ContractBase {
-  protected fixedAddress: string
+  private overrideAddress: string
 
   public static async getInstance(
     config: InstantiableConfig,
     contractName: string,
     address?: string,
   ): Promise<GenericContract> {
-    const contract: GenericContract = new GenericContract(contractName, address)
-    await contract.init(config)
+    const contract: GenericContract = new GenericContract(contractName, config)
+    contract.overrideAddress = address
     return contract
   }
 
-  private constructor(contractName: string, address?: string) {
-    super(contractName)
-    this.fixedAddress = address
-  }
-
-  protected async init(config: InstantiableConfig, optional = false) {
-    this.setInstanceConfig(config)
-
-    this.contract = await this.nevermined.utils.contractHandler.get(
-      this.contractName,
-      optional,
-      config.artifactsFolder,
-      this.fixedAddress,
-    )
+  protected async init() {
+    super.init(this.overrideAddress)
   }
 
   public async call<T>(name: string, args: any[], from?: string): Promise<T> {
