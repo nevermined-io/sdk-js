@@ -102,11 +102,19 @@ export class NFTServiceAttributes {
    */
   static isCreditsBalanceEnough(nftAttributes: NFTServiceAttributes, creditsBalance: bigint) {
     // the user needs to have enough credits to pay the min credits required and the amount of credits to consume
-    return (
-      creditsBalance >= nftAttributes.minCreditsRequired && creditsBalance >= nftAttributes.amount
-    )
+    if (nftAttributes.minCreditsRequired === undefined)
+      return creditsBalance >= nftAttributes.amount
+    else
+      return (
+        creditsBalance >= nftAttributes.minCreditsRequired && creditsBalance >= nftAttributes.amount
+      )
   }
 
+  /**
+   * Given some partial nft attributes it applies some default validations and pre-configure default values
+   * @param nftAttributes partial nft attributes
+   * @returns nft attributes validated and configured
+   */
   static configureServicesAttributes(
     nftAttributes: Partial<NFTAttributes>,
   ): Partial<NFTAttributes> {
