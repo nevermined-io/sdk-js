@@ -5,7 +5,7 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import { Token, TransferNFTCondition } from '../../src/keeper'
 import { config } from '../config'
-import { getMetadata } from '../utils'
+import { generateSubscriptionMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import {
   getRoyaltyAttributes,
@@ -88,9 +88,8 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     payload = decodeJwt(config.marketplaceAuthToken)
 
     datasetMetadata = getMetadata()
-    timeSubscriptionMetadata = getMetadata(undefined, 'NVM App Time only Subscription')
-    subscriptionMetadata = getMetadata(undefined, 'NVM App Credits Subscription')
-    subscriptionMetadata.main.type = 'subscription'
+    timeSubscriptionMetadata = generateSubscriptionMetadata('NVM App Time only Subscription')
+    subscriptionMetadata = generateSubscriptionMetadata('NVM App Credits Subscription')
 
     datasetMetadata.userId = payload.sub
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
@@ -394,10 +393,11 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
             serviceType: 'nft-access',
             nft: {
               tokenId: creditSubscriptionDDO.shortId(),
-              // TODO: Review
               duration: subscriptionSilverDuration,
               amount: accessCostInCreditsDataset,
               nftTransfer,
+              maxCreditsCharged: 100n,
+              minCreditsCharged: 1n,
             },
           },
         ],

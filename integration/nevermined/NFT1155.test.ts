@@ -1,15 +1,7 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import {
-  Account,
-  DDO,
-  Nevermined,
-  AssetPrice,
-  AssetAttributes,
-  NFTAttributes,
-  ContractHandler,
-} from '../../src'
+import { Account, DDO, Nevermined, AssetPrice, NFTAttributes, ContractHandler } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
@@ -105,7 +97,7 @@ describe('NFT1155 End-to-End', () => {
     it('Should be able to publish a mintable DID attached to the new NFT1155 contract', async () => {
       royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, royalties)
 
-      const assetAttributes = AssetAttributes.getInstance({
+      const nftAttributes = NFTAttributes.getNFT1155Instance({
         metadata,
         services: [
           {
@@ -115,12 +107,9 @@ describe('NFT1155 End-to-End', () => {
           },
           {
             serviceType: 'nft-access',
-            nft: { amount: numberNFTs },
+            nft: { amount: numberNFTs, maxCreditsCharged: 100n, minCreditsCharged: 1n },
           },
         ],
-      })
-      const nftAttributes = NFTAttributes.getNFT1155Instance({
-        ...assetAttributes,
         nftContractAddress: nftUpgradeable.address,
         cap: cappedAmount,
         royaltyAttributes,
@@ -129,6 +118,17 @@ describe('NFT1155 End-to-End', () => {
       ddo = await nevermined.nfts1155.create(nftAttributes, publisher)
 
       assert.isDefined(ddo.shortId())
+    })
+
+    it('NFT Attributes should be part of the DDO', async () => {
+      const accessService = ddo.getServicesByType('nft-access')[0]
+      const ddoAttributes = accessService.attributes.main.nftAttributes
+
+      console.log(JSON.stringify(ddoAttributes))
+
+      assert.equal(ddoAttributes.amount, numberNFTs)
+      assert.equal(ddoAttributes.maxCreditsCharged, 100n)
+      assert.equal(ddoAttributes.minCreditsCharged, 1n)
     })
 
     it('Should be able to approve permissions', async () => {

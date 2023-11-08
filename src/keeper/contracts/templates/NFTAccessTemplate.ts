@@ -5,7 +5,13 @@ import {
   ValidationParams,
 } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account, DDO, NeverminedNFT1155Type, TxParameters } from '../../../sdk'
+import {
+  Account,
+  DDO,
+  NFTServiceAttributes,
+  NeverminedNFT1155Type,
+  TxParameters,
+} from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
@@ -156,17 +162,24 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
       return false
     }
 
-    const nftAccessService =
+    const nftAccessService = (
       params.service_index && params.service_index > 0
         ? ddo.findServiceByIndex(params.service_index)
         : ddo.findServiceByType(this.service())
+    ) as ServiceNFTAccess
 
-    const amount = DDO.getNftAmountFromService(nftAccessService)
-    if (amount <= 0n) return true
+    // const amount = DDO.getNftAmountFromService(nftAccessService)
+    // if (amount <= 0n) return true
 
-    const contractAddress = DDO.getNftContractAddressFromService(
-      nftAccessService as ServiceNFTAccess,
+    // params.nft_amount
+    const amount = NFTServiceAttributes.getCreditsToConsume(
+      nftAccessService.attributes.main.nftAttributes,
     )
+
+    console.log(`Track :: NFT Tokens to burn: ${amount}`)
+    console.log(JSON.stringify(nftAccessService.attributes.main.nftAttributes))
+
+    const contractAddress = DDO.getNftContractAddressFromService(nftAccessService)
 
     const tokenId = DDO.getTokenIdFromService(nftAccessService) || ddo.id
 
