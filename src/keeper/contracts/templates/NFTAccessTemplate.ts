@@ -16,6 +16,7 @@ import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstra
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
 import { NFTAccessCondition, NFTHolderCondition } from '../conditions'
+import { DynamicCreditsUnderLimit } from '../../../errors/NFTError'
 
 export interface NFTAccessTemplateParams {
   holderAddress: string
@@ -168,11 +169,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
         : ddo.findServiceByType(this.service())
     ) as ServiceNFTAccess
 
-    // const amount = DDO.getNftAmountFromService(nftAccessService)
-    // if (amount <= 0n) return true
-
-    // params.nft_amount
-    const amount = NFTServiceAttributes.getCreditsToConsume(
+    const amount = NFTServiceAttributes.getCreditsToCharge(
       nftAccessService.attributes.main.nftAttributes,
     )
 
@@ -186,8 +183,14 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
 
     const nftContract = await this.nevermined.contracts.loadNft1155(contractAddress)
 
-    await nftContract.burnFromHolder(params.consumer_address, tokenId, amount, from, txparams)
+    const balance = await nftContract.balance(tokenId, params.consumer_address)
+    if (balance < amount) {
+      throw new DynamicCreditsUnderLimit(
+        `Balance is under the number of required credits to be burned: ${balance} < ${amount}`,
+      )
+    }
 
+    await nftContract.burnFromHolder(params.consumer_address, tokenId, amount, from, txparams)
     return true
   }
 }

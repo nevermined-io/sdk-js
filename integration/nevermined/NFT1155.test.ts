@@ -107,7 +107,7 @@ describe('NFT1155 End-to-End', () => {
           },
           {
             serviceType: 'nft-access',
-            nft: { amount: numberNFTs, maxCreditsCharged: 100n, minCreditsCharged: 1n },
+            nft: { amount: numberNFTs, maxCreditsToCharge: 100n, minCreditsToCharge: 1n },
           },
         ],
         nftContractAddress: nftUpgradeable.address,
@@ -127,8 +127,8 @@ describe('NFT1155 End-to-End', () => {
       console.log(JSON.stringify(ddoAttributes))
 
       assert.equal(ddoAttributes.amount, numberNFTs)
-      assert.equal(ddoAttributes.maxCreditsCharged, 100n)
-      assert.equal(ddoAttributes.minCreditsCharged, 1n)
+      assert.equal(ddoAttributes.maxCreditsToCharge, 100n)
+      assert.equal(ddoAttributes.minCreditsToCharge, 1n)
     })
 
     it('Should be able to approve permissions', async () => {

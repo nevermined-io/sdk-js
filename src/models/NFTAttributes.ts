@@ -36,13 +36,13 @@ export class NFTServiceAttributes {
    * The maximum number of credits that can be charged to the subscriber.
    * If not specified, the subscription cost is not capped
    */
-  maxCreditsCharged?: bigint
+  maxCreditsToCharge?: bigint
 
   /**
    * The minimum number of credits that will be charged to the subscriber.
    * If not specified, the amount defined in the service agreement or 1 credit will be charged
    */
-  minCreditsCharged?: bigint
+  minCreditsToCharge?: bigint
 
   /**
    * The minimum number of credits that the subscribers needs to hold to access the asset.
@@ -57,8 +57,8 @@ export class NFTServiceAttributes {
     duration: 0, // Because it's not a subscription it doesn't have a duration
     amount: 1n, // By default just one edition
     tokenId: '', // By default no tokenId
-    maxCreditsCharged: 0n, // Max credits charged equals to 0 means the subscription cost is not capped
-    minCreditsCharged: 0n, // Min credits charged equals to 0 means the amount defined in the service agreement or 1 credit will be charged
+    maxCreditsToCharge: 0n, // Max credits to charge equals to 0 means the subscription cost is not capped
+    minCreditsToCharge: 0n, // Min credits to charge equals to 0 means the amount defined in the service agreement or 1 credit will be charged
     minCreditsRequired: 1n, // One credit required to access
   }
 
@@ -73,25 +73,30 @@ export class NFTServiceAttributes {
    * @param dynamicAmount the dynamic amount of credits asked to be consumed
    * @returns amount to consume
    */
-  static getCreditsToConsume(nftAttributes: NFTServiceAttributes, dynamicAmount?: bigint) {
+  static getCreditsToCharge(nftAttributes: NFTServiceAttributes, dynamicAmount?: bigint) {
     if (!nftAttributes) throw new NFTError('NFT attributes are not defined')
 
-    if (dynamicAmount) {
-      if (dynamicAmount > nftAttributes.maxCreditsCharged) {
-        // TODO: Evalue if thow an exception or return the max credits that can be charged
-        //throw new DynamicCreditsOverLimit(`The amount of credits to consume ${dynamicAmount} is higher than the max credits charged ${this.maxCreditsCharged}`)
-        return nftAttributes.maxCreditsCharged
-      } else if (dynamicAmount < nftAttributes.minCreditsCharged) {
-        // TODO: Evalue if thow an exception or return the min amount to be charged
-        //throw new DynamicCreditsUnderLimit(`The amount of credits to consume ${dynamicAmount} is lower than the min credits charged ${this.minCreditsCharged}`)
-        nftAttributes.minCreditsCharged
+    if (dynamicAmount !== undefined) {
+      if (dynamicAmount > nftAttributes.maxCreditsToCharge) {
+        // TODO: Evaluate if thow an exception or return the max credits that can be charged
+        //throw new DynamicCreditsOverLimit(`The amount of credits to consume ${dynamicAmount} is higher than the max credits charged ${this.maxCreditsToCharge}`)
+        return nftAttributes.maxCreditsToCharge
+      } else if (dynamicAmount < nftAttributes.minCreditsToCharge) {
+        // TODO: Evaluate if thow an exception or return the min amount to be charged
+        //throw new DynamicCreditsUnderLimit(`The amount of credits to consume ${dynamicAmount} is lower than the min credits charged ${this.minCreditsToCharge}`)
+        nftAttributes.minCreditsToCharge
       }
       return dynamicAmount
     }
-    if (nftAttributes.minCreditsCharged && nftAttributes.minCreditsCharged >= 0n)
-      return nftAttributes.amount > nftAttributes.minCreditsCharged
+
+    if (dynamicAmount === 0n || nftAttributes.amount === 0n)
+      // If the amount is 0 means the access is Free
+      return 0n
+
+    if (nftAttributes.minCreditsToCharge && nftAttributes.minCreditsToCharge >= 0n)
+      return nftAttributes.amount > nftAttributes.minCreditsToCharge
         ? nftAttributes.amount
-        : nftAttributes.minCreditsCharged
+        : nftAttributes.minCreditsToCharge
     else return nftAttributes.amount
   }
 
@@ -124,17 +129,17 @@ export class NFTServiceAttributes {
       if (service.nft.amount === undefined) service.nft.amount = this.defaultValues.amount
 
       if (service.serviceType === 'nft-access') {
-        if (!service.nft.minCreditsCharged) service.nft.minCreditsCharged = service.nft.amount
-        if (!service.nft.maxCreditsCharged) service.nft.maxCreditsCharged = service.nft.amount
+        if (!service.nft.minCreditsToCharge) service.nft.minCreditsToCharge = service.nft.amount
+        if (!service.nft.maxCreditsToCharge) service.nft.maxCreditsToCharge = service.nft.amount
         if (!service.nft.minCreditsRequired)
-          service.nft.minCreditsRequired = service.nft.minCreditsCharged
+          service.nft.minCreditsRequired = service.nft.minCreditsToCharge
 
         if (
-          service.nft.amount < service.nft.minCreditsCharged ||
-          service.nft.amount > service.nft.maxCreditsCharged
+          service.nft.amount < service.nft.minCreditsToCharge ||
+          service.nft.amount > service.nft.maxCreditsToCharge
         )
           throw new NFTError(
-            `The amount of credits to consume ${service.nft.amount} is not between the min credits charged ${service.nft.minCreditsCharged} and the max credits charged ${service.nft.maxCreditsCharged}`,
+            `The amount of credits to consume ${service.nft.amount} is not between the min credits charged ${service.nft.minCreditsToCharge} and the max credits charged ${service.nft.maxCreditsToCharge}`,
           )
       } else if (service.serviceType === 'nft-sales') {
         if (nftAttributes.ercType == 721) service.nft.amount = 1n
