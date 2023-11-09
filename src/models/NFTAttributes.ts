@@ -78,12 +78,8 @@ export class NFTServiceAttributes {
 
     if (dynamicAmount !== undefined) {
       if (dynamicAmount > nftAttributes.maxCreditsToCharge) {
-        // TODO: Evaluate if thow an exception or return the max credits that can be charged
-        //throw new DynamicCreditsOverLimit(`The amount of credits to consume ${dynamicAmount} is higher than the max credits charged ${this.maxCreditsToCharge}`)
         return nftAttributes.maxCreditsToCharge
       } else if (dynamicAmount < nftAttributes.minCreditsToCharge) {
-        // TODO: Evaluate if thow an exception or return the min amount to be charged
-        //throw new DynamicCreditsUnderLimit(`The amount of credits to consume ${dynamicAmount} is lower than the min credits charged ${this.minCreditsToCharge}`)
         nftAttributes.minCreditsToCharge
       }
       return dynamicAmount

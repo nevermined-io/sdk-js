@@ -173,10 +173,6 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
       nftAccessService.attributes.main.nftAttributes,
     )
 
-    console.log(`Track :: NFT Tokens to burn: ${amount}`)
-    console.log(JSON.stringify(nftAccessService.attributes.main.nftAttributes))
-    console.log(params)
-
     const contractAddress = DDO.getNftContractAddressFromService(nftAccessService)
 
     const tokenId = DDO.getTokenIdFromService(nftAccessService) || ddo.id

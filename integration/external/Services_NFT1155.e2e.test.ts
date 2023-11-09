@@ -257,6 +257,8 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
               tokenId: subscriptionDDO.shortId(),
               duration: 0, // Doesnt expire
               amount: costServiceInCredits, // The cost of accessing the service
+              maxCreditsToCharge: 2n,
+              minCreditsToCharge: 1n,
               nftTransfer,
             },
           },
@@ -537,6 +539,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     it('should be able to retrieve services associated with a subscription filtering by endpoints', async () => {
       const result = await nevermined.search.servicesBySubscription(
         subscriptionDDO.id,
+        NeverminedNFT1155Type.nft1155Credit,
         endpointsFilter,
       )
       assert.equal(result.totalResults.value, 1)
@@ -553,6 +556,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     it('should not be able to retrieve any services associated with a subscription filtering by endpoints which do not exist', async () => {
       const result = await nevermined.search.servicesBySubscription(
         subscriptionDDO.id,
+        NeverminedNFT1155Type.nft1155Credit,
         endpointsFilter2,
       )
       assert.equal(result.totalResults.value, 0)
