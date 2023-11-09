@@ -74,6 +74,7 @@ export abstract class BaseTemplate<Params, S extends Service>
           creator: publisher.getId(),
           datePublished: metadata.main.datePublished,
           name: this.name(),
+          ...(serviceAttributes.nft && { nftAttributes: serviceAttributes.nft }),
           ...(priceData && priceData.attributes.main),
         },
         additionalInformation: {

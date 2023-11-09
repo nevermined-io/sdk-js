@@ -187,6 +187,7 @@ describe('DDO Tests', () => {
         'signatureValue',
         'userId',
         'templateId',
+        'nftAttributes',
       ] as any,
     )
   })

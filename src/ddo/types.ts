@@ -68,6 +68,21 @@ export interface Workflow {
   stages: Stage[]
 }
 
+export interface PaymentAttributes {
+  paymentType: 'serviceAgreements' | 'stripe'
+  paymentEnabled: boolean
+  additionalAttributes?: {
+    [key: string]: string
+  }
+}
+
+export const DefaultPaymentAttributes: PaymentAttributes[] = [
+  {
+    paymentType: 'serviceAgreements',
+    paymentEnabled: true,
+  },
+]
+
 export interface Algorithm {
   language: string
   format?: string
@@ -283,6 +298,8 @@ export interface MetaDataMain {
   nftType?: NeverminedNFTType
 
   isDTP?: boolean
+
+  paymentAttributes?: PaymentAttributes[]
 }
 
 /**
@@ -682,6 +699,7 @@ export interface ServiceNFTAccess extends ServiceCommon {
       name: string
       datePublished: string
       timeout: number
+      nftAttributes?: NFTServiceAttributes
     }
     serviceAgreementTemplate?: ServiceAgreementTemplate
     additionalInformation: {
@@ -702,6 +720,7 @@ export interface ServiceNFTSales extends ServiceCommon, PricedMetadataInformatio
       datePublished: string
       price: string
       timeout: number
+      nftAttributes?: NFTServiceAttributes
     }
     serviceAgreementTemplate?: ServiceAgreementTemplate
     additionalInformation: {

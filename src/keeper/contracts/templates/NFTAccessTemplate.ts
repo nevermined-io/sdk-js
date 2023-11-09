@@ -5,11 +5,18 @@ import {
   ValidationParams,
 } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account, DDO, NeverminedNFT1155Type, TxParameters } from '../../../sdk'
+import {
+  Account,
+  DDO,
+  NFTServiceAttributes,
+  NeverminedNFT1155Type,
+  TxParameters,
+} from '../../../sdk'
 import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
 import { NFTAccessCondition, NFTHolderCondition } from '../conditions'
+import { DynamicCreditsUnderLimit } from '../../../errors/NFTError'
 
 export interface NFTAccessTemplateParams {
   holderAddress: string
@@ -156,24 +163,30 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
       return false
     }
 
-    const nftAccessService =
+    const nftAccessService = (
       params.service_index && params.service_index > 0
         ? ddo.findServiceByIndex(params.service_index)
         : ddo.findServiceByType(this.service())
+    ) as ServiceNFTAccess
 
-    const amount = DDO.getNftAmountFromService(nftAccessService)
-    if (amount <= 0n) return true
-
-    const contractAddress = DDO.getNftContractAddressFromService(
-      nftAccessService as ServiceNFTAccess,
+    const amount = NFTServiceAttributes.getCreditsToCharge(
+      nftAccessService.attributes.main.nftAttributes,
     )
+
+    const contractAddress = DDO.getNftContractAddressFromService(nftAccessService)
 
     const tokenId = DDO.getTokenIdFromService(nftAccessService) || ddo.id
 
     const nftContract = await this.nevermined.contracts.loadNft1155(contractAddress)
 
-    await nftContract.burnFromHolder(params.consumer_address, tokenId, amount, from, txparams)
+    const balance = await nftContract.balance(tokenId, params.consumer_address)
+    if (balance < amount) {
+      throw new DynamicCreditsUnderLimit(
+        `Balance is under the number of required credits to be burned: ${balance} < ${amount}`,
+      )
+    }
 
+    await nftContract.burnFromHolder(params.consumer_address, tokenId, amount, from, txparams)
     return true
   }
 }

@@ -1,4 +1,10 @@
-import { MetaData, AssetPrice, ResourceAuthentication } from '../../src'
+import {
+  MetaData,
+  AssetPrice,
+  ResourceAuthentication,
+  PaymentAttributes,
+  DefaultPaymentAttributes,
+} from '../../src'
 
 const metadata: Partial<MetaData> = {
   main: {
@@ -84,6 +90,25 @@ const webServiceMetadata: Partial<MetaData> = {
   },
 }
 
+const subscriptionMetadata: Partial<MetaData> = {
+  main: {
+    name: undefined,
+    type: 'subscription',
+    dateCreated: '2022-10-10T17:00:00Z',
+    datePublished: '2022-10-10T17:00:00Z',
+    author: 'Nevermined',
+    license: 'CC-BY',
+    files: [],
+    paymentAttributes: [
+      {
+        paymentType: 'serviceAgreements',
+        paymentEnabled: true,
+      },
+    ],
+  },
+  additionalInformation: {},
+}
+
 export const generateMetadata = (
   name: string,
   nonce: string | number = Math.random(),
@@ -147,6 +172,27 @@ export const generateWebServiceMetadata = (
     serviceMetadata.main.webService.openEndpoints = openEndpoints
   }
   return serviceMetadata
+}
+
+export const generateSubscriptionMetadata = (
+  name: string,
+  paymentAttributes: PaymentAttributes[] = DefaultPaymentAttributes,
+  nonce: string | number = Math.random(),
+): MetaData => {
+  const _metadata = {
+    ...subscriptionMetadata,
+    main: {
+      ...subscriptionMetadata.main,
+      name,
+      paymentAttributes,
+      ...({ nonce } as any),
+    },
+    additionalInformation: {
+      ...subscriptionMetadata.additionalInformation,
+    },
+  }
+
+  return _metadata
 }
 
 export const getMetadata = (nonce: string | number = Math.random(), name = 'TestAsset'): MetaData =>
