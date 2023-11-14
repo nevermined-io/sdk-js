@@ -263,7 +263,7 @@ export class ContractHandler extends Instantiable {
     }
 
     // arbitrum
-    if (chainId === 42161 || chainId === 421613) {
+    if (chainId === 42161 || chainId === 421613 || chainId === 421614) {
       return this.getFeeDataArbitrum()
     }
 
