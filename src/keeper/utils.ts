@@ -50,6 +50,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
       return 'arbitrum-one'
     case 421613:
       return 'arbitrum-goerli'
+    case 421614:
+      return 'arbitrum-sepolia'
     case 1313161554:
       return 'aurora'
     case 1313161555:
@@ -107,6 +109,8 @@ export async function isTestnet(networkId: number): Promise<boolean> {
     case 42161:
       return false
     case 421613:
+      return true
+    case 421614:
       return true
     case 1313161554:
       return false
