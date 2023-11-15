@@ -9,7 +9,7 @@ import {
   TransactionReceipt,
   ethers,
 } from 'ethers'
-import { jsonReplacer, parseUnits } from '../../sdk'
+import { ContractHandler, jsonReplacer, parseUnits } from '../../sdk'
 import { ZeroDevAccountSigner } from '@zerodev/sdk'
 export interface TxParameters {
   value?: string
@@ -24,16 +24,33 @@ export interface TxParameters {
   progress?: (data: any) => void
 }
 
+const lazyLoad = {
+  get(target: any, prop: any, receiver: any) {
+    if (!target.initialized) {
+      ;(async () => {
+        await target.init()
+        target.initialized = true
+      })()
+    }
+    return Reflect.get(target, prop, receiver)
+  },
+}
+
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
-  public contract: ethers.BaseContract = null
-  public events: ContractEvent | SubgraphEvent = null
+  public contract: ethers.BaseContract
+  public events: ContractEvent | SubgraphEvent
   public version: string
   public address: string
+  public optional: boolean
+  private initialized = false
 
-  constructor(contractName: string) {
+  constructor(contractName: string, config: InstantiableConfig, optional = false) {
     super()
     this.contractName = contractName
+    this.setInstanceConfig(config)
+    this.optional = optional
+    return new Proxy(this, lazyLoad)
   }
 
   public getSignatureOfMethod(methodName: string, args: any[] = []): string {
@@ -46,19 +63,33 @@ export abstract class ContractBase extends Instantiable {
     return foundMethod.inputs
   }
 
-  protected async init(config: InstantiableConfig, optional = false) {
-    this.setInstanceConfig(config)
-    this.contract = await this.nevermined.utils.contractHandler.get(
-      this.contractName,
-      optional,
-      config.artifactsFolder,
-    )
-    this.address = await this.contract.getAddress()
+  /**
+   * Initialize a contract
+   *
+   * @param address - Overrides the address in the artifact
+   * @param abi - Uses this abi instead of searching on the artifacts folder.
+   */
+  protected async init(address?: string, abi?: { abi: ethers.Interface | ethers.InterfaceAbi }) {
+    if (address) {
+      await new ContractHandler(this.instanceConfig).checkExists(address)
+    }
+
+    // load the contract
+    if (abi) {
+      this.contract = new ethers.Contract(address, abi.abi, this.web3)
+    } else {
+      this.contract = await this.nevermined.utils.contractHandler.get(
+        this.contractName,
+        this.optional,
+        this.config.artifactsFolder,
+        address,
+      )
+    }
 
     try {
       this.version = await this.nevermined.utils.contractHandler.getVersion(
         this.contractName,
-        config.artifactsFolder,
+        this.config.artifactsFolder,
       )
     } catch {
       throw new KeeperError(`${this.contractName} not available on this network.`)
@@ -73,7 +104,7 @@ export abstract class ContractBase extends Instantiable {
         await this.nevermined.keeper.getNetworkName(),
       )
     } else {
-      this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.web3)
+      this.events = ContractEvent.getInstance(this, eventEmitter, this.nevermined, this.web3)
     }
   }
 

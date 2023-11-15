@@ -6,8 +6,11 @@ import { didZeroX, zeroX } from '../../../utils'
 export class RewardsDistributor extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<RewardsDistributor> {
     try {
-      const instance: RewardsDistributor = new RewardsDistributor('RewardsDistributor')
-      await instance.init(config, true)
+      const instance: RewardsDistributor = new RewardsDistributor(
+        'RewardsDistributor',
+        config,
+        true,
+      )
       return instance
     } catch (e) {
       config.logger.warn('Cannot load optional contract RewardsDistributor')

@@ -12,10 +12,9 @@ describe('ContractWrapperBase', () => {
   before(async () => {
     await TestContractHandler.prepareContracts()
     const nevermined: Nevermined = await Nevermined.getInstance(config)
-    wrappedContract = new ContractBaseMock('NeverminedToken')
+    wrappedContract = new ContractBaseMock('NeverminedToken', (nevermined as any).instanceConfig)
     accounts = await nevermined.accounts.list()
-    wrappedContract = new ContractBaseMock('NeverminedToken')
-    await wrappedContract.initMock((nevermined as any).instanceConfig)
+    wrappedContract = new ContractBaseMock('NeverminedToken', (nevermined as any).instanceConfig)
   })
 
   describe('#call()', () => {

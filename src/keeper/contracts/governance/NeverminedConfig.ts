@@ -6,8 +6,7 @@ export default class NeverminedConfig extends ContractBase {
   templates: any
 
   public static async getInstance(config: InstantiableConfig): Promise<NeverminedConfig> {
-    const neverminedConfig: NeverminedConfig = new NeverminedConfig('NeverminedConfig')
-    await neverminedConfig.init(config)
+    const neverminedConfig: NeverminedConfig = new NeverminedConfig('NeverminedConfig', config)
     return neverminedConfig
   }
 

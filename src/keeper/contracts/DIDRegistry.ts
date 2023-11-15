@@ -14,8 +14,7 @@ import {
 
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
-    const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')
-    await didRegistry.init(config)
+    const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry', config)
     return didRegistry
   }
 
