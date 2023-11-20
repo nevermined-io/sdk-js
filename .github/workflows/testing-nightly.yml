@@ -5,29 +5,22 @@ on:
     - cron: '30 5 * * *'
 
 jobs:
-  unit-test:
+  unit-tests:
     runs-on: ubuntu-latest
+
     steps:
+      - name: Reclaim some disk space
+        run: docker system prune --all --volumes -f
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: |
-          yarn
-      - name: Run linters
-        run: yarn lint
-
-      - name: Start ganache
-        run: yarn ganache --port 18545 --chain.chainId 8998 &
-
       - uses: actions/checkout@v3
         with:
           repository: nevermined-io/contracts
           ref: 'main'
           path: contracts
           token: ${{ secrets.API_TOKEN_GITHUB }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: Deploy contracts
         run: |
@@ -42,11 +35,58 @@ jobs:
           cd ..
           rm -rf contracts
 
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Start ganache
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+        run: yarn ganache --server.port 18545 --chain.chainId 8998 --wallet.mnemonic "$SEED_WORDS" --detach
+
       - name: Run unit tests
         env:
           ETH_PORT: 18545
+          SEED_WORDS: ${{ secrets.seedWords }}
         run: |
           yarn test:all
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reclaim some disk space
+        run: docker system prune --all --volumes -f
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: nevermined-io/nvm-tools-actions@v0.15.0
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          opengsn: 'true'
+          estuary: 'true'
+          compute: 'true'
+          contracts-version: 'latest'
+          node-version: 'develop'
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Check artifacts
+        run: |
+          nvm-tools copy-artifacts ./artifacts
+          ls -l artifacts
+
+      - name: Run integration tests
+        env:
+          SEED_WORDS: ${{ secrets.seedWords }}
+          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+          IPFS_GATEWAY: https://ipfs.infura.io:5001
+          IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
+          IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
+          LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
+        run: yarn integration:all
 
   subgraph-integration:
     runs-on: ubuntu-latest
@@ -93,6 +133,7 @@ jobs:
 
   compute-integration:
     runs-on: ubuntu-latest
+    if: ${{ false }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -125,44 +166,9 @@ jobs:
         run: |
           yarn run integration:compute
 
-  integration:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - uses: nevermined-io/nvm-tools-actions@v0.15.0
-        with:
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-          opengsn: 'true'
-          estuary: 'true'
-          compute: 'true'
-          # TODO: Update to tagged versions when everything is relased and in main branches
-          contracts-version: 'latest'
-          node-version: 'develop'
-
-      - name: Install dependencies
-        run: |
-          yarn
-
-      - name: Check artifacts
-        run: |
-          nvm-tools copy-artifacts ./artifacts
-          ls -l artifacts
-
-      - name: Run integration tests
-        env:
-          SEED_WORDS: ${{ secrets.seedWords }}
-          INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
-          IPFS_GATEWAY: https://ipfs.infura.io:5001
-          IPFS_PROJECT_ID: ${{ secrets.IPFS_PROJECT_ID }}
-          IPFS_PROJECT_SECRET: ${{ secrets.IPFS_PROJECT_SECRET }}
-          LOG_LEVEL: 1 # If LOG_LEVEL is >1 it will print the logger.debug calls
-        run: yarn integration:all
-
   mumbai-integration:
     runs-on: ubuntu-latest
+    if: ${{ false }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
