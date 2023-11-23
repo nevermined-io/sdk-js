@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -53,8 +53,9 @@
   "dependencies": {
     "@alchemy/aa-core": "0.1.1",
     "@apollo/client": "^3.7.16",
-    "@turnkey/ethers": "0.17.4",
-    "@zerodev/sdk": "4.0.31",
+    "@turnkey/ethers": "^0.18.3",
+    "@turnkey/viem": "^0.3.4",
+    "@zerodev/sdk": "^4.3.3",
     "assert": "^2.0.0",
     "cross-fetch": "^4.0.0",
     "crypto-browserify": "^3.12.0",

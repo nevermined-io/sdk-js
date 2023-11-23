@@ -101,11 +101,11 @@ export class EthSignJWT extends SignJWT {
     message: string | Uint8Array,
     signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'>,
   ): Promise<string> {
-    if (signer instanceof ZeroDevAccountSigner) {
-      return signer.signMessageWith6492(message)
+    if ((signer as ZeroDevAccountSigner<'ECDSA'>).signMessageWith6492) {
+      return (signer as ZeroDevAccountSigner<'ECDSA'>).signMessageWith6492(message)
     }
 
-    return EthSignJWT.signText(message, signer)
+    return EthSignJWT.signText(message, signer as ethers.Signer)
   }
 
   private static async signTypedMessage(
@@ -114,15 +114,15 @@ export class EthSignJWT extends SignJWT {
     value: Record<string, any>,
     signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'>,
   ): Promise<string> {
-    if (signer instanceof ZeroDevAccountSigner) {
-      return signer.signTypedDataWith6492({
+    if ((signer as ZeroDevAccountSigner<'ECDSA'>).signTypedDataWith6492) {
+      return (signer as ZeroDevAccountSigner<'ECDSA'>).signTypedDataWith6492({
         domain,
         types: types as any,
         message: value,
         primaryType: '',
       })
     }
-    return signer.signTypedData(domain, types as any, value)
+    return signer.signTypedData(domain as any, types as any, value)
   }
 
   private base64url(input: Uint8Array | string): string {
