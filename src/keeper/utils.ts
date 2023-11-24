@@ -62,7 +62,7 @@ export async function getNetworkName(networkId: number): Promise<string> {
       throw new KeeperError(`Network with id ${networkId} not supported.`)
   }
 }
-export async function isTestnet(networkId: number): Promise<boolean> {
+export function isTestnet(networkId: number): boolean {
   switch (networkId) {
     case 1:
       return false
