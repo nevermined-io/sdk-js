@@ -206,7 +206,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       const isOperator = await subscriptionNFT.getContract.isOperator(transferNftCondition.address)
       assert.isTrue(isOperator)
 
-      subscriptionMetadata = getMetadata(undefined, 'Service Subscription NFT1155')
+      subscriptionMetadata = getMetadata(Math.random().toString(), 'Service Subscription NFT1155')
       subscriptionMetadata.main.type = 'subscription'
       const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: subscriptionMetadata,

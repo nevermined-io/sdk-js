@@ -24,6 +24,7 @@ import {
   DDOParamNotFoundError,
   DDOServiceAlreadyExists,
 } from '../errors/DDOError'
+import { jsonReplacer } from '../common'
 
 // DDO Services including a sales process
 export const SALES_SERVICES = ['access', 'compute', 'nft-sales']
@@ -41,7 +42,7 @@ export class DDO {
    * @returns DDO serialized.
    */
   public static serialize(ddo: DDO): string {
-    return JSON.stringify(ddo, null, 2)
+    return JSON.stringify(ddo, jsonReplacer, 2)
   }
 
   /**
@@ -244,7 +245,7 @@ export class DDO {
     const checksum = {}
     this.service.forEach((svc) => {
       checksum[svc.index] = this.checksum(
-        JSON.stringify(this.findServiceByType(svc.type).attributes.main),
+        JSON.stringify(this.findServiceByType(svc.type).attributes.main, jsonReplacer),
       )
     })
     return {
