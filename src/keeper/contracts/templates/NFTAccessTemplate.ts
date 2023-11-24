@@ -163,6 +163,15 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
       return false
     }
 
+    const subscriptionOwner = await this.nevermined.assets.owner(ddo.id)
+    const consumerIsOwner =
+      params.consumer_address.toLowerCase() === subscriptionOwner.toLowerCase()
+
+    if (consumerIsOwner) {
+      // User calling is the asset owner so skipping track()
+      return false
+    }
+
     const nftAccessService = (
       params.service_index && params.service_index > 0
         ? ddo.findServiceByIndex(params.service_index)
