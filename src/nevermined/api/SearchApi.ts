@@ -3,6 +3,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { QueryResult } from '../../services'
 import {
   Account,
+  AssetType,
   DID,
   didPrefixed,
   EventOptions,
@@ -631,8 +632,9 @@ export class SearchApi extends Instantiable {
    *
    * @returns {@link Promise<QueryResult>}
    */
-  public async datasetsByNftContract(
+  public async assetsByNftContract(
     nftContractAddress: string,
+    assetTypes: AssetType[] = [AssetType.dataset],
     nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     tokenId?: string,
     customNestedQueries?: SearchQuery['query'][],
@@ -674,8 +676,8 @@ export class SearchApi extends Instantiable {
                       },
                     },
                 {
-                  match: {
-                    'service.attributes.main.type': 'dataset',
+                  terms: {
+                    'service.attributes.main.type': assetTypes,
                   },
                 },
               ],
@@ -741,8 +743,9 @@ export class SearchApi extends Instantiable {
    *
    * @returns {@link Promise<QueryResult>}
    */
-  public async datasetsBySubscription(
+  public async assetsBySubscription(
     subscriptionDid: string,
+    assetTypes: AssetType[] = [AssetType.dataset],
     nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
@@ -767,8 +770,9 @@ export class SearchApi extends Instantiable {
 
     const nftContractAddress = DDO.getNftContractAddressFromService(nftSalesService)
 
-    return this.datasetsByNftContract(
+    return this.assetsByNftContract(
       nftContractAddress,
+      assetTypes,
       nftType,
       subscriptionDid.replace('did:nv:', ''),
       customNestedQueries,

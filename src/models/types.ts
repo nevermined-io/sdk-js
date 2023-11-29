@@ -51,6 +51,18 @@ export const defaultNeverminedNFTType = {
   1155: NeverminedNFT1155Type.nft1155,
 }
 
+export enum AssetType {
+  dataset = 'dataset',
+  algorithm = 'algorithm',
+  compute = 'compute',
+  workflow = 'workflow',
+  service = 'service',
+  subscription = 'subscription',
+  model = 'model',
+  file = 'file',
+  other = 'other',
+}
+
 export enum ValueType {
   DID, // DID string e.g. 'did:nv:xxx'
   DIDRef, // hash of DID same as in parameter (bytes32 _did) in text 0x0123abc.. or 0123abc..
