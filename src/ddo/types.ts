@@ -7,6 +7,7 @@ import {
   Babysig,
   NFTServiceAttributes,
   NFTAttributes,
+  AssetType,
 } from '../models'
 
 export interface Authentication {
@@ -240,16 +241,7 @@ export interface MetaDataMain {
    * initially ("dataset", "algorithm", "compute", "workflow", "model", "file", "subscription", "other").
    * @example "dataset"
    */
-  type:
-    | 'dataset'
-    | 'algorithm'
-    | 'compute'
-    | 'workflow'
-    | 'service'
-    | 'subscription'
-    | 'model'
-    | 'file'
-    | 'other'
+  type: AssetType
 
   /**
    * Sub type asssociated to the main type of the asset. This subtype is open so final users are not restricted to use anything they need.

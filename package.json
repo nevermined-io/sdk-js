@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
