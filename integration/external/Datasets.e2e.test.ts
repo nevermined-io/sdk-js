@@ -8,6 +8,7 @@ import {
   AssetPrice,
   NFTAttributes,
   NeverminedNFT721Type,
+  NeverminedNFT1155Type,
 } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
@@ -425,7 +426,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should be able to retrieve datasets associated with a subscription filtering by tags', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter)
+      const result = await nevermined.search.datasetsBySubscription(
+        subscriptionDDO.id,
+        NeverminedNFT1155Type.nft1155Credit,
+        tagsFilter,
+      )
       assert.equal(result.totalResults.value, 1)
 
       assert.isTrue(
@@ -438,7 +443,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should not be able to retrieve any datasets associated with a subscription filtering by tags which do not exist', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter2)
+      const result = await nevermined.search.datasetsBySubscription(
+        subscriptionDDO.id,
+        NeverminedNFT1155Type.nft1155Credit,
+        tagsFilter2,
+      )
       assert.equal(result.totalResults.value, 0)
     })
   })
