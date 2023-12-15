@@ -674,8 +674,19 @@ export class SearchApi extends Instantiable {
                       },
                     },
                 {
-                  match: {
-                    'service.attributes.main.type': 'dataset',
+                  bool: {
+                    must_not: [
+                      {
+                        match: {
+                          'service.attributes.main.type': 'subscription',
+                        },
+                      },
+                      {
+                        match: {
+                          'service.attributes.main.type': 'service',
+                        },
+                      },
+                    ],
                   },
                 },
               ],
