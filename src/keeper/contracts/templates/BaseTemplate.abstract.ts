@@ -40,10 +40,12 @@ export abstract class BaseTemplate<Params, S extends Service>
     priceData?: PricedMetadataInformation,
   ): S {
     const assetPrice = serviceAttributes.price
-    let tokenAddress
-    if (assetPrice === undefined || !isAddress(assetPrice.getTokenAddress()))
+    let tokenAddress = undefined
+    if (assetPrice && isAddress(assetPrice.getTokenAddress()))
+      tokenAddress = assetPrice.getTokenAddress()
+    else if (this.nevermined.utils.token) {
       tokenAddress = this.nevermined.utils.token.getAddress()
-    else tokenAddress = assetPrice.getTokenAddress()
+    }
 
     const serviceAgreementTemplate = this.getServiceAgreementTemplate()
     const _conds = getConditionsByParams(
