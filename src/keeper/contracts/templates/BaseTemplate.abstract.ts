@@ -43,8 +43,8 @@ export abstract class BaseTemplate<Params, S extends Service>
     let tokenAddress = undefined
     if (assetPrice && isAddress(assetPrice.getTokenAddress()))
       tokenAddress = assetPrice.getTokenAddress()
-    else if (this.nevermined.utils.token) {
-      tokenAddress = this.nevermined.utils.token.getAddress()
+    else if (this.nevermined.keeper.token) {
+      tokenAddress = this.nevermined.keeper.token.address
     }
 
     const serviceAgreementTemplate = this.getServiceAgreementTemplate()
