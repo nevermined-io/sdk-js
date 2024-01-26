@@ -4,7 +4,7 @@ import { AssetsApi } from './api/AssetsApi'
 import { ProvenanceApi } from './api/ProvenanceApi'
 import { UtilsApi } from './api/UtilsApi'
 import { Keeper, CustomToken, Nft1155Contract, Nft721Contract } from '../keeper'
-import { NeverminedOptions } from '../models'
+import { NeverminedInitializationOptions, NeverminedOptions } from '../models'
 import { Instantiable, generateInstantiableConfigFromConfig } from '../Instantiable.abstract'
 import { NFT1155Api } from './api/nfts/NFT1155Api'
 import { NFT721Api } from './api/nfts/NFT721Api'
@@ -17,6 +17,19 @@ import { Logger } from '../sdk'
  * Main interface for Nevermined Protocol.
  */
 export class Nevermined extends Instantiable {
+  static DEFAULT_INITIALIZATION_OPTIONS: NeverminedInitializationOptions = {
+    loadCore: true,
+    loadServiceAgreements: true,
+    loadNFTs1155: true,
+    loadNFTs721: true,
+    loadDispenser: true,
+    loadERC20Token: true,
+    loadAccessFlow: true,
+    loadDIDTransferFlow: true,
+    loadRewards: true,
+    loadRoyalties: true,
+    loadCompute: true,
+  }
   /**
    * Returns the instance of Nevermined.
    *
@@ -31,7 +44,10 @@ export class Nevermined extends Instantiable {
    * @param config - Nevermined instance configuration.
    * @returns A {@link Nevermined} instance
    */
-  public static async getInstance(config: NeverminedOptions): Promise<Nevermined> {
+  public static async getInstance(
+    config: NeverminedOptions,
+    initOptions: NeverminedInitializationOptions = this.DEFAULT_INITIALIZATION_OPTIONS,
+  ): Promise<Nevermined> {
     const instance = new Nevermined()
 
     const instanceConfig = {
@@ -41,22 +57,32 @@ export class Nevermined extends Instantiable {
     instance.setInstanceConfig(instanceConfig)
 
     // Nevermined main API
+
     try {
-      instance.accounts = new AccountsApi(instanceConfig)
-      instance.agreements = new AgreementsApi(instanceConfig)
-      instance.provenance = new ProvenanceApi(instanceConfig)
       instance.search = new SearchApi(instanceConfig)
       instance.services = new ServicesApi(instanceConfig)
-      instance.utils = new UtilsApi(instanceConfig)
-      instance.keeper = await Keeper.getInstance(instanceConfig)
-      await instance.keeper.init()
-      instance.assets = new AssetsApi(instanceConfig)
-      instance.compute = new ComputeApi(instanceConfig)
-      instance.nfts1155 = await NFT1155Api.getInstance(
-        instanceConfig,
-        instance.keeper.nftUpgradeable,
-      )
-      instance.isKeeperConnected = true
+      instance.utils = new UtilsApi(instanceConfig, initOptions)
+
+      if (initOptions.loadCore) {
+        instance.accounts = new AccountsApi(instanceConfig)
+        instance.agreements = new AgreementsApi(instanceConfig)
+        instance.provenance = new ProvenanceApi(instanceConfig)
+        instance.keeper = await Keeper.getInstance(instanceConfig)
+        await instance.keeper.init(initOptions)
+
+        if (initOptions.loadNFTs1155) {
+          instance.nfts1155 = await NFT1155Api.getInstance(
+            instanceConfig,
+            instance.keeper.nftUpgradeable,
+          )
+        }
+
+        instance.assets = new AssetsApi(instanceConfig)
+
+        if (initOptions.loadCompute) instance.compute = new ComputeApi(instanceConfig)
+      }
+
+      instance.isKeeperConnected = initOptions.loadCore
     } catch (error) {
       instance.isKeeperConnected = false
       Logger.error(error)
@@ -66,6 +92,22 @@ export class Nevermined extends Instantiable {
     }
 
     return instance
+  }
+
+  public static async getSearchOnlyInstance(config: NeverminedOptions): Promise<Nevermined> {
+    return this.getInstance(config, {
+      loadCore: false,
+      loadServiceAgreements: false,
+      loadNFTs1155: false,
+      loadNFTs721: false,
+      loadDispenser: false,
+      loadERC20Token: false,
+      loadAccessFlow: false,
+      loadDIDTransferFlow: false,
+      loadRewards: false,
+      loadRoyalties: false,
+      loadCompute: false,
+    })
   }
 
   /**

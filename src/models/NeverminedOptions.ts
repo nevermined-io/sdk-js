@@ -2,6 +2,20 @@ import { ethers } from 'ethers'
 import { LogLevel } from '../utils'
 import { AaveConfig } from './'
 
+export interface NeverminedInitializationOptions {
+  loadCore: boolean // NVMConfig, DIDRegistry
+  loadServiceAgreements: boolean // TemplateStoreManager, AgreementStoreManager, ConditionStoreManager
+  loadNFTs721: boolean // NFT721HolderCondition, NFT721LockCondition, NFT721AccessTemplate, NFT721SalesTemplate
+  loadNFTs1155: boolean // NFTHolderCondition, NFTLockCondition, NFTAccessTemplate, NFTSalesTemplate
+  loadDispenser: boolean // Dispenser
+  loadERC20Token: boolean // Token
+  loadAccessFlow: boolean // LockPaymentCondition, EscrowPaymentCondition, AccessCondition, AccessTemplate
+  loadDIDTransferFlow: boolean // TransferDIDOwnershipCondition, DIDSalesTemplate
+  loadRewards: boolean // RewardsDistributor
+  loadRoyalties: boolean // StandardRoyalties, CurveRoyalties
+  loadCompute: boolean // ComputeExecutionCondition, EscrowComputeExecutionTemplate
+}
+
 export class NeverminedOptions {
   /**
    * Ethereum Web3 Provider URL. This Url allows the SDK to connect to a blockchain.

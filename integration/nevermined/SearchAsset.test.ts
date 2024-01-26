@@ -7,12 +7,14 @@ import { generateId } from '../../src/utils'
 
 describe('Search Asset', () => {
   let nevermined: Nevermined
+  let neverminedOffline: Nevermined
   let account: Account
   let appId: string
   let userId: string
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
+    neverminedOffline = await Nevermined.getSearchOnlyInstance(config)
     ;[account] = await nevermined.accounts.list()
     appId = generateId()
 
@@ -42,21 +44,27 @@ describe('Search Asset', () => {
   })
 
   it('should search by text', async () => {
-    let result = await nevermined.search.byText('Test', undefined, undefined, undefined, appId)
+    let result = await neverminedOffline.search.byText(
+      'Test',
+      undefined,
+      undefined,
+      undefined,
+      appId,
+    )
     assert.equal(result.totalResults.value, 4)
 
-    result = await nevermined.search.byText('Test1', undefined, undefined, undefined, appId)
+    result = await neverminedOffline.search.byText('Test1', undefined, undefined, undefined, appId)
     assert.equal(result.totalResults.value, 1)
 
-    result = await nevermined.search.byText('Test2', undefined, undefined, undefined, appId)
+    result = await neverminedOffline.search.byText('Test2', undefined, undefined, undefined, appId)
     assert.equal(result.totalResults.value, 2)
 
-    result = await nevermined.search.byText('Test3', undefined, undefined, undefined, appId)
+    result = await neverminedOffline.search.byText('Test3', undefined, undefined, undefined, appId)
     assert.equal(result.totalResults.value, 1)
   })
 
   it('should return a list of DDOs', async () => {
-    const { results: ddos } = await nevermined.search.byText(
+    const { results: ddos } = await neverminedOffline.search.byText(
       'Test1',
       undefined,
       undefined,
@@ -69,7 +77,7 @@ describe('Search Asset', () => {
   })
 
   it('should be able to do a query to get a list of DDOs', async () => {
-    const { results: ddos } = await nevermined.search.byText(
+    const { results: ddos } = await neverminedOffline.search.byText(
       'Test2',
       undefined,
       undefined,
@@ -82,7 +90,7 @@ describe('Search Asset', () => {
   })
 
   it('should be able get the assets by DID', async () => {
-    const { results: ddos } = await nevermined.search.byText(
+    const { results: ddos } = await neverminedOffline.search.byText(
       'Test2',
       undefined,
       undefined,

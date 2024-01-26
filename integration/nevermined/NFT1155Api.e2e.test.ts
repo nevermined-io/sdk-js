@@ -57,7 +57,19 @@ function makeTest(isCustom) {
     let payload: JWTPayload
 
     before(async () => {
-      nevermined = await Nevermined.getInstance(config)
+      nevermined = await Nevermined.getInstance(config, {
+        loadCore: true,
+        loadServiceAgreements: true,
+        loadNFTs1155: true,
+        loadNFTs721: false,
+        loadDispenser: true,
+        loadERC20Token: true,
+        loadAccessFlow: false,
+        loadDIDTransferFlow: false,
+        loadRewards: false,
+        loadRoyalties: true,
+        loadCompute: false,
+      })
       ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 

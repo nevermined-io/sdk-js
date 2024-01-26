@@ -46,6 +46,7 @@ import { EventHandler } from '../events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors'
+import { NeverminedInitializationOptions } from '../models'
 
 /**
  * Interface with Nevermined contracts.
@@ -65,34 +66,100 @@ export class Keeper extends Instantiable {
     return keeper
   }
 
-  public async init() {
+  public async init(initOptions: NeverminedInitializationOptions) {
     this.instances = {}
     try {
       this.instances = await objectPromiseAll({
-        // Main contracts
         dispenser: undefined, // Optional
         token: undefined, // Optional
         curveRoyalties: undefined, // Optional
-        nvmConfig: NeverminedConfig.getInstance(this.instanceConfig),
-        didRegistry: DIDRegistry.getInstance(this.instanceConfig),
-        // Managers
-        templateStoreManager: TemplateStoreManager.getInstance(this.instanceConfig),
-        agreementStoreManager: AgreementStoreManager.getInstance(this.instanceConfig),
-        conditionStoreManager: ConditionStoreManager.getInstance(this.instanceConfig),
-        // Conditions
-        lockPaymentCondition: LockPaymentCondition.getInstance(this.instanceConfig),
-        escrowPaymentCondition: EscrowPaymentCondition.getInstance(this.instanceConfig),
-        accessCondition: AccessCondition.getInstance(this.instanceConfig),
-        computeExecutionCondition: ComputeExecutionCondition.getInstance(this.instanceConfig),
-        nftHolderCondition: NFTHolderCondition.getInstance(this.instanceConfig),
-        nft721HolderCondition: NFT721HolderCondition.getInstance(this.instanceConfig),
-        nftLockCondition: NFTLockCondition.getInstance(this.instanceConfig),
-        nftAccessCondition: NFTAccessCondition.getInstance(this.instanceConfig),
-        transferNftCondition: TransferNFTCondition.getInstance(this.instanceConfig),
-        transferNft721Condition: TransferNFT721Condition.getInstance(this.instanceConfig),
-        transferDidOwnershipCondition: TransferDIDOwnershipCondition.getInstance(
-          this.instanceConfig,
-        ),
+        // CORE Contracts
+        nvmConfig: initOptions.loadCore
+          ? NeverminedConfig.getInstance(this.instanceConfig)
+          : undefined,
+        didRegistry: initOptions.loadCore
+          ? DIDRegistry.getInstance(this.instanceConfig)
+          : undefined,
+        // ServiceAgrements Manager Contracts
+        templateStoreManager: initOptions.loadServiceAgreements
+          ? TemplateStoreManager.getInstance(this.instanceConfig)
+          : undefined,
+        agreementStoreManager: initOptions.loadServiceAgreements
+          ? AgreementStoreManager.getInstance(this.instanceConfig)
+          : undefined,
+        conditionStoreManager: initOptions.loadServiceAgreements
+          ? ConditionStoreManager.getInstance(this.instanceConfig)
+          : undefined,
+        lockPaymentCondition: initOptions.loadServiceAgreements
+          ? LockPaymentCondition.getInstance(this.instanceConfig)
+          : undefined,
+        escrowPaymentCondition: initOptions.loadServiceAgreements
+          ? EscrowPaymentCondition.getInstance(this.instanceConfig)
+          : undefined,
+
+        // Access Flows
+        accessCondition: initOptions.loadAccessFlow
+          ? AccessCondition.getInstance(this.instanceConfig)
+          : undefined,
+        accessTemplate: initOptions.loadAccessFlow
+          ? AccessTemplate.getInstance(this.instanceConfig)
+          : undefined,
+
+        // Compute
+        computeExecutionCondition: initOptions.loadCompute
+          ? ComputeExecutionCondition.getInstance(this.instanceConfig)
+          : undefined,
+        escrowComputeExecutionTemplate: initOptions.loadCompute
+          ? EscrowComputeExecutionTemplate.getInstance(this.instanceConfig)
+          : undefined,
+
+        // NFT 1155
+        nftHolderCondition: initOptions.loadNFTs1155
+          ? NFTHolderCondition.getInstance(this.instanceConfig)
+          : undefined,
+        nftLockCondition: initOptions.loadNFTs1155
+          ? NFTLockCondition.getInstance(this.instanceConfig)
+          : undefined,
+        nftAccessCondition: initOptions.loadNFTs1155
+          ? NFTAccessCondition.getInstance(this.instanceConfig)
+          : undefined,
+        transferNftCondition: initOptions.loadNFTs1155
+          ? TransferNFTCondition.getInstance(this.instanceConfig)
+          : undefined,
+        nftAccessTemplate: initOptions.loadNFTs1155
+          ? NFTAccessTemplate.getInstance(this.instanceConfig)
+          : undefined,
+        nftSalesTemplate: initOptions.loadNFTs1155
+          ? NFTSalesTemplate.getInstance(this.instanceConfig)
+          : undefined,
+        nftUpgradeable: initOptions.loadNFTs1155
+          ? Nft1155Contract.getInstance(this.instanceConfig)
+          : undefined,
+
+        // NFT 721
+        nft721HolderCondition: initOptions.loadNFTs721
+          ? NFT721HolderCondition.getInstance(this.instanceConfig)
+          : undefined,
+        transferNft721Condition: initOptions.loadNFTs721
+          ? TransferNFT721Condition.getInstance(this.instanceConfig)
+          : undefined,
+        nft721LockCondition: initOptions.loadNFTs721
+          ? NFT721LockCondition.getInstance(this.instanceConfig)
+          : undefined,
+        nft721AccessTemplate: initOptions.loadNFTs721
+          ? NFT721AccessTemplate.getInstance(this.instanceConfig)
+          : undefined,
+        nft721SalesTemplate: initOptions.loadNFTs721
+          ? NFT721SalesTemplate.getInstance(this.instanceConfig)
+          : undefined,
+
+        // DID Transfer
+        transferDidOwnershipCondition: initOptions.loadDIDTransferFlow
+          ? TransferDIDOwnershipCondition.getInstance(this.instanceConfig)
+          : undefined,
+        didSalesTemplate: initOptions.loadDIDTransferFlow
+          ? DIDSalesTemplate.getInstance(this.instanceConfig)
+          : undefined,
 
         // Aave instances are optional
         aaveBorrowCondition: undefined,
@@ -100,49 +167,43 @@ export class Keeper extends Instantiable {
         aaveCollateralWithdrawCondition: undefined,
         aaveRepayCondition: undefined,
         aaveCreditTemplate: undefined,
+        distributeNftCollateralCondition: undefined,
 
-        nft721LockCondition: NFT721LockCondition.getInstance(this.instanceConfig),
-        distributeNftCollateralCondition: DistributeNFTCollateralCondition.getInstance(
-          this.instanceConfig,
-        ),
-        // Templates
-        accessTemplate: AccessTemplate.getInstance(this.instanceConfig),
-        escrowComputeExecutionTemplate: EscrowComputeExecutionTemplate.getInstance(
-          this.instanceConfig,
-        ),
-        nftAccessTemplate: NFTAccessTemplate.getInstance(this.instanceConfig),
-        nft721AccessTemplate: NFT721AccessTemplate.getInstance(this.instanceConfig),
-        didSalesTemplate: DIDSalesTemplate.getInstance(this.instanceConfig),
-        nftSalesTemplate: NFTSalesTemplate.getInstance(this.instanceConfig),
-        nft721SalesTemplate: NFT721SalesTemplate.getInstance(this.instanceConfig),
-        standardRoyalties: StandardRoyalties.getInstance(this.instanceConfig), // optional
+        // Royalties & Rewards
+        standardRoyalties: initOptions.loadRoyalties
+          ? StandardRoyalties.getInstance(this.instanceConfig)
+          : undefined, // optional
         rewardsDistributor: undefined, // RewardsDistributor.getInstance(this.instanceConfig), // optional
-        nftUpgradeable: Nft1155Contract.getInstance(this.instanceConfig),
       })
 
       this.royalties = {
-        standard: this.instances.standardRoyalties,
+        standard: initOptions.loadRoyalties ? this.instances.standardRoyalties : undefined,
         curve: undefined,
       }
 
       this.rewardsDistributor = undefined // this.instances.rewardsDistributor
 
-      const templates = [
-        this.instances.accessTemplate,
-        this.instances.escrowComputeExecutionTemplate,
-        this.instances.nftAccessTemplate,
-        this.instances.nft721AccessTemplate,
-        this.instances.didSalesTemplate,
-        this.instances.nftSalesTemplate,
-        this.instances.nft721SalesTemplate,
-      ]
-
-      const templateObj: any = {}
-      for (const i of templates) {
-        templateObj[i.address] = i
+      const templates = []
+      if (initOptions.loadAccessFlow) templates.push(this.instances.accessTemplate)
+      if (initOptions.loadCompute) templates.push(this.instances.escrowComputeExecutionTemplate)
+      if (initOptions.loadNFTs1155) {
+        templates.push(this.instances.nftAccessTemplate)
+        templates.push(this.instances.nftSalesTemplate)
       }
+      if (initOptions.loadNFTs721) {
+        templates.push(this.instances.nft721AccessTemplate)
+        templates.push(this.instances.nft721SalesTemplate)
+      }
+      if (initOptions.loadDIDTransferFlow) templates.push(this.instances.didSalesTemplate)
 
-      this.instances.agreementStoreManager.setTemplates(templateObj)
+      if (initOptions.loadServiceAgreements) {
+        const templateObj: any = {}
+        for (const i of templates) {
+          templateObj[i.address] = i
+        }
+
+        this.instances.agreementStoreManager.setTemplates(templateObj)
+      }
 
       this.connected = true
     } catch (err) {
@@ -154,8 +215,12 @@ export class Keeper extends Instantiable {
     const chainId = Number((await this.web3.getNetwork()).chainId)
 
     if (KeeperUtils.isTestnet(chainId)) {
-      this.instances.dispenser = await Dispenser.getInstance(this.instantiableConfig)
-      this.instances.token = await Token.getInstance(this.instantiableConfig)
+      this.instances.dispenser = initOptions.loadDispenser
+        ? await Dispenser.getInstance(this.instantiableConfig)
+        : undefined
+      this.instances.token = initOptions.loadERC20Token
+        ? await Token.getInstance(this.instantiableConfig)
+        : undefined
     }
 
     // Main contracts
@@ -200,12 +265,15 @@ export class Keeper extends Instantiable {
       nft721SalesTemplate: this.instances.nft721SalesTemplate,
       aaveCreditTemplate: undefined,
     }
-    this.templateList = [
-      this.instances.accessTemplate,
-      this.instances.escrowComputeExecutionTemplate,
-      this.instances.nft721AccessTemplate,
-      this.instances.nftAccessTemplate,
-    ]
+    if (initOptions.loadServiceAgreements) {
+      this.templateList = [
+        this.instances.accessTemplate,
+        this.instances.escrowComputeExecutionTemplate,
+        this.instances.nft721AccessTemplate,
+        this.instances.nftAccessTemplate,
+      ]
+    }
+
     // Utils
     this.utils = {
       eventHandler: new EventHandler(),
