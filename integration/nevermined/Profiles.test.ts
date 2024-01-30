@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, Logger, NewProfile, State } from '../../src'
+import { Nevermined, Account, Logger, NewProfile, State, makeRandomAccounts } from '../../src'
 import { faker } from '@faker-js/faker'
 
 describe('User Profiles', () => {
@@ -16,8 +16,10 @@ describe('User Profiles', () => {
       Logger.error(error)
     }
     config.marketplaceAuthToken = undefined
+    config.accounts = makeRandomAccounts()
 
     nevermined = await Nevermined.getInstance(config)
+
     account3 = (await nevermined.accounts.list())[2] // eslint-disable-line prefer-destructuring
 
     //TODO admin token which will expire within 3 years. In the future an admin account will be created in elasticsearch directly to run theses tests

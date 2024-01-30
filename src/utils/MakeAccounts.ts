@@ -20,3 +20,15 @@ export function makeAccount(seedphrase: string, accountIndex: number = 0): ether
   const acc = node.derivePath(getIndexedAccountPath(accountIndex))
   return new ethers.Wallet(acc.privateKey)
 }
+
+export function makeRandomAccounts(numAccounts = 10): ethers.Wallet[] {
+  const node = ethers.Wallet.createRandom()
+  const accounts: ethers.Wallet[] = []
+
+  for (let i = 0; i < numAccounts; i++) {
+    const acc = node.derivePath(getIndexedAccountPath(i))
+    const wallet = new ethers.Wallet(acc.privateKey)
+    accounts.push(wallet)
+  }
+  return accounts
+}
