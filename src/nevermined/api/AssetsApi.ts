@@ -1,4 +1,11 @@
-import { DDO, MetaData, ServiceNFTAccess, ServiceNFTSales, ServiceType } from '../../ddo'
+import {
+  DDO,
+  MetaData,
+  NvmConfigVersions,
+  ServiceNFTAccess,
+  ServiceNFTSales,
+  ServiceType,
+} from '../../ddo'
 import { Account } from '../Account'
 import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
@@ -325,6 +332,7 @@ export class AssetsApi extends RegistryBaseApi {
    * @param did - Asset DID.
    * @param newOwner - Ethereum address of the new owner of the DID.
    * @param owner - Account owning the DID and doing the transfer of ownership
+   * @param newUserId - User Id of the new user getting the ownership of the asset
    * @param txParams - Transaction parameters
    * @returns Returns ethers transaction receipt.
    */
@@ -332,10 +340,36 @@ export class AssetsApi extends RegistryBaseApi {
     did: string,
     newOwner: string,
     owner: string | Account,
+    newUserId?: string,
     txParams?: TxParameters,
   ): Promise<ContractTransactionReceipt> {
     // const owner = await this.nevermined.assets.owner(did)
     const ownerAddress = owner instanceof Account ? owner.getId() : owner
+    const ddo = await this.resolveAsset(did)
+
+    ddo.proof = await ddo.generateProof(newOwner)
+    const checksum = ddo.getProofChecksum()
+
+    const versions = ddo._nvm.versions
+    let lastIndex = versions.length
+    versions.map((v) => (v.id > lastIndex ? (lastIndex = v.id) : false))
+    const ddoVersion: NvmConfigVersions = {
+      id: lastIndex + 1,
+      updated: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+      checksum: checksum,
+    }
+    versions.push(ddoVersion)
+
+    const updatedDDO = JSON.parse(JSON.stringify(ddo).replaceAll(ownerAddress, newOwner))
+    if (newUserId) {
+      updatedDDO._nvm.userId = newUserId
+    }
+
+    updatedDDO._nvm.versions = versions
+    updatedDDO.updated = ddoVersion.updated
+
+    const _storedDdo = await this.nevermined.services.metadata.updateDDO(did, updatedDDO)
+
     return this.nevermined.keeper.didRegistry.transferDIDOwnership(
       did,
       newOwner,

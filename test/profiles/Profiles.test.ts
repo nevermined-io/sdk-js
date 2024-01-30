@@ -24,6 +24,7 @@ describe('Profiles', () => {
   beforeEach(async () => {
     nevermined = await Nevermined.getInstance(config)
     ;[account] = await nevermined.accounts.list()
+
     profiles = nevermined.services.profiles // eslint-disable-line prefer-destructuring
 
     newProfile = {

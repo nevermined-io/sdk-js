@@ -65,7 +65,6 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   // This is the number of credits that cost get access to the service attached to the subscription
   // In the DDO this will be added in the `_numberNFTs` value of the `nft-access` service of the asset associated to the subscription
   const accessCostInCreditsDataset = 2n
-  const _accessCostInCreditsService = 5n
 
   let salesServices
   let accessServices
@@ -79,7 +78,19 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   before(async () => {
     TestContractHandler.setConfig(config)
 
-    nevermined = await Nevermined.getInstance(config)
+    nevermined = await Nevermined.getInstance(config, {
+      loadCore: true,
+      loadServiceAgreements: true,
+      loadNFTs1155: true,
+      loadNFTs721: false,
+      loadDispenser: true,
+      loadERC20Token: true,
+      loadAccessFlow: false,
+      loadDIDTransferFlow: false,
+      loadRewards: false,
+      loadRoyalties: true,
+      loadCompute: false,
+    })
     ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)

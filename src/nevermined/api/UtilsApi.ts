@@ -1,5 +1,6 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractHandler } from '../../keeper'
+import { NeverminedInitializationOptions } from '../../models'
 import { Files } from '../Files'
 import { TokenUtils } from '../Token'
 import { Versions } from '../Versions'
@@ -54,7 +55,7 @@ export class UtilsApi extends Instantiable {
    * @param config - Configuration of the Nevermined instance
    * @returns {@link UtilsApi}
    */
-  constructor(config: InstantiableConfig) {
+  constructor(config: InstantiableConfig, initOptions: NeverminedInitializationOptions) {
     super()
     this.setInstanceConfig(config)
 
@@ -62,9 +63,11 @@ export class UtilsApi extends Instantiable {
     this.fetch = new WebServiceConnector(config)
     this.files = new Files(config)
     this.jwt = new JwtUtils(config)
-    this.signature = new SignatureUtils(config)
-    this.token = new TokenUtils(config)
     this.versions = new Versions(config)
-    this.contractHandler = new ContractHandler(config)
+    this.signature = new SignatureUtils(config)
+    if (initOptions.loadCore) {
+      this.token = new TokenUtils(config)
+      this.contractHandler = new ContractHandler(config)
+    }
   }
 }
