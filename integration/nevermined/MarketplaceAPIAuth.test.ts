@@ -1,11 +1,12 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, Logger } from '../../src'
+import { Nevermined, Account, Logger, makeRandomAccounts } from '../../src'
 
 describe('Marketplace api auth', () => {
   let nevermined: Nevermined
   let account1: Account
   let account2: Account
+  let testConfig
 
   before(async () => {
     try {
@@ -14,9 +15,11 @@ describe('Marketplace api auth', () => {
       Logger.error(error)
     }
 
-    config.marketplaceAuthToken = undefined
+    testConfig = { ...config }
+    testConfig.accounts = makeRandomAccounts()
+    testConfig.marketplaceAuthToken = undefined
 
-    nevermined = await Nevermined.getInstance(config)
+    nevermined = await Nevermined.getInstance(testConfig)
 
     // Accounts
     ;[account1, account2] = await nevermined.accounts.list()
@@ -27,7 +30,7 @@ describe('Marketplace api auth', () => {
 
     try {
       await nevermined.services.marketplace.login(clientAssertion)
-      assert.equal(Boolean(config.marketplaceAuthToken), true)
+      assert.equal(Boolean(testConfig.marketplaceAuthToken), true)
     } catch (error) {
       assert.fail('should not fail')
     }
@@ -46,6 +49,6 @@ describe('Marketplace api auth', () => {
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account2)
 
     await nevermined.services.marketplace.addNewAddress(clientAssertion)
-    assert.equal(Boolean(config.marketplaceAuthToken), true)
+    assert.equal(Boolean(testConfig.marketplaceAuthToken), true)
   })
 })
