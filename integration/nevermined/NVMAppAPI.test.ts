@@ -29,6 +29,8 @@ describe('NVM App API', () => {
     let agentDid: string
     let datasetDid: string
     let agreementId
+    let subscriptionPrice: AssetPrice
+    let subscriptionPriceWithFees: AssetPrice
 
     // Agent/Service test configuration
     const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'
@@ -78,6 +80,7 @@ describe('NVM App API', () => {
       await subscriptionNFT.grantOperatorRole(neverminedNodeAddress, publisher)
 
       assert.equal(nevermined.nfts1155.getContract.address, subscriptionNFTAddress)
+      subscriptionPrice = new AssetPrice(publisher.getId(), 1000n).setTokenAddress(ZeroAddress)
     })
 
     it('I want to search content from the app', async () => {
@@ -110,11 +113,17 @@ describe('NVM App API', () => {
       assert.isTrue(nvmApp.isWeb3Connected())
     })
 
+    it('I can calculate and include network fees', async () => {
+      subscriptionPriceWithFees = nvmApp.addNetworkFee(subscriptionPrice)
+      console.log(`Asset Price with fees: ${subscriptionPriceWithFees.toString()}`)
+
+      assert.isTrue(nvmApp.isNetworkFeeIncluded(subscriptionPriceWithFees))
+    })
+
     it('I want to create a time subscription', async () => {
       const timeSubscriptionMetadata = generateSubscriptionMetadata(
         'NVM App Time only Subscription test',
       )
-      const subscriptionPrice = new AssetPrice(publisher.getId(), 10n).setTokenAddress(ZeroAddress) // Using native token
 
       const ddo = await nvmApp.createTimeSubscription(
         timeSubscriptionMetadata,
@@ -131,7 +140,6 @@ describe('NVM App API', () => {
       const creditsSubscriptionMetadata = generateSubscriptionMetadata(
         'NVM App Credits Subscription test',
       )
-      const subscriptionPrice = new AssetPrice(publisher.getId(), 10n).setTokenAddress(ZeroAddress) // Using native token
 
       const ddo = await nvmApp.createCreditsSubscription(
         creditsSubscriptionMetadata,
@@ -219,85 +227,4 @@ describe('NVM App API', () => {
       assert.isTrue(results.totalResults.value > 0)
     })
   })
-
-  // describe.skip('TESTING: As NVM App integrator I want to initialize the api in different ways', () => {
-
-  //   let zerodevProvider: ZeroDevEthersProvider<'ECDSA'>
-
-  //   before(async () => {
-  //     // TestContractHandler.setConfig(config)
-
-  //     // const projectId = process.env.PROJECT_ID!
-  //     // const owner = ethers.Wallet.createRandom()
-
-  //     // zerodevProvider = await ZeroDevEthersProvider.init('ECDSA', {
-  //     //   projectId,
-  //     //   owner: convertEthersV6SignerToAccountSigner(owner),
-  //     // })
-
-  //     // nevermined = await Nevermined.getInstance(config, {
-  //     //   loadCore: true,
-  //     //   loadServiceAgreements: true,
-  //     //   loadNFTs1155: true,
-  //     //   loadNFTs721: false,
-  //     //   loadDispenser: true,
-  //     //   loadERC20Token: true,
-  //     //   loadAccessFlow: false,
-  //     //   loadDIDTransferFlow: false,
-  //     //   loadRewards: false,
-  //     //   loadRoyalties: true,
-  //     //   loadCompute: false,
-  //     // })
-  //     // ;[, publisher] = await nevermined.accounts.list()
-
-  //     // const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
-
-  //     // await nevermined.services.marketplace.login(clientAssertion)
-  //     // payload = decodeJwt(config.marketplaceAuthToken)
-
-  //   })
-  //   it('I want to search content from the app', async () => {
-
-  //     const nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local)
-  //     // const wallet = ethers.Wallet.createRandom()
-  //     // nvmApp.connect(await wallet.getAddress())
-  //     const results = await nvmApp.search.query({})
-  //     console.log(JSON.stringify(results, null, 2))
-  //     // nvmApp.subscriptions.createTimeSubscription()
-  //     // nvmApp.subscriptions.createCreditsSubscription()
-  //     // nvmApp.assets.createAgent()
-  //     // nvmApp.assets.createDataset()
-  //   })
-
-  //   it.skip('I want to connect my account', async () => {
-  //   })
-
-  //   it.skip('Overwrite the default config with some parameters', async () => {
-  //   })
-
-  //   it.skip('Download the configuration', async () => {
-  //   })
-
-  //   it.skip('I want to create a time subscription', async () => {
-  //   })
-
-  //   it.skip('I want to create a credits subscription', async () => {
-  //   })
-
-  //   it.skip('I want to create an Agent', async () => {
-  //   })
-
-  //   it.skip('I want to create a Dataset', async () => {
-  //   })
-
-  //   it.skip('I want to order a subscription', async () => {
-  //   })
-
-  //   it.skip('I want to access a remote service', async () => {
-  //   })
-
-  //   it.skip('I want to download a file asset', async () => {
-  //   })
-
-  // })
 })

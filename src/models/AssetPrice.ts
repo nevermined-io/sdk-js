@@ -13,7 +13,7 @@ export class AssetPrice {
   public constructor(address: string, amount: bigint, tokenAddress: string)
   public constructor(..._params: any[]) {
     this.totalPrice = 0n
-    this.rewards = new Map()
+    this.rewards = new Map<string, bigint>()
 
     if (_params.length === 1) {
       const [rewards] = _params
@@ -22,10 +22,12 @@ export class AssetPrice {
     } else if (_params.length === 2) {
       const [address, amount] = _params
       this.rewards.set(address, amount)
+      // this.rewards[address] = amount
       this.totalPrice = amount
     } else if (_params.length === 3) {
       const [address, amount, tokenAddress] = _params
       this.rewards.set(address, amount)
+      // this.rewards[address] = amount
       this.totalPrice = amount
       this.tokenAddress = tokenAddress
     }
@@ -52,8 +54,10 @@ export class AssetPrice {
   }
 
   public setReceiver(receiver: string, amount: bigint): AssetPrice {
-    this.rewards.set(receiver, amount)
-    this.totalPrice = AssetPrice.sumAmounts(this.getAmounts())
+    if (amount > 0) {
+      this.rewards.set(receiver, amount)
+      this.totalPrice = AssetPrice.sumAmounts(this.getAmounts())
+    }
     return this
   }
 
@@ -73,10 +77,8 @@ export class AssetPrice {
    * @returns the asset rewards object
    */
   public addNetworkFees(feeReceiver: string, networkFeePercent: bigint): AssetPrice {
-    return this.setReceiver(
-      feeReceiver,
-      (this.totalPrice * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n,
-    )
+    const amount = (this.totalPrice * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n
+    return this.setReceiver(feeReceiver, amount)
   }
 
   /**
@@ -89,13 +91,15 @@ export class AssetPrice {
     const feesToInclude =
       (this.totalPrice * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n
 
-    const newRewards: Map<string, bigint> = new Map()
-    this.rewards.forEach((k, v) => {
-      newRewards.set(v, k - (k * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n)
-    })
-    newRewards.set(feeReceiver, feesToInclude)
-    this.rewards = newRewards
-    this.totalPrice = AssetPrice.sumAmounts(this.getAmounts())
+    if (feesToInclude > 0) {
+      const newRewards: Map<string, bigint> = new Map()
+      this.rewards.forEach((k, v) => {
+        newRewards.set(v, k - (k * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n)
+      })
+      newRewards.set(feeReceiver, feesToInclude)
+      this.rewards = newRewards
+      this.totalPrice = AssetPrice.sumAmounts(this.getAmounts())
+    }
 
     return this
   }
@@ -112,6 +116,13 @@ export class AssetPrice {
   }
 
   public toString(): string {
-    return this.getAmountsString() + this.getReceiversString()
+    return JSON.stringify({
+      rewards: {
+        amounts: this.getAmounts(),
+        receivers: this.getReceivers(),
+      },
+      totalPrice: this.totalPrice,
+      token: this.tokenAddress,
+    })
   }
 }

@@ -37,6 +37,12 @@ export enum NVMAppEnvironments {
   Local = 'local',
   Custom = 'custom',
 }
+
+export enum NVMAppSubscriptionType {
+  Time = 'time',
+  Credits = 'credits',
+}
+
 export interface MetadataValidationResults {
   isValid: boolean
   messages: string[]
@@ -55,7 +61,10 @@ export class NvmApp {
   private useZeroDevSigner: boolean = false
   private zeroDevSignerAccount?: ZeroDevAccountSigner<'ECDSA'>
   private assetProviders: string[] = []
+  private loginCredentials: string | undefined
   private subscriptionNFTContractAddress: string | undefined
+  private networkFeeReceiver: string | undefined
+  private networkFee: bigint | undefined
 
   static readonly defaultAppInitializatioinOptions: NeverminedInitializationOptions = {
     loadCore: true,
@@ -78,7 +87,7 @@ export class NvmApp {
 
   public static async getInstance(
     appEnv: NVMAppEnvironments,
-    config?: NeverminedOptions,
+    config?: Partial<NeverminedOptions>,
   ): Promise<NvmApp> {
     const defaultEnvConfig = this.getConfigFromTagName(appEnv)
     const mergedConfig = config ? { ...defaultEnvConfig, ...config } : defaultEnvConfig
@@ -116,7 +125,8 @@ export class NvmApp {
     }
 
     const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(this.userAccount)
-    this.fullSDK.services.marketplace.login(clientAssertion)
+
+    this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)
 
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
     this.assetProviders = [nodeInfo['provider-address']]
@@ -134,6 +144,9 @@ export class NvmApp {
     if (!isAddress(this.subscriptionNFTContractAddress)) {
       throw new Web3Error('Invalid Subscription NFT contract address')
     }
+
+    this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
+    this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
   }
 
   public async disconnect() {
@@ -142,11 +155,16 @@ export class NvmApp {
       this.userAccount = undefined
       this.useZeroDevSigner = false
       this.zeroDevSignerAccount = undefined
+      this.loginCredentials = undefined
     }
   }
 
   public isWeb3Connected(): boolean {
     return this.fullSDK ? this.fullSDK.isKeeperConnected : false
+  }
+
+  public getLoginCredentials(): string | undefined {
+    return this.loginCredentials
   }
 
   public get config(): NeverminedOptions {
@@ -157,6 +175,10 @@ export class NvmApp {
     return this.searchSDK.search
   }
 
+  public get networkFees(): { receiver: string; fee: bigint } {
+    return { receiver: this.networkFeeReceiver, fee: this.networkFee }
+  }
+
   public async createTimeSubscription(
     susbcriptionMetadata: MetaData,
     subscriptionPrice: AssetPrice,
@@ -165,7 +187,11 @@ export class NvmApp {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
-    const validationResult = NvmApp.validateTimeSubscriptionMetadata(susbcriptionMetadata)
+    const validationResult = this.validateSubscription(
+      susbcriptionMetadata,
+      subscriptionPrice,
+      NVMAppSubscriptionType.Time,
+    )
     if (!validationResult.isValid) {
       throw new Error(validationResult.messages.join(','))
     }
@@ -205,7 +231,11 @@ export class NvmApp {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
-    const validationResult = NvmApp.validateCreditsSubscriptionMetadata(susbcriptionMetadata)
+    const validationResult = this.validateSubscription(
+      susbcriptionMetadata,
+      subscriptionPrice,
+      NVMAppSubscriptionType.Credits,
+    )
     if (!validationResult.isValid) {
       throw new Error(validationResult.messages.join(','))
     }
@@ -257,6 +287,7 @@ export class NvmApp {
           numberCredits,
           this.userAccount,
           serviceIndex,
+          { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
         )
       const subscriptionOwner = await this.fullSDK.assets.owner(subscriptionDid)
       transferResult = await this.fullSDK.nfts1155.claim(
@@ -310,7 +341,7 @@ export class NvmApp {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
-    const validationResult = NvmApp.validateServiceAssetMetadata(metadata)
+    const validationResult = this.validateServiceAssetMetadata(metadata)
     if (!validationResult.isValid) {
       throw new Error(validationResult.messages.join(','))
     }
@@ -350,7 +381,7 @@ export class NvmApp {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
-    const validationResult = NvmApp.validateFileAssetMetadata(metadata)
+    const validationResult = this.validateFileAssetMetadata(metadata)
     if (!validationResult.isValid) {
       throw new Error(validationResult.messages.join(','))
     }
@@ -380,31 +411,58 @@ export class NvmApp {
     )
   }
 
+  public addNetworkFee(price: AssetPrice): AssetPrice {
+    if (!this.isNetworkFeeIncluded(price)) {
+      return price.adjustToIncludeNetworkFees(this.networkFeeReceiver, this.networkFee)
+    }
+    return price
+  }
+
+  public isNetworkFeeIncluded(price: AssetPrice): boolean {
+    // If there are no network fees everything is okay
+    if (this.networkFee === 0n || price.getTotalPrice() === 0n) return true
+    if (!price.getRewards().has(this.networkFeeReceiver)) return false
+
+    const networkFee = price.getRewards().get(this.networkFeeReceiver)
+    const expectedFee =
+      (price.getTotalPrice() * this.networkFee) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n
+    if (networkFee !== expectedFee) return false
+    return true
+  }
+
   // TODO: Implement subscription validations
-  public static validateTimeSubscriptionMetadata(
-    _susbcriptionMetadata: MetaData,
+  public validateSubscription(
+    metadata: MetaData,
+    price: AssetPrice,
+    subscriptionType: NVMAppSubscriptionType,
   ): MetadataValidationResults {
+    const errorMessages: string[] = []
+    if (!this.isNetworkFeeIncluded(price)) errorMessages.push('Network fee not included')
+    if (!metadata.additionalInformation?.customData) errorMessages.push('Custom Data not included')
+    if (!metadata.additionalInformation?.customData?.subscriptionLimitType)
+      errorMessages.push('customData.subscriptionLimitType not included')
+    if (
+      metadata.additionalInformation?.customData?.subscriptionLimitType !==
+      subscriptionType.toString()
+    )
+      errorMessages.push('invalid customData.subscriptionLimitType value')
+
+    if (subscriptionType === NVMAppSubscriptionType.Time) {
+      if (!metadata.additionalInformation?.customData?.dateMeasure)
+        errorMessages.push('customData.dateMeasure not included')
+    }
+
+    if (errorMessages.length > 0) return { isValid: false, messages: errorMessages }
     return { isValid: true, messages: [] }
   }
 
   // TODO: Implement subscription validations
-  public static validateCreditsSubscriptionMetadata(
-    _susbcriptionMetadata: MetaData,
-  ): MetadataValidationResults {
+  public validateServiceAssetMetadata(_susbcriptionMetadata: MetaData): MetadataValidationResults {
     return { isValid: true, messages: [] }
   }
 
   // TODO: Implement subscription validations
-  public static validateServiceAssetMetadata(
-    _susbcriptionMetadata: MetaData,
-  ): MetadataValidationResults {
-    return { isValid: true, messages: [] }
-  }
-
-  // TODO: Implement subscription validations
-  public static validateFileAssetMetadata(
-    _susbcriptionMetadata: MetaData,
-  ): MetadataValidationResults {
+  public validateFileAssetMetadata(_susbcriptionMetadata: MetaData): MetadataValidationResults {
     return { isValid: true, messages: [] }
   }
 
@@ -427,8 +485,10 @@ export class NvmApp {
         return new AppDeploymentMumbai()
       case NVMAppEnvironments.Gnosis:
         return new AppDeploymentGnosis()
-      default:
+      case NVMAppEnvironments.Local:
         return new AppDeploymentLocal()
+      default:
+        throw new Error('Invalid environment')
     }
   }
 }

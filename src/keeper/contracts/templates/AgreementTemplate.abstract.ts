@@ -286,6 +286,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       timeouts.push(condition.timeout)
       timelocks.push(condition.timelock)
     })
+    console.log(`-- Ordering with price: ${assetPrice.toString()}`)
 
     observer(OrderProgressStep.ApprovingPayment)
 
