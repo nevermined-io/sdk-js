@@ -3,7 +3,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { Account } from '../Account'
 import { ethers } from 'ethers'
 import { Babysig } from '../../models'
-import { ZeroDevAccountSigner } from '@zerodev/sdk'
+import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 
 export interface Eip712Data {
   message: string
@@ -32,7 +32,7 @@ export class EthSignJWT extends SignJWT {
   }
 
   public async ethSign(
-    signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'>,
+    signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
     eip712Data?: Eip712Data,
   ): Promise<string> {
     const encoder = new TextEncoder()
@@ -99,7 +99,7 @@ export class EthSignJWT extends SignJWT {
 
   private static async signMessage(
     message: string | Uint8Array,
-    signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'>,
+    signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
   ): Promise<string> {
     if ((signer as ZeroDevAccountSigner<'ECDSA'>).signMessageWith6492) {
       return (signer as ZeroDevAccountSigner<'ECDSA'>).signMessageWith6492(message)
@@ -112,7 +112,7 @@ export class EthSignJWT extends SignJWT {
     domain: TypedDataDomain,
     types: TypedDataTypes,
     value: Record<string, any>,
-    signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'>,
+    signer: ethers.Signer | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
   ): Promise<string> {
     if ((signer as ZeroDevAccountSigner<'ECDSA'>).signTypedDataWith6492) {
       return (signer as ZeroDevAccountSigner<'ECDSA'>).signTypedDataWith6492({
@@ -157,7 +157,9 @@ export class JwtUtils extends Instantiable {
     this.tokenCache = new Map()
   }
 
-  public async getSigner(account: Account): Promise<ethers.Signer | ZeroDevAccountSigner<'ECDSA'>> {
+  public async getSigner(
+    account: Account,
+  ): Promise<ethers.Signer | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider> {
     const address = ethers.getAddress(account.getId())
     return account.isZeroDev()
       ? account.zeroDevSigner

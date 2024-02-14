@@ -10,7 +10,7 @@ import {
   ethers,
 } from 'ethers'
 import { jsonReplacer, parseUnits } from '../../sdk'
-import { ZeroDevAccountSigner } from '@zerodev/sdk'
+import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 export interface TxParameters {
   value?: string
   gasLimit?: bigint
@@ -20,6 +20,7 @@ export interface TxParameters {
   maxFeePerGas?: string
   signer?: ethers.Signer
   zeroDevSigner?: ZeroDevAccountSigner<'ECDSA'>
+  sessionKeyProvider?: SessionKeyProvider
   nonce?: number
   progress?: (data: any) => void
 }
@@ -232,6 +233,71 @@ export abstract class ContractBase extends Instantiable {
     return transactionReceipt as ContractTransactionReceipt
   }
 
+  private async internalSendSessionKeyProvider(
+    name: string,
+    from: string,
+    args: any[],
+    txparams: any,
+    progress: (data: any) => void,
+  ): Promise<ContractTransactionReceipt> {
+    const { gasLimit, value } = txparams
+    const methodSignature = this.getSignatureOfMethod(name, args)
+
+    // make the call
+    if (progress) {
+      progress({
+        stage: 'sending',
+        args: this.searchMethodInputs(name, args),
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    // Send the transaction
+    const { hash } = await txparams.sessionKeyProvider.sendUserOperation({
+      target: this.address,
+      data: this.contract.interface.encodeFunctionData(methodSignature, args),
+    })
+
+    if (progress) {
+      progress({
+        stage: 'sent',
+        args: this.searchMethodInputs(name, args),
+        hash,
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    await txparams.sessionKeyProvider.waitForUserOperationTransaction(hash as `0x${string}`)
+    const userOperationReceipt = await txparams.sessionKeyProvider.getUserOperationReceipt(hash)
+    const receipt = userOperationReceipt.receipt
+
+    if (progress) {
+      progress({
+        stage: 'receipt',
+        args: this.searchMethodInputs(name, args),
+        receipt,
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    return receipt
+  }
+
   public async send(
     name: string,
     from: string,
@@ -247,6 +313,15 @@ export abstract class ContractBase extends Instantiable {
         args,
         paramsFixed,
         contract,
+        params.progress,
+      )
+    } else if (params.sessionKeyProvider) {
+      const paramsFixed = { ...params, signer: undefined }
+      return await this.internalSendSessionKeyProvider(
+        name,
+        from,
+        args,
+        paramsFixed,
         params.progress,
       )
     }
