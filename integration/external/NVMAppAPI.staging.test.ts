@@ -172,7 +172,7 @@ describe('NVM App API', () => {
         'Nevermined',
         [
           {
-            GET: `${SERVICE_ENDPOINT}(.*)`,
+            GET: `${SERVICE_ENDPOINT}/(.*)`,
           },
         ],
         [OPEN_ENDPOINT],
@@ -205,6 +205,20 @@ describe('NVM App API', () => {
         'NVM App Dataset test',
         'Nevermined',
       )
+      datasetMetadata.main.files = [
+        {
+          index: 0,
+          contentType: 'application/json',
+          name: 'ddo-example.json',
+          url: 'https://storage.googleapis.com/nvm-static-assets/files/ci/ddo-example.json',
+        },
+        {
+          index: 1,
+          contentType: 'text/plain',
+          name: 'README.md',
+          url: 'https://storage.googleapis.com/nvm-static-assets/files/ci/README.md',
+        },
+      ]
 
       const ddo = await nvmAppPublisher.registerFileAsset(
         datasetMetadata,

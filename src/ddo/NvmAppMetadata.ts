@@ -132,7 +132,12 @@ export class NvmAppMetadata {
         files: [],
         paymentAttributes: [],
       } as MetaDataMain,
-      additionalInformation: {},
+      additionalInformation: {
+        customData: {
+          dataSchema: '',
+          filesFormat: '',
+        },
+      },
     }
 
     return _metadata
