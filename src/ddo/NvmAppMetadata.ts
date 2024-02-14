@@ -1,0 +1,135 @@
+import { MetadataValidationResults, NVMAppSubscriptionType } from '../nevermined/NvmApp'
+import { MetaData, MetaDataMain, ResourceAuthentication } from './types'
+
+export class NvmAppMetadata {
+  public static getTimeSubscriptionMetadataTemplate(
+    name: string,
+    author: string,
+    dateMeasure: string,
+  ): MetaData {
+    const metadata = NvmAppMetadata.getSubscriptionMetadataTemplate(name, author)
+    metadata.additionalInformation.customData = {
+      subscriptionLimitType: NVMAppSubscriptionType.Time,
+      dateMeasure,
+    }
+    return metadata
+  }
+
+  public static getCreditsSubscriptionMetadataTemplate(name: string, author: string): MetaData {
+    const metadata = NvmAppMetadata.getSubscriptionMetadataTemplate(name, author)
+    metadata.additionalInformation.customData = {
+      subscriptionLimitType: NVMAppSubscriptionType.Credits,
+    }
+    return metadata
+  }
+
+  public static getSubscriptionMetadataTemplate(name: string, author: string): MetaData {
+    const _metadata = {
+      main: {
+        name,
+        type: 'subscription',
+        dateCreated: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        author,
+        license: '',
+        files: [],
+        paymentAttributes: [
+          {
+            paymentType: 'serviceAgreements',
+            paymentEnabled: true,
+          },
+        ],
+      } as MetaDataMain,
+      additionalInformation: {},
+    }
+
+    return _metadata
+  }
+
+  public static getServiceMetadataTemplate(
+    name: string,
+    author: string,
+    endpoints: { [verb: string]: string }[],
+    openEndpoints: string[],
+    openApiEndpoint: string | undefined,
+    serviceType: string = 'RESTful',
+    authType: ResourceAuthentication['type'],
+    authToken?: string,
+    authUser?: string,
+    authPassword?: string,
+    nonce: string | number = Math.random(),
+  ): MetaData {
+    const serviceMetadata = {
+      main: {
+        name,
+        type: 'service',
+        dateCreated: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        author,
+        license: '',
+        files: [],
+        webService: {
+          type: serviceType,
+          endpoints,
+          openEndpoints,
+          internalAttributes: {},
+        },
+        ...({ nonce } as any),
+      },
+      additionalInformation: {
+        customData: {},
+      },
+    }
+
+    serviceMetadata.main.webService.endpoints[0] = { '(.*)': endpoint }
+
+    if (authType === 'basic') {
+      serviceMetadata.main.webService.internalAttributes.authentication = {
+        type: 'basic',
+        username: authUser,
+        password: authPassword,
+      }
+    } else if (authType === 'oauth') {
+      serviceMetadata.main.webService.internalAttributes.authentication = {
+        type: 'oauth',
+        token: authToken,
+      }
+      serviceMetadata.main.webService.internalAttributes.headers = [
+        { Authorization: `Bearer ${authToken}` },
+      ]
+    } else {
+      serviceMetadata.main.webService.internalAttributes.authentication = {
+        type: 'none',
+      }
+    }
+
+    if (openEndpoints) {
+      serviceMetadata.main.webService.openEndpoints = openEndpoints
+    }
+    return serviceMetadata
+  }
+
+  public static validateSubscription(
+    metadata: MetaData,
+    subscriptionType: NVMAppSubscriptionType,
+  ): MetadataValidationResults {
+    const errorMessages: string[] = []
+
+    if (!metadata.additionalInformation?.customData) errorMessages.push('Custom Data not included')
+    if (!metadata.additionalInformation?.customData?.subscriptionLimitType)
+      errorMessages.push('customData.subscriptionLimitType not included')
+    if (
+      metadata.additionalInformation?.customData?.subscriptionLimitType !==
+      subscriptionType.toString()
+    )
+      errorMessages.push('invalid customData.subscriptionLimitType value')
+
+    if (subscriptionType === NVMAppSubscriptionType.Time) {
+      if (!metadata.additionalInformation?.customData?.dateMeasure)
+        errorMessages.push('customData.dateMeasure not included')
+    }
+
+    if (errorMessages.length > 0) return { isValid: false, messages: errorMessages }
+    return { isValid: true, messages: [] }
+  }
+}
