@@ -207,12 +207,19 @@ export interface WebService {
   internalAttributes?: WebServiceInternalAttributes
 
   encryptedAttributes?: string
+
+  chargeType?: ChargeType
 }
 
 export enum SubscriptionType {
   Time = 'time',
   Credits = 'credits',
   Both = 'both',
+}
+
+export enum ChargeType {
+  Fixed = 'fixed',
+  Dynamic = 'dynamic',
 }
 
 export interface SubscriptionMetadata {

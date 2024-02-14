@@ -182,6 +182,7 @@ describe('NVM App API', () => {
         AUTHORIZATION_TOKEN,
         AUTHORIZATION_USER,
         AUTHORIZATION_PASSWORD,
+        true,
       )
 
       const ddo = await nvmAppPublisher.registerServiceAsset(

@@ -1,5 +1,11 @@
 import { MetadataValidationResults } from '../nevermined/NvmApp'
-import { MetaData, MetaDataMain, ResourceAuthentication, SubscriptionType } from './types'
+import {
+  ChargeType,
+  MetaData,
+  MetaDataMain,
+  ResourceAuthentication,
+  SubscriptionType,
+} from './types'
 
 export class NvmAppMetadata {
   public static getTimeSubscriptionMetadataTemplate(
@@ -64,6 +70,7 @@ export class NvmAppMetadata {
     authToken?: string,
     authUser?: string,
     authPassword?: string,
+    isPriceDynamic: boolean = false,
     nonce: string | number = Math.random(),
   ): MetaData {
     const serviceMetadata = {
@@ -80,6 +87,7 @@ export class NvmAppMetadata {
           endpoints,
           openEndpoints,
           internalAttributes: {},
+          chargeType: isPriceDynamic ? ChargeType.Dynamic : ChargeType.Fixed,
         },
         ...({ nonce } as any),
       },
