@@ -241,6 +241,8 @@ export abstract class ContractBase extends Instantiable {
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
     const { gasLimit, value } = txparams
+    const methodSignature = this.getSignatureOfMethod(name, args)
+
     // make the call
     if (progress) {
       progress({
@@ -258,7 +260,7 @@ export abstract class ContractBase extends Instantiable {
     // Send the transaction
     const { hash } = await txparams.sessionKeyProvider.sendUserOperation({
       target: this.address,
-      data: this.contract.interface.encodeFunctionData(name, args),
+      data: this.contract.interface.encodeFunctionData(methodSignature, args),
     })
 
     if (progress) {
