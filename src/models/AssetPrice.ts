@@ -22,12 +22,10 @@ export class AssetPrice {
     } else if (_params.length === 2) {
       const [address, amount] = _params
       this.rewards.set(address, amount)
-      // this.rewards[address] = amount
       this.totalPrice = amount
     } else if (_params.length === 3) {
       const [address, amount, tokenAddress] = _params
       this.rewards.set(address, amount)
-      // this.rewards[address] = amount
       this.totalPrice = amount
       this.tokenAddress = tokenAddress
     }

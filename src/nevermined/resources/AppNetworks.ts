@@ -10,7 +10,7 @@ export class AppDeploymentLocal extends NeverminedAppOptions {
   instanceName = 'localnet'
   web3ProviderUri = 'http://contracts.nevermined.localnet'
   marketplaceUri = 'http://marketplace.nevermined.localnet'
-  graphHttpUri = 'http://localhost:9000/subgraphs/name/nevermined-io/development'
+  graphHttpUri = undefined
   neverminedNodeUri = 'http://node.nevermined.localnet'
   neverminedNodeAddress = '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0'
   verbose = true
