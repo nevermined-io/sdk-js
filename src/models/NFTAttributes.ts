@@ -98,17 +98,25 @@ export class NFTServiceAttributes {
 
   /**
    * Given some credits balance if checks if that's enough to access to a NFT asset
+   * @param nftAttributes NFT Attributes metadata
    * @param creditsBalance balance of credits
+   * @param dynamicAmount the dynamic amount of credits asked to be burned
    * @returns boolean
    */
-  static isCreditsBalanceEnough(nftAttributes: NFTServiceAttributes, creditsBalance: bigint) {
+  static isCreditsBalanceEnough(
+    nftAttributes: NFTServiceAttributes,
+    creditsBalance: bigint,
+    dynamicAmount?: bigint,
+  ) {
     // the user needs to have enough credits to pay the min credits required and the amount of credits to consume
     if (nftAttributes.minCreditsRequired === undefined)
       return creditsBalance >= nftAttributes.amount
-    else
+    else if (dynamicAmount !== undefined) return dynamicAmount <= creditsBalance
+    else {
       return (
         creditsBalance >= nftAttributes.minCreditsRequired && creditsBalance >= nftAttributes.amount
       )
+    }
   }
 
   /**
