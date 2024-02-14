@@ -3,15 +3,15 @@ import chaiAsPromised from 'chai-as-promised'
 
 import {
   AssetPrice,
-  MetaData,
   ResourceAuthentication,
+  SubscriptionType,
   convertEthersV6SignerToAccountSigner,
   makeAccounts,
 } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { NVMAppEnvironments, NVMAppSubscriptionType, NvmApp } from '../../src/nevermined/NvmApp'
+import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
+import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 import { ethers, isAddress } from 'ethers'
-import { generateSubscriptionMetadata, generateWebServiceMetadata, getMetadata } from '../utils'
 import { ZeroDevAccountSigner, ZeroDevEthersProvider } from '@zerodev/sdk'
 import { AppDeploymentStaging } from '../../src/nevermined/resources/AppNetworks'
 
@@ -124,11 +124,13 @@ describe('NVM App API', () => {
     })
 
     it('I want to create a time subscription', async () => {
-      const timeSubscriptionMetadata = generateSubscriptionMetadata(
+      const timeSubscriptionMetadata = NvmAppMetadata.getTimeSubscriptionMetadataTemplate(
         'NVM App Time only Subscription test',
+        'Nevermined',
+        'hours',
       )
       timeSubscriptionMetadata.additionalInformation.customData = {
-        subscriptionLimitType: NVMAppSubscriptionType.Time,
+        subscriptionLimitType: SubscriptionType.Time,
         dateMeasure: 'hours',
       }
 
@@ -144,11 +146,12 @@ describe('NVM App API', () => {
     })
 
     it('I want to create a credits subscription', async () => {
-      const creditsSubscriptionMetadata = generateSubscriptionMetadata(
+      const creditsSubscriptionMetadata = NvmAppMetadata.getCreditsSubscriptionMetadataTemplate(
         'NVM App Credits Subscription test',
+        'Nevermined',
       )
       creditsSubscriptionMetadata.additionalInformation.customData = {
-        subscriptionLimitType: NVMAppSubscriptionType.Credits,
+        subscriptionLimitType: SubscriptionType.Credits,
       }
 
       const ddo = await nvmAppPublisher.createCreditsSubscription(
@@ -164,15 +167,22 @@ describe('NVM App API', () => {
     })
 
     it('I want to register an Agent', async () => {
-      const agentMetadata = generateWebServiceMetadata(
-        'Nevermined Web Service Metadata',
-        `${SERVICE_ENDPOINT}(.*)`,
+      const agentMetadata = NvmAppMetadata.getServiceMetadataTemplate(
+        'Nevermined Ageeeent',
+        'Nevermined',
+        [
+          {
+            GET: `${SERVICE_ENDPOINT}(.*)`,
+          },
+        ],
         [OPEN_ENDPOINT],
+        OPEN_ENDPOINT,
+        'RESTful',
         AUTHORIZATION_TYPE,
         AUTHORIZATION_TOKEN,
         AUTHORIZATION_USER,
         AUTHORIZATION_PASSWORD,
-      ) as MetaData
+      )
 
       const ddo = await nvmAppPublisher.registerServiceAsset(
         agentMetadata,
@@ -191,7 +201,10 @@ describe('NVM App API', () => {
     })
 
     it('I want to register a Dataset', async () => {
-      const datasetMetadata = getMetadata()
+      const datasetMetadata = NvmAppMetadata.getFileMetadataTemplate(
+        'NVM App Dataset test',
+        'Nevermined',
+      )
 
       const ddo = await nvmAppPublisher.registerFileAsset(
         datasetMetadata,

@@ -1,24 +1,31 @@
-import { MetadataValidationResults, NVMAppSubscriptionType } from '../nevermined/NvmApp'
-import { MetaData, MetaDataMain, ResourceAuthentication } from './types'
+import { MetadataValidationResults } from '../nevermined/NvmApp'
+import { MetaData, MetaDataMain, ResourceAuthentication, SubscriptionType } from './types'
 
 export class NvmAppMetadata {
   public static getTimeSubscriptionMetadataTemplate(
     name: string,
     author: string,
-    dateMeasure: string,
+    timeMeasure: string,
   ): MetaData {
     const metadata = NvmAppMetadata.getSubscriptionMetadataTemplate(name, author)
+    metadata.main.subscription = {
+      subscriptionType: SubscriptionType.Time,
+      timeMeasure,
+    }
     metadata.additionalInformation.customData = {
-      subscriptionLimitType: NVMAppSubscriptionType.Time,
-      dateMeasure,
+      subscriptionLimitType: SubscriptionType.Time,
+      dateMeasure: timeMeasure,
     }
     return metadata
   }
 
   public static getCreditsSubscriptionMetadataTemplate(name: string, author: string): MetaData {
     const metadata = NvmAppMetadata.getSubscriptionMetadataTemplate(name, author)
+    metadata.main.subscription = {
+      subscriptionType: SubscriptionType.Credits,
+    }
     metadata.additionalInformation.customData = {
-      subscriptionLimitType: NVMAppSubscriptionType.Credits,
+      subscriptionLimitType: SubscriptionType.Credits,
     }
     return metadata
   }
@@ -80,8 +87,15 @@ export class NvmAppMetadata {
         customData: {},
       },
     }
-
-    serviceMetadata.main.webService.endpoints[0] = { '(.*)': endpoint }
+    if (openApiEndpoint) {
+      serviceMetadata.main.webService.openEndpoints.push(openApiEndpoint)
+      serviceMetadata.main.additionalInformation = {
+        ...serviceMetadata.main.additionalInformation,
+        customData: {
+          openApi: openApiEndpoint,
+        },
+      }
+    }
 
     if (authType === 'basic') {
       serviceMetadata.main.webService.internalAttributes.authentication = {
@@ -103,15 +117,30 @@ export class NvmAppMetadata {
       }
     }
 
-    if (openEndpoints) {
-      serviceMetadata.main.webService.openEndpoints = openEndpoints
-    }
     return serviceMetadata
+  }
+
+  public static getFileMetadataTemplate(name: string, author: string): MetaData {
+    const _metadata = {
+      main: {
+        name,
+        type: 'dataset',
+        dateCreated: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        author,
+        license: '',
+        files: [],
+        paymentAttributes: [],
+      } as MetaDataMain,
+      additionalInformation: {},
+    }
+
+    return _metadata
   }
 
   public static validateSubscription(
     metadata: MetaData,
-    subscriptionType: NVMAppSubscriptionType,
+    subscriptionType: SubscriptionType,
   ): MetadataValidationResults {
     const errorMessages: string[] = []
 
@@ -124,7 +153,7 @@ export class NvmAppMetadata {
     )
       errorMessages.push('invalid customData.subscriptionLimitType value')
 
-    if (subscriptionType === NVMAppSubscriptionType.Time) {
+    if (subscriptionType === SubscriptionType.Time) {
       if (!metadata.additionalInformation?.customData?.dateMeasure)
         errorMessages.push('customData.dateMeasure not included')
     }

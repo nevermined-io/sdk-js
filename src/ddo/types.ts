@@ -209,6 +209,17 @@ export interface WebService {
   encryptedAttributes?: string
 }
 
+export enum SubscriptionType {
+  Time = 'time',
+  Credits = 'credits',
+  Both = 'both',
+}
+
+export interface SubscriptionMetadata {
+  subscriptionType: SubscriptionType
+  timeMeasure?: string
+}
+
 export interface WebServiceInternalAttributes {
   authentication?: ResourceAuthentication
 
@@ -290,6 +301,8 @@ export interface MetaDataMain {
    * Array of File objects including the encrypted file urls and some additional information.
    */
   files?: MetaDataExternalResource[]
+
+  subscription?: SubscriptionMetadata
 
   webService?: WebService
 

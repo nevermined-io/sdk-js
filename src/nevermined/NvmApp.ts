@@ -13,6 +13,7 @@ import {
   PublishOnChainOptions,
   SearchApi,
   SubscriptionToken,
+  SubscriptionType,
   Web3Error,
 } from '../sdk'
 import {
@@ -36,11 +37,6 @@ export enum NVMAppEnvironments {
   Gnosis = 'gnosis',
   Local = 'local',
   Custom = 'custom',
-}
-
-export enum NVMAppSubscriptionType {
-  Time = 'time',
-  Credits = 'credits',
 }
 
 export interface MetadataValidationResults {
@@ -190,7 +186,7 @@ export class NvmApp {
     const validationResult = this.validateSubscription(
       susbcriptionMetadata,
       subscriptionPrice,
-      NVMAppSubscriptionType.Time,
+      SubscriptionType.Time,
     )
     if (!validationResult.isValid) {
       throw new Error(validationResult.messages.join(','))
@@ -234,7 +230,7 @@ export class NvmApp {
     const validationResult = this.validateSubscription(
       susbcriptionMetadata,
       subscriptionPrice,
-      NVMAppSubscriptionType.Credits,
+      SubscriptionType.Credits,
     )
     if (!validationResult.isValid) {
       throw new Error(validationResult.messages.join(','))
@@ -434,7 +430,7 @@ export class NvmApp {
   public validateSubscription(
     metadata: MetaData,
     price: AssetPrice,
-    subscriptionType: NVMAppSubscriptionType,
+    subscriptionType: SubscriptionType,
   ): MetadataValidationResults {
     const errorMessages: string[] = []
     if (!this.isNetworkFeeIncluded(price)) errorMessages.push('Network fee not included')
@@ -447,7 +443,7 @@ export class NvmApp {
     )
       errorMessages.push('invalid customData.subscriptionLimitType value')
 
-    if (subscriptionType === NVMAppSubscriptionType.Time) {
+    if (subscriptionType === SubscriptionType.Time) {
       if (!metadata.additionalInformation?.customData?.dateMeasure)
         errorMessages.push('customData.dateMeasure not included')
     }

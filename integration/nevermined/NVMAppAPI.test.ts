@@ -4,7 +4,6 @@ import chaiAsPromised from 'chai-as-promised'
 import {
   Account,
   AssetPrice,
-  MetaData,
   Nevermined,
   ResourceAuthentication,
   SubscriptionCreditsNFTApi,
@@ -14,7 +13,7 @@ import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
 import { Signer } from 'ethers'
-import { generateSubscriptionMetadata, generateWebServiceMetadata, getMetadata } from '../utils'
+import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 
 chai.use(chaiAsPromised)
 
@@ -121,8 +120,10 @@ describe('NVM App API', () => {
     })
 
     it('I want to create a time subscription', async () => {
-      const timeSubscriptionMetadata = generateSubscriptionMetadata(
+      const timeSubscriptionMetadata = NvmAppMetadata.getTimeSubscriptionMetadataTemplate(
         'NVM App Time only Subscription test',
+        'Nevermined',
+        'hours',
       )
 
       const ddo = await nvmApp.createTimeSubscription(
@@ -137,8 +138,9 @@ describe('NVM App API', () => {
     })
 
     it('I want to create a credits subscription', async () => {
-      const creditsSubscriptionMetadata = generateSubscriptionMetadata(
+      const creditsSubscriptionMetadata = NvmAppMetadata.getCreditsSubscriptionMetadataTemplate(
         'NVM App Credits Subscription test',
+        'Nevermined',
       )
 
       const ddo = await nvmApp.createCreditsSubscription(
@@ -154,15 +156,22 @@ describe('NVM App API', () => {
     })
 
     it('I want to register an Agent', async () => {
-      const agentMetadata = generateWebServiceMetadata(
-        'Nevermined Web Service Metadata',
-        `${SERVICE_ENDPOINT}(.*)`,
+      const agentMetadata = NvmAppMetadata.getServiceMetadataTemplate(
+        'Nevermined Ageeeent',
+        'Nevermined',
+        [
+          {
+            GET: `${SERVICE_ENDPOINT}(.*)`,
+          },
+        ],
         [OPEN_ENDPOINT],
+        OPEN_ENDPOINT,
+        'RESTful',
         AUTHORIZATION_TYPE,
         AUTHORIZATION_TOKEN,
         AUTHORIZATION_USER,
         AUTHORIZATION_PASSWORD,
-      ) as MetaData
+      )
 
       const ddo = await nvmApp.registerServiceAsset(
         agentMetadata,
@@ -181,7 +190,10 @@ describe('NVM App API', () => {
     })
 
     it('I want to register a Dataset', async () => {
-      const datasetMetadata = getMetadata()
+      const datasetMetadata = NvmAppMetadata.getFileMetadataTemplate(
+        'NVM App Dataset test',
+        'Nevermined',
+      )
 
       const ddo = await nvmApp.registerFileAsset(
         datasetMetadata,
