@@ -17,7 +17,6 @@ import {
   ContractHandler,
 } from '../../src/keeper'
 import { config } from '../config'
-import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { ethers } from 'ethers'
 import { didZeroX } from '../../src/utils'
@@ -34,6 +33,8 @@ import {
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
+import { sleep } from '../utils/utils'
+import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 
 describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   let publisher: Account
@@ -65,7 +66,9 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   const nftTransfer = false
   const subscriptionDuration = 1000 // in blocks
   const subscriptionCredits = 10n // How much credits are giving purchasing the subscription
-  const costServiceInCredits = 1n // How many credits cost every access to the service
+  const costServiceInCredits = 10n // How many credits cost every access to the service
+  const maxCreditsToCharge = 10n
+  const minCreditsToCharge = 10n
 
   // The service to register into Nevermined and attach to a subscription
   const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'
@@ -206,8 +209,11 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       const isOperator = await subscriptionNFT.getContract.isOperator(transferNftCondition.address)
       assert.isTrue(isOperator)
 
-      subscriptionMetadata = getMetadata(Math.random().toString(), 'Service Subscription NFT1155')
-      subscriptionMetadata.main.type = 'subscription'
+      subscriptionMetadata = NvmAppMetadata.getCreditsSubscriptionMetadataTemplate(
+        'NVM App Credits Subscription test',
+        'Nevermined',
+      )
+
       const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
         metadata: subscriptionMetadata,
         services: [
@@ -232,18 +238,24 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
 
     it('I want to register a new web service and tokenize (via NFT)', async () => {
-      serviceMetadata = generateWebServiceMetadata(
+      serviceMetadata = NvmAppMetadata.getServiceMetadataTemplate(
         'Nevermined Web Service Metadata',
-        // regex to match the service endpoints
-        // works with: https://www.npmjs.com/package/path-to-regexp
-        // Example of regex: `https://api.openai.com/v1/(.*)`,
-        `${SERVICE_ENDPOINT}(.*)`,
+        'Nevermined',
+        [
+          {
+            POST: `${SERVICE_ENDPOINT}(.*)`,
+          },
+        ],
         [OPEN_ENDPOINT],
+        OPEN_ENDPOINT,
+        'RESTful',
         AUTHORIZATION_TYPE,
         AUTHORIZATION_TOKEN,
         AUTHORIZATION_USER,
         AUTHORIZATION_PASSWORD,
-      ) as MetaData
+        false,
+      )
+
       serviceMetadata.userId = payload.sub
 
       console.log(`Registering service with metadata: ${JSON.stringify(serviceMetadata)}`)
@@ -257,8 +269,8 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
               tokenId: subscriptionDDO.shortId(),
               duration: 0, // Doesnt expire
               amount: costServiceInCredits, // The cost of accessing the service
-              maxCreditsToCharge: 2n,
-              minCreditsToCharge: 1n,
+              maxCreditsToCharge,
+              minCreditsToCharge,
               nftTransfer,
             },
           },
@@ -413,6 +425,8 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
 
   describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
     let creditsBalanceBefore: bigint
+    const url = new URL(SERVICE_ENDPOINT)
+    const proxyEndpoint = `${PROXY_URL}${url.pathname}`
 
     it('As subscriber I can see my credits balance', async () => {
       creditsBalanceBefore = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
@@ -422,10 +436,11 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
 
     it('The subscriber access the service endpoints available', async () => {
-      const url = new URL(SERVICE_ENDPOINT)
-      const proxyEndpoint = `${PROXY_URL}${url.pathname}`
+      if (process.env.REQUEST_DATA) {
+        opts.method = 'POST'
+        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
+      }
 
-      console.log(accessToken)
       opts.headers = {
         // The proxy expects the `HTTP Authorization` header with the JWT
         authorization: `Bearer ${accessToken}`,
@@ -434,12 +449,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
         // host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
       }
 
-      if (process.env.REQUEST_DATA) {
-        opts.method = 'POST'
-        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
-      }
-
-      // console.debug(JSON.stringify(opts))
+      console.debug(JSON.stringify(opts))
       const result = await fetch(proxyEndpoint, opts)
 
       console.debug(` ${result.status} - ${await result.text()}`)
@@ -448,14 +458,32 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       assert.equal(result.status, 200)
     })
 
-    it.skip('As subscriber I can see my credits are burned after accessing the service', async () => {
+    it('As subscriber I can see my credits are burned after accessing the service', async () => {
+      console.log(`Waiting 5 seconds to check the credits are burned`)
+      await sleep(5000)
+
       const creditsBalanceAfter = await subscriptionNFT.balance(
         subscriptionDDO.id,
         subscriber.getId(),
       )
 
       console.log(`Credits balance after: ${creditsBalanceAfter}`)
-      assert.equal(creditsBalanceBefore - 1n, creditsBalanceAfter)
+      assert.isTrue(creditsBalanceBefore > creditsBalanceAfter)
+    })
+
+    it('After the credits are burned, I can not access to the service anymore', async () => {
+      if (process.env.REQUEST_DATA_2) {
+        opts.method = 'POST'
+        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA_2))
+      }
+
+      // console.debug(JSON.stringify(opts))
+      const result = await fetch(proxyEndpoint, opts)
+
+      console.debug(` ${result.status} - ${await result.text()}`)
+
+      assert.isFalse(result.ok)
+      assert.notEqual(result.status, 200)
     })
   })
 
