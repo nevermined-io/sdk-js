@@ -1,7 +1,7 @@
 import { RoyaltyAttributes } from '../nevermined'
 import { AssetAttributes } from './AssetAttributes'
 import { ERCType, NeverminedNFTType, NeverminedNFT1155Type, NeverminedNFT721Type } from './'
-import { ServiceType } from '../ddo/types'
+import { ChargeType, ServiceType } from '../ddo/types'
 import { NFTError } from '../errors/NFTError'
 import { jsonReplacer } from '../common'
 
@@ -73,10 +73,14 @@ export class NFTServiceAttributes {
    * @param dynamicAmount the dynamic amount of credits asked to be consumed
    * @returns amount to consume
    */
-  static getCreditsToCharge(nftAttributes: NFTServiceAttributes, dynamicAmount?: bigint) {
+  static getCreditsToCharge(
+    nftAttributes: NFTServiceAttributes,
+    chargeType: ChargeType = ChargeType.Fixed,
+    dynamicAmount?: bigint,
+  ) {
     if (!nftAttributes) throw new NFTError('NFT attributes are not defined')
 
-    if (dynamicAmount !== undefined) {
+    if (chargeType === ChargeType.Dynamic && dynamicAmount !== undefined) {
       if (dynamicAmount > nftAttributes.maxCreditsToCharge) {
         return nftAttributes.maxCreditsToCharge
       } else if (dynamicAmount < nftAttributes.minCreditsToCharge) {

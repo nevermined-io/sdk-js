@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, Logger, makeRandomAccounts } from '../../src'
+import { Nevermined, Account, Logger } from '../../src'
 
 describe('Marketplace api auth', () => {
   let nevermined: Nevermined
@@ -15,8 +15,10 @@ describe('Marketplace api auth', () => {
       Logger.error(error)
     }
 
+    const numAccounts = config.accounts.length
     testConfig = { ...config }
-    testConfig.accounts = makeRandomAccounts()
+    testConfig.accounts = [config.accounts[numAccounts - 1], config.accounts[numAccounts - 2]]
+    // testConfig.accounts = makeRandomAccounts(3)
     testConfig.marketplaceAuthToken = undefined
 
     nevermined = await Nevermined.getInstance(testConfig)
