@@ -16,7 +16,7 @@ describe('Marketplace api auth', () => {
     }
 
     testConfig = { ...config }
-    testConfig.accounts = makeRandomAccounts()
+    testConfig.accounts = makeRandomAccounts(3)
     testConfig.marketplaceAuthToken = undefined
 
     nevermined = await Nevermined.getInstance(testConfig)
