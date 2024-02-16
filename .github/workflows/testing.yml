@@ -18,9 +18,8 @@ jobs:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
           estuary: 'true'
-          # TODO: Update to tagged versions when everything is released and in main branches
-          node-version: 'develop'
-          contracts-version: 'latest'
+          node-version: 'main'
+          contracts-version: 'main'
 
       - name: Install dependencies
         run: |
