@@ -19,7 +19,7 @@ jobs:
           opengsn: 'true'
           estuary: 'true'
           node-version: 'main'
-          contracts-version: 'main'
+          contracts-version: 'v3.5.6'
 
       - name: Install dependencies
         run: |

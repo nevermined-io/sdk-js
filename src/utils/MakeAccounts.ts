@@ -23,6 +23,7 @@ function getAccountsFromWallets(node: HDNodeWallet, numAccounts: number): ethers
   const accounts: ethers.Wallet[] = []
 
   for (let i = 0; i < numAccounts; i++) {
+    // console.log(`Creating account ${i}`)
     const acc = node.derivePath(getIndexedAccountPath(i))
     const wallet = new ethers.Wallet(acc.privateKey)
     accounts.push(wallet)
