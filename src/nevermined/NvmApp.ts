@@ -171,6 +171,12 @@ export class NvmApp {
     return this.searchSDK.search
   }
 
+  public get sdk(): Nevermined {
+    if (!this.isWeb3Connected())
+      throw new Web3Error('Web3 not connected, try calling the connect method first')
+    return this.fullSDK
+  }
+
   public get networkFees(): { receiver: string; fee: bigint } {
     return { receiver: this.networkFeeReceiver, fee: this.networkFee }
   }

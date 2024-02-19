@@ -7,6 +7,7 @@ import {
   Nevermined,
   ResourceAuthentication,
   SubscriptionCreditsNFTApi,
+  Web3Error,
   ZeroAddress,
 } from '../../src'
 import { config } from '../config'
@@ -104,12 +105,16 @@ describe('NVM App API', () => {
     it('I want to connect my account', async () => {
       assert.isFalse(nvmApp.isWeb3Connected())
 
+      assert.throws(() => nvmApp.sdk.accounts.list(), Web3Error)
+
       defaultSigner = config.accounts[0]
       signerAddress = await defaultSigner.getAddress()
       console.log(`Account address: ${signerAddress}`)
       await nvmApp.connect(signerAddress)
 
       assert.isTrue(nvmApp.isWeb3Connected())
+
+      assert.doesNotThrow(() => nvmApp.sdk.accounts.list(), Web3Error)
     })
 
     it('I can calculate and include network fees', async () => {
