@@ -1,7 +1,16 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined, AssetPrice, NFTAttributes, ContractHandler } from '../../src'
+import {
+  Account,
+  DDO,
+  Nevermined,
+  AssetPrice,
+  NFTAttributes,
+  ContractHandler,
+  ChargeType,
+  NFTServiceAttributes,
+} from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
@@ -90,6 +99,33 @@ describe('NFT1155 End-to-End', () => {
       )
       assert.isDefined(cloneAddress)
       console.log(`NFT (ERC-1155) clonned into address ${cloneAddress}`)
+    })
+  })
+
+  describe('As publisher I can setup different charging mechanisms', () => {
+    it('Should be able to charge fixed amounts', async () => {
+      const chargeType = ChargeType.Fixed
+      const nftService = new NFTServiceAttributes()
+      nftService.amount = 2n
+
+      const amountToCharge = NFTServiceAttributes.getCreditsToCharge(nftService, chargeType)
+      assert.equal(amountToCharge, 2n)
+    })
+
+    it('Should be able to charge dynamic amounts', async () => {
+      const chargeType = ChargeType.Dynamic
+      const dynamicAmount = 3n
+      const nftService = new NFTServiceAttributes()
+      nftService.amount = 1n
+      nftService.minCreditsRequired = 1n
+      nftService.maxCreditsToCharge = 5n
+
+      const amountToCharge = NFTServiceAttributes.getCreditsToCharge(
+        nftService,
+        chargeType,
+        dynamicAmount,
+      )
+      assert.equal(amountToCharge, 3n)
     })
   })
 
