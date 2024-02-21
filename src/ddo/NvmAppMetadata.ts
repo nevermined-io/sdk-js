@@ -12,6 +12,7 @@ export class NvmAppMetadata {
     name: string,
     author: string,
     timeMeasure: string,
+    customData: { [key: string]: any } = {},
   ): MetaData {
     const metadata = NvmAppMetadata.getSubscriptionMetadataTemplate(name, author)
     metadata.main.subscription = {
@@ -19,24 +20,35 @@ export class NvmAppMetadata {
       timeMeasure,
     }
     metadata.additionalInformation.customData = {
+      ...customData,
       subscriptionLimitType: SubscriptionType.Time,
       dateMeasure: timeMeasure,
     }
     return metadata
   }
 
-  public static getCreditsSubscriptionMetadataTemplate(name: string, author: string): MetaData {
+  public static getCreditsSubscriptionMetadataTemplate(
+    name: string,
+    author: string,
+    customData: { [key: string]: any } = {},
+  ): MetaData {
     const metadata = NvmAppMetadata.getSubscriptionMetadataTemplate(name, author)
     metadata.main.subscription = {
       subscriptionType: SubscriptionType.Credits,
     }
     metadata.additionalInformation.customData = {
+      ...customData,
       subscriptionLimitType: SubscriptionType.Credits,
     }
+
     return metadata
   }
 
-  public static getSubscriptionMetadataTemplate(name: string, author: string): MetaData {
+  public static getSubscriptionMetadataTemplate(
+    name: string,
+    author: string,
+    customData: { [key: string]: any } = {},
+  ): MetaData {
     const _metadata = {
       main: {
         name,
@@ -53,7 +65,7 @@ export class NvmAppMetadata {
           },
         ],
       } as MetaDataMain,
-      additionalInformation: {},
+      additionalInformation: { customData },
     }
 
     return _metadata
@@ -71,6 +83,7 @@ export class NvmAppMetadata {
     authUser?: string,
     authPassword?: string,
     isPriceDynamic: boolean = false,
+    customData: { [key: string]: any } = {},
     nonce: string | number = Math.random(),
   ): MetaData {
     const serviceMetadata = {
@@ -92,7 +105,7 @@ export class NvmAppMetadata {
         ...({ nonce } as any),
       },
       additionalInformation: {
-        customData: {},
+        customData,
       },
     }
     if (openApiEndpoint) {
@@ -111,9 +124,9 @@ export class NvmAppMetadata {
         username: authUser,
         password: authPassword,
       }
-    } else if (authType === 'oauth') {
+    } else if (authType === 'oauth' || authType === 'bearer') {
       serviceMetadata.main.webService.internalAttributes.authentication = {
-        type: 'oauth',
+        type: 'bearer',
         token: authToken,
       }
       serviceMetadata.main.webService.internalAttributes.headers = [
@@ -128,7 +141,11 @@ export class NvmAppMetadata {
     return serviceMetadata
   }
 
-  public static getFileMetadataTemplate(name: string, author: string): MetaData {
+  public static getFileMetadataTemplate(
+    name: string,
+    author: string,
+    customData: { [key: string]: any } = {},
+  ): MetaData {
     const _metadata = {
       main: {
         name,
@@ -141,10 +158,7 @@ export class NvmAppMetadata {
         paymentAttributes: [],
       } as MetaDataMain,
       additionalInformation: {
-        customData: {
-          dataSchema: '',
-          filesFormat: '',
-        },
+        customData,
       },
     }
 

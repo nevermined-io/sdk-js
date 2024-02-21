@@ -75,10 +75,10 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
 
   // We separate how the authorization of the service is done.
-  // If oauth we will use the AUTHORIZATION_TOKEN env
+  // If oauth or bearer we will use the AUTHORIZATION_TOKEN env
   // If basic we will use the AUTHORIZATION_USER and AUTHORIZATION_PASSWORD envs
   const AUTHORIZATION_TYPE = (process.env.AUTHORIZATION_TYPE ||
-    'oauth') as ResourceAuthentication['type']
+    'bearer') as ResourceAuthentication['type']
 
   // The http authorization bearer token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
@@ -193,7 +193,8 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
     console.log(`  OPEN_ENDPOINT=${OPEN_ENDPOINT}`)
     console.log(`  AUTHORIZATION_TYPE=${AUTHORIZATION_TYPE}`)
-    if (AUTHORIZATION_TYPE === 'oauth') console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
+    if (AUTHORIZATION_TYPE === 'oauth' || AUTHORIZATION_TYPE === 'bearer')
+      console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
     else {
       console.log(`  AUTHORIZATION_USER=${AUTHORIZATION_USER}`)
       console.log(`  AUTHORIZATION_PASSWORD=${AUTHORIZATION_PASSWORD}`)

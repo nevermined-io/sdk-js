@@ -234,7 +234,7 @@ export interface WebServiceInternalAttributes {
 }
 
 export interface ResourceAuthentication {
-  type: 'none' | 'basic' | 'oauth'
+  type: 'none' | 'basic' | 'bearer' | 'oauth'
 
   user?: string
   password?: string
