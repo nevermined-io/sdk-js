@@ -110,8 +110,8 @@ export class NvmAppMetadata {
     }
     if (openApiEndpoint) {
       serviceMetadata.main.webService.openEndpoints.push(openApiEndpoint)
-      serviceMetadata.main.additionalInformation = {
-        ...serviceMetadata.main.additionalInformation,
+      serviceMetadata.additionalInformation = {
+        ...serviceMetadata.additionalInformation,
         customData: {
           openApi: openApiEndpoint,
         },
