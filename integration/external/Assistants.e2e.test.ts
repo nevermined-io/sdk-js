@@ -96,7 +96,7 @@ describe('E2E flow for interacting with OpenAI proxified assistants', () => {
     )
   })
 
-  describe.skip('PUBLISHER: As a OpenAI developer I want to monetize my assistant', () => {
+  describe('PUBLISHER: As a OpenAI developer I want to monetize my assistant', () => {
     it('As Publisher I want to connect my account', async () => {
       nvmAppPublisher = await NvmApp.getInstance(NVMAppEnvironments.Staging, {
         artifactsFolder: './artifacts',
@@ -152,11 +152,7 @@ describe('E2E flow for interacting with OpenAI proxified assistants', () => {
       const agentMetadata = NvmAppMetadata.getServiceMetadataTemplate(
         'Nevermined Assistant',
         'Nevermined Corp',
-        [
-          { POST: `${ASSISTANT_QUERY_URL}` },
-          { POST: `${ASSISTANT_RUN_URL}(.*)` },
-          // { GET: `${ASSISTANT_STATUS_URL}`},
-        ],
+        [{ POST: `${ASSISTANT_QUERY_URL}` }, { POST: `${ASSISTANT_RUN_URL}(.*)` }],
         [ASSISTANT_STATUS_URL],
         OPEN_API_ENDPOINT,
         'RESTful',
