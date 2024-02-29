@@ -37,7 +37,7 @@ describe('NVM App API', () => {
     const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
     const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
     const AUTHORIZATION_TYPE = (process.env.AUTHORIZATION_TYPE ||
-      'oauth') as ResourceAuthentication['type']
+      'bearer') as ResourceAuthentication['type']
     const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
     const AUTHORIZATION_USER = process.env.AUTHORIZATION_USER || 'user'
     const AUTHORIZATION_PASSWORD = process.env.AUTHORIZATION_PASSWORD || 'password'

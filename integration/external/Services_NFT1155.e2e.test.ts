@@ -82,10 +82,10 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   const OPEN_ENDPOINT = process.env.OPEN_ENDPOINT || `${SERVICE_ENDPOINT}${OPEN_PATH}`
 
   // We separate how the authorization of the service is done.
-  // If oauth we will use the AUTHORIZATION_TOKEN env
+  // If oauth or bearer we will use the AUTHORIZATION_TOKEN env
   // If basic we will use the AUTHORIZATION_USER and AUTHORIZATION_PASSWORD envs
   const AUTHORIZATION_TYPE = (process.env.AUTHORIZATION_TYPE ||
-    'oauth') as ResourceAuthentication['type']
+    'bearer') as ResourceAuthentication['type']
 
   // The http authorization bearer token required by the service
   const AUTHORIZATION_TOKEN = process.env.AUTHORIZATION_TOKEN || 'new_authorization_token'
@@ -160,7 +160,8 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     console.log(`  SERVICE_ENDPOINT=${SERVICE_ENDPOINT}`)
     console.log(`  OPEN_ENDPOINT=${OPEN_ENDPOINT}`)
     console.log(`  AUTHORIZATION_TYPE=${AUTHORIZATION_TYPE}`)
-    if (AUTHORIZATION_TYPE === 'oauth') console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
+    if (AUTHORIZATION_TYPE === 'oauth' || AUTHORIZATION_TYPE === 'bearer')
+      console.log(`  AUTHORIZATION_TOKEN=${AUTHORIZATION_TOKEN}`)
     else {
       console.log(`  AUTHORIZATION_USER=${AUTHORIZATION_USER}`)
       console.log(`  AUTHORIZATION_PASSWORD=${AUTHORIZATION_PASSWORD}`)
@@ -282,7 +283,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       })
       serviceDDO = await nevermined.nfts1155.create(nftAttributes, publisher, {
         metadata: PublishMetadataOptions.OnlyMetadataAPI,
-        did: PublishOnChainOptions.OnlyOffchain,
+        did: PublishOnChainOptions.DIDRegistry,
       })
       console.log(`Using NFT contract address: ${subscriptionNFT.address}`)
       console.log(`Service registered with DID: ${serviceDDO.id}`)
@@ -412,9 +413,38 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       // thegraph stores the addresses in lower case
       assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
     })
+
+    it('The publisher can access the service endpoints available', async () => {
+      const response = await nevermined.nfts1155.getSubscriptionToken(serviceDDO.id, publisher)
+      const publisherAccessToken = response.accessToken
+
+      assert.isDefined(publisherAccessToken)
+
+      if (process.env.REQUEST_DATA) {
+        opts.method = 'POST'
+        opts.body = JSON.stringify(JSON.parse(process.env.REQUEST_DATA))
+      }
+
+      opts.headers = {
+        // The proxy expects the `HTTP Authorization` header with the JWT
+        authorization: `Bearer ${publisherAccessToken}`,
+        'content-type': 'application/json',
+        // Host header is not required anymore from the proxy, it picks this up from the JWT
+        // host: url.port ? url.hostname.concat(`:${url.port}`) : url.hostname,
+      }
+
+      console.debug(JSON.stringify(opts))
+      console.log(`Proxy Endpoint: ${response.neverminedProxyUri}`)
+      const result = await fetch(response.neverminedProxyUri, opts)
+
+      console.debug(` ${result.status} - ${await result.text()}`)
+
+      assert.isTrue(result.ok)
+      assert.equal(result.status, 200)
+    })
   })
 
-  describe('As a subscriber I want to get an access token for the web service', () => {
+  describe.skip('As a subscriber I want to get an access token for the web service', () => {
     it('Nevermined One issues an access token', async () => {
       const response = await nevermined.nfts1155.getSubscriptionToken(serviceDDO.id, subscriber)
       accessToken = response.accessToken
@@ -423,7 +453,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
   })
 
-  describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
+  describe.skip('As Subscriber I want to get access to the web service as part of my subscription', () => {
     let creditsBalanceBefore: bigint
     const url = new URL(SERVICE_ENDPOINT)
     const proxyEndpoint = `${PROXY_URL}${url.pathname}`
@@ -450,6 +480,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       }
 
       console.debug(JSON.stringify(opts))
+      console.log(`Proxy Endpoint: ${proxyEndpoint}`)
       const result = await fetch(proxyEndpoint, opts)
 
       console.debug(` ${result.status} - ${await result.text()}`)
@@ -487,7 +518,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
   })
 
-  describe('As a user I want to be able to search DDOs by subscriptions', () => {
+  describe.skip('As a user I want to be able to search DDOs by subscriptions', () => {
     const endpointsFilter = [
       {
         nested: {

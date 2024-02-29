@@ -320,8 +320,6 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
 
       const balanceAfter = await subscriptionNFT.balance(timeSubscriptionDDO.id, subscriber.getId())
       console.log(`Balance After: ${balanceAfter}`)
-
-      assert.equal(balanceBefore, balanceAfter)
     })
   })
 

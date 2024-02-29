@@ -153,9 +153,9 @@ export const generateWebServiceMetadata = (
       username: authUser,
       password: authPassword,
     }
-  } else if (authType === 'oauth') {
+  } else if (authType === 'oauth' || authType === 'bearer') {
     serviceMetadata.main.webService.internalAttributes.authentication = {
-      type: 'oauth',
+      type: 'bearer',
       token: authToken,
     }
     serviceMetadata.main.webService.internalAttributes.headers = [
