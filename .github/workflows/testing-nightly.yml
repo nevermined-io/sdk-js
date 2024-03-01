@@ -67,7 +67,7 @@ jobs:
           estuary: 'true'
           compute: 'true'
           contracts-version: 'latest'
-          marketplace-version: 'latest'
+          marketplace-version: 'v0.8.0'
           node-version: 'develop'
 
       - name: Install dependencies
