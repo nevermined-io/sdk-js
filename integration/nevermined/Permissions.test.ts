@@ -23,7 +23,7 @@ describe('Permissions', () => {
       userId: userProfile.userId,
       type: [PermissionType.Read, PermissionType.Update, PermissionType.Delete],
       issuer: account2.getId(),
-      holder: userProfile.addresses[0],
+      holder: account1.getId(),
     }
   })
 
