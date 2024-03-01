@@ -70,12 +70,12 @@ describe('Profiles', () => {
 
   it('should get a profile by address', async () => {
     spy.on(nevermined.utils.fetch, 'get', () => {
-      return reponsify({ userId: profile.userId, name: profile.name })
+      return reponsify({ userId: profile.userId, nickname: profile.nickname })
     })
 
     const result = await profiles.findOneByAddress(profile.addresses[0])
 
-    assert.deepEqual(result, { userId: profile.userId, name: profile.name })
+    assert.deepEqual(result, { userId: profile.userId, nickname: profile.nickname })
   })
 
   it('should update a profile by userId', async () => {
