@@ -17,16 +17,13 @@ describe('Permissions', () => {
     config.marketplaceAuthToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweGUyREQwOWQ3MTlEYTg5ZTVhM0QwRjI1NDljN0UyNDU2NmU5NDcyNjAiLCJzdWIiOiJ1LWU2YzI2NDhjLTIwZjktNDJlMC1iMWZlLWZjZWEwNzA4ODY3NyIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTY1MTI0ODM1NCwiZXhwIjoxNzUxMjUxOTU0fQ.p9fr_c_HVlJzY1cJSGDod1zMdhRCRWdExOB_UxMDrKg'
 
-    const userProfileReduced = await nevermined.services.profiles.findOneByAddress(account1.getId())
-    const userProfile = await nevermined.services.profiles.findOneByUserId(
-      userProfileReduced.userId,
-    )
+    const userProfile = await nevermined.services.profiles.findOneByAddress(account1.getId())
 
     newPermission = {
       userId: userProfile.userId,
       type: [PermissionType.Read, PermissionType.Update, PermissionType.Delete],
       issuer: account2.getId(),
-      holder: userProfile.addresses[0],
+      holder: account1.getId(),
     }
   })
 
