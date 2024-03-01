@@ -19,6 +19,7 @@ jobs:
           opengsn: 'true'
           estuary: 'true'
           node-version: 'latest'
+          marketplace-version: 'latest'
           contracts-version: 'latest'
 
       - name: Install dependencies
