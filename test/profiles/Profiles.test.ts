@@ -70,7 +70,7 @@ describe('Profiles', () => {
 
   it('should get a profile by address', async () => {
     spy.on(nevermined.utils.fetch, 'get', () => {
-      return reponsify(profile)
+      return reponsify({ userId: profile.userId, name: profile.name })
     })
 
     const result = await profiles.findOneByAddress(profile.addresses[0])
