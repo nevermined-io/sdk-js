@@ -49,3 +49,8 @@ export interface Profile extends NewProfile {
   creationDate: Date
   updateDate: Date
 }
+
+export interface ProfileRestricted {
+  userId: string
+  name?: string
+}

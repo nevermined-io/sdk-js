@@ -75,7 +75,7 @@ describe('Profiles', () => {
 
     const result = await profiles.findOneByAddress(profile.addresses[0])
 
-    assert.equal(result, profile)
+    assert.equal(result, { userId: profile.userId, name: profile.name })
   })
 
   it('should update a profile by userId', async () => {

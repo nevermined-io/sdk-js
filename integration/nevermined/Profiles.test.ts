@@ -68,10 +68,8 @@ describe('User Profiles', () => {
     const response = await nevermined.services.profiles.findOneByAddress(account3.getId())
 
     assert.deepEqual(response, {
-      ...newProfile,
       userId: response.userId,
-      creationDate: response.creationDate,
-      updateDate: response.updateDate,
+      name: response.name,
     })
   })
 
