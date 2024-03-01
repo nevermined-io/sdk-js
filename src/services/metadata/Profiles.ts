@@ -1,5 +1,5 @@
 import { MarketplaceApi } from './MarketplaceAPI'
-import { NewProfile, Profile } from './types'
+import { NewProfile, Profile, ReducedProfile } from './types'
 import { HttpError, ApiError } from '../../errors'
 
 const profilePath = '/api/v1/metadata/profiles'
@@ -56,7 +56,9 @@ export class Profiles extends MarketplaceApi {
     const fullUrl = `${this.url}${profilePath}/${userId}`
 
     try {
-      const response = await this.nevermined.utils.fetch.get(fullUrl)
+      const response = await this.nevermined.utils.fetch.get(fullUrl, {
+        Authorization: `Bearer ${this.config.marketplaceAuthToken}`,
+      })
 
       if (response.ok) {
         return response.json() as Promise<Profile>
@@ -71,14 +73,14 @@ export class Profiles extends MarketplaceApi {
     }
   }
 
-  public async findOneByAddress(address: string): Promise<Profile> {
+  public async findOneByAddress(address: string): Promise<ReducedProfile> {
     const fullUrl = `${this.url}${profilePath}/address/${address}`
 
     try {
       const response = await this.nevermined.utils.fetch.get(fullUrl)
 
       if (response.ok) {
-        return response.json() as Promise<Profile>
+        return response.json() as Promise<ReducedProfile>
       }
 
       throw new HttpError(
