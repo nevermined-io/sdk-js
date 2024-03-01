@@ -50,7 +50,7 @@ export interface Profile extends NewProfile {
   updateDate: Date
 }
 
-export interface ProfileRestricted {
+export interface ReducedProfile {
   userId: string
   name?: string
 }
