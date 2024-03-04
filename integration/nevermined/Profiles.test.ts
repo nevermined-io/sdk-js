@@ -37,7 +37,6 @@ describe('User Profiles', () => {
       isListed: true,
       addresses: [account3.getId()],
       state: State.Confirmed,
-      additionalInformation: { profilePicture: faker.image.imageUrl() },
     }
   })
 
@@ -71,7 +70,6 @@ describe('User Profiles', () => {
     assert.deepEqual(response, {
       userId: response.userId,
       nickname: response.nickname,
-      additionalInformation: response.additionalInformation,
     })
   })
 

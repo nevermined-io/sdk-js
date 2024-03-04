@@ -73,7 +73,6 @@ describe('Profiles', () => {
       return reponsify({
         userId: profile.userId,
         nickname: profile.nickname,
-        additionalInformation: profile.additionalInformation,
       })
     })
 
@@ -82,7 +81,6 @@ describe('Profiles', () => {
     assert.deepEqual(result, {
       userId: profile.userId,
       nickname: profile.nickname,
-      additionalInformation: profile.additionalInformation,
     })
   })
 
