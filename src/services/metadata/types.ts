@@ -53,4 +53,5 @@ export interface Profile extends NewProfile {
 export interface ReducedProfile {
   userId: string
   nickname?: string
+  additionalInformation?: unknown
 }

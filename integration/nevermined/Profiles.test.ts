@@ -70,6 +70,7 @@ describe('User Profiles', () => {
     assert.deepEqual(response, {
       userId: response.userId,
       nickname: response.nickname,
+      additionalInformation: response.additionalInformation,
     })
   })
 
