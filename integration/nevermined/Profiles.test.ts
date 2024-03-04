@@ -37,6 +37,7 @@ describe('User Profiles', () => {
       isListed: true,
       addresses: [account3.getId()],
       state: State.Confirmed,
+      additionalInformation: { profilePicture: faker.image.imageUrl() },
     }
   })
 
