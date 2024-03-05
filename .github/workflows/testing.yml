@@ -50,6 +50,7 @@ jobs:
       - name: Reclaim some disk space
         run: docker system prune --all --volumes -f
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: nevermined-io/contracts
           ref: 'main'
