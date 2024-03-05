@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Reclaim some disk space
         run: docker system prune --all --volumes -f
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
       - uses: nevermined-io/nvm-tools-actions@v0.15.0
@@ -49,14 +49,14 @@ jobs:
     steps:
       - name: Reclaim some disk space
         run: docker system prune --all --volumes -f
-      - uses: actions/checkout@v3
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: nevermined-io/contracts
           ref: 'main'
           path: contracts
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 

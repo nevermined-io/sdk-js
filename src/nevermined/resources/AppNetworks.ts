@@ -2,12 +2,14 @@ import { NeverminedOptions } from '../../models'
 
 export class NeverminedAppOptions extends NeverminedOptions {
   instanceName: string
+  appUrl?: string
   nftContractAddress?: string
   tokenAddress?: string // ERC-20 token address or zero address (0x000..) for native token
 }
 
 export class AppDeploymentLocal extends NeverminedAppOptions {
   instanceName = 'localnet'
+  appUrl = 'http://localhost:3000'
   web3ProviderUri = 'http://contracts.nevermined.localnet'
   marketplaceUri = 'http://marketplace.nevermined.localnet'
   graphHttpUri = undefined
@@ -21,6 +23,7 @@ export class AppDeploymentLocal extends NeverminedAppOptions {
 
 export class AppDeploymentStaging extends NeverminedAppOptions {
   instanceName = 'appStaging'
+  appUrl = 'https://staging.nevermined.app'
   web3ProviderUri = 'https://sepolia-rollup.arbitrum.io/rpc'
   marketplaceUri = 'https://marketplace-api.staging.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
@@ -35,6 +38,7 @@ export class AppDeploymentStaging extends NeverminedAppOptions {
 
 export class AppDeploymentTesting extends NeverminedAppOptions {
   instanceName = 'appTesting'
+  appUrl = 'https://testing.nevermined.app'
   web3ProviderUri = 'https://sepolia-rollup.arbitrum.io/rpc'
   marketplaceUri = 'https://marketplace-api.testing.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
@@ -49,6 +53,7 @@ export class AppDeploymentTesting extends NeverminedAppOptions {
 
 export class AppDeploymentArbitrum extends NeverminedAppOptions {
   instanceName = 'appArbitrum'
+  appUrl = 'https://nevermined.app'
   web3ProviderUri = 'https://arb1.arbitrum.io/rpc'
   marketplaceUri = 'https://marketplace-api.arbitrum.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
@@ -63,6 +68,7 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
 
 export class AppDeploymentGnosis extends NeverminedAppOptions {
   instanceName = 'appGnosis'
+  appUrl = 'https://gnosis.nevermined.app'
   web3ProviderUri = 'https://rpc.gnosischain.com/'
   marketplaceUri = 'https://marketplace-api.gnosis.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
@@ -77,6 +83,7 @@ export class AppDeploymentGnosis extends NeverminedAppOptions {
 
 export class AppDeploymentMumbai extends NeverminedAppOptions {
   instanceName = 'appMumbai'
+  appUrl = 'https://mumbai.nevermined.app'
   web3ProviderUri = 'https://matic-mumbai.chainstacklabs.com'
   marketplaceUri = 'https://marketplace-api.mumbai.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
@@ -91,6 +98,7 @@ export class AppDeploymentMumbai extends NeverminedAppOptions {
 
 export class AppDeploymentMatic extends NeverminedAppOptions {
   instanceName = 'appMatic'
+  appUrl = 'https://matic.nevermined.app'
   web3ProviderUri = 'https://polygon-rpc.com'
   marketplaceUri = 'https://marketplace-api.matic.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'

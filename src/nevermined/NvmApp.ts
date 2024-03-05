@@ -49,6 +49,13 @@ export interface OperationResult {
   success: boolean
 }
 
+export interface SubscriptionBalance {
+  subscriptionType: SubscriptionType
+  canAccess: boolean
+  isSubscriptionOwner: boolean
+  balance: bigint
+}
+
 export class NvmApp {
   private configNVM: NeverminedAppOptions
   private userAccount: Account | undefined
@@ -62,7 +69,7 @@ export class NvmApp {
   private networkFeeReceiver: string | undefined
   private networkFee: bigint | undefined
 
-  static readonly defaultAppInitializatioinOptions: NeverminedInitializationOptions = {
+  static readonly defaultAppInitializationOptions: NeverminedInitializationOptions = {
     loadCore: true,
     loadServiceAgreements: true,
     loadNFTs1155: true,
@@ -76,10 +83,10 @@ export class NvmApp {
     loadCompute: false,
   }
 
-  static readonly publicationOptions = {
-    metadata: PublishMetadataOptions.OnlyMetadataAPI,
-    did: PublishOnChainOptions.DIDRegistry,
-  }
+  // static readonly publicationOptions = {
+  //   metadata: PublishMetadataOptions.OnlyMetadataAPI,
+  //   did: PublishOnChainOptions.DIDRegistry,
+  // }
 
   public static async getInstance(
     appEnv: NVMAppEnvironments,
@@ -106,8 +113,8 @@ export class NvmApp {
     initOptions?: NeverminedInitializationOptions,
   ) {
     const ops = initOptions
-      ? { ...NvmApp.defaultAppInitializatioinOptions, ...initOptions }
-      : NvmApp.defaultAppInitializatioinOptions
+      ? { ...NvmApp.defaultAppInitializationOptions, ...initOptions }
+      : NvmApp.defaultAppInitializationOptions
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
     if (account instanceof ZeroDevAccountSigner) {
@@ -140,7 +147,7 @@ export class NvmApp {
     if (!isAddress(this.subscriptionNFTContractAddress)) {
       throw new Web3Error('Invalid Subscription NFT contract address')
     }
-
+    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractAddress)
     this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
     this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
   }
@@ -220,7 +227,10 @@ export class NvmApp {
     return await this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
-      NvmApp.publicationOptions,
+      {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        did: PublishOnChainOptions.DIDRegistry,
+      },
       { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }
@@ -262,7 +272,10 @@ export class NvmApp {
     return await this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
-      NvmApp.publicationOptions,
+      {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        did: PublishOnChainOptions.DIDRegistry,
+      },
       { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }
@@ -305,6 +318,38 @@ export class NvmApp {
     }
 
     return { agreementId, success: transferResult }
+  }
+
+  public async getBalance(
+    subscriptionDid: string,
+    accountAddress?: string,
+  ): Promise<SubscriptionBalance> {
+    if (!this.isWeb3Connected())
+      throw new Web3Error('Web3 not connected, try calling the connect method first')
+
+    const address = accountAddress ? accountAddress : this.userAccount.getId()
+
+    try {
+      const ddo = await this.fullSDK.assets.resolve(subscriptionDid)
+      const salesService = ddo.findServiceByReference('nft-sales')
+      const subscriptionType = salesService.attributes.main.nftAttributes.subscriptionType
+      const numberCredits = salesService.attributes.main.nftAttributes.amount
+
+      const subscriptionOwner = await this.fullSDK.assets.owner(subscriptionDid)
+      console.log(`Subscription Owner: ${subscriptionOwner}`)
+      console.log(`User Address: ${address}`)
+      const balance = await this.fullSDK.nfts1155.balance(subscriptionDid, address)
+      const isOwner = address.toLowerCase() === subscriptionOwner.toLowerCase()
+      const canAccess = isOwner || balance >= numberCredits
+      return {
+        subscriptionType,
+        canAccess,
+        isSubscriptionOwner: address.toLowerCase() === subscriptionOwner.toLowerCase(),
+        balance,
+      }
+    } catch (error) {
+      throw new Web3Error(`Error ordering subscription: ${error.message}`)
+    }
   }
 
   public async getServiceAccessToken(serviceDid: string): Promise<SubscriptionToken> {
@@ -370,7 +415,10 @@ export class NvmApp {
     return await this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
-      NvmApp.publicationOptions,
+      {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        did: PublishOnChainOptions.DIDRegistry,
+      },
       { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }
@@ -408,7 +456,10 @@ export class NvmApp {
     return await this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
-      NvmApp.publicationOptions,
+      {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        did: PublishOnChainOptions.DIDRegistry,
+      },
       { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }

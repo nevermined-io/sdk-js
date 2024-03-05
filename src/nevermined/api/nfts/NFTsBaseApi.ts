@@ -446,6 +446,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
 
     // Download the files
     this.logger.log('Downloading the files')
+
     const result = await this.nevermined.services.node.downloadService(
       files,
       destination,
