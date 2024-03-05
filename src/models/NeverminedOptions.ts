@@ -18,6 +18,10 @@ export interface NeverminedInitializationOptions {
 
 export class NeverminedOptions {
   /**
+   * The Nevermined App URL.
+   */
+  public appUrl?: string
+  /**
    * Ethereum Web3 Provider URL. This Url allows the SDK to connect to a blockchain.
    * This provider depends on the network where you want to connect (Ethereum Mainnet, Rinkeby, Polygon Matic, etc).
    * It's possible to use a public available provider or a private/paid one like Infura, Alchemy, etc.

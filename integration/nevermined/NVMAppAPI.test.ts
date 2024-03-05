@@ -233,6 +233,14 @@ describe('NVM App API', () => {
       agreementId = orderResult.agreementId
     })
 
+    it('I want to check my credits', async () => {
+      const planBalance = await nvmApp.getBalance(subscriptionDid)
+
+      assert.isDefined(planBalance)
+      assert.isTrue(planBalance.canAccess)
+      assert.isTrue(planBalance.balance > 0)
+    })
+
     it('I want to get the token giving access to a remote agent', async () => {
       const token = await nvmApp.getServiceAccessToken(agentDid)
       assert.isDefined(token)
@@ -241,14 +249,12 @@ describe('NVM App API', () => {
     })
 
     it('I want to download a file asset', async () => {
-      const results = await nvmApp.downloadFiles(
-        datasetDid,
-        agreementId,
-        `/tmp/.nevermined/downloads/${datasetDid}/`,
-      )
+      const destination = `/tmp/.nevermined/downloads/${datasetDid}/`
+      const results = await nvmApp.downloadFiles(datasetDid, agreementId, destination)
 
       assert.isDefined(results)
       assert.isTrue(results.success)
+      console.log(`Files downloaded: ${destination}`)
     })
 
     it('I can disconnect and still search', async () => {
