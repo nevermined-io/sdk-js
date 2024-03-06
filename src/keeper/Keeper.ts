@@ -47,6 +47,7 @@ import { EventHandler } from '../events/EventHandler'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors'
 import { NeverminedInitializationOptions } from '../models'
+import { isAddress } from 'ethers'
 
 /**
  * Interface with Nevermined contracts.
@@ -253,7 +254,9 @@ export class Keeper extends Instantiable {
       nft721LockCondition: this.instances.nft721LockCondition,
       distributeNftCollateralCondition: this.instances.distributeNftCollateralCondition,
     }
-    this.conditionsList = Object.values(this.conditions)
+    this.conditionsList = Object.values(this.conditions).filter(
+      (condition) => condition !== undefined,
+    )
     // Templates
     this.templates = {
       accessTemplate: this.instances.accessTemplate,
@@ -263,15 +266,10 @@ export class Keeper extends Instantiable {
       nft721AccessTemplate: this.instances.nft721AccessTemplate,
       nftSalesTemplate: this.instances.nftSalesTemplate,
       nft721SalesTemplate: this.instances.nft721SalesTemplate,
-      aaveCreditTemplate: undefined,
+      // aaveCreditTemplate: undefined,
     }
     if (initOptions.loadServiceAgreements) {
-      this.templateList = [
-        this.instances.accessTemplate,
-        this.instances.escrowComputeExecutionTemplate,
-        this.instances.nft721AccessTemplate,
-        this.instances.nftAccessTemplate,
-      ]
+      this.templateList = Object.values(this.templates).filter((template) => template !== undefined)
     }
 
     // Utils
@@ -369,7 +367,7 @@ export class Keeper extends Instantiable {
     nft721AccessTemplate: NFT721AccessTemplate
     nftSalesTemplate: NFTSalesTemplate
     nft721SalesTemplate: NFT721SalesTemplate
-    aaveCreditTemplate: AaveCreditTemplate
+    aaveCreditTemplate?: AaveCreditTemplate
   }
 
   public royalties: {
@@ -418,7 +416,9 @@ export class Keeper extends Instantiable {
    * @returns Condition instance.
    */
   public getConditionByAddress(address: string): ConditionSmall {
-    return this.conditionsList.find((condition) => condition.address === address)
+    return this.conditionsList
+      .filter((condition) => condition.address && isAddress(condition.address))
+      .find((condition) => condition.address === address)
   }
 
   /**
