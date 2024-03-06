@@ -13,6 +13,7 @@ import { AssetPrice, BabyjubPublicKey } from '../../../models'
 import { Account, OrderProgressStep } from '../../../nevermined'
 import { CustomToken } from '../CustomToken'
 import { Token } from '../Token'
+import { isAddress } from 'ethers'
 
 export interface AgreementConditionsStatus {
   [condition: string]: {
@@ -164,10 +165,16 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
    */
   public async getConditions(): Promise<ConditionSmall[]> {
     if (!this._conditions) {
-      this._conditions = (await this.getConditionTypes()).map((address) =>
-        this.nevermined.keeper.getConditionByAddress(address),
-      )
+      this._conditions = []
+      const conditionTypes = await this.getConditionTypes()
+      conditionTypes
+        .filter((address) => isAddress(address))
+        .map((address) => {
+          this.logger.bypass(`Getting Condition by Address: ${address}`)
+          this._conditions.push(this.nevermined.keeper.getConditionByAddress(address))
+        })
     }
+
     return this._conditions
   }
 
@@ -348,6 +355,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const conditionStore = this.nevermined.keeper.conditionStoreManager
 
     const dependencies = await this.getServiceAgreementTemplateDependencies()
+
     const { conditionIds } = await agreementStore.getAgreement(agreementId)
 
     if (!conditionIds.length) {
@@ -427,7 +435,9 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
    * @param agreementId - Agreement ID.
    */
   public async printAgreementStatus(agreementId: string) {
+    this.logger.bypass('Getting Agreement Status')
     const status = await this.getAgreementStatus(agreementId)
+    this.logger.bypass('We have the status!')
 
     this.logger.bypass('-'.repeat(80))
     this.logger.bypass('Template:', this.contractName)
