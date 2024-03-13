@@ -110,3 +110,48 @@ export class AppDeploymentMatic extends NeverminedAppOptions {
   nftContractAddress = undefined
   tokenAddress = '0x2791bca1f2de4661ed88a30c99a7a9449aa84174'
 }
+
+export class AppDeploymentBase extends NeverminedAppOptions {
+  instanceName = 'appBase'
+  appUrl = 'https://base.nevermined.app'
+  web3ProviderUri = 'https://1rpc.io/base'
+  marketplaceUri = 'https://marketplace-api.base.nevermined.app'
+  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  neverminedNodeUri = 'https://node.base.nevermined.app'
+  neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  verbose = true
+  gasMultiplier = 0
+  gasPriceMultiplier = 0
+  nftContractAddress = undefined
+  tokenAddress = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+}
+
+export class AppDeploymentCelo extends NeverminedAppOptions {
+  instanceName = 'appCelo'
+  appUrl = 'https://celo.nevermined.app'
+  web3ProviderUri = 'https://forno.celo.org'
+  marketplaceUri = 'https://marketplace-api.celo.nevermined.app'
+  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  neverminedNodeUri = 'https://node.celo.nevermined.app'
+  neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  verbose = true
+  gasMultiplier = 0
+  gasPriceMultiplier = 0
+  nftContractAddress = undefined
+  tokenAddress = '0xef4229c8c3250C675F21BCefa42f58EfbfF6002a'
+}
+
+export class AppDeploymentOptimism extends NeverminedAppOptions {
+  instanceName = 'appOptimism'
+  appUrl = 'https://optimism.nevermined.app'
+  web3ProviderUri = 'https://optimism.drpc.org'
+  marketplaceUri = 'https://marketplace-api.optimism.nevermined.app'
+  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  neverminedNodeUri = 'https://node.optimism.nevermined.app'
+  neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  verbose = true
+  gasMultiplier = 0
+  gasPriceMultiplier = 0
+  nftContractAddress = undefined
+  tokenAddress = '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85'
+}

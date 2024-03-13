@@ -78,6 +78,8 @@ export function isTestnet(networkId: number): boolean {
       return true
     case 5:
       return true
+    case 10:
+      return false
     case 77:
       return false
     case 99:
@@ -92,6 +94,8 @@ export function isTestnet(networkId: number): boolean {
       return true
     case 3141:
       return true
+    case 8453:
+      return false
     case 10200:
       return true
     case 31337:
