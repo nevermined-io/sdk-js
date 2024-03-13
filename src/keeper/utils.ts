@@ -1,5 +1,5 @@
+import { Hex, SignTypedDataParams, SmartAccountSigner } from '@alchemy/aa-core'
 import { Signer, TypedDataField, Wallet, ethers } from 'ethers'
-import { SmartAccountSigner, SignTypedDataParams, Hex } from '@alchemy/aa-core'
 import { KeeperError } from '../errors'
 
 export async function getNetworkName(networkId: number): Promise<string> {
@@ -14,6 +14,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
       return 'rinkeby'
     case 5:
       return 'goerli'
+    case 10:
+      return 'optimism'
     case 77:
       return 'poa_sokol'
     case 99:
@@ -28,6 +30,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
       return 'geth-localnet'
     case 3141:
       return 'hyperspace'
+    case 8453:
+      return 'base'
     case 10200:
       return 'chiado' // Gnosis testnet
     case 31337:
