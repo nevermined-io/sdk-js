@@ -1,4 +1,5 @@
 import { ZeroDevAccountSigner } from '@zerodev/sdk'
+import { isAddress } from 'ethers'
 import {
   Account,
   AssetPrice,
@@ -18,15 +19,17 @@ import {
 } from '../sdk'
 import {
   AppDeploymentArbitrum,
+  AppDeploymentBase,
+  AppDeploymentCelo,
   AppDeploymentGnosis,
   AppDeploymentLocal,
   AppDeploymentMatic,
   AppDeploymentMumbai,
+  AppDeploymentOptimism,
   AppDeploymentStaging,
   AppDeploymentTesting,
   NeverminedAppOptions,
 } from './resources/AppNetworks'
-import { isAddress } from 'ethers'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -35,6 +38,9 @@ export enum NVMAppEnvironments {
   Matic = 'matic',
   Mumbai = 'mumbai',
   Gnosis = 'gnosis',
+  Base = 'base',
+  Celo = 'celo',
+  Optimism = 'optimism',
   Local = 'local',
   Custom = 'custom',
 }
@@ -538,6 +544,12 @@ export class NvmApp {
         return new AppDeploymentMumbai()
       case NVMAppEnvironments.Gnosis:
         return new AppDeploymentGnosis()
+      case NVMAppEnvironments.Base:
+        return new AppDeploymentBase()
+      case NVMAppEnvironments.Celo:
+        return new AppDeploymentCelo()
+      case NVMAppEnvironments.Optimism:
+        return new AppDeploymentOptimism()
       case NVMAppEnvironments.Local:
         return new AppDeploymentLocal()
       default:
