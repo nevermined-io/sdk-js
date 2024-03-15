@@ -277,7 +277,9 @@ describe('NFT721Templates E2E', () => {
           collector1,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdEscrow[1])).state,
           ConditionState.Unfulfilled,
@@ -391,7 +393,9 @@ describe('NFT721Templates E2E', () => {
           collector1,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,
@@ -491,7 +495,9 @@ describe('NFT721Templates E2E', () => {
           collector2,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment2[1])).state,

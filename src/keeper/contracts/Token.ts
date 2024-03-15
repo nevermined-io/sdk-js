@@ -29,7 +29,9 @@ export class Token extends ContractBase {
   }
 
   public async decimals(): Promise<number> {
-    return this.call('decimals', [])
+    const number = this.call('decimals', []) as Promise<number>
+    console.log(`--- CALLING: decimals: ${await number}`)
+    return number
   }
 
   public async balanceOfConverted(address: string): Promise<bigint> {

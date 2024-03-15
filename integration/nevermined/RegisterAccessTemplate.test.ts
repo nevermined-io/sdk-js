@@ -188,7 +188,7 @@ describe('Register Escrow Access Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
+        (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -202,7 +202,7 @@ describe('Register Escrow Access Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
+        (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -222,7 +222,7 @@ describe('Register Escrow Access Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
+        (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })

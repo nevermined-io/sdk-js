@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
+    "useUnknownInCatchVariables": false,
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "esModuleInterop": true,

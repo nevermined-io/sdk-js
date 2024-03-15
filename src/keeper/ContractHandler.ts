@@ -226,7 +226,7 @@ export class ContractHandler extends Instantiable {
     methodName: string,
     args: any[],
   ): string {
-    const methods = baseContract.interface.fragments.filter(
+    const methods = (baseContract.interface.fragments as FunctionFragment[]).filter(
       (f: FunctionFragment) => f.name === methodName,
     )
     const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]

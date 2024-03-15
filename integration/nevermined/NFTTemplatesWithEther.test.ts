@@ -240,7 +240,9 @@ describe('NFTTemplates With Ether E2E', async () => {
         )
 
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment[1])).state,
@@ -366,7 +368,9 @@ describe('NFTTemplates With Ether E2E', async () => {
           [collector1.getId()],
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,

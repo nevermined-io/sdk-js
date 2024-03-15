@@ -34,7 +34,9 @@ describe('DIDRegistry', () => {
       )
       assert.equal(contractReceipt.status, 1)
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'DIDAttributeRegistered'),
+        (contractReceipt.logs as EventLog[]).some(
+          (e: EventLog) => e.eventName === 'DIDAttributeRegistered',
+        ),
       )
     })
 
@@ -56,7 +58,9 @@ describe('DIDRegistry', () => {
       )
       assert.equal(contractReceipt.status, 1)
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'DIDAttributeRegistered'),
+        (contractReceipt.logs as EventLog[]).some(
+          (e: EventLog) => e.eventName === 'DIDAttributeRegistered',
+        ),
       )
     })
   })

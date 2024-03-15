@@ -580,6 +580,6 @@ export class ConditionsApi extends Instantiable {
   }
 
   private isFulfilled(contractReceipt: ContractTransactionReceipt): boolean {
-    return contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled')
+    return (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled')
   }
 }

@@ -50,7 +50,7 @@ export class NFTContractsBase extends ContractBase {
         from,
         txParams,
       )
-      const event = contractReceipt.logs.find(
+      const event = (contractReceipt.logs as EventLog[]).find(
         (e: EventLog) => e.eventName === 'NFTCloned',
       ) as EventLog
       return event.args._newAddress

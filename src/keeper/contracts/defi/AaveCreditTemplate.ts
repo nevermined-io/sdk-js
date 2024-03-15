@@ -217,7 +217,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
       borrower,
       lender,
     ])
-    const vaultCreatedEvent = contractReceipt.logs.find(
+    const vaultCreatedEvent = (contractReceipt.logs as EventLog[]).find(
       (e: EventLog) => e.eventName === 'VaultCreated',
     ) as EventLog
     const { _vaultAddress } = vaultCreatedEvent.args

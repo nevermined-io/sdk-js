@@ -412,7 +412,7 @@ export abstract class ContractBase extends Instantiable {
   }
 
   private searchMethod(methodName: string, args: any[] = []) {
-    const methods = this.contract.interface.fragments.filter(
+    const methods = (this.contract.interface.fragments as FunctionFragment[]).filter(
       (f: FunctionFragment) => f.name === methodName,
     )
     const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
