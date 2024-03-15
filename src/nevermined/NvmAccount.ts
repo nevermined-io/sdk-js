@@ -136,7 +136,7 @@ export class NvmAccount extends Instantiable {
     try {
       await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, txParams)
     } catch (e) {
-      throw new KeeperError(`Error requesting tokens: ${e}`)
+      throw new KeeperError(`Error requesting tokens - receiver[${this.id}]: ${e}`)
     }
     return amount.toString()
   }

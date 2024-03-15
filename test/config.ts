@@ -1,4 +1,5 @@
-import { NeverminedOptions, LogLevel, makeWallets } from '../src'
+import { NeverminedOptions, LogLevel } from '../src'
+import { makeWallets } from '../src/nevermined/utils'
 import { LoggerInstance } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
