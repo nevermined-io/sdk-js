@@ -1,11 +1,10 @@
-import { Account } from '../../nevermined'
+import { Account, getSignatureOfMethod, searchAbiFunction } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import {
   ContractTransactionReceipt,
   ContractTransactionResponse,
-  FunctionFragment,
   TransactionReceipt,
   ethers,
 } from 'ethers'
@@ -35,16 +34,6 @@ export abstract class ContractBase extends Instantiable {
   constructor(contractName: string) {
     super()
     this.contractName = contractName
-  }
-
-  public getSignatureOfMethod(methodName: string, args: any[] = []): string {
-    const foundMethod = this.searchMethod(methodName, args)
-    return foundMethod.format()
-  }
-
-  public getInputsOfMethod(methodName: string): ReadonlyArray<ethers.ParamType> {
-    const foundMethod = this.searchMethod(methodName)
-    return foundMethod.inputs
   }
 
   protected async init(config: InstantiableConfig, optional = false) {
@@ -108,7 +97,7 @@ export abstract class ContractBase extends Instantiable {
     contract: ethers.BaseContract,
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
     // Uncomment to debug contract calls
     // console.debug(`Making contract call ....: ${name} - ${from}`)
     // console.debug(`With args - ${JSON.stringify(args)}`)
@@ -174,7 +163,7 @@ export abstract class ContractBase extends Instantiable {
     contract: ethers.BaseContract,
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
     // Uncomment to debug contract calls
     // console.debug(`Making contract call ....: ${name} - ${from}`)
     // console.debug(`With args - ${JSON.stringify(args)}`)
@@ -241,7 +230,7 @@ export abstract class ContractBase extends Instantiable {
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
     const { gasLimit, value } = txparams
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
 
     // make the call
     if (progress) {
@@ -332,7 +321,7 @@ export abstract class ContractBase extends Instantiable {
       return await this.internalSend(name, from, args, paramsFixed, contract, params.progress)
     }
 
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
 
     // get signer
     const signer = await this.nevermined.accounts.findSigner(from)
@@ -401,7 +390,7 @@ export abstract class ContractBase extends Instantiable {
   }
 
   public async call<T>(name: string, args: any[], from?: string): Promise<T> {
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
     try {
       return await this.contract[methodSignature](...args, { from })
     } catch (err) {
@@ -412,14 +401,7 @@ export abstract class ContractBase extends Instantiable {
   }
 
   private searchMethod(methodName: string, args: any[] = []) {
-    const methods = (this.contract.interface.fragments as FunctionFragment[]).filter(
-      (f: FunctionFragment) => f.name === methodName,
-    )
-    const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
-    if (!foundMethod) {
-      throw new KeeperError(`Method "${methodName}" is not part of contract "${this.contractName}"`)
-    }
-    return foundMethod
+    return searchAbiFunction(this.contract.interface, methodName, args)
   }
 
   private searchMethodInputs(methodName: string, args: any[] = []) {

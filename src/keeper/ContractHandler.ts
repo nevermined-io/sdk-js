@@ -113,6 +113,10 @@ export class ContractHandler extends Instantiable {
     return artifact.version
   }
 
+  public async checkExists(address: string): Promise<boolean> {
+    return this.nevermined.utils.blockchain.checkExists(address)
+  }
+
   public async deployAbi(
     artifact: { name?: string; abi: ethers.InterfaceAbi; bytecode: string },
     from: Account,
@@ -186,7 +190,7 @@ export class ContractHandler extends Instantiable {
     this.logger.debug(`Loading from address ${_address}`)
 
     // check if address is really a contract
-    await this.checkExists(_address)
+    await this.nevermined.utils.blockchain.checkExists(_address)
 
     const contract = new ethers.Contract(_address, artifact.abi, this.web3)
 
@@ -199,26 +203,6 @@ export class ContractHandler extends Instantiable {
     }
 
     return contract
-  }
-
-  /**
-   * Returns true of contract exists else it throws.
-   * @returns {@link true} if the contract exists.
-   */
-  public async checkExists(address: string): Promise<boolean> {
-    const storage = await this.web3.getStorage(address, 0)
-    // check if storage is 0x0 at position 0, this is the case most of the cases
-    if (storage === '0x0000000000000000000000000000000000000000000000000000000000000000') {
-      // if the storage is empty, check if there is no code for this contract,
-      // if so we can be sure it does not exist
-      const code = await this.web3.getCode(address)
-      if (code === '0x0') {
-        // no contract in the blockchain dude
-        throw new Error(`No contract deployed at address ${address}, sorry.`)
-      }
-    }
-
-    return true
   }
 
   public static getSignatureOfMethod(

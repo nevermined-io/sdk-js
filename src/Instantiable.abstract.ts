@@ -2,7 +2,6 @@ import { NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import { Nevermined } from './nevermined'
 import { ethers } from 'ethers'
-import { BlockchainEthersUtils } from './nevermined/utils/BlockchainEthersUtils'
 
 export interface InstantiableConfig {
   nevermined: Nevermined
@@ -25,11 +24,34 @@ export async function generateInstantiableConfigFromConfig(
       : (config.verbose as LogLevel)
   return {
     config,
-    web3: loadCore ? await BlockchainEthersUtils.getWeb3Provider(config) : undefined,
+    web3: loadCore ? await getWeb3Provider(config) : undefined,
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
     circuitsFolder: config.circuitsFolder,
   }
+}
+
+export async function getWeb3Provider(
+  config: Partial<NeverminedOptions> = {},
+): Promise<ethers.JsonRpcProvider | ethers.BrowserProvider> {
+  if (config.web3Provider) {
+    return new ethers.BrowserProvider(config.web3Provider)
+  }
+
+  // disabling the cache since this will lead to duplicated nonces on test networks
+  // See https://docs.ethers.org/v6/api/providers/abstract-provider/#AbstractProviderOptions
+  let provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
+    cacheTimeout: -1,
+  })
+
+  // Adding the static network prevents ethers from calling eth_chainId with every call
+  const network = await provider.getNetwork()
+  provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
+    cacheTimeout: -1,
+    staticNetwork: network,
+  })
+
+  return provider
 }
 
 export abstract class Instantiable {

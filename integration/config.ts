@@ -1,5 +1,5 @@
-import { NeverminedOptions } from '../src'
-import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
+import { makeAccounts, NeverminedOptions } from '../src'
+import { LoggerInstance, LogLevel } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 

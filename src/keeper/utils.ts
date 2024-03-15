@@ -1,5 +1,5 @@
 import { Hex, SignTypedDataParams, SmartAccountSigner } from '@alchemy/aa-core'
-import { Signer, TypedDataField, Wallet, ethers } from 'ethers'
+import { Signer, TypedDataField, Wallet } from 'ethers'
 import { KeeperError } from '../errors'
 
 export async function getNetworkName(networkId: number): Promise<string> {
@@ -143,23 +143,6 @@ export interface JsonRpcResponse {
   id: number
   result?: any
   error?: string
-}
-
-export class DEPRECATED_Web3ProviderWrapper {
-  provider: ethers.JsonRpcProvider | ethers.BrowserProvider
-
-  constructor(provider: ethers.JsonRpcProvider | ethers.BrowserProvider) {
-    this.provider = provider
-  }
-  send(
-    payload: JsonRpcPayload,
-    callback: (error: Error | null, result?: JsonRpcResponse) => void,
-  ): void {
-    const id = typeof payload.id === 'string' ? parseInt(payload.id) : payload.id
-    this.provider
-      .send(payload.method, payload.params)
-      .then((result) => callback(null, { jsonrpc: payload.jsonrpc, id, result }))
-  }
 }
 
 const isWalletEthersV6 = (signer: any): signer is Wallet =>
