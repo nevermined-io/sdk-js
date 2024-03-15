@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   MetaData,
   Nevermined,
@@ -37,9 +37,9 @@ import { sleep } from '../utils/utils'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 
 describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
-  let publisher: Account
-  let subscriber: Account
-  let reseller: Account
+  let publisher: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token

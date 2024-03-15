@@ -3,11 +3,11 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import {
   Nevermined,
-  Account,
   generateId,
   NeverminedOptions,
   AssetAttributes,
   MetaData,
+  NvmAccount,
 } from '../../src'
 import { decodeJwt } from 'jose'
 import { mineBlocks } from '../utils/utils'
@@ -19,9 +19,9 @@ describe('Asset Owners', () => {
   let config2: NeverminedOptions
   let config3: NeverminedOptions
 
-  let account1: Account
-  let account2: Account
-  let account3: Account
+  let account1: NvmAccount
+  let account2: NvmAccount
+  let account3: NvmAccount
 
   let newMetadata: (token: string) => MetaData
 

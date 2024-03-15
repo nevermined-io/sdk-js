@@ -51,10 +51,11 @@
   },
   "homepage": "https://github.com/nevermined-io/sdk-js#readme",
   "dependencies": {
+    "viem": "2.8.9",
+    "@turnkey/viem": "0.4.13",
     "@alchemy/aa-core": "0.1.1",
     "@apollo/client": "^3.7.16",
     "@turnkey/ethers": "^0.18.3",
-    "@turnkey/viem": "^0.3.4",
     "@zerodev/sdk": "^4.5.5",
     "assert": "^2.0.0",
     "cross-fetch": "^4.0.0",

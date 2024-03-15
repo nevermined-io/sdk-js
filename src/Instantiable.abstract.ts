@@ -2,14 +2,21 @@ import { NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import { Nevermined } from './nevermined'
 import { ethers } from 'ethers'
+import { createPublicClient, createWalletClient, http, PublicClient, WalletClient } from 'viem'
 
 export interface InstantiableConfig {
   nevermined: Nevermined
   config?: NeverminedOptions
   web3?: ethers.JsonRpcProvider | ethers.BrowserProvider
+  client?: Web3Clients
   logger?: Logger
   artifactsFolder?: string
   circuitsFolder?: string
+}
+
+export interface Web3Clients {
+  public: PublicClient
+  wallet: WalletClient
 }
 
 export async function generateInstantiableConfigFromConfig(
@@ -24,14 +31,31 @@ export async function generateInstantiableConfigFromConfig(
       : (config.verbose as LogLevel)
   return {
     config,
-    web3: loadCore ? await getWeb3Provider(config) : undefined,
+    web3: loadCore ? await getWeb3EthersProvider(config) : undefined,
+    client: loadCore ? getWeb3ViemClients(config) : undefined,
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
     circuitsFolder: config.circuitsFolder,
   }
 }
 
-export async function getWeb3Provider(
+export function getWeb3ViemClients(config: Partial<NeverminedOptions> = {}): Web3Clients {
+  const publicClient = createPublicClient({
+    cacheTime: 0,
+    transport: http(config.web3ProviderUri),
+  })
+  const walletClient = createWalletClient({
+    cacheTime: 0,
+    transport: http(config.web3ProviderUri),
+  })
+
+  return {
+    public: publicClient,
+    wallet: walletClient,
+  } as Web3Clients
+}
+
+export async function getWeb3EthersProvider(
   config: Partial<NeverminedOptions> = {},
 ): Promise<ethers.JsonRpcProvider | ethers.BrowserProvider> {
   if (config.web3Provider) {
@@ -68,6 +92,30 @@ export abstract class Instantiable {
       throw new Error('Web3 Provider not initialized')
     }
     return this._instantiableConfig.web3
+  }
+
+  public get client() {
+    if (!this._instantiableConfig?.client) {
+      this.logger.error('Web3 Provider not initialized')
+      throw new Error('Web3 Provider not initialized')
+    }
+    return this._instantiableConfig.client
+  }
+
+  public get publicClient(): PublicClient {
+    if (!this._instantiableConfig?.client?.public) {
+      this.logger.error('Web3 Provider not initialized')
+      throw new Error('Web3 Provider not initialized')
+    }
+    return this._instantiableConfig.client?.public
+  }
+
+  public get walletClient(): WalletClient {
+    if (!this._instantiableConfig?.client?.wallet) {
+      this.logger.error('Web3 Provider not initialized')
+      throw new Error('Web3 Provider not initialized')
+    }
+    return this._instantiableConfig.client?.wallet
   }
 
   protected get instantiableConfig() {

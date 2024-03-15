@@ -407,7 +407,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @example
    * ```ts
-   * const nftContractOwner = new Account(
+   * const nftContractOwner = new NvmAccount(
    *      await nevermined.nfts721.ownerOf()
    * )
    * ```

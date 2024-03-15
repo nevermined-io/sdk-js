@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import { NvmAccount, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import { EscrowPaymentCondition, Token, TransferNFTCondition } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -18,9 +18,9 @@ import { mineBlocks } from '../utils/utils'
 chai.use(chaiAsPromised)
 
 describe('Credit and Duration Subscriptions with Multiple services using NFT ERC-1155 End-to-End', () => {
-  let editor: Account
-  let subscriber: Account
-  let reseller: Account
+  let editor: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token

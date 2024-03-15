@@ -1,10 +1,10 @@
-import { Account, Nevermined, generateId, getAddress } from '../../src'
+import { NvmAccount, Nevermined, generateId, getAddress } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
 import { awaitTimeout, mineBlocks, sleep } from '../utils/utils'
 
 describe('SubgraphEvent', () => {
-  let account: Account
+  let account: NvmAccount
   let nevermined: Nevermined
   let executeTransaction: () => Promise<any>
 

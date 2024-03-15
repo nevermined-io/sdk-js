@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   MetaData,
   Nevermined,
@@ -34,9 +34,9 @@ import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
-  let publisher: Account
-  let subscriber: Account
-  let reseller: Account
+  let publisher: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token

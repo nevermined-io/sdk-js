@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   AssetPrice,
@@ -33,12 +33,12 @@ import {
 import { EventLog } from 'ethers'
 
 describe('NFTTemplates With Ether E2E', async () => {
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
-  let sender: Account
-  let governor: Account
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
+  let sender: NvmAccount
+  let governor: NvmAccount
 
   let nevermined: Nevermined
   let conditionStoreManager: ConditionStoreManager

@@ -4,14 +4,14 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
-import { Nevermined, DDO, Account, AssetPrice, AssetAttributes } from '../../src'
+import { Nevermined, DDO, NvmAccount, AssetPrice, AssetAttributes } from '../../src'
 import { sleep } from '../utils/utils'
 
 describe('Compute Asset', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let algorithmDdo: DDO
   let computeDdo: DDO
@@ -97,7 +97,7 @@ describe('Compute Asset', () => {
   const getResultDidFromStatus = async (
     argoWorkflowId: string,
     agreementID: string,
-    account: Account,
+    account: NvmAccount,
     nvm: Nevermined,
     maxAttempts = -1,
     wait = 5000,

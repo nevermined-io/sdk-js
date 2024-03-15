@@ -1,12 +1,12 @@
 import { assert } from 'chai'
-import { Account, getSignatureOfMethod } from '../../src/nevermined'
+import { NvmAccount, getSignatureOfMethod } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
 
 let wrappedContract: ContractBaseMock
-let accounts: Account[]
+let accounts: NvmAccount[]
 
 describe('ContractWrapperBase', () => {
   before(async () => {

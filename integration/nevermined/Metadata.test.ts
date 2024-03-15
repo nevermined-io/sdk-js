@@ -1,12 +1,12 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DID, Nevermined, AssetPrice, AssetAttributes } from '../../src'
+import { NvmAccount, DID, Nevermined, AssetPrice, AssetAttributes } from '../../src'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
 
 describe('Get DDO status', () => {
   let nevermined: Nevermined
-  let publisher: Account
+  let publisher: NvmAccount
   let assetPrice: AssetPrice
   let payload: JWTPayload
 

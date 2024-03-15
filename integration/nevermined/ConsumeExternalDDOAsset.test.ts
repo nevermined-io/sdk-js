@@ -5,12 +5,12 @@ import { config } from '../config'
 import {
   Nevermined,
   DDO,
-  Account,
   ConditionState,
   MetaData,
   Logger,
   AssetPrice,
   AssetAttributes,
+  NvmAccount,
 } from '../../src'
 import { getMetadata } from '../utils'
 import { repeat } from '../utils/utils'
@@ -19,8 +19,8 @@ import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
 describe('Consume Asset (Documentation example)', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let metadata: MetaData
 

@@ -4,7 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import {
   Nevermined,
-  Account,
+  NvmAccount,
   DDO,
   zeroX,
   generateId,
@@ -15,8 +15,8 @@ import { ProvenanceMethod } from '../../src/keeper'
 
 describe('Provenance', () => {
   let nevermined: Nevermined
-  let publisher: Account
-  let intermediary: Account
+  let publisher: NvmAccount
+  let intermediary: NvmAccount
   let ddo: DDO
 
   const activitiesIds = {

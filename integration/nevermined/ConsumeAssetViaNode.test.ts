@@ -7,7 +7,6 @@ import { getMetadata } from '../utils'
 
 import {
   Nevermined,
-  Account,
   DDO,
   ConditionState,
   MetaData,
@@ -15,14 +14,15 @@ import {
   AssetPrice,
   AssetAttributes,
   getAddress,
+  NvmAccount,
 } from '../../src'
 import { repeat } from '../utils/utils'
 
 describe('Consume Asset (Nevermined Node)', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let ddo: DDO
   let agreementId: string

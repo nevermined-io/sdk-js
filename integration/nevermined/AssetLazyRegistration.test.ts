@@ -1,12 +1,12 @@
 import { assert } from 'chai'
-import { Account, ContractHandler, Nevermined, didZeroX, generateId, zeroX } from '../../src'
+import { ContractHandler, Nevermined, NvmAccount, didZeroX, generateId, zeroX } from '../../src'
 import { config } from '../config'
 import { Signer, Transaction, ethers } from 'ethers'
 import { sleep } from '../utils/utils'
 
 describe.skip('Lazy registration of assets', () => {
-  let publisher: Account
-  let relayer: Account
+  let publisher: NvmAccount
+  let relayer: NvmAccount
   let publisherSigner: Signer
   let relayerSigner: Signer
   let nevermined: Nevermined

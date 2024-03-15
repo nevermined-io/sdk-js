@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, SearchQuery, Account, makeWallets } from '../../src'
+import { Nevermined, SearchQuery, NvmAccount, makeWallets } from '../../src'
 
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined
-  let account: Account
+  let account: NvmAccount
   let configCopy
 
   before(async () => {

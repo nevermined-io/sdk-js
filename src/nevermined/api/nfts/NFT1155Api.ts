@@ -480,7 +480,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @example
    * ```ts
-   * const nftContractOwner = new Account(
+   * const nftContractOwner = new NvmAccount(
    *      await nevermined.nfts1155.owner()
    * )
    * ```

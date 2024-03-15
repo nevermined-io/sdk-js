@@ -3,22 +3,21 @@ import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
-import { Account } from '../../src'
+import { NvmAccount, getWeb3EthersProvider } from '../../src'
 import { ethers } from 'ethers'
-import { BlockchainEthersUtils } from '../../src/nevermined/utils/BlockchainEthersUtils'
 
 describe('ContractEvent', () => {
   let nevermined: Nevermined
-  let account1: Account
-  let account2: Account
-  let account3: Account
-  let account4: Account
+  let account1: NvmAccount
+  let account2: NvmAccount
+  let account3: NvmAccount
+  let account4: NvmAccount
   let web3: ethers.JsonRpcProvider | ethers.BrowserProvider
 
   before(async () => {
     await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
-    web3 = await BlockchainEthersUtils.getWeb3Provider(config)
+    web3 = await getWeb3EthersProvider(config)
     ;[account1, account2, account3, account4] = await nevermined.accounts.list()
   })
 

@@ -1,5 +1,5 @@
 import chai, { assert, expect } from 'chai'
-import { Account, DDO, Nevermined, AssetAttributes, AssetPrice } from '../../src'
+import { DDO, Nevermined, AssetAttributes, AssetPrice, NvmAccount } from '../../src'
 import { DIDRegistry } from '../../src/keeper'
 import { DDOStatus } from '../../src/services'
 import { config } from '../config'
@@ -7,7 +7,7 @@ import { getAssetPrice, getMetadata } from '../utils'
 
 describe.skip('Get DDO status', () => {
   let nevermined: Nevermined
-  let publisher: Account
+  let publisher: NvmAccount
   let assetPrice: AssetPrice
   let ddo: DDO
   let ddoStatus: DDOStatus

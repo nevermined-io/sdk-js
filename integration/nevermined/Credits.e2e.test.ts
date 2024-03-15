@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   MetaData,
   Nevermined,
@@ -30,9 +30,9 @@ import { sleep } from '../utils/utils'
 chai.use(chaiAsPromised)
 
 describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
-  let editor: Account
-  let subscriber: Account
-  let reseller: Account
+  let editor: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token

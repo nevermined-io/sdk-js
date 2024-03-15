@@ -4,7 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import {
   Nevermined,
-  Account,
+  NvmAccount,
   MetaData,
   DDO,
   AssetPrice,
@@ -18,8 +18,8 @@ import { ethers } from 'ethers'
 import { repeat } from '../utils/utils'
 
 let nevermined: Nevermined
-let publisher: Account
-let collector1: Account
+let publisher: NvmAccount
+let collector1: NvmAccount
 let metadata: MetaData
 let assetPrice1: AssetPrice
 let assetPrice2: AssetPrice

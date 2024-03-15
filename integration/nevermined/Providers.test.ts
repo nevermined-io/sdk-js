@@ -1,13 +1,13 @@
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
+import { Nevermined, NvmAccount, DDO, AssetAttributes } from '../../src'
 
 describe('Providers operations', () => {
   let nevermined: Nevermined
 
-  let account1: Account
-  let account2: Account
+  let account1: NvmAccount
+  let account2: NvmAccount
   let ddo: DDO
 
   before(async () => {

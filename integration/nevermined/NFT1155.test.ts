@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   AssetPrice,
@@ -20,10 +20,10 @@ import '../globals'
 chai.use(chaiAsPromised)
 
 describe('NFT1155 End-to-End', () => {
-  let deployer: Account
-  let publisher: Account
-  let someone: Account
-  let minter: Account
+  let deployer: NvmAccount
+  let publisher: NvmAccount
+  let someone: NvmAccount
+  let minter: NvmAccount
   let nftContract: ethers.BaseContract
 
   let nevermined: Nevermined
@@ -184,7 +184,7 @@ describe('NFT1155 End-to-End', () => {
     it('Should be able to mint', async () => {
       const beforeBalance = await nftUpgradeable.balance(someone.getId(), ddo.shortId())
       console.log(`Contract owner ${await nftUpgradeable.owner()}`)
-      const owner = new Account(await nftUpgradeable.owner())
+      const owner = new NvmAccount(await nftUpgradeable.owner())
       await nftUpgradeable.grantOperatorRole(minter.getId(), owner)
 
       await nftUpgradeable.mint(someone.getId(), ddo.shortId(), 1n, minter.getId())

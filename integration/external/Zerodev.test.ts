@@ -2,12 +2,12 @@ import { ZeroDevEthersProvider } from '@zerodev/sdk'
 import { verifyMessage } from '@ambire/signature-validator'
 import * as fs from 'fs'
 import {
-  Account,
   AssetAttributes,
   AssetPrice,
   DDO,
   MetaData,
   Nevermined,
+  NvmAccount,
   convertEthersV6SignerToAccountSigner,
   makeRandomWallet,
 } from '../../src'
@@ -131,7 +131,7 @@ describe('Nevermined sdk with zerodev', () => {
       })
 
       const signerPublisher = zerodevProviderPublisher.getAccountSigner()
-      const accountPublisher = await Account.fromZeroDevSigner(signerPublisher)
+      const accountPublisher = await NvmAccount.fromZeroDevSigner(signerPublisher)
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(accountPublisher)
 
       const accessToken = await nevermined.services.marketplace.login(clientAssertion)

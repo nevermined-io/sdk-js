@@ -1,6 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, ConditionState, Nevermined } from '../../../src'
+import { NvmAccount, ConditionState, Nevermined } from '../../../src'
 import {
   AgreementStoreManager,
   TemplateStoreManager,
@@ -22,9 +22,9 @@ describe('TransferDIDOwnershipCondition', () => {
   let templateStoreManager: TemplateStoreManager
   let agreementStoreManager: AgreementStoreManager
   let didRegistry: DIDRegistry
-  let receiver: Account
-  let owner: Account
-  let templateId: Account
+  let receiver: NvmAccount
+  let owner: NvmAccount
+  let templateId: NvmAccount
 
   let agreementId: string
   let checksum: string

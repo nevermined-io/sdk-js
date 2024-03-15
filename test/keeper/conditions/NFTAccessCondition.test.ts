@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Nevermined } from '../../../src/nevermined'
-import { Account, generateId } from '../../../src'
+import { NvmAccount, generateId } from '../../../src'
 import {
   NFTAccessCondition,
   AgreementStoreManager,
@@ -24,10 +24,10 @@ describe('NFTAccessCondition', () => {
   let agreementStoreManager: AgreementStoreManager
   let templateStoreManager: TemplateStoreManager
   let didRegistry: DIDRegistry
-  let grantee: Account
-  let owner: Account
-  let templateId: Account
-  let other: Account
+  let grantee: NvmAccount
+  let owner: NvmAccount
+  let templateId: NvmAccount
+  let other: NvmAccount
 
   let agreementId: string
   let agreementIdSeed: string

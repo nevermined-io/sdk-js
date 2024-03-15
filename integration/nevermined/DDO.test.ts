@@ -1,5 +1,5 @@
 import { decodeJwt } from 'jose'
-import { Account, DDO, MetaData, Nevermined } from '../../src'
+import { NvmAccount, DDO, MetaData, Nevermined } from '../../src'
 import { AssetAttributes, AssetPrice } from '../../src/models/'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
@@ -26,7 +26,7 @@ chai.use(chaiExclude)
 describe('DDO Tests', () => {
   let nevermined: Nevermined
   let price: AssetPrice
-  let publisher: Account
+  let publisher: NvmAccount
   let userId: string
 
   before(async () => {

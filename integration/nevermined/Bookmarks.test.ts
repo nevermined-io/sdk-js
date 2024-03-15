@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, NewBookmark } from '../../src'
+import { Nevermined, NewBookmark, NvmAccount } from '../../src'
 import { faker } from '@faker-js/faker'
 
 describe('Bookmarks', () => {
   let nevermined: Nevermined
-  let account1: Account
+  let account1: NvmAccount
   let newBookmark: NewBookmark
   let id: string
 

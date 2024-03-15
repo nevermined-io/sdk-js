@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined, AssetPrice, ZeroAddress, getAddress } from '../../src'
+import { NvmAccount, DDO, Nevermined, AssetPrice, ZeroAddress, getAddress } from '../../src'
 import {
   EscrowPaymentCondition,
   TransferNFTCondition,
@@ -25,10 +25,10 @@ chai.use(chaiAsPromised)
 
 function makeTest(isCustom) {
   describe(`NFTs 1155 Api End-to-End (${isCustom ? 'custom' : 'builtin'} token)`, () => {
-    let artist: Account
-    let collector1: Account
-    let collector2: Account
-    let gallery: Account
+    let artist: NvmAccount
+    let collector1: NvmAccount
+    let collector2: NvmAccount
+    let gallery: NvmAccount
 
     let nevermined: Nevermined
     let token: Token
@@ -117,7 +117,7 @@ function makeTest(isCustom) {
 
         await nevermined.contracts.loadNft1155(nftContract.address)
 
-        const nftContractOwner = new Account(artist.getId())
+        const nftContractOwner = new NvmAccount(artist.getId())
         await nftContract.grantOperatorRole(transferNftCondition.address, nftContractOwner)
       }
 

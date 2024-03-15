@@ -2,8 +2,7 @@ import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
 import config from '../config'
-import { Account } from '../../src/nevermined'
-import { Nevermined } from '../../src/nevermined'
+import { Nevermined, NvmAccount } from '../../src/nevermined'
 import { AccountsApi } from '../../src/nevermined'
 
 use(spies)
@@ -26,7 +25,7 @@ describe('Accounts', () => {
     it('should return the list of accounts', async () => {
       const accountsList = await accounts.list()
 
-      accountsList.map((account) => assert.instanceOf(account, Account))
+      accountsList.map((account) => assert.instanceOf(account, NvmAccount))
     })
   })
 

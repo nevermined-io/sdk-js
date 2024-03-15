@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   generateId,
@@ -30,12 +30,12 @@ import { EventLog } from 'ethers'
 import { repeat } from '../utils/utils'
 
 describe('NFT721Templates E2E', () => {
-  let nftContractOwner: Account
-  let owner: Account
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
+  let nftContractOwner: NvmAccount
+  let owner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -117,7 +117,7 @@ describe('NFT721Templates E2E', () => {
 
     // load the nft contract at given address
     nft = await nevermined.contracts.loadNft721(await nftContract.getAddress())
-    nftContractOwner = new Account((await nft.nftContract.owner()) as string)
+    nftContractOwner = new NvmAccount((await nft.nftContract.owner()) as string)
 
     // components
     ;({ conditionStoreManager, token } = nevermined.keeper)
@@ -641,7 +641,7 @@ describe('NFT721Templates E2E', () => {
       ])
       nft = await nevermined.contracts.loadNft721(await nftContract.getAddress())
 
-      nftContractOwner = new Account((await nft.nftContract.owner()) as string)
+      nftContractOwner = new NvmAccount((await nft.nftContract.owner()) as string)
       await nft.nftContract.grantOperatorRole(transferNft721Condition.address, nftContractOwner)
 
       await collector1.requestTokens(nftPrice / scale)

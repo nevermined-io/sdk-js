@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, Logger } from '../../src'
+import { Nevermined, NvmAccount, Logger } from '../../src'
 
 describe('Marketplace api auth', () => {
   let nevermined: Nevermined
-  let account1: Account
-  let account2: Account
+  let account1: NvmAccount
+  let account2: NvmAccount
   let testConfig
 
   before(async () => {

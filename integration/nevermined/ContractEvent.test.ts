@@ -1,4 +1,4 @@
-import { Account, Nevermined, generateId, getAddress } from '../../src'
+import { NvmAccount, Nevermined, generateId, getAddress } from '../../src'
 import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
@@ -8,7 +8,7 @@ import { mineBlocks, awaitTimeout } from '../utils/utils'
 chai.use(chaiAsPromised)
 
 describe('ContractEvent', () => {
-  let account: Account
+  let account: NvmAccount
   let nevermined: Nevermined
   let executeTransaction: () => Promise<any>
 

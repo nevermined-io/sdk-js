@@ -1,4 +1,4 @@
-import { Account, Logger, Nevermined, generateId, zeroPadValue } from '../../src'
+import { NvmAccount, Logger, Nevermined, generateId, zeroPadValue } from '../../src'
 
 export const transformMetadata = (metadata: any): any => {
   try {
@@ -39,7 +39,11 @@ export async function repeat<T>(n: number, p: Promise<T>): Promise<T> {
   return p
 }
 
-export async function mineBlocks(nevermined: Nevermined, account: Account, blocksToWait: number) {
+export async function mineBlocks(
+  nevermined: Nevermined,
+  account: NvmAccount,
+  blocksToWait: number,
+) {
   for (let index = 0; index < blocksToWait; index++) {
     console.debug(`Mining block ${index}`)
     await nevermined.provenance.used(

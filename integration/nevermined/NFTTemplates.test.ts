@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   generateId,
@@ -28,11 +28,11 @@ import { getMetadata } from '../utils'
 import { EventLog } from 'ethers'
 
 describe('NFTTemplates E2E', () => {
-  let owner: Account
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
+  let owner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token

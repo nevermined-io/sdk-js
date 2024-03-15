@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
+import { DDO, Nevermined, NFTAttributes, AssetPrice, NvmAccount } from '../../src'
 import {
   TransferNFT721Condition,
   Token,
@@ -16,9 +16,9 @@ import '../globals'
 import { mineBlocks } from '../utils/utils'
 
 describe('Claim aborted agreements End-to-End', () => {
-  let publisher: Account
-  let collector1: Account
-  let other: Account
+  let publisher: NvmAccount
+  let collector1: NvmAccount
+  let other: NvmAccount
 
   let nevermined: Nevermined
   let token: Token

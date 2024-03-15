@@ -5,7 +5,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import {
   Nevermined,
-  Account,
+  NvmAccount,
   AssetAttributes,
   makeWallets,
   makeWalletFromEncryptedJson,
@@ -15,7 +15,7 @@ import * as keyFile from '../KeyFile.json'
 
 describe('Web3 Providers', () => {
   let nevermined: Nevermined
-  let account: Account
+  let account: NvmAccount
 
   it('should register an asset (mnemonic)', async () => {
     config.accounts = makeWallets(process.env.SEED_WORDS)

@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import {
-  Account,
+  NvmAccount,
   AssetPrice,
   Nevermined,
   ResourceAuthentication,
@@ -23,7 +23,7 @@ describe('NVM App API', () => {
     let nvmApp: NvmApp
     let signerAddress: string
     let defaultSigner: Signer
-    let publisher: Account
+    let publisher: NvmAccount
     let subscriptionNFTAddress: string
     let subscriptionDid: string
     let agentDid: string

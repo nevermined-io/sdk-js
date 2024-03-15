@@ -5,7 +5,7 @@ import config from '../config'
 import { ZeroAddress } from '../../src/utils'
 import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 import fs from 'fs'
-import { NeverminedOptions, getSignatureOfMethod, getWeb3Provider } from '../../src'
+import { NeverminedOptions, getSignatureOfMethod, getWeb3EthersProvider } from '../../src'
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
@@ -27,7 +27,7 @@ export default abstract class TestContractHandler extends ContractHandler {
 
   public static async setConfig(config) {
     TestContractHandler.config = config
-    TestContractHandler.web3 = await getWeb3Provider(TestContractHandler.config)
+    TestContractHandler.web3 = await getWeb3EthersProvider(TestContractHandler.config)
   }
 
   private static async deployContracts(deployerAddress: string) {

@@ -5,11 +5,11 @@ import * as fs from 'fs'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, DDO, Account, MetaData, AssetAttributes } from '../../src'
+import { Nevermined, DDO, NvmAccount, MetaData, AssetAttributes } from '../../src'
 
 describe('Publisher Download Asset', () => {
   let nevermined: Nevermined
-  let publisher: Account
+  let publisher: NvmAccount
   let metadata: MetaData
   let ddo: DDO
 

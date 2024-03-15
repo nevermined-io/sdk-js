@@ -209,7 +209,9 @@ export class Keeper extends Instantiable {
         `Keeper could not connect to ${await this.getNetworkName()} - ${err.message} ${err.stack}`,
       )
     }
-    const chainId = Number((await this.web3.getNetwork()).chainId)
+
+    // const chainId = Number((await this.web3.getNetwork()).chainId)
+    const chainId = await this.publicClient.getChainId()
 
     if (KeeperUtils.isTestnet(chainId)) {
       this.instances.dispenser = initOptions.loadDispenser
