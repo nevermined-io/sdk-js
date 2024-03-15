@@ -6,12 +6,13 @@ import {
   ResourceAuthentication,
   SubscriptionType,
   convertEthersV6SignerToAccountSigner,
+  isAddress,
   makeAccounts,
 } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
-import { ethers, isAddress } from 'ethers'
+import { ethers } from 'ethers'
 import { ZeroDevAccountSigner, ZeroDevEthersProvider } from '@zerodev/sdk'
 import { AppDeploymentStaging } from '../../src/nevermined/resources/AppNetworks'
 

@@ -1,4 +1,4 @@
-import { Nevermined, Account } from '../nevermined'
+import { Nevermined, Account, keccak256 } from '../nevermined'
 import {
   Authentication,
   PublicKey,
@@ -16,7 +16,7 @@ import {
 } from './types'
 import { didPrefixed, zeroX } from '../utils'
 import { DIDRegistry } from '../keeper'
-import { ethers } from 'ethers'
+
 import { AssetPrice, NFTAttributes } from '../models'
 import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
 import {
@@ -233,7 +233,7 @@ export class DDO {
   }
 
   public checksum(seed: string): string {
-    return ethers.keccak256(ethers.toUtf8Bytes(seed)).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
+    return keccak256(seed).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
   }
 
   /**

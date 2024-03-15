@@ -1,8 +1,8 @@
 import { NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
-import { Web3Provider } from './keeper/Web3Provider'
 import { Nevermined } from './nevermined'
 import { ethers } from 'ethers'
+import { BlockchainEthersUtils } from './nevermined/utils/BlockchainEthersUtils'
 
 export interface InstantiableConfig {
   nevermined: Nevermined
@@ -15,6 +15,7 @@ export interface InstantiableConfig {
 
 export async function generateInstantiableConfigFromConfig(
   config: NeverminedOptions,
+  loadCore: boolean = true,
 ): Promise<Partial<InstantiableConfig>> {
   const logLevel =
     typeof config.verbose !== 'number'
@@ -24,7 +25,7 @@ export async function generateInstantiableConfigFromConfig(
       : (config.verbose as LogLevel)
   return {
     config,
-    web3: await Web3Provider.getWeb3(config),
+    web3: loadCore ? await BlockchainEthersUtils.getWeb3Provider(config) : undefined,
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
     circuitsFolder: config.circuitsFolder,

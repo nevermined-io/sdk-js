@@ -1,8 +1,7 @@
-import { Account, Nevermined, generateId } from '../../src'
+import { Account, Nevermined, generateId, getAddress } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
 import { awaitTimeout, mineBlocks, sleep } from '../utils/utils'
-import { ethers } from 'ethers'
 
 describe('SubgraphEvent', () => {
   let account: Account
@@ -41,7 +40,7 @@ describe('SubgraphEvent', () => {
     })
 
     const event = response[0]
-    assert.strictEqual(ethers.getAddress(event.to), ethers.getAddress(account.getId()))
+    assert.strictEqual(getAddress(event.to), getAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {

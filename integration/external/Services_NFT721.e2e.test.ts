@@ -19,7 +19,6 @@ import {
 import { config } from '../config'
 import { generateWebServiceMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers } from 'ethers'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -29,6 +28,7 @@ import {
   NFT721Api,
   SubscriptionNFTApi,
   DID,
+  getAddress,
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
@@ -425,7 +425,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
     })
   })
 

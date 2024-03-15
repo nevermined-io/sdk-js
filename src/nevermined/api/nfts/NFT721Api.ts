@@ -10,9 +10,10 @@ import {
   PublishOnChainOptions,
 } from '../AssetsApi'
 import { NFTError } from '../../../errors/NFTError'
-import { ContractTransactionReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt } from 'ethers'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
+import { keccak256WithEncode } from '../../utils/BlockchainEthersUtils'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.
@@ -466,10 +467,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @returns The address of the NFT owner.
    */
   public async ownerOfAssetByAgreement(did: string, agreementId: string) {
-    const abiCoder = ethers.AbiCoder.defaultAbiCoder()
-    const tokenId = ethers.keccak256(
-      abiCoder.encode(['bytes32', 'bytes32'], [zeroX(did), zeroX(agreementId)]),
-    )
+    const tokenId = keccak256WithEncode(['bytes32', 'bytes32'], [zeroX(did), zeroX(agreementId)])
     return this.ownerOfTokenId(tokenId)
   }
 

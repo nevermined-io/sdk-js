@@ -8,9 +8,9 @@ import {
   PricedMetadataInformation,
 } from '../../ddo'
 import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
-import { Account, CreateProgressStep, DID } from '../../nevermined'
+import { Account, CreateProgressStep, DID, formatUnits } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import { SubscribablePromise, zeroX, generateId, ZeroAddress, formatUnits } from '../../utils'
+import { SubscribablePromise, zeroX, generateId, ZeroAddress } from '../../utils'
 import {
   AssetPublicationOptions,
   DIDResolvePolicy,
@@ -644,14 +644,9 @@ export abstract class RegistryBaseApi extends Instantiable {
       assetPrice?.getTokenAddress() || this.nevermined.utils.token.getAddress()
     let decimals: number
     if (erc20TokenAddress === ZeroAddress) {
-      console.log(`ZERO ADDRESS`)
       decimals = 18
     } else {
       const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
-      console.log(`--------------`)
-      console.log(`erc20TokenAddress: ${erc20TokenAddress}`)
-      console.log(`tokenAddress: ${token.address}`)
-      console.log(`--- BEFORE CALLING: decimals in token address: ${token.address}`)
       decimals = await token.decimals()
     }
 

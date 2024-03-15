@@ -1,5 +1,4 @@
-import { ethers } from 'ethers'
-import { Account, Logger, Nevermined, generateId } from '../../src'
+import { Account, Logger, Nevermined, generateId, zeroPadValue } from '../../src'
 
 export const transformMetadata = (metadata: any): any => {
   try {
@@ -48,7 +47,7 @@ export async function mineBlocks(nevermined: Nevermined, account: Account, block
       generateId(),
       account.getId(),
       account.getId(),
-      ethers.zeroPadValue('0x', 32),
+      zeroPadValue('0x', 32),
       `miningBlock${index}`,
       account,
     )

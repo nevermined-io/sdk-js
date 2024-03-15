@@ -15,8 +15,7 @@ import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../sr
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers, ZeroAddress } from 'ethers'
-import { didZeroX } from '../../src/utils'
+import { didZeroX, ZeroAddress } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
   getRoyaltyAttributes,
@@ -24,6 +23,7 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
+  getAddress,
 } from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
@@ -275,7 +275,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
     })
   })
 

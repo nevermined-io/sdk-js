@@ -1,5 +1,4 @@
 import { ZeroDevAccountSigner } from '@zerodev/sdk'
-import { isAddress } from 'ethers'
 import {
   Account,
   AssetPrice,
@@ -16,6 +15,7 @@ import {
   SubscriptionToken,
   SubscriptionType,
   Web3Error,
+  isAddress,
 } from '../sdk'
 import {
   AppDeploymentArbitrum,

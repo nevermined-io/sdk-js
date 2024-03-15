@@ -4,8 +4,8 @@ import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
 import { Account } from '../../src'
-import { Web3Provider } from '../../src/keeper'
 import { ethers } from 'ethers'
+import { BlockchainEthersUtils } from '../../src/nevermined/utils/BlockchainEthersUtils'
 
 describe('ContractEvent', () => {
   let nevermined: Nevermined
@@ -18,7 +18,7 @@ describe('ContractEvent', () => {
   before(async () => {
     await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
-    web3 = await Web3Provider.getWeb3(config)
+    web3 = await BlockchainEthersUtils.getWeb3Provider(config)
     ;[account1, account2, account3, account4] = await nevermined.accounts.list()
   })
 

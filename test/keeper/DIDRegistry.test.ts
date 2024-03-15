@@ -6,7 +6,8 @@ import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
 import { ContractTransactionReceipt, ethers, EventLog } from 'ethers'
-import { TxParameters, Web3Provider } from '../../src/keeper'
+import { TxParameters } from '../../src/keeper'
+import { BlockchainEthersUtils } from '../../src/nevermined/utils/BlockchainEthersUtils'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -44,7 +45,7 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'hola hola'
-      const provider = await Web3Provider.getWeb3(config)
+      const provider = await BlockchainEthersUtils.getWeb3Provider(config)
       const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
       const txParams: TxParameters = { nonce: txCount }
 

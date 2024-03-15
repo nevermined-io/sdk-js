@@ -23,8 +23,13 @@ import {
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { ZeroAddress, parseEther } from '../../src/utils'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+import { ZeroAddress } from '../../src/utils'
+import {
+  getRoyaltyAttributes,
+  parseEther,
+  RoyaltyAttributes,
+  RoyaltyKind,
+} from '../../src/nevermined'
 import { EventLog } from 'ethers'
 
 describe('NFTTemplates With Ether E2E', async () => {

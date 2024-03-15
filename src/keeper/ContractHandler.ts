@@ -2,7 +2,7 @@ import fs from 'fs'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
-import { Account } from '../nevermined'
+import { Account, parseUnits } from '../nevermined'
 import {
   ContractTransactionReceipt,
   ContractTransactionResponse,
@@ -306,8 +306,8 @@ export class ContractHandler extends Instantiable {
     try {
       const response = await this.nevermined.utils.fetch.get(gasStationUri)
       const data = await response.json()
-      maxFeePerGas = ethers.parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
-      maxPriorityFeePerGas = ethers.parseUnits(Math.ceil(data.fast.maxPriorityFee) + '', 'gwei')
+      maxFeePerGas = parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
+      maxPriorityFeePerGas = parseUnits(Math.ceil(data.fast.maxPriorityFee) + '', 'gwei')
     } catch (error) {
       this.logger.warn(`Failed to ges gas price from gas station ${gasStationUri}: ${error}`)
     }

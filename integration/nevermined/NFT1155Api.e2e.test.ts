@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined, AssetPrice } from '../../src'
+import { Account, DDO, Nevermined, AssetPrice, ZeroAddress, getAddress } from '../../src'
 import {
   EscrowPaymentCondition,
   TransferNFTCondition,
@@ -17,7 +17,6 @@ import {
   PublishMetadataOptions,
   RoyaltyKind,
 } from '../../src/nevermined/api/AssetsApi'
-import { ethers, ZeroAddress } from 'ethers'
 import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
@@ -203,7 +202,7 @@ function makeTest(isCustom) {
 
       it('Should set the Node as a provider by default', async () => {
         const providers = await nevermined.assets.providers.list(ddo.id)
-        assert.deepEqual(providers, [ethers.getAddress(config.neverminedNodeAddress)])
+        assert.deepEqual(providers, [getAddress(config.neverminedNodeAddress)])
       })
     })
 

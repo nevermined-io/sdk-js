@@ -3,6 +3,7 @@ import { Account } from '../Account'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ethers } from 'ethers'
+import { getBytes } from './BlockchainEthersUtils'
 
 export class ServiceAgreement extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -56,7 +57,7 @@ export class ServiceAgreement extends Instantiable {
     )
 
     const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
-      ethers.getBytes(serviceAgreementHash),
+      getBytes(serviceAgreementHash),
       consumer.getId(),
     )
 

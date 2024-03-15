@@ -4,6 +4,7 @@ import { Account } from '../Account'
 import { ethers } from 'ethers'
 import { Babysig } from '../../models'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
+import { getAddress, getBytes } from './BlockchainEthersUtils'
 
 export interface Eip712Data {
   message: string
@@ -77,7 +78,7 @@ export class EthSignJWT extends SignJWT {
       sign = await EthSignJWT.signMessage(decoder.decode(data), signer)
     }
 
-    const input = ethers.getBytes(sign)
+    const input = getBytes(sign)
 
     const signed = this.base64url(input)
     const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
@@ -160,7 +161,7 @@ export class JwtUtils extends Instantiable {
   public async getSigner(
     account: Account,
   ): Promise<ethers.Signer | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider> {
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     return account.isZeroDev()
       ? account.zeroDevSigner
       : await this.nevermined.accounts.findSigner(address)
@@ -200,7 +201,7 @@ export class JwtUtils extends Instantiable {
       }
     }
 
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     const signer = await this.getSigner(account)
     return new EthSignJWT({
       iss: address,
@@ -218,7 +219,7 @@ export class JwtUtils extends Instantiable {
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     const signer = await this.getSigner(account)
 
     return new EthSignJWT({
@@ -243,7 +244,7 @@ export class JwtUtils extends Instantiable {
     aud: string,
     obj: any,
   ): Promise<string> {
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     const signer = await this.getSigner(account)
 
     return new EthSignJWT({
@@ -266,7 +267,7 @@ export class JwtUtils extends Instantiable {
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     const signer = await this.getSigner(account)
     return new EthSignJWT({
       iss: address,
@@ -306,7 +307,7 @@ export class JwtUtils extends Instantiable {
     serviceAgreementId: string,
     workflowId: string,
   ): Promise<string> {
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     const signer = await this.getSigner(account)
 
     return new EthSignJWT({
@@ -327,7 +328,7 @@ export class JwtUtils extends Instantiable {
     serviceAgreementId: string,
     executionId: string,
   ): Promise<string> {
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     const signer = await this.getSigner(account)
 
     return new EthSignJWT({
@@ -351,7 +352,7 @@ export class JwtUtils extends Instantiable {
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
-    const address = ethers.getAddress(account.getId())
+    const address = getAddress(account.getId())
     const signer = await this.getSigner(account)
     const params = {
       iss: address,

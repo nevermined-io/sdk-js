@@ -1,10 +1,9 @@
-import { Account, Nevermined, generateId } from '../../src'
+import { Account, Nevermined, generateId, getAddress } from '../../src'
 import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractEvent } from '../../src/events'
 import { mineBlocks, awaitTimeout } from '../utils/utils'
-import { ethers } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -37,10 +36,7 @@ describe('ContractEvent', () => {
       },
       eventName: 'Transfer',
     })
-    assert.strictEqual(
-      ethers.getAddress(response.pop().args.to),
-      ethers.getAddress(account.getId()),
-    )
+    assert.strictEqual(getAddress(response.pop().args.to), getAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {

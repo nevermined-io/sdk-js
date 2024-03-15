@@ -10,10 +10,9 @@ import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../dd
 import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetPrice, BabyjubPublicKey } from '../../../models'
-import { Account, OrderProgressStep } from '../../../nevermined'
+import { Account, OrderProgressStep, isAddress } from '../../../nevermined'
 import { CustomToken } from '../CustomToken'
 import { Token } from '../Token'
-import { isAddress } from 'ethers'
 
 export interface AgreementConditionsStatus {
   [condition: string]: {

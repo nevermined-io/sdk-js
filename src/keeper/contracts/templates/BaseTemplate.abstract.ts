@@ -9,10 +9,9 @@ import {
   ServiceType,
   ValidationParams,
 } from '../../../ddo'
-import { Account, Condition, MetaData, NFTAttributes } from '../../../sdk'
+import { Account, Condition, MetaData, NFTAttributes, isAddress } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
-import { isAddress } from 'ethers'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>

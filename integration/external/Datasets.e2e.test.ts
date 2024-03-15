@@ -13,7 +13,6 @@ import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../sr
 import { config } from '../config'
 import { generateMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers } from 'ethers'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -22,6 +21,7 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
+  getAddress,
 } from '../../src/nevermined'
 
 describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
@@ -308,7 +308,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
     })
 
     it('The Subscriber should have an NFT balance', async () => {

@@ -1,8 +1,8 @@
 import { Account } from '../Account'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, ProvenanceMethod } from '../../keeper'
-import { ethers } from 'ethers'
 import { zeroX } from '../../utils'
+import { zeroPadValue } from '../utils/BlockchainEthersUtils'
 
 /**
  * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry
@@ -55,7 +55,7 @@ export class ProvenanceApi extends Instantiable {
       provenanceId,
       did,
       agentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       signature,
       attributes,
       from.getId(),
@@ -91,7 +91,7 @@ export class ProvenanceApi extends Instantiable {
       newEntityDid,
       usedEntityDid,
       agentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       attributes,
       from.getId(),
       txParams,
@@ -123,7 +123,7 @@ export class ProvenanceApi extends Instantiable {
       provenanceId,
       did,
       agentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       attributes,
       from.getId(),
       txParams,
@@ -160,7 +160,7 @@ export class ProvenanceApi extends Instantiable {
       did,
       delegateAgentId,
       responsibleAgentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       signature,
       attributes,
       from.getId(),

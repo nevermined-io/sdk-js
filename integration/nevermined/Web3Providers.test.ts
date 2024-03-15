@@ -8,7 +8,7 @@ import { Nevermined, Account, AssetAttributes, makeAccounts } from '../../src'
 import * as keyFile from '../KeyFile.json'
 import { ethers } from 'ethers'
 
-describe('Web3Providers', () => {
+describe('Web3 Providers', () => {
   let nevermined: Nevermined
   let account: Account
 

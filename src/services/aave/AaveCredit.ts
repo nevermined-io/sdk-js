@@ -1,5 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { Account, NFT721Api } from '../../nevermined'
+import { Account, NFT721Api, formatEther, parseEther } from '../../nevermined'
 import {
   GenericContract,
   TxParameters,
@@ -11,7 +11,7 @@ import {
   AgreementInstance,
 } from '../../keeper'
 import { AaveConfig } from '../../models'
-import { didZeroX, formatEther, generateId, parseEther, zeroX } from '../../utils'
+import { didZeroX, generateId, zeroX } from '../../utils'
 import { ContractTransactionReceipt } from 'ethers'
 
 /**

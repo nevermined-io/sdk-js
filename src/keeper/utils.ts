@@ -145,7 +145,7 @@ export interface JsonRpcResponse {
   error?: string
 }
 
-export class Web3ProviderWrapper {
+export class DEPRECATED_Web3ProviderWrapper {
   provider: ethers.JsonRpcProvider | ethers.BrowserProvider
 
   constructor(provider: ethers.JsonRpcProvider | ethers.BrowserProvider) {

@@ -21,10 +21,16 @@ import {
   NFTSalesTemplate,
   Token,
 } from '../../src/keeper'
-import { formatUnits, getConditionsByParams, parseUnits } from '../../src/utils'
+import { getConditionsByParams } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+import {
+  formatUnits,
+  getRoyaltyAttributes,
+  parseUnits,
+  RoyaltyAttributes,
+  RoyaltyKind,
+} from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
 

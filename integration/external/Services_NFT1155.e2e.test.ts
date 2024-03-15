@@ -18,7 +18,6 @@ import {
 } from '../../src/keeper'
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers } from 'ethers'
 import { didZeroX } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
@@ -30,6 +29,7 @@ import {
   SubscriptionCreditsNFTApi,
   PublishMetadataOptions,
   PublishOnChainOptions,
+  getAddress,
 } from '../../src/nevermined'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
@@ -411,7 +411,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
     })
 
     it('The publisher can access the service endpoints available', async () => {
