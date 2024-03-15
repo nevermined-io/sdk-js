@@ -18,7 +18,7 @@ describe('ContractHandler', () => {
 
   describe('ABIs parsing', () => {
     it('should parse a Subscription NFT contract', async () => {
-      const solidityABI = await ContractHandler.getABI(
+      const solidityABI = await ContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -28,7 +28,7 @@ describe('ContractHandler', () => {
     })
 
     it('should parse the NeverminedToken contract', async () => {
-      const solidityABI = await ContractHandler.getABI(
+      const solidityABI = await ContractHandler.getABIArtifact(
         'NeverminedToken',
         './artifacts/',
         networkName,
@@ -42,7 +42,7 @@ describe('ContractHandler', () => {
   describe('#get()', () => {
     it('should load and get NeverminedToken correctly', async () => {
       assert(
-        await contractHandler.get(
+        await contractHandler.getContractFromArtifacts(
           'NeverminedToken',
           false,
           './node_modules/@neverminde-io/contracts/artifacts',
@@ -52,7 +52,11 @@ describe('ContractHandler', () => {
 
     it('should fail to load an unknown contract', (done) => {
       contractHandler
-        .get('NeverminedXXX', false, './node_modules/@neverminde-io/contracts/artifacts')
+        .getContractFromArtifacts(
+          'NeverminedXXX',
+          false,
+          './node_modules/@neverminde-io/contracts/artifacts',
+        )
         .catch(() => {
           done()
         })

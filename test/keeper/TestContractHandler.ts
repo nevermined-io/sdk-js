@@ -5,14 +5,20 @@ import config from '../config'
 import { ZeroAddress } from '../../src/utils'
 import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 import fs from 'fs'
-import { NeverminedOptions, getSignatureOfMethod, getWeb3EthersProvider } from '../../src'
+import {
+  NeverminedOptions,
+  Web3Clients,
+  getSignatureOfMethod,
+  getWeb3EthersProvider,
+  getWeb3ViemClients,
+} from '../../src'
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
     await TestContractHandler.setConfig(config)
 
     const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
-    TestContractHandler.networkId = Number((await TestContractHandler.web3.getNetwork()).chainId)
+    TestContractHandler.networkId = await TestContractHandler.client.public.getChainId() //TestContractHandler.web3 //Number((await TestContractHandler.web3.getNetwork()).chainId)
     TestContractHandler.minter = ethers.encodeBytes32String('minter')
 
     // deploy contracts
@@ -24,10 +30,12 @@ export default abstract class TestContractHandler extends ContractHandler {
   private static minter: string
   private static config = config
   private static web3: ethers.JsonRpcProvider | ethers.BrowserProvider
+  private static client: Web3Clients
 
   public static async setConfig(config) {
     TestContractHandler.config = config
     TestContractHandler.web3 = await getWeb3EthersProvider(TestContractHandler.config)
+    TestContractHandler.client = getWeb3ViemClients(TestContractHandler.config)
   }
 
   private static async deployContracts(deployerAddress: string) {
