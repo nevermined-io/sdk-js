@@ -1,4 +1,9 @@
-import { Account, getSignatureOfMethod, searchAbiFunction } from '../../nevermined'
+import {
+  Account,
+  estimateGas,
+  getInputsOfMethodFormatted,
+  getSignatureOfMethod,
+} from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
@@ -8,7 +13,7 @@ import {
   TransactionReceipt,
   ethers,
 } from 'ethers'
-import { jsonReplacer, parseUnits } from '../../sdk'
+import { jsonReplacer } from '../../sdk'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 export interface TxParameters {
   value?: string
@@ -38,7 +43,7 @@ export abstract class ContractBase extends Instantiable {
 
   protected async init(config: InstantiableConfig, optional = false) {
     this.setInstanceConfig(config)
-    this.contract = await this.nevermined.utils.contractHandler.get(
+    this.contract = await this.nevermined.utils.contractHandler.getContractFromArtifacts(
       this.contractName,
       optional,
       config.artifactsFolder,
@@ -108,7 +113,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -125,7 +130,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         transactionResponse,
         method: name,
         from,
@@ -141,7 +146,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         transactionReceipt,
         method: name,
         from,
@@ -174,7 +179,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -191,7 +196,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         transactionResponse,
         method: name,
         from,
@@ -208,7 +213,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         transactionReceipt,
         method: name,
         from,
@@ -236,7 +241,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -255,7 +260,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         hash,
         method: name,
         from,
@@ -273,7 +278,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
         receipt,
         method: name,
         from,
@@ -335,7 +340,7 @@ export abstract class ContractBase extends Instantiable {
       if (params.progress) {
         params.progress({
           stage: 'estimateGas',
-          args: this.searchMethodInputs(name, args),
+          args: getInputsOfMethodFormatted(this.contract.interface, name, args),
           method: name,
           from,
           value,
@@ -345,18 +350,11 @@ export abstract class ContractBase extends Instantiable {
       }
 
       if (!gasLimit) {
-        gasLimit = await this.estimateGas(
-          contract,
-          methodSignature,
-          args,
-          from,
-          value,
-          gasMultiplier,
-        )
+        gasLimit = await estimateGas(contract, methodSignature, args, from, value, gasMultiplier)
       }
 
       // get correct fee data
-      const feeData = await this.nevermined.utils.contractHandler.getFeeData(
+      const feeData = await this.nevermined.utils.blockchain.getFeeData(
         gasPrice && BigInt(gasPrice),
         maxFeePerGas && BigInt(maxFeePerGas),
         maxPriorityFeePerGas && BigInt(maxPriorityFeePerGas),
@@ -370,12 +368,7 @@ export abstract class ContractBase extends Instantiable {
       }
       return await this.internalSend(name, from, args, txparams, contract, params.progress)
     } catch (err) {
-      const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
-        return {
-          name: input.name,
-          value: args[i],
-        }
-      })
+      const mappedArgs = getInputsOfMethodFormatted(this.contract.interface, name, args)
       throw new KeeperError(`
                 ${'-'.repeat(40)}\n
                 Sending transaction "${name}" on contract "${this.contractName}" at ${
@@ -398,42 +391,6 @@ export abstract class ContractBase extends Instantiable {
         `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`,
       )
     }
-  }
-
-  private searchMethod(methodName: string, args: any[] = []) {
-    return searchAbiFunction(this.contract.interface, methodName, args)
-  }
-
-  private searchMethodInputs(methodName: string, args: any[] = []) {
-    return this.searchMethod(methodName, args).inputs.map((input, i) => {
-      return {
-        name: input.name,
-        value: args[i],
-      }
-    })
-  }
-
-  private async estimateGas(
-    contract: ethers.BaseContract,
-    methodSignature: string,
-    args: any[],
-    from: string,
-    value: string,
-    gasMultiplier?: number,
-  ): Promise<bigint> {
-    let gasLimit: bigint = await contract[methodSignature].estimateGas(...args, {
-      from,
-      value,
-    })
-    if (value) gasLimit = gasLimit + 21500n
-
-    gasMultiplier = gasMultiplier || this.config.gasMultiplier
-    if (gasMultiplier) {
-      const gasMultiplierParsed = parseUnits(gasMultiplier.toString(), 2)
-      gasLimit = (gasLimit * gasMultiplierParsed) / 100n
-    }
-
-    return gasLimit
   }
 }
 

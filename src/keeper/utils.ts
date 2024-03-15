@@ -1,5 +1,3 @@
-import { Hex, SignTypedDataParams, SmartAccountSigner } from '@alchemy/aa-core'
-import { Signer, TypedDataField, Wallet } from 'ethers'
 import { KeeperError } from '../errors'
 
 export async function getNetworkName(networkId: number): Promise<string> {
@@ -143,29 +141,4 @@ export interface JsonRpcResponse {
   id: number
   result?: any
   error?: string
-}
-
-const isWalletEthersV6 = (signer: any): signer is Wallet =>
-  signer && signer.signTypedData !== undefined
-
-// zerodev ethersV6 compatibility
-export const convertEthersV6SignerToAccountSigner = (
-  signer: Signer | Wallet,
-): SmartAccountSigner => {
-  return {
-    signerType: '',
-    getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
-    signMessage: async (msg: Uint8Array | string) =>
-      (await signer.signMessage(msg)) as `0x${string}`,
-    signTypedData: async (params: SignTypedDataParams) => {
-      if (!isWalletEthersV6(signer)) {
-        throw Error('signTypedData method not implemented in signer')
-      }
-      return (await signer.signTypedData(
-        params.domain!,
-        params.types as unknown as Record<string, TypedDataField[]>,
-        params.message,
-      )) as Hex
-    },
-  }
 }

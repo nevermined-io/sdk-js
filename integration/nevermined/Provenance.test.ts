@@ -2,8 +2,15 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, zeroX, generateId, AssetAttributes } from '../../src'
-import { ethers } from 'ethers'
+import {
+  Nevermined,
+  Account,
+  DDO,
+  zeroX,
+  generateId,
+  AssetAttributes,
+  zeroPadValue,
+} from '../../src'
 import { ProvenanceMethod } from '../../src/keeper'
 
 describe('Provenance', () => {
@@ -67,7 +74,7 @@ describe('Provenance', () => {
       intermediary.getId(),
       publisher.getId(),
       activitiesIds.intermediary,
-      ethers.zeroPadValue('0x', 32),
+      zeroPadValue('0x', 32),
       'FirstIntermediaryStuff',
       publisher,
     )
@@ -103,7 +110,7 @@ describe('Provenance', () => {
       ddo.shortId(),
       intermediary.getId(),
       activitiesIds.intermediary,
-      ethers.zeroPadValue('0x', 32),
+      zeroPadValue('0x', 32),
       'FirstIntermediaryStuff',
       intermediary,
     )

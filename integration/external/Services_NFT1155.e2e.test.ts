@@ -107,7 +107,6 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT1155Api
   let neverminedNodeAddress
 
@@ -183,7 +182,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await ContractHandler.getABI(
+      const contractABI = await ContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
         config.artifactsFolder,
         await nevermined.keeper.getNetworkName(),

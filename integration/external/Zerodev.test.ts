@@ -1,4 +1,3 @@
-import { ethers } from 'ethers'
 import { ZeroDevEthersProvider } from '@zerodev/sdk'
 import { verifyMessage } from '@ambire/signature-validator'
 import * as fs from 'fs'
@@ -10,6 +9,7 @@ import {
   MetaData,
   Nevermined,
   convertEthersV6SignerToAccountSigner,
+  makeRandomWallet,
 } from '../../src'
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
@@ -29,7 +29,7 @@ describe('Nevermined sdk with zerodev', () => {
 
     before(async () => {
       const projectId = process.env.PROJECT_ID!
-      const owner = ethers.Wallet.createRandom()
+      const owner = makeRandomWallet()
 
       zerodevProvider = await ZeroDevEthersProvider.init('ECDSA', {
         projectId,
@@ -117,8 +117,8 @@ describe('Nevermined sdk with zerodev', () => {
 
     before(async () => {
       const projectId = process.env.PROJECT_ID!
-      const publisher = ethers.Wallet.createRandom()
-      const consumer = ethers.Wallet.createRandom()
+      const publisher = makeRandomWallet()
+      const consumer = makeRandomWallet()
 
       zerodevProviderPublisher = await ZeroDevEthersProvider.init('ECDSA', {
         projectId,

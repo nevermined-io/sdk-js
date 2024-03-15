@@ -63,7 +63,6 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
   let neverminedNodeAddress
 
@@ -159,7 +158,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -425,7 +424,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should be able to retrieve datasets associated with a subscription filtering by tags', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter)
+      const result = await nevermined.search.datasetsBySubscription(
+        subscriptionDDO.id,
+        NeverminedNFT721Type.nft721Subscription,
+        tagsFilter,
+      )
       assert.equal(result.totalResults.value, 1)
 
       assert.isTrue(
@@ -438,7 +441,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should not be able to retrieve any datasets associated with a subscription filtering by tags which do not exist', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter2)
+      const result = await nevermined.search.datasetsBySubscription(
+        subscriptionDDO.id,
+        NeverminedNFT721Type.nft721Subscription,
+        tagsFilter2,
+      )
       assert.equal(result.totalResults.value, 0)
     })
   })

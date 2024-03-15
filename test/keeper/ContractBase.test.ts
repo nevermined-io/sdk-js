@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Account } from '../../src/nevermined'
+import { Account, getSignatureOfMethod } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
@@ -54,7 +54,7 @@ describe('ContractWrapperBase', () => {
 
   describe('#getSignatureOfMethod()', () => {
     it('should a signature of the function', async () => {
-      const sig = wrappedContract.getSignatureOfMethod('name')
+      const sig = getSignatureOfMethod(wrappedContract.interface, 'name')
       assert(sig)
       assert(typeof sig === 'string')
     })

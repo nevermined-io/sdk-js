@@ -5,7 +5,7 @@ import config from '../config'
 import { ZeroAddress } from '../../src/utils'
 import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 import fs from 'fs'
-import { NeverminedOptions, getWeb3Provider } from '../../src'
+import { NeverminedOptions, getSignatureOfMethod, getWeb3Provider } from '../../src'
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
@@ -65,7 +65,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     )
     const contract = token.connect(signer)
     const args = [TestContractHandler.minter, await dispenser.getAddress()]
-    const methodSignature = ContractHandler.getSignatureOfMethod(contract, 'grantRole', args)
+    const methodSignature = getSignatureOfMethod(contract.interface, 'grantRole', args)
     let transactionResponse: ContractTransactionResponse = await contract[methodSignature](...args)
     let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
     if (contractReceipt.status !== 1) {
@@ -441,11 +441,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     await contractInstance.waitForDeployment()
 
     if (isZos) {
-      const methodSignature = TestContractHandler.getSignatureOfMethod(
-        contractInstance,
-        'initialize',
-        args,
-      )
+      const methodSignature = getSignatureOfMethod(contractInstance.interface, 'initialize', args)
       const contract = contractInstance.connect(signer)
       const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
         ...args,

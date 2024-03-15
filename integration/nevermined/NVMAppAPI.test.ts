@@ -48,7 +48,7 @@ describe('NVM App API', () => {
       const nevermined = await Nevermined.getInstance(config)
       ;[, publisher] = await nevermined.accounts.list()
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         `NFT1155SubscriptionUpgradeable.geth-localnet`,
         './artifacts/',
       )

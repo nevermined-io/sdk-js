@@ -91,14 +91,14 @@ describe('NFT721Templates E2E', () => {
     ;[owner, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
-    const erc721ABI = await ContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
     // deploy a nft contract we can use
-    const nftContract = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
+    const nftContract = await nevermined.utils.blockchain.deployAbi(erc721ABI, artist, [
       artist.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
@@ -624,13 +624,13 @@ describe('NFT721Templates E2E', () => {
       )
 
       const networkName = await nevermined.keeper.getNetworkName()
-      const erc721ABI = await ContractHandler.getABI(
+      const erc721ABI = await ContractHandler.getABIArtifact(
         'NFT721Upgradeable',
         config.artifactsFolder,
         networkName,
       )
 
-      const nftContract = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
+      const nftContract = await nevermined.utils.blockchain.deployAbi(erc721ABI, artist, [
         artist.getId(),
         nevermined.keeper.didRegistry.address,
         'NFT721',

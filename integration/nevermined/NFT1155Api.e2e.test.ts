@@ -95,13 +95,13 @@ function makeTest(isCustom) {
 
       if (isCustom) {
         const networkName = await nevermined.keeper.getNetworkName()
-        const erc1155ABI = await ContractHandler.getABI(
+        const erc1155ABI = await ContractHandler.getABIArtifact(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
+        const nft = await nevermined.utils.blockchain.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',
@@ -480,13 +480,13 @@ function makeTest(isCustom) {
     describe('Node should not be able to transfer the nft without the operator role', () => {
       it('should create the subscription NFT without granting Nevermined the operator role', async () => {
         const networkName = await nevermined.keeper.getNetworkName()
-        const erc1155ABI = await ContractHandler.getABI(
+        const erc1155ABI = await ContractHandler.getABIArtifact(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
+        const nft = await nevermined.utils.blockchain.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',

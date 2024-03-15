@@ -7,12 +7,12 @@ import {
   SubscriptionType,
   convertEthersV6SignerToAccountSigner,
   isAddress,
-  makeAccounts,
+  makeWallets,
+  makeRandomWallet,
 } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
-import { ethers } from 'ethers'
 import { ZeroDevAccountSigner, ZeroDevEthersProvider } from '@zerodev/sdk'
 import { AppDeploymentStaging } from '../../src/nevermined/resources/AppNetworks'
 
@@ -49,13 +49,13 @@ describe('NVM App API', () => {
   const AUTHORIZATION_PASSWORD = process.env.AUTHORIZATION_PASSWORD || 'password'
 
   before(async () => {
-    const owner = ethers.Wallet.createRandom()
+    const owner = makeRandomWallet()
     zerodevProvider = await ZeroDevEthersProvider.init('ECDSA', {
       projectId,
       owner: convertEthersV6SignerToAccountSigner(owner),
     })
 
-    const contractABI = await TestContractHandler.getABI(
+    const contractABI = await TestContractHandler.getABIArtifact(
       `NFT1155SubscriptionUpgradeable.arbitrum-sepolia`,
       './artifacts/',
     )
@@ -241,7 +241,7 @@ describe('NVM App API', () => {
         artifactsFolder: './artifacts',
       })
       const appConfig = nvmAppSubscriber.config
-      appConfig.accounts = makeAccounts(process.env.SEED_WORDS)
+      appConfig.accounts = makeWallets(process.env.SEED_WORDS)
 
       const subscriberAddress = await appConfig.accounts[0].getAddress()
       await nvmAppSubscriber.connect(subscriberAddress, appConfig)

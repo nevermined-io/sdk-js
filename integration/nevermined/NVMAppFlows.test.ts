@@ -69,7 +69,6 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   let salesServices
   let accessServices
 
-  // let nft: ethers.Contract
   let subscriptionNFT: SubscriptionCreditsNFTApi
   let neverminedNodeAddress
 
@@ -144,7 +143,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         `NFT1155SubscriptionUpgradeable.${await nevermined.keeper.getNetworkName()}`,
         './artifacts/',
       )

@@ -141,7 +141,7 @@ export class NvmApp {
     this.assetProviders = [nodeInfo['provider-address']]
 
     if (!isAddress(this.configNVM.nftContractAddress)) {
-      const contractABI = await ContractHandler.getABI(
+      const contractABI = await ContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
         this.configNVM.artifactsFolder,
         await this.fullSDK.keeper.getNetworkName(),

@@ -62,7 +62,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
   let neverminedNodeAddress
 
@@ -119,7 +118,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         // 'NFT721SubscriptionUpgradeable',
         `NFT721SubscriptionUpgradeable.${await nevermined.keeper.getNetworkName()}`,
         './artifacts/',
@@ -302,7 +301,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )

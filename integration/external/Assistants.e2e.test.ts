@@ -5,12 +5,12 @@ import {
   ResourceAuthentication,
   SubscriptionToken,
   convertEthersV6SignerToAccountSigner,
+  makeRandomWallet,
 } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 import { AppDeploymentStaging } from '../../src/nevermined/resources/AppNetworks'
-import { ethers } from 'ethers'
 import { ZeroDevAccountSigner, ZeroDevEthersProvider } from '@zerodev/sdk'
 import { sleep } from '@opengsn/provider'
 
@@ -62,8 +62,8 @@ describe('E2E flow for interacting with OpenAI proxified assistants', () => {
   let subscriptionToken: SubscriptionToken
 
   before(async () => {
-    const owner = ethers.Wallet.createRandom()
-    const subscriber = ethers.Wallet.createRandom()
+    const owner = makeRandomWallet()
+    const subscriber = makeRandomWallet()
 
     zerodevProviderPublisher = await ZeroDevEthersProvider.init('ECDSA', {
       projectId,
@@ -75,7 +75,7 @@ describe('E2E flow for interacting with OpenAI proxified assistants', () => {
       owner: convertEthersV6SignerToAccountSigner(subscriber),
     })
 
-    const contractABI = await TestContractHandler.getABI(
+    const contractABI = await TestContractHandler.getABIArtifact(
       `NFT1155SubscriptionUpgradeable.arbitrum-sepolia`,
       './artifacts/',
     )

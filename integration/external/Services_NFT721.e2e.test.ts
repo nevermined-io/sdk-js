@@ -100,7 +100,6 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
   let neverminedNodeAddress
 
@@ -216,7 +215,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await ContractHandler.getABI(
+      const contractABI = await ContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         config.artifactsFolder,
         await nevermined.keeper.getNetworkName(),
@@ -510,6 +509,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     it('should be able to retrieve services associated with a subscription filtering by endpoints', async () => {
       const result = await nevermined.search.servicesBySubscription(
         subscriptionDDO.id,
+        NeverminedNFT721Type.nft721Subscription,
         endpointsFilter,
       )
       assert.equal(result.totalResults.value, 1)
@@ -526,6 +526,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     it('should not be able to retrieve any services associated with a subscription filtering by endpoints which do not exist', async () => {
       const result = await nevermined.search.servicesBySubscription(
         subscriptionDDO.id,
+        NeverminedNFT721Type.nft721Subscription,
         endpointsFilter2,
       )
       assert.equal(result.totalResults.value, 0)

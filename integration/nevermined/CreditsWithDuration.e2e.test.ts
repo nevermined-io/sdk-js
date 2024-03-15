@@ -64,9 +64,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
   let salesServices
   let accessServices
   let initialBalances: any
-  // let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: SubscriptionCreditsNFTApi
   let neverminedNodeAddress
 
@@ -134,7 +132,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )

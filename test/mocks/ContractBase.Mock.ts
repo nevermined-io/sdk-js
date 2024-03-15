@@ -1,7 +1,9 @@
+import { ethers } from 'ethers'
 import { ContractEvent, EventHandler } from '../../src/events'
 import { TxParameters, ContractBase } from '../../src/keeper'
 
 export default class ContractBaseMock extends ContractBase {
+    public interface: ethers.Interface
     public async initMock(config: any) {
         await this.init(config)
         const eventEmitter = new EventHandler()

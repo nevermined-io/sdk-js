@@ -1,4 +1,4 @@
-import { makeAccounts, NeverminedOptions } from '../src'
+import { makeWallets, NeverminedOptions } from '../src'
 import { LoggerInstance, LogLevel } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
@@ -76,7 +76,7 @@ if (process.env.NETWORK_NAME === 'one-staging') {
 }
 
 if (process.env.SEED_WORDS) {
-  configBase.accounts = makeAccounts(process.env.SEED_WORDS)
+  configBase.accounts = makeWallets(process.env.SEED_WORDS)
 }
 
 export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } = configBase as any

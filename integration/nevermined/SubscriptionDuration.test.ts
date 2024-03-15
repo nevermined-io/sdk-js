@@ -25,7 +25,7 @@ describe('Subscription Durations', () => {
     let agreementId: string
 
     it('The publisher publishes the subscription', async () => {
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -119,7 +119,7 @@ describe('Subscription Durations', () => {
     let agreementId: string
 
     it('The publisher publishes the subscription', async () => {
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -212,7 +212,7 @@ describe('Subscription Durations', () => {
     let agreementId: string
 
     it('The publisher publishes the subscription', async () => {
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )

@@ -29,7 +29,7 @@ describe.skip('Lazy registration of assets', () => {
     relayerSigner = await nevermined.accounts.findSigner(relayer.getId())
 
     const networkName = await nevermined.keeper.getNetworkName()
-    didRegistryAbi = await ContractHandler.getABI(
+    didRegistryAbi = await ContractHandler.getABIArtifact(
       'DIDRegistry',
       config.artifactsFolder,
       networkName,
@@ -85,7 +85,7 @@ describe.skip('Lazy registration of assets', () => {
 
       console.log(`Relayer ETH balance: `, await relayer.getEtherBalance())
 
-      const feeData = await nevermined.utils.contractHandler.getFeeData()
+      const feeData = await nevermined.utils.blockchain.getFeeData()
       console.log(`Fee Data: `, feeData)
       // const feeData = await nevermined.web3.getFeeData()
 
@@ -93,15 +93,12 @@ describe.skip('Lazy registration of assets', () => {
       tx.type = 2
       tx.nonce = await relayerSigner.getNonce()
       tx.gasLimit = gasLimit
-      // tx.value = ethers.parseEther("0.01")
 
       if (Object.keys(feeData).includes('gasPrice')) {
         tx.gasPrice = feeData['gasPrice']! // eslint-disable-line @typescript-eslint/no-non-null-assertion
       } else {
-        // tx.maxFeePerGas = ethers.parseUnits(Math.ceil(Number(feeData['maxFeePerGas']!)) + '', 'wei')
         tx.maxFeePerGas = feeData['maxFeePerGas']! // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-        // tx.maxPriorityFeePerGas = ethers.parseUnits(Math.ceil(Number(feeData['maxPriorityFeePerGas']!)) + '', 'wei')
         tx.maxPriorityFeePerGas = feeData['maxPriorityFeePerGas']! // eslint-disable-line @typescript-eslint/no-non-null-assertion
       }
 

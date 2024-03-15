@@ -30,6 +30,7 @@ export default class PoapNFTApi extends NFT721Api {
   ): Promise<PoapNFTApi> {
     const { instanceConfig } = (await Nevermined.getInstance(config)) as any
     const contractHandler = new ContractHandler(instanceConfig)
+
     const nftContract = await contractHandler.deployAbi(contractABI, from, args)
     return PoapNFTApi.getInstanceUsingABI(
       instanceConfig,

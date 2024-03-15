@@ -2,8 +2,7 @@ import { ServiceAgreementTemplateCondition, DDO, ServiceAccess, ServiceType } fr
 import { Account } from '../Account'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ethers } from 'ethers'
-import { getBytes } from './BlockchainEthersUtils'
+import { getBytes, keccak256Packed } from './BlockchainEthersUtils'
 
 export class ServiceAgreement extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -78,7 +77,7 @@ export class ServiceAgreement extends Instantiable {
       { type: 'uint256[]', value: timeouts },
       { type: 'bytes32', value: zeroX(serviceAgreementId) },
     ]
-    return ethers.solidityPackedKeccak256(
+    return keccak256Packed(
       args.map((arg: { type: string }) => arg.type),
       args.map((arg: { value: any }) => arg.value),
     )
