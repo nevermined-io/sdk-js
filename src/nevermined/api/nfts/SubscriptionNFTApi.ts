@@ -1,4 +1,4 @@
-import { Account, Nevermined } from '../../../nevermined'
+import { NvmAccount, Nevermined } from '../../../nevermined'
 import { NeverminedOptions } from '../../../models'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { ContractHandler, Nft721Contract } from '../../../keeper'
@@ -25,7 +25,7 @@ export class SubscriptionNFTApi extends NFT721Api {
   public static async deployInstance(
     config: NeverminedOptions,
     contractABI: any,
-    from: Account,
+    from: NvmAccount,
     args = [],
   ): Promise<SubscriptionNFTApi> {
     const { instanceConfig } = (await Nevermined.getInstance(config)) as any

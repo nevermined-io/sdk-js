@@ -1,5 +1,5 @@
 import { Balance } from '../../models'
-import { Account } from '../../nevermined'
+import { NvmAccount } from '../../nevermined'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters as txParams } from '../../keeper'
 import { ethers } from 'ethers'
@@ -24,8 +24,8 @@ export class AccountsApi extends Instantiable {
    * provider
    * @returns The list of accounts.
    */
-  public async list(): Promise<Account[]> {
-    return (await this.addresses()).map((address) => new Account(address, this.instanceConfig))
+  public async list(): Promise<NvmAccount[]> {
+    return (await this.addresses()).map((address) => new NvmAccount(address, this.instanceConfig))
   }
 
   /**
@@ -34,8 +34,8 @@ export class AccountsApi extends Instantiable {
    *
    * @returns The account
    */
-  public getAccount(address: string): Account {
-    return new Account(address, this.instanceConfig)
+  public getAccount(address: string): NvmAccount {
+    return new NvmAccount(address, this.instanceConfig)
   }
 
   /**
@@ -43,7 +43,7 @@ export class AccountsApi extends Instantiable {
    * @param account - Account instance.
    * @returns Ether and Nevermined Token balance.
    */
-  public balance(account: Account): Promise<Balance> {
+  public balance(account: NvmAccount): Promise<Balance> {
     return account.getBalance()
   }
 
@@ -55,7 +55,7 @@ export class AccountsApi extends Instantiable {
    * @returns {@link true} if the call was successful. {@link false} otherwise.
    */
   public async requestTokens(
-    account: Account,
+    account: NvmAccount,
     amount: number,
     params?: txParams,
   ): Promise<boolean> {
@@ -75,6 +75,10 @@ export class AccountsApi extends Instantiable {
       }
     }
     return this.web3.getSigner(from)
+  }
+
+  public async findAccount(from: string): Promise<ethers.Signer> {
+    return this.findSigner(from)
   }
 
   public async findSignerStatic(from: string): Promise<ethers.Signer> {

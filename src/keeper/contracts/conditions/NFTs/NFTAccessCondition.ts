@@ -1,7 +1,7 @@
 import { Condition, ConditionContext, ProviderCondition } from '../Condition.abstract'
 import { zeroX, didZeroX } from '../../../../utils'
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { Account } from '../../../../nevermined'
+import { NvmAccount } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
 
 export interface NFTAccessConditionContext extends ConditionContext {
@@ -25,13 +25,13 @@ export class NFTAccessCondition extends ProviderCondition<NFTAccessConditionCont
     agreementId: string,
     did: string,
     grantee: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(agreementId, [didZeroX(did), grantee].map(zeroX), from, txParams)
   }
 
-  public checkPermissions(grantee: string, did: string, from?: Account) {
+  public checkPermissions(grantee: string, did: string, from?: NvmAccount) {
     return this.call<boolean>(
       'checkPermissions',
       [grantee, didZeroX(did)].map(zeroX),

@@ -6,7 +6,7 @@ import {
   ServiceNFTSales,
   ServiceType,
 } from '../../ddo'
-import { Account } from '../Account'
+import { NvmAccount } from '../NvmAccount'
 import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
@@ -160,7 +160,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public create(
     assetAttributes: AssetAttributes,
-    publisherAccount: Account,
+    publisherAccount: NvmAccount,
     publicationOptions: AssetPublicationOptions = {
       metadata: PublishMetadataOptions.OnlyMetadataAPI,
       did: PublishOnChainOptions.DIDRegistry,
@@ -199,7 +199,7 @@ export class AssetsApi extends RegistryBaseApi {
   public update(
     did: string,
     metadata: MetaData,
-    publisherAccount: Account,
+    publisherAccount: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -220,7 +220,7 @@ export class AssetsApi extends RegistryBaseApi {
   public order(
     did: string,
     serviceReference: ServiceType | number = 'access',
-    consumerAccount: Account,
+    consumerAccount: NvmAccount,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return this.orderAsset(did, serviceReference, consumerAccount, txParams)
@@ -243,7 +243,7 @@ export class AssetsApi extends RegistryBaseApi {
     agreementId: string,
     did: string,
     serviceReference: ServiceType | number,
-    consumerAccount: Account,
+    consumerAccount: NvmAccount,
     resultPath?: string,
     fileIndex = -1,
     buyer?: string,
@@ -339,12 +339,12 @@ export class AssetsApi extends RegistryBaseApi {
   public async transferOwnership(
     did: string,
     newOwner: string,
-    owner: string | Account,
+    owner: string | NvmAccount,
     newUserId?: string,
     txParams?: TxParameters,
   ): Promise<ContractTransactionReceipt> {
     // const owner = await this.nevermined.assets.owner(did)
-    const ownerAddress = owner instanceof Account ? owner.getId() : owner
+    const ownerAddress = owner instanceof NvmAccount ? owner.getId() : owner
     const ddo = await this.resolveAsset(did)
 
     ddo.proof = await ddo.generateProof(newOwner)
@@ -410,7 +410,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public async download(
     did: string,
-    ownerAccount: Account,
+    ownerAccount: NvmAccount,
     resultPath?: string,
     fileIndex = -1,
     serviceType: ServiceType = 'access',
@@ -464,7 +464,7 @@ export class AssetsApi extends RegistryBaseApi {
   public async grantPermissions(
     did: string,
     address: string,
-    ownerAccount: Account,
+    ownerAccount: NvmAccount,
     txParams?: TxParameters,
   ) {
     return await this.nevermined.keeper.didRegistry.grantPermission(
@@ -486,7 +486,7 @@ export class AssetsApi extends RegistryBaseApi {
   public async revokePermissions(
     did: string,
     address: string,
-    ownerAccount: Account,
+    ownerAccount: NvmAccount,
     txParams?: TxParameters,
   ) {
     return await this.nevermined.keeper.didRegistry.revokePermission(

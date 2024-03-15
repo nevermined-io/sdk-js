@@ -1,5 +1,5 @@
 import { DDO, ServiceType } from '../../../ddo'
-import { Account, OrderProgressStep } from '../../../nevermined'
+import { NvmAccount, OrderProgressStep } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface GenericAccess {
@@ -8,8 +8,8 @@ export interface GenericAccess {
     ddo: DDO,
     serviceReference: ServiceType | number,
     parameters: any,
-    consumer: Account,
-    from: Account,
+    consumer: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
     observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string>

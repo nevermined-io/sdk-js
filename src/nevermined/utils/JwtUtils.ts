@@ -1,6 +1,6 @@
 import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { Account } from '../Account'
+import { NvmAccount } from '../NvmAccount'
 import { ethers } from 'ethers'
 import { Babysig } from '../../models'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
@@ -159,7 +159,7 @@ export class JwtUtils extends Instantiable {
   }
 
   public async getSigner(
-    account: Account,
+    account: NvmAccount,
   ): Promise<ethers.Signer | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider> {
     const address = getAddress(account.getId())
     return account.isZeroDev()
@@ -171,7 +171,7 @@ export class JwtUtils extends Instantiable {
     return args.join()
   }
 
-  public async accountToJwk(account: Account): Promise<any> {
+  public async accountToJwk(account: NvmAccount): Promise<any> {
     const address = account.getId().toLowerCase()
 
     // Currently only works with HDWalletProvider
@@ -192,7 +192,7 @@ export class JwtUtils extends Instantiable {
     })
   }
 
-  public async generateClientAssertion(account: Account, message?: string) {
+  public async generateClientAssertion(account: NvmAccount, message?: string) {
     let eip712Data: Eip712Data
     if (message) {
       eip712Data = {
@@ -213,7 +213,7 @@ export class JwtUtils extends Instantiable {
   }
 
   public async generateAccessGrantToken(
-    account: Account,
+    account: NvmAccount,
     serviceAgreementId: string,
     did: string,
     buyer?: string,
@@ -238,7 +238,7 @@ export class JwtUtils extends Instantiable {
   }
 
   public async generateToken(
-    account: Account,
+    account: NvmAccount,
     serviceAgreementId: string,
     did: string,
     aud: string,
@@ -262,7 +262,7 @@ export class JwtUtils extends Instantiable {
   }
 
   public async generateDownloadGrantToken(
-    account: Account,
+    account: NvmAccount,
     did: string,
     buyer?: string,
     babysig?: Babysig,
@@ -285,7 +285,7 @@ export class JwtUtils extends Instantiable {
 
   public async getDownloadGrantToken(
     did: string,
-    account: Account,
+    account: NvmAccount,
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
@@ -303,7 +303,7 @@ export class JwtUtils extends Instantiable {
   }
 
   public async generateExecuteGrantToken(
-    account: Account,
+    account: NvmAccount,
     serviceAgreementId: string,
     workflowId: string,
   ): Promise<string> {
@@ -324,7 +324,7 @@ export class JwtUtils extends Instantiable {
   }
 
   public async generateComputeGrantToken(
-    account: Account,
+    account: NvmAccount,
     serviceAgreementId: string,
     executionId: string,
   ): Promise<string> {
@@ -348,7 +348,7 @@ export class JwtUtils extends Instantiable {
     agreementId: string,
     did: string,
     serviceIndex: number,
-    account: Account,
+    account: NvmAccount,
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {
@@ -376,7 +376,7 @@ export class JwtUtils extends Instantiable {
     agreementId: string,
     did: string,
     serviceIndex: number,
-    account: Account,
+    account: NvmAccount,
     buyer?: string,
     babysig?: Babysig,
   ): Promise<string> {

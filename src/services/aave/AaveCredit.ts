@@ -1,5 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { Account, NFT721Api, formatEther, parseEther } from '../../nevermined'
+import { NvmAccount, NFT721Api, formatEther, parseEther } from '../../nevermined'
 import {
   GenericContract,
   TxParameters,
@@ -67,7 +67,7 @@ export class AaveCredit extends Instantiable {
     interestRateMode: number,
     borrower: string,
     lender: string,
-    from: Account,
+    from: NvmAccount,
     timeLocks?: number[],
     timeOuts?: number[],
     txParams?: TxParameters,
@@ -116,7 +116,7 @@ export class AaveCredit extends Instantiable {
     agreementId: string,
     nftContractAddress: string,
     nftAmount: number,
-    from?: Account,
+    from?: NvmAccount,
     did?: string,
     vaultAddress?: string,
   ): Promise<boolean> {
@@ -161,7 +161,7 @@ export class AaveCredit extends Instantiable {
     delegatedAsset: string,
     delegatedAmount: number,
     interestRateMode: number,
-    from: Account,
+    from: NvmAccount,
     useWethGateway = false,
     did?: string,
     vaultAddress?: string,
@@ -221,7 +221,7 @@ export class AaveCredit extends Instantiable {
     delegatedAsset: string,
     delegatedAmount: number,
     interestRateMode: number,
-    from: Account,
+    from: NvmAccount,
     did?: string,
     vaultAddress?: string,
   ): Promise<boolean> {
@@ -259,7 +259,7 @@ export class AaveCredit extends Instantiable {
     delegatedAsset: string,
     delegatedAmount: number,
     interestRateMode: number,
-    from?: Account,
+    from?: NvmAccount,
     did?: string,
     vaultAddress?: string,
   ): Promise<boolean> {
@@ -323,7 +323,7 @@ export class AaveCredit extends Instantiable {
     delegatedAsset: string,
     delegatedAmount: number,
     interestRateMode: number,
-    from?: Account,
+    from?: NvmAccount,
     did?: string,
     vaultAddress?: string,
   ): Promise<boolean> {
@@ -354,7 +354,7 @@ export class AaveCredit extends Instantiable {
   public async unlockNft(
     agreementId: string,
     nftContractAddress: string,
-    from?: Account,
+    from?: NvmAccount,
     did?: string,
     vaultAddress?: string,
   ): Promise<boolean> {
@@ -406,7 +406,7 @@ export class AaveCredit extends Instantiable {
    */
   public async getTotalActualDebt(
     agreementId: string,
-    from: Account,
+    from: NvmAccount,
     vaultAddress?: string,
   ): Promise<number> {
     const vault: GenericContract = await this.getVaultContract(
@@ -426,7 +426,7 @@ export class AaveCredit extends Instantiable {
    */
   public async getActualCreditDebt(
     agreementId: string,
-    from: Account,
+    from: NvmAccount,
     vaultAddress?: string,
   ): Promise<number> {
     const vault: GenericContract = await this.getVaultContract(
@@ -445,7 +445,7 @@ export class AaveCredit extends Instantiable {
    */
   public async getCreditAssetDebt(
     agreementId: string,
-    from: Account,
+    from: NvmAccount,
     vaultAddress?: string,
   ): Promise<number> {
     const vault: GenericContract = await this.getVaultContract(
@@ -459,7 +459,7 @@ export class AaveCredit extends Instantiable {
   public async getAssetPrice(
     agreementId: string,
     tokenAddress: string,
-    from: Account,
+    from: NvmAccount,
     vaultAddress?: string,
   ): Promise<number> {
     const vault: GenericContract = await this.getVaultContract(
@@ -478,7 +478,7 @@ export class AaveCredit extends Instantiable {
    */
   public async getBorrowedAmount(
     agreementId: string,
-    from: Account,
+    from: NvmAccount,
     vaultAddress?: string,
   ): Promise<number> {
     const vault: GenericContract = await this.getVaultContract(
@@ -500,7 +500,7 @@ export class AaveCredit extends Instantiable {
     borrower: string,
     delegatedToken: string,
     interestRateMode: number,
-    from: Account,
+    from: NvmAccount,
     vaultAddress?: string,
   ): Promise<number> {
     const vault: GenericContract = await this.getVaultContract(

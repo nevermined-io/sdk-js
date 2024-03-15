@@ -1,7 +1,7 @@
 import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface ComputeExecutionConditionContext extends ConditionContext {
@@ -25,7 +25,7 @@ export class ComputeExecutionCondition extends ProviderCondition<ComputeExecutio
     agreementId: string,
     did: string,
     computeConsumer: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(
@@ -36,7 +36,7 @@ export class ComputeExecutionCondition extends ProviderCondition<ComputeExecutio
     )
   }
 
-  public wasComputeTriggered(did: string, computeConsumer: string, from?: Account) {
+  public wasComputeTriggered(did: string, computeConsumer: string, from?: NvmAccount) {
     return this.call<boolean>(
       'wasComputeTriggered',
       [didZeroX(did), computeConsumer].map(zeroX),

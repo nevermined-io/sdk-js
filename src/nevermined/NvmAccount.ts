@@ -5,21 +5,42 @@ import { TxParameters } from '../keeper'
 import { KeeperError } from '../errors'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 
+export interface NvmAccountType {
+  accountType: 'viem' | 'zerodev'
+  isZeroDev: boolean
+}
+
 /**
  * Account information.
  */
-export class Account extends Instantiable {
+export class NvmAccount extends Instantiable {
   private password?: string
   public babyX?: string
   public babyY?: string
   public babySecret?: string
+  private account?: NvmAccount
   public zeroDevSigner: ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
+  public accountType: NvmAccountType = { accountType: 'viem', isZeroDev: false }
 
   constructor(private id: string = '0x0', config?: InstantiableConfig) {
     super()
     if (config) {
       this.setInstanceConfig(config)
     }
+    this.setId(id)
+  }
+
+  public getAccountSigner() {
+    return this.accountType.isZeroDev ? this.zeroDevSigner : this.account
+  }
+
+  public async getWalletAccount() {
+    if (!this.account) await this.nevermined.accounts.findAccount(this.id)
+    return this.account
+  }
+
+  public getZeroDevSigner() {
+    return this.zeroDevSigner
   }
 
   /**
@@ -30,10 +51,11 @@ export class Account extends Instantiable {
    */
   static async fromZeroDevSigner(
     signer: ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
-  ): Promise<Account> {
+  ): Promise<NvmAccount> {
     const address = await signer.getAddress()
-    const account = new Account(address)
+    const account = new NvmAccount(address)
     account.zeroDevSigner = signer
+    account.accountType = { accountType: 'zerodev', isZeroDev: true }
     return account
   }
 

@@ -1,4 +1,4 @@
-import { Account } from '../Account'
+import { NvmAccount } from '../NvmAccount'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, ProvenanceMethod } from '../../keeper'
 import { zeroX } from '../../utils'
@@ -48,7 +48,7 @@ export class ProvenanceApi extends Instantiable {
     activityId: string,
     signature: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.used(
@@ -83,7 +83,7 @@ export class ProvenanceApi extends Instantiable {
     agentId: string,
     activityId: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.wasDerivedFrom(
@@ -116,7 +116,7 @@ export class ProvenanceApi extends Instantiable {
     agentId: string,
     activityId: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.wasAssociatedWith(
@@ -152,7 +152,7 @@ export class ProvenanceApi extends Instantiable {
     activityId: string,
     signature: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.actedOnBehalf(
@@ -180,7 +180,7 @@ export class ProvenanceApi extends Instantiable {
   public async addDidProvenanceDelegate(
     did: string,
     delegated: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
@@ -203,7 +203,7 @@ export class ProvenanceApi extends Instantiable {
   public async removeDidProvenanceDelegate(
     did: string,
     delegated: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(

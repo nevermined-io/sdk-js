@@ -17,7 +17,7 @@ import {
   ethers,
   getIndexedAccountPath,
 } from 'ethers'
-import { Account, KeeperError } from '../../sdk'
+import { NvmAccount, KeeperError } from '../../sdk'
 import { Hex, SignTypedDataParams, SmartAccountSigner } from '@alchemy/aa-core'
 
 export class BlockchainEthersUtils extends Instantiable {
@@ -28,7 +28,7 @@ export class BlockchainEthersUtils extends Instantiable {
 
   public async deployAbi(
     artifact: { name?: string; abi: ethers.InterfaceAbi; bytecode: string },
-    from: Account,
+    from: NvmAccount,
     args: string[] = [],
   ): Promise<ethers.BaseContract> {
     this.logger.debug(`Deploying abi using account: ${from.getId()}`)
@@ -307,7 +307,6 @@ function getWalletsFromHDNode(node: HDNodeWallet, numAccounts: number): ethers.W
   const accounts: ethers.Wallet[] = []
 
   for (let i = 0; i < numAccounts; i++) {
-    // console.log(`Creating account ${i}`)
     const acc = node.derivePath(getIndexedAccountPath(i))
     const wallet = new ethers.Wallet(acc.privateKey)
     accounts.push(wallet)

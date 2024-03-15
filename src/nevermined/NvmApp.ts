@@ -1,6 +1,6 @@
 import { ZeroDevAccountSigner } from '@zerodev/sdk'
 import {
-  Account,
+  NvmAccount,
   AssetPrice,
   ContractHandler,
   DDO,
@@ -64,7 +64,7 @@ export interface SubscriptionBalance {
 
 export class NvmApp {
   private configNVM: NeverminedAppOptions
-  private userAccount: Account | undefined
+  private userAccount: NvmAccount | undefined
   private searchSDK: Nevermined | undefined
   private fullSDK: Nevermined | undefined
   private useZeroDevSigner: boolean = false
@@ -114,7 +114,7 @@ export class NvmApp {
   }
 
   public async connect(
-    account: string | ZeroDevAccountSigner<'ECDSA'> | Account,
+    account: string | ZeroDevAccountSigner<'ECDSA'> | NvmAccount,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,
   ) {
@@ -124,10 +124,10 @@ export class NvmApp {
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
     if (account instanceof ZeroDevAccountSigner) {
-      this.userAccount = await Account.fromZeroDevSigner(account)
+      this.userAccount = await NvmAccount.fromZeroDevSigner(account)
       this.zeroDevSignerAccount = account
       this.useZeroDevSigner = true
-    } else if (account instanceof Account) {
+    } else if (account instanceof NvmAccount) {
       this.userAccount = account
     } else {
       this.userAccount = this.fullSDK.accounts.getAccount(account)

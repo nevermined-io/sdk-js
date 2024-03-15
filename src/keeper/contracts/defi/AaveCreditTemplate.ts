@@ -3,7 +3,7 @@ import { BaseTemplate } from '../templates'
 import { DDO } from '../../../ddo'
 import { didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account, parseEther } from '../../../nevermined'
+import { NvmAccount, parseEther } from '../../../nevermined'
 import { AaveConfig } from '../../../models'
 import { TxParameters } from '../ContractBase'
 import { aaveCreditTemplateServiceAgreementTemplate } from './AaveCreditTemplate.serviceAgreementTemplate'
@@ -107,7 +107,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     timeLocks: number[],
     timeOuts: number[],
     txParams?: TxParameters,
-    from?: Account,
+    from?: NvmAccount,
   ): Promise<[ContractTransactionReceipt, AgreementInstance<AaveCreditTemplateParams>]> {
     const _collateralAmount = parseEther(collateralAmount.toString())
 
@@ -161,7 +161,7 @@ export class AaveCreditTemplate extends BaseTemplate<AaveCreditTemplateParams, S
     timeLocks: number[],
     timeOuts: number[],
     txParams?: TxParameters,
-    from?: Account,
+    from?: NvmAccount,
   ): Promise<[ContractTransactionReceipt, string, AgreementInstance<AaveCreditTemplateParams>]> {
     const vaultAddress = await this.deployVault(
       this.aaveConfig.lendingPoolAddress,

@@ -9,7 +9,7 @@ import {
   ServiceType,
   ValidationParams,
 } from '../../../ddo'
-import { Account, Condition, MetaData, NFTAttributes, isAddress } from '../../../sdk'
+import { NvmAccount, Condition, MetaData, NFTAttributes, isAddress } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
 
@@ -32,7 +32,7 @@ export abstract class BaseTemplate<Params, S extends Service>
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
@@ -103,7 +103,7 @@ export abstract class BaseTemplate<Params, S extends Service>
 
   public async track(
     _params: ValidationParams,
-    _from: Account,
+    _from: NvmAccount,
     _txparams?: TxParameters,
   ): Promise<boolean> {
     return false
@@ -111,7 +111,7 @@ export abstract class BaseTemplate<Params, S extends Service>
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     await this.validateAgreement(
@@ -128,7 +128,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     agreement_id: string,
     did: string,
     params: Params,
-    from: Account,
+    from: NvmAccount,
     extra: any = {},
     txparams?: TxParameters,
   ): Promise<void> {

@@ -1,7 +1,7 @@
 import { Condition, ConditionContext, ProviderCondition } from '../conditions/Condition.abstract'
 import { zeroX, didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface AaveBorrowConditionContext extends ConditionContext {
@@ -49,7 +49,7 @@ export class AaveBorrowCondition extends ProviderCondition<AaveBorrowConditionCo
     assetToBorrow: string,
     amount: string,
     interestRateMode: number,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

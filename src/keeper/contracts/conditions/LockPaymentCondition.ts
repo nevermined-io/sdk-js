@@ -1,7 +1,7 @@
 import { Condition, ConditionContext, ConsumerCondition } from './Condition.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 import { DDO } from '../../../ddo'
 
@@ -46,7 +46,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     tokenAddress: string,
     amounts: bigint[],
     receivers: string[],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     const amountsString = amounts.map((v) => v.toString())

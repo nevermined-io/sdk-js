@@ -3,7 +3,7 @@ import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
 import { ethers } from 'ethers'
-import { Account } from '../nevermined'
+import { NvmAccount } from '../nevermined'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -66,7 +66,7 @@ export class ContractHandler extends Instantiable {
 
   public async deployAbi(
     artifact: { name?: string; abi: ethers.InterfaceAbi; bytecode: string },
-    from: Account,
+    from: NvmAccount,
     args: string[] = [],
   ): Promise<ethers.BaseContract> {
     return this.nevermined.utils.blockchain.deployAbi(artifact, from, args)

@@ -3,7 +3,7 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { ContractHandler, Nft1155Contract } from '../../../keeper'
 import { NFT1155Api } from './NFT1155Api'
 import { Nevermined } from '../../Nevermined'
-import { Account } from '../../Account'
+import { NvmAccount } from '../../NvmAccount'
 
 export class SubscriptionCreditsNFTApi extends NFT1155Api {
   public static async getInstanceUsingABI(
@@ -26,7 +26,7 @@ export class SubscriptionCreditsNFTApi extends NFT1155Api {
   public static async deployInstance(
     config: NeverminedOptions,
     contractABI: any,
-    from: Account,
+    from: NvmAccount,
     args = [],
   ): Promise<SubscriptionCreditsNFTApi> {
     const { instanceConfig } = (await Nevermined.getInstance(config)) as any

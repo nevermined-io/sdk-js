@@ -1,7 +1,7 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../../utils'
 import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
-import { Account } from '../../../../nevermined'
+import { NvmAccount } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
 import { DDO, ServiceCommon } from '../../../../ddo'
 
@@ -54,7 +54,7 @@ export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditi
     did: string,
     holderAddress: string,
     nftTokenAddress: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

@@ -1,4 +1,4 @@
-import { Account } from '../Account'
+import { NvmAccount } from '../NvmAccount'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { DDO, ServiceNFTSales, ServiceType } from '../../ddo'
 import { ZeroAddress } from '../../utils'
@@ -41,7 +41,7 @@ export class ConditionsApi extends Instantiable {
     amounts: bigint[],
     receivers: string[],
     erc20TokenAddress?: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: txParams,
   ): Promise<boolean> {
     const { lockPaymentCondition, escrowPaymentCondition } = this.nevermined.keeper.conditions
@@ -101,7 +101,7 @@ export class ConditionsApi extends Instantiable {
     agreementId: string,
     did: string,
     grantee: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: txParams,
   ) {
     try {
@@ -132,7 +132,7 @@ export class ConditionsApi extends Instantiable {
     agreementId: string,
     did: string,
     grantee: string,
-    from?: Account,
+    from?: NvmAccount,
     params?: txParams,
   ) {
     try {
@@ -175,7 +175,7 @@ export class ConditionsApi extends Instantiable {
     returnAddress: string,
     did: string,
     erc20TokenAddress?: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: txParams,
   ) {
     try {
@@ -231,8 +231,8 @@ export class ConditionsApi extends Instantiable {
     ddo: DDO,
     serviceReference: number | ServiceType = 'nft-sales',
     nftAmount: bigint,
-    publisher: Account,
-    from?: Account,
+    publisher: NvmAccount,
+    from?: NvmAccount,
     txParams?: txParams,
   ) {
     const template = this.nevermined.keeper.templates.nftSalesTemplate
@@ -276,8 +276,8 @@ export class ConditionsApi extends Instantiable {
     agreementId: string,
     ddo: DDO,
     serviceReference: number | ServiceType = 'nft-sales',
-    publisher: Account,
-    from?: Account,
+    publisher: NvmAccount,
+    from?: NvmAccount,
     txParams?: txParams,
   ) {
     const serviceIndex = ddo.findServiceByReference(serviceReference).index
@@ -327,7 +327,7 @@ export class ConditionsApi extends Instantiable {
     holder: string,
     nftAmount: bigint,
     contractAddress?: string,
-    from?: Account,
+    from?: NvmAccount,
     params?: txParams,
   ) {
     const { nftHolderCondition } = this.nevermined.keeper.conditions
@@ -358,7 +358,7 @@ export class ConditionsApi extends Instantiable {
     agreementId: string,
     ddo: DDO,
     holderAddress: string,
-    from?: Account,
+    from?: NvmAccount,
     params?: txParams,
   ) {
     const { nft721HolderCondition } = this.nevermined.keeper.conditions
@@ -391,7 +391,7 @@ export class ConditionsApi extends Instantiable {
     agreementId: string,
     did: string,
     grantee: string,
-    from?: Account,
+    from?: NvmAccount,
     params?: txParams,
   ) {
     const { nftAccessCondition } = this.nevermined.keeper.conditions
@@ -420,7 +420,7 @@ export class ConditionsApi extends Instantiable {
     ddo: DDO,
     serviceIndex: number,
     nftAmount: bigint,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: txParams,
   ) {
     const { transferNftCondition } = this.nevermined.keeper.conditions
@@ -477,7 +477,7 @@ export class ConditionsApi extends Instantiable {
     ddo: DDO,
     serviceReference: number | ServiceType = 'nft-sales',
     nftAmount: bigint,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: txParams,
   ) {
     const { transferNftCondition } = this.nevermined.keeper.conditions
@@ -545,7 +545,7 @@ export class ConditionsApi extends Instantiable {
     agreementId: string,
     ddo: DDO,
     serviceIndex: number,
-    publisher: Account,
+    publisher: NvmAccount,
     txParams?: txParams,
   ) {
     const { transferNft721Condition } = this.nevermined.keeper.conditions

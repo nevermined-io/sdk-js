@@ -1,4 +1,4 @@
-import { Nevermined, Account, keccak256 } from '../nevermined'
+import { Nevermined, NvmAccount, keccak256 } from '../nevermined'
 import {
   Authentication,
   PublicKey,
@@ -380,7 +380,7 @@ export class DDO {
    * @param didRegistry DIDRegistry contract
    * @param publisher account registering the DID
    */
-  public async assignDid(didSeed: string, didRegistry: DIDRegistry, publisher: Account) {
+  public async assignDid(didSeed: string, didRegistry: DIDRegistry, publisher: NvmAccount) {
     const did = didPrefixed(await didRegistry.hashDID(didSeed, publisher.getId()))
     this.id = did
     this.didSeed = didSeed

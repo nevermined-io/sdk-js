@@ -6,7 +6,7 @@ import {
   PublishMetadataOptions,
   PublishOnChainOptions,
 } from '../AssetsApi'
-import { Account } from '../../Account'
+import { NvmAccount } from '../../NvmAccount'
 import { TxParameters, Nft1155Contract } from '../../../keeper'
 import { DDO, ServiceNFTSales, ServiceType } from '../../../ddo'
 import { NFTError } from '../../../errors'
@@ -102,7 +102,7 @@ export class NFT1155Api extends NFTsBaseApi {
    */
   public create(
     nftAttributes: NFTAttributes,
-    publisher: Account,
+    publisher: NvmAccount,
     publicationOptions: AssetPublicationOptions = {
       metadata: PublishMetadataOptions.OnlyMetadataAPI,
       did: PublishOnChainOptions.DIDRegistry,
@@ -146,7 +146,7 @@ export class NFT1155Api extends NFTsBaseApi {
     did: string,
     nftAmount: bigint,
     receiver: string | undefined,
-    account: Account,
+    account: NvmAccount,
     data?: string,
     txParams?: TxParameters,
   ) {
@@ -182,7 +182,12 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The {@link ethers.ContractTransactionReceipt}
    */
-  public async burn(tokenId: string, nftAmount: bigint, account: Account, txParams?: TxParameters) {
+  public async burn(
+    tokenId: string,
+    nftAmount: bigint,
+    account: NvmAccount,
+    txParams?: TxParameters,
+  ) {
     return await this.nftContract.burn(account.getId(), tokenId, nftAmount, txParams)
   }
 
@@ -214,10 +219,10 @@ export class NFT1155Api extends NFTsBaseApi {
     holder: string,
     tokenId: string,
     nftAmount: bigint,
-    account: Account | string,
+    account: NvmAccount | string,
     txParams?: TxParameters,
   ) {
-    const _senderAddress = account instanceof Account ? account.getId() : account
+    const _senderAddress = account instanceof NvmAccount ? account.getId() : account
     return await this.nftContract.burnFromHolder(
       holder,
       tokenId,
@@ -252,7 +257,7 @@ export class NFT1155Api extends NFTsBaseApi {
   public order(
     did: string,
     numberEditions: bigint,
-    consumer: Account,
+    consumer: NvmAccount,
     serviceReference: ServiceType | number = 'nft-sales',
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
@@ -369,7 +374,7 @@ export class NFT1155Api extends NFTsBaseApi {
     agreementId: string,
     did: string,
     nftAmount: bigint,
-    publisher: Account,
+    publisher: NvmAccount,
     serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
@@ -426,7 +431,7 @@ export class NFT1155Api extends NFTsBaseApi {
     did: string,
     serviceReference: number | ServiceType = 'nft-sales',
     nftAmount: bigint,
-    publisher: Account,
+    publisher: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     const { agreements } = this.nevermined
@@ -463,9 +468,9 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @returns The number of editions of a NFT owned by the account/address.
    */
-  public async balance(did: string, account: Account | string): Promise<bigint> {
+  public async balance(did: string, account: NvmAccount | string): Promise<bigint> {
     return await this.nftContract.balance(
-      account instanceof Account ? account.getId() : account,
+      account instanceof NvmAccount ? account.getId() : account,
       did,
     )
   }
@@ -510,7 +515,7 @@ export class NFT1155Api extends NFTsBaseApi {
   public async setApprovalForAll(
     operatorAddress: string,
     approved: boolean,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<ContractTransactionReceipt> {
     const isApproved = await this.nftContract.isApprovedForAll(from.getId(), operatorAddress)
@@ -560,8 +565,8 @@ export class NFT1155Api extends NFTsBaseApi {
    * Thrown if there is an error releasing the rewards.
    */
   public async releaseSecondaryMarketRewards(
-    owner: Account,
-    consumer: Account,
+    owner: NvmAccount,
+    consumer: NvmAccount,
     agreementIdSeed: string,
     serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
@@ -624,7 +629,7 @@ export class NFT1155Api extends NFTsBaseApi {
    */
   public async grantOperatorRole(
     operatorAddress: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ): Promise<ContractTransactionReceipt> {
     return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
@@ -650,7 +655,7 @@ export class NFT1155Api extends NFTsBaseApi {
    */
   public async revokeOperatorRole(
     operatorAddress: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ): Promise<ContractTransactionReceipt> {
     return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)

@@ -1,6 +1,6 @@
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../utils'
-import { Account, getContractInstance } from '../../nevermined'
+import { NvmAccount, getContractInstance } from '../../nevermined'
 import { TxParameters } from './ContractBase'
 import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '../ContractHandler'
@@ -73,7 +73,7 @@ export class Nft1155Contract extends NFTContractsBase {
     symbol: string,
     uri: string,
     operators: string[] = [],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this._createClone(1155, name, symbol, uri, undefined, operators, from, txParams)
@@ -102,7 +102,7 @@ export class Nft1155Contract extends NFTContractsBase {
   public setApprovalForAll(
     operatorAddress: string,
     approved: boolean,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('setApprovalForAll', [zeroX(operatorAddress), approved], from, txParams)

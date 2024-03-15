@@ -2,7 +2,7 @@ import { DDO, Service, ServiceType } from '../../ddo'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { QueryResult } from '../../services'
 import {
-  Account,
+  NvmAccount,
   DID,
   didPrefixed,
   EventOptions,
@@ -262,7 +262,7 @@ export class SearchApi extends Instantiable {
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsCreated(
-    account: Account,
+    account: NvmAccount,
     nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     customNestedQueries?: SearchQuery['query'][],
     offset = 100,
@@ -354,7 +354,7 @@ export class SearchApi extends Instantiable {
    * @returns {@link Promise<QueryResult>}
    */
   public async subscriptionsPurchased(
-    account: Account,
+    account: NvmAccount,
     nftType?: NeverminedNFT721Type | NeverminedNFT1155Type,
     ercType?: 721 | 1155,
     customNestedQueries?: SearchQuery['query'][],

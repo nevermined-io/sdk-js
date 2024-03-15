@@ -6,7 +6,7 @@ import {
 } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import {
-  Account,
+  NvmAccount,
   DDO,
   NFTServiceAttributes,
   NeverminedNFT1155Type,
@@ -81,7 +81,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     await this.validateAgreement(
@@ -98,7 +98,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     agreement_id: string,
     did: string,
     params: NFTAccessTemplateParams,
-    from: Account,
+    from: NvmAccount,
     extra: any = {},
     txparams?: TxParameters,
   ): Promise<void> {
@@ -149,7 +149,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
 
   public async track(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)

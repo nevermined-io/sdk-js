@@ -1,7 +1,7 @@
 import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../utils'
-import { Account, getContractInstance } from '../../nevermined'
+import { NvmAccount, getContractInstance } from '../../nevermined'
 import { ContractEvent, EventHandler } from '../../events'
 import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '../ContractHandler'
@@ -70,7 +70,7 @@ export class Nft721Contract extends NFTContractsBase {
     uri: string,
     cap: bigint,
     operators: string[] = [],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this._createClone(721, name, symbol, uri, cap, operators, from, txParams)
@@ -84,7 +84,7 @@ export class Nft721Contract extends NFTContractsBase {
     to: string,
     did: string,
     url: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('mint', [to, didZeroX(did), url], from, txParams)
@@ -98,7 +98,7 @@ export class Nft721Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(tokenId: string, from?: Account, txParams?: TxParameters) {
+  public async burn(tokenId: string, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('burn', [zeroX(tokenId)], from, txParams)
   }
 

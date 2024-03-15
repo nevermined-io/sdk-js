@@ -1,5 +1,5 @@
 import {
-  Account,
+  NvmAccount,
   estimateGas,
   getInputsOfMethodFormatted,
   getSignatureOfMethod,
@@ -83,7 +83,7 @@ export abstract class ContractBase extends Instantiable {
   public async sendFrom(
     name: string,
     args: any[],
-    from?: Account,
+    from?: NvmAccount,
     value?: TxParameters,
   ): Promise<ContractTransactionReceipt> {
     const fromAddress = await this.getFromAddress(from && from.getId())

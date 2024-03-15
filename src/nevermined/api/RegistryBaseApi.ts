@@ -8,7 +8,7 @@ import {
   PricedMetadataInformation,
 } from '../../ddo'
 import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
-import { Account, CreateProgressStep, DID, formatUnits } from '../../nevermined'
+import { NvmAccount, CreateProgressStep, DID, formatUnits } from '../../nevermined'
 import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
 import { SubscribablePromise, zeroX, generateId, ZeroAddress } from '../../utils'
 import {
@@ -41,7 +41,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    */
   protected registerNeverminedAsset(
     assetAttributes: AssetAttributes,
-    publisher: Account,
+    publisher: NvmAccount,
     publicationOptions: AssetPublicationOptions,
     nftAttributes?: NFTAttributes,
     txParams?: TxParameters,
@@ -353,7 +353,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   protected updateAsset(
     did: string,
     metadata: MetaData,
-    publisher: Account,
+    publisher: NvmAccount,
     publishMetadataOptions: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -462,7 +462,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   public list(
     did: string,
     list: boolean,
-    publisher: Account,
+    publisher: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -515,7 +515,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     did: string,
     newRating: number,
     numVotesAdded = 1,
-    publisher: Account,
+    publisher: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -563,7 +563,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   public orderAsset(
     did: string,
     serviceReference: ServiceType | number,
-    consumer: Account,
+    consumer: NvmAccount,
     params?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise(async (observer) => {

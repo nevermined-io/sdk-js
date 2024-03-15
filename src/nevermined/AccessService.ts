@@ -18,12 +18,12 @@ import {
   NFTAccessTemplate,
   NFTSalesTemplate,
 } from '../keeper'
-import { Account } from './Account'
+import { NvmAccount } from './NvmAccount'
 import { NFTAttributes } from '../models'
 
 export interface AccessProofTemplateParams {
   type: 'access-proof'
-  consumer: Account
+  consumer: NvmAccount
   consumerId: string
 }
 
@@ -37,7 +37,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
@@ -54,7 +54,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     return this.normal.process(params, from, txparams)
@@ -64,7 +64,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
   }
   public async track(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<boolean> {
     return this.normal.track(params, from, txparams)
@@ -83,7 +83,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
@@ -105,7 +105,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(params.did)
@@ -119,7 +119,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
   }
   public async track(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)
@@ -140,7 +140,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
@@ -162,7 +162,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(params.did)
@@ -176,7 +176,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
   }
   public async track(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)

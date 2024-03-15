@@ -1,6 +1,6 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { didZeroX, zeroX } from '../../utils'
-import { Account } from '../../nevermined'
+import { NvmAccount } from '../../nevermined'
 import { ContractTransactionReceipt, EventLog } from 'ethers'
 import { KeeperError } from '../../errors'
 
@@ -38,7 +38,7 @@ export class NFTContractsBase extends ContractBase {
     uri: string,
     cap: bigint | undefined,
     operators: string[] = [],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     try {
@@ -66,7 +66,7 @@ export class NFTContractsBase extends ContractBase {
    * @param from - Sender account
    * @returns Contract Receipt
    */
-  public grantOperatorRole(operatorAddress: string, from?: Account, txParams?: TxParameters) {
+  public grantOperatorRole(operatorAddress: string, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('grantOperatorRole', [zeroX(operatorAddress)], from, txParams)
   }
 
@@ -112,7 +112,7 @@ export class NFTContractsBase extends ContractBase {
    * @param from - Sender account
    * @returns Contract Receipt
    */
-  public revokeOperatorRole(operatorAddress: string, from?: Account, txParams?: TxParameters) {
+  public revokeOperatorRole(operatorAddress: string, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('revokeOperatorRole', [zeroX(operatorAddress)], from, txParams)
   }
 

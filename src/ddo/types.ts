@@ -1,5 +1,5 @@
 import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
-import { Account } from '../sdk'
+import { NvmAccount } from '../sdk'
 import {
   ERCType,
   NeverminedNFTType,
@@ -796,18 +796,18 @@ export interface ValidationParams {
 
 export interface ServicePlugin<T extends Service> {
   createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes: NFTAttributes,
     pricedData?: PricedMetadataInformation,
   ): T
   // Process agreement for provider
-  process(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<void>
+  process(params: ValidationParams, from: NvmAccount, txparams?: TxParameters): Promise<void>
   // Check if service can be granted without agreement
   accept(params: ValidationParams): Promise<boolean>
   // It registers the usage of a service
-  track(params: ValidationParams, from: Account, txparams?: TxParameters): Promise<boolean>
+  track(params: ValidationParams, from: NvmAccount, txparams?: TxParameters): Promise<boolean>
 }
 
 export interface ServiceAgreementTemplateParameter {
