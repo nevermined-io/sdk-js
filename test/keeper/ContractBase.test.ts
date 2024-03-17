@@ -1,6 +1,7 @@
 import { assert } from 'chai'
-import { NvmAccount, getSignatureOfMethod } from '../../src/nevermined'
+import { NvmAccount } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
+import { getSignatureOfMethod } from '../../src/nevermined/utils/BlockchainEthersUtils'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'

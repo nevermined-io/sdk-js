@@ -8,10 +8,10 @@ import fs from 'fs'
 import {
   NeverminedOptions,
   Web3Clients,
-  getSignatureOfMethod,
   getWeb3EthersProvider,
   getWeb3ViemClients,
 } from '../../src'
+import { getSignatureOfMethod } from '../../src/nevermined/utils/BlockchainEthersUtils'
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
